@@ -23,7 +23,7 @@ Inputs:
   `TOOLSAPI`) and the third-party interface units under `D:\git\aow\src\delphi3\imports`. The
   transpiler parses only their interface sections, to resolve names and types. It never emits code
   for them.
-- The class database `D:\git\aow\notes\classes.json`: for every class of the original binaries, its
+- The class database `D:\git\aow\data\classes.json`: for every class of the original binaries, its
   parent, instance size, virtual method table and fields by byte offset. Section 6 uses it.
 - The override manifest `src/Overrides/overrides.toml` (section 8).
 
@@ -39,7 +39,7 @@ The transpiler is a Python 3.11 program under `tools/transpile/` with no depende
 standard library. One command runs it:
 
 ```bash
-python tools/transpile/transpile.py --source D:\git\aow\src\delphi3 --rtl C:\Tools\Delphi3\SOURCE --classes D:\git\aow\notes\classes.json --out src\Generated
+python tools/transpile/transpile.py --source D:\git\aow\src\delphi3 --rtl C:\Tools\Delphi3\SOURCE --classes D:\git\aow\data\classes.json --out src\Generated
 ```
 
 Source files are read as Windows code page 1252. String and character literals keep their byte
@@ -418,7 +418,7 @@ is an error unless the callee is a shim routine with a known mapping (`Move`, `F
 `Stream.Read`, `Stream.Write`), section 5.8.
 
 Evaluation order. Delphi 3 does not evaluate the arguments of a call left to right. The recovery
-notes (`D:\git\aow\notes\match.md`, "Register-convention arguments") observed that simple arguments
+notes (`D:\git\aow\doc\match.md`, "Register-convention arguments") observed that simple arguments
 are loaded right to left and that argument calls happen in an order that depends on the calling
 convention. The order matters only when two or more argument expressions have side effects, and
 `Random` is the side effect that matters for the oracle (511 calls, some inside argument lists).

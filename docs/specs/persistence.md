@@ -3,7 +3,7 @@
 State: draft, 2026-10-24. Covers the engine's object persistence (property tables, storage
 streams, the compressed container), what the port must preserve, how the transpiled persistence
 code meets the shim, and the round trip milestone that proves it. The format description comes
-from `D:\git\aow\notes\persistence.md` and from `src/delphi3/Engine.pas` as read on 2026-10-24.
+from `D:\git\aow\doc\persistence.md` and from `src/delphi3/Engine.pas` as read on 2026-10-24.
 
 The persistence code itself is transpiled, not rewritten: `TPropertyTable`, `TEStorageStream`,
 `TEReadStorageStream`, `TEWriteStorageStream`, `TCompareStorageStream`,
