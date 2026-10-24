@@ -109,7 +109,8 @@ rules code with editor dialogs. It was reviewed against `notes/modules.md` and t
 
 | set | units | lines | treatment |
 |---|---|---|---|
-| engine | Engine, inc/HashTab, EList, FMemStr, PlugInM, zlib | 12,400 | transpile. The clipboard and popup menu members of `TEComponent` get stub overrides. zlib: see open question 6 |
+| engine | Engine, inc/HashTab, EList, FMemStr, PlugInM | 11,900 | transpile. The clipboard and popup menu members of `TEComponent` get stub overrides |
+| zlib | zlib.pas and the C object files it links | 500 | rewrite: the unit is a binding to C code, see open question 5 |
 | engine, design time | ImgLComp, EResGrid, DebMDlg | 1,800 | drop (editor property grids and a debug dialog) |
 | image library | ImageLib core classes, HashTabU | 8,800 | transpile. 11 routines with inline assembly get hand-written overrides |
 | image library, design time | ImageLib panels, grids, manager list boxes, property editor; ILSpin, SubImgEd, SImgSEd, ILEdGrid, ILEdForm, PerfDlg, ImgSetEd | 4,100 | drop (editor) |
@@ -177,7 +178,7 @@ in AoWEPACK, 510 in AoW.exe), plus the translator components in the form files, 
 component properties at load time. The replacement is a string table built from the `Dict/*.mld`
 dictionaries, with `TranslateRStr` as the shim entry point and the layout loader doing what the
 translator components did. The internet suite (ims) is used only by the play-by-email dialogs
-(`TmsSMTP`, `TmsMessage`, the POP3 and SMTP dialogs), see open question 8. Toolbar97 and SpinEdit
+(`TmsSMTP`, `TmsMessage`, the POP3 and SMTP dialogs), see open question 7. Toolbar97 and SpinEdit
 are editor only.
 
 A Delphi RTL shim library in C# provides what the rules code expects: `TList`, `TStringList`,
@@ -203,7 +204,17 @@ can pass:
   records from data files. Those records get explicit layout.
 
 The transpiler reports what it cannot translate as a `TODO` comment in the output and as a line in a
-report file. `translate_readwrite.py` in the `aow` repository does the same.
+report file. `translate_readwrite.py` in the `aow` repository does the same. The transpiler is
+written in Python 3.11, like the `aow` tooling, with no dependencies outside the standard library.
+`specs/transpiler.md` is its specification.
+
+The recovered source carries byte-matching idioms. Where the original code reached a field through
+a pointer in a register, or where a recovered class had no name for a field, the recovery wrote
+pointer views (`WorldMap: PAoWHSMap = @AoWE.AoWHSMap`), raw layout views
+(`TRawObject(Pointer(X)^).Fields[$48 div 4]`, record views with padding fields) and accessor
+classes. About 1,000 such constructs exist, almost all in AoWEPACK. The transpiler folds them into
+plain field access with the class layouts in `notes/classes.json` (`specs/transpiler.md` section 6).
+Whether the recovery source itself gets a cleanup pass instead is open question 11.
 
 ## 4. Platform layer
 
@@ -291,29 +302,34 @@ path, and C# assemblies stay desktop only.
 1. Strings. Whether the shim keeps a 1-based byte string type throughout the rules, or converts
    the rules to .NET strings and keeps bytes only in the data layer. The first is safer for the
    oracle, the second is cleaner C#.
-2. Transpiler host language. Python (matches the `aow` tooling) or C# (one language in the repo,
-   Roslyn available for emitting). Leaning Python for the parser and emitter. The .NET build then
-   compiles the output and makes sure that it is valid C#.
-3. Hash table iteration order. The engine's `THashList` classes determine iteration order in places.
+2. Hash table iteration order. The engine's `THashList` classes determine iteration order in places.
    The shim must reproduce the original order where the rules iterate, or the saves differ.
-4. Multilizer dictionaries. The `Dict/*.mld` files hold the localized strings. The port needs a
+3. Multilizer dictionaries. The `Dict/*.mld` files hold the localized strings. The port needs a
    reader for that format or a one-time export to its own string table format.
-5. Galaxy music. Whether the `.IT` files play correctly through libopenmpt, or whether Galaxy
+4. Galaxy music. Whether the `.IT` files play correctly through libopenmpt, or whether Galaxy
    applied effects the port must reproduce.
-6. zlib output. The save container holds zlib-compressed streams. The byte for byte comparison of
+5. zlib output. The save container holds zlib-compressed streams. The byte for byte comparison of
    saves needs the same deflate output as the original zlib build, which the .NET deflate stream
    does not promise. The options are a managed port of the original zlib, or a comparison on the
    decompressed payloads.
-7. Form file conversion. Whether the 79 form files become a layout data format that the port loads
+6. Form file conversion. Whether the 79 form files become a layout data format that the port loads
    at run time, or generated C# construction code. Data keeps the layouts editable by mods. Code
    gives compile-time binding of the 1,588 handlers.
-8. Play-by-email. Whether the SMTP and POP3 game exchange stays in scope. If it does, the internet
+7. Play-by-email. Whether the SMTP and POP3 game exchange stays in scope. If it does, the internet
    suite is replaced with the .NET mail classes behind the two dialogs.
-9. Editor scope. Whether the map editor is ported at all, and whether it keeps the VCL form layout
+8. Editor scope. Whether the map editor is ported at all, and whether it keeps the VCL form layout
    or moves onto the game's UI toolkit.
-10. Networking. Whether multiplayer is in scope for the first release, and what the transport is.
-11. Mobile input. The UI assumes a mouse and an 800 by 600 display. Touch and small screens need a
+9. Networking. Whether multiplayer is in scope for the first release, and what the transport is.
+10. Mobile input. The UI assumes a mouse and an 800 by 600 display. Touch and small screens need a
     UI pass that is outside the faithful port.
+11. Idiom cleanup upstream. Whether the recovery source gets a pass that replaces the byte-matching
+    idioms (pointer views, raw layout views, accessor classes) with plain field access, so that the
+    transpiler's normalization rules become a safety net. The decompile session reported on
+    2026-10-24 that some views reproduce the original load order and are not match-neutral, so a
+    cleanup trades matching for readability. Decision with the user after its full answer.
+12. Unit initialization order. The port must run initialization sections in the original order:
+    package load order, then the units of each package, then the units of AoW.exe. Asked of the
+    decompile session on 2026-10-24.
 
 ## 8. Repository layout (proposed)
 
