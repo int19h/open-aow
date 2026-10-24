@@ -314,16 +314,19 @@ The `initialization` section becomes `public static void Initialize()` and `fina
 `public static void Finalize()` on the unit class. The emitter writes `Aow.Units.Startup` with
 `InitializeAll()` and `FinalizeAll()` that call them in order.
 
-Order. Delphi initializes a unit after every unit it uses, interface `uses` first and then
-implementation `uses`, each unit once, in a depth-first walk that follows the textual order of the
-`uses` clauses, starting from the program's `uses` list. The original game is one executable and
-sixteen packages, and a package initializes all its units when Windows loads it, before the
-executable's own units. The order is therefore: for each package in the order the original
-`AoW.exe` loads them, the depth-first walk over that package's `contains` list, then the walk over
-`AoW.dpr`'s `uses` list. `AoW.dpr` and the `.dpk` files in `D:\git\aow\src\delphi3` record the
-original orders. The package load order comes from the import table of the original `AoW.exe`.
-The question to the decompile session on 2026-10-24 asks whether that order is already recorded.
-Finalization runs in the reverse order.
+Order. The Delphi compiler writes a unit initialization table into every executable and package,
+and the runtime runs it in table order, each unit once, with a counter per unit. A package's table
+starts with calls into the packages it requires and continues with its own units. The original
+binaries therefore hold the exact order, and the recovery's build tool reads it:
+`D:\git\aow\tools\buildgame.py` has `initialization_table`, which reads the table from a `.dpl`
+through its package info and from `AoW.exe` from the entry point, and lines 347 to 376 write
+`initialization-order.json`. The recovery session reported on 2026-10-24 that `AoWEPACK.dpl` has
+173 entries (71 into required packages in the order VCL30, EngineP, ILPACK, GFXEPACK, SoundP,
+HSEPack, Network, Localize, aowFXpck, vclx30, then its 92 own units from Pad, Animation, EventLog
+to FileSecurity, RandomNode) and `AoW.exe` has 327, whose own entries are resolved against
+`notes/signatures`. The transpiler takes that JSON as an input (`--init-order`) and emits
+`InitializeAll` in that order, skipping units outside the transpile set. Finalization runs in the
+reverse order. The file does not exist yet, see open point 2.
 
 ## 5. Statements and expressions
 
@@ -536,7 +539,7 @@ cleanup of the recovery source, if the user asks the recovery session for one.
 |---|---|---|
 | N1 | A typed constant or variable of pointer type initialized once with the address of a global, `WorldMap: PAoWHSMap = @AoWE.AoWHSMap` (727 dereferences of such views) | every `View^` becomes the global. A use of `View` as a value is an error |
 | N2 | A pointer variable assigned the address of one global in one place and dereferenced elsewhere, `RandomSeed: ^Integer` pointing at `RandSeed` | the same fold. The assignment is removed |
-| N3 | A layout view: `TRec(Pointer(Obj)^).Field`, `PRec(Pointer(Obj))^.Field`, `PRec(Obj)^.Field` where `Obj` is a class instance and `TRec` is a record of padding and named fields, or `TRawObject(Pointer(Obj)^).Fields[n div 4]` (168 `Pointer(x)^` casts, 115 `TRawObject` uses, 108 view record types) | compute the byte offset of `Field` in `TRec` with the layout model, look up the class of `Obj` in `classes.json`, find the field at that offset, and emit `Obj.<FieldName>` with the field made `internal`. The lookup follows the parent chain. No field at that offset, or a field of another size, is an error listed with the class and offset |
+| N3 | A layout view: `TRec(Pointer(Obj)^).Field`, `PRec(Pointer(Obj))^.Field`, `PRec(Obj)^.Field` where `Obj` is a class instance and `TRec` is a record of padding and named fields, or `TRawObject(Pointer(Obj)^).Fields[n div 4]` (168 `Pointer(x)^` casts, 115 `TRawObject` uses, 108 view record types) | compute the byte offset of `Field` in `TRec` with the layout model, compute the instance layout of the class of `Obj` from its recovered declaration (4 bytes for the VMT pointer, then the fields of each ancestor in order with the record alignment rule), find the field at that offset, and emit `Obj.<FieldName>` with the field made `internal`. The recovered declarations carry offset comments (`{ +$18 FMapContainer }`) and `classes.json` lists offsets for a subset of fields. Both are cross-checks of the computed layout, and a mismatch is an error. The recovery session confirmed on 2026-10-24 that 147 of 162 `Fields[]` views and 33 of 62 record views resolve to named fields, 17 of them private fields of another unit, 6 need a cast of a `THexagonSprite` variable to `TArmyHS`, and the rest have bases the recovery could not type mechanically, which the resolver types from context or reports |
 | N4 | An accessor class `TXAccess = class(TX);` used only in casts | the casts become plain references to the `TX` object, and the members reached become `internal`. An empty class used anywhere else than a cast stays a class |
 | N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y` |
 | N6 | `Integer(Pointer(@FX)^)` and other reinterpretations of a field group as one integer (11 uses) | error, override required. The report lists them |
@@ -545,8 +548,15 @@ cleanup of the recovery source, if the user asks the recovery session for one.
 | N9 | `Pointer(obj)` passed where a class reference is expected, `TFoo(Pointer(x))` | the reference conversion of section 5.7 |
 | N10 | A unit-qualified name `Unit.Name` | kept |
 
-The report's normalization section is the list to hand to the recovery session if the user decides
-that the source must carry the plain forms instead.
+The recovery session established on 2026-10-24 which folds are safe at the source level. The raw
+layout views (N3) and accessor classes (N4) exist because a field had no recovered name, the wrong
+type or private visibility in another unit, and replacing them with plain field access compiles
+to identical code. The pointer views to globals (N1, N2) are different: with `{$G+}` Delphi reads
+another unit's variable through an import cell before every use, and the typed pointer constant
+keeps the cell in a register, so the view reproduces the original code and removing it costs
+matches. The same holds for the shape casts `TObj(Pointer(Sender))` and `T(Pointer(@g)^)`. So
+N1, N2 and N9 stay transpiler rules for good, and N3 and N4 are candidates for a source cleanup
+that the report's normalization section lists for the recovery session.
 
 ## 7. Semantic traps
 
@@ -714,10 +724,11 @@ The persistence round trip and the headless oracle are the done measures of `per
 
 ## 12. Open points of this specification
 
-1. Whether the recovery source gets a cleanup pass that removes the idioms of section 6. With such
-   a pass, rules N1 to N4 become a safety net. Asked of the decompile session on 2026-10-24,
-   decision with the user.
-2. The exact unit initialization order of the original, section 4.8.
+1. Whether the recovery source gets a cleanup pass for the raw layout views and accessor classes
+   (rules N3 and N4), which the recovery session confirmed is match-neutral. The pointer views
+   (N1, N2) stay in the source either way. Decision with the user.
+2. `initialization-order.json` from `D:\git\aow\tools\buildgame.py` has to be produced once and
+   kept in the `aow` repository or copied here. Request to the recovery session, through the user.
 3. The argument evaluation order table, to be filled from the `evalorder` probe.
 4. The Delphi 3 record layout rule, to be confirmed by the `records-layout` probe before the
    layout model is used for `rwData` and `Move`.

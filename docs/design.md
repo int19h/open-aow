@@ -322,14 +322,16 @@ path, and C# assemblies stay desktop only.
 9. Networking. Whether multiplayer is in scope for the first release, and what the transport is.
 10. Mobile input. The UI assumes a mouse and an 800 by 600 display. Touch and small screens need a
     UI pass that is outside the faithful port.
-11. Idiom cleanup upstream. Whether the recovery source gets a pass that replaces the byte-matching
-    idioms (pointer views, raw layout views, accessor classes) with plain field access, so that the
-    transpiler's normalization rules become a safety net. The decompile session reported on
-    2026-10-24 that some views reproduce the original load order and are not match-neutral, so a
-    cleanup trades matching for readability. Decision with the user after its full answer.
-12. Unit initialization order. The port must run initialization sections in the original order:
-    package load order, then the units of each package, then the units of AoW.exe. Asked of the
-    decompile session on 2026-10-24.
+11. Idiom cleanup upstream. The decompile session confirmed on 2026-10-24 that replacing the raw
+    layout views and accessor classes with plain field access compiles to identical code, while
+    the pointer views to globals and the shape casts reproduce the original code and cannot be
+    removed without losing matches. The transpiler normalizes all of them either way. Open:
+    whether the recovery source gets the match-neutral cleanup (about 290 casts, 17 fields need
+    a visibility change). With the cleanup, the transpiler depends less on layout resolution.
+12. Unit initialization order. The original binaries hold the unit initialization tables, and
+    `tools/buildgame.py` in the `aow` repository can write them as `initialization-order.json`.
+    The file has to be produced once and committed where the transpiler can read it. Request to
+    the recovery session, through the user.
 
 ## 8. Repository layout (proposed)
 
