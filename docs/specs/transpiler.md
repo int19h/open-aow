@@ -324,7 +324,7 @@ through its package info and from `AoW.exe` from the entry point, and lines 347 
 173 entries (71 into required packages in the order VCL30, EngineP, ILPACK, GFXEPACK, SoundP,
 HSEPack, Network, Localize, aowFXpck, vclx30, then its 92 own units from Pad, Animation, EventLog
 to FileSecurity, RandomNode) and `AoW.exe` has 327, whose own entries are resolved against
-`notes/signatures`. The transpiler takes that JSON as an input (`--init-order`) and emits
+`data/signatures`. The transpiler takes that JSON as an input (`--init-order`) and emits
 `InitializeAll` in that order, skipping units outside the transpile set. Finalization runs in the
 reverse order. The file does not exist yet, see open point 2.
 

@@ -103,7 +103,7 @@ class ids are the values in the file, so the port's class ids are the original c
 
 ### 1.6 Save files
 
-`TAoWHSMap.SaveGame` writes the map object as above. The recovery's round trip (`notes/persistence.md`,
+`TAoWHSMap.SaveGame` writes the map object as above. The recovery's round trip (`doc/persistence.md`,
 section "Round trip") found two details that the port inherits because it transpiles the same
 code: embedded objects flagged shared are kept by `Clear` and skipped by `rwChildren`, and a child
 remembers the slot it was read from because owners have unstored children before the stored ones.

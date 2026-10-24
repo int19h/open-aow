@@ -28,7 +28,7 @@ The user decides scope, settles open questions and approves anything irreversibl
   implementer needs, and a done measure. `docs/specs/README.md` lists them and their state.
 - `docs/briefs/`: one brief per implementation task, written from a specification. A brief is
   self-contained: the implementer gets nothing else.
-- `D:\git\aow`: the recovered Delphi source (`src/delphi3/`), the recovery notes (`notes/`) and
+- `D:\git\aow`: the recovered Delphi source (`src/delphi3/`), the recovery documents (`doc/`), its data files (`data/`) and
   the tools (`tools/`). The port reads from it and never writes to it.
 - The oracle: the game rebuilt from the recovered source with Delphi 3.02 at `C:\Tools\Delphi3`,
   and the original GOG install at `D:\Games\GOG\Age of Wonders`. Behavior questions are answered by

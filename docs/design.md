@@ -36,7 +36,7 @@ Facts that shape the port:
   Inline assembly is 212 blocks in 28 files, almost all in the blitters of Gfxepack and Ilpack.
 - The in-game UI (aowInt) draws itself onto the game's surfaces. It does not use the VCL (Delphi's
   Windows GUI framework) for drawing or input. The game's 77 screens in AoW.exe are `TDataModule`
-  containers that hold aowInt components, laid out in form files (`notes/forms/AoW`, 79 files,
+  containers that hold aowInt components, laid out in form files (`data/forms/AoW`, 79 files,
   89,000 lines, 1,588 event handlers). AoW.exe has exactly one VCL form, `TMainForm`, which hosts
   the display. Section 3 has the boundary in detail.
 - The VCL leaks into the rules in a shallow way. `AoWE.pas` imports Forms and Dialogs. The rules
@@ -104,7 +104,7 @@ to take an updated source and produce updated C# at any time. The rules are:
   command.
 
 What gets transpiled and what gets rewritten. The list is per unit, because several packages mix
-rules code with editor dialogs. It was reviewed against `notes/modules.md` and the unit imports on
+rules code with editor dialogs. It was reviewed against `doc/modules.md` and the unit imports on
 2026-10-24.
 
 | set | units | lines | treatment |
@@ -213,7 +213,7 @@ a pointer in a register, or where a recovered class had no name for a field, the
 pointer views (`WorldMap: PAoWHSMap = @AoWE.AoWHSMap`), raw layout views
 (`TRawObject(Pointer(X)^).Fields[$48 div 4]`, record views with padding fields) and accessor
 classes. About 1,000 such constructs exist, almost all in AoWEPACK. The transpiler folds them into
-plain field access with the class layouts in `notes/classes.json` (`specs/transpiler.md` section 6).
+plain field access with the class layouts in `data/classes.json` (`specs/transpiler.md` section 6).
 Whether the recovery source itself gets a cleanup pass instead is open question 11.
 
 ## 4. Platform layer
@@ -245,7 +245,7 @@ an archive, and the port unpacks it into app storage. The port never ships game 
 
 The `aow` repository already has the most valuable test asset: seeded computer-only playtests. Their
 per-turn saves are compared byte for byte between the original and the rebuilt game
-(`tools/playtest.py`, `notes/briefs/compare-behavior.md`). The port inherits that as its oracle.
+(`tools/playtest.py` and its module docstring). The port inherits that as its oracle.
 Save and map compatibility is a requirement anyway, so the oracle costs little extra.
 
 Milestones, each with its measure:
