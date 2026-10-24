@@ -25,7 +25,7 @@ survey of `D:\git\aow\src\delphi3` on 2026-10-24. They are approximate.
 | graphics | Gfxepack, Dcpack, Adcpack | 16,000 | DirectDraw surfaces, software blitters, display control |
 | image library | Ilpack | 14,000 | the ILB image format, sprites, RLE sprites, image editors |
 | sound, video, network | SoundP, VideoP, Network, aowDPlay, aowFXpck | 8,000 | DirectSound, Galaxy music, Video for Windows, DirectPlay |
-| programs | AoW.exe, AoWEd.exe | 42,000 | the VCL forms of the game and the map editor |
+| programs | AoW.exe, AoWEd.exe | 42,000 | the game's screens and host window, the map editor's forms |
 
 Facts that shape the port:
 
@@ -35,7 +35,10 @@ Facts that shape the port:
 - The platform layer is small and isolated. DirectDraw appears only in `GFXE.pas` and `DisplayC.pas`.
   Inline assembly is 212 blocks in 28 files, almost all in the blitters of Gfxepack and Ilpack.
 - The in-game UI (aowInt) draws itself onto the game's surfaces. It does not use the VCL (Delphi's
-  Windows GUI framework). Only the two executables and the editor are VCL form applications.
+  Windows GUI framework) for drawing or input. The game's 77 screens in AoW.exe are `TDataModule`
+  containers that hold aowInt components, laid out in form files (`notes/forms/AoW`, 79 files,
+  89,000 lines, 1,588 event handlers). AoW.exe has exactly one VCL form, `TMainForm`, which hosts
+  the display. Section 3 has the boundary in detail.
 - The VCL leaks into the rules in a shallow way. `AoWE.pas` imports Forms and Dialogs. The rules
   packages call `ShowMessage` 91 times and `MessageBox` 37 times.
 - Floating point is present in the rules. AoWEPACK has 56 uses of floating point types (AI, AI
@@ -100,18 +103,82 @@ to take an updated source and produce updated C# at any time. The rules are:
 - The transpiler lives in this repository, with the Delphi source as an input path, and runs in one
   command.
 
-What gets transpiled and what gets rewritten:
+What gets transpiled and what gets rewritten. The list is per unit, because several packages mix
+rules code with editor dialogs. It was reviewed against `notes/modules.md` and the unit imports on
+2026-10-24.
 
-| set | packages | treatment |
-|---|---|---|
-| rules | Engine, HSEPack, AoWEPACK, AoWTCPCK, AOWTools | transpiled |
-| image library | Ilpack (ImageLib, HashTabU) | transpiled: it is the resource format reader |
-| game UI toolkit | aowInt | transpiled |
-| graphics | Gfxepack, Dcpack, Adcpack | rewritten on the new surface layer |
-| sound, video, network | SoundP, VideoP, Network, aowDPlay, aowFXpck | rewritten |
-| programs | AoW.exe forms | rewritten on top of aowInt or a small form shim |
-| editor | AoWEd.exe, ILToolsP, the Ilpack editors | later, separate project |
-| third party | Localize, Vcladdon, ims | replaced |
+| set | units | lines | treatment |
+|---|---|---|---|
+| engine | Engine, inc/HashTab, EList, FMemStr, PlugInM, zlib | 12,400 | transpile. The clipboard and popup menu members of `TEComponent` get stub overrides. zlib: see open question 6 |
+| engine, design time | ImgLComp, EResGrid, DebMDlg | 1,800 | drop (editor property grids and a debug dialog) |
+| image library | ImageLib core classes, HashTabU | 8,800 | transpile. 11 routines with inline assembly get hand-written overrides |
+| image library, design time | ImageLib panels, grids, manager list boxes, property editor; ILSpin, SubImgEd, SImgSEd, ILEdGrid, ILEdForm, PerfDlg, ImgSetEd | 4,100 | drop (editor) |
+| map engine | HSEngine, IsoHex, ILTer, Terrain, Hexagon, Road, Bridge, BorderHx, RndHex, HSLib | 7,900 | transpile. 7 hex coordinate routines with inline assembly get overrides |
+| map engine, editor | HSMEdit, HSSEdit, TerCBox, ProgDlg, HSEdMod, HSEdData | 2,100 | later, with the editor |
+| rules | AoWEPACK (all units), AoWTCPCK (all units) | 112,000 | transpile |
+| game UI toolkit | aowInt, except AoWDialogForm and AOWInterfaceEditor; AOWTools | 11,900 | transpile. The two excluded units are design-time only |
+| game screens | AoW.exe: the 77 data module units, E1, E2 and E3 flow units | 27,000 | transpile. The form files become layout data, see below |
+| host window | AoW.exe: AoWUnit (`TMainForm`) | 500 | rewrite as the platform host |
+| sound, rules side | Sound (TSoundSystem, TSFX, TSFXLibrary, TSonglist) | 1,600 | transpile, minus the manager list boxes |
+| sound, backend | GalSndS, Galaxy, DSound | 1,000 | rewrite: a new `TSoundSystem` descendant on SDL audio and a module player |
+| sound, editor | SFXEdDlg, SpinEdit | 300 | drop |
+| graphics | GFXE, GFXDiag, DisplayC | 16,100 | rewrite on the new surface layer, see the contract below |
+| zoom display | Adcpack | 400 | drop: nothing in the game or the editor imports it |
+| effects | aowFX | 300 | transpile (pure particle code) |
+| network, protocol | NetworkE | 1,800 | transpile (token protocol on `TEObject`) |
+| network, transport | aowDPlay | 2,100 | rewrite on sockets |
+| video | Video, VFW | 1,000 | rewrite (one `TVideoPlayer` component, intro and ending only) |
+| editor | AoWEd.exe (88 units), ILToolsP | 15,200 | later, separate project |
+| third party | Localize, Vcladdon, ims | | replace, see below |
+
+Where aowInt ends and AoW.exe begins. aowInt is a widget toolkit of `TComponent` descendants
+(`TAoWComponent`, `TAOWControl`, `TAOWWindow` and about 25 controls) that draw onto a `TSurface`
+and take mouse and key events from the host. Its only VCL dependencies are the `TComponent`
+streaming base, the types `TShiftState`, `TMouseButton`, `TColor` and `TCursor`, three uses of
+`Application` and the clipboard in `AoWEdit`. All of those go to the RTL shim. AoW.exe adds three
+things on top of the toolkit:
+
+1. The 77 screens. Each is a `TDataModule` descendant whose components (679 labels, 445 panels, 402
+   images, 388 buttons and so on) are declared in a form file and bound to handler methods by name.
+   The form files reference two shared modules for fonts and interface images (`FontModule`, 1,184
+   references, and `IntGfxMod`, 2,690 references) and hold 62 Multilizer translator components.
+2. The flow units (E1GameFlow, E2GameFlow, E3EventDialogs, E2WindowLayout, the Globals units),
+   which open and close screens and route event log entries to dialogs.
+3. `TMainForm`, the one VCL form. It owns the `TDisplay` control, switches between the full screen
+   and the windowed display controller, draws the cursor, scrolls the map and routes mouse and key
+   events into the toolkit.
+
+The screens and flow units are transpiled like any other code. The form files are converted once
+into a layout format the port loads at run time, or into generated construction code (open
+question 7). A loader creates the components, sets the properties, resolves the references to the
+shared modules and binds the handlers. `TMainForm` is rewritten as the platform
+host, since everything it does is window and input plumbing.
+
+The graphics contract. GFXE exports 193 routines and 37 types, but the code that stays uses a
+small part. The rules use 34 routines and 7 types, the UI 38 and 7, the image library 42 and 9.
+The surface description record `TSurfaceDesc` appears 334 times in the rules and is the center of
+the contract. The rewritten layer must provide:
+
+- `TSurface`, `TDataSurface` and the surface the display owns, with lock, unlock, resize, restore
+  and lost handling.
+- The clipped blitters: `BltClipped`, `BltSDRectClipped`, `BltSpriteClipped16`,
+  `BltColorKeyClipped` and `BltRect`.
+- The 16-bit blend, color key and transparent blitters that ImageLib calls.
+- The blend tables and the lookup blend table collection.
+- The palette and the 8-bit to 16-bit remaps.
+- The display mode list, and the display mode and pixel format queries.
+
+The display controller contract that AoW.exe uses is smaller still. It needs an active drawing
+surface, the back surface size, the frame rate, a swap between controllers and the mouse position.
+It raises events for frame update, mouse, key, resize, surface loss and activation.
+
+Third-party replacements. Multilizer is reached through one function, `TranslateRStr` (608 calls
+in AoWEPACK, 510 in AoW.exe), plus the translator components in the form files, which translate
+component properties at load time. The replacement is a string table built from the `Dict/*.mld`
+dictionaries, with `TranslateRStr` as the shim entry point and the layout loader doing what the
+translator components did. The internet suite (ims) is used only by the play-by-email dialogs
+(`TmsSMTP`, `TmsMessage`, the POP3 and SMTP dialogs), see open question 8. Toolbar97 and SpinEdit
+are editor only.
 
 A Delphi RTL shim library in C# provides what the rules code expects: `TList`, `TStringList`,
 `TStream` and `TMemoryStream`, the string routines, `Random` and exceptions. It also provides the
@@ -221,25 +288,31 @@ path, and C# assemblies stay desktop only.
 
 ## 7. Open questions
 
-1. Package list. The transpile and rewrite sets in section 3 need a review against the import tables
-   in `D:\git\aow\notes\modules.md` before the transpiler starts. In particular, where aowInt stops
-   and the VCL forms of AoW.exe begin.
-2. Strings. Whether the shim keeps a 1-based byte string type throughout the rules, or converts
+1. Strings. Whether the shim keeps a 1-based byte string type throughout the rules, or converts
    the rules to .NET strings and keeps bytes only in the data layer. The first is safer for the
    oracle, the second is cleaner C#.
-3. Transpiler host language. Python (matches the `aow` tooling) or C# (one language in the repo,
+2. Transpiler host language. Python (matches the `aow` tooling) or C# (one language in the repo,
    Roslyn available for emitting). Leaning Python for the parser and emitter. The .NET build then
    compiles the output and makes sure that it is valid C#.
-4. Hash table iteration order. The engine's `THashList` classes determine iteration order in places.
+3. Hash table iteration order. The engine's `THashList` classes determine iteration order in places.
    The shim must reproduce the original order where the rules iterate, or the saves differ.
-5. Multilizer replacement. The `Dict/*.mld` files hold the localized strings. The port needs a
+4. Multilizer dictionaries. The `Dict/*.mld` files hold the localized strings. The port needs a
    reader for that format or a one-time export to its own string table format.
-6. Galaxy music. Whether the `.IT` files play correctly through libopenmpt, or whether Galaxy
+5. Galaxy music. Whether the `.IT` files play correctly through libopenmpt, or whether Galaxy
    applied effects the port must reproduce.
-7. Editor scope. Whether the map editor is ported at all, and whether it keeps the VCL form layout
+6. zlib output. The save container holds zlib-compressed streams. The byte for byte comparison of
+   saves needs the same deflate output as the original zlib build, which the .NET deflate stream
+   does not promise. The options are a managed port of the original zlib, or a comparison on the
+   decompressed payloads.
+7. Form file conversion. Whether the 79 form files become a layout data format that the port loads
+   at run time, or generated C# construction code. Data keeps the layouts editable by mods. Code
+   gives compile-time binding of the 1,588 handlers.
+8. Play-by-email. Whether the SMTP and POP3 game exchange stays in scope. If it does, the internet
+   suite is replaced with the .NET mail classes behind the two dialogs.
+9. Editor scope. Whether the map editor is ported at all, and whether it keeps the VCL form layout
    or moves onto the game's UI toolkit.
-8. Networking. Whether multiplayer is in scope for the first release, and what the transport is.
-9. Mobile input. The UI assumes a mouse and an 800 by 600 display. Touch and small screens need a
+10. Networking. Whether multiplayer is in scope for the first release, and what the transport is.
+11. Mobile input. The UI assumes a mouse and an 800 by 600 display. Touch and small screens need a
     UI pass that is outside the faithful port.
 
 ## 8. Repository layout (proposed)
