@@ -30,6 +30,8 @@ The user decides scope, settles open questions and approves anything irreversibl
 - `docs/design.md`: the decisions. When a decision changes, this file changes first.
 - `docs/specs/`: one specification per subsystem, with the algorithms, formats and mappings an
   implementer needs, and a done measure. `docs/specs/README.md` lists them and their state.
+- `docs/milestones.md`: the order in which the specifications are implemented, what each step
+  depends on and which done measure closes it. Briefs are cut from its steps.
 - `docs/briefs/`: one brief per implementation task, written from a specification. A brief is
   self-contained: the implementer gets nothing else.
 - `D:\git\aow`: the recovered Delphi source (`src/delphi3/`), the recovery documents (`doc/`), its
