@@ -406,7 +406,7 @@ table order, so it is never used for ordering.
 | `raise E` | `throw E;` |
 | `raise` | `throw;` |
 | `inherited` | section 4.4 |
-| `asm ... end` | error, override required |
+| `asm ... end` | section 8.2: three stub patterns are generated, everything else is an override |
 
 For loops evaluate both bounds once before the loop, as Delphi does. The loop variable is not
 read after the loop by any correct Delphi program, and the emitter does not preserve its value.
@@ -588,6 +588,9 @@ reported as stale.
 
 ### 5.8 Pointers, memory and untyped parameters
 
+The graphics code adds a set of pixel addressing idioms to this section; `graphics.md` 3.5 lists
+them with their mapping, and the probe `pointers` covers them.
+
 Pointer code is concentrated in the units that are rewritten. The transpile set still has pointer
 code in Engine (lists and streams), ImageLib (the format core), HSEngine (`PHNList`, 20 fields),
 AoWEPACK (`PIntegerArray`, `PRect`, `PByteArray`) and a few others. The mapping covers the forms the
@@ -714,6 +717,38 @@ skipped member that the generated code calls must exist in the override, or the 
 is the intended check. The report lists every skip and whether its file exists.
 
 Overrides never change generated files. A fix to a mapping goes into the transpiler.
+
+### 8.2 Assembler routines
+
+The transpile set has 330 routines whose body is `asm` (counted on 2026-10-25 with a trailing
+comment after the keyword allowed, which the first survey missed): GFXE 28, ImageLib 11, Engine 14,
+HSEngine 8, Video 2 and 267 in AoWEPACK (Unit.PAS 47, Ability.PAS 29, Spells.PAS 29,
+GlobalTargetSpells 19, Cave 15, AoWAb 11, Diplomacy 11, five hero and item grid units with the same
+10 thunks each, and smaller groups). The 39 blitters of GFXE and ImageLib are rewritten by
+`graphics.md` section 5. The rest are stubs the recovery wrote because the original binary has a
+routine there that DCC32 does not generate from Pascal: cross-package call thunks (`P2*`, `P4*`,
+`P5*`, `*ABI`, `Cave*`, `Spell*`, `Hero*`, `Item*` and the like), virtual methods that return a
+constant, a custom allocator, and a few bit manipulations.
+
+The transpiler recognizes three body shapes and generates them, reporting each:
+
+| rule | body | result |
+|---|---|---|
+| A1 | `XOR EAX,EAX` alone, or `MOV EAX,<const>` alone, or `MOV AL,<const>` | `return 0` or the constant, converted to the declared result type |
+| A2 | `JMP <Routine>` alone, where the routine's parameters match the declared ones in count and type | a call of that routine with the same arguments, returning its result |
+| A3 | `MOV EDX,<Var>; JMP TObject.InitInstance` in a `class function NewInstance` | an allocator override: the class's `NewInstance` returns an instance from the shim's pool named `<Var>` (`TMapField.NewInstance` uses `MapFieldMemory`); the pool is a plain allocation in the port and the generated method notes the original's pooling |
+
+Every other `asm` body is an error that an override must resolve (`TAoWMapField.GetExplored` and
+`SetExplored`, which test and set bit `Player - 1` of `FFieldFlags` with a rotate through carry and
+return `True` for player 0; `TBitList.Get` and `Put`; the `Fill*` routines of Engine; the hexagon
+coordinate routines `HXtoH`, `HXtoV`, `HVtoHX`, `HPtoHX`, `HPtoHXs`, `WalkToNextHN` of HSEngine;
+`AlignmentSetToInt` and `AlignmentIntToSet`; the remaining AoWEPACK bodies that are not thunks).
+The report lists every `asm` routine with its rule or its override, and the catalogue
+`data/asm-routines.json` requested from the recovery (file, routine, category, Pascal equivalent)
+is checked against the transpiler's own classification the same way as the other catalogues
+(section 9, item 10). The semantic probe for the hand-written ones is `tests/probes/asm-stubs.pas`:
+it calls each non-thunk routine on a battery of inputs under DCC32 and prints the results, and the
+C# override must print the same.
 
 ## 9. Report
 

@@ -34,7 +34,9 @@ Facts that shape the port:
   1,790 published properties, which drive the engine's own `ReadWrite` persistence and the editor's
   property grids, not Delphi form streaming.
 - The platform layer is small and isolated. DirectDraw appears only in `GFXE.pas` and `DisplayC.pas`.
-  Inline assembly is 212 blocks in 28 files, almost all in the blitters of Gfxepack and Ilpack.
+  Inline assembly is 330 routines: 39 blitters in Gfxepack and Ilpack, and 291 small stubs,
+  mostly call thunks and constant returns in AoWEPACK, Engine and HSEPack that the recovery wrote to
+  reproduce the original code (`specs/transpiler.md` 8.2).
 - The in-game UI (aowInt) draws itself onto the game's surfaces. It does not use the VCL (Delphi's
   Windows GUI framework) for drawing or input. The game's 77 screens in AoW.exe are `TDataModule`
   containers that hold aowInt components, laid out in form files (`data/forms/AoW`, 79 files,
@@ -124,7 +126,7 @@ rules code with editor dialogs. It was reviewed against `doc/modules.md` and the
 | sound, rules side | Sound (TSoundSystem, TSFX, TSFXLibrary, TSonglist) | 1,600 | transpile, minus the manager list boxes |
 | sound, backend | GalSndS, Galaxy, DSound | 1,000 | rewrite: a new `TSoundSystem` descendant on SDL audio and a module player |
 | sound, editor | SFXEdDlg, SpinEdit | 300 | drop |
-| graphics | GFXE, GFXDiag, DisplayC | 16,100 | rewrite on the new surface layer, see the contract below |
+| graphics | GFXE, GFXDiag, DisplayC | 16,100 | transpile the Pascal surface, clipping, palette and blend table code of GFXE and the display control's loop of DisplayC; rewrite the 28 assembler blitters; replace the DIB and DirectDraw surfaces with memory surfaces of the same names and the eight display controllers with one SDL presenter; drop GFXDiag and the DirectDraw binding. `specs/graphics.md` |
 | zoom display | Adcpack | 400 | drop: nothing in the game or the editor imports it |
 | effects | aowFX | 300 | transpile (pure particle code) |
 | network, protocol | NetworkE | 1,800 | transpile (token protocol on `TEObject`) |

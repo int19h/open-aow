@@ -216,14 +216,15 @@ fixes in the current source.
 
 ## 4. Frame comparison
 
-For the graphics layer (`graphics.md`). The Delphi build renders a frame into its back surface,
-and the port renders the same scene into its framebuffer. The reference frames come from the Delphi
-build through a debugger script that dumps the back surface after `DisplayUpdateFrame` for a set
-of scripted scenes (the title screen, a map view at fixed coordinates in a loaded save, a dialog,
-the combat map), saved as raw 16-bit images with their size. The port's headless host renders the
-same scenes with the real graphics layer and a null presenter, and `tools/oracle/frames.py`
-compares pixel for pixel and writes a difference image. Done means zero differing pixels per scene.
-The scene list grows with the port.
+For the graphics layer. `graphics.md` section 9 specifies it: the reference frames come from the
+rebuilt game in windowed mode, which renders in `pfRGB555`, captured by a debugger breakpoint on
+`TWindowsDC.BltSurface` for a list of scripted fixtures (`tests/frames/fixtures.toml`: a save or
+scene, a frame number, the registry settings, the mouse position, the fixed `RandSeed`); the port
+renders the same fixtures through its controller with a presenter that writes the frame to a file;
+`tools/oracle/frames.py` captures and `tools/oracle/compare_frames.py` compares pixel for pixel,
+with per-fixture masks and a difference image. Done means zero differing pixels per fixture outside
+the masks. The blitter and blend table probes of `graphics.md` run first, so that a frame
+difference points at layout or logic rather than at a blitter.
 
 ## 5. Fixtures from the oracle compiler
 
