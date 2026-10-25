@@ -128,6 +128,7 @@ rules code with editor dialogs. It was reviewed against `doc/modules.md` and the
 | sound, editor | SFXEdDlg, SpinEdit | 300 | drop |
 | graphics | GFXE, GFXDiag, DisplayC | 16,100 | transpile the Pascal surface, clipping, palette and blend table code of GFXE and the display control's loop of DisplayC; rewrite the 28 assembler blitters; replace the DIB and DirectDraw surfaces with memory surfaces of the same names and the eight display controllers with one SDL presenter; drop GFXDiag and the DirectDraw binding. `specs/graphics.md` |
 | zoom display | Adcpack | 400 | drop: nothing in the game or the editor imports it |
+| ability plug-in | AbilityP (AbilPack) | 500 | drop: a `TPlugIn` package that only `LoadExternalPlugIns` could load from a `PLUGINS` directory, which the shipped game does not have; neither executable loads it statically (`data/initialization-order.json`) |
 | effects | aowFX | 300 | transpile (pure particle code) |
 | network, protocol | NetworkE | 1,800 | transpile (token protocol on `TEObject`) |
 | network, transport | aowDPlay | 2,100 | rewrite on sockets |
@@ -322,8 +323,10 @@ path, and C# assemblies stay desktop only.
    against `Release.mld`, `CampMaps.mld`, `CustMaps.mld`, `Campaign.mld` and `AoWEd.mld`. The port
    needs a reader for the format or a one-time export, and the localization specification settles
    whether translation is ever active in the English game.
-4. Galaxy music. Whether the `.IT` files play correctly through libopenmpt, or whether Galaxy
-   applied effects the port must reproduce.
+4. Galaxy music. Decided on 2026-10-25 (`specs/platform.md` section 5): the 24 `.IT` songs play
+   through libopenmpt behind a second `TSoundSystem` backend that keeps the Galaxy backend's
+   volume, pan, fade and loop semantics. Music rendering is not held to the oracle; it affects
+   neither saves nor frames.
 5. zlib output. The save container holds zlib-compressed streams. The byte for byte comparison of
    saves needs the same deflate output as the original zlib build, which the .NET deflate stream
    does not promise. The options are a managed port of the original zlib, or a comparison on the
@@ -336,10 +339,15 @@ path, and C# assemblies stay desktop only.
    complete (79 for `AoW.exe`, 84 for `AoWEd.exe`), keep every property with binary ones as hex
    blocks, and convert back byte-identically for all 79 game forms.
 7. Play-by-email. Whether the SMTP and POP3 game exchange stays in scope. If it does, the internet
-   suite is replaced with the .NET mail classes behind the two dialogs.
+   suite is replaced with the .NET mail classes behind the two dialogs. Until then the `ims`
+   components get stand-ins that load from the form files and fail every operation
+   (`specs/platform.md` section 9).
 8. Editor scope. Whether the map editor is ported at all, and whether it keeps the VCL form layout
    or moves onto the game's UI toolkit.
 9. Networking. Whether multiplayer is in scope for the first release, and what the transport is.
+   The engine's transport hook is two calls, `TRemotePCC.OnSendData` and `ReceiveDataPackage`,
+   wired by `aowSetupEvents` to the DirectPlay component, which only `AoW.exe` uses (68 sites);
+   the port ships a stand-in that reports no connections until `specs/networking.md` exists.
 10. Mobile input. The UI assumes a mouse and an 800 by 600 display. Touch and small screens need a
     UI pass that is outside the faithful port.
 11. Idiom cleanup upstream. The decompile session confirmed on 2026-10-24 that replacing the raw
