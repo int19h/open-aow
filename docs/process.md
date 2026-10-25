@@ -80,10 +80,12 @@ command waits for piped input. `--add-dir D:\git\aow` gives the implementer read
 recovered source. `workspace-write` lets it edit the repository and run builds and tests, and
 makes it ask before anything outside.
 
-Continue a task with context kept:
+Continue a task with context kept. `resume` has no `-m` option and falls back to the config's
+model and effort, so both are passed as `-c` overrides, for the implementer and the researcher
+alike (checked on 2026-10-25: a resume without them ran on the default model):
 
 ```bash
-codex exec resume --json <thread_id> "<follow-up>" < /dev/null
+codex exec resume --json -c 'model="gpt-6.1-sol"' -c 'model_reasoning_effort="high"' <thread_id> "<follow-up>" < /dev/null
 ```
 
 Start a research run (the prompt is a file, read from standard input with `-`):
