@@ -362,15 +362,27 @@ path, and C# assemblies stay desktop only.
     `aow` repository holds the tables of both executables and the 21 packages they load, with four
     unresolved entries in `AoW.exe` that lie outside the transpile set (`specs/transpiler.md` 4.8).
 
-## 8. Repository layout (proposed)
+## 8. Repository layout
+
+What exists is marked; the rest is where the specifications put things.
 
 ```
-docs/            design notes, this file
-tools/transpile/ the Delphi to C# transpiler and its tests
-src/Rtl/         the Delphi RTL shim
-src/Generated/   transpiled output, regenerated, never edited
-src/Overrides/   hand-written replacements for generated code
-src/Platform/    SDL window, input, audio, framebuffer presentation
-src/Game/        the game executable
-tests/           oracle harness and unit tests
+docs/                 this file, process.md, specs/, briefs/, correspondence/     (exists)
+data/                 catalogues the port built from the recovered source           (exists)
+tools/survey/         scripts that build the catalogues                              (exists)
+tools/transpile/      the Delphi to C# transpiler and its tests                      transpiler.md
+tools/oracle/         seeded runs, save and frame comparison                         testing.md, graphics.md
+tools/forms/          form file checks and expected-tree dumps                       ui-layout.md
+tools/localization/   dictionary dump                                                localization.md
+src/Rtl/              the Delphi RTL and VCL shim                                    rtl-shim.md
+src/Generated/        transpiled output, regenerated, never edited                   transpiler.md
+src/Overrides/        hand-written replacements for generated members                transpiler.md 8
+src/Graphics/         the rewritten blitters and memory surfaces                     graphics.md
+src/Forms/            the form files as data                                         ui-layout.md
+src/Platform/         the SDL host: window, input, audio, video, files, settings     platform.md
+src/Headless/         the host without a display, for the oracle                    testing.md
+src/Game/             the game executable                                            platform.md 2
+tests/probes/         Delphi 3 probe programs and their expected outputs             testing.md 2
+tests/frames/         frame fixtures                                                 graphics.md 9
+tests/forms/          loaded-tree expectations                                       ui-layout.md 8
 ```

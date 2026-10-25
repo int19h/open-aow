@@ -19,4 +19,6 @@ specification holds the detail needed to build one part.
 | `modding.md` | the data model exposure, the code mod API and the scripting layer | later |
 
 Order of writing: transpiler, rtl-shim, persistence, testing, graphics, ui-layout, platform,
-localization. The first four are what the first two milestones need.
+localization. The first four are what the first two milestones need. State on 2026-10-25: the
+first seven are drafts, localization is being written, networking and modding wait for their
+scope decisions (`../design.md` open questions 7 and 9).
