@@ -5,7 +5,7 @@ specification to verified code. Read `docs/design.md` first for the design itsel
 
 ## 1. Roles
 
-Three parties work on the port:
+Four parties work on the port:
 
 - The design session. A Claude session in `D:\git\open-aow` owns the architecture, the design
   document, the specifications in `docs/specs/` and the task briefs. In the design stage it runs on
@@ -15,13 +15,21 @@ Three parties work on the port:
 - The implementer. GPT Sol-6.1 at high reasoning effort, driven through the `codex` command line
   in non-interactive, resumable sessions. One session per task. It writes the code and the tests
   for one brief and reports back. It does not commit and does not change branches.
+- The researcher. GPT-6-Astra at high reasoning effort, through the same command line. It does the
+  grunt work the design session must not spend its own capacity on: reading the recovered source
+  for patterns and counts, building catalogues under `data/` with their scripts under
+  `tools/survey/`, preparing reports, and giving a second opinion on a design point. Its design
+  advice is advice: the design session reviews it and decides. The Codex quota is much larger than
+  the design session's, so anything that does not need the design session's reasoning goes here.
 - The recovery session. The "decompile" session of the `aow` project in `C:\git\int19h\aow`
   refines the recovered Delphi source. `D:\git\aow` is the user's working copy, which the user
   updates (the upstream history was rewritten on 2026-10-24, so the copy follows upstream by reset,
-  not merge). Since 2026-10-25 the two sessions run on different accounts and cannot message each
-  other: a request is written to `D:\msg\open-aow-requests-<date>.md`, the user relays it, and the
-  reply arrives as `D:\msg\aow-replies-<date>.md`. The recovery session is near its quota, so
-  requests are front-loaded and ordered by priority, each item standing alone.
+  not merge). Since the evening of 2026-10-25 the two sessions run in the same subscription and
+  message each other directly (the recovery session is named `decompile`; this one is `open-aow`).
+  Earlier that day they could not, and requests went through files in `D:\msg` relayed by the user
+  (`open-aow-requests-<date>.md`, `aow-replies-<date>.md`); those exchanges are kept under
+  `docs/correspondence/`. Requests stay front-loaded and ordered by priority, each item standing
+  alone, and a copy of every request and reply still goes to `docs/correspondence/`.
 
 The user decides scope, settles open questions and approves anything irreversible or outward facing.
 
@@ -46,8 +54,8 @@ The user decides scope, settles open questions and approves anything irreversibl
 - `docs/correspondence/`: every request to and reply from the recovery project, dated, so that the
   provenance of a fact in a specification can be traced.
 
-Surveys of the recovered source or the binaries are the port's own work, done here or by an Opus
-subagent spawned from this session. The recovery session is asked only what its coordinator knows
+Surveys of the recovered source or the binaries are the port's own work, done by a researcher run
+(section 1) from this session. The recovery session is asked only what its coordinator knows
 from running the recovery: decisions, tooling and data locations, why something was done, what is
 missing. It answers investigative asks by spawning its own subagents, which only adds a relay hop
 and spends its quota.
@@ -77,6 +85,16 @@ Continue a task with context kept:
 ```bash
 codex exec resume --json <thread_id> "<follow-up>" < /dev/null
 ```
+
+Start a research run (the prompt is a file, read from standard input with `-`):
+
+```bash
+codex exec --json -C D:\git\open-aow -s workspace-write -m gpt-6-astra -c model_reasoning_effort='"high"' --add-dir D:\git\aow -o <report file> - < <prompt file>
+```
+
+The prompt names the files the run is allowed to write (a script under `tools/survey/`, its output
+under `data/<topic>/`) and nothing else, so that a commit from this session never sweeps in a
+half-written file.
 
 Fork a task to try an alternative without losing the first line of work:
 
@@ -149,7 +167,8 @@ In order of cost. A task uses the cheapest rung that proves its claim.
 2. Unit tests pass. Fixtures that encode Delphi behavior (random sequences, string routine results,
    stream bytes) come from small Delphi programs compiled with the oracle compiler and are stored
    under `tests/fixtures/` with the program that made them.
-3. The persistence round trip: a save read and written back is byte-identical.
+3. The persistence round trip: a save read and written back is byte-identical in the first stage,
+   and equal under the comparator in the second (`docs/design.md` sections 5 and 9).
 4. The headless oracle: a seeded computer-only game produces the same saves as the Delphi build,
    turn for turn, with the floating point allowance described in `docs/design.md`.
 5. Frame comparison: a scene rendered by the port equals the Delphi build's frame.

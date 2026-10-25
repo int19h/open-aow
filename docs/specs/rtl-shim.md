@@ -20,17 +20,26 @@ A symbol the demand list adds later gets its entry here before it is implemented
 public class TObject
 {
     public int InstanceId { get; }            // from a global counter, assigned in the constructor
-    public virtual Meta ClassType => Class;
-    public static Meta Class { get; } = new Meta();
+    public Meta ClassType => MetaRegistry.Of(GetType());
+    public static string ClassNameOf(Type t) { ... }   // the Delphi spelling of a generated type's name
     public virtual void Destroy() { }
     public class Meta
     {
-        public virtual string ClassName => "TObject";
-        public virtual Meta ClassParent => null;
-        public virtual TObject NewInstance() => new TObject();
-        public bool InheritsFrom(Meta other) { ... }   // walks ClassParent
+        public Type Type { get; internal set; }
+        public string ClassName => ClassNameOf(Type);
+        public Meta ClassParent => MetaRegistry.Of(Type.BaseType);   // defined down to the closure root
+        public int InstanceSize { get; internal set; }                // from the layout model
+        public virtual TObject NewInstance() => Factory();
+        internal Func<TObject> Factory;
+        public bool InheritsFrom(Type t) => t.IsAssignableFrom(Type);
     }
 }
+public static class MetaRegistry
+{
+    public static void Register(Type t, TObject.Meta meta, Func<TObject> factory, int instanceSize) { ... }
+    public static TObject.Meta Of(Type t) { ... }    // one instance per type; throws outside the closure
+}
+// EAbstractError (section 1.7) is raised by the body of every abstract method
 public static class TObjectExtensions
 {
     public static void Free(this TObject o) { if (o != null) o.Destroy(); }
@@ -38,9 +47,11 @@ public static class TObjectExtensions
 ```
 
 `InstanceId` starts at 1 and increments per construction on one thread. It replaces object
-addresses where the original used them as values (`transpiler.md` rule N7). `ClassName` returns the
-Delphi spelling. Generated classes override `ClassType`, `Class` and `Meta` as `transpiler.md`
-section 4.4 describes.
+addresses where the original used them as values (`transpiler.md` rule N7). A `Meta` exists only
+for the classes in the metaclass closure of `transpiler.md` 4.4, registered by the generated
+`MetaRegistry.cs`. `ClassType` on a class outside the closure throws, and the transpiler never emits
+it there. `TComponent` (section 4.4 of this document) carries the one VCL virtual constructor the
+set calls through a class reference, so its `Meta` has the `Create(TComponent owner)` factory.
 
 ### 1.2 AnsiString
 
@@ -78,13 +89,23 @@ over an integer subrange. A constructor argument above 63 throws.
 `ref T` at `Index + i`), `IsNull`, `Alloc(int n)`, `Realloc(int n)` (copies the old elements into a
 new array), `To(T[] array, int index)`, operators `+ int`, `- int`, `- Ptr<T>` (index difference),
 `==`, `!=`, `Copy(Ptr<T> src, Ptr<T> dst, int n)` (`Array.Copy`, which handles overlap like
-`Move`), and `Fill(Ptr<T> dst, int n, T value)`.
+`Move`), `Fill(Ptr<T> dst, int n, T value)`, and `CompareMem(Ptr<T> a, Ptr<T> b, int n)` (a byte
+comparison through `MemoryMarshal.AsBytes` for unmanaged `T`).
+
+`Box()` returns a `PtrBox<T> : TObject` holding the pointer, for the record addresses the source
+passes as `TObject` or `Integer` (`transpiler.md` 4.3, addresses of records). `Ptr<T>.Unbox(object)`
+and `Unbox(IntOrRef)` give the pointer back and throw on any other object. `Bytes.Of(ref T)` is the
+`Span<byte>` over an unmanaged struct for the untyped buffer routines (`GetCRC32`, `Move`,
+`FillChar`, `CompareMem` with `SizeOf`).
 
 ### 1.5 IntOrRef
 
-`struct IntOrRef { int Value; object Ref; }` with implicit conversions from `int` and from
-`TObject`, and `T As<T>()`. `TEMsg.Param` and the message `Data` array use it. `Value` of a
-reference is its `InstanceId`. `Ref` of an integer is `null`.
+`struct IntOrRef { int Value; object Ref; }` with implicit conversions from `int`, from `TObject`,
+from `AnsiString` (boxed) and from `PtrBox<T>`, and `T As<T>()`. It is the slot type wherever the
+source overlays a reference and an integer: `TEMsg.Param`, the collapsed `Engine`, `Obj` and
+`Value` arms of `TEMsg`, `TShowInfo`'s percentage or table, `THashItem.Key` under its string view,
+and `TMapFieldMsg.Param` (`transpiler.md` 4.3). `Value` of a reference is its `InstanceId`, or for
+a boxed string an id from the same counter. `Ref` of an integer is `null`.
 
 ### 1.6 TVarRec
 
@@ -100,7 +121,8 @@ System.Exception
     EAbort                     Abort() raises it, hosts swallow it silently
     EConvertError, EListError, EStreamError, EReadError, EWriteError, EFOpenError, EFCreateError,
     EInvalidCast, EAccessViolation, EDivByZero, ERangeError, EIntOverflow, EInvalidOp,
-    EAssertionFailed, EComponentError, EInvalidOperation, EOutOfMemory, EInOutError
+    EAssertionFailed, EComponentError, EInvalidOperation, EOutOfMemory, EInOutError,
+    EAbstractError             raised by the generated body of an abstract method (transpiler.md 4.4)
 ```
 
 `Rtl.Wrap(System.Exception)` maps .NET runtime exceptions as `transpiler.md` section 5.5 lists and

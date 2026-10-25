@@ -15,10 +15,11 @@ specification holds the detail needed to build one part.
 | `platform.md` | the SDL host: startup and the main form's role, window and presenter, input mapping, clock, audio behind the original `TSoundSystem` abstraction, the intro video, the two-layer case-insensitive file service with current directory emulation, settings in place of the registry, message boxes, plug-ins, the networking transport hook, the headless host | draft |
 | `testing.md` | the layers, the probe runner and probe set, the headless oracle built on the recovery's playtest harness, frame comparison, fixtures | draft |
 | `localization.md` | the Multilizer dictionaries (format reversed in `../../data/localization/`), the exact-match lookup, the three translation paths of the engine, the translator components, English as shipped and the four other languages as a setting | draft |
-| `networking.md` | the token protocol as recovered and the socket transport that replaces DirectPlay | later |
-| `modding.md` | the data model exposure, the code mod API and the scripting layer | later |
+| `networking.md` | the token protocol as recovered and the socket transport that replaces DirectPlay | later: multiplayer and play by e-mail are wanted and out of scope for the first release (`../design.md` open questions 7 and 9); the stand-ins are in `platform.md` 9 |
+| `modding.md` | the data model exposure, the code mod API and the scripting layer | later: after the oracle passes (`../design.md` section 6) |
 
 Order of writing: transpiler, rtl-shim, persistence, testing, graphics, ui-layout, platform,
 localization. The first four are what the first two milestones need. State on 2026-10-25: all eight
-are drafts; networking and modding wait for their scope decisions (`../design.md` open questions 7
-and 9).
+are drafts, revised the same evening for the two-stage plan of `../design.md` (mechanical
+translation first, idiomatic C# second), the C# 15 target and the record and metaclass surveys in
+`../../data/`. Networking and modding are scheduled after the first release.

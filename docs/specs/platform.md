@@ -263,5 +263,8 @@ implementations differ.
    start) once the port runs.
 2. Whether to bundle FFmpeg on desktop or leave it optional. Optional is the default.
 3. Mouse wheel mapping to scroll bars as a convenience, off by default.
-4. Mobile input (`../design.md` open question 10) and the zip root are not specified yet beyond
-   the file service's interface.
+4. Mobile input and the zip root are not specified yet beyond the file service's interface.
+   `../design.md` open question 10 records what is known: the toolkit's minimum is 640 by 480 and
+   it reflows above that, a tap is a left click, tap and hold is a right click, and the one drag
+   gesture (multi-unit selection) needs its own gesture or a button. Specified after the desktop
+   release.

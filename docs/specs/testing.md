@@ -148,10 +148,18 @@ The port is driven by calls, not by a debugger. `tools/oracle/run.py` does, for 
    calls `AutoSave` into `<out>/day-<n>.asg`, and it repeats until the requested turns or until
    `TAoWHSMap.TriggerGameTerminatedEvent` fires. Dialog and display calls reached from this path
    go to the null services.
-4. Compare with `tools/oracle/compare.py`, a copy of `compare_runs` and `normalized_save` with
-   two changes: it compares inflated payloads (the port's compressed bytes differ, `persistence.md`
-   1.1), and it masks the fields the user accepts as floating point divergence once such fields
-   are known, listing every mask in its output.
+4. Compare with `tools/oracle/compare.py`, the port's own comparator, started as a copy of
+   `compare_runs` and `normalized_save`. It never compares compressed bytes. Its normalizations,
+   each listed in its output when applied:
+   - It inflates both payloads (`persistence.md` 1.1) and compares the five header bytes and the
+     inflated bytes.
+   - It masks the fields the user accepts as floating point divergence once such fields are known.
+   - It takes a list of properties whose children are written in hash table order and compares
+     those children as sets. The list is empty in the first stage, where the hash table code is
+     transpiled (`../design.md` section 5 says how it grows in the second).
+   - In model mode, which the second stage adds (`../milestones.md` 9.1), it reads both files
+     through the port's readers into the property tree and compares trees, so that the port's own
+     formats compare against the original's saves.
 
 The result is one JSON per scenario with the first differing day, the changed fields and the diff,
 in the format `compare_runs` writes, so that the same reading habits apply.

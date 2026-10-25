@@ -2,11 +2,32 @@
 
 State: draft, 2026-10-24. Decisions in `../design.md` section 3 apply.
 
-The transpiler reads the recovered Delphi 3 units of the transpile set and writes C# that compiles
-against the RTL shim (`rtl-shim.md`). It is regenerable: the same input gives the same output, and
-hand-written code lives only in overrides. This document fixes the pipeline, the mapping of every
-construct the source uses, the normalization of the byte-matching idioms, the semantic traps, the
-override mechanism, the report and the done measures.
+The transpiler reads the recovered Delphi 3 units of the transpile set and writes C# 15 for .NET 11
+that compiles against the RTL shim (`rtl-shim.md`). It is regenerable: the same input gives the same
+output, and hand-written code lives only in overrides. This document fixes the pipeline, the mapping
+of every construct the source uses, the normalization of the byte-matching idioms, the semantic
+traps, the override mechanism, the report and the done measures.
+
+What the output is for. The generated tree is the first stage of the port (`../design.md`, the
+preamble and section 9): a mechanical starting point that the oracle proves and that is then
+rewritten by hand into idiomatic C#, piece by piece. Three consequences shape every mapping below:
+
+1. The translation is allowed to be a calque. Byte strings, `Ptr<T>`, metaclass objects, split
+   constructors and `with` blocks as scoped locals are accepted because they will be rewritten.
+   A mapping is judged by whether it is right and whether it is cheap to replace, not by whether
+   it reads well.
+2. Scaffolding stays out of the logic. Everything the generated code needs that the Delphi did not
+   express lives in shim types, base classes, extension methods and generated tables, never as a
+   pattern repeated inside method bodies. The test: rewriting one method by hand replaces that
+   method's body and touches nothing else. A mapping that fails the test (a bookkeeping call at the
+   top of every method, a wrapper around every field access) is wrong even when it works.
+3. Nothing is generated that the source does not need. A facility is emitted for the classes and
+   members that use it, not for every class, because every unused line is a line a later rewrite
+   has to read and delete. Sections 4.3 and 4.4 apply this to records and metaclasses.
+
+Lifecycle. Generated code is regenerated from upstream until the headless oracle passes
+(`../milestones.md` 2.4). After that the C# tree is the source of truth, and the transpiler is run
+on single units to produce reference diffs for upstream changes that are then ported by hand.
 
 The numbers in this document come from a survey of `D:\git\aow\src\delphi3` on 2026-10-24 over the
 units in the transpile set (section 3 of `../design.md`). They size the work and show which
@@ -180,10 +201,38 @@ enumeration of more than 256 values would become `: ushort`; the transpile set h
 ### 4.3 Records and arrays
 
 A record becomes a `public struct` with public fields. Assignment copies, as in Delphi. A `const`
-record parameter becomes an `in` parameter. A `var` record parameter becomes `ref`.
+record parameter becomes an `in` parameter. A `var` record parameter becomes `ref`. A record field
+of a class or of another record is a struct field, an array of records is a struct array, and
+`A[i].X := 1` or `Obj.FRect.Left := 1` write in place as they did in Delphi. A record returned by a
+function or a property is a copy, as in Delphi.
 
-Layout. Every struct whose fields are all unmanaged gets `[StructLayout(LayoutKind.Explicit)]` with
-a `[FieldOffset]` per field, at the offsets Delphi 3 gives the record. The layout model implements
+Why a struct and not a class. The alternative, a reference type with explicit copies, was weighed
+on 2026-10-25 against the survey in `../../data/records/records.md` (script
+`tools/survey/records.py`, with the design check appended to `records.md`): 155 record types in
+the set, 53 pure values, 15 reached only through arrays or allocated blocks, 15 whose address is
+taken as a local or parameter, 3 alias views over those, 49 recovery layout views of class
+instances (rule N3), 4 value reinterpretations, 16 with a declared pointer type that nothing uses.
+No record is address-taken as a class field or as a scalar global. The 51 `@` sites on 20 types
+split into 17 synchronous dispatch aliases on 10 types, 4 buffer views for a checksum, 7 identity
+or record views, and 23 addresses of array elements or whole arrays. A struct gives value semantics
+for free and leaves those forms to map (below). A class needs a copy at every assignment, value
+parameter, result and aggregate copy, and a missed copy is a silent aliasing bug that only the
+oracle finds. The user's other suggestion, treating a pointer to a record member as a
+translation error that forces a hand translation, is the rule for every address form the list
+below does not name.
+
+Layout. Every struct whose C# fields are all unmanaged gets `[StructLayout(LayoutKind.Explicit)]`
+with a `[FieldOffset]` per field, at the offsets Delphi 3 gives the record. Unmanaged is judged on
+the emitted fields, not the Delphi ones: a record with an `IntOrRef` slot or an `object` field
+(`THashItem`, `TBltTest`) is managed and gets no explicit layout. Two Delphi field kinds have a C#
+representation wider than their storage, and inside an explicit-layout record they get physical
+backing fields with accessor properties, so that `rwData`, `Move`, `Stream.Read` and `CompareMem`
+see the Delphi bytes: a set field is stored as the `byte`, `ushort` or `uint` of its Delphi size
+(`TStormDamageInfo` has two 1-byte sets before its integers, `TAbilityDamageValues` a 2-byte set at
+offset 16) and exposed as a `TSet<E>` property, and a `string[N]` field is stored as an inline array of
+`N + 1` bytes with the Pascal length byte (`TSecurityData.ID` is `string[50]` in a 106-byte packed
+record) and exposed as an `AnsiString` property. The accessors are scaffolding inside the type, not
+in the methods that use it. The layout model implements
 the rules the recovery verified with DCC32 probes on 2026-10-25 (`layout.pas` and `enum_*.pas`,
 copied to `tests/probes/from-recovery/`; the same rules head `data/class-layouts.json`):
 
@@ -213,19 +262,111 @@ specification, the probe is their regression test. With the layout fixed, `rwDat
 SizeOf(Rec), id)` and `Move` on records can use the struct's bytes directly. `SizeOf(T)` is a
 compile-time constant from the same model.
 
-Variant records. The transpile set has two: `TEMsg` in Engine and `TXYL` in HSEngine. `TXYL`
-overlays four `Shortint` fields with a `Word` and an `Integer`, all unmanaged, and becomes an
-explicit-layout struct. `TEMsg` overlays an object reference (`Obj`, `Engine`) with an `Integer`
-(`Value`) and with an integer array (`Data`), and a C# struct cannot overlay a reference with an
-integer. Its mapping is hand-written in the shim as a struct with separate storage per variant and
-properties that alias the fields of the same category, see `rtl-shim.md`. The transpiler treats a
-variant record whose variants mix references and values as an error unless an override provides it.
+Variant records. The set has eight (`records.md` lists them): `TXYL`, `TPaletteEntry`,
+`TDefenseRequirements` and the three anonymous `TAbilityCombatInfo` buffers of `AoWTC.pas` are
+unmanaged and become explicit-layout structs whose arms are overlapping `[FieldOffset]` fields,
+which the toolchain probe `tests/toolchain/cs15probe` compiles. `TEMsg` (Engine) and `TShowInfo`
+(ImageLib) overlay a reference with an integer at one offset, which the runtime forbids, and the
+survey shows `TEMsg` is a real pun, not a tagged union: `TPlayerControl.NewTurn` writes `Value` and
+`TAIGroup.MsgProc` reads `Integer(Msg.Engine)` for the same message, and `ValidateMap` stores a
+`TStrings` reference in `Value`. The rule for such an overlay is the shim's `IntOrRef`
+(`rtl-shim.md` 1.5): the overlapping arms become one `IntOrRef` field, and each arm name is an
+accessor on it. `Msg.Engine` reads `Payload.As<TEngine>()`, `Integer(Msg.Engine)` reads
+`Payload.Value`, `Msg.Value := Integer(Messages)` writes `Payload = Messages`, `TStrings(Msg.Value)`
+reads `Payload.As<TStrings>()`. `Data` and `Result` do not overlap the slot and stay separate
+fields. `TShowInfo.BlendPercentage` and `BlendTable` are the same slot the same way. The same rule
+covers the one non-variant overlay, `TStringHashItem` over `THashItem` in `inc/HashTab.PAS` and
+`HashTabU.pas`, where a string lives in the integer `Key` slot: `Key` is an `IntOrRef`, and a
+reference's `Value` is its `InstanceId` as in rule N7. Any other variant record that mixes
+references and values is an error unless an override provides it. In the second stage the tagged
+unions among these become `union` types or `closed` hierarchies (`../design.md` section 9) and the
+puns stay explicit-layout structs.
+
+Addresses of records. The 51 `@` sites on census records and the 437 record casts fall into four
+forms, and the transpiler maps each mechanically:
+
+1. A same-type identity view, `TMapFieldMsg(Pointer(@Msg)^)` or `THNWalkData(Pointer(@Walk)^)`:
+   folded to the variable (rule N9).
+2. A record view over a record, `PP1DamageValues(@A4)^.Field`, `PSurfaceDesc(@SD.Width)^`,
+   `PCrystalAIInfo(Msg.Param[0])^`, `TItemDropMsg(Msg)`, `TSpellLocation(Loc)` (108 casts),
+   `TLocation(X)` (9): resolved by offset and width with the layout model to the field of the real
+   record at that offset, as rule N3 does for views over class instances. The view type is
+   replaced by the real type at every declaration that uses it (a `var Info: TCrystalAIInfo`
+   parameter, the `var Msg: TItemDropMsg` parameter of `EditDropMsg`, the local
+   `Values: TP1DamageValues` and the virtual method signature it feeds in `Ability.PAS:1326`), and
+   its members by the real fields at every use, so that nothing of the view survives. A view field
+   that straddles two real fields or padding is an error when accessed. The survey found one such
+   field (`TP1DamageValues.Reserved`, over the 2-byte `DamageTypes` and 2 bytes of padding) and no
+   access to it. `TXYLRec` is a view over an `Integer`, not a record, and its three uses in
+   `HSEngine.pas:3231-3232` become `Unsafe.BitCast<int, TXYL>(XYL).X` and so on.
+3. An address that escapes the expression (17 sites, 10 types): passed as `TObject(@Info)` to a
+   synchronous notification (`TExecuteEventLogInfo`, `TMapChangedInfo`, `TShowMessageInfo`,
+   `TEngineDebugInfo`, `TTerrainChangedInfo`), or stored as `Integer(@Info)` in a message
+   parameter and read back and written through by the receivers during one `SendMapFieldMsg`
+   loop (`TStormDamageInfo`, `TAITargetInfo`, `TBattleFieldInfo`, `TDefenseRequirements`,
+   `TAITargetData`). The variable becomes a cell: a local or value parameter whose address escapes
+   is declared as `var Info__cell = new T[1]; ref var Info = ref Info__cell[0];`, a `var` parameter
+   is copied into a cell on entry and copied back on every exit (`try/finally`), a `const`
+   parameter is copied in only. `@Info` is `Ptr<T>.To(Info__cell, 0)`. `TObject(@Info)` is
+   `Ptr<T>.To(...).Box()`, a `PtrBox<T>` that derives from `TObject`, and `Integer(@Info)` is the
+   `IntOrRef` of that box. The receiver's `PRec(X)^` (5 sites) or `TRec(Pointer(X)^)` (14 sites),
+   with `X` an object or an `IntOrRef`, is `Ptr<T>.Unbox(X).Value`, a `ref` into the cell, so that
+   writes reach the caller's variable. A receiver that views only the first field,
+   `PInteger(Msg.Param[1])^` for `TAITargetData.Priority` (4 sites in `Gems.pas` and
+   `ManaCrystals.pas`), unboxes the record and takes `ref .Priority`. The type to unbox comes from
+   the producer of the same message id or event, which the resolver pairs and the report lists,
+   and the pairing is cross-checked against `records.json`. The copy-back for `var` parameters is
+   exact because the design check followed every one of these 17 aliases through its receivers
+   and their overrides and found none kept past the dispatching call. The delayed event log keeps
+   a heap copy (`New(Item); Item^ := Info`), which is form 5 below. The event handlers that take
+   the record as a `var` parameter where the event passes it as `Sender` (`aowMapEvents.pas:36-40`)
+   are bound through the handler adapter of `ui-layout.md` 5.3, which unboxes and passes by `ref`.
+4. A record passed to an untyped buffer routine with a size, `GetCRC32(@Data, Footer.Size)` (3
+   sites) and `GetCRC32(@Data, SizeOf(TSecurityData))` (1): the `Span<byte>` overload over the
+   struct's physical bytes (`rtl-shim.md` 1.4, `Bytes.Of`), sliced to the size, exact because the
+   struct has the Delphi layout. A size above `SizeOf` raises `ERangeError`.
+5. A pointer to an allocated record kept in an untyped list, `New(P); P^ := Info; FList.Add(P)`
+   and `PCallBackEvent(FList.List^[Index])` (`EventLog.pas:302-318`, `Engine.pas:5871-5887`): the
+   `Ptr<T>` from `Alloc(1)` is stored as `P.Box()` and recovered with `Ptr<T>.Unbox(obj)`, so the
+   same backing storage is reached, and `Dispose(P)` is `P = default`.
+
+Every other `@` on a record (a class field, a scalar global, a field inside a record) and every
+pointer to a record whose provenance the resolver cannot see is an error that an override resolves.
+The survey found none in the set, so the rule is there for upstream changes.
+
+Pointers to records in arrays and allocated blocks (the 15 types: the engine's item lists with
+`ReallocMem`, `TMeleeRound.FStrikes`, palette entries, hash items, `TCallBackEvent` through
+`New`) are `Ptr<T>` over the backing array (section 5.8). `@FItems^[I]` is `Ptr<T>.To(FItems.Array,
+I)`, and `GetEntry` returning `@Entries[Index]` returns a `Ptr<TPaletteEntry>` into the `T[]` that
+the addressable static array became. A pointer into one of these outlives a call by design and
+needs no cell.
+
+Scalar reinterpretations of a record (93 `Integer(XYL)`, 19 `TXYL(i)`, 8 `Comp(Item)` on
+`TDoubleItem`, `Integer(FTargetXYL) := X`): when the record has an arm or a field of that size at
+offset 0 the expression becomes that field (`XYL.XYL`), otherwise `Unsafe.BitCast<TRec, long>(x)`
+for an unmanaged struct of the same size, in both directions. These are numeric reinterpretations
+and rule N5 keeps its method-pointer guard. `CompareMem(A, B, n * SizeOf(T))` on two `Ptr<T>` is
+`Ptr<T>.CompareMem(a, b, n)`, a byte comparison of the explicit layouts.
+
+`TShowInfo` has two consequences of its own. `Stream.Read(FShowInfo, 8)` and `Write` at
+`ImageLib.pas:1724, 1744` persist the record, so a record with an `IntOrRef` slot that meets a
+stream gets a generated codec that writes the Delphi image (mode bytes at 0 and 1, padding, the
+slot's `Value` at 4) and reads it back into `Value`. And `TLibraryImage.ShowEx` (`ImageLib.pas:2026`)
+switches on the image's own `FShowInfo.BlendMode` while reading the caller's `ShowInfo`, so an
+image in `bmUser` mode shown with a percentage tests that integer as a table pointer in the
+original. The port's `As<TBlendTable>()` returns null for an integer and skips the call, an accepted
+divergence that the report names, since the original's behavior there is undefined.
 
 Static arrays. `array[L..H] of T` becomes a generated struct `FixedArray_<T>_<n>` with the
 attribute `[InlineArray(n)]` (C# 12), a one-field struct that the runtime lays out as `n` elements
 of `T`. Element access `A[i]` becomes `A[i - L]`. Multi-dimensional arrays become nested inline
 arrays. Array constants become static fields initialized by a collection expression. `Low(A)`,
-`High(A)` and `Length(A)` are constants.
+`High(A)` and `Length(A)` are constants. A static array whose elements or whole are address-taken
+(`TGFXEPalette.Entries`, whose `GetEntry` returns `@Entries[Index]` and whose `CompareMem` takes
+`@Entries`) is instead a `T[]` field allocated with its owner, because `Ptr<T>` needs array backing
+and an inline array has none. An assignment of such an array copies with `Array.Copy`, so value
+semantics hold. The report lists these arrays. The one address-taken global array,
+`RaceTerrainTable = @AoWE.RaceTerrain`, is a pointer-view constant and folds under rule N1.
 
 Open array parameters. `array of T` becomes `ReadOnlySpan<T>` for value and `const` parameters and
 `Span<T>` for `var` parameters. `High(A)` becomes `A.Length - 1`. A call passes an array or an
@@ -238,39 +379,117 @@ A class becomes `public partial class Name : Parent`. A class with no parent der
 shim's `TObject`. Fields keep their names and become fields. Methods become methods. The partial
 keyword lets an override file add or replace members (section 8).
 
-Metaclass. Delphi's class references (`class of T`, 15 types in the set) with virtual class methods
-(30 declarations, 1,391 class method declarations in all) become a parallel object per class. For
-every class `TFoo` the emitter writes a nested class `TFoo.Meta` that derives from the parent's
-`Meta` and a static property `TFoo.Class` that holds its one instance:
+Metaclass. Delphi has two things C# splits: the run-time class as a thing to ask questions of
+(`is`, `ClassName`, `ClassParent`, `InheritsFrom`, equality), and the run-time class as a receiver
+of virtual class methods and virtual constructors. The first is `System.Type` in the port. The
+second is a metaclass object, `Meta`, and it exists only where the source dispatches on a class.
+The survey in `../../data/metaclass/metaclass.md` (2026-10-25, script `tools/survey/metaclass.py`)
+sizes both: 15 `class of` types, 702 class method declarations of which 39 introduce a virtual
+class method, 10 virtual constructors, 31 constructor calls through a class reference, 222 calls of
+a virtual class method on an instance's run-time class, 384 `is` tests, 23 `ClassName` uses, no
+`as` and no TypInfo use. The closure of classes that need a `Meta` under the rule below is 1,014 of
+1,307 (973 of them through `TEObject.ClassID` alone, then `THexagonSprite.ControlMode` 150,
+`TEResource.ResourceEditName` 110, `TAbility.AbilityDataClass` 84). 293 classes need none.
 
-```csharp
-public partial class TFoo : TBar
-{
-    public new class Meta : TBar.Meta
-    {
-        public override string ClassName => "TFoo";
-        public override TObject NewInstance() => new TFoo();
-        public override int ClassID() { ... }      // a virtual class method
-        public int Helper() { ... }                // a non-virtual class method
-    }
-    public static new Meta Class { get; } = new Meta();
-    public override TObject.Meta ClassType => Class;
-}
-```
+The rule. A class is in the metaclass closure when it, or an ancestor, introduces a virtual class
+method, is the target of a project `class of` type that is used as a value, or has a virtual
+constructor called through a class reference. The RTL's `TClass` and `TObject.NewInstance` do not
+put a class in the closure, since every class descends from `TObject`. The transpiler computes the
+closure and the report lists it. The survey's list is the cross-check.
 
-The rules:
+What is emitted, and only where the source has the corresponding thing (the counts are from the
+design check appended to `metaclass.md`, which read the rule against every site):
 
-- Every class method, virtual or not, becomes an instance method of `Meta`. A virtual class method
-  is `virtual` or `override`. `Self` inside a class method is the `Meta` instance.
-- A call `TFoo.Bar(...)` becomes `TFoo.Class.Bar(...)`. A call through a class reference variable
-  `C.Bar(...)` becomes `C.Bar(...)`. A call `Bar(...)` from an instance method becomes
-  `ClassType.Bar(...)`, which dispatches on the dynamic class as Delphi does.
-- A variable of type `TFooClass` becomes `TFoo.Meta`. `TFooClass(X)` is a cast between `Meta`
-  types. `C = TFoo` becomes `C == TFoo.Class`. `obj.ClassType = TFoo` becomes
-  `obj.ClassType == TFoo.Class`. `C.InheritsFrom(TFoo)` and `obj is TFoo` are the shim's
-  `InheritsFrom` and C# `is`. `ClassName`, `ClassParent`, `InstanceSize` (5 uses, reviewed one by
-  one) are `Meta` members.
-- A class reference stored in a `TList` (the engine's `TEObjectClassList`) is a `Meta` object.
+- A class that declares or overrides a class method, or is the target of a `class of` type, gets a
+  nested class `Meta` deriving from the nearest ancestor's `Meta`, holding its class methods as
+  instance methods of `Meta`. `Self` in a class method is the `Meta` instance, and an unqualified
+  `ClassName` inside one is `this.ClassName`, the represented class's name. 537 classes get a
+  `Meta` type (531 by class methods, 6 class-of targets that declare none: `TAIGroupControl`,
+  `TAIMoveExecuterControl`, `TListObject`, `TGrabInfo`, `TSample`, `TSampleData`), and the other
+  477 classes of the closure reuse an ancestor's. For the common case, a persisted class
+  overriding `ClassID`, this is three lines:
+
+  ```csharp
+  public partial class TFoo : TBar
+  {
+      public new class Meta : TBar.Meta { public override int ClassID() => 131089; }
+      ...
+  }
+  ```
+
+- An abstract class method (11 declarations in 6 classes) becomes a `virtual` method of `Meta`
+  whose body raises `EAbstractError`, as a Delphi abstract call does, so that every `Meta` type is
+  concrete and registrable. Abstract instance methods follow the same rule (below, Methods).
+- A class that introduces a virtual class method also gets a typed accessor,
+  `public new Meta ClassType => (Meta)base.ClassType;`, so that calls on descendants resolve
+  against the `Meta` type that declares the method. 26 classes.
+- A class of the closure that introduces a virtual constructor gets, on its `Meta`, a factory
+  with the constructor's signature: `public TFoo Create(args) { var o = (TFoo)NewInstance(); try
+  { o.Create__init(args); } catch { o.Destroy(); throw; } return o; }`. The factory is not
+  virtual: `Create__init` is, and `NewInstance` makes the right class. 7 of the 10 virtual
+  constructors are in the closure. The 3 outside it (`TGroupDefenseSelector`,
+  `TTokenPackageDistributer`, `TTokenControl`) are never called through a class reference and get
+  no factory. A `class of` target below the introducing class gets a forwarding factory with its
+  own type, `public new TAIPlayerAction Create(TEObject owner) => (TAIPlayerAction)base.Create(owner);`,
+  so that the 7 assignments of a factory result to the target type need no cast at the call site.
+- The `Meta` of a `class of` target gets `public static new Meta Of<T>() where T : TFoo =>
+  (Meta)MetaRegistry.Of(typeof(T))`, the spelling of a class used as a value of that type. 15 of
+  them, one per `class of` type, which is why every target needs its own `Meta` type: generic
+  constraints do not overload.
+- One generated file, `src/Generated/MetaRegistry.cs`, registers every class of the closure in
+  inheritance order: `MetaRegistry.Register(typeof(TFoo), new TFoo.Meta(), () => new TFoo(),
+  instanceSize)`, with the nearest ancestor's `Meta` type when `TFoo` has none of its own, and the
+  instance size from the layout model (`FieldClass.InstanceSize` in `THSEngine` reads it through a
+  `TEObjectClass`, so it is a base `Meta` property). The registry is filled by a module initializer
+  before any generated static field runs, because the 11 `TEObjectClass` typed constants of
+  `inc/Combat.pas` evaluate `Of<T>()` during type initialization, and it keeps one instance per
+  type, so that list identity and event removal hold.
+- A class outside the closure that declares class methods (4, the `TRegistrator` classes of
+  `BehaviorAG`, `City`, `IndependentAG` and `MainAG`, whose `MapLoaded` is only used as an event
+  handler) gets plain C# static methods, and a reference to one is a static method group.
+
+Nothing else is emitted per class: no per-class `Class` static, no per-class `ClassType`
+override. The shim's `TObject.ClassType` is one implementation, `MetaRegistry.Of(GetType())`
+(`rtl-shim.md` 1.1), and `Meta` carries `Type`, `ClassName`, `ClassParent`, `InheritsFrom`,
+`NewInstance` (virtual, for the `TMapField` pool of rule A3) and the factory.
+
+The mappings:
+
+| Delphi | C# |
+|---|---|
+| a variable, field, parameter or result of type `TFooClass` | `TFoo.Meta` |
+| `TFoo` as a value of type `TFooClass` (registrations, lists, assignments, results, typed constants: 691 of the 774 class-value sites) | `TFoo.Meta.Of<TBar>()` where `TBar` is the class named |
+| `TFoo` as a value of type `TClass` or as a filter argument (`FindNoneTransparentHS`, `FindOwnedHS`, `FindHS`, `FindClass`, 83 sites) | `typeof(TFoo)` |
+| `TFoo` passed to `Application.CreateForm` (77) and the VCL `RegisterClass` (1) | the module loader of `ui-layout.md`, by `Type` |
+| a `TClass` variable, result or parameter | `Type`, except where its value is cast to a project class reference or constructed (the `Editor` result family of `TEObject`, `Pad`, `PrdPlace`, `Bridge`, `Road` consumed by `ItemGrid.pas:262`, and `VerifyEObjectClass`), which is typed as the `Meta` of the target it is cast to; the report lists each |
+| `C = nil`, `C <> nil` on a class reference (24 sites) | `C == null`, `C != null` |
+| `Obj.Bar(...)`, `Bar(...)` inside an instance method, `with Obj do Bar(...)`, `Bar` a virtual class method (222 sites) | `Obj.ClassType.Bar(...)`, `ClassType.Bar(...)`, through the typed accessor of the introducing class |
+| `C.Bar(...)` on a class reference (30 sites) | `C.Bar(...)` |
+| `TFoo.Bar(...)` by class name (none in the set) | `TFoo.Meta.Of<TFoo>().Bar(...)` |
+| `C.Create(args)` with a virtual constructor (30 sites), `TEObjectClass(ClassType).Create(nil)` | `C.Create(args)`, `ClassType.Create(null)`, the `Meta` factory |
+| `C.Create(args)` with a static constructor (1 site) | `((TFoo)C.NewInstance())` followed by the static body method |
+| `TFooClass(X)` between class references | a cast between `Meta` types |
+| `obj is TFoo` (380) | `obj is TFoo` |
+| `obj.ClassType = TFoo`, `C = TFoo`, `C <> TEObject` | `obj.GetType() == typeof(TFoo)`, `C.Type == typeof(TFoo)` |
+| `C.InheritsFrom(AClass)` (1, `GetDescendantClasses`, `AClass: TClass`) | `C.InheritsFrom(AClass)` with `AClass` a `Type` |
+| `ClassName` (23), `C.ClassName` | `TObject.ClassNameOf(GetType())`, `C.ClassName`: the Delphi spelling, which the shim recovers from the C# name (section 3, spelling) |
+| `C.ClassParent` (1, the editor walk in `TEObject.Editor`) | `C.ClassParent`, a `Meta` |
+| `InstanceSize` (1, `FieldClass.InstanceSize` in `THSEngine`, through a `TEObjectClass`) | `C.InstanceSize`, the base `Meta` property filled from the layout model at registration |
+| `is` against a class held in a variable (4) | `type.IsInstanceOfType(obj)` |
+
+Two dependencies on rule N3. Three calls `TP2AbilityCalls(Group).GroupBehavior` (`Unit.PAS:1840,
+1854, 1881`) go through a synthetic view class over a `Group` declared `TUnitUserList` and assigned
+from `FGroup: TAIGroup`, and the slot resolves to `TAIGroup.Behavior`, a class method introduced
+below the local's static type: N3 narrows the receiver by its assignment provenance and the call
+becomes `((TAIGroup)Group).ClassType.Behavior()`. One call `TP2LegacyBehaviorCalls(Legacy).Behavior`
+(`Unit.PAS:1776`) resolves by slot to `TGroupControl.Behavior`, an instance method, and becomes an
+instance call. N3 runs before the metaclass closure is computed, so the two synthetic view classes
+are not in it. `ClassParent` on `Meta` is defined for the registered classes and their parents
+down to the closure root (the one use, the editor walk, stops at `TEObject`), not for `TObject`.
+
+The separation matters for the second stage: `Type` uses need no rewrite, and the `Meta` objects
+are retired in one pass (`../milestones.md` 9.4) by moving the few class-side behaviors to generics
+with static abstract interface members or to the engine's class registry.
 
 Constructors. A Delphi constructor is a method that runs on a fresh zeroed instance, with virtual
 dispatch when declared `virtual` (10 in the set), and it destroys the instance when it raises. The
@@ -282,10 +501,14 @@ body, and a factory:
   of the same name hides nothing. `inherited Create(args)` in a body becomes the parent's body
   method. A constructor overridden with `override` overrides the body method.
 - The static factory `public static TFoo Create(args)` does `var o = new TFoo(); try {
-  o.Create__init(args); } catch { o.Destroy(); throw; } return o;`.
-- A virtual constructor also gets a `Meta` factory, `public virtual TFoo Create(args)`, that calls
-  `NewInstance()` and the virtual body method. `TEObjectClass(ClassType).Create(nil)` becomes
-  `((TEObject.Meta)ClassType).Create(null)` and creates the dynamic class, as Delphi does.
+  o.Create__init(args); } catch { o.Destroy(); throw; } return o;`. It is emitted on every class
+  that a constructor call names, not only on the classes that declare a constructor: a call
+  `TNewCombatRoundCA.Create` (`Combat.pas:6172`) on a class that inherits its constructor must
+  allocate `TNewCombatRoundCA`, where an inherited C# static allocates the ancestor. The report
+  lists the classes that get a factory this way.
+- A virtual constructor of a class in the metaclass closure also gets the `Meta` factory of the
+  emission list above, and `TEObjectClass(ClassType).Create(nil)` becomes
+  `ClassType.Create(null)`, which creates the dynamic class, as Delphi does.
 - A static constructor called through a class reference (`AClass.Create`, Delphi allocates the
   referenced class and runs the static body) becomes `(TFoo)C.NewInstance()` followed by the body
   method.
@@ -301,8 +524,11 @@ once no reference remains. Code that reads an object after `Free` behaves as if 
 alive, where Delphi gives undefined behavior. The report lists every class whose destructor does
 anything other than free owned objects and call `inherited`, for review.
 
-Methods. `virtual`, `override` and `abstract` map one to one. `dynamic` (9 uses, in units outside
-the set except zlib) maps to `virtual`. A `message` method (none outside the rewritten units and
+Methods. `virtual` and `override` map one to one. `abstract` (450 declarations) becomes a
+`virtual` method whose body raises the shim's `EAbstractError`, because Delphi instantiates a class
+with abstract methods and raises only when one is called, and the engine's class registry
+constructs through class references, which a C# `abstract` class refuses.
+`dynamic` (9 uses, in units outside the set except zlib) maps to `virtual`. A `message` method (none outside the rewritten units and
 the design-time units) is an error. `inherited;` without a name calls the parent's method of the
 same name with the same arguments, and emits nothing when no parent implements it, as in Delphi.
 A method body that is only inline assembly is an error that an override must resolve. The 25 such
@@ -604,17 +830,27 @@ set uses and reports everything else:
   `P = Ptr<T>.Alloc(n)` and `P = P.Realloc(n)`. The size expression must be a constant or a product
   with `SizeOf(T)`, else the construct is an error. `FreeMem(P)` becomes `P = default`.
 - `New(P)` and `Dispose(P)` (14 and 10 uses) become `P = Ptr<T>.Alloc(1)` and `P = default`.
-- `@V` where `V` is an array element or a variable of element type becomes `Ptr<T>.To(array,
-  index)` or a pointer to a one-element box, which the resolver can only build when `V` is an array
-  element or a field of a boxed record. `@V` for a `var` argument to a shim routine with a known
-  mapping is handled by that mapping. Other `@V` uses are errors.
+- `@V` where `V` is an array element becomes `Ptr<T>.To(array, index)`. `@V` where `V` is a
+  local or parameter record whose address escapes makes `V` a cell (section 4.3, addresses of
+  records). `@V` for a `var` argument to a shim routine with a known mapping is handled by that
+  mapping. Other `@V` uses are errors.
 - `Move(Src, Dst, n * SizeOf(T))` where both are elements of `Ptr<T>` or arrays of `T` becomes
-  `Ptr<T>.Copy(src, dst, n)`. `Move` on two records of the same type with `SizeOf` becomes an
-  assignment. `FillChar(X, SizeOf(X), 0)` becomes `X = default` for a record or `Array.Fill`
-  for an array. Other `Move` and `FillChar` forms are errors.
+  `Ptr<T>.Copy(src, dst, n)`, a typed copy that is right for managed element types too (the hash
+  item moves of `HashTab.PAS:33` and `HashTabU.pas:133`). `Move` on two records of the same type
+  with `SizeOf` becomes an assignment. `FillChar(X, SizeOf(X), 0)` becomes `X = default` for a
+  record or `Array.Fill` for an array. A literal size equal to the type's `SizeOf` counts as
+  `SizeOf` (`FillChar(Values, 20, 0)` on `TAbilityDamageValues`, 3 sites), and the range forms
+  `FillChar(P^[i], (n - i) * SizeOf(T), 0)` and `Move(P^[i], P^[j], k * SizeOf(T))` become
+  `Ptr<T>.Fill(P + i, n - i, default)` and `Ptr<T>.Copy(P + i, P + j, k)` (the `TMeleeStrike`
+  suffix reset and the `TSortItem` shifts). Other `Move` and `FillChar` forms are errors, and no
+  form ever copies a managed record as bytes.
 - `TList.List^[I]` (224 uses) becomes `List.List[I]`, the shim's raw array of the list.
 - `PChar` becomes `Ptr<byte>` as above.
-- `Pointer` (untyped) becomes `object`. A cast from `object` to a `Ptr<T>` is an error.
+- `Pointer` (untyped) becomes `object`. A `Ptr<T>` stored where the source stored a pointer as
+  `Pointer`, `TObject` or `Integer` is boxed (`P.Box()`), and the cast back, `PRec(X)` or
+  `TRec(Pointer(X)^)`, is `Ptr<T>.Unbox(X)`, which throws when `X` holds anything else (section
+  4.3, addresses of records, forms 3 and 5). A cast from `object` to `Ptr<T>` with no pairing
+  producer is an error.
 
 The `rwData(var Buf; Size; id)` call of the storage stream takes `ref T` overloads for unmanaged
 `T` and a `Ptr<byte>` overload. The emitter picks the overload from the argument's type. The 146
@@ -633,7 +869,7 @@ cleanup of the recovery source, if the user asks the recovery session for one.
 |---|---|---|
 | N1 | A pointer-view constant, `Name: PType = @Target` (143 [139]: 53 object cells such as `WorldMap: PAoWHSMap = @AoWE.AoWHSMap`, 18 value cells, 7 data tables, 65 resource strings; 727 dereferences) | every `Name^` becomes `Target`. For a resource string, `Name^` is the resource string. A use of `Name` as a pointer value is an error |
 | N2 | A pointer variable assigned the address of one global in one place and dereferenced elsewhere, `RandomSeed: ^Integer` pointing at `RandSeed` | the same fold. The assignment is removed |
-| N3 | A layout view (378 uses: 357 AoWEPACK, 14 SoundP, 6 Network, 1 Engine), in three forms. `TRawObject(Pointer(Obj)^).Fields[n div 4]` (162). A view record cast, `TRec(Pointer(Obj)^).Field` or `PRec(Pointer(Obj))^.Field`, where `TRec` is a record of padding and named fields (87). A view class, a class declaration that copies part of a real class's layout, such as `TP2*Fields` or `TENodeView`, cast over a real object (129, of which 47 are method calls through the view's virtual method table). 97 view types are declared, 30 unused | compute the byte offset of the member in the view with the layout model, take the run-time class of `Obj`, find the field at that offset in `data/class-layouts.json`, and emit `Obj.<FieldName>`, with the field made `internal` when it is private or in another unit. A method call through a view class resolves by virtual slot: the slot index of the view's method maps to the same slot of the run-time class in `classes.json`, and the call becomes a plain virtual call. Resolution is by offset, never by the view's member name: 84 views name a member differently from the source field, and one is a real swap (`TLeaderSetupView`, `AoWSetup.pas:214`: its `OriginalLeader` is `FLeader` at `$C` and its `Leader` is `FOriginalLeader` at `$14`). The run-time class is the static type of `Obj`, except where the catalogue marks the use `unresolved` and gives a `recommended` class, which is then used: 13 untyped bases (10 `GetPlayersABI(..)` results and 2 reads nested in them are `TPlayer`, one `Control: TObject` is `TPlayerMagicControl`), 3 `TArmyHS(X).FArmy` reads (`MapCtrl.pas:315, 329, 342`), and 18 record views, 10 of them `Info.MapField` at `$18`, past the end of `TMapField`, which are `TAoWMapField.FFieldFlags`. The weakest recommendation is `TUnitSpell` for spells 17 and 56. The transpiler computes every resolution itself and compares it with the catalogue entry at the same file and line; a disagreement is an error |
+| N3 | A layout view (378 uses: 357 AoWEPACK, 14 SoundP, 6 Network, 1 Engine), in three forms. `TRawObject(Pointer(Obj)^).Fields[n div 4]` (162). A view record cast, `TRec(Pointer(Obj)^).Field` or `PRec(Pointer(Obj))^.Field`, where `TRec` is a record of padding and named fields (87). A view class, a class declaration that copies part of a real class's layout, such as `TP2*Fields` or `TENodeView`, cast over a real object (129, of which 47 are method calls through the view's virtual method table). 97 view types are declared, 30 unused | compute the byte offset of the member in the view with the layout model, take the run-time class of `Obj`, find the field at that offset in `data/class-layouts.json`, and emit `Obj.<FieldName>`, with the field made `internal` when it is private or in another unit. A method call through a view class resolves by virtual slot: the slot index of the view's method maps to the same slot of the run-time class in `classes.json`, and the call becomes a plain virtual call. Resolution is by offset, never by the view's member name: 84 views name a member differently from the source field, and one is a real swap (`TLeaderSetupView`, `AoWSetup.pas:214`: its `OriginalLeader` is `FLeader` at `$C` and its `Leader` is `FOriginalLeader` at `$14`). The run-time class is the static type of `Obj`, except where the catalogue marks the use `unresolved` and gives a `recommended` class, which is then used, and except for a method view whose slot the static type does not have, where the resolver narrows the receiver by the assignment that fed it (the three `TP2AbilityCalls(Group)` calls of `Unit.PAS`, section 4.4) and a slot that resolves to an instance method makes the call an instance call (`TP2LegacyBehaviorCalls(Legacy).Behavior`): 13 untyped bases (10 `GetPlayersABI(..)` results and 2 reads nested in them are `TPlayer`, one `Control: TObject` is `TPlayerMagicControl`), 3 `TArmyHS(X).FArmy` reads (`MapCtrl.pas:315, 329, 342`), and 18 record views, 10 of them `Info.MapField` at `$18`, past the end of `TMapField`, which are `TAoWMapField.FFieldFlags`. The weakest recommendation is `TUnitSpell` for spells 17 and 56. The transpiler computes every resolution itself and compares it with the catalogue entry at the same file and line; a disagreement is an error |
 | N4 | An accessor class `TXAccess = class(TX);` used only in casts | the casts become plain references to the `TX` object, and the members reached become `internal`. An empty class used anywhere else than a cast stays a class |
 | N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y` |
 | N6 | `Integer(Pointer(@FX)^)` and other reinterpretations of a field group as one integer (11 uses) | error, override required. The report lists them |
@@ -698,6 +934,8 @@ Each entry names the rule and the probe (section 11) that proves it.
 19. `inherited;` with no parent implementation is a no-op. Probe `classes`.
 20. Virtual class methods called from an instance method dispatch on the dynamic class. Probe
     `classes`.
+21. A class with abstract methods can be instantiated, and calling one raises `EAbstractError`.
+    Probe `classes`.
 
 ## 8. Overrides
 
@@ -792,15 +1030,17 @@ that contain the construct, so they are approximate.
 | `virtual` | 1,668 | 4.4 |
 | `abstract` | 450 | 4.4 |
 | `inherited` | 2,766 | 4.4 |
-| class methods | 1,391 declarations, 30 virtual | 4.4, metaclass |
-| `class of` types | 15 | 4.4 |
-| virtual constructors | 10 | 4.4 |
+| class methods | 702 declarations, 39 virtual introductions (`data/metaclass/`) | 4.4, metaclass |
+| `class of` types | 15, all used as values | 4.4 |
+| virtual constructors | 10, 31 constructor calls through class references | 4.4 |
+| virtual class method calls on an instance's run-time class | 222 | 4.4 |
+| `is` | 384 | 4.4 |
 | properties | 1,300, 46 indexed, 16 default array | 4.5 |
 | `published` | 1,114 | 3 |
 | method pointer types | 89 | 4.6 |
 | enumerations | about 900 | 4.2 |
 | set types | 140, largest base 0..31 | 4.2 |
-| records | 173, 56 packed, 2 variant in the set | 4.3 |
+| records | 155, 54 packed, 8 variant; 51 address sites on 15 types, 437 record casts (`data/records/`) | 4.3 |
 | static array types | 40 | 4.3 |
 | open array parameters | 33, 7 `array of const` | 4.3 |
 | pointer types | 169 | 5.8 |

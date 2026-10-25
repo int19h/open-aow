@@ -10,6 +10,12 @@ the oracle: the reference whose behavior the port must reproduce.
 This document records the decisions made so far and the questions that are still open. It is a
 living document. Update it when a decision changes.
 
+The port has two stages with two styles of code. The first stage translates the recovered source
+mechanically, by a tool, so that no implementer spends time on a rewrite a program can do, and
+proves the result against the oracle. The second stage rewrites that code into idiomatic C#, one
+piece at a time, with the oracle as the safety net. Section 3 covers the first stage and section 9
+the second. Everything the first stage builds for its own needs is temporary.
+
 ## 1. What the source looks like
 
 The recovered source is about 340,000 lines of Pascal in 16 packages. The numbers below come from a
@@ -58,15 +64,31 @@ dictionaries (`.mld`). `Release/` and `Scenario/` hold maps and campaign data. `
 
 ## 2. Language: C#
 
-The port is written in C# on .NET 8 or later.
+The port is written in C# 15 on .NET 11. SDK 11.0.100-rc.3 is installed since 2026-10-25 and the
+release is weeks away. C# 15 is the default language version for `net11.0` projects, and the
+features the port uses (`union` types, `closed` hierarchies, collection expression arguments,
+labeled `break` and `continue`, extension indexers, static abstract interface members) need no
+preview flag. `tests/toolchain/cs15probe` compiles and runs each of them and is the first thing to
+run after an SDK update. The memory safety preview is not used.
 
 Why C#. It maps onto Delphi 3 more closely than any other broadly supported language. Classes,
 virtual methods, properties, interfaces and `try/finally/except` map directly. Method pointers
-become delegates. Sets become flags enums or a bitset struct. Records become structs. Pointers
-become `unsafe` code or `Span<T>`. The RTTI-driven persistence becomes attributes with reflection
-or a source generator. It runs on Windows,
-macOS, Linux, Android and iOS. It has a large contributor pool and the strongest modding ecosystem
-of any managed language.
+become delegates. Sets become a bitset struct. Records become value types with `ref` access where
+Delphi passed them by reference. The RTTI-driven persistence is explicit code in the source and
+stays explicit. It runs on Windows, macOS, Linux, Android and iOS. It has a large contributor pool
+and the strongest modding ecosystem of any managed language.
+
+Two styles. Generated code (section 3) is a calque of the Delphi: 1-based byte strings, `Ptr<T>`
+over arrays, metaclass objects, split constructors, `with` blocks as scoped locals. That is accepted
+because it is temporary, with one rule: the scaffolding it needs lives in shim types, base classes
+and extension methods, never as a pattern woven through the game logic, so that a later rewrite of
+a method replaces the method and leaves nothing behind. Hand-written code, which is the rewritten
+layers of section 3, every override and every refactoring pass of section 9, uses the current
+language: `record` and `record struct`, pattern matching and `switch` expressions, collection
+expressions and spreads, string interpolation, `List<T>` and `Dictionary<K, V>`, `Span<T>`, `ref`
+locals and returns, inline arrays and `ref struct` where performance asks for them, `union` types
+and `closed` hierarchies for tagged data, and generics with static abstract interface members where
+the Delphi code dispatched on class references.
 
 Alternatives considered:
 
@@ -80,14 +102,24 @@ Alternatives considered:
 
 Two Delphi features need a design, not a mapping:
 
-1. Class references (`class of T`) with virtual class methods. Each game class gets one metaclass
-   object (a singleton descriptor). A virtual class method becomes a virtual instance method on the
-   descriptor. A variable of type `TFooClass` becomes a reference to a descriptor. `ClassType`,
-   `InheritsFrom` and `NewInstance` live on the descriptor. The engine already has a class registry
-   for persistence class ids, so this fits.
-2. Variant records. The ones used as real byte unions become structs with explicit layout. The ones
-   used as tagged unions by convention become ordinary structs or classes. The transpiler needs a
-   per-type decision list for this.
+1. Class references (`class of T`) with virtual class methods. Questions about a run-time class
+   (`is`, `ClassName`, equality, `InheritsFrom`) use `System.Type`. Dispatch on a class (virtual
+   class methods, virtual constructors through a class reference, 15 `class of` types) uses a
+   metaclass object that exists only for the classes that need one: 1,014 of 1,307 under the
+   survey of 2026-10-25, almost all through `TEObject.ClassID`, with nothing emitted per class
+   beyond the class methods the source declares (`specs/transpiler.md` 4.4). In Delphi a virtual
+   class method called on an instance dispatches on the instance's run-time class, which the
+   survey found at 222 sites, so instances reach their metaclass through `ClassType`. In the second
+   stage the metaclass objects give way to generics with static abstract interface members or to
+   the engine's own class registry.
+2. Records and variant records. Records are structs (value semantics as in Delphi, `ref` where
+   Delphi passed by reference). The survey of 2026-10-25 (`data/records/`) found 155 record types
+   and 51 address-taking sites on 20 of them: 17 are synchronous aliases that live for one call
+   and become cells, the rest are array elements, allocated blocks and views, each with a
+   mechanical mapping (`specs/transpiler.md` 4.3). Of the eight variant records, six are byte unions and become
+   explicit-layout structs. `TEMsg` and `TShowInfo` overlay a reference with an integer, which the
+   survey showed is a real pun in `TEMsg`, so that slot becomes the shim's integer-or-reference
+   value. In the second stage, tagged unions become `union` types or `closed` hierarchies.
 
 ## 3. Transpile strategy
 
@@ -95,14 +127,19 @@ We write our own transpiler. Delphi 3 has a small grammar: no generics, no anony
 overloading. Every recovered unit parses with Free Pascal in Delphi mode, so a hand-written parser
 is a bounded job. Commercial converters produce code that needs a rewrite anyway.
 
-The transpile is regenerable. The recovery in `aow` is still being refined, so the port must be able
-to take an updated source and produce updated C# at any time. The rules are:
+The transpile is regenerable while generated code is the source of truth, and that ends when the
+oracle passes. The recovery is at 96 percent byte matching, the remaining functions were verified
+by hand, by automated computer-only games and by play, and only minor bugs are expected to remain.
+So the port does not wait for upstream to freeze: it translates the source as it stands when the
+transpiler is ready. The rules are:
 
-- Generated C# is never edited by hand. A hand-written override replaces a generated unit, class or
-  method and lives in a separate file, in the pattern the `aow` repository uses for `src/model/hand`.
-- Nobody refactors generated output until the upstream source is frozen. Refactoring happens on the
-  C# side after the oracle tests pass, and it moves code out of the generated set into hand-written
-  code one piece at a time.
+- Until milestone 2.4 (`milestones.md`, the headless oracle passes), generated C# is never edited by
+  hand. A hand-written override replaces a generated unit, class or method and lives in a separate
+  file, in the pattern the `aow` repository uses for `src/model/hand`. An upstream change is taken
+  by regenerating.
+- After that, the C# tree is the source of truth and the second stage (section 9) begins. An
+  upstream change is ported by hand: the transpiler is run on the changed unit and its output is the
+  reference diff, never a replacement of the tree. The transpiler stays in the repository for that.
 - The transpiler lives in this repository, with the Delphi source as an input path, and runs in one
   command.
 
@@ -251,7 +288,22 @@ The `aow` repository already has the most valuable test asset: seeded computer-o
 per-turn saves are compared byte for byte between the original and the rebuilt game
 (`tools/playtest.py` and its module docstring). The port inherits that as its oracle. The seeded
 inputs and the original's per-day saves are kept under `D:\Build\oracle` (`specs/testing.md` 3.1).
-Save and map compatibility is a requirement anyway, so the oracle costs little extra.
+
+Compatibility with the original's files is one way. The port reads every original format (saves,
+maps, scenario sets, campaigns, user lists), because the oracle's inputs and the shipped content
+are in them. It is not required to write files the original loads, and the second stage is free to
+adopt its own save and map formats behind converting readers for the original ones (section 9). In
+the first stage the persistence code is transpiled and writes the original format anyway, which
+makes the comparison cheap.
+
+Comparison goes through the port's own comparator (`specs/testing.md` 3.2), never through raw
+bytes. It inflates both sides, so the compression stream is free. It takes a list of masked fields
+for the floating point allowance below. It takes a list of the properties whose children are
+written in hash table order, and compares those as sets. In the first stage that list is empty,
+because the hash table code is transpiled and iterates as the original did. When the second stage
+replaces a hash table, the oracle shows whether any game logic depended on its order: if it did,
+the state diverges, and the rewrite keeps the order. If only the save order changed, the property
+goes on the list.
 
 Milestones, each with its measure:
 
@@ -264,8 +316,8 @@ Milestones, each with its measure:
 3. Rendering. The real platform layer draws frames that equal the Delphi build's frames pixel for
    pixel, for a fixed set of scenes.
 4. Playable game. A player completes a scenario with saves, loads, combat, diplomacy and spells.
-5. Maps. The port reads every shipped map and campaign file, and a map saved through the port equals
-   the original bytes.
+5. Maps. The port reads every shipped map and campaign file, and a map loaded and saved through
+   the port holds the same content under the comparator.
 
 Floating point is not held to bit equality. The rules use floating point in the AI, combat and city
 code, and the port computes it in `double` where Delphi used x87 extended precision. A save that
@@ -304,11 +356,15 @@ path, and C# assemblies stay desktop only.
 
 ## 7. Open questions
 
-1. Strings. Whether the shim keeps a 1-based byte string type throughout the rules, or converts
-   the rules to .NET strings and keeps bytes only in the data layer. The first is safer for the
-   oracle, the second is cleaner C#.
-2. Hash table iteration order. The engine's `THashList` classes determine iteration order in places.
-   The shim must reproduce the original order where the rules iterate, or the saves differ.
+1. Strings. The first stage keeps the 1-based byte string type throughout the rules, since that
+   is what the oracle and the data files assume. The second stage's destination is .NET strings
+   with code page 1252 bytes only at the data and font boundaries. Open: when that conversion
+   happens (one pass over the whole tree, or unit by unit as each is rewritten) and how the
+   comparator checks it.
+2. Hash table iteration order. Resolved on 2026-10-25. In the first stage the `THashList` classes
+   are transpiled, so the order is the original's. In the second stage the comparator compares
+   hash-ordered children as sets (section 5), and the oracle tells which orders game logic depends
+   on.
 3. Multilizer dictionaries. Decided on 2026-10-25 (`specs/localization.md`): the format is
    reversed (`data/localization/mld-format.md`, parser in `tools/localization/`), the port writes
    the dictionary and translator classes itself in place of the stub units, and the content analysis
@@ -320,10 +376,9 @@ path, and C# assemblies stay desktop only.
    through libopenmpt behind a second `TSoundSystem` backend that keeps the Galaxy backend's
    volume, pan, fade and loop semantics. Music rendering is not held to the oracle; it affects
    neither saves nor frames.
-5. zlib output. The save container holds zlib-compressed streams. The byte for byte comparison of
-   saves needs the same deflate output as the original zlib build, which the .NET deflate stream
-   does not promise. The options are a managed port of the original zlib, or a comparison on the
-   decompressed payloads.
+5. zlib output. Resolved on 2026-10-25: the comparator compares inflated payloads
+   (`specs/persistence.md` 1.1, `specs/testing.md` 3.2). The port uses the .NET zlib stream for
+   both directions, and the compressed bytes are never compared.
 6. Form file conversion. Decided on 2026-10-25 (`specs/ui-layout.md`): the 79 text form files
    stay data and are loaded at startup by a reader that reproduces the VCL streaming rules,
    including the reference fixup order that decides window stacking. Handler and property binding
@@ -331,18 +386,23 @@ path, and C# assemblies stay desktop only.
    reflection. The text files in `data/forms` are the source: the recovery confirmed that they are
    complete (79 for `AoW.exe`, 84 for `AoWEd.exe`), keep every property with binary ones as hex
    blocks, and convert back byte-identically for all 79 game forms.
-7. Play-by-email. Whether the SMTP and POP3 game exchange stays in scope. If it does, the internet
-   suite is replaced with the .NET mail classes behind the two dialogs. Until then the `ims`
-   components get stand-ins that load from the form files and fail every operation
-   (`specs/platform.md` section 9).
-8. Editor scope. Whether the map editor is ported at all, and whether it keeps the VCL form layout
-   or moves onto the game's UI toolkit.
-9. Networking. Whether multiplayer is in scope for the first release, and what the transport is.
-   The engine's transport hook is two calls, `TRemotePCC.OnSendData` and `ReceiveDataPackage`,
-   wired by `aowSetupEvents` to the DirectPlay component, which only `AoW.exe` uses (68 sites);
-   the port ships a stand-in that reports no connections until `specs/networking.md` exists.
-10. Mobile input. The UI assumes a mouse and an 800 by 600 display. Touch and small screens need a
-    UI pass that is outside the faithful port.
+7. Play-by-email. Decided on 2026-10-25: wanted, and out of scope for the first release. The
+   `ims` components get stand-ins that load from the form files and fail every operation
+   (`specs/platform.md` section 9). When it comes into scope the internet suite is replaced with
+   the .NET mail classes behind the two dialogs.
+8. Editor. Decided on 2026-10-25: wanted, and out of scope for the first release. Whether it keeps
+   the VCL form layout or moves onto the game's UI toolkit is decided when it is scheduled.
+9. Networking. Decided on 2026-10-25: multiplayer is wanted, and out of scope for the first
+   release. The engine's transport hook is two calls, `TRemotePCC.OnSendData` and
+   `ReceiveDataPackage`, wired by `aowSetupEvents` to the DirectPlay component, which only
+   `AoW.exe` uses (68 sites); the port ships a stand-in that reports no connections until
+   `specs/networking.md` exists. The transport will be sockets.
+10. Mobile input. Later, after the desktop release. What is known: the UI's minimum is 640 by 480
+    (`General.Manager` and `DisplayResizeBackSurface` clamp to it) and much of it reflows at other
+    sizes, so a touch pass salvages most screens. The input model is a mouse, but the only drag
+    gesture is multi-unit selection, which is rare, and the right button is rare too (inverting a
+    unit's selection in a party is the known use). A tap maps to a left click, tap and hold to a
+    right click, and the drag selection gets its own gesture or a button.
 11. Idiom cleanup upstream. The decompile session confirmed on 2026-10-24 that replacing the raw
     layout views and accessor classes with plain field access compiles to identical code, while
     the pointer views to globals and the shape casts reproduce the original code and cannot be
@@ -354,6 +414,30 @@ path, and C# assemblies stay desktop only.
 12. Unit initialization order. Resolved on 2026-10-25: `data/initialization-order.json` in the
     `aow` repository holds the tables of both executables and the 21 packages they load, with four
     unresolved entries in `AoW.exe` that lie outside the transpile set (`specs/transpiler.md` 4.8).
+
+## 9. From calque to idiomatic C#
+
+The second stage starts when milestone 2.4 passes and the C# tree becomes the source of truth
+(section 3). Its rules:
+
+- One piece at a time, with the oracle run after each. A piece is a unit, a class family or a
+  shim type, chosen by payoff: what the next hand-written work has to read and touch comes first.
+- The scaffolding of the first stage is retired type by type, each retirement being its own pass
+  over the tree: `AnsiString` to `string` with bytes at the data and font boundaries (open question
+  1), `Ptr<T>` to arrays and spans, the split constructors to constructors, metaclass objects to
+  generics with static abstract interface members or to the engine's own class registry, `with`
+  blocks to plain code, the shim's `TList` and `TStringList` to `List<T>` and `Dictionary<K, V>`,
+  explicit-layout records to plain `record struct` types with explicit serialization.
+- Variant records that are tagged unions by convention become `closed` record hierarchies or
+  `union` types. Byte puns stay explicit-layout structs. Closed class families of the rules (the
+  spell, ability and token kinds) become `closed` hierarchies where that makes a `switch`
+  exhaustive.
+- Formats are free. Once the readers for the original formats exist as converting adapters, the
+  port's own save and map formats can change, and the comparator (section 5) reads both. Nothing
+  requires that the original loads a file the port wrote.
+- Performance work comes after the shape is right. The first stage is allowed to be slower than the
+  original (deep copies, boxed pointers, byte strings). The second stage measures before it
+  optimizes, and uses `Span<T>`, `ref` and inline arrays where the measurement points.
 
 ## 8. Repository layout
 

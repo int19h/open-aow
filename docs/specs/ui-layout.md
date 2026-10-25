@@ -257,7 +257,11 @@ that many handlers ignore `Sender` and the recovery declared them without it
 (`procedure TArmyInfoDlg.CloseBtnClick;` bound to an `OnClick`, marked `{ draft }` because the
 parameter list is inferred). Under the register convention an extra argument is harmless at run
 time, so the original worked. The factory therefore adapts: when the method's parameter list is a
-prefix of the event's, the generated delegate drops the trailing arguments; when the method takes
+prefix of the event's, the generated delegate drops the trailing arguments. A second adaptation
+covers the world map events whose `TNotifyEvent` passes the address of a record as `Sender` and
+whose handlers declare it as `var Info: TMapChangedInfo` or `var Info: TShowMessageInfo`
+(`aowMapEvents.pas:36-40`): the generated delegate unboxes the `PtrBox<T>` and passes
+`ref Ptr<T>.Unbox(Sender).Value` (`transpiler.md` 4.3, addresses of records). When the method takes
 parameters of other types, the transpiler reports an error. A handler name that no method
 matches is a load error (the VCL raised `PropValueError`).
 

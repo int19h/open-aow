@@ -148,10 +148,12 @@ maps it to English unless the system language is one of the four others.
 1. Glyph coverage of the ILB fonts for the accented characters of the four other languages. A scan
    of `FontModule`'s libraries against the characters used in the de, fr, it and es columns settles
    it; characters without glyphs render as 5-pixel gaps (`graphics.md` 6.6).
-2. The recovered source spells one resource string differently from the binary
-   (`P2FireDamageRStr`, "Fire damage" against "Fire Damage" in `AoWEPACK.dpl` and `ResStr.mld`).
-   Lookup is case-sensitive, so the port's transpiled constant would miss its translation. Reported
-   to the recovery; until the source is corrected the transpiler compares every `resourcestring`
-   value of the transpile set with `ResStr.mld`'s source texts and reports a value that differs only
-   in case.
+2. Closed on 2026-10-25 (`../correspondence/2026-10-25c-replies-from-recovery.md`): the recovered
+   source spelled `P2FireDamageRStr` as "Fire damage" against "Fire Damage" in the binary and in
+   `ResStr.mld`, and the recovery corrected it in `aow` commit d898ee4 together with two other
+   string table differences its new `tools/rstrcheck.py` found. The transpiler still compares every
+   `resourcestring` value of the transpile set with `ResStr.mld`'s source texts and reports a value
+   that differs only in case, because the dictionary is a second source the recovery's check does
+   not read. Three `AoWEPACK` strings (`CoPublishedByRStr`, `EuropeRStr`, `NorthAmericaRStr`) are
+   NUL-filled in the original and never match in either build.
 3. The automatic language value's mapping from the host locale.

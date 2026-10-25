@@ -26,7 +26,9 @@ The game inflates with zlib 1.0.4 linked into Enginep.dpl and deflates with leve
 The port uses `System.IO.Compression.ZLibStream` for both directions. The inflated bytes are what
 the game reads, so the oracle comparison of saves is a comparison of inflated payloads plus the
 five header bytes, never of compressed bytes (`testing.md`). Any zlib encoder produces a stream the
-original game inflates, so saves written by the port load in the original game.
+original game inflates, so saves written by the first stage load in the original game. That is a
+fact, not a requirement: compatibility is one way (`../design.md` section 5), the port must read
+the original's files and is free to write its own formats in the second stage.
 
 ### 1.2 Inflated payload of a map or save
 
@@ -112,6 +114,8 @@ after one load and save.
 
 ## 2. What the port must preserve
 
+In the first stage, while the persistence code is transpiled and the round trip is the measure:
+
 1. The byte layout of every value above. The storage stream code is transpiled, so this holds if
    the shim's `TStream.Read(ref T)` and `Write(in T)` write the Delphi layout of `T`
    (`transpiler.md` 4.3). The types used are `Integer`, `Byte`, `Shortint`, `Word`, `Boolean`,
@@ -184,7 +188,16 @@ minus the UI. The measure is the same byte equality.
 unexplained property ids. The port adds a C# counterpart only if a difference in M1a or M1b needs
 one. Until then the Python tool is the reference reader.
 
-## 5. Open points
+## 5. The second stage
+
+`../design.md` section 9. Once the readers for `.asg`, `.hsm`, `.hss`, `.cam`, `.ahl` and `.ail`
+exist and the comparator compares at model level (`testing.md` 3.2), the port's own save and map
+formats can replace the property tables: the original formats stay as converting readers, the
+shipped maps and campaigns load through them, and nothing requires that the original loads a file
+the port wrote. The explicit-layout records of `transpiler.md` 4.3 exist for `rwData` in the first
+stage and become plain `record struct` types with explicit serialization when the format moves.
+
+## 6. Open points
 
 1. Whether the AoWModel units can be transpiled as they are or need a small adapter for the
    reduced engine's API differences. Decided when M1a starts.

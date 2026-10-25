@@ -25,7 +25,9 @@ implementer.
 | 2.4 | Save comparison against `D:\Build\oracle` with masks | 2.3 | O2 Mountain Clash, then O3 all seven scenarios and 50 turns, O4 the tactical run (`testing.md` 3.4) |
 
 Step 2.4 is the first result that proves the port plays the game the original did. Every
-divergence found here is a transpiler, shim or override bug until shown otherwise.
+divergence found here is a transpiler, shim or override bug until shown otherwise. It is also the
+point where the generated tree stops being regenerated and becomes the source of truth
+(`../design.md` section 3), and where the second stage of section 9 below opens.
 
 ## 3. Graphics
 
@@ -65,8 +67,9 @@ divergence found here is a transpiler, shim or override bug until shown otherwis
 With 2.4, 3.5, 4.3, 5.3 and 6.1 closed, a player starts a scenario and plays it. What remains
 before a release is the content of `../design.md` section 5 milestone 4: saves and loads from the
 file dialog, every dialog opened and closed, combat, diplomacy, spells, the campaign, with the
-frame fixtures grown along the way. Networking, play by e-mail, the editor and mobile are their own
-decisions (`../design.md` open questions 7 to 10).
+frame fixtures grown along the way. Networking, play by e-mail and the editor are wanted and out of
+scope for the first release, so their stand-ins stay. Mobile follows the desktop release
+(`../design.md` open questions 7 to 10).
 
 ## 8. What is parallel
 
@@ -74,3 +77,21 @@ Steps 1.1 and 1.2 start together. After 1.5, the four tracks 2, 3, 4 and 5.1 to 
 and can run as separate implementer sessions; 3.4, 4.3 and 5.3 join them. The oracle work of track
 2 has priority when sessions are limited, because it is the proof that the transpilation is right,
 and everything else builds on that proof.
+
+## 9. The second stage: idiomatic C#
+
+Opens after 2.4 and runs alongside tracks 3 to 6, on the pieces those tracks are not touching.
+The rules are in `../design.md` section 9. The first passes, in order of payoff:
+
+| step | work | done |
+|---|---|---|
+| 9.1 | The comparator learns the hash-ordered properties and the model-level comparison, so that later passes can change save order and format | O2 and O3 still hold with the comparator in model mode |
+| 9.2 | `Ptr<T>` retired from Engine, HSEngine and the rules: arrays, spans and indices in its place | O3 holds; `Ptr<T>` remains only in the graphics and image library code until 9.5 |
+| 9.3 | Split constructors to constructors, `with` blocks to plain code, the override shapes A1 to A3 folded into their classes | O3 holds; `report.md` no longer lists them |
+| 9.4 | Metaclass objects retired: the engine's class registry carries creation by class id, generics with static abstract interface members carry the remaining class-side dispatch | O3 holds; the shim's `Meta` type is deleted |
+| 9.5 | Strings: `AnsiString` to `string` with bytes at the data and font boundaries (`../design.md` open question 1) | O3 holds; the frame fixtures hold |
+| 9.6 | Tagged unions and closed families: `union` and `closed` hierarchies where section 9 of the design names them | O3 holds |
+| 9.7 | The port's own save and map formats behind converting readers, when a pass above wants a format change | the comparator reads both formats; every shipped file loads |
+
+Each step is one or more briefs, each brief one unit or class family, and the oracle runs after
+each brief.
