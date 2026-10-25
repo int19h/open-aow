@@ -231,8 +231,12 @@ ImageLib:
 
 The exact bit handling of the paired paths is read from the assembler, not from a formula, and the
 C# transcription is checked instruction group by instruction group against the listing in
-`GFXE.pas` and `ImageLib.pas` (the recovery transcribed the assembler from the binary, so the
-listing is the original's code).
+`GFXE.pas` and `ImageLib.pas`. The recovery confirmed (reply of 2026-10-25) that these are the
+original authors' assembler (the MMX instructions are `DB`-encoded because Delphi 3 has no MMX
+mnemonics), that `tools/match.py` verified assembler routines byte for byte like every other
+function, and that the per-function status is in `D:\Build\tmp\cx_rva\step10\quiet\<group>.plain.json`;
+a blitter whose status there is not `MATCH` is checked against the Ghidra decompile in
+`data/decomp/<Package>-typed-all/` before it is transcribed.
 
 ### 5.3 Conformance probe
 
@@ -257,9 +261,12 @@ vocabulary. The GOG install holds 538 `.ILB` files, 109 MB, under `Images\`, `In
 ### 6.1 File layout
 
 `TILBHeader` (24 bytes by the layout rules of `transpiler.md` 4.3): `ID: string[4]` (`'ILB'#0`,
-5 bytes, 3 bytes padding), `Version: Single` at offset 8 (shipped files are version 4),
-`HeaderSize` 12, `IndexEnd` 16, `Size` 20. From version 4 the file is header, palette manager,
-image index up to `IndexEnd`, then the discardable data (pixels) up to `Size`. The index is read
+5 bytes, 3 bytes padding), `Version: Single` at offset 8, `HeaderSize` 12, `IndexEnd` 16, `Size`
+20. A scan of the GOG install on 2026-10-25 found 535 files of version 4 with a 24-byte header
+and 3 of version 3 with a 16-byte header and no `IndexEnd` or `Size` (`Images\Effects\ExplSmll.ILB`,
+`FireLg.ILB`, `FireSm.ILB`), so the tests cover both. From version 4 the file is header, palette
+manager, image index up to `IndexEnd`, then the discardable data (pixels) up to `Size`. Version 3
+is header, palette manager, then the images with their pixels inline. The index is read
 into memory in one piece; an entry is `Integer index`, the image record (`ReadImageFromStreamEx`:
 class id, then `ReadImageData`), `Integer reference`, terminated by index `-1`. A reference entry
 has no image of its own and points at another index (fonts use this for shared glyphs). The palette
@@ -492,11 +499,17 @@ interface IDisplayHost {
 The oracle of this layer is the rebuilt game in windowed mode, which draws in `pfRGB555` through
 `TWindows16DC`. `tools/oracle/frames.py` (planned in `testing.md` 4) captures reference frames:
 
-1. Capture point: a debugger breakpoint on `TWindowsDC.BltSurface` (or `TDIB16Surface.BltDC`), where
-   the back surface is complete and the cursor is drawn. The script reads `FBack1`'s bits
-   (`Width`, `Height`, `Pitch`, `FBits` with its bottom-up layout) and writes `frame-<n>.raw` (555
-   words, top-down) with a small JSON of size and frame number. The frame number is
-   `AoWHSMap.Frame` in a game and the display's frame count otherwise.
+1. Capture point: a debugger breakpoint on `TWindowsDC.BltSurface`, where the back surface is
+   complete and the cursor is drawn. The recovery has no frame capture tooling of its own (reply of
+   2026-10-25) and confirmed this is the approach it would take: run the game under cdb on the
+   hidden desktop as `playtest.py` does (the scripts under `D:\Build\oracle\cdb\` show the
+   breakpoint syntax, the module bases and the registry handling), read `FBack1`'s `Width`,
+   `Height`, `Pitch` and `FBits` (bottom-up layout), dump the bits with `.writemem <file> <bits>
+   L<pitch*height>`, and convert to a top-down 555 image outside the game, written as
+   `frame-<n>.raw` with a small JSON of size and frame number. Copying the window with `PrintWindow`
+   or `BitBlt` is not used: on the non-interactive desktop the copy can come back black. The frame
+   number is `AoWHSMap.Frame` in a game and the display's frame count otherwise; a capture can also
+   be conditioned on game state such as `TAoWHSMap.FDay`.
 2. Fixtures: a list in `tests/frames/fixtures.toml`, each with a save or scene, a frame number to
    capture, the window size (640 by 480 unless stated), the registry settings (windowed, detail
    level, no intro), the mouse position (outside the window unless the fixture states one, so that

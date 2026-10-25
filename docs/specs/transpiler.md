@@ -743,10 +743,11 @@ Every other `asm` body is an error that an override must resolve (`TAoWMapField.
 return `True` for player 0; `TBitList.Get` and `Put`; the `Fill*` routines of Engine; the hexagon
 coordinate routines `HXtoH`, `HXtoV`, `HVtoHX`, `HPtoHX`, `HPtoHXs`, `WalkToNextHN` of HSEngine;
 `AlignmentSetToInt` and `AlignmentIntToSet`; the remaining AoWEPACK bodies that are not thunks).
-The report lists every `asm` routine with its rule or its override, and the catalogue
-`data/asm-routines.json` requested from the recovery (file, routine, category, Pascal equivalent)
-is checked against the transpiler's own classification the same way as the other catalogues
-(section 9, item 10). The semantic probe for the hand-written ones is `tests/probes/asm-stubs.pas`:
+The report lists every `asm` routine with its rule or its override, and the port's own catalogue
+`data/asm-routines.json` (file, routine, kind, thunk target, Pascal equivalent, match status,
+origin; built by a survey of the source, the Ghidra decompiles under the recovery's
+`data/decomp/` and its per-function match results) is checked against the transpiler's
+classification the same way as the other catalogues (section 9, item 10). The semantic probe for the hand-written ones is `tests/probes/asm-stubs.pas`:
 it calls each non-thunk routine on a battery of inputs under DCC32 and prints the results, and the
 C# override must print the same.
 
