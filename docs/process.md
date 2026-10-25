@@ -15,9 +15,13 @@ Three parties work on the port:
 - The implementer. GPT Sol-6.1 at high reasoning effort, driven through the `codex` command line
   in non-interactive, resumable sessions. One session per task. It writes the code and the tests
   for one brief and reports back. It does not commit and does not change branches.
-- The recovery session. The "decompile" session of the `aow` project in `C:\git\aow` refines the
-  recovered Delphi source. `D:\git\aow` is a pull of it. Ask that session when the recovered source
-  is unclear.
+- The recovery session. The "decompile" session of the `aow` project in `C:\git\int19h\aow`
+  refines the recovered Delphi source. `D:\git\aow` is the user's working copy, which the user
+  updates (the upstream history was rewritten on 2026-10-24, so the copy follows upstream by reset,
+  not merge). Since 2026-10-25 the two sessions run on different accounts and cannot message each
+  other: a request is written to `D:\msg\open-aow-requests-<date>.md`, the user relays it, and the
+  reply arrives as `D:\msg\aow-replies-<date>.md`. The recovery session is near its quota, so
+  requests are front-loaded and ordered by priority, each item standing alone.
 
 The user decides scope, settles open questions and approves anything irreversible or outward facing.
 
@@ -28,8 +32,11 @@ The user decides scope, settles open questions and approves anything irreversibl
   implementer needs, and a done measure. `docs/specs/README.md` lists them and their state.
 - `docs/briefs/`: one brief per implementation task, written from a specification. A brief is
   self-contained: the implementer gets nothing else.
-- `D:\git\aow`: the recovered Delphi source (`src/delphi3/`), the recovery documents (`doc/`), its data files (`data/`) and
-  the tools (`tools/`). The port reads from it and never writes to it.
+- `D:\git\aow`: the recovered Delphi source (`src/delphi3/`), the recovery documents (`doc/`), its
+  data files (`data/`, including the four files generated for the port at commit 8fffb88) and the
+  tools (`tools/`). The port reads from it and never writes to it.
+- `D:\Build\oracle`: the seeded inputs and the original's per-day saves the oracle comparison uses
+  (`specs/testing.md` 3.1). Derived from game data, so never committed.
 - The oracle: the game rebuilt from the recovered source with Delphi 3.02 at `C:\Tools\Delphi3`,
   and the original GOG install at `D:\Games\GOG\Age of Wonders`. Behavior questions are answered by
   running it, not by reasoning about it.
@@ -65,6 +72,29 @@ codex exec fork <thread_id> "<new direction>" < /dev/null
 
 Run long tasks in the background and read the report file when they finish. A task that needs
 the Delphi compiler or the game files says so in its brief with the exact paths.
+
+### 3.1 What the recovery project learned running Codex
+
+The recovery project ran its byte-matching workers as Codex sessions through scripts now copied to
+`D:\Build\agents\scripts\` (its own git repository, with a README) with briefs in
+`D:\Build\agents\briefs\`. What carries over to the port:
+
+- The Codex CLI is not on `PATH`, and its directory changes with every desktop app update.
+  `findcodex.py` there reads `CODEX_CLI_PATH` from `~/.codex/config.toml`.
+- Workers ran with `--approve-for-me --worktree --add-dir <scratch>` and never committed: the
+  sandbox of such a session cannot write the repository's `.git`. The coordinator merged each
+  worktree's diff onto main with a three-way apply, built, measured, and committed only when no
+  measure dropped. The port's rule that the implementer never commits comes from the same place.
+- Every session needs a waiter. The end of a session (`turn.completed` or `turn.failed` in the
+  JSONL events) goes unnoticed otherwise. `codex exec resume` works in the current directory, so a
+  session is resumed from its own worktree.
+- Briefs must say that lists of examples are not exhaustive, or the worker handles the examples
+  only.
+- Models: GPT Sol-6.1 at xhigh effort for most workers, GPT Astra-6 at high for a rewrite round,
+  Sol-6.1 at medium for small mechanical tasks. The port starts at high and raises to xhigh for a
+  task whose first attempt falls short.
+- Never commit on main while a merge queue runs: the merge stages the worker's changes in the
+  index.
 
 ## 4. From specification to code
 

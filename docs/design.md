@@ -2,7 +2,8 @@
 
 OpenAoW is a source port of Age of Wonders (1999, v1.36) to modern desktop platforms, with mobile
 as a later goal. It uses the original game files and ships none of them. The source comes from the
-recovery project in the `aow` repository (`D:\git\aow`, pulled from `C:\git\aow`). That repository
+recovery project in the `aow` repository (upstream `C:\git\int19h\aow`, the user's working copy
+`D:\git\aow`, which the port reads). That repository
 holds Delphi 3 source that rebuilds the shipped game with the original compiler. The rebuilt game is
 the oracle: the reference whose behavior the port must reproduce.
 
@@ -245,7 +246,8 @@ an archive, and the port unpacks it into app storage. The port never ships game 
 
 The `aow` repository already has the most valuable test asset: seeded computer-only playtests. Their
 per-turn saves are compared byte for byte between the original and the rebuilt game
-(`tools/playtest.py` and its module docstring). The port inherits that as its oracle.
+(`tools/playtest.py` and its module docstring). The port inherits that as its oracle. The seeded
+inputs and the original's per-day saves are kept under `D:\Build\oracle` (`specs/testing.md` 3.1).
 Save and map compatibility is a requirement anyway, so the oracle costs little extra.
 
 Milestones, each with its measure:
@@ -304,8 +306,20 @@ path, and C# assemblies stay desktop only.
    oracle, the second is cleaner C#.
 2. Hash table iteration order. The engine's `THashList` classes determine iteration order in places.
    The shim must reproduce the original order where the rules iterate, or the saves differ.
-3. Multilizer dictionaries. The `Dict/*.mld` files hold the localized strings. The port needs a
-   reader for that format or a one-time export to its own string table format.
+3. Multilizer dictionaries. The `Dict/*.mld` files (AoW, AoWEd, AoWSetup, Campaign, CampMaps,
+   CustMaps, Release, ResStr; 6 KB to 675 KB) hold the localized strings. What the recovery found
+   on 2026-10-25: a header `MLD 03 01 01 01`, a 16-bit count at offset `$0C` of six language
+   records from offset `$2A` (Native, en-US, de-DE, fr-FR, it-IT, es-ES, each code page 1252, each
+   record prefixed by a 16-bit length that includes itself), then entries of a 16-bit-length source
+   string, three empty slots and the four translations, with a layout that a fixed parse loses
+   later in the file. The strings are single-byte code page 1252 and the lookup key is the English
+   source text. The recovered Localize units are stubs: the file reader and `Translate` are not
+   recovered. In the shipped code `GetLanguage` always returns English, `TAoWEngine.Create` loads
+   `ResStr.mld` and calls `SetLanguage(1)`, `TranslateRStr` translates only when the language index
+   is above zero, and object texts go through `TTranslateTextStream` (lines joined with `<eol>`)
+   against `Release.mld`, `CampMaps.mld`, `CustMaps.mld`, `Campaign.mld` and `AoWEd.mld`. The port
+   needs a reader for the format or a one-time export, and the localization specification settles
+   whether translation is ever active in the English game.
 4. Galaxy music. Whether the `.IT` files play correctly through libopenmpt, or whether Galaxy
    applied effects the port must reproduce.
 5. zlib output. The save container holds zlib-compressed streams. The byte for byte comparison of
@@ -314,7 +328,10 @@ path, and C# assemblies stay desktop only.
    decompressed payloads.
 6. Form file conversion. Whether the 79 form files become a layout data format that the port loads
    at run time, or generated C# construction code. Data keeps the layouts editable by mods. Code
-   gives compile-time binding of the 1,588 handlers.
+   gives compile-time binding of the 1,588 handlers. Either way the text files in `data/forms` are
+   the source: the recovery confirmed on 2026-10-25 that they are complete (79 for `AoW.exe`, 84
+   for `AoWEd.exe`, one per form resource), keep every property with binary ones as hex blocks,
+   and convert back byte-identically for all 79 game forms.
 7. Play-by-email. Whether the SMTP and POP3 game exchange stays in scope. If it does, the internet
    suite is replaced with the .NET mail classes behind the two dialogs.
 8. Editor scope. Whether the map editor is ported at all, and whether it keeps the VCL form layout
@@ -325,13 +342,14 @@ path, and C# assemblies stay desktop only.
 11. Idiom cleanup upstream. The decompile session confirmed on 2026-10-24 that replacing the raw
     layout views and accessor classes with plain field access compiles to identical code, while
     the pointer views to globals and the shape casts reproduce the original code and cannot be
-    removed without losing matches. The transpiler normalizes all of them either way. Open:
-    whether the recovery source gets the match-neutral cleanup (about 290 casts, 17 fields need
-    a visibility change). With the cleanup, the transpiler depends less on layout resolution.
-12. Unit initialization order. The original binaries hold the unit initialization tables, and
-    `tools/buildgame.py` in the `aow` repository can write them as `initialization-order.json`.
-    The file has to be produced once and committed where the transpiler can read it. Request to
-    the recovery session, through the user.
+    removed without losing matches. The transpiler normalizes all of them either way. The cleanup
+    was not done as of 2026-10-25: it needs a byte-matching worker run, and the recovery delivered
+    `data/layout-views.json`, the resolution of every view, instead. The transpiler uses that file
+    as its resolution table (`specs/transpiler.md` section 6), so the cleanup is optional and the
+    user decides whether it ever runs.
+12. Unit initialization order. Resolved on 2026-10-25: `data/initialization-order.json` in the
+    `aow` repository holds the tables of both executables and the 21 packages they load, with four
+    unresolved entries in `AoW.exe` that lie outside the transpile set (`specs/transpiler.md` 4.8).
 
 ## 8. Repository layout (proposed)
 

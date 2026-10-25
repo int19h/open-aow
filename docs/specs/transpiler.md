@@ -23,8 +23,21 @@ Inputs:
   `TOOLSAPI`) and the third-party interface units under `D:\git\aow\src\delphi3\imports`. The
   transpiler parses only their interface sections, to resolve names and types. It never emits code
   for them.
-- The class database `D:\git\aow\data\classes.json`: for every class of the original binaries, its
-  parent, instance size, virtual method table and fields by byte offset. Section 6 uses it.
+- Five data files from the recovery project under `D:\git\aow\data\`. Four were generated for the
+  port on 2026-10-25 (`aow` commit 8fffb88, generators under `tools/portdata/`, deterministic):
+  - `class-layouts.json`: for the 1,349 classes of the transpiled modules (7,433 fields), the unit,
+    file and line, parent, instance size and its source, and every field with offset, size, type,
+    visibility and whether the offset comes from a source comment, from computation or both.
+    6,310 offsets have a comment that agrees with the computation, 1,123 are computed only, none
+    disagrees. Sections 4.3, 4.4 and 6 use it as the authority on instance layout.
+  - `classes.json`: the original binaries' classes with parent, instance size, virtual method
+    table and the fields the recovery named. Every shared class has the same instance size in
+    both files. The transpiler uses it for virtual slot resolution (rule N3) and as a cross-check.
+  - `layout-views.json`: every raw layout view in the source with its resolution (section 6, N3).
+  - `shape-casts.json`: every shape cast, cell view, pointer-view constant, self-assignment and
+    `absolute` alias (section 6, N1, N9, N11, N12).
+  - `initialization-order.json`: the unit initialization tables of the executables and the 21
+    packages they load (section 4.8).
 - The override manifest `src/Overrides/overrides.toml` (section 8).
 
 Outputs:
@@ -39,7 +52,7 @@ The transpiler is a Python 3.11 program under `tools/transpile/` with no depende
 standard library. One command runs it:
 
 ```bash
-python tools/transpile/transpile.py --source D:\git\aow\src\delphi3 --rtl C:\Tools\Delphi3\SOURCE --classes D:\git\aow\data\classes.json --out src\Generated
+python tools/transpile/transpile.py --source D:\git\aow\src\delphi3 --rtl C:\Tools\Delphi3\SOURCE --data D:\git\aow\data --out src\Generated
 ```
 
 Source files are read as Windows code page 1252. String and character literals keep their byte
@@ -153,7 +166,16 @@ found no set over a base type with more than 64 values (the largest is `set of 0
 | `A = B`, `A <> B` | `A == B`, `A != B` |
 | `A <= B`, `A >= B` | `A.IsSubsetOf(B)`, `B.IsSubsetOf(A)` |
 | `Include(S, x)`, `Exclude(S, x)` | `S = S.With(x)`, `S = S.Without(x)` |
-| `Byte(S)`, `Word(S)`, `Integer(S)` | `(byte)S.Mask` and so on |
+| `Byte(S)`, `Word(S)`, `Integer(S)` | `(byte)S.Image` and so on, see below |
+
+Storage size. Delphi 3 stores a set in the bytes `Low div 8` to `High div 8` of a 32-byte bit
+field, and a result of 3 bytes becomes 4, so sets of 1, 2, 4, 5, 6, 7, 8 and more bytes occur and
+never 3: `set of 7..8` is 2 bytes, `set of 20..40` is 4, `set of Char` is 32. Enumerations take 1
+byte up to 256 values and 2 bytes at 257 (`{$Z1}`, the default, and the source sets nothing else).
+The recovery verified both with DCC32 probes on 2026-10-25. `TSet<E>` keeps bit `i` for the element
+of ordinal `i`; its stored image, used by `Byte(S)`, `rwData`, `Move` and record layout, is
+`Mask >> ((Low div 8) * 8)` in the set's storage size, and the layout model uses that size. An
+enumeration of more than 256 values would become `: ushort`; the transpile set has none.
 
 ### 4.3 Records and arrays
 
@@ -161,13 +183,35 @@ A record becomes a `public struct` with public fields. Assignment copies, as in 
 record parameter becomes an `in` parameter. A `var` record parameter becomes `ref`.
 
 Layout. Every struct whose fields are all unmanaged gets `[StructLayout(LayoutKind.Explicit)]` with
-a `[FieldOffset]` per field, at the offsets Delphi 3 gives the record. The transpiler has a layout
-model for Delphi 3 records: `packed` records place fields back to back, and unpacked records align
-each field to the smaller of its size and 4 bytes. The model is not trusted on its own. The probe
+a `[FieldOffset]` per field, at the offsets Delphi 3 gives the record. The layout model implements
+the rules the recovery verified with DCC32 probes on 2026-10-25 (`layout.pas` and `enum_*.pas`,
+copied to `tests/probes/from-recovery/`; the same rules head `data/class-layouts.json`):
+
+- A field is aligned to the smaller of its natural alignment and 4. `Double`, `Comp`, `Currency`
+  and method pointers align to 4, so one of them comes at offset 4 after a `Byte`, not 8.
+- `Extended` (10 bytes) and `Real` (6 bytes) align to 2.
+- Sets, `ShortString`, `string[N]` and arrays of `Char` or `Boolean` align to 1: a 2-byte or
+  4-byte set comes at offset 1 after a `Byte`. A nested record aligns to its largest field
+  alignment, and an array to its element alignment.
+- The record size is padded to the record's alignment, which is the largest field alignment and at
+  most 4: `(Integer, Byte)` is 8, `(Word, Byte)` is 4, `(Double, Byte)` is 12, `(Extended, Byte)`
+  is 12. A record of bytes only is not padded. A variant part `(Byte; case Integer | Double)` is
+  12.
+- `packed` records, and records under `{$A-}`, place fields back to back with no padding
+  (`packed (Byte, Integer, Double)` is 13).
+- Sizes: `Boolean` 1, `Char` 1, `WordBool` 2, `LongBool` 4, `Real` 6, `Single` 4, `Double` 8,
+  `Comp` 8, `Currency` 8, `Extended` 10, method pointer 8, `ShortString` 256, `AnsiString` 4 (a
+  pointer), `Variant` 16, enumerations and sets as in section 4.2.
+- A class instance has the VMT pointer at offset 0, then the parent's fields, then its own fields
+  placed by the record rules from the parent's instance size, and the instance size rounded up to
+  4. A class with one `Byte` field has instance size 8.
+
+The source sets no `$A`, `$Z` or `$M` switch, so the defaults apply everywhere. The probe
 `records-layout` (section 11) prints `SizeOf` and field offsets for a battery of records compiled
-with the oracle compiler, and the transpiler's model must reproduce every one before it is used.
-With the layout fixed, `rwData(Rec, SizeOf(Rec), id)` and `Move` on records can use the struct's
-bytes directly. `SizeOf(T)` is a compile-time constant from the same model.
+with the oracle compiler, and the model must reproduce every one: the rules above are the
+specification, the probe is their regression test. With the layout fixed, `rwData(Rec,
+SizeOf(Rec), id)` and `Move` on records can use the struct's bytes directly. `SizeOf(T)` is a
+compile-time constant from the same model.
 
 Variant records. The transpile set has two: `TEMsg` in Engine and `TXYL` in HSEngine. `TXYL`
 overlays four `Shortint` fields with a `Word` and an `Integer`, all unmanaged, and becomes an
@@ -317,16 +361,28 @@ The `initialization` section becomes `public static void Initialize()` and `fina
 Order. The Delphi compiler writes a unit initialization table into every executable and package,
 and the runtime runs it in table order, each unit once, with a counter per unit. A package's table
 starts with calls into the packages it requires and continues with its own units. The original
-binaries therefore hold the exact order, and the recovery's build tool reads it:
-`D:\git\aow\tools\buildgame.py` has `initialization_table`, which reads the table from a `.dpl`
-through its package info and from `AoW.exe` from the entry point, and lines 347 to 376 write
-`initialization-order.json`. The recovery session reported on 2026-10-24 that `AoWEPACK.dpl` has
-173 entries (71 into required packages in the order VCL30, EngineP, ILPACK, GFXEPACK, SoundP,
-HSEPack, Network, Localize, aowFXpck, vclx30, then its 92 own units from Pad, Animation, EventLog
-to FileSecurity, RandomNode) and `AoW.exe` has 327, whose own entries are resolved against
-`data/signatures`. The transpiler takes that JSON as an input (`--init-order`) and emits
-`InitializeAll` in that order, skipping units outside the transpile set. Finalization runs in the
-reverse order. The file does not exist yet, see open point 2.
+binaries therefore hold the exact order, and the recovery read it into
+`data/initialization-order.json` (`aow` commit 8fffb88, `tools/portdata/make_init_order.py` over the
+table readers of `tools/buildgame.py`). The file lists, for `AoW.exe`, `AoWEd.exe` and the 21
+packages they load, every table entry with its `position`, `unit`, `via_package` (the package whose
+unit the entry calls into, null for the module's own units), the resolution `method` and its
+evidence: 2,085 entries in all, 1,328 of them calls into required packages. The table layout, the
+per-unit counter guard and the import thunks are verified in the binaries; that the runtime walks
+the table from 0 upward, finalizes in reverse and does not run a statically loaded package's own
+table is verified in the Delphi 3 RTL source only.
+
+The transpiler reads the `AoW.exe` module's `entries` (327) and emits `InitializeAll` in position
+order, mapping each `unit` to its unit class and skipping units outside the transpile set, whose
+initialization is the shim's. `FinalizeAll` is the reverse. Four `AoW.exe` entries have `unit`
+null (positions 3, 35, 42 and 325, candidates Messages, MMSystem, RichEdit and AoWRegistrationDlg,
+none with an initialization section in the transpile set), so they are skipped and reported. A
+transpiled unit with an `initialization` section that the table does not name is an error.
+
+Two findings of the recovery to keep in mind. The table is not in strict dependency order by the
+recovered uses clauses (`AoWReg` at position 65 runs before `Sound` at 68 and `HSEngine` at 71,
+which its uses clause names; the file's `dependency_check.order_violations` lists them): the table
+is what ran, so the table wins over the uses clauses. And the PACKAGEINFO contains list is not the
+table order, so it is never used for ordering.
 
 ## 5. Statements and expressions
 
@@ -417,18 +473,44 @@ parameters of other types are plain parameters. An untyped `var` or `const` para
 is an error unless the callee is a shim routine with a known mapping (`Move`, `FillChar`, `rwData`,
 `Stream.Read`, `Stream.Write`), section 5.8.
 
-Evaluation order. Delphi 3 does not evaluate the arguments of a call left to right. The recovery
-notes (`D:\git\aow\doc\match.md`, "Register-convention arguments") observed that simple arguments
-are loaded right to left and that argument calls happen in an order that depends on the calling
-convention. The order matters only when two or more argument expressions have side effects, and
-`Random` is the side effect that matters for the oracle (511 calls, some inside argument lists).
-The rule: when two or more arguments of one call contain a call to a routine that is not known to
-be pure, the emitter evaluates them into temporaries in Delphi's order before the call. Delphi's
-order is taken from the probe `evalorder` (section 11), which calls a tracing function in argument
-positions, as operands of binary operators, as array indices and on both sides of an assignment,
-and prints the sequence under the oracle compiler. The emitter has one table for these orders, and
-the probe is the proof of the table. Until the probe runs, the table says right to left for call
-arguments and left to right for operator operands.
+Evaluation order. Delphi 3 does not evaluate the operands of an expression left to right. The
+recovery measured the order with DCC32 probes on 2026-10-25 (`order.pas` and `order2.pas`, 35
+routines, the same order with and without optimization; copied to `tests/probes/from-recovery/`),
+and these are the rules. The weight of a subtree is the number of calls in it.
+
+1. The subtree with the greater weight is evaluated first. Subtrees of equal weight take the
+   default order of their construct, below.
+2. Operands without calls (variables, fields, dereferences) are read after every call of the
+   expression: `Cnt - Tick(2)` reads `Cnt` after `Tick` has changed it.
+3. Call arguments under the register convention, the default and the only one the game's own
+   routines use: with one to three arguments, right to left. With four or more, the stack
+   arguments (the fourth onward) first, left to right, then the three register arguments right to
+   left: 4, 5, 3, 2, 1. A heavier register argument comes before lighter ones:
+   `P3(Tick(1) + Tick(9), Tick(2), Tick(3))` gives 1, 9, 3, 2.
+4. `stdcall` and `cdecl` calls: last argument first. `pascal` calls: first argument first.
+5. A method call evaluates its receiver last, after all arguments.
+6. Binary operators: left operand first when the weights are equal, for every operator. A heavier
+   right operand comes first: `T1 - (T2 - T3)` gives 2, 3, 1.
+7. Array indexing: the index before a call-valued base. With several indices, the last index
+   first.
+8. Assignment: the right side first, unless the target is strictly heavier: `GA[Tick(1)] :=
+   Tick(2)` gives 2, 1. When the target's base is a call that returns a pointer, the target address
+   is computed first: `TickP(1)^[Tick(2)] := Tick(3)` gives 2, 1, 3.
+
+Not covered by the probes: a heavy register argument against stack arguments, and weight
+reordering under `stdcall` or `cdecl`. The emitter reports every occurrence of these cases in the
+transpile set, and the `evalorder` probe grows a case for each before the rule for it is trusted.
+
+The emitter applies the rules as a hoisting pass per statement. It lists every call to a routine
+not known to be pure in the order the rules give, recursively (a call's own arguments are ordered
+by the same rules and come before the call). When a statement holds two or more such calls, or one
+such call and a read of anything that is not a constant or a local variable, the calls are
+evaluated into temporaries in that order before the statement and the temporaries are substituted.
+What remains has no calls, so C#'s left-to-right evaluation reads it after the calls, which is
+rule 2. Hoisting never crosses a short-circuit `and` or `or`: a call in the right operand is
+evaluated only when the left operand allows it, so it is hoisted into a conditional block, not
+before the statement. `Random` (511 calls, some in argument lists) is the side effect that matters
+for the oracle, and the probe `evalorder` (section 11) is the proof of the emitter's table.
 
 Pure routines for this rule: the shim's string functions, `Ord`, `Chr`, `Length`, `High`, `Low`,
 `SizeOf`, `Abs`, `Round`, `Trunc`, field reads and property getters that the resolver can see
@@ -495,6 +577,15 @@ manifest can mark a cast location `unchecked`, and the emitter then writes
 `TObject(P)` from a `Pointer` and `Pointer(obj)` to a `Pointer` are reference conversions to and
 from `object`. `Integer(obj)` and `Integer(Self)` are section 6, rule N7.
 
+Shape casts. The recovery catalogued every cast that exists for the code shape rather than the
+program in `data/shape-casts.json` (`tools/portdata/shape_casts.py`): over the whole tree, 9
+`T(Pointer(X))` class casts, 22 `T(Pointer(@G)^)` cell views, 14 self-assignments, 143
+pointer-view constants and 68 `absolute` aliases, each with file, line, expression, routine, `kind`
+and `subkind`. Section 6 maps each kind. The transpiler finds these forms itself and checks the
+catalogue: a form in the catalogue is normalized by its rule, a form the catalogue does not list is
+normalized the same way and reported as new, and a catalogue entry the transpiler did not find is
+reported as stale.
+
 ### 5.8 Pointers, memory and untyped parameters
 
 Pointer code is concentrated in the units that are rewritten. The transpile set still has pointer
@@ -535,18 +626,20 @@ program. They concentrate in AoWEPACK. The transpiler folds them into plain code
 recorded in the report with its rule number, so that the folds can be compared against a later
 cleanup of the recovery source, if the user asks the recovery session for one.
 
-| rule | pattern (count in the set) | result |
+| rule | pattern (count in the tree, AoWEPACK in brackets, from `data/shape-casts.json` and `data/layout-views.json`) | result |
 |---|---|---|
-| N1 | A typed constant or variable of pointer type initialized once with the address of a global, `WorldMap: PAoWHSMap = @AoWE.AoWHSMap` (727 dereferences of such views) | every `View^` becomes the global. A use of `View` as a value is an error |
+| N1 | A pointer-view constant, `Name: PType = @Target` (143 [139]: 53 object cells such as `WorldMap: PAoWHSMap = @AoWE.AoWHSMap`, 18 value cells, 7 data tables, 65 resource strings; 727 dereferences) | every `Name^` becomes `Target`. For a resource string, `Name^` is the resource string. A use of `Name` as a pointer value is an error |
 | N2 | A pointer variable assigned the address of one global in one place and dereferenced elsewhere, `RandomSeed: ^Integer` pointing at `RandSeed` | the same fold. The assignment is removed |
-| N3 | A layout view: `TRec(Pointer(Obj)^).Field`, `PRec(Pointer(Obj))^.Field`, `PRec(Obj)^.Field` where `Obj` is a class instance and `TRec` is a record of padding and named fields, or `TRawObject(Pointer(Obj)^).Fields[n div 4]` (168 `Pointer(x)^` casts, 115 `TRawObject` uses, 108 view record types) | compute the byte offset of `Field` in `TRec` with the layout model, compute the instance layout of the class of `Obj` from its recovered declaration (4 bytes for the VMT pointer, then the fields of each ancestor in order with the record alignment rule), find the field at that offset, and emit `Obj.<FieldName>` with the field made `internal`. The recovered declarations carry offset comments (`{ +$18 FMapContainer }`) and `classes.json` lists offsets for a subset of fields. Both are cross-checks of the computed layout, and a mismatch is an error. The recovery session confirmed on 2026-10-24 that 147 of 162 `Fields[]` views and 33 of 62 record views resolve to named fields, 17 of them private fields of another unit, 6 need a cast of a `THexagonSprite` variable to `TArmyHS`, and the rest have bases the recovery could not type mechanically, which the resolver types from context or reports |
+| N3 | A layout view (378 uses: 357 AoWEPACK, 14 SoundP, 6 Network, 1 Engine), in three forms. `TRawObject(Pointer(Obj)^).Fields[n div 4]` (162). A view record cast, `TRec(Pointer(Obj)^).Field` or `PRec(Pointer(Obj))^.Field`, where `TRec` is a record of padding and named fields (87). A view class, a class declaration that copies part of a real class's layout, such as `TP2*Fields` or `TENodeView`, cast over a real object (129, of which 47 are method calls through the view's virtual method table). 97 view types are declared, 30 unused | compute the byte offset of the member in the view with the layout model, take the run-time class of `Obj`, find the field at that offset in `data/class-layouts.json`, and emit `Obj.<FieldName>`, with the field made `internal` when it is private or in another unit. A method call through a view class resolves by virtual slot: the slot index of the view's method maps to the same slot of the run-time class in `classes.json`, and the call becomes a plain virtual call. Resolution is by offset, never by the view's member name: 84 views name a member differently from the source field, and one is a real swap (`TLeaderSetupView`, `AoWSetup.pas:214`: its `OriginalLeader` is `FLeader` at `$C` and its `Leader` is `FOriginalLeader` at `$14`). The run-time class is the static type of `Obj`, except where the catalogue marks the use `unresolved` and gives a `recommended` class, which is then used: 13 untyped bases (10 `GetPlayersABI(..)` results and 2 reads nested in them are `TPlayer`, one `Control: TObject` is `TPlayerMagicControl`), 3 `TArmyHS(X).FArmy` reads (`MapCtrl.pas:315, 329, 342`), and 18 record views, 10 of them `Info.MapField` at `$18`, past the end of `TMapField`, which are `TAoWMapField.FFieldFlags`. The weakest recommendation is `TUnitSpell` for spells 17 and 56. The transpiler computes every resolution itself and compares it with the catalogue entry at the same file and line; a disagreement is an error |
 | N4 | An accessor class `TXAccess = class(TX);` used only in casts | the casts become plain references to the `TX` object, and the members reached become `internal`. An empty class used anywhere else than a cast stays a class |
 | N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y` |
 | N6 | `Integer(Pointer(@FX)^)` and other reinterpretations of a field group as one integer (11 uses) | error, override required. The report lists them |
 | N7 | `Integer(Self)`, `Integer(Owner)`, `Integer(obj)` as a value | `obj.InstanceId`, a 32-bit id the shim assigns to every object at construction from a counter. In `Msg.Param[i] := Integer(obj)` and `TFoo(Msg.Param[i])` the parameter type is the shim's `IntOrRef` and the conversions use its `Ref` and `Value` members. Address arithmetic such as `(Integer(Self) shr 8) and 3` (shore and animation variants) uses `InstanceId` and is deterministic in the port where the original depended on the heap |
 | N8 | `with PRec(P)^ do` and `with TRec(Pointer(P)^) do` | the `with` is resolved after N3 |
-| N9 | `Pointer(obj)` passed where a class reference is expected, `TFoo(Pointer(x))` | the reference conversion of section 5.7 |
+| N9 | A shape cast through `Pointer`: `TFoo(Pointer(x))` on a class reference (9 [1]), and the cell view `T(Pointer(@G)^)` of a global (16), parameter (3), local (2) or field of `Self` (1) (22 [6]) | the class cast is the reference conversion of section 5.7. The cell view becomes `G` when `T` is the declared type of `G`, `(T)G` when `T` is a class related to it, and an error otherwise |
 | N10 | A unit-qualified name `Unit.Name` | kept |
+| N11 | A K58 self-assignment, `Self := TFoo(Pointer(Self))` or `Sender := TObject(Pointer(Sender))` (14 [7]: 10 of `Self`, 4 of parameters) | the statement is dropped. The cast type must be the variable's type, otherwise an error |
+| N12 | An `absolute` alias, `var X: T absolute Y` (68 [3]) | when `T` is `Y`'s type, every `X` becomes `Y`. When `T` differs, the alias is a reinterpretation and an error unless an override provides it |
 
 The recovery session established on 2026-10-24 which folds are safe at the source level. The raw
 layout views (N3) and accessor classes (N4) exist because a field had no recovered name, the wrong
@@ -554,9 +647,18 @@ type or private visibility in another unit, and replacing them with plain field 
 to identical code. The pointer views to globals (N1, N2) are different: with `{$G+}` Delphi reads
 another unit's variable through an import cell before every use, and the typed pointer constant
 keeps the cell in a register, so the view reproduces the original code and removing it costs
-matches. The same holds for the shape casts `TObj(Pointer(Sender))` and `T(Pointer(@g)^)`. So
-N1, N2 and N9 stay transpiler rules for good, and N3 and N4 are candidates for a source cleanup
-that the report's normalization section lists for the recovery session.
+matches. The same holds for the shape casts, the self-assignments and the `absolute` aliases
+(N9, N11, N12), so those stay transpiler rules for good. The source cleanup of N3 and N4 was not
+done (reply of 2026-10-25): it needs a byte-matching worker run with the full match and address
+checks, and the user decides whether it ever happens. The port does not wait for it. The
+catalogue in `data/layout-views.json` is the resolution of every view, regenerated by
+`tools/portdata/layout_views.py` with `pasdecl.py` and the 12 typing rules of `hints.py` when
+the source changes, and two runs give identical output.
+
+Limits of the catalogue, which the transpiler's own resolution covers: it types base expressions
+without overload resolution, does not expand `with` blocks over a view, and parses both branches
+of every `IFDEF`. A view the catalogue could not type and the transpiler can is a resolution, not
+an error, and the report lists it.
 
 ## 7. Semantic traps
 
@@ -629,6 +731,11 @@ Overrides never change generated files. A fix to a mapping goes into the transpi
 7. Destructors with logic beyond freeing, for review.
 8. Identifiers that collide across units and were qualified.
 9. The shim demand list, written to its own file as well.
+10. Catalogue checks: layout views whose resolution disagrees with `data/layout-views.json`,
+    shape casts not in `data/shape-casts.json` or listed there and not found, class layouts that
+    disagree with `data/class-layouts.json`, initialization sections the table in
+    `data/initialization-order.json` does not name, and evaluation orders that fall into a case
+    the recovery's probes did not test (section 5.4).
 
 ## 10. Survey of the source
 
@@ -704,7 +811,9 @@ Three layers, cheapest first.
    `format`, `sets`, `enums`, `records-layout`, `arrays`, `with`, `case`, `loops`, `exceptions`,
    `classes`, `properties`, `evalorder`, `lists`, `streams`, `typed-constants`, `init-order`.
    A probe fails when a line differs. A probe is the proof of a rule, so a rule without a probe is
-   a rule under suspicion.
+   a rule under suspicion. `tests/probes/from-recovery/` holds the recovery's own DCC32 probes of
+   2026-10-25 (`layout.pas`, `enum_*.pas`, `order.pas`, `order2.pas`) as received; `records-layout`,
+   `enums` and `evalorder` are built from them.
 3. The transpile set itself: the transpiler runs on all units and the generated project builds.
 
 Done measures, in order:
@@ -725,10 +834,8 @@ The persistence round trip and the headless oracle are the done measures of `per
 ## 12. Open points of this specification
 
 1. Whether the recovery source gets a cleanup pass for the raw layout views and accessor classes
-   (rules N3 and N4), which the recovery session confirmed is match-neutral. The pointer views
-   (N1, N2) stay in the source either way. Decision with the user.
-2. `initialization-order.json` from `D:\git\aow\tools\buildgame.py` has to be produced once and
-   kept in the `aow` repository or copied here. Request to the recovery session, through the user.
-3. The argument evaluation order table, to be filled from the `evalorder` probe.
-4. The Delphi 3 record layout rule, to be confirmed by the `records-layout` probe before the
-   layout model is used for `rwData` and `Move`.
+   (rules N3 and N4). The recovery confirmed it is match-neutral and did not do it, because it
+   needs a byte-matching worker run; the user decides. The port does not depend on it.
+2. The evaluation order cases the recovery's probes did not cover (section 5.4): a heavy register
+   argument against stack arguments, and weight reordering under `stdcall` and `cdecl`. The
+   `evalorder` probe grows a case for each when the emitter first reports one in the transpile set.
