@@ -14,11 +14,11 @@ specification holds the detail needed to build one part.
 | `ui-layout.md` | the form files as data: the text form grammar, the component classes and published property model, the module loading order and the VCL reference fixup rules the loader reproduces, the generated property, class and handler tables, translators, the path from loaded objects to the frame, the form checks | draft |
 | `platform.md` | the SDL host: startup and the main form's role, window and presenter, input mapping, clock, audio behind the original `TSoundSystem` abstraction, the intro video, the two-layer case-insensitive file service with current directory emulation, settings in place of the registry, message boxes, plug-ins, the networking transport hook, the headless host | draft |
 | `testing.md` | the layers, the probe runner and probe set, the headless oracle built on the recovery's playtest harness, frame comparison, fixtures | draft |
-| `localization.md` | the Multilizer dictionary format and the string table that replaces it | planned |
+| `localization.md` | the Multilizer dictionaries (format reversed in `../../data/localization/`), the exact-match lookup, the three translation paths of the engine, the translator components, English as shipped and the four other languages as a setting | draft |
 | `networking.md` | the token protocol as recovered and the socket transport that replaces DirectPlay | later |
 | `modding.md` | the data model exposure, the code mod API and the scripting layer | later |
 
 Order of writing: transpiler, rtl-shim, persistence, testing, graphics, ui-layout, platform,
-localization. The first four are what the first two milestones need. State on 2026-10-25: the
-first seven are drafts, localization is being written, networking and modding wait for their
-scope decisions (`../design.md` open questions 7 and 9).
+localization. The first four are what the first two milestones need. State on 2026-10-25: all eight
+are drafts; networking and modding wait for their scope decisions (`../design.md` open questions 7
+and 9).

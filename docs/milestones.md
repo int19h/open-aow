@@ -58,7 +58,7 @@ divergence found here is a transpiler, shim or override bug until shown otherwis
 
 | step | work | depends on | done |
 |---|---|---|---|
-| 6.1 | Dictionary reader, `TIvDictionary` and `TIvTranslator` behavior, `ResStr.mld` at startup | 1.5, `localization.md` | the measures of `localization.md` |
+| 6.1 | Dictionary reader, `TIvDictionary` and `TIvTranslator` behavior, `ResStr.mld` at startup | 1.5 | L1, L2 (`localization.md` 7); L3 and L4 with 4.3 |
 
 ## 7. Playable game
 

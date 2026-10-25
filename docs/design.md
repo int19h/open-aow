@@ -309,20 +309,13 @@ path, and C# assemblies stay desktop only.
    oracle, the second is cleaner C#.
 2. Hash table iteration order. The engine's `THashList` classes determine iteration order in places.
    The shim must reproduce the original order where the rules iterate, or the saves differ.
-3. Multilizer dictionaries. The `Dict/*.mld` files (AoW, AoWEd, AoWSetup, Campaign, CampMaps,
-   CustMaps, Release, ResStr; 6 KB to 675 KB) hold the localized strings. What the recovery found
-   on 2026-10-25: a header `MLD 03 01 01 01`, a 16-bit count at offset `$0C` of six language
-   records from offset `$2A` (Native, en-US, de-DE, fr-FR, it-IT, es-ES, each code page 1252, each
-   record prefixed by a 16-bit length that includes itself), then entries of a 16-bit-length source
-   string, three empty slots and the four translations, with a layout that a fixed parse loses
-   later in the file. The strings are single-byte code page 1252 and the lookup key is the English
-   source text. The recovered Localize units are stubs: the file reader and `Translate` are not
-   recovered. In the shipped code `GetLanguage` always returns English, `TAoWEngine.Create` loads
-   `ResStr.mld` and calls `SetLanguage(1)`, `TranslateRStr` translates only when the language index
-   is above zero, and object texts go through `TTranslateTextStream` (lines joined with `<eol>`)
-   against `Release.mld`, `CampMaps.mld`, `CustMaps.mld`, `Campaign.mld` and `AoWEd.mld`. The port
-   needs a reader for the format or a one-time export, and the localization specification settles
-   whether translation is ever active in the English game.
+3. Multilizer dictionaries. Decided on 2026-10-25 (`specs/localization.md`): the format is
+   reversed (`data/localization/mld-format.md`, parser in `tools/localization/`), the port writes
+   the dictionary and translator classes itself in place of the stub units, and the content analysis
+   showed that the English column equals the source text in all but one of 6,683 entries, so the
+   shipped English game is reproduced by running the same lookup over the same files. German,
+   French, Italian and Spanish are complete in the files and become a setting, an extension outside
+   the oracle.
 4. Galaxy music. Decided on 2026-10-25 (`specs/platform.md` section 5): the 24 `.IT` songs play
    through libopenmpt behind a second `TSoundSystem` backend that keeps the Galaxy backend's
    volume, pan, fade and loop semantics. Music rendering is not held to the oracle; it affects
