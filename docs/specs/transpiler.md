@@ -720,36 +720,41 @@ Overrides never change generated files. A fix to a mapping goes into the transpi
 
 ### 8.2 Assembler routines
 
-The transpile set has 330 routines whose body is `asm` (counted on 2026-10-25 with a trailing
-comment after the keyword allowed, which the first survey missed): GFXE 28, ImageLib 11, Engine 14,
-HSEngine 8, Video 2 and 267 in AoWEPACK (Unit.PAS 47, Ability.PAS 29, Spells.PAS 29,
-GlobalTargetSpells 19, Cave 15, AoWAb 11, Diplomacy 11, five hero and item grid units with the same
-10 thunks each, and smaller groups). The 39 blitters of GFXE and ImageLib are rewritten by
-`graphics.md` section 5. The rest are stubs the recovery wrote because the original binary has a
-routine there that DCC32 does not generate from Pascal: cross-package call thunks (`P2*`, `P4*`,
-`P5*`, `*ABI`, `Cave*`, `Spell*`, `Hero*`, `Item*` and the like), virtual methods that return a
-constant, a custom allocator, and a few bit manipulations.
+The transpile set has 326 routines whose body is `asm` (an earlier count of 330 included four
+`asm` statements inside Pascal bodies). The port's catalogue `data/asm-routines.json`, built on
+2026-10-25 from the source, the recovery's Ghidra decompiles (`data/decomp/<Package>-typed-all/`)
+and its per-function match results, classifies every one (`data/asm-routines.md` is the readable
+summary): by unit, AoWE 137, GFXE 27, GlobalTargetSpells 19, Cave 15, Engine 14, ImageLib 11, the
+five hero and item grid units 10 each, HSEngine 8, and smaller groups; by kind:
 
-The transpiler recognizes three body shapes and generates them, reporting each:
+| kind | count | what it is | treatment |
+|---|---:|---|---|
+| thunk | 174 | a `JMP` to another routine of the same package. 171 have no counterpart in the original binary: the recovery added them so that callers type-check against draft declarations, and the originals call the targets directly. Ten of them have stack parameters and no `POP EBP` before the jump, so the recovered build would return to the wrong address through them; one, `CaveArmyMovePoints`, is on a live path (`TCave.EnterMovePoints`) | rule A2: the call goes to the target directly, with the catalogue's `args_passthrough` and parameter order checked. The ten broken thunks are reported to the recovery; the port is unaffected because it never executes the jump |
+| constant | 35 | `XOR EAX,EAX`, `MOV EAX,n`, `MOV AL,n` bodies | rule A1 |
+| allocator | 1 | `TMapField.NewInstance` from the pool `MapFieldMemory` | rule A3 |
+| blitter | 32 | GFXE and ImageLib pixel routines | `graphics.md` section 5 |
+| bitop | 9 | `TBitList.Get` and `Put`, `TAoWMapField.GetExplored` and `SetExplored`, `TCustomAbilityList.GetAbSet` and `SetAbSet`, `TAbstractUnit.GetAbilitySet`, `TMine.GetRazed`, `TTeleport.GetRazed`: `BT`, `RCR`, `SBB` style bit tests, the original authors' assembler | overrides from the catalogue's Pascal equivalents, with their edge cases (`GetExplored` masks the rotate count to 5 bits, so player 0 and player 32 read as explored and player 33 tests bit 0; `SetExplored(0, ...)` touches bit 31 and tests all of `ECX`; `TBitList.Put` with a negative index corrupts memory before the array) |
+| fill | 7 | the Engine `Fill*` routines and GFXE's `FillInt`, `FillWord`, `FillTrippleByte` (no zero-count guard) | overrides |
+| hex-coords | 6 | `HXtoV`, `HXtoH` (a floor division by 2 except at one overflow value), `HVtoHX`, `HPtoHX`, `HPtoHXs` (writes 4 bytes into each `Shortint` target), `WalkToNextHN` | overrides |
+| list-error | 10 | the nested `ReturnAddr` helpers of the typed lists' `Error` methods | the shim's exception raise |
+| other | 52 | AoWEPACK routines that reproduce compiled Delphi code in assembler (prologues, short jumps, a hand-built `try..finally` in `TSpellTE.Validate`), written because drafts of shared virtual methods had wrong signatures; all that exist in the original are `MATCH` | overrides transcribed from the catalogue's Pascal equivalents. The original behaviors they carry are kept: `TMultiLevelAbility.GetSkillPoints` charges the current level's cost once per level, `TMultiLevelAbility.Expand` tests `FLevel = FMaxLevel`, `TRaceList.ReadWrite` skips its immediate ancestor's `ReadWrite`, `TSpell.CreateCastSpellAction` runs only `TEObject.Create` on its new object |
+
+The transpiler recognizes the three generated shapes and reports each:
 
 | rule | body | result |
 |---|---|---|
-| A1 | `XOR EAX,EAX` alone, or `MOV EAX,<const>` alone, or `MOV AL,<const>` | `return 0` or the constant, converted to the declared result type |
-| A2 | `JMP <Routine>` alone, where the routine's parameters match the declared ones in count and type | a call of that routine with the same arguments, returning its result |
-| A3 | `MOV EDX,<Var>; JMP TObject.InitInstance` in a `class function NewInstance` | an allocator override: the class's `NewInstance` returns an instance from the shim's pool named `<Var>` (`TMapField.NewInstance` uses `MapFieldMemory`); the pool is a plain allocation in the port and the generated method notes the original's pooling |
+| A1 | `XOR EAX,EAX` alone, `MOV EAX,<const>` alone, or `MOV AL,<const>` | `return 0` or the constant, converted to the declared result type |
+| A2 | `JMP <Routine>` alone, or preceded by parameter moves | a call of the target with the arguments the catalogue's `args_passthrough` and parameter mapping say, returning its result. A thunk the catalogue marks as reordering its parameters is mapped as the catalogue says, never by position |
+| A3 | `MOV EDX,<Var>; JMP TObject.InitInstance` in a `class function NewInstance` | an allocator override: the class's `NewInstance` returns an instance from the shim's pool named `<Var>`; the pool is a plain allocation in the port and the generated method notes the original's pooling |
 
-Every other `asm` body is an error that an override must resolve (`TAoWMapField.GetExplored` and
-`SetExplored`, which test and set bit `Player - 1` of `FFieldFlags` with a rotate through carry and
-return `True` for player 0; `TBitList.Get` and `Put`; the `Fill*` routines of Engine; the hexagon
-coordinate routines `HXtoH`, `HXtoV`, `HVtoHX`, `HPtoHX`, `HPtoHXs`, `WalkToNextHN` of HSEngine;
-`AlignmentSetToInt` and `AlignmentIntToSet`; the remaining AoWEPACK bodies that are not thunks).
-The report lists every `asm` routine with its rule or its override, and the port's own catalogue
-`data/asm-routines.json` (file, routine, kind, thunk target, Pascal equivalent, match status,
-origin; built by a survey of the source, the Ghidra decompiles under the recovery's
-`data/decomp/` and its per-function match results) is checked against the transpiler's
-classification the same way as the other catalogues (section 9, item 10). The semantic probe for the hand-written ones is `tests/probes/asm-stubs.pas`:
-it calls each non-thunk routine on a battery of inputs under DCC32 and prints the results, and the
-C# override must print the same.
+Every other `asm` body is an error that an override resolves, and the catalogue's `pascal_equivalent`
+is the override's source. The report lists every `asm` routine with its rule or its override and
+checks the catalogue the same way as the other catalogues (section 9, item 10): a routine the
+catalogue does not list, or a body shape that disagrees with the catalogue's kind, is an error.
+The semantic probe for the hand-written ones is `tests/probes/asm-stubs.pas`: it calls each bitop,
+fill and hex-coords routine on a battery of inputs under DCC32 (including the edge cases above) and
+prints the results, and the C# override must print the same. The `other` routines are covered by
+the oracle runs, since they are game logic.
 
 ## 9. Report
 
