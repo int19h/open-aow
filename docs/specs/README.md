@@ -11,7 +11,7 @@ specification holds the detail needed to build one part.
 | `rtl-shim.md` | the Delphi RTL and VCL subset the transpiled code calls: `Random`, strings, `TList`, `TStringList`, streams, `TComponent`, exceptions, sets, the host interface, with exact semantics and probe tests | draft |
 | `persistence.md` | the engine's property tables, storage streams, class registry and the save container, what the port must preserve, the shim requirements and the round trip milestones | draft |
 | `graphics.md` | the surface layer: `TSurfaceDesc`, pixel formats, the clipping rules, the 39 assembler blitters and their conformance probe, blend tables, the image library format and show dispatch, fonts and sequences, the display controller, the frame loop and the presenter, the frame oracle | draft |
-| `ui-layout.md` | the form file conversion: the form file grammar, the component and property model, cross-module references, translator components, the loader and handler binding | planned |
+| `ui-layout.md` | the form files as data: the text form grammar, the component classes and published property model, the module loading order and the VCL reference fixup rules the loader reproduces, the generated property, class and handler tables, translators, the path from loaded objects to the frame, the form checks | draft |
 | `platform.md` | the SDL host: window, input, timing, audio mixing, module playback, settings, data path resolution and the mobile data install | planned |
 | `testing.md` | the layers, the probe runner and probe set, the headless oracle built on the recovery's playtest harness, frame comparison, fixtures | draft |
 | `localization.md` | the Multilizer dictionary format and the string table that replaces it | planned |

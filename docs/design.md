@@ -328,12 +328,13 @@ path, and C# assemblies stay desktop only.
    saves needs the same deflate output as the original zlib build, which the .NET deflate stream
    does not promise. The options are a managed port of the original zlib, or a comparison on the
    decompressed payloads.
-6. Form file conversion. Whether the 79 form files become a layout data format that the port loads
-   at run time, or generated C# construction code. Data keeps the layouts editable by mods. Code
-   gives compile-time binding of the 1,588 handlers. Either way the text files in `data/forms` are
-   the source: the recovery confirmed on 2026-10-25 that they are complete (79 for `AoW.exe`, 84
-   for `AoWEd.exe`, one per form resource), keep every property with binary ones as hex blocks,
-   and convert back byte-identically for all 79 game forms.
+6. Form file conversion. Decided on 2026-10-25 (`specs/ui-layout.md`): the 79 text form files
+   stay data and are loaded at startup by a reader that reproduces the VCL streaming rules,
+   including the reference fixup order that decides window stacking. Handler and property binding
+   goes through tables the transpiler generates from the `published` sections, so there is no
+   reflection. The text files in `data/forms` are the source: the recovery confirmed that they are
+   complete (79 for `AoW.exe`, 84 for `AoWEd.exe`), keep every property with binary ones as hex
+   blocks, and convert back byte-identically for all 79 game forms.
 7. Play-by-email. Whether the SMTP and POP3 game exchange stays in scope. If it does, the internet
    suite is replaced with the .NET mail classes behind the two dialogs.
 8. Editor scope. Whether the map editor is ported at all, and whether it keeps the VCL form layout
