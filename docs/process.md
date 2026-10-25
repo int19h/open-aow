@@ -37,6 +37,18 @@ The user decides scope, settles open questions and approves anything irreversibl
   tools (`tools/`). The port reads from it and never writes to it.
 - `D:\Build\oracle`: the seeded inputs and the original's per-day saves the oracle comparison uses
   (`specs/testing.md` 3.1). Derived from game data, so never committed.
+- `data/` in this repository: catalogues the port built from the recovered source for the
+  transpiler and the specifications (`asm-routines.json`, the localization format notes), with a
+  Markdown summary next to each. `tools/survey/` holds the scripts that produced them, so that a
+  catalogue can be rebuilt after the recovery changes the source.
+- `docs/correspondence/`: every request to and reply from the recovery project, dated, so that the
+  provenance of a fact in a specification can be traced.
+
+Surveys of the recovered source or the binaries are the port's own work, done here or by an Opus
+subagent spawned from this session. The recovery session is asked only what its coordinator knows
+from running the recovery: decisions, tooling and data locations, why something was done, what is
+missing. It answers investigative asks by spawning its own subagents, which only adds a relay hop
+and spends its quota.
 - The oracle: the game rebuilt from the recovered source with Delphi 3.02 at `C:\Tools\Delphi3`,
   and the original GOG install at `D:\Games\GOG\Age of Wonders`. Behavior questions are answered by
   running it, not by reasoning about it.
