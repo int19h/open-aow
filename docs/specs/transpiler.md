@@ -701,6 +701,8 @@ Each entry names the rule and the probe (section 11) that proves it.
 
 ## 8. Overrides
 
+### 8.1 The manifest
+
 `src/Overrides/overrides.toml` lists what the transpiler must not emit:
 
 ```toml
