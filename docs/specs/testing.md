@@ -74,6 +74,10 @@ transpiler must pass it before it emits any explicit layout.
 
 ## 3. Headless oracle
 
+The headless host has a viewport size, because the engine reads it while saving (`persistence.md`
+section 4, M1b). It is the size the oracle's original runs had, recovered from their autosaves,
+and every comparison with those runs uses it.
+
 ### 3.1 What the recovery already does
 
 `tools/playtest.py` in the `aow` repository runs the original and the rebuilt game under a debugger
