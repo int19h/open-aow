@@ -120,7 +120,7 @@ says that no new package can be added, or the run builds against the local packa
 design session restores and tests after it.
 
 `codex exec resume` takes no `--add-dir`, and a resumed turn keeps only the working directory
-writable: pass the extra roots again as `-c 'sandbox_workspace_write.writable_roots=["D:\git\open-aow"]'`
+writable: pass the extra roots again as `-c "sandbox_workspace_write.writable_roots=['D:\git\open-aow']"`
 (seen on 2026-10-26, when a resumed emitter run could not write `src/Generated`). A turn that fails
 with `Selected model is at capacity` is resumed later, in the same thread.
 
