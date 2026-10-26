@@ -72,8 +72,9 @@ Inputs:
 Outputs:
 
 - One C# file per unit, `src/Generated/<Unit>.cs`, in the project `src/Generated/Generated.csproj`.
-- The report `src/Generated/report.md` (section 9).
-- The shim demand list `src/Generated/shim-demand.md`: every RTL, VCL and third-party symbol the
+- The report (section 9), written to `src/Generated/obj/report.md` and kept, with the shim
+  demand list, in `data/transpile/` of the private repository, since it is not product code.
+- The shim demand list `shim-demand.md` beside the report: every RTL, VCL and third-party symbol the
   generated code references, with its declaring unit and the number of references. It is the work
   list for the RTL shim.
 
@@ -1043,7 +1044,7 @@ the oracle runs, since they are game logic.
 
 ## 9. Report
 
-`src/Generated/report.md` has these sections, each with counts and locations (`file:line`):
+The report has these sections, each with counts and locations (`file:line`):
 
 1. Units processed, with lines in and lines out.
 2. Errors: constructs the transpiler does not map, by rule, with the Delphi source line. Each error
