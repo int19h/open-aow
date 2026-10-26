@@ -1006,7 +1006,7 @@ namespace Aow.Units.DisplayC
             ref Aow.Rtl.TRect SrcR = ref SrcR__cell[0];
             Aow.Rtl.TRect[] DstR__cell = new Aow.Rtl.TRect[1];
             ref Aow.Rtl.TRect DstR = ref DstR__cell[0];
-            if (GetInvMatrix != null)
+            if (GetInvMatrix() != null)
             {
                 Result = 0;
                 var call__14 = GetInvMatrix();
@@ -1249,7 +1249,7 @@ namespace Aow.Units.DisplayC
         public override int GetSurfaceCount()
         {
             int Result = default;
-            if (GetDisplay == null)
+            if (GetDisplay() == null)
             {
                 Result = 0;
             }

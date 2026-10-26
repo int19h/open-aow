@@ -519,7 +519,7 @@ namespace Aow.Units.HolyG
                     var call__53 = ((Aow.Units.HolyG.THolyGroundSpell)call__52).ValidTargetMapF(Field);
                     if (call__53)
                     {
-                        if (Field.GetArmyHS == null)
+                        if (Field.GetArmyHS() == null)
                         {
                             Field.RestoreTerrain();
                             Ground = (Aow.Units.HolyG.THolyGround)Resource.CreateResourceUser();
@@ -680,7 +680,21 @@ namespace Aow.Units.HolyG
             Result = call__63 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)((Aow.Units.AoWE.TAoWMapField)A1).TerrainType);
             // { Original overlay test allows these overlays even when the terrain check failed. }
             Result = (Result && (((Aow.Units.AoWE.TAoWMapField)A1).OverlayType == -1)) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)((Aow.Units.AoWE.TAoWMapField)A1).OverlayType);
-            Result = (Result && (((Aow.Units.AoWE.TAoWMapField)A1).FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure)) == null)) && (((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS == null);
+            bool bool__64 = Result;
+            if (bool__64)
+            {
+                var call__65 = ((Aow.Units.AoWE.TAoWMapField)A1).FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure));
+                bool__64 = (call__65 == null);
+            }
+
+            bool bool__66 = bool__64;
+            if (bool__66)
+            {
+                var call__67 = ((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS();
+                bool__66 = (call__67 == null);
+            }
+
+            Result = bool__66;
             return Result;
         }
 
@@ -708,8 +722,8 @@ namespace Aow.Units.HolyG
         public static void RegisterHolyGround(Aow.Units.Engine.TEngine Engine)
         {
             Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HolyG.THolyGround>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HolyG.THolyGroundResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HolyG.THolyGroundSpellTE>()]);
-            var call__64 = Aow.Units.HolyG.THolyGroundSpell.Create(null);
-            ((Aow.Units.AoWE.TAoWEngine)Engine).FGameSet.FSpellControl.RegisterSpell(call__64);
+            var call__68 = Aow.Units.HolyG.THolyGroundSpell.Create(null);
+            ((Aow.Units.AoWE.TAoWEngine)Engine).FGameSet.FSpellControl.RegisterSpell(call__68);
         }
 
         // HolyG.pas:401

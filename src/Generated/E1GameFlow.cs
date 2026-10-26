@@ -179,8 +179,18 @@ namespace Aow.Units.E1GameFlow
         // E1GameFlow.pas:84
         public static void ExitToTitle(Aow.Units.AoWWinMan.TGeneral Controller)
         {
-            /* TODO(T-shim) Platform or editor boundary SysUtils.SetCurrentDir */
-            throw new System.NotImplementedException();
+            Aow.Units.AoWE.AoWE.AoWEngine.CloseHSM(null);
+            Aow.Units.AoWE.AoWE.AoWEngine.CloseCampaign();
+            Aow.Units.AoWSWindow.AoWSWindow.SWindow.Scanner.SetMap(null);
+            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.SetMap(null);
+            Aow.Units.Sound.Sound.SongPlayer.Stop(false);
+            Aow.Units.Sound.Sound.SongPlayer.Songs.Clear();
+            Aow.Rtl.Rtl.SetCurrentDir(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory);
+            Aow.Units.E1GameFlow.E1GameFlow.HideGameWindows(Aow.Units.AoWWinMan.AoWWinMan.General);
+            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.Visible = false;
+            Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.Visible = false;
+            Aow.Units.E2Globals.E2Globals.TitleScene.ResetScene();
+            Aow.Units.E2Globals.E2Globals.TitleScene.ShowScene(true);
         }
 
         // E1GameFlow.pas:100
@@ -216,8 +226,39 @@ namespace Aow.Units.E1GameFlow
         // E1GameFlow.pas:154
         public static void ShowCampaignMap(Aow.Units.AoWWorldMap.TWorldMap Dialog)
         {
-            /* TODO(T-shim) Platform or editor boundary SysUtils.SetCurrentDir */
-            throw new System.NotImplementedException();
+            Aow.Rtl.AnsiString Song = default;
+            Dialog.ResetCampaign();
+            Aow.Units.AoWE.AoWE.AoWEngine.CloseHSM(null);
+            Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
+            Aow.Units.E2Globals.E2Globals.TitleWindow.TitlePnl.Visible = false;
+            Dialog.WorldPnl.Visible = true;
+            Dialog.FPathFrame = 0;
+            Dialog.FPathDelay = 5;
+            Dialog.DescLbl.Text = (AnsiString)"";
+            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 249;
+            Aow.Units.Sound.Sound.SongPlayer.Stop(false);
+            Aow.Rtl.Rtl.SetCurrentDir(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory);
+            var call__8 = Dialog.GetCampaign();
+            var call__9 = Dialog.GetCampaign();
+            var call__10 = Aow.Units.E2CampaignSupport.E2CampaignSupport.GetCampaignScenario(call__9, call__8.FCurrentScenarioID);
+            if (call__10.FImageLibrary == ((AnsiString)""))
+            {
+                Song = (AnsiString)"Songs\\Title.IT";
+            }
+            else
+            {
+                var call__11 = Dialog.GetCampaign();
+                var call__12 = Dialog.GetCampaign();
+                var call__13 = Aow.Units.E2CampaignSupport.E2CampaignSupport.GetCampaignScenario(call__12, call__11.FCurrentScenarioID);
+                Song = ((AnsiString)"Songs\\") + call__13.FImageLibrary;
+            }
+
+            Aow.Units.Sound.Sound.PlaySongEx(Song, 1, 0, true);
+            var call__14 = Dialog.GetCampaign();
+            Dialog.PPawn.CurrentImage = call__14.FFaction + 7;
+            var call__15 = Dialog.GetCampaign();
+            Dialog.EPawn.CurrentImage = 8 - call__15.FFaction;
+            Dialog.UpdateCampaignState();
         }
 
         // E1GameFlow.pas:179

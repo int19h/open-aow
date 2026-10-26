@@ -629,17 +629,18 @@ namespace Aow.Units.AoWResultsWin
                     R = call__66;
                     var call__67 = FPlayers[w__65.Tag];
                     var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__67);
-                    if (call__68.GetFace != null)
+                    var call__69 = call__68.GetFace();
+                    if (call__69 != null)
                     {
-                        var call__69 = FPlayers[w__65.Tag];
-                        var call__70 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__69);
-                        call__70.FLeader.ShowFace(R, Surface);
+                        var call__70 = FPlayers[w__65.Tag];
+                        var call__71 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__70);
+                        call__71.FLeader.ShowFace(R, Surface);
                     }
 
-                    var call__71 = FPlayers[w__65.Tag];
-                    var call__72 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__71);
-                    var call__73 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[call__72.FPlayerRace + 16];
-                    call__73.ShowClipped(w__65.WinLeft + ResultsPnl.WinLeft, w__65.WinTop + ResultsPnl.WinTop, Surface);
+                    var call__72 = FPlayers[w__65.Tag];
+                    var call__73 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__72);
+                    var call__74 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[call__73.FPlayerRace + 16];
+                    call__74.ShowClipped(w__65.WinLeft + ResultsPnl.WinLeft, w__65.WinTop + ResultsPnl.WinTop, Surface);
                 }
             }
         }
@@ -653,10 +654,10 @@ namespace Aow.Units.AoWResultsWin
             {
                 if (FPlayers.Count > Control.Tag)
                 {
-                    var call__74 = FPlayers[Control.Tag];
-                    var call__75 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__74);
-                    var call__76 = call__75.GetNameEx();
-                    SideLbl.Text = call__76;
+                    var call__75 = FPlayers[Control.Tag];
+                    var call__76 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__75);
+                    var call__77 = call__76.GetNameEx();
+                    SideLbl.Text = call__77;
                 }
 
                 ResValues.Items.Clear();
@@ -689,11 +690,11 @@ namespace Aow.Units.AoWResultsWin
             Window.FPlayers.Clear();
             {
                 I = 1;
-                int end__77 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
-                for (; I <= end__77; I += 1)
+                int end__78 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
+                for (; I <= end__78; I += 1)
                 {
-                    var call__78 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                    if (call__78.FPlayerType != Aow.Units.AoWE.TPlayerType.ptIndependent)
+                    var call__79 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    if (call__79.FPlayerType != Aow.Units.AoWE.TPlayerType.ptIndependent)
                     {
                         Window.FPlayers.Add(unchecked((byte)I));
                     }
@@ -702,40 +703,40 @@ namespace Aow.Units.AoWResultsWin
 
             {
                 I = 0;
-                byte end__79 = 11;
-                for (; I <= end__79; I += 1)
+                byte end__80 = 11;
+                for (; I <= end__80; I += 1)
                 {
-                    var call__80 = Window.FControls[I];
-                    ((Aow.Units.AoWCheckBox.TAOWCheckBox)call__80).Visible = I < Window.FPlayers.Count;
-                    bool bool__81 = (I < Window.FPlayers.Count);
-                    if (bool__81)
+                    var call__81 = Window.FControls[I];
+                    ((Aow.Units.AoWCheckBox.TAOWCheckBox)call__81).Visible = I < Window.FPlayers.Count;
+                    bool bool__82 = (I < Window.FPlayers.Count);
+                    if (bool__82)
                     {
-                        var call__82 = Window.FPlayers[I];
-                        bool__81 = (call__82 == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                        var call__83 = Window.FPlayers[I];
+                        bool__82 = (call__83 == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
                     }
 
-                    var call__83 = Window.FControls[I];
-                    ((Aow.Units.AoWCheckBox.TAOWCheckBox)call__83).Checked = bool__81;
+                    var call__84 = Window.FControls[I];
+                    ((Aow.Units.AoWCheckBox.TAOWCheckBox)call__84).Checked = bool__82;
                 }
             }
 
-            bool bool__84 = (Aow.Units.AoWE.AoWE.AoWEngine.FCampaign != null);
-            if (bool__84)
+            bool bool__85 = (Aow.Units.AoWE.AoWE.AoWEngine.FCampaign != null);
+            if (bool__85)
             {
-                var call__85 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                bool__84 = (call__85.FGameOverStatus == Aow.Units.AoWE.TGameOverStatus.goLost);
+                var call__86 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                bool__85 = (call__86.FGameOverStatus == Aow.Units.AoWE.TGameOverStatus.goLost);
             }
 
-            if (bool__84)
+            if (bool__85)
             {
-                var call__86 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ReplayRStr);
-                Window.ContinueBtn.Text = call__86;
+                var call__87 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ReplayRStr);
+                Window.ContinueBtn.Text = call__87;
                 Window.ExitBtn.Visible = true;
             }
             else
             {
-                var call__87 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ContinueRStr);
-                Window.ContinueBtn.Text = call__87;
+                var call__88 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ContinueRStr);
+                Window.ContinueBtn.Text = call__88;
                 Window.ExitBtn.Visible = false;
             }
 

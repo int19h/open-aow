@@ -20,7 +20,7 @@ implementer.
 | step | work | depends on | done |
 |---|---|---|---|
 | 2.1 | Round trip on the reduced model (`tests/roundtrip-model/`). Skipped on 2026-10-26: the whole set already transpiled when 2.2 started, and the reduced model is a separate Free Pascal dialect | 1.4 | M1a (`persistence.md` 4) |
-| 2.2 | Round trip on the real engine and rules | 1.5 | M1b |
+| 2.2 | Round trip on the real engine and rules. Done on 2026-10-26 as the load and save path: every world file loads and saves, and byte equality moved to 2.4 because the native load changes the game (`persistence.md` 4) | 1.5 | M1b |
 | 2.3 | Headless host: `IRtlHost` null services, the load path, `Activate` and the `NewFrame` loop, `AutoSave` at `NewDay`, `--tactical` | 2.2, the asm overrides of `bitop`, `fill`, `hex-coords` and `other` (`transpiler.md` 8.2) | O1 self-determinism on Mountain Clash |
 | 2.4 | Save comparison against `D:\Build\oracle` with masks | 2.3 | O2 Mountain Clash, then O3 all seven scenarios and 50 turns, O4 the tactical run (`testing.md` 3.4) |
 

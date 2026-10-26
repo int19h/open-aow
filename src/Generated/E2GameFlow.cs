@@ -421,8 +421,18 @@ namespace Aow.Units.E2GameFlow
         // E2GameFlow.pas:616
         public static void CloseGame(Aow.Units.AoWWinMan.TGeneral Controller)
         {
-            /* TODO(T-shim) Platform or editor boundary SysUtils.SetCurrentDir */
-            throw new System.NotImplementedException();
+            Aow.Units.AoWE.AoWE.AoWEngine.CloseHSM(null);
+            Aow.Units.AoWE.AoWE.AoWEngine.CloseCampaign();
+            Aow.Units.AoWSWindow.AoWSWindow.SWindow.Scanner.SetMap(null);
+            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.SetMap(null);
+            Aow.Units.Sound.Sound.SongPlayer.Stop(false);
+            Aow.Units.Sound.Sound.SongPlayer.Songs.Clear();
+            Aow.Rtl.Rtl.SetCurrentDir(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory);
+            Aow.Units.E2GameFlow.E2GameFlow.HideGameWindows(Aow.Units.AoWWinMan.AoWWinMan.General);
+            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.Visible = false;
+            Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.Visible = false;
+            Aow.Units.E2Globals.E2Globals.TitleScene.ResetScene();
+            Aow.Units.E2GameFlow.E2GameFlow.ShowTitleScene(Aow.Units.E2Globals.E2Globals.TitleScene, true);
         }
 
         // E2GameFlow.pas:642

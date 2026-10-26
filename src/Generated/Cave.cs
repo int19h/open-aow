@@ -856,7 +856,7 @@ namespace Aow.Units.Cave
         }
 
         // { Original AoWE resource initialization table $55798BC0..$557990E4. }
-        public static Aow.Rtl.AnsiString[] RaceNames = new Aow.Rtl.AnsiString[13];
+        public static Aow.Rtl.AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
         public static readonly Aow.Rtl.AnsiString CaveNoWarRStr = (AnsiString)"Not at war with the %s";
         // Cave.pas:95
         // { original RT_STRING $FCD6 }

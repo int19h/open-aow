@@ -796,7 +796,7 @@ namespace Aow.Units.AoWInfoWin
                 var w__33 = Dialog;
                 var call__34 = Structure.GetName();
                 w__33.StructNameLbl.Text = call__34;
-                if (Structure.GetBottomBorderImage != null)
+                if (Structure.GetBottomBorderImage() != null)
                 {
                     var call__35 = Structure.GetTopBorderImage();
                     w__33.StructLine.ImageTop = call__35;
