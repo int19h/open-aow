@@ -562,7 +562,7 @@ members through a cast. Rule N4 removes them.
 | `property P: T read FP` | getter only |
 | `property P: T read GetP index 3` | `get => GetP(3)` |
 | `property Items[I: Integer]: T read Get write Put; default;` | a C# indexer |
-| `property Items[I: Integer]: T read Get write Put;` (not default) | a readonly property `Items` returning the struct `ItemsAccessor` with an indexer that calls `Get` and `Put` |
+| `property Items[I: Integer]: T read Get write Put;` (not default) | a readonly property `Items` returning a generated sealed class `ItemsAccessor` with an indexer that calls `Get` and `Put` (a struct accessor makes an assignment through the property error CS1612) |
 | `default 0`, `nodefault` | `[DefaultValue(0)]` on the property, for the layout loader |
 | `published` | `[Published]` |
 
@@ -906,9 +906,9 @@ a field rather than at its start, and the original then reads the field shifted:
 within it and the flattened element index, and the emitter reads that element, so the shift
 survives. The transpiler computes every resolution itself and compares it with the catalogue entry at the same file and line; a disagreement is an error |
 | N4 | An accessor class `TXAccess = class(TX);` used only in casts | the casts become plain references to the `TX` object, and the members reached become `internal`. An empty class used anywhere else than a cast stays a class |
-| N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y` |
+| N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y`, where the source compares the whole method pointer. Where it compares the two halves under separate conditions (`TEventList.Pack` tests code and data with `and`), the halves become the shim's `MethodCode` and `MethodTarget` and the condition stays as written, because whole-delegate inequality deletes other items |
 | N6 | `Integer(Pointer(@FX)^)` and other reinterpretations of a field group as one integer (11 uses) | error, override required. The report lists them |
-| N7 | `Integer(Self)`, `Integer(Owner)`, `Integer(obj)` as a value | `obj.InstanceId`, a 32-bit id the shim assigns to every object at construction from a counter. In `Msg.Param[i] := Integer(obj)` and `TFoo(Msg.Param[i])` the parameter type is the shim's `IntOrRef` and the conversions use its `Ref` and `Value` members. Address arithmetic such as `(Integer(Self) shr 8) and 3` (shore and animation variants) uses `InstanceId` and is deterministic in the port where the original depended on the heap |
+| N7 | `Integer(Self)`, `Integer(Owner)`, `Integer(obj)` as a value | `obj.InstanceId`, a 32-bit id the shim assigns to every object at construction from a counter. In `Msg.Param[i] := Integer(obj)` and `TFoo(Msg.Param[i])` the parameter type is the shim's `IntOrRef` and the conversions use its `Ref` and `Value` members. Address arithmetic such as `(Integer(Self) shr 8) and 3` (shore and animation variants) uses `InstanceId` and is deterministic in the port where the original depended on the heap. An integer stored in an object slot (`TStrings.Objects[i] := TObject(n)`, editor ids and section offsets in Engine) is not an object: the shim keeps it as a canonical integer box (`IntToObject`, `ObjectToInt`), and `ObjectToInt` returns the stored integer for a box and `InstanceId` for a real object |
 | N8 | `with PRec(P)^ do` and `with TRec(Pointer(P)^) do` | the `with` is resolved after N3 |
 | N9 | A shape cast through `Pointer`: `TFoo(Pointer(x))` on a class reference (9 [1]), and the cell view `T(Pointer(@G)^)` of a global (16), parameter (3), local (2) or field of `Self` (1) (22 [6]) | the class cast is the reference conversion of section 5.7. The cell view becomes `G` when `T` is the declared type of `G`, `(T)G` when `T` is a class related to it, and an error otherwise |
 | N10 | A unit-qualified name `Unit.Name` | kept |

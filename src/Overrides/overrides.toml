@@ -1,0 +1,54 @@
+[[skip]]
+member = "Engine.FillInteger"
+reason = "assembly fill, Pascal equivalent from asm-routines.json"
+file = "src/Overrides/Engine/Fill.cs"
+
+[[skip]]
+member = "Engine.FillWord"
+reason = "assembly fill, Pascal equivalent from asm-routines.json"
+file = "src/Overrides/Engine/Fill.cs"
+
+[[skip]]
+member = "Engine.FillLargeInteger"
+reason = "assembly fill, Pascal equivalent from asm-routines.json"
+file = "src/Overrides/Engine/Fill.cs"
+
+[[skip]]
+member = "Engine.FillQuadInteger"
+reason = "assembly fill, Pascal equivalent from asm-routines.json"
+file = "src/Overrides/Engine/Fill.cs"
+
+[[skip]]
+member = "Engine.TBitList.Get"
+reason = "assembly bit test, Pascal equivalent from asm-routines.json"
+file = "src/Overrides/Engine/TBitList.cs"
+
+[[skip]]
+member = "Engine.TBitList.Put"
+reason = "assembly bit update, Pascal equivalent from asm-routines.json"
+file = "src/Overrides/Engine/TBitList.cs"
+
+[[skip]]
+member = "Engine.TECopyComponent"
+reason = "editor clipboard boundary stub from design section 3"
+file = "src/Overrides/Engine/Clipboard.cs"
+
+[[skip]]
+member = "Engine.CopyStreamToClipboard"
+reason = "editor clipboard boundary stub from design section 3"
+file = "src/Overrides/Engine/Clipboard.cs"
+
+[[skip]]
+member = "Engine.PasteStreamFromClipboard"
+reason = "editor clipboard boundary stub from design section 3"
+file = "src/Overrides/Engine/Clipboard.cs"
+
+[[skip]]
+member = "Engine.TEObjectEditor.UpdateMultiPopupMenu"
+reason = "editor popup boundary stub from design section 3"
+file = "src/Overrides/Engine/Popup.cs"
+
+[[skip]]
+member = "Engine.TEObjectEditor.UpdatePopupMenu"
+reason = "editor popup boundary stub from design section 3"
+file = "src/Overrides/Engine/Popup.cs"
