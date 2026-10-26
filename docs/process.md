@@ -54,8 +54,10 @@ The user decides scope, settles open questions and approves anything irreversibl
   scripts that produced them (`tools/survey/`, so that a catalogue can be rebuilt after the
   recovery changes the source), the probes and the oracle tooling, and `correspondence/`, every
   request to and reply from the recovery project, dated, so that the provenance of a fact in a
-  specification can be traced. The two repositories have no remote and are committed separately.
-  A change that touches both gets one commit in each with the same first line.
+  specification can be traced. The product repository has `origin` at
+  `github.com/int19h/open-aow` (default branch `main`) and takes changes through pull requests
+  (section 4). The private repository has no remote and is committed directly. A change that
+  touches both gets one commit in each with the same first line.
 
 Surveys of the recovered source or the binaries are the port's own work, done by a researcher run
 (section 1) from this session. The recovery session is asked only what its coordinator knows
@@ -102,13 +104,15 @@ The prompt names the files the run is allowed to write (a script under `tools/su
 under `data/<topic>/`) and nothing else, so that a commit from this session never sweeps in a
 half-written file.
 
-The sandbox and the two repositories. On 2026-10-26 the sandboxed runner failed to start
-(`helper_unknown_error: setup refresh had errors`) or hung whenever `--add-dir` named a directory
-other than `D:\git\aow`, including `D:\git\open-aow-private` and an empty directory. A task
-that must write in both repositories, or outside them, runs with `-s danger-full-access` and the
-prompt states the directory rule in words, with a backup made first (a `git bundle` of every ref
-for a history rewrite). The sandboxed form stays the default for every task that writes in one
-repository.
+The sandbox and the private repository. The sandboxed runner cannot start on
+`D:\git\open-aow-private`, as working directory or as `--add-dir`: the directory is owned by the
+Administrators group and the sandbox setup fails to change its ACL (`helper_unknown_error: setup
+refresh had errors`, cause read in `~/.codex/.sandbox/sandbox.<date>.log` on 2026-10-26). The user
+authorized on 2026-10-26 running Codex without its sandbox for every task that touches the private
+repository: `-s danger-full-access` on `exec`, `-c 'sandbox_mode="danger-full-access"'` on
+`resume`. Such a prompt states the directory rule in words (only the named repositories, never
+`D:\git\aow`), and a task that rewrites history makes a backup first (a `git bundle` of every
+ref). A task confined to the product repository keeps the sandbox.
 
 Fork a task to try an alternative without losing the first line of work:
 
@@ -157,8 +161,13 @@ The recovery project ran its byte-matching workers as Codex sessions through scr
 4. Findings go back to the same Codex session by `resume`, so the implementer keeps its context.
    Three rounds without progress means the brief or the specification is wrong. Fix that, not the
    code.
-5. When the done measure holds, the design session commits with a message that names the brief.
-   Commit messages end with the attribution line for the model in use.
+5. When the done measure holds, the design session commits on the brief's branch
+   (`brief/<task>`, cut from `main`), pushes it and opens a pull request whose description
+   carries the done measure's command output. The user merges, or tells the design session to.
+   Commit messages end with the attribution line for the model in use. Changes in the private
+   repository go straight to its `master`.
+6. The repositories carry an `AGENTS.md` with the standing rules of section 5, which Codex reads
+   on every run, so a brief repeats only the rules it tightens.
 
 ## 5. Standing rules for the implementer
 
