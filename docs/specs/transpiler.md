@@ -59,6 +59,14 @@ Inputs:
     `absolute` alias (section 6, N1, N9, N11, N12).
   - `initialization-order.json`: the unit initialization tables of the executables and the 21
     packages they load (section 4.8).
+- The three source-derived catalogues (`class-layouts.json`, `layout-views.json`,
+  `shape-casts.json`) describe the source at one commit, and the recovery's copies under
+  `D:\git\aow\data\` date from 8fffb88. The port regenerates them at the source commit it
+  transpiles, with the recovery's own generators (`D:\git\aow\tools\portdata\`, which take an
+  output path), into `data/recovery-<commit>/` of the private repository, and passes that
+  directory as `--source-catalogues`. `classes.json` and `initialization-order.json` come from the
+  original binaries and are read from `D:\git\aow\data\` as they are. The first regeneration,
+  at d898ee4 on 2026-10-26, moved 13 views and one shape cast to their new lines.
 - The override manifest `src/Overrides/overrides.toml` (section 8).
 
 Outputs:
@@ -610,7 +618,11 @@ order, mapping each `unit` to its unit class and skipping units outside the tran
 initialization is the shim's. `FinalizeAll` is the reverse. Four `AoW.exe` entries have `unit`
 null (positions 3, 35, 42 and 325, candidates Messages, MMSystem, RichEdit and AoWRegistrationDlg,
 none with an initialization section in the transpile set), so they are skipped and reported. A
-transpiled unit with an `initialization` section that the table does not name is an error.
+transpiled unit with an `initialization` section that the table does not name was never
+initialized by the game, because the runtime does not run a statically loaded package's own table:
+it is left out of `InitializeAll`, reported as information when the section is empty, and an error
+for review when it is not. The 15 such units of the transpile set (editor grids and boxes of
+AoWEPACK, found on 2026-10-26) all have empty sections.
 
 Two findings of the recovery to keep in mind. The table is not in strict dependency order by the
 recovered uses clauses (`AoWReg` at position 65 runs before `Sound` at 68 and `HSEngine` at 71,
@@ -887,7 +899,12 @@ cleanup of the recovery source, if the user asks the recovery session for one.
 |---|---|---|
 | N1 | A pointer-view constant, `Name: PType = @Target` (143 [139]: 53 object cells such as `WorldMap: PAoWHSMap = @AoWE.AoWHSMap`, 18 value cells, 7 data tables, 65 resource strings; 727 dereferences) | every `Name^` becomes `Target`. For a resource string, `Name^` is the resource string. A use of `Name` as a pointer value is an error |
 | N2 | A pointer variable assigned the address of one global in one place and dereferenced elsewhere, `RandomSeed: ^Integer` pointing at `RandSeed` | the same fold. The assignment is removed |
-| N3 | A layout view (378 uses: 357 AoWEPACK, 14 SoundP, 6 Network, 1 Engine), in three forms. `TRawObject(Pointer(Obj)^).Fields[n div 4]` (162). A view record cast, `TRec(Pointer(Obj)^).Field` or `PRec(Pointer(Obj))^.Field`, where `TRec` is a record of padding and named fields (87). A view class, a class declaration that copies part of a real class's layout, such as `TP2*Fields` or `TENodeView`, cast over a real object (129, of which 47 are method calls through the view's virtual method table). 97 view types are declared, 30 unused | compute the byte offset of the member in the view with the layout model, take the run-time class of `Obj`, find the field at that offset in `data/class-layouts.json`, and emit `Obj.<FieldName>`, with the field made `internal` when it is private or in another unit. A method call through a view class resolves by virtual slot: the slot index of the view's method maps to the same slot of the run-time class in `classes.json`, and the call becomes a plain virtual call. Resolution is by offset, never by the view's member name: 84 views name a member differently from the source field, and one is a real swap (`TLeaderSetupView`, `AoWSetup.pas:214`: its `OriginalLeader` is `FLeader` at `$C` and its `Leader` is `FOriginalLeader` at `$14`). The run-time class is the static type of `Obj`, except where the catalogue marks the use `unresolved` and gives a `recommended` class, which is then used, and except for a method view whose slot the static type does not have, where the resolver narrows the receiver by the assignment that fed it (the three `TP2AbilityCalls(Group)` calls of `Unit.PAS`, section 4.4) and a slot that resolves to an instance method makes the call an instance call (`TP2LegacyBehaviorCalls(Legacy).Behavior`): 13 untyped bases (10 `GetPlayersABI(..)` results and 2 reads nested in them are `TPlayer`, one `Control: TObject` is `TPlayerMagicControl`), 3 `TArmyHS(X).FArmy` reads (`MapCtrl.pas:315, 329, 342`), and 18 record views, 10 of them `Info.MapField` at `$18`, past the end of `TMapField`, which are `TAoWMapField.FFieldFlags`. The weakest recommendation is `TUnitSpell` for spells 17 and 56. The transpiler computes every resolution itself and compares it with the catalogue entry at the same file and line; a disagreement is an error |
+| N3 | A layout view (378 uses: 357 AoWEPACK, 14 SoundP, 6 Network, 1 Engine), in three forms. `TRawObject(Pointer(Obj)^).Fields[n div 4]` (162). A view record cast, `TRec(Pointer(Obj)^).Field` or `PRec(Pointer(Obj))^.Field`, where `TRec` is a record of padding and named fields (87). A view class, a class declaration that copies part of a real class's layout, such as `TP2*Fields` or `TENodeView`, cast over a real object (129, of which 47 are method calls through the view's virtual method table). 97 view types are declared, 30 unused | compute the byte offset of the member in the view with the layout model, take the run-time class of `Obj`, find the field at that offset in `data/class-layouts.json`, and emit `Obj.<FieldName>`, with the field made `internal` when it is private or in another unit. A method call through a view class resolves by virtual slot: the slot index of the view's method maps to the same slot of the run-time class in `classes.json`, and the call becomes a plain virtual call. Resolution is by offset, never by the view's member name: 84 views name a member differently from the source field, and one is a real swap (`TLeaderSetupView`, `AoWSetup.pas:214`: its `OriginalLeader` is `FLeader` at `$C` and its `Leader` is `FOriginalLeader` at `$14`). The run-time class is the static type of `Obj`, except where the catalogue marks the use `unresolved` and gives a `recommended` class, which is then used, and except for a method view whose slot the static type does not have, where the resolver narrows the receiver by the assignment that fed it (the three `TP2AbilityCalls(Group)` calls of `Unit.PAS`, section 4.4) and a slot that resolves to an instance method makes the call an instance call (`TP2LegacyBehaviorCalls(Legacy).Behavior`): 13 untyped bases (10 `GetPlayersABI(..)` results and 2 reads nested in them are `TPlayer`, one `Control: TObject` is `TPlayerMagicControl`), 3 `TArmyHS(X).FArmy` reads (`MapCtrl.pas:315, 329, 342`), and 18 record views, 10 of them `Info.MapField` at `$18`, past the end of `TMapField`, which are `TAoWMapField.FFieldFlags`. The weakest recommendation is `TUnitSpell` for spells 17 and 56. A view member can start inside
+a field rather than at its start, and the original then reads the field shifted: `TCaveMoveData`
+(`Cave.pas:269`) places `Costs` at `$31`, one byte into `TMoveControl.FMovePointTable` at `$30`, so
+`Costs[t, o]` is byte `1 + 16 t + o` of that table. The resolution keeps the field, the byte offset
+within it and the flattened element index, and the emitter reads that element, so the shift
+survives. The transpiler computes every resolution itself and compares it with the catalogue entry at the same file and line; a disagreement is an error |
 | N4 | An accessor class `TXAccess = class(TX);` used only in casts | the casts become plain references to the `TX` object, and the members reached become `internal`. An empty class used anywhere else than a cast stays a class |
 | N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y` |
 | N6 | `Integer(Pointer(@FX)^)` and other reinterpretations of a field group as one integer (11 uses) | error, override required. The report lists them |
@@ -1040,11 +1057,15 @@ the oracle runs, since they are game logic.
 7. Destructors with logic beyond freeing, for review.
 8. Identifiers that collide across units and were qualified.
 9. The shim demand list, written to its own file as well.
-10. Catalogue checks: layout views whose resolution disagrees with `data/layout-views.json`,
-    shape casts not in `data/shape-casts.json` or listed there and not found, class layouts that
-    disagree with `data/class-layouts.json`, initialization sections the table in
-    `data/initialization-order.json` does not name, and evaluation orders that fall into a case
-    the recovery's probes did not test (section 5.4).
+10. Catalogue checks. A failure is a value disagreement for the same occurrence (another field,
+    byte offset, virtual slot, class or size than the catalogue gives, where a view's byte offset
+    is compared with the catalogue's field offset plus its `sub_offset`), or a catalogue entry the
+    transpiler does not find at its location. An occurrence the transpiler finds and resolves that
+    the catalogue does not list is a resolution, listed as found by the transpiler only, and a
+    class the class catalogue does not cover (GFXE and DisplayC have no entries) is listed as not
+    covered: the layout model is the authority, the catalogues are cross-checks where they speak.
+    Also listed: initialization sections outside the table (section 4.8) and evaluation orders
+    that fall into a case the `evalorder` probe has no case for (section 5.4).
 
 ## 10. Survey of the source
 
