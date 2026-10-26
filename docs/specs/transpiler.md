@@ -162,7 +162,7 @@ Delphi comments are kept at their statements, including the recovery project's n
 | Comp | long | 7 uses, all in method pointer comparisons, removed by rule N5 |
 | Single | float | |
 | Double, Real, Extended | double | Real is the 6-byte legacy type. `../design.md` accepts the precision change |
-| Boolean, ByteBool, WordBool, LongBool | bool | a cast from an integer becomes `!= 0` |
+| Boolean, ByteBool, WordBool, LongBool | bool | a cast from an integer, section 7 trap 9 |
 | Char | byte | Delphi 3 `Char` is one byte. The alias `AnsiChar` names it in generated code |
 | string, AnsiString | AnsiString | the shim's byte string struct, section 5.6 |
 | ShortString, string[n] | AnsiString | 4 uses. The length limit is lost and reported |
@@ -926,7 +926,16 @@ Each entry names the rule and the probe (section 11) that proves it.
 7. For loop bounds are evaluated once. A loop over a `Byte` variable to 255 terminates. Probe
    `loops`.
 8. Argument evaluation order, section 5.4. Probe `evalorder`.
-9. Delphi `Boolean` from an integer cast is `value != 0`, and `Ord(True)` is 1. Probe `integers`.
+9. A Delphi `Boolean` is a byte, and a cast keeps the low byte only: `Boolean(256)` is false.
+   A value other than 0 and 1 branches true but compares unequal to `True`, and `not` flips only
+   bit 0 (probe `integers`, 2026-10-26). `ByteBool`, `WordBool` and `LongBool` test their whole
+   width for zero. The mapping: `Boolean(n)` becomes `(byte)(n) != 0`, `LongBool(n)` becomes
+   `(n) != 0`, and `Ord(True)` is 1. Where the value a cast produces can reach a comparison with
+   `True` or `False` or a `not`, the C# `bool` loses the byte: the source has 4 integer casts to a
+   Boolean type in the transpile set, and two of them are of that kind. `Boolean(6)` passed to
+   `CreateDamageCA` (`AoWAb.PAS:2089`) and `Boolean(PChar(Self)[$158]) = True` (`AoWMemo.pas:546`)
+   get overrides that keep Delphi's comparison (`== 1` on the byte), and the report lists every
+   cast to a Boolean type with the uses of its value.
 10. A hard cast between classes checks nothing in Delphi. Section 5.7.
 11. Enumerations are one byte, and a set is a bit per ordinal. `Byte(Set)` reads the mask. Probe
     `sets`.
