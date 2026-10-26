@@ -50,7 +50,13 @@ public class TList : TObject
     // CLASSES.PAS TList.Delete leaves the spare slot intact.
     public void Delete(int index) { Check(index); count--; Array.Copy(items, index + 1, items, index, count - index); }
     // CLASSES.PAS TList.IndexOf compares pointer identity.
-    public int IndexOf(object? item) { for (int i = 0; i < count; i++) if (ReferenceEquals(items[i], item)) return i; return -1; }
+    public int IndexOf(object? item)
+    {
+        for (int i = 0; i < count; i++)
+            if (ReferenceEquals(items[i], item) || items[i] is IPointerBox left && item is IPointerBox right &&
+                ReferenceEquals(left.StorageIdentity, right.StorageIdentity) && left.ByteIndex == right.ByteIndex) return i;
+        return -1;
+    }
     // CLASSES.PAS TList.Remove.
     public int Remove(object? item) { int i = IndexOf(item); if (i >= 0) Delete(i); return i; }
     // CLASSES.PAS TList.Exchange.

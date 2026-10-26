@@ -133,13 +133,13 @@ namespace Aow.Units.EList
             int I = default;
             Aow.Units.EList.TListObject Obj = default;
             DestroyItems();
-            Stream.Read(Bytes.Of(ref N, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref N, 4));
             {
                 I = 0;
                 int end__2 = N - 1;
                 for (; I <= end__2; I += 1)
                 {
-                    Stream.Read(Bytes.Of(ref IsNil, 1));
+                    Stream.Read(Aow.Rtl.Bytes.Of(ref IsNil, 1));
                     if (!IsNil)
                     {
                         Obj = AClass.Create();
@@ -166,7 +166,7 @@ namespace Aow.Units.EList
                 for (; I <= end__3; I += 1)
                 {
                     IsNil = List[I] == null;
-                    Stream.Write(Bytes.Of(ref IsNil, 1));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref IsNil, 1));
                     if (!IsNil)
                     {
                         ((Aow.Units.EList.TListObject)List[I]).SaveToStream(Stream);
