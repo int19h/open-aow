@@ -166,7 +166,8 @@ The recovery project ran its byte-matching workers as Codex sessions through scr
    code.
 5. When the done measure holds, the design session commits on the brief's branch
    (`brief/<task>`, cut from `main`), pushes it and opens a pull request whose description
-   carries the done measure's command output. The user merges, or tells the design session to.
+   carries the done measure's command output. The design session merges when the measure holds
+   (the user delegated merges on 2026-10-26).
    Commit messages end with the attribution line for the model in use. Changes in the private
    repository go straight to its `master`.
 6. The repositories carry an `AGENTS.md` with the standing rules of section 5, which Codex reads
