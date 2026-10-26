@@ -720,20 +720,30 @@ and these are the rules. The weight of a subtree is the number of calls in it.
    routines use: with one to three arguments, right to left. With four or more, the stack
    arguments (the fourth onward) first, left to right, then the three register arguments right to
    left: 4, 5, 3, 2, 1. A heavier register argument comes before lighter ones:
-   `P3(Tick(1) + Tick(9), Tick(2), Tick(3))` gives 1, 9, 3, 2.
-4. `stdcall` and `cdecl` calls: last argument first. `pascal` calls: first argument first.
+   `P3(Tick(1) + Tick(9), Tick(2), Tick(3))` gives 1, 9, 3, 2. Weight reorders the register
+   arguments only: the stack arguments always come first, so a heavy first argument of a
+   five-argument call gives 4, 5, 1, 9, 3, 2, and a heavy fourth argument stays in its stack
+   position, 4, 9, 5, 3, 2, 1 (probe `evalorder`, 2026-10-26).
+4. `stdcall` and `cdecl` calls: last argument first. `pascal` calls: first argument first. Weight
+   does not reorder the arguments of these conventions: a heavy first `stdcall` argument stays
+   last, 5, 4, 3, 2, 1, 9.
 5. A method call evaluates its receiver last, after all arguments.
 6. Binary operators: left operand first when the weights are equal, for every operator. A heavier
    right operand comes first: `T1 - (T2 - T3)` gives 2, 3, 1.
 7. Array indexing: the index before a call-valued base. With several indices, the last index
    first.
 8. Assignment: the right side first, unless the target is strictly heavier: `GA[Tick(1)] :=
-   Tick(2)` gives 2, 1. When the target's base is a call that returns a pointer, the target address
-   is computed first: `TickP(1)^[Tick(2)] := Tick(3)` gives 2, 1, 3.
+   Tick(2)` gives 2, 1. A pointer-valued base does not change this: `TickP(1)^[3] := Tick(2)`
+   gives 2, 1, and `TickP(1)^[Tick(2)] := Tick(3) + Tick(4)` gives 3, 4, 2, 1. When the target is
+   heavier, rule 7 orders it: `TickP(1)^[Tick(2)] := Tick(3)` gives 2, 1, 3.
+9. Boolean `and` and `or` under the default `{$B-}` evaluate left first and skip the right
+   operand when the left decides. Under `{$B+}` rule 1 applies: a heavier right operand runs
+   first.
 
-Not covered by the probes: a heavy register argument against stack arguments, and weight
-reordering under `stdcall` or `cdecl`. The emitter reports every occurrence of these cases in the
-transpile set, and the `evalorder` probe grows a case for each before the rule for it is trusted.
+The `evalorder` probe of 2026-10-26 (`tests/probes/evalorder.pas`) measures every rule above with
+optimization on and off, and the order is the same in both. The emitter reports every expression
+of the transpile set whose order a rule decides and that the probe has no case of the same shape
+for, so that the probe grows a case before the emitted order is trusted.
 
 The emitter applies the rules as a hoisting pass per statement. It lists every call to a routine
 not known to be pure in the order the rules give, recursively (a call's own arguments are ordered

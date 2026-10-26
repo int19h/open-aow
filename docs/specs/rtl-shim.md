@@ -251,9 +251,13 @@ an integer raises `EConvertError`, as Delphi does.
 | `FindFirst`, `FindNext`, `FindClose` with `TSearchRec` (`Name`, `Size`, `Attr`, `Time`) | section 3.5 |
 | `FileAge`, `FileDateToDateTime` | the file's modification time as `TDateTime` |
 
-Attributes: `faDirectory`, `faAnyFile`, `faReadOnly`, `faHidden`, `faArchive`, with the Delphi
-rule that a search with `Attr` returns files whose attributes are a subset of `Attr` plus the
-normal files, and `faDirectory` not in `Attr` excludes directories.
+Attributes: `faDirectory`, `faAnyFile`, `faReadOnly`, `faHidden`, `faArchive`. Delphi 3 filters
+on the hidden, system, volume and directory bits only: an entry is returned unless it has one of
+those bits and `Attr` does not, so read-only and archive files come back whatever the mask, and a
+plain file reports attribute 128. A search that includes directories also returns `.` and `..`.
+The end of an enumeration is code 18, and a pattern with no match returns code 2 (probe `files`,
+2026-10-26). `ExtractFileName` and `ExtractFilePath` of Delphi 3 do not split at `/`. The port
+does, as the first row of the table says, because the host converts paths.
 
 ### 3.5 Directory enumeration order
 
@@ -281,8 +285,9 @@ algorithms. The reasons are in the notes per class.
 
 Fields `List` (a `object[]`, exposed because the generated code reads `FList^[I]` 224 times),
 `Count`, `Capacity`. Methods `Add`, `Insert`, `Delete`, `Remove`, `IndexOf`, `Exchange`, `Move`,
-`First`, `Last`, `Clear`, `Pack`, `Expand`, `Sort(TListSortCompare)`, `Error`. `Grow` adds 4 below
-8 entries, 16 up to 64, and a quarter above. `Sort` is the `QuickSort` of `CLASSES.PAS`: pivot at
+`First`, `Last`, `Clear`, `Pack`, `Expand`, `Sort(TListSortCompare)`, `Error`. `Grow` adds a quarter of
+`Capacity` when `Capacity > 64`, 16 when `Capacity > 8`, and 4 otherwise, so 8 grows to 12 and 64
+to 80 (probe `lists`). `Sort` is the `QuickSort` of `CLASSES.PAS`: pivot at
 `(L + R) shr 1`, scan from both ends with the comparator, swap while `I <= J`, recurse on the left
 part and loop on the right. The AI sorts candidate lists with its own comparators
 (`CompareAutoProductions`, `CompareWanderFields`, `CompareAIPlayerActionClasses`), and the order of
