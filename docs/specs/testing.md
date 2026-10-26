@@ -2,7 +2,9 @@
 
 State: draft, 2026-10-24. The verification ladder is in `../process.md` section 6. This document
 specifies the rungs that need tooling: the probes, the round trip, the headless oracle and the
-frame comparison, and how they fit together in one command.
+frame comparison, and how they fit together in one command. The tooling under `tools/` and
+`tests/` lives in the private repository (`../design.md` section 8). The xUnit projects under
+`src/` live with the product.
 
 ## 1. Layers
 
@@ -28,7 +30,8 @@ per line, and nothing that varies between runs (no addresses, no times). The run
    executable. The output is the expected text, stored in `tests/probes/expected/<name>.txt` and
    committed, with the probe source. A probe is recompiled only when its source changes, by a
    hash recorded next to the expected text.
-2. Transpiles the probe with `tools/transpile/transpile.py` into `tests/probes/generated/<name>/`,
+2. Transpiles the probe with the transpiler (`transpiler.md` section 1) into
+   `tests/probes/generated/<name>/`,
    builds it against `src/Rtl` with `dotnet build`, runs it and captures the output.
 3. Compares the two outputs line by line and prints the first differing line with both texts.
 
@@ -59,8 +62,8 @@ The probe set and what each one covers:
 | `files` | `FindFirst` order over a prepared directory, attribute filtering, `ExtractFileName` and the other path functions |
 
 The `records-layout` probe is special: its expected output is also the test data of the
-transpiler's layout model (`tools/transpile/tests/test_layout.py`), and the transpiler must pass
-it before it emits any explicit layout.
+transpiler's layout model (the layout tests in `tools/transpile/Transpiler.Tests/`), and the
+transpiler must pass it before it emits any explicit layout.
 
 ## 3. Headless oracle
 

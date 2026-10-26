@@ -17,8 +17,8 @@ Four parties work on the port:
   for one brief and reports back. It does not commit and does not change branches.
 - The researcher. GPT-6-Astra at high reasoning effort, through the same command line. It does the
   grunt work the design session must not spend its own capacity on: reading the recovered source
-  for patterns and counts, building catalogues under `data/` with their scripts under
-  `tools/survey/`, preparing reports, and giving a second opinion on a design point. Its design
+  for patterns and counts, building catalogues under `data/` of the private repository with their
+  scripts under `tools/survey/`, preparing reports, and giving a second opinion on a design point. Its design
   advice is advice: the design session reviews it and decides. The Codex quota is much larger than
   the design session's, so anything that does not need the design session's reasoning goes here.
 - The recovery session. The "decompile" session of the `aow` project in `C:\git\int19h\aow`
@@ -28,8 +28,8 @@ Four parties work on the port:
   message each other directly (the recovery session is named `decompile`; this one is `open-aow`).
   Earlier that day they could not, and requests went through files in `D:\msg` relayed by the user
   (`open-aow-requests-<date>.md`, `aow-replies-<date>.md`); those exchanges are kept under
-  `docs/correspondence/`. Requests stay front-loaded and ordered by priority, each item standing
-  alone, and a copy of every request and reply still goes to `docs/correspondence/`.
+  `correspondence/` in the private repository. Requests stay front-loaded and ordered by priority,
+  each item standing alone, and a copy of every request and reply still goes to `correspondence/`.
 
 The user decides scope, settles open questions and approves anything irreversible or outward facing.
 
@@ -47,12 +47,15 @@ The user decides scope, settles open questions and approves anything irreversibl
   tools (`tools/`). The port reads from it and never writes to it.
 - `D:\Build\oracle`: the seeded inputs and the original's per-day saves the oracle comparison uses
   (`specs/testing.md` 3.1). Derived from game data, so never committed.
-- `data/` in this repository: catalogues the port built from the recovered source for the
-  transpiler and the specifications (`asm-routines.json`, the localization format notes), with a
-  Markdown summary next to each. `tools/survey/` holds the scripts that produced them, so that a
-  catalogue can be rebuilt after the recovery changes the source.
-- `docs/correspondence/`: every request to and reply from the recovery project, dated, so that the
-  provenance of a fact in a specification can be traced.
+- `D:\git\open-aow-private`: the second repository of the port (decided 2026-10-26, layout in
+  `docs/design.md` section 8). The product repository holds only what ships and the documents
+  that specify it. Everything built on the way goes here: the transpiler, the catalogues the port
+  built from the recovered source (`data/`, with a Markdown summary next to each file) and the
+  scripts that produced them (`tools/survey/`, so that a catalogue can be rebuilt after the
+  recovery changes the source), the probes and the oracle tooling, and `correspondence/`, every
+  request to and reply from the recovery project, dated, so that the provenance of a fact in a
+  specification can be traced. The two repositories have no remote and are committed separately.
+  A change that touches both gets one commit in each with the same first line.
 
 Surveys of the recovered source or the binaries are the port's own work, done by a researcher run
 (section 1) from this session. The recovery session is asked only what its coordinator knows
@@ -88,15 +91,24 @@ alike (checked on 2026-10-25: a resume without them ran on the default model):
 codex exec resume --json -c 'model="gpt-6.1-sol"' -c 'model_reasoning_effort="high"' <thread_id> "<follow-up>" < /dev/null
 ```
 
-Start a research run (the prompt is a file, read from standard input with `-`):
+Start a research run (the prompt is a file, read from standard input with `-`). A research run
+writes catalogues and scripts, so it starts in the private repository:
 
 ```bash
-codex exec --json -C D:\git\open-aow -s workspace-write -m gpt-6-astra -c model_reasoning_effort='"high"' --add-dir D:\git\aow -o <report file> - < <prompt file>
+codex exec --json -C D:\git\open-aow-private -s workspace-write -m gpt-6-astra -c model_reasoning_effort='"high"' --add-dir D:\git\aow -o <report file> - < <prompt file>
 ```
 
 The prompt names the files the run is allowed to write (a script under `tools/survey/`, its output
 under `data/<topic>/`) and nothing else, so that a commit from this session never sweeps in a
 half-written file.
+
+The sandbox and the two repositories. On 2026-10-26 the sandboxed runner failed to start
+(`helper_unknown_error: setup refresh had errors`) or hung whenever `--add-dir` named a directory
+other than `D:\git\aow`, including `D:\git\open-aow-private` and an empty directory. A task
+that must write in both repositories, or outside them, runs with `-s danger-full-access` and the
+prompt states the directory rule in words, with a backup made first (a `git bundle` of every ref
+for a history rewrite). The sandboxed form stays the default for every task that writes in one
+repository.
 
 Fork a task to try an alternative without losing the first line of work:
 
@@ -153,6 +165,8 @@ The recovery project ran its byte-matching workers as Codex sessions through scr
 Every brief carries these:
 
 - Do not commit, do not switch branches, do not push.
+- Product code goes to `D:\git\open-aow`, everything else to `D:\git\open-aow-private`
+  (`docs/design.md` section 8). The brief names the repository the task works in.
 - Generated code under `src/Generated/` is never edited by hand. Change the transpiler or add an
   override under `src/Overrides/`.
 - Do not change `D:\git\aow`.

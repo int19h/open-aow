@@ -68,8 +68,8 @@ The port is written in C# 15 on .NET 11. SDK 11.0.100-rc.3 is installed since 20
 release is weeks away. C# 15 is the default language version for `net11.0` projects, and the
 features the port uses (`union` types, `closed` hierarchies, collection expression arguments,
 labeled `break` and `continue`, extension indexers, static abstract interface members) need no
-preview flag. `tests/toolchain/cs15probe` compiles and runs each of them and is the first thing to
-run after an SDK update. The memory safety preview is not used.
+preview flag. `tests/toolchain/cs15probe` (private repository, section 8) compiles and runs each of
+them and is the first thing to run after an SDK update. The memory safety preview is not used.
 
 Why C#. It maps onto Delphi 3 more closely than any other broadly supported language. Classes,
 virtual methods, properties, interfaces and `try/finally/except` map directly. Method pointers
@@ -246,8 +246,11 @@ can pass:
 
 The transpiler reports what it cannot translate as a `TODO` comment in the output and as a line in a
 report file. `translate_readwrite.py` in the `aow` repository does the same. The transpiler is
-written in Python 3.11, like the `aow` tooling, with no dependencies outside the standard library.
-`specs/transpiler.md` is its specification.
+written in C# (decided 2026-10-26) and builds its output as Roslyn syntax trees, not as text, so
+that it targets a typed object model of C# and every construct it emits is well formed by
+construction. It lives in the private repository (section 8), because it is temporary by design:
+section 3 retires it once the C# tree is the source of truth. `specs/transpiler.md` is its
+specification.
 
 The recovered source carries byte-matching idioms. Where the original code reached a field through
 a pointer in a register, or where a recovered class had no name for a field, the recovery wrote
@@ -356,11 +359,12 @@ path, and C# assemblies stay desktop only.
 
 ## 7. Open questions
 
-1. Strings. The first stage keeps the 1-based byte string type throughout the rules, since that
-   is what the oracle and the data files assume. The second stage's destination is .NET strings
-   with code page 1252 bytes only at the data and font boundaries. Open: when that conversion
-   happens (one pass over the whole tree, or unit by unit as each is rewritten) and how the
-   comparator checks it.
+1. Strings. Resolved on 2026-10-26. The first stage keeps the 1-based byte string type throughout
+   the rules, since that is what the oracle and the data files assume. The second stage's
+   destination is .NET strings with code page 1252 bytes only at the data and font boundaries, and
+   the conversion is one pass over the whole tree (`milestones.md` 9.5), not unit by unit, because
+   a tree with both string types needs a conversion at every boundary between a rewritten and an
+   unrewritten unit. The check is the oracle and the frame fixtures after the pass.
 2. Hash table iteration order. Resolved on 2026-10-25. In the first stage the `THashList` classes
    are transpiled, so the order is the original's. In the second stage the comparator compares
    hash-ordered children as sets (section 5), and the oracle tells which orders game logic depends
@@ -441,16 +445,17 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
 
 ## 8. Repository layout
 
-What exists is marked; the rest is where the specifications put things.
+Two repositories, decided on 2026-10-26. `D:\git\open-aow` (this one) holds the product: the C#
+source and the documents that specify it. `D:\git\open-aow-private` holds what the port builds on
+the way and does not ship: the transpiler, the catalogues and surveys with their scripts, the
+probes, the oracle tooling and the correspondence with the recovery project. A path in these
+documents that starts with `docs/` or `src/` is in this repository. One that starts with
+`correspondence/`, `data/`, `tools/` or `tests/` is in the private repository. What exists is
+marked. The rest is where the specifications put things.
 
 ```
-docs/                 this file, process.md, specs/, briefs/, correspondence/     (exists)
-data/                 catalogues the port built from the recovered source           (exists)
-tools/survey/         scripts that build the catalogues                              (exists)
-tools/transpile/      the Delphi to C# transpiler and its tests                      transpiler.md
-tools/oracle/         seeded runs, save and frame comparison                         testing.md, graphics.md
-tools/forms/          form file checks and expected-tree dumps                       ui-layout.md
-tools/localization/   dictionary dump                                                localization.md
+D:\git\open-aow
+docs/                 this file, process.md, milestones.md, specs/, briefs/               (exists)
 src/Rtl/              the Delphi RTL and VCL shim                                    rtl-shim.md
 src/Generated/        transpiled output, regenerated, never edited                   transpiler.md
 src/Overrides/        hand-written replacements for generated members                transpiler.md 8
@@ -459,7 +464,19 @@ src/Forms/            the form files as data                                    
 src/Platform/         the SDL host: window, input, audio, video, files, settings     platform.md
 src/Headless/         the host without a display, for the oracle                    testing.md
 src/Game/             the game executable                                            platform.md 2
-tests/probes/         Delphi 3 probe programs and their expected outputs             testing.md 2
-tests/frames/         frame fixtures                                                 graphics.md 9
-tests/forms/          loaded-tree expectations                                       ui-layout.md 8
+src/*.Tests/          xUnit tests of the product projects                            rtl-shim.md 8
+
+D:\git\open-aow-private
+correspondence/       requests to and replies from the recovery project, dated      (exists)
+data/                 catalogues the port built from the recovered source           (exists)
+tools/survey/         scripts that build the catalogues, the cross-reference check  (exists)
+tools/transpile/      the Delphi to C# transpiler, in C# on Roslyn, and its tests   transpiler.md
+tools/oracle/         seeded runs, save and frame comparison                         testing.md, graphics.md
+tools/forms/          form file checks and expected-tree dumps                      ui-layout.md
+tools/localization/   dictionary dump                                                (exists)
+tests/probes/         Delphi 3 probe programs and their expected outputs             testing.md 2 (from-recovery/ exists)
+tests/toolchain/      the C# 15 feature probe                                        (exists)
+tests/frames/         frame fixtures                                                graphics.md 9
+tests/forms/          loaded-tree expectations                                      ui-layout.md 8
+tests/fixtures/       Delphi-made fixtures for the unit tests                       process.md 6
 ```

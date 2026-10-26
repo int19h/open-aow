@@ -69,11 +69,17 @@ Outputs:
   generated code references, with its declaring unit and the number of references. It is the work
   list for the RTL shim.
 
-The transpiler is a Python 3.11 program under `tools/transpile/` with no dependencies outside the
-standard library. One command runs it:
+The transpiler is a C# program, `tools/transpile/Transpiler.csproj` in the private repository
+(`../design.md` section 8), on the same .NET 11 SDK as the port (decided 2026-10-26). Its front
+end (preprocessor, lexer, parser, resolver, normalizer) is written for Delphi 3 by hand. Its back
+end builds the output as Roslyn syntax trees (`Microsoft.CodeAnalysis.CSharp`, `SyntaxFactory`)
+and writes them through `NormalizeWhitespace`, so that the emitter targets a typed object model of
+C#, every construct it emits is well formed by construction, and one rule formats every file.
+Before a file is written the transpiler parses it back with Roslyn, and a syntax diagnostic is an
+internal error in the report (section 9), never a file on disk. One command runs it:
 
 ```bash
-python tools/transpile/transpile.py --source D:\git\aow\src\delphi3 --rtl C:\Tools\Delphi3\SOURCE --data D:\git\aow\data --out src\Generated
+dotnet run --project tools/transpile -- --source D:\git\aow\src\delphi3 --rtl C:\Tools\Delphi3\SOURCE --data D:\git\aow\data --out D:\git\open-aow\src\Generated
 ```
 
 Source files are read as Windows code page 1252. String and character literals keep their byte
@@ -99,12 +105,13 @@ values (section 5.6).
    member the manifest overrides.
 5. Normalize. Rewrite the tree with the rules of section 6 (byte-matching idioms) and section 7
    (semantic traps). Each rewrite is recorded in the report with its rule number and location.
-6. Emit C#. Section 4 and section 5 define the mapping.
+6. Emit C#. Section 4 and section 5 define the mapping. The emitter produces Roslyn syntax
+   nodes, not text, and the generated comments (`TODO`, rule markers) are trivia on those nodes.
 7. Apply overrides. Omit the members and units the manifest names and record them in the report.
 8. Write the report and the shim demand list.
 
-Every stage is a module with its own tests. The syntax tree and the typed tree are plain data
-classes, so that a test can build one by hand.
+Every stage is a module with its own tests. The Delphi syntax tree and the typed tree are plain
+C# records, so that a test can build one by hand.
 
 ## 3. Units, names and visibility
 
@@ -207,7 +214,7 @@ of a class or of another record is a struct field, an array of records is a stru
 function or a property is a copy, as in Delphi.
 
 Why a struct and not a class. The alternative, a reference type with explicit copies, was weighed
-on 2026-10-25 against the survey in `../../data/records/records.md` (script
+on 2026-10-25 against the survey in `data/records/records.md` of the private repository (script
 `tools/survey/records.py`, with the design check appended to `records.md`): 155 record types in
 the set, 53 pure values, 15 reached only through arrays or allocated blocks, 15 whose address is
 taken as a local or parameter, 3 alias views over those, 49 recovery layout views of class
@@ -383,7 +390,8 @@ Metaclass. Delphi has two things C# splits: the run-time class as a thing to ask
 (`is`, `ClassName`, `ClassParent`, `InheritsFrom`, equality), and the run-time class as a receiver
 of virtual class methods and virtual constructors. The first is `System.Type` in the port. The
 second is a metaclass object, `Meta`, and it exists only where the source dispatches on a class.
-The survey in `../../data/metaclass/metaclass.md` (2026-10-25, script `tools/survey/metaclass.py`)
+The survey in `data/metaclass/metaclass.md` of the private repository (2026-10-25, script
+`tools/survey/metaclass.py`)
 sizes both: 15 `class of` types, 702 class method declarations of which 39 introduce a virtual
 class method, 10 virtual constructors, 31 constructor calls through a class reference, 222 calls of
 a virtual class method on an instance's run-time class, 384 `is` tests, 23 `ClassName` uses, no
@@ -1082,10 +1090,11 @@ replaces this guess with the exact symbol list on the first run. The most used r
 
 Three layers, cheapest first.
 
-1. Unit tests of the transpiler in `tools/transpile/tests/`: the lexer, the parser on every
-   construct of section 10, the resolver on scoping cases (`with`, unit order, class scope), the
-   layout model against the `records-layout` probe output, and golden tests that map a Delphi
-   snippet to the expected C# text.
+1. Unit tests of the transpiler in `tools/transpile/Transpiler.Tests/` (xUnit): the lexer, the
+   parser on every construct of section 10, the resolver on scoping cases (`with`, unit order,
+   class scope), the layout model against the `records-layout` probe output, and golden tests that
+   map a Delphi snippet to the expected C# text, compared after `NormalizeWhitespace` on both
+   sides.
 2. Probes in `tests/probes/<name>.pas`. A probe is a Delphi 3 console program that prints lines.
    `tests/probes/run.py` compiles each probe with `C:\Tools\Delphi3\BIN\DCC32.EXE -CC`, runs it
    and stores the output in `tests/probes/expected/<name>.txt` (committed), then transpiles the

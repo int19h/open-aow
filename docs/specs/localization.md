@@ -3,9 +3,10 @@
 State: draft, 2026-10-25. Covers the Multilizer dictionaries (`Dict\*.mld`), the engine's three
 translation paths, the translator components on the forms, what the shipped English game does with
 all of it, and how the port reproduces that while making the four other languages available. The
-file format itself is documented in `../../data/localization/mld-format.md`, reversed from the
-shipped `Localize.dpl` on 2026-10-25 with a reference parser in `tools/localization/mld_dump.py`
-and the content analysis in `../../data/localization/mld-analysis.md`. The recovered Localize units
+file format itself is documented in `data/localization/mld-format.md` of the private repository
+(`../design.md` section 8), reversed from the shipped `Localize.dpl` on 2026-10-25 with a reference
+parser in `tools/localization/mld_dump.py` and the content analysis in
+`data/localization/mld-analysis.md`, both there too. The recovered Localize units
 (`IvDictio`, `IvBinDic`, `IvAMulti`, `IvMulti`, 303 lines) are stubs with empty bodies, so this part
 of the port is written from that format document, not transpiled.
 

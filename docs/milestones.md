@@ -89,7 +89,7 @@ The rules are in `../design.md` section 9. The first passes, in order of payoff:
 | 9.2 | `Ptr<T>` retired from Engine, HSEngine and the rules: arrays, spans and indices in its place | O3 holds; `Ptr<T>` remains only in the graphics and image library code until 9.5 |
 | 9.3 | Split constructors to constructors, `with` blocks to plain code, the override shapes A1 to A3 folded into their classes | O3 holds; `report.md` no longer lists them |
 | 9.4 | Metaclass objects retired: the engine's class registry carries creation by class id, generics with static abstract interface members carry the remaining class-side dispatch | O3 holds; the shim's `Meta` type is deleted |
-| 9.5 | Strings: `AnsiString` to `string` with bytes at the data and font boundaries (`../design.md` open question 1) | O3 holds; the frame fixtures hold |
+| 9.5 | Strings: `AnsiString` to `string` with bytes at the data and font boundaries, in one pass over the whole tree (`../design.md` open question 1, resolved 2026-10-26) | O3 holds; the frame fixtures hold |
 | 9.6 | Tagged unions and closed families: `union` and `closed` hierarchies where section 9 of the design names them | O3 holds |
 | 9.7 | The port's own save and map formats behind converting readers, when a pass above wants a format change | the comparator reads both formats; every shipped file loads |
 
