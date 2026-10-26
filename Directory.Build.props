@@ -1,0 +1,15 @@
+<Project>
+  <!-- Defaults for every project under src/. A project overrides what it must: the generated
+       project turns Nullable off, because transpiled Delphi code has no nullability. -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Deterministic>true</Deterministic>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <RootNamespace>Aow</RootNamespace>
+  </PropertyGroup>
+</Project>
