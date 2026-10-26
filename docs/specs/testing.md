@@ -48,6 +48,7 @@ The probe set and what each one covers:
 | `enums` | `Ord`, casts, `Succ`, `Pred`, `Inc`, `Low`, `High`, `for` over a range, `SizeOf` |
 | `records-layout` | `SizeOf` and field offsets of 40 records: packed and unpacked, every field size, nested records, arrays, variant parts |
 | `arrays` | static arrays with non-zero low bounds, two dimensions, open array parameters, `High`, `Low`, `Length`, array constants |
+| `pointers` | `^T` dereference, `@` on variables, fields and elements, `Inc` and `Dec` on typed pointers and `PChar`, `PChar` indexing, `GetMem` and `FreeMem`, `Move` and `FillChar`, `nil` and `Assigned`, `SizeOf(Pointer)`, a record viewed through a pointer to another type, all printed as address differences and contents, never addresses |
 | `with` | nested `with`, `with` on a record field, on an array element and on a function result, name shadowing |
 | `case` | ranges, lists, `else`, `Char` and enumeration selectors |
 | `loops` | bounds evaluated once, `downto`, a `Byte` variable to 255, `repeat`, `Break`, `Continue`, `Exit` from nested loops |

@@ -1,0 +1,13 @@
+# Every text file is stored and checked out with LF. The implementer rule in docs/process.md
+# section 5 ("as the repository sets") refers to this file.
+* text=auto eol=lf
+
+# Binary game data and fixtures
+*.asg binary
+*.ilb binary
+*.mld binary
+*.png binary
+*.bin binary
+*.exe binary
+*.dll binary
+*.dpl binary
