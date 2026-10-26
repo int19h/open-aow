@@ -37,6 +37,15 @@ public sealed class TApplication
 
 public static partial class Rtl
 {
+    public static object AllocMem(uint count) => Ptr<byte>.Alloc(checked((int)count)).Box();
+    public static T? RebindDelegate<T>(Delegate? value) where T : Delegate => value is null ? null : (T)Delegate.CreateDelegate(typeof(T), value.Target, value.Method);
+    public static AnsiString ReadShortString(ReadOnlySpan<byte> image) => AnsiString.FromBytes(image.Slice(1, image[0]).ToArray());
+    public static void WriteShortString(Span<byte> image, AnsiString value)
+    {
+        int length = Math.Min(value.Length, image.Length - 1);
+        image[0] = (byte)length;
+        value.Span.Slice(0, length).CopyTo(image.Slice(1));
+    }
     public static TApplication Application { get; } = new();
     public static Action<AnsiString> MessageHandler { get; set; } = message => throw new EInvalidOperation(message);
     public static void ShowMessage(AnsiString message) => MessageHandler(message);
@@ -82,7 +91,22 @@ public static partial class Rtl
             return box;
         }
     }
-    public static int ObjectToInt(TObject? value) => value is IntegerObject box ? box.Value : value?.InstanceId ?? 0;
+    private static readonly Dictionary<int, WeakReference<TObject>> referenceIds = [];
+    public static int ObjectToInt(TObject? value)
+    {
+        if (value is IntegerObject box) return box.Value;
+        if (value is null) return 0;
+        int id = value.InstanceId;
+        lock (referenceIds) referenceIds[id] = new(value);
+        return id;
+    }
+    public static T? ReferenceFromId<T>(int id) where T : TObject
+    {
+        if (id == 0) return null;
+        lock (referenceIds)
+            if (referenceIds.TryGetValue(id, out var weak) && weak.TryGetTarget(out var value)) return (T)value;
+        throw new EAccessViolation("Object reference id is no longer available");
+    }
 }
 
 public enum TCompressionLevel : byte { clNone, clFastest, clDefault, clMax }

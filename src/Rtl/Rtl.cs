@@ -13,6 +13,7 @@ public static partial class Rtl
         RandSeed = unchecked(RandSeed * 0x08088405 + 1);
         return (uint)RandSeed * (1.0 / 4294967296.0);
     }
+    public static double DegToRad(double degrees) => degrees * (Math.PI / 180);
     // SYSTEM.PAS:1647 uses GetSystemTime, which returns UTC.
     public static void Randomize() => RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
     public static int Round(double value) => ToInteger(Math.Round(value, MidpointRounding.ToEven));
@@ -103,6 +104,11 @@ public static partial class Rtl
         return count;
     }
     public static AnsiString StrPas(Ptr<byte> value) => AnsiString.FromPChar(value);
+    public static AnsiString StrPasBuffer(ReadOnlySpan<byte> value)
+    {
+        int end = value.IndexOf((byte)0);
+        return AnsiString.FromBytes((end < 0 ? value : value[..end]).ToArray());
+    }
     public static Ptr<byte> StrCopy(Ptr<byte> destination, Ptr<byte> source)
     {
         Ptr<byte>.Copy(source, destination, StrLen(source) + 1);
