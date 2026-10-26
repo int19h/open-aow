@@ -114,6 +114,11 @@ owns. Every run keeps the sandbox. A task that must run without it (`-s danger-f
 `-c 'sandbox_mode="danger-full-access"'` on `resume`) states the directory rule in its prompt, and
 a task that rewrites history makes a backup first (a `git bundle` of every ref).
 
+The sandbox has no network, so a run cannot restore NuGet packages. The design session restores
+before the run (`dotnet restore` in the solution's directory, outside the sandbox) and the brief
+says that no new package can be added, or the run builds against the local package cache and the
+design session restores and tests after it.
+
 A task in the private repository that writes into the product repository (the transpiler writing
 `src/Generated/`) adds `--add-dir D:\git\open-aow`.
 
