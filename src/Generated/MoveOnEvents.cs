@@ -131,8 +131,7 @@ namespace Aow.Units.MoveOnEvents
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4354)
             {
-                /* TODO(T-A3) Integer address requires managed pointer provenance */
-                throw new System.NotImplementedException();
+                ArmyPlaced(Msg.Param[0].Ref);
             }
         }
 

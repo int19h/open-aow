@@ -116,17 +116,25 @@ public class TTabControl : TWinControl
 }
 public class TRegistry : TObject
 {
-    private readonly Dictionary<string, object> values = new(StringComparer.OrdinalIgnoreCase);
+    private readonly ISettingsStore values = Rtl.Settings ?? new MemorySettingsStore();
     private string key = "";
     public bool OpenKey(AnsiString name, bool create) { key = name.ToString(); return true; }
     public void CloseKey() => key = "";
-    public bool ValueExists(AnsiString name) => values.ContainsKey(key + "\\" + name.ToString());
-    public int ReadInteger(AnsiString name) => (int)values[key + "\\" + name.ToString()];
-    public bool ReadBool(AnsiString name) => (bool)values[key + "\\" + name.ToString()];
-    public AnsiString ReadString(AnsiString name) => (AnsiString)values[key + "\\" + name.ToString()];
-    public void WriteInteger(AnsiString name, int value) => values[key + "\\" + name.ToString()] = value;
-    public void WriteBool(AnsiString name, bool value) => values[key + "\\" + name.ToString()] = value;
-    public void WriteString(AnsiString name, AnsiString value) => values[key + "\\" + name.ToString()] = value;
+    public bool ValueExists(AnsiString name) => values.Read(key + "\\" + name.ToString()) is not null;
+    public int ReadInteger(AnsiString name) => (int)values.Read(key + "\\" + name.ToString())!;
+    public bool ReadBool(AnsiString name) => (bool)values.Read(key + "\\" + name.ToString())!;
+    public AnsiString ReadString(AnsiString name) => (AnsiString)values.Read(key + "\\" + name.ToString())!;
+    public void WriteInteger(AnsiString name, int value) => values.Write(key + "\\" + name.ToString(), value);
+    public void WriteBool(AnsiString name, bool value) => values.Write(key + "\\" + name.ToString(), value);
+    public void WriteString(AnsiString name, AnsiString value) => values.Write(key + "\\" + name.ToString(), value);
+    public int ReadBinaryData(AnsiString name, Span<byte> buffer, int size)
+    {
+        var bytes = (byte[])values.Read(key + "\\" + name.ToString())!;
+        int count = Math.Min(size, bytes.Length);
+        bytes.AsSpan(0, count).CopyTo(buffer);
+        return count;
+    }
+    public void WriteBinaryData(AnsiString name, ReadOnlySpan<byte> buffer, int size) => values.Write(key + "\\" + name.ToString(), buffer[..size].ToArray());
 }
 public class TIvTranslator : TComponent { }
 public class TIvDictionary : TComponent

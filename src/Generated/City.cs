@@ -1233,8 +1233,20 @@ namespace Aow.Units.City
 
             if (bool__204)
             {
-                /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-                throw new System.NotImplementedException();
+                if ((((Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting) || !FFogged) || !((Aow.Units.AoWE.TAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap).FFogEnabled) && (FFlagID != 63)) && (((Aow.Units.City.TCityResource)FResource).FClaimed || ((FFlagID & 32) == 0)))
+                {
+                    {
+                        var w__206 = (Aow.Units.City.TCityResource)FResource;
+                        if (w__206.FFlagType <= 1)
+                        {
+                            Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowFlag(w__206.FFlagX + XhpSurf, w__206.FFlagY + YhpSurf, w__206.Engine.HSMap.Frame + X, unchecked((byte)this.FFlagID), SurfaceDesc);
+                        }
+                        else
+                        {
+                            Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowStructureFlag(w__206.FFlagX + XhpSurf, w__206.FFlagY + YhpSurf, w__206.Engine.HSMap.Frame + X, unchecked((byte)this.FFlagID), SurfaceDesc);
+                        }
+                    }
+                }
             }
 
             if (FMode.Contains(Aow.Units.City.TCityModeElement.cmTownQuake))
@@ -1279,20 +1291,20 @@ namespace Aow.Units.City
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
         {
             // { Unmatched: tried owned-player color branch before independent-player branch. }
-            bool bool__206 = (Msg.MsgID == 4364);
-            if (bool__206)
+            bool bool__207 = (Msg.MsgID == 4364);
+            if (bool__207)
             {
-                var call__207 = FResource.TerrainList.Terrain[Msg.HN];
-                bool__206 = (call__207 >= 0);
+                var call__208 = FResource.TerrainList.Terrain[Msg.HN];
+                bool__207 = (call__208 >= 0);
             }
 
-            if (!bool__206)
+            if (!bool__207)
             {
                 base.MapFieldMsgProc(ref Msg);
             }
 
-            var call__208 = FResource.TerrainList.Terrain[Msg.HN];
-            if (call__208 >= 0)
+            var call__209 = FResource.TerrainList.Terrain[Msg.HN];
+            if (call__209 >= 0)
             {
                 if ((Msg.MsgID == 4364) && (Msg.HN == 0))
                 {
@@ -1304,8 +1316,8 @@ namespace Aow.Units.City
                         }
                         else
                         {
-                            var call__209 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                            Msg.Param[0] = Msg.Param[0].Value + ((call__209.FPlayerRace + 1) * 65536);
+                            var call__210 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                            Msg.Param[0] = Msg.Param[0].Value + ((call__210.FPlayerRace + 1) * 65536);
                         }
                     }
                     else
@@ -1325,8 +1337,7 @@ namespace Aow.Units.City
                     {
                         if (Msg.MsgID == 4360)
                         {
-                            /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-                            throw new System.NotImplementedException();
+                            ReturnBattleFieldInfo(ref Ptr<Aow.Units.AoWE.TBattleFieldInfo>.FromBox(Msg.Param[0].Ref).Value);
                         }
                         else
                         {
@@ -1345,17 +1356,17 @@ namespace Aow.Units.City
                                 {
                                     if (Msg.MsgID == 4387)
                                     {
-                                        bool bool__210 = (FWallType != 0) && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode);
-                                        if (bool__210)
+                                        bool bool__211 = (FWallType != 0) && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode);
+                                        if (bool__211)
                                         {
-                                            var call__211 = GetRazed();
-                                            bool__210 = !call__211;
+                                            var call__212 = GetRazed();
+                                            bool__211 = !call__212;
                                         }
 
-                                        if (bool__210)
+                                        if (bool__211)
                                         {
-                                            var call__212 = Msg.Param[0].As<Aow.Units.HSEngine.TMapField>().FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-                                            if (this == call__212)
+                                            var call__213 = Msg.Param[0].As<Aow.Units.HSEngine.TMapField>().FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+                                            if (this == call__213)
                                             {
                                                 Msg.Result = FWallType;
                                             }
@@ -1367,16 +1378,16 @@ namespace Aow.Units.City
                                         {
                                             if (FPlayer == 0)
                                             {
-                                                var call__213 = GetIndependentRelation();
-                                                Msg.Result = call__213;
+                                                var call__214 = GetIndependentRelation();
+                                                Msg.Result = call__214;
                                             }
                                         }
                                         else
                                         {
                                             if (Msg.MsgID == 4366)
                                             {
-                                                var call__214 = IncommingNegotiateRequest(Msg.Param[0].As<Aow.Units.AoWE.TNegotiateRequestEventLog>());
-                                                if (call__214)
+                                                var call__215 = IncommingNegotiateRequest(Msg.Param[0].As<Aow.Units.AoWE.TNegotiateRequestEventLog>());
+                                                if (call__215)
                                                 {
                                                     Msg.Param[1] = 1;
                                                 }
@@ -1385,8 +1396,8 @@ namespace Aow.Units.City
                                             {
                                                 if (Msg.MsgID == 4367)
                                                 {
-                                                    var call__215 = IncommingNegotiateOffer(Msg.Param[0].As<Aow.Units.AoWE.TNegotiateTE>());
-                                                    if (call__215)
+                                                    var call__216 = IncommingNegotiateOffer(Msg.Param[0].As<Aow.Units.AoWE.TNegotiateTE>());
+                                                    if (call__216)
                                                     {
                                                         Msg.Result = 1;
                                                     }
@@ -1415,8 +1426,8 @@ namespace Aow.Units.City
             UnregisterEnchantments();
             if (FPlayer != -1)
             {
-                var call__216 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                call__216.FProductionControls.Remove(FProduction);
+                var call__217 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                call__217.FProductionControls.Remove(FProduction);
             }
 
             FProduction.Deactivate();
@@ -1427,8 +1438,8 @@ namespace Aow.Units.City
         public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
         {
             base.UpdateMapField(Info);
-            var call__217 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__217 >= 0)
+            var call__218 = FResource.TerrainList.GetTerrain(Info.HN);
+            if (call__218 >= 0)
             {
                 ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags = ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags | 67108864;
             }
@@ -1467,24 +1478,24 @@ namespace Aow.Units.City
             Aow.Units.ImageLib.TLibraryImage Result = default;
             int Index = default;
             Aow.Units.ImageLib.TImageSequenceList Sequences = default;
-            var call__218 = GetActiveAction();
-            var call__219 = GetTopCityActionImage(call__218);
-            Result = call__219;
+            var call__219 = GetActiveAction();
+            var call__220 = GetTopCityActionImage(call__219);
+            Result = call__220;
             if (Result == null)
             {
                 if (FRace != -1)
                 {
                     if (GetLhx() == 0)
                     {
-                        var call__220 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__221 = call__220.FImageLibrary.GetSafe(40);
-                        Result = call__221;
+                        var call__221 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__222 = call__221.FImageLibrary.GetSafe(40);
+                        Result = call__222;
                     }
                     else
                     {
-                        var call__222 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__223 = call__222.FImageLibrary.GetSafe(43);
-                        Result = call__223;
+                        var call__223 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__224 = call__223.FImageLibrary.GetSafe(43);
+                        Result = call__224;
                     }
                 }
                 else
@@ -1501,9 +1512,9 @@ namespace Aow.Units.City
                 {
                     if (Sequences.GetImageSequence(Index) != null)
                     {
-                        var call__224 = FResource.ImageSequenceList.GetImageSequence(Index);
-                        var call__225 = call__224.GetPreviewImage();
-                        Result = call__225;
+                        var call__225 = FResource.ImageSequenceList.GetImageSequence(Index);
+                        var call__226 = call__225.GetPreviewImage();
+                        Result = call__226;
                     }
                     else
                     {
@@ -1525,24 +1536,24 @@ namespace Aow.Units.City
             Aow.Units.ImageLib.TLibraryImage Result = default;
             int Index = default;
             Aow.Units.ImageLib.TImageSequenceList Sequences = default;
-            var call__226 = GetActiveAction();
-            var call__227 = GetMiddleCityActionImage(call__226);
-            Result = call__227;
+            var call__227 = GetActiveAction();
+            var call__228 = GetMiddleCityActionImage(call__227);
+            Result = call__228;
             if (Result == null)
             {
                 if (FRace != -1)
                 {
                     if (GetLhx() == 0)
                     {
-                        var call__228 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__229 = call__228.FImageLibrary.GetSafe(41);
-                        Result = call__229;
+                        var call__229 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__230 = call__229.FImageLibrary.GetSafe(41);
+                        Result = call__230;
                     }
                     else
                     {
-                        var call__230 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__231 = call__230.FImageLibrary.GetSafe(44);
-                        Result = call__231;
+                        var call__231 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__232 = call__231.FImageLibrary.GetSafe(44);
+                        Result = call__232;
                     }
                 }
                 else
@@ -1559,9 +1570,9 @@ namespace Aow.Units.City
                 {
                     if (Sequences.GetImageSequence(Index) != null)
                     {
-                        var call__232 = FResource.ImageSequenceList.GetImageSequence(Index);
-                        var call__233 = call__232.GetPreviewImage();
-                        Result = call__233;
+                        var call__233 = FResource.ImageSequenceList.GetImageSequence(Index);
+                        var call__234 = call__233.GetPreviewImage();
+                        Result = call__234;
                     }
                     else
                     {
@@ -1583,24 +1594,24 @@ namespace Aow.Units.City
             Aow.Units.ImageLib.TLibraryImage Result = default;
             int Index = default;
             Aow.Units.ImageLib.TImageSequenceList Sequences = default;
-            var call__234 = GetActiveAction();
-            var call__235 = GetBottomCityActionImage(call__234);
-            Result = call__235;
+            var call__235 = GetActiveAction();
+            var call__236 = GetBottomCityActionImage(call__235);
+            Result = call__236;
             if (Result == null)
             {
                 if (FRace >= 0)
                 {
                     if (GetLhx() == 0)
                     {
-                        var call__236 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__237 = call__236.FImageLibrary.GetSafe(42);
-                        Result = call__237;
+                        var call__237 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__238 = call__237.FImageLibrary.GetSafe(42);
+                        Result = call__238;
                     }
                     else
                     {
-                        var call__238 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__239 = call__238.FImageLibrary.GetSafe(45);
-                        Result = call__239;
+                        var call__239 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__240 = call__239.FImageLibrary.GetSafe(45);
+                        Result = call__240;
                     }
                 }
                 else
@@ -1617,9 +1628,9 @@ namespace Aow.Units.City
                 {
                     if (Sequences.GetImageSequence(Index) != null)
                     {
-                        var call__240 = FResource.ImageSequenceList.GetImageSequence(Index);
-                        var call__241 = call__240.GetPreviewImage();
-                        Result = call__241;
+                        var call__241 = FResource.ImageSequenceList.GetImageSequence(Index);
+                        var call__242 = call__241.GetPreviewImage();
+                        Result = call__242;
                     }
                     else
                     {
@@ -1663,8 +1674,8 @@ namespace Aow.Units.City
                     FMode = FMode - TSet<Aow.Units.City.TCityModeElement>.Of(Aow.Units.City.TCityModeElement.cmRazed);
                 }
 
-                var call__242 = GetTerrainTypeImage(TerrainType);
-                ImageIndex = call__242;
+                var call__243 = GetTerrainTypeImage(TerrainType);
+                ImageIndex = call__243;
                 ResetEnchantments();
                 UpdateImages();
                 UpdateCrops();
@@ -1685,12 +1696,12 @@ namespace Aow.Units.City
         public override void SetupRazeDefenderAG(Aow.Units.AoWE.TUnitList Armies, Aow.Units.AoWE.TUnitList Units)
         {
             Aow.Units.AoWE.TAIGroup Group = default;
-            var call__243 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(8);
-            if (call__243 == 0)
+            var call__244 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(8);
+            if (call__244 == 0)
             {
-                var call__244 = Aow.Units.AoWE.AoWE.UnitsToIndependentRelation(Units, 5);
-                var call__245 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.CreateGroup(0, unchecked((sbyte)call__244), Aow.Units.AoWE.TGroupBehavior.gbRefuge);
-                Group = call__245;
+                var call__245 = Aow.Units.AoWE.AoWE.UnitsToIndependentRelation(Units, 5);
+                var call__246 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.CreateGroup(0, unchecked((sbyte)call__245), Aow.Units.AoWE.TGroupBehavior.gbRefuge);
+                Group = call__246;
                 Group.AddUnits(Units);
                 Group.Release();
             }
@@ -1720,20 +1731,20 @@ namespace Aow.Units.City
             {
                 Aow.Units.AoWE.AoWE.SetupBattleFieldInfo(ref Info, unchecked((sbyte)Player), 0, TSet<Aow.Units.AoWE.TBattleFieldInfoRequestsElement>.Of(), Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
                 Info.Requests = Info.Requests + TSet<Aow.Units.AoWE.TBattleFieldInfoRequestsElement>.Of(Aow.Units.AoWE.TBattleFieldInfoRequestsElement.bfrIgnorePassiveIndependents);
-                var call__246 = GetLhx();
-                var call__247 = GetYhx();
-                var call__248 = GetXhx();
-                Aow.Units.AoWE.AoWE.AoWHSMap.RetrieveBattleFieldInfo(call__248, call__247, call__246, 10, ref Info);
+                var call__247 = GetLhx();
+                var call__248 = GetYhx();
+                var call__249 = GetXhx();
+                Aow.Units.AoWE.AoWE.AoWHSMap.RetrieveBattleFieldInfo(call__249, call__248, call__247, 10, ref Info);
                 Requirements.Strength = Info.Strength;
                 Maximum = Aow.Rtl.Rtl.Round(GetSize() * 5000);
-                var call__249 = GetSize();
-                var call__250 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                Minimum = Aow.Rtl.Rtl.Round((call__249 * 5000) * call__250.FAIControl.FDefenseStrengthMultiplier);
+                var call__250 = GetSize();
+                var call__251 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                Minimum = Aow.Rtl.Rtl.Round((call__250 * 5000) * call__251.FAIControl.FDefenseStrengthMultiplier);
                 if (Player != 0)
                 {
-                    var call__251 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                    var call__252 = call__251.GetPlayerRelation(unchecked((sbyte)Player));
-                    Relation = call__252;
+                    var call__252 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                    var call__253 = call__252.GetPlayerRelation(unchecked((sbyte)Player));
+                    Relation = call__253;
                 }
                 else
                 {
@@ -1787,15 +1798,15 @@ namespace Aow.Units.City
                     Result = Aow.Units.AoWE.TDefensePriority.dpAverage;
                 }
 
-                bool bool__253 = (FPlayer != 0);
-                if (bool__253)
+                bool bool__254 = (FPlayer != 0);
+                if (bool__254)
                 {
-                    var call__254 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                    var call__255 = call__254.GetPlayerRelation(unchecked((sbyte)FPlayer));
-                    bool__253 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sWary).Contains(call__255);
+                    var call__255 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                    var call__256 = call__255.GetPlayerRelation(unchecked((sbyte)FPlayer));
+                    bool__254 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sWary).Contains(call__256);
                 }
 
-                if (bool__253)
+                if (bool__254)
                 {
                     Result = Aow.Units.AoWE.TDefensePriority.dpHigh;
                 }
@@ -1820,19 +1831,19 @@ namespace Aow.Units.City
                     I = System.Math.Abs(FRace) - 3;
                     if ((I >= 0) && (I < Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FRaceHistory.Count))
                     {
-                        var call__256 = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FRaceHistory[I];
-                        SetRace(unchecked((sbyte)call__256));
+                        var call__257 = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FRaceHistory[I];
+                        SetRace(unchecked((sbyte)call__257));
                     }
                     else
                     {
-                        var call__257 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRandomRace();
-                        SetRace(unchecked((sbyte)call__257));
+                        var call__258 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRandomRace();
+                        SetRace(unchecked((sbyte)call__258));
                     }
                 }
                 else
                 {
-                    var call__258 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRandomRace();
-                    SetRace(unchecked((sbyte)call__258));
+                    var call__259 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRandomRace();
+                    SetRace(unchecked((sbyte)call__259));
                 }
             }
 
@@ -1843,8 +1854,8 @@ namespace Aow.Units.City
                 GenerateDefenders();
                 if (FWallType == 3)
                 {
-                    var call__259 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
-                    FWallType = unchecked((byte)call__259);
+                    var call__260 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
+                    FWallType = unchecked((byte)call__260);
                     UpdateImages();
                 }
             }
@@ -1867,8 +1878,8 @@ namespace Aow.Units.City
 
             if (Player == FPlayer)
             {
-                var call__260 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                if (call__260.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman)
+                var call__261 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                if (call__261.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman)
                 {
                     UpdateAIMigration();
                 }
@@ -1902,8 +1913,8 @@ namespace Aow.Units.City
         {
             FUpgradeLevel = 1;
             FWallType = 0;
-            var call__261 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FBuildingPlayer);
-            SetRace(unchecked((sbyte)call__261.FPlayerRace));
+            var call__262 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FBuildingPlayer);
+            SetRace(unchecked((sbyte)call__262.FPlayerRace));
             base.BuildingDone();
         }
 
@@ -1923,10 +1934,10 @@ namespace Aow.Units.City
             Result = base.ExecuteRaze(unchecked((sbyte)Player));
             if (Result)
             {
-                var call__262 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                var call__263 = call__262.GetPlayerRelationValue(unchecked((sbyte)Player));
-                var call__264 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                call__264.SetPlayerRelationValue(unchecked((sbyte)Player), call__263 + -30);
+                var call__263 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                var call__264 = call__263.GetPlayerRelationValue(unchecked((sbyte)Player));
+                var call__265 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                call__265.SetPlayerRelationValue(unchecked((sbyte)Player), call__264 + -30);
             }
 
             return Result;
@@ -1936,18 +1947,18 @@ namespace Aow.Units.City
         public override Aow.Rtl.AnsiString GetCurrentActivityText()
         {
             Aow.Rtl.AnsiString Result = default;
-            var call__265 = FProduction.FQueue.Count;
-            if (call__265 == 0)
+            var call__266 = FProduction.FQueue.Count;
+            if (call__266 == 0)
             {
-                var call__266 = Aow.Units.AoWE.AoWE.ProducingMerchandiseRStr;
-                var call__267 = Aow.Units.AoWE.AoWE.TranslateRStr(call__266);
-                Result = call__267;
+                var call__267 = Aow.Units.AoWE.AoWE.ProducingMerchandiseRStr;
+                var call__268 = Aow.Units.AoWE.AoWE.TranslateRStr(call__267);
+                Result = call__268;
             }
             else
             {
-                var call__268 = FProduction.FQueue.GetItem(0);
-                var call__269 = FProduction.GetProductionNameProgressive(call__268);
-                Result = call__269;
+                var call__269 = FProduction.FQueue.GetItem(0);
+                var call__270 = FProduction.GetProductionNameProgressive(call__269);
+                Result = call__270;
             }
 
             return Result;
@@ -1958,13 +1969,13 @@ namespace Aow.Units.City
         {
             bool Result = default;
             Result = base.ValidateMap(A1);
-            var call__270 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NonameRStr);
-            if ((Aow.Rtl.Rtl.CompareText(FName, call__270) == 0) || (FName == ((AnsiString)"")))
+            var call__271 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NonameRStr);
+            if ((Aow.Rtl.Rtl.CompareText(FName, call__271) == 0) || (FName == ((AnsiString)"")))
             {
-                var call__271 = Aow.Units.City.City.CityWarningRStr;
-                var call__272 = Aow.Units.AoWE.AoWE.TranslateRStr(call__271);
-                var call__273 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NoNameSpecifiedRStr);
-                A1.Add((call__272 + ((AnsiString)": ")) + call__273);
+                var call__272 = Aow.Units.City.City.CityWarningRStr;
+                var call__273 = Aow.Units.AoWE.AoWE.TranslateRStr(call__272);
+                var call__274 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NoNameSpecifiedRStr);
+                A1.Add((call__273 + ((AnsiString)": ")) + call__274);
                 Result = false;
             }
 
@@ -1987,8 +1998,8 @@ namespace Aow.Units.City
                             Priority = Data.Priority;
                             if (FPlayer > 0)
                             {
-                                var call__274 = Aow.Units.AoWE.AoWE.ValidAttackRelation(unchecked((sbyte)Info.Player), unchecked((sbyte)Info.IndependentRelation), unchecked((sbyte)FPlayer), unchecked((sbyte)FRace));
-                                if (call__274)
+                                var call__275 = Aow.Units.AoWE.AoWE.ValidAttackRelation(unchecked((sbyte)Info.Player), unchecked((sbyte)Info.IndependentRelation), unchecked((sbyte)FPlayer), unchecked((sbyte)FRace));
+                                if (call__275)
                                 {
                                     Priority = 100 + ((GetSize() - 1) * 10);
                                 }
@@ -1997,12 +2008,12 @@ namespace Aow.Units.City
                             {
                                 if (FPlayer == 0)
                                 {
-                                    var call__275 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                                    var call__276 = call__275.GetPlayerRelation(unchecked((sbyte)Info.Player));
-                                    if (TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__276))
+                                    var call__276 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                                    var call__277 = call__276.GetPlayerRelation(unchecked((sbyte)Info.Player));
+                                    if (TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__277))
                                     {
-                                        var call__277 = JoinAmount(unchecked((sbyte)Info.Player));
-                                        Amount = call__277;
+                                        var call__278 = JoinAmount(unchecked((sbyte)Info.Player));
+                                        Amount = call__278;
                                         if (Amount != -1)
                                         {
                                             Data.Cost = Amount;
@@ -2043,25 +2054,25 @@ namespace Aow.Units.City
 
                         break;
                     case Aow.Units.AoWE.TAITargetMode.tmFortify:
-                        bool bool__278 = (Info.Player == FPlayer);
-                        if (bool__278)
+                        bool bool__279 = (Info.Player == FPlayer);
+                        if (bool__279)
                         {
-                            var call__279 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                            var call__280 = call__279.GetPlayerRelation(unchecked((sbyte)Info.Player));
-                            bool__278 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__280);
+                            var call__280 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                            var call__281 = call__280.GetPlayerRelation(unchecked((sbyte)Info.Player));
+                            bool__279 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__281);
                         }
 
-                        bool bool__281 = bool__278;
-                        if (bool__281)
+                        bool bool__282 = bool__279;
+                        if (bool__282)
                         {
-                            var call__282 = GetActiveAction();
-                            bool__281 = (call__282 != Aow.Units.City.TCityAction.caMigrate);
+                            var call__283 = GetActiveAction();
+                            bool__282 = (call__283 != Aow.Units.City.TCityAction.caMigrate);
                         }
 
-                        if (bool__281)
+                        if (bool__282)
                         {
-                            var call__283 = GetSize();
-                            Data.Priority = (500 + (call__283 * 100)) + (FWallType * 45);
+                            var call__284 = GetSize();
+                            Data.Priority = (500 + (call__284 * 100)) + (FWallType * 45);
                             if (FEnchantments.Contains(Aow.Units.City.TCityEnchantmentID.ceiAntiMagicShell))
                             {
                                 Data.Priority += 150;
@@ -2077,8 +2088,8 @@ namespace Aow.Units.City
                     case Aow.Units.AoWE.TAITargetMode.tmDefend:
                         if (Info.Player == FPlayer)
                         {
-                            var call__284 = GetSize();
-                            Data.Priority = 50 + (call__284 * 20);
+                            var call__285 = GetSize();
+                            Data.Priority = 50 + (call__285 * 20);
                         }
 
                         break;
@@ -2100,21 +2111,21 @@ namespace Aow.Units.City
         public override bool CanDblClick()
         {
             bool Result = default;
-            bool bool__285 = (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == FPlayer);
-            if (bool__285)
+            bool bool__286 = (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == FPlayer);
+            if (bool__286)
             {
-                var call__286 = GetRazed();
-                bool__285 = !call__286;
+                var call__287 = GetRazed();
+                bool__286 = !call__287;
             }
 
-            bool bool__287 = bool__285;
-            if (bool__287)
+            bool bool__288 = bool__286;
+            if (bool__288)
             {
-                var call__288 = GetBuilding();
-                bool__287 = !call__288;
+                var call__289 = GetBuilding();
+                bool__288 = !call__289;
             }
 
-            Result = bool__287;
+            Result = bool__288;
             return Result;
         }
 
@@ -2134,24 +2145,24 @@ namespace Aow.Units.City
                 ResetEnchantments();
                 if (FPlayer != -1)
                 {
-                    var call__289 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__289.FProductionControls.Remove(FProduction);
+                    var call__290 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                    call__290.FProductionControls.Remove(FProduction);
                 }
 
                 base.SetPlayer(unchecked((sbyte)Player));
                 if (GetActiveAction() == Aow.Units.City.TCityAction.caMigrate)
                 {
                     FProduction.ExecuteCancelProduction();
-                    var call__290 = FProduction.FQueue.GetItem(0);
-                    call__290.Free();
+                    var call__291 = FProduction.FQueue.GetItem(0);
+                    call__291.Free();
                 }
 
                 ValidateAICityAction();
                 UpdateAIMigration();
                 if (FPlayer != -1)
                 {
-                    var call__291 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__291.FProductionControls.Add(FProduction);
+                    var call__292 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                    call__292.FProductionControls.Add(FProduction);
                 }
             }
         }
@@ -2159,25 +2170,25 @@ namespace Aow.Units.City
         // City.pas:2071
         public override void UpdateFlagID()
         {
-            bool bool__292 = !FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moEditMode);
-            if (bool__292)
+            bool bool__293 = !FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moEditMode);
+            if (bool__293)
             {
-                bool bool__293 = !FMode.Contains(Aow.Units.City.TCityModeElement.cmRazed);
-                if (!bool__293)
+                bool bool__294 = !FMode.Contains(Aow.Units.City.TCityModeElement.cmRazed);
+                if (!bool__294)
                 {
-                    var call__294 = GetBuilding();
-                    bool__293 = call__294;
+                    var call__295 = GetBuilding();
+                    bool__294 = call__295;
                 }
 
-                bool__292 = bool__293;
+                bool__293 = bool__294;
             }
 
-            if (bool__292 && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode))
+            if (bool__293 && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode))
             {
                 if (FPlayer > 0)
                 {
-                    var call__295 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    FFlagID = unchecked((byte)(call__295.FPlayerRace + ((FUpgradeLevel - 1) * 64)));
+                    var call__296 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                    FFlagID = unchecked((byte)(call__296.FPlayerRace + ((FUpgradeLevel - 1) * 64)));
                 }
                 else
                 {
@@ -2195,21 +2206,21 @@ namespace Aow.Units.City
         {
             int Result = default;
             Result = 6;
-            var call__296 = GetLhx();
-            bool bool__297 = (call__296 != 0);
-            if (!bool__297)
+            var call__297 = GetLhx();
+            bool bool__298 = (call__297 != 0);
+            if (!bool__298)
             {
-                bool bool__298 = (FPlayer > 0);
-                if (bool__298)
+                bool bool__299 = (FPlayer > 0);
+                if (bool__299)
                 {
-                    var call__299 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    bool__298 = ((((byte)call__299.FMagicControl.FEnemyEnchantments.Image) & 8) != 0);
+                    var call__300 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                    bool__299 = ((((byte)call__300.FMagicControl.FEnemyEnchantments.Image) & 8) != 0);
                 }
 
-                bool__297 = bool__298;
+                bool__298 = bool__299;
             }
 
-            if (bool__297)
+            if (bool__298)
             {
                 Result = (int)(((uint)(Result + 1)) >> 1);
             }
@@ -2224,9 +2235,9 @@ namespace Aow.Units.City
             if ((Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crVictory) || (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crNoDefenders))
             {
                 {
-                    var w__300 = Combat.FCombatData;
-                    var call__301 = w__300.FPlayers.GetPlayers(unchecked((sbyte)w__300.FAttackerPlayer));
-                    SetPlayer(unchecked((sbyte)call__301.FPlayer));
+                    var w__301 = Combat.FCombatData;
+                    var call__302 = w__301.FPlayers.GetPlayers(unchecked((sbyte)w__301.FAttackerPlayer));
+                    SetPlayer(unchecked((sbyte)call__302.FPlayer));
                 }
 
                 UpdatePlayer();
@@ -2241,31 +2252,31 @@ namespace Aow.Units.City
             {
                 if ((Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crVictory) || (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crNoDefenders))
                 {
-                    var call__302 = Aow.Units.AoWE.AoWE.CityBattleWonRStr;
-                    var call__303 = Aow.Units.AoWE.AoWE.TranslateRStr(call__302);
-                    var call__304 = GetName();
-                    var call__305 = Aow.Rtl.Rtl.Format(call__303, [call__304]);
-                    Result = call__305;
+                    var call__303 = Aow.Units.AoWE.AoWE.CityBattleWonRStr;
+                    var call__304 = Aow.Units.AoWE.AoWE.TranslateRStr(call__303);
+                    var call__305 = GetName();
+                    var call__306 = Aow.Rtl.Rtl.Format(call__304, [call__305]);
+                    Result = call__306;
                 }
                 else
                 {
                     if (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crDefeat)
                     {
-                        var call__306 = Aow.Units.AoWE.AoWE.CityBattleLostRStr;
-                        var call__307 = Aow.Units.AoWE.AoWE.TranslateRStr(call__306);
-                        var call__308 = GetName();
-                        var call__309 = Aow.Rtl.Rtl.Format(call__307, [call__308]);
-                        Result = call__309;
+                        var call__307 = Aow.Units.AoWE.AoWE.CityBattleLostRStr;
+                        var call__308 = Aow.Units.AoWE.AoWE.TranslateRStr(call__307);
+                        var call__309 = GetName();
+                        var call__310 = Aow.Rtl.Rtl.Format(call__308, [call__309]);
+                        Result = call__310;
                     }
                     else
                     {
                         if (Combat.FCombatResult != Aow.Units.AoWE.TCombatResult.crCannotBreachWall)
                         {
-                            var call__310 = Aow.Units.AoWE.AoWE.CityBattleDrawnRStr;
-                            var call__311 = Aow.Units.AoWE.AoWE.TranslateRStr(call__310);
-                            var call__312 = GetName();
-                            var call__313 = Aow.Rtl.Rtl.Format(call__311, [call__312]);
-                            Result = call__313;
+                            var call__311 = Aow.Units.AoWE.AoWE.CityBattleDrawnRStr;
+                            var call__312 = Aow.Units.AoWE.AoWE.TranslateRStr(call__311);
+                            var call__313 = GetName();
+                            var call__314 = Aow.Rtl.Rtl.Format(call__312, [call__313]);
+                            Result = call__314;
                         }
                     }
                 }
@@ -2278,32 +2289,32 @@ namespace Aow.Units.City
         public override void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
         {
             Aow.Units.City.TCityProductionEventLog Log = default;
-            var call__314 = GetRazed();
-            bool bool__315 = !call__314;
-            if (bool__315)
+            var call__315 = GetRazed();
+            bool bool__316 = !call__315;
+            if (bool__316)
             {
-                var call__316 = GetBuilding();
-                bool__315 = !call__316;
+                var call__317 = GetBuilding();
+                bool__316 = !call__317;
             }
 
-            if ((((bool__315 && (OldPlayer == 0)) && !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting)) && FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated)) && !((Aow.Units.City.TCityResource)FResource).FClaimed)
+            if ((((bool__316 && (OldPlayer == 0)) && !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting)) && FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated)) && !((Aow.Units.City.TCityResource)FResource).FClaimed)
             {
                 Log = Aow.Units.City.TCityProductionEventLog.Create(null);
                 Log.FPlayer = unchecked((sbyte)NewPlayer);
-                var call__317 = EditName();
-                var call__318 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StructureCapturedRStr);
-                var call__319 = Aow.Rtl.Rtl.Format(call__318, [call__317]);
-                Log.FText = call__319;
-                var call__320 = GetXhx();
-                Log.FXhx = unchecked((sbyte)call__320);
-                var call__321 = GetYhx();
-                Log.FYhx = unchecked((sbyte)call__321);
-                var call__322 = GetLhx();
-                Log.FLhx = unchecked((sbyte)call__322);
-                var call__323 = GetYhx();
-                var call__324 = GetLhx();
-                var call__325 = GetXhx();
-                Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)FPlayer), unchecked((sbyte)call__325), unchecked((sbyte)call__323), unchecked((sbyte)call__324), false);
+                var call__318 = EditName();
+                var call__319 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StructureCapturedRStr);
+                var call__320 = Aow.Rtl.Rtl.Format(call__319, [call__318]);
+                Log.FText = call__320;
+                var call__321 = GetXhx();
+                Log.FXhx = unchecked((sbyte)call__321);
+                var call__322 = GetYhx();
+                Log.FYhx = unchecked((sbyte)call__322);
+                var call__323 = GetLhx();
+                Log.FLhx = unchecked((sbyte)call__323);
+                var call__324 = GetYhx();
+                var call__325 = GetLhx();
+                var call__326 = GetXhx();
+                Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)FPlayer), unchecked((sbyte)call__326), unchecked((sbyte)call__324), unchecked((sbyte)call__325), false);
                 Log.Release();
             }
         }
@@ -2315,14 +2326,14 @@ namespace Aow.Units.City
             Result = Action;
             if (FPlayer == 0)
             {
-                bool bool__326 = TSet<Aow.Units.AoWE.TMoveAction>.Of(Aow.Units.AoWE.TMoveAction.maNormal, Aow.Units.AoWE.TMoveAction.maAttack).Contains(Action);
-                if (bool__326)
+                bool bool__327 = TSet<Aow.Units.AoWE.TMoveAction>.Of(Aow.Units.AoWE.TMoveAction.maNormal, Aow.Units.AoWE.TMoveAction.maAttack).Contains(Action);
+                if (bool__327)
                 {
-                    var call__327 = GetRazed();
-                    bool__326 = !call__327;
+                    var call__328 = GetRazed();
+                    bool__327 = !call__328;
                 }
 
-                if (bool__326 && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode))
+                if (bool__327 && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode))
                 {
                     if (JoinAmount(unchecked((sbyte)Player)) != -1)
                     {
@@ -2355,14 +2366,14 @@ namespace Aow.Units.City
             Aow.Units.HSEngine.THNWalkData Walk = default;
             Aow.Units.AoWE.TArmyHS Army = default;
             sbyte Player = default;
-            bool bool__328 = FMode.Contains(Aow.Units.City.TCityModeElement.cmRazed);
-            if (bool__328)
+            bool bool__329 = FMode.Contains(Aow.Units.City.TCityModeElement.cmRazed);
+            if (bool__329)
             {
-                var call__329 = GetBuilding();
-                bool__328 = !call__329;
+                var call__330 = GetBuilding();
+                bool__329 = !call__330;
             }
 
-            if (!bool__328)
+            if (!bool__329)
             {
                 MultiplePlayers = false;
                 Player = unchecked((sbyte)-1);
@@ -2371,12 +2382,12 @@ namespace Aow.Units.City
                 Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while ((Walk.HN < Count) && !MultiplePlayers)
                 {
-                    var call__330 = FResource.TerrainList.GetTerrain(Walk.HN);
-                    if (((((call__330 >= 0) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.Width)) && (Walk.Y < MapLevel.Height))
+                    var call__331 = FResource.TerrainList.GetTerrain(Walk.HN);
+                    if (((((call__331 >= 0) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.Width)) && (Walk.Y < MapLevel.Height))
                     {
-                        var call__331 = MapLevel.GetField(Walk.X, Walk.Y);
-                        var call__332 = call__331.FindOwnedChild(131607);
-                        Army = (Aow.Units.AoWE.TArmyHS)call__332;
+                        var call__332 = MapLevel.GetField(Walk.X, Walk.Y);
+                        var call__333 = call__332.FindOwnedChild(131607);
+                        Army = (Aow.Units.AoWE.TArmyHS)call__333;
                         if (Army != null)
                         {
                             if (Player == -1)
@@ -2437,26 +2448,26 @@ namespace Aow.Units.City
         // City.pas:1777
         public override void UpdateIncome()
         {
-            var call__333 = GetRazed();
-            bool bool__334 = !call__333;
-            if (bool__334)
+            var call__334 = GetRazed();
+            bool bool__335 = !call__334;
+            if (bool__335)
             {
-                var call__335 = GetActiveAction();
-                bool__334 = (call__335 != Aow.Units.City.TCityAction.caMigrate);
+                var call__336 = GetActiveAction();
+                bool__335 = (call__336 != Aow.Units.City.TCityAction.caMigrate);
             }
 
-            bool bool__336 = bool__334;
-            if (bool__336)
+            bool bool__337 = bool__335;
+            if (bool__337)
             {
-                var call__337 = GetBuilding();
-                bool__336 = !call__337;
+                var call__338 = GetBuilding();
+                bool__337 = !call__338;
             }
 
-            if (bool__336)
+            if (bool__337)
             {
-                var call__338 = GetCropCount();
-                var call__339 = GetSize();
-                SetIncome(unchecked((byte)((call__338 * 2) + (call__339 * 5))));
+                var call__339 = GetCropCount();
+                var call__340 = GetSize();
+                SetIncome(unchecked((byte)((call__339 * 2) + (call__340 * 5))));
                 if (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(GetActiveAction()))
                 {
                     SetIncome(unchecked((byte)(FIncome + Aow.Rtl.Rtl.Round(FIncome * 0.25))));
@@ -2521,18 +2532,18 @@ namespace Aow.Units.City
             {
                 if (FPlayer > 0)
                 {
-                    var call__340 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    Race = call__340.FPlayerRace;
+                    var call__341 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                    Race = call__341.FPlayerRace;
                 }
                 else
                 {
                     Race = FRace;
                 }
 
-                var call__341 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(Race);
-                var call__342 = call__341.GetPlayerRelationValue(unchecked((sbyte)Player));
-                var call__343 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(Race);
-                call__343.SetPlayerRelationValue(unchecked((sbyte)Player), call__342 + -5);
+                var call__342 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(Race);
+                var call__343 = call__342.GetPlayerRelationValue(unchecked((sbyte)Player));
+                var call__344 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(Race);
+                call__344.SetPlayerRelationValue(unchecked((sbyte)Player), call__343 + -5);
             }
         }
 
@@ -2558,9 +2569,9 @@ namespace Aow.Units.City
             Aow.Units.City.TCityAction Result = default;
             if (FProduction.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
             {
-                var call__344 = FProduction.FQueue.GetItem(0);
-                var call__345 = Aow.Units.City.City.ProductionIDToCityAction(call__344.FProductionID);
-                Result = call__345;
+                var call__345 = FProduction.FQueue.GetItem(0);
+                var call__346 = Aow.Units.City.City.ProductionIDToCityAction(call__345.FProductionID);
+                Result = call__346;
             }
             else
             {
@@ -2577,11 +2588,11 @@ namespace Aow.Units.City
             FEnchantments = TSet<Aow.Units.City.TCityEnchantmentID>.Of();
             {
                 I = FEnchantmentList.Count - 1;
-                byte end__346 = 0;
-                for (; I >= end__346; I -= 1)
+                byte end__347 = 0;
+                for (; I >= end__347; I -= 1)
                 {
-                    var call__347 = FEnchantmentList.GetEnchantments(I);
-                    FEnchantments = FEnchantments + TSet<Aow.Units.City.TCityEnchantmentID>.Of(((Aow.Units.City.TCityEnchantment)call__347).FEnchantmentID);
+                    var call__348 = FEnchantmentList.GetEnchantments(I);
+                    FEnchantments = FEnchantments + TSet<Aow.Units.City.TCityEnchantmentID>.Of(((Aow.Units.City.TCityEnchantment)call__348).FEnchantmentID);
                 }
             }
         }
@@ -2592,12 +2603,12 @@ namespace Aow.Units.City
             int I = default;
             {
                 I = FEnchantmentList.Count - 1;
-                byte end__348 = 0;
-                for (; I >= end__348; I -= 1)
+                byte end__349 = 0;
+                for (; I >= end__349; I -= 1)
                 {
-                    var call__349 = FEnchantmentList.GetEnchantments(I);
                     var call__350 = FEnchantmentList.GetEnchantments(I);
-                    call__350.Activate(unchecked((sbyte)call__349.FPlayerIndex));
+                    var call__351 = FEnchantmentList.GetEnchantments(I);
+                    call__351.Activate(unchecked((sbyte)call__350.FPlayerIndex));
                 }
             }
 
@@ -2610,12 +2621,12 @@ namespace Aow.Units.City
             int I = default;
             {
                 I = FEnchantmentList.Count - 1;
-                byte end__351 = 0;
-                for (; I >= end__351; I -= 1)
+                byte end__352 = 0;
+                for (; I >= end__352; I -= 1)
                 {
-                    var call__352 = FEnchantmentList.GetEnchantments(I);
                     var call__353 = FEnchantmentList.GetEnchantments(I);
-                    call__353.Deactivate(unchecked((byte)call__352.FPlayerIndex));
+                    var call__354 = FEnchantmentList.GetEnchantments(I);
+                    call__354.Deactivate(unchecked((byte)call__353.FPlayerIndex));
                 }
             }
         }
@@ -2694,49 +2705,49 @@ namespace Aow.Units.City
         // City.pas:955
         public void ListEnhancementsInfo(Aow.Rtl.TStrings List)
         {
-            var call__354 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UpgradeLevelXRStr);
-            var call__355 = Aow.Rtl.Rtl.Format(call__354, [Aow.Rtl.Rtl.IntToStr(FUpgradeLevel)]);
-            List.Add(call__355);
+            var call__355 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UpgradeLevelXRStr);
+            var call__356 = Aow.Rtl.Rtl.Format(call__355, [Aow.Rtl.Rtl.IntToStr(FUpgradeLevel)]);
+            List.Add(call__356);
             if (FWallType == 1)
             {
-                var call__356 = Aow.Units.City.City.CityWoodenWallRStr;
-                var call__357 = Aow.Units.AoWE.AoWE.TranslateRStr(call__356);
-                List.Add(call__357);
+                var call__357 = Aow.Units.City.City.CityWoodenWallRStr;
+                var call__358 = Aow.Units.AoWE.AoWE.TranslateRStr(call__357);
+                List.Add(call__358);
             }
 
             if (FWallType == 2)
             {
-                var call__358 = Aow.Units.City.City.CityStoneWallRStr;
-                var call__359 = Aow.Units.AoWE.AoWE.TranslateRStr(call__358);
-                List.Add(call__359);
+                var call__359 = Aow.Units.City.City.CityStoneWallRStr;
+                var call__360 = Aow.Units.AoWE.AoWE.TranslateRStr(call__359);
+                List.Add(call__360);
             }
 
             if (FEnchantments.Contains(Aow.Units.City.TCityEnchantmentID.ceiFountainOfLife))
             {
-                var call__360 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FountainOfLifeRStr);
-                var call__361 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantmentRStr);
-                List.Add((call__360 + ((AnsiString)": ")) + call__361);
+                var call__361 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FountainOfLifeRStr);
+                var call__362 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantmentRStr);
+                List.Add((call__361 + ((AnsiString)": ")) + call__362);
             }
 
             if (FEnchantments.Contains(Aow.Units.City.TCityEnchantmentID.ceiGoldRush))
             {
-                var call__362 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GoldRushRStr);
-                var call__363 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantmentRStr);
-                List.Add((call__362 + ((AnsiString)": ")) + call__363);
+                var call__363 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GoldRushRStr);
+                var call__364 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantmentRStr);
+                List.Add((call__363 + ((AnsiString)": ")) + call__364);
             }
 
             if (FEnchantments.Contains(Aow.Units.City.TCityEnchantmentID.ceiAntiMagicShell))
             {
-                var call__364 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AntiMagicShellRStr);
-                var call__365 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantmentRStr);
-                List.Add((call__364 + ((AnsiString)": ")) + call__365);
+                var call__365 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AntiMagicShellRStr);
+                var call__366 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantmentRStr);
+                List.Add((call__365 + ((AnsiString)": ")) + call__366);
             }
 
             if (FEnchantments.Contains(Aow.Units.City.TCityEnchantmentID.ceiWarmonger))
             {
-                var call__366 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WarmongerRStr);
-                var call__367 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantmentRStr);
-                List.Add((call__366 + ((AnsiString)": ")) + call__367);
+                var call__367 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WarmongerRStr);
+                var call__368 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantmentRStr);
+                List.Add((call__367 + ((AnsiString)": ")) + call__368);
             }
         }
 
@@ -2774,55 +2785,55 @@ namespace Aow.Units.City
             PlaySound = false;
             {
                 I = 0;
-                int end__368 = Armies.Count - 1;
-                for (; I <= end__368; I += 1)
+                int end__369 = Armies.Count - 1;
+                for (; I <= end__369; I += 1)
                 {
-                    var call__369 = Armies.GetArmyHS(I);
-                    var call__370 = call__369.FArmy.HealUnits(255);
-                    if (call__370)
+                    var call__370 = Armies.GetArmyHS(I);
+                    var call__371 = call__370.FArmy.HealUnits(255);
+                    if (call__371)
                     {
-                        var call__371 = Armies.GetArmyHS(I);
-                        var call__372 = call__371.GetLhx();
-                        var call__373 = Armies.GetArmyHS(I);
-                        var call__374 = call__373.GetYhx();
-                        var call__375 = Armies.GetArmyHS(I);
-                        var call__376 = call__375.GetXhx();
-                        var call__377 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(call__376, call__374, call__372, unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
-                        if (call__377)
+                        var call__372 = Armies.GetArmyHS(I);
+                        var call__373 = call__372.GetLhx();
+                        var call__374 = Armies.GetArmyHS(I);
+                        var call__375 = call__374.GetYhx();
+                        var call__376 = Armies.GetArmyHS(I);
+                        var call__377 = call__376.GetXhx();
+                        var call__378 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(call__377, call__375, call__373, unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                        if (call__378)
                         {
                             Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
-                            var call__378 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(47);
-                            var call__379 = call__378.FImageSequences.ImageSequences[0];
-                            Animation.SetImageSequence(call__379);
+                            var call__379 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(47);
+                            var call__380 = call__379.FImageSequences.ImageSequences[0];
+                            Animation.SetImageSequence(call__380);
                             Animation.FAnimationLevel = 27;
-                            var call__380 = Armies.GetArmyHS(I);
-                            var call__381 = call__380.GetLhx();
-                            var call__382 = Armies.GetArmyHS(I);
-                            var call__383 = call__382.GetYhx();
-                            var call__384 = Armies.GetArmyHS(I);
-                            var call__385 = call__384.GetXhx();
-                            Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, call__385, call__383, call__381);
-                            bool bool__386 = PlaySound;
-                            if (!bool__386)
+                            var call__381 = Armies.GetArmyHS(I);
+                            var call__382 = call__381.GetLhx();
+                            var call__383 = Armies.GetArmyHS(I);
+                            var call__384 = call__383.GetYhx();
+                            var call__385 = Armies.GetArmyHS(I);
+                            var call__386 = call__385.GetXhx();
+                            Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, call__386, call__384, call__382);
+                            bool bool__387 = PlaySound;
+                            if (!bool__387)
                             {
-                                var call__387 = Armies.GetArmyHS(I);
-                                bool__386 = (call__387.FArmy.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                                var call__388 = Armies.GetArmyHS(I);
+                                bool__387 = (call__388.FArmy.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
                             }
 
-                            bool bool__388 = bool__386;
-                            if (!bool__388)
+                            bool bool__389 = bool__387;
+                            if (!bool__389)
                             {
-                                var call__389 = Armies.GetArmyHS(I);
-                                var call__390 = call__389.GetLhx();
-                                var call__391 = Armies.GetArmyHS(I);
-                                var call__392 = call__391.GetYhx();
-                                var call__393 = Armies.GetArmyHS(I);
-                                var call__394 = call__393.GetXhx();
-                                var call__395 = Aow.Units.AoWE.AoWE.AoWHSMap.Watching(unchecked((sbyte)call__394), unchecked((sbyte)call__392), unchecked((sbyte)call__390), 1);
-                                bool__388 = call__395;
+                                var call__390 = Armies.GetArmyHS(I);
+                                var call__391 = call__390.GetLhx();
+                                var call__392 = Armies.GetArmyHS(I);
+                                var call__393 = call__392.GetYhx();
+                                var call__394 = Armies.GetArmyHS(I);
+                                var call__395 = call__394.GetXhx();
+                                var call__396 = Aow.Units.AoWE.AoWE.AoWHSMap.Watching(unchecked((sbyte)call__395), unchecked((sbyte)call__393), unchecked((sbyte)call__391), 1);
+                                bool__389 = call__396;
                             }
 
-                            PlaySound = bool__388;
+                            PlaySound = bool__389;
                         }
 
                         Result = true;
@@ -2832,8 +2843,8 @@ namespace Aow.Units.City
 
             if (PlaySound)
             {
-                var call__396 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(47);
-                call__396.FSFXLibrary.Play(0);
+                var call__397 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(47);
+                call__397.FSFXLibrary.Play(0);
             }
 
             Armies.Free();
@@ -2849,49 +2860,157 @@ namespace Aow.Units.City
             int BestIndex = default;
             int BestValue = default;
             Aow.Units.AoWE.TProductionItem Item = default;
-            /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-            throw new System.NotImplementedException();
+            if ((Aow.Units.AoWE.AoWE.AoWHSMap.FDay != 0) && !((Aow.Units.AoWE.TAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap).Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            {
+                if (FPlayer > 0)
+                {
+                    var call__398 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                    bool bool__399 = (call__398.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman) && ((TSet<Aow.Units.City.TCityModeElement>.Of(Aow.Units.City.TCityModeElement.cmWarmode, Aow.Units.City.TCityModeElement.cmRazed) & FMode) == TSet<Aow.Units.City.TCityModeElement>.Of());
+                    if (bool__399)
+                    {
+                        var call__400 = GetActiveAction();
+                        bool__399 = TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__400);
+                    }
+
+                    bool bool__401 = bool__399;
+                    if (bool__401)
+                    {
+                        var call__402 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                        var call__403 = call__402.GetPlayerRelation(unchecked((sbyte)FPlayer));
+                        bool__401 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sNeutral).Contains(call__403);
+                    }
+
+                    if (bool__401)
+                    {
+                        Selection = CreateMigrationSelection();
+                        BestValue = 0;
+                        BestIndex = -1;
+                        {
+                            I = 0;
+                            int end__404 = Selection.Count - 1;
+                            for (; I <= end__404; I += 1)
+                            {
+                                var call__405 = Selection.GetItems(I);
+                                if (TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__405.FRelation))
+                                {
+                                    var call__406 = Selection.GetItems(I);
+                                    var call__407 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.RaceToPlayer(unchecked((sbyte)call__406.FRace));
+                                    bool bool__408 = (call__407 == -1);
+                                    if (!bool__408)
+                                    {
+                                        var call__409 = Selection.GetItems(I);
+                                        var call__410 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                                        bool__408 = (call__409.FRace == call__410.FPlayerRace);
+                                    }
+
+                                    if (bool__408)
+                                    {
+                                        Value = 10;
+                                    }
+                                    else
+                                    {
+                                        Value = 5;
+                                    }
+                                }
+                                else
+                                {
+                                    Value = 0;
+                                }
+
+                                var call__411 = Selection.GetItems(I);
+                                Value += call__411.FTime;
+                                bool bool__412 = (Value > BestValue);
+                                if (!bool__412)
+                                {
+                                    bool bool__413 = (Value == BestValue);
+                                    if (bool__413)
+                                    {
+                                        var call__414 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
+                                        bool__413 = (call__414 == 1);
+                                    }
+
+                                    bool__412 = bool__413;
+                                }
+
+                                if (bool__412)
+                                {
+                                    BestValue = Value;
+                                    BestIndex = I;
+                                }
+                            }
+                        }
+
+                        if (BestIndex != -1)
+                        {
+                            FProduction.ExecuteDeleteProductions();
+                            Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                            var call__415 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caMigrate);
+                            Item.FProductionID = call__415;
+                            var call__416 = Selection.GetItems(BestIndex);
+                            Item.FParameter = call__416.FRace;
+                            FProduction.ExecuteAddProduction(Item);
+                            Item.Free();
+                        }
+
+                        Selection.Free();
+                    }
+                }
+                else
+                {
+                    bool bool__417 = (FPlayer == 0);
+                    if (bool__417)
+                    {
+                        var call__418 = GetActiveAction();
+                        bool__417 = TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caMigrate, Aow.Units.City.TCityAction.caLoot).Contains(call__418);
+                    }
+
+                    if (bool__417)
+                    {
+                        FProduction.ExecuteDeleteProductions();
+                    }
+                }
+            }
         }
 
         // City.pas:1081
         public void ValidateAICityAction()
         {
             bool Cancel = default;
-            bool bool__397 = (FPlayer > 0);
-            if (bool__397)
+            bool bool__419 = (FPlayer > 0);
+            if (bool__419)
             {
-                var call__398 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                bool__397 = (call__398.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman);
+                var call__420 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                bool__419 = (call__420.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman);
             }
 
-            bool bool__399 = bool__397 && ((TSet<Aow.Units.City.TCityModeElement>.Of(Aow.Units.City.TCityModeElement.cmWarmode, Aow.Units.City.TCityModeElement.cmRazed) & FMode) == TSet<Aow.Units.City.TCityModeElement>.Of());
-            if (bool__399)
+            bool bool__421 = bool__419 && ((TSet<Aow.Units.City.TCityModeElement>.Of(Aow.Units.City.TCityModeElement.cmWarmode, Aow.Units.City.TCityModeElement.cmRazed) & FMode) == TSet<Aow.Units.City.TCityModeElement>.Of());
+            if (bool__421)
             {
-                var call__400 = GetActiveAction();
-                bool__399 = !TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__400);
+                var call__422 = GetActiveAction();
+                bool__421 = !TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__422);
             }
 
-            if (bool__399)
+            if (bool__421)
             {
-                var call__401 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                var call__402 = call__401.GetPlayerRelation(unchecked((sbyte)FPlayer));
-                bool bool__403 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sNeutral).Contains(call__402);
-                if (bool__403)
+                var call__423 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                var call__424 = call__423.GetPlayerRelation(unchecked((sbyte)FPlayer));
+                bool bool__425 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sNeutral).Contains(call__424);
+                if (bool__425)
                 {
-                    var call__404 = GetActiveAction();
-                    bool bool__405 = (call__404 == Aow.Units.City.TCityAction.caMigrate);
-                    if (bool__405)
+                    var call__426 = GetActiveAction();
+                    bool bool__427 = (call__426 == Aow.Units.City.TCityAction.caMigrate);
+                    if (bool__427)
                     {
-                        var call__406 = FProduction.FQueue.GetItem(0);
-                        var call__407 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(call__406.FParameter);
-                        var call__408 = call__407.GetPlayerRelation(unchecked((sbyte)FPlayer));
-                        bool__405 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__408);
+                        var call__428 = FProduction.FQueue.GetItem(0);
+                        var call__429 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(call__428.FParameter);
+                        var call__430 = call__429.GetPlayerRelation(unchecked((sbyte)FPlayer));
+                        bool__427 = TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__430);
                     }
 
-                    bool__403 = !bool__405;
+                    bool__425 = !bool__427;
                 }
 
-                Cancel = bool__403;
+                Cancel = bool__425;
                 if (Cancel)
                 {
                     FProduction.ExecuteDeleteProductions();
@@ -2915,17 +3034,17 @@ namespace Aow.Units.City
             Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while ((Walk.HN < Count) && Result)
             {
-                var call__409 = FResource.TerrainList.GetTerrain(Walk.HN);
-                if (((((call__409 >= 0) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.Width)) && (Walk.Y < MapLevel.Height))
+                var call__431 = FResource.TerrainList.GetTerrain(Walk.HN);
+                if (((((call__431 >= 0) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.Width)) && (Walk.Y < MapLevel.Height))
                 {
-                    var call__410 = MapLevel.GetField(Walk.X, Walk.Y);
-                    var call__411 = call__410.FindOwnedChild(131607);
-                    Army = (Aow.Units.AoWE.TArmyHS)call__411;
+                    var call__432 = MapLevel.GetField(Walk.X, Walk.Y);
+                    var call__433 = call__432.FindOwnedChild(131607);
+                    Army = (Aow.Units.AoWE.TArmyHS)call__433;
                     if ((Army != null) && (!Selection.Contains(Aow.Units.City.TMoveOutOfCitySelectionElement.msSkipOwnPlayer) || (Army.FArmy.FPlayer != FPlayer)))
                     {
-                        var call__412 = GetLhx();
-                        var call__413 = Army.PlaceEx(unchecked((sbyte)Walk.X), unchecked((sbyte)Walk.Y), unchecked((sbyte)call__412), TSet<Aow.Units.AoWE.TArmyPlaceModeElement>.Of(Aow.Units.AoWE.TArmyPlaceModeElement.apSafe, Aow.Units.AoWE.TArmyPlaceModeElement.apScanArea));
-                        Result = call__413;
+                        var call__434 = GetLhx();
+                        var call__435 = Army.PlaceEx(unchecked((sbyte)Walk.X), unchecked((sbyte)Walk.Y), unchecked((sbyte)call__434), TSet<Aow.Units.AoWE.TArmyPlaceModeElement>.Of(Aow.Units.AoWE.TArmyPlaceModeElement.apSafe, Aow.Units.AoWE.TArmyPlaceModeElement.apScanArea));
+                        Result = call__435;
                     }
                 }
 
@@ -2952,25 +3071,25 @@ namespace Aow.Units.City
             Aow.Units.HSEngine.THNWalkData Walk = default;
             Aow.Units.AoWE.TArmyHS Army = default;
             {
-                ref var w__414 = ref Walk;
+                ref var w__436 = ref Walk;
                 Result = 0;
                 Count = GetTerrainCount();
                 MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-                var call__415 = GetYhx();
-                var call__416 = GetXhx();
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, call__416, call__415, 0);
-                while (w__414.HN < Count)
+                var call__437 = GetYhx();
+                var call__438 = GetXhx();
+                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, call__438, call__437, 0);
+                while (w__436.HN < Count)
                 {
-                    var call__417 = FResource.TerrainList.GetTerrain(w__414.HN);
-                    if (((((call__417 >= 0) && (w__414.X >= 0)) && (w__414.Y >= 0)) && (w__414.X < MapLevel.Width)) && (w__414.Y < MapLevel.Height))
+                    var call__439 = FResource.TerrainList.GetTerrain(w__436.HN);
+                    if (((((call__439 >= 0) && (w__436.X >= 0)) && (w__436.Y >= 0)) && (w__436.X < MapLevel.Width)) && (w__436.Y < MapLevel.Height))
                     {
-                        var call__418 = MapLevel.GetField(w__414.X, w__414.Y);
-                        var call__419 = call__418.FindOwnedChild(131607);
-                        Army = (Aow.Units.AoWE.TArmyHS)call__419;
+                        var call__440 = MapLevel.GetField(w__436.X, w__436.Y);
+                        var call__441 = call__440.FindOwnedChild(131607);
+                        Army = (Aow.Units.AoWE.TArmyHS)call__441;
                         if (Army != null)
                         {
-                            var call__420 = Army.FArmy.ObtainValue(255);
-                            Result += call__420;
+                            var call__442 = Army.FArmy.ObtainValue(255);
+                            Result += call__442;
                         }
                     }
 
@@ -2985,8 +3104,8 @@ namespace Aow.Units.City
         public int UpgradeCost()
         {
             int Result = default;
-            var call__421 = GetSize();
-            Result = Aow.Units.City.City.UpgradePrices[call__421 - 1];
+            var call__443 = GetSize();
+            Result = Aow.Units.City.City.UpgradePrices[call__443 - 1];
             return Result;
         }
 
@@ -3009,12 +3128,12 @@ namespace Aow.Units.City
             {
                 {
                     I = 0;
-                    int end__422 = FProduction.FQueue.Count - 1;
-                    for (; I <= end__422; I += 1)
+                    int end__444 = FProduction.FQueue.Count - 1;
+                    for (; I <= end__444; I += 1)
                     {
-                        var call__423 = FProduction.FQueue.GetItem(I);
-                        var call__424 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caUpgrade);
-                        if (call__423.FProductionID == call__424)
+                        var call__445 = FProduction.FQueue.GetItem(I);
+                        var call__446 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caUpgrade);
+                        if (call__445.FProductionID == call__446)
                         {
                             Level += 1;
                         }
@@ -3029,9 +3148,9 @@ namespace Aow.Units.City
             else
             {
                 Result = false;
-                var call__425 = Aow.Units.AoWE.AoWE.MaxUpgradeLevelReachedRStr;
-                var call__426 = Aow.Units.AoWE.AoWE.TranslateRStr(call__425);
-                Reason = call__426;
+                var call__447 = Aow.Units.AoWE.AoWE.MaxUpgradeLevelReachedRStr;
+                var call__448 = Aow.Units.AoWE.AoWE.TranslateRStr(call__447);
+                Reason = call__448;
             }
 
             return Result;
@@ -3043,20 +3162,20 @@ namespace Aow.Units.City
             bool Result = default;
             Aow.Units.AoWE.TProductionItem Item = default;
             Aow.Rtl.AnsiString Reason = default;
-            var call__427 = CanUpgrade(Queue, ref Reason);
-            bool bool__428 = call__427;
-            if (bool__428)
+            var call__449 = CanUpgrade(Queue, ref Reason);
+            bool bool__450 = call__449;
+            if (bool__450)
             {
-                var call__429 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__430 = call__429.GetBusy();
-                bool__428 = !call__430;
+                var call__451 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__452 = call__451.GetBusy();
+                bool__450 = !call__452;
             }
 
-            if (bool__428)
+            if (bool__450)
             {
                 Item = Aow.Units.AoWE.TProductionItem.Create(null);
-                var call__431 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caUpgrade);
-                Item.FProductionID = call__431;
+                var call__453 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caUpgrade);
+                Item.FProductionID = call__453;
                 FProduction.Produce(Item, Queue);
                 Item.Free();
                 Result = true;
@@ -3076,12 +3195,12 @@ namespace Aow.Units.City
             switch (FWallType)
             {
                 case 0:
-                    var call__432 = GetSize();
-                    Result = Aow.Units.City.City.WoodWallPrices[call__432 - 1];
+                    var call__454 = GetSize();
+                    Result = Aow.Units.City.City.WoodWallPrices[call__454 - 1];
                     break;
                 case 1:
-                    var call__433 = GetSize();
-                    Result = Aow.Units.City.City.StoneWallPrices[call__433 - 1];
+                    var call__455 = GetSize();
+                    Result = Aow.Units.City.City.StoneWallPrices[call__455 - 1];
                     break;
                 default:
                     Result = -1;
@@ -3110,12 +3229,12 @@ namespace Aow.Units.City
             {
                 {
                     I = 0;
-                    int end__434 = FProduction.FQueue.Count - 1;
-                    for (; I <= end__434; I += 1)
+                    int end__456 = FProduction.FQueue.Count - 1;
+                    for (; I <= end__456; I += 1)
                     {
-                        var call__435 = FProduction.FQueue.GetItem(I);
-                        var call__436 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caFortify);
-                        if (call__435.FProductionID == call__436)
+                        var call__457 = FProduction.FQueue.GetItem(I);
+                        var call__458 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caFortify);
+                        if (call__457.FProductionID == call__458)
                         {
                             Level += 1;
                         }
@@ -3130,9 +3249,9 @@ namespace Aow.Units.City
             else
             {
                 Result = false;
-                var call__437 = Aow.Units.AoWE.AoWE.MaxFortifyLevelReachedRStr;
-                var call__438 = Aow.Units.AoWE.AoWE.TranslateRStr(call__437);
-                Reason = call__438;
+                var call__459 = Aow.Units.AoWE.AoWE.MaxFortifyLevelReachedRStr;
+                var call__460 = Aow.Units.AoWE.AoWE.TranslateRStr(call__459);
+                Reason = call__460;
             }
 
             return Result;
@@ -3144,20 +3263,20 @@ namespace Aow.Units.City
             bool Result = default;
             Aow.Units.AoWE.TProductionItem Item = default;
             Aow.Rtl.AnsiString Reason = default;
-            var call__439 = CanFortify(Queue, ref Reason);
-            bool bool__440 = call__439;
-            if (bool__440)
+            var call__461 = CanFortify(Queue, ref Reason);
+            bool bool__462 = call__461;
+            if (bool__462)
             {
-                var call__441 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__442 = call__441.GetBusy();
-                bool__440 = !call__442;
+                var call__463 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__464 = call__463.GetBusy();
+                bool__462 = !call__464;
             }
 
-            if (bool__440)
+            if (bool__462)
             {
                 Item = Aow.Units.AoWE.TProductionItem.Create(null);
-                var call__443 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caFortify);
-                Item.FProductionID = call__443;
+                var call__465 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caFortify);
+                Item.FProductionID = call__465;
                 FProduction.Produce(Item, Queue);
                 Item.Free();
                 Result = true;
@@ -3174,8 +3293,8 @@ namespace Aow.Units.City
         public int ProductionCost(int Index)
         {
             int Result = default;
-            var call__444 = FProduction.UnitProductionGold(Index);
-            Result = call__444;
+            var call__466 = FProduction.UnitProductionGold(Index);
+            Result = call__466;
             return Result;
         }
 
@@ -3183,8 +3302,8 @@ namespace Aow.Units.City
         public int ProductionTime(int Index)
         {
             int Result = default;
-            var call__445 = FProduction.UnitProductionTime(Index);
-            Result = call__445;
+            var call__467 = FProduction.UnitProductionTime(Index);
+            Result = call__467;
             return Result;
         }
 
@@ -3192,8 +3311,8 @@ namespace Aow.Units.City
         public bool CanProduce(int Index, bool Queue, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
-            var call__446 = FProduction.CanProduceUnit(Index, Queue, ref Reason);
-            Result = call__446;
+            var call__468 = FProduction.CanProduceUnit(Index, Queue, ref Reason);
+            Result = call__468;
             return Result;
         }
 
@@ -3201,8 +3320,8 @@ namespace Aow.Units.City
         public bool Produce(int Index, bool Queue)
         {
             bool Result = default;
-            var call__447 = FProduction.ProduceUnit(Index, Queue);
-            Result = call__447;
+            var call__469 = FProduction.ProduceUnit(Index, Queue);
+            Result = call__469;
             return Result;
         }
 
@@ -3210,8 +3329,8 @@ namespace Aow.Units.City
         public int ResearchCost(int Index)
         {
             int Result = default;
-            var call__448 = FProduction.UnitResearchGold(Index);
-            Result = call__448;
+            var call__470 = FProduction.UnitResearchGold(Index);
+            Result = call__470;
             return Result;
         }
 
@@ -3219,8 +3338,8 @@ namespace Aow.Units.City
         public int ResearchTime(int Index)
         {
             int Result = default;
-            var call__449 = FProduction.UnitResearchTime(Index);
-            Result = call__449;
+            var call__471 = FProduction.UnitResearchTime(Index);
+            Result = call__471;
             return Result;
         }
 
@@ -3228,8 +3347,8 @@ namespace Aow.Units.City
         public bool CanResearch(int Index, bool Queue, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
-            var call__450 = FProduction.CanResearchUnit(Index, Queue, ref Reason);
-            Result = call__450;
+            var call__472 = FProduction.CanResearchUnit(Index, Queue, ref Reason);
+            Result = call__472;
             return Result;
         }
 
@@ -3237,8 +3356,8 @@ namespace Aow.Units.City
         public bool Research(int Index, bool Queue)
         {
             bool Result = default;
-            var call__451 = FProduction.ResearchUnit(Index, Queue);
-            Result = call__451;
+            var call__473 = FProduction.ResearchUnit(Index, Queue);
+            Result = call__473;
             return Result;
         }
 
@@ -3256,20 +3375,20 @@ namespace Aow.Units.City
             bool Result = default;
             Aow.Units.AoWE.TProductionItem Item = default;
             Aow.Rtl.AnsiString Reason = default;
-            var call__452 = CanTrade(Queue, ref Reason);
-            bool bool__453 = call__452;
-            if (bool__453)
+            var call__474 = CanTrade(Queue, ref Reason);
+            bool bool__475 = call__474;
+            if (bool__475)
             {
-                var call__454 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__455 = call__454.GetBusy();
-                bool__453 = !call__455;
+                var call__476 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__477 = call__476.GetBusy();
+                bool__475 = !call__477;
             }
 
-            if (bool__453)
+            if (bool__475)
             {
                 Item = Aow.Units.AoWE.TProductionItem.Create(null);
-                var call__456 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caTrade);
-                Item.FProductionID = call__456;
+                var call__478 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caTrade);
+                Item.FProductionID = call__478;
                 if (Queue)
                 {
                     Item.FParameter = 1;
@@ -3313,20 +3432,20 @@ namespace Aow.Units.City
             bool Result = default;
             Aow.Units.AoWE.TProductionItem Item = default;
             Aow.Rtl.AnsiString Reason = default;
-            var call__457 = CanLoot(ref Reason);
-            bool bool__458 = call__457;
-            if (bool__458)
+            var call__479 = CanLoot(ref Reason);
+            bool bool__480 = call__479;
+            if (bool__480)
             {
-                var call__459 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__460 = call__459.GetBusy();
-                bool__458 = !call__460;
+                var call__481 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__482 = call__481.GetBusy();
+                bool__480 = !call__482;
             }
 
-            if (bool__458)
+            if (bool__480)
             {
                 Item = Aow.Units.AoWE.TProductionItem.Create(null);
-                var call__461 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caLoot);
-                Item.FProductionID = call__461;
+                var call__483 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caLoot);
+                Item.FProductionID = call__483;
                 FProduction.Produce(Item, false);
                 Item.Free();
                 Result = true;
@@ -3359,9 +3478,9 @@ namespace Aow.Units.City
                     {
                         if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.Width)) && (Walk.Y < MapLevel.Height))
                         {
-                            var call__462 = MapLevel.GetField(Walk.X, Walk.Y);
-                            var call__463 = call__462.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-                            City = (Aow.Units.City.TCity)call__463;
+                            var call__484 = MapLevel.GetField(Walk.X, Walk.Y);
+                            var call__485 = call__484.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+                            City = (Aow.Units.City.TCity)call__485;
                             if ((City != null) && (City.FRace == Race))
                             {
                                 Radius = Walk.Radius;
@@ -3401,23 +3520,23 @@ namespace Aow.Units.City
             sbyte Player = default;
             if (FRace != Race)
             {
-                var call__464 = Aow.Units.City.City.RaceInCity(unchecked((sbyte)Race), unchecked((sbyte)FPlayer));
-                Result = call__464;
-                var call__465 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count;
-                I = call__465;
+                var call__486 = Aow.Units.City.City.RaceInCity(unchecked((sbyte)Race), unchecked((sbyte)FPlayer));
+                Result = call__486;
+                var call__487 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count;
+                I = call__487;
                 while ((I != 1) && !Result)
                 {
                     I -= 1;
                     Player = unchecked((sbyte)I);
-                    var call__466 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)(Player << 0)), unchecked((sbyte)FPlayer));
-                    bool bool__467 = (call__466 == Aow.Units.AoWE.TDiplomaticRelation.drAlliance);
-                    if (bool__467)
+                    var call__488 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)(Player << 0)), unchecked((sbyte)FPlayer));
+                    bool bool__489 = (call__488 == Aow.Units.AoWE.TDiplomaticRelation.drAlliance);
+                    if (bool__489)
                     {
-                        var call__468 = Aow.Units.City.City.RaceInCity(unchecked((sbyte)Race), unchecked((sbyte)Player));
-                        bool__467 = call__468;
+                        var call__490 = Aow.Units.City.City.RaceInCity(unchecked((sbyte)Race), unchecked((sbyte)Player));
+                        bool__489 = call__490;
                     }
 
-                    Result = bool__467;
+                    Result = bool__489;
                 }
             }
             else
@@ -3434,20 +3553,20 @@ namespace Aow.Units.City
             bool Result = default;
             Aow.Units.AoWE.TProductionItem Item = default;
             Aow.Rtl.AnsiString Reason = default;
-            var call__469 = CanMigrate(unchecked((sbyte)Race), ref Reason);
-            bool bool__470 = call__469;
-            if (bool__470)
+            var call__491 = CanMigrate(unchecked((sbyte)Race), ref Reason);
+            bool bool__492 = call__491;
+            if (bool__492)
             {
-                var call__471 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__472 = call__471.GetBusy();
-                bool__470 = !call__472;
+                var call__493 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__494 = call__493.GetBusy();
+                bool__492 = !call__494;
             }
 
-            if (bool__470)
+            if (bool__492)
             {
                 Item = Aow.Units.AoWE.TProductionItem.Create(null);
-                var call__473 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caMigrate);
-                Item.FProductionID = call__473;
+                var call__495 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caMigrate);
+                Item.FProductionID = call__495;
                 Item.FParameter = Race;
                 FProduction.Produce(Item, false);
                 Item.Free();
@@ -3470,11 +3589,11 @@ namespace Aow.Units.City
             {
                 Result = Aow.Units.City.TMigrationItem.Create(null);
                 Result.FRace = unchecked((sbyte)Race);
-                var call__474 = MigrationTime(unchecked((sbyte)Race));
-                Result.FTime = call__474;
-                var call__475 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(Race);
-                var call__476 = call__475.GetPlayerRelation(unchecked((sbyte)FPlayer));
-                Result.FRelation = call__476;
+                var call__496 = MigrationTime(unchecked((sbyte)Race));
+                Result.FTime = call__496;
+                var call__497 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(Race);
+                var call__498 = call__497.GetPlayerRelation(unchecked((sbyte)FPlayer));
+                Result.FRelation = call__498;
             }
             else
             {
@@ -3493,11 +3612,11 @@ namespace Aow.Units.City
             Result = Aow.Units.City.TMigrationList.Create(null);
             {
                 I = 0;
-                int end__477 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.Count - 1;
-                for (; I <= end__477; I += 1)
+                int end__499 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.Count - 1;
+                for (; I <= end__499; I += 1)
                 {
-                    var call__478 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(I);
-                    if (call__478.FEnabled)
+                    var call__500 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(I);
+                    if (call__500.FEnabled)
                     {
                         Item = CreateMigrationItem(unchecked((sbyte)I));
                         if ((Item != null) && TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(Item.FRelation))
@@ -3537,38 +3656,38 @@ namespace Aow.Units.City
                         Chance = 10;
                     }
 
-                    var call__479 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(100);
-                    if (Chance >= call__479)
+                    var call__501 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(100);
+                    if (Chance >= call__501)
                     {
                         MoveArmiesOutOfCity(TSet<Aow.Units.City.TMoveOutOfCitySelectionElement>.Of());
                         Log = Aow.Units.City.TCityRebellionEventLog.Create(null);
                         Log.FPlayer = unchecked((sbyte)FPlayer);
-                        var call__480 = GetName();
-                        Log.FCityName = call__480;
-                        var call__481 = GetXhx();
-                        Log.FXhx = call__481;
-                        var call__482 = GetYhx();
-                        Log.FYhx = call__482;
-                        var call__483 = GetLhx();
-                        Log.FLhx = call__483;
-                        var call__484 = GetYhx();
-                        var call__485 = GetLhx();
-                        var call__486 = GetXhx();
-                        Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)FPlayer), unchecked((sbyte)call__486), unchecked((sbyte)call__484), unchecked((sbyte)call__485), false);
+                        var call__502 = GetName();
+                        Log.FCityName = call__502;
+                        var call__503 = GetXhx();
+                        Log.FXhx = call__503;
+                        var call__504 = GetYhx();
+                        Log.FYhx = call__504;
+                        var call__505 = GetLhx();
+                        Log.FLhx = call__505;
+                        var call__506 = GetYhx();
+                        var call__507 = GetLhx();
+                        var call__508 = GetXhx();
+                        Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)FPlayer), unchecked((sbyte)call__508), unchecked((sbyte)call__506), unchecked((sbyte)call__507), false);
                         Log.Release();
                         SetPlayer(0);
                         Units = Aow.Units.AoWE.TUnitList.Create(null);
                         GenerateRebelUnits(Units);
                         {
                             I = Units.Count - 1;
-                            byte end__487 = 0;
-                            for (; I >= end__487; I -= 1)
+                            byte end__509 = 0;
+                            for (; I >= end__509; I -= 1)
                             {
-                                var call__488 = GetLhx();
-                                var call__489 = GetYhx();
-                                var call__490 = GetXhx();
-                                var call__491 = Units.GetUnit(I);
-                                call__491.Place(call__490, call__489, call__488, 0, TSet<Aow.Units.AoWE.TUnitPlaceModeElement>.Of());
+                                var call__510 = GetLhx();
+                                var call__511 = GetYhx();
+                                var call__512 = GetXhx();
+                                var call__513 = Units.GetUnit(I);
+                                call__513.Place(call__512, call__511, call__510, 0, TSet<Aow.Units.AoWE.TUnitPlaceModeElement>.Of());
                             }
                         }
 
@@ -3585,39 +3704,39 @@ namespace Aow.Units.City
             int Value = default;
             int I = default;
             Aow.Units.AoWE.TArmyHSList Armies = default;
-            var call__492 = GetRazed();
-            if (((!call__492 && (FDefendersMode != Aow.Units.City.TDefendersGenerateMode.dgNone)) && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode)) && (FPlayer == 0))
+            var call__514 = GetRazed();
+            if (((!call__514 && (FDefendersMode != Aow.Units.City.TDefendersGenerateMode.dgNone)) && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode)) && (FPlayer == 0))
             {
                 Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
                 ListArmies(Armies);
                 if (FDefendersMode == Aow.Units.City.TDefendersGenerateMode.dgRandom)
                 {
-                    var call__493 = Aow.Rtl.Rtl.Random(3);
-                    FDefendersMode = (Aow.Units.City.TDefendersGenerateMode)(call__493 + 2);
+                    var call__515 = Aow.Rtl.Rtl.Random(3);
+                    FDefendersMode = (Aow.Units.City.TDefendersGenerateMode)(call__515 + 2);
                 }
 
                 Value = ((((int)FDefendersMode) - 2) * 25) + 25;
                 Value += ((GetSize() - 1) * Value) / 2;
                 {
                     I = 0;
-                    int end__494 = Armies.Count - 1;
-                    for (; I <= end__494; I += 1)
+                    int end__516 = Armies.Count - 1;
+                    for (; I <= end__516; I += 1)
                     {
-                        var call__495 = Armies.GetArmyHS(I);
-                        var call__496 = call__495.FArmy.ObtainValue(255);
-                        Value -= call__496;
+                        var call__517 = Armies.GetArmyHS(I);
+                        var call__518 = call__517.FArmy.ObtainValue(255);
+                        Value -= call__518;
                     }
                 }
 
                 if (Value > 0)
                 {
-                    var call__497 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(1048575);
-                    Aow.Rtl.Rtl.RandSeed = call__497;
-                    var call__498 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                    var call__499 = GetLhx();
-                    var call__500 = GetYhx();
-                    var call__501 = GetXhx();
-                    Aow.Units.AoWE.AoWE.PlaceRandomUnits(call__501, call__500, call__499, 0, call__498.FUnitIndexes, FUpgradeLevel, Value, TSet<Aow.Units.AoWE.TUnitType>.Of(Aow.Units.AoWE.TUnitType.utHumanoid, Aow.Units.AoWE.TUnitType.utCreature));
+                    var call__519 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(1048575);
+                    Aow.Rtl.Rtl.RandSeed = call__519;
+                    var call__520 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                    var call__521 = GetLhx();
+                    var call__522 = GetYhx();
+                    var call__523 = GetXhx();
+                    Aow.Units.AoWE.AoWE.PlaceRandomUnits(call__523, call__522, call__521, 0, call__520.FUnitIndexes, FUpgradeLevel, Value, TSet<Aow.Units.AoWE.TUnitType>.Of(Aow.Units.AoWE.TUnitType.utHumanoid, Aow.Units.AoWE.TUnitType.utCreature));
                 }
 
                 Armies.Free();
@@ -3629,32 +3748,32 @@ namespace Aow.Units.City
         {
             int Income = default;
             Income = GetSize() * 5;
-            var call__502 = Aow.Units.AoWE.AoWE.BaseIncomeRStr;
-            var call__503 = Aow.Units.AoWE.AoWE.TranslateRStr(call__502);
-            Names.Add(call__503);
+            var call__524 = Aow.Units.AoWE.AoWE.BaseIncomeRStr;
+            var call__525 = Aow.Units.AoWE.AoWE.TranslateRStr(call__524);
+            Names.Add(call__525);
             Values.Add(Aow.Rtl.Rtl.IntToStr(Income));
             Income += GetCropCount() * 2;
-            var call__504 = GetCropCount();
-            var call__505 = Aow.Units.AoWE.AoWE.XCropFieldsRStr;
-            var call__506 = Aow.Units.AoWE.AoWE.TranslateRStr(call__505);
-            var call__507 = Aow.Rtl.Rtl.Format(call__506, [Aow.Rtl.Rtl.IntToStr(call__504)]);
-            Names.Add(call__507);
-            var call__508 = GetCropCount();
-            Values.Add(Aow.Rtl.Rtl.IntToStr(call__508 * 2));
+            var call__526 = GetCropCount();
+            var call__527 = Aow.Units.AoWE.AoWE.XCropFieldsRStr;
+            var call__528 = Aow.Units.AoWE.AoWE.TranslateRStr(call__527);
+            var call__529 = Aow.Rtl.Rtl.Format(call__528, [Aow.Rtl.Rtl.IntToStr(call__526)]);
+            Names.Add(call__529);
+            var call__530 = GetCropCount();
+            Values.Add(Aow.Rtl.Rtl.IntToStr(call__530 * 2));
             if (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(GetActiveAction()))
             {
-                var call__509 = Aow.Units.AoWE.AoWE.ProducingMerchandiseRStr;
-                var call__510 = Aow.Units.AoWE.AoWE.TranslateRStr(call__509);
-                Names.Add(call__510);
+                var call__531 = Aow.Units.AoWE.AoWE.ProducingMerchandiseRStr;
+                var call__532 = Aow.Units.AoWE.AoWE.TranslateRStr(call__531);
+                Names.Add(call__532);
                 Values.Add(Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Round(Income * 0.25)));
                 Income += Aow.Rtl.Rtl.Round(Income * 0.25);
             }
 
             if (FEnchantments.Contains(Aow.Units.City.TCityEnchantmentID.ceiGoldRush))
             {
-                var call__511 = Aow.Units.AoWE.AoWE.GoldRushRStr;
-                var call__512 = Aow.Units.AoWE.AoWE.TranslateRStr(call__511);
-                Names.Add(call__512);
+                var call__533 = Aow.Units.AoWE.AoWE.GoldRushRStr;
+                var call__534 = Aow.Units.AoWE.AoWE.TranslateRStr(call__533);
+                Names.Add(call__534);
                 Values.Add(Aow.Rtl.Rtl.IntToStr(Income));
             }
         }
@@ -3680,29 +3799,29 @@ namespace Aow.Units.City
             Aow.Units.AoWE.TAbstractUnit U = default;
             if ((FPlayer != 0) && (FRace >= 0))
             {
-                var call__513 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                var call__514 = call__513.GetPlayerRelation(unchecked((sbyte)FPlayer));
-                var call__515 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TStatusRStr[(int)call__514]);
-                var call__516 = Aow.Units.AoWE.AoWE.RaceRelationXRStr;
-                var call__517 = Aow.Units.AoWE.AoWE.TranslateRStr(call__516);
-                var call__518 = Aow.Rtl.Rtl.Format(call__517, [call__515]);
-                List.Add(call__518);
+                var call__535 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                var call__536 = call__535.GetPlayerRelation(unchecked((sbyte)FPlayer));
+                var call__537 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TStatusRStr[(int)call__536]);
+                var call__538 = Aow.Units.AoWE.AoWE.RaceRelationXRStr;
+                var call__539 = Aow.Units.AoWE.AoWE.TranslateRStr(call__538);
+                var call__540 = Aow.Rtl.Rtl.Format(call__539, [call__537]);
+                List.Add(call__540);
                 if (Aow.Units.AoWE.AoWE.RaceTerrain[FRace].Penalty.Contains((byte)TerrainType))
                 {
-                    var call__519 = Aow.Units.AoWE.AoWE.TerrainPenaltyXRStr;
-                    var call__520 = Aow.Units.AoWE.AoWE.TranslateRStr(call__519);
-                    var call__521 = Aow.Units.AoWE.AoWE.AoWHSSet.TerrainTypes[TerrainType];
-                    var call__522 = Aow.Rtl.Rtl.Format(call__520, [call__521]);
-                    List.Add(call__522);
+                    var call__541 = Aow.Units.AoWE.AoWE.TerrainPenaltyXRStr;
+                    var call__542 = Aow.Units.AoWE.AoWE.TranslateRStr(call__541);
+                    var call__543 = Aow.Units.AoWE.AoWE.AoWHSSet.TerrainTypes[TerrainType];
+                    var call__544 = Aow.Rtl.Rtl.Format(call__542, [call__543]);
+                    List.Add(call__544);
                 }
 
                 if (Aow.Units.AoWE.AoWE.RaceTerrain[FRace].Bonus.Contains((byte)TerrainType))
                 {
-                    var call__523 = Aow.Units.AoWE.AoWE.TerrainBonusXRStr;
-                    var call__524 = Aow.Units.AoWE.AoWE.TranslateRStr(call__523);
-                    var call__525 = Aow.Units.AoWE.AoWE.AoWHSSet.TerrainTypes[TerrainType];
-                    var call__526 = Aow.Rtl.Rtl.Format(call__524, [call__525]);
-                    List.Add(call__526);
+                    var call__545 = Aow.Units.AoWE.AoWE.TerrainBonusXRStr;
+                    var call__546 = Aow.Units.AoWE.AoWE.TranslateRStr(call__545);
+                    var call__547 = Aow.Units.AoWE.AoWE.AoWHSSet.TerrainTypes[TerrainType];
+                    var call__548 = Aow.Rtl.Rtl.Format(call__546, [call__547]);
+                    List.Add(call__548);
                 }
 
                 Predictor = Aow.Units.AoWE.TCombatPredictor.Create();
@@ -3710,17 +3829,17 @@ namespace Aow.Units.City
                 ListArmies(Armies);
                 {
                     I = 0;
-                    int end__527 = Armies.Count - 1;
-                    for (; I <= end__527; I += 1)
+                    int end__549 = Armies.Count - 1;
+                    for (; I <= end__549; I += 1)
                     {
                         {
                             J = 0;
-                            int end__528 = Armies.GetArmyHS(I).FArmy.Count - 1;
-                            for (; J <= end__528; J += 1)
+                            int end__550 = Armies.GetArmyHS(I).FArmy.Count - 1;
+                            for (; J <= end__550; J += 1)
                             {
-                                var call__529 = Armies.GetArmyHS(I);
-                                var call__530 = call__529.FArmy.GetUnit(J);
-                                U = call__530;
+                                var call__551 = Armies.GetArmyHS(I);
+                                var call__552 = call__551.FArmy.GetUnit(J);
+                                U = call__552;
                                 if (U.FMoraleValue <= 40)
                                 {
                                     Predictor.AddOpponent(U, 0);
@@ -3738,11 +3857,11 @@ namespace Aow.Units.City
                 GenerateRebelUnits(Units);
                 {
                     J = 0;
-                    int end__531 = Units.Count - 1;
-                    for (; J <= end__531; J += 1)
+                    int end__553 = Units.Count - 1;
+                    for (; J <= end__553; J += 1)
                     {
-                        var call__532 = Units.GetUnit(J);
-                        Predictor.AddOpponent(call__532, 0);
+                        var call__554 = Units.GetUnit(J);
+                        Predictor.AddOpponent(call__554, 0);
                     }
                 }
 
@@ -3750,31 +3869,31 @@ namespace Aow.Units.City
                 {
                     if ((Predictor.GetSuperiority() / 4) >= 75)
                     {
-                        var call__533 = Aow.Units.AoWE.AoWE.StrongRStr;
-                        var call__534 = Aow.Units.AoWE.AoWE.TranslateRStr(call__533);
-                        var call__535 = Aow.Units.AoWE.AoWE.OccupationForcesXRStr;
-                        var call__536 = Aow.Units.AoWE.AoWE.TranslateRStr(call__535);
-                        var call__537 = Aow.Rtl.Rtl.Format(call__536, [call__534]);
-                        List.Add(call__537);
+                        var call__555 = Aow.Units.AoWE.AoWE.StrongRStr;
+                        var call__556 = Aow.Units.AoWE.AoWE.TranslateRStr(call__555);
+                        var call__557 = Aow.Units.AoWE.AoWE.OccupationForcesXRStr;
+                        var call__558 = Aow.Units.AoWE.AoWE.TranslateRStr(call__557);
+                        var call__559 = Aow.Rtl.Rtl.Format(call__558, [call__556]);
+                        List.Add(call__559);
                     }
                     else
                     {
-                        var call__538 = Aow.Units.AoWE.AoWE.AverageRStr;
-                        var call__539 = Aow.Units.AoWE.AoWE.TranslateRStr(call__538);
-                        var call__540 = Aow.Units.AoWE.AoWE.OccupationForcesXRStr;
-                        var call__541 = Aow.Units.AoWE.AoWE.TranslateRStr(call__540);
-                        var call__542 = Aow.Rtl.Rtl.Format(call__541, [call__539]);
-                        List.Add(call__542);
+                        var call__560 = Aow.Units.AoWE.AoWE.AverageRStr;
+                        var call__561 = Aow.Units.AoWE.AoWE.TranslateRStr(call__560);
+                        var call__562 = Aow.Units.AoWE.AoWE.OccupationForcesXRStr;
+                        var call__563 = Aow.Units.AoWE.AoWE.TranslateRStr(call__562);
+                        var call__564 = Aow.Rtl.Rtl.Format(call__563, [call__561]);
+                        List.Add(call__564);
                     }
                 }
                 else
                 {
-                    var call__543 = Aow.Units.AoWE.AoWE.WeakRStr;
-                    var call__544 = Aow.Units.AoWE.AoWE.TranslateRStr(call__543);
-                    var call__545 = Aow.Units.AoWE.AoWE.OccupationForcesXRStr;
-                    var call__546 = Aow.Units.AoWE.AoWE.TranslateRStr(call__545);
-                    var call__547 = Aow.Rtl.Rtl.Format(call__546, [call__544]);
-                    List.Add(call__547);
+                    var call__565 = Aow.Units.AoWE.AoWE.WeakRStr;
+                    var call__566 = Aow.Units.AoWE.AoWE.TranslateRStr(call__565);
+                    var call__567 = Aow.Units.AoWE.AoWE.OccupationForcesXRStr;
+                    var call__568 = Aow.Units.AoWE.AoWE.TranslateRStr(call__567);
+                    var call__569 = Aow.Rtl.Rtl.Format(call__568, [call__566]);
+                    List.Add(call__569);
                 }
 
                 Predictor.Free();
@@ -3805,9 +3924,9 @@ namespace Aow.Units.City
                 }
                 else
                 {
-                    var call__548 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                    var call__549 = call__548.GetPlayerRelation(unchecked((sbyte)FPlayer));
-                    Relation = call__549;
+                    var call__570 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                    var call__571 = call__570.GetPlayerRelation(unchecked((sbyte)FPlayer));
+                    Relation = call__571;
                 }
 
                 switch (Relation)
@@ -3851,17 +3970,17 @@ namespace Aow.Units.City
                     ListArmies(Armies);
                     {
                         I = 0;
-                        int end__550 = Armies.Count - 1;
-                        for (; I <= end__550; I += 1)
+                        int end__572 = Armies.Count - 1;
+                        for (; I <= end__572; I += 1)
                         {
                             {
                                 J = 0;
-                                int end__551 = Armies.GetArmyHS(I).FArmy.Count - 1;
-                                for (; J <= end__551; J += 1)
+                                int end__573 = Armies.GetArmyHS(I).FArmy.Count - 1;
+                                for (; J <= end__573; J += 1)
                                 {
-                                    var call__552 = Armies.GetArmyHS(I);
-                                    var call__553 = call__552.FArmy.GetUnit(J);
-                                    U = call__553;
+                                    var call__574 = Armies.GetArmyHS(I);
+                                    var call__575 = call__574.FArmy.GetUnit(J);
+                                    U = call__575;
                                     if (U.FMoraleValue <= 40)
                                     {
                                         Predictor.AddOpponent(U, 0);
@@ -3888,15 +4007,15 @@ namespace Aow.Units.City
                         GenerateRebelUnits(Units);
                         {
                             I = 0;
-                            int end__554 = Units.Count - 1;
-                            for (; I <= end__554; I += 1)
+                            int end__576 = Units.Count - 1;
+                            for (; I <= end__576; I += 1)
                             {
-                                var call__555 = Units.GetUnit(I);
-                                Predictor.AddOpponent(call__555, 0);
+                                var call__577 = Units.GetUnit(I);
+                                Predictor.AddOpponent(call__577, 0);
                                 if (FMode.Contains(Aow.Units.City.TCityModeElement.cmAnarchy))
                                 {
-                                    var call__556 = Units.GetUnit(I);
-                                    Predictor.AddOpponent(call__556, 0);
+                                    var call__578 = Units.GetUnit(I);
+                                    Predictor.AddOpponent(call__578, 0);
                                 }
                             }
                         }
@@ -4020,44 +4139,44 @@ namespace Aow.Units.City
             FUpgradeLevel = unchecked((byte)Level);
             if (FRace >= 0)
             {
-                var call__557 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                RaceResource = call__557;
+                var call__579 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                RaceResource = call__579;
                 {
                     I = RaceResource.FUnitIndexes.Count - 1;
-                    byte end__558 = 0;
-                    for (; I >= end__558; I -= 1)
+                    byte end__580 = 0;
+                    for (; I >= end__580; I -= 1)
                     {
-                        var call__559 = RaceResource.FUnitIndexes[I];
-                        if (call__559 != -1)
+                        var call__581 = RaceResource.FUnitIndexes[I];
+                        if (call__581 != -1)
                         {
-                            var call__560 = RaceResource.FUnitIndexes[I];
-                            var call__561 = FProduction.FUnitProductions.IndexOf(call__560);
-                            if (call__561 == -1)
+                            var call__582 = RaceResource.FUnitIndexes[I];
+                            var call__583 = FProduction.FUnitProductions.IndexOf(call__582);
+                            if (call__583 == -1)
                             {
-                                var call__562 = RaceResource.FUnitIndexes[I];
-                                var call__563 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__562);
-                                var call__564 = GetSize();
-                                var call__565 = Aow.Units.City.City.UnitLevelToCityLevel(call__563.FLevel, call__564);
-                                UnitLevel = call__565;
+                                var call__584 = RaceResource.FUnitIndexes[I];
+                                var call__585 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__584);
+                                var call__586 = GetSize();
+                                var call__587 = Aow.Units.City.City.UnitLevelToCityLevel(call__585.FLevel, call__586);
+                                UnitLevel = call__587;
                                 if ((UnitLevel != -1) && (UnitLevel <= FUpgradeLevel))
                                 {
-                                    bool bool__566 = (UnitLevel == 1);
-                                    if (bool__566)
+                                    bool bool__588 = (UnitLevel == 1);
+                                    if (bool__588)
                                     {
-                                        bool bool__567 = (RaceResource.FSpecialUnitIndexes.Count >= 4);
-                                        if (bool__567)
+                                        bool bool__589 = (RaceResource.FSpecialUnitIndexes.Count >= 4);
+                                        if (bool__589)
                                         {
-                                            var call__568 = RaceResource.FUnitIndexes[I];
-                                            var call__569 = RaceResource.FSpecialUnitIndexes[3];
-                                            bool__567 = (call__568 == call__569);
+                                            var call__590 = RaceResource.FUnitIndexes[I];
+                                            var call__591 = RaceResource.FSpecialUnitIndexes[3];
+                                            bool__589 = (call__590 == call__591);
                                         }
 
-                                        bool__566 = !bool__567;
+                                        bool__588 = !bool__589;
                                     }
 
-                                    Researched = bool__566;
-                                    var call__570 = RaceResource.FUnitIndexes[I];
-                                    FProduction.FUnitProductions.Add(call__570, Researched);
+                                    Researched = bool__588;
+                                    var call__592 = RaceResource.FUnitIndexes[I];
+                                    FProduction.FUnitProductions.Add(call__592, Researched);
                                 }
                             }
                         }
@@ -4089,34 +4208,34 @@ namespace Aow.Units.City
         {
             if (FPlayer == 0)
             {
-                var call__571 = GetEnemiesIndependentRelation(unchecked((sbyte)Army.FArmy.FPlayer));
-                var call__572 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FDefenderPlayer));
-                call__572.FIndependentRelation = unchecked((byte)call__571);
+                var call__593 = GetEnemiesIndependentRelation(unchecked((sbyte)Army.FArmy.FPlayer));
+                var call__594 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FDefenderPlayer));
+                call__594.FIndependentRelation = unchecked((byte)call__593);
             }
 
-            var call__573 = Army.GetLhx();
-            var call__574 = Army.GetYhx();
-            var call__575 = Army.GetXhx();
-            Combat.InitDefaultArmies(Army.FArmy, call__575, call__574, call__573);
+            var call__595 = Army.GetLhx();
+            var call__596 = Army.GetYhx();
+            var call__597 = Army.GetXhx();
+            Combat.InitDefaultArmies(Army.FArmy, call__597, call__596, call__595);
         }
 
         // City.pas:2234
         public int GetObtainValue()
         {
             int Result = default;
-            var call__576 = GetSize();
-            Result = Aow.Units.City.City.UpgradePrices[call__576 - 1] * FUpgradeLevel;
+            var call__598 = GetSize();
+            Result = Aow.Units.City.City.UpgradePrices[call__598 - 1] * FUpgradeLevel;
             if (FWallType == 1)
             {
-                var call__577 = GetSize();
-                Result += Aow.Units.City.City.WoodWallPrices[call__577 - 1];
+                var call__599 = GetSize();
+                Result += Aow.Units.City.City.WoodWallPrices[call__599 - 1];
             }
 
             if (FWallType == 2)
             {
-                var call__578 = GetSize();
-                var call__579 = GetSize();
-                Result = (Result + Aow.Units.City.City.WoodWallPrices[call__578 - 1]) + Aow.Units.City.City.StoneWallPrices[call__579 - 1];
+                var call__600 = GetSize();
+                var call__601 = GetSize();
+                Result = (Result + Aow.Units.City.City.WoodWallPrices[call__600 - 1]) + Aow.Units.City.City.StoneWallPrices[call__601 - 1];
             }
 
             return Result;
@@ -4136,16 +4255,16 @@ namespace Aow.Units.City
             Result = 0;
             Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
             ListArmies(Armies);
-            var call__580 = Armies.Count;
-            I = call__580;
+            var call__602 = Armies.Count;
+            I = call__602;
             CanJoin = true;
             if (I != 0)
             {
                 while ((I != 0) && CanJoin)
                 {
                     I -= 1;
-                    var call__581 = Armies.GetArmyHS(I);
-                    Army = call__581.FArmy;
+                    var call__603 = Armies.GetArmyHS(I);
+                    Army = call__603.FArmy;
                     Selection = unchecked((byte)Army.GetCanJoinSelection(unchecked((sbyte)Player)));
                     CanJoin = Selection == Army.ValidateSelection(255);
                     if (CanJoin)
@@ -4157,9 +4276,9 @@ namespace Aow.Units.City
                 if (CanJoin)
                 {
                     Value = GetObtainValue() / 4;
-                    var call__582 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                    var call__583 = call__582.GetPlayerRelation(unchecked((sbyte)Player));
-                    Relation = unchecked((byte)unchecked((byte)call__583));
+                    var call__604 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                    var call__605 = call__604.GetPlayerRelation(unchecked((sbyte)Player));
+                    Relation = unchecked((byte)unchecked((byte)call__605));
                     Result += (Aow.Units.City.City.TCity_JoinAmount__JoinPercent[(int)((Aow.Units.AoWE.TStatus)Relation)] * Value) / 100;
                 }
                 else
@@ -4169,9 +4288,9 @@ namespace Aow.Units.City
             }
             else
             {
-                var call__584 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                var call__585 = call__584.GetPlayerRelation(unchecked((sbyte)Player));
-                if (TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__585))
+                var call__606 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                var call__607 = call__606.GetPlayerRelation(unchecked((sbyte)Player));
+                if (TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly).Contains(call__607))
                 {
                     Result = 0;
                 }
@@ -4192,26 +4311,26 @@ namespace Aow.Units.City
             int Amount = default;
             if ((FPlayer == 0) && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode))
             {
-                var call__586 = JoinAmount(unchecked((sbyte)Request.FPlayer));
-                Amount = call__586;
+                var call__608 = JoinAmount(unchecked((sbyte)Request.FPlayer));
+                Amount = call__608;
                 if (Amount != -1)
                 {
                     Request.FObject = Aow.Units.AoWE.TNegotiateObject.noCity;
-                    var call__587 = GetName();
-                    var call__588 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CityJoinHeaderRStr);
-                    var call__589 = Aow.Rtl.Rtl.Format(call__588, [call__587]);
-                    Request.FText = call__589;
+                    var call__609 = GetName();
+                    var call__610 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CityJoinHeaderRStr);
+                    var call__611 = Aow.Rtl.Rtl.Format(call__610, [call__609]);
+                    Request.FText = call__611;
                     Request.FGold = Amount;
                     if (Request.FGold == 0)
                     {
-                        var call__590 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CityFreeJoinRStr);
-                        Request.FJoinMessage.Text = call__590;
+                        var call__612 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CityFreeJoinRStr);
+                        Request.FJoinMessage.Text = call__612;
                     }
                     else
                     {
-                        var call__591 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CityTributeJoinRStr);
-                        var call__592 = Aow.Rtl.Rtl.Format(call__591, [Aow.Rtl.Rtl.IntToStr(Request.FGold)]);
-                        Request.FJoinMessage.Text = call__592;
+                        var call__613 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CityTributeJoinRStr);
+                        var call__614 = Aow.Rtl.Rtl.Format(call__613, [Aow.Rtl.Rtl.IntToStr(Request.FGold)]);
+                        Request.FJoinMessage.Text = call__614;
                     }
 
                     Result = true;
@@ -4239,26 +4358,26 @@ namespace Aow.Units.City
             Aow.Units.EventLog.TLocationTextEventLog Log = default;
             if (Offer.FObject == Aow.Units.AoWE.TNegotiateObject.noCity)
             {
-                var call__593 = JoinAmount(unchecked((sbyte)Offer.FPlayer));
-                Amount = call__593;
+                var call__615 = JoinAmount(unchecked((sbyte)Offer.FPlayer));
+                Amount = call__615;
                 if (((Offer.FOffer == Aow.Units.AoWE.TNegotiateOffer.noOfferBribe) && (Amount <= Offer.FGold)) && (Amount != -1))
                 {
-                    var call__594 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Offer.FPlayer);
-                    if (call__594.FGems >= Offer.FGold)
+                    var call__616 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Offer.FPlayer);
+                    if (call__616.FGems >= Offer.FGold)
                     {
                         SetPlayer(unchecked((sbyte)Offer.FPlayer));
                         Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
                         ListArmies(Armies);
                         {
                             I = 0;
-                            int end__595 = Armies.Count - 1;
-                            for (; I <= end__595; I += 1)
+                            int end__617 = Armies.Count - 1;
+                            for (; I <= end__617; I += 1)
                             {
-                                var call__596 = Armies.GetArmyHS(I);
-                                if (call__596.FArmy.FPlayer == 0)
+                                var call__618 = Armies.GetArmyHS(I);
+                                if (call__618.FArmy.FPlayer == 0)
                                 {
-                                    var call__597 = Armies.GetArmyHS(I);
-                                    call__597.FArmy.SetPlayer(unchecked((sbyte)Offer.FPlayer));
+                                    var call__619 = Armies.GetArmyHS(I);
+                                    call__619.FArmy.SetPlayer(unchecked((sbyte)Offer.FPlayer));
                                 }
                             }
                         }
@@ -4266,26 +4385,26 @@ namespace Aow.Units.City
                         Armies.Free();
                         Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
                         Log.FPlayer = unchecked((sbyte)FPlayer);
-                        var call__598 = GetName();
-                        var call__599 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XOverthrownRStr);
-                        var call__600 = Aow.Rtl.Rtl.Format(call__599, [call__598]);
-                        Log.FText = call__600;
-                        var call__601 = GetLhx();
-                        var call__602 = GetYhx();
-                        var call__603 = GetXhx();
-                        Log.SetLocation(unchecked((sbyte)call__603), unchecked((sbyte)call__602), unchecked((sbyte)call__601));
-                        var call__604 = GetYhx();
-                        var call__605 = GetLhx();
-                        var call__606 = GetXhx();
-                        Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)FPlayer), unchecked((sbyte)call__606), unchecked((sbyte)call__604), unchecked((sbyte)call__605), false);
+                        var call__620 = GetName();
+                        var call__621 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XOverthrownRStr);
+                        var call__622 = Aow.Rtl.Rtl.Format(call__621, [call__620]);
+                        Log.FText = call__622;
+                        var call__623 = GetLhx();
+                        var call__624 = GetYhx();
+                        var call__625 = GetXhx();
+                        Log.SetLocation(unchecked((sbyte)call__625), unchecked((sbyte)call__624), unchecked((sbyte)call__623));
+                        var call__626 = GetYhx();
+                        var call__627 = GetLhx();
+                        var call__628 = GetXhx();
+                        Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)FPlayer), unchecked((sbyte)call__628), unchecked((sbyte)call__626), unchecked((sbyte)call__627), false);
                         Log.Release();
                         Offer.Accept();
                     }
                     else
                     {
-                        var call__607 = Aow.Units.AoWE.AoWE.NotEnoughGoldRStr;
-                        var call__608 = Aow.Units.AoWE.AoWE.TranslateRStr(call__607);
-                        Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__608);
+                        var call__629 = Aow.Units.AoWE.AoWE.NotEnoughGoldRStr;
+                        var call__630 = Aow.Units.AoWE.AoWE.TranslateRStr(call__629);
+                        Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__630);
                     }
                 }
                 else
@@ -4313,22 +4432,22 @@ namespace Aow.Units.City
             ListUnits(Units);
             {
                 I = Units.Count - 1;
-                byte end__609 = 0;
-                for (; I >= end__609; I -= 1)
+                byte end__631 = 0;
+                for (; I >= end__631; I -= 1)
                 {
-                    var call__610 = Units.GetUnit(I);
-                    var call__611 = call__610.CanJoin(unchecked((sbyte)Player));
-                    if (call__611)
+                    var call__632 = Units.GetUnit(I);
+                    var call__633 = call__632.CanJoin(unchecked((sbyte)Player));
+                    if (call__633)
                     {
-                        var call__612 = Units.GetUnit(I);
-                        Units.DeleteUnit(call__612);
+                        var call__634 = Units.GetUnit(I);
+                        Units.DeleteUnit(call__634);
                     }
                 }
             }
 
             // { Original uses the race index as the default relation. }
-            var call__613 = Aow.Units.AoWE.AoWE.UnitsToIndependentRelation(Units, unchecked((sbyte)FRace));
-            Result = unchecked((sbyte)call__613);
+            var call__635 = Aow.Units.AoWE.AoWE.UnitsToIndependentRelation(Units, unchecked((sbyte)FRace));
+            Result = unchecked((sbyte)call__635);
             Units.Free();
             return Result;
         }
@@ -4341,8 +4460,8 @@ namespace Aow.Units.City
             Units = Aow.Units.AoWE.TUnitUserList.Create(null);
             ListUnits(Units);
             // { Original uses the race index as the default relation. }
-            var call__614 = Aow.Units.AoWE.AoWE.UnitsToIndependentRelation(Units, unchecked((sbyte)FRace));
-            Result = unchecked((sbyte)call__614);
+            var call__636 = Aow.Units.AoWE.AoWE.UnitsToIndependentRelation(Units, unchecked((sbyte)FRace));
+            Result = unchecked((sbyte)call__636);
             Units.Free();
             return Result;
         }
@@ -4355,15 +4474,15 @@ namespace Aow.Units.City
             if (Info.Requests.Contains(Aow.Units.AoWE.TBattleFieldInfoRequestsElement.bfrEffectiveStrength) && (FPlayer > 0))
             {
                 Value = 5000;
-                var call__615 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
-                var call__616 = call__615.GetPlayerRelation(unchecked((sbyte)FPlayer));
-                if (TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sWary).Contains(call__616))
+                var call__637 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
+                var call__638 = call__637.GetPlayerRelation(unchecked((sbyte)FPlayer));
+                if (TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sWary).Contains(call__638))
                 {
                     Value = Value * 2;
                 }
 
-                var call__617 = Aow.Units.AoWE.AoWE.DiplomaticRelation(unchecked((sbyte)Info.Player), unchecked((sbyte)Info.IndependentRelation), unchecked((sbyte)FPlayer), 0);
-                Relation = call__617;
+                var call__639 = Aow.Units.AoWE.AoWE.DiplomaticRelation(unchecked((sbyte)Info.Player), unchecked((sbyte)Info.IndependentRelation), unchecked((sbyte)FPlayer), 0);
+                Relation = call__639;
                 if (Info.FriendlyRelations.Contains((byte)((int)Relation)))
                 {
                     Info.FriendlyStrength -= Value;
@@ -4380,8 +4499,8 @@ namespace Aow.Units.City
         public void UpdateVisibleForSeatedPlayer()
         {
             bool Visible = default;
-            var call__618 = VisibleForPlayer(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
-            Visible = call__618;
+            var call__640 = VisibleForPlayer(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+            Visible = call__640;
             if (FEnchantmentsVisible ^ Visible)
             {
                 FEnchantmentsVisible = Visible;
@@ -4430,12 +4549,12 @@ namespace Aow.Units.City
 
                 if ((FResource.ImageSequenceList != null) && (Index != -1))
                 {
-                    var call__619 = FResource.ImageSequenceList.GetImageSequence(Index);
-                    if (call__619 != null)
+                    var call__641 = FResource.ImageSequenceList.GetImageSequence(Index);
+                    if (call__641 != null)
                     {
-                        var call__620 = FResource.ImageSequenceList.GetImageSequence(Index);
-                        var call__621 = call__620.GetPreviewImage();
-                        Result = call__621;
+                        var call__642 = FResource.ImageSequenceList.GetImageSequence(Index);
+                        var call__643 = call__642.GetPreviewImage();
+                        Result = call__643;
                     }
                     else
                     {
@@ -4453,15 +4572,15 @@ namespace Aow.Units.City
                 {
                     if (GetLhx() == 0)
                     {
-                        var call__622 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__623 = call__622.FImageLibrary.GetSafe(40);
-                        Result = call__623;
+                        var call__644 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__645 = call__644.FImageLibrary.GetSafe(40);
+                        Result = call__645;
                     }
                     else
                     {
-                        var call__624 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__625 = call__624.FImageLibrary.GetSafe(43);
-                        Result = call__625;
+                        var call__646 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__647 = call__646.FImageLibrary.GetSafe(43);
+                        Result = call__647;
                     }
                 }
                 else
@@ -4511,12 +4630,12 @@ namespace Aow.Units.City
 
                 if ((FResource.ImageSequenceList != null) && (Index != -1))
                 {
-                    var call__626 = FResource.ImageSequenceList.GetImageSequence(Index);
-                    if (call__626 != null)
+                    var call__648 = FResource.ImageSequenceList.GetImageSequence(Index);
+                    if (call__648 != null)
                     {
-                        var call__627 = FResource.ImageSequenceList.GetImageSequence(Index);
-                        var call__628 = call__627.GetPreviewImage();
-                        Result = call__628;
+                        var call__649 = FResource.ImageSequenceList.GetImageSequence(Index);
+                        var call__650 = call__649.GetPreviewImage();
+                        Result = call__650;
                     }
                     else
                     {
@@ -4534,15 +4653,15 @@ namespace Aow.Units.City
                 {
                     if (GetLhx() == 0)
                     {
-                        var call__629 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__630 = call__629.FImageLibrary.GetSafe(41);
-                        Result = call__630;
+                        var call__651 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__652 = call__651.FImageLibrary.GetSafe(41);
+                        Result = call__652;
                     }
                     else
                     {
-                        var call__631 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__632 = call__631.FImageLibrary.GetSafe(44);
-                        Result = call__632;
+                        var call__653 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__654 = call__653.FImageLibrary.GetSafe(44);
+                        Result = call__654;
                     }
                 }
                 else
@@ -4592,12 +4711,12 @@ namespace Aow.Units.City
 
                 if ((FResource.ImageSequenceList != null) && (Index != -1))
                 {
-                    var call__633 = FResource.ImageSequenceList.GetImageSequence(Index);
-                    if (call__633 != null)
+                    var call__655 = FResource.ImageSequenceList.GetImageSequence(Index);
+                    if (call__655 != null)
                     {
-                        var call__634 = FResource.ImageSequenceList.GetImageSequence(Index);
-                        var call__635 = call__634.GetPreviewImage();
-                        Result = call__635;
+                        var call__656 = FResource.ImageSequenceList.GetImageSequence(Index);
+                        var call__657 = call__656.GetPreviewImage();
+                        Result = call__657;
                     }
                     else
                     {
@@ -4615,15 +4734,15 @@ namespace Aow.Units.City
                 {
                     if (GetLhx() == 0)
                     {
-                        var call__636 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__637 = call__636.FImageLibrary.GetSafe(42);
-                        Result = call__637;
+                        var call__658 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__659 = call__658.FImageLibrary.GetSafe(42);
+                        Result = call__659;
                     }
                     else
                     {
-                        var call__638 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                        var call__639 = call__638.FImageLibrary.GetSafe(45);
-                        Result = call__639;
+                        var call__660 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                        var call__661 = call__660.FImageLibrary.GetSafe(45);
+                        Result = call__661;
                     }
                 }
                 else
@@ -4733,8 +4852,8 @@ namespace Aow.Units.City
             if (City.FCityImage != null)
             {
                 // { Original blinks the selected city from frame bits. }
-                var call__640 = City.GetSelected();
-                if (call__640 && ((Aow.Units.AoWE.AoWE.AoWHSMap.Frame & 6) == 6))
+                var call__662 = City.GetSelected();
+                if (call__662 && ((Aow.Units.AoWE.AoWE.AoWHSMap.Frame & 6) == 6))
                 {
                     City.FCityImage.ShowTransparent(dX, dY, SurfaceDesc);
                 }
@@ -4758,11 +4877,11 @@ namespace Aow.Units.City
             FSize = 0;
             {
                 I = 0;
-                int end__641 = FTerrainList.Count - 1;
-                for (; I <= end__641; I += 1)
+                int end__663 = FTerrainList.Count - 1;
+                for (; I <= end__663; I += 1)
                 {
-                    var call__642 = FTerrainList.Terrain[I];
-                    if (call__642 >= 0)
+                    var call__664 = FTerrainList.Terrain[I];
+                    if (call__664 >= 0)
                     {
                         FSize = (byte)(((int)FSize) + 1);
                     }
@@ -4801,9 +4920,9 @@ namespace Aow.Units.City
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                var call__643 = Aow.Units.AoWE.AoWE.CityRStr;
-                var call__644 = Aow.Units.AoWE.AoWE.TranslateRStr(call__643);
-                Result = call__644;
+                var call__665 = Aow.Units.AoWE.AoWE.CityRStr;
+                var call__666 = Aow.Units.AoWE.AoWE.TranslateRStr(call__665);
+                Result = call__666;
                 return Result;
             }
 
@@ -4855,10 +4974,10 @@ namespace Aow.Units.City
         public override Aow.Rtl.AnsiString GetText()
         {
             Aow.Rtl.AnsiString Result = default;
-            var call__645 = Aow.Units.AoWE.AoWE.CityRebellionRStr;
-            var call__646 = Aow.Units.AoWE.AoWE.TranslateRStr(call__645);
-            var call__647 = Aow.Rtl.Rtl.Format(call__646, [FCityName]);
-            Result = call__647;
+            var call__667 = Aow.Units.AoWE.AoWE.CityRebellionRStr;
+            var call__668 = Aow.Units.AoWE.AoWE.TranslateRStr(call__667);
+            var call__669 = Aow.Rtl.Rtl.Format(call__668, [FCityName]);
+            Result = call__669;
             return Result;
         }
 
@@ -4868,34 +4987,34 @@ namespace Aow.Units.City
             bool Result = default;
             bool ShowEvent = default;
             ShowEvent = Trigger == Aow.Units.EventLog.TExecuteTrigger.etUser;
-            bool bool__648 = ShowEvent;
-            if (!bool__648)
+            bool bool__670 = ShowEvent;
+            if (!bool__670)
             {
-                bool bool__649 = (Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode == Aow.Units.AoWE.TPlayMode.pmTurn);
-                if (bool__649)
+                bool bool__671 = (Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode == Aow.Units.AoWE.TPlayMode.pmTurn);
+                if (bool__671)
                 {
-                    var call__650 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetClassicWindowPopupEvents();
-                    bool__649 = call__650.Contains(Aow.Units.AoWReg.TWindowPopupEvent.wpRebellion);
+                    var call__672 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetClassicWindowPopupEvents();
+                    bool__671 = call__672.Contains(Aow.Units.AoWReg.TWindowPopupEvent.wpRebellion);
                 }
 
-                bool__648 = bool__649;
+                bool__670 = bool__671;
             }
 
-            ShowEvent = bool__648;
-            bool bool__651 = ShowEvent;
-            if (!bool__651)
+            ShowEvent = bool__670;
+            bool bool__673 = ShowEvent;
+            if (!bool__673)
             {
-                bool bool__652 = (Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode == Aow.Units.AoWE.TPlayMode.pmSimultaneous);
-                if (bool__652)
+                bool bool__674 = (Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode == Aow.Units.AoWE.TPlayMode.pmSimultaneous);
+                if (bool__674)
                 {
-                    var call__653 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents();
-                    bool__652 = call__653.Contains(Aow.Units.AoWReg.TWindowPopupEvent.wpRebellion);
+                    var call__675 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents();
+                    bool__674 = call__675.Contains(Aow.Units.AoWReg.TWindowPopupEvent.wpRebellion);
                 }
 
-                bool__651 = bool__652;
+                bool__673 = bool__674;
             }
 
-            ShowEvent = bool__651;
+            ShowEvent = bool__673;
             if (ShowEvent)
             {
                 Result = base.Execute(Mode, Trigger, Done);
@@ -5140,8 +5259,8 @@ namespace Aow.Units.City
             if (Player.FPlayerIndex != 0)
             {
                 Manager = Player.FAIBudget;
-                var call__654 = Manager.FBudgets.FindChild(131349);
-                UpgradeBudget = (Aow.Units.AoWE.TAIBudget)call__654;
+                var call__676 = Manager.FBudgets.FindChild(131349);
+                UpgradeBudget = (Aow.Units.AoWE.TAIBudget)call__676;
                 if (UpgradeBudget == null)
                 {
                     UpgradeBudget = Aow.Units.City.TAICityUpgradeBudget.Create(null);
@@ -5150,8 +5269,8 @@ namespace Aow.Units.City
                     UpgradeBudget.FDays = 7;
                 }
 
-                var call__655 = Manager.FBudgets.FindChild(131350);
-                ResearchBudget = (Aow.Units.AoWE.TAIBudget)call__655;
+                var call__677 = Manager.FBudgets.FindChild(131350);
+                ResearchBudget = (Aow.Units.AoWE.TAIBudget)call__677;
                 if (ResearchBudget != null)
                 {
                     if ((ResearchBudget.FGold + UpgradeBudget.FGold) > 125)
@@ -5182,8 +5301,8 @@ namespace Aow.Units.City
                 }
 
                 ValidateUpgradeBudget(UpgradeBudget);
-                var call__656 = Manager.FBudgets.FindChild(131351);
-                FortifyBudget = (Aow.Units.AoWE.TAIBudget)call__656;
+                var call__678 = Manager.FBudgets.FindChild(131351);
+                FortifyBudget = (Aow.Units.AoWE.TAIBudget)call__678;
                 if (FortifyBudget != null)
                 {
                     if (FortifyBudget.GetReady())
@@ -5220,23 +5339,23 @@ namespace Aow.Units.City
         public bool ValidResearchCity(Aow.Units.City.TCity City)
         {
             bool Result = default;
-            var call__657 = City.FProduction.GetProduceUnitLevelMax();
-            Result = call__657 < City.FUpgradeLevel;
-            bool bool__658 = Result;
-            if (bool__658)
+            var call__679 = City.FProduction.GetProduceUnitLevelMax();
+            Result = call__679 < City.FUpgradeLevel;
+            bool bool__680 = Result;
+            if (bool__680)
             {
-                var call__659 = City.GetActiveAction();
-                bool bool__660 = TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__659);
-                if (!bool__660)
+                var call__681 = City.GetActiveAction();
+                bool bool__682 = TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__681);
+                if (!bool__682)
                 {
-                    var call__661 = City.GetActiveAction();
-                    bool__660 = (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caProduce).Contains(call__661) && (City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal));
+                    var call__683 = City.GetActiveAction();
+                    bool__682 = (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caProduce).Contains(call__683) && (City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal));
                 }
 
-                bool__658 = bool__660;
+                bool__680 = bool__682;
             }
 
-            Result = bool__658;
+            Result = bool__680;
             return Result;
         }
 
@@ -5244,15 +5363,15 @@ namespace Aow.Units.City
         public bool ValidResearchBudgetCity(Aow.Units.City.TCity City)
         {
             bool Result = default;
-            var call__662 = City.FProduction.GetProduceUnitLevelMax();
-            bool bool__663 = (call__662 != City.FUpgradeLevel);
-            if (!bool__663)
+            var call__684 = City.FProduction.GetProduceUnitLevelMax();
+            bool bool__685 = (call__684 != City.FUpgradeLevel);
+            if (!bool__685)
             {
-                var call__664 = City.GetActiveAction();
-                bool__663 = (call__664 == Aow.Units.City.TCityAction.caUpgrade);
+                var call__686 = City.GetActiveAction();
+                bool__685 = (call__686 == Aow.Units.City.TCityAction.caUpgrade);
             }
 
-            Result = bool__663;
+            Result = bool__685;
             return Result;
         }
 
@@ -5270,11 +5389,11 @@ namespace Aow.Units.City
             Total = 0;
             {
                 I = Player.FStructures.Count - 1;
-                byte end__665 = 0;
-                for (; I >= end__665; I -= 1)
+                byte end__687 = 0;
+                for (; I >= end__687; I -= 1)
                 {
-                    var call__666 = Player.FStructures.GetStructure(I);
-                    Structure = call__666;
+                    var call__688 = Player.FStructures.GetStructure(I);
+                    Structure = call__688;
                     if (Structure is Aow.Units.City.TCity)
                     {
                         Total += 1;
@@ -5332,54 +5451,54 @@ namespace Aow.Units.City
             Cities = Aow.Units.Engine.TDoubleItemList.Create();
             {
                 I = Player.FStructures.Count - 1;
-                byte end__667 = 0;
-                for (; I >= end__667; I -= 1)
+                byte end__689 = 0;
+                for (; I >= end__689; I -= 1)
                 {
-                    var call__668 = Player.FStructures.GetStructure(I);
-                    Structure = call__668;
+                    var call__690 = Player.FStructures.GetStructure(I);
+                    Structure = call__690;
                     if ((Structure is Aow.Units.City.TCity) && ValidResearchCity((Aow.Units.City.TCity)Structure))
                     {
                         City = (Aow.Units.City.TCity)Structure;
                         Valid = false;
                         {
                             J = City.FProduction.FUnitProductions.Count - 1;
-                            byte end__669 = 0;
-                            for (; J >= end__669; J -= 1)
+                            byte end__691 = 0;
+                            for (; J >= end__691; J -= 1)
                             {
-                                var call__670 = City.FProduction.FUnitProductions.GetItem(J);
-                                UnitIndex = call__670.FUnitIndex;
+                                var call__692 = City.FProduction.FUnitProductions.GetItem(J);
+                                UnitIndex = call__692.FUnitIndex;
                                 if (UnitIndex != -1)
                                 {
-                                    bool bool__671 = Valid;
-                                    if (!bool__671)
+                                    bool bool__693 = Valid;
+                                    if (!bool__693)
                                     {
-                                        var call__672 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(UnitIndex);
-                                        bool bool__673 = (call__672.FLevel == City.FUpgradeLevel);
-                                        if (bool__673)
+                                        var call__694 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(UnitIndex);
+                                        bool bool__695 = (call__694.FLevel == City.FUpgradeLevel);
+                                        if (bool__695)
                                         {
-                                            var call__674 = City.FProduction.FUnitProductions.GetItem(J);
-                                            bool__673 = !call__674.FResearched;
+                                            var call__696 = City.FProduction.FUnitProductions.GetItem(J);
+                                            bool__695 = !call__696.FResearched;
                                         }
 
-                                        bool bool__675 = bool__673;
-                                        if (bool__675)
+                                        bool bool__697 = bool__695;
+                                        if (bool__697)
                                         {
-                                            var call__676 = City.ResearchCost(J);
-                                            bool__675 = (call__676 <= (ResearchBudget.FGold + UpgradeBudget.FGold));
+                                            var call__698 = City.ResearchCost(J);
+                                            bool__697 = (call__698 <= (ResearchBudget.FGold + UpgradeBudget.FGold));
                                         }
 
-                                        bool__671 = bool__675;
+                                        bool__693 = bool__697;
                                     }
 
-                                    Valid = bool__671;
+                                    Valid = bool__693;
                                 }
                             }
                         }
 
                         if (Valid)
                         {
-                            var call__677 = City.GetSize();
-                            Priority = (call__677 * 2) + (City.FProductionPriority + (City.FWallType * 3));
+                            var call__699 = City.GetSize();
+                            Priority = (call__699 * 2) + (City.FProductionPriority + (City.FWallType * 3));
                             Cities.AddAB(Aow.Rtl.Rtl.ObjectToInt(City), Priority);
                         }
                     }
@@ -5390,32 +5509,33 @@ namespace Aow.Units.City
             if (Cities.Count != 0)
             {
                 Index = 0;
-                var call__678 = Cities[0];
-                Value = Aow.Rtl.Rtl.Round(call__678.B * 0.75);
+                var call__700 = Cities[0];
+                Value = Aow.Rtl.Rtl.Round(call__700.B * 0.75);
                 while (true)
                 {
-                    bool bool__679 = ((Index + 1) < Cities.Count);
-                    if (bool__679)
+                    bool bool__701 = ((Index + 1) < Cities.Count);
+                    if (bool__701)
                     {
-                        var call__680 = Cities[Index + 1];
-                        bool__679 = (Value <= call__680.B);
+                        var call__702 = Cities[Index + 1];
+                        bool__701 = (Value <= call__702.B);
                     }
 
-                    if (!bool__679)
+                    if (!bool__701)
                         break;
                     {
                         Index += 1;
                     }
                 }
 
-                var call__681 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Index + 1);
-                Index = call__681;
-                /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                throw new System.NotImplementedException();
-                var call__683 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                Aow.Rtl.Rtl.RandSeed = call__683;
-                /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                throw new System.NotImplementedException();
+                var call__703 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Index + 1);
+                Index = call__703;
+                var call__704 = Cities[Index];
+                City = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.City.TCity>((int)call__704.A);
+                var call__705 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                Aow.Rtl.Rtl.RandSeed = call__705;
+                var call__706 = Cities[Index];
+                var call__707 = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.City.TCity>((int)call__706.A).FProduction.FindOptimalResearchProduction(null, ResearchBudget.FGold + UpgradeBudget.FGold);
+                Index = call__707;
                 if (Index != -1)
                 {
                     City.FProduction.ExecuteDeleteProductions();
@@ -5450,32 +5570,32 @@ namespace Aow.Units.City
             bool Result = default;
             Aow.Rtl.AnsiString Reason = default;
             int Level = default;
-            var call__686 = City.FProduction.GetProduceUnitLevelMax();
-            Level = call__686;
+            var call__708 = City.FProduction.GetProduceUnitLevelMax();
+            Level = call__708;
             Result = City.CanUpgrade(false, ref Reason);
-            bool bool__687 = Result;
-            if (bool__687)
+            bool bool__709 = Result;
+            if (bool__709)
             {
-                var call__688 = City.GetSize();
-                bool__687 = (call__688 > City.FUpgradeLevel);
+                var call__710 = City.GetSize();
+                bool__709 = (call__710 > City.FUpgradeLevel);
             }
 
-            Result = (bool__687 && !((Level == FMaxProductionLevel) && (FProductionLevelCounts[Level - 1] == 1))) && (Level == City.FUpgradeLevel);
-            bool bool__689 = Result;
-            if (bool__689)
+            Result = (bool__709 && !((Level == FMaxProductionLevel) && (FProductionLevelCounts[Level - 1] == 1))) && (Level == City.FUpgradeLevel);
+            bool bool__711 = Result;
+            if (bool__711)
             {
-                var call__690 = City.GetActiveAction();
-                bool bool__691 = TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__690);
-                if (!bool__691)
+                var call__712 = City.GetActiveAction();
+                bool bool__713 = TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__712);
+                if (!bool__713)
                 {
-                    var call__692 = City.GetActiveAction();
-                    bool__691 = (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caProduce).Contains(call__692) && (City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal));
+                    var call__714 = City.GetActiveAction();
+                    bool__713 = (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caProduce).Contains(call__714) && (City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal));
                 }
 
-                bool__689 = bool__691;
+                bool__711 = bool__713;
             }
 
-            Result = bool__689;
+            Result = bool__711;
             return Result;
         }
 
@@ -5484,10 +5604,10 @@ namespace Aow.Units.City
         {
             bool Result = default;
             int Level = default;
-            var call__693 = City.FProduction.GetProduceUnitLevelMax();
-            Level = call__693;
-            var call__694 = City.GetSize();
-            if ((call__694 <= City.FUpgradeLevel) || (Level != Ptr<byte>.Unbox(City)[77]))
+            var call__715 = City.FProduction.GetProduceUnitLevelMax();
+            Level = call__715;
+            var call__716 = City.GetSize();
+            if ((call__716 <= City.FUpgradeLevel) || (Level != unchecked((byte)City.FUpgradeLevel)))
             {
                 Result = false;
             }
@@ -5514,17 +5634,17 @@ namespace Aow.Units.City
             Cities = Aow.Units.Engine.TDoubleItemList.Create();
             {
                 I = Player.FStructures.Count - 1;
-                byte end__695 = 0;
-                for (; I >= end__695; I -= 1)
+                byte end__717 = 0;
+                for (; I >= end__717; I -= 1)
                 {
                     // { Preserve the original runtime class check. }
-                    var call__696 = Player.FStructures.GetStructure(I);
-                    Structure = call__696;
+                    var call__718 = Player.FStructures.GetStructure(I);
+                    Structure = call__718;
                     if ((Structure is Aow.Units.City.TCity) && ValidUpgradeCity((Aow.Units.City.TCity)Structure))
                     {
                         City = (Aow.Units.City.TCity)Structure;
-                        var call__697 = City.GetSize();
-                        Priority = (call__697 * 2) + (City.FProductionPriority + (City.FWallType * 3));
+                        var call__719 = City.GetSize();
+                        Priority = (call__719 * 2) + (City.FProductionPriority + (City.FWallType * 3));
                         Cities.AddAB(Aow.Rtl.Rtl.ObjectToInt(City), Priority);
                     }
                 }
@@ -5533,13 +5653,13 @@ namespace Aow.Units.City
             Cities.SortDescendingItemB();
             if (Cities.Count != 0)
             {
-                /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                throw new System.NotImplementedException();
+                var call__720 = Cities[0];
+                City = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.City.TCity>((int)call__720.A);
                 {
                     City.FProduction.ExecuteDeleteProductions();
                     Production = Aow.Units.AoWE.TProductionItem.Create(null);
-                    var call__699 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caUpgrade);
-                    Production.FProductionID = call__699;
+                    var call__721 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caUpgrade);
+                    Production.FProductionID = call__721;
                     City.FProduction.ExecuteAddProduction(Production);
                     Production.Free();
                     Player.FAIBudget.BudgetExpenseMade(250, 0, Budget, Aow.Units.AoWE.TBudgetExpenseMode.bemBudget);
@@ -5568,11 +5688,11 @@ namespace Aow.Units.City
             Count = 0;
             {
                 I = Player.FStructures.Count - 1;
-                byte end__700 = 0;
-                for (; I >= end__700; I -= 1)
+                byte end__722 = 0;
+                for (; I >= end__722; I -= 1)
                 {
-                    var call__701 = Player.FStructures.GetStructure(I);
-                    Structure = call__701;
+                    var call__723 = Player.FStructures.GetStructure(I);
+                    Structure = call__723;
                     if (Structure is Aow.Units.City.TCity)
                     {
                         if (ValidUpgradeBudgetCity((Aow.Units.City.TCity)Structure))
@@ -5614,35 +5734,35 @@ namespace Aow.Units.City
             bool Result = default;
             Aow.Rtl.AnsiString Reason = default;
             Result = City.CanFortify(false, ref Reason);
-            bool bool__702 = (Result && (City.FWallType == 0));
-            if (!bool__702)
+            bool bool__724 = (Result && (City.FWallType == 0));
+            if (!bool__724)
             {
-                bool bool__703 = (City.FWallType == 1);
-                if (bool__703)
+                bool bool__725 = (City.FWallType == 1);
+                if (bool__725)
                 {
-                    var call__704 = City.GetSize();
-                    bool__703 = (call__704 > 2);
+                    var call__726 = City.GetSize();
+                    bool__725 = (call__726 > 2);
                 }
 
-                bool__702 = ((bool__703 && (City.FUpgradeLevel > 1)) && (Aow.Units.AoWE.AoWE.AoWHSMap.FDay >= 30));
+                bool__724 = ((bool__725 && (City.FUpgradeLevel > 1)) && (Aow.Units.AoWE.AoWE.AoWHSMap.FDay >= 30));
             }
 
-            Result = bool__702;
-            bool bool__705 = Result;
-            if (bool__705)
+            Result = bool__724;
+            bool bool__727 = Result;
+            if (bool__727)
             {
-                var call__706 = City.GetActiveAction();
-                bool bool__707 = TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__706);
-                if (!bool__707)
+                var call__728 = City.GetActiveAction();
+                bool bool__729 = TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(call__728);
+                if (!bool__729)
                 {
-                    var call__708 = City.GetActiveAction();
-                    bool__707 = (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caProduce).Contains(call__708) && (City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal));
+                    var call__730 = City.GetActiveAction();
+                    bool__729 = (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caProduce).Contains(call__730) && (City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal));
                 }
 
-                bool__705 = bool__707;
+                bool__727 = bool__729;
             }
 
-            Result = bool__705;
+            Result = bool__727;
             return Result;
         }
 
@@ -5650,20 +5770,20 @@ namespace Aow.Units.City
         public bool ValidFortifyBudgetCity(Aow.Units.City.TCity City)
         {
             bool Result = default;
-            bool bool__709 = (City.FWallType == 0);
-            if (!bool__709)
+            bool bool__731 = (City.FWallType == 0);
+            if (!bool__731)
             {
-                bool bool__710 = (City.FWallType == 1);
-                if (bool__710)
+                bool bool__732 = (City.FWallType == 1);
+                if (bool__732)
                 {
-                    var call__711 = City.GetSize();
-                    bool__710 = (call__711 > 2);
+                    var call__733 = City.GetSize();
+                    bool__732 = (call__733 > 2);
                 }
 
-                bool__709 = ((bool__710 && (City.FUpgradeLevel > 1)) && (Aow.Units.AoWE.AoWE.AoWHSMap.FDay >= 30));
+                bool__731 = ((bool__732 && (City.FUpgradeLevel > 1)) && (Aow.Units.AoWE.AoWE.AoWHSMap.FDay >= 30));
             }
 
-            Result = bool__709;
+            Result = bool__731;
             return Result;
         }
 
@@ -5682,17 +5802,17 @@ namespace Aow.Units.City
             Cities = Aow.Units.Engine.TDoubleItemList.Create();
             {
                 I = Player.FStructures.Count - 1;
-                byte end__712 = 0;
-                for (; I >= end__712; I -= 1)
+                byte end__734 = 0;
+                for (; I >= end__734; I -= 1)
                 {
                     // { Preserve the original runtime class check. }
-                    var call__713 = Player.FStructures.GetStructure(I);
-                    Structure = call__713;
+                    var call__735 = Player.FStructures.GetStructure(I);
+                    Structure = call__735;
                     if ((Structure is Aow.Units.City.TCity) && ValidFortifyCity((Aow.Units.City.TCity)Structure))
                     {
                         City = (Aow.Units.City.TCity)Structure;
-                        var call__714 = City.GetSize();
-                        Priority = (call__714 * 2) + City.FProductionPriority;
+                        var call__736 = City.GetSize();
+                        Priority = (call__736 * 2) + City.FProductionPriority;
                         if (City.FWallType == 0)
                         {
                             Priority += 3;
@@ -5706,15 +5826,15 @@ namespace Aow.Units.City
             Cities.SortDescendingItemB();
             if (Cities.Count != 0)
             {
-                /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                throw new System.NotImplementedException();
+                var call__737 = Cities[0];
+                City = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.City.TCity>((int)call__737.A);
                 {
                     City.FProduction.ExecuteDeleteProductions();
-                    var call__716 = City.FortifyCost();
-                    Player.FAIBudget.BudgetExpenseMade(call__716, 0, Budget, Aow.Units.AoWE.TBudgetExpenseMode.bemBudget);
+                    var call__738 = City.FortifyCost();
+                    Player.FAIBudget.BudgetExpenseMade(call__738, 0, Budget, Aow.Units.AoWE.TBudgetExpenseMode.bemBudget);
                     Production = Aow.Units.AoWE.TProductionItem.Create(null);
-                    var call__717 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caFortify);
-                    Production.FProductionID = call__717;
+                    var call__739 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caFortify);
+                    Production.FProductionID = call__739;
                     City.FProduction.ExecuteAddProduction(Production);
                     Production.Free();
                 }
@@ -5742,11 +5862,11 @@ namespace Aow.Units.City
             Count = 0;
             {
                 I = Player.FStructures.Count - 1;
-                byte end__718 = 0;
-                for (; I >= end__718; I -= 1)
+                byte end__740 = 0;
+                for (; I >= end__740; I -= 1)
                 {
-                    var call__719 = Player.FStructures.GetStructure(I);
-                    Structure = call__719;
+                    var call__741 = Player.FStructures.GetStructure(I);
+                    Structure = call__741;
                     if (Structure is Aow.Units.City.TCity)
                     {
                         if (ValidFortifyBudgetCity((Aow.Units.City.TCity)Structure))
@@ -5793,18 +5913,18 @@ namespace Aow.Units.City
             Count = 0;
             {
                 I = FControl.FPlayer.FStructures.Count - 1;
-                byte end__720 = 0;
-                for (; I >= end__720; I -= 1)
+                byte end__742 = 0;
+                for (; I >= end__742; I -= 1)
                 {
-                    var call__721 = FControl.FPlayer.FStructures.GetStructure(I);
-                    Structure = call__721;
+                    var call__743 = FControl.FPlayer.FStructures.GetStructure(I);
+                    Structure = call__743;
                     if (Structure is Aow.Units.City.TCity)
                     {
                         City = (Aow.Units.City.TCity)Structure;
                         {
-                            var w__722 = (Aow.Units.City.TCity)Structure;
-                            var call__723 = w__722.GetSize();
-                            if (call__723 > w__722.FUpgradeLevel)
+                            var w__744 = (Aow.Units.City.TCity)Structure;
+                            var call__745 = w__744.GetSize();
+                            if (call__745 > w__744.FUpgradeLevel)
                             {
                                 Count += 1;
                             }
@@ -5832,20 +5952,20 @@ namespace Aow.Units.City
             FProductionLevelCounts = default;
             {
                 I = FControl.FPlayer.FStructures.Count - 1;
-                byte end__724 = 0;
-                for (; I >= end__724; I -= 1)
+                byte end__746 = 0;
+                for (; I >= end__746; I -= 1)
                 {
-                    var call__725 = FControl.FPlayer.FStructures.GetStructure(I);
-                    if (call__725 is Aow.Units.City.TCity)
+                    var call__747 = FControl.FPlayer.FStructures.GetStructure(I);
+                    if (call__747 is Aow.Units.City.TCity)
                     {
                         FCityCount += 1;
-                        var call__726 = FControl.FPlayer.FStructures.GetStructure(I);
-                        City = (Aow.Units.City.TCity)call__726;
+                        var call__748 = FControl.FPlayer.FStructures.GetStructure(I);
+                        City = (Aow.Units.City.TCity)call__748;
                         if (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade, Aow.Units.City.TCityAction.caProduce).Contains(City.GetActiveAction()))
                         {
                             Available += (City.GetSize() + 1) / 2;
-                            var call__727 = City.FProduction.GetProduceUnitLevelMax();
-                            Level = call__727;
+                            var call__749 = City.FProduction.GetProduceUnitLevelMax();
+                            Level = call__749;
                             if (Level > 0)
                             {
                                 FProductionLevelCounts[Level - 1] += 1;
@@ -5933,9 +6053,9 @@ namespace Aow.Units.City
         public Aow.Units.City.TCity GetCity()
         {
             Aow.Units.City.TCity Result = default;
-            var call__728 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx);
-            var call__729 = call__728.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-            Result = (Aow.Units.City.TCity)call__729;
+            var call__750 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx);
+            var call__751 = call__750.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+            Result = (Aow.Units.City.TCity)call__751;
             return Result;
         }
 
@@ -5997,7 +6117,7 @@ namespace Aow.Units.City
             {
                 if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
                 {
-                    Aow.Rtl.Rtl.RegisterClasses([typeof(Aow.Units.City.TCityAIPA)]);
+                    Aow.Units.AoWE.AoWE.AoWHSMap.FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.City.TCityAIPA>()]);
                 }
             }
 
@@ -6134,28 +6254,28 @@ namespace Aow.Units.City
             Aow.Units.AoWE.TPlayer P = default;
             int I = default;
             Result = false;
-            var call__730 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-            P = call__730;
+            var call__752 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            P = call__752;
             I = 0;
             while (true)
             {
-                var call__731 = P.FStructures.Count;
-                if (!((I != call__731) && !Result))
+                var call__753 = P.FStructures.Count;
+                if (!((I != call__753) && !Result))
                     break;
                 {
-                    var call__732 = P.FStructures.GetStructure(I);
-                    if (call__732 is Aow.Units.City.TCity)
+                    var call__754 = P.FStructures.GetStructure(I);
+                    if (call__754 is Aow.Units.City.TCity)
                     {
-                        var call__733 = P.FStructures.GetStructure(I);
-                        var call__734 = ((Aow.Units.City.TCity)call__733).GetBuilding();
-                        bool bool__735 = !call__734;
-                        if (bool__735)
+                        var call__755 = P.FStructures.GetStructure(I);
+                        var call__756 = ((Aow.Units.City.TCity)call__755).GetBuilding();
+                        bool bool__757 = !call__756;
+                        if (bool__757)
                         {
-                            var call__736 = P.FStructures.GetStructure(I);
-                            bool__735 = (((Aow.Units.City.TCity)call__736).FRace == Race);
+                            var call__758 = P.FStructures.GetStructure(I);
+                            bool__757 = (((Aow.Units.City.TCity)call__758).FRace == Race);
                         }
 
-                        Result = bool__735;
+                        Result = bool__757;
                     }
 
                     I += 1;
@@ -6182,18 +6302,18 @@ namespace Aow.Units.City
             Aow.Units.AoWE.TPlayerStructure Structure = default;
             if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
             {
-                var call__737 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                P = call__737;
+                var call__759 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                P = call__759;
                 Result = 0;
                 {
                     I = 0;
-                    int end__738 = P.FStructures.Count - 1;
-                    for (; I <= end__738; I += 1)
+                    int end__760 = P.FStructures.Count - 1;
+                    for (; I <= end__760; I += 1)
                     {
-                        var call__739 = P.FStructures.GetStructure(I);
-                        Structure = call__739;
-                        var call__740 = Structure.ClassType.ClassID();
-                        if ((call__740 == 131336) && (Structure.FPlayer == Player))
+                        var call__761 = P.FStructures.GetStructure(I);
+                        Structure = call__761;
+                        var call__762 = Structure.ClassType.ClassID();
+                        if ((call__762 == 131336) && (Structure.FPlayer == Player))
                         {
                             Result += 1;
                         }
@@ -6217,18 +6337,18 @@ namespace Aow.Units.City
             Aow.Units.AoWE.TPlayerStructure Structure = default;
             if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
             {
-                var call__741 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                P = call__741;
+                var call__763 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                P = call__763;
                 Result = 0;
                 {
                     I = 0;
-                    int end__742 = P.FStructures.Count - 1;
-                    for (; I <= end__742; I += 1)
+                    int end__764 = P.FStructures.Count - 1;
+                    for (; I <= end__764; I += 1)
                     {
-                        var call__743 = P.FStructures.GetStructure(I);
-                        Structure = call__743;
-                        var call__744 = Structure.ClassType.ClassID();
-                        if ((call__744 == 131336) && (Structure.FPlayer == Player))
+                        var call__765 = P.FStructures.GetStructure(I);
+                        Structure = call__765;
+                        var call__766 = Structure.ClassType.ClassID();
+                        if ((call__766 == 131336) && (Structure.FPlayer == Player))
                         {
                             Result += ((Aow.Units.City.TCity)Structure).FIncome;
                         }
@@ -6262,20 +6382,20 @@ namespace Aow.Units.City
             int Value1 = default;
             int Value2 = default;
             {
-                var w__745 = (Aow.Units.AoWE.TUnitProduction)Item1;
-                var call__746 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__745.FUnitIndex);
-                if (call__746 != null)
+                var w__767 = (Aow.Units.AoWE.TUnitProduction)Item1;
+                var call__768 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__767.FUnitIndex);
+                if (call__768 != null)
                 {
-                    var call__747 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__745.FUnitIndex);
-                    Value1 = call__747.FLevel * 2;
+                    var call__769 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__767.FUnitIndex);
+                    Value1 = call__769.FLevel * 2;
                     if (Aow.Units.City.City.SortingCity.FRace != -1)
                     {
-                        var call__748 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
-                        if (call__748.FSpecialUnitIndexes.Count > 3)
+                        var call__770 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
+                        if (call__770.FSpecialUnitIndexes.Count > 3)
                         {
-                            var call__749 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
-                            var call__750 = call__749.FSpecialUnitIndexes[3];
-                            if (call__750 == w__745.FUnitIndex)
+                            var call__771 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
+                            var call__772 = call__771.FSpecialUnitIndexes[3];
+                            if (call__772 == w__767.FUnitIndex)
                             {
                                 Value1 += 1;
                             }
@@ -6289,20 +6409,20 @@ namespace Aow.Units.City
             }
 
             {
-                var w__751 = (Aow.Units.AoWE.TUnitProduction)Item2;
-                var call__752 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__751.FUnitIndex);
-                if (call__752 != null)
+                var w__773 = (Aow.Units.AoWE.TUnitProduction)Item2;
+                var call__774 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__773.FUnitIndex);
+                if (call__774 != null)
                 {
-                    var call__753 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__751.FUnitIndex);
-                    Value2 = call__753.FLevel * 2;
+                    var call__775 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__773.FUnitIndex);
+                    Value2 = call__775.FLevel * 2;
                     if (Aow.Units.City.City.SortingCity.FRace != -1)
                     {
-                        var call__754 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
-                        if (call__754.FSpecialUnitIndexes.Count > 3)
+                        var call__776 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
+                        if (call__776.FSpecialUnitIndexes.Count > 3)
                         {
-                            var call__755 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
-                            var call__756 = call__755.FSpecialUnitIndexes[3];
-                            if (call__756 == w__751.FUnitIndex)
+                            var call__777 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
+                            var call__778 = call__777.FSpecialUnitIndexes[3];
+                            if (call__778 == w__773.FUnitIndex)
                             {
                                 Value2 += 1;
                             }

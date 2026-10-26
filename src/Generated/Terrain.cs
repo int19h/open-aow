@@ -420,78 +420,6 @@ namespace Aow.Units.Terrain
             return Result;
         }
 
-        // Terrain.pas:120
-        public Aow.Units.Terrain.TTerrainMOR FindCompatibleResource(byte ATerrainType, sbyte OverlayType, int DecorationType)
-        {
-            Aow.Units.Terrain.TTerrainMOR Result = default;
-            Aow.Rtl.TList Candidates = default;
-            int I = default;
-            Aow.Units.Engine.TEObjectList Resources = default;
-            Aow.Units.Terrain.TTerrainMOR R = default;
-            int J = default;
-            bool Compatible = default;
-            sbyte HexOverlay = default;
-            Candidates = new Aow.Rtl.TList();
-            var call__36 = GetResourceList(FResource.Engine);
-            Resources = call__36.FChildren;
-            {
-                I = 0;
-                int end__37 = Resources.Count - 1;
-                for (; I <= end__37; I += 1)
-                {
-                    R = (Aow.Units.Terrain.TTerrainMOR)Resources.List[I];
-                    var call__38 = R.ClassType.ClassID();
-                    var call__39 = FResource.ClassType.ClassID();
-                    if ((call__38 == call__39) && ((DecorationType == -1) || (R.FDecorationType == DecorationType)))
-                    {
-                        {
-                            var w__40 = R;
-                            bool bool__41 = (w__40.FTerrainType == ATerrainType) && (R != FResource);
-                            if (bool__41)
-                            {
-                                var call__42 = R.TerrainList.CompareTerrain(this.FResource.TerrainList, TSet<Aow.Units.HSEngine.TTerrainCompareModeElement>.Of());
-                                bool__41 = call__42;
-                            }
-
-                            if (bool__41)
-                            {
-                                Compatible = true;
-                                J = w__40.FTerrainList.Count;
-                                while (Compatible && (J != 0))
-                                {
-                                    J -= 1;
-                                    {
-                                        var w__43 = R.TerrainList;
-                                        HexOverlay = unchecked((sbyte)w__43.GetOverlay(J));
-                                    }
-
-                                    Compatible = (HexOverlay < 0) || (HexOverlay == OverlayType);
-                                }
-
-                                if (Compatible)
-                                {
-                                    Candidates.Add(R);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (Candidates.Count != 0)
-            {
-                var call__44 = Aow.Rtl.Rtl.Random(Candidates.Count);
-                Result = (Aow.Units.Terrain.TTerrainMOR)Candidates.List[call__44];
-            }
-            else
-            {
-                Result = null;
-            }
-
-            Candidates.Free();
-            return Result;
-        }
-
         // Terrain.pas:160
         public bool CanChangeOwnTerrain(int HN)
         {
@@ -505,18 +433,18 @@ namespace Aow.Units.Terrain
             Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while ((Walk.HN < Count) && Result)
             {
-                bool bool__45 = (Walk.HN != HN);
-                if (bool__45)
+                bool bool__36 = (Walk.HN != HN);
+                if (bool__36)
                 {
-                    var call__46 = GetTerrain(Walk.HN);
-                    bool__45 = (call__46 >= 0);
+                    var call__37 = GetTerrain(Walk.HN);
+                    bool__36 = (call__37 >= 0);
                 }
 
-                if ((((bool__45 && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < Level.Width)) && (Walk.Y < Level.Height))
+                if ((((bool__36 && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < Level.Width)) && (Walk.Y < Level.Height))
                 {
-                    var call__47 = Level.GetField(Walk.X, Walk.Y);
-                    var call__48 = call__47.CanChangeTerrainEx(this);
-                    Result = call__48;
+                    var call__38 = Level.GetField(Walk.X, Walk.Y);
+                    var call__39 = call__38.CanChangeTerrainEx(this);
+                    Result = call__39;
                 }
 
                 Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
