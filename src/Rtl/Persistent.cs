@@ -19,7 +19,7 @@ public class TPersistent : TObject
         return owner.Length == 0 ? name : owner + "." + name;
     }
     // CLASSES.PAS TPersistent.DefineProperties.
-    public virtual void DefineProperties(object? filer) { }
+    public virtual void DefineProperties(TFiler? filer) { }
 }
 
 public enum TOperation : byte { opInsert, opRemove }

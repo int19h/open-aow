@@ -8,6 +8,7 @@ public class TObject
     public Meta ClassType => MetaRegistry.Of(GetType());
     public static string ClassNameOf(Type type) => type.Name.TrimStart('@');
     public virtual void Destroy() { }
+    public virtual void FreeInstance() { }
 
     public class Meta
     {

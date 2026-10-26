@@ -27,7 +27,7 @@ public readonly struct AnsiString : IEquatable<AnsiString>, IComparable<AnsiStri
 
     public static AnsiString FromBytes(params byte[] bytes) => new((byte[])bytes.Clone());
     public static AnsiString FromPChar(Ptr<byte> pointer) => pointer.IsNull ? default
-        : FromBytes(pointer.Array!.AsSpan(pointer.Index, Rtl.StrLen(pointer)).ToArray());
+        : FromBytes(pointer.AsSpan(Rtl.StrLen(pointer)).ToArray());
     public Ptr<byte> AsPtr()
     {
         var copy = new byte[Length + 1];

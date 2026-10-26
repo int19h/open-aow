@@ -40,6 +40,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
             throw new ArgumentOutOfRangeException(nameof(count));
         return MemoryMarshal.CreateSpan(ref Value, count);
     }
+    public readonly Span<T> AsSpan() => AsSpan((StorageBytes - ByteIndex) / Unsafe.SizeOf<T>());
     public readonly Ptr<U> Reinterpret<U>(int offset = 0)
     {
         if (IsNull) return default;
