@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Nullable>disable</Nullable>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <!-- Delphi locals start with default values, including unused locals (CS0168, CS0219).
+         Exit leaves unreachable statements in the mechanical translation (CS0162).
+         Unit Finalize methods keep the Delphi section name (CS0465).
+         The generated metaclass registry runs before static fields (CA2255). -->
+    <NoWarn>$(NoWarn);CS0168;CS0219;CS0162;CS0465;CA2255</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Rtl/Aow.Rtl.csproj" />
+    <Compile Include="../Overrides/**/*.cs" />
+  </ItemGroup>
+</Project>
