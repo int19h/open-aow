@@ -34,6 +34,12 @@ per line, and nothing that varies between runs (no addresses, no times). The run
    `tests/probes/generated/<name>/`,
    builds it against `src/Rtl` with `dotnet build`, runs it and captures the output.
 3. Compares the two outputs line by line and prints the first differing line with both texts.
+   A difference the specification accepts is listed in `tests/probes/accepted/<name>.txt`, one
+   label or label pattern per line with the section that accepts it, and the runner then prints
+   `match (N accepted)`. Two exist: the raw byte of a non-canonical Boolean (`integers`,
+   `transpiler.md` section 7 trap 9) and the order of the `AnsiCompareText` pairs that
+   `rtl-shim.md` section 3.2 accepts, read from the shim's pinned list so that both checks use one
+   set (sign only, equality still compared on every pair). Any other difference fails.
 
 The probe set and what each one covers:
 
