@@ -987,16 +987,17 @@ Overrides never change generated files. A fix to a mapping goes into the transpi
 
 ### 8.2 Assembler routines
 
-The transpile set has 326 routines whose body is `asm` (an earlier count of 330 included four
-`asm` statements inside Pascal bodies). The port's catalogue `data/asm-routines.json`, built on
-2026-10-25 from the source, the recovery's Ghidra decompiles (`data/decomp/<Package>-typed-all/`)
+The transpile set has 317 routines whose body is `asm` at `aow` d898ee4 (326 at 8fffb88, before
+the recovery removed nine unreferenced adapter thunks; 16 `asm` blocks inside Pascal bodies, four
+statements and twelve `Assert` helpers, are not routines). The port's catalogue
+`data/asm-routines.json`, rebuilt on 2026-10-26 by `tools/survey/asm_routines.py` from the source, the recovery's Ghidra decompiles (`data/decomp/<Package>-typed-all/`)
 and its per-function match results, classifies every one (`data/asm-routines.md` is the readable
 summary): by unit, AoWE 137, GFXE 27, GlobalTargetSpells 19, Cave 15, Engine 14, ImageLib 11, the
 five hero and item grid units 10 each, HSEngine 8, and smaller groups; by kind:
 
 | kind | count | what it is | treatment |
 |---|---:|---|---|
-| thunk | 174 | a `JMP` to another routine of the same package. 171 have no counterpart in the original binary: the recovery added them so that callers type-check against draft declarations, and the originals call the targets directly. Ten of them have stack parameters and no `POP EBP` before the jump, so the recovered build would return to the wrong address through them; one, `CaveArmyMovePoints`, is on a live path (`TCave.EnterMovePoints`) | rule A2: the call goes to the target directly, with the catalogue's `args_passthrough` and parameter order checked. The ten broken thunks are reported to the recovery; the port is unaffected because it never executes the jump |
+| thunk | 165 | a `JMP` to another routine of the same package. 162 have no counterpart in the original binary: the recovery added them so that callers type-check against draft declarations, and the originals call the targets directly. The ten with a broken frame that the catalogue of 2026-10-25 found are fixed upstream (nine removed, `CaveArmyMovePoints` given its `POP EBP`) | rule A2: the call goes to the target directly, with the catalogue's `args_passthrough` and parameter order checked |
 | constant | 35 | `XOR EAX,EAX`, `MOV EAX,n`, `MOV AL,n` bodies | rule A1 |
 | allocator | 1 | `TMapField.NewInstance` from the pool `MapFieldMemory` | rule A3 |
 | blitter | 32 | GFXE and ImageLib pixel routines | `graphics.md` section 5 |
