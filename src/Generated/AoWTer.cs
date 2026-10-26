@@ -77,8 +77,7 @@ namespace Aow.Units.AoWTer
                     var call__2 = FResource.TerrainList.Terrain[Msg.HN];
                     if (call__2 >= 0)
                     {
-                        /* TODO(T-A3) Integer address requires managed pointer provenance */
-                        throw new System.NotImplementedException();
+                        ValidateDenseVegetationBurned(Msg.Param[0].Ref);
                     }
                 }
             }

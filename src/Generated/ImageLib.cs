@@ -7161,8 +7161,7 @@ namespace Aow.Units.ImageLib
                         Image = FImages[C].Image;
                         if (Image == null)
                         {
-                            /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                            throw new System.NotImplementedException();
+                            Image = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.ImageLib.TLibraryImage>((int)FImages[C].Reference);
                             if (Aow.Rtl.Rtl.ObjectToInt(Image) != -1)
                             {
                                 Image = FImages[Aow.Rtl.Rtl.ObjectToInt(Image)].Image;
@@ -7210,8 +7209,7 @@ namespace Aow.Units.ImageLib
                         Image = FImages[C].Image;
                         if (Image == null)
                         {
-                            /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                            throw new System.NotImplementedException();
+                            Image = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.ImageLib.TLibraryImage>((int)FImages[C].Reference);
                             if (Aow.Rtl.Rtl.ObjectToInt(Image) != -1)
                             {
                                 Image = FImages[Aow.Rtl.Rtl.ObjectToInt(Image)].Image;

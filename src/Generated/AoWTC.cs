@@ -7456,120 +7456,6 @@ namespace Aow.Units.AoWTC
             return Result;
         }
 
-        // AoWTC.pas:5162
-        public override Aow.Units.AoWE.TCombatResult Execute()
-        {
-            Aow.Units.AoWE.TCombatResult Result = default;
-            Aow.Units.AoWTC.TRndTacHsm Generator = default;
-            int I = default;
-            int Seated = default;
-            if (!ValidateWallCombat())
-            {
-                SetLogCombatActions(1);
-                var call__1130 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CannotBreachWallRStr);
-                SetLogbookHeader(call__1130);
-                FCombatResult = Aow.Units.AoWE.TCombatResult.crCannotBreachWall;
-                Result = FCombatResult;
-            }
-            else
-            {
-                var call__1131 = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].GetCount();
-                if (call__1131 == FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].FConquerCount)
-                {
-                    SetLogCombatActions(1);
-                    var call__1132 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CannotInflictDamageRStr);
-                    SetLogbookHeader(call__1132);
-                    FCombatResult = Aow.Units.AoWE.TCombatResult.crCannotInflictDamage;
-                    Result = FCombatResult;
-                }
-                else
-                {
-                    var call__1133 = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].GetCount();
-                    if (call__1133 == 0)
-                    {
-                        Result = Aow.Units.AoWE.TCombatResult.crNoDefenders;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.HoldTC = true;
-                        Generator = Aow.Units.AoWTC.TRndTacHsm.Create();
-                        Generator.RandomMap(this, FCombatData.FX, FCombatData.FY, FCombatData.FL);
-                        Generator.Free();
-                        bool bool__1134 = Aow.Units.AoWE.AoWE.AoWHSMap.FStartingGame;
-                        if (!bool__1134)
-                        {
-                            var call__1135 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(FCombatData.FX, FCombatData.FY, FCombatData.FL, unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
-                            bool__1134 = call__1135;
-                        }
-
-                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlaySounds = bool__1134;
-                        if (!Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlaySounds)
-                        {
-                            {
-                                I = 0;
-                                int end__1136 = FCombatData.FPlayers.GetCount() - 1;
-                                for (; I <= end__1136; I += 1)
-                                {
-                                    var call__1137 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                                    var call__1138 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1137.FPlayer);
-                                    if (call__1138.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
-                                    {
-                                        var call__1139 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                                        var call__1140 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1139.FPlayer);
-                                        var call__1141 = call__1140.GetLocal();
-                                        if (call__1141)
-                                        {
-                                            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlaySounds = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.FDeselectEvents.TriggerNotifyEvents(this);
-                        Seated = -1;
-                        {
-                            I = 0;
-                            int end__1142 = FCombatData.FPlayers.GetCount() - 1;
-                            for (; I <= end__1142; I += 1)
-                            {
-                                if (Seated == -1)
-                                {
-                                    var call__1143 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                                    var call__1144 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1143.FPlayer);
-                                    if (call__1144.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
-                                    {
-                                        var call__1145 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                                        var call__1146 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(call__1145.FPlayer);
-                                        if (call__1146.ConnectionMode != Aow.Units.NetworkE.TConnectionMode.cmRemote)
-                                        {
-                                            var call__1147 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                                            var call__1148 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1147.FPlayer);
-                                            if (call__1148.FStatus != Aow.Units.AoWE.TPlayerStatus.psTerminated)
-                                            {
-                                                Seated = I;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.SetSeatedCombatPlayer(unchecked((sbyte)Seated));
-                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.CenterViewTo(32, 29, 0);
-                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.NewRound();
-                        var call__1149 = FCombatData.FTurnOrder[0];
-                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.NewTurn(unchecked((sbyte)call__1149));
-                        Result = Aow.Units.AoWE.TCombatResult.crBusy;
-                        FOnTerminated = Aow.Units.AoWTC.AoWTC.AoWCombatMap.EndCombat;
-                        SetLogCombatActions(1);
-                    }
-                }
-            }
-
-            return Result;
-        }
-
         // AoWTC.pas:5097
         public override void Initialize()
         {
@@ -7580,16 +7466,16 @@ namespace Aow.Units.AoWTC
             FHostPlayer = unchecked((sbyte)-1);
             {
                 I = 0;
-                int end__1150 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount() - 1;
-                for (; I <= end__1150; I += 1)
+                int end__1130 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount() - 1;
+                for (; I <= end__1130; I += 1)
                 {
                     if (FHostPlayer == -1)
                     {
-                        var call__1151 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                        if (call__1151.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
+                        var call__1131 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                        if (call__1131.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
                         {
-                            var call__1152 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                            if (call__1152.FStatus != Aow.Units.AoWE.TPlayerStatus.psTerminated)
+                            var call__1132 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                            if (call__1132.FStatus != Aow.Units.AoWE.TPlayerStatus.psTerminated)
                             {
                                 FHostPlayer = unchecked((sbyte)I);
                             }
@@ -7600,31 +7486,31 @@ namespace Aow.Units.AoWTC
 
             {
                 I = 0;
-                int end__1153 = FCombatData.FPlayers.GetCount() - 1;
-                for (; I <= end__1153; I += 1)
+                int end__1133 = FCombatData.FPlayers.GetCount() - 1;
+                for (; I <= end__1133; I += 1)
                 {
-                    var call__1154 = FCombatData.FTurnOrder.IndexOf(unchecked((byte)I));
-                    if (call__1154 == -1)
+                    var call__1134 = FCombatData.FTurnOrder.IndexOf(unchecked((byte)I));
+                    if (call__1134 == -1)
                     {
-                        var call__1155 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                        if (call__1155.FSideIndex == 0)
+                        var call__1135 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
+                        if (call__1135.FSideIndex == 0)
                         {
                             FCombatData.FTurnOrder.Add(unchecked((byte)I));
                         }
                     }
 
-                    var call__1156 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                    var call__1157 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1156.FPlayer);
-                    if (call__1157.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman)
+                    var call__1136 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
+                    var call__1137 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1136.FPlayer);
+                    if (call__1137.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman)
                     {
                         if (Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC is Aow.Units.NetworkE.TRemotePCC)
                         {
-                            var call__1158 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
-                            var call__1159 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                            ((Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC).SetConnectionMode(call__1159.FPlayer, call__1158.ConnectionMode);
-                            var call__1160 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
-                            var call__1161 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                            ((Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC).SetSystemID(call__1161.FPlayer, call__1160.SystemID);
+                            var call__1138 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
+                            var call__1139 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
+                            ((Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC).SetConnectionMode(call__1139.FPlayer, call__1138.ConnectionMode);
+                            var call__1140 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
+                            var call__1141 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
+                            ((Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC).SetSystemID(call__1141.FPlayer, call__1140.SystemID);
                         }
                     }
                 }
@@ -7632,23 +7518,23 @@ namespace Aow.Units.AoWTC
 
             {
                 I = 0;
-                int end__1162 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetCount() - 1;
-                for (; I <= end__1162; I += 1)
+                int end__1142 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetCount() - 1;
+                for (; I <= end__1142; I += 1)
                 {
-                    var call__1163 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(I);
-                    var call__1164 = call__1163.Local();
-                    bool bool__1165 = call__1164;
-                    if (!bool__1165)
+                    var call__1143 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(I);
+                    var call__1144 = call__1143.Local();
+                    bool bool__1145 = call__1144;
+                    if (!bool__1145)
                     {
-                        var call__1166 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(I);
-                        var call__1167 = call__1166.Global();
-                        bool__1165 = call__1167;
+                        var call__1146 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(I);
+                        var call__1147 = call__1146.Global();
+                        bool__1145 = call__1147;
                     }
 
-                    if (bool__1165)
+                    if (bool__1145)
                     {
-                        var call__1168 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(I);
-                        call__1168.ClearEvents();
+                        var call__1148 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(I);
+                        call__1148.ClearEvents();
                     }
                 }
             }
@@ -7656,14 +7542,14 @@ namespace Aow.Units.AoWTC
             FCombatData.FTurnOrder.Add(unchecked((byte)FCombatData.FDefenderPlayer));
             {
                 I = 0;
-                int end__1169 = FCombatData.FPlayers.GetCount() - 1;
-                for (; I <= end__1169; I += 1)
+                int end__1149 = FCombatData.FPlayers.GetCount() - 1;
+                for (; I <= end__1149; I += 1)
                 {
-                    var call__1170 = FCombatData.FTurnOrder.IndexOf(unchecked((byte)I));
-                    if (call__1170 == -1)
+                    var call__1150 = FCombatData.FTurnOrder.IndexOf(unchecked((byte)I));
+                    if (call__1150 == -1)
                     {
-                        var call__1171 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                        if (call__1171.FSideIndex == 1)
+                        var call__1151 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
+                        if (call__1151.FSideIndex == 1)
                         {
                             FCombatData.FTurnOrder.Add(unchecked((byte)I));
                         }
@@ -7680,17 +7566,17 @@ namespace Aow.Units.AoWTC
             int I = default;
             {
                 I = 0;
-                int end__1172 = FCombatData.FPlayers.GetCount() - 1;
-                for (; I <= end__1172; I += 1)
+                int end__1152 = FCombatData.FPlayers.GetCount() - 1;
+                for (; I <= end__1152; I += 1)
                 {
-                    var call__1173 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                    var call__1174 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1173.FPlayer);
-                    if (call__1174.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman)
+                    var call__1153 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
+                    var call__1154 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1153.FPlayer);
+                    if (call__1154.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman)
                     {
-                        var call__1175 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                        ((Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC).SetConnectionMode(call__1175.FPlayer, Aow.Units.NetworkE.TConnectionMode.cmGlobal);
-                        var call__1176 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
-                        ((Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC).SetSystemID(call__1176.FPlayer, 0);
+                        var call__1155 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
+                        ((Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC).SetConnectionMode(call__1155.FPlayer, Aow.Units.NetworkE.TConnectionMode.cmGlobal);
+                        var call__1156 = FCombatData.FPlayers.GetPlayers(unchecked((sbyte)I));
+                        ((Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC).SetSystemID(call__1156.FPlayer, 0);
                     }
                 }
             }
@@ -7723,15 +7609,15 @@ namespace Aow.Units.AoWTC
             int I = default;
             Aow.Units.AoWE.TCombatSide Side = default;
             Side = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker];
-            var call__1177 = FCombatData.FParties.GetParty(0);
-            Result = call__1177.FWall == 0;
+            var call__1157 = FCombatData.FParties.GetParty(0);
+            Result = call__1157.FWall == 0;
             I = Side.GetCount();
             while (!Result && (I > 0))
             {
                 I -= 1;
-                var call__1178 = Side.GetObjects(I);
-                var call__1179 = call__1178.WallCombatFeatures();
-                Result = (call__1179 & TSet<Aow.Units.AoWE.TWallCombatFeaturesElement>.Of(Aow.Units.AoWE.TWallCombatFeaturesElement.wcWallBreaching, Aow.Units.AoWE.TWallCombatFeaturesElement.wcWallPassing)) != TSet<Aow.Units.AoWE.TWallCombatFeaturesElement>.Of();
+                var call__1158 = Side.GetObjects(I);
+                var call__1159 = call__1158.WallCombatFeatures();
+                Result = (call__1159 & TSet<Aow.Units.AoWE.TWallCombatFeaturesElement>.Of(Aow.Units.AoWE.TWallCombatFeaturesElement.wcWallBreaching, Aow.Units.AoWE.TWallCombatFeaturesElement.wcWallPassing)) != TSet<Aow.Units.AoWE.TWallCombatFeaturesElement>.Of();
             }
 
             return Result;
@@ -7799,8 +7685,8 @@ namespace Aow.Units.AoWTC
             int I = default;
             {
                 I = 0;
-                short end__1180 = 285;
-                for (; I <= end__1180; I += 1)
+                short end__1160 = 285;
+                for (; I <= end__1160; I += 1)
                 {
                     FResources[I].Free();
                 }
@@ -7817,26 +7703,26 @@ namespace Aow.Units.AoWTC
             ;
             {
                 I = 0;
-                short end__1181 = 285;
-                for (; I <= end__1181; I += 1)
+                short end__1161 = 285;
+                for (; I <= end__1161; I += 1)
                 {
-                    var call__1182 = new Aow.Rtl.TList();
-                    FResources[I] = call__1182;
+                    var call__1162 = new Aow.Rtl.TList();
+                    FResources[I] = call__1162;
                 }
             }
 
             {
                 J = 0;
-                int end__1183 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.GetCount() - 1;
-                for (; J <= end__1183; J += 1)
+                int end__1163 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.GetCount() - 1;
+                for (; J <= end__1163; J += 1)
                 {
-                    var call__1184 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.MORs[J];
-                    if (call__1184 is Aow.Units.CombatTerrain.TCombatTerrainResource)
+                    var call__1164 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.MORs[J];
+                    if (call__1164 is Aow.Units.CombatTerrain.TCombatTerrainResource)
                     {
-                        var call__1185 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.MORs[J];
-                        var call__1186 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.MORs[J];
-                        var call__1187 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.MORs[J];
-                        FResources[(unchecked((sbyte)((Aow.Units.CombatTerrain.TCombatTerrainResource)call__1186).TerrainType) * 19) + ((Aow.Units.CombatTerrain.TCombatTerrainResource)call__1187).DecorationType].Add(call__1185);
+                        var call__1165 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.MORs[J];
+                        var call__1166 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.MORs[J];
+                        var call__1167 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources.MORs[J];
+                        FResources[(unchecked((sbyte)((Aow.Units.CombatTerrain.TCombatTerrainResource)call__1166).TerrainType) * 19) + ((Aow.Units.CombatTerrain.TCombatTerrainResource)call__1167).DecorationType].Add(call__1165);
                     }
                 }
             }
@@ -7875,8 +7761,8 @@ namespace Aow.Units.AoWTC
                 Result = false;
                 {
                     I = First;
-                    int end__1188 = Last;
-                    for (; I <= end__1188; I += 1)
+                    int end__1168 = Last;
+                    for (; I <= end__1168; I += 1)
                     {
                         Aow.Units.HSEngine.HSEngine.CenterHNtoHX(X, Y, Aow.Units.AoWTC.AoWTC.clusterChk[I], ref NX, ref NY);
                         Kind = TerrainBuffer.Reinterpret<byte>().Reinterpret<byte>()[(NY * 65) + NX];
@@ -7913,17 +7799,17 @@ namespace Aow.Units.AoWTC
             Aow.Rtl.Rtl.RandSeed = (((Y * 128) + X) + (L * 16384)) + Aow.Units.AoWE.AoWE.AoWHSMap.FInitialRandomSeed;
             {
                 I = 0;
-                byte end__1189 = 6;
-                for (; I <= end__1189; I += 1)
+                byte end__1169 = 6;
+                for (; I <= end__1169; I += 1)
                 {
                     Aow.Units.HSEngine.HSEngine.CenterHNtoHX(X, Y, I, ref J, ref K);
-                    var call__1190 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
-                    var call__1191 = call__1190.Field[J, K];
-                    FTerrain[I] = unchecked((sbyte)call__1191.TerrainType);
-                    var call__1192 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
-                    var call__1193 = call__1192.Field[J, K];
-                    var call__1194 = ((Aow.Units.AoWE.TAoWMapField)call__1193).GetCombatTerrainTag();
-                    FTags[I] = unchecked((sbyte)call__1194);
+                    var call__1170 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
+                    var call__1171 = call__1170.Field[J, K];
+                    FTerrain[I] = unchecked((sbyte)call__1171.TerrainType);
+                    var call__1172 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
+                    var call__1173 = call__1172.Field[J, K];
+                    var call__1174 = ((Aow.Units.AoWE.TAoWMapField)call__1173).GetCombatTerrainTag();
+                    FTags[I] = unchecked((sbyte)call__1174);
                 }
             }
 
@@ -7931,8 +7817,8 @@ namespace Aow.Units.AoWTC
             {
                 {
                     I = 1;
-                    byte end__1195 = 6;
-                    for (; I <= end__1195; I += 1)
+                    byte end__1175 = 6;
+                    for (; I <= end__1175; I += 1)
                     {
                         FTerrain[I] = unchecked((sbyte)FTerrain[0]);
                     }
@@ -7942,8 +7828,8 @@ namespace Aow.Units.AoWTC
             {
                 {
                     I = 1;
-                    byte end__1196 = 6;
-                    for (; I <= end__1196; I += 1)
+                    byte end__1176 = 6;
+                    for (; I <= end__1176; I += 1)
                     {
                         if ((((FTerrain[I] == 0) || (FTerrain[I] == 15)) || (FTerrain[I] == 10)) || (FTerrain[I] == 9))
                         {
@@ -7954,16 +7840,16 @@ namespace Aow.Units.AoWTC
             }
 
             FileName = (AnsiString)"TCMaps\\";
-            var call__1197 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
-            var call__1198 = call__1197.Field[X, Y];
-            var call__1199 = call__1198.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure));
-            Structure = call__1199;
+            var call__1177 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
+            var call__1178 = call__1177.Field[X, Y];
+            var call__1179 = call__1178.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure));
+            Structure = call__1179;
             if (Structure == null)
             {
-                var call__1200 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
-                var call__1201 = call__1200.Field[X, Y];
-                var call__1202 = call__1201.FindNoneTransparentHS(typeof(Aow.Units.HxBridge.THexagonBridge));
-                Structure = call__1202;
+                var call__1180 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
+                var call__1181 = call__1180.Field[X, Y];
+                var call__1182 = call__1181.FindNoneTransparentHS(typeof(Aow.Units.HxBridge.THexagonBridge));
+                Structure = call__1182;
             }
 
             if (Structure != null)
@@ -7974,14 +7860,14 @@ namespace Aow.Units.AoWTC
                         FileName = FileName + AnsiString.FromBytes(48);
                     {
                         I = 1;
-                        byte end__1203 = 6;
-                        for (; I <= end__1203; I += 1)
+                        byte end__1183 = 6;
+                        for (; I <= end__1183; I += 1)
                         {
                             Aow.Units.HSEngine.HSEngine.CenterHNtoHX(X, Y, I, ref J, ref K);
-                            var call__1204 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
-                            var call__1205 = call__1204.Field[J, K];
-                            var call__1206 = call__1205.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-                            if (call__1206 != null)
+                            var call__1184 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
+                            var call__1185 = call__1184.Field[J, K];
+                            var call__1186 = call__1185.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+                            if (call__1186 != null)
                             {
                                 FileName = FileName + Aow.Rtl.Rtl.IntToStr(I);
                                 FTags[I] = 127;
@@ -8068,8 +7954,8 @@ namespace Aow.Units.AoWTC
                             FileName = (FileName + ((AnsiString)"eMrLr00")) + Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Random(4));
                             {
                                 I = 1;
-                                byte end__1207 = 6;
-                                for (; I <= end__1207; I += 1)
+                                byte end__1187 = 6;
+                                for (; I <= end__1187; I += 1)
                                 {
                                     FTags[I] = 127;
                                 }
@@ -8088,8 +7974,8 @@ namespace Aow.Units.AoWTC
                             FileName = (FileName + ((AnsiString)"eZigg00")) + Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Random(2));
                             {
                                 I = 1;
-                                byte end__1208 = 6;
-                                for (; I <= end__1208; I += 1)
+                                byte end__1188 = 6;
+                                for (; I <= end__1188; I += 1)
                                 {
                                     FTags[I] = 127;
                                 }
@@ -8108,8 +7994,8 @@ namespace Aow.Units.AoWTC
                             FileName = (FileName + ((AnsiString)"eCrpt00")) + Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Random(2));
                             {
                                 I = 1;
-                                byte end__1209 = 6;
-                                for (; I <= end__1209; I += 1)
+                                byte end__1189 = 6;
+                                for (; I <= end__1189; I += 1)
                                 {
                                     FTags[I] = 127;
                                 }
@@ -8128,8 +8014,8 @@ namespace Aow.Units.AoWTC
                             FileName = (FileName + ((AnsiString)"eRuin00")) + Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Random(2));
                             {
                                 I = 1;
-                                byte end__1210 = 6;
-                                for (; I <= end__1210; I += 1)
+                                byte end__1190 = 6;
+                                for (; I <= end__1190; I += 1)
                                 {
                                     FTags[I] = 127;
                                 }
@@ -8147,8 +8033,8 @@ namespace Aow.Units.AoWTC
                             FileName = (FileName + ((AnsiString)"eDung00")) + Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Random(2));
                             {
                                 I = 1;
-                                byte end__1211 = 6;
-                                for (; I <= end__1211; I += 1)
+                                byte end__1191 = 6;
+                                for (; I <= end__1191; I += 1)
                                 {
                                     FTags[I] = 127;
                                 }
@@ -8235,13 +8121,13 @@ namespace Aow.Units.AoWTC
                 TerrainBuffer = Ptr<byte>.Unbox(Aow.Rtl.Rtl.AllocMem(unchecked((uint)((uint)3770))));
                 {
                     Row = 6;
-                    byte end__1212 = 52;
-                    for (; Row <= end__1212; Row += 1)
+                    byte end__1192 = 52;
+                    for (; Row <= end__1192; Row += 1)
                     {
                         {
                             Col = 6;
-                            byte end__1213 = 58;
-                            for (; Col <= end__1213; Col += 1)
+                            byte end__1193 = 58;
+                            for (; Col <= end__1193; Col += 1)
                             {
                                 Shape = unchecked((byte)Aow.Units.AoWTC.AoWTC.MapShape[(Row * 65) + Col]);
                                 switch (Shape)
@@ -8380,10 +8266,10 @@ namespace Aow.Units.AoWTC
                                         break;
                                 }
 
-                                var call__1214 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__1215 = call__1214.Field[Col, Row];
-                                var call__1216 = call__1215.GetDecorationType();
-                                if (call__1216 == 9)
+                                var call__1194 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                var call__1195 = call__1194.Field[Col, Row];
+                                var call__1196 = call__1195.GetDecorationType();
+                                if (call__1196 == 9)
                                 {
                                     switch (Shape)
                                     {
@@ -8416,10 +8302,10 @@ namespace Aow.Units.AoWTC
                                     if (J > -1)
                                     {
                                         Aow.Units.HSEngine.HSEngine.CenterHNtoHX(X, Y, J, ref K, ref NX);
-                                        var call__1217 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
-                                        var call__1218 = call__1217.Field[K, NX];
-                                        var call__1219 = call__1218.FindOwnedChild(131946);
-                                        if (call__1219 == null)
+                                        var call__1197 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
+                                        var call__1198 = call__1197.Field[K, NX];
+                                        var call__1199 = call__1198.FindOwnedChild(131946);
+                                        if (call__1199 == null)
                                         {
                                             Aow.Units.AoWTC.AoWTC.AoWCombatMap.ClearTerrain(Col, Row, 0, 0, -1);
                                         }
@@ -8432,31 +8318,31 @@ namespace Aow.Units.AoWTC
                     }
                 }
 
-                var call__1220 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
-                var call__1221 = call__1220.Field[X, Y];
-                if (call__1221.OverlayType == 4)
+                var call__1200 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
+                var call__1201 = call__1200.Field[X, Y];
+                if (call__1201.OverlayType == 4)
                 {
                     {
                         I = 0;
-                        byte end__1222 = 6;
-                        for (; I <= end__1222; I += 1)
+                        byte end__1202 = 6;
+                        for (; I <= end__1202; I += 1)
                         {
                             Aow.Units.HSEngine.HSEngine.CenterHNtoHX(X, Y, I, ref J, ref K);
-                            var call__1223 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
-                            var call__1224 = call__1223.Field[J, K];
-                            Weights[I] = call__1224.OverlayType;
+                            var call__1203 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[L];
+                            var call__1204 = call__1203.Field[J, K];
+                            Weights[I] = call__1204.OverlayType;
                         }
                     }
 
                     {
                         Row = 6;
-                        byte end__1225 = 52;
-                        for (; Row <= end__1225; Row += 1)
+                        byte end__1205 = 52;
+                        for (; Row <= end__1205; Row += 1)
                         {
                             {
                                 Col = 6;
-                                byte end__1226 = 58;
-                                for (; Col <= end__1226; Col += 1)
+                                byte end__1206 = 58;
+                                for (; Col <= end__1206; Col += 1)
                                 {
                                     Shape = unchecked((byte)Aow.Units.AoWTC.AoWTC.MapRoads[(Row * 65) + Col]);
                                     switch (Shape)
@@ -8545,13 +8431,13 @@ namespace Aow.Units.AoWTC
 
                 {
                     Row = 6;
-                    byte end__1227 = 52;
-                    for (; Row <= end__1227; Row += 1)
+                    byte end__1207 = 52;
+                    for (; Row <= end__1207; Row += 1)
                     {
                         {
                             Col = 3;
-                            byte end__1228 = 29;
-                            for (; Col <= end__1228; Col += 1)
+                            byte end__1208 = 29;
+                            for (; Col <= end__1208; Col += 1)
                             {
                                 I = ShapeBuffer[(Row * 65) + (Col * 2)];
                                 if (I > 0)
@@ -8568,8 +8454,8 @@ namespace Aow.Units.AoWTC
                                     Tag = FTags[I - 1];
                                     {
                                         I = 0;
-                                        byte end__1229 = 18;
-                                        for (; I <= end__1229; I += 1)
+                                        byte end__1209 = 18;
+                                        for (; I <= end__1209; I += 1)
                                         {
                                             Weights[I] = FTerrainWeights[(TerrainType * 19) + I];
                                             if (Tag < 14)
@@ -8581,8 +8467,8 @@ namespace Aow.Units.AoWTC
 
                                     {
                                         I = 0;
-                                        byte end__1230 = 2;
-                                        for (; I <= end__1230; I += 1)
+                                        byte end__1210 = 2;
+                                        for (; I <= end__1210; I += 1)
                                         {
                                             Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Col * 2, Row, Aow.Units.AoWTC.AoWTC.clusterChk[I], ref J, ref K);
                                             Tag = TerrainBuffer[(K * 65) + J];
@@ -8606,33 +8492,33 @@ namespace Aow.Units.AoWTC
                                         }
                                     }
 
-                                    var call__1231 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                    var call__1232 = call__1231.Field[Col * 2, Row];
-                                    var call__1233 = call__1232.FindChild(2228484);
-                                    HasUnit = call__1233 != null;
+                                    var call__1211 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                    var call__1212 = call__1211.Field[Col * 2, Row];
+                                    var call__1213 = call__1212.FindChild(2228484);
+                                    HasUnit = call__1213 != null;
                                     if (HasUnit || Blocked(Col * 2, Row, 0, 2))
                                     {
-                                        bool bool__1234 = HasUnit;
-                                        if (!bool__1234)
+                                        bool bool__1214 = HasUnit;
+                                        if (!bool__1214)
                                         {
-                                            var call__1235 = Blocked(Col * 2, Row, 4, 8);
-                                            bool__1234 = call__1235;
+                                            var call__1215 = Blocked(Col * 2, Row, 4, 8);
+                                            bool__1214 = call__1215;
                                         }
 
-                                        bool bool__1236 = bool__1234;
-                                        if (bool__1236)
+                                        bool bool__1216 = bool__1214;
+                                        if (bool__1216)
                                         {
-                                            bool bool__1237 = HasUnit;
-                                            if (!bool__1237)
+                                            bool bool__1217 = HasUnit;
+                                            if (!bool__1217)
                                             {
-                                                var call__1238 = Blocked(Col * 2, Row, 9, 17);
-                                                bool__1237 = call__1238;
+                                                var call__1218 = Blocked(Col * 2, Row, 9, 17);
+                                                bool__1217 = call__1218;
                                             }
 
-                                            bool__1236 = bool__1237;
+                                            bool__1216 = bool__1217;
                                         }
 
-                                        if (bool__1236)
+                                        if (bool__1216)
                                         {
                                             Weights[1] = 0;
                                             Weights[2] = 0;
@@ -8650,27 +8536,27 @@ namespace Aow.Units.AoWTC
                                     }
                                     else
                                     {
-                                        bool bool__1239 = HasUnit;
-                                        if (!bool__1239)
+                                        bool bool__1219 = HasUnit;
+                                        if (!bool__1219)
                                         {
-                                            var call__1240 = Blocked(Col * 2, Row, 4, 8);
-                                            bool__1239 = call__1240;
+                                            var call__1220 = Blocked(Col * 2, Row, 4, 8);
+                                            bool__1219 = call__1220;
                                         }
 
-                                        bool bool__1241 = bool__1239;
-                                        if (bool__1241)
+                                        bool bool__1221 = bool__1219;
+                                        if (bool__1221)
                                         {
-                                            bool bool__1242 = HasUnit;
-                                            if (!bool__1242)
+                                            bool bool__1222 = HasUnit;
+                                            if (!bool__1222)
                                             {
-                                                var call__1243 = Blocked(Col * 2, Row, 9, 17);
-                                                bool__1242 = call__1243;
+                                                var call__1223 = Blocked(Col * 2, Row, 9, 17);
+                                                bool__1222 = call__1223;
                                             }
 
-                                            bool__1241 = bool__1242;
+                                            bool__1221 = bool__1222;
                                         }
 
-                                        if (bool__1241)
+                                        if (bool__1221)
                                         {
                                             Weights[14] = 0;
                                             Weights[15] = 0;
@@ -8681,15 +8567,15 @@ namespace Aow.Units.AoWTC
                                     J = 0;
                                     {
                                         I = 0;
-                                        byte end__1244 = 18;
-                                        for (; I <= end__1244; I += 1)
+                                        byte end__1224 = 18;
+                                        for (; I <= end__1224; I += 1)
                                         {
                                             J += Weights[I];
                                         }
                                     }
 
-                                    var call__1245 = Aow.Rtl.Rtl.Random(J);
-                                    Tag = call__1245 - Weights[0];
+                                    var call__1225 = Aow.Rtl.Rtl.Random(J);
+                                    Tag = call__1225 - Weights[0];
                                     J = 0;
                                     while ((Tag > 0) && (J < 18))
                                     {
@@ -8729,8 +8615,8 @@ namespace Aow.Units.AoWTC
 
                         {
                             Col = 3;
-                            byte end__1246 = 29;
-                            for (; Col <= end__1246; Col += 1)
+                            byte end__1226 = 29;
+                            for (; Col <= end__1226; Col += 1)
                             {
                                 I = ShapeBuffer[((Row * 65) + (Col * 2)) + 1];
                                 if (I > 0)
@@ -8747,8 +8633,8 @@ namespace Aow.Units.AoWTC
                                     Tag = FTags[I - 1];
                                     {
                                         I = 0;
-                                        byte end__1247 = 18;
-                                        for (; I <= end__1247; I += 1)
+                                        byte end__1227 = 18;
+                                        for (; I <= end__1227; I += 1)
                                         {
                                             Weights[I] = FTerrainWeights[(TerrainType * 19) + I];
                                             if (Tag < 14)
@@ -8760,8 +8646,8 @@ namespace Aow.Units.AoWTC
 
                                     {
                                         I = 0;
-                                        byte end__1248 = 2;
-                                        for (; I <= end__1248; I += 1)
+                                        byte end__1228 = 2;
+                                        for (; I <= end__1228; I += 1)
                                         {
                                             Aow.Units.HSEngine.HSEngine.CenterHNtoHX((Col * 2) + 1, Row, Aow.Units.AoWTC.AoWTC.clusterChk[I], ref J, ref K);
                                             Tag = TerrainBuffer[(K * 65) + J];
@@ -8785,33 +8671,33 @@ namespace Aow.Units.AoWTC
                                         }
                                     }
 
-                                    var call__1249 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                    var call__1250 = call__1249.Field[(Col * 2) + 1, Row];
-                                    var call__1251 = call__1250.FindChild(2228484);
-                                    HasUnit = call__1251 != null;
+                                    var call__1229 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                    var call__1230 = call__1229.Field[(Col * 2) + 1, Row];
+                                    var call__1231 = call__1230.FindChild(2228484);
+                                    HasUnit = call__1231 != null;
                                     if (HasUnit || Blocked((Col * 2) + 1, Row, 0, 2))
                                     {
-                                        bool bool__1252 = HasUnit;
-                                        if (!bool__1252)
+                                        bool bool__1232 = HasUnit;
+                                        if (!bool__1232)
                                         {
-                                            var call__1253 = Blocked((Col * 2) + 1, Row, 4, 8);
-                                            bool__1252 = call__1253;
+                                            var call__1233 = Blocked((Col * 2) + 1, Row, 4, 8);
+                                            bool__1232 = call__1233;
                                         }
 
-                                        bool bool__1254 = bool__1252;
-                                        if (bool__1254)
+                                        bool bool__1234 = bool__1232;
+                                        if (bool__1234)
                                         {
-                                            bool bool__1255 = HasUnit;
-                                            if (!bool__1255)
+                                            bool bool__1235 = HasUnit;
+                                            if (!bool__1235)
                                             {
-                                                var call__1256 = Blocked((Col * 2) + 1, Row, 9, 17);
-                                                bool__1255 = call__1256;
+                                                var call__1236 = Blocked((Col * 2) + 1, Row, 9, 17);
+                                                bool__1235 = call__1236;
                                             }
 
-                                            bool__1254 = bool__1255;
+                                            bool__1234 = bool__1235;
                                         }
 
-                                        if (bool__1254)
+                                        if (bool__1234)
                                         {
                                             Weights[1] = 0;
                                             Weights[2] = 0;
@@ -8829,27 +8715,27 @@ namespace Aow.Units.AoWTC
                                     }
                                     else
                                     {
-                                        bool bool__1257 = HasUnit;
-                                        if (!bool__1257)
+                                        bool bool__1237 = HasUnit;
+                                        if (!bool__1237)
                                         {
-                                            var call__1258 = Blocked((Col * 2) + 1, Row, 4, 8);
-                                            bool__1257 = call__1258;
+                                            var call__1238 = Blocked((Col * 2) + 1, Row, 4, 8);
+                                            bool__1237 = call__1238;
                                         }
 
-                                        bool bool__1259 = bool__1257;
-                                        if (bool__1259)
+                                        bool bool__1239 = bool__1237;
+                                        if (bool__1239)
                                         {
-                                            bool bool__1260 = HasUnit;
-                                            if (!bool__1260)
+                                            bool bool__1240 = HasUnit;
+                                            if (!bool__1240)
                                             {
-                                                var call__1261 = Blocked((Col * 2) + 1, Row, 9, 17);
-                                                bool__1260 = call__1261;
+                                                var call__1241 = Blocked((Col * 2) + 1, Row, 9, 17);
+                                                bool__1240 = call__1241;
                                             }
 
-                                            bool__1259 = bool__1260;
+                                            bool__1239 = bool__1240;
                                         }
 
-                                        if (bool__1259)
+                                        if (bool__1239)
                                         {
                                             Weights[14] = 0;
                                             Weights[15] = 0;
@@ -8860,15 +8746,15 @@ namespace Aow.Units.AoWTC
                                     J = 0;
                                     {
                                         I = 0;
-                                        byte end__1262 = 18;
-                                        for (; I <= end__1262; I += 1)
+                                        byte end__1242 = 18;
+                                        for (; I <= end__1242; I += 1)
                                         {
                                             J += Weights[I];
                                         }
                                     }
 
-                                    var call__1263 = Aow.Rtl.Rtl.Random(J);
-                                    Tag = call__1263 - Weights[0];
+                                    var call__1243 = Aow.Rtl.Rtl.Random(J);
+                                    Tag = call__1243 - Weights[0];
                                     J = 0;
                                     while ((Tag > 0) && (J < 18))
                                     {
@@ -8910,13 +8796,13 @@ namespace Aow.Units.AoWTC
 
                 {
                     Row = 6;
-                    byte end__1264 = 52;
-                    for (; Row <= end__1264; Row += 1)
+                    byte end__1244 = 52;
+                    for (; Row <= end__1244; Row += 1)
                     {
                         {
                             Col = 6;
-                            byte end__1265 = 58;
-                            for (; Col <= end__1265; Col += 1)
+                            byte end__1245 = 58;
+                            for (; Col <= end__1245; Col += 1)
                             {
                                 I = ShapeBuffer[(Row * 65) + Col];
                                 if (I > 0)
@@ -8924,22 +8810,22 @@ namespace Aow.Units.AoWTC
                                     J = TerrainBuffer[(Row * 65) + Col];
                                     if (J == 17)
                                     {
-                                        var call__1266 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                        var call__1267 = call__1266.Field[Col, Row];
-                                        call__1267.TerrainType = 7;
+                                        var call__1246 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                        var call__1247 = call__1246.Field[Col, Row];
+                                        call__1247.TerrainType = 7;
                                     }
                                     else
                                     {
-                                        var call__1268 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                        var call__1269 = call__1268.Field[Col, Row];
-                                        call__1269.TerrainType = unchecked((sbyte)FTerrain[I - 1]);
+                                        var call__1248 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                        var call__1249 = call__1248.Field[Col, Row];
+                                        call__1249.TerrainType = unchecked((sbyte)FTerrain[I - 1]);
                                         if ((J > 0) && (J < 19))
                                         {
                                             if (FResources[(FTerrain[I - 1] * 19) + J].Count > 0)
                                             {
-                                                var call__1270 = Aow.Rtl.Rtl.Random(FResources[(FTerrain[I - 1] * 19) + J].Count);
-                                                var call__1271 = FResources[(FTerrain[I - 1] * 19) + J][call__1270];
-                                                ((Aow.Units.HSEngine.TMapObjectResource)call__1271).PlaceResourceUser(Aow.Units.AoWTC.AoWTC.AoWCombatMap, unchecked((sbyte)Col), unchecked((sbyte)Row), 0);
+                                                var call__1250 = Aow.Rtl.Rtl.Random(FResources[(FTerrain[I - 1] * 19) + J].Count);
+                                                var call__1251 = FResources[(FTerrain[I - 1] * 19) + J][call__1250];
+                                                ((Aow.Units.HSEngine.TMapObjectResource)call__1251).PlaceResourceUser(Aow.Units.AoWTC.AoWTC.AoWCombatMap, unchecked((sbyte)Col), unchecked((sbyte)Row), 0);
                                             }
                                         }
                                     }
@@ -8951,17 +8837,17 @@ namespace Aow.Units.AoWTC
 
                 {
                     Row = 6;
-                    byte end__1272 = 52;
-                    for (; Row <= end__1272; Row += 1)
+                    byte end__1252 = 52;
+                    for (; Row <= end__1252; Row += 1)
                     {
                         {
                             Col = 6;
-                            byte end__1273 = 58;
-                            for (; Col <= end__1273; Col += 1)
+                            byte end__1253 = 58;
+                            for (; Col <= end__1253; Col += 1)
                             {
-                                var call__1274 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__1275 = call__1274.Field[Col, Row];
-                                call__1275.TerrainChanged();
+                                var call__1254 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                var call__1255 = call__1254.Field[Col, Row];
+                                call__1255.TerrainChanged();
                             }
                         }
                     }
@@ -8994,29 +8880,29 @@ namespace Aow.Units.AoWTC
             Units = new Aow.Rtl.TList();
             {
                 Position = 0;
-                byte end__1276 = 7;
-                for (; Position <= end__1276; Position += 1)
+                byte end__1256 = 7;
+                for (; Position <= end__1256; Position += 1)
                 {
                     Units.Clear();
                     {
                         I = 0;
-                        int end__1277 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                        for (; I <= end__1277; I += 1)
+                        int end__1257 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                        for (; I <= end__1257; I += 1)
                         {
-                            var call__1278 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            if (call__1278 is Aow.Units.AoWE.TCombatUnit)
+                            var call__1258 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                            if (call__1258 is Aow.Units.AoWE.TCombatUnit)
                             {
-                                var call__1279 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                var call__1280 = call__1279.GetEnabled();
-                                if (call__1280)
+                                var call__1259 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                                var call__1260 = call__1259.GetEnabled();
+                                if (call__1260)
                                 {
-                                    var call__1281 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                    if (((int)(((uint)call__1281.FPosition) >> 4)) == Position)
+                                    var call__1261 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                                    if (((int)(((uint)call__1261.FPosition) >> 4)) == Position)
                                     {
-                                        var call__1282 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                        Units.Add(call__1282);
-                                        var call__1283 = Units[Units.Count - 1];
-                                        U = (Aow.Units.AoWTC.TTacticalCombatUnit)call__1283;
+                                        var call__1262 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                                        Units.Add(call__1262);
+                                        var call__1263 = Units[Units.Count - 1];
+                                        U = (Aow.Units.AoWTC.TTacticalCombatUnit)call__1263;
                                         U.FPositionIndex = unchecked((byte)(U.FPosition & 15));
                                         U.FPositionGroup = unchecked((byte)((int)(((uint)U.FPosition) >> 4)));
                                         if (U.FPositionGroup == 7)
@@ -9033,10 +8919,10 @@ namespace Aow.Units.AoWTC
                                         {
                                             if (U.GetSide() == Aow.Units.AoWE.TCombatSideIndex.csDefender)
                                             {
-                                                var call__1284 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FL];
-                                                var call__1285 = call__1284.Field[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FY];
-                                                var call__1286 = call__1285.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-                                                if (call__1286 != null)
+                                                var call__1264 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FL];
+                                                var call__1265 = call__1264.Field[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FY];
+                                                var call__1266 = call__1265.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+                                                if (call__1266 != null)
                                                 {
                                                     ;
                                                 }
@@ -9048,8 +8934,8 @@ namespace Aow.Units.AoWTC
                                             U.FPositionGroup = 0;
                                         }
 
-                                        var call__1287 = U.GetSide();
-                                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPositionStatus[U.FPositionGroup] = unchecked((byte)unchecked((byte)call__1287));
+                                        var call__1267 = U.GetSide();
+                                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPositionStatus[U.FPositionGroup] = unchecked((byte)unchecked((byte)call__1267));
                                     }
                                 }
                             }
@@ -9058,21 +8944,21 @@ namespace Aow.Units.AoWTC
 
                     {
                         I = 0;
-                        int end__1288 = Units.Count - 1;
-                        for (; I <= end__1288; I += 1)
+                        int end__1268 = Units.Count - 1;
+                        for (; I <= end__1268; I += 1)
                         {
-                            var call__1289 = Units[I];
-                            U = (Aow.Units.AoWTC.TTacticalCombatUnit)call__1289;
+                            var call__1269 = Units[I];
+                            U = (Aow.Units.AoWTC.TTacticalCombatUnit)call__1269;
                             {
                                 J = I + 1;
-                                int end__1290 = Units.Count - 1;
-                                for (; J <= end__1290; J += 1)
+                                int end__1270 = Units.Count - 1;
+                                for (; J <= end__1270; J += 1)
                                 {
-                                    var call__1291 = Units[J];
-                                    Other = (Aow.Units.AoWTC.TTacticalCombatUnit)call__1291;
-                                    var call__1292 = U.GetPosValue();
-                                    var call__1293 = Other.GetPosValue();
-                                    if (call__1292 < call__1293)
+                                    var call__1271 = Units[J];
+                                    Other = (Aow.Units.AoWTC.TTacticalCombatUnit)call__1271;
+                                    var call__1272 = U.GetPosValue();
+                                    var call__1273 = Other.GetPosValue();
+                                    if (call__1272 < call__1273)
                                     {
                                         Temp = U.FPositionIndex;
                                         U.FPositionIndex = unchecked((byte)Other.FPositionIndex);
@@ -9087,10 +8973,10 @@ namespace Aow.Units.AoWTC
 
             if (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPositionStatus[0] != 1)
             {
-                var call__1294 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FL];
-                var call__1295 = call__1294.Field[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FY];
-                var call__1296 = call__1295.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-                if ((call__1296 != null) && (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0))
+                var call__1274 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FL];
+                var call__1275 = call__1274.Field[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FY];
+                var call__1276 = call__1275.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+                if ((call__1276 != null) && (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0))
                 {
                     Position = 1;
                     while (Position < 7)
@@ -9098,10 +8984,10 @@ namespace Aow.Units.AoWTC
                         if (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPositionStatus[Position] == 1)
                         {
                             Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FY, Position, ref J, ref Temp);
-                            var call__1297 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FL];
-                            var call__1298 = call__1297.Field[J, Temp];
-                            var call__1299 = call__1298.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-                            if (call__1299 != null)
+                            var call__1277 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FL];
+                            var call__1278 = call__1277.Field[J, Temp];
+                            var call__1279 = call__1278.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+                            if (call__1279 != null)
                             {
                                 FHomePosition = Position;
                                 Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPositionStatus[Position] = unchecked((byte)((int)Aow.Units.AoWE.TCombatSideIndex.csNeutral));
@@ -9117,12 +9003,12 @@ namespace Aow.Units.AoWTC
 
             {
                 Position = 0;
-                int end__1300 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].GetCount() - 1;
-                for (; Position <= end__1300; Position += 1)
+                int end__1280 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].GetCount() - 1;
+                for (; Position <= end__1280; Position += 1)
                 {
-                    var call__1301 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].GetObjects(Position);
-                    var call__1302 = call__1301.GetEnabled();
-                    if (call__1302)
+                    var call__1281 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].GetObjects(Position);
+                    var call__1282 = call__1281.GetEnabled();
+                    if (call__1282)
                     {
                         SetupUnit(Aow.Units.AoWE.TCombatSideIndex.csAttacker, Position, ref Direction);
                     }
@@ -9131,15 +9017,15 @@ namespace Aow.Units.AoWTC
 
             {
                 Position = 0;
-                int end__1303 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].GetCount() - 1;
-                for (; Position <= end__1303; Position += 1)
+                int end__1283 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].GetCount() - 1;
+                for (; Position <= end__1283; Position += 1)
                 {
-                    var call__1304 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].GetObjects(Position);
-                    if (call__1304 is Aow.Units.AoWE.TCombatUnit)
+                    var call__1284 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].GetObjects(Position);
+                    if (call__1284 is Aow.Units.AoWE.TCombatUnit)
                     {
-                        var call__1305 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].GetObjects(Position);
-                        var call__1306 = call__1305.GetEnabled();
-                        if (call__1306)
+                        var call__1285 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].GetObjects(Position);
+                        var call__1286 = call__1285.GetEnabled();
+                        if (call__1286)
                         {
                             SetupUnit(Aow.Units.AoWE.TCombatSideIndex.csDefender, Position, ref Direction);
                         }
@@ -9152,8 +9038,8 @@ namespace Aow.Units.AoWTC
             {
                 {
                     Position = 0;
-                    byte end__1307 = 7;
-                    for (; Position <= end__1307; Position += 1)
+                    byte end__1287 = 7;
+                    for (; Position <= end__1287; Position += 1)
                     {
                         Used[Position] = false;
                     }
@@ -9162,12 +9048,12 @@ namespace Aow.Units.AoWTC
                 Position = 0;
                 while (true)
                 {
-                    var call__1308 = FItems.GetCount();
-                    if (!(Position < call__1308))
+                    var call__1288 = FItems.GetCount();
+                    if (!(Position < call__1288))
                         break;
                     {
-                        var call__1309 = Aow.Rtl.Rtl.Random(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.FPositions.Count - 16);
-                        I = call__1309;
+                        var call__1289 = Aow.Rtl.Rtl.Random(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.FPositions.Count - 16);
+                        I = call__1289;
                         J = I - 1;
                         if (J < 0)
                         {
@@ -9185,16 +9071,16 @@ namespace Aow.Units.AoWTC
                         }
 
                         Used[I] = true;
-                        var call__1310 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I);
-                        J = call__1310.X;
-                        var call__1311 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I);
-                        Temp = call__1311.Y;
+                        var call__1290 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I);
+                        J = call__1290.X;
+                        var call__1291 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I);
+                        Temp = call__1291.Y;
                         ItemHS = Aow.Units.AoWTC.TCItemHS.Create(null);
-                        var call__1312 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(ItemHS, J, Temp, 0);
-                        if (call__1312)
+                        var call__1292 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(ItemHS, J, Temp, 0);
+                        if (call__1292)
                         {
-                            var call__1313 = FItems.GetItem(Position);
-                            call__1313.SetOwner(ItemHS.FItems);
+                            var call__1293 = FItems.GetItem(Position);
+                            call__1293.SetOwner(ItemHS.FItems);
                         }
                         else
                         {
@@ -9218,8 +9104,8 @@ namespace Aow.Units.AoWTC
             int NX = default;
             int NY = default;
             UnitHS = Aow.Units.AoWTC.TTacticalCombatUnitHS.Create(null);
-            var call__1314 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Side].GetObjects(Index);
-            UnitHS.Initialize((Aow.Units.AoWTC.TTacticalCombatUnit)call__1314);
+            var call__1294 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Side].GetObjects(Index);
+            UnitHS.Initialize((Aow.Units.AoWTC.TTacticalCombatUnit)call__1294);
             if (UnitHS.FUnit.FPositionGroup == FHomePosition)
             {
                 UnitHS.FUnit.FPositionGroup = 0;
@@ -9227,10 +9113,10 @@ namespace Aow.Units.AoWTC
 
             Position = UnitHS.FUnit.FPositionGroup;
             Slot = UnitHS.FUnit.FPositionIndex;
-            var call__1315 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot);
-            X = call__1315.X;
-            var call__1316 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot);
-            Y = call__1316.Y;
+            var call__1295 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot);
+            X = call__1295.X;
+            var call__1296 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot);
+            Y = call__1296.Y;
             if ((Side == Aow.Units.AoWE.TCombatSideIndex.csDefender) && FRandomTerrain)
             {
                 switch (Position)
@@ -9311,8 +9197,8 @@ namespace Aow.Units.AoWTC
 
             if (!FRandomTerrain)
             {
-                var call__1317 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot);
-                UnitHS.SetDirection(unchecked((byte)call__1317.Flag));
+                var call__1297 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot);
+                UnitHS.SetDirection(unchecked((byte)call__1297.Flag));
             }
             else
             {
@@ -9343,33 +9229,33 @@ namespace Aow.Units.AoWTC
             do
             {
                 Aow.Units.HSEngine.HSEngine.CenterHNtoHX(X, Y, HN, ref NX, ref NY);
-                var call__1318 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                var call__1319 = call__1318.Field[NX, NY];
-                Slot = call__1319.OverlayType;
-                var call__1320 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                var call__1321 = call__1320.Field[NX, NY];
-                var call__1322 = call__1321.FindOwnedChild(2228484);
-                TargetHS = (Aow.Units.AoWTC.TTacticalCombatUnitHS)call__1322;
+                var call__1298 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                var call__1299 = call__1298.Field[NX, NY];
+                Slot = call__1299.OverlayType;
+                var call__1300 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                var call__1301 = call__1300.Field[NX, NY];
+                var call__1302 = call__1301.FindOwnedChild(2228484);
+                TargetHS = (Aow.Units.AoWTC.TTacticalCombatUnitHS)call__1302;
                 HN += 1;
             }
             while (!((Slot != 8) && (TargetHS == null)));
             Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(UnitHS, NX, NY, 0);
-            var call__1323 = Aow.Units.HSEngine.HSEngine.dHXtoHN(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FY, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FAttackerX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FAttackerY);
-            bool bool__1324 = (call__1323 == Position);
-            if (bool__1324)
+            var call__1303 = Aow.Units.HSEngine.HSEngine.dHXtoHN(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FY, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FAttackerX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FAttackerY);
+            bool bool__1304 = (call__1303 == Position);
+            if (bool__1304)
             {
-                var call__1325 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)UnitHS.FUnit.FCombatPlayer));
-                bool__1324 = (call__1325.FLastX == 0);
+                var call__1305 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)UnitHS.FUnit.FCombatPlayer));
+                bool__1304 = (call__1305.FLastX == 0);
             }
 
-            if (bool__1324)
+            if (bool__1304)
             {
-                var call__1326 = UnitHS.GetXhx();
-                var call__1327 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)UnitHS.FUnit.FCombatPlayer));
-                call__1327.FLastX = call__1326;
-                var call__1328 = UnitHS.GetYhx();
-                var call__1329 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)UnitHS.FUnit.FCombatPlayer));
-                call__1329.FLastY = call__1328;
+                var call__1306 = UnitHS.GetXhx();
+                var call__1307 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)UnitHS.FUnit.FCombatPlayer));
+                call__1307.FLastX = call__1306;
+                var call__1308 = UnitHS.GetYhx();
+                var call__1309 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)UnitHS.FUnit.FCombatPlayer));
+                call__1309.FLastY = call__1308;
             }
         }
 
@@ -9732,13 +9618,13 @@ namespace Aow.Units.AoWTC
                 case 30:
                 case 31:
                 case >= 86 and <= 90:
-                    var call__1330 = Aow.Units.aowFX.TXYZ.Create();
-                    Path.Add(call__1330);
+                    var call__1310 = Aow.Units.aowFX.TXYZ.Create();
+                    Path.Add(call__1310);
                     Aow.Units.HSEngine.HSEngine.HXtoHP(X2, Y2, ref X, ref Y);
-                    var call__1331 = Path[0];
-                    call__1331.X = X + 12;
-                    var call__1332 = Path[0];
-                    call__1332.Y = Y + 12;
+                    var call__1311 = Path[0];
+                    call__1311.X = X + 12;
+                    var call__1312 = Path[0];
+                    call__1312.Y = Y + 12;
                     Obstacles.Clear();
                     break;
                 case 52:
@@ -9776,13 +9662,13 @@ namespace Aow.Units.AoWTC
                                 case Aow.Units.AoWTC.TfxType.fxShockWave:
                                 case Aow.Units.AoWTC.TfxType.fxSacFlame:
                                 case Aow.Units.AoWTC.TfxType.fxWinds:
-                                    var call__1333 = Aow.Units.aowFX.TXYZ.Create();
-                                    Path.Add(call__1333);
+                                    var call__1313 = Aow.Units.aowFX.TXYZ.Create();
+                                    Path.Add(call__1313);
                                     Aow.Units.HSEngine.HSEngine.HXtoHP(X2, Y2, ref X, ref Y);
-                                    var call__1334 = Path[0];
-                                    call__1334.X = X + 12;
-                                    var call__1335 = Path[0];
-                                    call__1335.Y = Y + 12;
+                                    var call__1314 = Path[0];
+                                    call__1314.X = X + 12;
+                                    var call__1315 = Path[0];
+                                    call__1315.Y = Y + 12;
                                     Obstacles.Clear();
                                     break;
                                 default:
@@ -9869,8 +9755,8 @@ namespace Aow.Units.AoWTC
                 else
                 {
                     Height = ((A * Steps) * Arc) / 10;
-                    var call__1336 = System.Math.Sqrt(Height);
-                    Point.Z = Aow.Rtl.Rtl.Round(call__1336) - ((Steps * 10) / Arc);
+                    var call__1316 = System.Math.Sqrt(Height);
+                    Point.Z = Aow.Rtl.Rtl.Round(call__1316) - ((Steps * 10) / Arc);
                 }
 
                 I += 1;
@@ -9878,35 +9764,35 @@ namespace Aow.Units.AoWTC
 
             LastX = 0;
             LastY = 0;
-            var call__1337 = Path[0];
-            Point = call__1337;
+            var call__1317 = Path[0];
+            Point = call__1317;
             Aow.Units.HSEngine.HSEngine.HPtoHX(Point.X, Point.Y, ref StartX, ref StartY);
-            var call__1338 = Path.Count;
-            var call__1339 = Path[call__1338 - 1];
-            Point = call__1339;
+            var call__1318 = Path.Count;
+            var call__1319 = Path[call__1318 - 1];
+            Point = call__1319;
             Aow.Units.HSEngine.HSEngine.HPtoHX(Point.X, Point.Y, ref EndX, ref EndY);
             {
                 I = 0;
-                int end__1340 = Path.Count - 1;
-                for (; I <= end__1340; I += 1)
+                int end__1320 = Path.Count - 1;
+                for (; I <= end__1320; I += 1)
                 {
-                    var call__1341 = Path[I];
-                    Point = call__1341;
+                    var call__1321 = Path[I];
+                    Point = call__1321;
                     Aow.Units.HSEngine.HSEngine.HPtoHX(Point.X, Point.Y, ref X, ref Y);
                     if (((X != StartX) || (Y != StartY)) && ((X != EndX) || (Y != EndY)))
                     {
                         Steps = 0;
-                        var call__1342 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                        var call__1343 = call__1342.Field[X, Y];
-                        if (call__1343.TerrainType == 15)
+                        var call__1322 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                        var call__1323 = call__1322.Field[X, Y];
+                        if (call__1323.TerrainType == 15)
                         {
                             Steps = 3;
                         }
                         else
                         {
-                            var call__1344 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__1345 = call__1344.Field[X, Y];
-                            if (call__1345.TerrainType == 7)
+                            var call__1324 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                            var call__1325 = call__1324.Field[X, Y];
+                            if (call__1325.TerrainType == 7)
                             {
                                 Steps = 3;
                             }
@@ -9919,34 +9805,34 @@ namespace Aow.Units.AoWTC
                                 }
                                 else
                                 {
-                                    var call__1346 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                    var call__1347 = call__1346.Field[X, Y];
-                                    var call__1348 = call__1347.FindOwnedChild(2228484);
-                                    UnitHS = (Aow.Units.AoWTC.TTacticalCombatUnitHS)call__1348;
+                                    var call__1326 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                    var call__1327 = call__1326.Field[X, Y];
+                                    var call__1328 = call__1327.FindOwnedChild(2228484);
+                                    UnitHS = (Aow.Units.AoWTC.TTacticalCombatUnitHS)call__1328;
                                 }
 
-                                var call__1349 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__1350 = call__1349.Field[X, Y];
-                                var call__1351 = call__1350.FindOwnedChild(2229508);
-                                Wall = (Aow.Units.CityWall.TCityWall)call__1351;
+                                var call__1329 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                var call__1330 = call__1329.Field[X, Y];
+                                var call__1331 = call__1330.FindOwnedChild(2229508);
+                                Wall = (Aow.Units.CityWall.TCityWall)call__1331;
                                 if ((Wall == null) && (Side == Aow.Units.AoWE.TCombatSideIndex.csAttacker))
                                 {
-                                    var call__1352 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                    var call__1353 = call__1352.Field[X, Y];
-                                    var call__1354 = call__1353.FindOwnedChild(2229510);
-                                    Wall = (Aow.Units.CityWall.TCityWall)call__1354;
+                                    var call__1332 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                    var call__1333 = call__1332.Field[X, Y];
+                                    var call__1334 = call__1333.FindOwnedChild(2229510);
+                                    Wall = (Aow.Units.CityWall.TCityWall)call__1334;
                                 }
 
                                 if (A == 1)
                                 {
-                                    bool bool__1355 = (UnitHS != null);
-                                    if (bool__1355)
+                                    bool bool__1335 = (UnitHS != null);
+                                    if (bool__1335)
                                     {
-                                        var call__1356 = UnitHS.FUnit.GetSide();
-                                        bool__1355 = (call__1356 != Side);
+                                        var call__1336 = UnitHS.FUnit.GetSide();
+                                        bool__1335 = (call__1336 != Side);
                                     }
 
-                                    if (bool__1355)
+                                    if (bool__1335)
                                     {
                                         Steps = 1;
                                     }
@@ -9967,9 +9853,9 @@ namespace Aow.Units.AoWTC
 
                                         if (Wall == null)
                                         {
-                                            var call__1357 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                            var call__1358 = call__1357.Field[X, Y];
-                                            if (call__1358.OverlayType == 8)
+                                            var call__1337 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                            var call__1338 = call__1337.Field[X, Y];
+                                            if (call__1338.OverlayType == 8)
                                             {
                                                 Steps = 1;
                                             }
@@ -9989,16 +9875,16 @@ namespace Aow.Units.AoWTC
                                                     while ((Wall == null) && (B < 7))
                                                     {
                                                         Aow.Units.HSEngine.HSEngine.CenterHNtoHX(StartX, StartY, B, ref NX, ref NY);
-                                                        var call__1359 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                                        var call__1360 = call__1359.Field[NX, NY];
-                                                        var call__1361 = call__1360.FindOwnedChild(2229508);
-                                                        Wall = (Aow.Units.CityWall.TCityWall)call__1361;
+                                                        var call__1339 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                                        var call__1340 = call__1339.Field[NX, NY];
+                                                        var call__1341 = call__1340.FindOwnedChild(2229508);
+                                                        Wall = (Aow.Units.CityWall.TCityWall)call__1341;
                                                         if (Wall == null)
                                                         {
-                                                            var call__1362 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
-                                                            var call__1363 = call__1362.Field[NX, NY];
-                                                            var call__1364 = call__1363.FindOwnedChild(2229510);
-                                                            Wall = (Aow.Units.CityWall.TCityWall)call__1364;
+                                                            var call__1342 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
+                                                            var call__1343 = call__1342.Field[NX, NY];
+                                                            var call__1344 = call__1343.FindOwnedChild(2229510);
+                                                            Wall = (Aow.Units.CityWall.TCityWall)call__1344;
                                                         }
 
                                                         B += 1;
@@ -10060,8 +9946,8 @@ namespace Aow.Units.AoWTC
                                 }
                                 else
                                 {
-                                    var call__1365 = Obstacles[Obstacles.Count - 1];
-                                    Obstacle = (Aow.Units.AoWTC.TROb)call__1365;
+                                    var call__1345 = Obstacles[Obstacles.Count - 1];
+                                    Obstacle = (Aow.Units.AoWTC.TROb)call__1345;
                                     if ((Steps == 2) && (Obstacle.Chance < A))
                                     {
                                         Obstacle.Chance = A;

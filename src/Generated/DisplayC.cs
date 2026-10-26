@@ -69,7 +69,7 @@ namespace Aow.Units.DisplayC
             FData = Ptr<byte>.Alloc(FWidth * FHeight);
             if (!FData.IsNull)
             {
-                Aow.Rtl.Rtl.FillBytes(FData.Array.AsSpan(FData.Index, FWidth * FHeight), 0);
+                Ptr<byte>.Fill(FData, FWidth * FHeight, default);
             }
         }
 

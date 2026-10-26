@@ -97,11 +97,12 @@ namespace Aow.Units.ManaCrystals
                 var call__1 = FResource.TerrainList.Terrain[Msg.HN];
                 if (call__1 >= 0)
                 {
-                    /* TODO(T-A3) Integer address requires managed pointer provenance */
-                    throw new System.NotImplementedException();
+                    UpdateAITarget(ref Ptr<Aow.Units.ManaCrystals.TCrystalAIInfo>.FromBox(Msg.Param[0].Ref).Value, ref Ptr<int>.FromBox(Msg.Param[1].Ref).Value);
                     // { Original marks the message only when the resulting priority is negative. }
-                    /* TODO(T-A3) Integer address requires managed pointer provenance */
-                    throw new System.NotImplementedException();
+                    if (Ptr<int>.FromBox(Msg.Param[1].Ref).Value < 0)
+                    {
+                        Msg.Result = 1;
+                    }
                 }
             }
         }

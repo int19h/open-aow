@@ -116,8 +116,24 @@ namespace Aow.Units.AoWReg
         // AoWReg.pas:177
         public void rwBinaryData(Aow.Rtl.AnsiString Key, Aow.Rtl.AnsiString Name, Span<byte> Value, int Size, Aow.Units.AoWReg.TReadWriteMode Mode)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.ReadBinaryData */
-            throw new System.NotImplementedException();
+            if (OpenKey(((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\") + Key, true))
+            {
+                switch (Mode)
+                {
+                    case Aow.Units.AoWReg.TReadWriteMode.rwRead:
+                        if (ValueExists(Name))
+                        {
+                            ReadBinaryData(Name, Value, Size);
+                        }
+
+                        break;
+                    case Aow.Units.AoWReg.TReadWriteMode.rwWrite:
+                        WriteBinaryData(Name, Value, Size);
+                        break;
+                }
+
+                CloseKey();
+            }
         }
 
         // AoWReg.pas:227

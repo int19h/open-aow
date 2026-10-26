@@ -761,8 +761,7 @@ namespace Aow.Units.IndependentAG
                     J = 0;
                     while ((NewList.Count != 30) && (J != Lists[I].Count))
                     {
-                        /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                        throw new System.NotImplementedException();
+                        MapF = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAoWMapField>((int)Lists[I].List[J].A);
                         if (MapF.GetPlayer() == -1)
                         {
                             Msg.Result = 0;
@@ -852,8 +851,8 @@ namespace Aow.Units.IndependentAG
                 var call__55 = Choices[call__54];
                 Heading = call__55;
                 SelectedList = Lists[Heading];
-                /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                throw new System.NotImplementedException();
+                var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(SelectedList.Count);
+                MapF = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAoWMapField>((int)SelectedList.List[call__56].A);
                 var call__57 = MapF.GetXYL();
                 Group.FPatrolTo.XYL = call__57;
                 Result = true;

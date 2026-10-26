@@ -12,6 +12,20 @@ public sealed class PointerViewTests
     }
 
     [Fact]
+    public void ExplicitBoxViewsKeepTheOriginalStorageAndOffset()
+    {
+        var pair = Ptr<Pair>.Alloc(1);
+        IntOrRef payload = pair.Box();
+        var words = Ptr<int>.FromBox(payload.Ref);
+        words[1] = 73;
+        Assert.Equal(73, pair.Value.Second);
+        var bytes = Ptr<byte>.FromBox((words + 1).Box());
+        Assert.Equal(4, bytes.ByteIndex);
+        Assert.Equal(pair.StorageIdentity, bytes.StorageIdentity);
+        Assert.Throws<EInvalidCast>(() => Ptr<string>.FromBox(pair.Box()));
+    }
+
+    [Fact]
     public void ViewsAliasFieldsKeepOffsetsAndCopyOverlappingRanges()
     {
         var records = Ptr<Pair>.Alloc(2);

@@ -136,8 +136,7 @@ namespace Aow.Units.Spring
             int I = default;
             object Spill = default;
             // { Keep the parameter in its original stack slot. }
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
+            ;
             {
                 I = 0;
                 int end__1 = ArmyHS.FArmy.Count - 1;
@@ -148,8 +147,21 @@ namespace Aow.Units.Spring
                 }
             }
 
-            /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-            throw new System.NotImplementedException();
+            bool bool__3 = (ArmyHS.FArmy.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            if (!bool__3)
+            {
+                var call__4 = GetLhx();
+                var call__5 = GetYhx();
+                var call__6 = GetXhx();
+                var call__7 = ((Aow.Units.AoWE.TAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap).Watching(unchecked((sbyte)call__6), unchecked((sbyte)call__5), unchecked((sbyte)call__4), 0);
+                bool__3 = call__7;
+            }
+
+            if (bool__3)
+            {
+                Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\ATTACK\\ENCHP02.WAV");
+            }
+
             var call__8 = GetLhx();
             var call__9 = GetYhx();
             var call__10 = GetXhx();
