@@ -7052,20 +7052,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:12846
-        public static int GetElapsedMilliSeconds()
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.QueryPerformanceCounter */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:12860
-        public static int GetElapsedMicroSeconds()
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.QueryPerformanceCounter */
-            throw new System.NotImplementedException();
-        }
-
         // GFXE.pas:12874
         public static void Register()
         {

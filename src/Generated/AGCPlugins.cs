@@ -616,8 +616,8 @@ namespace Aow.Units.AGCPlugins
                         {
                             var call__36 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Aow.Rtl.Rtl.Round(Fields.Count * 0.1) + 1);
                             I = call__36;
-                            /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                            throw new System.NotImplementedException();
+                            var call__37 = Fields[I];
+                            Field = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAoWMapField>((int)call__37.A);
                             if (Field.GetPlayer() != -1)
                             {
                                 Fields.Delete(I);

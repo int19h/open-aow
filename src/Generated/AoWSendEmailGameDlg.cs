@@ -140,8 +140,7 @@ namespace Aow.Units.AoWSendEmailGameDlg
         {
             FDone = Done;
             ;
-            /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-            throw new System.NotImplementedException();
+            FSendEvent = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TSendEmailGameEventLog>((int)(Aow.Rtl.Rtl.ObjectToInt(Event) << 0));
             FSendEvent.AddRef();
             {
                 var w__1 = FSendEvent;

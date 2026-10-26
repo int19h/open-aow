@@ -108,6 +108,9 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     public static Ptr<T> Unbox(object? value) => value is PtrBox<T> box ? box.Pointer
         : throw new EInvalidCast("Object is not a box of the requested pointer type");
     public static Ptr<T> Unbox(IntOrRef value) => Unbox(value.Ref);
+    public static Ptr<T> FromBox(object? value) => value is PtrBox<T> box ? box.Pointer
+        : value is IPointerBox pointer ? pointer.As<T>()
+        : throw new EInvalidCast("Object has no pointer storage");
 }
 
 public interface IPointerBox

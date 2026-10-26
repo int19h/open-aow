@@ -3640,8 +3640,7 @@ namespace Aow.Units.GlobalTargetSpells
             Control.UnregisterSpellID(70);
             Control.UnregisterSpellID(73);
             Control.UnregisterSpellID(74);
-            /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-            throw new System.NotImplementedException();
+            Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TEngine>((int)A1).UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TFreezeWaterTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFrozenWaterHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TFireBarrierTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TLevelTerrainTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TRejuvenateTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TWatcherTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TWatcherHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TTornadoTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TVortexTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.THealingShowersTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE>()]);
         }
 
         // { Import cells bind to the shared globals; distinct references preserve the original reloads. }
@@ -3675,8 +3674,7 @@ namespace Aow.Units.GlobalTargetSpells
             Result = Aow.Units.GlobalTargetSpells.GlobalTargetSpells.BaseCanActivate(Spell, Caster, MessagePtr);
             if (Result && Spell.FAboveGroundOnly)
             {
-                /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                throw new System.NotImplementedException();
+                Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).GetLocation(ref X, ref Y, ref Layer);
                 if (Layer != 0)
                 {
                     Result = false;

@@ -342,8 +342,31 @@ namespace Aow.Units.Farm
             Aow.Units.AoWE.TPlayer P = default;
             int I = default;
             Aow.Units.AoWE.TPlayerStructure Structure = default;
-            /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-            throw new System.NotImplementedException();
+            if (((Aow.Units.AoWE.TAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap) != null)
+            {
+                var call__19 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                P = call__19;
+                Result = 0;
+                {
+                    I = 0;
+                    int end__20 = P.FStructures.Count - 1;
+                    for (; I <= end__20; I += 1)
+                    {
+                        var call__21 = P.FStructures.GetStructure(I);
+                        Structure = call__21;
+                        var call__22 = Structure.ClassType.ClassID();
+                        if ((call__22 == 131950) && (Structure.FPlayer == Player))
+                        {
+                            Result += ((Aow.Units.Farm.TFarm)Structure).FIncome;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Result = -1;
+            }
+
             return Result;
         }
 

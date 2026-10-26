@@ -567,7 +567,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
                                 FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - (((MapF.Xhx + (MapF.Yhx * 8)) + Unsafe.As<ushort, Aow.Rtl.WordRec>(ref Unsafe.As<int, Aow.Rtl.LongRec>(ref MapF.FFieldFlags).Hi).Lo) & 15), SurfaceDesc);
                             }
 
-                            /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
+                            /* TODO(T-N7) Object address arithmetic requires a typed storage override */
                             throw new System.NotImplementedException();
                             Yhp += 32;
                         }
@@ -1631,7 +1631,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             FWidth = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.Width;
             FHeight = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.Height;
             FOriginalTerrain = FOriginalTerrain.Realloc((FWidth * FHeight) * 2);
-            Aow.Rtl.Rtl.FillBytes(MemoryMarshal.AsBytes(FOriginalTerrain.Array.AsSpan(FOriginalTerrain.Index, (FWidth * FHeight) * 2)), 0);
+            Ptr<sbyte>.Fill(FOriginalTerrain, (FWidth * FHeight) * 2, default);
         }
 
         // GlobalEnchantmentSpells.pas:1098
@@ -2577,7 +2577,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
                     MapLevel = call__164;
                     Index = 0;
                     Flags = Flags.Realloc(MapLevel.Width * MapLevel.Height);
-                    Aow.Rtl.Rtl.FillBytes(Flags.Array.AsSpan(Flags.Index, MapLevel.Width * MapLevel.Height), 0);
+                    Ptr<byte>.Fill(Flags, MapLevel.Width * MapLevel.Height, default);
                     {
                         Y = 1;
                         int end__165 = MapLevel.Height - 1;
@@ -3203,7 +3203,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
                                 }
                             }
 
-                            /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
+                            /* TODO(T-N7) Object address arithmetic requires a typed storage override */
                             throw new System.NotImplementedException();
                             Yhp += 32;
                         }

@@ -82,10 +82,11 @@ namespace Aow.Units.Gems
 
             if ((Msg.MsgID == 4608) && (Msg.HN == 0))
             {
-                /* TODO(T-A3) Integer address requires managed pointer provenance */
-                throw new System.NotImplementedException();
-                /* TODO(T-A3) Integer address requires managed pointer provenance */
-                throw new System.NotImplementedException();
+                UpdateAITarget(ref Ptr<Aow.Units.AoWE.TAITargetInfo>.FromBox(Msg.Param[0].Ref).Value, ref Ptr<int>.FromBox(Msg.Param[1].Ref).Value);
+                if (Ptr<int>.FromBox(Msg.Param[1].Ref).Value < 0)
+                {
+                    Msg.Result = 1;
+                }
             }
         }
 

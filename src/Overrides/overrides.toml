@@ -1007,3 +1007,133 @@ file = "src/Overrides/AoWE/MapVisibility.cs"
 member = "AoWE.TAoWMapLevel.Reset"
 reason = "fog and exploration traverse managed map fields"
 file = "src/Overrides/AoWE/MapVisibility.cs"
+
+[[skip]]
+member = "AoWE.TTurnPlayerControl.NewDay"
+reason = "host callback after the complete NewDay boundary"
+file = "src/Overrides/AoWE/HeadlessHooks.cs"
+
+[[skip]]
+member = "AoWE.TPlayerList.Update"
+reason = "resolve local player byte lists through retained references"
+file = "src/Overrides/AoWE/PlayerLists.cs"
+
+[[skip]]
+member = "GFXE.GetElapsedMilliSeconds"
+reason = "host clock supplies elapsed time"
+file = "src/Overrides/GFXE/Clock.cs"
+
+[[skip]]
+member = "GFXE.GetElapsedMicroSeconds"
+reason = "host clock supplies elapsed time"
+file = "src/Overrides/GFXE/Clock.cs"
+
+[[skip]]
+member = "AoWE.TArmyCombatMoveTE.ExecuteCombat"
+reason = "headless tactical intervention at the original debugger boundary"
+file = "src/Overrides/AoWE/HeadlessTactical.cs"
+
+[[skip]]
+member = "AoWTC.TTacticalCombat.Execute"
+reason = "headless tactical intervention at the original debugger boundary"
+file = "src/Overrides/AoWTC/HeadlessTactical.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.SendMsg"
+reason = "copy managed sprite references to the original shared dispatch buffer"
+file = "src/Overrides/HSEngine/FieldMessages.cs"
+
+[[skip]]
+member = "AoWE.TArmy.GetUnitConcealedForPlayer"
+reason = "retain the selected unit as a typed reference instead of reusing the index integer"
+file = "src/Overrides/AoWE/ArmyConcealment.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapField.GetDefenseRequirements"
+reason = "synchronous message pointer uses a cell with copyback"
+file = "src/Overrides/AoWE/DefenseRequirements.cs"
+
+[[skip]]
+member = "AoWE.TMoveControl.Activate"
+reason = "copy both offset arrays explicitly and preserve original assertions"
+file = "src/Overrides/AoWE/MovementActivation.cs"
+
+[[skip]]
+member = "AoWE.TMoveControl.SetMapL"
+reason = "copy typed map-field offset rows instead of raw inline-array memory"
+file = "src/Overrides/AoWE/MovementActivation.cs"
+
+[[skip]]
+member = "AoWE.TAoWHSMap.RetrieveBattleFieldInfo"
+reason = "synchronous battle-info message uses a cell with copyback"
+file = "src/Overrides/AoWE/DefenseRequirements.cs"
+
+[[skip]]
+member = "AoWE.TMoveControlSettings.GetMovePoints"
+reason = "address movement data through its typed level array"
+file = "src/Overrides/AoWE/MovementFields.cs"
+
+[[skip]]
+member = "AoWE.TMoveControlSettings.SetMovePoints"
+reason = "address movement data through its typed level array"
+file = "src/Overrides/AoWE/MovementFields.cs"
+
+[[skip]]
+member = "AoWE.TMoveControlSettings.GetMovePointsXYL"
+reason = "address movement data through its typed level array"
+file = "src/Overrides/AoWE/MovementFields.cs"
+
+[[skip]]
+member = "AoWE.TMoveControlSettings.SetMovePointsXYL"
+reason = "address movement data through its typed level array"
+file = "src/Overrides/AoWE/MovementFields.cs"
+
+[[skip]]
+member = "AoWE.TMoveControl.CalculateMovePointLine"
+reason = "traverse managed map fields by hex coordinates"
+file = "src/Overrides/AoWE/MovementFields.cs"
+
+[[skip]]
+member = "AoWE.TMoveControl.ProcessHexagon"
+reason = "traverse managed map fields by hex coordinates"
+file = "src/Overrides/AoWE/MovementFields.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapField.GetAITarget"
+reason = "retain synchronous target-info and target-data message cells"
+file = "src/Overrides/AoWE/DefenseRequirements.cs"
+
+[[skip]]
+member = "AoWE.TMoveControl.CalculatePathEx"
+reason = "walk managed map neighbors in the original direction order"
+file = "src/Overrides/AoWE/MovementFields.cs"
+
+[[skip]]
+member = "AoWE.TMoveArmyTE.GetNoneMovingArmyHS"
+reason = "check the sprite class ID before casting it to an army"
+file = "src/Overrides/AoWE/MovingArmies.cs"
+
+[[skip]]
+member = "AoWE.TProductionControl.GetProduceUnitLevelMax"
+reason = "read the typed FLevel field instead of a raw object byte"
+file = "src/Overrides/AoWE/ProductionLevels.cs"
+
+[[skip]]
+member = "AoWE.TProductionControl.GetResearchUnitLevelMax"
+reason = "read the typed FLevel field instead of a raw object byte"
+file = "src/Overrides/AoWE/ProductionLevels.cs"
+
+[[skip]]
+member = "Terrain.TTerrainMO.FindCompatibleResource"
+reason = "filter resource ClassID before casting a heterogeneous resource list"
+file = "src/Overrides/Terrain/CompatibleResources.cs"
+
+[[skip]]
+member = "AoWE.TSpellTE.Execute"
+reason = "call FindUnit on the actual control instead of a Delphi ABI adapter subclass"
+file = "src/Overrides/AoWE/SpellExecution.cs"
+
+[[skip]]
+member = "Engine.TEngine.VerifyEObjectClass"
+reason = "exercise construction and destruction without comparing native allocator totals to GC heap totals"
+file = "src/Overrides/Engine/VerifyLifecycle.cs"
