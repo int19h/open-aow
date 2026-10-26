@@ -1004,7 +1004,7 @@ namespace Aow.Units.MainAG
             Aow.Units.AoWE.AoWE.SetupBattleFieldInfo(ref Info, unchecked((sbyte)FGroup.FPlayer), unchecked((sbyte)FGroup.FIndependentRelation), TSet<Aow.Units.AoWE.TBattleFieldInfoRequestsElement>.Of(Aow.Units.AoWE.TBattleFieldInfoRequestsElement.bfrIgnorePassiveIndependents), Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
             Info.FriendlyRelations = TSet<byte>.WithBounds(0, 7);
             Msg.MsgID = 4360;
-            Msg.Param[0] = Ptr<Aow.Units.AoWE.TBattleFieldInfo>.To(Info__cell, 0).ByteIndex;
+            Msg.Param[0] = Ptr<Aow.Units.AoWE.TBattleFieldInfo>.To(Info__cell, 0).Box();
             {
                 I = Settings.FProcessedMapFields.Count - 1;
                 byte end__91 = 0;

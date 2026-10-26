@@ -15,7 +15,10 @@ public static partial class Rtl
     }
     public static double DegToRad(double degrees) => degrees * (Math.PI / 180);
     // SYSTEM.PAS:1647 uses GetSystemTime, which returns UTC.
-    public static void Randomize() => RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
+    public static void Randomize()
+    {
+        if (!SuppressRandomize) RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
+    }
     public static int Round(double value) => ToInteger(Math.Round(value, MidpointRounding.ToEven));
     public static int Trunc(double value) => ToInteger(Math.Truncate(value));
     private static int ToInteger(double value) => double.IsFinite(value) && value >= int.MinValue && value <= int.MaxValue

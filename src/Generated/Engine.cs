@@ -5771,33 +5771,6 @@ namespace Aow.Units.Engine
             }
         }
 
-        // Engine.pas:9127
-        public bool VerifyEObjectClass(Aow.Units.Engine.TEObject.Meta AClass)
-        {
-            bool Result = default;
-            int Allocated = default;
-            Result = true;
-            var call__161 = Aow.Rtl.Rtl.GetHeapStatus();
-            Allocated = unchecked((int)call__161.TotalAllocated);
-            var call__162 = AClass.Create(null);
-            call__162.Free();
-            try
-            {
-                var call__163 = Aow.Rtl.Rtl.GetHeapStatus();
-                if (Allocated != ((int)call__163.TotalAllocated))
-                {
-                    var call__164 = Aow.Rtl.Rtl.GetHeapStatus();
-                    var call__165 = Aow.Rtl.Exception.Create(((((AnsiString)AClass.ClassName) + ((AnsiString)" contains memory leak constructor/destructor(")) + Aow.Rtl.Rtl.IntToStr(((int)call__164.TotalAllocated) - Allocated)) + ((AnsiString)" bytes)"));
-                    throw call__165;
-                }
-            }
-            catch (System.Exception)
-            {
-            }
-
-            return Result;
-        }
-
         public Aow.Units.Engine.TEObjectClassList EClasses { get => FEClasses; }
         public Aow.Units.Engine.TIntegerHashTable256 ClassTable { get => FClassTable; }
         public Aow.Units.Engine.TEObjectEditorList Editors { get => FEditors; }
@@ -6024,9 +5997,9 @@ namespace Aow.Units.Engine
         // { TEObjectEditorList }
         public void RegisterClass(Aow.Units.Engine.TEObjectEditor.Meta AClass)
         {
-            var call__166 = AClass.EditorClassID();
-            var call__167 = FindEditor(call__166);
-            if (call__167 == null)
+            var call__161 = AClass.EditorClassID();
+            var call__162 = FindEditor(call__161);
+            if (call__162 == null)
             {
                 Add(AClass);
             }
@@ -6044,14 +6017,14 @@ namespace Aow.Units.Engine
             I = 0;
             while (true)
             {
-                bool bool__168 = (I != Count);
-                if (bool__168)
+                bool bool__163 = (I != Count);
+                if (bool__163)
                 {
-                    var call__169 = ((Aow.Units.Engine.TEObjectEditor.Meta)List[I]).EditorClassID();
-                    bool__168 = (AClassID != call__169);
+                    var call__164 = ((Aow.Units.Engine.TEObjectEditor.Meta)List[I]).EditorClassID();
+                    bool__163 = (AClassID != call__164);
                 }
 
-                if (!bool__168)
+                if (!bool__163)
                     break;
                 {
                     I += 1;
@@ -6138,9 +6111,9 @@ namespace Aow.Units.Engine
             UserClassID = ResourceUserClassID();
             if (UserClassID != 0)
             {
-                var call__170 = GetEngine();
-                var call__171 = call__170.CreateEObject(UserClassID, null);
-                Result = call__171;
+                var call__165 = GetEngine();
+                var call__166 = call__165.CreateEObject(UserClassID, null);
+                Result = call__166;
             }
             else
             {
@@ -6154,8 +6127,8 @@ namespace Aow.Units.Engine
         public virtual void Draw(Aow.Rtl.TCanvas Canvas, Aow.Rtl.TRect Rect, Aow.Units.ImageLib.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
             Aow.Rtl.TRect R = default;
-            var call__172 = GetCellImage();
-            Aow.Units.ImageLib.ImageLib.BltLibraryImage(Canvas, call__172, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
+            var call__167 = GetCellImage();
+            Aow.Units.ImageLib.ImageLib.BltLibraryImage(Canvas, call__167, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
         }
 
         public Aow.Units.Engine.TECustomNode ResourceList { get => FResourceList; set => FResourceList = value; }
@@ -6281,8 +6254,8 @@ namespace Aow.Units.Engine
                 {
                     while (Count != 0)
                     {
-                        var call__173 = D.Read(Buffer.AsSpan(8096));
-                        Count = call__173;
+                        var call__168 = D.Read(Buffer.AsSpan(8096));
+                        Count = call__168;
                         if (Count != 0)
                         {
                             this.WriteBuffer(Buffer.AsSpan(Count));
@@ -6297,9 +6270,9 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__174 = Stream.Size;
-                var call__175 = Stream.Position;
-                CopyFrom(Stream, call__174 - call__175);
+                var call__169 = Stream.Size;
+                var call__170 = Stream.Position;
+                CopyFrom(Stream, call__169 - call__170);
             }
 
             Position = 0;
@@ -6314,8 +6287,8 @@ namespace Aow.Units.Engine
             Aow.Rtl.TCompressionLevel CompressionLevel = default;
             Position = 0;
             Result = 100;
-            var call__176 = Stream.Size;
-            StartSize = call__176;
+            var call__171 = Stream.Size;
+            StartSize = call__171;
             Stream.Write(((ReadOnlySpan<byte>)Aow.Units.Engine.Engine.CompressMagic).Slice(0, 4));
             Stream.Write(Aow.Rtl.Bytes.Of(ref Level, 1));
             if (Level != Aow.Units.Engine.TCompressLevel.cpNone)
@@ -6325,9 +6298,9 @@ namespace Aow.Units.Engine
                 try
                 {
                     C.CopyFrom(this, 0);
-                    var call__177 = Stream.Size;
-                    var call__178 = Size;
-                    Result = Aow.Rtl.Rtl.Round((1 - (((double)(call__177 - StartSize)) / call__178)) * 100);
+                    var call__172 = Stream.Size;
+                    var call__173 = Size;
+                    Result = Aow.Rtl.Rtl.Round((1 - (((double)(call__172 - StartSize)) / call__173)) * 100);
                 }
                 finally
                 {
@@ -6415,10 +6388,10 @@ namespace Aow.Units.Engine
         public void Create__init_TPlugIn()
         {
             ;
-            var call__179 = new Aow.Rtl.TList();
-            FEngines = call__179;
-            var call__180 = Aow.Units.Engine.TIntegerList.Create();
-            FCounts = call__180;
+            var call__174 = new Aow.Rtl.TList();
+            FEngines = call__174;
+            var call__175 = Aow.Units.Engine.TIntegerList.Create();
+            FCounts = call__175;
             Aow.Units.Engine.Engine.RegisterPlugIn(this);
             FRefCount = 1;
         }
@@ -6428,8 +6401,8 @@ namespace Aow.Units.Engine
         {
             while (FEngines.Count != 0)
             {
-                var call__181 = FEngines[FEngines.Count - 1];
-                Finalize((Aow.Units.Engine.TEngine)call__181);
+                var call__176 = FEngines[FEngines.Count - 1];
+                Finalize((Aow.Units.Engine.TEngine)call__176);
             }
 
             FEngines.Free();
@@ -6468,8 +6441,8 @@ namespace Aow.Units.Engine
             bool Result = default;
             int I = default;
             AddRef();
-            var call__182 = FEngines.IndexOf(AEngine);
-            I = call__182;
+            var call__177 = FEngines.IndexOf(AEngine);
+            I = call__177;
             if (I == -1)
             {
                 FEngines.Add(AEngine);
@@ -6478,8 +6451,8 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__183 = FCounts[I];
-                FCounts[I] = call__183 + 1;
+                var call__178 = FCounts[I];
+                FCounts[I] = call__178 + 1;
                 Result = false;
             }
 
@@ -6491,18 +6464,18 @@ namespace Aow.Units.Engine
         {
             bool Result = default;
             int I = default;
-            var call__184 = FEngines.IndexOf(AEngine);
-            I = call__184;
+            var call__179 = FEngines.IndexOf(AEngine);
+            I = call__179;
             if (I != -1)
             {
-                var call__185 = FCounts[I];
-                if (call__185 == 0)
+                var call__180 = FCounts[I];
+                if (call__180 == 0)
                 {
                     throw Aow.Rtl.Exception.Create((AnsiString)"Invalid PlugIn Finalize Usage");
                 }
 
-                var call__186 = FCounts[I];
-                if (call__186 == 1)
+                var call__181 = FCounts[I];
+                if (call__181 == 1)
                 {
                     FEngines.Remove(AEngine);
                     FCounts.Delete(I);
@@ -6510,8 +6483,8 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    var call__187 = FCounts[I];
-                    FCounts[I] = call__187 - 1;
+                    var call__182 = FCounts[I];
+                    FCounts[I] = call__182 - 1;
                     Result = false;
                 }
             }
@@ -6595,24 +6568,24 @@ namespace Aow.Units.Engine
             ref int I = ref I__cell[0];
             object IndexAddress = default;
             Aow.Units.Engine.TPlugIn P = default;
-            IndexAddress = Ptr<int>.To(I__cell, 0).Box();
+            ;
             {
                 I = 0;
-                int end__188 = FUsedPlugIns.Count - 1;
-                for (; I <= end__188; I += 1)
+                int end__183 = FUsedPlugIns.Count - 1;
+                for (; I <= end__183; I += 1)
                 {
-                    var call__189 = FUsedPlugIns[I];
-                    var call__190 = Aow.Units.Engine.Engine.FindPlugIn(call__189);
-                    P = call__190;
+                    var call__184 = FUsedPlugIns[I];
+                    var call__185 = Aow.Units.Engine.Engine.FindPlugIn(call__184);
+                    P = call__185;
                     if (P != null)
                     {
                         P.Initialize(FEngine);
                     }
                     else
                     {
-                        var call__191 = FUsedPlugIns[I];
-                        var call__192 = Aow.Units.Engine.EPlugInMissing.Create((((AnsiString)"PlugIn Missing (") + call__191) + AnsiString.FromBytes(41));
-                        throw call__192;
+                        var call__186 = FUsedPlugIns[I];
+                        var call__187 = Aow.Units.Engine.EPlugInMissing.Create((((AnsiString)"PlugIn Missing (") + call__186) + AnsiString.FromBytes(41));
+                        throw call__187;
                     }
                 }
             }
@@ -6625,12 +6598,12 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TPlugIn P = default;
             {
                 I = 0;
-                int end__193 = FUsedPlugIns.Count - 1;
-                for (; I <= end__193; I += 1)
+                int end__188 = FUsedPlugIns.Count - 1;
+                for (; I <= end__188; I += 1)
                 {
-                    var call__194 = FUsedPlugIns[I];
-                    var call__195 = Aow.Units.Engine.Engine.FindPlugIn(call__194);
-                    P = call__195;
+                    var call__189 = FUsedPlugIns[I];
+                    var call__190 = Aow.Units.Engine.Engine.FindPlugIn(call__189);
+                    P = call__190;
                     if (P != null)
                     {
                         P.Finalize(FEngine);
@@ -6644,8 +6617,8 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__196 = new Aow.Rtl.TStringList();
-            FUsedPlugIns = call__196;
+            var call__191 = new Aow.Rtl.TStringList();
+            FUsedPlugIns = call__191;
             FUsedPlugIns.Sorted = true;
             FUsedPlugIns.OnChange = OnChange;
             FUsedPlugIns.OnChanging = OnChanging;
@@ -6715,8 +6688,8 @@ namespace Aow.Units.Engine
         protected internal Aow.Units.Engine.TEObject GetEObject(int Index)
         {
             Aow.Units.Engine.TEObject Result = default;
-            var call__197 = this[Index];
-            Result = (Aow.Units.Engine.TEObject)call__197;
+            var call__192 = this[Index];
+            Result = (Aow.Units.Engine.TEObject)call__192;
             return Result;
         }
 
@@ -6736,14 +6709,14 @@ namespace Aow.Units.Engine
             Found = false;
             while (!Found && (I < Count))
             {
-                bool bool__198 = (List[I] != null);
-                if (bool__198)
+                bool bool__193 = (List[I] != null);
+                if (bool__193)
                 {
-                    var call__199 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
-                    bool__198 = (AClassID == call__199);
+                    var call__194 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
+                    bool__193 = (AClassID == call__194);
                 }
 
-                Found = bool__198;
+                Found = bool__193;
                 I += 1;
             }
 
@@ -6769,14 +6742,14 @@ namespace Aow.Units.Engine
             Found = false;
             while (!Found && (I < Count))
             {
-                bool bool__200 = (List[I] != null);
-                if (bool__200)
+                bool bool__195 = (List[I] != null);
+                if (bool__195)
                 {
-                    var call__201 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
-                    bool__200 = (AClassID == call__201);
+                    var call__196 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
+                    bool__195 = (AClassID == call__196);
                 }
 
-                Found = bool__200;
+                Found = bool__195;
                 I += 1;
             }
 
@@ -6798,8 +6771,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = Count - 1;
-                byte end__202 = 0;
-                for (; I >= end__202; I -= 1)
+                byte end__197 = 0;
+                for (; I >= end__197; I -= 1)
                 {
                     // { the original tests List^[Count], one past the end, not List^[I] }
                     if (List[Count] != null)
@@ -6822,14 +6795,14 @@ namespace Aow.Units.Engine
             OK = true;
             while (I < Count)
             {
-                bool bool__203 = (List[I] == null);
-                if (!bool__203)
+                bool bool__198 = (List[I] == null);
+                if (!bool__198)
                 {
-                    var call__204 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
-                    bool__203 = (AClassID == call__204);
+                    var call__199 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
+                    bool__198 = (AClassID == call__199);
                 }
 
-                OK = bool__203;
+                OK = bool__198;
                 I += 1;
             }
 
@@ -6860,8 +6833,8 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__205 = Aow.Units.Engine.TEObjectList.Create();
-            FChildren = call__205;
+            var call__200 = Aow.Units.Engine.TEObjectList.Create();
+            FChildren = call__200;
         }
 
         // Engine.pas:2833
@@ -6871,8 +6844,8 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEObject C = default;
             {
                 I = Count - 1;
-                byte end__206 = 0;
-                for (; I >= end__206; I -= 1)
+                byte end__201 = 0;
+                for (; I >= end__201; I -= 1)
                 {
                     C = (Aow.Units.Engine.TEObject)FChildren.List[I];
                     if ((C != null) && (C.Owner == this))
@@ -6889,25 +6862,25 @@ namespace Aow.Units.Engine
                 }
             }
 
-            var call__207 = Count;
-            if (call__207 != 0)
+            var call__202 = Count;
+            if (call__202 != 0)
             {
                 {
                     I = Count - 1;
-                    byte end__208 = 0;
-                    for (; I >= end__208; I -= 1)
+                    byte end__203 = 0;
+                    for (; I >= end__203; I -= 1)
                     {
                         C = (Aow.Units.Engine.TEObject)FChildren.List[I];
                         if (C != null)
                         {
-                            bool bool__209 = (C.Owner == this);
-                            if (bool__209)
+                            bool bool__204 = (C.Owner == this);
+                            if (bool__204)
                             {
-                                var call__210 = C.GetControlStyle();
-                                bool__209 = call__210.Contains(Aow.Units.Engine.Engine.csShared);
+                                var call__205 = C.GetControlStyle();
+                                bool__204 = call__205.Contains(Aow.Units.Engine.Engine.csShared);
                             }
 
-                            if (!bool__209)
+                            if (!bool__204)
                             {
                                 RemoveChild(C);
                             }
@@ -6937,8 +6910,8 @@ namespace Aow.Units.Engine
         {
             while (true)
             {
-                var call__211 = Count;
-                if (!(Index >= call__211))
+                var call__206 = Count;
+                if (!(Index >= call__206))
                     break;
                 {
                     FChildren.Add(null);
@@ -6971,8 +6944,8 @@ namespace Aow.Units.Engine
             {
                 {
                     I = FChildren.Count - 1;
-                    byte end__212 = 0;
-                    for (; I >= end__212; I -= 1)
+                    byte end__207 = 0;
+                    for (; I >= end__207; I -= 1)
                     {
                         C = (Aow.Units.Engine.TEObject)FChildren.List[I];
                         if ((C != null) && (C.Owner == this))
@@ -6989,7 +6962,7 @@ namespace Aow.Units.Engine
         {
             int I = default;
             {
-                var w__213 = FChildren;
+                var w__208 = FChildren;
                 if (GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
                 {
                     if ((Msg.MsgID & 268435456) != 0)
@@ -6997,19 +6970,19 @@ namespace Aow.Units.Engine
                         if ((Msg.MsgID & 536870912) == 0)
                         {
                             {
-                                I = w__213.Count - 1;
-                                byte end__214 = 0;
-                                for (; I >= end__214; I -= 1)
+                                I = w__208.Count - 1;
+                                byte end__209 = 0;
+                                for (; I >= end__209; I -= 1)
                                 {
-                                    if (w__213.List[I] != null)
+                                    if (w__208.List[I] != null)
                                     {
                                         {
-                                            var w__215 = (Aow.Units.Engine.TEObject)w__213.List[I];
-                                            var call__216 = w__215.GetLastMsg();
-                                            if (call__216 != Msg.Seq)
+                                            var w__210 = (Aow.Units.Engine.TEObject)w__208.List[I];
+                                            var call__211 = w__210.GetLastMsg();
+                                            if (call__211 != Msg.Seq)
                                             {
-                                                w__215.SetLastMsg(Msg.Seq);
-                                                w__215.MsgProc(ref Msg, this);
+                                                w__210.SetLastMsg(Msg.Seq);
+                                                w__210.MsgProc(ref Msg, this);
                                             }
                                         }
                                     }
@@ -7019,19 +6992,19 @@ namespace Aow.Units.Engine
                         else
                         {
                             {
-                                I = w__213.Count - 1;
-                                byte end__217 = 0;
-                                for (; I >= end__217; I -= 1)
+                                I = w__208.Count - 1;
+                                byte end__212 = 0;
+                                for (; I >= end__212; I -= 1)
                                 {
-                                    if (w__213.List[I] != null)
+                                    if (w__208.List[I] != null)
                                     {
                                         {
-                                            var w__218 = (Aow.Units.Engine.TEObject)w__213[I];
-                                            var call__219 = w__218.GetLastMsg();
-                                            if ((call__219 != Msg.Seq) && (w__218.Owner == this))
+                                            var w__213 = (Aow.Units.Engine.TEObject)w__208[I];
+                                            var call__214 = w__213.GetLastMsg();
+                                            if ((call__214 != Msg.Seq) && (w__213.Owner == this))
                                             {
-                                                w__218.SetLastMsg(Msg.Seq);
-                                                w__218.MsgProc(ref Msg, this);
+                                                w__213.SetLastMsg(Msg.Seq);
+                                                w__213.MsgProc(ref Msg, this);
                                             }
                                         }
                                     }
@@ -7044,15 +7017,15 @@ namespace Aow.Units.Engine
                         if ((Msg.MsgID & 536870912) == 0)
                         {
                             {
-                                I = w__213.Count - 1;
-                                byte end__220 = 0;
-                                for (; I >= end__220; I -= 1)
+                                I = w__208.Count - 1;
+                                byte end__215 = 0;
+                                for (; I >= end__215; I -= 1)
                                 {
-                                    if (w__213.List[I] != null)
+                                    if (w__208.List[I] != null)
                                     {
                                         {
-                                            var w__221 = (Aow.Units.Engine.TEObject)w__213.List[I];
-                                            w__221.MsgProc(ref Msg, this);
+                                            var w__216 = (Aow.Units.Engine.TEObject)w__208.List[I];
+                                            w__216.MsgProc(ref Msg, this);
                                         }
                                     }
                                 }
@@ -7061,17 +7034,17 @@ namespace Aow.Units.Engine
                         else
                         {
                             {
-                                I = w__213.Count - 1;
-                                byte end__222 = 0;
-                                for (; I >= end__222; I -= 1)
+                                I = w__208.Count - 1;
+                                byte end__217 = 0;
+                                for (; I >= end__217; I -= 1)
                                 {
-                                    if (w__213.List[I] != null)
+                                    if (w__208.List[I] != null)
                                     {
                                         {
-                                            var w__223 = (Aow.Units.Engine.TEObject)w__213[I];
-                                            if (w__223.Owner == this)
+                                            var w__218 = (Aow.Units.Engine.TEObject)w__208[I];
+                                            if (w__218.Owner == this)
                                             {
-                                                w__223.MsgProc(ref Msg, this);
+                                                w__218.MsgProc(ref Msg, this);
                                             }
                                         }
                                     }
@@ -7087,17 +7060,17 @@ namespace Aow.Units.Engine
                         if ((Msg.MsgID & 536870912) == 0)
                         {
                             {
-                                I = w__213.Count - 1;
-                                byte end__224 = 0;
-                                for (; I >= end__224; I -= 1)
+                                I = w__208.Count - 1;
+                                byte end__219 = 0;
+                                for (; I >= end__219; I -= 1)
                                 {
                                     {
-                                        var w__225 = (Aow.Units.Engine.TEObject)w__213.List[I];
-                                        var call__226 = w__225.GetLastMsg();
-                                        if (call__226 != Msg.Seq)
+                                        var w__220 = (Aow.Units.Engine.TEObject)w__208.List[I];
+                                        var call__221 = w__220.GetLastMsg();
+                                        if (call__221 != Msg.Seq)
                                         {
-                                            w__225.SetLastMsg(Msg.Seq);
-                                            w__225.MsgProc(ref Msg, this);
+                                            w__220.SetLastMsg(Msg.Seq);
+                                            w__220.MsgProc(ref Msg, this);
                                         }
                                     }
                                 }
@@ -7106,17 +7079,17 @@ namespace Aow.Units.Engine
                         else
                         {
                             {
-                                I = w__213.Count - 1;
-                                byte end__227 = 0;
-                                for (; I >= end__227; I -= 1)
+                                I = w__208.Count - 1;
+                                byte end__222 = 0;
+                                for (; I >= end__222; I -= 1)
                                 {
                                     {
-                                        var w__228 = (Aow.Units.Engine.TEObject)w__213[I];
-                                        var call__229 = w__228.GetLastMsg();
-                                        if ((call__229 != Msg.Seq) && (w__228.Owner == this))
+                                        var w__223 = (Aow.Units.Engine.TEObject)w__208[I];
+                                        var call__224 = w__223.GetLastMsg();
+                                        if ((call__224 != Msg.Seq) && (w__223.Owner == this))
                                         {
-                                            w__228.SetLastMsg(Msg.Seq);
-                                            w__228.MsgProc(ref Msg, this);
+                                            w__223.SetLastMsg(Msg.Seq);
+                                            w__223.MsgProc(ref Msg, this);
                                         }
                                     }
                                 }
@@ -7128,13 +7101,13 @@ namespace Aow.Units.Engine
                         if ((Msg.MsgID & 536870912) == 0)
                         {
                             {
-                                I = w__213.Count - 1;
-                                byte end__230 = 0;
-                                for (; I >= end__230; I -= 1)
+                                I = w__208.Count - 1;
+                                byte end__225 = 0;
+                                for (; I >= end__225; I -= 1)
                                 {
                                     {
-                                        var w__231 = (Aow.Units.Engine.TEObject)w__213.List[I];
-                                        w__231.MsgProc(ref Msg, this);
+                                        var w__226 = (Aow.Units.Engine.TEObject)w__208.List[I];
+                                        w__226.MsgProc(ref Msg, this);
                                     }
                                 }
                             }
@@ -7142,15 +7115,15 @@ namespace Aow.Units.Engine
                         else
                         {
                             {
-                                I = w__213.Count - 1;
-                                byte end__232 = 0;
-                                for (; I >= end__232; I -= 1)
+                                I = w__208.Count - 1;
+                                byte end__227 = 0;
+                                for (; I >= end__227; I -= 1)
                                 {
                                     {
-                                        var w__233 = (Aow.Units.Engine.TEObject)w__213[I];
-                                        if (w__233.Owner == this)
+                                        var w__228 = (Aow.Units.Engine.TEObject)w__208[I];
+                                        if (w__228.Owner == this)
                                         {
-                                            w__233.MsgProc(ref Msg, this);
+                                            w__228.MsgProc(ref Msg, this);
                                         }
                                     }
                                 }
@@ -7167,8 +7140,8 @@ namespace Aow.Units.Engine
             int Result = default;
             if (GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
             {
-                var call__234 = FChildren.IndexOf(Child);
-                Result = call__234;
+                var call__229 = FChildren.IndexOf(Child);
+                Result = call__229;
                 if (Result != -1)
                 {
                     FChildren.List[Result] = null;
@@ -7176,8 +7149,8 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__235 = FChildren.Remove(Child);
-                Result = call__235;
+                var call__230 = FChildren.Remove(Child);
+                Result = call__230;
             }
 
             return Result;
@@ -7225,8 +7198,8 @@ namespace Aow.Units.Engine
         public override int FindChildIndex(Aow.Units.Engine.TEObject Child)
         {
             int Result = default;
-            var call__236 = Count;
-            Result = call__236 - 1;
+            var call__231 = Count;
+            Result = call__231 - 1;
             while ((Result >= 0) && (Child != ((Aow.Units.Engine.TEObject)FChildren.List[Result])))
             {
                 Result -= 1;
@@ -7249,18 +7222,18 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEObject C = default;
             {
                 I = FChildren.Count - 1;
-                byte end__237 = 0;
-                for (; I >= end__237; I -= 1)
+                byte end__232 = 0;
+                for (; I >= end__232; I -= 1)
                 {
                     C = (Aow.Units.Engine.TEObject)FChildren.List[I];
-                    bool bool__238 = (C != null);
-                    if (bool__238)
+                    bool bool__233 = (C != null);
+                    if (bool__233)
                     {
-                        var call__239 = C.ClassType.ClassID();
-                        bool__238 = (AClassID == call__239);
+                        var call__234 = C.ClassType.ClassID();
+                        bool__233 = (AClassID == call__234);
                     }
 
-                    if (bool__238 && (C.Owner == this))
+                    if (bool__233 && (C.Owner == this))
                     {
                         C.Destroy();
                     }
@@ -7335,8 +7308,8 @@ namespace Aow.Units.Engine
             {
                 I += 1;
                 // { the original indexes the lists with Result (-1 on the first round), not with I }
-                var call__240 = FTimerLists[Result - 1].IndexOf(Child);
-                Result = call__240;
+                var call__235 = FTimerLists[Result - 1].IndexOf(Child);
+                Result = call__235;
             }
 
             if (Result != -1)
@@ -7360,11 +7333,11 @@ namespace Aow.Units.Engine
             FCount = 0;
             {
                 I = 1;
-                byte end__241 = 10;
-                for (; I <= end__241; I += 1)
+                byte end__236 = 10;
+                for (; I <= end__236; I += 1)
                 {
-                    var call__242 = new Aow.Rtl.TList();
-                    FTimerLists[I - 1] = call__242;
+                    var call__237 = new Aow.Rtl.TList();
+                    FTimerLists[I - 1] = call__237;
                 }
             }
         }
@@ -7376,8 +7349,8 @@ namespace Aow.Units.Engine
             base.Destroy();
             {
                 I = 1;
-                byte end__243 = 10;
-                for (; I <= end__243; I += 1)
+                byte end__238 = 10;
+                for (; I <= end__238; I += 1)
                 {
                     FTimerLists[I - 1].Free();
                 }
@@ -7416,8 +7389,8 @@ namespace Aow.Units.Engine
             L = FindTimerList(Child);
             if (L != -1)
             {
-                var call__244 = FTimerLists[L - 1].Remove(Child);
-                Result = call__244;
+                var call__239 = FTimerLists[L - 1].Remove(Child);
+                Result = call__239;
                 if (Result != -1)
                 {
                     FCount -= 1;
@@ -7435,8 +7408,8 @@ namespace Aow.Units.Engine
         public override int AddChild(Aow.Units.Engine.TEObject Child)
         {
             int Result = default;
-            var call__245 = FTimerLists[1 - 1].Add(Child);
-            Result = call__245;
+            var call__240 = FTimerLists[1 - 1].Add(Child);
+            Result = call__240;
             FCount += 1;
             return Result;
         }
@@ -7474,8 +7447,8 @@ namespace Aow.Units.Engine
         public int AddTimerChild(Aow.Units.Engine.TEObject Child, sbyte Timer)
         {
             int Result = default;
-            var call__246 = FTimerLists[Timer - 1].Add(Child);
-            Result = call__246;
+            var call__241 = FTimerLists[Timer - 1].Add(Child);
+            Result = call__241;
             FCount += 1;
             return Result;
         }
@@ -7484,8 +7457,8 @@ namespace Aow.Units.Engine
         public int RemoveTimerChild(Aow.Units.Engine.TEObject Child, sbyte Timer)
         {
             int Result = default;
-            var call__247 = FTimerLists[Timer - 1].Remove(Child);
-            Result = call__247;
+            var call__242 = FTimerLists[Timer - 1].Remove(Child);
+            Result = call__242;
             if (Result != -1)
             {
                 FCount -= 1;
@@ -7500,8 +7473,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = 0;
-                int end__248 = FTimerLists[Timer - 1].Count - 1;
-                for (; I <= end__248; I += 1)
+                int end__243 = FTimerLists[Timer - 1].Count - 1;
+                for (; I <= end__243; I += 1)
                 {
                     ((Aow.Units.Engine.TEObject)FTimerLists[Timer - 1].List[I]).TimerEvent(FTick, this);
                 }
@@ -7625,8 +7598,8 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__249 = Aow.Units.Engine.TEObjectList.Create();
-            FChildren = call__249;
+            var call__244 = Aow.Units.Engine.TEObjectList.Create();
+            FChildren = call__244;
             FUpdateCount = 0;
         }
 
@@ -7646,8 +7619,8 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEObject C = default;
             {
                 I = Count - 1;
-                byte end__250 = 0;
-                for (; I >= end__250; I -= 1)
+                byte end__245 = 0;
+                for (; I >= end__245; I -= 1)
                 {
                     C = (Aow.Units.Engine.TEObject)FChildren.List[I];
                     if ((C != null) && (C.Owner == this))
@@ -7666,20 +7639,20 @@ namespace Aow.Units.Engine
 
             {
                 I = Count - 1;
-                byte end__251 = 0;
-                for (; I >= end__251; I -= 1)
+                byte end__246 = 0;
+                for (; I >= end__246; I -= 1)
                 {
                     C = (Aow.Units.Engine.TEObject)FChildren.List[I];
                     if (C != null)
                     {
-                        bool bool__252 = (C.Owner == this);
-                        if (bool__252)
+                        bool bool__247 = (C.Owner == this);
+                        if (bool__247)
                         {
-                            var call__253 = C.GetControlStyle();
-                            bool__252 = call__253.Contains(Aow.Units.Engine.Engine.csShared);
+                            var call__248 = C.GetControlStyle();
+                            bool__247 = call__248.Contains(Aow.Units.Engine.Engine.csShared);
                         }
 
-                        if (!bool__252)
+                        if (!bool__247)
                         {
                             RemoveChild(C);
                         }
@@ -7713,8 +7686,8 @@ namespace Aow.Units.Engine
         {
             while (true)
             {
-                var call__254 = Count;
-                if (!(Index >= call__254))
+                var call__249 = Count;
+                if (!(Index >= call__249))
                     break;
                 {
                     FChildren.Add(null);
@@ -8474,7 +8447,7 @@ namespace Aow.Units.Engine
         {
             int I = default;
             {
-                var w__255 = FChildren;
+                var w__250 = FChildren;
                 if (GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
                 {
                     if ((Msg.MsgID & 268435456) != 0)
@@ -8482,19 +8455,19 @@ namespace Aow.Units.Engine
                         if ((Msg.MsgID & 536870912) == 0)
                         {
                             {
-                                I = w__255.Count - 1;
-                                byte end__256 = 0;
-                                for (; I >= end__256; I -= 1)
+                                I = w__250.Count - 1;
+                                byte end__251 = 0;
+                                for (; I >= end__251; I -= 1)
                                 {
-                                    if (w__255.List[I] != null)
+                                    if (w__250.List[I] != null)
                                     {
                                         {
-                                            var w__257 = (Aow.Units.Engine.TEObject)w__255.List[I];
-                                            var call__258 = w__257.GetLastMsg();
-                                            if (call__258 != Msg.Seq)
+                                            var w__252 = (Aow.Units.Engine.TEObject)w__250.List[I];
+                                            var call__253 = w__252.GetLastMsg();
+                                            if (call__253 != Msg.Seq)
                                             {
-                                                w__257.SetLastMsg(Msg.Seq);
-                                                w__257.MsgProc(ref Msg, this);
+                                                w__252.SetLastMsg(Msg.Seq);
+                                                w__252.MsgProc(ref Msg, this);
                                             }
                                         }
                                     }
@@ -8504,19 +8477,19 @@ namespace Aow.Units.Engine
                         else
                         {
                             {
-                                I = w__255.Count - 1;
-                                byte end__259 = 0;
-                                for (; I >= end__259; I -= 1)
+                                I = w__250.Count - 1;
+                                byte end__254 = 0;
+                                for (; I >= end__254; I -= 1)
                                 {
-                                    if (w__255.List[I] != null)
+                                    if (w__250.List[I] != null)
                                     {
                                         {
-                                            var w__260 = (Aow.Units.Engine.TEObject)w__255[I];
-                                            var call__261 = w__260.GetLastMsg();
-                                            if ((call__261 != Msg.Seq) && (w__260.Owner == this))
+                                            var w__255 = (Aow.Units.Engine.TEObject)w__250[I];
+                                            var call__256 = w__255.GetLastMsg();
+                                            if ((call__256 != Msg.Seq) && (w__255.Owner == this))
                                             {
-                                                w__260.SetLastMsg(Msg.Seq);
-                                                w__260.MsgProc(ref Msg, this);
+                                                w__255.SetLastMsg(Msg.Seq);
+                                                w__255.MsgProc(ref Msg, this);
                                             }
                                         }
                                     }
@@ -8529,15 +8502,15 @@ namespace Aow.Units.Engine
                         if ((Msg.MsgID & 536870912) == 0)
                         {
                             {
-                                I = w__255.Count - 1;
-                                byte end__262 = 0;
-                                for (; I >= end__262; I -= 1)
+                                I = w__250.Count - 1;
+                                byte end__257 = 0;
+                                for (; I >= end__257; I -= 1)
                                 {
-                                    if (w__255.List[I] != null)
+                                    if (w__250.List[I] != null)
                                     {
                                         {
-                                            var w__263 = (Aow.Units.Engine.TEObject)w__255.List[I];
-                                            w__263.MsgProc(ref Msg, this);
+                                            var w__258 = (Aow.Units.Engine.TEObject)w__250.List[I];
+                                            w__258.MsgProc(ref Msg, this);
                                         }
                                     }
                                 }
@@ -8546,17 +8519,17 @@ namespace Aow.Units.Engine
                         else
                         {
                             {
-                                I = w__255.Count - 1;
-                                byte end__264 = 0;
-                                for (; I >= end__264; I -= 1)
+                                I = w__250.Count - 1;
+                                byte end__259 = 0;
+                                for (; I >= end__259; I -= 1)
                                 {
-                                    if (w__255.List[I] != null)
+                                    if (w__250.List[I] != null)
                                     {
                                         {
-                                            var w__265 = (Aow.Units.Engine.TEObject)w__255[I];
-                                            if (w__265.Owner == this)
+                                            var w__260 = (Aow.Units.Engine.TEObject)w__250[I];
+                                            if (w__260.Owner == this)
                                             {
-                                                w__265.MsgProc(ref Msg, this);
+                                                w__260.MsgProc(ref Msg, this);
                                             }
                                         }
                                     }
@@ -8572,17 +8545,17 @@ namespace Aow.Units.Engine
                         if ((Msg.MsgID & 536870912) == 0)
                         {
                             {
-                                I = w__255.Count - 1;
-                                byte end__266 = 0;
-                                for (; I >= end__266; I -= 1)
+                                I = w__250.Count - 1;
+                                byte end__261 = 0;
+                                for (; I >= end__261; I -= 1)
                                 {
                                     {
-                                        var w__267 = (Aow.Units.Engine.TEObject)w__255.List[I];
-                                        var call__268 = w__267.GetLastMsg();
-                                        if (call__268 != Msg.Seq)
+                                        var w__262 = (Aow.Units.Engine.TEObject)w__250.List[I];
+                                        var call__263 = w__262.GetLastMsg();
+                                        if (call__263 != Msg.Seq)
                                         {
-                                            w__267.SetLastMsg(Msg.Seq);
-                                            w__267.MsgProc(ref Msg, this);
+                                            w__262.SetLastMsg(Msg.Seq);
+                                            w__262.MsgProc(ref Msg, this);
                                         }
                                     }
                                 }
@@ -8591,17 +8564,17 @@ namespace Aow.Units.Engine
                         else
                         {
                             {
-                                I = w__255.Count - 1;
-                                byte end__269 = 0;
-                                for (; I >= end__269; I -= 1)
+                                I = w__250.Count - 1;
+                                byte end__264 = 0;
+                                for (; I >= end__264; I -= 1)
                                 {
                                     {
-                                        var w__270 = (Aow.Units.Engine.TEObject)w__255[I];
-                                        var call__271 = w__270.GetLastMsg();
-                                        if ((call__271 != Msg.Seq) && (w__270.Owner == this))
+                                        var w__265 = (Aow.Units.Engine.TEObject)w__250[I];
+                                        var call__266 = w__265.GetLastMsg();
+                                        if ((call__266 != Msg.Seq) && (w__265.Owner == this))
                                         {
-                                            w__270.SetLastMsg(Msg.Seq);
-                                            w__270.MsgProc(ref Msg, this);
+                                            w__265.SetLastMsg(Msg.Seq);
+                                            w__265.MsgProc(ref Msg, this);
                                         }
                                     }
                                 }
@@ -8613,13 +8586,13 @@ namespace Aow.Units.Engine
                         if ((Msg.MsgID & 536870912) == 0)
                         {
                             {
-                                I = w__255.Count - 1;
-                                byte end__272 = 0;
-                                for (; I >= end__272; I -= 1)
+                                I = w__250.Count - 1;
+                                byte end__267 = 0;
+                                for (; I >= end__267; I -= 1)
                                 {
                                     {
-                                        var w__273 = (Aow.Units.Engine.TEObject)w__255.List[I];
-                                        w__273.MsgProc(ref Msg, this);
+                                        var w__268 = (Aow.Units.Engine.TEObject)w__250.List[I];
+                                        w__268.MsgProc(ref Msg, this);
                                     }
                                 }
                             }
@@ -8627,15 +8600,15 @@ namespace Aow.Units.Engine
                         else
                         {
                             {
-                                I = w__255.Count - 1;
-                                byte end__274 = 0;
-                                for (; I >= end__274; I -= 1)
+                                I = w__250.Count - 1;
+                                byte end__269 = 0;
+                                for (; I >= end__269; I -= 1)
                                 {
                                     {
-                                        var w__275 = (Aow.Units.Engine.TEObject)w__255[I];
-                                        if (w__275.Owner == this)
+                                        var w__270 = (Aow.Units.Engine.TEObject)w__250[I];
+                                        if (w__270.Owner == this)
                                         {
-                                            w__275.MsgProc(ref Msg, this);
+                                            w__270.MsgProc(ref Msg, this);
                                         }
                                     }
                                 }
@@ -8652,8 +8625,8 @@ namespace Aow.Units.Engine
             int Result = default;
             if (GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
             {
-                var call__276 = FChildren.IndexOf(Child);
-                Result = call__276;
+                var call__271 = FChildren.IndexOf(Child);
+                Result = call__271;
                 if (Result != -1)
                 {
                     FChildren.List[Result] = null;
@@ -8661,8 +8634,8 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__277 = FChildren.Remove(Child);
-                Result = call__277;
+                var call__272 = FChildren.Remove(Child);
+                Result = call__272;
             }
 
             if (FUpdateCount == 0)
@@ -8720,8 +8693,8 @@ namespace Aow.Units.Engine
         public override int FindChildIndex(Aow.Units.Engine.TEObject Child)
         {
             int Result = default;
-            var call__278 = Count;
-            Result = call__278 - 1;
+            var call__273 = Count;
+            Result = call__273 - 1;
             while ((Result >= 0) && (Child != FChildren.List[Result]))
             {
                 Result -= 1;
@@ -8790,8 +8763,8 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__279 = Aow.Units.Engine.TEventList.Create();
-            FEvents = call__279;
+            var call__274 = Aow.Units.Engine.TEventList.Create();
+            FEvents = call__274;
         }
 
         // Engine.pas:8131
@@ -8993,8 +8966,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = FCount - 1;
-                byte end__280 = 0;
-                for (; I >= end__280; I -= 1)
+                byte end__275 = 0;
+                for (; I >= end__275; I -= 1)
                 {
                     if (Key == FItems[I].Key.Value)
                     {
@@ -9054,11 +9027,11 @@ namespace Aow.Units.Engine
             ;
             {
                 I = 0;
-                byte end__281 = 255;
-                for (; I <= end__281; I += 1)
+                byte end__276 = 255;
+                for (; I <= end__276; I += 1)
                 {
-                    var call__282 = Aow.Units.Engine.TIntegerHashList.Create();
-                    FLists[I] = call__282;
+                    var call__277 = Aow.Units.Engine.TIntegerHashList.Create();
+                    FLists[I] = call__277;
                 }
             }
         }
@@ -9069,8 +9042,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = 0;
-                byte end__283 = 255;
-                for (; I <= end__283; I += 1)
+                byte end__278 = 255;
+                for (; I <= end__278; I += 1)
                 {
                     FLists[I].Free();
                 }
@@ -9085,8 +9058,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = 0;
-                byte end__284 = 255;
-                for (; I <= end__284; I += 1)
+                byte end__279 = 255;
+                for (; I <= end__279; I += 1)
                 {
                     FLists[I].Clear();
                 }
@@ -9109,16 +9082,16 @@ namespace Aow.Units.Engine
         public override object Find(int Key)
         {
             object Result = default;
-            var call__285 = FLists[Key & 255].Find(Key);
-            Result = call__285;
+            var call__280 = FLists[Key & 255].Find(Key);
+            Result = call__280;
             return Result;
         }
 
         // HashTab.PAS:121
         public void DeleteSafe(object Item, int Key)
         {
-            var call__286 = FLists[Key & 255].Find(Key);
-            if (call__286 == Item)
+            var call__281 = FLists[Key & 255].Find(Key);
+            if (call__281 == Item)
             {
                 FLists[Key & 255].Delete(Key);
             }
@@ -9135,8 +9108,8 @@ namespace Aow.Units.Engine
             MinIndex = 0;
             {
                 I = 0;
-                byte end__287 = 255;
-                for (; I <= end__287; I += 1)
+                byte end__282 = 255;
+                for (; I <= end__282; I += 1)
                 {
                     if (Min > FLists[I].Count)
                     {
@@ -9149,8 +9122,8 @@ namespace Aow.Units.Engine
             I = FLists[MinIndex].Count;
             while (true)
             {
-                var call__288 = FLists[MinIndex].Find((I << 8) + MinIndex);
-                if (!(call__288 != null))
+                var call__283 = FLists[MinIndex].Find((I << 8) + MinIndex);
+                if (!(call__283 != null))
                     break;
                 {
                     I += 1;
@@ -9188,8 +9161,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = FCount - 1;
-                byte end__289 = 0;
-                for (; I >= end__289; I -= 1)
+                byte end__284 = 0;
+                for (; I >= end__284; I -= 1)
                 {
                     FItems[I].Key = (AnsiString)"";
                 }
@@ -9306,11 +9279,11 @@ namespace Aow.Units.Engine
             ;
             {
                 I = 0;
-                byte end__290 = 255;
-                for (; I <= end__290; I += 1)
+                byte end__285 = 255;
+                for (; I <= end__285; I += 1)
                 {
-                    var call__291 = Aow.Units.Engine.TStringHashList.Create();
-                    FLists[I] = call__291;
+                    var call__286 = Aow.Units.Engine.TStringHashList.Create();
+                    FLists[I] = call__286;
                 }
             }
         }
@@ -9321,8 +9294,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = 0;
-                byte end__292 = 255;
-                for (; I <= end__292; I += 1)
+                byte end__287 = 255;
+                for (; I <= end__287; I += 1)
                 {
                     FLists[I].Free();
                 }
@@ -9337,8 +9310,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = 0;
-                byte end__293 = 255;
-                for (; I <= end__293; I += 1)
+                byte end__288 = 255;
+                for (; I <= end__288; I += 1)
                 {
                     FLists[I].Clear();
                 }
@@ -9403,8 +9376,8 @@ namespace Aow.Units.Engine
                 }
             }
 
-            var call__294 = FLists[H].Find(Key);
-            Result = call__294;
+            var call__289 = FLists[H].Find(Key);
+            Result = call__289;
             return Result;
         }
 
@@ -9707,8 +9680,8 @@ namespace Aow.Units.Engine
         protected internal Aow.Units.Engine.TEObject.Meta GetEClass(int Index)
         {
             Aow.Units.Engine.TEObject.Meta Result = default;
-            var call__295 = this[Index];
-            Result = (Aow.Units.Engine.TEObject.Meta)call__295;
+            var call__290 = this[Index];
+            Result = (Aow.Units.Engine.TEObject.Meta)call__290;
             return Result;
         }
 
@@ -9722,16 +9695,16 @@ namespace Aow.Units.Engine
             Found = false;
             while (!Found && (I < Count))
             {
-                var call__296 = this[I];
-                var call__297 = ((Aow.Units.Engine.TEObject.Meta)call__296).ClassID();
-                Found = AClassID == call__297;
+                var call__291 = this[I];
+                var call__292 = ((Aow.Units.Engine.TEObject.Meta)call__291).ClassID();
+                Found = AClassID == call__292;
                 I += 1;
             }
 
             if (Found)
             {
-                var call__298 = this[I - 1];
-                Result = (Aow.Units.Engine.TEObject.Meta)call__298;
+                var call__293 = this[I - 1];
+                Result = (Aow.Units.Engine.TEObject.Meta)call__293;
             }
             else
             {
@@ -9751,9 +9724,9 @@ namespace Aow.Units.Engine
             Found = false;
             while (!Found && (I < Count))
             {
-                var call__299 = this[I];
-                var call__300 = ((Aow.Units.Engine.TEObject.Meta)call__299).ClassID();
-                Found = AClassID == call__300;
+                var call__294 = this[I];
+                var call__295 = ((Aow.Units.Engine.TEObject.Meta)call__294).ClassID();
+                Found = AClassID == call__295;
                 I += 1;
             }
 
@@ -9785,16 +9758,16 @@ namespace Aow.Units.Engine
         // Engine.pas:8338
         public void RegisterClass(Aow.Units.Engine.TEObject.Meta AClass)
         {
-            var call__301 = AClass.ClassID();
-            var call__302 = FindClass(call__301);
-            bool bool__303 = (call__302 == null);
-            if (bool__303)
+            var call__296 = AClass.ClassID();
+            var call__297 = FindClass(call__296);
+            bool bool__298 = (call__297 == null);
+            if (bool__298)
             {
-                var call__304 = AClass.ClassID();
-                bool__303 = (call__304 != 0);
+                var call__299 = AClass.ClassID();
+                bool__298 = (call__299 != 0);
             }
 
-            if (bool__303)
+            if (bool__298)
             {
                 Add(AClass);
             }
@@ -9808,9 +9781,9 @@ namespace Aow.Units.Engine
         public void UnregisterClass(Aow.Units.Engine.TEObject.Meta AClass)
         {
             int I = default;
-            var call__305 = AClass.ClassID();
-            var call__306 = FindClassIndex(call__305);
-            I = call__306;
+            var call__300 = AClass.ClassID();
+            var call__301 = FindClassIndex(call__300);
+            I = call__301;
             if (I != -1)
             {
                 Delete(I);
@@ -9843,16 +9816,16 @@ namespace Aow.Units.Engine
             bool Found = default;
             Result = 1;
             I = 0;
-            var call__307 = FEditors.Count;
-            Found = call__307 == 0;
+            var call__302 = FEditors.Count;
+            Found = call__302 == 0;
             while (!Found)
             {
-                var call__308 = FEditors.Objects[I];
-                if (Result != Aow.Rtl.Rtl.ObjectToInt(call__308))
+                var call__303 = FEditors.Objects[I];
+                if (Result != Aow.Rtl.Rtl.ObjectToInt(call__303))
                 {
                     I += 1;
-                    var call__309 = FEditors.Count;
-                    Found = I == call__309;
+                    var call__304 = FEditors.Count;
+                    Found = I == call__304;
                 }
                 else
                 {
@@ -9869,8 +9842,8 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__310 = new Aow.Rtl.TStringList();
-            FEditors = call__310;
+            var call__305 = new Aow.Rtl.TStringList();
+            FEditors = call__305;
         }
 
         // Engine.pas:8656
@@ -9888,8 +9861,8 @@ namespace Aow.Units.Engine
             S = Name;
             while (true)
             {
-                var call__311 = FEditors.IndexOf(S);
-                if (!(call__311 != -1))
+                var call__306 = FEditors.IndexOf(S);
+                if (!(call__306 != -1))
                     break;
                 {
                     S = Name + Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Random(268435455));
@@ -9905,12 +9878,12 @@ namespace Aow.Units.Engine
         {
             int Result = default;
             int I = default;
-            var call__312 = FEditors.IndexOf(Name);
-            I = call__312;
+            var call__307 = FEditors.IndexOf(Name);
+            I = call__307;
             if (I != -1)
             {
-                var call__313 = FEditors.Objects[I];
-                Result = Aow.Rtl.Rtl.ObjectToInt(call__313);
+                var call__308 = FEditors.Objects[I];
+                Result = Aow.Rtl.Rtl.ObjectToInt(call__308);
             }
             else
             {
@@ -9925,8 +9898,8 @@ namespace Aow.Units.Engine
         public int RemoveEditor(Aow.Rtl.AnsiString Name)
         {
             int Result = default;
-            var call__314 = FEditors.IndexOf(Name);
-            Result = call__314;
+            var call__309 = FEditors.IndexOf(Name);
+            Result = call__309;
             if (Result != -1)
             {
                 FEditors.Delete(Result);
@@ -10470,8 +10443,8 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = Count - 1;
-                byte end__315 = 0;
-                for (; I >= end__315; I -= 1)
+                byte end__310 = 0;
+                for (; I >= end__310; I -= 1)
                 {
                     ((Aow.Units.Engine.TEObject)FChildren.List[I]).Release();
                 }
@@ -10488,8 +10461,8 @@ namespace Aow.Units.Engine
             {
                 {
                     I = 0;
-                    int end__316 = FChildren.Count - 1;
-                    for (; I <= end__316; I += 1)
+                    int end__311 = FChildren.Count - 1;
+                    for (; I <= end__311; I += 1)
                     {
                         if (((Aow.Units.Engine.TEObject)FChildren.List[I]).FOwner == null)
                         {
@@ -10501,8 +10474,8 @@ namespace Aow.Units.Engine
                 base.ReadWriteChildren(Stream);
                 {
                     I = 0;
-                    int end__317 = FChildren.Count - 1;
-                    for (; I <= end__317; I += 1)
+                    int end__312 = FChildren.Count - 1;
+                    for (; I <= end__312; I += 1)
                     {
                         if (((Aow.Units.Engine.TEObject)FChildren.List[I]).FOwner == this)
                         {
@@ -10518,8 +10491,8 @@ namespace Aow.Units.Engine
                 {
                     {
                         I = 0;
-                        int end__318 = FChildren.Count - 1;
-                        for (; I <= end__318; I += 1)
+                        int end__313 = FChildren.Count - 1;
+                        for (; I <= end__313; I += 1)
                         {
                             ((Aow.Units.Engine.TEObject)FChildren.List[I]).Release();
                         }
@@ -10538,8 +10511,8 @@ namespace Aow.Units.Engine
         public override int RemoveChild(Aow.Units.Engine.TEObject Child)
         {
             int Result = default;
-            var call__319 = FChildren.Remove(Child);
-            Result = call__319;
+            var call__314 = FChildren.Remove(Child);
+            Result = call__314;
             if (Result != -1)
             {
                 Child.Release();
@@ -11860,18 +11833,18 @@ namespace Aow.Units.Engine
             int I = default;
             bool Found = default;
             {
-                var w__320 = FChildren;
+                var w__315 = FChildren;
                 Found = false;
                 I = 0;
-                while (!Found && (I != w__320.Count))
+                while (!Found && (I != w__315.Count))
                 {
-                    Found = (w__320.List[I] != null) && (ID == ((Aow.Units.Engine.TEResource)w__320.List[I]).FResourceID);
+                    Found = (w__315.List[I] != null) && (ID == ((Aow.Units.Engine.TEResource)w__315.List[I]).FResourceID);
                     I += 1;
                 }
 
                 if (Found)
                 {
-                    Result = (Aow.Units.Engine.TEResource)w__320.List[I - 1];
+                    Result = (Aow.Units.Engine.TEResource)w__315.List[I - 1];
                 }
                 else
                 {
@@ -11891,11 +11864,11 @@ namespace Aow.Units.Engine
             bool Found = default;
             if (Index < FChildren.Count)
             {
-                var call__321 = GetResource(Index);
-                ID = call__321.FResourceID;
+                var call__316 = GetResource(Index);
+                ID = call__316.FResourceID;
                 {
-                    var w__322 = GetResource(Index);
-                    w__322.FResourceID = w__322.FResourceID ^ 65535;
+                    var w__317 = GetResource(Index);
+                    w__317.FResourceID = w__317.FResourceID ^ 65535;
                 }
 
                 if (FindResource(ID) != null)
@@ -11917,13 +11890,13 @@ namespace Aow.Units.Engine
                         Tries += 1;
                     }
 
-                    var call__323 = GetResource(Index);
-                    call__323.FResourceID = NewID;
+                    var call__318 = GetResource(Index);
+                    call__318.FResourceID = NewID;
                 }
                 else
                 {
-                    var call__324 = GetResource(Index);
-                    call__324.FResourceID = ID;
+                    var call__319 = GetResource(Index);
+                    call__319.FResourceID = ID;
                 }
             }
         }
@@ -12033,8 +12006,8 @@ namespace Aow.Units.Engine
         public void Create__init_TCallBackEventList()
         {
             ;
-            var call__325 = new Aow.Rtl.TList();
-            FList = call__325;
+            var call__320 = new Aow.Rtl.TList();
+            FList = call__320;
         }
 
         // Engine.pas:5852
@@ -12147,8 +12120,8 @@ namespace Aow.Units.Engine
                             L = Line.Length;
                             if (((L >= 4) && (Aow.Rtl.Rtl.Copy(Line, 1, 2) == ((AnsiString)"[:"))) && (Aow.Rtl.Rtl.Copy(Line, L - 1, 2) == ((AnsiString)":]")))
                             {
-                                var call__326 = Text.Count;
-                                FSections.AddObject(Aow.Rtl.Rtl.Copy(Line, 3, L - 4), Aow.Rtl.Rtl.IntToObject((int)call__326));
+                                var call__321 = Text.Count;
+                                FSections.AddObject(Aow.Rtl.Rtl.Copy(Line, 3, L - 4), Aow.Rtl.Rtl.IntToObject((int)call__321));
                             }
                             else
                             {
@@ -12185,22 +12158,22 @@ namespace Aow.Units.Engine
             int NewID = default;
             Aow.Rtl.AnsiString Value = default;
             FValues.Clear();
-            var call__327 = FSections.IndexOf(FPath);
-            Index = call__327;
+            var call__322 = FSections.IndexOf(FPath);
+            Index = call__322;
             if (Index != -1)
             {
-                var call__328 = FSections.Objects[Index];
-                First = Aow.Rtl.Rtl.ObjectToInt(call__328);
-                var call__329 = FSections.Count;
-                if (Index != (call__329 - 1))
+                var call__323 = FSections.Objects[Index];
+                First = Aow.Rtl.Rtl.ObjectToInt(call__323);
+                var call__324 = FSections.Count;
+                if (Index != (call__324 - 1))
                 {
-                    var call__330 = FSections.Objects[Index + 1];
-                    Last = Aow.Rtl.Rtl.ObjectToInt(call__330) - 1;
+                    var call__325 = FSections.Objects[Index + 1];
+                    Last = Aow.Rtl.Rtl.ObjectToInt(call__325) - 1;
                 }
                 else
                 {
-                    var call__331 = FText.Count;
-                    Last = call__331 - 1;
+                    var call__326 = FText.Count;
+                    Last = call__326 - 1;
                 }
 
                 I = First;
@@ -12208,25 +12181,25 @@ namespace Aow.Units.Engine
                 Value = (AnsiString)"";
                 while (I <= Last)
                 {
-                    var call__332 = FText[I];
-                    var call__333 = Aow.Units.Engine.Engine.GetLineID(call__332);
-                    NewID = call__333;
+                    var call__327 = FText[I];
+                    var call__328 = Aow.Units.Engine.Engine.GetLineID(call__327);
+                    NewID = call__328;
                     if (ID != -1)
                     {
                         if ((NewID != ID) && (NewID != -1))
                         {
-                            var call__334 = FValues.Count;
-                            FPropertyTable.Add(ID, call__334);
+                            var call__329 = FValues.Count;
+                            FPropertyTable.Add(ID, call__329);
                             FValues.Add(Value);
                             ID = NewID;
-                            var call__335 = FText[I];
-                            var call__336 = Aow.Units.Engine.Engine.GetLineValue(call__335);
-                            Value = call__336;
+                            var call__330 = FText[I];
+                            var call__331 = Aow.Units.Engine.Engine.GetLineValue(call__330);
+                            Value = call__331;
                         }
                         else
                         {
-                            var call__337 = FText[I];
-                            Value = ((Value + AnsiString.FromBytes(13)) + AnsiString.FromBytes(10)) + call__337;
+                            var call__332 = FText[I];
+                            Value = ((Value + AnsiString.FromBytes(13)) + AnsiString.FromBytes(10)) + call__332;
                         }
                     }
                     else
@@ -12238,9 +12211,9 @@ namespace Aow.Units.Engine
                                 ID = NewID;
                             }
 
-                            var call__338 = FText[I];
-                            var call__339 = Aow.Units.Engine.Engine.GetLineValue(call__338);
-                            Value = call__339;
+                            var call__333 = FText[I];
+                            var call__334 = Aow.Units.Engine.Engine.GetLineValue(call__333);
+                            Value = call__334;
                         }
                     }
 
@@ -12249,8 +12222,8 @@ namespace Aow.Units.Engine
 
                 if (ID != -1)
                 {
-                    var call__340 = FValues.Count;
-                    FPropertyTable.Add(ID, call__340);
+                    var call__335 = FValues.Count;
+                    FPropertyTable.Add(ID, call__335);
                     FValues.Add(Value);
                 }
             }
@@ -12264,23 +12237,23 @@ namespace Aow.Units.Engine
             FPath = (AnsiString)"";
             if (ASize <= 0)
             {
-                var call__341 = FStream.Size;
-                var call__342 = FStream.Position;
-                FSize = call__341 - call__342;
+                var call__336 = FStream.Size;
+                var call__337 = FStream.Position;
+                FSize = call__336 - call__337;
             }
             else
             {
                 FSize = ASize;
             }
 
-            var call__343 = new Aow.Rtl.TStringList();
-            FValues = call__343;
-            var call__344 = Aow.Units.Engine.TPropertyTable.Create();
-            FPropertyTable = call__344;
-            var call__345 = new Aow.Rtl.TStringList();
-            FText = call__345;
-            var call__346 = new Aow.Rtl.TStringList();
-            FSections = call__346;
+            var call__338 = new Aow.Rtl.TStringList();
+            FValues = call__338;
+            var call__339 = Aow.Units.Engine.TPropertyTable.Create();
+            FPropertyTable = call__339;
+            var call__340 = new Aow.Rtl.TStringList();
+            FText = call__340;
+            var call__341 = new Aow.Rtl.TStringList();
+            FSections = call__341;
             ReadStreamText();
             ReadTextBuffer();
         }
@@ -12332,8 +12305,8 @@ namespace Aow.Units.Engine
 
             SavedValues = FValues;
             FPropertyTable.BackupSettings();
-            var call__347 = new Aow.Rtl.TStringList();
-            FValues = call__347;
+            var call__342 = new Aow.Rtl.TStringList();
+            FValues = call__342;
             try
             {
                 ReadTextBuffer();
@@ -12352,8 +12325,8 @@ namespace Aow.Units.Engine
                 Continue = true;
                 if (FOnError != null)
                 {
-                    var call__348 = Obj.ClassType.ClassID();
-                    FOnError(this, (((AnsiString)"Error reading object (cid:") + Aow.Rtl.Rtl.IntToStr(call__348)) + AnsiString.FromBytes(41), ref Continue);
+                    var call__343 = Obj.ClassType.ClassID();
+                    FOnError(this, (((AnsiString)"Error reading object (cid:") + Aow.Rtl.Rtl.IntToStr(call__343)) + AnsiString.FromBytes(41), ref Continue);
                 }
 
                 if (!Continue)
@@ -12373,12 +12346,12 @@ namespace Aow.Units.Engine
         public override void rwString(ref Aow.Rtl.AnsiString S, int ID)
         {
             int Offset = default;
-            var call__349 = FPropertyTable.FindOffset(ID);
-            Offset = call__349;
+            var call__344 = FPropertyTable.FindOffset(ID);
+            Offset = call__344;
             if (Offset != -1)
             {
-                var call__350 = FValues[Offset];
-                S = call__350;
+                var call__345 = FValues[Offset];
+                S = call__345;
             }
             else
             {
@@ -12390,12 +12363,12 @@ namespace Aow.Units.Engine
         public override void rwStrings(Aow.Rtl.TStrings Strings, int ID)
         {
             int Offset = default;
-            var call__351 = FPropertyTable.FindOffset(ID);
-            Offset = call__351;
+            var call__346 = FPropertyTable.FindOffset(ID);
+            Offset = call__346;
             if (Offset != -1)
             {
-                var call__352 = FValues[Offset];
-                Strings.Text = AnsiString.FromPChar(call__352.AsPtr());
+                var call__347 = FValues[Offset];
+                Strings.Text = AnsiString.FromPChar(call__347.AsPtr());
             }
             else
             {
@@ -12428,26 +12401,26 @@ namespace Aow.Units.Engine
 
             {
                 I = 0;
-                int end__353 = Node.Count - 1;
-                for (; I <= end__353; I += 1)
+                int end__348 = Node.Count - 1;
+                for (; I <= end__348; I += 1)
                 {
-                    var call__354 = Node.Children[I];
-                    C = call__354;
-                    bool bool__355 = (C != null) && (C.Owner == Node);
-                    if (bool__355)
+                    var call__349 = Node.Children[I];
+                    C = call__349;
+                    bool bool__350 = (C != null) && (C.Owner == Node);
+                    if (bool__350)
                     {
-                        var call__356 = C.GetControlStyle();
-                        bool__355 = !call__356.Contains(Aow.Units.Engine.Engine.csShared);
+                        var call__351 = C.GetControlStyle();
+                        bool__350 = !call__351.Contains(Aow.Units.Engine.Engine.csShared);
                     }
 
-                    bool bool__357 = bool__355;
-                    if (bool__357)
+                    bool bool__352 = bool__350;
+                    if (bool__352)
                     {
-                        var call__358 = C.GetControlStyle();
-                        bool__357 = call__358.Contains(Aow.Units.Engine.Engine.csStored);
+                        var call__353 = C.GetControlStyle();
+                        bool__352 = call__353.Contains(Aow.Units.Engine.Engine.csStored);
                     }
 
-                    if (bool__357)
+                    if (bool__352)
                     {
                         rwEObject(C, I);
                     }
@@ -12484,14 +12457,14 @@ namespace Aow.Units.Engine
         internal void WriteTextBuffer(Aow.Rtl.TStream Stream)
         {
             Aow.Rtl.AnsiString S = default;
-            bool bool__359 = (FPropertyTable.Count != 0);
-            if (bool__359)
+            bool bool__354 = (FPropertyTable.Count != 0);
+            if (bool__354)
             {
-                var call__360 = FBuffer.Size;
-                bool__359 = (call__360 != 0);
+                var call__355 = FBuffer.Size;
+                bool__354 = (call__355 != 0);
             }
 
-            if (bool__359)
+            if (bool__354)
             {
                 S = (((((AnsiString)"[:") + FPath) + ((AnsiString)":]")) + AnsiString.FromBytes(13)) + AnsiString.FromBytes(10);
                 if (FPath != ((AnsiString)""))
@@ -12510,10 +12483,10 @@ namespace Aow.Units.Engine
         {
             base.Create__init_TEStorageStream(AStream, AEngine);
             FPath = (AnsiString)"";
-            var call__361 = Aow.Units.Engine.TEBufferStream.Create();
-            FBuffer = call__361;
-            var call__362 = Aow.Units.Engine.TPropertyTable.Create();
-            FPropertyTable = call__362;
+            var call__356 = Aow.Units.Engine.TEBufferStream.Create();
+            FBuffer = call__356;
+            var call__357 = Aow.Units.Engine.TPropertyTable.Create();
+            FPropertyTable = call__357;
         }
 
         // Engine.pas:10343
@@ -12550,14 +12523,14 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEBufferStream SavedBuffer = default;
             Aow.Rtl.AnsiString SavedPath = default;
             bool Continue = default;
-            var call__363 = FPropertyTable.PropertyExist(ID);
-            if (!call__363)
+            var call__358 = FPropertyTable.PropertyExist(ID);
+            if (!call__358)
             {
                 SavedBuffer = FBuffer;
                 SavedPath = FPath;
                 FPropertyTable.BackupSettings();
-                var call__364 = Aow.Units.Engine.TEBufferStream.Create();
-                FBuffer = call__364;
+                var call__359 = Aow.Units.Engine.TEBufferStream.Create();
+                FBuffer = call__359;
                 if (FPath != ((AnsiString)""))
                 {
                     FPath = (FPath + AnsiString.FromBytes(92)) + Aow.Rtl.Rtl.IntToStr(ID);
@@ -12586,8 +12559,8 @@ namespace Aow.Units.Engine
                     Continue = true;
                     if (FOnError != null)
                     {
-                        var call__365 = Obj.ClassType.ClassID();
-                        FOnError(this, (((AnsiString)"Error writing object (cid:") + Aow.Rtl.Rtl.IntToStr(call__365)) + AnsiString.FromBytes(41), ref Continue);
+                        var call__360 = Obj.ClassType.ClassID();
+                        FOnError(this, (((AnsiString)"Error writing object (cid:") + Aow.Rtl.Rtl.IntToStr(call__360)) + AnsiString.FromBytes(41), ref Continue);
                     }
 
                     if (!Continue)
@@ -12612,8 +12585,8 @@ namespace Aow.Units.Engine
         public override void rwString(ref Aow.Rtl.AnsiString S, int ID)
         {
             Aow.Rtl.AnsiString Line = default;
-            var call__366 = FPropertyTable.PropertyExist(ID);
-            if (!call__366)
+            var call__361 = FPropertyTable.PropertyExist(ID);
+            if (!call__361)
             {
                 if (S != ((AnsiString)""))
                 {
@@ -12633,11 +12606,11 @@ namespace Aow.Units.Engine
         {
             Aow.Rtl.AnsiString Line = default;
             Ptr<byte> P = default;
-            var call__367 = FPropertyTable.PropertyExist(ID);
-            if (!call__367)
+            var call__362 = FPropertyTable.PropertyExist(ID);
+            if (!call__362)
             {
-                var call__368 = Strings.Count;
-                if (call__368 != 0)
+                var call__363 = Strings.Count;
+                if (call__363 != 0)
                 {
                     P = Strings.Text.AsPtr();
                     try
@@ -12679,8 +12652,8 @@ namespace Aow.Units.Engine
             Aow.Rtl.AnsiString SavedPath = default;
             int I = default;
             Aow.Units.Engine.TEObject C = default;
-            var call__369 = FPropertyTable.PropertyExist(ID);
-            if (!call__369)
+            var call__364 = FPropertyTable.PropertyExist(ID);
+            if (!call__364)
             {
                 SavedPath = FPath;
                 if (FPath != ((AnsiString)""))
@@ -12694,26 +12667,26 @@ namespace Aow.Units.Engine
 
                 {
                     I = 0;
-                    int end__370 = Node.Count - 1;
-                    for (; I <= end__370; I += 1)
+                    int end__365 = Node.Count - 1;
+                    for (; I <= end__365; I += 1)
                     {
-                        var call__371 = Node.Children[I];
-                        C = call__371;
-                        bool bool__372 = (C != null) && (C.Owner == Node);
-                        if (bool__372)
+                        var call__366 = Node.Children[I];
+                        C = call__366;
+                        bool bool__367 = (C != null) && (C.Owner == Node);
+                        if (bool__367)
                         {
-                            var call__373 = C.GetControlStyle();
-                            bool__372 = !call__373.Contains(Aow.Units.Engine.Engine.csShared);
+                            var call__368 = C.GetControlStyle();
+                            bool__367 = !call__368.Contains(Aow.Units.Engine.Engine.csShared);
                         }
 
-                        bool bool__374 = bool__372;
-                        if (bool__374)
+                        bool bool__369 = bool__367;
+                        if (bool__369)
                         {
-                            var call__375 = C.GetControlStyle();
-                            bool__374 = call__375.Contains(Aow.Units.Engine.Engine.csStored);
+                            var call__370 = C.GetControlStyle();
+                            bool__369 = call__370.Contains(Aow.Units.Engine.Engine.csStored);
                         }
 
-                        if (bool__374)
+                        if (bool__369)
                         {
                             rwEObject(C, I);
                         }
@@ -12759,11 +12732,11 @@ namespace Aow.Units.Engine
         public void Create__init_TEReadStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
         {
             base.Create__init_TEStorageStream(AStream, AEngine);
-            var call__376 = Aow.Units.Engine.TPropertyTable.Create();
-            FPropertyTable = call__376;
+            var call__371 = Aow.Units.Engine.TPropertyTable.Create();
+            FPropertyTable = call__371;
             FPropertyTable.LoadFromStream(AStream);
-            var call__377 = FStream.Position;
-            FDataBase = call__377;
+            var call__372 = FStream.Position;
+            FDataBase = call__372;
             FPartial = APartial;
         }
 
@@ -12794,12 +12767,12 @@ namespace Aow.Units.Engine
         public override void rwInteger(ref int I, int ID)
         {
             int Offset = default;
-            var call__378 = FPropertyTable.FindOffset(ID);
-            Offset = call__378;
+            var call__373 = FPropertyTable.FindOffset(ID);
+            Offset = call__373;
             if (Offset != -1)
             {
-                var call__379 = FStream.Position;
-                if (call__379 != (FDataBase + Offset))
+                var call__374 = FStream.Position;
+                if (call__374 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12816,12 +12789,12 @@ namespace Aow.Units.Engine
         public override void rwByte(ref byte B, int ID)
         {
             int Offset = default;
-            var call__380 = FPropertyTable.FindOffset(ID);
-            Offset = call__380;
+            var call__375 = FPropertyTable.FindOffset(ID);
+            Offset = call__375;
             if (Offset != -1)
             {
-                var call__381 = FStream.Position;
-                if (call__381 != (FDataBase + Offset))
+                var call__376 = FStream.Position;
+                if (call__376 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12838,12 +12811,12 @@ namespace Aow.Units.Engine
         public override void rwShortint(ref sbyte S, int ID)
         {
             int Offset = default;
-            var call__382 = FPropertyTable.FindOffset(ID);
-            Offset = call__382;
+            var call__377 = FPropertyTable.FindOffset(ID);
+            Offset = call__377;
             if (Offset != -1)
             {
-                var call__383 = FStream.Position;
-                if (call__383 != (FDataBase + Offset))
+                var call__378 = FStream.Position;
+                if (call__378 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12860,12 +12833,12 @@ namespace Aow.Units.Engine
         public override void rwWord(ref ushort W, int ID)
         {
             int Offset = default;
-            var call__384 = FPropertyTable.FindOffset(ID);
-            Offset = call__384;
+            var call__379 = FPropertyTable.FindOffset(ID);
+            Offset = call__379;
             if (Offset != -1)
             {
-                var call__385 = FStream.Position;
-                if (call__385 != (FDataBase + Offset))
+                var call__380 = FStream.Position;
+                if (call__380 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12882,12 +12855,12 @@ namespace Aow.Units.Engine
         public override void rwIntegerEx(ref int I, int Default, int ID)
         {
             int Offset = default;
-            var call__386 = FPropertyTable.FindOffset(ID);
-            Offset = call__386;
+            var call__381 = FPropertyTable.FindOffset(ID);
+            Offset = call__381;
             if (Offset != -1)
             {
-                var call__387 = FStream.Position;
-                if (call__387 != (FDataBase + Offset))
+                var call__382 = FStream.Position;
+                if (call__382 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12904,12 +12877,12 @@ namespace Aow.Units.Engine
         public override void rwByteEx(ref byte B, byte Default, int ID)
         {
             int Offset = default;
-            var call__388 = FPropertyTable.FindOffset(ID);
-            Offset = call__388;
+            var call__383 = FPropertyTable.FindOffset(ID);
+            Offset = call__383;
             if (Offset != -1)
             {
-                var call__389 = FStream.Position;
-                if (call__389 != (FDataBase + Offset))
+                var call__384 = FStream.Position;
+                if (call__384 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12926,12 +12899,12 @@ namespace Aow.Units.Engine
         public override void rwShortintEx(ref sbyte S, sbyte Default, int ID)
         {
             int Offset = default;
-            var call__390 = FPropertyTable.FindOffset(ID);
-            Offset = call__390;
+            var call__385 = FPropertyTable.FindOffset(ID);
+            Offset = call__385;
             if (Offset != -1)
             {
-                var call__391 = FStream.Position;
-                if (call__391 != (FDataBase + Offset))
+                var call__386 = FStream.Position;
+                if (call__386 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12948,12 +12921,12 @@ namespace Aow.Units.Engine
         public override void rwWordEx(ref ushort W, ushort Default, int ID)
         {
             int Offset = default;
-            var call__392 = FPropertyTable.FindOffset(ID);
-            Offset = call__392;
+            var call__387 = FPropertyTable.FindOffset(ID);
+            Offset = call__387;
             if (Offset != -1)
             {
-                var call__393 = FStream.Position;
-                if (call__393 != (FDataBase + Offset))
+                var call__388 = FStream.Position;
+                if (call__388 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12970,12 +12943,12 @@ namespace Aow.Units.Engine
         public override void rwString(ref Aow.Rtl.AnsiString S, int ID)
         {
             int Offset = default;
-            var call__394 = FPropertyTable.FindOffset(ID);
-            Offset = call__394;
+            var call__389 = FPropertyTable.FindOffset(ID);
+            Offset = call__389;
             if (Offset != -1)
             {
-                var call__395 = FStream.Position;
-                if (call__395 != (FDataBase + Offset))
+                var call__390 = FStream.Position;
+                if (call__390 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12992,12 +12965,12 @@ namespace Aow.Units.Engine
         public override void rwStrings(Aow.Rtl.TStrings Strings, int ID)
         {
             int Offset = default;
-            var call__396 = FPropertyTable.FindOffset(ID);
-            Offset = call__396;
+            var call__391 = FPropertyTable.FindOffset(ID);
+            Offset = call__391;
             if (Offset != -1)
             {
-                var call__397 = FStream.Position;
-                if (call__397 != (FDataBase + Offset))
+                var call__392 = FStream.Position;
+                if (call__392 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -13014,12 +12987,12 @@ namespace Aow.Units.Engine
         public override void rwStringsEx(Aow.Rtl.TStrings Strings, int ID)
         {
             int Offset = default;
-            var call__398 = FPropertyTable.FindOffset(ID);
-            Offset = call__398;
+            var call__393 = FPropertyTable.FindOffset(ID);
+            Offset = call__393;
             if (Offset != -1)
             {
-                var call__399 = FStream.Position;
-                if (call__399 != (FDataBase + Offset))
+                var call__394 = FStream.Position;
+                if (call__394 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -13036,12 +13009,12 @@ namespace Aow.Units.Engine
         public override void rwData(Span<byte> Buffer, int Size, int ID)
         {
             int Offset = default;
-            var call__400 = FPropertyTable.FindOffset(ID);
-            Offset = call__400;
+            var call__395 = FPropertyTable.FindOffset(ID);
+            Offset = call__395;
             if (Offset != -1)
             {
-                var call__401 = FStream.Position;
-                if (call__401 != (FDataBase + Offset))
+                var call__396 = FStream.Position;
+                if (call__396 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -13054,12 +13027,12 @@ namespace Aow.Units.Engine
         public override void rwStreamProc(int ID, Aow.Rtl.TStreamProc LoadProc, Aow.Rtl.TStreamProc SaveProc)
         {
             int Offset = default;
-            var call__402 = FPropertyTable.FindOffset(ID);
-            Offset = call__402;
+            var call__397 = FPropertyTable.FindOffset(ID);
+            Offset = call__397;
             if (Offset != -1)
             {
-                var call__403 = FStream.Position;
-                if (call__403 != (FDataBase + Offset))
+                var call__398 = FStream.Position;
+                if (call__398 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -13079,12 +13052,12 @@ namespace Aow.Units.Engine
         {
             Aow.Rtl.TStream Result = default;
             int Offset = default;
-            var call__404 = FPropertyTable.FindOffset(ID);
-            Offset = call__404;
+            var call__399 = FPropertyTable.FindOffset(ID);
+            Offset = call__399;
             if (Offset != -1)
             {
-                var call__405 = FStream.Position;
-                if (call__405 != (FDataBase + Offset))
+                var call__400 = FStream.Position;
+                if (call__400 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -13103,8 +13076,8 @@ namespace Aow.Units.Engine
         public override void rwBool(ref bool B, int ID)
         {
             int Offset = default;
-            var call__406 = FPropertyTable.FindOffset(ID);
-            Offset = call__406;
+            var call__401 = FPropertyTable.FindOffset(ID);
+            Offset = call__401;
             B = Offset != -1;
         }
 
@@ -13146,12 +13119,12 @@ namespace Aow.Units.Engine
             int AClassID = default;
             // { Match trials (3): named temporaries, identity assignments, try-entry lifetimes; still differs. }
             Obj = null;
-            var call__407 = FPropertyTable.FindOffset(ID);
-            Offset = call__407;
+            var call__402 = FPropertyTable.FindOffset(ID);
+            Offset = call__402;
             if (Offset != -1)
             {
-                var call__408 = FStream.Position;
-                if (call__408 != (FDataBase + Offset))
+                var call__403 = FStream.Position;
+                if (call__403 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -13162,12 +13135,12 @@ namespace Aow.Units.Engine
                     SavedBase = FDataBase;
                     FPropertyTable.BackupSettings();
                     FPropertyTable.LoadFromStream(FStream);
-                    var call__409 = FStream.Position;
-                    FDataBase = call__409;
+                    var call__404 = FStream.Position;
+                    FDataBase = call__404;
                     try
                     {
-                        var call__411 = FEngine.CreateEObject(AClassID, null);
-                        Obj = call__411;
+                        var call__406 = FEngine.CreateEObject(AClassID, null);
+                        Obj = call__406;
                         Obj.FOwner = AOwner;
                         Obj.MainReadWrite(this);
                         Obj.FOwner = null;
@@ -13175,9 +13148,9 @@ namespace Aow.Units.Engine
                         FPropertyTable.RestoreSettings();
                         FDataBase = SavedBase;
                     }
-                    catch (System.Exception caught__410)
+                    catch (System.Exception caught__405)
                     {
-                        var E = Aow.Rtl.Rtl.Wrap(caught__410);
+                        var E = Aow.Rtl.Rtl.Wrap(caught__405);
                         Obj.Free();
                         Obj = null;
                         FPropertyTable.RestoreSettings();
@@ -13199,27 +13172,27 @@ namespace Aow.Units.Engine
             int I = default;
             int ChildID = default;
             Aow.Units.Engine.TEObject Child = default;
-            var call__412 = FPropertyTable.FindOffset(ID);
-            Offset = call__412;
+            var call__407 = FPropertyTable.FindOffset(ID);
+            Offset = call__407;
             if (Offset != -1)
             {
                 SavedBase = FDataBase;
                 FPropertyTable.BackupSettings();
-                var call__413 = FStream.Position;
-                if (call__413 != (FDataBase + Offset))
+                var call__408 = FStream.Position;
+                if (call__408 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
 
                 FPropertyTable.LoadFromStream(FStream);
-                var call__414 = FStream.Position;
-                FDataBase = call__414;
+                var call__409 = FStream.Position;
+                FDataBase = call__409;
                 if (Node.GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
                 {
                     {
                         I = FPropertyTable.First;
-                        int end__415 = FPropertyTable.Count - 1;
-                        for (; I <= end__415; I += 1)
+                        int end__410 = FPropertyTable.Count - 1;
+                        for (; I <= end__410; I += 1)
                         {
                             ChildID = FPropertyTable.Items[I].ID;
                             rwCreateEObject(ref Child, Node, ChildID);
@@ -13234,8 +13207,8 @@ namespace Aow.Units.Engine
                 {
                     {
                         I = FPropertyTable.First;
-                        int end__416 = FPropertyTable.Count - 1;
-                        for (; I <= end__416; I += 1)
+                        int end__411 = FPropertyTable.Count - 1;
+                        for (; I <= end__411; I += 1)
                         {
                             ChildID = FPropertyTable.Items[I].ID;
                             rwCreateEObject(ref Child, Node, ChildID);
@@ -13254,20 +13227,20 @@ namespace Aow.Units.Engine
             int Offset = default;
             int SavedBase = default;
             SavedBase = FDataBase;
-            var call__417 = FPropertyTable.FindOffset(ID);
-            Offset = call__417;
+            var call__412 = FPropertyTable.FindOffset(ID);
+            Offset = call__412;
             FPropertyTable.BackupSettings();
             if (Offset != -1)
             {
-                var call__418 = FStream.Position;
-                if (call__418 != (FDataBase + Offset))
+                var call__413 = FStream.Position;
+                if (call__413 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
 
                 FPropertyTable.LoadFromStream(FStream);
-                var call__419 = FStream.Position;
-                FDataBase = call__419;
+                var call__414 = FStream.Position;
+                FDataBase = call__414;
             }
 
             try
@@ -13276,9 +13249,9 @@ namespace Aow.Units.Engine
                 FPropertyTable.RestoreSettings();
                 FDataBase = SavedBase;
             }
-            catch (System.Exception caught__420)
+            catch (System.Exception caught__415)
             {
-                var E = Aow.Rtl.Rtl.Wrap(caught__420);
+                var E = Aow.Rtl.Rtl.Wrap(caught__415);
                 FPropertyTable.RestoreSettings();
                 FDataBase = SavedBase;
                 if (!HandleException(E))
@@ -13294,8 +13267,8 @@ namespace Aow.Units.Engine
             int SavedBase = default;
             int Start = default;
             int Size = default;
-            var call__421 = FStream.Position;
-            Start = call__421;
+            var call__416 = FStream.Position;
+            Start = call__416;
             FStream.Read(Aow.Rtl.Bytes.Of(ref Size, 4));
             if (Size != 0)
             {
@@ -13304,16 +13277,16 @@ namespace Aow.Units.Engine
                 try
                 {
                     FPropertyTable.LoadFromStream(FStream);
-                    var call__423 = FStream.Position;
-                    FDataBase = call__423;
+                    var call__418 = FStream.Position;
+                    FDataBase = call__418;
                     Obj.MainReadWrite(this);
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
                     FStream.Position = (Start + Size) + 4;
                 }
-                catch (System.Exception caught__422)
+                catch (System.Exception caught__417)
                 {
-                    var E = Aow.Rtl.Rtl.Wrap(caught__422);
+                    var E = Aow.Rtl.Rtl.Wrap(caught__417);
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
                     FStream.Position = (Start + Size) + 4;
@@ -13365,10 +13338,10 @@ namespace Aow.Units.Engine
             base.Create__init_TEStorageStream(AStream, AEngine);
             FEngine = AEngine;
             FStream = AStream;
-            var call__424 = Aow.Units.Engine.TEBufferStream.Create();
-            FBuffer = call__424;
-            var call__425 = Aow.Units.Engine.TPropertyTable.Create();
-            FPropertyTable = call__425;
+            var call__419 = Aow.Units.Engine.TEBufferStream.Create();
+            FBuffer = call__419;
+            var call__420 = Aow.Units.Engine.TPropertyTable.Create();
+            FPropertyTable = call__420;
             FPartial = APartial;
         }
 
@@ -13401,8 +13374,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9597
         public override void rwByte(ref byte B, int ID)
         {
-            var call__426 = FPropertyTable.PropertyExist(ID);
-            if (!call__426)
+            var call__421 = FPropertyTable.PropertyExist(ID);
+            if (!call__421)
             {
                 if (B != 0)
                 {
@@ -13419,8 +13392,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9611
         public override void rwWord(ref ushort W, int ID)
         {
-            var call__427 = FPropertyTable.PropertyExist(ID);
-            if (!call__427)
+            var call__422 = FPropertyTable.PropertyExist(ID);
+            if (!call__422)
             {
                 if (W != 0)
                 {
@@ -13437,8 +13410,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9625
         public override void rwShortint(ref sbyte S, int ID)
         {
-            var call__428 = FPropertyTable.PropertyExist(ID);
-            if (!call__428)
+            var call__423 = FPropertyTable.PropertyExist(ID);
+            if (!call__423)
             {
                 if (S != 0)
                 {
@@ -13455,8 +13428,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9639
         public override void rwInteger(ref int I, int ID)
         {
-            var call__429 = FPropertyTable.PropertyExist(ID);
-            if (!call__429)
+            var call__424 = FPropertyTable.PropertyExist(ID);
+            if (!call__424)
             {
                 if (I != 0)
                 {
@@ -13473,8 +13446,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9653
         public override void rwByteEx(ref byte B, byte Default, int ID)
         {
-            var call__430 = FPropertyTable.PropertyExist(ID);
-            if (!call__430)
+            var call__425 = FPropertyTable.PropertyExist(ID);
+            if (!call__425)
             {
                 if (B != Default)
                 {
@@ -13491,8 +13464,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9667
         public override void rwWordEx(ref ushort W, ushort Default, int ID)
         {
-            var call__431 = FPropertyTable.PropertyExist(ID);
-            if (!call__431)
+            var call__426 = FPropertyTable.PropertyExist(ID);
+            if (!call__426)
             {
                 if (W != Default)
                 {
@@ -13509,8 +13482,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9681
         public override void rwShortintEx(ref sbyte S, sbyte Default, int ID)
         {
-            var call__432 = FPropertyTable.PropertyExist(ID);
-            if (!call__432)
+            var call__427 = FPropertyTable.PropertyExist(ID);
+            if (!call__427)
             {
                 if (S != Default)
                 {
@@ -13527,8 +13500,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9695
         public override void rwIntegerEx(ref int I, int Default, int ID)
         {
-            var call__433 = FPropertyTable.PropertyExist(ID);
-            if (!call__433)
+            var call__428 = FPropertyTable.PropertyExist(ID);
+            if (!call__428)
             {
                 if (I != Default)
                 {
@@ -13545,8 +13518,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9709
         public override void rwString(ref Aow.Rtl.AnsiString S, int ID)
         {
-            var call__434 = FPropertyTable.PropertyExist(ID);
-            if (!call__434)
+            var call__429 = FPropertyTable.PropertyExist(ID);
+            if (!call__429)
             {
                 if (S != ((AnsiString)""))
                 {
@@ -13563,11 +13536,11 @@ namespace Aow.Units.Engine
         // Engine.pas:9723
         public override void rwStrings(Aow.Rtl.TStrings Strings, int ID)
         {
-            var call__435 = FPropertyTable.PropertyExist(ID);
-            if (!call__435)
+            var call__430 = FPropertyTable.PropertyExist(ID);
+            if (!call__430)
             {
-                var call__436 = Strings.Count;
-                if (call__436 != 0)
+                var call__431 = Strings.Count;
+                if (call__431 != 0)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
                     Aow.Units.Engine.Engine.StringsToStream(Strings, FBuffer);
@@ -13582,11 +13555,11 @@ namespace Aow.Units.Engine
         // Engine.pas:9737
         public override void rwStringsEx(Aow.Rtl.TStrings Strings, int ID)
         {
-            var call__437 = FPropertyTable.PropertyExist(ID);
-            if (!call__437)
+            var call__432 = FPropertyTable.PropertyExist(ID);
+            if (!call__432)
             {
-                var call__438 = Strings.Count;
-                if (call__438 != 0)
+                var call__433 = Strings.Count;
+                if (call__433 != 0)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
                     Aow.Units.Engine.Engine.StringsToStreamEx(Strings, FBuffer);
@@ -13601,8 +13574,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9751
         public override void rwData(Span<byte> Buffer, int Size, int ID)
         {
-            var call__439 = FPropertyTable.PropertyExist(ID);
-            if (!call__439)
+            var call__434 = FPropertyTable.PropertyExist(ID);
+            if (!call__434)
             {
                 if (Size != 0)
                 {
@@ -13619,8 +13592,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9765
         public override void rwStreamProc(int ID, Aow.Rtl.TStreamProc LoadProc, Aow.Rtl.TStreamProc SaveProc)
         {
-            var call__440 = FPropertyTable.PropertyExist(ID);
-            if (!call__440)
+            var call__435 = FPropertyTable.PropertyExist(ID);
+            if (!call__435)
             {
                 FPropertyTable.Add(ID, FBuffer.Position);
                 try
@@ -13641,8 +13614,8 @@ namespace Aow.Units.Engine
         public override Aow.Rtl.TStream OpenPropertyStream(int ID)
         {
             Aow.Rtl.TStream Result = default;
-            var call__441 = FPropertyTable.PropertyExist(ID);
-            if (!call__441)
+            var call__436 = FPropertyTable.PropertyExist(ID);
+            if (!call__436)
             {
                 FPropertyTable.Add(ID, FBuffer.Position);
                 Result = FBuffer;
@@ -13659,8 +13632,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9793
         public override void rwBool(ref bool B, int ID)
         {
-            var call__442 = FPropertyTable.PropertyExist(ID);
-            if (!call__442)
+            var call__437 = FPropertyTable.PropertyExist(ID);
+            if (!call__437)
             {
                 if (B)
                 {
@@ -13711,8 +13684,8 @@ namespace Aow.Units.Engine
             int AClassID = default;
             Aow.Units.Engine.TEObject O = default;
             // { Match trials (3): named temporaries, with scopes, identity assignments, try-entry lifetimes; still differs. }
-            var call__443 = FPropertyTable.PropertyExist(ID);
-            if (!call__443)
+            var call__438 = FPropertyTable.PropertyExist(ID);
+            if (!call__438)
             {
                 Start = FBuffer.Position;
                 O = Obj;
@@ -13728,8 +13701,8 @@ namespace Aow.Units.Engine
                 if (AClassID != 0)
                 {
                     Outer = FBuffer;
-                    var call__444 = Aow.Units.Engine.TEBufferStream.Create();
-                    FBuffer = call__444;
+                    var call__439 = Aow.Units.Engine.TEBufferStream.Create();
+                    FBuffer = call__439;
                     FPropertyTable.BackupSettings();
                     try
                     {
@@ -13742,9 +13715,9 @@ namespace Aow.Units.Engine
                         FBuffer = Outer;
                         FPropertyTable.Add(ID, Start);
                     }
-                    catch (System.Exception caught__445)
+                    catch (System.Exception caught__440)
                     {
-                        var E = Aow.Rtl.Rtl.Wrap(caught__445);
+                        var E = Aow.Rtl.Rtl.Wrap(caught__440);
                         FPropertyTable.RestoreSettings();
                         FBuffer.Free();
                         FBuffer = Outer;
@@ -13774,36 +13747,36 @@ namespace Aow.Units.Engine
             int Start = default;
             Aow.Units.Engine.TEObject C = default;
             int I = default;
-            var call__446 = FPropertyTable.PropertyExist(ID);
-            if (!call__446)
+            var call__441 = FPropertyTable.PropertyExist(ID);
+            if (!call__441)
             {
                 Start = FBuffer.Position;
                 Outer = FBuffer;
-                var call__447 = Aow.Units.Engine.TEBufferStream.Create();
-                FBuffer = call__447;
+                var call__442 = Aow.Units.Engine.TEBufferStream.Create();
+                FBuffer = call__442;
                 FPropertyTable.BackupSettings();
                 {
                     I = 0;
-                    int end__448 = Node.Count - 1;
-                    for (; I <= end__448; I += 1)
+                    int end__443 = Node.Count - 1;
+                    for (; I <= end__443; I += 1)
                     {
-                        var call__449 = Node.Children[I];
-                        C = call__449;
-                        bool bool__450 = (C != null) && (C.Owner == Node);
-                        if (bool__450)
+                        var call__444 = Node.Children[I];
+                        C = call__444;
+                        bool bool__445 = (C != null) && (C.Owner == Node);
+                        if (bool__445)
                         {
-                            var call__451 = C.GetControlStyle();
-                            bool__450 = !call__451.Contains(Aow.Units.Engine.Engine.csShared);
+                            var call__446 = C.GetControlStyle();
+                            bool__445 = !call__446.Contains(Aow.Units.Engine.Engine.csShared);
                         }
 
-                        bool bool__452 = bool__450;
-                        if (bool__452)
+                        bool bool__447 = bool__445;
+                        if (bool__447)
                         {
-                            var call__453 = C.GetControlStyle();
-                            bool__452 = call__453.Contains(Aow.Units.Engine.Engine.csStored);
+                            var call__448 = C.GetControlStyle();
+                            bool__447 = call__448.Contains(Aow.Units.Engine.Engine.csStored);
                         }
 
-                        if (bool__452)
+                        if (bool__447)
                         {
                             rwCreateEObject(ref C, Node, I);
                         }
@@ -13829,13 +13802,13 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEBufferStream Outer = default;
             int Start = default;
             // { Match trials (3): named temporaries, with scopes, identity assignments, try-entry lifetimes; still differs. }
-            var call__454 = FPropertyTable.PropertyExist(ID);
-            if (!call__454)
+            var call__449 = FPropertyTable.PropertyExist(ID);
+            if (!call__449)
             {
                 Start = FBuffer.Position;
                 Outer = FBuffer;
-                var call__455 = Aow.Units.Engine.TEBufferStream.Create();
-                FBuffer = call__455;
+                var call__450 = Aow.Units.Engine.TEBufferStream.Create();
+                FBuffer = call__450;
                 FPropertyTable.BackupSettings();
                 try
                 {
@@ -13847,9 +13820,9 @@ namespace Aow.Units.Engine
                     FBuffer = Outer;
                     FPropertyTable.Add(ID, Start);
                 }
-                catch (System.Exception caught__456)
+                catch (System.Exception caught__451)
                 {
-                    var E = Aow.Rtl.Rtl.Wrap(caught__456);
+                    var E = Aow.Rtl.Rtl.Wrap(caught__451);
                     FPropertyTable.RestoreSettings();
                     FBuffer.Free();
                     FBuffer = Outer;
@@ -13875,8 +13848,8 @@ namespace Aow.Units.Engine
             // { Match trials (3): named temporaries, with scopes, identity assignments, try-entry lifetimes; still differs. }
             Start = FBuffer.Position;
             Outer = FBuffer;
-            var call__457 = Aow.Units.Engine.TEBufferStream.Create();
-            FBuffer = call__457;
+            var call__452 = Aow.Units.Engine.TEBufferStream.Create();
+            FBuffer = call__452;
             FPropertyTable.BackupSettings();
             try
             {
@@ -13892,9 +13865,9 @@ namespace Aow.Units.Engine
                 FBuffer.Free();
                 FBuffer = Outer;
             }
-            catch (System.Exception caught__458)
+            catch (System.Exception caught__453)
             {
-                var E = Aow.Rtl.Rtl.Wrap(caught__458);
+                var E = Aow.Rtl.Rtl.Wrap(caught__453);
                 FBuffer.Free();
                 FBuffer = Outer;
                 FPropertyTable.RestoreSettings();
@@ -13937,8 +13910,8 @@ namespace Aow.Units.Engine
             FEngine = AEngine;
             FStream = AStream;
             FBuffer = (Aow.Units.Engine.TEBufferStream)AStream;
-            var call__459 = Aow.Units.Engine.TPropertyTable.Create();
-            FPropertyTable = call__459;
+            var call__454 = Aow.Units.Engine.TPropertyTable.Create();
+            FPropertyTable = call__454;
             FPartial = false;
             FErrorHandled = false;
         }
@@ -13956,8 +13929,8 @@ namespace Aow.Units.Engine
             int AClassID = default;
             Aow.Units.Engine.TEObject O = default;
             // { Match trials (3): declaration/operand order, named temporaries, Pointer casts, identity assignments; still differs. }
-            var call__460 = FPropertyTable.PropertyExist(ID);
-            if (!call__460)
+            var call__455 = FPropertyTable.PropertyExist(ID);
+            if (!call__455)
             {
                 O = Obj;
                 if (O != null)
@@ -13981,9 +13954,9 @@ namespace Aow.Units.Engine
                         FPropertyTable.RestoreSettings();
                         FPropertyTable.Add(ID, FBuffer.Position);
                     }
-                    catch (System.Exception caught__461)
+                    catch (System.Exception caught__456)
                     {
-                        var E = Aow.Rtl.Rtl.Wrap(caught__461);
+                        var E = Aow.Rtl.Rtl.Wrap(caught__456);
                         FPropertyTable.RestoreSettings();
                         if (!HandleException(E))
                         {
@@ -14008,32 +13981,32 @@ namespace Aow.Units.Engine
         {
             Aow.Units.Engine.TEObject C = default;
             int I = default;
-            var call__462 = FPropertyTable.PropertyExist(ID);
-            if (!call__462)
+            var call__457 = FPropertyTable.PropertyExist(ID);
+            if (!call__457)
             {
                 FPropertyTable.BackupSettings();
                 {
                     I = 0;
-                    int end__463 = Node.Count - 1;
-                    for (; I <= end__463; I += 1)
+                    int end__458 = Node.Count - 1;
+                    for (; I <= end__458; I += 1)
                     {
-                        var call__464 = Node.Children[I];
-                        C = call__464;
-                        bool bool__465 = (C != null) && (C.Owner == Node);
-                        if (bool__465)
+                        var call__459 = Node.Children[I];
+                        C = call__459;
+                        bool bool__460 = (C != null) && (C.Owner == Node);
+                        if (bool__460)
                         {
-                            var call__466 = C.GetControlStyle();
-                            bool__465 = !call__466.Contains(Aow.Units.Engine.Engine.csShared);
+                            var call__461 = C.GetControlStyle();
+                            bool__460 = !call__461.Contains(Aow.Units.Engine.Engine.csShared);
                         }
 
-                        bool bool__467 = bool__465;
-                        if (bool__467)
+                        bool bool__462 = bool__460;
+                        if (bool__462)
                         {
-                            var call__468 = C.GetControlStyle();
-                            bool__467 = call__468.Contains(Aow.Units.Engine.Engine.csStored);
+                            var call__463 = C.GetControlStyle();
+                            bool__462 = call__463.Contains(Aow.Units.Engine.Engine.csStored);
                         }
 
-                        if (bool__467)
+                        if (bool__462)
                         {
                             rwCreateEObject(ref C, Node, I);
                         }
@@ -14053,8 +14026,8 @@ namespace Aow.Units.Engine
         // Engine.pas:10565
         public override void rwEObject(Aow.Units.Engine.TEObject Obj, int ID)
         {
-            var call__469 = FPropertyTable.PropertyExist(ID);
-            if (!call__469)
+            var call__464 = FPropertyTable.PropertyExist(ID);
+            if (!call__464)
             {
                 FPropertyTable.BackupSettings();
                 try
@@ -14064,9 +14037,9 @@ namespace Aow.Units.Engine
                     FPropertyTable.RestoreSettings();
                     FPropertyTable.Add(ID, FBuffer.Position);
                 }
-                catch (System.Exception caught__470)
+                catch (System.Exception caught__465)
                 {
-                    var E = Aow.Rtl.Rtl.Wrap(caught__470);
+                    var E = Aow.Rtl.Rtl.Wrap(caught__465);
                     FPropertyTable.RestoreSettings();
                     if (!HandleException(E))
                     {
@@ -14093,9 +14066,9 @@ namespace Aow.Units.Engine
                 FBuffer.Write(Aow.Rtl.Bytes.Of(ref Size, 4));
                 FPropertyTable.RestoreSettings();
             }
-            catch (System.Exception caught__471)
+            catch (System.Exception caught__466)
             {
-                var E = Aow.Rtl.Rtl.Wrap(caught__471);
+                var E = Aow.Rtl.Rtl.Wrap(caught__466);
                 FPropertyTable.RestoreSettings();
                 Size = 0;
                 FBuffer.Write(Aow.Rtl.Bytes.Of(ref Size, 4));
@@ -14133,8 +14106,8 @@ namespace Aow.Units.Engine
         public void Create__init_TTranslateStorageStream(Aow.Units.Engine.TEngine AEngine)
         {
             base.Create__init_TEStorageStream(null, AEngine);
-            var call__472 = Aow.Units.Engine.TPropertyTable.Create();
-            FPropertyTable = call__472;
+            var call__467 = Aow.Units.Engine.TPropertyTable.Create();
+            FPropertyTable = call__467;
         }
 
         // Engine.pas:10831
@@ -14198,8 +14171,8 @@ namespace Aow.Units.Engine
                 // { the original leaves Continue uninitialized here }
                 if (FOnError != null)
                 {
-                    var call__473 = Obj.ClassType.ClassID();
-                    FOnError(this, (((AnsiString)"Error reading object (cid:") + Aow.Rtl.Rtl.IntToStr(call__473)) + AnsiString.FromBytes(41), ref Continue);
+                    var call__468 = Obj.ClassType.ClassID();
+                    FOnError(this, (((AnsiString)"Error reading object (cid:") + Aow.Rtl.Rtl.IntToStr(call__468)) + AnsiString.FromBytes(41), ref Continue);
                 }
 
                 if (!Continue)
@@ -14222,26 +14195,26 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEObject C = default;
             {
                 I = 0;
-                int end__474 = Node.Count - 1;
-                for (; I <= end__474; I += 1)
+                int end__469 = Node.Count - 1;
+                for (; I <= end__469; I += 1)
                 {
-                    var call__475 = Node.Children[I];
-                    C = call__475;
-                    bool bool__476 = (C != null) && (C.Owner == Node);
-                    if (bool__476)
+                    var call__470 = Node.Children[I];
+                    C = call__470;
+                    bool bool__471 = (C != null) && (C.Owner == Node);
+                    if (bool__471)
                     {
-                        var call__477 = C.GetControlStyle();
-                        bool__476 = !call__477.Contains(Aow.Units.Engine.Engine.csShared);
+                        var call__472 = C.GetControlStyle();
+                        bool__471 = !call__472.Contains(Aow.Units.Engine.Engine.csShared);
                     }
 
-                    bool bool__478 = bool__476;
-                    if (bool__478)
+                    bool bool__473 = bool__471;
+                    if (bool__473)
                     {
-                        var call__479 = C.GetControlStyle();
-                        bool__478 = call__479.Contains(Aow.Units.Engine.Engine.csStored);
+                        var call__474 = C.GetControlStyle();
+                        bool__473 = call__474.Contains(Aow.Units.Engine.Engine.csStored);
                     }
 
-                    if (bool__478)
+                    if (bool__473)
                     {
                         rwEObject(C, I);
                     }
@@ -14335,12 +14308,12 @@ namespace Aow.Units.Engine
             int Offset = default;
             int SavedBase = default;
             int AClassID = default;
-            var call__480 = FPropertyTable.FindOffset(ID);
-            Offset = call__480;
+            var call__475 = FPropertyTable.FindOffset(ID);
+            Offset = call__475;
             if ((Offset != -1) && (Obj != null))
             {
-                var call__481 = FStream.Position;
-                if (call__481 != (FDataBase + Offset))
+                var call__476 = FStream.Position;
+                if (call__476 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -14351,8 +14324,8 @@ namespace Aow.Units.Engine
                     SavedBase = FDataBase;
                     FPropertyTable.BackupSettings();
                     FPropertyTable.LoadFromStream(FStream);
-                    var call__482 = FStream.Position;
-                    FDataBase = call__482;
+                    var call__477 = FStream.Position;
+                    FDataBase = call__477;
                     // { The original handles read errors by destroying and clearing Obj. }
                     try
                     {
@@ -14360,9 +14333,9 @@ namespace Aow.Units.Engine
                         FPropertyTable.RestoreSettings();
                         FDataBase = SavedBase;
                     }
-                    catch (System.Exception caught__483)
+                    catch (System.Exception caught__478)
                     {
-                        var E = Aow.Rtl.Rtl.Wrap(caught__483);
+                        var E = Aow.Rtl.Rtl.Wrap(caught__478);
                         Obj.Free();
                         Obj = null;
                         FPropertyTable.RestoreSettings();
@@ -14385,31 +14358,31 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEObject C = default;
             int Offset = default;
             int Index = default;
-            var call__484 = FPropertyTable.FindOffset(ID);
-            Offset = call__484;
+            var call__479 = FPropertyTable.FindOffset(ID);
+            Offset = call__479;
             if (Offset != -1)
             {
                 SavedBase = FDataBase;
                 FPropertyTable.BackupSettings();
-                var call__485 = FStream.Position;
-                if (call__485 != (FDataBase + Offset))
+                var call__480 = FStream.Position;
+                if (call__480 != (FDataBase + Offset))
                 {
                     FStream.Position = FDataBase + Offset;
                 }
 
                 FPropertyTable.LoadFromStream(FStream);
-                var call__486 = FStream.Position;
-                FDataBase = call__486;
+                var call__481 = FStream.Position;
+                FDataBase = call__481;
                 if (Node.GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
                 {
                     {
                         I = FPropertyTable.First;
-                        int end__487 = FPropertyTable.Count - 1;
-                        for (; I <= end__487; I += 1)
+                        int end__482 = FPropertyTable.Count - 1;
+                        for (; I <= end__482; I += 1)
                         {
                             Index = FPropertyTable.Items[I].ID;
-                            var call__488 = Node.Children[Index];
-                            C = call__488;
+                            var call__483 = Node.Children[Index];
+                            C = call__483;
                             if (C != null)
                             {
                                 rwCreateEObject(ref C, Node, Index);
@@ -14422,23 +14395,23 @@ namespace Aow.Units.Engine
                     Start = 0;
                     while (true)
                     {
-                        var call__489 = Node.Count;
-                        bool bool__490 = (Start < call__489);
-                        if (bool__490)
+                        var call__484 = Node.Count;
+                        bool bool__485 = (Start < call__484);
+                        if (bool__485)
                         {
-                            var call__491 = Node.Children[Start];
-                            bool__490 = (call__491 != null);
+                            var call__486 = Node.Children[Start];
+                            bool__485 = (call__486 != null);
                         }
 
-                        bool bool__492 = bool__490;
-                        if (bool__492)
+                        bool bool__487 = bool__485;
+                        if (bool__487)
                         {
-                            var call__493 = Node.Children[Start];
-                            var call__494 = call__493.GetControlStyle();
-                            bool__492 = ((call__494 & TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared)) != TSet<Aow.Units.Engine.TEControlStyleElement>.Of());
+                            var call__488 = Node.Children[Start];
+                            var call__489 = call__488.GetControlStyle();
+                            bool__487 = ((call__489 & TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared)) != TSet<Aow.Units.Engine.TEControlStyleElement>.Of());
                         }
 
-                        if (!bool__492)
+                        if (!bool__487)
                             break;
                         {
                             Start += 1;
@@ -14447,15 +14420,15 @@ namespace Aow.Units.Engine
 
                     {
                         I = FPropertyTable.First;
-                        int end__495 = FPropertyTable.Count - 1;
-                        for (; I <= end__495; I += 1)
+                        int end__490 = FPropertyTable.Count - 1;
+                        for (; I <= end__490; I += 1)
                         {
                             Index = FPropertyTable.Items[I].ID;
-                            var call__496 = Node.Count;
-                            if (Index < call__496)
+                            var call__491 = Node.Count;
+                            if (Index < call__491)
                             {
-                                var call__497 = Node.Children[(I - FPropertyTable.First) + Start];
-                                C = call__497;
+                                var call__492 = Node.Children[(I - FPropertyTable.First) + Start];
+                                C = call__492;
                                 if (C != null)
                                 {
                                     rwCreateEObject(ref C, Node, Index);
@@ -14504,9 +14477,9 @@ namespace Aow.Units.Engine
             // { the original never frees L }
             L = new Aow.Rtl.TStringList();
             base.rwStrings(L, ID);
-            var call__498 = Strings.Text;
-            var call__499 = L.Text;
-            if (Aow.Rtl.Rtl.CompareText(call__499, call__498) != 0)
+            var call__493 = Strings.Text;
+            var call__494 = L.Text;
+            if (Aow.Rtl.Rtl.CompareText(call__494, call__493) != 0)
             {
                 Mismatch(ID);
             }
@@ -14518,9 +14491,9 @@ namespace Aow.Units.Engine
             Aow.Rtl.TStringList L = default;
             L = new Aow.Rtl.TStringList();
             base.rwStrings(L, ID);
-            var call__500 = Strings.Text;
-            var call__501 = L.Text;
-            if (Aow.Rtl.Rtl.CompareText(call__501, call__500) != 0)
+            var call__495 = Strings.Text;
+            var call__496 = L.Text;
+            if (Aow.Rtl.Rtl.CompareText(call__496, call__495) != 0)
             {
                 Mismatch(ID);
             }
@@ -14706,14 +14679,14 @@ namespace Aow.Units.Engine
         public static void SortStrings(Aow.Rtl.TStrings Strings, Aow.Units.Engine.TStringsSortCompare Compare)
         {
             Aow.Units.Engine.TSortStringsContext Ctx = default;
-            var call__502 = Strings.Count;
-            if (call__502 != 0)
+            var call__497 = Strings.Count;
+            if (call__497 != 0)
             {
                 Ctx.Strings = Strings;
                 Ctx.Compare = Compare;
                 Ctx.ExchangeProc = null;
-                var call__503 = Strings.Count;
-                Aow.Units.Engine.Engine.QuickSortStrings(ref Ctx, 0, call__503 - 1);
+                var call__498 = Strings.Count;
+                Aow.Units.Engine.Engine.QuickSortStrings(ref Ctx, 0, call__498 - 1);
             }
         }
 
@@ -14723,8 +14696,8 @@ namespace Aow.Units.Engine
             Aow.Rtl.TList Lists = default;
             int I = default;
             Aow.Units.Engine.TSortStringsContext Ctx = default;
-            var call__504 = Strings.Count;
-            if (call__504 != 0)
+            var call__499 = Strings.Count;
+            if (call__499 != 0)
             {
                 Strings.BeginUpdate();
                 Ctx.Strings = Strings;
@@ -14735,8 +14708,8 @@ namespace Aow.Units.Engine
                     Lists = new Aow.Rtl.TList();
                     {
                         I = 0;
-                        int end__505 = LinkedStrings.Length - 1;
-                        for (; I <= end__505; I += 1)
+                        int end__500 = LinkedStrings.Length - 1;
+                        for (; I <= end__500; I += 1)
                         {
                             LinkedStrings[I].BeginUpdate();
                             Lists.Add(LinkedStrings[I]);
@@ -14751,14 +14724,14 @@ namespace Aow.Units.Engine
                     Lists = null;
                 }
 
-                var call__506 = Strings.Count;
-                Aow.Units.Engine.Engine.QuickSortStrings(ref Ctx, 0, call__506 - 1);
+                var call__501 = Strings.Count;
+                Aow.Units.Engine.Engine.QuickSortStrings(ref Ctx, 0, call__501 - 1);
                 if (Lists != null)
                 {
                     {
                         I = 0;
-                        int end__507 = LinkedStrings.Length - 1;
-                        for (; I <= end__507; I += 1)
+                        int end__502 = LinkedStrings.Length - 1;
+                        for (; I <= end__502; I += 1)
                         {
                             LinkedStrings[I].EndUpdate();
                         }
@@ -14812,8 +14785,8 @@ namespace Aow.Units.Engine
 
             {
                 I = 0;
-                int end__508 = L - 1;
-                for (; I <= end__508; I += 1)
+                int end__503 = L - 1;
+                for (; I <= end__503; I += 1)
                 {
                     C = unchecked((byte)S[L - I]);
                     if (TSet<byte>.WithBounds(0, 255).WithRange(48, 57).Contains(C))
@@ -14856,10 +14829,10 @@ namespace Aow.Units.Engine
             I = 0;
             while (!Found && (I != Aow.Units.Engine.Engine.PlugIns.Count))
             {
-                var call__509 = Aow.Units.Engine.Engine.PlugIns[I];
-                var call__510 = ((Aow.Units.Engine.TPlugIn)call__509).Name();
-                var call__511 = PlugIn.Name();
-                Found = call__510 == call__511;
+                var call__504 = Aow.Units.Engine.Engine.PlugIns[I];
+                var call__505 = ((Aow.Units.Engine.TPlugIn)call__504).Name();
+                var call__506 = PlugIn.Name();
+                Found = call__505 == call__506;
                 I += 1;
             }
 
@@ -14869,17 +14842,17 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__512 = PlugIn.Name();
-                var call__513 = Aow.Rtl.Exception.Create((((AnsiString)"PlugIn ") + call__512) + ((AnsiString)" already registered"));
-                throw call__513;
+                var call__507 = PlugIn.Name();
+                var call__508 = Aow.Rtl.Exception.Create((((AnsiString)"PlugIn ") + call__507) + ((AnsiString)" already registered"));
+                throw call__508;
             }
         }
 
         // Engine.pas:9242
         public static void UnregisterPlugIn(Aow.Units.Engine.TPlugIn PlugIn)
         {
-            var call__514 = Aow.Units.Engine.Engine.PlugIns.IndexOf(PlugIn);
-            if (call__514 != -1)
+            var call__509 = Aow.Units.Engine.Engine.PlugIns.IndexOf(PlugIn);
+            if (call__509 != -1)
             {
                 Aow.Units.Engine.Engine.PlugIns.Remove(PlugIn);
             }
@@ -14895,11 +14868,11 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = 0;
-                int end__515 = Aow.Units.Engine.Engine.PlugIns.Count - 1;
-                for (; I <= end__515; I += 1)
+                int end__510 = Aow.Units.Engine.Engine.PlugIns.Count - 1;
+                for (; I <= end__510; I += 1)
                 {
-                    var call__516 = Aow.Units.Engine.Engine.PlugIns[I];
-                    ((Aow.Units.Engine.TPlugIn)call__516).Initialize(AEngine);
+                    var call__511 = Aow.Units.Engine.Engine.PlugIns[I];
+                    ((Aow.Units.Engine.TPlugIn)call__511).Initialize(AEngine);
                 }
             }
         }
@@ -14910,11 +14883,11 @@ namespace Aow.Units.Engine
             int I = default;
             {
                 I = 0;
-                int end__517 = Aow.Units.Engine.Engine.PlugIns.Count - 1;
-                for (; I <= end__517; I += 1)
+                int end__512 = Aow.Units.Engine.Engine.PlugIns.Count - 1;
+                for (; I <= end__512; I += 1)
                 {
-                    var call__518 = Aow.Units.Engine.Engine.PlugIns[I];
-                    ((Aow.Units.Engine.TPlugIn)call__518).Finalize(AEngine);
+                    var call__513 = Aow.Units.Engine.Engine.PlugIns[I];
+                    ((Aow.Units.Engine.TPlugIn)call__513).Finalize(AEngine);
                 }
             }
         }
@@ -14925,8 +14898,8 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TPlugIn Result = default;
             if (((Aow.Units.Engine.Engine.PlugIns != null) && (Index >= 0)) && (Index < Aow.Units.Engine.Engine.PlugIns.Count))
             {
-                var call__519 = Aow.Units.Engine.Engine.PlugIns[Index];
-                Result = (Aow.Units.Engine.TPlugIn)call__519;
+                var call__514 = Aow.Units.Engine.Engine.PlugIns[Index];
+                Result = (Aow.Units.Engine.TPlugIn)call__514;
             }
             else
             {
@@ -14947,12 +14920,12 @@ namespace Aow.Units.Engine
                 I = 0;
                 while ((I != Aow.Units.Engine.Engine.PlugIns.Count) && (Result == null))
                 {
-                    var call__520 = Aow.Units.Engine.Engine.PlugIns[I];
-                    var call__521 = ((Aow.Units.Engine.TPlugIn)call__520).Name();
-                    if (call__521 == Name)
+                    var call__515 = Aow.Units.Engine.Engine.PlugIns[I];
+                    var call__516 = ((Aow.Units.Engine.TPlugIn)call__515).Name();
+                    if (call__516 == Name)
                     {
-                        var call__522 = Aow.Units.Engine.Engine.PlugIns[I];
-                        Result = (Aow.Units.Engine.TPlugIn)call__522;
+                        var call__517 = Aow.Units.Engine.Engine.PlugIns[I];
+                        Result = (Aow.Units.Engine.TPlugIn)call__517;
                     }
 
                     I += 1;
@@ -14984,8 +14957,8 @@ namespace Aow.Units.Engine
                     }
                     catch (System.Exception)
                     {
-                        var call__523 = Aow.Rtl.Exception.Create((((AnsiString)"Unable to load PlugIn: ") + Dir) + SR.Name);
-                        throw call__523;
+                        var call__518 = Aow.Rtl.Exception.Create((((AnsiString)"Unable to load PlugIn: ") + Dir) + SR.Name);
+                        throw call__518;
                     }
 
                     Found = Aow.Rtl.Rtl.FindNext(ref SR) == 0;
@@ -15007,11 +14980,11 @@ namespace Aow.Units.Engine
                 Aow.Rtl.Rtl.FindClose(ref SR);
                 {
                     I = 0;
-                    int end__525 = Dirs.Count - 1;
-                    for (; I <= end__525; I += 1)
+                    int end__520 = Dirs.Count - 1;
+                    for (; I <= end__520; I += 1)
                     {
-                        var call__526 = Dirs[I];
-                        LoadFrom(call__526);
+                        var call__521 = Dirs[I];
+                        LoadFrom(call__521);
                     }
                 }
 
@@ -15035,13 +15008,13 @@ namespace Aow.Units.Engine
             Aow.Rtl.AnsiString S = default;
             {
                 I = Aow.Units.Engine.Engine.Packages.Count - 1;
-                byte end__527 = 0;
-                for (; I >= end__527; I -= 1)
+                byte end__522 = 0;
+                for (; I >= end__522; I -= 1)
                 {
                     try
                     {
-                        var call__529 = Aow.Units.Engine.Engine.Packages[I];
-                        S = call__529;
+                        var call__524 = Aow.Units.Engine.Engine.Packages[I];
+                        S = call__524;
                         // { the original hands the name, not the handle in Objects, to UnloadPackage }
                         /* TODO(T-5.4) Native Delphi packages have no managed loader */
                         throw new System.NotImplementedException();
@@ -15049,8 +15022,8 @@ namespace Aow.Units.Engine
                     }
                     catch (System.Exception)
                     {
-                        var call__528 = Aow.Units.Engine.Engine.Packages[I];
-                        S = ((AnsiString)"Could not release PlugIn: ") + call__528;
+                        var call__523 = Aow.Units.Engine.Engine.Packages[I];
+                        S = ((AnsiString)"Could not release PlugIn: ") + call__523;
                         throw Aow.Rtl.Exception.Create(S);
                     }
                 }
@@ -15113,9 +15086,9 @@ namespace Aow.Units.Engine
                 try
                 {
                     M.LoadFromStream(F);
-                    var call__530 = M.Size;
-                    var call__531 = Aow.Units.Engine.Engine.GetCRC32(Ptr<byte>.To(M.Memory, 0), call__530);
-                    Result = call__531;
+                    var call__525 = M.Size;
+                    var call__526 = Aow.Units.Engine.Engine.GetCRC32(Ptr<byte>.To(M.Memory, 0), call__525);
+                    Result = call__526;
                 }
                 finally
                 {
@@ -15143,8 +15116,8 @@ namespace Aow.Units.Engine
             object P = default;
             if (((Aow.Units.Engine.Engine.Engines != null) && (Index >= 0)) && (Index < Aow.Units.Engine.Engine.Engines.Count))
             {
-                var call__532 = Aow.Units.Engine.Engine.Engines[Index];
-                P = call__532;
+                var call__527 = Aow.Units.Engine.Engine.Engines[Index];
+                P = call__527;
                 Result = (Aow.Units.Engine.TEngine)P;
             }
             else
@@ -15169,16 +15142,16 @@ namespace Aow.Units.Engine
                 Found = false;
                 while (!Found && (I < Aow.Units.Engine.Engine.Engines.Count))
                 {
-                    var call__533 = Aow.Units.Engine.Engine.Engines[I];
-                    var call__534 = ((Aow.Units.Engine.TEngine)call__533).ClassType.ClassID();
-                    Found = AClassID == call__534;
+                    var call__528 = Aow.Units.Engine.Engine.Engines[I];
+                    var call__529 = ((Aow.Units.Engine.TEngine)call__528).ClassType.ClassID();
+                    Found = AClassID == call__529;
                     I += 1;
                 }
 
                 if (Found)
                 {
-                    var call__535 = Aow.Units.Engine.Engine.Engines[I - 1];
-                    Result = (Aow.Units.Engine.TEngine)call__535;
+                    var call__530 = Aow.Units.Engine.Engine.Engines[I - 1];
+                    Result = (Aow.Units.Engine.TEngine)call__530;
                 }
             }
 
@@ -15351,18 +15324,18 @@ namespace Aow.Units.Engine
                 I = L;
                 J = R;
                 M = (int)(((uint)(L + R)) >> 1);
-                var call__536 = Ctx.Strings[M];
-                P = call__536;
-                var call__537 = Ctx.Strings.Objects[M];
-                PO = call__537;
+                var call__531 = Ctx.Strings[M];
+                P = call__531;
+                var call__532 = Ctx.Strings.Objects[M];
+                PO = call__532;
                 do
                 {
                     while (true)
                     {
-                        var call__538 = Ctx.Strings.Objects[I];
-                        var call__539 = Ctx.Strings[I];
-                        var call__540 = Ctx.Compare(call__539, P, call__538, PO);
-                        if (!(call__540 < 0))
+                        var call__533 = Ctx.Strings.Objects[I];
+                        var call__534 = Ctx.Strings[I];
+                        var call__535 = Ctx.Compare(call__534, P, call__533, PO);
+                        if (!(call__535 < 0))
                             break;
                         {
                             I += 1;
@@ -15371,10 +15344,10 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__541 = Ctx.Strings.Objects[J];
-                        var call__542 = Ctx.Strings[J];
-                        var call__543 = Ctx.Compare(call__542, P, call__541, PO);
-                        if (!(call__543 > 0))
+                        var call__536 = Ctx.Strings.Objects[J];
+                        var call__537 = Ctx.Strings[J];
+                        var call__538 = Ctx.Compare(call__537, P, call__536, PO);
+                        if (!(call__538 > 0))
                             break;
                         {
                             J -= 1;
@@ -15410,8 +15383,8 @@ namespace Aow.Units.Engine
             int K = default;
             {
                 K = Lists.Count - 1;
-                byte end__544 = 0;
-                for (; K >= end__544; K -= 1)
+                byte end__539 = 0;
+                for (; K >= end__539; K -= 1)
                 {
                     ((Aow.Rtl.TStrings)Lists.List[K]).Exchange(I, J);
                 }
@@ -15523,11 +15496,11 @@ namespace Aow.Units.Engine
             P = default;
             {
                 I = 0;
-                int end__545 = Strings.Count - 1;
-                for (; I <= end__545; I += 1)
+                int end__540 = Strings.Count - 1;
+                for (; I <= end__540; I += 1)
                 {
-                    var call__546 = Strings.Objects[I];
-                    Obj = Aow.Rtl.Rtl.ObjectToInt(call__546);
+                    var call__541 = Strings.Objects[I];
+                    Obj = Aow.Rtl.Rtl.ObjectToInt(call__541);
                     Stream.Write(Aow.Rtl.Bytes.Of(ref Obj, 4));
                 }
             }
@@ -15549,8 +15522,8 @@ namespace Aow.Units.Engine
                 Strings.Text = S;
                 {
                     I = 0;
-                    int end__547 = Strings.Count - 1;
-                    for (; I <= end__547; I += 1)
+                    int end__542 = Strings.Count - 1;
+                    for (; I <= end__542; I += 1)
                     {
                         Stream.Read(Aow.Rtl.Bytes.Of(ref Obj, 4));
                         Strings.Objects[I] = Aow.Rtl.Rtl.IntToObject((int)Obj);
@@ -15578,14 +15551,14 @@ namespace Aow.Units.Engine
                 Polynomial = -306674912;
                 {
                     I = 0;
-                    byte end__548 = 255;
-                    for (; I <= end__548; I += 1)
+                    byte end__543 = 255;
+                    for (; I <= end__543; I += 1)
                     {
                         C = I;
                         {
                             J = 7;
-                            byte end__549 = 0;
-                            for (; J >= end__549; J -= 1)
+                            byte end__544 = 0;
+                            for (; J >= end__544; J -= 1)
                             {
                                 if ((C & 1) != 0)
                                 {
@@ -15620,8 +15593,8 @@ namespace Aow.Units.Engine
                 {
                     while (true)
                     {
-                        var call__550 = SCompare(SortList[I], P);
-                        if (!(call__550 < 0))
+                        var call__545 = SCompare(SortList[I], P);
+                        if (!(call__545 < 0))
                             break;
                         {
                             I += 1;
@@ -15630,8 +15603,8 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__551 = SCompare(SortList[J], P);
-                        if (!(call__551 > 0))
+                        var call__546 = SCompare(SortList[J], P);
+                        if (!(call__546 > 0))
                             break;
                         {
                             J -= 1;
@@ -15674,8 +15647,8 @@ namespace Aow.Units.Engine
                 {
                     while (true)
                     {
-                        var call__552 = SCompare(unchecked((byte)SortList[I]), unchecked((byte)P));
-                        if (!(call__552 < 0))
+                        var call__547 = SCompare(unchecked((byte)SortList[I]), unchecked((byte)P));
+                        if (!(call__547 < 0))
                             break;
                         {
                             I += 1;
@@ -15684,8 +15657,8 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__553 = SCompare(unchecked((byte)SortList[J]), unchecked((byte)P));
-                        if (!(call__553 > 0))
+                        var call__548 = SCompare(unchecked((byte)SortList[J]), unchecked((byte)P));
+                        if (!(call__548 > 0))
                             break;
                         {
                             J -= 1;
@@ -15728,8 +15701,8 @@ namespace Aow.Units.Engine
                 {
                     while (true)
                     {
-                        var call__554 = SCompare(unchecked((sbyte)SortList[I]), unchecked((sbyte)P));
-                        if (!(call__554 < 0))
+                        var call__549 = SCompare(unchecked((sbyte)SortList[I]), unchecked((sbyte)P));
+                        if (!(call__549 < 0))
                             break;
                         {
                             I += 1;
@@ -15738,8 +15711,8 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__555 = SCompare(unchecked((sbyte)SortList[J]), unchecked((sbyte)P));
-                        if (!(call__555 > 0))
+                        var call__550 = SCompare(unchecked((sbyte)SortList[J]), unchecked((sbyte)P));
+                        if (!(call__550 > 0))
                             break;
                         {
                             J -= 1;
@@ -15782,8 +15755,8 @@ namespace Aow.Units.Engine
                 {
                     while (true)
                     {
-                        var call__556 = SCompare(unchecked((ushort)SortList[I]), unchecked((ushort)P));
-                        if (!(call__556 < 0))
+                        var call__551 = SCompare(unchecked((ushort)SortList[I]), unchecked((ushort)P));
+                        if (!(call__551 < 0))
                             break;
                         {
                             I += 1;
@@ -15792,8 +15765,8 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__557 = SCompare(unchecked((ushort)SortList[J]), unchecked((ushort)P));
-                        if (!(call__557 > 0))
+                        var call__552 = SCompare(unchecked((ushort)SortList[J]), unchecked((ushort)P));
+                        if (!(call__552 > 0))
                             break;
                         {
                             J -= 1;
@@ -15836,8 +15809,8 @@ namespace Aow.Units.Engine
                 {
                     while (true)
                     {
-                        var call__558 = SCompare(SortList[I], P);
-                        if (!(call__558 < 0))
+                        var call__553 = SCompare(SortList[I], P);
+                        if (!(call__553 < 0))
                             break;
                         {
                             I += 1;
@@ -15846,8 +15819,8 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__559 = SCompare(SortList[J], P);
-                        if (!(call__559 > 0))
+                        var call__554 = SCompare(SortList[J], P);
+                        if (!(call__554 > 0))
                             break;
                         {
                             J -= 1;
@@ -15922,8 +15895,8 @@ namespace Aow.Units.Engine
                 {
                     while (true)
                     {
-                        var call__560 = SCompare(SortList[I], P);
-                        if (!(call__560 < 0))
+                        var call__555 = SCompare(SortList[I], P);
+                        if (!(call__555 < 0))
                             break;
                         {
                             I += 1;
@@ -15932,8 +15905,8 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__561 = SCompare(SortList[J], P);
-                        if (!(call__561 > 0))
+                        var call__556 = SCompare(SortList[J], P);
+                        if (!(call__556 > 0))
                             break;
                         {
                             J -= 1;
@@ -16068,14 +16041,14 @@ namespace Aow.Units.Engine
         {
             Aow.Units.Engine.Engine.CRC32Table = default;
             Aow.Units.Engine.Engine.VerifyEObjectEnabled = true;
-            var call__562 = new Aow.Rtl.TList();
-            Aow.Units.Engine.Engine.Engines = call__562;
-            var call__563 = new Aow.Rtl.TList();
-            Aow.Units.Engine.Engine.PlugIns = call__563;
-            var call__564 = new Aow.Rtl.TStringList();
-            Aow.Units.Engine.Engine.Packages = call__564;
-            var call__565 = Aow.Rtl.Rtl.RegisterClipboardFormat((AnsiString)"ECLIPBOARD FORMAT");
-            Aow.Units.Engine.Engine.ClipboardFormat = unchecked((uint)call__565);
+            var call__557 = new Aow.Rtl.TList();
+            Aow.Units.Engine.Engine.Engines = call__557;
+            var call__558 = new Aow.Rtl.TList();
+            Aow.Units.Engine.Engine.PlugIns = call__558;
+            var call__559 = new Aow.Rtl.TStringList();
+            Aow.Units.Engine.Engine.Packages = call__559;
+            var call__560 = Aow.Rtl.Rtl.RegisterClipboardFormat((AnsiString)"ECLIPBOARD FORMAT");
+            Aow.Units.Engine.Engine.ClipboardFormat = unchecked((uint)call__560);
             Aow.Rtl.Rtl.RegisterClass(typeof(Aow.Units.Engine.TECopyComponent));
         }
 

@@ -1749,8 +1749,8 @@ namespace Aow.Units.GlobalSpells
                 var call__229 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
                 Aow.Rtl.Rtl.RandSeed = call__229;
                 Index = Heroes.RandomChanceItemB(0);
-                /* TODO(T-N7) Integer sentinel in a typed class reference requires an override */
-                throw new System.NotImplementedException();
+                var call__230 = Heroes[Index];
+                Result = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.THero>((int)call__230.A);
             }
             else
             {

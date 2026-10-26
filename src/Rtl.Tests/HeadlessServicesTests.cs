@@ -62,4 +62,15 @@ public sealed class HeadlessServicesTests
         separate.OpenKey("General", false);
         Assert.False(separate.ValueExists("Language"));
     }
+
+    [Fact]
+    public void BinarySettingsRetainTheirStoredSizeAndLeaveTheUnreadTail()
+    {
+        var registry = new TRegistry();
+        registry.OpenKey("General", true);
+        registry.WriteBinaryData("Movement Speed", new byte[] { 2, 7, 9 }, 2);
+        byte[] result = [0xff, 0xff, 0xff, 0xff];
+        Assert.Equal(2, registry.ReadBinaryData("Movement Speed", result, result.Length));
+        Assert.Equal(new byte[] { 2, 7, 0xff, 0xff }, result);
+    }
 }
