@@ -180,7 +180,22 @@ under `tests/roundtrip-model/`, not part of the game's transpile set.
 ### M1b: round trip on the real engine
 
 The same test with the real `Engine.pas` and the rules packages, which is the full transpile set
-minus the UI. The measure is the same byte equality.
+minus the UI. The reference changes with the engine. The reduced model writes back what it read,
+but the real engine runs game code while it saves: `TPlayer` writes the view center that
+`GetViewCenter` computes from the stored pixel origin and the live viewport size, which no save
+holds (`Player.PAS:1051`, `HSMAP.PAS:579`), and the load path recomputes morale and budgets,
+extends diplomatic history and rounds the bit lists' capacity to 32 bits, as the original's own
+decompile does. A file the original wrote before any load (a shipped save or map) therefore does
+not round trip in the original either. Found by brief 2.2 on 2026-10-26.
+
+The measure is therefore the original engine's own output after a load: the oracle's autosaves
+(`D:\Build\oracle\original\<scenario>\<label>\day-NN.asg`, `testing.md` section 3), which the
+original game wrote from a loaded game. Each one, loaded and saved by the port with the headless
+host's viewport set to the size the oracle runs had, equals itself after inflation, ignoring only
+`TAoWHSMap` ids `$37` and `$3A` (the wall-clock turn time, the same ids `playtest.py compare`
+ignores). The shipped saves and maps are loaded without reaching a TODO, and their differences
+are listed by cause. The tactical maps under `TCMaps` load only inside a tactical combat and
+belong to the tactical oracle run.
 
 ### Validation tool
 
