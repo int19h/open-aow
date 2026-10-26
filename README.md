@@ -15,3 +15,6 @@ The plan has two stages. The first translates the recovered source mechanically 
 result against the rebuilt original, turn for turn on seeded games and pixel for pixel on rendered
 frames. The second rewrites the translated tree into idiomatic C# piece by piece, with the same
 oracle after every step.
+
+License: GNU General Public License version 3 (`LICENSE`). The license covers the port's own code
+and documents, not the original game's files, which the port never contains.

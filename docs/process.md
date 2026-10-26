@@ -104,15 +104,18 @@ The prompt names the files the run is allowed to write (a script under `tools/su
 under `data/<topic>/`) and nothing else, so that a commit from this session never sweeps in a
 half-written file.
 
-The sandbox and the private repository. The sandboxed runner cannot start on
-`D:\git\open-aow-private`, as working directory or as `--add-dir`: the directory is owned by the
-Administrators group and the sandbox setup fails to change its ACL (`helper_unknown_error: setup
-refresh had errors`, cause read in `~/.codex/.sandbox/sandbox.<date>.log` on 2026-10-26). The user
-authorized on 2026-10-26 running Codex without its sandbox for every task that touches the private
-repository: `-s danger-full-access` on `exec`, `-c 'sandbox_mode="danger-full-access"'` on
-`resume`. Such a prompt states the directory rule in words (only the named repositories, never
-`D:\git\aow`), and a task that rewrites history makes a backup first (a `git bundle` of every
-ref). A task confined to the product repository keeps the sandbox.
+The sandbox needs ownership. The sandbox setup adds a write grant for `CodexSandboxUsers` to every
+writable root and a deny entry to its `.git`, which needs the right to change the ACL. A directory
+or a `.git` owned by the Administrators group (one made from an elevated shell) fails with
+`helper_unknown_error: setup refresh had errors`, and the cause is in
+`~/.codex/.sandbox/sandbox.<date>.log`. This happened to `D:\git\open-aow-private` on 2026-10-26
+and was fixed by giving the directory to the user and replacing its `.git` with a copy the user
+owns. Every run keeps the sandbox. A task that must run without it (`-s danger-full-access`, or
+`-c 'sandbox_mode="danger-full-access"'` on `resume`) states the directory rule in its prompt, and
+a task that rewrites history makes a backup first (a `git bundle` of every ref).
+
+A task in the private repository that writes into the product repository (the transpiler writing
+`src/Generated/`) adds `--add-dir D:\git\open-aow`.
 
 Fork a task to try an alternative without losing the first line of work:
 
