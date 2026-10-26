@@ -119,6 +119,11 @@ before the run (`dotnet restore` in the solution's directory, outside the sandbo
 says that no new package can be added, or the run builds against the local package cache and the
 design session restores and tests after it.
 
+`codex exec resume` takes no `--add-dir`, and a resumed turn keeps only the working directory
+writable: pass the extra roots again as `-c 'sandbox_workspace_write.writable_roots=["D:\git\open-aow"]'`
+(seen on 2026-10-26, when a resumed emitter run could not write `src/Generated`). A turn that fails
+with `Selected model is at capacity` is resumed later, in the same thread.
+
 A task in the private repository that writes into the product repository (the transpiler writing
 `src/Generated/`) adds `--add-dir D:\git\open-aow`.
 
