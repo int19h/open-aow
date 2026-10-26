@@ -16,6 +16,9 @@ public interface IFileSystem
     bool DeleteFile(string path);
     bool RenameFile(string source, string target);
     bool CreateDirectory(string path);
+    bool RemoveDirectory(string path) => false;
+    int GetAttributes(string path) => -1;
+    int SetAttributes(string path, int attributes) => -1;
     DateTime? LastWriteTime(string path);
     IEnumerable<RtlFileEntry> Enumerate(string directory);
 }
@@ -45,6 +48,13 @@ public sealed class SystemIoFileSystem : IFileSystem
     public bool DeleteFile(string path) => FileExists(path) && Attempt(() => File.Delete(Resolve(path)));
     public bool RenameFile(string source, string target) => Attempt(() => File.Move(Resolve(source), Resolve(target)));
     public bool CreateDirectory(string path) => !DirectoryExists(path) && Directory.Exists(Path.GetDirectoryName(Resolve(path))) && Attempt(() => Directory.CreateDirectory(Resolve(path)));
+    public bool RemoveDirectory(string path) => DirectoryExists(path) && Attempt(() => Directory.Delete(Resolve(path)));
+    public int GetAttributes(string path)
+    {
+        try { return (int)File.GetAttributes(Resolve(path)); }
+        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return -1; }
+    }
+    public int SetAttributes(string path, int attributes) => Attempt(() => File.SetAttributes(Resolve(path), (FileAttributes)attributes)) ? 0 : -1;
     public DateTime? LastWriteTime(string path) => FileExists(path) ? File.GetLastWriteTime(Resolve(path)) : null;
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
     {
@@ -105,6 +115,9 @@ public static partial class Rtl
     public static bool DeleteFile(AnsiString name) => Files.DeleteFile(name.ToString());
     public static bool RenameFile(AnsiString source, AnsiString target) => Files.RenameFile(source.ToString(), target.ToString());
     public static bool CreateDir(AnsiString name) => Files.CreateDirectory(name.ToString());
+    public static bool RemoveDir(AnsiString name) => Files.RemoveDirectory(name.ToString());
+    public static int FileGetAttr(AnsiString name) => Files.GetAttributes(name.ToString());
+    public static int FileSetAttr(AnsiString name, int attributes) => Files.SetAttributes(name.ToString(), attributes);
     // SYSUTILS.PAS FindFirst and FindMatchingFile, with the specified deterministic order.
     public static int FindFirst(AnsiString path, int attr, ref TSearchRec search)
     {

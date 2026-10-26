@@ -568,6 +568,11 @@ Metaclass closure: 30 classes, 25 own Meta types.
 - Aow.Units.Engine.TShortIntList: Aow.Units.Engine.TShortIntList.Meta
 - Aow.Units.Engine.TWordList: Aow.Units.Engine.TWordList.Meta
 
+## Statically true class tests
+
+0 folded sites in emitted bodies. These tests return true even for nil operands.
+
+
 ## Build warnings
 
 Disabled warning numbers: CS0168, CS0219, CS0162, CS0465, CA2255. The project comments give the reason for each number.
@@ -586,7 +591,7 @@ Disabled warning numbers: CS0168, CS0219, CS0162, CS0465, CA2255. The project co
 - The compression adapter uses the BCL zlib stream and leaves the caller's stream open. Compression bytes depend on that backend. Decompressed bytes and the CFS header retain the source format. The image types expose signatures only and the drawing body remains an explicit TODO.
 - The source places clipboard operations in TECopyComponent and unit routines, and popup hooks in TEObjectEditor.Meta. The override manifest records those actual owners.
 - File headers use the emitter version date to keep regeneration deterministic across days.
-- The asm-stubs Pascal probe and its recorded output are absent from the current private repository. The override checks use the catalogue equivalents and the C# runtime smoke cases. The Delphi comparison remains open.
+- The asm-stubs runner compares Engine overrides with Delphi recordings and lists routines from other units as pending. See tests/probes/README.md for the current differences.
 
 ## Emitted method samples
 
