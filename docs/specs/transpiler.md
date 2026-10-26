@@ -485,7 +485,7 @@ The mappings:
 | `C.Create(args)` with a virtual constructor (30 sites), `TEObjectClass(ClassType).Create(nil)` | `C.Create(args)`, `ClassType.Create(null)`, the `Meta` factory |
 | `C.Create(args)` with a static constructor (1 site) | `((TFoo)C.NewInstance())` followed by the static body method |
 | `TFooClass(X)` between class references | a cast between `Meta` types |
-| `obj is TFoo` (380) | `obj is TFoo` |
+| `obj is TFoo` (380) | `obj is TFoo`, except where the static class of `obj` is `TFoo` or a descendant: Delphi 3 compiles that test to the constant True without testing `obj`, so `nil is TBase` is True for a `TBase` variable (probe `classes`, 2026-10-26), and the emitter writes `true` after evaluating `obj` if it has a side effect. The report lists the folded sites |
 | `obj.ClassType = TFoo`, `C = TFoo`, `C <> TEObject` | `obj.GetType() == typeof(TFoo)`, `C.Type == typeof(TFoo)` |
 | `C.InheritsFrom(AClass)` (1, `GetDescendantClasses`, `AClass: TClass`) | `C.InheritsFrom(AClass)` with `AClass` a `Type` |
 | `ClassName` (23), `C.ClassName` | `TObject.ClassNameOf(GetType())`, `C.ClassName`: the Delphi spelling, which the shim recovers from the C# name (section 3, spelling) |
