@@ -143,13 +143,13 @@ public abstract class TStrings : TPersistent
         BeginUpdate(); try { var s = this[current]; var o = GetObject(current); Delete(current); InsertObject(target, s, o); } finally { EndUpdate(); }
     }
     // CLASSES.PAS TStrings.LoadFromStream and SaveToStream.
-    public void LoadFromStream(TStream stream)
+    public virtual void LoadFromStream(TStream stream)
     {
         BeginUpdate();
         try { byte[] bytes = new byte[stream.Size - stream.Position]; stream.Read(bytes); Text = AnsiString.FromBytes(bytes); }
         finally { EndUpdate(); }
     }
-    public void SaveToStream(TStream stream) => stream.WriteBuffer(Text.Span);
+    public virtual void SaveToStream(TStream stream) => stream.WriteBuffer(Text.Span);
     // CLASSES.PAS TStrings.LoadFromFile and SaveToFile.
     public void LoadFromFile(AnsiString name) { using var stream = new TFileStream(name, fmOpenRead); LoadFromStream(stream); }
     public void SaveToFile(AnsiString name) { using var stream = new TFileStream(name, fmCreate); SaveToStream(stream); }

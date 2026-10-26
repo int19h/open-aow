@@ -1,4 +1,5 @@
 // Generated from FMemStr.pas by OpenAoW transpiler 1.4c (2026-10-26). Never edit by hand.
+using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
 using Exception = Aow.Rtl.Exception;
@@ -101,7 +102,7 @@ namespace Aow.Units.FMemStr
                 if (Count == 4)
                 {
                     {
-                        int value__3 = MemoryMarshal.Read<int>((FMemory + FPosition).Array.AsSpan((FMemory + FPosition).Index, 4));
+                        int value__3 = MemoryMarshal.Read<int>((FMemory + FPosition).AsSpan(4));
                         MemoryMarshal.Write<int>(Buffer, in value__3);
                     }
                 }
@@ -110,7 +111,7 @@ namespace Aow.Units.FMemStr
                     if (Count == 1)
                     {
                         {
-                            byte value__4 = MemoryMarshal.Read<byte>((FMemory + FPosition).Array.AsSpan((FMemory + FPosition).Index, 1));
+                            byte value__4 = unchecked((byte)MemoryMarshal.Read<byte>((FMemory + FPosition).AsSpan(1)));
                             MemoryMarshal.Write<byte>(Buffer, in value__4);
                         }
                     }
@@ -119,13 +120,13 @@ namespace Aow.Units.FMemStr
                         if (Count == 2)
                         {
                             {
-                                ushort value__5 = MemoryMarshal.Read<ushort>((FMemory + FPosition).Array.AsSpan((FMemory + FPosition).Index, 2));
+                                ushort value__5 = unchecked((ushort)MemoryMarshal.Read<ushort>((FMemory + FPosition).AsSpan(2)));
                                 MemoryMarshal.Write<ushort>(Buffer, in value__5);
                             }
                         }
                         else
                         {
-                            Aow.Rtl.Rtl.Move((FMemory + FPosition).Array.AsSpan((FMemory + FPosition).Index, Result), Buffer.Slice(0, Result), Result);
+                            Aow.Rtl.Rtl.Move((FMemory + FPosition).AsSpan(Result), Buffer.Slice(0, Result), Result);
                         }
                     }
                 }
@@ -163,7 +164,7 @@ namespace Aow.Units.FMemStr
                     {
                         {
                             int value__6 = MemoryMarshal.Read<int>(Buffer);
-                            MemoryMarshal.Write<int>((FMemory + FPosition).Array.AsSpan((FMemory + FPosition).Index, 4), in value__6);
+                            MemoryMarshal.Write<int>((FMemory + FPosition).AsSpan(4), in value__6);
                         }
                     }
                     else
@@ -171,8 +172,8 @@ namespace Aow.Units.FMemStr
                         if (Count == 1)
                         {
                             {
-                                byte value__7 = MemoryMarshal.Read<byte>(Buffer);
-                                MemoryMarshal.Write<byte>((FMemory + FPosition).Array.AsSpan((FMemory + FPosition).Index, 1), in value__7);
+                                byte value__7 = unchecked((byte)MemoryMarshal.Read<byte>(Buffer));
+                                MemoryMarshal.Write<byte>((FMemory + FPosition).AsSpan(1), in value__7);
                             }
                         }
                         else
@@ -180,13 +181,13 @@ namespace Aow.Units.FMemStr
                             if (Count == 2)
                             {
                                 {
-                                    ushort value__8 = MemoryMarshal.Read<ushort>(Buffer);
-                                    MemoryMarshal.Write<ushort>((FMemory + FPosition).Array.AsSpan((FMemory + FPosition).Index, 2), in value__8);
+                                    ushort value__8 = unchecked((ushort)MemoryMarshal.Read<ushort>(Buffer));
+                                    MemoryMarshal.Write<ushort>((FMemory + FPosition).AsSpan(2), in value__8);
                                 }
                             }
                             else
                             {
-                                Aow.Rtl.Rtl.Move(Buffer.Slice(0, Count), (FMemory + FPosition).Array.AsSpan((FMemory + FPosition).Index, Count), Count);
+                                Aow.Rtl.Rtl.Move(Buffer.Slice(0, Count), (FMemory + FPosition).AsSpan(Count), Count);
                             }
                         }
                     }
@@ -240,7 +241,7 @@ namespace Aow.Units.FMemStr
             SetSize(Count);
             if (Count != 0)
             {
-                Stream.ReadBuffer(FMemory.Array.AsSpan(FMemory.Index, Count));
+                Stream.ReadBuffer(FMemory.AsSpan(Count));
             }
         }
 
@@ -264,7 +265,7 @@ namespace Aow.Units.FMemStr
         {
             if (FSize != 0)
             {
-                Stream.WriteBuffer(FMemory.Array.AsSpan(FMemory.Index, FSize));
+                Stream.WriteBuffer(FMemory.AsSpan(FSize));
             }
         }
 

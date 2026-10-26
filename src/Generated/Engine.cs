@@ -1,4 +1,5 @@
 // Generated from Engine.pas by OpenAoW transpiler 1.4c (2026-10-26). Never edit by hand.
+using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
 using Exception = Aow.Rtl.Exception;
@@ -6,6 +7,8 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.FMemStr;
 using static Aow.Units.FMemStr.FMemStr;
+using Aow.Units.ImageLib;
+using static Aow.Units.ImageLib.ImageLib;
 
 namespace Aow.Units.Engine
 {
@@ -586,11 +589,11 @@ namespace Aow.Units.Engine
             byte Result = default;
             if ((Index < 0) || (Index >= FCount))
             {
-                Result = FDefault;
+                Result = unchecked((byte)FDefault);
             }
             else
             {
-                Result = FList[Index];
+                Result = unchecked((byte)FList[Index]);
             }
 
             return Result;
@@ -609,7 +612,7 @@ namespace Aow.Units.Engine
                 SetCount(Index + 1);
             }
 
-            FList[Index] = Item;
+            FList[Index] = unchecked((byte)Item);
         }
 
         // Engine.pas:3752
@@ -751,7 +754,7 @@ namespace Aow.Units.Engine
                     this.FCount = w__9.FCount;
                     this.SetCapacity(w__9.FCount);
                     Ptr<byte>.Copy(w__9.FList, this.FList, this.FCount * 1);
-                    this.FDefault = w__9.FDefault;
+                    this.FDefault = unchecked((byte)w__9.FDefault);
                 }
             }
             else
@@ -770,7 +773,7 @@ namespace Aow.Units.Engine
                 Grow();
             }
 
-            FList[Result] = Item;
+            FList[Result] = unchecked((byte)Item);
             FCount += 1;
             return Result;
         }
@@ -811,9 +814,9 @@ namespace Aow.Units.Engine
                 ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
-            Item = FList[Index1];
-            FList[Index1] = FList[Index2];
-            FList[Index2] = Item;
+            Item = unchecked((byte)FList[Index1]);
+            FList[Index1] = unchecked((byte)FList[Index2]);
+            FList[Index2] = unchecked((byte)Item);
         }
 
         // Engine.pas:3667
@@ -833,7 +836,7 @@ namespace Aow.Units.Engine
         public byte First()
         {
             byte Result = default;
-            Result = Get(0);
+            Result = unchecked((byte)Get(0));
             return Result;
         }
 
@@ -873,7 +876,7 @@ namespace Aow.Units.Engine
                 Ptr<byte>.Copy(FList + Index, FList + (Index + 1), (FCount - Index) * 1);
             }
 
-            FList[Index] = Item;
+            FList[Index] = unchecked((byte)Item);
             FCount += 1;
         }
 
@@ -882,7 +885,7 @@ namespace Aow.Units.Engine
         {
             byte Result = default;
             var call__10 = Get(FCount - 1);
-            Result = call__10;
+            Result = unchecked((byte)call__10);
             return Result;
         }
 
@@ -897,9 +900,9 @@ namespace Aow.Units.Engine
                     ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
-                Item = Get(CurIndex);
+                Item = unchecked((byte)Get(CurIndex));
                 Delete(CurIndex);
-                Insert(NewIndex, Item);
+                Insert(NewIndex, unchecked((byte)Item));
             }
         }
 
@@ -907,7 +910,7 @@ namespace Aow.Units.Engine
         public int Remove(byte Item)
         {
             int Result = default;
-            Result = IndexOf(Item);
+            Result = IndexOf(unchecked((byte)Item));
             if (Result != -1)
             {
                 Delete(Result);
@@ -977,7 +980,7 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    Add(Item);
+                    Add(unchecked((byte)Item));
                 }
             }
         }
@@ -1091,6 +1094,12 @@ namespace Aow.Units.Engine
         public Aow.Rtl.AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
         public Ptr<byte> List { get => FList; }
 
+        // System.pas:111
+        public static Aow.Units.Engine.TByteList Create()
+        {
+            return new Aow.Units.Engine.TByteList();
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:3645
@@ -1119,11 +1128,11 @@ namespace Aow.Units.Engine
             sbyte Result = default;
             if ((Index < 0) || (Index >= FCount))
             {
-                Result = FDefault;
+                Result = unchecked((sbyte)FDefault);
             }
             else
             {
-                Result = FList[Index];
+                Result = unchecked((sbyte)FList[Index]);
             }
 
             return Result;
@@ -1142,7 +1151,7 @@ namespace Aow.Units.Engine
                 SetCount(Index + 1);
             }
 
-            FList[Index] = Item;
+            FList[Index] = unchecked((sbyte)Item);
         }
 
         // Engine.pas:4099
@@ -1221,7 +1230,7 @@ namespace Aow.Units.Engine
                     this.FCount = w__15.FCount;
                     this.SetCapacity(w__15.FCount);
                     Ptr<sbyte>.Copy(w__15.FList, this.FList, this.FCount * 1);
-                    this.FDefault = w__15.FDefault;
+                    this.FDefault = unchecked((sbyte)w__15.FDefault);
                 }
             }
             else
@@ -1240,7 +1249,7 @@ namespace Aow.Units.Engine
                 Grow();
             }
 
-            FList[Result] = Item;
+            FList[Result] = unchecked((sbyte)Item);
             FCount += 1;
             return Result;
         }
@@ -1281,9 +1290,9 @@ namespace Aow.Units.Engine
                 ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
-            Item = FList[Index1];
-            FList[Index1] = FList[Index2];
-            FList[Index2] = Item;
+            Item = unchecked((sbyte)FList[Index1]);
+            FList[Index1] = unchecked((sbyte)FList[Index2]);
+            FList[Index2] = unchecked((sbyte)Item);
         }
 
         // Engine.pas:4014
@@ -1303,7 +1312,7 @@ namespace Aow.Units.Engine
         public sbyte First()
         {
             sbyte Result = default;
-            Result = Get(0);
+            Result = unchecked((sbyte)Get(0));
             return Result;
         }
 
@@ -1343,7 +1352,7 @@ namespace Aow.Units.Engine
                 Ptr<sbyte>.Copy(FList + Index, FList + (Index + 1), (FCount - Index) * 1);
             }
 
-            FList[Index] = Item;
+            FList[Index] = unchecked((sbyte)Item);
             FCount += 1;
         }
 
@@ -1352,7 +1361,7 @@ namespace Aow.Units.Engine
         {
             sbyte Result = default;
             var call__16 = Get(FCount - 1);
-            Result = call__16;
+            Result = unchecked((sbyte)call__16);
             return Result;
         }
 
@@ -1367,9 +1376,9 @@ namespace Aow.Units.Engine
                     ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
-                Item = Get(CurIndex);
+                Item = unchecked((sbyte)Get(CurIndex));
                 Delete(CurIndex);
-                Insert(NewIndex, Item);
+                Insert(NewIndex, unchecked((sbyte)Item));
             }
         }
 
@@ -1377,7 +1386,7 @@ namespace Aow.Units.Engine
         public int Remove(sbyte Item)
         {
             int Result = default;
-            Result = IndexOf(Item);
+            Result = IndexOf(unchecked((sbyte)Item));
             if (Result != -1)
             {
                 Delete(Result);
@@ -1447,7 +1456,7 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    Add(Item);
+                    Add(unchecked((sbyte)Item));
                 }
             }
         }
@@ -1560,6 +1569,12 @@ namespace Aow.Units.Engine
 
         public Ptr<sbyte> List { get => FList; }
 
+        // System.pas:111
+        public static Aow.Units.Engine.TShortIntList Create()
+        {
+            return new Aow.Units.Engine.TShortIntList();
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:3992
@@ -1588,11 +1603,11 @@ namespace Aow.Units.Engine
             ushort Result = default;
             if ((Index < 0) || (Index >= FCount))
             {
-                Result = FDefault;
+                Result = unchecked((ushort)FDefault);
             }
             else
             {
-                Result = FList[Index];
+                Result = unchecked((ushort)FList[Index]);
             }
 
             return Result;
@@ -1611,7 +1626,7 @@ namespace Aow.Units.Engine
                 SetCount(Index + 1);
             }
 
-            FList[Index] = Item;
+            FList[Index] = unchecked((ushort)Item);
         }
 
         // Engine.pas:4410
@@ -1690,7 +1705,7 @@ namespace Aow.Units.Engine
                     this.FCount = w__21.FCount;
                     this.SetCapacity(w__21.FCount);
                     Ptr<ushort>.Copy(w__21.FList, this.FList, this.FCount);
-                    this.FDefault = w__21.FDefault;
+                    this.FDefault = unchecked((ushort)w__21.FDefault);
                 }
             }
             else
@@ -1709,7 +1724,7 @@ namespace Aow.Units.Engine
                 Grow();
             }
 
-            FList[Result] = Item;
+            FList[Result] = unchecked((ushort)Item);
             FCount += 1;
             return Result;
         }
@@ -1750,9 +1765,9 @@ namespace Aow.Units.Engine
                 ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
-            Item = FList[Index1];
-            FList[Index1] = FList[Index2];
-            FList[Index2] = Item;
+            Item = unchecked((ushort)FList[Index1]);
+            FList[Index1] = unchecked((ushort)FList[Index2]);
+            FList[Index2] = unchecked((ushort)Item);
         }
 
         // Engine.pas:4325
@@ -1772,7 +1787,7 @@ namespace Aow.Units.Engine
         public ushort First()
         {
             ushort Result = default;
-            Result = Get(0);
+            Result = unchecked((ushort)Get(0));
             return Result;
         }
 
@@ -1812,7 +1827,7 @@ namespace Aow.Units.Engine
                 Ptr<ushort>.Copy(FList + Index, FList + (Index + 1), (FCount - Index));
             }
 
-            FList[Index] = Item;
+            FList[Index] = unchecked((ushort)Item);
             FCount += 1;
         }
 
@@ -1821,7 +1836,7 @@ namespace Aow.Units.Engine
         {
             ushort Result = default;
             var call__22 = Get(FCount - 1);
-            Result = call__22;
+            Result = unchecked((ushort)call__22);
             return Result;
         }
 
@@ -1836,9 +1851,9 @@ namespace Aow.Units.Engine
                     ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
-                Item = Get(CurIndex);
+                Item = unchecked((ushort)Get(CurIndex));
                 Delete(CurIndex);
-                Insert(NewIndex, Item);
+                Insert(NewIndex, unchecked((ushort)Item));
             }
         }
 
@@ -1846,7 +1861,7 @@ namespace Aow.Units.Engine
         public int Remove(ushort Item)
         {
             int Result = default;
-            Result = IndexOf(Item);
+            Result = IndexOf(unchecked((ushort)Item));
             if (Result != -1)
             {
                 Delete(Result);
@@ -1916,7 +1931,7 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    Add(Item);
+                    Add(unchecked((ushort)Item));
                 }
             }
         }
@@ -2029,6 +2044,12 @@ namespace Aow.Units.Engine
         public ushort this[int Index] { get => Get(Index); set => Put(Index, value); }
 
         public Ptr<ushort> List { get => FList; }
+
+        // System.pas:111
+        public static Aow.Units.Engine.TWordList Create()
+        {
+            return new Aow.Units.Engine.TWordList();
+        }
 
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
@@ -2232,7 +2253,7 @@ namespace Aow.Units.Engine
                     var w__33 = (Aow.Units.Engine.TBitList)Source;
                     this.FCount = w__33.FCount;
                     this.SetCapacity(w__33.FCount);
-                    Aow.Rtl.Rtl.Move(w__33.FList.Array.AsSpan(w__33.FList.Index, ((int)(((uint)(this.FCount + 31)) >> 5)) * 4), this.FList.Array.AsSpan(this.FList.Index, ((int)(((uint)(this.FCount + 31)) >> 5)) * 4), ((int)(((uint)(this.FCount + 31)) >> 5)) * 4);
+                    Aow.Rtl.Rtl.Move(w__33.FList.AsSpan(((int)(((uint)(this.FCount + 31)) >> 5)) * 4), this.FList.AsSpan(((int)(((uint)(this.FCount + 31)) >> 5)) * 4), ((int)(((uint)(this.FCount + 31)) >> 5)) * 4);
                     this.FDefault = w__33.FDefault;
                 }
             }
@@ -2457,7 +2478,7 @@ namespace Aow.Units.Engine
             Result = List.FCount == FCount;
             if (Result)
             {
-                var call__44 = Aow.Rtl.Rtl.CompareMem(FList.Array.AsSpan(FList.Index, (int)(((uint)(FCount + 7)) >> 3)), List.FList.Array.AsSpan(List.FList.Index, (int)(((uint)(FCount + 7)) >> 3)), (int)(((uint)(FCount + 7)) >> 3));
+                var call__44 = Aow.Rtl.Rtl.CompareMem(FList.AsSpan((int)(((uint)(FCount + 7)) >> 3)), List.FList.AsSpan((int)(((uint)(FCount + 7)) >> 3)), (int)(((uint)(FCount + 7)) >> 3));
                 Result = call__44;
             }
 
@@ -2471,7 +2492,7 @@ namespace Aow.Units.Engine
             Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 1));
             Stream.Read(Aow.Rtl.Bytes.Of(ref FCount, 4));
             SetCapacity(FCount);
-            Stream.Read(FList.Array.AsSpan(FList.Index, (int)(((uint)(FCount + 7)) >> 3)));
+            Stream.Read(FList.AsSpan((int)(((uint)(FCount + 7)) >> 3)));
         }
 
         // Engine.pas:4791
@@ -2479,7 +2500,7 @@ namespace Aow.Units.Engine
         {
             Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 1));
             Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
-            Stream.Write(FList.Array.AsSpan(FList.Index, (int)(((uint)(FCount + 7)) >> 3)));
+            Stream.Write(FList.AsSpan((int)(((uint)(FCount + 7)) >> 3)));
         }
 
         public int Capacity { get => FCapacity; set => SetCapacity(value); }
@@ -2491,6 +2512,12 @@ namespace Aow.Units.Engine
         public Aow.Rtl.AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
         public int BitsSet { get => GetBitsSet(); }
         public int BitsCleared { get => GetBitsCleared(); }
+
+        // System.pas:111
+        public static Aow.Units.Engine.TBitList Create()
+        {
+            return new Aow.Units.Engine.TBitList();
+        }
 
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
@@ -3112,7 +3139,7 @@ namespace Aow.Units.Engine
         {
             int Result = default;
             Result = 0;
-            while ((Result < FCount) && (Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(FList[Result]) != Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(Item)))
+            while ((Result < FCount) && (Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FList[Result]) != Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(Item)))
             {
                 Result += 1;
             }
@@ -3234,7 +3261,7 @@ namespace Aow.Units.Engine
                 {
                     var call__54 = this[I];
                     Item = call__54;
-                    if (Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(Item) == Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(FDefault))
+                    if (Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref Item) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault))
                     {
                         Delete(I);
                     }
@@ -3302,7 +3329,7 @@ namespace Aow.Units.Engine
             while (FCount < Count)
             {
                 Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 8));
-                if (Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(Item) == Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(FDefault))
+                if (Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref Item) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault))
                 {
                     Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 4));
                     SetCount(FCount + Run);
@@ -3325,7 +3352,7 @@ namespace Aow.Units.Engine
                 int J = default;
                 Result = 0;
                 J = I;
-                while ((J < FCount) && (Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(FList[J]) == Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(FDefault)))
+                while ((J < FCount) && (Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FList[J]) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault)))
                 {
                     Result += 1;
                     J += 1;
@@ -3461,6 +3488,12 @@ namespace Aow.Units.Engine
         public Aow.Units.Engine.TDoubleItem this[int Index] { get => Get(Index); set => Put(Index, value); }
 
         public Ptr<Aow.Units.Engine.TDoubleItem> List { get => FList; }
+
+        // System.pas:111
+        public static Aow.Units.Engine.TDoubleItemList Create()
+        {
+            return new Aow.Units.Engine.TDoubleItemList();
+        }
 
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
@@ -4021,6 +4054,12 @@ namespace Aow.Units.Engine
 
         public Ptr<Aow.Units.Engine.TQuadInteger> List { get => FList; }
 
+        // System.pas:111
+        public static Aow.Units.Engine.TQuadItemList Create()
+        {
+            return new Aow.Units.Engine.TQuadItemList();
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:5505
@@ -4275,7 +4314,7 @@ namespace Aow.Units.Engine
                 {
                     if ((FItems[I].ID <= 127) && (FItems[I].Offset <= 255))
                     {
-                        ShortCount += 1;
+                        ShortCount = (byte)(((int)ShortCount) + 1);
                     }
                     else
                     {
@@ -5167,7 +5206,7 @@ namespace Aow.Units.Engine
             Result = 0;
             while (true)
             {
-                var call__127 = FDebugIDs.IndexOfObject(Aow.Rtl.Rtl.IntToObject(Result));
+                var call__127 = FDebugIDs.IndexOfObject(Aow.Rtl.Rtl.IntToObject((int)Result));
                 if (!(call__127 != -1))
                     break;
                 {
@@ -5206,7 +5245,7 @@ namespace Aow.Units.Engine
             FControlNode.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
             var call__133 = new Aow.Rtl.TStringList();
             FDebugIDs = call__133;
-            FDebugIDs.AddObject(Aow.Units.Engine.Engine.UserStr, Aow.Rtl.Rtl.IntToObject(-1));
+            FDebugIDs.AddObject(Aow.Units.Engine.Engine.UserStr, Aow.Rtl.Rtl.IntToObject((int)-1));
             RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Engine.TEControlStyleObject>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Engine.TEControlStyleNode>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Engine.TECustomOwner>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Engine.TEResourceEditSettings>()]);
             Aow.Units.Engine.Engine.Engines.Add(this);
         }
@@ -5276,7 +5315,7 @@ namespace Aow.Units.Engine
         {
             int Result = default;
             Result = CreateUniqueDebugID();
-            FDebugIDs.AddObject(Name, Aow.Rtl.Rtl.IntToObject(Result));
+            FDebugIDs.AddObject(Name, Aow.Rtl.Rtl.IntToObject((int)Result));
             return Result;
         }
 
@@ -5284,7 +5323,7 @@ namespace Aow.Units.Engine
         public void UnregisterDebugID(int ID)
         {
             int I = default;
-            var call__137 = FDebugIDs.IndexOfObject(Aow.Rtl.Rtl.IntToObject(ID));
+            var call__137 = FDebugIDs.IndexOfObject(Aow.Rtl.Rtl.IntToObject((int)ID));
             I = call__137;
             if (I != -1)
             {
@@ -5654,9 +5693,9 @@ namespace Aow.Units.Engine
                 var call__154 = M.Size;
                 if (call__154 > 8)
                 {
-                    CRC1 = MemoryMarshal.Read<int>(Ptr<byte>.To(M.Memory, 0).Array.AsSpan(Ptr<byte>.To(M.Memory, 0).Index, 4));
+                    CRC1 = MemoryMarshal.Read<int>(Ptr<byte>.To(M.Memory, 0).AsSpan(4));
                     var call__155 = M.Size;
-                    CRC2 = MemoryMarshal.Read<int>(((Ptr<byte>.To(M.Memory, 0) + call__155) - 4).Array.AsSpan(((Ptr<byte>.To(M.Memory, 0) + call__155) - 4).Index, 4));
+                    CRC2 = MemoryMarshal.Read<int>(((Ptr<byte>.To(M.Memory, 0) + call__155) - 4).AsSpan(4));
                     var call__156 = M.Size;
                     var call__157 = Aow.Units.Engine.Engine.GetCRC32(Ptr<byte>.To(M.Memory, 0) + 4, call__156 - 4);
                     bool bool__158 = (CRC1 == call__157);
@@ -5739,7 +5778,7 @@ namespace Aow.Units.Engine
             int Allocated = default;
             Result = true;
             var call__161 = Aow.Rtl.Rtl.GetHeapStatus();
-            Allocated = call__161.TotalAllocated;
+            Allocated = unchecked((int)call__161.TotalAllocated);
             var call__162 = AClass.Create(null);
             call__162.Free();
             try
@@ -6071,15 +6110,15 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8533
-        public virtual Aow.Rtl.TLibraryImage GetCellImage()
+        public virtual Aow.Units.ImageLib.TLibraryImage GetCellImage()
         {
-            Aow.Rtl.TLibraryImage Result = default;
+            Aow.Units.ImageLib.TLibraryImage Result = default;
             Result = null;
             return Result;
         }
 
         // Engine.pas:8538
-        public virtual void SetCellImage(Aow.Rtl.TLibraryImage Value)
+        public virtual void SetCellImage(Aow.Units.ImageLib.TLibraryImage Value)
         {
         }
 
@@ -6112,18 +6151,18 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8525
-        public virtual void Draw(Aow.Rtl.TCanvas Canvas, Aow.Rtl.TRect Rect, Aow.Rtl.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+        public virtual void Draw(Aow.Rtl.TCanvas Canvas, Aow.Rtl.TRect Rect, Aow.Units.ImageLib.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
             Aow.Rtl.TRect R = default;
-            /* TODO(T-4.4) Image-library drawing is outside the Engine set */
-            throw new System.NotImplementedException();
+            var call__172 = GetCellImage();
+            Aow.Units.ImageLib.ImageLib.BltLibraryImage(Canvas, call__172, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
         }
 
         public Aow.Units.Engine.TECustomNode ResourceList { get => FResourceList; set => FResourceList = value; }
         public int EditID { get => FEditID; set => FEditID = value; }
         public int EditIndex { get => FEditIndex; set => FEditIndex = value; }
         public int ResourceID { get => FResourceID; set => FResourceID = value; }
-        public Aow.Rtl.TLibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
+        public Aow.Units.ImageLib.TLibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -6229,7 +6268,7 @@ namespace Aow.Units.Engine
             if (!Aow.Rtl.Rtl.ArrayEquals<Aow.Units.FixedArray_byte_4, byte>(Magic, Aow.Units.Engine.Engine.CompressMagic))
             {
                 Compressed = false;
-                Stream.Seek(0, unchecked((ushort)0));
+                Stream.Seek(0, 0);
             }
 
             if (Compressed)
@@ -6242,11 +6281,11 @@ namespace Aow.Units.Engine
                 {
                     while (Count != 0)
                     {
-                        var call__173 = D.Read(Buffer.Array.AsSpan(Buffer.Index, 8096));
+                        var call__173 = D.Read(Buffer.AsSpan(8096));
                         Count = call__173;
                         if (Count != 0)
                         {
-                            this.WriteBuffer(Buffer.Array.AsSpan(Buffer.Index, Count));
+                            this.WriteBuffer(Buffer.AsSpan(Count));
                         }
                     }
                 }
@@ -6355,6 +6394,12 @@ namespace Aow.Units.Engine
             {
                 F.Free();
             }
+        }
+
+        // System.pas:111
+        public static Aow.Units.Engine.TCompressStream Create()
+        {
+            return new Aow.Units.Engine.TCompressStream();
         }
     }
 
@@ -9870,7 +9915,7 @@ namespace Aow.Units.Engine
             else
             {
                 Result = GetUniqueEditID();
-                FEditors.AddObject(Name, Aow.Rtl.Rtl.IntToObject(Result));
+                FEditors.AddObject(Name, Aow.Rtl.Rtl.IntToObject((int)Result));
             }
 
             return Result;
@@ -10520,6 +10565,23 @@ namespace Aow.Units.Engine
 
             Result = FChildren.Count - 1;
             return Result;
+        }
+
+        // Engine.pas:631
+        public static new Aow.Units.Engine.TEReferenceNode Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            Aow.Units.Engine.TEReferenceNode o = new Aow.Units.Engine.TEReferenceNode();
+            try
+            {
+                o.Create__init(AOwner);
+            }
+            catch
+            {
+                o.Destroy();
+                throw;
+            }
+
+            return o;
         }
     }
 
@@ -12086,7 +12148,7 @@ namespace Aow.Units.Engine
                             if (((L >= 4) && (Aow.Rtl.Rtl.Copy(Line, 1, 2) == ((AnsiString)"[:"))) && (Aow.Rtl.Rtl.Copy(Line, L - 1, 2) == ((AnsiString)":]")))
                             {
                                 var call__326 = Text.Count;
-                                FSections.AddObject(Aow.Rtl.Rtl.Copy(Line, 3, L - 4), Aow.Rtl.Rtl.IntToObject(call__326));
+                                FSections.AddObject(Aow.Rtl.Rtl.Copy(Line, 3, L - 4), Aow.Rtl.Rtl.IntToObject((int)call__326));
                             }
                             else
                             {
@@ -12790,7 +12852,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                S = unchecked((sbyte)0);
+                S = 0;
             }
         }
 
@@ -12812,7 +12874,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                W = unchecked((ushort)0);
+                W = 0;
             }
         }
 
@@ -12856,7 +12918,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                B = Default;
+                B = unchecked((byte)Default);
             }
         }
 
@@ -12878,7 +12940,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                S = Default;
+                S = unchecked((sbyte)Default);
             }
         }
 
@@ -12900,7 +12962,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                W = Default;
+                W = unchecked((ushort)Default);
             }
         }
 
@@ -14414,9 +14476,9 @@ namespace Aow.Units.Engine
             Ptr<byte> P = default;
             P = default;
             P = P.Realloc(Size);
-            Aow.Rtl.Rtl.FillBytes(P.Array.AsSpan(P.Index, Size), 0);
-            base.rwData(P.Array.AsSpan(P.Index, Size), Size, ID);
-            if (!Aow.Rtl.Rtl.CompareMem(P.Array.AsSpan(P.Index, Size), Buffer.Slice(0, Size), Size))
+            Aow.Rtl.Rtl.FillBytes(P.AsSpan(Size), 0);
+            base.rwData(P.AsSpan(Size), Size, ID);
+            if (!Aow.Rtl.Rtl.CompareMem(P.AsSpan(Size), Buffer.Slice(0, Size), Size))
             {
                 Mismatch(ID);
             }
@@ -14534,7 +14596,7 @@ namespace Aow.Units.Engine
         public override void rwByteEx(ref byte B, byte Default, int ID)
         {
             byte Value = default;
-            base.rwByteEx(ref Value, Default, ID);
+            base.rwByteEx(ref Value, unchecked((byte)Default), ID);
             if (B != Value)
             {
                 Mismatch(ID);
@@ -14545,7 +14607,7 @@ namespace Aow.Units.Engine
         public override void rwWordEx(ref ushort W, ushort Default, int ID)
         {
             ushort Value = default;
-            base.rwWordEx(ref Value, Default, ID);
+            base.rwWordEx(ref Value, unchecked((ushort)Default), ID);
             if (W != Value)
             {
                 Mismatch(ID);
@@ -14556,7 +14618,7 @@ namespace Aow.Units.Engine
         public override void rwShortintEx(ref sbyte S, sbyte Default, int ID)
         {
             sbyte Value = default;
-            base.rwShortintEx(ref Value, Default, ID);
+            base.rwShortintEx(ref Value, unchecked((sbyte)Default), ID);
             if (S != Value)
             {
                 Mismatch(ID);
@@ -14753,7 +14815,7 @@ namespace Aow.Units.Engine
                 int end__508 = L - 1;
                 for (; I <= end__508; I += 1)
                 {
-                    C = S[L - I];
+                    C = unchecked((byte)S[L - I]);
                     if (TSet<byte>.WithBounds(0, 255).WithRange(48, 57).Contains(C))
                     {
                         D = ((int)C) - ((int)48);
@@ -14918,7 +14980,7 @@ namespace Aow.Units.Engine
                     {
                         /* TODO(T-5.4) Native Delphi packages have no managed loader */
                         throw new System.NotImplementedException();
-                        Aow.Units.Engine.Engine.Packages.AddObject(Dir + SR.Name, Aow.Rtl.Rtl.IntToObject(H));
+                        Aow.Units.Engine.Engine.Packages.AddObject(Dir + SR.Name, Aow.Rtl.Rtl.IntToObject((int)H));
                     }
                     catch (System.Exception)
                     {
@@ -15029,8 +15091,8 @@ namespace Aow.Units.Engine
             Result = -1;
             while (Size != 0)
             {
-                Result = Aow.Units.Engine.Engine.CRC32Table[(MemoryMarshal.Read<byte>(P.Array.AsSpan(P.Index, 1)) ^ Result) & 255] ^ (((int)(((uint)Result) >> 8)) & 16777215);
-                P += 1;
+                Result = Aow.Units.Engine.Engine.CRC32Table[(MemoryMarshal.Read<byte>(P.AsSpan(1)) ^ Result) & 255] ^ (((int)(((uint)Result) >> 8)) & 16777215);
+                P = P + (1 * 1);
                 Size -= 1;
             }
 
@@ -15491,7 +15553,7 @@ namespace Aow.Units.Engine
                     for (; I <= end__547; I += 1)
                     {
                         Stream.Read(Aow.Rtl.Bytes.Of(ref Obj, 4));
-                        Strings.Objects[I] = Aow.Rtl.Rtl.IntToObject(Obj);
+                        Strings.Objects[I] = Aow.Rtl.Rtl.IntToObject((int)Obj);
                     }
                 }
             }
@@ -15513,7 +15575,7 @@ namespace Aow.Units.Engine
             if (Aow.Units.Engine.Engine.CRC32Table.IsNull)
             {
                 Aow.Units.Engine.Engine.CRC32Table = Ptr<int>.Alloc(256);
-                Polynomial = unchecked((int)-306674912);
+                Polynomial = -306674912;
                 {
                     I = 0;
                     byte end__548 = 255;
@@ -15607,12 +15669,12 @@ namespace Aow.Units.Engine
             {
                 I = L;
                 J = R;
-                P = SortList[(int)(((uint)(L + R)) >> 1)];
+                P = unchecked((byte)SortList[(int)(((uint)(L + R)) >> 1)]);
                 do
                 {
                     while (true)
                     {
-                        var call__552 = SCompare(SortList[I], P);
+                        var call__552 = SCompare(unchecked((byte)SortList[I]), unchecked((byte)P));
                         if (!(call__552 < 0))
                             break;
                         {
@@ -15622,7 +15684,7 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__553 = SCompare(SortList[J], P);
+                        var call__553 = SCompare(unchecked((byte)SortList[J]), unchecked((byte)P));
                         if (!(call__553 > 0))
                             break;
                         {
@@ -15632,9 +15694,9 @@ namespace Aow.Units.Engine
 
                     if (I <= J)
                     {
-                        T = SortList[I];
-                        SortList[I] = SortList[J];
-                        SortList[J] = T;
+                        T = unchecked((byte)SortList[I]);
+                        SortList[I] = unchecked((byte)SortList[J]);
+                        SortList[J] = unchecked((byte)T);
                         I += 1;
                         J -= 1;
                     }
@@ -15661,12 +15723,12 @@ namespace Aow.Units.Engine
             {
                 I = L;
                 J = R;
-                P = SortList[(int)(((uint)(L + R)) >> 1)];
+                P = unchecked((sbyte)SortList[(int)(((uint)(L + R)) >> 1)]);
                 do
                 {
                     while (true)
                     {
-                        var call__554 = SCompare(SortList[I], P);
+                        var call__554 = SCompare(unchecked((sbyte)SortList[I]), unchecked((sbyte)P));
                         if (!(call__554 < 0))
                             break;
                         {
@@ -15676,7 +15738,7 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__555 = SCompare(SortList[J], P);
+                        var call__555 = SCompare(unchecked((sbyte)SortList[J]), unchecked((sbyte)P));
                         if (!(call__555 > 0))
                             break;
                         {
@@ -15686,9 +15748,9 @@ namespace Aow.Units.Engine
 
                     if (I <= J)
                     {
-                        T = SortList[I];
-                        SortList[I] = SortList[J];
-                        SortList[J] = T;
+                        T = unchecked((sbyte)SortList[I]);
+                        SortList[I] = unchecked((sbyte)SortList[J]);
+                        SortList[J] = unchecked((sbyte)T);
                         I += 1;
                         J -= 1;
                     }
@@ -15715,12 +15777,12 @@ namespace Aow.Units.Engine
             {
                 I = L;
                 J = R;
-                P = SortList[(int)(((uint)(L + R)) >> 1)];
+                P = unchecked((ushort)SortList[(int)(((uint)(L + R)) >> 1)]);
                 do
                 {
                     while (true)
                     {
-                        var call__556 = SCompare(SortList[I], P);
+                        var call__556 = SCompare(unchecked((ushort)SortList[I]), unchecked((ushort)P));
                         if (!(call__556 < 0))
                             break;
                         {
@@ -15730,7 +15792,7 @@ namespace Aow.Units.Engine
 
                     while (true)
                     {
-                        var call__557 = SCompare(SortList[J], P);
+                        var call__557 = SCompare(unchecked((ushort)SortList[J]), unchecked((ushort)P));
                         if (!(call__557 > 0))
                             break;
                         {
@@ -15740,9 +15802,9 @@ namespace Aow.Units.Engine
 
                     if (I <= J)
                     {
-                        T = SortList[I];
-                        SortList[I] = SortList[J];
-                        SortList[J] = T;
+                        T = unchecked((ushort)SortList[I]);
+                        SortList[I] = unchecked((ushort)SortList[J]);
+                        SortList[J] = unchecked((ushort)T);
                         I += 1;
                         J -= 1;
                     }
@@ -16013,7 +16075,7 @@ namespace Aow.Units.Engine
             var call__564 = new Aow.Rtl.TStringList();
             Aow.Units.Engine.Engine.Packages = call__564;
             var call__565 = Aow.Rtl.Rtl.RegisterClipboardFormat((AnsiString)"ECLIPBOARD FORMAT");
-            Aow.Units.Engine.Engine.ClipboardFormat = call__565;
+            Aow.Units.Engine.Engine.ClipboardFormat = unchecked((uint)call__565);
             Aow.Rtl.Rtl.RegisterClass(typeof(Aow.Units.Engine.TECopyComponent));
         }
 

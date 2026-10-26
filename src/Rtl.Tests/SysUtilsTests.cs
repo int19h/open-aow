@@ -141,6 +141,7 @@ public sealed class SysUtilsTests
         var system = new SystemClock();
         Assert.InRange((DateTime.Now - system.Now).Duration(), TimeSpan.Zero, TimeSpan.FromSeconds(1));
         Assert.InRange((DateTime.UtcNow - system.UtcNow).Duration(), TimeSpan.Zero, TimeSpan.FromSeconds(1));
-        Assert.InRange(unchecked((uint)Environment.TickCount64 - system.TickCount), 0u, 1000u);
+        uint systemTick = system.TickCount;
+        Assert.InRange(unchecked((uint)Environment.TickCount64 - systemTick), 0u, 1000u);
     }
 }

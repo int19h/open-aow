@@ -52,3 +52,543 @@ file = "src/Overrides/Engine/Popup.cs"
 member = "Engine.TEObjectEditor.UpdatePopupMenu"
 reason = "editor popup boundary stub from design section 3"
 file = "src/Overrides/Engine/Popup.cs"
+
+[[skip]]
+member = "GFXE.MMXBltRect"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.FPBltRect"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RegisterBltRect"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RepMovsdBltRect"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BltRect"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BltTransparent565"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BltTransparent555"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BltColorKey16"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BltStretched16"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface16to16"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface16to08"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface16to32"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface555to32"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface565to32"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface555to565"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface565to555"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BlendSurface555"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BlendSurface565"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BlendColorKey555"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BlendColorKey565"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BlendStretched555"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "GFXE.BlendStretched565"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/GFXE/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.RemapRLE565to555"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.RemapRLE555to565"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.BltRLE16"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.BlendRLE565"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.BlendRLE555"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.ShowBitMask16"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.ShowShadow565"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.ShowShadow555"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.ShowRLE08"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "ImageLib.ShowRLE08to16"
+reason = "pixel implementation owed to milestone 3"
+file = "src/Overrides/ImageLib/Blitters.cs"
+
+[[skip]]
+member = "GFXE.FillInt"
+reason = "catalogue equivalent and graphics timing contract"
+file = "src/Overrides/GFXE/Fill.cs"
+
+[[skip]]
+member = "GFXE.FillWord"
+reason = "catalogue equivalent and graphics timing contract"
+file = "src/Overrides/GFXE/Fill.cs"
+
+[[skip]]
+member = "GFXE.FillTrippleByte"
+reason = "catalogue equivalent and graphics timing contract"
+file = "src/Overrides/GFXE/Fill.cs"
+
+[[skip]]
+member = "GFXE.RDTSC"
+reason = "catalogue equivalent and graphics timing contract"
+file = "src/Overrides/GFXE/Fill.cs"
+
+[[skip]]
+member = "GFXE.CPUIDSupported"
+reason = "catalogue equivalent and graphics timing contract"
+file = "src/Overrides/GFXE/Fill.cs"
+
+[[skip]]
+member = "GFXE.MMXsupport"
+reason = "catalogue equivalent and graphics timing contract"
+file = "src/Overrides/GFXE/Fill.cs"
+
+[[skip]]
+member = "HSEngine.HXtoV"
+reason = "assembler coordinate routine, catalogue Pascal equivalent"
+file = "src/Overrides/HSEngine/Coordinates.cs"
+
+[[skip]]
+member = "HSEngine.HXtoH"
+reason = "assembler coordinate routine, catalogue Pascal equivalent"
+file = "src/Overrides/HSEngine/Coordinates.cs"
+
+[[skip]]
+member = "HSEngine.HVtoHX"
+reason = "assembler coordinate routine, catalogue Pascal equivalent"
+file = "src/Overrides/HSEngine/Coordinates.cs"
+
+[[skip]]
+member = "HSEngine.HPtoHX"
+reason = "assembler coordinate routine, catalogue Pascal equivalent"
+file = "src/Overrides/HSEngine/Coordinates.cs"
+
+[[skip]]
+member = "HSEngine.HPtoHXs"
+reason = "assembler coordinate routine, catalogue Pascal equivalent"
+file = "src/Overrides/HSEngine/Coordinates.cs"
+
+[[skip]]
+member = "HSEngine.WalkToNextHN"
+reason = "assembler coordinate routine, catalogue Pascal equivalent"
+file = "src/Overrides/HSEngine/Coordinates.cs"
+
+[[skip]]
+member = "HSEngine.THSMap.CanChangeTerrain"
+reason = "two adjacent terrain bytes in the 1.3 diagnostic view"
+file = "src/Overrides/HSEngine/TerrainChange.cs"
+
+[[skip]]
+member = "AoWMemo.TAOWMemo.CheckMouseUp"
+reason = "Boolean byte comparison at AoWMemo.pas:546 keeps equality with one"
+file = "src/Overrides/AoWMemo/MouseUp.cs"
+
+[[skip]]
+member = "AoWSetup.TCustomizeLeaderControl.Done"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWSetup/Assembly.cs"
+
+[[skip]]
+member = "Crops.TPlayerCropStructure.GetIncome"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/Crops/Assembly.cs"
+
+[[skip]]
+member = "GlobalTargetSpells.TFreezeWater.ValidTargetMapF"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/GlobalTargetSpells/Assembly.cs"
+
+[[skip]]
+member = "GlobalTargetSpells.TFreezeWater.ValidTargetSelectionMapF"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/GlobalTargetSpells/Assembly.cs"
+
+[[skip]]
+member = "GlobalTargetSpells.TWatcherEnchantment.GetLocation"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/GlobalTargetSpells/Assembly.cs"
+
+[[skip]]
+member = "GlobalTargetSpells.TWatcherEnchantment.Deactivate"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/GlobalTargetSpells/Assembly.cs"
+
+[[skip]]
+member = "GlobalTargetSpells.TTornadoTE.Validate"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/GlobalTargetSpells/Assembly.cs"
+
+[[skip]]
+member = "GlobalTargetSpells.TVortexTE.Validate"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/GlobalTargetSpells/Assembly.cs"
+
+[[skip]]
+member = "Mine.TMine.GetRazed"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/Mine/Assembly.cs"
+
+[[skip]]
+member = "SmokeCloud.TSmokeCloudEnchantment.GetLocation"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/SmokeCloud/Assembly.cs"
+
+[[skip]]
+member = "SmokeCloud.TSmokeCloudEnchantment.Deactivate"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/SmokeCloud/Assembly.cs"
+
+[[skip]]
+member = "Teleport.TTeleport.GetRazed"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/Teleport/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TRaceList.ReadWrite"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TUnitSelector.Select"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TCustomAbilityList.SetAbSet"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TCustomAbilityList.GetAbSet"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAbility.CanExpand"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAbility.ExpandCost"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAbility.Remove"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAbility.GetInherent"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAbility.GetSkillPoints"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAbility.GetEnabled"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TDurationAbility.Remove"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.GetLevel"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.GetInherentLevel"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.GetName"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.ExpandName"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.ExpandCost"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.CanExpand"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.GetSkillPoints"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.Expand"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMultiLevelAbility.Remove"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapField.GetExplored"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapField.SetExplored"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TCombatEventLog.ViewLocation"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TDamageEffectCA.Play"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TUpdateHeaderCA.Play"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TNewCombatRoundCA.Play"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TCombatObjectTurnDoneCA.Play"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TMoveWallCA.Play"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TFleeCA.Play"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TNegotiateRequestEventLog.Execute"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TDiplomaticActionEventLog.GetMiddleIcon"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpell.CanActivateCombat"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpell.GetCombatInfo"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpell.CreateCastSpellAction"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpell.SetupCastSpellAction"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpellTE.GetSource"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpellTE.Validate"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpellTE.Process"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpellTE.PlayDefaultCastEffects"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpellCaster.GetSource"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TSpellCaster.CanCast"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TUnitSpellCaster.SetSelection"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TExternalPowerSource.Power"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAbstractUnit.GetAbilitySet"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TAbstractUnit.RemoveAbility"
+reason = "assembler catalogue Pascal equivalent with original edge behavior"
+file = "src/Overrides/AoWE/Assembly.cs"
+
+[[skip]]
+member = "AoWE.TArmyID.ReadWrite"
+reason = "N6 coordinate and padding image at Army.PAS:20"
+file = "src/Overrides/AoWE/SemanticViews.cs"
+
+[[skip]]
+member = "AoWE.TCombatPredictorUnit.Setup"
+reason = "typed predictor reference replaces the Integer alias at CombatPredictor.pas:18"
+file = "src/Overrides/AoWE/SemanticViews.cs"
+
+[[skip]]
+member = "AoWE.TWallCrushingAbility.fcExecuteCombatCommand"
+reason = "Boolean byte six reaches Generate at AoWAb.PAS:2089"
+file = "src/Overrides/AoWE/SemanticViews.cs"
+
+[[skip]]
+member = "AoWE.P5DiplomaticExecute"
+reason = "typed callback replaces the Pointer cell view at Diplomacy.pas:1408"
+file = "src/Overrides/AoWE/SemanticViews.cs"
+
+[[skip]]
+member = "City.TCity.GenerateRebelUnits"
+reason = "read the random seed value at City.pas:1809"
+file = "src/Overrides/City/RebelUnits.cs"
