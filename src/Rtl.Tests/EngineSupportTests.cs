@@ -1,0 +1,144 @@
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using R = Aow.Rtl.Rtl;
+
+namespace Aow.Rtl.Tests;
+
+public sealed class EngineSupportTests
+{
+    private enum Flag : byte { A, B, C }
+    private enum OffsetFlag : byte { A = 8, B, C }
+    [InlineArray(4)] private struct FourBytes { private byte first; }
+    private sealed class Receiver { public void Event(TObject sender) { } }
+
+    [Fact]
+    public void PhysicalRecordsKeepDelphiOffsets()
+    {
+        Assert.Equal(8, Marshal.SizeOf<TLargeInteger>());
+        Assert.Equal(4, Marshal.OffsetOf<TLargeInteger>(nameof(TLargeInteger.HighPart)).ToInt32());
+        TLargeInteger value = new() { QuadPart = 0x12345678ABCDEF01 };
+        Assert.Equal(0xABCDEF01u, value.LowPart);
+        Assert.Equal(0x12345678, value.HighPart);
+        Assert.Equal(16, Marshal.SizeOf<TRect>());
+        Assert.Equal(12, Marshal.OffsetOf<TRect>(nameof(TRect.Bottom)).ToInt32());
+        Assert.Equal(3, (int)TBltMode.bmCenter);
+    }
+
+    [Fact]
+    public void BufferHelpersPreservePhysicalAndStringBytes()
+    {
+        Assert.Equal(new byte[] { 0x78, 0x56 }, R.ValueBytes(0x12345678, 2));
+        Assert.Throws<ERangeError>(() => R.ValueBytes(1, 5));
+        AnsiString value = AnsiString.FromBytes(0, 233, 255);
+        Assert.Equal(new byte[] { 0, 233, 255 }, R.StringBytes(value).ToArray());
+        byte[] bytes = new byte[3];
+        R.FillBytes(bytes, -1);
+        Assert.Equal(new byte[] { 255, 255, 255 }, bytes);
+        FourBytes left = default, right = default;
+        left[3] = 7;
+        Assert.False(R.ArrayEquals<FourBytes, byte>(left, right));
+        right[3] = 7;
+        Assert.True(R.ArrayEquals<FourBytes, byte>(left, right));
+    }
+
+    [Fact]
+    public void NumericObjectSlotsRecoverValuesAndKeepPointerIdentity()
+    {
+        Assert.Null(R.IntToObject(0));
+        foreach (int value in new[] { 1, -1, 17, int.MinValue, int.MaxValue })
+        {
+            Assert.Same(R.IntToObject(value), R.IntToObject(value));
+            Assert.Equal(value, R.ObjectToInt(R.IntToObject(value)));
+        }
+        var instance = new TObject();
+        Assert.Equal(instance.InstanceId, R.ObjectToInt(instance));
+        Assert.Equal(0, R.ObjectToInt(null));
+    }
+
+    [Fact]
+    public void DelegateHalvesRemainDistinctFromFullDelegateEquality()
+    {
+        var a = new Receiver(); var b = new Receiver();
+        TNotifyEvent first = a.Event, second = b.Event;
+        Assert.Equal(R.MethodCode(first), R.MethodCode(second));
+        Assert.NotSame(R.MethodTarget(first), R.MethodTarget(second));
+        Assert.Null(R.MethodCode(null)); Assert.Null(R.MethodTarget(null));
+        var left = Ptr<TNotifyEvent>.To(new[] { first, second }, 0);
+        var right = Ptr<TNotifyEvent>.To(new[] { first, second }, 0);
+        Assert.True(R.PointerSequenceEqual(left, right, 2));
+        right[1] = first;
+        Assert.False(R.PointerSequenceEqual(left, right, 2));
+    }
+
+    [Fact]
+    public void SetTransferUsesTheDelphiImageAndItsLowByte()
+    {
+        TSet<Flag> value = default;
+        R.RwSet(ref value, 1, 17, (bytes, size, id) =>
+        {
+            Assert.Equal(1, size); Assert.Equal(17, id); bytes[0] = 5;
+        });
+        Assert.True(value.Contains(Flag.A)); Assert.True(value.Contains(Flag.C)); Assert.False(value.Contains(Flag.B));
+        TSet<OffsetFlag> offset = default;
+        R.RwSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
+        Assert.True(offset.Contains(OffsetFlag.A)); Assert.True(offset.Contains(OffsetFlag.C));
+    }
+
+    [Fact]
+    public void StringReadsCopyBeforeWritingAndKeepPartialTransfers()
+    {
+        var stream = new TMemoryStream();
+        stream.WriteBuffer(new byte[] { 0, 233 });
+        stream.Position = 0;
+        AnsiString value = "abcd", shared = value;
+        Assert.Equal(2, R.ReadString(stream, ref value, 1, 2, false));
+        Assert.Equal((AnsiString)"abcd", shared);
+        Assert.Equal(AnsiString.FromBytes(97, 0, 233, 100), value);
+        stream.Position = 0;
+        Assert.Throws<EReadError>(() => R.ReadString(stream, ref value, 0, 4, true));
+        Assert.Equal((byte)0, value[1]); Assert.Equal((byte)233, value[2]);
+    }
+
+    [Fact]
+    public void ZlibAdaptersRoundTripAndLeaveTheBackingStreamOpen()
+    {
+        foreach (var level in Enum.GetValues<TCompressionLevel>())
+        {
+            byte[] expected = Enumerable.Range(0, 8193).Select(i => (byte)(i * 17)).ToArray();
+            var backing = new TMemoryStream();
+            var compressor = new TCompressionStream(level, backing);
+            Assert.Equal(expected.Length, compressor.Write(expected));
+            Assert.Equal(expected.Length, compressor.Seek(0, 1));
+            Assert.Throws<EStreamError>(() => compressor.Seek(1, 0));
+            compressor.Destroy(); compressor.Destroy();
+            Assert.True(backing.Size > 0);
+            backing.Position = 0;
+            var reader = new TDecompressionStream(backing);
+            byte[] actual = new byte[expected.Length];
+            Assert.Equal(expected.Length, reader.Read(actual));
+            Assert.Equal(expected, actual);
+            Assert.Equal(0, reader.Read(actual));
+            reader.Destroy();
+            backing.Position = 0;
+            Assert.True(backing.Read(actual.AsSpan(0, 1)) > 0);
+        }
+    }
+
+    [Fact]
+    public void HostBoundaryHooksAreExplicitAndReplaceable()
+    {
+        var saved = R.MessageHandler;
+        try
+        {
+            AnsiString shown = default;
+            R.MessageHandler = message => shown = message;
+            R.ShowMessage("message");
+            Assert.Equal((AnsiString)"message", shown);
+        }
+        finally { R.MessageHandler = saved; }
+        R.RegisterClass(typeof(TComponent));
+        R.RegisterComponents("category", new[] { typeof(TComponent) });
+        Assert.Equal(1u, R.RegisterClipboardFormat("format"));
+        Assert.True(R.GetHeapStatus().TotalAllocated >= 0);
+    }
+}
