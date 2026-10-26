@@ -28,13 +28,11 @@ internal sealed class ProbeLines(string name)
             $"{name}.txt:{position + 1} [{label}] expected <{lines[position]}> actual <{actual}>");
         position++;
     }
-    internal void End(int skipped = 0)
+    internal void End()
     {
         Fact("end", position);
         Assert.Equal(lines.Length, position);
-        Assert.InRange(skipped, 0, position - 1);
     }
-    internal void SkipLine() => position++;
 }
 
 public sealed class ProbeTests(ITestOutputHelper output)
@@ -105,7 +103,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
     }
 
     [ProbeFact("strings")]
-    public void StringsFixtureInScope()
+    public void StringsFixture()
     {
         var probe = new ProbeLines("strings");
         void Bytes(string label, AnsiString value) => probe.Fact(label, Convert.ToHexString(value.AsPtr().Array!.AsSpan(0, value.Length)));
@@ -172,25 +170,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
         SetLength(ref alias, 0);
         Bytes("setlength_empty", alias);
 
-        var skipped = new Dictionary<string, int>();
-        while (!probe.Current.StartsWith("end ", StringComparison.Ordinal))
-        {
-            string line = probe.Current;
-            string reason = line switch
-            {
-                var x when x.StartsWith("uppercase_") || x.StartsWith("lowercase_") || x.StartsWith("comparetext_") => "SysUtils case conversion and CompareText",
-                var x when x.StartsWith("trim_") => "SysUtils Trim",
-                var x when x.StartsWith("strtoint_") => "SysUtils StrToInt",
-                var x when x.StartsWith("inttostr_") || x.StartsWith("inttohex_") => "SysUtils integer formatting",
-                var x when x.StartsWith("text_") => "Classes TStrings.Text",
-                var x when x.Length >= 6 && x[2] == ' ' && x[5] == ' ' && x.Take(2).All(char.IsAsciiHexDigit) && x.Skip(3).Take(2).All(char.IsAsciiHexDigit) => "SysUtils AnsiCompareText byte pairs",
-                _ => throw new InvalidOperationException($"Unclassified fixture line: {line}")
-            };
-            skipped[reason] = skipped.GetValueOrDefault(reason) + 1;
-            probe.SkipLine();
-        }
-        foreach (var (reason, count) in skipped) output.WriteLine($"Out of scope: {count} lines for {reason}");
-        probe.End(skipped.Values.Sum());
+        SysUtilsProbeTests.StringsRemaining(probe, output);
     }
 
     [ProbeFact("sets")]

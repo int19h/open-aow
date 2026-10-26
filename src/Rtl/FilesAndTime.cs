@@ -1,0 +1,203 @@
+using System.Globalization;
+using System.IO.Enumeration;
+
+namespace Aow.Rtl;
+
+public readonly record struct RtlFileEntry(string Name, int Size, int Attr, DateTime Modified);
+
+// The host brief replaces these defaults through Rtl.Files and Rtl.Clock.
+public interface IFileSystem
+{
+    string CurrentDirectory { get; }
+    string ExpandPath(string path);
+    Stream Open(string path, int mode);
+    bool FileExists(string path);
+    bool DirectoryExists(string path);
+    bool DeleteFile(string path);
+    bool RenameFile(string source, string target);
+    bool CreateDirectory(string path);
+    DateTime? LastWriteTime(string path);
+    IEnumerable<RtlFileEntry> Enumerate(string directory);
+}
+
+public sealed class SystemIoFileSystem : IFileSystem
+{
+    public string CurrentDirectory => Directory.GetCurrentDirectory();
+    public string ExpandPath(string path) => Path.GetFullPath(path.Length == 0 ? "." : path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar), CurrentDirectory);
+    private string Resolve(string path)
+    {
+        string full = ExpandPath(path);
+        if (OperatingSystem.IsWindows()) return full;
+        string current = Path.GetPathRoot(full)!;
+        foreach (string part in full[current.Length..].Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+        {
+            string? match = Directory.Exists(current) ? Directory.EnumerateFileSystemEntries(current).FirstOrDefault(p => string.Equals(Path.GetFileName(p), part, StringComparison.OrdinalIgnoreCase)) : null;
+            current = match ?? Path.Combine(current, part);
+        }
+        return current;
+    }
+    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode == Rtl.fmCreate ? FileMode.Create : FileMode.Open,
+        mode == Rtl.fmCreate ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
+        (mode & 0xF0) == Rtl.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
+    public bool FileExists(string path) => File.Exists(Resolve(path));
+    public bool DirectoryExists(string path) => Directory.Exists(Resolve(path));
+    private static bool Attempt(Action action) { try { action(); return true; } catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; } }
+    public bool DeleteFile(string path) => FileExists(path) && Attempt(() => File.Delete(Resolve(path)));
+    public bool RenameFile(string source, string target) => Attempt(() => File.Move(Resolve(source), Resolve(target)));
+    public bool CreateDirectory(string path) => !DirectoryExists(path) && Directory.Exists(Path.GetDirectoryName(Resolve(path))) && Attempt(() => Directory.CreateDirectory(Resolve(path)));
+    public DateTime? LastWriteTime(string path) => FileExists(path) ? File.GetLastWriteTime(Resolve(path)) : null;
+    public IEnumerable<RtlFileEntry> Enumerate(string directory)
+    {
+        foreach (string path in Directory.EnumerateFileSystemEntries(Resolve(directory)))
+        {
+            FileAttributes attr = File.GetAttributes(path);
+            yield return new(Path.GetFileName(path), (attr & FileAttributes.Directory) != 0 ? 0 : unchecked((int)new FileInfo(path).Length), (int)attr, File.GetLastWriteTime(path));
+        }
+    }
+}
+
+public interface IClock
+{
+    DateTime Now { get; }
+    DateTime UtcNow => Now.ToUniversalTime();
+    uint TickCount { get; }
+}
+public sealed class SystemClock : IClock
+{
+    public DateTime Now => DateTime.Now;
+    public DateTime UtcNow => DateTime.UtcNow;
+    public uint TickCount => unchecked((uint)Environment.TickCount64);
+}
+
+public struct TSearchRec
+{
+    public AnsiString Name;
+    public int Size, Attr, Time;
+    internal RtlFileEntry[]? Entries;
+    internal int Index;
+}
+
+public static partial class Rtl
+{
+    public static IFileSystem Files { get; set; } = new SystemIoFileSystem();
+    public static IClock Clock { get; set; } = new SystemClock();
+    public const int faReadOnly = 1, faHidden = 2, faSysFile = 4, faVolumeID = 8, faDirectory = 16, faArchive = 32, faAnyFile = 63;
+    private static int Delimiter(AnsiString name, bool dot = false)
+    {
+        for (int i = name.Length; i > 0; i--) if (name[i] is (byte)'\\' or (byte)':' || (dot && name[i] == '.')) return i;
+        return 0;
+    }
+    // SYSUTILS.PAS ExtractFileName, ExtractFilePath, ExtractFileDir, ExtractFileExt, ChangeFileExt.
+    public static AnsiString ExtractFileName(AnsiString name) => Copy(name, Delimiter(name) + 1, int.MaxValue);
+    public static AnsiString ExtractFilePath(AnsiString name) => Copy(name, 1, Delimiter(name));
+    public static AnsiString ExtractFileDir(AnsiString name)
+    {
+        int i = Delimiter(name);
+        if (i > 1 && name[i] == (byte)'\\' && name[i - 1] is not ((byte)'\\' or (byte)':')) i--;
+        return Copy(name, 1, i);
+    }
+    public static AnsiString ExtractFileExt(AnsiString name) { int i = Delimiter(name, true); return i > 0 && name[i] == '.' ? Copy(name, i, int.MaxValue) : default; }
+    public static AnsiString ChangeFileExt(AnsiString name, AnsiString extension) { int i = Delimiter(name, true); return (i > 0 && name[i] == '.' ? Copy(name, 1, i - 1) : name) + extension; }
+    public static AnsiString ExpandFileName(AnsiString name) => name.Length == 0 ? default : Files.ExpandPath(name.ToString());
+    public static AnsiString GetCurrentDir() => Files.CurrentDirectory;
+    public static bool FileExists(AnsiString name) => Files.FileExists(name.ToString());
+    public static bool DirectoryExists(AnsiString name) => Files.DirectoryExists(name.ToString());
+    public static bool DeleteFile(AnsiString name) => Files.DeleteFile(name.ToString());
+    public static bool RenameFile(AnsiString source, AnsiString target) => Files.RenameFile(source.ToString(), target.ToString());
+    public static bool CreateDir(AnsiString name) => Files.CreateDirectory(name.ToString());
+    // SYSUTILS.PAS FindFirst and FindMatchingFile, with the specified deterministic order.
+    public static int FindFirst(AnsiString path, int attr, ref TSearchRec search)
+    {
+        search = default;
+        path = path.ToString().Replace('/', '\\');
+        string directory = ExtractFilePath(path).ToString();
+        if (directory.Length == 0) directory = Files.CurrentDirectory;
+        string pattern = ExtractFileName(path).ToString();
+        try
+        {
+            var all = Files.Enumerate(directory).ToList();
+            all.Add(new(".", 0, faDirectory, Clock.Now));
+            all.Add(new("..", 0, faDirectory, Clock.Now));
+            string expression = FileSystemName.TranslateWin32Expression(pattern);
+            var matches = all.Where(e => FileSystemName.MatchesWin32Expression(expression, e.Name, true)).ToArray();
+            if (matches.Length == 0) return 2;
+            search.Entries = matches.Where(e => (e.Attr & ~attr & 30) == 0).OrderBy(e => e.Name.ToUpperInvariant(), StringComparer.Ordinal).ToArray();
+            search.Index = -1;
+            int result = FindNext(ref search);
+            if (result != 0) FindClose(ref search);
+            return result;
+        }
+        catch (DirectoryNotFoundException) { return 3; }
+        catch (UnauthorizedAccessException) { return 5; }
+    }
+    // SYSUTILS.PAS FindNext and FindClose.
+    public static int FindNext(ref TSearchRec search)
+    {
+        if (search.Entries is null) return 6;
+        if (++search.Index >= search.Entries.Length) return 18;
+        var item = search.Entries[search.Index];
+        search.Name = item.Name; search.Size = item.Size; search.Attr = item.Attr; search.Time = DateTimeToFileDate(ToDelphiDate(item.Modified));
+        return 0;
+    }
+    public static void FindClose(ref TSearchRec search) => search.Entries = null;
+    public static int FileAge(AnsiString name) => Files.LastWriteTime(name.ToString()) is { } time ? DateTimeToFileDate(ToDelphiDate(time)) : -1;
+    // SYSUTILS.PAS FileDateToDateTime and DateTimeToFileDate use DOS two-second resolution.
+    public static double FileDateToDateTime(int value) => EncodeDate((int)((uint)value >> 25) + 1980, (value >> 21) & 15, (value >> 16) & 31) + EncodeTime((value >> 11) & 31, (value >> 5) & 63, (value & 31) * 2, 0);
+    public static int DateTimeToFileDate(double value)
+    {
+        DecodeDate(value, out int y, out int m, out int d); DecodeTime(value, out int h, out int n, out int s, out _);
+        return y is < 1980 or > 2099 ? 0 : unchecked(((y - 1980) << 25) | (m << 21) | (d << 16) | (h << 11) | (n << 5) | (s >> 1));
+    }
+    private static readonly DateTime Epoch = new(1899, 12, 30);
+    private static double ToDelphiDate(DateTime time)
+    {
+        double days = (time.Date - Epoch).TotalDays, fraction = time.TimeOfDay.TotalDays;
+        return days < 0 ? days - fraction : days + fraction;
+    }
+    // SYSUTILS.PAS Now, Date and Time.
+    public static double Now() => ToDelphiDate(Clock.Now);
+    public static double Date() => (Clock.Now.Date - Epoch).TotalDays;
+    public static double Time() => Clock.Now.TimeOfDay.TotalDays;
+    public static uint GetTickCount() => Clock.TickCount;
+    public static uint timeGetTime() => Clock.TickCount;
+    // SYSUTILS.PAS EncodeDate and EncodeTime.
+    public static double EncodeDate(int year, int month, int day)
+    {
+        try { return (new DateTime(year, month, day) - Epoch).TotalDays; }
+        catch (ArgumentOutOfRangeException) { throw new EConvertError("Invalid argument to date encode"); }
+    }
+    public static double EncodeTime(int hour, int minute, int second, int millisecond)
+    {
+        if (hour is < 0 or >= 24 || minute is < 0 or >= 60 || second is < 0 or >= 60 || millisecond is < 0 or >= 1000) throw new EConvertError("Invalid argument to time encode");
+        return (hour * 3600000 + minute * 60000 + second * 1000 + millisecond) / 86400000.0;
+    }
+    // SYSUTILS.PAS DateTimeToTimeStamp rounds to milliseconds and uses the absolute fraction.
+    public static void DecodeTime(double value, out int hour, out int minute, out int second, out int millisecond)
+    {
+        long ticks = (long)Math.Round(value * 86400000, MidpointRounding.ToEven);
+        int ms = (int)Math.Abs(ticks % 86400000);
+        hour = ms / 3600000; minute = ms / 60000 % 60; second = ms / 1000 % 60; millisecond = ms % 1000;
+    }
+    public static void DecodeDate(double value, out int year, out int month, out int day)
+    {
+        long rounded = (long)Math.Round(value * 86400000, MidpointRounding.ToEven);
+        long days = rounded / 86400000;
+        if (days + (Epoch - DateTime.MinValue).Days < 0) { year = month = day = 0; return; }
+        DateTime date = Epoch.AddDays(days); year = date.Year; month = date.Month; day = date.Day;
+    }
+    public static void DecodeTime(double value, ref ushort hour, ref ushort minute, ref ushort second, ref ushort millisecond)
+    {
+        DecodeTime(value, out int h, out int n, out int s, out int ms);
+        hour = (ushort)h; minute = (ushort)n; second = (ushort)s; millisecond = (ushort)ms;
+    }
+    public static void DecodeDate(double value, ref ushort year, ref ushort month, ref ushort day)
+    {
+        DecodeDate(value, out int y, out int m, out int d);
+        year = (ushort)y; month = (ushort)m; day = (ushort)d;
+    }
+    public static AnsiString DateTimeToStr(double value)
+    {
+        DecodeDate(value, out int y, out int m, out int d); DecodeTime(value, out int h, out int n, out int s, out int ms);
+        return new DateTime(y, m, d, h, n, s, ms).ToString("g", CultureInfo.CurrentCulture);
+    }
+}
