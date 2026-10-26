@@ -14,7 +14,7 @@ public static partial class Rtl
         return (uint)RandSeed * (1.0 / 4294967296.0);
     }
     // SYSTEM.PAS:1647 uses GetSystemTime, which returns UTC.
-    public static void Randomize() => RandSeed = (int)DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
+    public static void Randomize() => RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
     public static int Round(double value) => ToInteger(Math.Round(value, MidpointRounding.ToEven));
     public static int Trunc(double value) => ToInteger(Math.Truncate(value));
     private static int ToInteger(double value) => double.IsFinite(value) && value >= int.MinValue && value <= int.MaxValue

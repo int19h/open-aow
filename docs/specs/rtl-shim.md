@@ -245,7 +245,7 @@ an integer raises `EConvertError`, as Delphi does.
 
 | routine | semantics |
 |---|---|
-| `ExtractFileName`, `ExtractFilePath`, `ExtractFileExt`, `ChangeFileExt`, `ExtractFileDir` | split at the last `\` or `:`. The port also accepts `/`, because the host converts paths (section 7) |
+| `ExtractFileName`, `ExtractFilePath`, `ExtractFileExt`, `ChangeFileExt`, `ExtractFileDir` | split at the last `\` or `:`, as Delphi 3 does, never at `/` (probe `files`). The host's file service accepts both separators (section 7) |
 | `ExpandFileName` | absolute path with `.` and `..` removed, relative to the host's working directory |
 | `FileExists`, `DirectoryExists`, `DeleteFile`, `RenameFile`, `CreateDir`, `GetCurrentDir` | through the host file system |
 | `FindFirst`, `FindNext`, `FindClose` with `TSearchRec` (`Name`, `Size`, `Attr`, `Time`) | section 3.5 |
@@ -256,8 +256,7 @@ on the hidden, system, volume and directory bits only: an entry is returned unle
 those bits and `Attr` does not, so read-only and archive files come back whatever the mask, and a
 plain file reports attribute 128. A search that includes directories also returns `.` and `..`.
 The end of an enumeration is code 18, and a pattern with no match returns code 2 (probe `files`,
-2026-10-26). `ExtractFileName` and `ExtractFilePath` of Delphi 3 do not split at `/`. The port
-does, as the first row of the table says, because the host converts paths.
+2026-10-26). `ExtractFileName` and `ExtractFilePath` of Delphi 3 do not split at `/`, and the shim keeps that.
 
 ### 3.5 Directory enumeration order
 
@@ -337,7 +336,7 @@ with `Cannot assign a %s to a %s`. `GetNamePath`, `GetOwner`.
 
 `TComponent`: `Owner`, `Name` (setter validates the identifier, checks duplicates in the owner
 with `CompareText`, raises `EComponentError`), `Tag`, `ComponentCount`, `Components[i]`,
-`ComponentIndex`, `ComponentState` (`csLoading`, `csDestroying`, `csDesigning` never set),
+`ComponentIndex`, `ComponentState` (`csLoading`, `csDestroying` set recursively by `Destroying` as in `CLASSES.PAS`, `csDesigning` never set),
 `InsertComponent`, `RemoveComponent`, `FindComponent` (`CompareText`), `DestroyComponents`
 (destroys from the last to the first), `Notification` (recursive to owned components),
 `FreeNotification`, `Loaded`, `Destroying`, `GetChildren`, `GetParentComponent`, `HasParent`,
