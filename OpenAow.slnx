@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/Rtl/Aow.Rtl.csproj" />
+  <Project Path="src/Rtl.Tests/Aow.Rtl.Tests.csproj" />
+</Solution>
