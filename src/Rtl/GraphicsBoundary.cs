@@ -114,9 +114,31 @@ public class TTabControl : TWinControl
 {
     protected internal virtual void Change() { }
 }
-public class TRegistry : TObject { }
+public class TRegistry : TObject
+{
+    private readonly Dictionary<string, object> values = new(StringComparer.OrdinalIgnoreCase);
+    private string key = "";
+    public bool OpenKey(AnsiString name, bool create) { key = name.ToString(); return true; }
+    public void CloseKey() => key = "";
+    public bool ValueExists(AnsiString name) => values.ContainsKey(key + "\\" + name.ToString());
+    public int ReadInteger(AnsiString name) => (int)values[key + "\\" + name.ToString()];
+    public bool ReadBool(AnsiString name) => (bool)values[key + "\\" + name.ToString()];
+    public AnsiString ReadString(AnsiString name) => (AnsiString)values[key + "\\" + name.ToString()];
+    public void WriteInteger(AnsiString name, int value) => values[key + "\\" + name.ToString()] = value;
+    public void WriteBool(AnsiString name, bool value) => values[key + "\\" + name.ToString()] = value;
+    public void WriteString(AnsiString name, AnsiString value) => values[key + "\\" + name.ToString()] = value;
+}
 public class TIvTranslator : TComponent { }
-public class TIvDictionary : TComponent { }
+public class TIvDictionary : TComponent
+{
+    public AnsiString FFileName;
+    public int FLanguage;
+    public void SetLanguage(int language) => FLanguage = language;
+    public void SetDictionaryName(AnsiString name) { }
+    public void Open() { }
+    public void Close() { }
+    public AnsiString Translate(AnsiString text) => text;
+}
 public class TIvBinaryDictionary : TIvDictionary { }
 public class Text : TObject { }
 public class TDataModule : TComponent { }

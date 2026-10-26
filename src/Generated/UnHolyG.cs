@@ -524,27 +524,34 @@ namespace Aow.Units.UnHolyG
                         MapF = (Aow.Units.AoWE.TAoWMapField)call__55;
                         var call__56 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
                         var call__57 = ((Aow.Units.GlobalTargetSpells.TGlobalTargetSpell)call__56).ValidTargetMapF(MapF);
-                        if (call__57 && (MapF.GetArmyHS == null))
+                        bool bool__58 = call__57;
+                        if (bool__58)
+                        {
+                            var call__59 = MapF.GetArmyHS();
+                            bool__58 = (call__59 == null);
+                        }
+
+                        if (bool__58)
                         {
                             MapF.RestoreTerrain();
                             Ground = (Aow.Units.UnHolyG.TUnHolyGround)Resource.CreateResourceUser();
-                            var call__58 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(11);
-                            Ground.FDuration = unchecked((sbyte)(3 + ((call__58 - 5) / 5)));
+                            var call__60 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(11);
+                            Ground.FDuration = unchecked((sbyte)(3 + ((call__60 - 5) / 5)));
                             Ground.FPlayer = unchecked((sbyte)Source.FPlayer);
                             Ground.FOriginalOverlay = unchecked((sbyte)MapF.OverlayType);
                             Aow.Units.AoWE.AoWE.AoWHSMap.ClearTerrain(w__52.X, w__52.Y, FLocation.L, 0, -1);
-                            var call__59 = Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Ground, w__52.X, w__52.Y, FLocation.L);
-                            if (call__59)
+                            var call__61 = Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Ground, w__52.X, w__52.Y, FLocation.L);
+                            if (call__61)
                             {
                                 Ground.FMode = TSet<Aow.Units.UnHolyG.AnonymousEnum_hgSummoning>.Of(Aow.Units.UnHolyG.AnonymousEnum_hgSummoning.hgSummoning);
                                 Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
-                                var call__60 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
-                                var call__61 = call__60.FCastImages.ImageSequences[0];
-                                Anim.SetImageSequence(call__61);
+                                var call__62 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
+                                var call__63 = call__62.FCastImages.ImageSequences[0];
+                                Anim.SetImageSequence(call__63);
                                 Anim.FOnShow = Ground.ShowSummonAnimation;
                                 Anim.FOnNewFrame = Ground.NewFrameSummonAnimation;
-                                var call__62 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(15);
-                                Anim.FFrameCounter = -call__62;
+                                var call__64 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(15);
+                                Anim.FFrameCounter = -call__64;
                                 Anim.FTag = Source.FPlayer;
                                 Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Anim, w__52.X, w__52.Y, FLocation.L);
                             }
@@ -615,9 +622,9 @@ namespace Aow.Units.UnHolyG
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__63 = Aow.Units.AoWE.AoWE.UnholyGroundsRStr;
-            var call__64 = Aow.Units.AoWE.AoWE.TranslateRStr(call__63);
-            FSpellName = call__64;
+            var call__65 = Aow.Units.AoWE.AoWE.UnholyGroundsRStr;
+            var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(call__65);
+            FSpellName = call__66;
             FSpellID = 14;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -633,8 +640,8 @@ namespace Aow.Units.UnHolyG
             A2.FHNs.Clear();
             {
                 I = 0;
-                int end__65 = Aow.Units.HSEngine.HSEngine.RadToHN(2) - 1;
-                for (; I <= end__65; I += 1)
+                int end__67 = Aow.Units.HSEngine.HSEngine.RadToHN(2) - 1;
+                for (; I <= end__67; I += 1)
                 {
                     A2.FHNs.Add(0);
                 }
@@ -649,8 +656,8 @@ namespace Aow.Units.UnHolyG
             Event = Aow.Units.UnHolyG.TUnholyGroundSpellTE.Create(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
-            var call__66 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__66.AddEvent(Event);
+            var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
+            call__68.AddEvent(Event);
             Event.Release();
             Result = true;
             return Result;
@@ -661,8 +668,8 @@ namespace Aow.Units.UnHolyG
         {
             bool Result = default;
             Aow.Units.AoWE.TArmyHS Army = default;
-            var call__67 = base.ValidTargetMapF(A1);
-            Result = call__67 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
+            var call__69 = base.ValidTargetMapF(A1);
+            Result = call__69 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence accepts these overlays without the terrain test. }
             Result = (Result && (A1.OverlayType == -1)) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
             Result = Result && (A1.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure)) == null);
@@ -682,11 +689,25 @@ namespace Aow.Units.UnHolyG
         public override bool ValidTargetMapF(Aow.Units.HSEngine.TMapField A1)
         {
             bool Result = default;
-            var call__68 = base.ValidTargetMapF(A1);
-            Result = call__68 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
+            var call__70 = base.ValidTargetMapF(A1);
+            Result = call__70 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence accepts these overlays without the terrain test. }
             Result = (Result && (A1.OverlayType == -1)) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
-            Result = (Result && (A1.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure)) == null)) && (((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS == null);
+            bool bool__71 = Result;
+            if (bool__71)
+            {
+                var call__72 = A1.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure));
+                bool__71 = (call__72 == null);
+            }
+
+            bool bool__73 = bool__71;
+            if (bool__73)
+            {
+                var call__74 = ((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS();
+                bool__73 = (call__74 == null);
+            }
+
+            Result = bool__73;
             return Result;
         }
 
@@ -714,8 +735,8 @@ namespace Aow.Units.UnHolyG
         public static void RegisterUnHolyGround(Aow.Units.AoWE.TAoWEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnHolyGround>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnHolyGroundResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnholyGroundSpellTE>()]);
-            var call__69 = Aow.Units.UnHolyG.TUnholyGroundSpell.Create(null);
-            AEngine.FGameSet.FSpellControl.RegisterSpell(call__69);
+            var call__75 = Aow.Units.UnHolyG.TUnholyGroundSpell.Create(null);
+            AEngine.FGameSet.FSpellControl.RegisterSpell(call__75);
         }
 
         // UnHolyG.pas:410

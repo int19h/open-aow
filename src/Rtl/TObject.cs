@@ -7,7 +7,7 @@ public class TObject
     public int InstanceId { get; } = AllocateId();
     public Meta ClassType => MetaRegistry.Of(GetType());
     public static string ClassNameOf(Type type) => type.Name.TrimStart('@');
-    public virtual void Destroy() { }
+    public virtual void Destroy() => Rtl.ForgetReference(this);
     public virtual void FreeInstance() { }
 
     public class Meta
@@ -56,5 +56,10 @@ public static class MetaRegistry
 
 public static class TObjectExtensions
 {
-    public static void Free(this TObject? value) => value?.Destroy();
+    public static void Free(this TObject? value)
+    {
+        if (value is null) return;
+        try { value.Destroy(); }
+        finally { Rtl.ForgetReference(value); }
+    }
 }

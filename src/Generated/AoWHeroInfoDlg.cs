@@ -207,7 +207,7 @@ namespace Aow.Units.AoWHeroInfoDlg
 
             var call__8 = FArmyInfo.FArmyView.Hero(unchecked((byte)FArmyInfo.FSelection), Aow.Units.E2CampaignSupport.E2CampaignSupport.AllHeroTypes);
             Hero = call__8;
-            if (Hero.GetFace != null)
+            if (Hero.GetFace() != null)
             {
                 Hero.ShowFace(R, Surface);
             }

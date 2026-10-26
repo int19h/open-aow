@@ -304,10 +304,11 @@ namespace Aow.Units.AoWPartyJoin
                 R.Bottom = FaceFrame.WinHeight + R.Top;
                 if (FFaceUnit != null)
                 {
-                    if (FFaceUnit.GetFace != null)
+                    var call__11 = FFaceUnit.GetFace();
+                    if (call__11 != null)
                     {
-                        var call__11 = FFaceUnit.GetFace();
-                        call__11.ShowStretched(R, Surface);
+                        var call__12 = FFaceUnit.GetFace();
+                        call__12.ShowStretched(R, Surface);
                     }
                 }
             }
@@ -321,11 +322,11 @@ namespace Aow.Units.AoWPartyJoin
             if (ValidateJoin())
             {
                 {
-                    var w__12 = Sender;
-                    R.Left = (w__12.WinLeft + UnitPnl.WinLeft) + 1;
-                    R.Right = w__12.WinWidth + R.Left;
-                    R.Top = w__12.WinTop + UnitPnl.WinTop;
-                    R.Bottom = w__12.WinHeight + R.Top;
+                    var w__13 = Sender;
+                    R.Left = (w__13.WinLeft + UnitPnl.WinLeft) + 1;
+                    R.Right = w__13.WinWidth + R.Left;
+                    R.Top = w__13.WinTop + UnitPnl.WinTop;
+                    R.Bottom = w__13.WinHeight + R.Top;
                 }
 
                 DrawUnit(Sender.Tag, R, ref Surface);
@@ -339,11 +340,11 @@ namespace Aow.Units.AoWPartyJoin
             // { Tried with/local receiver; Sender Pointer identity; opaque Sender plus Self pointer identity; no exact match. }
             if (ValidateJoin())
             {
-                var call__13 = FUnits.GetCount();
-                if (Sender.Tag < call__13)
+                var call__14 = FUnits.GetCount();
+                if (Sender.Tag < call__14)
                 {
-                    var call__14 = FUnits.GetUnit(Sender.Tag);
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__14;
+                    var call__15 = FUnits.GetUnit(Sender.Tag);
+                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__15;
                     if (Button == Aow.Rtl.TMouseButton.mbLeft)
                     {
                         FDetailsOpen = true;

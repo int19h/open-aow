@@ -343,7 +343,7 @@ namespace Aow.Units.AoWUnitSelDlg
                         R.Bottom = w__14.WinHeight + R.Top;
                     }
 
-                    if (U.GetFace != null)
+                    if (U.GetFace() != null)
                     {
                         var call__15 = U.GetFace();
                         call__15.ShowStretched(R, SD);

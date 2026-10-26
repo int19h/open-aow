@@ -183,21 +183,22 @@ namespace Aow.Units.FleeLoc
             }
             else
             {
-                bool bool__5 = (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS != null);
-                if (bool__5)
+                var call__5 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS();
+                bool bool__6 = (call__5 != null);
+                if (bool__6)
                 {
-                    var call__6 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS();
-                    bool__5 = (call__6.FUnit.FCombatPlayer == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer);
+                    var call__7 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS();
+                    bool__6 = (call__7.FUnit.FCombatPlayer == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer);
                 }
 
-                bool bool__7 = bool__5;
-                if (bool__7)
+                bool bool__8 = bool__6;
+                if (bool__8)
                 {
-                    var call__8 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS();
-                    bool__7 = (call__8.FUnit.FCombatPlayer != Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FDefenderPlayer);
+                    var call__9 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS();
+                    bool__8 = (call__9.FUnit.FCombatPlayer != Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FDefenderPlayer);
                 }
 
-                if (bool__7)
+                if (bool__8)
                 {
                     Highlight = true;
                 }

@@ -57,8 +57,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            /* TODO(T-N7) Object identity passed by reference requires an override */
-            throw new System.NotImplementedException();
+            Stream.rwCreateEObject(ref FEnchantment, null, 25);
         }
 
         // GlobalEnchantmentSpells.pas:400

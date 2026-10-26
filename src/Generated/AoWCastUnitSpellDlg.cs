@@ -297,7 +297,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             U = call__13;
             if (U != null)
             {
-                if (U.GetFace != null)
+                if (U.GetFace() != null)
                 {
                     {
                         var w__14 = FaceFrame;

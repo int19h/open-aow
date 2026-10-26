@@ -167,21 +167,6 @@ namespace Aow.Units.IsoHex
 //     directly, so it is not added as a child) and shown from the map field of that hexagon }
     public partial class TDynamicIsometricHexagon : Aow.Units.HSEngine.THexagonSprite
     {
-        // IsoHex.pas:116
-        public override void Destroy()
-        {
-            var call__7 = ((Aow.Units.IsoHex.TIsometricHexagon)((System.Object)Owner)).GetVisible();
-            if (call__7)
-            {
-                ((Aow.Units.HSEngine.TMapLevel)Owner.Owner.Owner).Map.DynamicVisibleHS.RemoveChild(this);
-            }
-
-            ((Aow.Units.HSEngine.TMapField)Owner.Owner).RemoveHS(this);
-            ((Aow.Units.IsoHex.TIsometricHexagon)((System.Object)Owner)).FDynamic = null;
-            FOwner = null;
-            base.Destroy();
-        }
-
         // IsoHex.pas:136
         public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
         {
@@ -199,14 +184,6 @@ namespace Aow.Units.IsoHex
             ((Aow.Units.HSEngine.TMapField)AOwner.Owner).AddHS(this, 0);
         }
 
-        // IsoHex.pas:186
-        public override byte GetLevel()
-        {
-            byte Result = default;
-            Result = unchecked((byte)((Aow.Units.IsoHex.TIsometricHexagonResource)((Aow.Units.IsoHex.TIsometricHexagon)((System.Object)Owner)).FResource).FDynamicLevel);
-            return Result;
-        }
-
         // IsoHex.pas:161
         public override void SetVisible(bool Value)
         {
@@ -218,48 +195,6 @@ namespace Aow.Units.IsoHex
             bool Result = default;
             Result = false;
             return Result;
-        }
-
-        // IsoHex.pas:146
-        public override sbyte GetXhx()
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner.Owner).Xhx);
-            return Result;
-        }
-
-        // IsoHex.pas:151
-        public override sbyte GetYhx()
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner.Owner).Yhx);
-            return Result;
-        }
-
-        // IsoHex.pas:156
-        public override sbyte GetLhx()
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner.Owner).Lhx);
-            return Result;
-        }
-
-        // IsoHex.pas:170
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            int Xhp = default;
-            int Yhp = default;
-            Xhp = (((Aow.Units.HSEngine.TMapField)Owner.Owner).Xhx * 32) + 8;
-            Yhp = ((((Aow.Units.HSEngine.TMapField)Owner.Owner).Xhx & 1) * 16) + (((Aow.Units.HSEngine.TMapField)Owner.Owner).Yhx * 32);
-            Result = ((((Aow.Units.IsoHex.TIsometricHexagonResource)((Aow.Units.IsoHex.TIsometricHexagon)((System.Object)Owner)).FResource).FDynamicLevel << 26) + ((Yhp + 32) << 13)) + (Xhp + 8);
-            return Result;
-        }
-
-        // IsoHex.pas:191
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
-        {
-            ((Aow.Units.IsoHex.TIsometricHexagon)((System.Object)Owner)).ShowDynamic(XhpSurf, YhpSurf, SurfaceDesc);
         }
 
         // IsoHex.pas:131
@@ -354,14 +289,14 @@ namespace Aow.Units.IsoHex
         {
             Aow.Units.HSEngine.TMapObject Result = default;
             Aow.Units.HSEngine.TMapField MapField = default;
-            var call__8 = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-            MapField = call__8;
+            var call__7 = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
+            MapField = call__7;
             Result = (Aow.Units.HSEngine.TMapObject)MapField.FindOwnedHS(typeof(Aow.Units.IsoHex.TIsometricHexagon));
             if (Result != null)
             {
-                var call__9 = Result.GetTerrain(0);
-                var call__10 = FTerrainList.GetTerrain(0);
-                if (call__9 != call__10)
+                var call__8 = Result.GetTerrain(0);
+                var call__9 = FTerrainList.GetTerrain(0);
+                if (call__8 != call__9)
                 {
                     Result.SetResource(this);
                     MapField.UpdateTerrainType();
@@ -450,91 +385,28 @@ namespace Aow.Units.IsoHex
                 Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
                 Xhp = (Xhp - XhpSurf) - 8;
                 Yhp = Yhp - YhpSurf;
-                var call__11 = FResource.ImageSequenceList.ImageSequences[0];
-                IL = call__11.ImageLibrary;
-                var call__12 = IL[((int)(((uint)FSides) >> 6)) + 40];
-                call__12.Show(Xhp, Yhp, SurfaceDesc);
+                var call__10 = FResource.ImageSequenceList.ImageSequences[0];
+                IL = call__10.ImageLibrary;
+                var call__11 = IL[((int)(((uint)FSides) >> 6)) + 40];
+                call__11.Show(Xhp, Yhp, SurfaceDesc);
                 Xhp -= 6;
                 Yhp -= 9;
                 if ((FSides & 1) != 0)
                 {
-                    var call__13 = IL[31];
-                    call__13.Show(Xhp, Yhp, SurfaceDesc);
+                    var call__12 = IL[31];
+                    call__12.Show(Xhp, Yhp, SurfaceDesc);
                 }
 
                 if ((FSides & 2) != 0)
                 {
-                    var call__14 = IL[32];
-                    call__14.Show(Xhp, Yhp, SurfaceDesc);
+                    var call__13 = IL[32];
+                    call__13.Show(Xhp, Yhp, SurfaceDesc);
                 }
 
                 if ((FSides & 32) != 0)
                 {
-                    var call__15 = IL[30];
-                    call__15.Show(Xhp, Yhp, SurfaceDesc);
-                }
-            }
-        }
-
-        // IsoHex.pas:315
-        public override void UpdateTransitions()
-        {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
-            FOpenSides = 0;
-            FSides = unchecked((byte)(FSides & 192));
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, 1);
-            while (Walk.HN <= 6)
-            {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < Level.Width)) && (Walk.Y < Level.Height))
-                {
-                    var call__16 = Level.GetField(Walk.X, Walk.Y);
-                    MapField = call__16;
-                    HS = MapField.FindOwnedHS(typeof(Aow.Units.IsoHex.TUpperIsometricHexagon));
-                    if (HS == null)
-                    {
-                        HS = MapField.FindOwnedHS(typeof(Aow.Units.BorderHx.TBorderHexagon));
-                    }
-
-                    if (HS == null)
-                    {
-                        FOpenSides = unchecked((byte)(FOpenSides | (1 << (Walk.HN - 1))));
-                    }
-                    else
-                    {
-                        var call__17 = Level.GetField(Walk.X, Walk.Y);
-                        var call__18 = GetTerrain(0);
-                        if (call__17.TerrainType != call__18)
-                        {
-                            FSides = unchecked((byte)(FSides | (1 << (Walk.HN - 1))));
-                        }
-                    }
-                }
-
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
-            }
-
-            if (FOpenSides != 0)
-            {
-                if (FDynamic == null)
-                {
-                    var call__19 = ClassType.DynamicIsometricHexagonClass();
-                    var call__20 = call__19.Create((Aow.Units.Engine.TECustomNode)((System.Object)this));
-                    FDynamic = call__20;
-                }
-            }
-            else
-            {
-                if (FDynamic != null)
-                {
-                    FDynamic.Free();
-                    FDynamic = null;
-                    var call__21 = Aow.Rtl.Rtl.Random(4);
-                    FSides = unchecked((byte)(call__21 << 6));
-                    FResource.Engine.HSMap.InvalidateStaticScene(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx);
+                    var call__14 = IL[30];
+                    call__14.Show(Xhp, Yhp, SurfaceDesc);
                 }
             }
         }
@@ -549,43 +421,43 @@ namespace Aow.Units.IsoHex
             Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = (Xhp - XhpSurf) - 8;
             Yhp = Yhp - YhpSurf;
-            var call__22 = FResource.ImageSequenceList.ImageSequences[0];
-            IL = call__22.ImageLibrary;
+            var call__15 = FResource.ImageSequenceList.ImageSequences[0];
+            IL = call__15.ImageLibrary;
             Variant = ((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(this)) >> 8)) & 3;
             if (Variant == 3)
             {
                 Variant = 0;
             }
 
-            var call__23 = IL[((int)(((uint)FSides) >> 6)) + 40];
-            call__23.Show(Xhp, Yhp, SurfaceDesc);
+            var call__16 = IL[((int)(((uint)FSides) >> 6)) + 40];
+            call__16.Show(Xhp, Yhp, SurfaceDesc);
             if (FOpenSides != 0)
             {
                 if ((FOpenSides & 1) != 0)
                 {
                     if ((FOpenSides & 32) == 0)
                     {
-                        var call__24 = IL[18];
-                        call__24.Show(Xhp - 19, (Yhp - 48) - 16, SurfaceDesc);
+                        var call__17 = IL[18];
+                        call__17.Show(Xhp - 19, (Yhp - 48) - 16, SurfaceDesc);
                     }
 
                     if ((FOpenSides & 2) == 0)
                     {
-                        var call__25 = IL[19];
-                        call__25.Show(Xhp - 19, (Yhp - 48) - 16, SurfaceDesc);
+                        var call__18 = IL[19];
+                        call__18.Show(Xhp - 19, (Yhp - 48) - 16, SurfaceDesc);
                     }
 
                     if ((FOpenSides & 34) == 34)
                     {
-                        var call__26 = IL[23];
-                        call__26.Show(Xhp - 20, (Yhp - 48) - 16, SurfaceDesc);
+                        var call__19 = IL[23];
+                        call__19.Show(Xhp - 20, (Yhp - 48) - 16, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 34) == 0)
                         {
-                            var call__27 = IL[20];
-                            call__27.Show(Xhp - 20, (Yhp - 50) - 16, SurfaceDesc);
+                            var call__20 = IL[20];
+                            call__20.Show(Xhp - 20, (Yhp - 50) - 16, SurfaceDesc);
                         }
                     }
                 }
@@ -596,13 +468,13 @@ namespace Aow.Units.IsoHex
                     {
                         if ((FOpenSides & 32) != 0)
                         {
-                            var call__28 = IL[17];
-                            call__28.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                            var call__21 = IL[17];
+                            call__21.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
                         }
                         else
                         {
-                            var call__29 = IL[Variant + 3];
-                            call__29.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                            var call__22 = IL[Variant + 3];
+                            call__22.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
                         }
                     }
 
@@ -610,27 +482,27 @@ namespace Aow.Units.IsoHex
                     {
                         if ((FOpenSides & 2) != 0)
                         {
-                            var call__30 = IL[16];
-                            call__30.Show(((Xhp - 19) + 16) + 16, Yhp - 16, SurfaceDesc);
+                            var call__23 = IL[16];
+                            call__23.Show(((Xhp - 19) + 16) + 16, Yhp - 16, SurfaceDesc);
                         }
                         else
                         {
-                            var call__31 = IL[Variant];
-                            call__31.Show(((Xhp - 19) + 16) + 16, Yhp - 16, SurfaceDesc);
+                            var call__24 = IL[Variant];
+                            call__24.Show(((Xhp - 19) + 16) + 16, Yhp - 16, SurfaceDesc);
                         }
                     }
 
                     if ((FOpenSides & 20) == 20)
                     {
-                        var call__32 = IL[13];
-                        call__32.Show(Xhp - 19, Yhp, SurfaceDesc);
+                        var call__25 = IL[13];
+                        call__25.Show(Xhp - 19, Yhp, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 20) == 0)
                         {
-                            var call__33 = IL[6];
-                            call__33.Show(Xhp - 19, Yhp, SurfaceDesc);
+                            var call__26 = IL[6];
+                            call__26.Show(Xhp - 19, Yhp, SurfaceDesc);
                         }
                     }
                 }
@@ -640,20 +512,20 @@ namespace Aow.Units.IsoHex
                     {
                         if ((FOpenSides & 32) == 0)
                         {
-                            var call__34 = IL[25];
-                            call__34.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                            var call__27 = IL[25];
+                            call__27.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
                         }
                         else
                         {
                             if ((FOpenSides & 1) != 0)
                             {
-                                var call__35 = IL[15];
-                                call__35.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                                var call__28 = IL[15];
+                                call__28.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
                             }
                             else
                             {
-                                var call__36 = IL[Variant + 10];
-                                call__36.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                                var call__29 = IL[Variant + 10];
+                                call__29.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
                             }
                         }
                     }
@@ -662,20 +534,20 @@ namespace Aow.Units.IsoHex
                     {
                         if ((FOpenSides & 2) == 0)
                         {
-                            var call__37 = IL[24];
-                            call__37.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
+                            var call__30 = IL[24];
+                            call__30.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
                         }
                         else
                         {
                             if ((FOpenSides & 1) != 0)
                             {
-                                var call__38 = IL[14];
-                                call__38.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
+                                var call__31 = IL[14];
+                                call__31.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
                             }
                             else
                             {
-                                var call__39 = IL[Variant + 7];
-                                call__39.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
+                                var call__32 = IL[Variant + 7];
+                                call__32.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
                             }
                         }
                     }
@@ -769,69 +641,6 @@ namespace Aow.Units.IsoHex
     // { IsoHex.TLowerIsometricHexagon (instance size 24) }
     public partial class TLowerIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
     {
-        // IsoHex.pas:460
-        public override void UpdateTransitions()
-        {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
-            FOpenSides = 0;
-            FSides = unchecked((byte)(FSides & 192));
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, 1);
-            while (Walk.HN <= 6)
-            {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < Level.Width)) && (Walk.Y < Level.Height))
-                {
-                    var call__40 = Level.GetField(Walk.X, Walk.Y);
-                    MapField = call__40;
-                    HS = MapField.FindOwnedHS(typeof(Aow.Units.IsoHex.TLowerIsometricHexagon));
-                    if (HS == null)
-                    {
-                        HS = MapField.FindOwnedHS(typeof(Aow.Units.BorderHx.TBorderHexagon));
-                    }
-
-                    if (HS == null)
-                    {
-                        FOpenSides = unchecked((byte)(FOpenSides | (1 << (Walk.HN - 1))));
-                    }
-                    else
-                    {
-                        var call__41 = Level.GetField(Walk.X, Walk.Y);
-                        var call__42 = GetTerrain(0);
-                        if (call__41.TerrainType != call__42)
-                        {
-                            FSides = unchecked((byte)(FSides | (1 << (Walk.HN - 1))));
-                        }
-                    }
-                }
-
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
-            }
-
-            if (FOpenSides != 0)
-            {
-                if (FDynamic == null)
-                {
-                    var call__43 = ClassType.DynamicIsometricHexagonClass();
-                    var call__44 = call__43.Create((Aow.Units.Engine.TECustomNode)((System.Object)this));
-                    FDynamic = call__44;
-                }
-            }
-            else
-            {
-                if (FDynamic != null)
-                {
-                    FDynamic.Free();
-                    FDynamic = null;
-                    var call__45 = Aow.Rtl.Rtl.Random(4);
-                    FSides = unchecked((byte)(call__45 << 6));
-                    FResource.Engine.HSMap.InvalidateStaticScene(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx);
-                }
-            }
-        }
-
         // IsoHex.pas:501
         // { IL[Variant + 0] reproduces the original's lea edx, [esi] for the index. }
         public override void ShowDynamic(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
@@ -845,8 +654,8 @@ namespace Aow.Units.IsoHex
             Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = (Xhp - XhpSurf) - 8;
             Yhp = Yhp - YhpSurf;
-            var call__46 = FResource.ImageSequenceList.ImageSequences[0];
-            IL = call__46.ImageLibrary;
+            var call__33 = FResource.ImageSequenceList.ImageSequences[0];
+            IL = call__33.ImageLibrary;
             Variant = ((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(this)) >> 8)) & 3;
             if (Variant == 3)
             {
@@ -861,43 +670,43 @@ namespace Aow.Units.IsoHex
                 {
                     if ((FOpenSides & 35) == 35)
                     {
-                        var call__47 = IL[6];
-                        call__47.Show(X, Y, SurfaceDesc);
+                        var call__34 = IL[6];
+                        call__34.Show(X, Y, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 35) == 1)
                         {
-                            var call__48 = IL[13];
-                            call__48.Show(X, Y, SurfaceDesc);
+                            var call__35 = IL[13];
+                            call__35.Show(X, Y, SurfaceDesc);
                         }
                     }
 
                     if ((FOpenSides & 7) == 7)
                     {
-                        var call__49 = IL[25];
-                        call__49.Show(X, Y, SurfaceDesc);
+                        var call__36 = IL[25];
+                        call__36.Show(X, Y, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 3) == 3)
                         {
-                            var call__50 = IL[Variant + 3];
-                            call__50.Show(X, Y, SurfaceDesc);
+                            var call__37 = IL[Variant + 3];
+                            call__37.Show(X, Y, SurfaceDesc);
                         }
                     }
 
                     if ((FOpenSides & 49) == 49)
                     {
-                        var call__51 = IL[24];
-                        call__51.Show(X, Y, SurfaceDesc);
+                        var call__38 = IL[24];
+                        call__38.Show(X, Y, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 33) == 33)
                         {
-                            var call__52 = IL[Variant + 0];
-                            call__52.Show(X, Y, SurfaceDesc);
+                            var call__39 = IL[Variant + 0];
+                            call__39.Show(X, Y, SurfaceDesc);
                         }
                     }
                 }
@@ -905,29 +714,29 @@ namespace Aow.Units.IsoHex
                 {
                     if ((FOpenSides & 6) == 6)
                     {
-                        var call__53 = IL[Variant + 10];
-                        call__53.Show(X, Y, SurfaceDesc);
+                        var call__40 = IL[Variant + 10];
+                        call__40.Show(X, Y, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 2) == 2)
                         {
-                            var call__54 = IL[17];
-                            call__54.Show(X, Y, SurfaceDesc);
+                            var call__41 = IL[17];
+                            call__41.Show(X, Y, SurfaceDesc);
                         }
                     }
 
                     if ((FOpenSides & 48) == 48)
                     {
-                        var call__55 = IL[Variant + 7];
-                        call__55.Show(X, Y, SurfaceDesc);
+                        var call__42 = IL[Variant + 7];
+                        call__42.Show(X, Y, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 32) == 32)
                         {
-                            var call__56 = IL[16];
-                            call__56.Show(X, Y, SurfaceDesc);
+                            var call__43 = IL[16];
+                            call__43.Show(X, Y, SurfaceDesc);
                         }
                     }
                 }
@@ -936,8 +745,8 @@ namespace Aow.Units.IsoHex
                 {
                     if ((FOpenSides & 14) == 14)
                     {
-                        var call__57 = IL[22];
-                        call__57.Show(X, Y + 1, SurfaceDesc);
+                        var call__44 = IL[22];
+                        call__44.Show(X, Y + 1, SurfaceDesc);
                     }
                     else
                     {
@@ -945,21 +754,21 @@ namespace Aow.Units.IsoHex
                         {
                             if (Variant == 2)
                             {
-                                var call__58 = IL[19];
-                                call__58.Show(X, Y + 1, SurfaceDesc);
+                                var call__45 = IL[19];
+                                call__45.Show(X, Y + 1, SurfaceDesc);
                             }
                             else
                             {
-                                var call__59 = IL[Variant + 30];
-                                call__59.Show(X, Y + 1, SurfaceDesc);
+                                var call__46 = IL[Variant + 30];
+                                call__46.Show(X, Y + 1, SurfaceDesc);
                             }
                         }
                     }
 
                     if ((FOpenSides & 56) == 56)
                     {
-                        var call__60 = IL[21];
-                        call__60.Show(X, Y, SurfaceDesc);
+                        var call__47 = IL[21];
+                        call__47.Show(X, Y, SurfaceDesc);
                     }
                     else
                     {
@@ -967,36 +776,36 @@ namespace Aow.Units.IsoHex
                         {
                             if (Variant == 2)
                             {
-                                var call__61 = IL[18];
-                                call__61.Show(X, Y + 1, SurfaceDesc);
+                                var call__48 = IL[18];
+                                call__48.Show(X, Y + 1, SurfaceDesc);
                             }
                             else
                             {
-                                var call__62 = IL[Variant + 28];
-                                call__62.Show(X, Y, SurfaceDesc);
+                                var call__49 = IL[Variant + 28];
+                                call__49.Show(X, Y, SurfaceDesc);
                             }
                         }
                     }
 
                     if ((FOpenSides & 28) == 8)
                     {
-                        var call__63 = IL[23];
-                        call__63.Show(X, Y, SurfaceDesc);
+                        var call__50 = IL[23];
+                        call__50.Show(X, Y, SurfaceDesc);
                     }
                 }
                 else
                 {
                     if ((FOpenSides & 14) == 4)
                     {
-                        var call__64 = IL[15];
-                        call__64.Show(X, Y, SurfaceDesc);
+                        var call__51 = IL[15];
+                        call__51.Show(X, Y, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 56) == 16)
                         {
-                            var call__65 = IL[14];
-                            call__65.Show(X, Y, SurfaceDesc);
+                            var call__52 = IL[14];
+                            call__52.Show(X, Y, SurfaceDesc);
                         }
                     }
                 }
