@@ -155,7 +155,7 @@ namespace Aow.Units.Engine
             int P = default;
             int V = default;
             Clear();
-            P = Aow.Rtl.Rtl.Pos((AnsiString)",", S);
+            P = Aow.Rtl.Rtl.Pos(AnsiString.FromBytes(44), S);
             while (S != ((AnsiString)""))
             {
                 if (P != 0)
@@ -179,7 +179,7 @@ namespace Aow.Units.Engine
                 }
 
                 Add(V);
-                P = Aow.Rtl.Rtl.Pos((AnsiString)",", S);
+                P = Aow.Rtl.Rtl.Pos(AnsiString.FromBytes(44), S);
             }
         }
 
@@ -436,15 +436,15 @@ namespace Aow.Units.Engine
             int Item = default;
             int Run = default;
             Clear();
-            Stream.Read(Bytes.Of(ref FDefault, 4));
-            Stream.Read(Bytes.Of(ref Count, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref Count, 4));
             SetCapacity(Count);
             while (Count != FCount)
             {
-                Stream.Read(Bytes.Of(ref Item, 4));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 4));
                 if (Item == FDefault)
                 {
-                    Stream.Read(Bytes.Of(ref Run, 4));
+                    Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 4));
                     SetCount(FCount + Run);
                 }
                 else
@@ -475,15 +475,15 @@ namespace Aow.Units.Engine
             }
 
             I = 0;
-            Stream.Write(Bytes.Of(ref FDefault, 4));
-            Stream.Write(Bytes.Of(ref FCount, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
             while (FCount != I)
             {
                 Run = DefaultRun();
                 if (Run > 0)
                 {
-                    Stream.Write(Bytes.Of(ref FDefault, 4));
-                    Stream.Write(Bytes.Of(ref Run, 4));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 4));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref Run, 4));
                     I += Run;
                 }
                 else
@@ -678,7 +678,7 @@ namespace Aow.Units.Engine
             int P = default;
             int V = default;
             Clear();
-            P = Aow.Rtl.Rtl.Pos((AnsiString)",", S);
+            P = Aow.Rtl.Rtl.Pos(AnsiString.FromBytes(44), S);
             while (S != ((AnsiString)""))
             {
                 if (P != 0)
@@ -707,7 +707,7 @@ namespace Aow.Units.Engine
                 }
 
                 Add(unchecked((byte)V));
-                P = Aow.Rtl.Rtl.Pos((AnsiString)",", S);
+                P = Aow.Rtl.Rtl.Pos(AnsiString.FromBytes(44), S);
             }
         }
 
@@ -964,15 +964,15 @@ namespace Aow.Units.Engine
             byte Run = default;
             int Count = default;
             Clear();
-            Stream.Read(Bytes.Of(ref FDefault, 1));
-            Stream.Read(Bytes.Of(ref Count, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref Count, 4));
             SetCapacity(Count);
             while (FCount < Count)
             {
-                Stream.Read(Bytes.Of(ref Item, 1));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 1));
                 if (Item == FDefault)
                 {
-                    Stream.Read(Bytes.Of(ref Run, 1));
+                    Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 1));
                     SetCount(FCount + Run);
                 }
                 else
@@ -1004,8 +1004,8 @@ namespace Aow.Units.Engine
             }
 
             I = 0;
-            Stream.Write(Bytes.Of(ref FDefault, 1));
-            Stream.Write(Bytes.Of(ref FCount, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
             while (FCount != I)
             {
                 Run = DefaultRun();
@@ -1014,15 +1014,15 @@ namespace Aow.Units.Engine
                     while (Run > 255)
                     {
                         B = 255;
-                        Stream.Write(Bytes.Of(ref FDefault, 1));
-                        Stream.Write(Bytes.Of(ref B, 1));
+                        Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+                        Stream.Write(Aow.Rtl.Bytes.Of(ref B, 1));
                         Run -= 255;
                         I += 255;
                     }
 
                     B = unchecked((byte)Run);
-                    Stream.Write(Bytes.Of(ref FDefault, 1));
-                    Stream.Write(Bytes.Of(ref B, 1));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref B, 1));
                     I += Run;
                 }
                 else
@@ -1434,15 +1434,15 @@ namespace Aow.Units.Engine
             sbyte Item = default;
             int Count = default;
             Clear();
-            Stream.Read(Bytes.Of(ref FDefault, 1));
-            Stream.Read(Bytes.Of(ref Count, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref Count, 4));
             SetCapacity(Count);
             while (FCount < Count)
             {
-                Stream.Read(Bytes.Of(ref Item, 1));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 1));
                 if (Item == FDefault)
                 {
-                    Stream.Read(Bytes.Of(ref Run, 1));
+                    Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 1));
                     SetCount(FCount + Run);
                 }
                 else
@@ -1474,8 +1474,8 @@ namespace Aow.Units.Engine
             }
 
             I = 0;
-            Stream.Write(Bytes.Of(ref FDefault, 1));
-            Stream.Write(Bytes.Of(ref FCount, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
             while (FCount != I)
             {
                 Run = DefaultRun();
@@ -1484,15 +1484,15 @@ namespace Aow.Units.Engine
                     while (Run > 255)
                     {
                         B = 255;
-                        Stream.Write(Bytes.Of(ref FDefault, 1));
-                        Stream.Write(Bytes.Of(ref B, 1));
+                        Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+                        Stream.Write(Aow.Rtl.Bytes.Of(ref B, 1));
                         Run -= 255;
                         I += 255;
                     }
 
                     B = unchecked((byte)Run);
-                    Stream.Write(Bytes.Of(ref FDefault, 1));
-                    Stream.Write(Bytes.Of(ref B, 1));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref B, 1));
                     I += Run;
                 }
                 else
@@ -1903,15 +1903,15 @@ namespace Aow.Units.Engine
             ushort Run = default;
             int Count = default;
             Clear();
-            Stream.Read(Bytes.Of(ref FDefault, 2));
-            Stream.Read(Bytes.Of(ref Count, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 2));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref Count, 4));
             SetCapacity(Count);
             while (FCount < Count)
             {
-                Stream.Read(Bytes.Of(ref Item, 2));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 2));
                 if (Item == FDefault)
                 {
-                    Stream.Read(Bytes.Of(ref Run, 2));
+                    Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 2));
                     SetCount(FCount + Run);
                 }
                 else
@@ -1943,8 +1943,8 @@ namespace Aow.Units.Engine
             }
 
             I = 0;
-            Stream.Write(Bytes.Of(ref FDefault, 2));
-            Stream.Write(Bytes.Of(ref FCount, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 2));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
             while (FCount != I)
             {
                 Run = DefaultRun();
@@ -1953,16 +1953,16 @@ namespace Aow.Units.Engine
                     while (Run > 65535)
                     {
                         B = 65535;
-                        Stream.Write(Bytes.Of(ref FDefault, 2));
-                        Stream.Write(Bytes.Of(ref B, 2));
+                        Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 2));
+                        Stream.Write(Aow.Rtl.Bytes.Of(ref B, 2));
                         // { sic: the original subtracts $FF here but advances I by $FFFF }
                         Run -= 255;
                         I += 65535;
                     }
 
                     B = unchecked((ushort)Run);
-                    Stream.Write(Bytes.Of(ref FDefault, 2));
-                    Stream.Write(Bytes.Of(ref B, 2));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 2));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref B, 2));
                     I += Run;
                 }
                 else
@@ -2143,7 +2143,7 @@ namespace Aow.Units.Engine
             Aow.Rtl.AnsiString Item = default;
             int P = default;
             Clear();
-            P = Aow.Rtl.Rtl.Pos((AnsiString)",", S);
+            P = Aow.Rtl.Rtl.Pos(AnsiString.FromBytes(44), S);
             while (S != ((AnsiString)""))
             {
                 if (P != 0)
@@ -2162,7 +2162,7 @@ namespace Aow.Units.Engine
                     Put(Aow.Rtl.Rtl.StrToInt(Item), !FDefault);
                 }
 
-                P = Aow.Rtl.Rtl.Pos((AnsiString)",", S);
+                P = Aow.Rtl.Rtl.Pos(AnsiString.FromBytes(44), S);
             }
         }
 
@@ -2468,8 +2468,8 @@ namespace Aow.Units.Engine
         public void LoadFromStream(Aow.Rtl.TStream Stream)
         {
             Clear();
-            Stream.Read(Bytes.Of(ref FDefault, 1));
-            Stream.Read(Bytes.Of(ref FCount, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref FCount, 4));
             SetCapacity(FCount);
             Stream.Read(FList.Array.AsSpan(FList.Index, (int)(((uint)(FCount + 7)) >> 3)));
         }
@@ -2477,8 +2477,8 @@ namespace Aow.Units.Engine
         // Engine.pas:4791
         public void SaveToStream(Aow.Rtl.TStream Stream)
         {
-            Stream.Write(Bytes.Of(ref FDefault, 1));
-            Stream.Write(Bytes.Of(ref FCount, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 1));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
             Stream.Write(FList.Array.AsSpan(FList.Index, (int)(((uint)(FCount + 7)) >> 3)));
         }
 
@@ -3296,15 +3296,15 @@ namespace Aow.Units.Engine
             int Run = default;
             int Count = default;
             Clear();
-            Stream.Read(Bytes.Of(ref FDefault, 8));
-            Stream.Read(Bytes.Of(ref Count, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 8));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref Count, 4));
             SetCapacity(Count);
             while (FCount < Count)
             {
-                Stream.Read(Bytes.Of(ref Item, 8));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 8));
                 if (Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(Item) == Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(FDefault))
                 {
-                    Stream.Read(Bytes.Of(ref Run, 4));
+                    Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 4));
                     SetCount(FCount + Run);
                 }
                 else
@@ -3335,15 +3335,15 @@ namespace Aow.Units.Engine
             }
 
             I = 0;
-            Stream.Write(Bytes.Of(ref FDefault, 8));
-            Stream.Write(Bytes.Of(ref FCount, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 8));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
             while (FCount != I)
             {
                 Run = DefaultRun();
                 if (Run > 0)
                 {
-                    Stream.Write(Bytes.Of(ref FDefault, 8));
-                    Stream.Write(Bytes.Of(ref Run, 4));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 8));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref Run, 4));
                     I += Run;
                 }
                 else
@@ -3955,15 +3955,15 @@ namespace Aow.Units.Engine
             int Count = default;
             Aow.Units.Engine.TQuadInteger Item = default;
             Clear();
-            Stream.Read(Bytes.Of(ref FDefault, 16));
-            Stream.Read(Bytes.Of(ref Count, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 16));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref Count, 4));
             SetCapacity(Count);
             while (FCount < Count)
             {
-                Stream.Read(Bytes.Of(ref Item, 16));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 16));
                 if ((((Item.A == FDefault.A) && (Item.B == FDefault.B)) && (Item.C == FDefault.C)) && (Item.D == FDefault.D))
                 {
-                    Stream.Read(Bytes.Of(ref Run, 4));
+                    Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 4));
                     SetCount(FCount + Run);
                 }
                 else
@@ -3994,15 +3994,15 @@ namespace Aow.Units.Engine
             }
 
             I = 0;
-            Stream.Write(Bytes.Of(ref FDefault, 16));
-            Stream.Write(Bytes.Of(ref FCount, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 16));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
             while (FCount != I)
             {
                 Run = DefaultRun();
                 if (Run > 0)
                 {
-                    Stream.Write(Bytes.Of(ref FDefault, 16));
-                    Stream.Write(Bytes.Of(ref Run, 4));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 16));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref Run, 4));
                     I += Run;
                 }
                 else
@@ -4217,11 +4217,11 @@ namespace Aow.Units.Engine
             byte ShortCount = default;
             ushort Pair = default;
             ushort I = default;
-            Stream.Read(Bytes.Of(ref ShortCount, 1));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref ShortCount, 1));
             if ((ShortCount & 128) != 0)
             {
                 ShortCount = unchecked((byte)(ShortCount & 127));
-                Stream.Read(Bytes.Of(ref LongCount, 4));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref LongCount, 4));
             }
             else
             {
@@ -4236,7 +4236,7 @@ namespace Aow.Units.Engine
                     for (int ordinal__65 = first__66; ordinal__65 <= end__64; ordinal__65++)
                     {
                         I = (ushort)ordinal__65;
-                        Stream.Read(Bytes.Of(ref Pair, 2));
+                        Stream.Read(Aow.Rtl.Bytes.Of(ref Pair, 2));
                         Add(Pair & 255, (int)(((uint)Pair) >> 8));
                     }
                 }
@@ -4250,8 +4250,8 @@ namespace Aow.Units.Engine
                     for (int ordinal__68 = first__69; ordinal__68 <= end__67; ordinal__68++)
                     {
                         I = (ushort)ordinal__68;
-                        Stream.Read(Bytes.Of(ref ID, 4));
-                        Stream.Read(Bytes.Of(ref Offset, 4));
+                        Stream.Read(Aow.Rtl.Bytes.Of(ref ID, 4));
+                        Stream.Read(Aow.Rtl.Bytes.Of(ref Offset, 4));
                         Add(ID, Offset);
                     }
                 }
@@ -4287,12 +4287,12 @@ namespace Aow.Units.Engine
             if (LongCount != 0)
             {
                 Marker = unchecked((byte)(ShortCount | 128));
-                Stream.Write(Bytes.Of(ref Marker, 1));
-                Stream.Write(Bytes.Of(ref LongCount, 4));
+                Stream.Write(Aow.Rtl.Bytes.Of(ref Marker, 1));
+                Stream.Write(Aow.Rtl.Bytes.Of(ref LongCount, 4));
             }
             else
             {
-                Stream.Write(Bytes.Of(ref ShortCount, 1));
+                Stream.Write(Aow.Rtl.Bytes.Of(ref ShortCount, 1));
             }
 
             if (ShortCount != 0)
@@ -4305,7 +4305,7 @@ namespace Aow.Units.Engine
                         if ((FItems[I].ID <= 127) && (FItems[I].Offset <= 255))
                         {
                             Pair = FItems[I].ID + (FItems[I].Offset << 8);
-                            Stream.Write(Bytes.Of(ref Pair, 2));
+                            Stream.Write(Aow.Rtl.Bytes.Of(ref Pair, 2));
                         }
                     }
                 }
@@ -4320,8 +4320,8 @@ namespace Aow.Units.Engine
                     {
                         if ((FItems[I].ID > 127) || (FItems[I].Offset > 255))
                         {
-                            Stream.Write(Bytes.Of(ref FItems[I].ID, 4));
-                            Stream.Write(Bytes.Of(ref FItems[I].Offset, 4));
+                            Stream.Write(Aow.Rtl.Bytes.Of(ref FItems[I].ID, 4));
+                            Stream.Write(Aow.Rtl.Bytes.Of(ref FItems[I].Offset, 4));
                         }
                     }
                 }
@@ -5614,14 +5614,14 @@ namespace Aow.Units.Engine
                 var call__149 = M.Size;
                 var call__150 = Aow.Units.Engine.Engine.GetCRC32(Ptr<byte>.To(M.Memory, 0), call__149);
                 CRC1 = call__150;
-                M.Write(Bytes.Of(ref CRC1, 4));
+                M.Write(Aow.Rtl.Bytes.Of(ref CRC1, 4));
                 var call__151 = M.Size;
                 var call__152 = Aow.Units.Engine.Engine.GetCRC32(Ptr<byte>.To(M.Memory, 0), call__151);
                 CRC2 = call__152;
                 F = new Aow.Rtl.TFileStream(FileName, 65535);
                 try
                 {
-                    F.Write(Bytes.Of(ref CRC2, 4));
+                    F.Write(Aow.Rtl.Bytes.Of(ref CRC2, 4));
                     var call__153 = M.Size;
                     F.Write(M.Memory.AsSpan(0, call__153));
                 }
@@ -6225,7 +6225,7 @@ namespace Aow.Units.Engine
             Ptr<byte> Buffer = default;
             int Count = default;
             Stream.Read(((Span<byte>)Magic).Slice(0, 4));
-            Stream.Read(Bytes.Of(ref Compressed, 1));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref Compressed, 1));
             if (!Aow.Rtl.Rtl.ArrayEquals<Aow.Units.FixedArray_byte_4, byte>(Magic, Aow.Units.Engine.Engine.CompressMagic))
             {
                 Compressed = false;
@@ -6278,7 +6278,7 @@ namespace Aow.Units.Engine
             var call__176 = Stream.Size;
             StartSize = call__176;
             Stream.Write(((ReadOnlySpan<byte>)Aow.Units.Engine.Engine.CompressMagic).Slice(0, 4));
-            Stream.Write(Bytes.Of(ref Level, 1));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref Level, 1));
             if (Level != Aow.Units.Engine.TCompressLevel.cpNone)
             {
                 CompressionLevel = (Aow.Rtl.TCompressionLevel)Level;
@@ -12742,7 +12742,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref I, 4));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref I, 4));
             }
             else
             {
@@ -12764,7 +12764,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref B, 1));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref B, 1));
             }
             else
             {
@@ -12786,7 +12786,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref S, 1));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref S, 1));
             }
             else
             {
@@ -12808,7 +12808,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref W, 2));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref W, 2));
             }
             else
             {
@@ -12830,7 +12830,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref I, 4));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref I, 4));
             }
             else
             {
@@ -12852,7 +12852,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref B, 1));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref B, 1));
             }
             else
             {
@@ -12874,7 +12874,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref S, 1));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref S, 1));
             }
             else
             {
@@ -12896,7 +12896,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref W, 2));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref W, 2));
             }
             else
             {
@@ -13094,7 +13094,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref AClassID, 4));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref AClassID, 4));
                 if (AClassID != 0)
                 {
                     SavedBase = FDataBase;
@@ -13234,7 +13234,7 @@ namespace Aow.Units.Engine
             int Size = default;
             var call__421 = FStream.Position;
             Start = call__421;
-            FStream.Read(Bytes.Of(ref Size, 4));
+            FStream.Read(Aow.Rtl.Bytes.Of(ref Size, 4));
             if (Size != 0)
             {
                 SavedBase = FDataBase;
@@ -13345,7 +13345,7 @@ namespace Aow.Units.Engine
                 if (B != 0)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
-                    FBuffer.Write(Bytes.Of(ref B, 1));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref B, 1));
                 }
             }
             else
@@ -13363,7 +13363,7 @@ namespace Aow.Units.Engine
                 if (W != 0)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
-                    FBuffer.Write(Bytes.Of(ref W, 2));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref W, 2));
                 }
             }
             else
@@ -13381,7 +13381,7 @@ namespace Aow.Units.Engine
                 if (S != 0)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
-                    FBuffer.Write(Bytes.Of(ref S, 1));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref S, 1));
                 }
             }
             else
@@ -13399,7 +13399,7 @@ namespace Aow.Units.Engine
                 if (I != 0)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
-                    FBuffer.Write(Bytes.Of(ref I, 4));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref I, 4));
                 }
             }
             else
@@ -13417,7 +13417,7 @@ namespace Aow.Units.Engine
                 if (B != Default)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
-                    FBuffer.Write(Bytes.Of(ref B, 1));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref B, 1));
                 }
             }
             else
@@ -13435,7 +13435,7 @@ namespace Aow.Units.Engine
                 if (W != Default)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
-                    FBuffer.Write(Bytes.Of(ref W, 2));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref W, 2));
                 }
             }
             else
@@ -13453,7 +13453,7 @@ namespace Aow.Units.Engine
                 if (S != Default)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
-                    FBuffer.Write(Bytes.Of(ref S, 1));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref S, 1));
                 }
             }
             else
@@ -13471,7 +13471,7 @@ namespace Aow.Units.Engine
                 if (I != Default)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
-                    FBuffer.Write(Bytes.Of(ref I, 4));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref I, 4));
                 }
             }
             else
@@ -13672,7 +13672,7 @@ namespace Aow.Units.Engine
                     try
                     {
                         Obj.MainReadWrite(this);
-                        Outer.Write(Bytes.Of(ref AClassID, 4));
+                        Outer.Write(Aow.Rtl.Bytes.Of(ref AClassID, 4));
                         FPropertyTable.SaveToStream(Outer);
                         FBuffer.SaveToStream(Outer);
                         FBuffer.Free();
@@ -13695,7 +13695,7 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    FBuffer.Write(Bytes.Of(ref AClassID, 4));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref AClassID, 4));
                     FPropertyTable.Add(ID, Start);
                 }
             }
@@ -13819,12 +13819,12 @@ namespace Aow.Units.Engine
             try
             {
                 Obj.MainReadWrite(this);
-                Outer.Write(Bytes.Of(ref Len, 4));
+                Outer.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
                 FPropertyTable.SaveToStream(Outer);
                 FBuffer.SaveToStream(Outer);
                 Len = (Outer.Position - Start) - 4;
                 Outer.Position = Start;
-                Outer.Write(Bytes.Of(ref Len, 4));
+                Outer.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
                 Outer.Position = (Start + Len) + 4;
                 FPropertyTable.RestoreSettings();
                 FBuffer.Free();
@@ -13838,7 +13838,7 @@ namespace Aow.Units.Engine
                 FPropertyTable.RestoreSettings();
                 Len = 0;
                 Outer.Position = Start;
-                Outer.Write(Bytes.Of(ref Len, 4));
+                Outer.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
                 if (!HandleException(E))
                 {
                     throw;
@@ -13913,7 +13913,7 @@ namespace Aow.Units.Engine
                     try
                     {
                         Obj.MainReadWrite(this);
-                        FBuffer.Write(Bytes.Of(ref AClassID, 4));
+                        FBuffer.Write(Aow.Rtl.Bytes.Of(ref AClassID, 4));
                         FPropertyTable.SaveToStream(FBuffer);
                         FBuffer.Free();
                         FPropertyTable.RestoreSettings();
@@ -13931,7 +13931,7 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    FBuffer.Write(Bytes.Of(ref AClassID, 4));
+                    FBuffer.Write(Aow.Rtl.Bytes.Of(ref AClassID, 4));
                     FPropertyTable.Add(ID, FBuffer.Position);
                 }
             }
@@ -14026,9 +14026,9 @@ namespace Aow.Units.Engine
             try
             {
                 Obj.MainReadWrite(this);
-                FBuffer.Write(Bytes.Of(ref Size, 4));
+                FBuffer.Write(Aow.Rtl.Bytes.Of(ref Size, 4));
                 FPropertyTable.SaveToStream(FBuffer);
-                FBuffer.Write(Bytes.Of(ref Size, 4));
+                FBuffer.Write(Aow.Rtl.Bytes.Of(ref Size, 4));
                 FPropertyTable.RestoreSettings();
             }
             catch (System.Exception caught__471)
@@ -14036,7 +14036,7 @@ namespace Aow.Units.Engine
                 var E = Aow.Rtl.Rtl.Wrap(caught__471);
                 FPropertyTable.RestoreSettings();
                 Size = 0;
-                FBuffer.Write(Bytes.Of(ref Size, 4));
+                FBuffer.Write(Aow.Rtl.Bytes.Of(ref Size, 4));
                 if (!HandleException(E))
                 {
                     throw;
@@ -14283,7 +14283,7 @@ namespace Aow.Units.Engine
                     FStream.Position = FDataBase + Offset;
                 }
 
-                FStream.Read(Bytes.Of(ref AClassID, 4));
+                FStream.Read(Aow.Rtl.Bytes.Of(ref AClassID, 4));
                 if (AClassID != 0)
                 {
                     SavedBase = FDataBase;
@@ -15133,7 +15133,7 @@ namespace Aow.Units.Engine
         {
             int Len = default;
             Len = S.Length;
-            Stream.Write(Bytes.Of(ref Len, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
             Stream.Write(Aow.Rtl.Rtl.StringBytes(S).Slice(0, Len));
         }
 
@@ -15141,7 +15141,7 @@ namespace Aow.Units.Engine
         public static void StringFromStream(ref Aow.Rtl.AnsiString S, Aow.Rtl.TStream Stream)
         {
             int Len = default;
-            Stream.Read(Bytes.Of(ref Len, 4));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref Len, 4));
             S = S.Resized(Len);
             Aow.Rtl.Rtl.ReadString(Stream, ref S, 1 - 1, Len, false);
         }
@@ -15153,7 +15153,7 @@ namespace Aow.Units.Engine
             int Len = default;
             P = Strings.Text.AsPtr();
             Len = Aow.Rtl.Rtl.StrLen(P);
-            Stream.Write(Bytes.Of(ref Len, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
             Stream.WriteBuffer(P.Array.AsSpan(P.Index, Len));
             P = default;
         }
@@ -15166,7 +15166,7 @@ namespace Aow.Units.Engine
             Strings.BeginUpdate();
             try
             {
-                Stream.Read(Bytes.Of(ref Len, 4));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Len, 4));
                 S = default(AnsiString).Resized(Len);
                 Aow.Rtl.Rtl.ReadString(Stream, ref S, 0, Len, false);
                 Strings.Text = S;
@@ -15415,13 +15415,13 @@ namespace Aow.Units.Engine
             if (Len < 255)
             {
                 B = unchecked((byte)Len);
-                Stream.Write(Bytes.Of(ref B, 1));
+                Stream.Write(Aow.Rtl.Bytes.Of(ref B, 1));
             }
             else
             {
                 B = 255;
-                Stream.Write(Bytes.Of(ref B, 1));
-                Stream.Write(Bytes.Of(ref Len, 4));
+                Stream.Write(Aow.Rtl.Bytes.Of(ref B, 1));
+                Stream.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
             }
 
             Stream.Write(Aow.Rtl.Rtl.StringBytes(S).Slice(0, Len));
@@ -15433,10 +15433,10 @@ namespace Aow.Units.Engine
             int Len = default;
             byte B = default;
             S = (AnsiString)"";
-            Stream.Read(Bytes.Of(ref B, 1));
+            Stream.Read(Aow.Rtl.Bytes.Of(ref B, 1));
             if (B == 255)
             {
-                Stream.Read(Bytes.Of(ref Len, 4));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Len, 4));
             }
             else
             {
@@ -15456,7 +15456,7 @@ namespace Aow.Units.Engine
             int Obj = default;
             P = Strings.Text.AsPtr();
             Len = Aow.Rtl.Rtl.StrLen(P);
-            Stream.Write(Bytes.Of(ref Len, 4));
+            Stream.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
             Stream.WriteBuffer(P.Array.AsSpan(P.Index, Len));
             P = default;
             {
@@ -15466,7 +15466,7 @@ namespace Aow.Units.Engine
                 {
                     var call__546 = Strings.Objects[I];
                     Obj = Aow.Rtl.Rtl.ObjectToInt(call__546);
-                    Stream.Write(Bytes.Of(ref Obj, 4));
+                    Stream.Write(Aow.Rtl.Bytes.Of(ref Obj, 4));
                 }
             }
         }
@@ -15481,7 +15481,7 @@ namespace Aow.Units.Engine
             Strings.BeginUpdate();
             try
             {
-                Stream.Read(Bytes.Of(ref Len, 4));
+                Stream.Read(Aow.Rtl.Bytes.Of(ref Len, 4));
                 S = default(AnsiString).Resized(Len);
                 Aow.Rtl.Rtl.ReadString(Stream, ref S, 0, Len, false);
                 Strings.Text = S;
@@ -15490,7 +15490,7 @@ namespace Aow.Units.Engine
                     int end__547 = Strings.Count - 1;
                     for (; I <= end__547; I += 1)
                     {
-                        Stream.Read(Bytes.Of(ref Obj, 4));
+                        Stream.Read(Aow.Rtl.Bytes.Of(ref Obj, 4));
                         Strings.Objects[I] = Aow.Rtl.Rtl.IntToObject(Obj);
                     }
                 }
