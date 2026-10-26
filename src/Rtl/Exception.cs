@@ -14,7 +14,7 @@ public class Exception : System.Exception
 
 internal static class ExceptionText
 {
-    // The integer and string FormatBuf grammar also serves exception constructors.
+    // SYSUTILS.PAS FormatBuf also serves exception constructors.
     internal static AnsiString Format(AnsiString format, TVarRec[] args)
     {
         var result = new StringBuilder();
@@ -23,20 +23,20 @@ internal static class ExceptionText
         for (int i = 0; i < text.Length; i++)
         {
             if (text[i] != '%') { result.Append(text[i]); continue; }
-            if (++i >= text.Length) throw new EConvertError("Incomplete format specifier");
+            if (++i >= text.Length) break;
             if (text[i] == '%') { result.Append('%'); continue; }
             int ReadNumber(ref int position)
             {
                 if (position < text.Length && text[position] == '*')
                 {
                     position++;
-                    var argument = Take();
-                    if (argument.Kind != VarKind.Integer) throw new EConvertError("Integer format width required");
-                    return checked((int)argument.Int);
+                    if (next < 0 || next >= args.Length) return 0;
+                    var argument = args[next++];
+                    return argument.Kind == VarKind.Integer ? unchecked((int)argument.Int) : 0;
                 }
                 int value = 0;
                 while (position < text.Length && char.IsAsciiDigit(text[position]))
-                    value = checked(value * 10 + text[position++] - '0');
+                    value = unchecked(value * 10 + text[position++] - '0');
                 return value;
             }
             TVarRec Take()
@@ -45,19 +45,23 @@ internal static class ExceptionText
                 return args[next++];
             }
             int start = i;
-            int width = 0;
-            if (text[i] == '*' || char.IsAsciiDigit(text[i]))
+            int width;
+            bool left;
+            // FormatBuf's A0 loop permits another index after each colon.
+            while (true)
             {
-                int number = ReadNumber(ref i);
-                if (i < text.Length && text[i] == ':') { next = number; i++; }
-                else { width = number; }
+                if (i >= text.Length) return result.ToString();
+                left = text[i] == '-';
+                if (left) i++;
+                width = ReadNumber(ref i);
+                if (i >= text.Length) return result.ToString();
+                if (text[i] != ':') break;
+                next = width;
+                i++;
             }
-            bool left = i < text.Length && text[i] == '-';
-            if (left) i++;
-            if (i < text.Length && (text[i] == '*' || char.IsAsciiDigit(text[i]))) width = ReadNumber(ref i);
             int precision = -1;
             if (i < text.Length && text[i] == '.') { i++; precision = ReadNumber(ref i); }
-            if (i >= text.Length) throw new EConvertError("Incomplete format specifier");
+            if (i >= text.Length) break;
             var value = Take();
             string output;
             switch (char.ToUpperInvariant(text[i]))
@@ -69,7 +73,7 @@ internal static class ExceptionText
                     char kind = char.ToUpperInvariant(text[i]);
                     output = kind == 'D' ? ((int)value.Int).ToString(CultureInfo.InvariantCulture)
                         : ((uint)value.Int).ToString(kind == 'X' ? "X" : "D", CultureInfo.InvariantCulture);
-                    if (precision > 0)
+                    if (precision > 0 && precision < 16)
                         output = output.StartsWith('-') ? "-" + output[1..].PadLeft(precision, '0') : output.PadLeft(precision, '0');
                     break;
                 case 'S':
@@ -77,9 +81,14 @@ internal static class ExceptionText
                     {
                         VarKind.String => value.Str.ToString(),
                         VarKind.Char => AnsiString.FromBytes(value.Chr).ToString(),
+                        VarKind.PChar => AnsiString.FromPChar((Ptr<byte>)value.Obj!).ToString(),
                         _ => throw new EConvertError("String format argument required")
                     };
-                    if (precision >= 0 && output.Length > precision) output = output[..precision];
+                    if (value.Kind != VarKind.Char && precision >= 0 && output.Length > precision) output = output[..precision];
+                    break;
+                case 'P':
+                    if (value.Kind != VarKind.Pointer) throw new EConvertError("Pointer format argument required");
+                    output = ((uint)value.Int).ToString("X8", CultureInfo.InvariantCulture);
                     break;
                 default: throw new EConvertError($"Unsupported format at {start}");
             }

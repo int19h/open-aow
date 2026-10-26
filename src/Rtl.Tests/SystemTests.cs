@@ -289,9 +289,9 @@ public sealed class SystemTests
         Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%s", 1));
         Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%d", true));
         Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%d"));
-        Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%"));
+        Assert.Equal(default, DelphiException.CreateFmt("%").Message);
         Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%f", 1.25));
-        Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%*s", true, (AnsiString)"x"));
+        Assert.Equal((AnsiString)"x", DelphiException.CreateFmt("%*s", true, (AnsiString)"x").Message);
     }
 
     [Fact]

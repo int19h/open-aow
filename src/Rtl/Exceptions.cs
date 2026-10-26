@@ -1,5 +1,18 @@
 namespace Aow.Rtl;
 
+public class EStringListError(AnsiString message = default) : Exception(message)
+{
+    public static new EStringListError Create(AnsiString message = default) => new(message);
+    public static new EStringListError CreateFmt(AnsiString format, params TVarRec[] args) => new(ExceptionText.Format(format, args));
+}
+
+public class EWin32Error(AnsiString message = default) : Exception(message)
+{
+    public int ErrorCode { get; set; }
+    public static new EWin32Error Create(AnsiString message = default) => new(message);
+    public static new EWin32Error CreateFmt(AnsiString format, params TVarRec[] args) => new(ExceptionText.Format(format, args));
+}
+
 public class EAbort(AnsiString message = default) : Exception(message)
 {
     public static new EAbort Create(AnsiString message = default) => new(message);
