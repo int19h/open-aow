@@ -294,11 +294,12 @@ namespace Aow.Units.AoWPInfoWin
                 var call__39 = Aow.Rtl.Rtl.Rect(FaceFr.WinLeft + 3, FaceFr.WinTop + 3, (FaceFr.WinLeft + FaceFr.WinWidth) - 3, (FaceFr.WinTop + FaceFr.WinHeight) - 3);
                 R = call__39;
                 var call__40 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                if (call__40.GetFace != null)
+                var call__41 = call__40.GetFace();
+                if (call__41 != null)
                 {
-                    var call__41 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                    var call__42 = call__41.GetFace();
-                    call__42.ShowStretched(R, SD);
+                    var call__42 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                    var call__43 = call__42.GetFace();
+                    call__43.ShowStretched(R, SD);
                 }
             }
         }
@@ -309,15 +310,15 @@ namespace Aow.Units.AoWPInfoWin
             sbyte Xhx = default;
             sbyte Yhx = default;
             sbyte Lhx = default;
-            var call__43 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-            if (call__43.FLeader != null)
+            var call__44 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            if (call__44.FLeader != null)
             {
-                var call__44 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                call__44.GetLeaderLocation(ref Xhx, ref Yhx, ref Lhx);
+                var call__45 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                call__45.GetLeaderLocation(ref Xhx, ref Yhx, ref Lhx);
                 if (Xhx > -1)
                 {
-                    var call__45 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__45.FLeader;
+                    var call__46 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__46.FLeader;
                     switch (Button)
                     {
                         case Aow.Rtl.TMouseButton.mbLeft:

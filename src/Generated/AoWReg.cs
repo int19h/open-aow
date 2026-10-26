@@ -47,36 +47,103 @@ namespace Aow.Units.AoWReg
         // AoWReg.pas:141
         public void rwInteger(Aow.Rtl.AnsiString Key, Aow.Rtl.AnsiString Name, ref int Value, Aow.Units.AoWReg.TReadWriteMode Mode)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.OpenKey */
-            throw new System.NotImplementedException();
+            if (OpenKey(((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\") + Key, true))
+            {
+                switch (Mode)
+                {
+                    case Aow.Units.AoWReg.TReadWriteMode.rwRead:
+                        if (ValueExists(Name))
+                        {
+                            Value = ReadInteger(Name);
+                        }
+
+                        break;
+                    case Aow.Units.AoWReg.TReadWriteMode.rwWrite:
+                        WriteInteger(Name, Value);
+                        break;
+                }
+
+                CloseKey();
+            }
         }
 
         // AoWReg.pas:153
         public void rwBool(Aow.Rtl.AnsiString Key, Aow.Rtl.AnsiString Name, ref bool Value, Aow.Units.AoWReg.TReadWriteMode Mode)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.OpenKey */
-            throw new System.NotImplementedException();
+            if (OpenKey(((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\") + Key, true))
+            {
+                switch (Mode)
+                {
+                    case Aow.Units.AoWReg.TReadWriteMode.rwRead:
+                        if (ValueExists(Name))
+                        {
+                            Value = ReadBool(Name);
+                        }
+
+                        break;
+                    case Aow.Units.AoWReg.TReadWriteMode.rwWrite:
+                        WriteBool(Name, Value);
+                        break;
+                }
+
+                CloseKey();
+            }
         }
 
         // AoWReg.pas:165
         public void rwString(Aow.Rtl.AnsiString Key, Aow.Rtl.AnsiString Name, ref Aow.Rtl.AnsiString Value, Aow.Units.AoWReg.TReadWriteMode Mode)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.OpenKey */
-            throw new System.NotImplementedException();
+            if (OpenKey(((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\") + Key, true))
+            {
+                switch (Mode)
+                {
+                    case Aow.Units.AoWReg.TReadWriteMode.rwRead:
+                        if (ValueExists(Name))
+                        {
+                            Value = ReadString(Name);
+                        }
+
+                        break;
+                    case Aow.Units.AoWReg.TReadWriteMode.rwWrite:
+                        WriteString(Name, Value);
+                        break;
+                }
+
+                CloseKey();
+            }
         }
 
         // AoWReg.pas:177
         public void rwBinaryData(Aow.Rtl.AnsiString Key, Aow.Rtl.AnsiString Name, Span<byte> Value, int Size, Aow.Units.AoWReg.TReadWriteMode Mode)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.OpenKey */
+            /* TODO(T-shim) Platform or editor boundary Registry.ReadBinaryData */
             throw new System.NotImplementedException();
         }
 
         // AoWReg.pas:227
         public void rwRect(Aow.Rtl.AnsiString Key, Aow.Rtl.AnsiString Name, ref Aow.Rtl.TRect Value, Aow.Units.AoWReg.TReadWriteMode Mode)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.OpenKey */
-            throw new System.NotImplementedException();
+            Aow.Rtl.AnsiString S = default;
+            if (OpenKey(((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\") + Key, true))
+            {
+                switch (Mode)
+                {
+                    case Aow.Units.AoWReg.TReadWriteMode.rwRead:
+                        if (ValueExists(Name))
+                        {
+                            S = ReadString(Name);
+                            Value = Aow.Units.AoWReg.AoWReg.StringToRect(S);
+                        }
+
+                        break;
+                    case Aow.Units.AoWReg.TReadWriteMode.rwWrite:
+                        S = Aow.Units.AoWReg.AoWReg.RectToString(Value);
+                        WriteString(Name, S);
+                        break;
+                }
+
+                CloseKey();
+            }
         }
 
         // AoWReg.pas:250
@@ -193,7 +260,7 @@ namespace Aow.Units.AoWReg
         // AoWReg.pas:312
         public void SetDeveloper(bool Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.OpenKey */
+            /* TODO(T-shim) Platform or editor boundary Registry.DeleteValue */
             throw new System.NotImplementedException();
         }
 
@@ -315,20 +382,6 @@ namespace Aow.Units.AoWReg
         public void SetRootDirectory(Aow.Rtl.AnsiString Value)
         {
             rwString((AnsiString)"General", (AnsiString)"Root Directory", ref Value, Aow.Units.AoWReg.TReadWriteMode.rwWrite);
-        }
-
-        // AoWReg.pas:417
-        public Aow.Units.AoWReg.TAoWLanguage GetLanguage()
-        {
-            Aow.Units.AoWReg.TAoWLanguage Result = default;
-            int Value = default;
-            Value = 0;
-            rwInteger((AnsiString)"General", (AnsiString)"Language", ref Value, Aow.Units.AoWReg.TReadWriteMode.rwRead);
-            // { Original shipped code forces English after reading the setting. }
-            Result = Aow.Units.AoWReg.TAoWLanguage.alEnglish;
-            /* TODO(T-8.2) Inline assembly needs a mapped rule or override */
-            throw new System.NotImplementedException();
-            return Result;
         }
 
         // AoWReg.pas:428

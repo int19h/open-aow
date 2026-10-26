@@ -592,3 +592,418 @@ file = "src/Overrides/AoWE/SemanticViews.cs"
 member = "City.TCity.GenerateRebelUnits"
 reason = "read the random seed value at City.pas:1809"
 file = "src/Overrides/City/RebelUnits.cs"
+[[skip]]
+member = "AoWReg.TAoWRegistry.GetLanguage"
+reason = "shipped English patch followed by inline NOP padding"
+file = "src/Overrides/AoWReg/Language.cs"
+
+
+[[skip]]
+member = "HSEngine.TMapLevel.Destroy"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.ReadWrite"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.GetChild"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.GetField"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.CreateMapFieldList"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.DestroyMapFieldList"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.DestroyHS"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.UpdateTerrain"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.Loaded"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapLevel.Activate"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapContainer.RemoveHS"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapContainer.InsertHS"
+reason = "managed map field pool preserves Delphi row order"
+file = "src/Overrides/HSEngine/MapFields.cs"
+[[skip]]
+member = "ImageLib.TFastLoadFileStream.Create"
+reason = "read-only Win32 file handle uses the host file service"
+file = "src/Overrides/ImageLib/FastLoadFileStream.cs"
+
+[[skip]]
+member = "ImageLib.TFastLoadFileStream.Destroy"
+reason = "host file stream owns the handle"
+file = "src/Overrides/ImageLib/FastLoadFileStream.cs"
+
+[[skip]]
+member = "ImageLib.TCustomImageLibrary.Get"
+reason = "reference index passes through the object result register"
+file = "src/Overrides/ImageLib/ImageReferences.cs"
+
+[[skip]]
+member = "ImageLib.TCustomImageLibrary.GetSafe"
+reason = "reference index passes through the object result register"
+file = "src/Overrides/ImageLib/ImageReferences.cs"
+
+[[skip]]
+member = "AoWE.TAbilityControl.GetAbility"
+reason = "typed object lookup replaces a raw pointer array view"
+file = "src/Overrides/AoWE/AbilityLookup.cs"
+
+
+[[skip]]
+member = "AoWE.THero.Create"
+reason = "typed ownership and reference storage replace Delphi pointer casts"
+file = "src/Overrides/AoWE/HeroOwnership.cs"
+
+[[skip]]
+member = "AoWE.THeroItems.GetLocation"
+reason = "typed ownership and reference storage replace Delphi pointer casts"
+file = "src/Overrides/AoWE/HeroOwnership.cs"
+
+[[skip]]
+member = "AoWE.THeroInventory.GetLocation"
+reason = "typed ownership and reference storage replace Delphi pointer casts"
+file = "src/Overrides/AoWE/HeroOwnership.cs"
+
+[[skip]]
+member = "AoWE.TPlayerList.Destroy"
+reason = "typed ownership and reference storage replace Delphi pointer casts"
+file = "src/Overrides/AoWE/HeroOwnership.cs"
+
+[[skip]]
+member = "HSEngine.TMapObject.GetResourceID"
+reason = "separate resource id from the linked object reference"
+file = "src/Overrides/HSEngine/MapObjectResource.cs"
+
+[[skip]]
+member = "HSEngine.TMapObject.SetResourceID"
+reason = "separate resource id from the linked object reference"
+file = "src/Overrides/HSEngine/MapObjectResource.cs"
+
+[[skip]]
+member = "HSEngine.TMapObject.LinkToResource"
+reason = "separate resource id from the linked object reference"
+file = "src/Overrides/HSEngine/MapObjectResource.cs"
+
+[[skip]]
+member = "HSEngine.TMapObject.ReadWrite"
+reason = "separate resource id from the linked object reference"
+file = "src/Overrides/HSEngine/MapObjectResource.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.Resize"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.GetHN"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.SetHN"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.AddHS"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.RemoveHS"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.Remove"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.Sort"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.Loaded"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.UpdateMapField"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.Initialize"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.SetHNofHS"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.GetHNofHS"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "AoWE.MoveTypesToInt"
+reason = "one-byte Delphi set image"
+file = "src/Overrides/AoWE/MoveTypeImage.cs"
+
+[[skip]]
+member = "AoWE.IntToMoveTypes"
+reason = "one-byte Delphi set image"
+file = "src/Overrides/AoWE/MoveTypeImage.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.GetMaxLevelNoneTransparentHS"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.GetMaxLevelTerrainHS"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.GetMaxLevelOverlayHS"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.UpdateTerrain"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.UpdateTerrainType"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.UpdateOverlayType"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.TerrainChanged"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.NeighbourTerrainChanged"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.CanChangeTerrain"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.CanChangeTerrainEx"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapContainer.GetField"
+reason = "managed map field pool access by coordinates"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapContainer.GetFieldXYL"
+reason = "managed map field pool access by coordinates"
+file = "src/Overrides/HSEngine/MapFields.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.SendMapFieldMsg"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.CanMoveOn"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.CanMoveOver"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.MoveExclusive"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+[[skip]]
+member = "City.TCity.UpdateImages"
+reason = "raw byte at instance offset 4C is the FWallType field"
+file = "src/Overrides/City/Images.cs"
+
+
+[[skip]]
+member = "IsoHex.TUpperIsometricHexagon.UpdateTransitions"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "IsoHex.TLowerIsometricHexagon.UpdateTransitions"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "IsoHex.TDynamicIsometricHexagon.GetLevel"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "IsoHex.TDynamicIsometricHexagon.GetXhx"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "IsoHex.TDynamicIsometricHexagon.GetYhx"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "IsoHex.TDynamicIsometricHexagon.GetLhx"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "IsoHex.TDynamicIsometricHexagon.GetShowPriority"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "IsoHex.TDynamicIsometricHexagon.Show"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "IsoHex.TDynamicIsometricHexagon.Destroy"
+reason = "dynamic hexagons hold a typed isometric owner instead of an unrelated node cast"
+file = "src/Overrides/IsoHex/DynamicOwnership.cs"
+
+[[skip]]
+member = "AoWHex.TAoWWaterHexagon.UpdateTransitions"
+reason = "dynamic hexagon creation uses its typed owner"
+file = "src/Overrides/AoWHex/WaterTransitions.cs"
+[[skip]]
+member = "AoWE.TAbstractUnit.UpdateOffensiveStrength"
+reason = "typed ability access replaces the TP2AbilityCalls temporary view and preserves the assertion"
+file = "src/Overrides/AoWE/OffensiveStrength.cs"
+
+[[skip]]
+member = "AoWE.TItemHS.Create"
+reason = "item lists retain their typed sprite owner"
+file = "src/Overrides/AoWE/ItemOwnership.cs"
+
+[[skip]]
+member = "AoWE.TItemHSList.GetLocation"
+reason = "location follows the typed sprite owner"
+file = "src/Overrides/AoWE/ItemOwnership.cs"
+
+
+[[skip]]
+member = "HSEngine.TMapField.FindNoneTransparentHS"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+
+[[skip]]
+member = "HSEngine.TMapField.FindNoneTransparentHSCID"
+reason = "sprite references and appended direction bytes use separate managed arrays"
+file = "src/Overrides/HSEngine/FieldSprites.cs"
+[[skip]]
+member = "City.TCity.Activate"
+reason = "the WorldMap pointer view names the typed AoWHSMap global"
+file = "src/Overrides/City/Images.cs"
+
+
+[[skip]]
+member = "AoWE.TAoWMapLevel.FogArea"
+reason = "fog and exploration traverse managed map fields"
+file = "src/Overrides/AoWE/MapVisibility.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapLevel.UnFogArea"
+reason = "fog and exploration traverse managed map fields"
+file = "src/Overrides/AoWE/MapVisibility.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapLevel.UnFogExploreArea"
+reason = "fog and exploration traverse managed map fields"
+file = "src/Overrides/AoWE/MapVisibility.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapLevel.ExploreArea"
+reason = "fog and exploration traverse managed map fields"
+file = "src/Overrides/AoWE/MapVisibility.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapLevel.ResetFog"
+reason = "fog and exploration traverse managed map fields"
+file = "src/Overrides/AoWE/MapVisibility.cs"
+
+[[skip]]
+member = "AoWE.TCombatData.Clear"
+reason = "resolve the integer object reference as the retained TENode"
+file = "src/Overrides/AoWE/CombatData.cs"
+
+[[skip]]
+member = "AoWE.TCombatData.MsgProc"
+reason = "forward messages through the retained typed combat object node"
+file = "src/Overrides/AoWE/CombatData.cs"
+
+[[skip]]
+member = "AoWE.TCombatData.ReadWrite"
+reason = "persist the real node and byte lists behind integer reference slots"
+file = "src/Overrides/AoWE/CombatData.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapLevel.ResetUnFog"
+reason = "fog and exploration traverse managed map fields"
+file = "src/Overrides/AoWE/MapVisibility.cs"
+
+[[skip]]
+member = "AoWE.TAoWMapLevel.Reset"
+reason = "fog and exploration traverse managed map fields"
+file = "src/Overrides/AoWE/MapVisibility.cs"

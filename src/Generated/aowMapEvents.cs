@@ -1135,7 +1135,7 @@ namespace Aow.Units.aowMapEvents
                 w__33.MessageMemo.Items.Text = call__34;
                 w__33.LeftBtn.Visible = Log.FItemIDs.Count > 5;
                 w__33.RightBtn.Visible = Log.FItemIDs.Count > 5;
-                if (w__33.GetHero == null)
+                if (w__33.GetHero() == null)
                 {
                     w__33.OKPnl.Visible = true;
                 }

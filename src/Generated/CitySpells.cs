@@ -512,8 +512,7 @@ namespace Aow.Units.CitySpells
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FTeleportLocation.XYL, 30);
-            /* TODO(T-N7) Object identity passed by reference requires an override */
-            throw new System.NotImplementedException();
+            Stream.rwCreateEObject(ref FArmyID, null, 31);
         }
 
         // CitySpells.pas:407
@@ -642,7 +641,7 @@ namespace Aow.Units.CitySpells
             }
             else
             {
-                if (Field.GetArmyHS != null)
+                if (Field.GetArmyHS() != null)
                 {
                     var call__56 = Field.GetArmyHS();
                     call__56.FArmy.AddUnitSelection(Army.FArmy, unchecked((byte)Selection));
@@ -856,15 +855,16 @@ namespace Aow.Units.CitySpells
                 bool bool__88 = Result;
                 if (bool__88)
                 {
-                    bool bool__89 = (Field.GetArmyHS == null);
-                    if (!bool__89)
+                    var call__89 = Field.GetArmyHS();
+                    bool bool__90 = (call__89 == null);
+                    if (!bool__90)
                     {
-                        var call__90 = Field.GetArmyHS();
-                        var call__91 = call__90.FArmy.CanAddUnitSelection(Army.FArmy, unchecked((byte)Selection));
-                        bool__89 = (call__91 == Aow.Units.AoWE.TAddUnitsResult.arOK);
+                        var call__91 = Field.GetArmyHS();
+                        var call__92 = call__91.FArmy.CanAddUnitSelection(Army.FArmy, unchecked((byte)Selection));
+                        bool__90 = (call__92 == Aow.Units.AoWE.TAddUnitsResult.arOK);
                     }
 
-                    bool__88 = bool__89;
+                    bool__88 = bool__90;
                 }
 
                 Result = bool__88;
@@ -975,13 +975,13 @@ namespace Aow.Units.CitySpells
             Enchantment = Aow.Units.City.TCityEnchantment.Create(null);
             Enchantment.FEnchantmentID = FEnchantmentID;
             Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
-            var call__92 = ((Aow.Units.HSEngine.TMapField)TargetCity.Owner).GetXYL();
-            Enchantment.FEnchantmentLocation.XYL = call__92;
+            var call__93 = ((Aow.Units.HSEngine.TMapField)TargetCity.Owner).GetXYL();
+            Enchantment.FEnchantmentLocation.XYL = call__93;
             Enchantment.FDispelMana = FEnchantmentSpellID;
             Enchantment.FPlayerIndex = unchecked((sbyte)A2.FPlayer);
             TargetCity.ActivateEnchantment(Enchantment);
-            var call__93 = A1.GetSource();
-            PlayDefaultCityEffects(call__93, TargetCity);
+            var call__94 = A1.GetSource();
+            PlayDefaultCityEffects(call__94, TargetCity);
             CastingDone(A2, A1.FEventMana);
             Result = false;
             return Result;
@@ -1000,57 +1000,57 @@ namespace Aow.Units.CitySpells
             if (FAIPriority != -1)
             {
                 A1.GetLocation(ref X, ref Y, ref L);
-                var call__94 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
-                var call__95 = call__94.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-                TargetCity = (Aow.Units.City.TCity)call__95;
-                bool bool__96 = (TargetCity != null);
-                if (bool__96)
+                var call__95 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
+                var call__96 = call__95.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+                TargetCity = (Aow.Units.City.TCity)call__96;
+                bool bool__97 = (TargetCity != null);
+                if (bool__97)
                 {
-                    var call__97 = TargetCity.AICityEnchantmentUpkeepPriority(FEnchantmentID);
-                    var call__98 = AIRequestCastSpellExpense(A1, FBaseManaCost, FManaUpkeep, call__97);
-                    bool__96 = call__98;
+                    var call__98 = TargetCity.AICityEnchantmentUpkeepPriority(FEnchantmentID);
+                    var call__99 = AIRequestCastSpellExpense(A1, FBaseManaCost, FManaUpkeep, call__98);
+                    bool__97 = call__99;
                 }
 
-                Valid = bool__96;
+                Valid = bool__97;
                 // { Original uses mana upkeep for mana and city priority for upkeep. }
                 Valid = Valid && ValidTargetCity(A1, TargetCity);
-                bool bool__99 = Valid;
-                if (bool__99)
+                bool bool__100 = Valid;
+                if (bool__100)
                 {
-                    var call__100 = ((Aow.Units.AoWE.THero)A1).CanCastSpell(FSpellID, ref Reason);
-                    bool__99 = call__100;
+                    var call__101 = ((Aow.Units.AoWE.THero)A1).CanCastSpell(FSpellID, ref Reason);
+                    bool__100 = call__101;
                 }
 
-                Valid = bool__99;
+                Valid = bool__100;
                 if (Valid)
                 {
-                    bool bool__101 = (FAICastSituation.Contains(Aow.Units.CitySpells.TCityEnchantmentCastSpellSituationElement.ccsLeaderInCity) && (A1 is Aow.Units.AoWE.TLeader));
-                    if (!bool__101)
+                    bool bool__102 = (FAICastSituation.Contains(Aow.Units.CitySpells.TCityEnchantmentCastSpellSituationElement.ccsLeaderInCity) && (A1 is Aow.Units.AoWE.TLeader));
+                    if (!bool__102)
                     {
-                        bool bool__102 = FAICastSituation.Contains(Aow.Units.CitySpells.TCityEnchantmentCastSpellSituationElement.ccs4HexCity);
-                        if (bool__102)
+                        bool bool__103 = FAICastSituation.Contains(Aow.Units.CitySpells.TCityEnchantmentCastSpellSituationElement.ccs4HexCity);
+                        if (bool__103)
                         {
-                            var call__103 = TargetCity.GetSize();
-                            bool__102 = (call__103 == 4);
+                            var call__104 = TargetCity.GetSize();
+                            bool__103 = (call__104 == 4);
                         }
 
-                        bool__101 = bool__102;
+                        bool__102 = bool__103;
                     }
 
-                    bool bool__104 = bool__101;
-                    if (!bool__104)
+                    bool bool__105 = bool__102;
+                    if (!bool__105)
                     {
-                        bool bool__105 = FAICastSituation.Contains(Aow.Units.CitySpells.TCityEnchantmentCastSpellSituationElement.ccs3HexCity);
-                        if (bool__105)
+                        bool bool__106 = FAICastSituation.Contains(Aow.Units.CitySpells.TCityEnchantmentCastSpellSituationElement.ccs3HexCity);
+                        if (bool__106)
                         {
-                            var call__106 = TargetCity.GetSize();
-                            bool__105 = (call__106 == 3);
+                            var call__107 = TargetCity.GetSize();
+                            bool__106 = (call__107 == 3);
                         }
 
-                        bool__104 = bool__105;
+                        bool__105 = bool__106;
                     }
 
-                    if (bool__104)
+                    if (bool__105)
                     {
                         Action = CreateCastSpellAction();
                         SetupCastSpellAction(A1, Action);
@@ -1071,38 +1071,38 @@ namespace Aow.Units.CitySpells
             sbyte L = default;
             Aow.Units.City.TCity TargetCity = default;
             A1.GetLocation(ref X, ref Y, ref L);
-            var call__107 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
-            var call__108 = call__107.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-            TargetCity = (Aow.Units.City.TCity)call__108;
-            bool bool__109 = (TargetCity != null);
-            if (bool__109)
+            var call__108 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
+            var call__109 = call__108.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+            TargetCity = (Aow.Units.City.TCity)call__109;
+            bool bool__110 = (TargetCity != null);
+            if (bool__110)
             {
-                var call__110 = ValidTargetCity(A1, TargetCity);
-                bool__109 = call__110;
+                var call__111 = ValidTargetCity(A1, TargetCity);
+                bool__110 = call__111;
             }
 
-            bool bool__111 = bool__109;
-            if (bool__111)
+            bool bool__112 = bool__110;
+            if (bool__112)
             {
-                var call__112 = ((Aow.Units.AoWE.THero)A1).CanCastSpell(FSpellID, ref Reason);
-                bool__111 = call__112;
+                var call__113 = ((Aow.Units.AoWE.THero)A1).CanCastSpell(FSpellID, ref Reason);
+                bool__112 = call__113;
             }
 
-            if (bool__111)
+            if (bool__112)
             {
                 AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, FAIBudget);
                 {
-                    var w__113 = (Aow.Units.AoWE.THero)A1;
-                    var call__114 = w__113.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
-                    if (call__114)
+                    var w__114 = (Aow.Units.AoWE.THero)A1;
+                    var call__115 = w__114.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
+                    if (call__115)
                     {
                         Result = TargetSelected(A1, X, Y, L);
                     }
                     else
                     {
-                        if (w__113.FCastingSpellID != FSpellID)
+                        if (w__114.FCastingSpellID != FSpellID)
                         {
-                            w__113.ExecuteStartCasting(FSpellID);
+                            w__114.ExecuteStartCasting(FSpellID);
                             Result = true;
                         }
                         else
@@ -1174,8 +1174,8 @@ namespace Aow.Units.CitySpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__115 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FountainOfLifeRStr);
-            FSpellName = call__115;
+            var call__116 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FountainOfLifeRStr);
+            FSpellName = call__116;
             FSpellID = 52;
             FCityTargetMode = TSet<Aow.Units.CitySpells.TCityTargetModeElement>.Of(Aow.Units.CitySpells.TCityTargetModeElement.ctmOwn);
             FBaseManaCost = 1;
@@ -1203,9 +1203,9 @@ namespace Aow.Units.CitySpells
                 A.FAnimationLevel = 27;
                 A.FOnShow = ShowFountain;
                 A.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
-                var call__116 = TargetCity.GetXhx();
-                var call__117 = TargetCity.GetYhx();
-                A.FTag = (int)(((uint)((int)call__116)) | ((uint)((int)(call__117 << 8))));
+                var call__117 = TargetCity.GetXhx();
+                var call__118 = TargetCity.GetYhx();
+                A.FTag = (int)(((uint)((int)call__117)) | ((uint)((int)(call__118 << 8))));
                 A.Activate();
             }
 
@@ -1231,8 +1231,8 @@ namespace Aow.Units.CitySpells
             Aow.Rtl.Rtl.RandSeed = 0;
             {
                 I = 0;
-                byte end__118 = 100;
-                for (; I <= end__118; I += 1)
+                byte end__119 = 100;
+                for (; I <= end__119; I += 1)
                 {
                     VX = Aow.Rtl.Rtl.Random(100) - 50;
                     VY = Aow.Rtl.Rtl.Random(5) + 7;
@@ -1245,8 +1245,8 @@ namespace Aow.Units.CitySpells
                         DY = (VY * T) - Aow.Rtl.Rtl.Round((T * 0.25) * T);
                         if (T > 0)
                         {
-                            var call__119 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(52);
-                            call__119.FCastImages.Show(0, (CX + DX) + Offset, CY - DY, 0, SD);
+                            var call__120 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(52);
+                            call__120.FCastImages.Show(0, (CX + DX) + Offset, CY - DY, 0, SD);
                         }
                     }
                 }
@@ -1283,8 +1283,8 @@ namespace Aow.Units.CitySpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__120 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GoldRushRStr);
-            FSpellName = call__120;
+            var call__121 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GoldRushRStr);
+            FSpellName = call__121;
             FSpellID = 53;
             FCityTargetMode = TSet<Aow.Units.CitySpells.TCityTargetModeElement>.Of(Aow.Units.CitySpells.TCityTargetModeElement.ctmOwn);
             FBaseManaCost = 1;
@@ -1323,8 +1323,8 @@ namespace Aow.Units.CitySpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__121 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AntiMagicShellRStr);
-            FSpellName = call__121;
+            var call__122 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AntiMagicShellRStr);
+            FSpellName = call__122;
             FSpellID = 54;
             FCityTargetMode = TSet<Aow.Units.CitySpells.TCityTargetModeElement>.Of(Aow.Units.CitySpells.TCityTargetModeElement.ctmOwn);
             FBaseManaCost = 1;
@@ -1341,20 +1341,20 @@ namespace Aow.Units.CitySpells
         public override void PlayDefaultCityEffects(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.City.TCity TargetCity)
         {
             base.PlayDefaultCityEffects(Source, TargetCity);
-            bool bool__122 = (Source.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-            if (!bool__122)
+            bool bool__123 = (Source.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            if (!bool__123)
             {
-                var call__123 = TargetCity.GetLhx();
-                var call__124 = TargetCity.GetYhx();
-                var call__125 = TargetCity.GetXhx();
-                var call__126 = Aow.Units.AoWE.AoWE.AoWHSMap.WatchingTerrain(unchecked((sbyte)call__125), unchecked((sbyte)call__124), unchecked((sbyte)call__123), 1);
-                bool__122 = call__126;
+                var call__124 = TargetCity.GetLhx();
+                var call__125 = TargetCity.GetYhx();
+                var call__126 = TargetCity.GetXhx();
+                var call__127 = Aow.Units.AoWE.AoWE.AoWHSMap.WatchingTerrain(unchecked((sbyte)call__126), unchecked((sbyte)call__125), unchecked((sbyte)call__124), 1);
+                bool__123 = call__127;
             }
 
-            if (bool__122)
+            if (bool__123)
             {
-                var call__127 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__127.FCastSounds.PlayEx(1, -1, false, 30, Aow.Units.Sound.TSamplePanning.spCenter, null);
+                var call__128 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                call__128.FCastSounds.PlayEx(1, -1, false, 30, Aow.Units.Sound.TSamplePanning.spCenter, null);
             }
         }
 
@@ -1383,8 +1383,8 @@ namespace Aow.Units.CitySpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__128 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WarmongerRStr);
-            FSpellName = call__128;
+            var call__129 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WarmongerRStr);
+            FSpellName = call__129;
             FSpellID = 58;
             FCityTargetMode = TSet<Aow.Units.CitySpells.TCityTargetModeElement>.Of(Aow.Units.CitySpells.TCityTargetModeElement.ctmOwn);
             FEnchantmentID = Aow.Units.City.TCityEnchantmentID.ceiWarmonger;
@@ -1419,8 +1419,8 @@ namespace Aow.Units.CitySpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__129 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownQuakeRStr);
-            FSpellName = call__129;
+            var call__130 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownQuakeRStr);
+            FSpellName = call__130;
             FSpellID = 71;
             FCityTargetMode = TSet<Aow.Units.CitySpells.TCityTargetModeElement>.Of(Aow.Units.CitySpells.TCityTargetModeElement.ctmEnemy);
         }
@@ -1447,8 +1447,8 @@ namespace Aow.Units.CitySpells
                     TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
                     TargetCity.StopTownQuake();
                     Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
-                    var call__130 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(10);
-                    if (call__130 < 7)
+                    var call__131 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(10);
+                    if (call__131 < 7)
                     {
                         TargetCity.SetWallType(0);
                     }
@@ -1456,11 +1456,11 @@ namespace Aow.Units.CitySpells
                     TargetCity.ListArmies(Armies);
                     {
                         I = 0;
-                        int end__131 = Armies.Count - 1;
-                        for (; I <= end__131; I += 1)
+                        int end__132 = Armies.Count - 1;
+                        for (; I <= end__132; I += 1)
                         {
-                            var call__132 = Armies.GetArmyHS(I);
-                            TriggerArmyDamage(A2, call__132);
+                            var call__133 = Armies.GetArmyHS(I);
+                            TriggerArmyDamage(A2, call__133);
                         }
                     }
 
@@ -1503,22 +1503,22 @@ namespace Aow.Units.CitySpells
             int Damage = default;
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
             Log = Aow.Units.AoWE.TArmyEventLog.Create(null);
-            var call__133 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownQuakeDamageRStr);
-            Log.FArmyText = call__133;
+            var call__134 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownQuakeDamageRStr);
+            Log.FArmyText = call__134;
             Log.FPlayer = unchecked((sbyte)Source.FPlayer);
-            var call__134 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownQuakeRStr);
-            Log.FArmyMessages.Add(call__134);
+            var call__135 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownQuakeRStr);
+            Log.FArmyMessages.Add(call__135);
             Log.FArmyIcon = 2;
             Log.FArmyView.Setup(Army.FArmy, 255);
             Army.FArmy.BeginUpdate();
             Damaged = false;
             {
                 I = 0;
-                int end__135 = Army.FArmy.Count - 1;
-                for (; I <= end__135; I += 1)
+                int end__136 = Army.FArmy.Count - 1;
+                for (; I <= end__136; I += 1)
                 {
-                    var call__136 = Army.FArmy.GetUnit(I);
-                    AUnit = call__136;
+                    var call__137 = Army.FArmy.GetUnit(I);
+                    AUnit = call__137;
                     Damage = AUnit.ExecuteDamageRole(7, 5, TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical));
                     if (Damage > AUnit.GetHitPoints())
                     {
@@ -1527,8 +1527,8 @@ namespace Aow.Units.CitySpells
 
                     if (Damage > 0)
                     {
-                        var call__137 = AUnit.GetHitPoints();
-                        AUnit.SetHitPoints(unchecked((sbyte)(call__137 - Damage)));
+                        var call__138 = AUnit.GetHitPoints();
+                        AUnit.SetHitPoints(unchecked((sbyte)(call__138 - Damage)));
                         Damaged = true;
                     }
 
@@ -1540,10 +1540,10 @@ namespace Aow.Units.CitySpells
             if (Damaged)
             {
                 Log.ValidateGameOver();
-                var call__138 = Army.GetYhx();
-                var call__139 = Army.GetLhx();
-                var call__140 = Army.GetXhx();
-                Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)Army.FArmy.FPlayer), unchecked((sbyte)call__140), unchecked((sbyte)call__138), unchecked((sbyte)call__139), true);
+                var call__139 = Army.GetYhx();
+                var call__140 = Army.GetLhx();
+                var call__141 = Army.GetXhx();
+                Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)Army.FArmy.FPlayer), unchecked((sbyte)call__141), unchecked((sbyte)call__139), unchecked((sbyte)call__140), true);
             }
 
             Log.Release();
@@ -1576,8 +1576,8 @@ namespace Aow.Units.CitySpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__141 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnarchyRStr);
-            FSpellName = call__141;
+            var call__142 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnarchyRStr);
+            FSpellName = call__142;
             FSpellID = 72;
             FCityTargetMode = TSet<Aow.Units.CitySpells.TCityTargetModeElement>.Of(Aow.Units.CitySpells.TCityTargetModeElement.ctmEnemy);
         }
@@ -1594,33 +1594,33 @@ namespace Aow.Units.CitySpells
                 TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
                 Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
                 Log.FPlayer = unchecked((sbyte)A2.FPlayer);
-                var call__142 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XCastRStr);
-                var call__143 = Aow.Rtl.Rtl.Format(call__142, [FSpellName]);
-                Log.FText = call__143;
-                var call__144 = TargetCity.GetLhx();
-                var call__145 = TargetCity.GetYhx();
-                var call__146 = TargetCity.GetXhx();
-                Log.SetLocation(unchecked((sbyte)call__146), unchecked((sbyte)call__145), unchecked((sbyte)call__144));
-                var call__147 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(TargetCity.FPlayer);
-                call__147.FEventLogbook.AddEvent(Log);
+                var call__143 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XCastRStr);
+                var call__144 = Aow.Rtl.Rtl.Format(call__143, [FSpellName]);
+                Log.FText = call__144;
+                var call__145 = TargetCity.GetLhx();
+                var call__146 = TargetCity.GetYhx();
+                var call__147 = TargetCity.GetXhx();
+                Log.SetLocation(unchecked((sbyte)call__147), unchecked((sbyte)call__146), unchecked((sbyte)call__145));
+                var call__148 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(TargetCity.FPlayer);
+                call__148.FEventLogbook.AddEvent(Log);
                 Log.Release();
                 PlayDefaultCityEffects(A2, TargetCity);
                 TargetCity.ValidateObservation(unchecked((sbyte)A2.FPlayer));
-                var call__148 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
-                if (call__148 != null)
+                var call__149 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
+                if (call__149 != null)
                 {
                     A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
-                    var call__149 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
-                    A.SetImageSequence(call__149);
+                    var call__150 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
+                    A.SetImageSequence(call__150);
                     A.SetXhpOffset(A.FXhpOffset - 16);
                     A.SetYhpOffset(A.FYhpOffset - 16);
                     A.FOnShow = ShowAnimation;
                     A.FLooped = true;
                     A.FFrameCount = 120;
-                    var call__150 = TargetCity.GetLhx();
-                    var call__151 = TargetCity.GetYhx();
-                    var call__152 = TargetCity.GetXhx();
-                    Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(A, call__152, call__151, call__150);
+                    var call__151 = TargetCity.GetLhx();
+                    var call__152 = TargetCity.GetYhx();
+                    var call__153 = TargetCity.GetXhx();
+                    Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(A, call__153, call__152, call__151);
                 }
 
                 Result = true;
@@ -1665,12 +1665,12 @@ namespace Aow.Units.CitySpells
         {
             // { Unmatched: tried direct sequence receiver and uncast inherited frame field; stage sequence before reading frame counter; stage frame counter before sequence call (5 variants total). }
             {
-                var w__153 = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
-                var call__154 = w__153.FImageSequence.GetUnloopedFrameIndex(w__153.FFrameCounter);
-                if ((call__154 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
+                var w__154 = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
+                var call__155 = w__154.FImageSequence.GetUnloopedFrameIndex(w__154.FFrameCounter);
+                if ((call__155 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
                 {
-                    var call__155 = Aow.Rtl.Rtl.Random(2);
-                    Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[call__155]);
+                    var call__156 = Aow.Rtl.Rtl.Random(2);
+                    Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[call__156]);
                 }
             }
         }
@@ -1700,8 +1700,8 @@ namespace Aow.Units.CitySpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__156 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateRuinsRStr);
-            FSpellName = call__156;
+            var call__157 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateRuinsRStr);
+            FSpellName = call__157;
             FSpellID = 76;
             FCityTargetMode = TSet<Aow.Units.CitySpells.TCityTargetModeElement>.Of(Aow.Units.CitySpells.TCityTargetModeElement.ctmEnemy, Aow.Units.CitySpells.TCityTargetModeElement.ctmRazed);
         }
@@ -1721,34 +1721,34 @@ namespace Aow.Units.CitySpells
                 TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
                 Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
                 Log.FPlayer = unchecked((sbyte)A2.FPlayer);
-                var call__157 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateRuinsRStr);
-                var call__158 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XCastRStr);
-                var call__159 = Aow.Rtl.Rtl.Format(call__158, [call__157]);
-                Log.FText = call__159;
-                var call__160 = TargetCity.GetLhx();
-                var call__161 = TargetCity.GetYhx();
-                var call__162 = TargetCity.GetXhx();
-                Log.SetLocation(unchecked((sbyte)call__162), unchecked((sbyte)call__161), unchecked((sbyte)call__160));
-                var call__163 = TargetCity.GetYhx();
-                var call__164 = TargetCity.GetLhx();
-                var call__165 = TargetCity.GetXhx();
-                Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)A2.FPlayer), unchecked((sbyte)call__165), unchecked((sbyte)call__163), unchecked((sbyte)call__164), false);
+                var call__158 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateRuinsRStr);
+                var call__159 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XCastRStr);
+                var call__160 = Aow.Rtl.Rtl.Format(call__159, [call__158]);
+                Log.FText = call__160;
+                var call__161 = TargetCity.GetLhx();
+                var call__162 = TargetCity.GetYhx();
+                var call__163 = TargetCity.GetXhx();
+                Log.SetLocation(unchecked((sbyte)call__163), unchecked((sbyte)call__162), unchecked((sbyte)call__161));
+                var call__164 = TargetCity.GetYhx();
+                var call__165 = TargetCity.GetLhx();
+                var call__166 = TargetCity.GetXhx();
+                Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)A2.FPlayer), unchecked((sbyte)call__166), unchecked((sbyte)call__164), unchecked((sbyte)call__165), false);
                 Log.Release();
                 PlayDefaultCityEffects(A2, TargetCity);
                 TargetCity.ValidateObservation(unchecked((sbyte)A2.FPlayer));
-                var call__166 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
-                if (call__166 != null)
+                var call__167 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
+                if (call__167 != null)
                 {
                     A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
-                    var call__167 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
-                    A.SetImageSequence(call__167);
+                    var call__168 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
+                    A.SetImageSequence(call__168);
                     A.SetXhpOffset(A.FXhpOffset - 16);
                     A.SetYhpOffset(A.FYhpOffset - 16);
                     A.FOnShow = ShowAnimation;
-                    var call__168 = TargetCity.GetLhx();
-                    var call__169 = TargetCity.GetYhx();
-                    var call__170 = TargetCity.GetXhx();
-                    Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(A, call__170, call__169, call__168);
+                    var call__169 = TargetCity.GetLhx();
+                    var call__170 = TargetCity.GetYhx();
+                    var call__171 = TargetCity.GetXhx();
+                    Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(A, call__171, call__170, call__169);
                 }
 
                 Result = true;
@@ -1758,25 +1758,25 @@ namespace Aow.Units.CitySpells
                 if (A3 == 50)
                 {
                     TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
-                    var call__171 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A2.FPlayer);
-                    TargetCity.SetRace(unchecked((sbyte)call__171.FPlayerRace));
+                    var call__172 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A2.FPlayer);
+                    TargetCity.SetRace(unchecked((sbyte)call__172.FPlayerRace));
                     TargetCity.SetRazed(false);
-                    var call__172 = TargetCity.GetSize();
-                    var call__173 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(call__172 * 2);
-                    Count = call__173 + 1;
+                    var call__173 = TargetCity.GetSize();
+                    var call__174 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(call__173 * 2);
+                    Count = call__174 + 1;
                     {
                         I = 0;
-                        int end__174 = Count;
-                        for (; I <= end__174; I += 1)
+                        int end__175 = Count;
+                        for (; I <= end__175; I += 1)
                         {
                             AUnit = Aow.Units.AoWE.TUnit.Create(null);
-                            var call__175 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
-                            var call__176 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Aow.Units.CitySpells.CitySpells.TAnimateRuins_ExecuteTE__UndeadUnits[call__175]);
-                            AUnit.SetUnitResource(call__176);
-                            var call__177 = TargetCity.GetLhx();
-                            var call__178 = TargetCity.GetYhx();
-                            var call__179 = TargetCity.GetXhx();
-                            AUnit.Place(call__179, call__178, call__177, unchecked((sbyte)A2.FPlayer), TSet<Aow.Units.AoWE.TUnitPlaceModeElement>.Of(Aow.Units.AoWE.TUnitPlaceModeElement.pmScanArea));
+                            var call__176 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
+                            var call__177 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Aow.Units.CitySpells.CitySpells.TAnimateRuins_ExecuteTE__UndeadUnits[call__176]);
+                            AUnit.SetUnitResource(call__177);
+                            var call__178 = TargetCity.GetLhx();
+                            var call__179 = TargetCity.GetYhx();
+                            var call__180 = TargetCity.GetXhx();
+                            AUnit.Place(call__180, call__179, call__178, unchecked((sbyte)A2.FPlayer), TSet<Aow.Units.AoWE.TUnitPlaceModeElement>.Of(Aow.Units.AoWE.TUnitPlaceModeElement.pmScanArea));
                             AUnit.Release();
                         }
                     }
@@ -1807,12 +1807,12 @@ namespace Aow.Units.CitySpells
         {
             // { Unmatched: tried direct sequence receiver and uncast inherited frame field; stage sequence before reading frame counter; stage frame counter before sequence call (5 variants total). }
             {
-                var w__180 = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
-                var call__181 = w__180.FImageSequence.GetUnloopedFrameIndex(w__180.FFrameCounter);
-                if ((call__181 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
+                var w__181 = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
+                var call__182 = w__181.FImageSequence.GetUnloopedFrameIndex(w__181.FFrameCounter);
+                if ((call__182 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
                 {
-                    var call__182 = Aow.Rtl.Rtl.Random(2);
-                    Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[call__182]);
+                    var call__183 = Aow.Rtl.Rtl.Random(2);
+                    Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[call__183]);
                 }
             }
         }
@@ -1843,23 +1843,23 @@ namespace Aow.Units.CitySpells
         {
             A1.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TTownGateTE>()]);
             {
-                var w__183 = A1.FGameSet.FSpellControl;
-                var call__184 = Aow.Units.CitySpells.TAnarchy.Create(null);
-                w__183.RegisterSpell(call__184);
-                var call__185 = Aow.Units.CitySpells.TTownQuake.Create(null);
-                w__183.RegisterSpell(call__185);
-                var call__186 = Aow.Units.CitySpells.TTownGate.Create(null);
-                w__183.RegisterSpell(call__186);
-                var call__187 = Aow.Units.CitySpells.TFountainOfLife.Create(null);
-                w__183.RegisterSpell(call__187);
-                var call__188 = Aow.Units.CitySpells.TGoldRush.Create(null);
-                w__183.RegisterSpell(call__188);
-                var call__189 = Aow.Units.CitySpells.TAntiMagicShell.Create(null);
-                w__183.RegisterSpell(call__189);
-                var call__190 = Aow.Units.CitySpells.TWarmonger.Create(null);
-                w__183.RegisterSpell(call__190);
-                var call__191 = Aow.Units.CitySpells.TAnimateRuins.Create(null);
-                w__183.RegisterSpell(call__191);
+                var w__184 = A1.FGameSet.FSpellControl;
+                var call__185 = Aow.Units.CitySpells.TAnarchy.Create(null);
+                w__184.RegisterSpell(call__185);
+                var call__186 = Aow.Units.CitySpells.TTownQuake.Create(null);
+                w__184.RegisterSpell(call__186);
+                var call__187 = Aow.Units.CitySpells.TTownGate.Create(null);
+                w__184.RegisterSpell(call__187);
+                var call__188 = Aow.Units.CitySpells.TFountainOfLife.Create(null);
+                w__184.RegisterSpell(call__188);
+                var call__189 = Aow.Units.CitySpells.TGoldRush.Create(null);
+                w__184.RegisterSpell(call__189);
+                var call__190 = Aow.Units.CitySpells.TAntiMagicShell.Create(null);
+                w__184.RegisterSpell(call__190);
+                var call__191 = Aow.Units.CitySpells.TWarmonger.Create(null);
+                w__184.RegisterSpell(call__191);
+                var call__192 = Aow.Units.CitySpells.TAnimateRuins.Create(null);
+                w__184.RegisterSpell(call__192);
             }
         }
 
@@ -1868,15 +1868,15 @@ namespace Aow.Units.CitySpells
         {
             A1.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TTownGateTE>()]);
             {
-                var w__192 = A1.FGameSet.FSpellControl;
-                w__192.UnregisterSpellID(72);
+                var w__193 = A1.FGameSet.FSpellControl;
+                w__193.UnregisterSpellID(72);
                 // { Original leaves Town Quake ($47) registered. }
-                w__192.UnregisterSpellID(38);
-                w__192.UnregisterSpellID(52);
-                w__192.UnregisterSpellID(53);
-                w__192.UnregisterSpellID(54);
-                w__192.UnregisterSpellID(58);
-                w__192.UnregisterSpellID(76);
+                w__193.UnregisterSpellID(38);
+                w__193.UnregisterSpellID(52);
+                w__193.UnregisterSpellID(53);
+                w__193.UnregisterSpellID(54);
+                w__193.UnregisterSpellID(58);
+                w__193.UnregisterSpellID(76);
             }
         }
 

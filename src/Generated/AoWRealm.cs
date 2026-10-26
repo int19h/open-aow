@@ -1233,7 +1233,7 @@ namespace Aow.Units.AoWRealm
                 Hero = (Aow.Units.AoWE.THero)call__118;
                 var call__119 = Aow.Rtl.Rtl.Rect(T5HeroInf.WinLeft + 1, T5HeroInf.WinTop + 1, (T5HeroInf.WinLeft + T5HeroInf.WinWidth) - 1, (T5HeroInf.WinTop + T5HeroInf.WinHeight) - 1);
                 R = call__119;
-                if (Hero.GetFace != null)
+                if (Hero.GetFace() != null)
                 {
                     Hero.ShowFace(R, SurfDesc);
                 }

@@ -798,7 +798,7 @@ namespace Aow.Units.GlobalTargetSpells
             Result = bool__58;
             if (Result)
             {
-                Result = ((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS == null;
+                Result = ((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS() == null;
             }
 
             return Result;
@@ -1015,7 +1015,7 @@ namespace Aow.Units.GlobalTargetSpells
             Result = bool__75;
             if (Result)
             {
-                Result = ((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS == null;
+                Result = ((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS() == null;
             }
 
             return Result;
@@ -1943,8 +1943,7 @@ namespace Aow.Units.GlobalTargetSpells
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            /* TODO(T-N7) Object identity passed by reference requires an override */
-            throw new System.NotImplementedException();
+            Stream.rwCreateEObject(ref FArmyID, null, 40);
         }
 
         // GlobalTargetSpells.pas:1547
@@ -2524,8 +2523,7 @@ namespace Aow.Units.GlobalTargetSpells
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            /* TODO(T-N7) Object identity passed by reference requires an override */
-            throw new System.NotImplementedException();
+            Stream.rwCreateEObject(ref FArmyID, null, 40);
         }
 
         // GlobalTargetSpells.pas:1893

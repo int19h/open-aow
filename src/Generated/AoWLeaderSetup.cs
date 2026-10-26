@@ -1091,13 +1091,14 @@ namespace Aow.Units.AoWLeaderSetup
                 R = call__80;
             }
 
-            if (Setup.FOriginalLeader.GetFace != null)
+            var call__81 = Setup.FOriginalLeader.GetFace();
+            if (call__81 != null)
             {
-                var call__81 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.GetFaceResource(Index);
-                Face = call__81;
+                var call__82 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.GetFaceResource(Index);
+                Face = call__82;
                 Face.AddRef();
-                var call__82 = Face.GetFaceImage();
-                call__82.ShowStretched(R, SD);
+                var call__83 = Face.GetFaceImage();
+                call__83.ShowStretched(R, SD);
                 Face.Release();
             }
         }
@@ -1106,8 +1107,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void FacePrevBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__83 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.PrevFace(FLeader.FFaceIndex);
-            FLeader.SetFaceIndex(call__83);
+            var call__84 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.PrevFace(FLeader.FFaceIndex);
+            FLeader.SetFaceIndex(call__84);
             Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
         }
 
@@ -1115,8 +1116,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void FaceNextBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__84 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.NextFace(FLeader.FFaceIndex);
-            FLeader.SetFaceIndex(call__84);
+            var call__85 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.NextFace(FLeader.FFaceIndex);
+            FLeader.SetFaceIndex(call__85);
             Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
         }
 
@@ -1199,8 +1200,8 @@ namespace Aow.Units.AoWLeaderSetup
                     Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
                     break;
                 case 3:
-                    var call__85 = FLeader.GetSphereCount();
-                    if (call__85 == FLeader.FSpherePicksMax)
+                    var call__86 = FLeader.GetSphereCount();
+                    if (call__86 == FLeader.FSpherePicksMax)
                     {
                         Finish();
                     }
@@ -1208,8 +1209,8 @@ namespace Aow.Units.AoWLeaderSetup
                     {
                         Aow.Units.AoWExeForms.AoWExeForms.ResetMessageDialog(Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg);
                         Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                        var call__86 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PleaseAssignAllSpheresRStr);
-                        Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__86);
+                        var call__87 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PleaseAssignAllSpheresRStr);
+                        Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__87);
                         Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
                         Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
                     }
@@ -1227,15 +1228,16 @@ namespace Aow.Units.AoWLeaderSetup
             if (FPhase > 1)
             {
                 {
-                    var w__87 = (Aow.Units.AoWFrame.TAoWFrame)Sender;
-                    var call__88 = Aow.Rtl.Rtl.Rect((LMainPnl.WinLeft + w__87.WinLeft) + 2, LMainPnl.WinTop + w__87.WinTop, ((LMainPnl.WinLeft + w__87.WinLeft) + w__87.WinWidth) - 2, ((LMainPnl.WinTop + w__87.WinTop) + w__87.WinHeight) - 2);
-                    R = call__88;
+                    var w__88 = (Aow.Units.AoWFrame.TAoWFrame)Sender;
+                    var call__89 = Aow.Rtl.Rtl.Rect((LMainPnl.WinLeft + w__88.WinLeft) + 2, LMainPnl.WinTop + w__88.WinTop, ((LMainPnl.WinLeft + w__88.WinLeft) + w__88.WinWidth) - 2, ((LMainPnl.WinTop + w__88.WinTop) + w__88.WinHeight) - 2);
+                    R = call__89;
                 }
 
-                if (Setup.FOriginalLeader.GetFace != null)
+                var call__90 = Setup.FOriginalLeader.GetFace();
+                if (call__90 != null)
                 {
-                    var call__89 = Setup.FOriginalLeader.GetFace();
-                    call__89.ShowStretched(R, SD);
+                    var call__91 = Setup.FOriginalLeader.GetFace();
+                    call__91.ShowStretched(R, SD);
                 }
             }
         }
@@ -1388,23 +1390,23 @@ namespace Aow.Units.AoWLeaderSetup
             {
                 case 1:
                 {
-                    var w__90 = FLeader;
-                    w__90.SetNickname((AnsiString)"");
-                    w__90.FHeroName = (AnsiString)"";
+                    var w__92 = FLeader;
+                    w__92.SetNickname((AnsiString)"");
+                    w__92.FHeroName = (AnsiString)"";
                     UpdateLeader();
                 }
 
                     break;
                 case 2:
                 {
-                    var w__91 = FLeader;
-                    w__91.AssignAb(w__91.FHeroResource.FAbilities);
-                    w__91.SetUnitAttack(0);
-                    w__91.SetUnitDefense(0);
-                    w__91.SetUnitDamage(0);
-                    w__91.SetUnitHits(0);
-                    w__91.SetUnitMoves(0);
-                    w__91.SetUnitResistance(0);
+                    var w__93 = FLeader;
+                    w__93.AssignAb(w__93.FHeroResource.FAbilities);
+                    w__93.SetUnitAttack(0);
+                    w__93.SetUnitDefense(0);
+                    w__93.SetUnitDamage(0);
+                    w__93.SetUnitHits(0);
+                    w__93.SetUnitMoves(0);
+                    w__93.SetUnitResistance(0);
                     UpdateLeader();
                 }
 
@@ -1426,40 +1428,40 @@ namespace Aow.Units.AoWLeaderSetup
             {
                 case 1:
                 {
-                    var w__92 = FLeader;
-                    var call__93 = FSetup.FLeader.GetNickname();
-                    w__92.SetNickname(call__93);
-                    w__92.FHeroName = FSetup.FLeader.FHeroName;
-                    w__92.SetFaceIndex(FSetup.FLeader.FFaceIndex);
+                    var w__94 = FLeader;
+                    var call__95 = FSetup.FLeader.GetNickname();
+                    w__94.SetNickname(call__95);
+                    w__94.FHeroName = FSetup.FLeader.FHeroName;
+                    w__94.SetFaceIndex(FSetup.FLeader.FFaceIndex);
                     UpdateLeader();
                 }
 
                     break;
                 case 2:
                 {
-                    var w__94 = FLeader;
-                    w__94.AssignAb(FSetup.FLeader);
-                    w__94.SetUnitAttack(unchecked((sbyte)FSetup.FLeader.FUnitAttack));
-                    w__94.SetUnitDefense(unchecked((sbyte)FSetup.FLeader.FUnitDefense));
-                    w__94.SetUnitDamage(unchecked((sbyte)FSetup.FLeader.FUnitDamage));
-                    w__94.SetUnitHits(unchecked((sbyte)FSetup.FLeader.FUnitHits));
-                    w__94.SetUnitMoves(unchecked((sbyte)FSetup.FLeader.FUnitMoves));
-                    w__94.SetUnitResistance(unchecked((sbyte)FSetup.FLeader.FUnitResistance));
+                    var w__96 = FLeader;
+                    w__96.AssignAb(FSetup.FLeader);
+                    w__96.SetUnitAttack(unchecked((sbyte)FSetup.FLeader.FUnitAttack));
+                    w__96.SetUnitDefense(unchecked((sbyte)FSetup.FLeader.FUnitDefense));
+                    w__96.SetUnitDamage(unchecked((sbyte)FSetup.FLeader.FUnitDamage));
+                    w__96.SetUnitHits(unchecked((sbyte)FSetup.FLeader.FUnitHits));
+                    w__96.SetUnitMoves(unchecked((sbyte)FSetup.FLeader.FUnitMoves));
+                    w__96.SetUnitResistance(unchecked((sbyte)FSetup.FLeader.FUnitResistance));
                     UpdateLeader();
                 }
 
                     break;
                 case 3:
                 {
-                    var w__95 = FLeader;
-                    w__95.ClearSpheres();
+                    var w__97 = FLeader;
+                    w__97.ClearSpheres();
                     {
                         I = 0;
-                        int end__96 = FSetup.FLeader.GetSphereCount() - 1;
-                        for (; I <= end__96; I += 1)
+                        int end__98 = FSetup.FLeader.GetSphereCount() - 1;
+                        for (; I <= end__98; I += 1)
                         {
-                            var call__97 = FSetup.FLeader.GetSpheres(I);
-                            w__95.AddSphere(call__97);
+                            var call__99 = FSetup.FLeader.GetSpheres(I);
+                            w__97.AddSphere(call__99);
                         }
                     }
 
@@ -1475,8 +1477,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelLifeClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__98 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msLife);
-            if (call__98)
+            var call__100 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msLife);
+            if (call__100)
             {
                 FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msLife);
                 UpdateSpheres();
@@ -1487,8 +1489,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelFireClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__99 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msFire);
-            if (call__99)
+            var call__101 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msFire);
+            if (call__101)
             {
                 FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msFire);
                 UpdateSpheres();
@@ -1499,8 +1501,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelDeathClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__100 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msDeath);
-            if (call__100)
+            var call__102 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msDeath);
+            if (call__102)
             {
                 FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msDeath);
                 UpdateSpheres();
@@ -1511,8 +1513,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelWaterClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__101 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msWater);
-            if (call__101)
+            var call__103 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msWater);
+            if (call__103)
             {
                 FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msWater);
                 UpdateSpheres();
@@ -1523,8 +1525,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelAirClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__102 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msAir);
-            if (call__102)
+            var call__104 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msAir);
+            if (call__104)
             {
                 FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msAir);
                 UpdateSpheres();
@@ -1535,8 +1537,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelEarthClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__103 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msEarth);
-            if (call__103)
+            var call__105 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msEarth);
+            if (call__105)
             {
                 FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msEarth);
                 UpdateSpheres();
@@ -1547,8 +1549,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void DeleteSphereClick(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__104 = FLeader.GetSphereCount();
-            if (((Aow.Rtl.TComponent)Sender).Tag < call__104)
+            var call__106 = FLeader.GetSphereCount();
+            if (((Aow.Rtl.TComponent)Sender).Tag < call__106)
             {
                 FLeader.DeleteSphereIndex(((Aow.Rtl.TComponent)Sender).Tag);
             }
@@ -1560,8 +1562,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void RaceCBChange()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__105 = RaceCB.Items.Objects[RaceCB.Selected];
-            FLeader.SetRace(unchecked((sbyte)Aow.Rtl.Rtl.ObjectToInt(call__105)));
+            var call__107 = RaceCB.Items.Objects[RaceCB.Selected];
+            FLeader.SetRace(unchecked((sbyte)Aow.Rtl.Rtl.ObjectToInt(call__107)));
         }
 
         // AoWLeaderSetup.pas:678
@@ -1652,13 +1654,13 @@ namespace Aow.Units.AoWLeaderSetup
             Aow.Units.AoWE.TAbility Ability = default;
             if ((Button == Aow.Rtl.TMouseButton.mbRight) && (SelectedAbilities.Selected != -1))
             {
-                var call__106 = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-                var call__107 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__106));
-                Ability = call__107;
+                var call__108 = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
+                var call__109 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__108));
+                Ability = call__109;
                 if (Ability != null)
                 {
-                    var call__108 = Ability.GetName(null);
-                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__108, Ability.FDescription);
+                    var call__110 = Ability.GetName(null);
+                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__110, Ability.FDescription);
                 }
             }
         }
@@ -1669,13 +1671,13 @@ namespace Aow.Units.AoWLeaderSetup
             Aow.Units.AoWE.TAbility Ability = default;
             if ((Button == Aow.Rtl.TMouseButton.mbRight) && (AvailableAbilities.Selected != -1))
             {
-                var call__109 = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-                var call__110 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__109));
-                Ability = call__110;
+                var call__111 = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
+                var call__112 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__111));
+                Ability = call__112;
                 if (Ability != null)
                 {
-                    var call__111 = Ability.GetName(null);
-                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__111, Ability.FDescription);
+                    var call__113 = Ability.GetName(null);
+                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__113, Ability.FDescription);
                 }
             }
         }

@@ -283,8 +283,39 @@ namespace Aow.Units.AoWSoundDlg
         // AoWSoundDlg.pas:179
         public void FindFiles()
         {
-            /* TODO(T-shim) Platform or editor boundary SysUtils.SetCurrentDir */
-            throw new System.NotImplementedException();
+            Aow.Rtl.AnsiString Directory = default;
+            Aow.Rtl.TSearchRec Search = default;
+            SongLB.Items.Clear();
+            Aow.Units.AoWSoundDlg.AoWSoundDlg.SongFiles.Clear();
+            Aow.Rtl.Rtl.SetCurrentDir(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"\\Songs"));
+            Directory = Aow.Rtl.Rtl.GetCurrentDir();
+            if (Aow.Rtl.Rtl.Copy(Directory, Directory.Length, 1) == AnsiString.FromBytes(92))
+            {
+                Directory = Aow.Rtl.Rtl.Copy(Directory, 1, Directory.Length - 1);
+            }
+
+            if (Aow.Rtl.Rtl.FindFirst(Directory + ((AnsiString)"\\*.*"), 16, ref Search) == 0)
+            {
+                do
+                {
+                    if ((Search.Name != AnsiString.FromBytes(46)) && (Search.Name != ((AnsiString)"..")))
+                    {
+                        if ((Aow.Rtl.Rtl.UpperCase(Aow.Rtl.Rtl.Copy(Search.Name, Search.Name.Length - 3, 4)) == ((AnsiString)".S3M")) || (Aow.Rtl.Rtl.UpperCase(Aow.Rtl.Rtl.Copy(Search.Name, Search.Name.Length - 2, 3)) == ((AnsiString)".IT")))
+                        {
+                            Aow.Units.AoWSoundDlg.AoWSoundDlg.SongFiles.Add(((AnsiString)"Songs\\") + Search.Name);
+                            var call__8 = Aow.Units.Sound.Sound.GetSongName(((AnsiString)"Songs\\") + Search.Name);
+                            SongLB.Items.Add(call__8);
+                        }
+                    }
+                }
+                while (!(Aow.Rtl.Rtl.FindNext(ref Search) != 0));
+            }
+
+            Aow.Rtl.Rtl.FindClose(ref Search);
+            Aow.Units.Engine.Engine.SortStringsAscending(SongLB.Items, [Aow.Units.AoWSoundDlg.AoWSoundDlg.SongFiles]);
+            SongLB.Selected = -1;
+            SongLB.ListOffset = 0;
+            SongSB.Position = 0;
         }
 
         // AoWSoundDlg.pas:206
@@ -300,16 +331,16 @@ namespace Aow.Units.AoWSoundDlg
         public void AddBtnClick(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__8 = Aow.Units.AoWSoundDlg.AoWSoundDlg.SongFiles[SongLB.Selected];
-            Aow.Units.Sound.Sound.SongPlayer.Songs.Add(call__8);
+            var call__9 = Aow.Units.AoWSoundDlg.AoWSoundDlg.SongFiles[SongLB.Selected];
+            Aow.Units.Sound.Sound.SongPlayer.Songs.Add(call__9);
             SoundSetup();
         }
 
         // AoWSoundDlg.pas:218
         public void SoundDlgWindowCreate()
         {
-            var call__9 = new Aow.Rtl.TStringList();
-            Aow.Units.AoWSoundDlg.AoWSoundDlg.SongFiles = call__9;
+            var call__10 = new Aow.Rtl.TStringList();
+            Aow.Units.AoWSoundDlg.AoWSoundDlg.SongFiles = call__10;
         }
 
         // AoWSoundDlg.pas:223
@@ -445,8 +476,8 @@ namespace Aow.Units.AoWSoundDlg
         {
             if (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex == Index)
             {
-                var call__10 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.SoundWin[2];
-                call__10.ShowClipped(R.Left, R.Top, SurfDesc);
+                var call__11 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.SoundWin[2];
+                call__11.ShowClipped(R.Left, R.Top, SurfDesc);
             }
         }
 

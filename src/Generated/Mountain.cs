@@ -682,7 +682,7 @@ namespace Aow.Units.Mountain
             Result = bool__50;
             if (Result)
             {
-                Result = ((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS == null;
+                Result = ((Aow.Units.AoWE.TAoWMapField)A1).GetArmyHS() == null;
             }
 
             return Result;
