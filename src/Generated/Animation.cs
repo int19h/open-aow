@@ -565,8 +565,7 @@ namespace Aow.Units.Animation
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            /* TODO(T-N7) Object identity passed by reference requires an override */
-            throw new System.NotImplementedException();
+            Stream.rwCreateEObject(ref FAnimation, null, 15);
         }
 
         // Animation.pas:405

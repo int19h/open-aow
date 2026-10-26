@@ -156,8 +156,18 @@ namespace Aow.Units.AoWWinMan
         // AoWWinMan.pas:503
         public void ReturnToTitle()
         {
-            /* TODO(T-shim) Platform or editor boundary SysUtils.SetCurrentDir */
-            throw new System.NotImplementedException();
+            Aow.Units.AoWE.AoWE.AoWEngine.CloseHSM(null);
+            Aow.Units.AoWE.AoWE.AoWEngine.CloseCampaign();
+            Aow.Units.AoWSWindow.AoWSWindow.SWindow.Scanner.SetMap(null);
+            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.SetMap(null);
+            Aow.Units.Sound.Sound.SongPlayer.Stop(false);
+            Aow.Units.Sound.Sound.SongPlayer.Songs.Clear();
+            Aow.Rtl.Rtl.SetCurrentDir(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory);
+            Aow.Units.AoWWinMan.AoWWinMan.General.HideWindows();
+            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.Visible = false;
+            Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.Visible = false;
+            Aow.Units.E2Globals.E2Globals.TitleScene.ResetScene();
+            Aow.Units.E2GameFlow.E2GameFlow.ShowTitleScene(Aow.Units.E2Globals.E2Globals.TitleScene, true);
         }
 
         // AoWWinMan.pas:415
@@ -926,8 +936,66 @@ namespace Aow.Units.AoWWinMan
         // { conflict: procedure MapProgress(Sender: TObject; const Text: string; Position: Integer); }
         public void ManagerKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
-            /* TODO(T-shim) Platform or editor boundary SysUtils.SetCurrentDir */
-            throw new System.NotImplementedException();
+            Aow.Units.AoWE.TPlayer Player = default;
+            Aow.Rtl.AnsiString S = default;
+            if (Aow.Units.AoWE.AoWE.AoWEngine.FDebug)
+            {
+                bool bool__81 = (((Aow.Units.AoWE.AoWE.AoWHSMap != null) && ((Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode != Aow.Units.AoWE.TPlayMode.pmSimultaneous) || (Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.FLocalPlayers.Count == 1))) && TSet<byte>.WithBounds(0, 255).WithRange((int)49, (int)57).Contains((byte)Key)) && (Aow.Units.AoWTC.AoWTC.AoWCombatMap == null);
+                if (bool__81)
+                {
+                    var call__82 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount();
+                    bool__81 = (call__82 > (Key - ((int)48)));
+                }
+
+                bool bool__83 = bool__81;
+                if (bool__83)
+                {
+                    var call__84 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetDebugMode();
+                    bool__83 = call__84;
+                }
+
+                if (bool__83)
+                {
+                    var call__85 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Key - ((int)48));
+                    Player = call__85;
+                    if (Player.FPlayerType == Aow.Units.AoWE.TPlayerType.ptCPU5)
+                    {
+                        Player.FPlayerType = Aow.Units.AoWE.TPlayerType.ptHuman;
+                    }
+                    else
+                    {
+                        Player.FPlayerType = (Aow.Units.AoWE.TPlayerType)(((int)Player.FPlayerType) + 1);
+                    }
+
+                    var call__86 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerTypeRStr[(int)Player.FPlayerType]);
+                    S = ((((AnsiString)"Player ") + Aow.Rtl.Rtl.IntToStr(Key - ((int)48))) + ((AnsiString)" set to: ")) + call__86;
+                    Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(S);
+                    Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Update();
+                    Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers.Count > 1;
+                }
+
+                switch (Key)
+                {
+                    case 122:
+                        var call__87 = Aow.Rtl.Rtl.Application.ExeName;
+                        var call__88 = Aow.Rtl.Rtl.ExtractFileDir(call__87);
+                        S = call__88;
+                        S = S + ((AnsiString)"\\Scenario\\Custom");
+                        Aow.Rtl.Rtl.SetCurrentDir(S);
+                        Aow.Units.AoWWinMan.AoWWinMan.LoadGame(this, (AnsiString)"Crap.hsm");
+                        Aow.Units.AoWWinMan.AoWWinMan.StartGame(this);
+                        break;
+                    case 123:
+                        var call__89 = Aow.Rtl.Rtl.Application.ExeName;
+                        var call__90 = Aow.Rtl.Rtl.ExtractFileDir(call__89);
+                        S = call__90;
+                        S = S + ((AnsiString)"\\Scenario\\Custom");
+                        Aow.Rtl.Rtl.SetCurrentDir(S);
+                        Aow.Units.AoWWinMan.AoWWinMan.LoadGame(this, (AnsiString)"demomap.hsm");
+                        Aow.Units.AoWWinMan.AoWWinMan.StartGame(this);
+                        break;
+                }
+            }
         }
 
         // AoWWinMan.pas:392
@@ -950,9 +1018,9 @@ namespace Aow.Units.AoWWinMan
                 Aow.Units.AoWE.AoWE.AoWEngine.CloseHSM(null);
             }
 
-            var call__81 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1LoadingRStr);
-            var call__82 = Aow.Rtl.Rtl.ExtractFileName(Name);
-            Aow.Units.E2Globals.E2Globals.ProgressDialog.Title.Text = ((call__81 + AnsiString.FromBytes(32)) + call__82) + ((AnsiString)"...");
+            var call__91 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1LoadingRStr);
+            var call__92 = Aow.Rtl.Rtl.ExtractFileName(Name);
+            Aow.Units.E2Globals.E2Globals.ProgressDialog.Title.Text = ((call__91 + AnsiString.FromBytes(32)) + call__92) + ((AnsiString)"...");
             Aow.Units.E2Globals.E2Globals.ProgressDialog.StatusLbl.Text = (AnsiString)"";
             Aow.Units.E2Globals.E2Globals.ProgressDialog.Bar.Position = 0;
             Aow.Units.E2Globals.E2Globals.ProgressDialog.Bar.Max = 100;
@@ -988,9 +1056,9 @@ namespace Aow.Units.AoWWinMan
             {
                 if (Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FScenarioStarted)
                 {
-                    var call__83 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1LoadingRStr);
-                    var call__84 = Aow.Rtl.Rtl.ExtractFileName(Name);
-                    Aow.Units.E2Globals.E2Globals.ProgressDialog.Title.Text = ((call__83 + AnsiString.FromBytes(32)) + call__84) + ((AnsiString)"...");
+                    var call__93 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1LoadingRStr);
+                    var call__94 = Aow.Rtl.Rtl.ExtractFileName(Name);
+                    Aow.Units.E2Globals.E2Globals.ProgressDialog.Title.Text = ((call__93 + AnsiString.FromBytes(32)) + call__94) + ((AnsiString)"...");
                     Aow.Units.E2Globals.E2Globals.ProgressDialog.StatusLbl.Text = (AnsiString)"";
                     Aow.Units.E2Globals.E2Globals.ProgressDialog.Bar.Position = 0;
                     Aow.Units.E2Globals.E2Globals.ProgressDialog.Bar.Max = 100;

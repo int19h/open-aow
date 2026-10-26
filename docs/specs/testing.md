@@ -74,9 +74,11 @@ transpiler must pass it before it emits any explicit layout.
 
 ## 3. Headless oracle
 
-The headless host has a viewport size, because the engine reads it while saving (`persistence.md`
-section 4, M1b). It is the size the oracle's original runs had, recovered from their autosaves,
-and every comparison with those runs uses it.
+The headless host has a map viewport, because the engine reads it while saving (`persistence.md`
+section 4, M1b). It is display state, as in the original: 0x0 until the game first shows the map
+view, then the configured size, 1600x940 by default, the size of the oracle runs' playtest window.
+The two states explain the stored view center of all 417 oracle autosaves (the day-01 save is
+written during initialization, before the map view has a size).
 
 ### 3.1 What the recovery already does
 

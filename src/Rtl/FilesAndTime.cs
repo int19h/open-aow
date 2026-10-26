@@ -9,6 +9,7 @@ public readonly record struct RtlFileEntry(string Name, int Size, int Attr, Date
 public interface IFileSystem
 {
     string CurrentDirectory { get; }
+    bool SetCurrentDirectory(string path) => false;
     string ExpandPath(string path);
     Stream Open(string path, int mode);
     bool FileExists(string path);
@@ -25,7 +26,15 @@ public interface IFileSystem
 
 public sealed class SystemIoFileSystem : IFileSystem
 {
-    public string CurrentDirectory => Directory.GetCurrentDirectory();
+    private string? currentDirectory;
+    public string CurrentDirectory => currentDirectory ?? Directory.GetCurrentDirectory();
+    public bool SetCurrentDirectory(string path)
+    {
+        string resolved = Resolve(path);
+        if (!Directory.Exists(resolved)) return false;
+        currentDirectory = resolved;
+        return true;
+    }
     public string ExpandPath(string path) => Path.GetFullPath(path.Length == 0 ? "." : path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar), CurrentDirectory);
     private string Resolve(string path)
     {
@@ -99,6 +108,19 @@ public static partial class Rtl
     }
     // SYSUTILS.PAS ExtractFileName, ExtractFilePath, ExtractFileDir, ExtractFileExt, ChangeFileExt.
     public static AnsiString ExtractFileName(AnsiString name) => Copy(name, Delimiter(name) + 1, int.MaxValue);
+    public static AnsiString ExtractFileDrive(AnsiString name)
+    {
+        if (name.Length >= 2 && name[2] == ':') return Copy(name, 1, 2);
+        if (name.Length < 2 || name[1] != '\\' || name[2] != '\\') return default;
+        int i = 3, separators = 0;
+        while (i < name.Length && separators < 2)
+        {
+            if (name[i] == '\\') separators++;
+            if (separators < 2) i++;
+        }
+        if (i <= name.Length && name[i] == '\\') i--;
+        return Copy(name, 1, i);
+    }
     public static AnsiString ExtractFilePath(AnsiString name) => Copy(name, 1, Delimiter(name));
     public static AnsiString ExtractFileDir(AnsiString name)
     {
@@ -110,6 +132,7 @@ public static partial class Rtl
     public static AnsiString ChangeFileExt(AnsiString name, AnsiString extension) { int i = Delimiter(name, true); return (i > 0 && name[i] == '.' ? Copy(name, 1, i - 1) : name) + extension; }
     public static AnsiString ExpandFileName(AnsiString name) => name.Length == 0 ? default : Files.ExpandPath(name.ToString());
     public static AnsiString GetCurrentDir() => Files.CurrentDirectory;
+    public static bool SetCurrentDir(AnsiString path) => Files.SetCurrentDirectory(path.ToString());
     public static bool FileExists(AnsiString name) => Files.FileExists(name.ToString());
     public static bool DirectoryExists(AnsiString name) => Files.DirectoryExists(name.ToString());
     public static bool DeleteFile(AnsiString name) => Files.DeleteFile(name.ToString());

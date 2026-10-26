@@ -536,7 +536,7 @@ namespace Aow.Units.Teleport
         }
 
         // { Original AoWE resource initialization table $55798BC0..$557990E4. }
-        public static Aow.Rtl.AnsiString[] RaceNames = new Aow.Rtl.AnsiString[13];
+        public static Aow.Rtl.AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
         public static readonly Aow.Rtl.AnsiString TeleportNoWarRStr = (AnsiString)"Not at war with the %s";
         // { original RT_STRING $FCD6 }
         public static readonly Aow.Rtl.AnsiString TeleportWarningRStr = (AnsiString)"Warning";

@@ -197,6 +197,20 @@ ignores). The shipped saves and maps are loaded without reaching a TODO, and the
 are listed by cause. The tactical maps under `TCMaps` load only inside a tactical combat and
 belong to the tactical oracle run.
 
+Result of brief 2.2 (2026-10-26). All 444 world files load and save through the generated engine
+without reaching a TODO. 32 of the 417 oracle autosaves compare equal under the oracle profile.
+The others differ because the native load itself changes the game, which the installed
+`Enginep.dpl` confirms when a Delphi harness calls its own routines: a bit list shorter than 32
+bits is rounded up to 32 and its enlarged read takes bytes past the property, an absent sprite
+direction becomes `03`, hero groups are reset and empty groups destroyed. The original game does
+not reproduce its own autosaves either. A reference transform for the bit lists was built and
+proven on 7,200 native fixtures, but a transcription of every load-time change rebuilds the load
+logic beside the port, which is the wrong check. Byte equality therefore moves to the oracle
+comparison (`testing.md` section 3, milestone 2.4): the port loads the same seeded inputs the
+original runs loaded and its autosaves are compared with theirs, so the original's own load is
+on both sides. M1b is closed as the load and save path: every file loads and saves, and the
+round-trip tool stays as the diagnostic it was in this brief.
+
 ### Validation tool
 
 `tools/asg_dump.py` in the `aow` repository walks a save with the recovered schema and reports

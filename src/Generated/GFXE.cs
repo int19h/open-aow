@@ -6882,7 +6882,7 @@ namespace Aow.Units.GFXE
             int Result = default;
             Aow.Units.GFXE.TDDSurfaceDesc DDSD = default;
             Aow.Units.GFXE.IDirectDrawSurface S = default;
-            if (Aow.Units.GFXE.GFXE.DD != null)
+            if (Aow.Units.GFXE.GFXE.DD() != null)
             {
                 DDSD = default;
                 DDSD.dwSize = 108;
@@ -6915,7 +6915,7 @@ namespace Aow.Units.GFXE
         public static bool DisplayModeSupported(int Width, int Height, int PixelFormatID)
         {
             bool Result = default;
-            if (Aow.Units.GFXE.GFXE.DD != null)
+            if (Aow.Units.GFXE.GFXE.DD() != null)
             {
                 Aow.Units.GFXE.GFXE.EnumDDSD = default;
                 Aow.Units.GFXE.GFXE.EnumDDSD.dwSize = 108;
@@ -6942,7 +6942,7 @@ namespace Aow.Units.GFXE
         // GFXE.pas:12668
         public static void ListDisplayModes(Aow.Units.GFXE.TDisplayModeList List, int Width, int Height, int PixelFormatID)
         {
-            if (Aow.Units.GFXE.GFXE.DD != null)
+            if (Aow.Units.GFXE.GFXE.DD() != null)
             {
                 Aow.Units.GFXE.GFXE.EnumDDSD = default;
                 Aow.Units.GFXE.GFXE.EnumDDSD.dwSize = 108;

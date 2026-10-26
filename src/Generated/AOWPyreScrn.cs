@@ -102,8 +102,37 @@ namespace Aow.Units.AOWPyreScrn
         // AOWPyreScrn.pas:127
         public void ShowGameOver(Aow.Units.EventLog.TGameOverEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
-            /* TODO(T-shim) Platform or editor boundary SysUtils.SetCurrentDir */
-            throw new System.NotImplementedException();
+            FAnimationFrame = 0;
+            FGameOverEvent = Event;
+            FGameOverEvent.AddRef();
+            FDone = Done;
+            var call__1 = Aow.Units.Sound.Sound.BackupSongStatus();
+            FSavedSongStatus = call__1;
+            Aow.Units.Sound.Sound.FadeMusicVolume(0, 1);
+            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 249;
+            var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Event.FPlayer);
+            switch (call__2.FGameOverStatus)
+            {
+                case Aow.Units.AoWE.TGameOverStatus.goLost:
+                    var call__3 = Aow.Units.Sound.Sound.PlaySampleEx((AnsiString)"Sfx\\Attack\\Fireloop.wav", 64, true, 0, Aow.Units.Sound.TSamplePanning.spCenter, null);
+                    FAnimation = call__3;
+                    Aow.Units.AoWE.AoWE.AoWHSMap.FTutorialControl.ShowMessage(68, true, true);
+                    break;
+                case Aow.Units.AoWE.TGameOverStatus.goWon:
+                    Aow.Units.AoWE.AoWE.AoWHSMap.FTutorialControl.ShowMessage(67, true, true);
+                    break;
+            }
+
+            Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames.LoadDiscardableImageData();
+            Aow.Units.E2Globals.E2Globals.TitleWindow.TitlePnl.Visible = false;
+            Aow.Units.AOWPyreScrn.AOWPyreScrn.PyreScreen.DeadPnl.Visible = true;
+            Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.SetSceneSize(640, 480);
+            Aow.Units.AoWExeForms.AoWExeForms.SetVideoMode(Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog, Aow.Units.AoWVideoDlg.TScreenMode.scmTitle);
+            Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.ApplyMode();
+            Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
+            var call__4 = Aow.Rtl.Rtl.Application.ExeName;
+            var call__5 = Aow.Rtl.Rtl.ExtractFileDir(call__4);
+            Aow.Rtl.Rtl.SetCurrentDir(call__5);
         }
 
         // AOWPyreScrn.pas:48
@@ -128,8 +157,8 @@ namespace Aow.Units.AOWPyreScrn
                 R.Right = R.Left + 103;
                 R.Top = (DeadPnl.WinTop + LeaderFaceFr.WinTop) + 35;
                 R.Bottom = R.Top + 128;
-                var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                call__1.FLeader.ShowFace(R, SD);
+                var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                call__6.FLeader.ShowFace(R, SD);
             }
         }
 
@@ -167,8 +196,8 @@ namespace Aow.Units.AOWPyreScrn
 
             Y += DeadPnl.WinTop;
             X += DeadPnl.WinLeft;
-            var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
-            switch (call__2.FGameOverStatus)
+            var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
+            switch (call__7.FGameOverStatus)
             {
                 case Aow.Units.AoWE.TGameOverStatus.goLost:
                     Frame = (FAnimationFrame / 3) % 9;
@@ -177,21 +206,21 @@ namespace Aow.Units.AOWPyreScrn
                         Frame = 0;
                     }
 
-                    var call__3 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames[Frame];
-                    call__3.Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, SD);
-                    var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
-                    var call__5 = call__4.GetNameEx();
-                    var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.YourReignHasEndedRStr);
-                    Text = (call__5 + ((AnsiString)", ")) + call__6;
+                    var call__8 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames[Frame];
+                    call__8.Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, SD);
+                    var call__9 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
+                    var call__10 = call__9.GetNameEx();
+                    var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.YourReignHasEndedRStr);
+                    Text = (call__10 + ((AnsiString)", ")) + call__11;
                     Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown.SetTextCentered(X, Y, Text, SD);
                     break;
                 case Aow.Units.AoWE.TGameOverStatus.goWon:
-                    var call__7 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.VictoryFrames[0];
-                    call__7.Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, SD);
-                    var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
-                    var call__9 = call__8.GetNameEx();
-                    var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.YouWhereVictoriousRStr);
-                    Text = (call__9 + ((AnsiString)", ")) + call__10;
+                    var call__12 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.VictoryFrames[0];
+                    call__12.Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, SD);
+                    var call__13 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
+                    var call__14 = call__13.GetNameEx();
+                    var call__15 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.YouWhereVictoriousRStr);
+                    Text = (call__14 + ((AnsiString)", ")) + call__15;
                     Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, Text, SD);
                     break;
             }

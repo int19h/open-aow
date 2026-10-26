@@ -91,21 +91,25 @@ public static partial class Rtl
             return box;
         }
     }
-    private static readonly Dictionary<int, WeakReference<TObject>> referenceIds = [];
+    private static readonly Dictionary<int, TObject> referenceIds = [];
     public static int ObjectToInt(TObject? value)
     {
         if (value is IntegerObject box) return box.Value;
         if (value is null) return 0;
         int id = value.InstanceId;
-        lock (referenceIds) referenceIds[id] = new(value);
+        lock (referenceIds) referenceIds[id] = value;
         return id;
     }
     public static T? ReferenceFromId<T>(int id) where T : TObject
     {
         if (id == 0) return null;
         lock (referenceIds)
-            if (referenceIds.TryGetValue(id, out var weak) && weak.TryGetTarget(out var value)) return (T)value;
+            if (referenceIds.TryGetValue(id, out var value)) return (T)value;
         throw new EAccessViolation("Object reference id is no longer available");
+    }
+    public static void ForgetReference(TObject value)
+    {
+        lock (referenceIds) referenceIds.Remove(value.InstanceId);
     }
 }
 
