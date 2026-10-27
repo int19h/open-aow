@@ -274,26 +274,61 @@ namespace Aow.Units.E3Globals
         // E3Globals.pas:109
         public static void ShowTitleScene(Aow.Units.AoWTitleScene.TTitleScene Scene, bool Music)
         {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.Display */
-            throw new System.NotImplementedException();
+            if (Music)
+            {
+                bool bool__43 = (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex == -1);
+                if (!bool__43)
+                {
+                    var call__44 = Aow.Units.Sound.Sound.SongPlayer.Songs.Count;
+                    bool__43 = (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex >= call__44);
+                }
+
+                bool bool__45 = bool__43;
+                if (!bool__45)
+                {
+                    var call__46 = Aow.Units.Sound.Sound.SongPlayer.Songs[Aow.Units.Sound.Sound.SongPlayer.CurrentIndex];
+                    bool__45 = (call__46 != ((AnsiString)"SONGS\\TITLE.IT"));
+                }
+
+                if (bool__45)
+                {
+                    Aow.Units.Sound.Sound.SongPlayer.Songs.Clear();
+                    Aow.Units.Sound.Sound.SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
+                    Aow.Units.Sound.Sound.SongPlayer.Play(0);
+                }
+            }
+
+            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 0;
+            Scene.TitleSceneIL.LoadDiscardableImageData();
+            Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.SetSceneSize(640, 480);
+            Aow.Units.AoWExeForms.AoWExeForms.SetVideoMode(Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog, Aow.Units.AoWVideoDlg.TScreenMode.scmTitle);
+            Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.ApplyMode();
+            Aow.Units.AoWUnit.AoWUnit.MainForm.Display.FrameRate = 30;
+            Aow.Units.AoWUnit.AoWUnit.MainForm.DXDC.UseVerticalBlank = true;
+            Scene.FRedrawBackground = true;
+            Scene.FPressedButton = -1;
+            Scene.FHoverButton = -1;
+            Scene.FFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
+            Scene.FCreditsFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
+            Scene.Window.WinManager.SetILBIndex(4);
+            Scene.Window.Visible = true;
         }
 
         // E3Globals.pas:104
-        public static void SetMainCursor(Aow.Rtl.TMainForm Form, int Cursor)
+        public static void SetMainCursor(Aow.Units.AoWUnit.TMainForm Form, int Cursor)
         {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.FCursor */
-            throw new System.NotImplementedException();
+            Form.FCursor = unchecked((short)System.Math.Abs(Cursor));
         }
 
         // E3Globals.pas:95
         public static void ShowEmailSettings(Aow.Units.AoWEmailSettingsDlg.TEmailSettingsDlg Dialog)
         {
-            var call__43 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetLocalEmailAddress();
-            Dialog.LocalEmailAddressEdit.Text = call__43;
-            var call__44 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
-            Dialog.SMTPServerEdit.Text = call__44;
-            var call__45 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetAttachmentDirectory();
-            Dialog.AttachmentDirectoryEdit.Text = call__45;
+            var call__47 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetLocalEmailAddress();
+            Dialog.LocalEmailAddressEdit.Text = call__47;
+            var call__48 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
+            Dialog.SMTPServerEdit.Text = call__48;
+            var call__49 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetAttachmentDirectory();
+            Dialog.AttachmentDirectoryEdit.Text = call__49;
             Dialog.Dlg.Visible = true;
         }
 

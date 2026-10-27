@@ -102,13 +102,6 @@ namespace Aow.Units.FileSecurity
             return Result;
         }
 
-        // FileSecurity.pas:40
-        public static bool ReadSecurityData(Aow.Rtl.AnsiString FileName, ref Aow.Units.FileSecurity.TSecurityData Data)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.CreateFile */
-            throw new System.NotImplementedException();
-        }
-
         // FileSecurity.pas:63
         public static bool WriteSecurityData(Aow.Rtl.AnsiString FileName, in Aow.Units.FileSecurity.TSecurityData Data)
         {

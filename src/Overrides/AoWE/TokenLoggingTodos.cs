@@ -1,0 +1,72 @@
+using Aow.Rtl;
+using Aow.Units.Engine;
+using Aow.Units.HSEngine;
+using Aow.Units.NetworkE;
+
+namespace Aow.Units.AoWE;
+
+public partial class TAoWHSMap
+{
+    private Stream tokenLog;
+
+    // Delphi I- suppresses file errors on these diagnostic writes.
+    private void WriteTokenLog(AnsiString text, bool flush = false)
+    {
+        try
+        {
+            if (tokenLog is null) return;
+            tokenLog.Write(((AnsiString)(text + "\r\n")).Span);
+            if (flush) tokenLog.Flush();
+        }
+        catch (IOException) { }
+    }
+
+    public void StartTokenEventLogging()
+    {
+        if (FTokenEventLogging || AoWE.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting)) return;
+        try
+        {
+            try { tokenLog = Aow.Rtl.Rtl.Files.Open((AoWE.AoWEngine.StartupDirectory + "Debug\\SYNC_LOG" + Aow.Rtl.Rtl.IntToStr(GFXE.GFXE.GetElapsedMilliSeconds()) + ".TXT").ToString(), Aow.Rtl.Rtl.fmCreate); }
+            catch (IOException) { }
+            catch (UnauthorizedAccessException) { }
+            WriteTokenLog("Map Session: " + FMapName);
+            int player = AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers[0];
+            WriteTokenLog("Local Player: " + Aow.Rtl.Rtl.IntToStr(player));
+            WriteTokenLog("Local Race: " + AoWE.TranslateRStr(AoWE.RaceNamesPluralRStr[AoWE.AoWHSMap.FPlayers.GetPlayers(unchecked((sbyte)player)).FPlayerRace]));
+            FTokenEventLogging = true;
+        }
+        catch (System.Exception) { }
+    }
+
+    public void StopTokenEventLogging()
+    {
+        if (!FTokenEventLogging) return;
+        try { tokenLog?.Dispose(); }
+        catch (IOException) { }
+        tokenLog = null;
+        FTokenEventLogging = false;
+    }
+
+    public void OnExecuteTokenEvent(TTokenEvent token)
+    {
+        if (token.ClassType.ClassID() != 0x554) SetModified();
+        if (FTokenEventLogging && FTokenManager.TokenExecuter.ExecuteCount == 0)
+            WriteTokenLog(Aow.Rtl.TObject.ClassNameOf(token.GetType()) + " (P:" + Aow.Rtl.Rtl.IntToStr(FTokenManager.TokenExecuter.ActiveTCIndex) +
+                "/T:" + Aow.Rtl.Rtl.IntToStr(token.TokenCounter) + "/S:" + Aow.Rtl.Rtl.IntToStr(FDefendersSeed) +
+                "/D:" + Aow.Rtl.Rtl.IntToStr(AoWE.AoWHSMap.FDay) + "/AIPC:" + Aow.Rtl.Rtl.IntToStr(AoWE.AoWHSMap.FAIExecuter.FProcessCycles), true);
+    }
+
+    public void OnTokenManagerMessage(TObject sender, AnsiString message)
+    {
+        if (FTokenEventLogging) WriteTokenLog(message);
+        AoWE.AoWEngine.OutputDebugStr(message);
+    }
+
+    public void OnStreamError(TEStorageStream stream, AnsiString message, ref bool handled)
+    {
+        if (FIgnoreStreamErrors) return;
+        int answer = (Aow.Rtl.Rtl.Dialogs ?? throw new EInvalidOperation(message)).Show(new((message + " Ignore failure?").ToString(), "Error", 0, 7));
+        handled = answer is 6 or 8;
+        FIgnoreStreamErrors = answer == 8;
+    }
+}
