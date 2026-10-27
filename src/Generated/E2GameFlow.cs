@@ -132,13 +132,6 @@ namespace Aow.Units.E2GameFlow
             Dialog.Dialog.Visible = true;
         }
 
-        // E2GameFlow.pas:472
-        public static void ShowTitleScene(Aow.Units.AoWTitleScene.TTitleScene Scene, bool Music)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.Display */
-            throw new System.NotImplementedException();
-        }
-
         // E2GameFlow.pas:354
         public static bool StartLobby(Aow.Units.aowSetupEvents.TSetupEvents Events)
         {
@@ -281,13 +274,6 @@ namespace Aow.Units.E2GameFlow
             {
                 Dialog.Dlg.Visible = true;
             }
-        }
-
-        // E2GameFlow.pas:436
-        public static void ApplyVideoSettings(Aow.Units.AoWVideoDlg.TVideoDialog Dialog)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.Display */
-            throw new System.NotImplementedException();
         }
 
         // E2GameFlow.pas:429

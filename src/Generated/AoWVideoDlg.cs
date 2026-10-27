@@ -129,32 +129,11 @@ namespace Aow.Units.AoWVideoDlg
             }
         }
 
-        // AoWVideoDlg.pas:372
-        public void ApplyMode()
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.Display */
-            throw new System.NotImplementedException();
-        }
-
         // AoWVideoDlg.pas:416
         public void ShowModes()
         {
             Dlg.Visible = true;
             UpdateModes();
-        }
-
-        // AoWVideoDlg.pas:136
-        public int CurrentMode()
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.DXDC */
-            throw new System.NotImplementedException();
-        }
-
-        // AoWVideoDlg.pas:150
-        public void ChangeResolution(int W, int H)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.DXDC */
-            throw new System.NotImplementedException();
         }
 
         // AoWVideoDlg.pas:172
