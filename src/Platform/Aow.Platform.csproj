@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The SDL host (platform.md). ppy.SDL3-CS provides the SDL3 binding and the native
+       libraries for Windows and Linux; the host keeps its use behind the IRtlHost services. -->
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Aow.Platform</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ppy.SDL3-CS" Version="2026.1002.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rtl\Aow.Rtl.csproj" />
+    <ProjectReference Include="..\Generated\Aow.Generated.csproj" />
+  </ItemGroup>
+</Project>
