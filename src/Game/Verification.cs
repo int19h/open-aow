@@ -31,6 +31,7 @@ internal static class Verification
         SettingsTests();
         FileTests();
         ClockTests();
+        FrameVerification.Run(Path.Combine(scratch, "frames"));
         InstallTests(gameRoot, sourceRoot);
         Console.WriteLine($"PASS: {assertions} assertions");
         return 0;

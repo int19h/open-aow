@@ -6,6 +6,8 @@ namespace Aow.Platform;
 public interface IDisplayHost
 {
     (int Width, int Height) ClientSize { get; }
+    (int Width, int Height) DesktopSize => ClientSize;
+    void ResizeImage(int width, int height) { }
     bool Fullscreen { get; set; }
     void Present(in TSurfaceDesc backSurface);
     (int X, int Y, bool Inside) PointerPosition();
