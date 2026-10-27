@@ -27,5 +27,6 @@ public static partial class AoWE
         TSpellTypeRStr[(int)TSpellType.stCombat] = CombatRStr;
         TSpellTypeRStr[(int)TSpellType.stUnit] = UnitRStr;
         TSpellTypeRStr[(int)TSpellType.stGlobal] = GlobalRStr;
+        InitializeMorePathsRelations();
     }
 }
