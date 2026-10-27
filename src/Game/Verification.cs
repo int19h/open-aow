@@ -286,6 +286,21 @@ internal static class Verification
             Equal(0,Aow.Rtl.Rtl.FindFirst(@"Images\*.ilb",0,ref search),"shim FindFirst");
             Equal("a.ilb",search.Name.ToString(),"FindFirst order");
             Aow.Rtl.Rtl.FindClose(ref search);
+            int missingDirectoryExceptions = 0;
+            void MissingDirectoryException(object? sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs error)
+            {
+                if (error.Exception is DirectoryNotFoundException) missingDirectoryExceptions++;
+            }
+            AppDomain.CurrentDomain.FirstChanceException += MissingDirectoryException;
+            try
+            {
+                Equal(0,files.Enumerate("PLUGINS").Count(),"missing directory enumerates no entries");
+                Equal(3,Aow.Rtl.Rtl.FindFirst(@"PLUGINS\*.dll",0,ref search),"missing plugin directory returns path not found");
+                Equal(6,Aow.Rtl.Rtl.FindNext(ref search),"missing directory leaves no search handle");
+                Equal(3,Aow.Rtl.Rtl.FindFirst(@"PLUGINS\*",Aow.Rtl.Rtl.faDirectory,ref search),"missing directory has no synthetic dot entries");
+                Equal(0,missingDirectoryExceptions,"missing directory emits no first chance exception");
+            }
+            finally { AppDomain.CurrentDomain.FirstChanceException -= MissingDirectoryException; }
             Check(Aow.Rtl.Rtl.SetCurrentDir(@"Scenario\Custom"),"shim current directory");
             Equal(Path.Combine(root,"Scenario","Campaign","x.hsm"),Aow.Rtl.Rtl.ExpandFileName(@"..\Campaign\x.hsm").ToString(),"shim expansion");
         }

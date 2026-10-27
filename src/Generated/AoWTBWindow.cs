@@ -404,39 +404,14 @@ namespace Aow.Units.AoWTBWindow
             PInd.FDrawn = false;
         }
 
-        // AoWTBWindow.pas:384
-        public void UpdatePlayerIndicator()
-        {
-            int I = default;
-            int Count = default;
-            Count = 0;
-            {
-                I = 0;
-                int end__10 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount() - 1;
-                for (; I <= end__10; I += 1)
-                {
-                    var call__11 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                    if (call__11.FStatus == Aow.Units.AoWE.TPlayerStatus.psPlaying)
-                    {
-                        Count += 1;
-                    }
-                }
-            }
-
-            PInd.WinWidth = (Count * 5) + 4;
-            PInd.FValid = false;
-            TBMessEdit.Alignment.LeftOffset = PInd.WinWidth + 278;
-            TBMessEdit.FValid = false;
-        }
-
         // AoWTBWindow.pas:231
         // { draft }
         public void TCTurnButtonChange()
         {
             if (TCTurnButton.Checked)
             {
-                var call__12 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.EndTurn(false);
-                TCTurnButton.Checked = call__12;
+                var call__10 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.EndTurn(false);
+                TCTurnButton.Checked = call__10;
             }
             else
             {
@@ -463,22 +438,22 @@ namespace Aow.Units.AoWTBWindow
             Position = 0;
             {
                 I = 0;
-                int end__13 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count - 1;
-                for (; I <= end__13; I += 1)
+                int end__11 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count - 1;
+                for (; I <= end__11; I += 1)
                 {
-                    var call__14 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
-                    var call__15 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)call__14));
-                    var call__16 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__15.FPlayer);
-                    Race = call__16.FPlayerRace;
+                    var call__12 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
+                    var call__13 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)call__12));
+                    var call__14 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__13.FPlayer);
+                    Race = call__14.FPlayerRace;
                     if (Race == -1)
                     {
                         Race = 12;
                     }
 
-                    var call__17 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32];
-                    call__17.ShowClipped((TCPInd.WinLeft + 3) + (Position * 5), TCPInd.WinTop + 2, Surface);
-                    var call__18 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
-                    if (call__18 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentCombatPlayer)
+                    var call__15 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32];
+                    call__15.ShowClipped((TCPInd.WinLeft + 3) + (Position * 5), TCPInd.WinTop + 2, Surface);
+                    var call__16 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
+                    if (call__16 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentCombatPlayer)
                     {
                         TCCurP.WinLeft = (TCPInd.WinLeft + 2) + (Position * 5);
                         TCCurP.WinTop = TCPInd.WinTop + 11;
@@ -539,10 +514,10 @@ namespace Aow.Units.AoWTBWindow
                     if (Aow.Units.AoWE.AoWE.AoWHSMap.FTurnTime != 0)
                     {
                         FWorldClockDelay = 10;
-                        var call__19 = Aow.Units.AoWE.AoWE.AoWHSMap.GetTurnTimeLeft();
-                        Minute = unchecked((ushort)(call__19 / 60000));
-                        var call__20 = Aow.Units.AoWE.AoWE.AoWHSMap.GetTurnTimeLeft();
-                        Second = unchecked((ushort)((call__20 % 60000) / 1000));
+                        var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.GetTurnTimeLeft();
+                        Minute = unchecked((ushort)(call__17 / 60000));
+                        var call__18 = Aow.Units.AoWE.AoWE.AoWHSMap.GetTurnTimeLeft();
+                        Second = unchecked((ushort)((call__18 % 60000) / 1000));
                         if (((Minute == 0) && (Second > 0)) && (Second <= 10))
                         {
                             TimeLbl.TextColor = 255;
@@ -563,8 +538,8 @@ namespace Aow.Units.AoWTBWindow
                     else
                     {
                         FWorldClockDelay = 900;
-                        var call__21 = Aow.Rtl.Rtl.Time();
-                        Aow.Rtl.Rtl.DecodeTime(call__21, ref Hour, ref Minute, ref Second, ref Millisecond);
+                        var call__19 = Aow.Rtl.Rtl.Time();
+                        Aow.Rtl.Rtl.DecodeTime(call__19, ref Hour, ref Minute, ref Second, ref Millisecond);
                         if (Hour > 12)
                         {
                             Hour = (ushort)(((int)Hour) - 12);
@@ -600,8 +575,8 @@ namespace Aow.Units.AoWTBWindow
                 if (FCombatClockDelay < 0)
                 {
                     FCombatClockDelay = 900;
-                    var call__22 = Aow.Rtl.Rtl.Time();
-                    Aow.Rtl.Rtl.DecodeTime(call__22, ref Hour, ref Minute, ref Second, ref Millisecond);
+                    var call__20 = Aow.Rtl.Rtl.Time();
+                    Aow.Rtl.Rtl.DecodeTime(call__20, ref Hour, ref Minute, ref Second, ref Millisecond);
                     if (Hour > 12)
                     {
                         Hour = (ushort)(((int)Hour) - 12);
@@ -658,10 +633,10 @@ namespace Aow.Units.AoWTBWindow
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
             {
-                var w__23 = Aow.Units.E1Globals.E1Globals.RelWindow;
-                if (w__23.RelWin.Visible)
+                var w__21 = Aow.Units.E1Globals.E1Globals.RelWindow;
+                if (w__21.RelWin.Visible)
                 {
-                    w__23.RelWin.Visible = false;
+                    w__21.RelWin.Visible = false;
                 }
                 else
                 {
@@ -683,9 +658,9 @@ namespace Aow.Units.AoWTBWindow
                     case 91:
                     case 121:
                     {
-                        var w__24 = (Aow.Units.AoWButton.TAOWButton)Sender;
-                        w__24.FDrawn = false;
-                        w__24.ILIndexUp = 14;
+                        var w__22 = (Aow.Units.AoWButton.TAOWButton)Sender;
+                        w__22.FDrawn = false;
+                        w__22.ILIndexUp = 14;
                     }
 
                         break;
@@ -695,9 +670,9 @@ namespace Aow.Units.AoWTBWindow
                     case 106:
                     case 136:
                     {
-                        var w__25 = (Aow.Units.AoWButton.TAOWButton)Sender;
-                        w__25.FDrawn = false;
-                        w__25.ILIndexUp = 20;
+                        var w__23 = (Aow.Units.AoWButton.TAOWButton)Sender;
+                        w__23.FDrawn = false;
+                        w__23.ILIndexUp = 20;
                     }
 
                         break;
@@ -712,8 +687,8 @@ namespace Aow.Units.AoWTBWindow
         {
             if (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer > -1)
             {
-                var call__26 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer));
-                call__26.SetAuto(AutoBtn.Checked);
+                var call__24 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer));
+                call__24.SetAuto(AutoBtn.Checked);
             }
         }
     }

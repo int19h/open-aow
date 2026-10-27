@@ -10,6 +10,25 @@ public sealed class EngineSupportTests
     private enum OffsetFlag : byte { A = 8, B, C }
     [InlineArray(4)] private struct FourBytes { private byte first; }
     private sealed class Receiver { public void Event(TObject sender) { } }
+    private sealed class EventContext : TObject { }
+    private delegate void EventDone(EventContext context);
+
+    [Fact]
+    public void MethodPointerCastAdaptsTheContextAndPreservesMulticastOrder()
+    {
+        var context = new EventContext();
+        var calls = new List<int>();
+        EventDone first = value => { Assert.Same(context, value); calls.Add(1); };
+        EventDone second = value => { Assert.Same(context, value); calls.Add(2); };
+        var cast = R.RebindDelegate<TNotifyEvent>(first + second)!;
+        cast(context);
+        Assert.Equal(new[] { 1, 2 }, calls);
+        Assert.Throws<InvalidCastException>(() => cast(new TObject()));
+        EventDone nullable = value => Assert.Null(value);
+        R.RebindDelegate<TNotifyEvent>(nullable)!(null!);
+        Assert.Null(R.RebindDelegate<TNotifyEvent>(null));
+        Assert.Same(cast, R.RebindDelegate<TNotifyEvent>(cast));
+    }
 
     [Fact]
     public void PhysicalRecordsKeepDelphiOffsets()

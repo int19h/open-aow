@@ -52,120 +52,6 @@ namespace Aow.Units.House
         public int FRace;
         // { $28 }
         public int FFlagID;
-        // House.pas:65
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
-        {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
-            int ImageIndex = default;
-            int Xhp = default;
-            int Yhp = default;
-            int TerrainOffset = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            XhpSurf = Xhp - XhpSurf;
-            YhpSurf = Yhp - YhpSurf;
-            if (FHitPoints == 0)
-            {
-                var call__1 = Aow.Units.AoWE.AoWE.AoWHSSet.FImageSequences.GetImageSequence(50);
-                Sequence = call__1;
-                var call__2 = GetYhx();
-                var call__3 = GetXhx();
-                var call__4 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                var call__5 = call__4.GetField(call__3, call__2);
-                switch (call__5.TerrainType)
-                {
-                    case 3:
-                        TerrainOffset = 1;
-                        break;
-                    case 5:
-                    case 7:
-                    case 12:
-                        TerrainOffset = 2;
-                        break;
-                    default:
-                        TerrainOffset = 0;
-                        break;
-                }
-
-                if (Sequence != null)
-                {
-                    do
-                    {
-                        ImageIndex = Sequence.GetUnloopedFrameIndex((Aow.Rtl.Rtl.ObjectToInt(this) % 3) + (TerrainOffset * 3));
-                        if (ImageIndex != -1)
-                        {
-                            var call__6 = Sequence.ImageLibrary[ImageIndex];
-                            call__6.Show((XhpSurf + Sequence.dXshift) + 16, (YhpSurf + Sequence.dYshift) + 16, SurfaceDesc);
-                        }
-
-                        Sequence = Sequence.Next;
-                    }
-                    while (!(Sequence == null));
-                }
-            }
-            else
-            {
-                var call__7 = GetYhx();
-                var call__8 = GetXhx();
-                var call__9 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                var call__10 = call__9.GetField(call__8, call__7);
-                switch (call__10.TerrainType)
-                {
-                    case 3:
-                        TerrainOffset = 20;
-                        break;
-                    case 5:
-                    case 7:
-                    case 12:
-                        TerrainOffset = 40;
-                        break;
-                    default:
-                        TerrainOffset = 0;
-                        break;
-                }
-
-                var call__11 = FResource.ImageSequenceList.GetImageSequence(TerrainOffset + FRace);
-                Sequence = call__11;
-                if (Sequence != null)
-                {
-                    do
-                    {
-                        switch (Sequence.Layer)
-                        {
-                            case 7:
-                                var call__12 = Sequence.GetFrameIndex(Aow.Units.AoWTC.AoWTC.AoWCombatMap.Frame, ((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(this)) >> 2)) & 65535);
-                                ImageIndex = call__12;
-                                if (ImageIndex != -1)
-                                {
-                                    if (!Aow.Units.AoWTC.AoWTC.AoWCombatMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
-                                    {
-                                        var call__13 = GetXhx();
-                                        var call__14 = GetYhx();
-                                        Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowStructureFlagEx((XhpSurf + 21) + Sequence.dXshift, (YhpSurf + Sequence.dYshift) + 16, (call__13 + Aow.Units.AoWE.AoWE.AoWHSMap.Frame) + (call__14 * 100), unchecked((byte)FFlagID), SurfaceDesc, false);
-                                    }
-                                }
-
-                                break;
-                            default:
-                            {
-                                var call__15 = Sequence.GetFrameIndex(Aow.Units.AoWTC.AoWTC.AoWCombatMap.Frame, ((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(this)) >> 2)) & 65535);
-                                ImageIndex = call__15;
-                                if (ImageIndex != -1)
-                                {
-                                    var call__16 = Sequence.ImageLibrary[ImageIndex];
-                                    call__16.Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
-                                }
-                            }
-
-                                break;
-                        }
-
-                        Sequence = Sequence.Next;
-                    }
-                    while (!(Sequence == null));
-                }
-            }
-        }
-
         // House.pas:45
         public override void Activate()
         {
@@ -173,10 +59,10 @@ namespace Aow.Units.House
             base.Activate();
             if (!Aow.Units.AoWTC.AoWTC.AoWCombatMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
             {
-                var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWTC.AoWTC.CombatLLoc);
-                var call__18 = call__17.GetField(Aow.Units.AoWTC.AoWTC.CombatXLoc, Aow.Units.AoWTC.AoWTC.CombatYLoc);
-                var call__19 = call__18.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TPlayerStructure));
-                Structure = (Aow.Units.AoWE.TPlayerStructure)call__19;
+                var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWTC.AoWTC.CombatLLoc);
+                var call__2 = call__1.GetField(Aow.Units.AoWTC.AoWTC.CombatXLoc, Aow.Units.AoWTC.AoWTC.CombatYLoc);
+                var call__3 = call__2.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TPlayerStructure));
+                Structure = (Aow.Units.AoWE.TPlayerStructure)call__3;
                 if (Structure != null)
                 {
                     if (Structure is Aow.Units.City.TCity)
@@ -194,47 +80,14 @@ namespace Aow.Units.House
                     }
                     else
                     {
-                        var call__20 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
-                        FFlagID = call__20.FPlayerRace;
+                        var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
+                        FFlagID = call__4.FPlayerRace;
                     }
 
                     if (FFlagID == -1)
                     {
                         FFlagID = 32;
                     }
-                }
-            }
-        }
-
-        // House.pas:123
-        public override void ShowShadow(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
-        {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
-            int ImageIndex = default;
-            int Xhp = default;
-            int Yhp = default;
-            if (FHitPoints > 0)
-            {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-                XhpSurf = Xhp - XhpSurf;
-                YhpSurf = Yhp - YhpSurf;
-                var call__21 = FResource.ImageSequenceList.GetImageSequence(FRace + 60);
-                Sequence = call__21;
-                if (Sequence != null)
-                {
-                    do
-                    {
-                        var call__22 = Sequence.GetFrameIndex(Aow.Units.AoWTC.AoWTC.AoWCombatMap.Frame, ((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(this)) >> 2)) & 65535);
-                        ImageIndex = call__22;
-                        if (ImageIndex != -1)
-                        {
-                            var call__23 = Sequence.ImageLibrary[ImageIndex];
-                            call__23.Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
-                        }
-
-                        Sequence = Sequence.Next;
-                    }
-                    while (!(Sequence == null));
                 }
             }
         }

@@ -11,6 +11,27 @@ namespace Aow.Rtl.Tests;
 public sealed class CoreTests
 {
     [Fact]
+    public void FixtureRandomizeResetsAfterDrawsAndLeavesNormalSuppressionIntact()
+    {
+        int previous = RandSeed;
+        bool suppressed = SuppressRandomize;
+        try
+        {
+            SuppressRandomize = true;
+            RandomizeSeed = 123456789;
+            Randomize();
+            int first = Random(10000);
+            Random(10000);
+            Randomize();
+            Assert.Equal(first, Random(10000));
+            RandomizeSeed = null;
+            int retained = RandSeed;
+            Randomize();
+            Assert.Equal(retained, RandSeed);
+        }
+        finally { RandomizeSeed = null; SuppressRandomize = suppressed; RandSeed = previous; }
+    }
+    [Fact]
     public void MetaclassesAndGeneratedUnit()
     {
         var meta = TSample.Meta.Of<TSampleChild>();

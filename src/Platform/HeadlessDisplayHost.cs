@@ -14,6 +14,9 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     public long Frame { get; private set; }
     public (int X, int Y) Mouse { get; set; } = (-1, -1);
     public (int X, int Y, bool Inside) PointerPosition() => HasFocus && Mouse.X >= 0 && Mouse.Y >= 0 && Mouse.X < ClientSize.Width && Mouse.Y < ClientSize.Height ? (Mouse.X, Mouse.Y, true) : (-1, -1, false);
+    public Func<bool>? CaptureWhen { get; set; }
+    public Action? AfterPresent { get; set; }
+    public int? FixtureFrame { get; set; }
     public void ShowSystemCursor(bool show) { }
     public void ResizeImage(int width, int height) => ClientSize = (width, height);
     public void PumpEvents(IDisplayEvents sink) { }
@@ -23,21 +26,22 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(surface));
         ClientSize = (surface.Width, surface.Height);
         Frame++;
-        if (captureFrame != 0 && Frame != captureFrame) return;
+        if (CaptureWhen is not null ? !CaptureWhen() : captureFrame != 0 && Frame != captureFrame) { AfterPresent?.Invoke(); return; }
         int pitch = checked(surface.Width * 2);
         byte[] bytes = new byte[checked(pitch * surface.Height)];
         Ptr<byte> source = surface.Data is byte[] array ? Ptr<byte>.To(array, 0) : surface.Data is Ptr<byte> pointer ? pointer : Aow.Rtl.Rtl.BytePointer(surface.Data);
         for (int y = 0; y < surface.Height; y++)
             (source + checked(y * surface.Pitch)).AsSpan(pitch).CopyTo(bytes.AsSpan(y * pitch, pitch));
         Directory.CreateDirectory(directory);
-        string name = Path.Combine(directory, $"frame-{Frame}");
+        string name = Path.Combine(directory, $"frame-{FixtureFrame ?? Frame}");
         File.WriteAllBytes(name + ".raw", bytes);
         File.WriteAllText(name + ".json", JsonSerializer.Serialize(new
         {
-            width = surface.Width, height = surface.Height, frame = Frame, pitch,
+            width = surface.Width, height = surface.Height, frame = FixtureFrame ?? Frame, pitch,
             format = "RGB555LE", orientation = "top-down",
             sha256 = Convert.ToHexStringLower(SHA256.HashData(bytes))
         }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+        AfterPresent?.Invoke();
     }
 }
 

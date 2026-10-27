@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.IO.Compression;
+using System.Linq.Expressions;
 
 namespace Aow.Rtl;
 
@@ -38,7 +39,25 @@ public sealed class TApplication
 public static partial class Rtl
 {
     public static object AllocMem(uint count) => Ptr<byte>.Alloc(checked((int)count)).Box();
-    public static T? RebindDelegate<T>(Delegate? value) where T : Delegate => value is null ? null : (T)Delegate.CreateDelegate(typeof(T), value.Target, value.Method);
+    public static T? RebindDelegate<T>(Delegate? value) where T : Delegate
+    {
+        if (value is null) return null;
+        if (value is T same) return same;
+        var subscribers = value.GetInvocationList();
+        if (subscribers.Length > 1)
+            return (T)Delegate.Combine(subscribers.Select(RebindDelegate<T>).Cast<Delegate>().ToArray())!;
+        if (Delegate.CreateDelegate(typeof(T), value.Target, value.Method, false) is T compatible)
+            return compatible;
+        var target = typeof(T).GetMethod("Invoke")!;
+        var source = value.GetType().GetMethod("Invoke")!;
+        var parameters = target.GetParameters().Select(p => Expression.Parameter(p.ParameterType, p.Name)).ToArray();
+        var inputs = source.GetParameters();
+        if (inputs.Length != parameters.Length) throw new EInvalidCast("Method pointer argument count differs");
+        // Delphi method-pointer casts retain the call and its object argument. Adapt the
+        // managed reference type at invocation, including every multicast subscriber.
+        var arguments = parameters.Select((p, i) => (Expression)Expression.Convert(p, inputs[i].ParameterType));
+        return Expression.Lambda<T>(Expression.Invoke(Expression.Constant(value), arguments), parameters).Compile();
+    }
     public static AnsiString ReadShortString(ReadOnlySpan<byte> image) => AnsiString.FromBytes(image.Slice(1, image[0]).ToArray());
     public static void WriteShortString(Span<byte> image, AnsiString value)
     {

@@ -336,617 +336,6 @@ namespace Aow.Units.AoWUnitWindow
         public int FGroundCount;
         // { $238 }
         public Aow.Units.AoWE.TP2UnitShowInfo FShowInfo;
-        // AoWUnitWindow.pas:235
-        // { $23C }
-        public void ShowUnit()
-        {
-            Aow.Units.AoWE.THero H = default;
-            Aow.Units.AoWE.TAbstractUnit U = default;
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)
-            {
-                Aow.Units.AoWWinMan.AoWWinMan.General.BuildAbilities();
-                U = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit;
-                if ((U != null) && (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == U.FPlayer))
-                {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.FTutorialControl.ShowMessage(64, true, true);
-                }
-
-                if (U is Aow.Units.AoWE.THero)
-                {
-                    H = (Aow.Units.AoWE.THero)U;
-                }
-                else
-                {
-                    H = null;
-                }
-
-                bool bool__1 = (Aow.Units.AoWTC.AoWTC.AoWCombatMap == null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList != null);
-                if (bool__1)
-                {
-                    var call__2 = Aow.Units.AoWWinMan.AoWWinMan.General.IndexOfUnit(U);
-                    bool__1 = (call__2 > -1);
-                }
-
-                if (bool__1 && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[1] > -1))
-                {
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.PPrev.Visible = true;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.PNext.Visible = true;
-                }
-                else
-                {
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.PPrev.Visible = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.PNext.Visible = false;
-                }
-
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Mana.Visible = false;
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.ManaIcon.Visible = false;
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Items.Clear();
-                var call__3 = Aow.Units.AoWUnitWindow.AoWUnitWindow.AbilitiesRStr;
-                var call__4 = Aow.Units.AoWE.AoWE.TranslateRStr(call__3);
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Items.Add(call__4);
-                var call__5 = Aow.Units.AoWUnitWindow.AoWUnitWindow.InfoRStr;
-                var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(call__5);
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Items.Add(call__6);
-                if (U.GetRace() > -1)
-                {
-                    var call__7 = U.GetRace();
-                    var call__8 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesRStr[call__7]);
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text = call__8;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RelationIcn.Visible = true;
-                    var call__9 = U.GetRace();
-                    var call__10 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(call__9);
-                    var call__11 = call__10.GetPlayerRelation(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RelationIcn.CurrentImage = ((int)call__11) + 11;
-                    var call__12 = U.GetRace();
-                    var call__13 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(call__12);
-                    var call__14 = call__13.GetPlayerRelation(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
-                    var call__15 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TStatusRStr[(int)call__14]);
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RelationV.Text = call__15;
-                }
-                else
-                {
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text = (AnsiString)"";
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RelationIcn.Visible = false;
-                    var call__16 = Aow.Units.AoWUnitWindow.AoWUnitWindow.NoneRStr;
-                    var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(call__16);
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RelationV.Text = call__17;
-                }
-
-                if (((Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == U.FPlayer) && !(U is Aow.Units.AoWE.TLeader)) && (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null))
-                {
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.DisbandBtn.Visible = true;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BCloseBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-                }
-                else
-                {
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.DisbandBtn.Visible = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BCloseBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-                }
-
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BCloseBtn.FAligned = false;
-                switch (U.GetUnitType())
-                {
-                    case Aow.Units.AoWE.TUnitType.utCreature:
-                        var call__18 = Aow.Units.AoWUnitWindow.AoWUnitWindow.CreatureRStr;
-                        var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(call__18);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text = (Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32)) + call__19;
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeIcn.CurrentImage = 21;
-                        break;
-                    case Aow.Units.AoWE.TUnitType.utMachine:
-                        var call__20 = Aow.Units.AoWUnitWindow.AoWUnitWindow.MachineRStr;
-                        var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(call__20);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text = (Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32)) + call__21;
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeIcn.CurrentImage = 22;
-                        break;
-                    default:
-                        if (H == null)
-                        {
-                            var call__22 = Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitRStr;
-                            var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(call__22);
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text = (Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32)) + call__23;
-                        }
-                        else
-                        {
-                            if (H is Aow.Units.AoWE.TLeader)
-                            {
-                                var call__24 = Aow.Units.AoWUnitWindow.AoWUnitWindow.LeaderRStr;
-                                var call__25 = Aow.Units.AoWE.AoWE.TranslateRStr(call__24);
-                                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text = (Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32)) + call__25;
-                            }
-                            else
-                            {
-                                var call__26 = Aow.Units.AoWUnitWindow.AoWUnitWindow.HeroRStr;
-                                var call__27 = Aow.Units.AoWE.AoWE.TranslateRStr(call__26);
-                                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text = (Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32)) + call__27;
-                            }
-                        }
-
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.TypeIcn.CurrentImage = 23;
-                        break;
-                }
-
-                if (H == null)
-                {
-                    var call__28 = Aow.Units.AoWUnitWindow.AoWUnitWindow.LevelRStr;
-                    var call__29 = Aow.Units.AoWE.AoWE.TranslateRStr(call__28);
-                    var call__30 = U.GetUnitLevel();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Level.Text = (call__29 + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(call__30);
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T2Leader.Visible = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T2Text.Visible = true;
-                    var call__31 = U.GetDescription();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T2Memo.Items.Assign(call__31);
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T2SBar.Position = 0;
-                    var call__32 = U.GetName();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitName.Text = call__32;
-                }
-                else
-                {
-                    if (H.FPlayer == 0)
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.SelPnl.Visible = false;
-                        var call__33 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWUnitWindow.AoWUnitWindow.NoLeaderRStr);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.SphereLbl.Text = call__33;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.SelPnl.Visible = true;
-                        var call__34 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                        var call__35 = call__34.FLeader.GetSphereCount();
-                        if (call__35 > 0)
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel1.Visible = true;
-                            var call__36 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                            var call__37 = call__36.FLeader.GetSpheres(0);
-                            var call__38 = Aow.Units.AoWWinMan.AoWWinMan.General.SphereToImage(call__37);
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel1.ILIndexUp = call__38;
-                        }
-                        else
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel1.Visible = false;
-                        }
-
-                        var call__39 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                        var call__40 = call__39.FLeader.GetSphereCount();
-                        if (call__40 > 1)
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel2.Visible = true;
-                            var call__41 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                            var call__42 = call__41.FLeader.GetSpheres(1);
-                            var call__43 = Aow.Units.AoWWinMan.AoWWinMan.General.SphereToImage(call__42);
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel2.ILIndexUp = call__43;
-                        }
-                        else
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel2.Visible = false;
-                        }
-
-                        var call__44 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                        var call__45 = call__44.FLeader.GetSphereCount();
-                        if (call__45 > 2)
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel3.Visible = true;
-                            var call__46 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                            var call__47 = call__46.FLeader.GetSpheres(2);
-                            var call__48 = Aow.Units.AoWWinMan.AoWWinMan.General.SphereToImage(call__47);
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel3.ILIndexUp = call__48;
-                        }
-                        else
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel3.Visible = false;
-                        }
-
-                        var call__49 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                        var call__50 = call__49.FLeader.GetSphereCount();
-                        if (call__50 > 3)
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel4.Visible = true;
-                            var call__51 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                            var call__52 = call__51.FLeader.GetSpheres(3);
-                            var call__53 = Aow.Units.AoWWinMan.AoWWinMan.General.SphereToImage(call__52);
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel4.ILIndexUp = call__53;
-                        }
-                        else
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel4.Visible = false;
-                        }
-
-                        var call__54 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                        var call__55 = call__54.FLeader.GetSphereCount();
-                        if (call__55 > 4)
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel5.Visible = true;
-                            var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                            var call__57 = call__56.FLeader.GetSpheres(4);
-                            var call__58 = Aow.Units.AoWWinMan.AoWWinMan.General.SphereToImage(call__57);
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel5.ILIndexUp = call__58;
-                        }
-                        else
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel5.Visible = false;
-                        }
-
-                        var call__59 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                        var call__60 = call__59.FLeader.GetSphereCount();
-                        if (call__60 > 5)
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel6.Visible = true;
-                            var call__61 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                            var call__62 = call__61.FLeader.GetSpheres(5);
-                            var call__63 = Aow.Units.AoWWinMan.AoWWinMan.General.SphereToImage(call__62);
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel6.ILIndexUp = call__63;
-                        }
-                        else
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel6.Visible = false;
-                        }
-
-                        var call__64 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                        var call__65 = call__64.FLeader.GetSphereCount();
-                        if (call__65 > 6)
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel7.Visible = true;
-                            var call__66 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(H.FPlayer);
-                            var call__67 = call__66.FLeader.GetSpheres(6);
-                            var call__68 = Aow.Units.AoWWinMan.AoWWinMan.General.SphereToImage(call__67);
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel7.ILIndexUp = call__68;
-                        }
-                        else
-                        {
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Sel7.Visible = false;
-                        }
-
-                        var call__69 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWUnitWindow.AoWUnitWindow.LeaderSpheresRStr);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.SphereLbl.Text = call__69;
-                    }
-
-                    bool bool__70 = ((Aow.Units.AoWE.AoWE.AoWHSMap.FCombat == null) && (H.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
-                    if (!bool__70)
-                    {
-                        bool bool__71 = (Aow.Units.AoWE.AoWE.AoWHSMap.FCombat != null);
-                        if (bool__71)
-                        {
-                            var call__72 = Aow.Units.AoWE.AoWE.AoWHSMap.FCombat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FCombat.FCombatData.FCurrentPlayer));
-                            bool__71 = (call__72.FPlayer == H.FPlayer);
-                        }
-
-                        bool__70 = bool__71;
-                    }
-
-                    if (bool__70)
-                    {
-                        var call__73 = Aow.Units.AoWUnitWindow.AoWUnitWindow.ItemsRStr;
-                        var call__74 = Aow.Units.AoWE.AoWE.TranslateRStr(call__73);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Items.Add(call__74);
-                    }
-
-                    if (H.GetCastingPointsMax() > 0)
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Mana.Visible = true;
-                        var call__75 = H.GetCastingPoints();
-                        var call__76 = H.GetCastingPointsMax();
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Mana.Text = (Aow.Rtl.Rtl.IntToStr(call__75) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__76);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.ManaIcon.Visible = true;
-                    }
-
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.ItemUseBtn.Visible = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.FGroundOffset = 0;
-                    var call__77 = Aow.Units.AoWUnitWindow.AoWUnitWindow.LevelRStr;
-                    var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(call__77);
-                    var call__79 = H.GetLevel();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Level.Text = (call__78 + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(call__79);
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T2Leader.Visible = true;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T2Text.Visible = false;
-                    var call__80 = H.GetNickname();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitName.Text = (H.FHeroName + AnsiString.FromBytes(32)) + call__80;
-                }
-
-                var call__81 = Aow.Units.AoWUnitWindow.AoWUnitWindow.ExpRStr;
-                var call__82 = Aow.Units.AoWE.AoWE.TranslateRStr(call__81);
-                var call__83 = U.GetExperience();
-                var call__84 = U.GetNextLevelExperience();
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.XP.Text = ((((call__82 + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(call__83)) + ((AnsiString)" (")) + Aow.Rtl.Rtl.IntToStr(call__84)) + AnsiString.FromBytes(41);
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Cursor = 0;
-                var call__85 = Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Items.Count;
-                if ((call__85 <= Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected) || (Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected < 0))
-                {
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected = 0;
-                }
-
-                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = true;
-                bool bool__86 = (H != null);
-                if (bool__86)
-                {
-                    bool bool__87 = ((Aow.Units.AoWE.AoWE.AoWHSMap.FCombat == null) && (H.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
-                    if (!bool__87)
-                    {
-                        bool bool__88 = (Aow.Units.AoWE.AoWE.AoWHSMap.FCombat != null);
-                        if (bool__88)
-                        {
-                            var call__89 = Aow.Units.AoWE.AoWE.AoWHSMap.FCombat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FCombat.FCombatData.FCurrentPlayer));
-                            bool__88 = (call__89.FPlayer == H.FPlayer);
-                        }
-
-                        bool__87 = bool__88;
-                    }
-
-                    bool__86 = bool__87;
-                }
-
-                if (bool__86)
-                {
-                    var call__90 = H.FInventory.GetItem(0);
-                    if (call__90 != null)
-                    {
-                        var call__91 = H.FInventory.GetItem(0);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP1.Tag = call__91.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP1.Tag = -1;
-                    }
-
-                    var call__92 = H.FInventory.GetItem(1);
-                    if (call__92 != null)
-                    {
-                        var call__93 = H.FInventory.GetItem(1);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP2.Tag = call__93.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP2.Tag = -1;
-                    }
-
-                    var call__94 = H.FInventory.GetItem(2);
-                    if (call__94 != null)
-                    {
-                        var call__95 = H.FInventory.GetItem(2);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP3.Tag = call__95.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP3.Tag = -1;
-                    }
-
-                    var call__96 = H.FInventory.GetItem(3);
-                    if (call__96 != null)
-                    {
-                        var call__97 = H.FInventory.GetItem(3);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP4.Tag = call__97.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP4.Tag = -1;
-                    }
-
-                    var call__98 = H.FInventory.GetItem(4);
-                    if (call__98 != null)
-                    {
-                        var call__99 = H.FInventory.GetItem(4);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP5.Tag = call__99.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP5.Tag = -1;
-                    }
-
-                    var call__100 = H.FInventory.GetItem(5);
-                    if (call__100 != null)
-                    {
-                        var call__101 = H.FInventory.GetItem(5);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP6.Tag = call__101.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP6.Tag = -1;
-                    }
-
-                    var call__102 = H.FInventory.GetItem(6);
-                    if (call__102 != null)
-                    {
-                        var call__103 = H.FInventory.GetItem(6);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP7.Tag = call__103.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP7.Tag = -1;
-                    }
-
-                    var call__104 = H.FInventory.GetItem(7);
-                    if (call__104 != null)
-                    {
-                        var call__105 = H.FInventory.GetItem(7);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP8.Tag = call__105.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP8.Tag = -1;
-                    }
-
-                    var call__106 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipAttackSlot);
-                    if (call__106 != null)
-                    {
-                        var call__107 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipAttackSlot);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Attack.Tag = call__107.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Attack.Tag = -1;
-                    }
-
-                    var call__108 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipDefenseSlot);
-                    if (call__108 != null)
-                    {
-                        var call__109 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipDefenseSlot);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Defend.Tag = call__109.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Defend.Tag = -1;
-                    }
-
-                    var call__110 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipHeadSlot);
-                    if (call__110 != null)
-                    {
-                        var call__111 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipHeadSlot);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Head.Tag = call__111.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Head.Tag = -1;
-                    }
-
-                    var call__112 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipTorsoSlot);
-                    if (call__112 != null)
-                    {
-                        var call__113 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipTorsoSlot);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Torso.Tag = call__113.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Torso.Tag = -1;
-                    }
-
-                    var call__114 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipLeftRingSlot);
-                    if (call__114 != null)
-                    {
-                        var call__115 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipLeftRingSlot);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RingL.Tag = call__115.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RingL.Tag = -1;
-                    }
-
-                    var call__116 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipRightRingSlot);
-                    if (call__116 != null)
-                    {
-                        var call__117 = H.FHeroItems.GetPositionItem(Aow.Units.AoWE.THeroItemPosition.ipRightRingSlot);
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RingR.Tag = call__117.FItemID;
-                    }
-                    else
-                    {
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RingR.Tag = -1;
-                    }
-
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UpdateGround(0);
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem = null;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP1.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP2.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP3.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP4.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP5.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP6.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP7.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.BP8.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Attack.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Defend.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Head.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.Torso.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RingL.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.RingR.Checked = false;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.ItemUseBtn.Visible = false;
-                }
-
-                if (U != null)
-                {
-                    var call__118 = U.GetHitPoints();
-                    var call__119 = U.GetHits();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UHits.Text = (Aow.Rtl.Rtl.IntToStr(call__118) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__119);
-                    if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null)
-                    {
-                        var call__120 = U.GetMovePoints();
-                        var call__121 = U.GetMoves();
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UMoves.Text = (Aow.Rtl.Rtl.IntToStr(call__120) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__121);
-                    }
-                    else
-                    {
-                        if (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null)
-                        {
-                            var call__122 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.GetMoves();
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UMoves.Text = (Aow.Rtl.Rtl.IntToStr(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__122);
-                        }
-                    }
-
-                    var call__123 = U.GetAttack();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UAttack.Text = Aow.Rtl.Rtl.IntToStr(call__123);
-                    var call__124 = U.GetDamage();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UDamage.Text = Aow.Rtl.Rtl.IntToStr(call__124);
-                    var call__125 = U.GetDefense();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UDefense.Text = Aow.Rtl.Rtl.IntToStr(call__125);
-                    var call__126 = U.GetResistance();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UResistance.Text = Aow.Rtl.Rtl.IntToStr(call__126);
-                    var call__127 = U.GetMoveTypes();
-                    var call__128 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__127);
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UMovesIcon.CurrentImage = call__128;
-                    if (U.GetManaUpkeep() > 0)
-                    {
-                        var call__129 = U.GetManaUpkeep();
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UpKeep.Text = Aow.Rtl.Rtl.IntToStr(call__129);
-                        UpkeepIcon.CurrentImage = 52;
-                    }
-                    else
-                    {
-                        var call__130 = U.GetUpkeep();
-                        Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UpKeep.Text = Aow.Rtl.Rtl.IntToStr(call__130);
-                        UpkeepIcon.CurrentImage = 51;
-                    }
-
-                    var call__131 = U.GetAlignment();
-                    AAlignment.Visible = call__131 != Aow.Units.AoWE.TAlignment.alNone;
-                    switch (U.GetAlignment())
-                    {
-                        case Aow.Units.AoWE.TAlignment.alPureGood:
-                            AAlignment.CurrentImage = 31;
-                            break;
-                        case Aow.Units.AoWE.TAlignment.alGood:
-                            AAlignment.CurrentImage = 32;
-                            break;
-                        case Aow.Units.AoWE.TAlignment.alPureNeutral:
-                        case Aow.Units.AoWE.TAlignment.alNeutral:
-                            AAlignment.CurrentImage = 33;
-                            break;
-                        case Aow.Units.AoWE.TAlignment.alEvil:
-                            AAlignment.CurrentImage = 34;
-                            break;
-                        case Aow.Units.AoWE.TAlignment.alPureEvil:
-                            AAlignment.CurrentImage = 35;
-                            break;
-                    }
-
-                    var call__132 = U.GetAlignment();
-                    var call__133 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TAlignmentRStr[(int)call__132]);
-                    AAlignmentLbl.Text = call__133;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T1AbilityLB.Items.Clear();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T1TypeLB.Items.Clear();
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T1SrcLB.Items.Clear();
-                    var call__134 = U.GetMorale();
-                    var call__135 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TMoraleRStr[(int)call__134]);
-                    var call__136 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MoraleXRStr);
-                    var call__137 = Aow.Units.AoWE.AoWE.Format(call__136, [call__135]);
-                    MoraleLbl.Text = call__137;
-                    var call__138 = U.GetUnitType();
-                    MoraleLbl.Visible = call__138 != Aow.Units.AoWE.TUnitType.utMachine;
-                    if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null)
-                    {
-                        U.ListAbilityInfo(T1AbilityLB.Items, T1TypeLB.Items, T1SrcLB.Items);
-                        Aow.Units.Engine.Engine.SortStringsEx(T1AbilityLB.Items, Aow.Units.AoWUnitWindow.AoWUnitWindow.CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
-                    }
-                    else
-                    {
-                        if (((Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit != null)) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit != null))
-                        {
-                            Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit.ListAbilityInfo(T1AbilityLB.Items, T1TypeLB.Items, T1SrcLB.Items);
-                            Aow.Units.Engine.Engine.SortStringsEx(T1AbilityLB.Items, Aow.Units.AoWUnitWindow.AoWUnitWindow.CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
-                        }
-                    }
-
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T1AbilityLB.Selected = -1;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.T1AbilityLBChange(T1AbilityLB);
-                    UnitWin.FDrawn = false;
-                }
-            }
-        }
-
         // AoWUnitWindow.pas:985
         // { draft; 00407DB8 }
         public void UpdateGround(int Offset)
@@ -969,9 +358,9 @@ namespace Aow.Units.AoWUnitWindow
                 {
                     if (((Aow.Units.AoWE.THero)U).GetItemsOnGround() != null)
                     {
-                        var call__139 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                        var call__140 = call__139.Count;
-                        FGroundCount = call__140;
+                        var call__1 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                        var call__2 = call__1.Count;
+                        FGroundCount = call__2;
                         FGroundOffset = Offset;
                         // { Original last-page clamp leaves only four items visible. }
                         if (FGroundCount < (Offset + 5))
@@ -986,49 +375,49 @@ namespace Aow.Units.AoWUnitWindow
 
                         GroundL.Visible = FGroundOffset > 0;
                         GroundR.Visible = (FGroundOffset + 5) <= FGroundCount;
-                        var call__141 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                        var call__142 = call__141.Count;
-                        if (FGroundOffset < call__142)
+                        var call__3 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                        var call__4 = call__3.Count;
+                        if (FGroundOffset < call__4)
                         {
-                            var call__143 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                            var call__144 = call__143.GetItem(FGroundOffset);
-                            Gnd1.Tag = call__144.FItemID;
+                            var call__5 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                            var call__6 = call__5.GetItem(FGroundOffset);
+                            Gnd1.Tag = call__6.FItemID;
                         }
 
-                        var call__145 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                        var call__146 = call__145.Count;
-                        if ((FGroundOffset + 1) < call__146)
+                        var call__7 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                        var call__8 = call__7.Count;
+                        if ((FGroundOffset + 1) < call__8)
                         {
-                            var call__147 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                            var call__148 = call__147.GetItem(FGroundOffset + 1);
-                            Gnd2.Tag = call__148.FItemID;
+                            var call__9 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                            var call__10 = call__9.GetItem(FGroundOffset + 1);
+                            Gnd2.Tag = call__10.FItemID;
                         }
 
-                        var call__149 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                        var call__150 = call__149.Count;
-                        if ((FGroundOffset + 2) < call__150)
+                        var call__11 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                        var call__12 = call__11.Count;
+                        if ((FGroundOffset + 2) < call__12)
                         {
-                            var call__151 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                            var call__152 = call__151.GetItem(FGroundOffset + 2);
-                            Gnd3.Tag = call__152.FItemID;
+                            var call__13 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                            var call__14 = call__13.GetItem(FGroundOffset + 2);
+                            Gnd3.Tag = call__14.FItemID;
                         }
 
-                        var call__153 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                        var call__154 = call__153.Count;
-                        if ((FGroundOffset + 3) < call__154)
+                        var call__15 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                        var call__16 = call__15.Count;
+                        if ((FGroundOffset + 3) < call__16)
                         {
-                            var call__155 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                            var call__156 = call__155.GetItem(FGroundOffset + 3);
-                            Gnd4.Tag = call__156.FItemID;
+                            var call__17 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                            var call__18 = call__17.GetItem(FGroundOffset + 3);
+                            Gnd4.Tag = call__18.FItemID;
                         }
 
-                        var call__157 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                        var call__158 = call__157.Count;
-                        if ((FGroundOffset + 4) < call__158)
+                        var call__19 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                        var call__20 = call__19.Count;
+                        if ((FGroundOffset + 4) < call__20)
                         {
-                            var call__159 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
-                            var call__160 = call__159.GetItem(FGroundOffset + 4);
-                            Gnd5.Tag = call__160.FItemID;
+                            var call__21 = ((Aow.Units.AoWE.THero)U).GetItemsOnGround();
+                            var call__22 = call__21.GetItem(FGroundOffset + 4);
+                            Gnd5.Tag = call__22.FItemID;
                         }
                     }
                 }
@@ -1040,62 +429,62 @@ namespace Aow.Units.AoWUnitWindow
         {
             bool Enabled = default;
             Aow.Units.AoWE.TAbility A = default;
-            var call__161 = T1AbilityLB.Items.Objects[DrawItem];
-            var call__162 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__161));
-            A = call__162;
+            var call__23 = T1AbilityLB.Items.Objects[DrawItem];
+            var call__24 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__23));
+            A = call__24;
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null)
             {
-                bool bool__163 = ((A != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                if (bool__163)
+                bool bool__25 = ((A != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                if (bool__25)
                 {
-                    var call__164 = A.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                    bool__163 = call__164.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acAction);
+                    var call__26 = A.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                    bool__25 = call__26.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acAction);
                 }
 
-                Enabled = bool__163;
+                Enabled = bool__25;
             }
             else
             {
-                bool bool__165 = (A != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null);
-                if (bool__165)
+                bool bool__27 = (A != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null);
+                if (bool__27)
                 {
-                    var call__166 = T1AbilityLB.Items.Objects[DrawItem];
-                    var call__167 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__166));
-                    var call__168 = call__167.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
-                    bool__165 = call__168.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acCombatAction);
+                    var call__28 = T1AbilityLB.Items.Objects[DrawItem];
+                    var call__29 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__28));
+                    var call__30 = call__29.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
+                    bool__27 = call__30.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acCombatAction);
                 }
 
-                bool bool__169 = bool__165;
-                if (bool__169)
+                bool bool__31 = bool__27;
+                if (bool__31)
                 {
-                    var call__170 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.GetPlayer();
-                    bool__169 = (call__170 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer);
+                    var call__32 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.GetPlayer();
+                    bool__31 = (call__32 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer);
                 }
 
-                bool bool__171 = bool__169 && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints > 0);
-                if (bool__171)
+                bool bool__33 = bool__31 && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints > 0);
+                if (bool__33)
                 {
-                    var call__172 = T1AbilityLB.Items.Objects[DrawItem];
-                    var call__173 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__172));
-                    var call__174 = call__173.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
-                    bool bool__175 = TSet<Aow.Units.AoWE.TCombatMode>.Of(Aow.Units.AoWE.TCombatMode.cmShortRange, Aow.Units.AoWE.TCombatMode.cmMediumRange, Aow.Units.AoWE.TCombatMode.cmLongRange).Contains(call__174);
-                    if (!bool__175)
+                    var call__34 = T1AbilityLB.Items.Objects[DrawItem];
+                    var call__35 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__34));
+                    var call__36 = call__35.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
+                    bool bool__37 = TSet<Aow.Units.AoWE.TCombatMode>.Of(Aow.Units.AoWE.TCombatMode.cmShortRange, Aow.Units.AoWE.TCombatMode.cmMediumRange, Aow.Units.AoWE.TCombatMode.cmLongRange).Contains(call__36);
+                    if (!bool__37)
                     {
-                        var call__176 = T1AbilityLB.Items.Objects[DrawItem];
-                        bool__175 = (Aow.Rtl.Rtl.ObjectToInt(call__176) == 52);
+                        var call__38 = T1AbilityLB.Items.Objects[DrawItem];
+                        bool__37 = (Aow.Rtl.Rtl.ObjectToInt(call__38) == 52);
                     }
 
-                    bool bool__177 = !bool__175;
-                    if (!bool__177)
+                    bool bool__39 = !bool__37;
+                    if (!bool__39)
                     {
-                        var call__178 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit.GetMoves();
-                        bool__177 = (call__178 == Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints);
+                        var call__40 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit.GetMoves();
+                        bool__39 = (call__40 == Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints);
                     }
 
-                    bool__171 = bool__177;
+                    bool__33 = bool__39;
                 }
 
-                Enabled = bool__171;
+                Enabled = bool__33;
             }
 
             if (Enabled)
@@ -1125,46 +514,46 @@ namespace Aow.Units.AoWUnitWindow
             {
                 if ((Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer) && (T1AbilityLB.Selected > -1))
                 {
-                    var call__179 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    var call__180 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__179));
-                    A = call__180;
-                    bool bool__181 = (A != null);
-                    if (bool__181)
+                    var call__41 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    var call__42 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__41));
+                    A = call__42;
+                    bool bool__43 = (A != null);
+                    if (bool__43)
                     {
-                        var call__182 = A.GetEnabled(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                        bool__181 = call__182;
+                        var call__44 = A.GetEnabled(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                        bool__43 = call__44;
                     }
 
-                    if (bool__181)
+                    if (bool__43)
                     {
                         if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null)
                         {
-                            var call__183 = A.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                            T1UseBut.Visible = call__183.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acAction);
+                            var call__45 = A.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                            T1UseBut.Visible = call__45.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acAction);
                         }
                         else
                         {
-                            var call__184 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                            var call__185 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__184));
-                            var call__186 = call__185.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                            bool bool__187 = (call__186 != Aow.Units.AoWE.TCombatMode.cmNone);
-                            if (bool__187)
+                            var call__46 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                            var call__47 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__46));
+                            var call__48 = call__47.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                            bool bool__49 = (call__48 != Aow.Units.AoWE.TCombatMode.cmNone);
+                            if (bool__49)
                             {
-                                var call__188 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                                var call__189 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__188));
-                                var call__190 = call__189.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                                bool__187 = (call__190 != Aow.Units.AoWE.TCombatMode.cmMelee);
+                                var call__50 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                                var call__51 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__50));
+                                var call__52 = call__51.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                                bool__49 = (call__52 != Aow.Units.AoWE.TCombatMode.cmMelee);
                             }
 
-                            T1UseBut.Visible = bool__187;
+                            T1UseBut.Visible = bool__49;
                         }
 
                         if (T1UseBut.Visible)
                         {
-                            var call__191 = A.GetName(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                            var call__192 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UseXRStr);
-                            var call__193 = Aow.Units.AoWE.AoWE.Format(call__192, [call__191]);
-                            T1UseBut.Text = call__193;
+                            var call__53 = A.GetName(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                            var call__54 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UseXRStr);
+                            var call__55 = Aow.Units.AoWE.AoWE.Format(call__54, [call__53]);
+                            T1UseBut.Text = call__55;
                         }
                     }
                     else
@@ -1179,54 +568,54 @@ namespace Aow.Units.AoWUnitWindow
             }
             else
             {
-                bool bool__194 = (T1AbilityLB.Selected > -1) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null);
-                if (bool__194)
+                bool bool__56 = (T1AbilityLB.Selected > -1) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null);
+                if (bool__56)
                 {
-                    var call__195 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    var call__196 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__195));
-                    var call__197 = call__196.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
-                    bool__194 = call__197.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acCombatAction);
+                    var call__57 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    var call__58 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__57));
+                    var call__59 = call__58.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
+                    bool__56 = call__59.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acCombatAction);
                 }
 
-                bool bool__198 = bool__194;
-                if (bool__198)
+                bool bool__60 = bool__56;
+                if (bool__60)
                 {
-                    var call__199 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.GetPlayer();
-                    bool__198 = (call__199 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer);
+                    var call__61 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.GetPlayer();
+                    bool__60 = (call__61 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer);
                 }
 
-                bool bool__200 = bool__198 && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints > 0);
-                if (bool__200)
+                bool bool__62 = bool__60 && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints > 0);
+                if (bool__62)
                 {
-                    var call__201 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    var call__202 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__201));
-                    var call__203 = call__202.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
-                    bool bool__204 = TSet<Aow.Units.AoWE.TCombatMode>.Of(Aow.Units.AoWE.TCombatMode.cmShortRange, Aow.Units.AoWE.TCombatMode.cmMediumRange, Aow.Units.AoWE.TCombatMode.cmLongRange).Contains(call__203);
-                    if (!bool__204)
+                    var call__63 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    var call__64 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__63));
+                    var call__65 = call__64.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
+                    bool bool__66 = TSet<Aow.Units.AoWE.TCombatMode>.Of(Aow.Units.AoWE.TCombatMode.cmShortRange, Aow.Units.AoWE.TCombatMode.cmMediumRange, Aow.Units.AoWE.TCombatMode.cmLongRange).Contains(call__65);
+                    if (!bool__66)
                     {
-                        var call__205 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                        bool__204 = (Aow.Rtl.Rtl.ObjectToInt(call__205) == 52);
+                        var call__67 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                        bool__66 = (Aow.Rtl.Rtl.ObjectToInt(call__67) == 52);
                     }
 
-                    bool bool__206 = !bool__204;
-                    if (!bool__206)
+                    bool bool__68 = !bool__66;
+                    if (!bool__68)
                     {
-                        var call__207 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit.GetMoves();
-                        bool__206 = (call__207 == Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints);
+                        var call__69 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit.GetMoves();
+                        bool__68 = (call__69 == Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints);
                     }
 
-                    bool__200 = bool__206;
+                    bool__62 = bool__68;
                 }
 
-                if (bool__200)
+                if (bool__62)
                 {
                     T1UseBut.Visible = true;
-                    var call__208 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    var call__209 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__208));
-                    var call__210 = call__209.GetName(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
-                    var call__211 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UseXRStr);
-                    var call__212 = Aow.Units.AoWE.AoWE.Format(call__211, [call__210]);
-                    T1UseBut.Text = call__212;
+                    var call__70 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    var call__71 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__70));
+                    var call__72 = call__71.GetName(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
+                    var call__73 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UseXRStr);
+                    var call__74 = Aow.Units.AoWE.AoWE.Format(call__73, [call__72]);
+                    T1UseBut.Text = call__74;
                 }
                 else
                 {
@@ -1254,11 +643,11 @@ namespace Aow.Units.AoWUnitWindow
         public void UnitWinResize(Aow.Rtl.TObject Sender)
         {
             {
-                var w__213 = UnitWin;
-                w__213.Alignment.LeftOffset = w__213.WinLeft;
-                w__213.Alignment.TopOffset = w__213.WinTop;
-                w__213.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-                w__213.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+                var w__75 = UnitWin;
+                w__75.Alignment.LeftOffset = w__75.WinLeft;
+                w__75.Alignment.TopOffset = w__75.WinTop;
+                w__75.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+                w__75.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
             }
         }
 
@@ -1357,24 +746,24 @@ namespace Aow.Units.AoWUnitWindow
             Aow.Units.AoWE.TAbility A = default;
             Aow.Rtl.AnsiString Reason = default;
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__214 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-            var call__215 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__214));
-            A = call__215;
-            bool bool__216 = (A != null);
-            if (bool__216)
+            var call__76 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+            var call__77 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__76));
+            A = call__77;
+            bool bool__78 = (A != null);
+            if (bool__78)
             {
-                var call__217 = A.GetEnabled(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                bool__216 = call__217;
+                var call__79 = A.GetEnabled(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                bool__78 = call__79;
             }
 
-            if (bool__216)
+            if (bool__78)
             {
                 if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null)
                 {
                     if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
                     {
-                        var call__218 = A.Activate(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit, ref Reason);
-                        if (call__218)
+                        var call__80 = A.Activate(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit, ref Reason);
+                        if (call__80)
                         {
                             UnitWin.Visible = false;
                         }
@@ -1391,9 +780,9 @@ namespace Aow.Units.AoWUnitWindow
                 {
                     if ((Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FCombatPlayer == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer))
                     {
-                        var call__219 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                        var call__220 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.SelectAbility(Aow.Rtl.Rtl.ObjectToInt(call__219));
-                        if (call__220 > -1)
+                        var call__81 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                        var call__82 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.SelectAbility(Aow.Rtl.Rtl.ObjectToInt(call__81));
+                        if (call__82 > -1)
                         {
                             UnitWin.Visible = false;
                         }
@@ -1409,8 +798,8 @@ namespace Aow.Units.AoWUnitWindow
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
             if ((Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit is Aow.Units.AoWE.THero))
             {
-                var call__221 = ((Aow.Units.AoWE.THero)Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit).CanUseItem(Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem.Tag, ref Reason);
-                if (call__221)
+                var call__83 = ((Aow.Units.AoWE.THero)Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit).CanUseItem(Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem.Tag, ref Reason);
+                if (call__83)
                 {
                     ((Aow.Units.AoWE.THero)Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit).UseItem(Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem.Tag);
                 }
@@ -1434,27 +823,6 @@ namespace Aow.Units.AoWUnitWindow
             {
                 Gnd1Change(Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem);
             }
-        }
-
-        // AoWUnitWindow.pas:698
-        public void UnitWinEnter(Aow.Rtl.TObject Sender)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.FCursorImage */
-            throw new System.NotImplementedException();
-        }
-
-        // AoWUnitWindow.pas:703
-        public void UnitWinExit(Aow.Rtl.TObject Sender)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.FCursorImage */
-            throw new System.NotImplementedException();
-        }
-
-        // AoWUnitWindow.pas:708
-        public void UnitWinShow(Aow.Rtl.TObject Sender)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.FCursorImage */
-            throw new System.NotImplementedException();
         }
 
         // AoWUnitWindow.pas:714
@@ -1486,34 +854,34 @@ namespace Aow.Units.AoWUnitWindow
             if (Component.Tag != -1)
             {
                 U = (Aow.Units.AoWE.THero)Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit;
-                var call__222 = U.FInventory.FindItem(Component.Tag);
-                Item = call__222;
+                var call__84 = U.FInventory.FindItem(Component.Tag);
+                Item = call__84;
                 if (Item == null)
                 {
-                    var call__223 = U.FHeroItems.FindItem(Component.Tag);
-                    Item = call__223;
+                    var call__85 = U.FHeroItems.FindItem(Component.Tag);
+                    Item = call__85;
                 }
 
                 if (Item == null)
                 {
                     if (U.GetItemsOnGround() != null)
                     {
-                        var call__224 = U.GetItemsOnGround();
-                        var call__225 = call__224.FindItem(Component.Tag);
-                        Item = call__225;
+                        var call__86 = U.GetItemsOnGround();
+                        var call__87 = call__86.FindItem(Component.Tag);
+                        Item = call__87;
                     }
                 }
 
                 if (Item != null)
                 {
                     {
-                        var w__226 = T3Panel;
+                        var w__88 = T3Panel;
                         {
-                            var w__227 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Component;
+                            var w__89 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Component;
                             if (Item.GetImage() != null)
                             {
-                                var call__228 = Item.GetImage();
-                                call__228.ShowClipped(T3Panel.WinLeft + w__227.WinLeft, T3Panel.WinTop + w__227.WinTop, SurfDesc);
+                                var call__90 = Item.GetImage();
+                                call__90.ShowClipped(T3Panel.WinLeft + w__89.WinLeft, T3Panel.WinTop + w__89.WinTop, SurfDesc);
                             }
                         }
                     }
@@ -1527,13 +895,13 @@ namespace Aow.Units.AoWUnitWindow
             Aow.Rtl.TRect R = default;
             if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)
             {
-                var call__229 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetFace();
-                if (call__229 != null)
+                var call__91 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetFace();
+                if (call__91 != null)
                 {
                     {
-                        var w__230 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                        var call__231 = Aow.Rtl.Rtl.Rect(w__230.WinLeft + 29, w__230.WinTop + 28, w__230.WinLeft + 132, w__230.WinTop + 156);
-                        R = call__231;
+                        var w__92 = (Aow.Units.AoWImage.TAOWImage)Sender;
+                        var call__93 = Aow.Rtl.Rtl.Rect(w__92.WinLeft + 29, w__92.WinTop + 28, w__92.WinLeft + 132, w__92.WinTop + 156);
+                        R = call__93;
                     }
 
                     Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.ShowFace(R, SurfDesc);
@@ -1557,8 +925,8 @@ namespace Aow.Units.AoWUnitWindow
                 }
 
                 {
-                    var w__232 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.ShowEx(w__232.WinLeft + 49, w__232.WinTop + 78, SurfDesc, FShowInfo);
+                    var w__94 = (Aow.Units.AoWImage.TAOWImage)Sender;
+                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.ShowEx(w__94.WinLeft + 49, w__94.WinTop + 78, SurfDesc, FShowInfo);
                 }
             }
         }
@@ -1576,9 +944,9 @@ namespace Aow.Units.AoWUnitWindow
             // { Tried typed checkbox Sender; no exact match. }
             if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)
             {
-                var call__233 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.FPlayer);
-                var call__234 = call__233.GetBusy();
-                if (!call__234)
+                var call__95 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.FPlayer);
+                var call__96 = call__95.GetBusy();
+                if (!call__96)
                 {
                     if (Button == Aow.Rtl.TMouseButton.mbRight)
                     {
@@ -1611,11 +979,11 @@ namespace Aow.Units.AoWUnitWindow
             if (((Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem != null) && (Sender != Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem)) && (FItemType == ((Aow.Units.AoWE.TItemType)0)))
             {
                 {
-                    var w__235 = T3Panel;
+                    var w__97 = T3Panel;
                     {
-                        var w__236 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__237 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                        call__237.ShowBlended(T3Panel.WinLeft + w__236.WinLeft, T3Panel.WinTop + w__236.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
+                        var w__98 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                        var call__99 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
+                        call__99.ShowBlended(T3Panel.WinLeft + w__98.WinLeft, T3Panel.WinTop + w__98.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
                     }
                 }
             }
@@ -1628,11 +996,11 @@ namespace Aow.Units.AoWUnitWindow
             if (((Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem != null) && (Sender != Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem)) && (FItemType == ((Aow.Units.AoWE.TItemType)1)))
             {
                 {
-                    var w__238 = T3Panel;
+                    var w__100 = T3Panel;
                     {
-                        var w__239 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__240 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                        call__240.ShowBlended(T3Panel.WinLeft + w__239.WinLeft, T3Panel.WinTop + w__239.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
+                        var w__101 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                        var call__102 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
+                        call__102.ShowBlended(T3Panel.WinLeft + w__101.WinLeft, T3Panel.WinTop + w__101.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
                     }
                 }
             }
@@ -1645,11 +1013,11 @@ namespace Aow.Units.AoWUnitWindow
             if (((Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem != null) && (Sender != Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem)) && (FItemType == ((Aow.Units.AoWE.TItemType)2)))
             {
                 {
-                    var w__241 = T3Panel;
+                    var w__103 = T3Panel;
                     {
-                        var w__242 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__243 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                        call__243.ShowBlended(T3Panel.WinLeft + w__242.WinLeft, T3Panel.WinTop + w__242.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
+                        var w__104 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                        var call__105 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
+                        call__105.ShowBlended(T3Panel.WinLeft + w__104.WinLeft, T3Panel.WinTop + w__104.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
                     }
                 }
             }
@@ -1662,11 +1030,11 @@ namespace Aow.Units.AoWUnitWindow
             if (((Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem != null) && (Sender != Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem)) && (FItemType == ((Aow.Units.AoWE.TItemType)3)))
             {
                 {
-                    var w__244 = T3Panel;
+                    var w__106 = T3Panel;
                     {
-                        var w__245 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__246 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                        call__246.ShowBlended(T3Panel.WinLeft + w__245.WinLeft, T3Panel.WinTop + w__245.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
+                        var w__107 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                        var call__108 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
+                        call__108.ShowBlended(T3Panel.WinLeft + w__107.WinLeft, T3Panel.WinTop + w__107.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
                     }
                 }
             }
@@ -1679,11 +1047,11 @@ namespace Aow.Units.AoWUnitWindow
             if (((Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem != null) && (Sender != Aow.Units.AoWUnitWindow.AoWUnitWindow.SelectedItem)) && (FItemType == ((Aow.Units.AoWE.TItemType)4)))
             {
                 {
-                    var w__247 = T3Panel;
+                    var w__109 = T3Panel;
                     {
-                        var w__248 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__249 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                        call__249.ShowBlended(T3Panel.WinLeft + w__248.WinLeft, T3Panel.WinTop + w__248.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
+                        var w__110 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                        var call__111 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
+                        call__111.ShowBlended(T3Panel.WinLeft + w__110.WinLeft, T3Panel.WinTop + w__110.WinTop, SurfDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[FHighlight]);
                     }
                 }
             }
@@ -1692,9 +1060,9 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:921
         public void DisbandBtnClick()
         {
-            var call__250 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.DisbandUnitRStr);
-            var call__251 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E2Globals.E2Globals.ConfirmRStr);
-            Aow.Units.E2Globals.E2Globals.DialogWin.Confirm(call__251, call__250, 7);
+            var call__112 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.DisbandUnitRStr);
+            var call__113 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E2Globals.E2Globals.ConfirmRStr);
+            Aow.Units.E2Globals.E2Globals.DialogWin.Confirm(call__113, call__112, 7);
         }
 
         // AoWUnitWindow.pas:926
@@ -1704,13 +1072,13 @@ namespace Aow.Units.AoWUnitWindow
             Aow.Units.AoWE.TAbility A = default;
             if (((Button == Aow.Rtl.TMouseButton.mbRight) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)) && (T1AbilityLB.Selected != -1))
             {
-                var call__252 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                var call__253 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__252));
-                A = call__253;
+                var call__114 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                var call__115 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__114));
+                A = call__115;
                 if (A != null)
                 {
-                    var call__254 = A.GetName(null);
-                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__254, A.FDescription);
+                    var call__116 = A.GetName(null);
+                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__116, A.FDescription);
                 }
             }
         }
@@ -1733,8 +1101,8 @@ namespace Aow.Units.AoWUnitWindow
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
             if (Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList != null)
             {
-                var call__255 = Aow.Units.AoWWinMan.AoWWinMan.General.IndexOfUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                I = call__255;
+                var call__117 = Aow.Units.AoWWinMan.AoWWinMan.General.IndexOfUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                I = call__117;
                 if ((I > -1) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[0] > -1))
                 {
                     I -= 1;
@@ -1747,8 +1115,8 @@ namespace Aow.Units.AoWUnitWindow
                         }
                     }
 
-                    var call__256 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[I]);
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__256;
+                    var call__118 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[I]);
+                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__118;
                     ShowUnit();
                 }
             }
@@ -1761,8 +1129,8 @@ namespace Aow.Units.AoWUnitWindow
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
             if (Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList != null)
             {
-                var call__257 = Aow.Units.AoWWinMan.AoWWinMan.General.IndexOfUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                I = call__257;
+                var call__119 = Aow.Units.AoWWinMan.AoWWinMan.General.IndexOfUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                I = call__119;
                 if (I > -1)
                 {
                     I += 1;
@@ -1776,8 +1144,8 @@ namespace Aow.Units.AoWUnitWindow
                         I = 0;
                     }
 
-                    var call__258 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[I]);
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__258;
+                    var call__120 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[I]);
+                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__120;
                     ShowUnit();
                 }
             }
@@ -1809,19 +1177,19 @@ namespace Aow.Units.AoWUnitWindow
             Aow.Units.AoWE.TAbility A2 = default;
             int V1 = default;
             int V2 = default;
-            var call__259 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(O1));
-            A1 = call__259;
-            var call__260 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(O2));
-            A2 = call__260;
-            var call__261 = A1.GetEnabled(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-            bool bool__262 = call__261;
-            if (bool__262)
+            var call__121 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(O1));
+            A1 = call__121;
+            var call__122 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(O2));
+            A2 = call__122;
+            var call__123 = A1.GetEnabled(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+            bool bool__124 = call__123;
+            if (bool__124)
             {
-                var call__263 = A1.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                bool__262 = call__263.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acAction);
+                var call__125 = A1.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                bool__124 = call__125.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acAction);
             }
 
-            if (bool__262)
+            if (bool__124)
             {
                 V1 = 10;
             }
@@ -1830,15 +1198,15 @@ namespace Aow.Units.AoWUnitWindow
                 V1 = 0;
             }
 
-            var call__264 = A2.GetEnabled(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-            bool bool__265 = call__264;
-            if (bool__265)
+            var call__126 = A2.GetEnabled(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+            bool bool__127 = call__126;
+            if (bool__127)
             {
-                var call__266 = A2.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
-                bool__265 = call__266.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acAction);
+                var call__128 = A2.GetControlType(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                bool__127 = call__128.Contains(Aow.Units.AoWE.TAbilityControlTypeElement.acAction);
             }
 
-            if (bool__265)
+            if (bool__127)
             {
                 V2 = 10;
             }

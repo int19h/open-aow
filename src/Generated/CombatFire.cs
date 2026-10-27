@@ -105,51 +105,21 @@ namespace Aow.Units.CombatFire
             return Result;
         }
 
-        // CombatFire.pas:126
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
-        {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
-            int ImageIndex = default;
-            int Xhp = default;
-            int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            XhpSurf = Xhp - XhpSurf;
-            YhpSurf = Yhp - YhpSurf;
-            var call__1 = Aow.Units.AoWE.AoWE.AoWHSSet.FImageSequences.GetImageSequence(60);
-            Sequence = call__1;
-            if (Sequence != null)
-            {
-                do
-                {
-                    var call__2 = Sequence.GetFrameIndex(Aow.Units.AoWE.AoWE.AoWHSMap.Frame, ((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(this)) >> 2)) & 65535);
-                    ImageIndex = call__2;
-                    if (ImageIndex != -1)
-                    {
-                        var call__3 = Sequence.ImageLibrary.Get(ImageIndex);
-                        call__3.Show((XhpSurf + Sequence.dXshift) + FXShift, (YhpSurf + Sequence.dYshift) + FYShift, SurfaceDesc);
-                    }
-
-                    Sequence = Sequence.Next;
-                }
-                while (!(Sequence == null));
-            }
-        }
-
         // CombatFire.pas:146
         public override void CanMoveOn(in Aow.Units.HSEngine.THSMoveOnInfo Info, ref Aow.Units.HSEngine.THSMoveOnResult MoveResult)
         {
             int Penalty = default;
             if (Info.HN == 0)
             {
-                var call__4 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(7);
-                if (call__4)
+                var call__1 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(7);
+                if (call__1)
                 {
                     Penalty = 0;
                 }
                 else
                 {
-                    var call__5 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(71);
-                    if (call__5)
+                    var call__2 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(71);
+                    if (call__2)
                     {
                         Penalty = 10;
                     }
@@ -174,10 +144,10 @@ namespace Aow.Units.CombatFire
         public override void Activate()
         {
             base.Activate();
-            var call__6 = Aow.Rtl.Rtl.Random(10);
-            FXShift = call__6 + 11;
-            var call__7 = Aow.Rtl.Rtl.Random(10);
-            FYShift = call__7 + 11;
+            var call__3 = Aow.Rtl.Rtl.Random(10);
+            FXShift = call__3 + 11;
+            var call__4 = Aow.Rtl.Rtl.Random(10);
+            FYShift = call__4 + 11;
             FPlayer = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentCombatPlayer;
             FFirstTurn = true;
         }
@@ -212,19 +182,19 @@ namespace Aow.Units.CombatFire
                     Msg.MsgID = 200711;
                     Msg.Param[0] = this;
                     Msg.Result = -1;
-                    var call__8 = GetYhx();
-                    var call__9 = GetXhx();
-                    var call__10 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                    var call__11 = call__10.GetField(call__9, call__8);
-                    call__11.SendMapFieldMsg(ref Msg);
+                    var call__5 = GetYhx();
+                    var call__6 = GetXhx();
+                    var call__7 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                    var call__8 = call__7.GetField(call__6, call__5);
+                    call__8.SendMapFieldMsg(ref Msg);
                     {
                         I = 1;
-                        byte end__12 = 6;
-                        for (; I <= end__12; I += 1)
+                        byte end__9 = 6;
+                        for (; I <= end__9; I += 1)
                         {
-                            var call__13 = GetYhx();
-                            var call__14 = GetXhx();
-                            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(call__14, call__13, I, ref Xhx, ref Yhx);
+                            var call__10 = GetYhx();
+                            var call__11 = GetXhx();
+                            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(call__11, call__10, I, ref Xhx, ref Yhx);
                             if ((Xhx > 0) && (Yhx > 0))
                             {
                                 Aow.Units.CombatFire.CombatFire.CreateFire(true, 50, Xhx, Yhx);
@@ -345,59 +315,59 @@ namespace Aow.Units.CombatFire
             bool CanBurn = default;
             Aow.Units.CombatILTer.TCombatILTerrain Terrain = default;
             Aow.Units.CityWall.TCityWall Wall = default;
-            var call__15 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-            var call__16 = call__15.GetField(Xhx, Yhx);
-            if (call__16.TerrainType != 15)
+            var call__12 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+            var call__13 = call__12.GetField(Xhx, Yhx);
+            if (call__13.TerrainType != 15)
             {
-                var call__17 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                var call__18 = call__17.GetField(Xhx, Yhx);
-                var call__19 = call__18.FindOwnedChild(2229578);
-                if (call__19 == null)
+                var call__14 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                var call__15 = call__14.GetField(Xhx, Yhx);
+                var call__16 = call__15.FindOwnedChild(2229578);
+                if (call__16 == null)
                 {
-                    var call__20 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(100);
-                    if (call__20 < Chance)
+                    var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(100);
+                    if (call__17 < Chance)
                     {
                         CanBurn = false;
-                        var call__21 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                        var call__22 = call__21.GetField(Xhx, Yhx);
-                        var call__23 = call__22.GetDecorationType();
-                        bool bool__24 = (call__23 == 9);
-                        if (!bool__24)
+                        var call__18 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                        var call__19 = call__18.GetField(Xhx, Yhx);
+                        var call__20 = call__19.GetDecorationType();
+                        bool bool__21 = (call__20 == 9);
+                        if (!bool__21)
                         {
-                            var call__25 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__26 = call__25.GetField(Xhx, Yhx);
-                            var call__27 = call__26.GetDecorationType();
-                            bool__24 = (call__27 == 1);
+                            var call__22 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                            var call__23 = call__22.GetField(Xhx, Yhx);
+                            var call__24 = call__23.GetDecorationType();
+                            bool__21 = (call__24 == 1);
                         }
 
-                        bool bool__28 = bool__24;
-                        if (!bool__28)
+                        bool bool__25 = bool__21;
+                        if (!bool__25)
                         {
-                            var call__29 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__30 = call__29.GetField(Xhx, Yhx);
-                            var call__31 = call__30.GetDecorationType();
-                            bool__28 = (call__31 == 2);
+                            var call__26 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                            var call__27 = call__26.GetField(Xhx, Yhx);
+                            var call__28 = call__27.GetDecorationType();
+                            bool__25 = (call__28 == 2);
                         }
 
-                        bool bool__32 = bool__28;
-                        if (!bool__32)
+                        bool bool__29 = bool__25;
+                        if (!bool__29)
                         {
-                            var call__33 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__34 = call__33.GetField(Xhx, Yhx);
-                            var call__35 = call__34.GetDecorationType();
-                            bool__32 = (call__35 == 3);
+                            var call__30 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                            var call__31 = call__30.GetField(Xhx, Yhx);
+                            var call__32 = call__31.GetDecorationType();
+                            bool__29 = (call__32 == 3);
                         }
 
-                        if (bool__32)
+                        if (bool__29)
                         {
                             CanBurn = true;
                         }
                         else
                         {
-                            var call__36 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__37 = call__36.GetField(Xhx, Yhx);
-                            var call__38 = call__37.FindOwnedChild(2228534);
-                            Terrain = (Aow.Units.CombatILTer.TCombatILTerrain)call__38;
+                            var call__33 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                            var call__34 = call__33.GetField(Xhx, Yhx);
+                            var call__35 = call__34.FindOwnedChild(2228534);
+                            Terrain = (Aow.Units.CombatILTer.TCombatILTerrain)call__35;
                             if (Terrain != null)
                             {
                                 if (Terrain.GetBurnValue() > 0)
@@ -406,10 +376,10 @@ namespace Aow.Units.CombatFire
                                 }
                             }
 
-                            var call__39 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__40 = call__39.GetField(Xhx, Yhx);
-                            var call__41 = call__40.FindOwnedChild(2229508);
-                            Wall = (Aow.Units.CityWall.TCityWall)call__41;
+                            var call__36 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                            var call__37 = call__36.GetField(Xhx, Yhx);
+                            var call__38 = call__37.FindOwnedChild(2229508);
+                            Wall = (Aow.Units.CityWall.TCityWall)call__38;
                             if (Wall != null)
                             {
                                 if (Wall.FWallType == 1)
@@ -425,8 +395,8 @@ namespace Aow.Units.CombatFire
                         if (CanBurn)
                         {
                             Fire = Aow.Units.CombatFire.TCombatFire.Create(null);
-                            var call__42 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(Fire, Xhx, Yhx, 0);
-                            if (!call__42)
+                            var call__39 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(Fire, Xhx, Yhx, 0);
+                            if (!call__39)
                             {
                                 Fire.Free();
                             }
