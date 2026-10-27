@@ -327,14 +327,6 @@ namespace Aow.Units.AoWSpellBook
         public Aow.Units.AoWE.TPlayerMagicEventLog FEvent;
         // { $240 }
         public Aow.Units.Engine.TDoubleItemList FPlayerPages;
-        // AoWSpellBook.pas:385
-        // { $244 }
-        public void ShowBook()
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.DXDC */
-            throw new System.NotImplementedException();
-        }
-
         // AoWSpellBook.pas:393
         public void FinishDialog()
         {

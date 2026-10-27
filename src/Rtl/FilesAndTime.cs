@@ -74,6 +74,7 @@ public sealed class SystemIoFileSystem : IFileSystem
     public DateTime? LastWriteTime(string path) => FileExists(path) ? File.GetLastWriteTime(Resolve(path)) : null;
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
     {
+        if (!DirectoryExists(directory)) yield break;
         foreach (string path in Directory.EnumerateFileSystemEntries(Resolve(directory)))
         {
             FileAttributes attr = File.GetAttributes(path);
@@ -167,6 +168,7 @@ public static partial class Rtl
         string pattern = ExtractFileName(path).ToString();
         try
         {
+            if (!Files.DirectoryExists(directory)) return 3;
             var all = Files.Enumerate(directory).ToList();
             all.Add(new(".", 0, faDirectory, Clock.Now));
             all.Add(new("..", 0, faDirectory, Clock.Now));

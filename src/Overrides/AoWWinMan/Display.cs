@@ -8,7 +8,7 @@ public partial class TGeneral
 {
     public void ManagerChangeCursor()
     {
-        if (AoWUnit.AoWUnit.MainForm is { } form) form.FCursor = unchecked((short)Manager.Cursor);
+        if (AoWUnit.AoWUnit.MainForm is { } form) form.FCursor = unchecked((short)Math.Abs(Manager.Cursor));
     }
     public void ManagerUpdate()
     {

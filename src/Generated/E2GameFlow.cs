@@ -421,32 +421,6 @@ namespace Aow.Units.E2GameFlow
             Aow.Units.E2GameFlow.E2GameFlow.ShowTitleScene(Aow.Units.E2Globals.E2Globals.TitleScene, true);
         }
 
-        // E2GameFlow.pas:642
-        public static bool HasModalWindow(Aow.Units.AoWWinMan.TGeneral Controller)
-        {
-            bool Result = default;
-            int I = default;
-            Aow.Units.AoWWindow.TAOWWindow Window = default;
-            Result = false;
-            I = Controller.Manager.FChildren.Count - 1;
-            while (I >= 0)
-            {
-                var call__48 = Controller.Manager.FChildren[I];
-                Window = (Aow.Units.AoWWindow.TAOWWindow)call__48;
-                if (((Window != Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow) && Window.Modal) && Window.Visible)
-                {
-                    Result = true;
-                    I = -1;
-                }
-                else
-                {
-                    I -= 1;
-                }
-            }
-
-            return Result;
-        }
-
         // E2GameFlow.pas:29
         public static void InitializeCampaignJoin(Aow.Units.AoWCampaignJoin.TCampaignJoinDlg Dialog)
         {
@@ -475,8 +449,8 @@ namespace Aow.Units.E2GameFlow
             bool Found = default;
             if (Settings != null)
             {
-                var call__49 = Setup.FSetupControl.GetHost();
-                Visible = call__49 && !Settings.FStatus.Contains(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssFixed);
+                var call__48 = Setup.FSetupControl.GetHost();
+                Visible = call__48 && !Settings.FStatus.Contains(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssFixed);
                 if (Visible != PlayerBox.Visible)
                 {
                     PlayerBox.Visible = Visible;
@@ -489,14 +463,14 @@ namespace Aow.Units.E2GameFlow
                     Setup.FSetupControl.ListAvailablePlayers(PlayerBox.Items);
                     PlayerBox.Items.EndUpdate();
                     Found = false;
-                    var call__50 = PlayerBox.Items.Count;
-                    I = call__50;
+                    var call__49 = PlayerBox.Items.Count;
+                    I = call__49;
                     while (!Found && (I != 0))
                     {
                         I -= 1;
-                        var call__51 = PlayerBox.Items[I];
-                        var call__52 = Setup.FSetupControl.PlayerNameToPlayerID(call__51, ref Behavior);
-                        if (call__52)
+                        var call__50 = PlayerBox.Items[I];
+                        var call__51 = Setup.FSetupControl.PlayerNameToPlayerID(call__50, ref Behavior);
+                        if (call__51)
                         {
                             Found = (Settings.FBehavior.PlayerType == Behavior.PlayerType) && (Settings.FBehavior.Flags == Behavior.Flags);
                         }
@@ -518,56 +492,56 @@ namespace Aow.Units.E2GameFlow
                     PlayerName.Visible = true;
                     if ((Settings.FBehavior.PlayerType == 0) && (Settings.FBehavior.Flags != 0))
                     {
-                        var call__53 = Setup.FSetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(Settings.FBehavior.Flags);
-                        I = call__53;
+                        var call__52 = Setup.FSetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(Settings.FBehavior.Flags);
+                        I = call__52;
                         if (I != -1)
                         {
-                            var call__54 = Setup.FSetupControl.FSettings.FRemotePlayers.GetPlayers(I);
-                            PlayerName.Text = call__54.FName;
+                            var call__53 = Setup.FSetupControl.FSettings.FRemotePlayers.GetPlayers(I);
+                            PlayerName.Text = call__53.FName;
                         }
                         else
                         {
-                            var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HumanRStr);
-                            PlayerName.Text = call__55;
+                            var call__54 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HumanRStr);
+                            PlayerName.Text = call__54;
                         }
                     }
                     else
                     {
-                        var call__56 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerTypeRStr[Settings.FBehavior.PlayerType]);
-                        PlayerName.Text = call__56;
+                        var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerTypeRStr[Settings.FBehavior.PlayerType]);
+                        PlayerName.Text = call__55;
                     }
                 }
 
                 Info.Text = (AnsiString)"";
-                var call__57 = Setup.FSetupControl.GetRemote();
-                Info.Visible = call__57 || Settings.FStatus.Contains(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssFixed);
+                var call__56 = Setup.FSetupControl.GetRemote();
+                Info.Visible = call__56 || Settings.FStatus.Contains(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssFixed);
                 if (Info.Visible)
                 {
                     if (Settings.FStatus.Contains(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssFixed))
                     {
-                        var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FixedRStr);
-                        Info.Text = call__58;
+                        var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FixedRStr);
+                        Info.Text = call__57;
                     }
                     else
                     {
-                        var call__59 = Setup.FSetupControl.GetRemote();
-                        if ((call__59 && Settings.FStatus.Contains(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssForced)) && (Settings.FBehavior.PlayerType == 0))
+                        var call__58 = Setup.FSetupControl.GetRemote();
+                        if ((call__58 && Settings.FStatus.Contains(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssForced)) && (Settings.FBehavior.PlayerType == 0))
                         {
-                            var call__60 = Setup.FSetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(Settings.FBehavior.Flags);
-                            I = call__60;
+                            var call__59 = Setup.FSetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(Settings.FBehavior.Flags);
+                            I = call__59;
                             if (I != -1)
                             {
                                 // { Original compares race bytes, including the FF sentinel. }
-                                var call__61 = Setup.FSetupControl.FSettings.FRemotePlayers.GetPlayers(I);
-                                if (call__61.FPreferredRace == unchecked((byte)Settings.FRace))
+                                var call__60 = Setup.FSetupControl.FSettings.FRemotePlayers.GetPlayers(I);
+                                if (call__60.FPreferredRace == unchecked((byte)Settings.FRace))
                                 {
-                                    var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TakenRStr);
-                                    Info.Text = call__62;
+                                    var call__61 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TakenRStr);
+                                    Info.Text = call__61;
                                 }
                                 else
                                 {
-                                    var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ForcedRStr);
-                                    Info.Text = call__63;
+                                    var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ForcedRStr);
+                                    Info.Text = call__62;
                                 }
                             }
                         }
@@ -575,35 +549,35 @@ namespace Aow.Units.E2GameFlow
                         {
                             if (Settings.FBehavior.Flags != 0)
                             {
-                                var call__64 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TakenRStr);
-                                Info.Text = call__64;
+                                var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TakenRStr);
+                                Info.Text = call__63;
                             }
                             else
                             {
                                 if (TSet<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType))
                                 {
-                                    var call__65 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerBehaviorRStr[(int)((Aow.Units.AoWE.TPlayerBehavior)Settings.FBehaviorMode)]);
-                                    Info.Text = call__65;
+                                    var call__64 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerBehaviorRStr[(int)((Aow.Units.AoWE.TPlayerBehavior)Settings.FBehaviorMode)]);
+                                    Info.Text = call__64;
                                 }
                             }
                         }
                     }
                 }
 
-                var call__66 = Setup.FSetupControl.GetHost();
-                BehaviorBox.Visible = call__66 && TSet<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType);
+                var call__65 = Setup.FSetupControl.GetHost();
+                BehaviorBox.Visible = call__65 && TSet<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType);
                 if (BehaviorBox.Visible)
                 {
                     BehaviorBox.Items.BeginUpdate();
                     BehaviorBox.Items.Clear();
                     {
-                        int first__70 = (int)0;
-                        int end__67 = (int)5;
-                        for (int ordinal__69 = first__70; ordinal__69 <= end__67; ordinal__69++)
+                        int first__69 = (int)0;
+                        int end__66 = (int)5;
+                        for (int ordinal__68 = first__69; ordinal__68 <= end__66; ordinal__68++)
                         {
-                            B = (byte)ordinal__69;
-                            var call__68 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerBehaviorRStr[(int)((Aow.Units.AoWE.TPlayerBehavior)B)]);
-                            BehaviorBox.Items.AddObject(call__68, Aow.Rtl.Rtl.IntToObject((int)B));
+                            B = (byte)ordinal__68;
+                            var call__67 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerBehaviorRStr[(int)((Aow.Units.AoWE.TPlayerBehavior)B)]);
+                            BehaviorBox.Items.AddObject(call__67, Aow.Rtl.Rtl.IntToObject((int)B));
                         }
                     }
 
@@ -646,8 +620,8 @@ namespace Aow.Units.E2GameFlow
                 BehaviorBox.Visible = false;
                 PlayerName.Visible = false;
                 Info.Visible = true;
-                var call__71 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnavailableRStr);
-                Info.Text = call__71;
+                var call__70 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnavailableRStr);
+                Info.Text = call__70;
                 Fog.Visible = true;
             }
         }
@@ -657,83 +631,83 @@ namespace Aow.Units.E2GameFlow
         {
             byte B = default;
             {
-                var w__72 = Setup;
-                w__72.FSetupControl = Control;
+                var w__71 = Setup;
+                w__71.FSetupControl = Control;
                 Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
-                w__72.ScenSetupPnl.Visible = true;
-                w__72.ChatMemo.Items.Clear();
-                w__72.ChatEdit.Text = (AnsiString)"";
-                w__72.FValidateDelay = 100;
-                w__72.FPingDelay = 15;
-                var call__73 = w__72.FSetupControl.GetRemote();
-                w__72.ChatFogPnl.Visible = !call__73;
-                var call__74 = w__72.FSetupControl.GetRemote();
-                w__72.ChatMemo.CaptureInput = call__74;
-                var call__75 = w__72.FSetupControl.GetRemote();
-                w__72.ChatEdit.CaptureInput = call__75;
-                var call__76 = w__72.FSetupControl.GetHost();
-                if (call__76 && (w__72.FSetupControl.FSettings.FMapName == ((AnsiString)"")))
+                w__71.ScenSetupPnl.Visible = true;
+                w__71.ChatMemo.Items.Clear();
+                w__71.ChatEdit.Text = (AnsiString)"";
+                w__71.FValidateDelay = 100;
+                w__71.FPingDelay = 15;
+                var call__72 = w__71.FSetupControl.GetRemote();
+                w__71.ChatFogPnl.Visible = !call__72;
+                var call__73 = w__71.FSetupControl.GetRemote();
+                w__71.ChatMemo.CaptureInput = call__73;
+                var call__74 = w__71.FSetupControl.GetRemote();
+                w__71.ChatEdit.CaptureInput = call__74;
+                var call__75 = w__71.FSetupControl.GetHost();
+                if (call__75 && (w__71.FSetupControl.FSettings.FMapName == ((AnsiString)"")))
                 {
-                    w__72.PickMap();
+                    w__71.PickMap();
                 }
 
-                var call__77 = w__72.FSetupControl.GetRemote();
-                if (call__77)
+                var call__76 = w__71.FSetupControl.GetRemote();
+                if (call__76)
                 {
-                    w__72.TacticalCombatCB.Visible = true;
-                    w__72.TacticalCombatLbl.Visible = true;
-                    w__72.TacticalCombatCB.Items.Clear();
+                    w__71.TacticalCombatCB.Visible = true;
+                    w__71.TacticalCombatLbl.Visible = true;
+                    w__71.TacticalCombatCB.Items.Clear();
                     {
-                        int first__81 = (int)0;
-                        int end__78 = (int)2;
-                        for (int ordinal__80 = first__81; ordinal__80 <= end__78; ordinal__80++)
+                        int first__80 = (int)0;
+                        int end__77 = (int)2;
+                        for (int ordinal__79 = first__80; ordinal__79 <= end__77; ordinal__79++)
                         {
-                            B = (byte)ordinal__80;
-                            var call__79 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TTacticalCombatAvailabilityRStr[B]);
-                            w__72.TacticalCombatCB.Items.AddObject(call__79, Aow.Rtl.Rtl.IntToObject((int)B));
+                            B = (byte)ordinal__79;
+                            var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TTacticalCombatAvailabilityRStr[B]);
+                            w__71.TacticalCombatCB.Items.AddObject(call__78, Aow.Rtl.Rtl.IntToObject((int)B));
                         }
                     }
                 }
                 else
                 {
-                    w__72.TacticalCombatCB.Visible = false;
-                    w__72.TacticalCombatLbl.Visible = false;
+                    w__71.TacticalCombatCB.Visible = false;
+                    w__71.TacticalCombatLbl.Visible = false;
                 }
 
-                if (w__72.FSetupControl.FSettings.FConnectionType == 2)
+                if (w__71.FSetupControl.FSettings.FConnectionType == 2)
                 {
-                    w__72.CustomizeLeadersLbl.TextColor = 8421504;
-                    w__72.CustomizeLeaders.CaptureInput = false;
-                    w__72.PlayModeCB.Items.Clear();
-                    var call__82 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ClassicRStr);
-                    w__72.PlayModeCB.Items.AddObject(call__82, Aow.Rtl.Rtl.IntToObject((int)1));
+                    w__71.CustomizeLeadersLbl.TextColor = 8421504;
+                    w__71.CustomizeLeaders.CaptureInput = false;
+                    w__71.PlayModeCB.Items.Clear();
+                    var call__81 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ClassicRStr);
+                    w__71.PlayModeCB.Items.AddObject(call__81, Aow.Rtl.Rtl.IntToObject((int)1));
                 }
                 else
                 {
-                    w__72.CustomizeLeadersLbl.TextColor = w__72.AlliedVictoryLbl.TextColor;
-                    w__72.CustomizeLeaders.CaptureInput = true;
-                    w__72.PlayModeCB.Items.Clear();
-                    var call__83 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SimultaneousRStr);
-                    w__72.PlayModeCB.Items.AddObject(call__83, Aow.Rtl.Rtl.IntToObject((int)2));
-                    var call__84 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ClassicRStr);
-                    w__72.PlayModeCB.Items.AddObject(call__84, Aow.Rtl.Rtl.IntToObject((int)1));
+                    w__71.CustomizeLeadersLbl.TextColor = w__71.AlliedVictoryLbl.TextColor;
+                    w__71.CustomizeLeaders.CaptureInput = true;
+                    w__71.PlayModeCB.Items.Clear();
+                    var call__82 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SimultaneousRStr);
+                    w__71.PlayModeCB.Items.AddObject(call__82, Aow.Rtl.Rtl.IntToObject((int)2));
+                    var call__83 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ClassicRStr);
+                    w__71.PlayModeCB.Items.AddObject(call__83, Aow.Rtl.Rtl.IntToObject((int)1));
                 }
 
-                bool bool__85 = (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex != -1);
-                if (bool__85)
+                bool bool__84 = (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex != -1);
+                if (bool__84)
                 {
-                    var call__86 = Aow.Units.Sound.Sound.SongPlayer.Songs.Count;
-                    bool__85 = (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex < call__86);
+                    var call__85 = Aow.Units.Sound.Sound.SongPlayer.Songs.Count;
+                    bool__84 = (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex < call__85);
                 }
 
-                bool bool__87 = bool__85;
-                if (bool__87)
+                bool bool__86 = bool__84;
+                if (bool__86)
                 {
-                    var call__88 = Aow.Units.Sound.Sound.SongPlayer.Songs[Aow.Units.Sound.Sound.SongPlayer.CurrentIndex];
-                    bool__87 = (call__88 == ((AnsiString)"SONGS\\TITLE.IT"));
+                    var call__87 = Aow.Units.Sound.Sound.SongPlayer.Songs[Aow.Units.Sound.Sound.SongPlayer.CurrentIndex];
+                    bool__86 = (call__87 == ((AnsiString)"SONGS\\TITLE.IT"));
                 }
 
-                if (!bool__87)
+                if (!bool__86)
                 {
                     Aow.Units.Sound.Sound.SongPlayer.Songs.Clear();
                     Aow.Units.Sound.Sound.SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");

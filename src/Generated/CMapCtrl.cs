@@ -373,23 +373,6 @@ namespace Aow.Units.CMapCtrl
             }
         }
 
-        // CMapCtrl.pas:288
-        public void ShowMessage(Aow.Rtl.TObject Sender)
-        {
-            try
-            {
-                if (FOnShowMessage != null)
-                {
-                    /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-                    throw new System.NotImplementedException();
-                }
-            }
-            catch (System.Exception)
-            {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ShowMessage event(TAoWCombatMapControl)");
-            }
-        }
-
         // CMapCtrl.pas:297
         public void ChangeTurn(Aow.Rtl.TObject Sender)
         {

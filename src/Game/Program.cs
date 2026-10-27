@@ -12,6 +12,7 @@ internal static class Program
         {
             string root = Value(args, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
             if (args.Contains("--verify")) return Verification.Run(root, Value(args, "--source-root"));
+            if (args.Contains("--verify-frame-inputs")) return FrameFixtureChecks.Run();
             if (args.Contains("--verify-sdl")) return SdlVerification.Run();
             if (args.Contains("--smoke-test"))
                 return FrameFixture.Run(Value(args, "--fixtures") ?? @"D:\git\open-aow-private\tests\frames\fixtures.toml", "title-60", root,
@@ -25,7 +26,8 @@ internal static class Program
                 Console.WriteLine("OpenAoW [--game-root PATH] [--user-data PATH | --single-directory PATH] [--scale N] [--fullscreen] [--smoke-test] [--frames N]");
                 Console.WriteLine("OpenAoW --verify [--game-root PATH] [--source-root RECOVERED_DELPHI_DIRECTORY]");
                 Console.WriteLine("OpenAoW --verify-sdl");
-                Console.WriteLine("OpenAoW --fixture title-60 --fixtures PATH --out PATH [--game-root PATH]");
+                Console.WriteLine("OpenAoW --fixture NAME --fixtures PATH --out PATH [--game-root PATH]");
+                Console.WriteLine("OpenAoW --verify-frame-inputs");
                 return 0;
             }
             string? single = Value(args, "--single-directory");
