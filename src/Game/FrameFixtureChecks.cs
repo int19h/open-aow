@@ -21,6 +21,8 @@ internal static class FrameFixtureChecks
         }
         var instance = new TObject();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)instance.InstanceId >> 2) & 65535), "ordinary animation phase");
+        Check(!new TGDPlay().Connected && new TGDPlay().ConnectionType == TConnectionType.conNone, "offline connection queries");
+        Check(Aow.Units.AOWControlWin.TControlWin.UnitMoveText(32) == "   32", "native unit movement label spacing");
         FrameFixtureInputs.AddressAnimationPhase = 0;
         Check(FrameFixtureInputs.AnimationOffset(instance) == 0, "capture phase");
         FrameFixtureInputs.AddressAnimationPhase = null;
@@ -66,6 +68,8 @@ internal static class FrameFixtureChecks
             Check(!bar.PInd.FAligned && !bar.TBMessEdit.FAligned, "indicator invalidates alignment");
             Check(GameState.TMagicSphereRStr[(int)TMagicSphere.msLife] == "Life" &&
                 GameState.TMagicSphereRStr[(int)TMagicSphere.msCosmos] == "Cosmos", "sphere names are initialized");
+            Check(GameState.TPlayerBehaviorRStr[(int)TPlayerBehavior.pbNormal] == "Normal" &&
+                GameState.TPlayerBehaviorRStr[(int)TPlayerBehavior.pbRandom] == "Random", "setup behavior names are initialized");
 
             Aow.Rtl.Rtl.Settings = new MemorySettingsStore();
             GameState.AoWEngine = new() { FRegistry = new() };
