@@ -10552,8 +10552,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1390
         public static void OriginalAssert(Aow.Rtl.AnsiString Message, Aow.Rtl.AnsiString Filename, int LineNumber)
         {
-            /* TODO(T-4.4) Routine body is absent */
-            throw new System.NotImplementedException();
+            Aow.Rtl.Rtl.Assert(false, Message, Filename.ToString(), LineNumber);
         }
 
         // { the hexagon direction opposite to the directions 1..6 }

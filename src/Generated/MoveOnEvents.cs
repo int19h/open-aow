@@ -168,15 +168,6 @@ namespace Aow.Units.MoveOnEvents
         {
         }
 
-        // MoveOnEvents.pas:177
-        // { +11C }
-        public virtual void ArmyPlaced(object Army)
-        {
-            // { needs: the army-view player reference at +$1C, player id at +$12 (557D35DA). }
-            /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-            throw new System.NotImplementedException();
-        }
-
         // MoveOnEvents.pas:139
         // { +120 }
         public bool GetTriggerPlayer(sbyte Player)
@@ -315,8 +306,8 @@ namespace Aow.Units.MoveOnEvents
             // { needs: seated-player field at AoWHSMap +$A5 (557D3878). }
             if (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
             {
-                var call__6 = Aow.Units.Sound.Sound.PlayingSongFileName();
-                if (Aow.Rtl.Rtl.CompareText(call__6, FSongFileName) != 0)
+                var call__5 = Aow.Units.Sound.Sound.PlayingSongFileName();
+                if (Aow.Rtl.Rtl.CompareText(call__5, FSongFileName) != 0)
                 {
                     Aow.Units.Sound.Sound.PlaySongEx(FSongFileName, 2, 0, false);
                 }
@@ -538,8 +529,8 @@ namespace Aow.Units.MoveOnEvents
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__7 = new Aow.Rtl.TStringList();
-            FMessage = call__7;
+            var call__6 = new Aow.Rtl.TStringList();
+            FMessage = call__6;
         }
 
         // MoveOnEvents.pas:355
@@ -549,8 +540,8 @@ namespace Aow.Units.MoveOnEvents
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Player)
             {
                 Log = Aow.Units.EventLog.TShowMessageEventLog.Create(null);
-                var call__8 = FMessage.Text;
-                Log.FMessage.Text = call__8;
+                var call__7 = FMessage.Text;
+                Log.FMessage.Text = call__7;
                 Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, null);
                 Log.Release();
             }

@@ -523,64 +523,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:584
-        public void ShowAnimation(Aow.Units.Animation.TAnimation Anim, int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
-        {
-            int X = default;
-            int MaxX = default;
-            int Y = default;
-            int MaxY = default;
-            int Xhp = default;
-            int Yhp = default;
-            int FieldStep = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.AoWE.TAoWMapField MapF = default;
-            var call__37 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWE.AoWE.AoWHSMap.ViewL);
-            MapLevel = call__37;
-            FieldStep = MapLevel.FHNOffsets[0][4];
-            MaxX = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewXhx + Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidthHX) - 1;
-            MaxY = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx + Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeightHX) - 1;
-            {
-                X = Aow.Units.AoWE.AoWE.AoWHSMap.ViewXhx;
-                int end__38 = MaxX;
-                for (; X <= end__38; X += 1)
-                {
-                    Aow.Units.HSEngine.HSEngine.HXtoHP(X, Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx, ref Xhp, ref Yhp);
-                    Xhp = (Xhp - XhpSurf) + 16;
-                    Yhp = (Yhp - YhpSurf) + 16;
-                    var call__39 = MapLevel.GetField(X, Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx);
-                    MapF = (Aow.Units.AoWE.TAoWMapField)call__39;
-                    {
-                        Y = Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx;
-                        int end__40 = MaxY;
-                        for (; Y <= end__40; Y += 1)
-                        {
-                            bool bool__41 = (MapF.OverlayType == 4) && (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer != -1);
-                            if (bool__41)
-                            {
-                                var call__42 = MapF.GetExplored(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                                bool__41 = call__42;
-                            }
-
-                            if (bool__41)
-                            {
-                                FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - (((MapF.Xhx + (MapF.Yhx * 8)) + Unsafe.As<ushort, Aow.Rtl.WordRec>(ref Unsafe.As<int, Aow.Rtl.LongRec>(ref MapF.FFieldFlags).Hi).Lo) & 15), SurfaceDesc);
-                            }
-
-                            /* TODO(T-N7) Object address arithmetic requires a typed storage override */
-                            throw new System.NotImplementedException();
-                            Yhp += 32;
-                        }
-                    }
-                }
-            }
-
-            if (Anim.FFrameCounter == 50)
-            {
-                Anim.Destroy();
-            }
-        }
-
         // GlobalEnchantmentSpells.pas:83
         public static new Aow.Units.GlobalEnchantmentSpells.TEnchantedRoads Create(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -606,9 +548,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__43 = Aow.Units.AoWE.AoWE.AirMasteryRStr;
-            var call__44 = Aow.Units.AoWE.AoWE.TranslateRStr(call__43);
-            FName = call__44;
+            var call__37 = Aow.Units.AoWE.AoWE.AirMasteryRStr;
+            var call__38 = Aow.Units.AoWE.AoWE.TranslateRStr(call__37);
+            FName = call__38;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getNone;
             FDispelMana = 175;
         }
@@ -626,9 +568,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             bool Result = default;
             base.Deactivate(unchecked((byte)Player));
-            var call__45 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            var call__46 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            call__46.FMagicControl.SetActiveEnchantments(call__45.FMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petAirMastery));
+            var call__39 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            var call__40 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            call__40.FMagicControl.SetActiveEnchantments(call__39.FMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petAirMastery));
             // { Original uses Earth. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msEarth);
             Result = true;
@@ -642,14 +584,14 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Result = base.CanActivate(unchecked((sbyte)Player), ref Reason);
             if (Result)
             {
-                var call__47 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                if (call__47.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petAirMastery))
+                var call__41 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                if (call__41.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petAirMastery))
                 {
-                    var call__48 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
-                    var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(call__48);
-                    var call__50 = GetName();
-                    var call__51 = Aow.Rtl.Rtl.Format(call__49, [call__50]);
-                    Reason = call__51;
+                    var call__42 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
+                    var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(call__42);
+                    var call__44 = GetName();
+                    var call__45 = Aow.Rtl.Rtl.Format(call__43, [call__44]);
+                    Reason = call__45;
                     Result = false;
                 }
             }
@@ -662,9 +604,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             bool Result = default;
             base.Activate(unchecked((sbyte)Player));
-            var call__52 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            var call__53 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            call__53.FMagicControl.SetActiveEnchantments(call__52.FMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petAirMastery));
+            var call__46 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            var call__47 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            call__47.FMagicControl.SetActiveEnchantments(call__46.FMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petAirMastery));
             // { Original uses Earth. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msEarth);
             Result = true;
@@ -727,9 +669,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__54 = Aow.Units.AoWE.AoWE.AirMasteryRStr;
-            var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(call__54);
-            FSpellName = call__55;
+            var call__48 = Aow.Units.AoWE.AoWE.AirMasteryRStr;
+            var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(call__48);
+            FSpellName = call__49;
             FSpellID = 60;
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             FBaseManaCost = 1;
@@ -758,8 +700,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Anim.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
             Anim.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
             Anim.Activate();
-            var call__56 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(60);
-            call__56.FCastSounds.Play(0);
+            var call__50 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(60);
+            call__50.FCastSounds.Play(0);
             CastingDone(A2, A1.FEventMana);
             Result = false;
             return Result;
@@ -800,13 +742,13 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
                 {
                     I = 0;
-                    int end__57 = Count - 1;
-                    for (; I <= end__57; I += 1)
+                    int end__51 = Count - 1;
+                    for (; I <= end__51; I += 1)
                     {
-                        var call__58 = Aow.Rtl.Rtl.Random(Anim.FTag & 65535);
-                        X = call__58;
-                        var call__59 = Aow.Rtl.Rtl.Random((int)(((uint)((int)unchecked((uint)Anim.FTag))) >> 16));
-                        Y = call__59;
+                        var call__52 = Aow.Rtl.Rtl.Random(Anim.FTag & 65535);
+                        X = call__52;
+                        var call__53 = Aow.Rtl.Rtl.Random((int)(((uint)((int)unchecked((uint)Anim.FTag))) >> 16));
+                        Y = call__53;
                         Speed = Aow.Rtl.Rtl.Random(15) + 5;
                         Image = Aow.Rtl.Rtl.Random(3);
                         X += ((Anim.FFrameCounter - 45) * Speed) * 2;
@@ -847,9 +789,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__60 = Aow.Units.AoWE.AoWE.WaterMasteryRStr;
-            var call__61 = Aow.Units.AoWE.AoWE.TranslateRStr(call__60);
-            FName = call__61;
+            var call__54 = Aow.Units.AoWE.AoWE.WaterMasteryRStr;
+            var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(call__54);
+            FName = call__55;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getNone;
             FDispelMana = 175;
         }
@@ -867,9 +809,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             bool Result = default;
             base.Deactivate(unchecked((byte)Player));
-            var call__62 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            var call__63 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            call__63.FMagicControl.SetActiveEnchantments(call__62.FMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petWaterMastery));
+            var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            var call__57 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            call__57.FMagicControl.SetActiveEnchantments(call__56.FMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petWaterMastery));
             Aow.Units.AoWE.AoWE.AoWHSMap.UpdateVisibility();
             // { Original uses Fire for Water Mastery. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msFire);
@@ -884,14 +826,14 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Result = base.CanActivate(unchecked((sbyte)Player), ref Reason);
             if (Result)
             {
-                var call__64 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                if (call__64.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petWaterMastery))
+                var call__58 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                if (call__58.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petWaterMastery))
                 {
-                    var call__65 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
-                    var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(call__65);
-                    var call__67 = GetName();
-                    var call__68 = Aow.Rtl.Rtl.Format(call__66, [call__67]);
-                    Reason = call__68;
+                    var call__59 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
+                    var call__60 = Aow.Units.AoWE.AoWE.TranslateRStr(call__59);
+                    var call__61 = GetName();
+                    var call__62 = Aow.Rtl.Rtl.Format(call__60, [call__61]);
+                    Reason = call__62;
                     Result = false;
                 }
             }
@@ -904,9 +846,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             bool Result = default;
             base.Activate(unchecked((sbyte)Player));
-            var call__69 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            var call__70 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            call__70.FMagicControl.SetActiveEnchantments(call__69.FMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petWaterMastery));
+            var call__63 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            var call__64 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            call__64.FMagicControl.SetActiveEnchantments(call__63.FMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petWaterMastery));
             Aow.Units.AoWE.AoWE.AoWHSMap.UpdateVisibility();
             // { Original uses Fire for Water Mastery. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msFire);
@@ -970,9 +912,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__71 = Aow.Units.AoWE.AoWE.WaterMasteryRStr;
-            var call__72 = Aow.Units.AoWE.AoWE.TranslateRStr(call__71);
-            FSpellName = call__72;
+            var call__65 = Aow.Units.AoWE.AoWE.WaterMasteryRStr;
+            var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(call__65);
+            FSpellName = call__66;
             FSpellID = 45;
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             FBaseManaCost = 1;
@@ -1043,9 +985,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__73 = Aow.Units.AoWE.AoWE.HatredRStr;
-            var call__74 = Aow.Units.AoWE.AoWE.TranslateRStr(call__73);
-            FName = call__74;
+            var call__67 = Aow.Units.AoWE.AoWE.HatredRStr;
+            var call__68 = Aow.Units.AoWE.AoWE.TranslateRStr(call__67);
+            FName = call__68;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getHatred;
             FDispelMana = 50;
         }
@@ -1162,9 +1104,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__75 = Aow.Units.AoWE.AoWE.HatredRStr;
-            var call__76 = Aow.Units.AoWE.AoWE.TranslateRStr(call__75);
-            FSpellName = call__76;
+            var call__69 = Aow.Units.AoWE.AoWE.HatredRStr;
+            var call__70 = Aow.Units.AoWE.AoWE.TranslateRStr(call__69);
+            FSpellName = call__70;
             FSpellID = 46;
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             FBaseManaCost = 20;
@@ -1231,9 +1173,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__77 = Aow.Units.AoWE.AoWE.HarmonyRStr;
-            var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(call__77);
-            FName = call__78;
+            var call__71 = Aow.Units.AoWE.AoWE.HarmonyRStr;
+            var call__72 = Aow.Units.AoWE.AoWE.TranslateRStr(call__71);
+            FName = call__72;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getHarmony;
             FDispelMana = 50;
         }
@@ -1350,9 +1292,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__79 = Aow.Units.AoWE.AoWE.HarmonyRStr;
-            var call__80 = Aow.Units.AoWE.AoWE.TranslateRStr(call__79);
-            FSpellName = call__80;
+            var call__73 = Aow.Units.AoWE.AoWE.HarmonyRStr;
+            var call__74 = Aow.Units.AoWE.AoWE.TranslateRStr(call__73);
+            FSpellName = call__74;
             FSpellID = 47;
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             FBaseManaCost = 15;
@@ -1410,9 +1352,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__81 = Aow.Units.AoWE.AoWE.PowerLeakRStr;
-            var call__82 = Aow.Units.AoWE.AoWE.TranslateRStr(call__81);
-            FName = call__82;
+            var call__75 = Aow.Units.AoWE.AoWE.PowerLeakRStr;
+            var call__76 = Aow.Units.AoWE.AoWE.TranslateRStr(call__75);
+            FName = call__76;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getPowerLeak;
             FDispelMana = 25;
         }
@@ -1433,11 +1375,11 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Deactivate(unchecked((byte)Player));
             {
                 I = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
-                byte end__83 = 0;
-                for (; I >= end__83; I -= 1)
+                byte end__77 = 0;
+                for (; I >= end__77; I -= 1)
                 {
-                    var call__84 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                    call__84.FMagicControl.Update();
+                    var call__78 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    call__78.FMagicControl.Update();
                 }
             }
 
@@ -1453,11 +1395,11 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Activate(unchecked((sbyte)Player));
             {
                 I = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
-                byte end__85 = 0;
-                for (; I >= end__85; I -= 1)
+                byte end__79 = 0;
+                for (; I >= end__79; I -= 1)
                 {
-                    var call__86 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                    call__86.FMagicControl.Update();
+                    var call__80 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    call__80.FMagicControl.Update();
                 }
             }
 
@@ -1522,9 +1464,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
-            var call__87 = Aow.Units.AoWE.AoWE.PowerLeakRStr;
-            var call__88 = Aow.Units.AoWE.AoWE.TranslateRStr(call__87);
-            FSpellName = call__88;
+            var call__81 = Aow.Units.AoWE.AoWE.PowerLeakRStr;
+            var call__82 = Aow.Units.AoWE.AoWE.TranslateRStr(call__81);
+            FSpellName = call__82;
             FSpellID = 48;
             FBaseManaCost = 1;
             FSpellLevel = 4;
@@ -1545,9 +1487,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
             Anim = Aow.Units.Animation.TTwinkleAnimation.Create(null);
-            var call__89 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(48);
-            var call__90 = call__89.FCastImages.ImageSequences[0];
-            Anim.Setup(call__90, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmImplode), 100, 64, 50, 30);
+            var call__83 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(48);
+            var call__84 = call__83.FCastImages.ImageSequences[0];
+            Anim.Setup(call__84, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmImplode), 100, 64, 50, 30);
             Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Anim, X, Y, L);
             FCastSounds.Play(0);
             CastingDone(A2, A1.FEventMana);
@@ -1646,38 +1588,38 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.HSEngine.THexagonSprite RoadHS = default;
             sbyte TerrainType = default;
             Aow.Units.AoWE.AoWE.AoWHSMap.LockMapChangedEvent();
-            var call__91 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(0);
-            MapLevel = call__91;
+            var call__85 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(0);
+            MapLevel = call__85;
             // { Original includes the last row when walking neighbouring hexagons. }
             {
                 Y = 1;
-                int end__92 = MapLevel.Height - 1;
-                for (; Y <= end__92; Y += 1)
+                int end__86 = MapLevel.Height - 1;
+                for (; Y <= end__86; Y += 1)
                 {
                     {
                         X = 1;
-                        int end__93 = MapLevel.Width - 2;
-                        for (; X <= end__93; X += 1)
+                        int end__87 = MapLevel.Width - 2;
+                        for (; X <= end__87; X += 1)
                         {
-                            var call__94 = MapLevel.GetField(X, Y);
-                            if (call__94.TerrainType == 0)
+                            var call__88 = MapLevel.GetField(X, Y);
+                            if (call__88.TerrainType == 0)
                             {
                                 Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 1);
                                 while (Walk.Radius == 1)
                                 {
-                                    var call__95 = MapLevel.GetField(Walk.X, Walk.Y);
-                                    MapF = call__95;
+                                    var call__89 = MapLevel.GetField(Walk.X, Walk.Y);
+                                    MapF = call__89;
                                     if ((!TSet<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)MapF.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)MapF.OverlayType)) || ((MapF.TerrainType == 0) && (MapF.OverlayType == 5)))
                                     {
                                         Index = ((FWidth * Walk.Y) + Walk.X) * 2;
-                                        bool bool__96 = (FOriginalTerrain[Index] == 0) && (FOriginalTerrain[Index + 1] == 0);
-                                        if (bool__96)
+                                        bool bool__90 = (FOriginalTerrain[Index] == 0) && (FOriginalTerrain[Index + 1] == 0);
+                                        if (bool__90)
                                         {
-                                            var call__97 = MapF.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure));
-                                            bool__96 = (call__97 == null);
+                                            var call__91 = MapF.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure));
+                                            bool__90 = (call__91 == null);
                                         }
 
-                                        if (bool__96)
+                                        if (bool__90)
                                         {
                                             FOriginalTerrain[Index] = unchecked((sbyte)MapF.TerrainType);
                                             FOriginalTerrain[Index + 1] = unchecked((sbyte)MapF.OverlayType);
@@ -1703,14 +1645,14 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
             {
                 Y = 1;
-                int end__98 = MapLevel.Height - 1;
-                for (; Y <= end__98; Y += 1)
+                int end__92 = MapLevel.Height - 1;
+                for (; Y <= end__92; Y += 1)
                 {
                     Index = ((FWidth * Y) + 1) * 2;
                     {
                         X = 1;
-                        int end__99 = MapLevel.Width - 2;
-                        for (; X <= end__99; X += 1)
+                        int end__93 = MapLevel.Width - 2;
+                        for (; X <= end__93; X += 1)
                         {
                             if (FOriginalTerrain[Index] != 0)
                             {
@@ -1747,18 +1689,18 @@ namespace Aow.Units.GlobalEnchantmentSpells
             sbyte Overlay = default;
             Aow.Units.HSEngine.TMapObjectResource Resource = default;
             Aow.Units.AoWE.AoWE.AoWHSMap.LockMapChangedEvent();
-            var call__100 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(0);
-            MapLevel = call__100;
+            var call__94 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(0);
+            MapLevel = call__94;
             {
                 Y = 1;
-                int end__101 = MapLevel.Height - 1;
-                for (; Y <= end__101; Y += 1)
+                int end__95 = MapLevel.Height - 1;
+                for (; Y <= end__95; Y += 1)
                 {
                     Index = ((FWidth * Y) + 1) * 2;
                     {
                         X = 1;
-                        int end__102 = MapLevel.Width - 2;
-                        for (; X <= end__102; X += 1)
+                        int end__96 = MapLevel.Width - 2;
+                        for (; X <= end__96; X += 1)
                         {
                             if (FOriginalTerrain[Index] != 0)
                             {
@@ -1780,14 +1722,14 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Candidates = new Aow.Rtl.TList();
             {
                 Y = 1;
-                int end__103 = MapLevel.Height - 1;
-                for (; Y <= end__103; Y += 1)
+                int end__97 = MapLevel.Height - 1;
+                for (; Y <= end__97; Y += 1)
                 {
                     Index = ((FWidth * Y) + 1) * 2;
                     {
                         X = 1;
-                        int end__104 = MapLevel.Width - 2;
-                        for (; X <= end__104; X += 1)
+                        int end__98 = MapLevel.Width - 2;
+                        for (; X <= end__98; X += 1)
                         {
                             Overlay = unchecked((sbyte)FOriginalTerrain[Index + 1]);
                             if (Overlay > 0)
@@ -1802,33 +1744,33 @@ namespace Aow.Units.GlobalEnchantmentSpells
                                     Candidates.Clear();
                                     {
                                         I = 0;
-                                        int end__105 = Resources.Count - 1;
-                                        for (; I <= end__105; I += 1)
+                                        int end__99 = Resources.Count - 1;
+                                        for (; I <= end__99; I += 1)
                                         {
                                             Resource = (Aow.Units.HSEngine.TMapObjectResource)Resources.List[I];
-                                            var call__106 = Resource.ClassType.ClassID();
-                                            bool bool__107 = (call__106 == 131431);
-                                            if (bool__107)
+                                            var call__100 = Resource.ClassType.ClassID();
+                                            bool bool__101 = (call__100 == 131431);
+                                            if (bool__101)
                                             {
-                                                var call__108 = Resource.TerrainList.UsedTerrain();
-                                                bool__107 = (call__108 == 1);
+                                                var call__102 = Resource.TerrainList.UsedTerrain();
+                                                bool__101 = (call__102 == 1);
                                             }
 
-                                            bool bool__109 = bool__107;
-                                            if (bool__109)
+                                            bool bool__103 = bool__101;
+                                            if (bool__103)
                                             {
-                                                var call__110 = Resource.TerrainList.Terrain[0];
-                                                bool__109 = (call__110 == MapF.TerrainType);
+                                                var call__104 = Resource.TerrainList.Terrain[0];
+                                                bool__103 = (call__104 == MapF.TerrainType);
                                             }
 
-                                            bool bool__111 = bool__109;
-                                            if (bool__111)
+                                            bool bool__105 = bool__103;
+                                            if (bool__105)
                                             {
-                                                var call__112 = Resource.TerrainList.Overlay[0];
-                                                bool__111 = (Overlay == call__112);
+                                                var call__106 = Resource.TerrainList.Overlay[0];
+                                                bool__105 = (Overlay == call__106);
                                             }
 
-                                            if (bool__111)
+                                            if (bool__105)
                                             {
                                                 Candidates.Add(Resource);
                                             }
@@ -1837,9 +1779,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
                                     if (Candidates.Count != 0)
                                     {
-                                        var call__113 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Candidates.Count);
-                                        var call__114 = Candidates[call__113];
-                                        ((Aow.Units.HSEngine.TMapObjectResource)call__114).PlaceResourceUser(Aow.Units.AoWE.AoWE.AoWHSMap, unchecked((sbyte)X), unchecked((sbyte)Y), 0);
+                                        var call__107 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Candidates.Count);
+                                        var call__108 = Candidates[call__107];
+                                        ((Aow.Units.HSEngine.TMapObjectResource)call__108).PlaceResourceUser(Aow.Units.AoWE.AoWE.AoWHSMap, unchecked((sbyte)X), unchecked((sbyte)Y), 0);
                                     }
                                 }
                             }
@@ -1910,12 +1852,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__115 = Aow.Units.AoWE.AoWE.FloodRStr;
-            var call__116 = Aow.Units.AoWE.AoWE.TranslateRStr(call__115);
-            FName = call__116;
+            var call__109 = Aow.Units.AoWE.AoWE.FloodRStr;
+            var call__110 = Aow.Units.AoWE.AoWE.TranslateRStr(call__109);
+            FName = call__110;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getFlood;
-            var call__117 = Aow.Units.GlobalEnchantmentSpells.TFloodControl.Create(null);
-            FFloodControl = call__117;
+            var call__111 = Aow.Units.GlobalEnchantmentSpells.TFloodControl.Create(null);
+            FFloodControl = call__111;
             FDispelMana = 100;
             FRestoreDays = unchecked((sbyte)-1);
         }
@@ -1950,17 +1892,17 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Result = base.GetName();
             if (FRemoved)
             {
-                var call__118 = Aow.Units.AoWE.AoWE.FmtDaysLeftStr(FRestoreDays);
-                Result = ((Result + ((AnsiString)" (")) + Aow.Rtl.Rtl.LowerCase(call__118)) + AnsiString.FromBytes(41);
+                var call__112 = Aow.Units.AoWE.AoWE.FmtDaysLeftStr(FRestoreDays);
+                Result = ((Result + ((AnsiString)" (")) + Aow.Rtl.Rtl.LowerCase(call__112)) + AnsiString.FromBytes(41);
             }
             else
             {
                 if (DaysBeforeActive() != 0)
                 {
-                    var call__119 = DaysBeforeActive();
-                    var call__120 = Aow.Units.AoWE.AoWE.XinYdaysRStr;
-                    var call__121 = Aow.Rtl.Rtl.Format(call__120, [Result, (int)call__119]);
-                    Result = call__121;
+                    var call__113 = DaysBeforeActive();
+                    var call__114 = Aow.Units.AoWE.AoWE.XinYdaysRStr;
+                    var call__115 = Aow.Rtl.Rtl.Format(call__114, [Result, (int)call__113]);
+                    Result = call__115;
                 }
             }
 
@@ -2001,10 +1943,10 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
             else
             {
-                var call__122 = Aow.Units.AoWE.AoWE.XAlreadyRemovedRStr;
-                var call__123 = Aow.Units.AoWE.AoWE.TranslateRStr(call__122);
-                var call__124 = Aow.Rtl.Rtl.Format(call__123, [FName]);
-                Reason = call__124;
+                var call__116 = Aow.Units.AoWE.AoWE.XAlreadyRemovedRStr;
+                var call__117 = Aow.Units.AoWE.AoWE.TranslateRStr(call__116);
+                var call__118 = Aow.Rtl.Rtl.Format(call__117, [FName]);
+                Reason = call__118;
                 Result = false;
             }
 
@@ -2028,8 +1970,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                     FRestoreDays = 1;
                 }
 
-                var call__125 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-                call__125.FMagicControl.Update();
+                var call__119 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+                call__119.FMagicControl.Update();
                 Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.Update();
                 Result = true;
             }
@@ -2092,8 +2034,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                     {
                         if (FTurnsActive == 4)
                         {
-                            var call__126 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
-                            if (call__126 == 1)
+                            var call__120 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
+                            if (call__120 == 1)
                             {
                                 FFloodControl.Flood();
                             }
@@ -2112,8 +2054,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                         {
                             if (FTurnsActive == 3)
                             {
-                                var call__127 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
-                                if (call__127 == 1)
+                                var call__121 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
+                                if (call__121 == 1)
                                 {
                                     FFloodControl.Flood();
                                 }
@@ -2180,9 +2122,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__128 = Aow.Units.AoWE.AoWE.FloodRStr;
-            var call__129 = Aow.Units.AoWE.AoWE.TranslateRStr(call__128);
-            FSpellName = call__129;
+            var call__122 = Aow.Units.AoWE.AoWE.FloodRStr;
+            var call__123 = Aow.Units.AoWE.AoWE.TranslateRStr(call__122);
+            FSpellName = call__123;
             FSpellID = 50;
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             FBaseManaCost = 1;
@@ -2202,9 +2144,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
             Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
-            var call__130 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(50);
-            var call__131 = call__130.FCastImages.ImageSequences[0];
-            Twinkle.Setup(call__131, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
+            var call__124 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(50);
+            var call__125 = call__124.FCastImages.ImageSequences[0];
+            Twinkle.Setup(call__125, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
             Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Twinkle, X, Y, L);
             FCastSounds.Play(0);
             CastingDone(A2, A1.FEventMana);
@@ -2251,9 +2193,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__132 = Aow.Units.AoWE.AoWE.LifeMasteryRStr;
-            var call__133 = Aow.Units.AoWE.AoWE.TranslateRStr(call__132);
-            FName = call__133;
+            var call__126 = Aow.Units.AoWE.AoWE.LifeMasteryRStr;
+            var call__127 = Aow.Units.AoWE.AoWE.TranslateRStr(call__126);
+            FName = call__127;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getNone;
             FDispelMana = 175;
         }
@@ -2274,9 +2216,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Deactivate(unchecked((byte)Player));
             // { Original doubles Death. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msDeath);
-            var call__134 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            var call__135 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            call__135.FMagicControl.SetActiveEnchantments(call__134.FMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery));
+            var call__128 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            var call__129 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            call__129.FMagicControl.SetActiveEnchantments(call__128.FMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery));
             Aow.Units.Engine.Engine.InitMsg(ref Msg, 537002240, this);
             Aow.Units.AoWE.AoWE.AoWHSMap.SendMsg(ref Msg, this);
             Result = true;
@@ -2290,14 +2232,14 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Result = base.CanActivate(unchecked((sbyte)Player), ref Reason);
             if (Result)
             {
-                var call__136 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                if (call__136.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery))
+                var call__130 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                if (call__130.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery))
                 {
-                    var call__137 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
-                    var call__138 = Aow.Units.AoWE.AoWE.TranslateRStr(call__137);
-                    var call__139 = GetName();
-                    var call__140 = Aow.Rtl.Rtl.Format(call__138, [call__139]);
-                    Reason = call__140;
+                    var call__131 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
+                    var call__132 = Aow.Units.AoWE.AoWE.TranslateRStr(call__131);
+                    var call__133 = GetName();
+                    var call__134 = Aow.Rtl.Rtl.Format(call__132, [call__133]);
+                    Reason = call__134;
                     Result = false;
                 }
             }
@@ -2315,26 +2257,26 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Activate(unchecked((sbyte)Player));
             // { Original doubles Death. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msDeath);
-            var call__141 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            APlayer = call__141;
+            var call__135 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            APlayer = call__135;
             {
-                var w__142 = APlayer.FMagicControl;
-                w__142.SetActiveEnchantments(w__142.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery));
+                var w__136 = APlayer.FMagicControl;
+                w__136.SetActiveEnchantments(w__136.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery));
             }
 
             {
                 I = APlayer.FArmies.Count - 1;
-                byte end__143 = 0;
-                for (; I >= end__143; I -= 1)
+                byte end__137 = 0;
+                for (; I >= end__137; I -= 1)
                 {
                     {
                         J = APlayer.FArmies.GetArmy(I).Count - 1;
-                        byte end__144 = 0;
-                        for (; J >= end__144; J -= 1)
+                        byte end__138 = 0;
+                        for (; J >= end__138; J -= 1)
                         {
-                            var call__145 = APlayer.FArmies.GetArmy(I);
-                            var call__146 = call__145.GetUnit(J);
-                            call__146.SetLifeMasteryBlessing();
+                            var call__139 = APlayer.FArmies.GetArmy(I);
+                            var call__140 = call__139.GetUnit(J);
+                            call__140.SetLifeMasteryBlessing();
                         }
                     }
                 }
@@ -2401,9 +2343,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
-            var call__147 = Aow.Units.AoWE.AoWE.LifeMasteryRStr;
-            var call__148 = Aow.Units.AoWE.AoWE.TranslateRStr(call__147);
-            FSpellName = call__148;
+            var call__141 = Aow.Units.AoWE.AoWE.LifeMasteryRStr;
+            var call__142 = Aow.Units.AoWE.AoWE.TranslateRStr(call__141);
+            FSpellName = call__142;
             FSpellID = 61;
             FBaseManaCost = 1;
             FSpellLevel = 4;
@@ -2426,9 +2368,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
             Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
-            var call__149 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(61);
-            var call__150 = call__149.FCastImages.ImageSequences[0];
-            Twinkle.Setup(call__150, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 100, 64, 50, 30);
+            var call__143 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(61);
+            var call__144 = call__143.FCastImages.ImageSequences[0];
+            Twinkle.Setup(call__144, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 100, 64, 50, 30);
             Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Twinkle, X, Y, L);
             FCastSounds.Play(0);
             CastingDone(A2, A1.FEventMana);
@@ -2469,9 +2411,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__151 = Aow.Units.AoWE.AoWE.DeathMasteryRStr;
-            var call__152 = Aow.Units.AoWE.AoWE.TranslateRStr(call__151);
-            FName = call__152;
+            var call__145 = Aow.Units.AoWE.AoWE.DeathMasteryRStr;
+            var call__146 = Aow.Units.AoWE.AoWE.TranslateRStr(call__145);
+            FName = call__146;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getNone;
             FDispelMana = 175;
         }
@@ -2484,8 +2426,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             {
                 if (Msg.Value != 0)
                 {
-                    var call__153 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Msg.Value);
-                    if (call__153.FMagicControl.FEnemyEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petDeathMastery))
+                    var call__147 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Msg.Value);
+                    if (call__147.FMagicControl.FEnemyEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petDeathMastery))
                     {
                         NewTurn(unchecked((sbyte)Msg.Value));
                     }
@@ -2509,9 +2451,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Deactivate(unchecked((byte)Player));
             // { Original doubles Life. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msLife);
-            var call__154 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            var call__155 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            call__155.FMagicControl.SetActiveEnchantments(call__154.FMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petDeathMastery));
+            var call__148 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            var call__149 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            call__149.FMagicControl.SetActiveEnchantments(call__148.FMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petDeathMastery));
             Aow.Units.Engine.Engine.InitMsg(ref Msg, 537002241, this);
             Aow.Units.AoWE.AoWE.AoWHSMap.SendMsg(ref Msg, this);
             Result = true;
@@ -2525,14 +2467,14 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Result = base.CanActivate(unchecked((sbyte)Player), ref Reason);
             if (Result)
             {
-                var call__156 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                if (call__156.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petDeathMastery))
+                var call__150 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                if (call__150.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petDeathMastery))
                 {
-                    var call__157 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
-                    var call__158 = Aow.Units.AoWE.AoWE.TranslateRStr(call__157);
-                    var call__159 = GetName();
-                    var call__160 = Aow.Rtl.Rtl.Format(call__158, [call__159]);
-                    Reason = call__160;
+                    var call__151 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
+                    var call__152 = Aow.Units.AoWE.AoWE.TranslateRStr(call__151);
+                    var call__153 = GetName();
+                    var call__154 = Aow.Rtl.Rtl.Format(call__152, [call__153]);
+                    Reason = call__154;
                     Result = false;
                 }
             }
@@ -2547,9 +2489,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Activate(unchecked((sbyte)Player));
             // { Original doubles Life. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msLife);
-            var call__161 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            var call__162 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            call__162.FMagicControl.SetActiveEnchantments(call__161.FMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petDeathMastery));
+            var call__155 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            var call__156 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            call__156.FMagicControl.SetActiveEnchantments(call__155.FMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petDeathMastery));
             Result = true;
             return Result;
         }
@@ -2570,26 +2512,26 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Mask = 1 << (Player - 1);
             {
                 L = 0;
-                int end__163 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.LevelCount - 1;
-                for (; L <= end__163; L += 1)
+                int end__157 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.LevelCount - 1;
+                for (; L <= end__157; L += 1)
                 {
-                    var call__164 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(L);
-                    MapLevel = call__164;
+                    var call__158 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(L);
+                    MapLevel = call__158;
                     Index = 0;
                     Flags = Flags.Realloc(MapLevel.Width * MapLevel.Height);
                     Ptr<byte>.Fill(Flags, MapLevel.Width * MapLevel.Height, default);
                     {
                         Y = 1;
-                        int end__165 = MapLevel.Height - 1;
-                        for (; Y <= end__165; Y += 1)
+                        int end__159 = MapLevel.Height - 1;
+                        for (; Y <= end__159; Y += 1)
                         {
                             {
                                 X = 1;
-                                int end__166 = MapLevel.Width - 2;
-                                for (; X <= end__166; X += 1)
+                                int end__160 = MapLevel.Width - 2;
+                                for (; X <= end__160; X += 1)
                                 {
-                                    var call__167 = MapLevel.GetField(X, Y);
-                                    if ((((Aow.Units.AoWE.TAoWMapField)call__167).FFieldFlags & Mask) != 0)
+                                    var call__161 = MapLevel.GetField(X, Y);
+                                    if ((((Aow.Units.AoWE.TAoWMapField)call__161).FFieldFlags & Mask) != 0)
                                     {
                                         Border = false;
                                         Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 1);
@@ -2597,8 +2539,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                                         {
                                             if ((((Walk.X >= 0) && (Walk.X < MapLevel.Width)) && (Walk.Y >= 0)) && (Walk.Y < MapLevel.Height))
                                             {
-                                                var call__168 = MapLevel.GetField(Walk.X, Walk.Y);
-                                                Border = (((Aow.Units.AoWE.TAoWMapField)call__168).FFieldFlags & Mask) == 0;
+                                                var call__162 = MapLevel.GetField(Walk.X, Walk.Y);
+                                                Border = (((Aow.Units.AoWE.TAoWMapField)call__162).FFieldFlags & Mask) == 0;
                                             }
 
                                             Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
@@ -2619,18 +2561,18 @@ namespace Aow.Units.GlobalEnchantmentSpells
                     Index = 0;
                     {
                         Y = 1;
-                        int end__169 = MapLevel.Height - 1;
-                        for (; Y <= end__169; Y += 1)
+                        int end__163 = MapLevel.Height - 1;
+                        for (; Y <= end__163; Y += 1)
                         {
                             {
                                 X = 1;
-                                int end__170 = MapLevel.Width - 2;
-                                for (; X <= end__170; X += 1)
+                                int end__164 = MapLevel.Width - 2;
+                                for (; X <= end__164; X += 1)
                                 {
                                     if (Flags[Index] != 0)
                                     {
-                                        var call__171 = MapLevel.GetField(X, Y);
-                                        ((Aow.Units.AoWE.TAoWMapField)call__171).SetExplored(Player, false);
+                                        var call__165 = MapLevel.GetField(X, Y);
+                                        ((Aow.Units.AoWE.TAoWMapField)call__165).SetExplored(Player, false);
                                     }
 
                                     Index += 1;
@@ -2702,9 +2644,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
-            var call__172 = Aow.Units.AoWE.AoWE.DeathMasteryRStr;
-            var call__173 = Aow.Units.AoWE.AoWE.TranslateRStr(call__172);
-            FSpellName = call__173;
+            var call__166 = Aow.Units.AoWE.AoWE.DeathMasteryRStr;
+            var call__167 = Aow.Units.AoWE.AoWE.TranslateRStr(call__166);
+            FSpellName = call__167;
             FSpellID = 62;
             FBaseManaCost = 1;
             FSpellLevel = 4;
@@ -2726,12 +2668,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
             {
-                var w__174 = Aow.Units.Animation.TAnimation.Create(null);
-                w__174.FAnimationLevel = 28;
-                w__174.FOnShow = ShowAnimation;
-                w__174.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
-                w__174.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
-                w__174.Activate();
+                var w__168 = Aow.Units.Animation.TAnimation.Create(null);
+                w__168.FAnimationLevel = 28;
+                w__168.FOnShow = ShowAnimation;
+                w__168.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
+                w__168.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
+                w__168.Activate();
             }
 
             FCastSounds.Play(0);
@@ -2774,13 +2716,13 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
             {
                 I = 0;
-                int end__175 = Count - 1;
-                for (; I <= end__175; I += 1)
+                int end__169 = Count - 1;
+                for (; I <= end__169; I += 1)
                 {
-                    var call__176 = Aow.Rtl.Rtl.Random(Anim.FTag & 65535);
-                    X = call__176;
-                    var call__177 = Aow.Rtl.Rtl.Random((int)(((uint)((int)unchecked((uint)Anim.FTag))) >> 16));
-                    Y = call__177;
+                    var call__170 = Aow.Rtl.Rtl.Random(Anim.FTag & 65535);
+                    X = call__170;
+                    var call__171 = Aow.Rtl.Rtl.Random((int)(((uint)((int)unchecked((uint)Anim.FTag))) >> 16));
+                    Y = call__171;
                     Speed = Aow.Rtl.Rtl.Random(15) + 5;
                     Image = Aow.Rtl.Rtl.Random(3);
                     // { Preserve the original image/displacement register lifetimes. }
@@ -2823,9 +2765,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__178 = Aow.Units.AoWE.AoWE.FireMasteryRStr;
-            var call__179 = Aow.Units.AoWE.AoWE.TranslateRStr(call__178);
-            FName = call__179;
+            var call__172 = Aow.Units.AoWE.AoWE.FireMasteryRStr;
+            var call__173 = Aow.Units.AoWE.AoWE.TranslateRStr(call__172);
+            FName = call__173;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getFireMastery;
             FDispelMana = 175;
         }
@@ -2838,8 +2780,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             {
                 if (Msg.Value != 0)
                 {
-                    var call__180 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Msg.Value);
-                    if (call__180.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery))
+                    var call__174 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Msg.Value);
+                    if (call__174.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery))
                     {
                         UpdateFire(2, !Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType);
                     }
@@ -2863,26 +2805,26 @@ namespace Aow.Units.GlobalEnchantmentSpells
             int I = default;
             int J = default;
             base.Deactivate(unchecked((byte)Player));
-            var call__181 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            APlayer = call__181;
+            var call__175 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            APlayer = call__175;
             {
-                var w__182 = APlayer.FMagicControl;
-                w__182.SetActiveEnchantments(w__182.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery));
+                var w__176 = APlayer.FMagicControl;
+                w__176.SetActiveEnchantments(w__176.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery));
             }
 
             {
                 I = APlayer.FArmies.Count - 1;
-                byte end__183 = 0;
-                for (; I >= end__183; I -= 1)
+                byte end__177 = 0;
+                for (; I >= end__177; I -= 1)
                 {
                     {
                         J = APlayer.FArmies.GetArmy(I).Count - 1;
-                        byte end__184 = 0;
-                        for (; J >= end__184; J -= 1)
+                        byte end__178 = 0;
+                        for (; J >= end__178; J -= 1)
                         {
-                            var call__185 = APlayer.FArmies.GetArmy(I);
-                            var call__186 = call__185.GetUnit(J);
-                            call__186.ResetFireMasteryProtection();
+                            var call__179 = APlayer.FArmies.GetArmy(I);
+                            var call__180 = call__179.GetUnit(J);
+                            call__180.ResetFireMasteryProtection();
                         }
                     }
                 }
@@ -2898,14 +2840,14 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override bool CanActivate(sbyte Player, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
-            var call__187 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-            if (call__187.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery))
+            var call__181 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            if (call__181.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery))
             {
-                var call__188 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
-                var call__189 = Aow.Units.AoWE.AoWE.TranslateRStr(call__188);
-                var call__190 = GetName();
-                var call__191 = Aow.Rtl.Rtl.Format(call__189, [call__190]);
-                Reason = call__191;
+                var call__182 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
+                var call__183 = Aow.Units.AoWE.AoWE.TranslateRStr(call__182);
+                var call__184 = GetName();
+                var call__185 = Aow.Rtl.Rtl.Format(call__183, [call__184]);
+                Reason = call__185;
                 Result = false;
             }
             else
@@ -2926,26 +2868,26 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Activate(unchecked((sbyte)Player));
             // { Original doubles Water. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msWater);
-            var call__192 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            APlayer = call__192;
+            var call__186 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            APlayer = call__186;
             {
-                var w__193 = APlayer.FMagicControl;
-                w__193.SetActiveEnchantments(w__193.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery));
+                var w__187 = APlayer.FMagicControl;
+                w__187.SetActiveEnchantments(w__187.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery));
             }
 
             {
                 I = APlayer.FArmies.Count - 1;
-                byte end__194 = 0;
-                for (; I >= end__194; I -= 1)
+                byte end__188 = 0;
+                for (; I >= end__188; I -= 1)
                 {
                     {
                         J = APlayer.FArmies.GetArmy(I).Count - 1;
-                        byte end__195 = 0;
-                        for (; J >= end__195; J -= 1)
+                        byte end__189 = 0;
+                        for (; J >= end__189; J -= 1)
                         {
-                            var call__196 = APlayer.FArmies.GetArmy(I);
-                            var call__197 = call__196.GetUnit(J);
-                            call__197.SetFireMasteryProtection();
+                            var call__190 = APlayer.FArmies.GetArmy(I);
+                            var call__191 = call__190.GetUnit(J);
+                            call__191.SetFireMasteryProtection();
                         }
                     }
                 }
@@ -2965,41 +2907,41 @@ namespace Aow.Units.GlobalEnchantmentSpells
             int Chance = default;
             Aow.Units.HSEngine.TMapLevel MapLevel = default;
             Aow.Units.AoWE.TFire Fire = default;
-            var call__198 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-            Aow.Rtl.Rtl.RandSeed = call__198;
+            var call__192 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+            Aow.Rtl.Rtl.RandSeed = call__192;
             {
                 L = 0;
-                int end__199 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.LevelCount - 1;
-                for (; L <= end__199; L += 1)
+                int end__193 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.LevelCount - 1;
+                for (; L <= end__193; L += 1)
                 {
-                    var call__200 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(L);
-                    MapLevel = call__200;
+                    var call__194 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(L);
+                    MapLevel = call__194;
                     {
                         Y = 1;
-                        int end__201 = MapLevel.Height - 1;
-                        for (; Y <= end__201; Y += 1)
+                        int end__195 = MapLevel.Height - 1;
+                        for (; Y <= end__195; Y += 1)
                         {
                             {
                                 X = 1;
-                                int end__202 = MapLevel.Width - 2;
-                                for (; X <= end__202; X += 1)
+                                int end__196 = MapLevel.Width - 2;
+                                for (; X <= end__196; X += 1)
                                 {
-                                    var call__203 = MapLevel.GetField(X, Y);
-                                    var call__204 = Aow.Units.AoWE.AoWE.IgnitionChance((Aow.Units.AoWE.TAoWMapField)call__203);
-                                    Chance = call__204;
+                                    var call__197 = MapLevel.GetField(X, Y);
+                                    var call__198 = Aow.Units.AoWE.AoWE.IgnitionChance((Aow.Units.AoWE.TAoWMapField)call__197);
+                                    Chance = call__198;
                                     if (Chance > 0)
                                     {
-                                        var call__205 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(10000);
-                                        if (call__205 < (Chance * Factor))
+                                        var call__199 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(10000);
+                                        if (call__199 < (Chance * Factor))
                                         {
-                                            var call__206 = Aow.Units.AoWE.AoWE.AoWHSSet.FFireControl.PlaceFire(X, Y, L, Aow.Units.AoWE.TFireType.ftLarge);
-                                            Fire = call__206;
+                                            var call__200 = Aow.Units.AoWE.AoWE.AoWHSSet.FFireControl.PlaceFire(X, Y, L, Aow.Units.AoWE.TFireType.ftLarge);
+                                            Fire = call__200;
                                             if (Fire != null)
                                             {
                                                 if (Explosions)
                                                 {
-                                                    var call__207 = Aow.Rtl.Rtl.Random(30);
-                                                    Fire.SetupExplosion(call__207);
+                                                    var call__201 = Aow.Rtl.Rtl.Random(30);
+                                                    Fire.SetupExplosion(call__201);
                                                 }
 
                                                 Fire.FTurnsLeft = 3;
@@ -3071,9 +3013,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
-            var call__208 = Aow.Units.AoWE.AoWE.FireMasteryRStr;
-            var call__209 = Aow.Units.AoWE.AoWE.TranslateRStr(call__208);
-            FSpellName = call__209;
+            var call__202 = Aow.Units.AoWE.AoWE.FireMasteryRStr;
+            var call__203 = Aow.Units.AoWE.AoWE.TranslateRStr(call__202);
+            FSpellName = call__203;
             FSpellID = 63;
             FBaseManaCost = 1;
             FSpellLevel = 4;
@@ -3095,12 +3037,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 Aow.Units.GlobalEnchantmentSpells.GlobalEnchantmentSpells.NotifySpellSphere(unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.TMagicSphere.msFire);
                 Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
                 {
-                    var w__210 = Aow.Units.Animation.TAnimation.Create(null);
-                    w__210.FAnimationLevel = 27;
-                    w__210.FOnShow = ShowAnimation;
-                    w__210.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
-                    w__210.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
-                    w__210.Activate();
+                    var w__204 = Aow.Units.Animation.TAnimation.Create(null);
+                    w__204.FAnimationLevel = 27;
+                    w__204.FOnShow = ShowAnimation;
+                    w__204.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
+                    w__204.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
+                    w__204.Activate();
                 }
 
                 FCastSounds.Play(0);
@@ -3128,95 +3070,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:1749
-        public void ShowAnimation(Aow.Units.Animation.TAnimation Anim, int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
-        {
-            int FieldStep = default;
-            int Chance = default;
-            int Delay = default;
-            int X = default;
-            int Y = default;
-            int MaxY = default;
-            int Xhp = default;
-            int Yhp = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            int MaxX = default;
-            Aow.Units.AoWE.TAoWMapField MapF = default;
-            switch (Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail)
-            {
-                case 0:
-                    Chance = 2;
-                    break;
-                case 2:
-                    Chance = 5;
-                    break;
-                default:
-                    Chance = 3;
-                    break;
-            }
-
-            var call__211 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWE.AoWE.AoWHSMap.ViewL);
-            MapLevel = call__211;
-            FieldStep = MapLevel.FHNOffsets[0][4];
-            MaxX = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewXhx + Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidthHX) - 1;
-            MaxY = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx + Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeightHX) - 1;
-            {
-                X = Aow.Units.AoWE.AoWE.AoWHSMap.ViewXhx;
-                int end__212 = MaxX;
-                for (; X <= end__212; X += 1)
-                {
-                    Aow.Units.HSEngine.HSEngine.HXtoHP(X, Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx, ref Xhp, ref Yhp);
-                    Xhp = (Xhp - XhpSurf) + 16;
-                    Yhp = (Yhp - YhpSurf) + 16;
-                    var call__213 = MapLevel.GetField(X, Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx);
-                    MapF = (Aow.Units.AoWE.TAoWMapField)call__213;
-                    {
-                        Y = Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx;
-                        int end__214 = MaxY;
-                        for (; Y <= end__214; Y += 1)
-                        {
-                            // { Original excludes border terrain. }
-                            bool bool__215 = !TSet<byte>.WithBounds(0, 255).With(7).With(8).With(15).Contains((byte)MapF.TerrainType) && (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer != -1);
-                            if (bool__215)
-                            {
-                                bool bool__216 = !Aow.Units.AoWE.AoWE.AoWHSMap.FExplorationEnabled;
-                                if (!bool__216)
-                                {
-                                    var call__217 = MapF.GetExplored(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                                    bool__216 = call__217;
-                                }
-
-                                bool__215 = bool__216;
-                            }
-
-                            if (bool__215)
-                            {
-                                Aow.Rtl.Rtl.RandSeed = (MapF.Xhx + (MapF.Yhx * 8)) + (Ptr<byte>.Unbox(MapF)[26] << 16);
-                                if (Aow.Rtl.Rtl.Random(100) < Chance)
-                                {
-                                    Delay = Aow.Rtl.Rtl.Random(40);
-                                    FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - Delay, SurfaceDesc);
-                                    if ((Anim.FFrameCounter == Delay) && (Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail != 0))
-                                    {
-                                        Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[X % 2]);
-                                    }
-                                }
-                            }
-
-                            /* TODO(T-N7) Object address arithmetic requires a typed storage override */
-                            throw new System.NotImplementedException();
-                            Yhp += 32;
-                        }
-                    }
-                }
-            }
-
-            if (Anim.FFrameCounter == 90)
-            {
-                Anim.Destroy();
-            }
-        }
-
         // GlobalEnchantmentSpells.pas:297
         public static new Aow.Units.GlobalEnchantmentSpells.TFireMastery Create(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -3242,9 +3095,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__218 = Aow.Units.AoWE.AoWE.EarthMasteryRStr;
-            var call__219 = Aow.Units.AoWE.AoWE.TranslateRStr(call__218);
-            FName = call__219;
+            var call__205 = Aow.Units.AoWE.AoWE.EarthMasteryRStr;
+            var call__206 = Aow.Units.AoWE.AoWE.TranslateRStr(call__205);
+            FName = call__206;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getNone;
             FDispelMana = 175;
         }
@@ -3265,26 +3118,26 @@ namespace Aow.Units.GlobalEnchantmentSpells
             int I = default;
             int J = default;
             base.Deactivate(unchecked((byte)Player));
-            var call__220 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            APlayer = call__220;
+            var call__207 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            APlayer = call__207;
             {
-                var w__221 = APlayer.FMagicControl;
-                w__221.SetActiveEnchantments(w__221.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery));
+                var w__208 = APlayer.FMagicControl;
+                w__208.SetActiveEnchantments(w__208.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery));
             }
 
             {
                 I = APlayer.FArmies.Count - 1;
-                byte end__222 = 0;
-                for (; I >= end__222; I -= 1)
+                byte end__209 = 0;
+                for (; I >= end__209; I -= 1)
                 {
                     {
                         J = APlayer.FArmies.GetArmy(I).Count - 1;
-                        byte end__223 = 0;
-                        for (; J >= end__223; J -= 1)
+                        byte end__210 = 0;
+                        for (; J >= end__210; J -= 1)
                         {
-                            var call__224 = APlayer.FArmies.GetArmy(I);
-                            var call__225 = call__224.GetUnit(J);
-                            call__225.ResetEarthMasteryStoneSkin();
+                            var call__211 = APlayer.FArmies.GetArmy(I);
+                            var call__212 = call__211.GetUnit(J);
+                            call__212.ResetEarthMasteryStoneSkin();
                         }
                     }
                 }
@@ -3303,13 +3156,13 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Result = base.CanActivate(unchecked((sbyte)Player), ref Reason);
             if (Result)
             {
-                var call__226 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                if (call__226.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery))
+                var call__213 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                if (call__213.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery))
                 {
-                    var call__227 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
-                    var call__228 = Aow.Units.AoWE.AoWE.TranslateRStr(call__227);
-                    var call__229 = Aow.Rtl.Rtl.Format(call__228, [FName]);
-                    Reason = call__229;
+                    var call__214 = Aow.Units.AoWE.AoWE.XIsAlreadyActiveRStr;
+                    var call__215 = Aow.Units.AoWE.AoWE.TranslateRStr(call__214);
+                    var call__216 = Aow.Rtl.Rtl.Format(call__215, [FName]);
+                    Reason = call__216;
                     Result = false;
                 }
             }
@@ -3327,26 +3180,26 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Activate(unchecked((sbyte)Player));
             // { Original doubles Air. }
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msAir);
-            var call__230 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            APlayer = call__230;
+            var call__217 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            APlayer = call__217;
             {
-                var w__231 = APlayer.FMagicControl;
-                w__231.SetActiveEnchantments(w__231.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery));
+                var w__218 = APlayer.FMagicControl;
+                w__218.SetActiveEnchantments(w__218.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery));
             }
 
             {
                 I = APlayer.FArmies.Count - 1;
-                byte end__232 = 0;
-                for (; I >= end__232; I -= 1)
+                byte end__219 = 0;
+                for (; I >= end__219; I -= 1)
                 {
                     {
                         J = APlayer.FArmies.GetArmy(I).Count - 1;
-                        byte end__233 = 0;
-                        for (; J >= end__233; J -= 1)
+                        byte end__220 = 0;
+                        for (; J >= end__220; J -= 1)
                         {
-                            var call__234 = APlayer.FArmies.GetArmy(I);
-                            var call__235 = call__234.GetUnit(J);
-                            call__235.SetEarthMasteryStoneSkin();
+                            var call__221 = APlayer.FArmies.GetArmy(I);
+                            var call__222 = call__221.GetUnit(J);
+                            call__222.SetEarthMasteryStoneSkin();
                         }
                     }
                 }
@@ -3412,9 +3265,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__236 = Aow.Units.AoWE.AoWE.EarthMasteryRStr;
-            var call__237 = Aow.Units.AoWE.AoWE.TranslateRStr(call__236);
-            FSpellName = call__237;
+            var call__223 = Aow.Units.AoWE.AoWE.EarthMasteryRStr;
+            var call__224 = Aow.Units.AoWE.AoWE.TranslateRStr(call__223);
+            FSpellName = call__224;
             FSpellID = 64;
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             FBaseManaCost = 1;
@@ -3462,25 +3315,25 @@ namespace Aow.Units.GlobalEnchantmentSpells
             int FieldStep = default;
             Aow.Units.HSEngine.TMapLevel MapLevel = default;
             Aow.Units.AoWE.TAoWMapField MapF = default;
-            var call__238 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWE.AoWE.AoWHSMap.ViewL);
-            MapLevel = call__238;
+            var call__225 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWE.AoWE.AoWHSMap.ViewL);
+            MapLevel = call__225;
             FieldStep = MapLevel.FHNOffsets[0][4];
             MaxX = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewXhx + Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidthHX) - 1;
             MaxY = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx + Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeightHX) - 1;
             {
                 X = Aow.Units.AoWE.AoWE.AoWHSMap.ViewXhx;
-                int end__239 = MaxX;
-                for (; X <= end__239; X += 1)
+                int end__226 = MaxX;
+                for (; X <= end__226; X += 1)
                 {
                     Aow.Units.HSEngine.HSEngine.HXtoHP(X, Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx, ref Xhp, ref Yhp);
                     Xhp = (Xhp - XhpSurf) + 16;
                     Yhp = (Yhp - YhpSurf) + 16;
-                    var call__240 = MapLevel.GetField(X, Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx);
-                    MapF = (Aow.Units.AoWE.TAoWMapField)call__240;
+                    var call__227 = MapLevel.GetField(X, Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx);
+                    MapF = (Aow.Units.AoWE.TAoWMapField)call__227;
                     {
                         Y = Aow.Units.AoWE.AoWE.AoWHSMap.ViewYhx;
-                        int end__241 = MaxY;
-                        for (; Y <= end__241; Y += 1)
+                        int end__228 = MaxY;
+                        for (; Y <= end__228; Y += 1)
                         {
                             if (unchecked((short)MapF.OverlayType) == 4)
                             {
@@ -3527,9 +3380,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__242 = Aow.Units.AoWE.AoWE.SpellWardRStr;
-            var call__243 = Aow.Units.AoWE.AoWE.TranslateRStr(call__242);
-            FName = call__243;
+            var call__229 = Aow.Units.AoWE.AoWE.SpellWardRStr;
+            var call__230 = Aow.Units.AoWE.AoWE.TranslateRStr(call__229);
+            FName = call__230;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getSpellWard;
             FDispelMana = 50;
         }
@@ -3598,9 +3451,9 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__244 = Aow.Units.AoWE.AoWE.SpellWardRStr;
-            var call__245 = Aow.Units.AoWE.AoWE.TranslateRStr(call__244);
-            FSpellName = call__245;
+            var call__231 = Aow.Units.AoWE.AoWE.SpellWardRStr;
+            var call__232 = Aow.Units.AoWE.AoWE.TranslateRStr(call__231);
+            FSpellName = call__232;
             FSpellID = 65;
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             FBaseManaCost = 1;
@@ -3661,30 +3514,30 @@ namespace Aow.Units.GlobalEnchantmentSpells
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TGlobalEnchantmentEventLog>()]);
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.THatredEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment>()]);
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment>()]);
-            var call__246 = Aow.Units.GlobalEnchantmentSpells.TEnchantedRoads.Create(null);
-            Control.RegisterSpell(call__246);
-            var call__247 = Aow.Units.GlobalEnchantmentSpells.THatred.Create(null);
-            Control.RegisterSpell(call__247);
-            var call__248 = Aow.Units.GlobalEnchantmentSpells.THarmony.Create(null);
-            Control.RegisterSpell(call__248);
-            var call__249 = Aow.Units.GlobalEnchantmentSpells.TPowerLeak.Create(null);
-            Control.RegisterSpell(call__249);
-            var call__250 = Aow.Units.GlobalEnchantmentSpells.TFlood.Create(null);
-            Control.RegisterSpell(call__250);
-            var call__251 = Aow.Units.GlobalEnchantmentSpells.TAirMastery.Create(null);
-            Control.RegisterSpell(call__251);
-            var call__252 = Aow.Units.GlobalEnchantmentSpells.TLifeMastery.Create(null);
-            Control.RegisterSpell(call__252);
-            var call__253 = Aow.Units.GlobalEnchantmentSpells.TDeathMastery.Create(null);
-            Control.RegisterSpell(call__253);
-            var call__254 = Aow.Units.GlobalEnchantmentSpells.TFireMastery.Create(null);
-            Control.RegisterSpell(call__254);
-            var call__255 = Aow.Units.GlobalEnchantmentSpells.TEarthMastery.Create(null);
-            Control.RegisterSpell(call__255);
-            var call__256 = Aow.Units.GlobalEnchantmentSpells.TWaterMastery.Create(null);
-            Control.RegisterSpell(call__256);
-            var call__257 = Aow.Units.GlobalEnchantmentSpells.TSpellWard.Create(null);
-            Control.RegisterSpell(call__257);
+            var call__233 = Aow.Units.GlobalEnchantmentSpells.TEnchantedRoads.Create(null);
+            Control.RegisterSpell(call__233);
+            var call__234 = Aow.Units.GlobalEnchantmentSpells.THatred.Create(null);
+            Control.RegisterSpell(call__234);
+            var call__235 = Aow.Units.GlobalEnchantmentSpells.THarmony.Create(null);
+            Control.RegisterSpell(call__235);
+            var call__236 = Aow.Units.GlobalEnchantmentSpells.TPowerLeak.Create(null);
+            Control.RegisterSpell(call__236);
+            var call__237 = Aow.Units.GlobalEnchantmentSpells.TFlood.Create(null);
+            Control.RegisterSpell(call__237);
+            var call__238 = Aow.Units.GlobalEnchantmentSpells.TAirMastery.Create(null);
+            Control.RegisterSpell(call__238);
+            var call__239 = Aow.Units.GlobalEnchantmentSpells.TLifeMastery.Create(null);
+            Control.RegisterSpell(call__239);
+            var call__240 = Aow.Units.GlobalEnchantmentSpells.TDeathMastery.Create(null);
+            Control.RegisterSpell(call__240);
+            var call__241 = Aow.Units.GlobalEnchantmentSpells.TFireMastery.Create(null);
+            Control.RegisterSpell(call__241);
+            var call__242 = Aow.Units.GlobalEnchantmentSpells.TEarthMastery.Create(null);
+            Control.RegisterSpell(call__242);
+            var call__243 = Aow.Units.GlobalEnchantmentSpells.TWaterMastery.Create(null);
+            Control.RegisterSpell(call__243);
+            var call__244 = Aow.Units.GlobalEnchantmentSpells.TSpellWard.Create(null);
+            Control.RegisterSpell(call__244);
         }
 
         // GlobalEnchantmentSpells.pas:1998

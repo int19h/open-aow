@@ -389,23 +389,6 @@ namespace Aow.Units.CMapCtrl
             }
         }
 
-        // CMapCtrl.pas:316
-        public void ExecuteEventLog(Aow.Rtl.TObject Sender)
-        {
-            try
-            {
-                if (FOnExecuteEventLog != null)
-                {
-                    /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-                    throw new System.NotImplementedException();
-                }
-            }
-            catch (System.Exception)
-            {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnExecuteEventLog event (TAoWCombatMapControl)");
-            }
-        }
-
         // CMapCtrl.pas:325
         public void ActivateMap(Aow.Rtl.TObject Sender)
         {
