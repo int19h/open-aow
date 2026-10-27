@@ -2078,6 +2078,18 @@ member = "IsoHex.TLowerIsometricHexagon.ShowDynamic"
 reason = "Expose the native terrain-edge address phase as the map texture fixture input"
 file = "src/Overrides/IsoHex/TextureVariants.cs"
 
+# Brief 7.4. Hero equipment and inventory input.
+[[skip]]
+member = "AoWUnitWindow.TUnitWindow.Gnd1Change"
+reason = "Route item selection through the rewritten main form cursor and preserve native item orders"
+file = "src/Overrides/AoWUnitWindow/MorePathsItems.cs"
+
+# Brief 7.4. Native campaign map location.
+[[skip]]
+member = "AoWCampaignTransferDlg.TCampaignTransferDlg.Execute"
+reason = "Use the campaign scenario directory embedded in the native transfer dialog"
+file = "src/Overrides/AoWCampaignTransferDlg/MorePathsScenario.cs"
+
 # Brief 7.3 remaining TODO behavior
 
 [[skip]]
