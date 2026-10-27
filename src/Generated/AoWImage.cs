@@ -43,45 +43,19 @@ namespace Aow.Units.AoWImage
         public int FAnimStart;
         public int FCurrentImage;
         public int FAnimEnd;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FImageLib;
-        // AoWImage.pas:67
-        public override void Validate()
-        {
-            if (FImageLib != null)
-            {
-                if (FAnimate)
-                {
-                    var call__1 = FImageLib.CheckIL(FAnimStart, (FAnimEnd + 1) - FAnimStart, this);
-                    FImageLib = call__1;
-                }
-                else
-                {
-                    var call__2 = FImageLib.CheckIL(FCurrentImage, 1, this);
-                    FImageLib = call__2;
-                }
-            }
-
-            if (FImageLib != null)
-            {
-                FValid = true;
-            }
-
-            base.Validate();
-        }
-
         // AoWImage.pas:79
         public override void SetSize()
         {
             if (FWinWidth == 0)
             {
-                var call__3 = FImageLib[FCurrentImage];
-                FWinWidth = call__3.Width;
+                var call__1 = FImageLib[FCurrentImage];
+                FWinWidth = call__1.Width;
             }
 
             if (FWinHeight == 0)
             {
-                var call__4 = FImageLib[FCurrentImage];
-                FWinHeight = call__4.Height;
+                var call__2 = FImageLib[FCurrentImage];
+                FWinHeight = call__2.Height;
             }
 
             base.SetSize();
@@ -111,32 +85,6 @@ namespace Aow.Units.AoWImage
             }
 
             base.Update();
-        }
-
-        // AoWImage.pas:128
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
-        {
-            try
-            {
-                if (FValid && FVisible)
-                {
-                    if (FOnPreDraw != null)
-                    {
-                        FOnPreDraw(this, SurfDesc);
-                    }
-
-                    var call__5 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                    FImageLib.DrawILT(FCurrentImage, call__5, ref SurfDesc);
-                    if (FOnDraw != null)
-                    {
-                        FOnDraw(this, SurfDesc);
-                    }
-                }
-            }
-            catch (System.Exception)
-            {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
-            }
         }
 
         // AoWImage.pas:163
@@ -190,17 +138,6 @@ namespace Aow.Units.AoWImage
             FHandled = false;
         }
 
-        // AoWImage.pas:58
-        // { TAOWImage }
-        public void SetILB(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
-        {
-            if (Value != FImageLib)
-            {
-                FValid = false;
-                FImageLib = Value;
-            }
-        }
-
         // AoWImage.pas:88
         public void SetAnim(bool Value)
         {
@@ -250,9 +187,6 @@ namespace Aow.Units.AoWImage
                 FValid = false;
             }
         }
-
-        [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ImageLib { get => FImageLib; set => SetILB(value); }
 
         [Published]
         public int AnimStart { get => FAnimStart; set => SetStart(value); }

@@ -115,6 +115,18 @@ internal static class Verification
         {
             Aow.Rtl.Rtl.Settings = new JsonSettingsStore(directory);
             var registry = new TAoWRegistry();
+            Equal(0xffUL,registry.GetClassicWindowPopupEvents().Mask,"classic popup default");
+            Equal(0xefUL,registry.GetSimultaneousWindowPopupEvents().Mask,"simultaneous popup default");
+            registry.SetClassicWindowPopupEvents(TSet<TWindowPopupEvent>.FromMask(0x81));
+            registry.SetSimultaneousWindowPopupEvents(TSet<TWindowPopupEvent>.FromMask(0x42));
+            Aow.Rtl.Rtl.Settings = new JsonSettingsStore(directory);
+            registry = new TAoWRegistry();
+            Equal(0x81UL,registry.GetClassicWindowPopupEvents().Mask,"classic popup persisted byte");
+            Equal(0x42UL,registry.GetSimultaneousWindowPopupEvents().Mask,"simultaneous popup persisted byte");
+            // Use a fresh store for the complete missing-value battery.
+            directory = Path.Combine(scratch,"settings-defaults");
+            Aow.Rtl.Rtl.Settings = new JsonSettingsStore(directory);
+            registry = new TAoWRegistry();
             Equal(640,registry.GetDisplayWidth(),"missing width default");
             Equal(480,registry.GetDisplayHeight(),"missing height default");
             Equal(50,registry.GetMusicVolume(),"missing volume default");
@@ -260,6 +272,15 @@ internal static class Verification
         Aow.Rtl.Rtl.Files = files;
         try
         {
+            Equal(files.VirtualDrive,Aow.Rtl.Rtl.Files.VirtualDrive,"shared virtual drive");
+            Equal(@"Scenario\Campaign\x.hsm",Aow.Rtl.Rtl.ExtractRelativePath(
+                root + "\\",@"Scenario\Campaign\x.hsm").ToString(),"startup directory relative file");
+            Equal(@"..\Campaign\",Aow.Rtl.Rtl.ExtractRelativePath(
+                @"Scenario\Custom\",@"scenario\Campaign\").ToString(),"relative directory keeps separator and ignores case");
+            Equal("",Aow.Rtl.Rtl.ExtractRelativePath(
+                @"Scenario\Custom\",@"scenario\CUSTOM\").ToString(),"same directory is empty");
+            Equal(@"..\Campaign\x.hsm",Aow.Rtl.Rtl.ExtractRelativePath(
+                @"Scenario\Custom\base.hsm",@"Scenario\Campaign\x.hsm").ToString(),"shim relative path");
             var search = new TSearchRec();
             Equal(0,Aow.Rtl.Rtl.FindFirst(@"Images\*.ilb",0,ref search),"shim FindFirst");
             Equal("a.ilb",search.Name.ToString(),"FindFirst order");
@@ -337,7 +358,7 @@ internal static class Verification
         }
         Console.WriteLine($"P4 PASS: {all.Length} GOG entries resolve with swapped case and separators, all files open, browse sequence passed");
     }
-    private sealed class FakeClock : IFrameClock
+    private sealed class FakeClock : IClock
     {
         public double Elapsed;
         public double ElapsedMilliseconds => Elapsed;

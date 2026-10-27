@@ -1,15 +1,16 @@
 using System.Text.Json;
 using Aow.Rtl;
+using Aow.Platform;
 
 namespace Aow.Headless;
 
 internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
 {
     private readonly string dialogFile;
-    public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal")
+    public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal", string? input = null)
     {
         GameRoot = Path.GetFullPath(root);
-        FilesForRun = new RunFiles(GameRoot, output);
+        FilesForRun = new RunFiles(GameRoot, output, input);
         dialogFile = Path.Combine(output, "dialogs.jsonl");
         File.WriteAllText(dialogFile, "");
         if (settings is not null)
@@ -51,6 +52,8 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
     public string ExeName => Path.Combine(GameRoot, "AoW.exe");
     public DateTime Now => new(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     public uint TickCount => 0;
+    public double ElapsedMilliseconds => 0;
+    public void WaitMilliseconds(int milliseconds) => ArgumentOutOfRangeException.ThrowIfNegative(milliseconds);
     public int DialogCount { get; private set; }
     public int Show(DialogRequest request)
     {
@@ -63,71 +66,39 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
 
 internal sealed class RunFiles : IFileSystem
 {
-    private readonly SystemIoFileSystem files = new();
-    private readonly string root, output;
-    private string currentDirectory;
-    public RunFiles(string gameRoot, string runDirectory)
+    private readonly LayeredFileSystem files;
+    private readonly string? input;
+    public RunFiles(string gameRoot, string runDirectory, string? inputFile = null)
     {
-        root = gameRoot;
-        output = Path.GetFullPath(runDirectory);
-        currentDirectory = root;
+        files = new(gameRoot, runDirectory);
+        input = inputFile is null ? null : Path.GetFullPath(inputFile);
     }
+    private bool IsInput(string path) => input is not null && Path.IsPathFullyQualified(path) &&
+        string.Equals(Path.GetFullPath(path), input, StringComparison.OrdinalIgnoreCase);
     public string? AutoSaveTarget { get; set; }
-    public string CurrentDirectory => currentDirectory;
-    public bool SetCurrentDirectory(string path)
-    {
-        if (!DirectoryExists(path)) return false;
-        currentDirectory = ExpandPath(path);
-        return true;
-    }
-    public string ExpandPath(string path) => Path.GetFullPath(path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar), currentDirectory);
-    private string? OverlayPath(string full)
-    {
-        string overlay = Path.GetFullPath(Path.Combine(output, Path.GetRelativePath(root, full)));
-        return IsOutput(overlay) ? overlay : null;
-    }
-    private string ReadPath(string path)
-    {
-        string full = ExpandPath(path);
-        string? overlay = OverlayPath(full);
-        return overlay is not null && File.Exists(overlay) ? overlay : full;
-    }
-    private bool IsOutput(string path) => path.StartsWith(output + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
-    private string WritePath(string path)
-    {
-        string full = ExpandPath(path);
-        if (AutoSaveTarget is not null && Path.GetFileName(full).Equals("autosave.asg", StringComparison.OrdinalIgnoreCase)) return AutoSaveTarget;
-        if (!IsOutput(full)) full = Path.GetFullPath(Path.Combine(output, Path.GetRelativePath(root, full)));
-        if (!IsOutput(full)) throw new UnauthorizedAccessException("write outside run directory: " + path);
-        return full;
-    }
+    public string CurrentDirectory => files.CurrentDirectory;
+    public string VirtualDrive => files.VirtualDrive;
+    public string ExtractRelativePath(string baseFile, string destination) => files.ExtractRelativePath(baseFile, destination);
+    public bool SetCurrentDirectory(string path) => files.SetCurrentDirectory(path);
+    public string ExpandPath(string path) => files.ExpandPath(path);
     public Stream Open(string path, int mode)
     {
-        if (mode != Aow.Rtl.Rtl.fmCreate && (mode & 3) == 0) return files.Open(ReadPath(path), mode);
-        string target = WritePath(path);
-        Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+        bool writing = mode == Aow.Rtl.Rtl.fmCreate || (mode & 3) != 0;
+        // The command-line save is an explicit read-only input outside the virtual drive.
+        if (!writing && IsInput(path)) return File.Open(input!, FileMode.Open, FileAccess.Read, FileShare.Read);
+        string target = writing && AutoSaveTarget is not null &&
+            Aow.Rtl.Rtl.ExtractFileName(path).ToString().Equals("autosave.asg", StringComparison.OrdinalIgnoreCase)
+            ? AutoSaveTarget : path;
         return files.Open(target, mode);
     }
-    public bool FileExists(string path) => files.FileExists(ReadPath(path));
-    public bool DirectoryExists(string path)
-    {
-        string full = ExpandPath(path);
-        return files.DirectoryExists(full) || OverlayPath(full) is { } overlay && files.DirectoryExists(overlay);
-    }
-    public bool DeleteFile(string path) => files.DeleteFile(WritePath(path));
-    public bool RenameFile(string source, string target) => files.RenameFile(WritePath(source), WritePath(target));
-    public bool CreateDirectory(string path) { Directory.CreateDirectory(WritePath(path)); return true; }
-    public bool RemoveDirectory(string path) => files.RemoveDirectory(WritePath(path));
-    public int GetAttributes(string path) => files.GetAttributes(ReadPath(path));
-    public int SetAttributes(string path, int attributes) => files.SetAttributes(WritePath(path), attributes);
-    public DateTime? LastWriteTime(string path) => files.LastWriteTime(ReadPath(path));
-    public IEnumerable<RtlFileEntry> Enumerate(string directory)
-    {
-        string full = ExpandPath(directory);
-        var merged = new Dictionary<string, RtlFileEntry>(StringComparer.OrdinalIgnoreCase);
-        foreach (string? layer in new[] { full, OverlayPath(full) })
-            if (layer is not null && files.DirectoryExists(layer))
-                foreach (var entry in files.Enumerate(layer)) merged[entry.Name] = entry;
-        return merged.Values.OrderBy(e => e.Name.ToUpperInvariant(), StringComparer.Ordinal).ThenBy(e => e.Name, StringComparer.Ordinal);
-    }
+    public bool FileExists(string path) => IsInput(path) ? File.Exists(input) : files.FileExists(path);
+    public bool DirectoryExists(string path) => files.DirectoryExists(path);
+    public bool DeleteFile(string path) => files.DeleteFile(path);
+    public bool RenameFile(string source, string target) => files.RenameFile(source, target);
+    public bool CreateDirectory(string path) => files.CreateDirectory(path);
+    public bool RemoveDirectory(string path) => files.RemoveDirectory(path);
+    public int GetAttributes(string path) => files.GetAttributes(path);
+    public int SetAttributes(string path, int attributes) => files.SetAttributes(path, attributes);
+    public DateTime? LastWriteTime(string path) => files.LastWriteTime(path);
+    public IEnumerable<RtlFileEntry> Enumerate(string directory) => files.Enumerate(directory);
 }

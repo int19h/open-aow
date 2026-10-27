@@ -83,6 +83,7 @@ public static class GeneratedMetaRegistry
     [ModuleInitializer]
     public static void Register()
     {
+        ProcessSafety.Initialize();
         MetaRegistry.Register(typeof(TSample), new TSample.Meta(), () => new TSample(), 12);
         MetaRegistry.Register(typeof(TSampleChild), new TSampleChild.Meta(), () => new TSampleChild(), 12);
         MetaRegistry.Register(typeof(TFailingSample), new TSample.Meta(), () => new TFailingSample(), 12);
