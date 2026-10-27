@@ -152,6 +152,7 @@ internal static class Program
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;
             viewer.ChangeScene(map.ViewXhp, map.ViewYhp, map.ViewL);
+            TacticalInput.Install(map, viewer);
             var watchdog = Stopwatch.StartNew();
             int previous = day;
             while (!ended && map.FDay < firstDay + turns)
@@ -162,6 +163,8 @@ internal static class Program
                     var player = map.FPlayers.GetPlayers(map.FCurrentPlayer);
                     Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.FCurrentPlayer}, busy {player.GetBusy()}, ready {map.FTokenManager.PlayerReady(map.FCurrentPlayer)}, AI locks {map.FAILockCount}/{map.FAIExecuter.FLockCount}, AI {map.FAIExecuter.FStatus.Image:X}, phase {player.FAIControl.FPhase}, actions {player.FAIControl.FActions.Count}");
                 }
+                if (randomTrace is not null && frames % 100000 == 0 && map.FCombatMap is Aow.Units.AoWTC.TAoWCombatMap tacticalMap)
+                    Console.WriteLine($"combat frame {tacticalMap.Frame}, status {tacticalMap.Status.Image:X}, player {tacticalMap.FCurrentCombatPlayer}, end pending {tacticalMap.FEndTurnPending}, AI {tacticalMap.FAI.Status}, effects {tacticalMap.FEffects.Count}, result {tacticalMap.FCombat.FCombatResult}");
                 map.NewFrame();
                 CheckTodos();
                 if (day != previous) { previous = day; watchdog.Restart(); }

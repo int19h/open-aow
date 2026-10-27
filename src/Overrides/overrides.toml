@@ -1167,3 +1167,33 @@ file = "src/Overrides/AoWE/HeadlessHooks.cs"
 member = "AoWE.TAIPlayerControl.Process"
 reason = "directed host inputs enter at the original debugger boundary"
 file = "src/Overrides/AoWE/HeadlessAIInput.cs"
+
+[[skip]]
+member = "AoWTer.TAoWTerrain.ValidateDenseVegetationBurned"
+reason = "read the fire age carried by the opaque message pointer"
+file = "src/Overrides/AoWTer/VegetationBurn.cs"
+
+[[skip]]
+member = "Terrain.TTerrainMO.FindTerrainResource"
+reason = "check the native class ID before accessing terrain fields in a heterogeneous list"
+file = "src/Overrides/Terrain/CompatibleResources.cs"
+
+[[skip]]
+member = "AoWE.TAbstractUnit.ExecuteCombatDamageEffects"
+reason = "lightning ability 92 stores duration data without an intermediate enchantment cast"
+file = "src/Overrides/AoWE/CombatDamageEffects.cs"
+
+[[skip]]
+member = "AoWE.TAoWHSMap.ValidateObservation"
+reason = "defer the managed level lookup until the native coordinate guard permits a field access"
+file = "src/Overrides/AoWE/Observation.cs"
+
+[[skip]]
+member = "AoWReg.TAoWRegistry.GetClassicWindowPopupEvents"
+reason = "serialize the native one-byte set through its physical image"
+file = "src/Overrides/AoWReg/PopupEvents.cs"
+
+[[skip]]
+member = "AoWE.RetrieveStormDamageInfo"
+reason = "transport the shared storm summary through a typed message cell"
+file = "src/Overrides/AoWE/StormDamage.cs"

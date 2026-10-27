@@ -97,8 +97,36 @@ namespace Aow.Units.AoWArnoLine
         // AoWArnoLine.pas:99
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            Aow.Rtl.TRect OldClip = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    OldClip = SurfDesc.ClipRect;
+                    if (FWinTop > SurfDesc.ClipRect.Top)
+                    {
+                        SurfDesc.ClipRect.Top = FWinTop;
+                    }
+
+                    var call__5 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    FLineLibrary.DrawILLv(0, call__5, ref SurfDesc);
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+
+                    SurfDesc.ClipRect = OldClip;
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWArnoLine.pas:66

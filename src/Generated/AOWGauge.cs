@@ -146,8 +146,74 @@ namespace Aow.Units.AOWGauge
 //   the gauge is only right for Min = 0) }
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            Aow.Rtl.TRect OldClip = default;
+            int P = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    OldClip = SurfDesc.ClipRect;
+                    switch (FStyle)
+                    {
+                        case Aow.Units.AOWGauge.TAOWGaugeType.gtNormal:
+                            var call__12 = FILFrame[FILIndexFrame + 3];
+                            var call__13 = FILFrame[FILIndexFrame + 4];
+                            P = (((FWinWidth - call__12.Width) - call__13.Width) * FPosition) / (FMax - FMin);
+                            var call__14 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, call__14, ref SurfDesc);
+                            var call__15 = FILFrame[FILIndexFrame + 3];
+                            if ((((FAOWWindow.FWinLeft + P) + FWinLeft) + call__15.Width) > SurfDesc.ClipRect.Left)
+                            {
+                                var call__16 = FILFrame[FILIndexFrame + 3];
+                                SurfDesc.ClipRect.Left = ((FAOWWindow.FWinLeft + P) + FWinLeft) + call__16.Width;
+                            }
+
+                            var call__17 = FILFrame[FILIndexFrame + 1];
+                            var call__18 = FILFrame[FILIndexFrame + 6];
+                            var call__19 = FILFrame[FILIndexFrame + 3];
+                            var call__20 = FILFrame[FILIndexFrame + 4];
+                            var call__21 = FILFrame[FILIndexFrame + 1];
+                            var call__22 = FILFrame[FILIndexFrame + 3];
+                            var call__23 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__22.Width, (FAOWWindow.FWinTop + FWinTop) + call__21.Height, (FWinWidth - call__19.Width) - call__20.Width, (FWinHeight - call__17.Height) - call__18.Height);
+                            FILTextureNormal.DrawILT(FILIndexTNormal, call__23, ref SurfDesc);
+                            SurfDesc.ClipRect = OldClip;
+                            var call__24 = FILFrame[FILIndexFrame + 1];
+                            var call__25 = FILFrame[FILIndexFrame + 6];
+                            var call__26 = FILFrame[FILIndexFrame + 1];
+                            var call__27 = FILFrame[FILIndexFrame + 3];
+                            var call__28 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__27.Width, (FAOWWindow.FWinTop + FWinTop) + call__26.Height, P, (FWinHeight - call__24.Height) - call__25.Height);
+                            FILTextureSelected.DrawILT(FILIndexTSelected, call__28, ref SurfDesc);
+                            break;
+                        case Aow.Units.AOWGauge.TAOWGaugeType.gtBorderless:
+                            P = (FPosition * FWinWidth) / (FMax - FMin);
+                            if (((FAOWWindow.FWinLeft + P) + FWinLeft) > SurfDesc.ClipRect.Left)
+                            {
+                                SurfDesc.ClipRect.Left = (FAOWWindow.FWinLeft + P) + FWinLeft;
+                            }
+
+                            var call__29 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + P) + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
+                            FILTextureNormal.DrawILT(FILIndexTNormal, call__29, ref SurfDesc);
+                            SurfDesc.ClipRect = OldClip;
+                            var call__30 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
+                            FILTextureSelected.DrawILT(FILIndexTSelected, call__30, ref SurfDesc);
+                            break;
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AOWGauge.pas:237

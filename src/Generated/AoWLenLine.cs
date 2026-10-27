@@ -70,8 +70,22 @@ namespace Aow.Units.AoWLenLine
         // AoWLenLine.pas:56
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            try
+            {
+                if ((FValid == true) && (FVisible == true))
+                {
+                    var call__2 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    FILLine.DrawILLv(0, call__2, ref SurfDesc);
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWLenLine.pas:70
@@ -123,8 +137,21 @@ namespace Aow.Units.AoWLenLine
         // AoWLenLine.pas:48
         public virtual void SetILLine(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            if (Value != null)
+            {
+                if (Value.Count == 3)
+                {
+                    FILLine = Value;
+                }
+                else
+                {
+                    Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Lines must have 3 Images", ((AnsiString)"Error - ") + Name, (int)0);
+                }
+            }
+            else
+            {
+                FILLine = null;
+            }
         }
 
         [Published]

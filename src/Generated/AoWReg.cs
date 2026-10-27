@@ -656,16 +656,6 @@ namespace Aow.Units.AoWReg
             rwBool((AnsiString)"General", (AnsiString)"Fast Movement Enabled", ref Value, Aow.Units.AoWReg.TReadWriteMode.rwWrite);
         }
 
-        // AoWReg.pas:624
-        public TSet<Aow.Units.AoWReg.TWindowPopupEvent> GetClassicWindowPopupEvents()
-        {
-            TSet<Aow.Units.AoWReg.TWindowPopupEvent> Result = default;
-            Result = TSet<Aow.Units.AoWReg.TWindowPopupEvent>.Of().WithRange(Aow.Units.AoWReg.TWindowPopupEvent.wpCombat, Aow.Units.AoWReg.TWindowPopupEvent.wpHeroJoin);
-            /* TODO(T-5.8) No physical byte image for TWindowPopupEvents */
-            throw new System.NotImplementedException();
-            return Result;
-        }
-
         // AoWReg.pas:630
         public void SetClassicWindowPopupEvents(TSet<Aow.Units.AoWReg.TWindowPopupEvent> Value)
         {

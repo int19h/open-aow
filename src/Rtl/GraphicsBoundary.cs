@@ -137,15 +137,12 @@ public class TRegistry : TObject
     public void WriteBinaryData(AnsiString name, ReadOnlySpan<byte> buffer, int size) => values.Write(key + "\\" + name.ToString(), buffer[..size].ToArray());
 }
 public class TIvTranslator : TComponent { }
-public class TIvDictionary : TComponent
+public partial class TIvDictionary : TComponent
 {
     public AnsiString FFileName;
     public int FLanguage;
     public void SetLanguage(int language) => FLanguage = language;
     public void SetDictionaryName(AnsiString name) { }
-    public void Open() { }
-    public void Close() { }
-    public AnsiString Translate(AnsiString text) => text;
 }
 public class TIvBinaryDictionary : TIvDictionary { }
 public class Text : TObject { }
