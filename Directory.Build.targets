@@ -1,0 +1,5 @@
+<Project>
+  <!-- The generated layouts (ui-layout.md section 1) compile into Aow.Generated as partial classes
+       of the generated modules. Layout.targets applies only to that project. -->
+  <Import Project="$(MSBuildThisFileDirectory)src/Layout/Layout.targets" />
+</Project>
