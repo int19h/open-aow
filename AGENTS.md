@@ -21,10 +21,9 @@ the recovered Delphi 3 source in `D:\git\aow`. `docs/process.md` describes how w
   SEM_NOOPENFILEERRORBOX)` first thing, so a crash ends the process instead of opening a dialog,
   and nothing opens a window on the desktop (use the headless host's null display, or a hidden
   window). Never play sound.
-- Do not run the original game (`AoW.exe` or `AoWEd.exe`, from the GOG install or a copy, under
-  the playtest harness or otherwise) until the user lifts this rule. Even on a hidden desktop it
-  disturbs full-screen applications on this PC (user, 2026-10-26). Compare with the recorded
-  reference runs under `D:\Build\oracle` instead, and report any task that needs a new native run.
+- Native runs of the original game (`AoW.exe`, `AoWEd.exe`) are allowed again (user, 2026-10-26,
+  after a pause because they disturbed full-screen applications). They run with sound and music
+  volume 0, through the harness's per-run registry setup, and the registry is verified restored.
 - Report what was done, what was not done and why, and anything the brief did not anticipate. A
   report that claims completion carries the done measure's command output.
 - Prose in documents and comments is plain English: no "should", "may", "could", "would",
