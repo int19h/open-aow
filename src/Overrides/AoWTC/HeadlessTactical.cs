@@ -7,7 +7,7 @@ public partial class TTacticalCombat
 {
         public override Aow.Units.AoWE.TCombatResult Execute()
         {
-            if (Aow.Units.AoWE.HeadlessHooks.Tactical)
+            if (Aow.Units.AoWE.HeadlessHooks.Tactical || Aow.Units.AoWE.FrameFixtureInputs.Tactical)
             {
                 FHostPlayer = 0;
                 Aow.Units.AoWE.HeadlessHooks.TacticalExecutions++;
@@ -120,6 +120,7 @@ public partial class TTacticalCombat
                 }
             }
 
+            Aow.Units.AoWE.FrameFixtureInputs.TacticalInitialized?.Invoke();
             return Result;
         }
 }

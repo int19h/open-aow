@@ -85,78 +85,6 @@ namespace Aow.Units.CityWall
             return Result;
         }
 
-        // CityWall.pas:322
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
-        {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
-            int ImageIndex = default;
-            int Xhp = default;
-            int Yhp = default;
-            int TerrainOffset = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            XhpSurf = Xhp - XhpSurf;
-            YhpSurf = Yhp - YhpSurf;
-            var call__1 = GetYhx();
-            var call__2 = GetXhx();
-            var call__3 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-            var call__4 = call__3.GetField(call__2, call__1);
-            switch (call__4.TerrainType)
-            {
-                case 3:
-                    TerrainOffset = 10;
-                    break;
-                case 5:
-                case 7:
-                case 12:
-                    TerrainOffset = 20;
-                    break;
-                default:
-                    TerrainOffset = 0;
-                    break;
-            }
-
-            var call__5 = FResource.ImageSequenceList.GetImageSequence(Aow.Units.AoWTC.AoWTC.WallISIndex[FWallType - 1] + (TerrainOffset + FDamageImage));
-            Sequence = call__5;
-            if (Sequence != null)
-            {
-                do
-                {
-                    switch (Sequence.Layer)
-                    {
-                        case 7:
-                            var call__6 = Sequence.GetFrameIndex(Aow.Units.AoWTC.AoWTC.AoWCombatMap.Frame, ((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(this)) >> 2)) & 65535);
-                            ImageIndex = call__6;
-                            if (ImageIndex != -1)
-                            {
-                                if (!Aow.Units.AoWTC.AoWTC.AoWCombatMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
-                                {
-                                    var call__7 = GetXhx();
-                                    var call__8 = GetYhx();
-                                    Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowFlagEx((XhpSurf + 21) + Sequence.dXshift, (YhpSurf + Sequence.dYshift) + 16, (call__7 + Aow.Units.AoWE.AoWE.AoWHSMap.Frame) + (call__8 * 100), unchecked((byte)FFlagID), SurfaceDesc, false);
-                                }
-                            }
-
-                            break;
-                        default:
-                        {
-                            var call__9 = Sequence.GetUnloopedFrameIndex(FImageIndex);
-                            ImageIndex = call__9;
-                            if (ImageIndex != -1)
-                            {
-                                var call__10 = Sequence.ImageLibrary[ImageIndex];
-                                call__10.Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
-                            }
-                        }
-
-                            break;
-                    }
-
-                    Sequence = Sequence.Next;
-                }
-                while (!(Sequence == null));
-            }
-        }
-
         // CityWall.pas:230
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
         {
@@ -168,117 +96,117 @@ namespace Aow.Units.CityWall
                 switch (Msg.MsgID)
                 {
                     case 200704:
-                        var call__11 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(65);
-                        call__11.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                        var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                        Aow.Rtl.Rtl.RandSeed = call__12;
-                        var call__13 = GetDefense();
-                        var call__14 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__13);
-                        SetHitPoints(FHitPoints - call__14);
+                        var call__1 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(65);
+                        call__1.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
+                        var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                        Aow.Rtl.Rtl.RandSeed = call__2;
+                        var call__3 = GetDefense();
+                        var call__4 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__3);
+                        SetHitPoints(FHitPoints - call__4);
                         break;
                     case 200705:
-                        var call__15 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(24);
-                        call__15.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                        var call__16 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                        Aow.Rtl.Rtl.RandSeed = call__16;
-                        var call__17 = GetDefense();
-                        var call__18 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__17);
-                        SetHitPoints(FHitPoints - call__18);
+                        var call__5 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(24);
+                        call__5.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
+                        var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                        Aow.Rtl.Rtl.RandSeed = call__6;
+                        var call__7 = GetDefense();
+                        var call__8 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__7);
+                        SetHitPoints(FHitPoints - call__8);
                         break;
                     case 200706:
-                        var call__19 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(44);
-                        call__19.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                        var call__20 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                        Aow.Rtl.Rtl.RandSeed = call__20;
-                        var call__21 = GetDefense();
-                        var call__22 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__21);
-                        SetHitPoints(FHitPoints - call__22);
+                        var call__9 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(44);
+                        call__9.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
+                        var call__10 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                        Aow.Rtl.Rtl.RandSeed = call__10;
+                        var call__11 = GetDefense();
+                        var call__12 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__11);
+                        SetHitPoints(FHitPoints - call__12);
                         break;
                     case 200707:
-                        var call__23 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(117);
-                        call__23.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__24 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                        Aow.Rtl.Rtl.RandSeed = call__24;
-                        var call__25 = GetDefense();
-                        var call__26 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__25);
-                        SetHitPoints(FHitPoints - call__26);
+                        var call__13 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(117);
+                        call__13.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
+                        var call__14 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                        Aow.Rtl.Rtl.RandSeed = call__14;
+                        var call__15 = GetDefense();
+                        var call__16 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__15);
+                        SetHitPoints(FHitPoints - call__16);
                         break;
                     case 200714:
                         if (FWallType == 1)
                         {
-                            var call__27 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(31);
-                            call__27.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                            var call__28 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__28;
-                            var call__29 = GetDefense();
-                            var call__30 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__29);
-                            SetHitPoints(FHitPoints - call__30);
+                            var call__17 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(31);
+                            call__17.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
+                            var call__18 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                            Aow.Rtl.Rtl.RandSeed = call__18;
+                            var call__19 = GetDefense();
+                            var call__20 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__19);
+                            SetHitPoints(FHitPoints - call__20);
                         }
 
                         break;
                     case 200715:
                         if (FWallType == 1)
                         {
-                            var call__31 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(113);
-                            call__31.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__32 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__32;
-                            var call__33 = GetDefense();
-                            var call__34 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__33);
-                            SetHitPoints(FHitPoints - call__34);
+                            var call__21 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(113);
+                            call__21.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
+                            var call__22 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                            Aow.Rtl.Rtl.RandSeed = call__22;
+                            var call__23 = GetDefense();
+                            var call__24 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__23);
+                            SetHitPoints(FHitPoints - call__24);
                         }
 
                         break;
                     case 200710:
-                        var call__35 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(116);
-                        call__35.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__36 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                        Aow.Rtl.Rtl.RandSeed = call__36;
-                        var call__37 = GetDefense();
-                        var call__38 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__37);
-                        SetHitPoints(FHitPoints - call__38);
+                        var call__25 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(116);
+                        call__25.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
+                        var call__26 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                        Aow.Rtl.Rtl.RandSeed = call__26;
+                        var call__27 = GetDefense();
+                        var call__28 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__27);
+                        SetHitPoints(FHitPoints - call__28);
                         break;
                     case 200717:
-                        var call__39 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(127);
-                        call__39.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__40 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                        Aow.Rtl.Rtl.RandSeed = call__40;
-                        var call__41 = GetDefense();
-                        var call__42 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__41);
-                        SetHitPoints(FHitPoints - call__42);
+                        var call__29 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(127);
+                        call__29.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
+                        var call__30 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                        Aow.Rtl.Rtl.RandSeed = call__30;
+                        var call__31 = GetDefense();
+                        var call__32 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__31);
+                        SetHitPoints(FHitPoints - call__32);
                         break;
                     case 200718:
                         if (FWallType == 1)
                         {
-                            var call__43 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(128);
-                            call__43.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__44 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__44;
-                            var call__45 = GetDefense();
-                            var call__46 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__45);
-                            SetHitPoints(FHitPoints - call__46);
+                            var call__33 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(128);
+                            call__33.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
+                            var call__34 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                            Aow.Rtl.Rtl.RandSeed = call__34;
+                            var call__35 = GetDefense();
+                            var call__36 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__35);
+                            SetHitPoints(FHitPoints - call__36);
                         }
 
                         break;
                     case 200708:
                         FPlaySound = Msg.Param[1].Value == 0;
-                        var call__47 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(112);
-                        call__47.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__48 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                        Aow.Rtl.Rtl.RandSeed = call__48;
-                        var call__49 = GetDefense();
-                        var call__50 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__49);
-                        SetHitPoints(FHitPoints - call__50);
+                        var call__37 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(112);
+                        call__37.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
+                        var call__38 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                        Aow.Rtl.Rtl.RandSeed = call__38;
+                        var call__39 = GetDefense();
+                        var call__40 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__39);
+                        SetHitPoints(FHitPoints - call__40);
                         Msg.Param[1] = 1;
                         break;
                     case 200711:
                         if (FWallType == 1)
                         {
-                            var call__51 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__51;
-                            var call__52 = GetDefense();
-                            var call__53 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(Aow.Units.AoWTC.AoWTC.TCDamage[1], Aow.Units.AoWTC.AoWTC.TCAttack[1] - call__52);
-                            SetHitPoints(FHitPoints - call__53);
+                            var call__41 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
+                            Aow.Rtl.Rtl.RandSeed = call__41;
+                            var call__42 = GetDefense();
+                            var call__43 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(Aow.Units.AoWTC.AoWTC.TCDamage[1], Aow.Units.AoWTC.AoWTC.TCAttack[1] - call__42);
+                            SetHitPoints(FHitPoints - call__43);
                         }
 
                         break;
@@ -304,49 +232,49 @@ namespace Aow.Units.CityWall
                     }
                     else
                     {
-                        bool bool__54 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmWallCrushing);
-                        if (bool__54)
+                        bool bool__44 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmWallCrushing);
+                        if (bool__44)
                         {
-                            var call__55 = GetXhx();
-                            bool__54 = (call__55 == ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FDestinationX);
+                            var call__45 = GetXhx();
+                            bool__44 = (call__45 == ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FDestinationX);
                         }
 
-                        bool bool__56 = bool__54;
-                        if (bool__56)
+                        bool bool__46 = bool__44;
+                        if (bool__46)
                         {
-                            var call__57 = GetYhx();
-                            bool__56 = (call__57 == ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FDestinationY);
+                            var call__47 = GetYhx();
+                            bool__46 = (call__47 == ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FDestinationY);
                         }
 
-                        if (bool__56)
+                        if (bool__46)
                         {
                             MoveResult.Code = 0;
                         }
                         else
                         {
-                            var call__58 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1);
-                            bool bool__59 = call__58;
-                            if (!bool__59)
+                            var call__48 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1);
+                            bool bool__49 = call__48;
+                            if (!bool__49)
                             {
-                                var call__60 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66);
-                                bool__59 = call__60;
+                                var call__50 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66);
+                                bool__49 = call__50;
                             }
 
-                            bool bool__61 = bool__59;
-                            if (!bool__61)
+                            bool bool__51 = bool__49;
+                            if (!bool__51)
                             {
-                                var call__62 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36);
-                                bool__61 = call__62;
+                                var call__52 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36);
+                                bool__51 = call__52;
                             }
 
-                            if (bool__61)
+                            if (bool__51)
                             {
                                 MoveResult.Code = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][-1 - -1];
                             }
                             else
                             {
-                                var call__63 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
-                                if (call__63)
+                                var call__53 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
+                                if (call__53)
                                 {
                                     MoveResult.Code = -1;
                                 }
@@ -369,28 +297,28 @@ namespace Aow.Units.CityWall
             int Result = default;
             if (Info.HN == 0)
             {
-                bool bool__64 = (FHitPoints == 0);
-                if (!bool__64)
+                bool bool__54 = (FHitPoints == 0);
+                if (!bool__54)
                 {
-                    var call__65 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66);
-                    bool__64 = call__65;
+                    var call__55 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66);
+                    bool__54 = call__55;
                 }
 
-                bool bool__66 = bool__64;
-                if (!bool__66)
+                bool bool__56 = bool__54;
+                if (!bool__56)
                 {
-                    var call__67 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36);
-                    bool__66 = call__67;
+                    var call__57 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36);
+                    bool__56 = call__57;
                 }
 
-                if ((bool__66 || ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmClimbing)) || ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmaiWall))
+                if ((bool__56 || ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmClimbing)) || ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmaiWall))
                 {
                     Result = 1;
                 }
                 else
                 {
-                    var call__68 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
-                    if (call__68)
+                    var call__58 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
+                    if (call__58)
                     {
                         Result = 0;
                     }
@@ -425,10 +353,10 @@ namespace Aow.Units.CityWall
             {
                 Razed = false;
                 FPlaySound = true;
-                var call__69 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWTC.AoWTC.CombatLLoc);
-                var call__70 = call__69.GetField(Aow.Units.AoWTC.AoWTC.CombatXLoc, Aow.Units.AoWTC.AoWTC.CombatYLoc);
-                var call__71 = call__70.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
-                Structure = (Aow.Units.AoWE.TPlayerStructure)call__71;
+                var call__59 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWTC.AoWTC.CombatLLoc);
+                var call__60 = call__59.GetField(Aow.Units.AoWTC.AoWTC.CombatXLoc, Aow.Units.AoWTC.AoWTC.CombatYLoc);
+                var call__61 = call__60.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
+                Structure = (Aow.Units.AoWE.TPlayerStructure)call__61;
                 if (Structure != null)
                 {
                     FWallType = unchecked((byte)((Aow.Units.City.TCity)Structure).FWallType);
@@ -439,16 +367,16 @@ namespace Aow.Units.CityWall
                     }
                     else
                     {
-                        var call__72 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
-                        FFlagID = call__72.FPlayerRace;
+                        var call__62 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
+                        FFlagID = call__62.FPlayerRace;
                     }
                 }
                 else
                 {
-                    var call__73 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWTC.AoWTC.CombatLLoc);
-                    var call__74 = call__73.GetField(Aow.Units.AoWTC.AoWTC.CombatXLoc, Aow.Units.AoWTC.AoWTC.CombatYLoc);
-                    var call__75 = call__74.FindNoneTransparentHS(typeof(Aow.Units.Tower.TTower));
-                    Structure = (Aow.Units.AoWE.TPlayerStructure)call__75;
+                    var call__63 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWTC.AoWTC.CombatLLoc);
+                    var call__64 = call__63.GetField(Aow.Units.AoWTC.AoWTC.CombatXLoc, Aow.Units.AoWTC.AoWTC.CombatYLoc);
+                    var call__65 = call__64.FindNoneTransparentHS(typeof(Aow.Units.Tower.TTower));
+                    Structure = (Aow.Units.AoWE.TPlayerStructure)call__65;
                     if (Structure != null)
                     {
                         FWallType = 1;
@@ -459,8 +387,8 @@ namespace Aow.Units.CityWall
                         }
                         else
                         {
-                            var call__76 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
-                            FFlagID = call__76.FPlayerRace;
+                            var call__66 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
+                            FFlagID = call__66.FPlayerRace;
                         }
                     }
                     else
@@ -472,10 +400,10 @@ namespace Aow.Units.CityWall
                 if (FWallType == 0)
                 {
                     RemoveFromMap();
-                    var call__77 = GetYhx();
-                    var call__78 = GetXhx();
-                    var call__79 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                    UpdateMapFields(call__79, call__78, call__77);
+                    var call__67 = GetYhx();
+                    var call__68 = GetXhx();
+                    var call__69 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                    UpdateMapFields(call__69, call__68, call__67);
                     this.Free();
                 }
                 else
@@ -570,15 +498,15 @@ namespace Aow.Units.CityWall
                         Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\HIT_DEATH\\D_WOODLG.WAV");
                     }
 
-                    var call__80 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.AddEffect(Aow.Units.AoWTC.TfxType.fxWallSmoke);
-                    Effect = call__80;
+                    var call__70 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.AddEffect(Aow.Units.AoWTC.TfxType.fxWallSmoke);
+                    Effect = call__70;
                     Point = Aow.Units.aowFX.TXYZ.Create();
                     Effect.FPath.Add(Point);
                     Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Point.X, ref Point.Y);
-                    var call__81 = Aow.Rtl.Rtl.Random(20);
-                    Point.X = (call__81 + Point.X) + 6;
-                    var call__82 = Aow.Rtl.Rtl.Random(20);
-                    Point.Y = (call__82 + Point.Y) - 20;
+                    var call__71 = Aow.Rtl.Rtl.Random(20);
+                    Point.X = (call__71 + Point.X) + 6;
+                    var call__72 = Aow.Rtl.Rtl.Random(20);
+                    Point.Y = (call__72 + Point.Y) - 20;
                 }
                 else
                 {
@@ -728,30 +656,30 @@ namespace Aow.Units.CityWall
             }
             else
             {
-                var call__83 = GetYhx();
-                var call__84 = GetXhx();
-                var call__85 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
-                var call__86 = call__85.GetField(call__84, call__83);
-                var call__87 = call__86.FindOwnedChild(2228484);
-                CombatUnit = (Aow.Units.AoWTC.TTacticalCombatUnitHS)call__87;
+                var call__73 = GetYhx();
+                var call__74 = GetXhx();
+                var call__75 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.GetMapLevel(0);
+                var call__76 = call__75.GetField(call__74, call__73);
+                var call__77 = call__76.FindOwnedChild(2228484);
+                CombatUnit = (Aow.Units.AoWTC.TTacticalCombatUnitHS)call__77;
                 if (CombatUnit != null)
                 {
-                    var call__88 = CombatUnit.FUnit.GetSide();
-                    if (call__88 != Aow.Units.AoWE.TCombatSideIndex.csDefender)
+                    var call__78 = CombatUnit.FUnit.GetSide();
+                    if (call__78 != Aow.Units.AoWE.TCombatSideIndex.csDefender)
                     {
                         CombatUnit = null;
                     }
                 }
 
-                bool bool__89 = (FHitPoints == 0);
-                if (!bool__89)
+                bool bool__79 = (FHitPoints == 0);
+                if (!bool__79)
                 {
-                    var call__90 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FPlayers.IndexOfPlayer(unchecked((byte)unchecked((byte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentPlayer)));
-                    var call__91 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)call__90));
-                    bool__89 = ((call__91.FSideIndex != 1) && (CombatUnit == null));
+                    var call__80 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FPlayers.IndexOfPlayer(unchecked((byte)unchecked((byte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentPlayer)));
+                    var call__81 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)call__80));
+                    bool__79 = ((call__81.FSideIndex != 1) && (CombatUnit == null));
                 }
 
-                if (bool__89)
+                if (bool__79)
                 {
                     base.Show(XhpSurf, YhpSurf, SurfaceDesc);
                 }
@@ -776,49 +704,49 @@ namespace Aow.Units.CityWall
                     }
                     else
                     {
-                        bool bool__92 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmWallCrushing);
-                        if (bool__92)
+                        bool bool__82 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmWallCrushing);
+                        if (bool__82)
                         {
-                            var call__93 = GetXhx();
-                            bool__92 = (call__93 == ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FDestinationX);
+                            var call__83 = GetXhx();
+                            bool__82 = (call__83 == ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FDestinationX);
                         }
 
-                        bool bool__94 = bool__92;
-                        if (bool__94)
+                        bool bool__84 = bool__82;
+                        if (bool__84)
                         {
-                            var call__95 = GetYhx();
-                            bool__94 = (call__95 == ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FDestinationY);
+                            var call__85 = GetYhx();
+                            bool__84 = (call__85 == ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FDestinationY);
                         }
 
-                        if (bool__94)
+                        if (bool__84)
                         {
                             MoveResult.Code = 0;
                         }
                         else
                         {
-                            var call__96 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1);
-                            bool bool__97 = call__96;
-                            if (!bool__97)
+                            var call__86 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1);
+                            bool bool__87 = call__86;
+                            if (!bool__87)
                             {
-                                var call__98 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66);
-                                bool__97 = call__98;
+                                var call__88 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66);
+                                bool__87 = call__88;
                             }
 
-                            bool bool__99 = bool__97;
-                            if (!bool__99)
+                            bool bool__89 = bool__87;
+                            if (!bool__89)
                             {
-                                var call__100 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide();
-                                bool__99 = (call__100 == Aow.Units.AoWE.TCombatSideIndex.csDefender);
+                                var call__90 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide();
+                                bool__89 = (call__90 == Aow.Units.AoWE.TCombatSideIndex.csDefender);
                             }
 
-                            if (bool__99)
+                            if (bool__89)
                             {
                                 MoveResult.Code = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][-1 - -1];
                             }
                             else
                             {
-                                var call__101 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
-                                if (call__101)
+                                var call__91 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
+                                if (call__91)
                                 {
                                     MoveResult.Code = -1;
                                 }
@@ -841,35 +769,35 @@ namespace Aow.Units.CityWall
             int Result = default;
             if (Info.HN == 0)
             {
-                bool bool__102 = (FHitPoints == 0);
-                if (!bool__102)
+                bool bool__92 = (FHitPoints == 0);
+                if (!bool__92)
                 {
-                    var call__103 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide();
-                    bool__102 = (call__103 == Aow.Units.AoWE.TCombatSideIndex.csDefender);
+                    var call__93 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide();
+                    bool__92 = (call__93 == Aow.Units.AoWE.TCombatSideIndex.csDefender);
                 }
 
-                bool bool__104 = bool__102;
-                if (!bool__104)
+                bool bool__94 = bool__92;
+                if (!bool__94)
                 {
-                    var call__105 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66);
-                    bool__104 = call__105;
+                    var call__95 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66);
+                    bool__94 = call__95;
                 }
 
-                bool bool__106 = bool__104;
-                if (!bool__106)
+                bool bool__96 = bool__94;
+                if (!bool__96)
                 {
-                    var call__107 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36);
-                    bool__106 = call__107;
+                    var call__97 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36);
+                    bool__96 = call__97;
                 }
 
-                if ((bool__106 || ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmClimbing)) || ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmaiWall))
+                if ((bool__96 || ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmClimbing)) || ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FMoveFlags.Contains(Aow.Units.AoWTC.TCombatMoveModeElement.mmaiWall))
                 {
                     Result = 1;
                 }
                 else
                 {
-                    var call__108 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
-                    if (call__108)
+                    var call__98 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
+                    if (call__98)
                     {
                         Result = 0;
                     }

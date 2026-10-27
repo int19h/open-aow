@@ -37,8 +37,10 @@ public static partial class Rtl
     // SYSTEM.PAS:1647 uses GetSystemTime, which returns UTC.
     public static void Randomize()
     {
-        if (!SuppressRandomize) RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
+        if (RandomizeSeed is int seed) RandSeed = seed;
+        else if (!SuppressRandomize) RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
     }
+    public static int? RandomizeSeed { get; set; }
     public static Action<double, int, int>? TraceRound { get; set; }
     public static int Round(double value)
     {

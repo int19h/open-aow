@@ -7,7 +7,7 @@ public partial class TArmyCombatMoveTE
 {
         public void ExecuteCombat()
         {
-            if (HeadlessHooks.Tactical && (HeadlessHooks.TacticalBattles == 0 || HeadlessHooks.TacticalSelections < HeadlessHooks.TacticalBattles))
+            if ((HeadlessHooks.Tactical || FrameFixtureInputs.Tactical) && (HeadlessHooks.TacticalBattles == 0 || HeadlessHooks.TacticalSelections < HeadlessHooks.TacticalBattles))
             {
                 FCombatType = TCombatType.ctTactical;
                 HeadlessHooks.TacticalSelections++;

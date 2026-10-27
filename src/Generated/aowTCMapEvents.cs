@@ -70,103 +70,6 @@ namespace Aow.Units.aowTCMapEvents
         public Aow.Units.CMapCtrl.TAoWCombatMapControl TCMap;
         // { +0044 }
         public int FChatHeight;
-        // aowTCMapEvents.pas:43
-        // { draft }
-        // { $48; 004584BE }
-        public void TCMapActivateMap()
-        {
-            Aow.Units.Sound.Sound.SongPlayer.Pause(false);
-            if (Aow.Units.AoWE.AoWE.AoWEngine.FDemo)
-            {
-                Aow.Units.Sound.Sound.PlaySongEx((AnsiString)"Songs\\Combat\\Defend.IT", 2, 0, true);
-            }
-            else
-            {
-                switch (Aow.Rtl.Rtl.Random(3))
-                {
-                    case 0:
-                        Aow.Units.Sound.Sound.PlaySongEx((AnsiString)"Songs\\Combat\\Defend.IT", 2, 0, true);
-                        break;
-                    case 1:
-                        Aow.Units.Sound.Sound.PlaySongEx((AnsiString)"Songs\\Combat\\Outnum.IT", 2, 0, true);
-                        break;
-                    case 2:
-                        Aow.Units.Sound.Sound.PlaySongEx((AnsiString)"Songs\\Combat\\Races.IT", 2, 0, true);
-                        break;
-                }
-            }
-
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer.HSMap = Aow.Units.AoWTC.AoWTC.AoWCombatMap;
-            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.SetMap(Aow.Units.AoWTC.AoWTC.AoWCombatMap);
-            {
-                var w__1 = Aow.Units.AoWExeForms.AoWExeForms.TCScanner;
-                w__1.Scanner.FPreviousWidth = 0;
-                w__1.Scanner.FIncremental = false;
-                w__1.Scanner.FSized = false;
-                w__1.Scanner.FUpdateStep = -1;
-            }
-
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible = true;
-            Aow.Units.AoWWinMan.AoWWinMan.General.HideWindows();
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap = (Aow.Units.AoWTC.TAoWCombatMap)Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlaySounds;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldAlignWidth = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.AlignWidth;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldAlignHeight = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.AlignHeight;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldRect.Left = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.LeftOffset;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldRect.Top = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.TopOffset;
-            if (Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldAlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth)
-            {
-                Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldRect.Right = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.RightOffset;
-            }
-            else
-            {
-                Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldRect.Right = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.WinWidth;
-            }
-
-            if (Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldAlignHeight == Aow.Units.AoWComp.TAOWAlignHeight.ahBoth)
-            {
-                Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldRect.Bottom = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.BottomOffset;
-            }
-            else
-            {
-                Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldRect.Bottom = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.WinHeight;
-            }
-
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.LeftOffset = Aow.Units.AOWMWindow.AOWMWindow.MWindow.FMapRect.Left;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.TopOffset = Aow.Units.AOWMWindow.AOWMWindow.MWindow.FMapRect.Top;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.RightOffset = Aow.Units.AOWMWindow.AOWMWindow.MWindow.FMapRect.Right;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.BottomOffset = Aow.Units.AOWMWindow.AOWMWindow.MWindow.FMapRect.Bottom;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.WinWidth = Aow.Units.AOWMWindow.AOWMWindow.MWindow.FMapRect.Right;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.WinHeight = Aow.Units.AOWMWindow.AOWMWindow.MWindow.FMapRect.Bottom;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.AlignWidth = Aow.Units.AOWMWindow.AOWMWindow.MWindow.FMapAlignWidth;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment.AlignHeight = Aow.Units.AOWMWindow.AOWMWindow.MWindow.FMapAlignHeight;
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.FAligned = false;
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TBWorld.Visible = false;
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TBCombat.Visible = true;
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TCCurPUpdate();
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.AutoBtn.Checked = false;
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TCChatBtn.Visible = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.ChatBtn.Visible;
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TCUnitBtn.Visible = false;
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.FDrawn = false;
-            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin.Visible = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlaySounds;
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TCScannerBtn.Visible = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlaySounds;
-            Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.Visible = false;
-            if (!Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlaySounds)
-            {
-                FChatHeight = Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.WinHeight;
-                Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-            }
-            else
-            {
-                FChatHeight = 0;
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FChatVisible || !Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlaySounds)
-            {
-                Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible = true;
-            }
-        }
-
         // aowTCMapEvents.pas:105
         // { draft }
         public void TCMapDeActivateMap()
@@ -177,11 +80,11 @@ namespace Aow.Units.aowTCMapEvents
             Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer.HSMap = Aow.Units.AoWE.AoWE.AoWHSMap;
             Aow.Units.AoWSWindow.AoWSWindow.SWindow.Scanner.SetMap(Aow.Units.AoWE.AoWE.AoWHSMap);
             {
-                var w__2 = Aow.Units.AoWSWindow.AoWSWindow.SWindow;
-                w__2.Scanner.FPreviousWidth = 0;
-                w__2.Scanner.FIncremental = false;
-                w__2.Scanner.FSized = false;
-                w__2.Scanner.FUpdateStep = -1;
+                var w__1 = Aow.Units.AoWSWindow.AoWSWindow.SWindow;
+                w__1.Scanner.FPreviousWidth = 0;
+                w__1.Scanner.FIncremental = false;
+                w__1.Scanner.FSized = false;
+                w__1.Scanner.FUpdateStep = -1;
             }
 
             if (FChatHeight > 0)
@@ -190,9 +93,9 @@ namespace Aow.Units.aowTCMapEvents
             }
 
             {
-                var w__3 = Aow.Units.AoWExeForms.AoWExeForms.ChatWindow;
-                w__3.ChatWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
-                w__3.ChatWin.Visible = false;
+                var w__2 = Aow.Units.AoWExeForms.AoWExeForms.ChatWindow;
+                w__2.ChatWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+                w__2.ChatWin.Visible = false;
             }
 
             Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.FScrollPending = true;
@@ -230,8 +133,8 @@ namespace Aow.Units.aowTCMapEvents
             Aow.Units.AoWWinMan.AoWWinMan.General.Manager.FAligned = false;
             Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TBWorld.Visible = true;
             Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TBCombat.Visible = false;
-            var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TurnButton.FButtonChecked = call__4.FSingleProcessCycle;
+            var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TurnButton.FButtonChecked = call__3.FSingleProcessCycle;
             Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin.Visible = false;
             Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.Visible = false;
             Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.SetMap(null);
@@ -274,25 +177,25 @@ namespace Aow.Units.aowTCMapEvents
                     if (HS is Aow.Units.AoWTC.TTacticalCombatUnitHS)
                     {
                         U = ((Aow.Units.AoWTC.TTacticalCombatUnitHS)HS).FUnit.FUnit;
-                        var call__5 = U.GetName();
-                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TargetULbl.Text = call__5;
-                        var call__6 = U.GetHitPoints();
-                        var call__7 = U.GetHits();
-                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AHits.Text = (Aow.Rtl.Rtl.IntToStr(call__6) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__7);
-                        var call__8 = U.GetMovePoints();
-                        var call__9 = U.GetMoves();
-                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AMoves.Text = (Aow.Rtl.Rtl.IntToStr(call__8) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__9);
-                        var call__10 = U.GetAttack();
-                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AAttack.Text = Aow.Rtl.Rtl.IntToStr(call__10);
-                        var call__11 = U.GetDamage();
-                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.ADamage.Text = Aow.Rtl.Rtl.IntToStr(call__11);
-                        var call__12 = U.GetDefense();
-                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.ADefense.Text = Aow.Rtl.Rtl.IntToStr(call__12);
-                        var call__13 = U.GetResistance();
-                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AResistance.Text = Aow.Rtl.Rtl.IntToStr(call__13);
-                        var call__14 = U.GetMoveTypes();
-                        var call__15 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__14);
-                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AMovesIcon.SetCurrent(call__15);
+                        var call__4 = U.GetName();
+                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TargetULbl.Text = call__4;
+                        var call__5 = U.GetHitPoints();
+                        var call__6 = U.GetHits();
+                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AHits.Text = (Aow.Rtl.Rtl.IntToStr(call__5) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__6);
+                        var call__7 = U.GetMovePoints();
+                        var call__8 = U.GetMoves();
+                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AMoves.Text = (Aow.Rtl.Rtl.IntToStr(call__7) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__8);
+                        var call__9 = U.GetAttack();
+                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AAttack.Text = Aow.Rtl.Rtl.IntToStr(call__9);
+                        var call__10 = U.GetDamage();
+                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.ADamage.Text = Aow.Rtl.Rtl.IntToStr(call__10);
+                        var call__11 = U.GetDefense();
+                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.ADefense.Text = Aow.Rtl.Rtl.IntToStr(call__11);
+                        var call__12 = U.GetResistance();
+                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AResistance.Text = Aow.Rtl.Rtl.IntToStr(call__12);
+                        var call__13 = U.GetMoveTypes();
+                        var call__14 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__13);
+                        Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.AMovesIcon.SetCurrent(call__14);
                         U.ListAbilities(Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.USelAbilLb.Items);
                     }
                 }
@@ -310,8 +213,8 @@ namespace Aow.Units.aowTCMapEvents
             }
             else
             {
-                var call__16 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer));
-                Aow.Units.AoWExeForms.AoWExeForms.TBWindow.AutoBtn.Checked = call__16.FAuto;
+                var call__15 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer));
+                Aow.Units.AoWExeForms.AoWExeForms.TBWindow.AutoBtn.Checked = call__15.FAuto;
             }
 
             Aow.Units.aowMapEvents.aowMapEvents.MapEvents.TheMapGemsChanged(unchecked((sbyte)Player));
@@ -348,8 +251,8 @@ namespace Aow.Units.aowTCMapEvents
         // aowTCMapEvents.pas:230
         public void TCMapCastSpell(Aow.Units.AoWE.TCombatSpellCaster Caster)
         {
-            var call__17 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.SelectSpell(Caster.FCombatCasterSpellID);
-            Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.UAbilLB.Selected = call__17;
+            var call__16 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.SelectSpell(Caster.FCombatCasterSpellID);
+            Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.UAbilLB.Selected = call__16;
         }
 
         // aowTCMapEvents.pas:235
@@ -365,15 +268,15 @@ namespace Aow.Units.aowTCMapEvents
         public void TCMapTurnChanged()
         {
             {
-                var w__18 = Aow.Units.AoWExeForms.AoWExeForms.TBWindow;
-                var call__19 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentPlayer);
-                w__18.TCTurnButton.FCurPlayer = call__19.FPlayerRace;
-                if (w__18.TCTurnButton.FCurPlayer == -1)
+                var w__17 = Aow.Units.AoWExeForms.AoWExeForms.TBWindow;
+                var call__18 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentPlayer);
+                w__17.TCTurnButton.FCurPlayer = call__18.FPlayerRace;
+                if (w__17.TCTurnButton.FCurPlayer == -1)
                 {
-                    w__18.TCTurnButton.FCurPlayer = 12;
+                    w__17.TCTurnButton.FCurPlayer = 12;
                 }
 
-                w__18.TCTurnButton.FLastPlayer = -1;
+                w__17.TCTurnButton.FLastPlayer = -1;
             }
 
             Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;

@@ -1807,3 +1807,163 @@ file = "src/Overrides/GFXE/DisplayModes.cs"
 member = "AoWTitleScene.TTitleScene.WindowMouseUp"
 reason = "route the title buttons through the rewritten main form"
 file = "src/Overrides/AoWTitleScene/Startup.cs"
+
+[[skip]]
+member = "AoWE.TUnitHS.Show"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWE/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWE.TUnitHS.ShowShadow"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWE/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWE.TAbstractUnit.ShowEx"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWE/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWE.TArmyHS.Show"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWE/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWE.TArmyHS.ShowShadow"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWE/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWE.TArmyHS.PlayMoveSFX"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWE/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWTC.TfxHS.Show"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWTC/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWTC.TTacticalCombatUnitHS.Show"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWTC/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWTC.TTacticalCombatUnitHS.ShowShadow"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWTC/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWTC.TTacticalCombatUnitHS.NewFrame"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/AoWTC/FixtureAnimation.cs"
+
+[[skip]]
+member = "CityWall.TCityWall.Show"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/CityWall/FixtureAnimation.cs"
+
+[[skip]]
+member = "CombatFire.TCombatFire.Show"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/CombatFire/FixtureAnimation.cs"
+
+[[skip]]
+member = "House.THouse.Show"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/House/FixtureAnimation.cs"
+
+[[skip]]
+member = "House.THouse.ShowShadow"
+reason = "phase input at the capture address-derived animation sites"
+file = "src/Overrides/House/FixtureAnimation.cs"
+
+[[skip]]
+member = "AoWWinMan.StartGame"
+reason = "offline map startup through the rewritten host"
+file = "src/Overrides/AoWWinMan/StartGame.cs"
+
+[[skip]]
+member = "AoWWinMan.TGeneral.HideTransientWindows"
+reason = "read inherited modal field on window and menu siblings"
+file = "src/Overrides/AoWWinMan/TransientWindows.cs"
+
+[[skip]]
+member = "E2GameFlow.HasModalWindow"
+reason = "read inherited modal field on window and menu siblings"
+file = "src/Overrides/E2GameFlow/Display.cs"
+
+[[skip]]
+member = "AOWMWindow.TMWindow.MapWindowUpdate"
+reason = "map frame invalidation and FPS from the rewritten display"
+file = "src/Overrides/AOWMWindow/Display.cs"
+
+[[skip]]
+member = "AoWUnitWindow.TUnitWindow.UnitWinEnter"
+reason = "route the UI display boundary through the rewritten host"
+file = "src/Overrides/AoWUnitWindow/Cursor.cs"
+
+[[skip]]
+member = "AoWUnitWindow.TUnitWindow.UnitWinExit"
+reason = "route the UI display boundary through the rewritten host"
+file = "src/Overrides/AoWUnitWindow/Cursor.cs"
+
+[[skip]]
+member = "AoWUnitWindow.TUnitWindow.UnitWinShow"
+reason = "route the UI display boundary through the rewritten host"
+file = "src/Overrides/AoWUnitWindow/Cursor.cs"
+
+[[skip]]
+member = "AoWSpellBook.TSpellBook.ShowBook"
+reason = "route the UI display boundary through the rewritten host"
+file = "src/Overrides/AoWSpellBook/Display.cs"
+
+[[skip]]
+member = "AoWE.TAbstractAoWHSMap.DrawFog"
+reason = "managed row traversal instead of raw object pointer arithmetic"
+file = "src/Overrides/AoWE/Fog.cs"
+
+[[skip]]
+member = "AoWHex.TAoWWaterHexagon.ShowDynamic"
+reason = "read the visibility byte from the managed field flags"
+file = "src/Overrides/AoWHex/WaterDrawing.cs"
+
+[[skip]]
+member = "HSEngine.THexagonSpriteSelection.CanSelectLocation"
+reason = "typed managed access for the rendering and input path"
+file = "src/Overrides/HSEngine/LocationSelection.cs"
+
+[[skip]]
+member = "HSEngine.THexagonSpriteSelection.SelectLocation"
+reason = "typed managed access for the rendering and input path"
+file = "src/Overrides/HSEngine/LocationSelection.cs"
+
+[[skip]]
+member = "AoWE.TAbstractUnit.ListAbilityInfo"
+reason = "typed managed access for the rendering and input path"
+file = "src/Overrides/AoWE/AbilityInfo.cs"
+
+[[skip]]
+member = "CMapCtrl.TAoWCombatMapControl.ShowMessage"
+reason = "typed managed access for the rendering and input path"
+file = "src/Overrides/CMapCtrl/Messages.cs"
+
+[[skip]]
+member = "HSEngine.THexagonSpriteSelection.FindLocationHSIndex"
+reason = "managed input and original indicator field semantics"
+file = "src/Overrides/HSEngine/LocationSelection.cs"
+
+[[skip]]
+member = "AoWTBWindow.TTBWindow.UpdatePlayerIndicator"
+reason = "managed input and original indicator field semantics"
+file = "src/Overrides/AoWTBWindow/Indicators.cs"
+
+[[skip]]
+member = "AoWUnitWindow.TUnitWindow.ShowUnit"
+reason = "native experience layout and tactical indicator startup call"
+file = "src/Overrides/AoWUnitWindow/UnitInfo.cs"
+
+[[skip]]
+member = "aowTCMapEvents.TTCMapEvents.TCMapActivateMap"
+reason = "native experience layout and tactical indicator startup call"
+file = "src/Overrides/aowTCMapEvents/Activation.cs"

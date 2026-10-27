@@ -1,0 +1,110 @@
+using Aow.Platform;
+using Aow.Rtl;
+using Aow.Units.AoWE;
+using Aow.Units.AoWWinMan;
+using Aow.Units.AOWWinManager;
+using Aow.Units.AoWWindow;
+using Aow.Units.StartMenu;
+using GameState = Aow.Units.AoWE.AoWE;
+
+namespace Aow.Game;
+
+internal static class FrameFixtureChecks
+{
+    public static int Run()
+    {
+        int checks = 0;
+        void Check(bool condition, string label)
+        {
+            if (!condition) throw new InvalidOperationException(label);
+            checks++;
+        }
+        var instance = new TObject();
+        Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)instance.InstanceId >> 2) & 65535), "ordinary animation phase");
+        FrameFixtureInputs.AddressAnimationPhase = 0;
+        Check(FrameFixtureInputs.AnimationOffset(instance) == 0, "capture phase");
+        FrameFixtureInputs.AddressAnimationPhase = null;
+        var clock = new FixtureClock(new(2000, 1, 1, 12, 0, 0));
+        clock.WaitMilliseconds(90000);
+        Check(clock.Now == new DateTime(2000, 1, 1, 12, 0, 0) && clock.ElapsedMilliseconds == 90000, "wall time stays fixed while pacing advances");
+
+        var oldWindow = Aow.Units.AOWMWindow.AOWMWindow.MWindow;
+        var oldMap = GameState.AoWHSMap;
+        var oldEngine = GameState.AoWEngine;
+        var oldSettings = Aow.Rtl.Rtl.Settings;
+        try
+        {
+            var mapWindow = new TAOWWindow { FVisible = true, FModal = true };
+            Aow.Units.AOWMWindow.AOWMWindow.MWindow = new() { MapWindow = mapWindow };
+            var menu = new TStartMenu { FVisible = true, FModal = false };
+            var hidden = new TAOWWindow { FVisible = false, FModal = true };
+            var manager = new TAOWWinManager { FChildren = new TList() };
+            manager.FChildren.Add(mapWindow);
+            manager.FChildren.Add(menu);
+            manager.FChildren.Add(hidden);
+            var controller = new TGeneral { Manager = manager };
+            Check(!Aow.Units.E2GameFlow.E2GameFlow.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
+            menu.FModal = true;
+            Check(Aow.Units.E2GameFlow.E2GameFlow.HasModalWindow(controller), "modal sibling menu blocks input");
+            controller.HideTransientWindows();
+            Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
+
+            var players = new TPlayerList { FChildren = Aow.Units.Engine.TEObjectList.Create() };
+            players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });
+            players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psTerminated });
+            players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });
+            GameState.AoWHSMap = new() { FPlayers = players };
+            var bar = new Aow.Units.AoWTBWindow.TTBWindow
+            {
+                PInd = new() { FAlignment = new(), FAligned = true },
+                TBMessEdit = new() { FAlignment = new(), FAligned = true }
+            };
+            bar.TBMessEdit.Alignment.LeftOffset = 48;
+            bar.UpdatePlayerIndicator();
+            Check(bar.PInd.WinWidth == 14 && bar.TBMessEdit.Alignment.RightOffset == 292 &&
+                bar.TBMessEdit.Alignment.LeftOffset == 48, "indicator counts active players and reserves the right side");
+            Check(!bar.PInd.FAligned && !bar.TBMessEdit.FAligned, "indicator invalidates alignment");
+            Check(GameState.TMagicSphereRStr[(int)TMagicSphere.msLife] == "Life" &&
+                GameState.TMagicSphereRStr[(int)TMagicSphere.msCosmos] == "Cosmos", "sphere names are initialized");
+
+            Aow.Rtl.Rtl.Settings = new MemorySettingsStore();
+            GameState.AoWEngine = new() { FRegistry = new() };
+            GameState.AoWEngine.FRegistry.SetMovementSpeed(Aow.Units.AoWReg.TMovementSpeed.mmsNormal);
+            FrameFixtureInputs.MeasuredFrameRate = 9;
+            var world = new Aow.Units.AOWMWindow.TMWindow { MapWindow = mapWindow };
+            world.MapWindowUpdate();
+            Check(GameState.AoWHSMap.FFPS == 9, "captured FPS reaches the strategic movement input");
+            var army = new MovementArmy { FMoveStep = -1, FUnitGFXResource = new() { F_UnitGFXResource_30 = 2 } };
+            army.MoveFirst(1, false);
+            Check(army.FMoveSteps == 4, "native capture advances each eight-step move in four frames");
+            foreach (int fps in new[] { 1, 6, 8, 9, 14 })
+            {
+                GameState.AoWHSMap.UpdateFPS(fps);
+                army.FMoveStep = -1;
+                army.MoveFirst(1, false);
+                Check(army.FMoveSteps == 4, "positive FPS below 15 preserves the captured movement tier: " + fps);
+            }
+            GameState.AoWHSMap.UpdateFPS(30);
+            army.FMoveStep = -1;
+            army.MoveFirst(1, false);
+            Check(army.FMoveSteps == 8, "normal measured FPS retains the eight-step animation");
+        }
+        finally
+        {
+            Aow.Units.AOWMWindow.AOWMWindow.MWindow = oldWindow;
+            GameState.AoWHSMap = oldMap;
+            GameState.AoWEngine = oldEngine;
+            Aow.Rtl.Rtl.Settings = oldSettings;
+            FrameFixtureInputs.AddressAnimationPhase = null;
+            FrameFixtureInputs.MeasuredFrameRate = null;
+        }
+        Console.WriteLine($"fixture input checks: {checks} passed, 0 failed");
+        return 0;
+    }
+
+    private sealed class MovementArmy : TArmyHS
+    {
+        public override void CalcShowPriority() { }
+        public override sbyte GetLhx() => 0;
+    }
+}
