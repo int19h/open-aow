@@ -14991,8 +14991,7 @@ namespace Aow.Units.AoWTC
         // AoWTC.pas:3664
         public static void OriginalUnitAssert(Aow.Rtl.AnsiString Message, Aow.Rtl.AnsiString Filename, int LineNumber)
         {
-            /* TODO(T-4.4) Routine body is absent */
-            throw new System.NotImplementedException();
+            Aow.Rtl.Rtl.Assert(false, Message, Filename.ToString(), LineNumber);
         }
 
         public static void Initialize()
