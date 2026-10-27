@@ -1,5 +1,9 @@
 using System.Globalization;
 using System.Text.Json;
+using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using Aow.Units.AoWE;
+using GameState = Aow.Units.AoWE.AoWE;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Units.AoWUnit;
@@ -16,13 +20,15 @@ internal sealed class FrameFixture
     public static int Run(string path, string name, string gameRoot, string output, int? frameLimit = null)
     {
         var fixture = Load(path, name);
-        if (fixture.Get("scene") != "title") throw new NotSupportedException("This rendering mode supports title-scene fixtures.");
+        string scene = fixture.Get("scene");
+        bool tactical = fixture.values.GetValueOrDefault("action") == "tactical";
+        var clicks = fixture.Clicks();
         int frame = frameLimit ?? int.Parse(fixture.Get("frame"), CultureInfo.InvariantCulture);
         if (frame < 1) throw new ArgumentOutOfRangeException(nameof(frameLimit));
         var size = fixture.Pair("size");
         var mouse = fixture.Pair("mouse");
         var now = DateTime.Parse(fixture.Get("local_time"), CultureInfo.InvariantCulture);
-        var display = new HeadlessDisplayHost(output, size.X, size.Y, frame) { Mouse = mouse };
+        var display = new HeadlessDisplayHost(output, size.X, size.Y, frame) { Mouse = mouse, FixtureFrame = frame };
         Directory.CreateDirectory(output);
         using var trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
         void Record(object? sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs error) => trace.WriteLine(error.Exception + "\n" + new System.Diagnostics.StackTrace(1, true));
@@ -31,13 +37,90 @@ internal sealed class FrameFixture
         Aow.Rtl.Rtl.InstallHost(host);
         Aow.Rtl.Rtl.SuppressRandomize = true;
         Aow.Rtl.Rtl.RandSeed = int.Parse(fixture.Get("seed"), CultureInfo.InvariantCulture);
+        Aow.Rtl.Rtl.RandomizeSeed = Aow.Rtl.Rtl.RandSeed;
+        FrameFixtureInputs.AddressAnimationPhase = int.Parse(fixture.Get("address_animation_phase"), CultureInfo.InvariantCulture);
+        FrameFixtureInputs.Tactical = tactical;
+        // The native capture uses positive FPS below 15 at its six strategic moves.
+        // Reproduce that movement tier without making animation depend on host speed.
+        FrameFixtureInputs.MeasuredFrameRate = tactical ? 9 : null;
+        string argument = "";
+        string? input = null;
+        if (scene != "title")
+        {
+            input = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, "../../tools/oracle/obj/frames/inputs", scene + ".asg");
+            if (!File.Exists(input)) throw new FileNotFoundException("Prepared fixture input missing", input);
+            File.Copy(input, Path.Combine(output, "user", "fixture.asg"), true);
+            argument = Path.Combine(gameRoot, "fixture.asg");
+        }
+        int applied = 0;
+        bool complete = false;
+        bool tacticalReady = false;
+        using var script = new StreamWriter(Path.Combine(output, "script.jsonl")) { NewLine = "\n", AutoFlush = true };
         try
         {
-            using var form = Aow.Units.AoWUnit.TMainForm.Create(display);
-            form.Run(frame);
-            Console.WriteLine($"title fixture {name}: {form.Layouts.Modules.Count} modules, {form.Layouts.PendingFixups} pending fixups, {display.Frame} frames, {size.X}x{size.Y} RGB555LE, no window, silent");
+            using var form = Aow.Units.AoWUnit.TMainForm.Create(display, argument);
+            FrameFixtureInputs.TacticalInitialized = () =>
+            {
+                if (GameState.AoWHSMap?.FCombatMap is not Aow.Units.AoWTC.TAoWCombatMap combat) return;
+                combat.FPlaySounds = true;
+                combat.SetSeatedCombatPlayer(0);
+                Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.MinClick();
+                tacticalReady = true;
+            };
+            bool AtTarget() => scene == "title" ? display.Frame == frame :
+                tactical ? tacticalReady && GameState.AoWHSMap.FCombatMap.Frame == frame :
+                GameState.AoWHSMap is { } map && map.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
+            display.CaptureWhen = AtTarget;
+            display.AfterPresent = () =>
+            {
+                if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
+                if (GameState.AoWHSMap is { } map && applied < clicks.Count)
+                {
+                    var click = clicks[applied];
+                    if (map.Frame > click.At) throw new InvalidOperationException("Missed scripted map frame " + click.At);
+                    if (map.Frame == click.At)
+                    {
+                        var manager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
+                        manager.CheckMouseMove(default, click.X, click.Y);
+                        manager.CheckMouseDown((TMouseButton)click.Button, default, click.X, click.Y);
+                        manager.CheckMouseUp((TMouseButton)click.Button, default, click.X, click.Y);
+                        if (click.Double) form.DoubleClick();
+                        script.WriteLine(JsonSerializer.Serialize(new { map_frame = map.Frame, click.X, click.Y, click.Button, click.Double }));
+                        applied++;
+                    }
+                }
+                if (display.Frame >= 10000) throw new TimeoutException("Fixture target not reached");
+            };
+            form.Run(scene == "title" ? frame : 0);
+            if (scene == "title") complete = display.Frame == frame;
+            if (!complete || applied != clicks.Count) throw new InvalidOperationException("Fixture ended before all inputs and the target frame");
+            var taskbar = Aow.Units.AoWExeForms.AoWExeForms.TBWindow;
+            File.WriteAllText(Path.Combine(output, "taskbar.json"), JsonSerializer.Serialize(
+                new[] { taskbar.WGTLbl, taskbar.WGILbl, taskbar.WMTLbl, taskbar.WMILbl, taskbar.TGTLbl, taskbar.TGILbl, taskbar.TMTLbl, taskbar.TMILbl }
+                    .Select(c => new { name = c.Name.ToString(), text = c.Text.ToString(), c.WinLeft, c.WinTop, c.WinWidth, c.WinHeight, c.FVisible,
+                        owner = c.FAOWOwner?.Name.ToString(), window = c.FAOWWindow?.Name.ToString() }),
+                new JsonSerializerOptions { WriteIndented = true }) + "\n");
+            File.WriteAllText(Path.Combine(output, "fixture.json"), JsonSerializer.Serialize(new
+            {
+                fixture = name, complete, display_presentations = display.Frame,
+                map_frame = GameState.AoWHSMap?.Frame, day = GameState.AoWHSMap?.FDay,
+                combat_frame = GameState.AoWHSMap?.FCombatMap?.Frame, clicks_applied = applied,
+                input_sha256 = input is null ? null : Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(input))),
+                local_time = now, address_animation_phase = FrameFixtureInputs.AddressAnimationPhase,
+                measured_frame_rate = FrameFixtureInputs.MeasuredFrameRate,
+                tactical_ready = tacticalReady, no_window = true, silent = true
+            }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+            Console.WriteLine($"fixture {name}: map frame {GameState.AoWHSMap?.Frame}, combat frame {GameState.AoWHSMap?.FCombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
         }
-        finally { AppDomain.CurrentDomain.FirstChanceException -= Record; }
+        finally
+        {
+            FrameFixtureInputs.AddressAnimationPhase = null;
+            FrameFixtureInputs.Tactical = false;
+            FrameFixtureInputs.MeasuredFrameRate = null;
+            FrameFixtureInputs.TacticalInitialized = null;
+            Aow.Rtl.Rtl.RandomizeSeed = null;
+            AppDomain.CurrentDomain.FirstChanceException -= Record;
+        }
         return 0;
     }
     private string Get(string key) => values.TryGetValue(key, out string? value) ? value : defaults.TryGetValue(key, out value) ? value : throw new InvalidDataException("Missing fixture field " + key);
@@ -73,8 +156,19 @@ internal sealed class FrameFixture
         }
         var match = fixtures.SingleOrDefault(f => f.GetValueOrDefault("name") == name) ?? throw new InvalidDataException("Unknown fixture " + name);
         foreach (var item in match) result.values.Add(item.Key, item.Value);
-        if (result.values.ContainsKey("clicks") || result.values.ContainsKey("action") || result.values.ContainsKey("save")) throw new NotSupportedException("Scripted game fixtures belong to the game-frame milestone.");
+
         return result;
+    }
+    private sealed record Click(int At, int X, int Y, int Button, bool Double);
+    private List<Click> Clicks()
+    {
+        if (!values.TryGetValue("clicks", out string? text)) return [];
+        string json = Regex.Replace(text, @"(\w+)\s*=", "\"$1\":");
+        using var document = JsonDocument.Parse(json);
+        return document.RootElement.EnumerateArray().Select(c => new Click(c.GetProperty("at").GetInt32(),
+            c.GetProperty("x").GetInt32(), c.GetProperty("y").GetInt32(),
+            c.TryGetProperty("button", out var button) ? button.GetInt32() : 0,
+            c.TryGetProperty("double", out var twice) && twice.GetBoolean())).ToList();
     }
     private sealed class FixtureHost : IRtlHost, IDialogService
     {

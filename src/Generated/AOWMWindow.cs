@@ -208,13 +208,6 @@ namespace Aow.Units.AOWMWindow
             }
         }
 
-        // AOWMWindow.pas:141
-        public void MapWindowUpdate()
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.Display */
-            throw new System.NotImplementedException();
-        }
-
         // AOWMWindow.pas:150
         public void MapWindowPreDrawSurface(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurface Surface, int X, int Y)
         {

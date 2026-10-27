@@ -194,7 +194,7 @@ public sealed class LayeredFileSystem : IFileSystem
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
     {
         string relative = Relative(directory);
-        if (!DirectoryExists(directory)) throw new DirectoryNotFoundException(directory);
+        if (!DirectoryExists(directory)) return [];
         var merged = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var pair in Same(root, user) ? [] : rootTree)
             if (pair.Key.Length > 0 && Same(Path.GetDirectoryName(pair.Key) ?? "", relative)) merged[Path.GetFileName(pair.Key)] = pair.Value;

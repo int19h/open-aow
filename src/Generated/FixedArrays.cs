@@ -1319,12 +1319,6 @@ namespace Aow.Units
         private int element0;
     }
 
-    [InlineArray(134217727)]
-    public struct FixedArray_object_134217727
-    {
-        private object element0;
-    }
-
     [InlineArray(512)]
     public struct FixedArray_object_512
     {
