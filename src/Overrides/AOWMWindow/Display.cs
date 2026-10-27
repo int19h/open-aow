@@ -9,7 +9,7 @@ public partial class TMWindow
     public void MapWindowUpdate()
     {
         if (AoWHSMap is null) return;
-        AoWHSMap.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? AoWUnit.AoWUnit.MainForm.Display.CurrentFrameRate);
+        AoWHSMap.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? Aow.Platform.GameHost.MainForm.Display.CurrentFrameRate);
         MapWindow.FDrawn &= MapWindow.FDoubleBuffered;
     }
 }

@@ -19,7 +19,7 @@ public partial class TPopupWindows
                 break;
             case 2:
                 if (Aow.Units.AoWE.AoWE.AoWEngine.FDemo) Aow.Units.E2Globals.E2Globals.TitleWindow.ShowExitSplash();
-                else Aow.Units.AoWUnit.AoWUnit.MainForm.CloseRequested();
+                else Aow.Platform.GameHost.MainForm.CloseRequested();
                 break;
         }
     }

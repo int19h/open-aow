@@ -1,0 +1,102 @@
+using System.Text.Json;
+using Aow.Layout;
+using Aow.Rtl;
+using Aow.Rtl.Localize;
+using Aow.Units.ImageLib;
+using Aow.Units.GFXE;
+using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWExeForms.AoWExeForms;
+
+namespace Aow.Game;
+
+internal static class LocalizationFrameChecks
+{
+    public static void Run(string root, string output, LayoutSession layouts)
+    {
+        int language = LocalizationRuntime.ReadLanguage(Aow.Rtl.Rtl.Settings);
+        var germanBytes = new SortedSet<byte>();
+        foreach (string file in new[] { "AoW", "ResStr", "CustMaps", "Release" })
+        {
+            var dictionary = new MldDictionary();
+            dictionary.Open(Path.Combine(root, "Dict", file + ".mld"));
+            foreach (var entry in dictionary.Entries)
+                for (int index = 1; index <= entry.Translations[1].Length; index++)
+                {
+                    byte code = entry.Translations[1][index];
+                    if (code >= 128) germanBytes.Add(code);
+                }
+            dictionary.Close();
+        }
+        var coverage = new List<object>();
+        var fonts = new[] { FontModule.Age8, FontModule.Age10, FontModule.Age16s,
+            FontModule.Age10s, FontModule.Age8s, FontModule.Sessis14G, FontModule.AoW15WhiteGrey,
+            FontModule.AoW15BlackBrown, FontModule.Age10LB, FontModule.Age10b, FontModule.Age10bs };
+        foreach (var font in fonts)
+        {
+            byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
+            coverage.Add(new { font = font.Name.ToString(), missing = missing.Select(b => (int)b).ToArray() });
+        }
+        string undead = TranslateRStr("Undead(plural)").ToString();
+        bool undeadEqual = language != 1 || undead == "Undead";
+        string mapCaption = Aow.Units.AoWSWindow.AoWSWindow.SWindow.STitleLabel.Text.ToString();
+        string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
+        if (mapCaption != expectedMapCaption) throw new InvalidOperationException("The startup form translation was not applied");
+        var required = new SortedSet<string>(StringComparer.Ordinal);
+        foreach (var module in layouts.Modules.Values)
+            for (int index = 0; index < module.ComponentCount; index++)
+            {
+                if (module.Components[index] is not Aow.Units.AoWControl.TAOWControl control ||
+                    !control.Visible || control.FAOWWindow is not { Visible: true } || control.FAOWFont is not { } font) continue;
+                var texts = new List<AnsiString> { control.FText };
+                if (control.GetType().GetProperty("Items")?.GetValue(control) is TStrings items)
+                    for (int item = 0; item < items.Count; item++) texts.Add(items[item]);
+                foreach (var text in texts)
+                {
+                    AnsiString cased = font.CharCase switch
+                    {
+                        TEditCharCase.ecUpperCase => Aow.Rtl.Rtl.UpperCase(text),
+                        TEditCharCase.ecLowerCase => Aow.Rtl.Rtl.LowerCase(text),
+                        _ => text
+                    };
+                    for (int character = 1; character <= cased.Length; character++)
+                    {
+                        byte code = cased[character];
+                        if (code < 128) continue;
+                        required.Add($"{font.Name}:{code}");
+                        if (!font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0)
+                            throw new InvalidOperationException($"Missing visible fixture glyph {code} in {font.Name}, component {control.Name}");
+                    }
+                }
+            }
+        File.WriteAllText(Path.Combine(output, "localization.json"), JsonSerializer.Serialize(new
+        {
+            language, undead, undead_equal = undeadEqual, map_caption = mapCaption,
+            fixture_glyphs_equal = true, required_glyphs = required, german_bytes = germanBytes, coverage
+        }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+        if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
+        if (language == 1)
+        {
+            var left = TDIB16Surface.Create(120, 40, Aow.Units.GFXE.GFXE.pfRGB555);
+            var right = TDIB16Surface.Create(120, 40, Aow.Units.GFXE.GFXE.pfRGB555);
+            try
+            {
+                left.Cls(0);
+                right.Cls(0);
+                Aow.Units.GFXE.TSurfaceDesc l = default, r = default;
+                left.Lock(ref l);
+                right.Lock(ref r);
+                try
+                {
+                    FontModule.Age8.SetText(0, 0, (AnsiString)undead, l);
+                    FontModule.Age8.SetText(0, 0, "Undead", r);
+                    var pixels = Aow.Rtl.Rtl.BytePointer(l.Data).AsSpan(l.Pitch * 40);
+                    if (!pixels.SequenceEqual(Aow.Rtl.Rtl.BytePointer(r.Data).AsSpan(r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
+                        throw new InvalidOperationException("English Undead rendering differs");
+                }
+                finally { left.Unlock(); right.Unlock(); }
+            }
+            finally { left.Free(); right.Free(); }
+        }
+        Console.WriteLine($"Localization frames: language {language}, Undead(plural) = {undead}, {germanBytes.Count} German extended bytes scanned across {fonts.Length} fonts");
+    }
+}

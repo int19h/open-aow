@@ -49,6 +49,9 @@ public sealed class LayoutSession
     public void Complete()
     {
         if (pending.Count != 0) throw new InvalidOperationException($"{pending.Count} unresolved references, first module {pending[0].Module}");
+        foreach (var module in modules.Values)
+            for (int index = 0; index < module.ComponentCount; index++)
+                if (module.Components[index] is TIvCustomTranslator translator) translator.Translate();
     }
 
     public static void EndRead(TComponent component) => ((ILayoutComponent)component).EndRead();

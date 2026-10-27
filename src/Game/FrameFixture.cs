@@ -6,7 +6,6 @@ using Aow.Units.AoWE;
 using GameState = Aow.Units.AoWE.AoWE;
 using Aow.Platform;
 using Aow.Rtl;
-using Aow.Units.AoWUnit;
 
 namespace Aow.Game;
 
@@ -42,6 +41,14 @@ internal sealed class FrameFixture
             !checkpoints.SequenceEqual(checkpoints.Distinct().Order()) || checkpoints.Length > 0 && !afterCombatCapture)
             throw new InvalidDataException("Checkpoints require sorted earlier frames on the after-combat clock");
         var capturedCheckpoints = new HashSet<int>();
+        Snapshot[] snapshots = fixture.values.TryGetValue("snapshots", out string? snapshotText)
+            ? JsonSerializer.Deserialize<Snapshot[]>(Regex.Replace(snapshotText, @"(\w+)\s*=", "\"$1\":"), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })! : [];
+        if (snapshots.Length > 8 || snapshots.Any(s => !Regex.IsMatch(s.Name, "^[a-z0-9-]+$") || s.Day < 1 || s.Frame < 1 ||
+            !clicks.Any(c => c.Clock == "day" && c.Day == s.Day && c.At == s.Frame)) ||
+            snapshots.Select(s => s.Name).Distinct().Count() != snapshots.Length || snapshots.Length > 0 && checkpoints.Length > 0)
+            throw new InvalidDataException("Snapshots require distinct safe names and matching day-clock inputs");
+        var capturedSnapshots = new HashSet<string>();
+        Snapshot? pendingSnapshot = null;
         var size = fixture.Pair("size");
         var mouse = fixture.Pair("mouse");
         var now = DateTime.Parse(fixture.Get("local_time"), CultureInfo.InvariantCulture);
@@ -49,6 +56,7 @@ internal sealed class FrameFixture
             FileStampUtc(DateTime.Parse(fixture.fileLocalTime, CultureInfo.InvariantCulture), DateTimeOffset.Now.Offset);
         var display = new HeadlessDisplayHost(output, size.X, size.Y, frame) { Mouse = mouse, FixtureFrame = frame };
         Directory.CreateDirectory(output);
+        using var diagnostics = FrameDiagnostics.Start(output);
         using var trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
         void Record(object? sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs error) => trace.WriteLine(error.Exception + "\n" + new System.Diagnostics.StackTrace(1, true));
         AppDomain.CurrentDomain.FirstChanceException += Record;
@@ -66,8 +74,9 @@ internal sealed class FrameFixture
         var host = new FixtureHost(gameRoot, Path.Combine(output, "user"), fixture.settings, new FixtureClock(now), saveDirectory);
         Aow.Rtl.Rtl.InstallHost(host);
         Aow.Rtl.Rtl.SuppressRandomize = true;
-        Aow.Rtl.Rtl.RandSeed = int.Parse(fixture.Get("seed"), CultureInfo.InvariantCulture);
-        Aow.Rtl.Rtl.RandomizeSeed = Aow.Rtl.Rtl.RandSeed;
+        // Native startup resource sequences load with seed zero, before the fixed Randomize seed.
+        Aow.Rtl.Rtl.RandSeed = 0;
+        Aow.Rtl.Rtl.RandomizeSeed = int.Parse(fixture.Get("seed"), CultureInfo.InvariantCulture);
         FrameFixtureInputs.AddressAnimationPhase = int.Parse(fixture.Get("address_animation_phase"), CultureInfo.InvariantCulture);
         FrameFixtureInputs.WaterVariantPhase = fixture.values.TryGetValue("water_variant_phase", out string? waterPhase) ? int.Parse(waterPhase, CultureInfo.InvariantCulture) : null;
         FrameFixtureInputs.Tactical = tactical;
@@ -123,7 +132,7 @@ internal sealed class FrameFixture
         using var script = new StreamWriter(Path.Combine(output, "script.jsonl")) { NewLine = "\n", AutoFlush = true };
         try
         {
-            using var form = Aow.Units.AoWUnit.TMainForm.Create(display, argument);
+            using var form = Aow.Platform.TMainForm.Create(display, argument);
             if (saveDirectory is not null)
                 Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
@@ -149,6 +158,13 @@ internal sealed class FrameFixture
             display.CaptureWhen = () =>
             {
                 ObserveDay();
+                pendingSnapshot = snapshots.FirstOrDefault(s => GameState.AoWHSMap?.FDay == s.Day && DayFrame() == s.Frame && !capturedSnapshots.Contains(s.Name));
+                display.CaptureName = pendingSnapshot is null ? null : "snapshot-" + pendingSnapshot.Name;
+                if (pendingSnapshot is not null)
+                {
+                    display.FixtureFrame = pendingSnapshot.Frame;
+                    return true;
+                }
                 int current = AfterCombatFrame();
                 if (checkpoints.Contains(current) && capturedCheckpoints.Add(current))
                 {
@@ -156,10 +172,23 @@ internal sealed class FrameFixture
                     return true;
                 }
                 display.FixtureFrame = frame;
+                if (fixture.values.GetValueOrDefault("diagnostics") == "true" && display.Frame % 100 == 0 && !AtTarget())
+                {
+                    display.CaptureName = "progress";
+                    return true;
+                }
                 return AtTarget();
             };
             display.AfterPresent = () =>
             {
+                if (pendingSnapshot is { } snapshot)
+                {
+                    diagnostics?.Snapshot(snapshot.Name);
+                    GameState.AoWHSMap.FPlayerControl.AutoSave();
+                    File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "snapshot-" + snapshot.Name + ".asg"), true);
+                    capturedSnapshots.Add(snapshot.Name);
+                    pendingSnapshot = null;
+                }
                 if (display.Frame % 100 == 0)
                     File.WriteAllText(Path.Combine(output, "progress.json"), JsonSerializer.Serialize(new
                     {
@@ -196,9 +225,12 @@ internal sealed class FrameFixture
                         else
                         {
                             manager.CheckMouseMove(default, inputX, inputY);
-                            var shift = click.DoubleUi ? TSet<TShiftState>.Of(TShiftState.ssDouble) : default;
-                            manager.CheckMouseDown((TMouseButton)click.Button, shift, inputX, inputY);
-                            manager.CheckMouseUp((TMouseButton)click.Button, default, inputX, inputY);
+                            if (!click.MoveOnly)
+                            {
+                                var shift = click.DoubleUi ? TSet<TShiftState>.Of(TShiftState.ssDouble) : default;
+                                manager.CheckMouseDown((TMouseButton)click.Button, shift, inputX, inputY);
+                                manager.CheckMouseUp((TMouseButton)click.Button, default, inputX, inputY);
+                            }
                         }
                         if (click.Double || click.DoubleUi) form.DoubleClick();
                         script.WriteLine(JsonSerializer.Serialize(new { script_frame = scriptFrame, X = inputX, Y = inputY, click.Hx, click.Hy, click.Button, click.Double, click.DoubleUi, click.Key, click.KeyDown, click.Repeat, click.Clock, click.Day,
@@ -212,6 +244,8 @@ internal sealed class FrameFixture
             if (scene == "title" && !worldCapture && !dayCapture) complete = display.Frame == frame;
             if (!complete || applied != clicks.Count) throw new InvalidOperationException("Fixture ended before all inputs and the target frame");
             if (!capturedCheckpoints.SetEquals(checkpoints)) throw new InvalidOperationException("Fixture missed an intermediate checkpoint");
+            if (!capturedSnapshots.SetEquals(snapshots.Select(s => s.Name))) throw new InvalidOperationException("Fixture missed a state snapshot");
+            if (fixture.values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts);
             var taskbar = Aow.Units.AoWExeForms.AoWExeForms.TBWindow;
             var controls = Aow.Units.AOWControlWin.AOWControlWin.ControlWin;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text.ToString(), controls.Unit2Chk.Text.ToString(), controls.MovesLbl.Text.ToString() }) + "\n");
@@ -308,7 +342,7 @@ internal sealed class FrameFixture
                 water_variant_phase = FrameFixtureInputs.WaterVariantPhase,
                 measured_frame_rate = FrameFixtureInputs.MeasuredFrameRate,
                 tactical_ready = tacticalReady, no_window = true, silent = true,
-                checkpoint_frames = checkpoints
+                checkpoint_frames = checkpoints, snapshots = capturedSnapshots
             }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
             Console.WriteLine($"fixture {name}: map frame {GameState.AoWHSMap?.Frame}, combat frame {GameState.AoWHSMap?.FCombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
         }
@@ -325,6 +359,7 @@ internal sealed class FrameFixture
         return 0;
     }
     private string Get(string key) => values.TryGetValue(key, out string? value) ? value : defaults.TryGetValue(key, out value) ? value : throw new InvalidDataException("Missing fixture field " + key);
+    private sealed record Snapshot(string Name, int Day, int Frame);
     private (int X, int Y) Pair(string key)
     {
         using var json = JsonDocument.Parse(Get(key));
@@ -365,7 +400,7 @@ internal sealed class FrameFixture
 
         return result;
     }
-    private sealed record Click(int At, int X, int Y, int Button, bool Double, int? Key, string? Clock, int? Day, int? KeyDown, int Repeat, int? Hx, int? Hy, bool DoubleUi);
+    private sealed record Click(int At, int X, int Y, int Button, bool Double, int? Key, string? Clock, int? Day, int? KeyDown, int Repeat, int? Hx, int? Hy, bool DoubleUi, bool MoveOnly);
     private List<Click> Clicks()
     {
         if (!values.TryGetValue("clicks", out string? text)) return [];
@@ -382,7 +417,8 @@ internal sealed class FrameFixture
             c.TryGetProperty("repeat", out var repeat) ? repeat.GetInt32() : 1,
             c.TryGetProperty("hx", out var hx) ? hx.GetInt32() : null,
             c.TryGetProperty("hy", out var hy) ? hy.GetInt32() : null,
-            c.TryGetProperty("double_ui", out var doubleUi) && doubleUi.GetBoolean())).ToList();
+            c.TryGetProperty("double_ui", out var doubleUi) && doubleUi.GetBoolean(),
+            c.TryGetProperty("move_only", out var moveOnly) && moveOnly.GetBoolean())).ToList();
     }
     private sealed class FixtureHost : IRtlHost, IDialogService
     {
