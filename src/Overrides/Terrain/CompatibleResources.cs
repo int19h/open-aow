@@ -5,6 +5,26 @@ namespace Aow.Units.Terrain;
 
 public partial class TTerrainMO
 {
+    public virtual TTerrainMOR FindTerrainResource(byte terrainType)
+    {
+        var candidates = new TList();
+        var resources = GetResourceList(FResource.Engine).FChildren;
+        for (int i = 0; i < resources.Count; i++)
+        {
+            var item = (Engine.TEObject)resources.List[i];
+            if (item.ClassType.ClassID() != FResource.ClassType.ClassID()) continue;
+            var resource = (TTerrainMOR)item;
+            if (resource.FDecorationType == ((TTerrainMOR)FResource).FDecorationType &&
+                resource.FTerrainType == terrainType && resource != FResource &&
+                resource.TerrainList.CompareTerrain(FResource.TerrainList,
+                    TSet<TTerrainCompareModeElement>.Of(TTerrainCompareModeElement.cmSameOverlayType)))
+                candidates.Add(resource);
+        }
+        TTerrainMOR result = candidates.Count == 0 ? null : (TTerrainMOR)candidates[Rtl.Rtl.Random(candidates.Count)];
+        candidates.Free();
+        return result;
+    }
+
     public TTerrainMOR FindCompatibleResource(byte terrainType, sbyte overlayType, int decorationType)
     {
         var candidates = new TList();

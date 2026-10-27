@@ -165,8 +165,53 @@ namespace Aow.Units.AoWFrame
         // AoWFrame.pas:166
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    switch (FFrameType)
+                    {
+                        case Aow.Units.AoWFrame.TFrameType.frVertLine:
+                            var call__22 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILLine.DrawILLv(FILIndexLine, call__22, ref SurfDesc);
+                            break;
+                        case Aow.Units.AoWFrame.TFrameType.frHorizLine:
+                            var call__23 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILLine.DrawILLh(FILIndexLine, call__23, ref SurfDesc);
+                            break;
+                        case Aow.Units.AoWFrame.TFrameType.frHollowBox:
+                            var call__24 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, call__24, ref SurfDesc);
+                            break;
+                        case Aow.Units.AoWFrame.TFrameType.frFilledBox:
+                            var call__25 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, call__25, ref SurfDesc);
+                            var call__26 = FILFrame[FILIndexFrame + 1];
+                            var call__27 = FILFrame[FILIndexFrame + 6];
+                            var call__28 = FILFrame[FILIndexFrame + 3];
+                            var call__29 = FILFrame[FILIndexFrame + 4];
+                            var call__30 = FILFrame[FILIndexFrame + 1];
+                            var call__31 = FILFrame[FILIndexFrame + 3];
+                            var call__32 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__31.Width, (FAOWWindow.FWinTop + FWinTop) + call__30.Height, (FWinWidth - call__28.Width) - call__29.Width, (FWinHeight - call__26.Height) - call__27.Height);
+                            FILTexture.DrawILT(FILIndexTexture, call__32, ref SurfDesc);
+                            break;
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWFrame.pas:202

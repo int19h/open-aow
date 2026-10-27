@@ -153,8 +153,263 @@ namespace Aow.Units.AoWBaseWin
 //   one. A window without a back surface draws itself and its controls straight into Surface. }
         public override void DrawSurface(Aow.Units.GFXE.TSurface Surface)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            int J = default;
+            Aow.Units.AoWComp.TAoWComponent C = default;
+            Aow.Units.AoWComp.TaowRect D = default;
+            int OldLeft = default;
+            int OldTop = default;
+            bool Locked = default;
+            Aow.Units.GFXE.TSurfaceDesc SD = default;
+            Aow.Rtl.TRect[] R__cell = new Aow.Rtl.TRect[1];
+            ref Aow.Rtl.TRect R = ref R__cell[0];
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    OldLeft = FWinLeft;
+                    OldTop = FWinTop;
+                    try
+                    {
+                        if (FDoubleBuffered)
+                        {
+                            var call__4 = VerifyBackSurface(Surface);
+                            FDrawn = !call__4 && FDrawn;
+                            FWinLeft = 0;
+                            FWinTop = 0;
+                            var call__5 = FBackSurface.Lock(ref SD);
+                            Locked = call__5 == 0;
+                        }
+                        else
+                        {
+                            Locked = Surface.Lock(ref SD) == 0;
+                        }
+                    }
+                    catch (System.Exception)
+                    {
+                        Locked = false;
+                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Verify Surface Error", ((AnsiString)"Error - ") + Name, (int)0);
+                    }
+
+                    if (Locked)
+                    {
+                        try
+                        {
+                            if (!FDrawn)
+                            {
+                                FSurfaceValid = false;
+                                ClearDrawList();
+                            }
+
+                            if (!FSurfaceValid)
+                            {
+                                ClearBltList();
+                            }
+
+                            if (!FDrawn)
+                            {
+                                Draw(SD);
+                            }
+                            else
+                            {
+                                if (FPriority >= FWinManager.FOverlayPriority)
+                                {
+                                    {
+                                        J = 0;
+                                        int end__6 = FDrawCount - 1;
+                                        for (; J <= end__6; J += 1)
+                                        {
+                                            var call__7 = FDrawList[J];
+                                            D = (Aow.Units.AoWComp.TaowRect)call__7;
+                                            R = SD.ClipRect;
+                                            var call__8 = Aow.Rtl.Rtl.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                            SD.ClipRect = call__8;
+                                            Draw(SD);
+                                            SD.ClipRect = R;
+                                            InvalidateRect(0, ref D.R, null);
+                                        }
+                                    }
+                                }
+                            }
+
+                            FDrawCount = 0;
+                        }
+                        catch (System.Exception)
+                        {
+                            Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Draw Error", ((AnsiString)"Error - ") + Name, (int)0);
+                        }
+
+                        if (FDoubleBuffered)
+                        {
+                            if ((FPriority >= FWinManager.FOverlayPriority) || !FDrawn)
+                            {
+                                {
+                                    I = 0;
+                                    int end__9 = FChildren.Count - 1;
+                                    for (; I <= end__9; I += 1)
+                                    {
+                                        var call__10 = FChildren[I];
+                                        C = (Aow.Units.AoWComp.TAoWComponent)call__10;
+                                        if ((C.FValid && C.FVisible) && (!FDrawn || !C.FDrawn))
+                                        {
+                                            if (!FDrawn && (C is Aow.Units.AoWBaseWin.TAOWBaseWindow))
+                                            {
+                                                C.FSurfaceValid = false;
+                                            }
+
+                                            C.FDrawn = false;
+                                            C.Draw(SD);
+                                            {
+                                                J = 0;
+                                                int end__11 = FDrawCount - 1;
+                                                for (; J <= end__11; J += 1)
+                                                {
+                                                    var call__12 = FDrawList[J];
+                                                    D = (Aow.Units.AoWComp.TaowRect)call__12;
+                                                    InvalidateRect(I + 1, ref D.R, null);
+                                                }
+                                            }
+
+                                            FDrawCount = 0;
+                                            if (!C.FDrawn || !FDrawn)
+                                            {
+                                                if (FSurfaceValid)
+                                                {
+                                                    var call__13 = Aow.Rtl.Rtl.Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
+                                                    R = call__13;
+                                                    AddBltRect(ref R, C);
+                                                }
+
+                                                C.FFirstDraw = C.FDrawn;
+                                                var call__14 = Aow.Rtl.Rtl.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, ((FWinLeft + C.FWinLeft) + C.FWinWidth) - 1, ((FWinTop + C.FWinTop) + C.FWinHeight) - 1);
+                                                R = call__14;
+                                                InvalidateRect(I + 1, ref R, C);
+                                            }
+
+                                            C.FDrawn = true;
+                                        }
+                                    }
+                                }
+
+                                if (FOnDraw != null)
+                                {
+                                    FOnDraw(this, SD);
+                                }
+                            }
+
+                            if (Locked)
+                            {
+                                FBackSurface.Unlock();
+                            }
+
+                            FWinLeft = OldLeft;
+                            FWinTop = OldTop;
+                            try
+                            {
+                                if (FSurfaceValid)
+                                {
+                                    if (FBltCount > 0)
+                                    {
+                                        if (FOnPreDrawSurface != null)
+                                        {
+                                            FOnPreDrawSurface(this, FBackSurface, 0, 0);
+                                        }
+
+                                        {
+                                            J = 0;
+                                            int end__15 = FBltCount - 1;
+                                            for (; J <= end__15; J += 1)
+                                            {
+                                                var call__16 = FBltList[J];
+                                                D = (Aow.Units.AoWComp.TaowRect)call__16;
+                                                var call__17 = Aow.Rtl.Rtl.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                                R = call__17;
+                                                if (!FMasked)
+                                                {
+                                                    FBackSurface.BltClipped(Surface, Ptr<Aow.Rtl.TRect>.To(R__cell, 0), D.R.Left + OldLeft, D.R.Top + OldTop);
+                                                }
+                                                else
+                                                {
+                                                    var call__18 = FBackSurface.GetPixelFormatID();
+                                                    var call__19 = Aow.Units.GFXE.GFXE.Color2PixelInfo(FMaskColor, call__18, null);
+                                                    FBackSurface.BltColorKeyClipped(Surface, Ptr<Aow.Rtl.TRect>.To(R__cell, 0), D.R.Left + OldLeft, D.R.Top + OldTop, call__19);
+                                                }
+
+                                                var call__20 = Aow.Rtl.Rtl.Rect(D.R.Left + OldLeft, D.R.Top + OldTop, D.R.Right + OldLeft, D.R.Bottom + OldTop);
+                                                R = call__20;
+                                                FWinManager.AddBltRect(ref R, this);
+                                            }
+                                        }
+
+                                        if (FOnDrawSurface != null)
+                                        {
+                                            FOnDrawSurface(this, Surface, 0, 0);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Blt(Surface);
+                                }
+                            }
+                            catch (System.Exception)
+                            {
+                                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Blt Error", ((AnsiString)"Error - ") + Name, (int)0);
+                            }
+                        }
+                        else
+                        {
+                            {
+                                I = 0;
+                                int end__21 = FChildren.Count - 1;
+                                for (; I <= end__21; I += 1)
+                                {
+                                    var call__22 = FChildren[I];
+                                    C = (Aow.Units.AoWComp.TAoWComponent)call__22;
+                                    if ((!FDrawn || !C.FDrawn) || (C is Aow.Units.AoWBaseWin.TAOWBaseWindow))
+                                    {
+                                        C.Draw(SD);
+                                        C.FDrawn = true;
+                                    }
+                                }
+                            }
+
+                            if (FOnDraw != null)
+                            {
+                                FOnDraw(this, SD);
+                            }
+
+                            if (Locked)
+                            {
+                                Surface.Unlock();
+                            }
+
+                            try
+                            {
+                                if (FOnPreDrawSurface != null)
+                                {
+                                    FOnPreDrawSurface(this, Surface, FWinLeft, FWinTop);
+                                }
+
+                                if (FOnDrawSurface != null)
+                                {
+                                    FOnDrawSurface(this, Surface, FWinLeft, FWinTop);
+                                }
+                            }
+                            catch (System.Exception)
+                            {
+                                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"SB Draw Events Error", ((AnsiString)"Error - ") + Name, (int)0);
+                            }
+                        }
+
+                        FDrawn = true;
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during DrawSurface", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWBaseWin.pas:263
@@ -163,8 +418,119 @@ namespace Aow.Units.AoWBaseWin
 //   copies it into SurfDesc, masked with FMaskColor for a masked window. }
         public override void DrawSurfDesc(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            Aow.Units.AoWComp.TAoWComponent C = default;
+            int OldLeft = default;
+            int OldTop = default;
+            bool Ok = default;
+            Aow.Units.GFXE.TSurfaceDesc DestSD = default;
+            Aow.Rtl.TRect SrcRect = default;
+            Aow.Rtl.TRect DestRect = default;
+            try
+            {
+                OldLeft = FWinLeft;
+                OldTop = FWinTop;
+                Ok = true;
+                if (FDoubleBuffered)
+                {
+                    DestSD = SurfDesc;
+                    if (FBackSurface == null)
+                    {
+                        var call__23 = Aow.Units.GFXE.TDataSurface.Create(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                        FBackSurface = call__23;
+                        if (FMasked)
+                        {
+                            FBackSurface.Cls(FMaskColor);
+                        }
+
+                        var call__24 = FBackSurface.Lock(ref SurfDesc);
+                        Ok = call__24 >= 0;
+                    }
+                    else
+                    {
+                        var call__25 = FBackSurface.Lock(ref SurfDesc);
+                        Ok = call__25 >= 0;
+                        if (Ok)
+                        {
+                            if (SurfDesc.PixelFormatID != DestSD.PixelFormatID)
+                            {
+                                FBackSurface.Unlock();
+                                FBackSurface.Free();
+                                var call__26 = Aow.Units.GFXE.TDataSurface.Create(FWinWidth, FWinHeight, DestSD.PixelFormatID, null);
+                                FBackSurface = call__26;
+                                if (FMasked)
+                                {
+                                    FBackSurface.Cls(FMaskColor);
+                                }
+
+                                var call__27 = FBackSurface.Lock(ref SurfDesc);
+                                Ok = call__27 >= 0;
+                            }
+                        }
+                    }
+
+                    if (FBackSurface != null)
+                    {
+                        FWinLeft = 0;
+                        FWinTop = 0;
+                    }
+                }
+
+                if (Ok)
+                {
+                    Draw(SurfDesc);
+                    {
+                        I = 0;
+                        int end__28 = FChildren.Count - 1;
+                        for (; I <= end__28; I += 1)
+                        {
+                            var call__29 = FChildren[I];
+                            C = (Aow.Units.AoWComp.TAoWComponent)call__29;
+                            if ((C.FValid && C.FVisible) && (!FDrawn || !C.FDrawn))
+                            {
+                                C.Draw(SurfDesc);
+                                C.FDrawn = true;
+                            }
+                        }
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+
+                    if (FDoubleBuffered)
+                    {
+                        FWinLeft = OldLeft;
+                        FWinTop = OldTop;
+                        var call__30 = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+                        SrcRect = call__30;
+                        // { not used }
+                        var call__31 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth, FWinTop + FWinHeight);
+                        DestRect = call__31;
+                        try
+                        {
+                            if (FMasked == true)
+                            {
+                                Aow.Units.GFXE.GFXE.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
+                            }
+                            else
+                            {
+                                Aow.Units.GFXE.GFXE.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
+                            }
+                        }
+                        catch (System.Exception)
+                        {
+                        }
+
+                        FBackSurface.Unlock();
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during DrawSurfaceDesc", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWBaseWin.pas:341

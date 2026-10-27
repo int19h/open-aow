@@ -474,8 +474,92 @@ namespace Aow.Units.AOWMenu
         // { Draw: the frame, the texture, and the items; the highlighted item on the selected texture }
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            Aow.Rtl.TRect OldClip = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    var call__36 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    FILFrame.DrawILF(FILIndexFrame, call__36, ref SurfDesc);
+                    var call__37 = FILFrame[FILIndexFrame + 1];
+                    var call__38 = FILFrame[FILIndexFrame + 6];
+                    var call__39 = FILFrame[FILIndexFrame + 3];
+                    var call__40 = FILFrame[FILIndexFrame + 4];
+                    var call__41 = FILFrame[FILIndexFrame + 1];
+                    var call__42 = FILFrame[FILIndexFrame + 3];
+                    var call__43 = Aow.Rtl.Rtl.Rect(FWinLeft + call__42.Width, FWinTop + call__41.Height, (FWinWidth - call__39.Width) - call__40.Width, (FWinHeight - call__37.Height) - call__38.Height);
+                    FILTexture.DrawILT(FILIndexTexture, call__43, ref SurfDesc);
+                    FAOWFont.Color = FColor;
+                    OldClip = SurfDesc.ClipRect;
+                    var call__44 = FItems.Count;
+                    if (call__44 > 0)
+                    {
+                        {
+                            I = 0;
+                            int end__45 = FItems.Count - 1;
+                            for (; I <= end__45; I += 1)
+                            {
+                                var call__46 = FILFrame[FILIndexFrame + 4];
+                                if (((FWinLeft + FWinWidth) - call__46.Width) < OldClip.Right)
+                                {
+                                    var call__47 = FILFrame[FILIndexFrame + 4];
+                                    SurfDesc.ClipRect.Right = (FWinLeft + FWinWidth) - call__47.Width;
+                                }
+
+                                var call__48 = FItems.Count;
+                                bool bool__49 = (I < call__48);
+                                if (bool__49)
+                                {
+                                    var call__50 = FItems.Count;
+                                    bool__49 = (call__50 > 0);
+                                }
+
+                                if (bool__49)
+                                {
+                                    if (I == FHighlighted)
+                                    {
+                                        FAOWFont.Color = FSelColor;
+                                        var call__51 = FILFrame[FILIndexFrame + 3];
+                                        var call__52 = FILFrame[FILIndexFrame + 4];
+                                        var call__53 = FILFrame[FILIndexFrame];
+                                        var call__54 = FILFrame[FILIndexFrame + 3];
+                                        var call__55 = Aow.Rtl.Rtl.Rect(FWinLeft + call__54.Width, (FWinTop + call__53.Height) + (FItemHeight * I), (FWinWidth - call__51.Width) - call__52.Width, FItemHeight);
+                                        FILTextureSelected.DrawILT(FILIndexTSelected, call__55, ref SurfDesc);
+                                    }
+                                    else
+                                    {
+                                        FAOWFont.Color = FColor;
+                                    }
+
+                                    var call__56 = FItems[I];
+                                    var call__57 = FILFrame[FILIndexFrame];
+                                    var call__58 = FILFrame[FILIndexFrame + 3];
+                                    FAOWFont.SetText((FWinLeft + FBorderWidth) + call__58.Width, ((FWinTop + FBorderHeight) + call__57.Height) + (FItemHeight * I), call__56, SurfDesc);
+                                    FDrawItem = I;
+                                    var call__59 = FILFrame[FILIndexFrame + 1];
+                                    var call__60 = FILFrame[FILIndexFrame + 3];
+                                    var call__61 = FILFrame[FILIndexFrame + 1];
+                                    var call__62 = FILFrame[FILIndexFrame + 3];
+                                    var call__63 = FILFrame[FILIndexFrame + 3];
+                                    var call__64 = Aow.Rtl.Rtl.Rect(FWinLeft + call__63.Width, (FWinTop + call__61.Height) + (call__62.Height * I), FWinLeft + FWinWidth, (FWinTop + call__59.Height) + (call__60.Height * (I + 1)));
+                                    FDrawItemRect = call__64;
+                                    if (FOnDrawItem != null)
+                                    {
+                                        FOnDrawItem(this);
+                                    }
+                                }
+
+                                SurfDesc.ClipRect = OldClip;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AOWMenu.pas:555
@@ -496,11 +580,11 @@ namespace Aow.Units.AOWMenu
             {
                 {
                     I = FChildren.Count - 1;
-                    byte end__36 = 0;
-                    for (; I >= end__36; I -= 1)
+                    byte end__65 = 0;
+                    for (; I >= end__65; I -= 1)
                     {
-                        var call__37 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__37;
+                        var call__66 = FChildren[I];
+                        C = (Aow.Units.AoWComp.TAoWComponent)call__66;
                         if ((FHandled == false) && C.FCaptureInput)
                         {
                             C.CheckMouseDown(Button, Shift, X, Y);
@@ -525,11 +609,11 @@ namespace Aow.Units.AOWMenu
                             Show = false;
                             {
                                 I = 0;
-                                int end__38 = FSubMenus.Count - 1;
-                                for (; I <= end__38; I += 1)
+                                int end__67 = FSubMenus.Count - 1;
+                                for (; I <= end__67; I += 1)
                                 {
-                                    var call__39 = FSubMenus[I];
-                                    M = (Aow.Units.AOWMenu.TAOWMenu)call__39;
+                                    var call__68 = FSubMenus[I];
+                                    M = (Aow.Units.AOWMenu.TAOWMenu)call__68;
                                     if (M.FHandled && M.FVisible)
                                     {
                                         Show = true;
@@ -537,10 +621,10 @@ namespace Aow.Units.AOWMenu
 
                                     if ((M.FOwnerItem == FHighlighted) && (M.FHandled == false))
                                     {
-                                        var call__40 = FILFrame[FILIndexFrame + 2];
-                                        M.SetWinLeft((FWinLeft + FWinWidth) - call__40.Width);
-                                        var call__41 = FILFrame[FILIndexFrame];
-                                        M.SetWinTop((FWinTop + call__41.Height) + (FItemHeight * FHighlighted));
+                                        var call__69 = FILFrame[FILIndexFrame + 2];
+                                        M.SetWinLeft((FWinLeft + FWinWidth) - call__69.Width);
+                                        var call__70 = FILFrame[FILIndexFrame];
+                                        M.SetWinTop((FWinTop + call__70.Height) + (FItemHeight * FHighlighted));
                                         M.SetVisible(true);
                                         Show = true;
                                         FRedraw = true;
@@ -562,11 +646,11 @@ namespace Aow.Units.AOWMenu
                     Show = false;
                     {
                         I = 0;
-                        int end__42 = FSubMenus.Count - 1;
-                        for (; I <= end__42; I += 1)
+                        int end__71 = FSubMenus.Count - 1;
+                        for (; I <= end__71; I += 1)
                         {
-                            var call__43 = FSubMenus[I];
-                            M = (Aow.Units.AOWMenu.TAOWMenu)call__43;
+                            var call__72 = FSubMenus[I];
+                            M = (Aow.Units.AOWMenu.TAOWMenu)call__72;
                             if (M.FHandled == true)
                             {
                                 if (M.FVisible == true)
@@ -611,11 +695,11 @@ namespace Aow.Units.AOWMenu
             {
                 {
                     I = FChildren.Count - 1;
-                    byte end__44 = 0;
-                    for (; I >= end__44; I -= 1)
+                    byte end__73 = 0;
+                    for (; I >= end__73; I -= 1)
                     {
-                        var call__45 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__45;
+                        var call__74 = FChildren[I];
+                        C = (Aow.Units.AoWComp.TAoWComponent)call__74;
                         if (((FHandled == false) || (C.FRedraw == true)) && C.FCaptureInput)
                         {
                             C.CheckMouseUp(Button, Shift, X, Y);
@@ -657,11 +741,11 @@ namespace Aow.Units.AOWMenu
                 FCursor = -2;
                 {
                     I = FChildren.Count - 1;
-                    byte end__46 = 0;
-                    for (; I >= end__46; I -= 1)
+                    byte end__75 = 0;
+                    for (; I >= end__75; I -= 1)
                     {
-                        var call__47 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__47;
+                        var call__76 = FChildren[I];
+                        C = (Aow.Units.AoWComp.TAoWComponent)call__76;
                         if ((((FHandled == false) || (C.FRedraw == true)) || (C.FToolTipCount > 0)) && C.FCaptureInput)
                         {
                             C.CheckMouseMove(Shift, X, Y);
@@ -676,46 +760,46 @@ namespace Aow.Units.AOWMenu
 
                 FHandled = true;
                 I = -1;
-                var call__48 = FILFrame[FILIndexFrame];
-                bool bool__49 = (X > ((FWinLeft + call__48.Width) - 1));
-                if (bool__49)
+                var call__77 = FILFrame[FILIndexFrame];
+                bool bool__78 = (X > ((FWinLeft + call__77.Width) - 1));
+                if (bool__78)
                 {
-                    var call__50 = FILFrame[FILIndexFrame + 7];
-                    bool__49 = (X < ((FWinLeft + FWinWidth) - call__50.Width));
+                    var call__79 = FILFrame[FILIndexFrame + 7];
+                    bool__78 = (X < ((FWinLeft + FWinWidth) - call__79.Width));
                 }
 
-                bool bool__51 = bool__49;
-                if (bool__51)
+                bool bool__80 = bool__78;
+                if (bool__80)
                 {
-                    var call__52 = FILFrame[FILIndexFrame];
-                    bool__51 = (Y > ((FWinTop + call__52.Height) - 1));
+                    var call__81 = FILFrame[FILIndexFrame];
+                    bool__80 = (Y > ((FWinTop + call__81.Height) - 1));
                 }
 
-                bool bool__53 = bool__51;
-                if (bool__53)
+                bool bool__82 = bool__80;
+                if (bool__82)
                 {
-                    var call__54 = FILFrame[FILIndexFrame + 7];
-                    bool__53 = (Y < ((FWinTop + FWinHeight) - call__54.Height));
+                    var call__83 = FILFrame[FILIndexFrame + 7];
+                    bool__82 = (Y < ((FWinTop + FWinHeight) - call__83.Height));
                 }
 
-                if (bool__53)
+                if (bool__82)
                 {
-                    var call__55 = FILFrame[FILIndexFrame];
-                    I = ((Y - FWinTop) - call__55.Height) / FItemHeight;
+                    var call__84 = FILFrame[FILIndexFrame];
+                    I = ((Y - FWinTop) - call__84.Height) / FItemHeight;
                     if (FOnMouseMove != null)
                     {
                         FOnMouseMove(this, Shift, X, Y);
                     }
                 }
 
-                bool bool__56 = (I > -2);
-                if (bool__56)
+                bool bool__85 = (I > -2);
+                if (bool__85)
                 {
-                    var call__57 = FItems.Count;
-                    bool__56 = (I < call__57);
+                    var call__86 = FItems.Count;
+                    bool__85 = (I < call__86);
                 }
 
-                if (bool__56)
+                if (bool__85)
                 {
                     FHighlighted = I;
                 }
@@ -726,14 +810,14 @@ namespace Aow.Units.AOWMenu
                     {
                         {
                             I = 0;
-                            int end__58 = FSubMenus.Count - 1;
-                            for (; I <= end__58; I += 1)
+                            int end__87 = FSubMenus.Count - 1;
+                            for (; I <= end__87; I += 1)
                             {
                                 {
-                                    var w__59 = (Aow.Units.AoWComp.TAoWComponent)FSubMenus[I];
-                                    if (w__59.FHandled == true)
+                                    var w__88 = (Aow.Units.AoWComp.TAoWComponent)FSubMenus[I];
+                                    if (w__88.FHandled == true)
                                     {
-                                        this.FHighlighted = w__59.FOwnerItem;
+                                        this.FHighlighted = w__88.FOwnerItem;
                                     }
                                 }
                             }
@@ -746,8 +830,8 @@ namespace Aow.Units.AOWMenu
                     FShowDelay = 0;
                     if ((OldHighlighted > -1) && (FSubMenus.Count > OldHighlighted))
                     {
-                        var call__60 = FSubMenus[OldHighlighted];
-                        ((Aow.Units.AOWMenu.TAOWMenu)call__60).SetVisible(false);
+                        var call__89 = FSubMenus[OldHighlighted];
+                        ((Aow.Units.AOWMenu.TAOWMenu)call__89).SetVisible(false);
                     }
 
                     FDrawn = false;
@@ -767,11 +851,11 @@ namespace Aow.Units.AOWMenu
             FHandled = false;
             {
                 I = 0;
-                int end__61 = FChildren.Count - 1;
-                for (; I <= end__61; I += 1)
+                int end__90 = FChildren.Count - 1;
+                for (; I <= end__90; I += 1)
                 {
-                    var call__62 = FChildren[I];
-                    C = (Aow.Units.AoWComp.TAoWComponent)call__62;
+                    var call__91 = FChildren[I];
+                    C = (Aow.Units.AoWComp.TAoWComponent)call__91;
                     C.CheckKeyPress(ref Key);
                     if (C.FHandled == true)
                     {
@@ -794,11 +878,11 @@ namespace Aow.Units.AOWMenu
             FHandled = false;
             {
                 I = 0;
-                int end__63 = FChildren.Count - 1;
-                for (; I <= end__63; I += 1)
+                int end__92 = FChildren.Count - 1;
+                for (; I <= end__92; I += 1)
                 {
-                    var call__64 = FChildren[I];
-                    C = (Aow.Units.AoWComp.TAoWComponent)call__64;
+                    var call__93 = FChildren[I];
+                    C = (Aow.Units.AoWComp.TAoWComponent)call__93;
                     C.CheckKeyDown(ref Key, Shift);
                     if (C.FHandled == true)
                     {
@@ -834,8 +918,8 @@ namespace Aow.Units.AOWMenu
                     I = 0;
                     while (I < FOwnerMenu.FSubMenus.Count)
                     {
-                        var call__65 = FOwnerMenu.FSubMenus[I];
-                        M = (Aow.Units.AOWMenu.TAOWMenu)call__65;
+                        var call__94 = FOwnerMenu.FSubMenus[I];
+                        M = (Aow.Units.AOWMenu.TAOWMenu)call__94;
                         if (M == this)
                         {
                             FOwnerMenu.FSubMenus.Delete(I);
@@ -853,8 +937,8 @@ namespace Aow.Units.AOWMenu
                     NewIndex = -1;
                     while (I < FOwnerMenu.FSubMenus.Count)
                     {
-                        var call__66 = FOwnerMenu.FSubMenus[I];
-                        M = (Aow.Units.AOWMenu.TAOWMenu)call__66;
+                        var call__95 = FOwnerMenu.FSubMenus[I];
+                        M = (Aow.Units.AOWMenu.TAOWMenu)call__95;
                         if (M.FPriority > FPriority)
                         {
                             NewIndex = I;
@@ -890,8 +974,8 @@ namespace Aow.Units.AOWMenu
                     I = 0;
                     while (I < FOwnerMenuBar.FMenus.Count)
                     {
-                        var call__67 = FOwnerMenuBar.FMenus[I];
-                        M = (Aow.Units.AOWMenu.TAOWMenu)call__67;
+                        var call__96 = FOwnerMenuBar.FMenus[I];
+                        M = (Aow.Units.AOWMenu.TAOWMenu)call__96;
                         if (M == this)
                         {
                             FOwnerMenuBar.FMenus.Delete(I);
@@ -909,8 +993,8 @@ namespace Aow.Units.AOWMenu
                     NewIndex = -1;
                     while (I < FOwnerMenuBar.FMenus.Count)
                     {
-                        var call__68 = FOwnerMenuBar.FMenus[I];
-                        M = (Aow.Units.AOWMenu.TAOWMenu)call__68;
+                        var call__97 = FOwnerMenuBar.FMenus[I];
+                        M = (Aow.Units.AOWMenu.TAOWMenu)call__97;
                         if (M.FPriority > FPriority)
                         {
                             NewIndex = I;
@@ -965,11 +1049,11 @@ namespace Aow.Units.AOWMenu
             FItems.Clear();
             {
                 I = 0;
-                int end__69 = Value.Count - 1;
-                for (; I <= end__69; I += 1)
+                int end__98 = Value.Count - 1;
+                for (; I <= end__98; I += 1)
                 {
-                    var call__70 = Value[I];
-                    FItems.Add(call__70);
+                    var call__99 = Value[I];
+                    FItems.Add(call__99);
                 }
             }
         }
@@ -981,11 +1065,11 @@ namespace Aow.Units.AOWMenu
             FItemTypes.Clear();
             {
                 I = 0;
-                int end__71 = Value.Count - 1;
-                for (; I <= end__71; I += 1)
+                int end__100 = Value.Count - 1;
+                for (; I <= end__100; I += 1)
                 {
-                    var call__72 = Value[I];
-                    FItemTypes.Add(call__72);
+                    var call__101 = Value[I];
+                    FItemTypes.Add(call__101);
                 }
             }
         }

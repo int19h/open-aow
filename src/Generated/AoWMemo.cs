@@ -470,8 +470,140 @@ namespace Aow.Units.AoWMemo
 //   cursor }
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int X = default;
+            int Y = default;
+            int W = default;
+            Aow.Rtl.TRect OldClip = default;
+            int H = default;
+            int I = default;
+            Aow.Units.AoWMemo.TColorChange CC = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    FAOWFont.Color = FColor;
+                    OldClip = SurfDesc.ClipRect;
+                    switch (FNoFrame)
+                    {
+                        case false:
+                            var call__41 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, call__41, ref SurfDesc);
+                            var call__42 = FILFrame[FILIndexFrame + 1];
+                            var call__43 = FILFrame[FILIndexFrame + 6];
+                            var call__44 = FILFrame[FILIndexFrame + 3];
+                            var call__45 = FILFrame[FILIndexFrame + 1];
+                            var call__46 = FILFrame[FILIndexFrame + 3];
+                            var call__47 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__46.Width, (FAOWWindow.FWinTop + FWinTop) + call__45.Height, (FWinWidth - call__44.Width) - FScrollWidth, (FWinHeight - call__42.Height) - call__43.Height);
+                            FILTexture.DrawILT(FILIndexTexture, call__47, ref SurfDesc);
+                            var call__48 = FILFrame[FILIndexFrame + 3];
+                            X = (FAOWWindow.FWinLeft + FWinLeft) + call__48.Width;
+                            var call__49 = FILFrame[FILIndexFrame + 1];
+                            Y = (FAOWWindow.FWinTop + FWinTop) + call__49.Height;
+                            var call__50 = FILFrame[FILIndexFrame + 1];
+                            var call__51 = FILFrame[FILIndexFrame + 6];
+                            H = (FWinHeight - call__50.Height) - call__51.Height;
+                            var call__52 = FILFrame[FILIndexFrame + 3];
+                            W = (FWinWidth - call__52.Width) - FScrollWidth;
+                            break;
+                        default:
+                            X = FAOWWindow.FWinLeft + FWinLeft;
+                            Y = FAOWWindow.FWinTop + FWinTop;
+                            H = FWinHeight;
+                            W = FWinWidth - FScrollWidth;
+                            break;
+                    }
+
+                    if ((X + W) < OldClip.Right)
+                    {
+                        SurfDesc.ClipRect.Right = X + W;
+                    }
+
+                    if ((Y + H) < OldClip.Bottom)
+                    {
+                        SurfDesc.ClipRect.Bottom = Y + H;
+                    }
+
+                    {
+                        I = 0;
+                        int end__53 = FNumVisible;
+                        for (; I <= end__53; I += 1)
+                        {
+                            var call__54 = FLines.Count;
+                            if ((FTopItem + I) < call__54)
+                            {
+                                var call__55 = FColorList[FTopItem + I];
+                                CC = (Aow.Units.AoWMemo.TColorChange)call__55;
+                                if (CC.FHasColor)
+                                {
+                                    FAOWFont.Color = CC.FColor;
+                                }
+
+                                switch (FTextAlign)
+                                {
+                                    case Aow.Units.AoWComp.TaowTextAlign.taLeft:
+                                        var call__56 = FLines[FTopItem + I];
+                                        FAOWFont.SetText(FBorderWidth + X, (FBorderHeight + Y) + (FItemHeight * I), call__56, SurfDesc);
+                                        break;
+                                    case Aow.Units.AoWComp.TaowTextAlign.taRight:
+                                        var call__57 = FLines[FTopItem + I];
+                                        var call__58 = FAOWFont.GetTextWidth(call__57);
+                                        var call__59 = FLines[FTopItem + I];
+                                        FAOWFont.SetText(((X + W) - FBorderWidth) - call__58, (FBorderHeight + Y) + (FItemHeight * I), call__59, SurfDesc);
+                                        break;
+                                    default:
+                                        var call__60 = FLines[FTopItem + I];
+                                        var call__61 = FAOWFont.GetTextWidth(call__60);
+                                        var call__62 = FLines[FTopItem + I];
+                                        FAOWFont.SetText((X + (W / 2)) - (call__61 / 2), (FBorderHeight + Y) + (FItemHeight * I), call__62, SurfDesc);
+                                        break;
+                                }
+
+                                FDrawIndex = FTopItem + I;
+                                var call__63 = Aow.Rtl.Rtl.Rect(X, Y + (FItemHeight * I), X + W, Y + ((I + 1) * FItemHeight));
+                                FItemRect = call__63;
+                                if (FItemRect.Bottom > SurfDesc.ClipRect.Bottom)
+                                {
+                                    FItemRect.Bottom = SurfDesc.ClipRect.Bottom;
+                                }
+
+                                if (FOnDrawItem != null)
+                                {
+                                    FOnDrawItem(this);
+                                }
+                            }
+                        }
+                    }
+
+                    SurfDesc.ClipRect = OldClip;
+                    bool bool__64 = ((FCurLine - FTopItem) > -1) && ((FCurLine - FTopItem) < FNumVisible);
+                    if (bool__64)
+                    {
+                        var call__65 = FLines.Count;
+                        bool__64 = ((FCurLine - FTopItem) < call__65);
+                    }
+
+                    if (((bool__64 && (FRedraw == true)) && FEditable) && (FBlink == true))
+                    {
+                        var call__66 = FLines[FCurLine];
+                        var call__67 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(call__66, 1, FCurCol));
+                        FAOWFont.SetText((FBorderWidth + X) + call__67, (FBorderHeight + Y) + ((FCurLine - FTopItem) * FItemHeight), AnsiString.FromBytes(FCursorChar), SurfDesc);
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWMemo.pas:497
@@ -527,10 +659,10 @@ namespace Aow.Units.AoWMemo
                     case 8:
                         if (FRealCol > 0)
                         {
-                            var call__41 = FItems[FRealLine];
-                            var call__42 = FItems[FRealLine];
-                            var call__43 = FItems[FRealLine];
-                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__43, 1, FRealCol - 1) + Aow.Rtl.Rtl.Copy(call__42, FRealCol + 1, (call__41.Length - FRealCol) + 1);
+                            var call__68 = FItems[FRealLine];
+                            var call__69 = FItems[FRealLine];
+                            var call__70 = FItems[FRealLine];
+                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__70, 1, FRealCol - 1) + Aow.Rtl.Rtl.Copy(call__69, FRealCol + 1, (call__68.Length - FRealCol) + 1);
                             FRealCol -= 1;
                             Changed = true;
                         }
@@ -538,11 +670,11 @@ namespace Aow.Units.AoWMemo
                         {
                             if (FRealLine > 0)
                             {
-                                var call__44 = FItems[FRealLine - 1];
-                                FRealCol = call__44.Length;
-                                var call__45 = FItems[FRealLine - 1];
-                                var call__46 = FItems[FRealLine];
-                                FItems[FRealLine - 1] = call__45 + call__46;
+                                var call__71 = FItems[FRealLine - 1];
+                                FRealCol = call__71.Length;
+                                var call__72 = FItems[FRealLine - 1];
+                                var call__73 = FItems[FRealLine];
+                                FItems[FRealLine - 1] = call__72 + call__73;
                                 FItems.Delete(FRealLine);
                                 FRealLine -= 1;
                                 Changed = true;
@@ -551,20 +683,20 @@ namespace Aow.Units.AoWMemo
 
                         break;
                     case 13:
-                        var call__47 = FLines[FCurLine];
-                        if (call__47.Length == FCurCol)
+                        var call__74 = FLines[FCurLine];
+                        if (call__74.Length == FCurCol)
                         {
                             FItems.Insert(FRealLine + 1, (AnsiString)"");
-                            var call__48 = FItems[FRealLine];
-                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__48, 1, FRealCol + 1);
+                            var call__75 = FItems[FRealLine];
+                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__75, 1, FRealCol + 1);
                         }
                         else
                         {
-                            var call__49 = FItems[FRealLine];
-                            var call__50 = FItems[FRealLine];
-                            FItems.Insert(FRealLine + 1, Aow.Rtl.Rtl.Copy(call__50, FRealCol + 1, call__49.Length));
-                            var call__51 = FItems[FRealLine];
-                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__51, 1, FRealCol);
+                            var call__76 = FItems[FRealLine];
+                            var call__77 = FItems[FRealLine];
+                            FItems.Insert(FRealLine + 1, Aow.Rtl.Rtl.Copy(call__77, FRealCol + 1, call__76.Length));
+                            var call__78 = FItems[FRealLine];
+                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__78, 1, FRealCol);
                         }
 
                         FRealCol = 0;
@@ -579,20 +711,20 @@ namespace Aow.Units.AoWMemo
                     default:
                     {
                         C = unchecked((byte)Key);
-                        var call__52 = FLines[FCurLine];
-                        if (call__52.Length == FCurCol)
+                        var call__79 = FLines[FCurLine];
+                        if (call__79.Length == FCurCol)
                         {
-                            var call__53 = FItems[FRealLine];
-                            var call__54 = FItems[FRealLine];
-                            var call__55 = FItems[FRealLine];
-                            FItems[FRealLine] = (Aow.Rtl.Rtl.Copy(call__55, 1, FRealCol + 1) + AnsiString.FromBytes(C)) + Aow.Rtl.Rtl.Copy(call__54, FRealCol + 2, call__53.Length - FRealCol);
+                            var call__80 = FItems[FRealLine];
+                            var call__81 = FItems[FRealLine];
+                            var call__82 = FItems[FRealLine];
+                            FItems[FRealLine] = (Aow.Rtl.Rtl.Copy(call__82, 1, FRealCol + 1) + AnsiString.FromBytes(C)) + Aow.Rtl.Rtl.Copy(call__81, FRealCol + 2, call__80.Length - FRealCol);
                         }
                         else
                         {
-                            var call__56 = FItems[FRealLine];
-                            var call__57 = FItems[FRealLine];
-                            var call__58 = FItems[FRealLine];
-                            FItems[FRealLine] = (Aow.Rtl.Rtl.Copy(call__58, 1, FRealCol) + AnsiString.FromBytes(C)) + Aow.Rtl.Rtl.Copy(call__57, FRealCol + 1, call__56.Length - FRealCol);
+                            var call__83 = FItems[FRealLine];
+                            var call__84 = FItems[FRealLine];
+                            var call__85 = FItems[FRealLine];
+                            FItems[FRealLine] = (Aow.Rtl.Rtl.Copy(call__85, 1, FRealCol) + AnsiString.FromBytes(C)) + Aow.Rtl.Rtl.Copy(call__84, FRealCol + 1, call__83.Length - FRealCol);
                         }
 
                         FRealCol += 1;
@@ -649,8 +781,8 @@ namespace Aow.Units.AoWMemo
                             if (FRealLine > 0)
                             {
                                 FRealLine -= 1;
-                                var call__59 = FItems[FRealLine];
-                                FRealCol = call__59.Length;
+                                var call__86 = FItems[FRealLine];
+                                FRealCol = call__86.Length;
                             }
                         }
 
@@ -663,8 +795,8 @@ namespace Aow.Units.AoWMemo
                             if (FCurLine > 0)
                             {
                                 FCurLine -= 1;
-                                var call__60 = FLines[FCurLine];
-                                FCurCol = call__60.Length;
+                                var call__87 = FLines[FCurLine];
+                                FCurCol = call__87.Length;
                             }
                         }
 
@@ -673,11 +805,11 @@ namespace Aow.Units.AoWMemo
                         if (FCurLine > 0)
                         {
                             FCurLine -= 1;
-                            var call__61 = FLines[FCurLine];
-                            if (call__61.Length < FCurCol)
+                            var call__88 = FLines[FCurLine];
+                            if (call__88.Length < FCurCol)
                             {
-                                var call__62 = FLines[FCurLine];
-                                FCurCol = call__62.Length;
+                                var call__89 = FLines[FCurLine];
+                                FCurCol = call__89.Length;
                             }
 
                             Moved = true;
@@ -685,30 +817,30 @@ namespace Aow.Units.AoWMemo
 
                         break;
                     case 39:
-                        var call__63 = FLines[FCurLine];
-                        if (call__63.Length > FCurCol)
+                        var call__90 = FLines[FCurLine];
+                        if (call__90.Length > FCurCol)
                         {
                             FCurCol += 1;
                         }
                         else
                         {
-                            var call__64 = FLines.Count;
-                            if ((call__64 - 1) > FCurLine)
+                            var call__91 = FLines.Count;
+                            if ((call__91 - 1) > FCurLine)
                             {
                                 FCurCol = 0;
                                 FCurLine += 1;
                             }
                         }
 
-                        var call__65 = FItems[FRealLine];
-                        if (call__65.Length > FRealCol)
+                        var call__92 = FItems[FRealLine];
+                        if (call__92.Length > FRealCol)
                         {
                             FRealCol += 1;
                         }
                         else
                         {
-                            var call__66 = FItems.Count;
-                            if ((call__66 - 1) > FRealLine)
+                            var call__93 = FItems.Count;
+                            if ((call__93 - 1) > FRealLine)
                             {
                                 FRealCol = 0;
                                 FRealLine += 1;
@@ -717,15 +849,15 @@ namespace Aow.Units.AoWMemo
 
                         break;
                     case 40:
-                        var call__67 = FLines.Count;
-                        if ((call__67 - 1) > FCurLine)
+                        var call__94 = FLines.Count;
+                        if ((call__94 - 1) > FCurLine)
                         {
                             FCurLine += 1;
-                            var call__68 = FLines[FCurLine];
-                            if (call__68.Length < FCurCol)
+                            var call__95 = FLines[FCurLine];
+                            if (call__95.Length < FCurCol)
                             {
-                                var call__69 = FLines[FCurLine];
-                                FCurCol = call__69.Length;
+                                var call__96 = FLines[FCurLine];
+                                FCurCol = call__96.Length;
                             }
 
                             Moved = true;
@@ -733,23 +865,23 @@ namespace Aow.Units.AoWMemo
 
                         break;
                     case 46:
-                        var call__70 = FItems[FRealLine];
-                        if (call__70.Length > FRealCol)
+                        var call__97 = FItems[FRealLine];
+                        if (call__97.Length > FRealCol)
                         {
-                            var call__71 = FItems[FRealLine];
-                            var call__72 = FItems[FRealLine];
-                            var call__73 = FItems[FRealLine];
-                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__73, 1, FRealCol) + Aow.Rtl.Rtl.Copy(call__72, FRealCol + 2, call__71.Length - FRealCol);
+                            var call__98 = FItems[FRealLine];
+                            var call__99 = FItems[FRealLine];
+                            var call__100 = FItems[FRealLine];
+                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__100, 1, FRealCol) + Aow.Rtl.Rtl.Copy(call__99, FRealCol + 2, call__98.Length - FRealCol);
                             Changed = true;
                         }
                         else
                         {
-                            var call__74 = FItems.Count;
-                            if ((call__74 - 1) > FRealLine)
+                            var call__101 = FItems.Count;
+                            if ((call__101 - 1) > FRealLine)
                             {
-                                var call__75 = FItems[FRealLine];
-                                var call__76 = FItems[FRealLine + 1];
-                                FItems[FRealLine] = call__75 + call__76;
+                                var call__102 = FItems[FRealLine];
+                                var call__103 = FItems[FRealLine + 1];
+                                FItems[FRealLine] = call__102 + call__103;
                                 FItems.Delete(FRealLine + 1);
                                 Changed = true;
                             }
@@ -809,28 +941,28 @@ namespace Aow.Units.AoWMemo
             FItems.Clear();
             {
                 I = 0;
-                int end__77 = Value.Count - 1;
-                for (; I <= end__77; I += 1)
+                int end__104 = Value.Count - 1;
+                for (; I <= end__104; I += 1)
                 {
-                    var call__78 = Value[I];
-                    FLines.Add(call__78);
-                    var call__79 = Value[I];
-                    FItems.Add(call__79);
+                    var call__105 = Value[I];
+                    FLines.Add(call__105);
+                    var call__106 = Value[I];
+                    FItems.Add(call__106);
                 }
             }
 
-            var call__80 = FLines.Count;
-            if (call__80 < FNumVisible)
+            var call__107 = FLines.Count;
+            if (call__107 < FNumVisible)
             {
-                var call__81 = FLines.Count;
-                FNumVisible = call__81;
+                var call__108 = FLines.Count;
+                FNumVisible = call__108;
             }
 
-            var call__82 = FLines.Count;
-            if (call__82 < (FTopItem + FNumVisible))
+            var call__109 = FLines.Count;
+            if (call__109 < (FTopItem + FNumVisible))
             {
-                var call__83 = FLines.Count;
-                FTopItem = call__83 - FNumVisible;
+                var call__110 = FLines.Count;
+                FTopItem = call__110 - FNumVisible;
             }
 
             FSized = false;
@@ -839,11 +971,11 @@ namespace Aow.Units.AoWMemo
         // AoWMemo.pas:314
         public void SetListOff(int Value)
         {
-            var call__84 = FLines.Count;
-            if (Value >= call__84)
+            var call__111 = FLines.Count;
+            if (Value >= call__111)
             {
-                var call__85 = FLines.Count;
-                Value = call__85 - 1;
+                var call__112 = FLines.Count;
+                Value = call__112 - 1;
             }
 
             if (Value != FTopItem)
@@ -893,21 +1025,21 @@ namespace Aow.Units.AoWMemo
         {
             int Len = default;
             int I = default;
-            var call__86 = FItems[0];
-            Len = call__86.Length;
+            var call__113 = FItems[0];
+            Len = call__113.Length;
             FRealCol = 0;
             FRealLine = 0;
             I = 0;
             while (I <= FCurLine)
             {
-                var call__87 = FLines[FCurLine];
-                FRealCol = FRealCol + call__87.Length;
+                var call__114 = FLines[FCurLine];
+                FRealCol = FRealCol + call__114.Length;
                 if (FRealCol >= Len)
                 {
                     FRealCol = 0;
                     FRealLine += 1;
-                    var call__88 = FItems[FRealLine];
-                    Len = call__88.Length;
+                    var call__115 = FItems[FRealLine];
+                    Len = call__115.Length;
                 }
 
                 I += 1;
@@ -923,48 +1055,48 @@ namespace Aow.Units.AoWMemo
             int Len = default;
             int I = default;
             SetSize();
-            var call__89 = FItems[0];
-            Len = call__89.Length;
+            var call__116 = FItems[0];
+            Len = call__116.Length;
             FCurCol = 0;
             FCurLine = 0;
             I = 0;
             while (I < FRealLine)
             {
-                var call__90 = FLines[FCurLine];
-                FCurCol = FCurCol + call__90.Length;
+                var call__117 = FLines[FCurLine];
+                FCurCol = FCurCol + call__117.Length;
                 if (FCurCol >= Len)
                 {
                     FCurCol = 0;
                     I += 1;
-                    var call__91 = FItems[I];
-                    Len = call__91.Length;
+                    var call__118 = FItems[I];
+                    Len = call__118.Length;
                 }
 
                 FCurLine += 1;
             }
 
-            var call__92 = FLines[FCurLine];
-            I = call__92.Length;
+            var call__119 = FLines[FCurLine];
+            I = call__119.Length;
             while (true)
             {
-                bool bool__93 = (I < FRealCol);
-                if (bool__93)
+                bool bool__120 = (I < FRealCol);
+                if (bool__120)
                 {
-                    var call__94 = FLines.Count;
-                    bool__93 = (call__94 > FCurLine);
+                    var call__121 = FLines.Count;
+                    bool__120 = (call__121 > FCurLine);
                 }
 
-                if (!bool__93)
+                if (!bool__120)
                     break;
                 {
                     FCurLine += 1;
-                    var call__95 = FLines[FCurLine];
-                    I = I + call__95.Length;
+                    var call__122 = FLines[FCurLine];
+                    I = I + call__122.Length;
                 }
             }
 
-            var call__96 = FLines[FCurLine];
-            FCurCol = (call__96.Length + FRealCol) - I;
+            var call__123 = FLines[FCurLine];
+            FCurCol = (call__123.Length + FRealCol) - I;
         }
 
         // AoWMemo.pas:842

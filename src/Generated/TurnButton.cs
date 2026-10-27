@@ -159,8 +159,36 @@ namespace Aow.Units.TurnButton
         // TurnButton.pas:132
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            try
+            {
+                if ((FVisible == true) && (FValid == true))
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    if (!FAnimating && (FButtonChecked == true))
+                    {
+                        var call__3 = FImageLib[(FFrameOffset + (FCurPlayer * 7)) + 6];
+                        call__3.ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
+                    }
+                    else
+                    {
+                        var call__4 = FImageLib[FFrameOffset + FAnimationFrame];
+                        call__4.ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // TurnButton.pas:151

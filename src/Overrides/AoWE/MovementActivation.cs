@@ -40,7 +40,9 @@ public partial class TMoveControl
         FDestinationL = FSettings.FDestinationL;
         FMovePointTable = FSettings.FMovePointTable;
         FMode = FSettings.FMode;
-        FArmyHS = (TArmyHS)FSettings.FArmyHS;
+        // Tactical movement retains its sprite in TCombatMoveControl.FUnitHS.
+        // The base army cache is read only by world movement callbacks.
+        FArmyHS = this is Aow.Units.AoWTC.TCombatMoveControl ? null : (TArmyHS)FSettings.FArmyHS;
         FSelection = FSettings.FSelection;
         FTransporterArmy = FSettings.FTransporterArmy;
         FProcessedMapFields = FSettings.FProcessedMapFields;
