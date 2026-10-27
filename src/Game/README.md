@@ -1,8 +1,8 @@
 # Aow.Game
 
 The game starts the 77 layout modules in AoW.dpr order, creates TMainForm, loads
-RELEASE.HSS and draws the title scene through General.Manager and TSdlDC. Audio
-uses the null backend. The SDL window presents a streaming RGB555 texture with
+RELEASE.HSS and draws the title scene through General.Manager and TSdlDC. The title
+playlist plays Songs/TITLE.IT through libopenmpt and SDL audio. The SDL window presents a streaming RGB555 texture with
 integer scaling. Alt+Enter toggles desktop fullscreen.
 
 ```
@@ -13,15 +13,23 @@ Files and typed JSON settings go to the user data directory. `--user-data PATH`
 selects that directory. `--single-directory PATH` selects one directory for both
 layers. `--fullscreen` overrides the saved display mode.
 
+`--mute` sets the SDL stream gain to zero before playback starts. Automated checks
+use this option and the dummy audio driver. Music and sound effect volume, enabled
+flags and quality come from the Sound settings. Quality zero disables audio. The
+four active presets retain the original rates, channel counts and bit depths.
+The native libopenmpt library and its codecs are copied from vcpkg_installed next
+to the game at build time. A missing library logs a message and leaves music silent.
+The intro video stand-in follows the missing-codec path into the title scene.
+
 Automated rendering uses the headless presenter. It initializes neither SDL video
 nor audio and writes tightly packed, top-down RGB555LE rows plus JSON metadata.
 The title reference numbers presentations, including the initial paint of the
 cleared back surface. Presentation 60 contains title scene update 59.
 
 ```text
-dotnet run --no-build --project src/Game -- --fixture title-60 --fixtures D:\git\open-aow-private\tests\frames\fixtures.toml --out D:\git\open-aow-private\tools\oracle\obj\3.4-title
-dotnet run --no-build --project src/Game -- --smoke-test
-dotnet run --no-build --project src/Game -- --verify --source-root D:\git\aow\src\delphi3
+dotnet run --no-build --project src/Game -- --mute --fixture title-60 --fixtures D:\git\open-aow-private\tests\frames\fixtures.toml --out D:\git\open-aow-private\tools\oracle\obj\3.4-title
+dotnet run --no-build --project src/Game -- --mute --smoke-test
+dotnet run --no-build --project src/Game -- --mute --verify --source-root D:\git\aow\src\delphi3
 ```
 
 The fixture mode reads its dimensions, pointer, seed, clock and registry inputs

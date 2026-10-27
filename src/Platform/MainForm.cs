@@ -48,11 +48,11 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         WinDC.Create__init(null);
     }
 
-    public static TMainForm Create(IDisplayHost host, string argument = "")
+    public static TMainForm Create(IDisplayHost host, string argument = "", bool mute = true, bool audioOutput = false)
     {
         GFXE.DesktopSize = () => host.DesktopSize;
         Aow.Units.Startup.InitializeAll();
-        Aow.Units.Sound.NullSoundSystem.Install();
+        TSdlSoundSystem.Install(mute, audioOutput);
         var layouts = new LayoutSession();
         GameLayouts.Initialize(layouts);
         if (layouts.Modules.Count != 77) throw new InvalidDataException("The startup requires 77 data modules.");
@@ -85,6 +85,21 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         SoundDlg.FSettings.SFXEnabled = AoWEngine.FRegistry.GetSFXEnabled();
         SoundDlg.FSettings.UseDirectSound = AoWEngine.FRegistry.GetUseDirectSound();
         SoundDlg.FSoundQuality = AoWEngine.FRegistry.GetSoundQuality();
+        SoundDlg.FSettings.SampleVoices = 16;
+        SoundDlg.FSettings.SampleRate = SoundDlg.FSoundQuality == 1 ? 22050 : 44100;
+        SoundDlg.FSettings.OutputMode = SoundDlg.FSoundQuality switch
+        {
+            1 => TSet<Aow.Units.Sound.TSoundOutputModeElement>.Of(Aow.Units.Sound.TSoundOutputModeElement.omMono, Aow.Units.Sound.TSoundOutputModeElement.om8bit),
+            2 => TSet<Aow.Units.Sound.TSoundOutputModeElement>.Of(Aow.Units.Sound.TSoundOutputModeElement.omMono, Aow.Units.Sound.TSoundOutputModeElement.om16bit),
+            3 => TSet<Aow.Units.Sound.TSoundOutputModeElement>.Of(Aow.Units.Sound.TSoundOutputModeElement.omStereo, Aow.Units.Sound.TSoundOutputModeElement.om16bit),
+            _ => TSet<Aow.Units.Sound.TSoundOutputModeElement>.Of(Aow.Units.Sound.TSoundOutputModeElement.omStereo, Aow.Units.Sound.TSoundOutputModeElement.om16bit, Aow.Units.Sound.TSoundOutputModeElement.omHighQuality)
+        };
+        if (SoundDlg.FSoundQuality != 0)
+        {
+            Aow.Units.Sound.Sound.InitializeSoundSystem("SDL", SoundDlg.FSettings);
+            Aow.Units.Sound.Sound.SetMusicVolume(SoundDlg.MusicVolume.Position);
+            Aow.Units.Sound.Sound.SetSFXVolume(SoundDlg.SFXVolume.Position);
+        }
         Aow.Units.AoWExeForms.AoWExeForms.SetVideoSize(VideoDialog, AoWEngine.FRegistry.GetDisplayWidth(), AoWEngine.FRegistry.GetDisplayHeight());
         Aow.Units.AoWExeForms.AoWExeForms.SetVideoMode(VideoDialog, host.Fullscreen ? Aow.Units.AoWVideoDlg.TScreenMode.scmGame : Aow.Units.AoWVideoDlg.TScreenMode.scmWindowed);
         General.Manager.WinWidth = Display.BackSurfaceWidth;
@@ -109,8 +124,8 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
             FileDlgWindow.FLastFileName = argument;
             return;
         }
-        // Intro playback and music are separate milestones. Startup enters the title scene.
-        ShowTitleScene(TitleScene, true);
+        if (!AoWEngine.FRegistry.GetDebugMode() && !AoWEngine.FRegistry.GetSkipIntro()) IntroScene.Execute();
+        else ShowTitleScene(TitleScene, true);
     }
     public void DisplayResizeBackSurface(int width, int height)
     {

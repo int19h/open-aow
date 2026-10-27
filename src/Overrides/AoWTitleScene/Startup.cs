@@ -9,6 +9,13 @@ public partial class TTitleScene
 {
     public void ShowScene(bool playMusic)
     {
+        var player = Aow.Units.Sound.Sound.SongPlayer;
+        if (playMusic && !(player.CurrentIndex >= 0 && player.CurrentIndex < player.Songs.Count && player.Songs[player.CurrentIndex] == "SONGS\\TITLE.IT"))
+        {
+            player.Songs.Clear();
+            player.Songs.Add("SONGS\\TITLE.IT");
+            player.Play(0);
+        }
         General.Manager.OverlayPriority = 0;
         TitleSceneIL.LoadDiscardableImageData();
         VideoDialog.SetSceneSize(640, 480);
