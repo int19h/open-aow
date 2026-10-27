@@ -329,8 +329,80 @@ namespace Aow.Units.AOWToolTip
         // AOWToolTip.pas:223
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            Aow.Rtl.TRect OldClip = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    var call__49 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    FILFrame.DrawILF(FILIndexFrame, call__49, ref SurfDesc);
+                    var call__50 = FILFrame[FILIndexFrame + 1];
+                    var call__51 = FILFrame[FILIndexFrame + 6];
+                    var call__52 = FILFrame[FILIndexFrame + 3];
+                    var call__53 = FILFrame[FILIndexFrame + 4];
+                    var call__54 = FILFrame[FILIndexFrame + 1];
+                    var call__55 = FILFrame[FILIndexFrame + 3];
+                    var call__56 = Aow.Rtl.Rtl.Rect(FWinLeft + call__55.Width, FWinTop + call__54.Height, (FWinWidth - call__52.Width) - call__53.Width, (FWinHeight - call__50.Height) - call__51.Height);
+                    FILTexture.DrawILT(FILIndexTexture, call__56, ref SurfDesc);
+                    FAOWFont.Color = FColor;
+                    OldClip = SurfDesc.ClipRect;
+                    var call__57 = FLines.Count;
+                    if (call__57 > 0)
+                    {
+                        {
+                            I = 0;
+                            int end__58 = FLines.Count - 1;
+                            for (; I <= end__58; I += 1)
+                            {
+                                var call__59 = FILFrame[FILIndexFrame + 4];
+                                if (((FWinLeft + FWinWidth) - call__59.Width) < OldClip.Right)
+                                {
+                                    var call__60 = FILFrame[FILIndexFrame + 4];
+                                    SurfDesc.ClipRect.Right = (FWinLeft + FWinWidth) - call__60.Width;
+                                }
+
+                                var call__61 = FLines.Count;
+                                bool bool__62 = (I < call__61);
+                                if (bool__62)
+                                {
+                                    var call__63 = FLines.Count;
+                                    bool__62 = (call__63 > 0);
+                                }
+
+                                if (bool__62)
+                                {
+                                    var call__64 = FLines[I];
+                                    var call__65 = FILFrame[FILIndexFrame];
+                                    var call__66 = FILFrame[FILIndexFrame + 3];
+                                    FAOWFont.SetText((FWinLeft + FBorderWidth) + call__66.Width, ((FWinTop + FBorderHeight) + call__65.Height) + (FItemHeight * I), call__64, SurfDesc);
+                                    FItemIndex = I;
+                                    var call__67 = FILFrame[FILIndexFrame + 1];
+                                    var call__68 = FILFrame[FILIndexFrame + 1];
+                                    var call__69 = FILFrame[FILIndexFrame + 3];
+                                    var call__70 = Aow.Rtl.Rtl.Rect(FWinLeft + call__69.Width, (FWinTop + call__68.Height) + (FItemHeight * I), FWinLeft + FWinWidth, (FWinTop + call__67.Height) + ((I + 1) * FItemHeight));
+                                    FItemRect = call__70;
+                                    if (FOnDrawItem != null)
+                                    {
+                                        FOnDrawItem(this);
+                                    }
+                                }
+
+                                SurfDesc.ClipRect = OldClip;
+                            }
+                        }
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AOWToolTip.pas:266
@@ -348,13 +420,13 @@ namespace Aow.Units.AOWToolTip
             FItems.Clear();
             {
                 I = 0;
-                int end__49 = Value.Count - 1;
-                for (; I <= end__49; I += 1)
+                int end__71 = Value.Count - 1;
+                for (; I <= end__71; I += 1)
                 {
-                    var call__50 = Value[I];
-                    FLines.Add(call__50);
-                    var call__51 = Value[I];
-                    FItems.Add(call__51);
+                    var call__72 = Value[I];
+                    FLines.Add(call__72);
+                    var call__73 = Value[I];
+                    FItems.Add(call__73);
                 }
             }
 

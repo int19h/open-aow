@@ -772,8 +772,276 @@ namespace Aow.Units.AoWHTMLMemo
 //   of the window (or the whole visible part) from it }
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            int OldLeft = default;
+            int OldTop = default;
+            int Pos = default;
+            int LH = default;
+            int X = default;
+            int Y = default;
+            Aow.Units.AoWComp.TaowTextAlign Align = default;
+            Aow.Rtl.AnsiString FontName = default;
+            Aow.Units.GFXE.TSurfaceDesc BackSD = default;
+            Aow.Rtl.TRect SrcR = default;
+            int Line = default;
+            Aow.Units.AoWHTMLMemo.TChangeInfo CI = default;
+            Aow.Units.AoWComp.TaowRect R = default;
+            // { Tried Self identity, receiver scope and local/field staging; register/stack allocation still differs. }
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    OldLeft = FWinLeft;
+                    OldTop = FWinTop;
+                    FWinLeft = 0;
+                    FWinTop = 0;
+                    if (FBackSurface != null)
+                    {
+                        var call__40 = FBackSurface.PixelFormatID;
+                        if (call__40 != SurfDesc.PixelFormatID)
+                        {
+                            FBackSurface.Free();
+                            FBackSurface = null;
+                        }
+                    }
+
+                    if (FBackSurface == null)
+                    {
+                        var call__41 = Aow.Units.GFXE.TDataSurface.Create(FTextWidth, FTextHeight, SurfDesc.PixelFormatID, null);
+                        FBackSurface = call__41;
+                        FBackDrawn = false;
+                    }
+
+                    if (!FBackDrawn)
+                    {
+                        if (FImages.Count <= FILIndexTexture)
+                        {
+                            if (FMasked)
+                            {
+                                FBackSurface.Cls(FMaskColor);
+                            }
+                            else
+                            {
+                                FBackSurface.Cls(0);
+                            }
+
+                            FBackSurface.Lock(ref BackSD);
+                        }
+                        else
+                        {
+                            FBackSurface.Lock(ref BackSD);
+                            var call__42 = Aow.Rtl.Rtl.Rect(0, 0, FTextWidth, FTextHeight);
+                            FImages.DrawILT(FILIndexTexture, call__42, ref BackSD);
+                        }
+
+                        Line = 1;
+                        var call__43 = FChanges[0];
+                        CI = (Aow.Units.AoWHTMLMemo.TChangeInfo)call__43;
+                        Align = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+                        FontName = (AnsiString)"";
+                        X = FBorderWidth;
+                        Y = FBorderHeight;
+                        LH = 10;
+                        {
+                            I = 0;
+                            int end__44 = FLines.Count - 1;
+                            for (; I <= end__44; I += 1)
+                            {
+                                Pos = 0;
+                                switch (Align)
+                                {
+                                    case Aow.Units.AoWComp.TaowTextAlign.taLeft:
+                                        X = FBorderWidth;
+                                        break;
+                                    case Aow.Units.AoWComp.TaowTextAlign.taCenter:
+                                        X = 0;
+                                        break;
+                                    case Aow.Units.AoWComp.TaowTextAlign.taRight:
+                                        X = FTextWidth - FBorderWidth;
+                                        break;
+                                }
+
+                                while ((CI.FLine == I) && (Line <= FChanges.Count))
+                                {
+                                    if ((FontName != ((AnsiString)"")) && (CI.FPos > Pos))
+                                    {
+                                        switch (Align)
+                                        {
+                                            case Aow.Units.AoWComp.TaowTextAlign.taLeft:
+                                                var call__45 = FLines[I];
+                                                FAOWFont.SetText(X, Y, Aow.Rtl.Rtl.Copy(call__45, Pos + 1, CI.FPos - Pos), BackSD);
+                                                var call__46 = FLines[I];
+                                                var call__47 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(call__46, Pos + 1, CI.FPos - Pos));
+                                                X = X + call__47;
+                                                break;
+                                            case Aow.Units.AoWComp.TaowTextAlign.taCenter:
+                                                var call__48 = FLines[I];
+                                                var call__49 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(call__48, Pos + 1, CI.FPos - Pos));
+                                                var call__50 = FLines[I];
+                                                FAOWFont.SetText((FTextWidth / 2) - (call__49 / 2), Y, Aow.Rtl.Rtl.Copy(call__50, Pos + 1, CI.FPos - Pos), BackSD);
+                                                break;
+                                            case Aow.Units.AoWComp.TaowTextAlign.taRight:
+                                                var call__51 = FLines[I];
+                                                var call__52 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(call__51, Pos + 1, CI.FPos - Pos));
+                                                var call__53 = FLines[I];
+                                                FAOWFont.SetText(X - call__52, Y, Aow.Rtl.Rtl.Copy(call__53, Pos + 1, CI.FPos - Pos), BackSD);
+                                                var call__54 = FLines[I];
+                                                var call__55 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(call__54, Pos + 1, CI.FPos - Pos));
+                                                X = X - call__55;
+                                                break;
+                                        }
+                                    }
+
+                                    Pos = CI.FPos;
+                                    if (CI.FFont != ((AnsiString)""))
+                                    {
+                                        LoadFont(CI.FFont);
+                                    }
+
+                                    FAOWFont.FontColorPaletteIndex = 1;
+                                    FAOWFont.Color = CI.FColor;
+                                    FAOWFont.CharacterDistance = CI.FSpacing;
+                                    FontName = CI.FFont;
+                                    LH = CI.FHeight;
+                                    if (CI.FAlign != Align)
+                                    {
+                                        switch (Align)
+                                        {
+                                            case Aow.Units.AoWComp.TaowTextAlign.taLeft:
+                                                X = FBorderWidth;
+                                                break;
+                                            case Aow.Units.AoWComp.TaowTextAlign.taCenter:
+                                                X = 0;
+                                                break;
+                                            case Aow.Units.AoWComp.TaowTextAlign.taRight:
+                                                X = FTextWidth - FBorderWidth;
+                                                break;
+                                        }
+                                    }
+
+                                    Align = CI.FAlign;
+                                    if (Line < FChanges.Count)
+                                    {
+                                        var call__56 = FChanges[Line];
+                                        CI = (Aow.Units.AoWHTMLMemo.TChangeInfo)call__56;
+                                    }
+
+                                    Line += 1;
+                                }
+
+                                if (FontName != ((AnsiString)""))
+                                {
+                                    switch (Align)
+                                    {
+                                        case Aow.Units.AoWComp.TaowTextAlign.taLeft:
+                                            var call__57 = FLines[I];
+                                            var call__58 = FLines[I];
+                                            FAOWFont.SetText(X, Y, Aow.Rtl.Rtl.Copy(call__58, Pos + 1, call__57.Length - Pos), BackSD);
+                                            break;
+                                        case Aow.Units.AoWComp.TaowTextAlign.taCenter:
+                                            var call__59 = FLines[I];
+                                            var call__60 = FLines[I];
+                                            var call__61 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(call__60, Pos + 1, call__59.Length - Pos));
+                                            var call__62 = FLines[I];
+                                            var call__63 = FLines[I];
+                                            FAOWFont.SetText((FTextWidth / 2) - (call__61 / 2), Y, Aow.Rtl.Rtl.Copy(call__63, Pos + 1, call__62.Length - Pos), BackSD);
+                                            break;
+                                        case Aow.Units.AoWComp.TaowTextAlign.taRight:
+                                            var call__64 = FLines[I];
+                                            var call__65 = FLines[I];
+                                            var call__66 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(call__65, Pos + 1, call__64.Length - Pos));
+                                            var call__67 = FLines[I];
+                                            var call__68 = FLines[I];
+                                            FAOWFont.SetText(X - call__66, Y, Aow.Rtl.Rtl.Copy(call__68, Pos + 1, call__67.Length - Pos), BackSD);
+                                            break;
+                                    }
+                                }
+
+                                Y = Y + LH;
+                            }
+                        }
+
+                        FBackSurface.Unlock();
+                        FBackDrawn = true;
+                    }
+
+                    FWinLeft = OldLeft;
+                    FWinTop = OldTop;
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    FBackSurface.Lock(ref BackSD);
+                    if (FSurfaceValid)
+                    {
+                        {
+                            I = 0;
+                            int end__69 = FDrawCount - 1;
+                            for (; I <= end__69; I += 1)
+                            {
+                                var call__70 = FDrawList[I];
+                                R = (Aow.Units.AoWComp.TaowRect)call__70;
+                                if ((FAOWOwner.FWinLeft + FWinLeft) > R.R.Left)
+                                {
+                                    R.R.Left = FAOWOwner.FWinLeft + FWinLeft;
+                                }
+
+                                if ((FAOWOwner.FWinTop + FWinTop) > R.R.Top)
+                                {
+                                    R.R.Top = FAOWOwner.FWinTop + FWinTop;
+                                }
+
+                                if (((FAOWOwner.FWinLeft + FWinLeft) + FWinWidth) < R.R.Right)
+                                {
+                                    R.R.Right = (FAOWOwner.FWinLeft + FWinLeft) + FWinWidth;
+                                }
+
+                                if (((FAOWOwner.FWinTop + FWinTop) + FWinHeight) < R.R.Bottom)
+                                {
+                                    R.R.Bottom = (FAOWOwner.FWinTop + FWinTop) + FWinHeight;
+                                }
+
+                                var call__71 = Aow.Rtl.Rtl.Rect((R.R.Left - FAOWOwner.FWinLeft) - FWinLeft, ((FTopItem + R.R.Top) - FAOWOwner.FWinTop) - FWinTop, (R.R.Right - FAOWOwner.FWinLeft) - FWinLeft, ((FTopItem + R.R.Bottom) - FAOWOwner.FWinTop) - FWinTop);
+                                SrcR = call__71;
+                                if (FMasked)
+                                {
+                                    Aow.Units.GFXE.GFXE.BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
+                                }
+                                else
+                                {
+                                    Aow.Units.GFXE.GFXE.BltSDRectClipped(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var call__72 = Aow.Rtl.Rtl.Rect(0, FTopItem, FWinWidth, FTopItem + FWinHeight);
+                        SrcR = call__72;
+                        if (FMasked)
+                        {
+                            Aow.Units.GFXE.GFXE.BltSpriteClipped16(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FMaskColor);
+                        }
+                        else
+                        {
+                            Aow.Units.GFXE.GFXE.BltSDRectClipped(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                        }
+                    }
+
+                    FBackSurface.Unlock();
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+
+                    FSurfaceValid = true;
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWHTMLMemo.pas:134
@@ -818,14 +1086,14 @@ namespace Aow.Units.AoWHTMLMemo
         // AoWHTMLMemo.pas:165
         public void SetFileName(Aow.Rtl.AnsiString Value)
         {
-            bool bool__40 = (Value != FFilename);
-            if (bool__40)
+            bool bool__73 = (Value != FFilename);
+            if (bool__73)
             {
-                var call__41 = Aow.Rtl.Rtl.FileExists(Value);
-                bool__40 = call__41;
+                var call__74 = Aow.Rtl.Rtl.FileExists(Value);
+                bool__73 = call__74;
             }
 
-            if (bool__40)
+            if (bool__73)
             {
                 FFilename = Value;
                 FItems.LoadFromFile(FFilename);
@@ -841,18 +1109,18 @@ namespace Aow.Units.AoWHTMLMemo
             Aow.Units.ImageLib.TImageLibraryFont Font = default;
             int I = default;
             ;
-            var call__42 = Aow.Rtl.Rtl.Application.ExeName;
-            var call__43 = Aow.Rtl.Rtl.ExtractFilePath(call__42);
-            FileName = call__43 + FileName;
+            var call__75 = Aow.Rtl.Rtl.Application.ExeName;
+            var call__76 = Aow.Rtl.Rtl.ExtractFilePath(call__75);
+            FileName = call__76 + FileName;
             Font = null;
             I = 0;
             while ((I < FFonts.Count) && (Font == null))
             {
-                var call__44 = FFonts[I];
-                if (((Aow.Units.ImageLib.TImageLibraryFont)call__44).FileName == FileName)
+                var call__77 = FFonts[I];
+                if (((Aow.Units.ImageLib.TImageLibraryFont)call__77).FileName == FileName)
                 {
-                    var call__45 = FFonts[I];
-                    Font = (Aow.Units.ImageLib.TImageLibraryFont)call__45;
+                    var call__78 = FFonts[I];
+                    Font = (Aow.Units.ImageLib.TImageLibraryFont)call__78;
                 }
 
                 I += 1;

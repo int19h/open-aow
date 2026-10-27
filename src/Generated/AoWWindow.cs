@@ -320,8 +320,46 @@ namespace Aow.Units.AoWWindow
         // AoWWindow.pas:222
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    switch (FWindowType)
+                    {
+                        case Aow.Units.AoWWinControl.TWindowType.winNormal:
+                            var call__13 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, call__13, ref SurfDesc);
+                            var call__14 = FILFrame[FILIndexFrame + 1];
+                            var call__15 = FILFrame[FILIndexFrame + 6];
+                            var call__16 = FILFrame[FILIndexFrame + 3];
+                            var call__17 = FILFrame[FILIndexFrame + 4];
+                            var call__18 = FILFrame[FILIndexFrame + 1];
+                            var call__19 = FILFrame[FILIndexFrame + 3];
+                            var call__20 = Aow.Rtl.Rtl.Rect(FWinLeft + call__19.Width, FWinTop + call__18.Height, (FWinWidth - call__16.Width) - call__17.Width, (FWinHeight - call__14.Height) - call__15.Height);
+                            FILTexture.DrawILT(FILIndexTexture, call__20, ref SurfDesc);
+                            break;
+                        case Aow.Units.AoWWinControl.TWindowType.winHollow:
+                            var call__21 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, call__21, ref SurfDesc);
+                            break;
+                        case Aow.Units.AoWWinControl.TWindowType.winBorderless:
+                            var call__22 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                            FILTexture.DrawILT(FILIndexTexture, call__22, ref SurfDesc);
+                            break;
+                    }
+
+                    if (FOnDrawBack != null)
+                    {
+                        FOnDrawBack(this, SurfDesc);
+                    }
+
+                    FSurfaceValid = false;
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWWindow.pas:253
@@ -343,11 +381,11 @@ namespace Aow.Units.AoWWindow
 
                 {
                     I = FChildren.Count - 1;
-                    byte end__13 = 0;
-                    for (; I >= end__13; I -= 1)
+                    byte end__23 = 0;
+                    for (; I >= end__23; I -= 1)
                     {
-                        var call__14 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__14;
+                        var call__24 = FChildren[I];
+                        C = (Aow.Units.AoWComp.TAoWComponent)call__24;
                         C.FHandled = false;
                         if ((((FHandled == false) || C.FRedraw) && (C.FVisible == true)) && C.FCaptureInput)
                         {
@@ -491,11 +529,11 @@ namespace Aow.Units.AoWWindow
                 FDragging = 0;
                 {
                     I = FChildren.Count - 1;
-                    byte end__15 = 0;
-                    for (; I >= end__15; I -= 1)
+                    byte end__25 = 0;
+                    for (; I >= end__25; I -= 1)
                     {
-                        var call__16 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__16;
+                        var call__26 = FChildren[I];
+                        C = (Aow.Units.AoWComp.TAoWComponent)call__26;
                         C.FHandled = false;
                         if ((((FHandled == false) || (C.FRedraw == true)) && (C.FVisible == true)) && C.FCaptureInput)
                         {
@@ -713,11 +751,11 @@ namespace Aow.Units.AoWWindow
 
                 {
                     I = FChildren.Count - 1;
-                    byte end__17 = 0;
-                    for (; I >= end__17; I -= 1)
+                    byte end__27 = 0;
+                    for (; I >= end__27; I -= 1)
                     {
-                        var call__18 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__18;
+                        var call__28 = FChildren[I];
+                        C = (Aow.Units.AoWComp.TAoWComponent)call__28;
                         C.FHandled = false;
                         if (((((FHandled == false) || (C.FRedraw == true)) || (C.FToolTipCount > 0)) && (C.FVisible == true)) && C.FCaptureInput)
                         {

@@ -129,8 +129,68 @@ namespace Aow.Units.AoWTabPanel
 //   with the down image and its text BorderHeightSelected pixels down }
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            Aow.Rtl.TRect OldClip = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    OldClip = SurfDesc.ClipRect;
+                    {
+                        I = 0;
+                        int end__16 = FItems.Count - 1;
+                        for (; I <= end__16; I += 1)
+                        {
+                            if (I != FSelected)
+                            {
+                                var call__17 = FItems.Count;
+                                var call__18 = FItems.Count;
+                                var call__19 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__18), FAOWWindow.FWinTop + FWinTop, FWinWidth / call__17, FWinHeight);
+                                FILButton.DrawILLh(FILIndexUp, call__19, ref SurfDesc);
+                                if (FAOWFont != null)
+                                {
+                                    FAOWFont.Color = FSelColor;
+                                    var call__20 = FItems[I];
+                                    var call__21 = FAOWFont.GetTextWidth(call__20);
+                                    var call__22 = FItems.Count;
+                                    var call__23 = FItems[I];
+                                    FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * ((2 * I) + 1)) / (2 * call__22))) - (call__21 / 2), (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, call__23, SurfDesc);
+                                }
+                            }
+                            else
+                            {
+                                var call__24 = FItems.Count;
+                                var call__25 = FItems.Count;
+                                var call__26 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__25), FAOWWindow.FWinTop + FWinTop, FWinWidth / call__24, FWinHeight);
+                                FILButton.DrawILLh(FILIndexDown, call__26, ref SurfDesc);
+                                if (FAOWFont != null)
+                                {
+                                    FAOWFont.Color = FColor;
+                                    var call__27 = FItems[I];
+                                    var call__28 = FAOWFont.GetTextWidth(call__27);
+                                    var call__29 = FItems.Count;
+                                    var call__30 = FItems[I];
+                                    FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * ((2 * I) + 1)) / (2 * call__29))) - (call__28 / 2), (FAOWWindow.FWinTop + FWinTop) + FBorderHeightSelected, call__30, SurfDesc);
+                                }
+                            }
+                        }
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWTabPanel.pas:211
@@ -144,8 +204,8 @@ namespace Aow.Units.AoWTabPanel
                 FHandled = true;
                 if (Button == Aow.Rtl.TMouseButton.mbLeft)
                 {
-                    var call__16 = FItems.Count;
-                    SetIndex(((X - FAOWWindow.FWinLeft) - FWinLeft) / (FWinWidth / call__16));
+                    var call__31 = FItems.Count;
+                    SetIndex(((X - FAOWWindow.FWinLeft) - FWinLeft) / (FWinWidth / call__31));
                 }
 
                 if (FOnMouseDown != null)
@@ -227,11 +287,11 @@ namespace Aow.Units.AoWTabPanel
             FItems.Clear();
             {
                 I = 0;
-                int end__17 = Value.Count - 1;
-                for (; I <= end__17; I += 1)
+                int end__32 = Value.Count - 1;
+                for (; I <= end__32; I += 1)
                 {
-                    var call__18 = Value[I];
-                    FItems.Add(call__18);
+                    var call__33 = Value[I];
+                    FItems.Add(call__33);
                 }
             }
         }
@@ -246,18 +306,18 @@ namespace Aow.Units.AoWTabPanel
                 FSelected = Value;
                 {
                     I = 0;
-                    int end__19 = FPanels.Count - 1;
-                    for (; I <= end__19; I += 1)
+                    int end__34 = FPanels.Count - 1;
+                    for (; I <= end__34; I += 1)
                     {
                         {
-                            var w__20 = (Aow.Units.AoWComp.TAoWComponent)FPanels[I];
-                            if (w__20.FOwnerItem == this.FSelected)
+                            var w__35 = (Aow.Units.AoWComp.TAoWComponent)FPanels[I];
+                            if (w__35.FOwnerItem == this.FSelected)
                             {
-                                w__20.SetVisible(true);
+                                w__35.SetVisible(true);
                             }
                             else
                             {
-                                w__20.SetVisible(false);
+                                w__35.SetVisible(false);
                             }
                         }
                     }

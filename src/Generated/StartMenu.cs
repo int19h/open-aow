@@ -132,8 +132,74 @@ namespace Aow.Units.StartMenu
         // StartMenu.pas:87
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            Aow.Rtl.TRect OldClip = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (!FDrawn)
+                    {
+                        OldClip = SurfDesc.ClipRect;
+                        FAOWFont.Color = FColor;
+                        var call__1 = FILWholeMenu[FHighlighted + 1];
+                        call__1.ShowClipped(0, 0, SurfDesc);
+                        {
+                            I = 0;
+                            int end__2 = FItems.Count - 1;
+                            for (; I <= end__2; I += 1)
+                            {
+                                var call__3 = FItems.Count;
+                                if (call__3 > 0)
+                                {
+                                    var call__4 = FILFrame[FILIndexFrame + 2];
+                                    if (((FWinLeft + FWinWidth) - call__4.Width) < OldClip.Right)
+                                    {
+                                        var call__5 = FILFrame[FILIndexFrame + 2];
+                                        SurfDesc.ClipRect.Right = (FWinLeft + FWinWidth) - call__5.Width;
+                                    }
+
+                                    if (I == FHighlighted)
+                                    {
+                                        FAOWFont.Color = FSelColor;
+                                    }
+
+                                    var call__6 = FItems[I];
+                                    var call__7 = FILFrame[FILIndexFrame];
+                                    var call__8 = FILFrame[FILIndexFrame + 3];
+                                    FAOWFont.SetText((FWinLeft + FBorderWidth) + call__8.Width, ((FWinTop + FBorderHeight) + call__7.Height) + (FItemHeight * I), call__6, SurfDesc);
+                                    if (I == FHighlighted)
+                                    {
+                                        FAOWFont.Color = FColor;
+                                    }
+
+                                    FDrawItem = I;
+                                    var call__9 = FILFrame[FILIndexFrame + 1];
+                                    var call__10 = FILFrame[FILIndexFrame + 1];
+                                    var call__11 = FILFrame[FILIndexFrame + 3];
+                                    var call__12 = Aow.Rtl.Rtl.Rect(FWinLeft + call__11.Width, (FWinTop + call__10.Height) + (FItemHeight * I), FWinLeft + FWinWidth, (FWinTop + call__9.Height) + ((I + 1) * FItemHeight));
+                                    FDrawItemRect = call__12;
+                                    if (FOnDrawItem != null)
+                                    {
+                                        FOnDrawItem(this);
+                                    }
+
+                                    SurfDesc.ClipRect = OldClip;
+                                }
+                            }
+                        }
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // StartMenu.pas:123
@@ -141,11 +207,11 @@ namespace Aow.Units.StartMenu
         {
             if (FValid)
             {
-                var call__1 = FILFrame[FILIndexFrame + 6];
-                FWinHeight -= call__1.Height;
+                var call__13 = FILFrame[FILIndexFrame + 6];
+                FWinHeight -= call__13.Height;
                 base.CheckMouseDown(Button, Shift, X, Y);
-                var call__2 = FILFrame[FILIndexFrame + 6];
-                FWinHeight += call__2.Height;
+                var call__14 = FILFrame[FILIndexFrame + 6];
+                FWinHeight += call__14.Height;
             }
         }
 

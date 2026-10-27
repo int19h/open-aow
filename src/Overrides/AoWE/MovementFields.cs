@@ -72,7 +72,7 @@ public partial class TMoveControl
     private TAoWMapField NeighborField(TAoWMapField field, int direction)
     {
         var delta = HSEngine.HSEngine.HNtoXYTable[field.Xhx & 1][direction];
-        return (TAoWMapField)FMapLevel.GetField(field.Xhx + delta.X, field.Yhx + delta.Y);
+        return (TAoWMapField)((TMapLevel)field.Owner).GetField(field.Xhx + delta.X, field.Yhx + delta.Y);
     }
 
     public int CalculateMovePointLine(TAoWMapField origin, int direction, int moveOverCode)

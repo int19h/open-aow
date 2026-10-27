@@ -148,8 +148,65 @@ namespace Aow.Units.AoWEdit
         // AoWEdit.pas:155
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            Aow.Rtl.AnsiString S = default;
+            Aow.Rtl.TRect OldClip = default;
+            int I = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    var call__9 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    FILEdit.DrawILLh(FILIndex, call__9, ref SurfDesc);
+                    OldClip = SurfDesc.ClipRect;
+                    var call__10 = FILEdit[FILIndex + 2];
+                    if ((((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - call__10.Width) < OldClip.Right)
+                    {
+                        var call__11 = FILEdit[FILIndex + 2];
+                        SurfDesc.ClipRect.Right = ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - call__11.Width;
+                    }
+
+                    FAOWFont.Color = FColor;
+                    if (FPassWordChar == 0)
+                    {
+                        FAOWFont.SetText((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, Aow.Rtl.Rtl.Copy(FText, FFirstChar, FShownChars), SurfDesc);
+                    }
+                    else
+                    {
+                        S = (AnsiString)"";
+                        {
+                            I = 0;
+                            int end__12 = FShownChars - 1;
+                            for (; I <= end__12; I += 1)
+                            {
+                                S = S + AnsiString.FromBytes(FPassWordChar);
+                            }
+                        }
+
+                        FAOWFont.SetText((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, S, SurfDesc);
+                    }
+
+                    SurfDesc.ClipRect = OldClip;
+                    if ((FEditable && (FRedraw == true)) && (FCursorShown == true))
+                    {
+                        var call__13 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FCursorPos));
+                        FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth) + call__13, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, AnsiString.FromBytes(FCursorChar), SurfDesc);
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWEdit.pas:197
@@ -174,17 +231,17 @@ namespace Aow.Units.AoWEdit
                             FRedraw = true;
                         }
 
-                        var call__9 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
-                        if (X > (((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth) + call__9))
+                        var call__14 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
+                        if (X > (((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth) + call__14))
                         {
                             FFirstChar = 1;
-                            var call__10 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length - FFirstChar));
-                            if (call__10 > ((FWinWidth - (2 * FBorderWidth)) - 1))
+                            var call__15 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length - FFirstChar));
+                            if (call__15 > ((FWinWidth - (2 * FBorderWidth)) - 1))
                             {
                                 while (true)
                                 {
-                                    var call__11 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
-                                    if (!(call__11 > ((FWinWidth - (2 * FBorderWidth)) - 1)))
+                                    var call__16 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
+                                    if (!(call__16 > ((FWinWidth - (2 * FBorderWidth)) - 1)))
                                         break;
                                     {
                                         FFirstChar += 1;
@@ -197,13 +254,13 @@ namespace Aow.Units.AoWEdit
                         else
                         {
                             I = 0;
-                            var call__12 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, I + 1));
-                            W = call__12;
+                            var call__17 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, I + 1));
+                            W = call__17;
                             while ((X > (((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth) + W)) && (FText.Length > ((I + FFirstChar) - 1)))
                             {
                                 I += 1;
-                                var call__13 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, I + 1));
-                                W = call__13;
+                                var call__18 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, I + 1));
+                                W = call__18;
                             }
 
                             FCursorPos = I;
@@ -326,8 +383,8 @@ namespace Aow.Units.AoWEdit
                 {
                     while (true)
                     {
-                        var call__14 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
-                        if (!(call__14 > ((FWinWidth - (2 * FBorderWidth)) - 1)))
+                        var call__19 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
+                        if (!(call__19 > ((FWinWidth - (2 * FBorderWidth)) - 1)))
                             break;
                         {
                             FFirstChar += 1;

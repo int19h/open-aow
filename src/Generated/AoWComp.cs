@@ -301,15 +301,116 @@ namespace Aow.Units.AoWComp
 //   then Setup of every visible child; an exception in any step is reported in a message box }
         public virtual void Setup()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            if (FVisible)
+            {
+                try
+                {
+                    if (!FValid)
+                    {
+                        Validate();
+                    }
+                }
+                catch (System.Exception)
+                {
+                    Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Validate", ((AnsiString)"Error - ") + Name, (int)0);
+                }
+
+                if (FValid)
+                {
+                    try
+                    {
+                        if (!FSized)
+                        {
+                            SetSize();
+                        }
+                    }
+                    catch (System.Exception)
+                    {
+                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during SetSize", ((AnsiString)"Error - ") + Name, (int)0);
+                    }
+
+                    try
+                    {
+                        if (!FAligned)
+                        {
+                            ReAlign();
+                        }
+                    }
+                    catch (System.Exception)
+                    {
+                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during ReAlign", ((AnsiString)"Error - ") + Name, (int)0);
+                    }
+
+                    try
+                    {
+                        if (!FSized)
+                        {
+                            SetSize();
+                        }
+                    }
+                    catch (System.Exception)
+                    {
+                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during SetSize", ((AnsiString)"Error - ") + Name, (int)0);
+                    }
+
+                    try
+                    {
+                        {
+                            I = 0;
+                            int end__18 = FChildren.Count - 1;
+                            for (; I <= end__18; I += 1)
+                            {
+                                var call__19 = FChildren[I];
+                                if (((Aow.Units.AoWComp.TAoWComponent)call__19).FVisible)
+                                {
+                                    var call__20 = FChildren[I];
+                                    ((Aow.Units.AoWComp.TAoWComponent)call__20).Setup();
+                                }
+                            }
+                        }
+                    }
+                    catch (System.Exception)
+                    {
+                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Setup", ((AnsiString)"Error - ") + Name, (int)0);
+                    }
+                }
+            }
         }
 
         // AoWComp.pas:796
         public virtual void Update()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (FOnUpdate != null)
+                    {
+                        FOnUpdate(this);
+                    }
+
+                    {
+                        I = FChildren.Count - 1;
+                        byte end__21 = 0;
+                        for (; I >= end__21; I -= 1)
+                        {
+                            var call__22 = FChildren[I];
+                            ((Aow.Units.AoWComp.TAoWComponent)call__22).Update();
+                        }
+                    }
+
+                    if ((!FValid || !FAligned) || !FSized)
+                    {
+                        Setup();
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Update", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWComp.pas:202
@@ -320,14 +421,14 @@ namespace Aow.Units.AoWComp
             FDrawCount = 0;
             {
                 I = 0;
-                int end__18 = FChildren.Count - 1;
-                for (; I <= end__18; I += 1)
+                int end__23 = FChildren.Count - 1;
+                for (; I <= end__23; I += 1)
                 {
-                    var call__19 = FChildren[I];
-                    if (((Aow.Units.AoWComp.TAoWComponent)call__19).FVisible)
+                    var call__24 = FChildren[I];
+                    if (((Aow.Units.AoWComp.TAoWComponent)call__24).FVisible)
                     {
-                        var call__20 = FChildren[I];
-                        ((Aow.Units.AoWComp.TAoWComponent)call__20).ClearDrawList();
+                        var call__25 = FChildren[I];
+                        ((Aow.Units.AoWComp.TAoWComponent)call__25).ClearDrawList();
                     }
                 }
             }
@@ -340,14 +441,14 @@ namespace Aow.Units.AoWComp
             FBltCount = 0;
             {
                 I = 0;
-                int end__21 = FChildren.Count - 1;
-                for (; I <= end__21; I += 1)
+                int end__26 = FChildren.Count - 1;
+                for (; I <= end__26; I += 1)
                 {
-                    var call__22 = FChildren[I];
-                    if (((Aow.Units.AoWComp.TAoWComponent)call__22).FVisible)
+                    var call__27 = FChildren[I];
+                    if (((Aow.Units.AoWComp.TAoWComponent)call__27).FVisible)
                     {
-                        var call__23 = FChildren[I];
-                        ((Aow.Units.AoWComp.TAoWComponent)call__23).ClearBltList();
+                        var call__28 = FChildren[I];
+                        ((Aow.Units.AoWComp.TAoWComponent)call__28).ClearBltList();
                     }
                 }
             }
@@ -393,8 +494,8 @@ namespace Aow.Units.AoWComp
                 {
                     while ((I < Count) && Add)
                     {
-                        var call__24 = FBltList[I];
-                        R = (Aow.Units.AoWComp.TaowRect)call__24;
+                        var call__29 = FBltList[I];
+                        R = (Aow.Units.AoWComp.TaowRect)call__29;
                         if ((((ARect.Right >= R.R.Left) && (ARect.Left <= R.R.Right)) && (ARect.Bottom >= R.R.Top)) && (ARect.Top <= R.R.Bottom))
                         {
                             if (R.R.Left <= ARect.Left)
@@ -422,14 +523,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__25 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FBltList.Add(call__25);
+                                                var call__30 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FBltList.Add(call__30);
                                             }
 
-                                            var call__26 = FBltList[FBltCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__26;
-                                            var call__27 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
-                                            N.R = call__27;
+                                            var call__31 = FBltList[FBltCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__31;
+                                            var call__32 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                            N.R = call__32;
                                             FBltCount += 1;
                                             ARect.Top = R.R.Bottom + 1;
                                         }
@@ -447,14 +548,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__28 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FBltList.Add(call__28);
+                                                var call__33 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FBltList.Add(call__33);
                                             }
 
-                                            var call__29 = FBltList[FBltCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__29;
-                                            var call__30 = Aow.Rtl.Rtl.Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
-                                            N.R = call__30;
+                                            var call__34 = FBltList[FBltCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__34;
+                                            var call__35 = Aow.Rtl.Rtl.Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
+                                            N.R = call__35;
                                             FBltCount += 1;
                                             ARect.Left = R.R.Right + 1;
                                         }
@@ -465,14 +566,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__31 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FBltList.Add(call__31);
+                                                var call__36 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FBltList.Add(call__36);
                                             }
 
-                                            var call__32 = FBltList[FBltCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__32;
-                                            var call__33 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
-                                            N.R = call__33;
+                                            var call__37 = FBltList[FBltCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__37;
+                                            var call__38 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
+                                            N.R = call__38;
                                             FBltCount += 1;
                                             ARect.Left = R.R.Right + 1;
                                         }
@@ -497,14 +598,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__34 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FBltList.Add(call__34);
+                                                var call__39 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FBltList.Add(call__39);
                                             }
 
-                                            var call__35 = FBltList[FBltCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__35;
-                                            var call__36 = Aow.Rtl.Rtl.Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
-                                            N.R = call__36;
+                                            var call__40 = FBltList[FBltCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__40;
+                                            var call__41 = Aow.Rtl.Rtl.Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
+                                            N.R = call__41;
                                             FBltCount += 1;
                                             ARect.Right = R.R.Left - 1;
                                         }
@@ -515,14 +616,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__37 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FBltList.Add(call__37);
+                                                var call__42 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FBltList.Add(call__42);
                                             }
 
-                                            var call__38 = FBltList[FBltCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__38;
-                                            var call__39 = Aow.Rtl.Rtl.Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
-                                            N.R = call__39;
+                                            var call__43 = FBltList[FBltCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__43;
+                                            var call__44 = Aow.Rtl.Rtl.Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                            N.R = call__44;
                                             FBltCount += 1;
                                             ARect.Right = R.R.Left - 1;
                                         }
@@ -540,14 +641,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__40 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FBltList.Add(call__40);
+                                                var call__45 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FBltList.Add(call__45);
                                             }
 
-                                            var call__41 = FBltList[FBltCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__41;
-                                            var call__42 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
-                                            N.R = call__42;
+                                            var call__46 = FBltList[FBltCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__46;
+                                            var call__47 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
+                                            N.R = call__47;
                                             FBltCount += 1;
                                             ARect.Left = R.R.Right + 1;
                                         }
@@ -564,8 +665,8 @@ namespace Aow.Units.AoWComp
                                         }
                                         else
                                         {
-                                            var call__43 = Aow.Rtl.Rtl.Rect(0, 0, 0, 0);
-                                            R.R = call__43;
+                                            var call__48 = Aow.Rtl.Rtl.Rect(0, 0, 0, 0);
+                                            R.R = call__48;
                                         }
                                     }
                                 }
@@ -580,12 +681,12 @@ namespace Aow.Units.AoWComp
                 {
                     if (FBltCount == FBltList.Count)
                     {
-                        var call__44 = Aow.Units.AoWComp.TaowRect.Create();
-                        FBltList.Add(call__44);
+                        var call__49 = Aow.Units.AoWComp.TaowRect.Create();
+                        FBltList.Add(call__49);
                     }
 
-                    var call__45 = FBltList[FBltCount];
-                    R = (Aow.Units.AoWComp.TaowRect)call__45;
+                    var call__50 = FBltList[FBltCount];
+                    R = (Aow.Units.AoWComp.TaowRect)call__50;
                     R.R = ARect;
                     FBltCount += 1;
                 }
@@ -624,8 +725,8 @@ namespace Aow.Units.AoWComp
                 {
                     while ((I < Count) && Add)
                     {
-                        var call__46 = FDrawList[I];
-                        R = (Aow.Units.AoWComp.TaowRect)call__46;
+                        var call__51 = FDrawList[I];
+                        R = (Aow.Units.AoWComp.TaowRect)call__51;
                         if ((((ARect.Right >= R.R.Left) && (ARect.Left <= R.R.Right)) && (ARect.Bottom >= R.R.Top)) && (ARect.Top <= R.R.Bottom))
                         {
                             if (R.R.Left <= ARect.Left)
@@ -653,14 +754,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__47 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FDrawList.Add(call__47);
+                                                var call__52 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FDrawList.Add(call__52);
                                             }
 
-                                            var call__48 = FDrawList[FDrawCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__48;
-                                            var call__49 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
-                                            N.R = call__49;
+                                            var call__53 = FDrawList[FDrawCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__53;
+                                            var call__54 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                            N.R = call__54;
                                             FDrawCount += 1;
                                             ARect.Top = R.R.Bottom + 1;
                                         }
@@ -678,14 +779,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__50 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FDrawList.Add(call__50);
+                                                var call__55 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FDrawList.Add(call__55);
                                             }
 
-                                            var call__51 = FDrawList[FDrawCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__51;
-                                            var call__52 = Aow.Rtl.Rtl.Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
-                                            N.R = call__52;
+                                            var call__56 = FDrawList[FDrawCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__56;
+                                            var call__57 = Aow.Rtl.Rtl.Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
+                                            N.R = call__57;
                                             FDrawCount += 1;
                                             ARect.Left = R.R.Right + 1;
                                         }
@@ -696,14 +797,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__53 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FDrawList.Add(call__53);
+                                                var call__58 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FDrawList.Add(call__58);
                                             }
 
-                                            var call__54 = FDrawList[FDrawCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__54;
-                                            var call__55 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
-                                            N.R = call__55;
+                                            var call__59 = FDrawList[FDrawCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__59;
+                                            var call__60 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
+                                            N.R = call__60;
                                             FDrawCount += 1;
                                             ARect.Left = R.R.Right + 1;
                                         }
@@ -728,14 +829,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__56 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FDrawList.Add(call__56);
+                                                var call__61 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FDrawList.Add(call__61);
                                             }
 
-                                            var call__57 = FDrawList[FDrawCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__57;
-                                            var call__58 = Aow.Rtl.Rtl.Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
-                                            N.R = call__58;
+                                            var call__62 = FDrawList[FDrawCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__62;
+                                            var call__63 = Aow.Rtl.Rtl.Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
+                                            N.R = call__63;
                                             FDrawCount += 1;
                                             ARect.Right = R.R.Left - 1;
                                         }
@@ -746,14 +847,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__59 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FDrawList.Add(call__59);
+                                                var call__64 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FDrawList.Add(call__64);
                                             }
 
-                                            var call__60 = FDrawList[FDrawCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__60;
-                                            var call__61 = Aow.Rtl.Rtl.Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
-                                            N.R = call__61;
+                                            var call__65 = FDrawList[FDrawCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__65;
+                                            var call__66 = Aow.Rtl.Rtl.Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                            N.R = call__66;
                                             FDrawCount += 1;
                                             ARect.Right = R.R.Left - 1;
                                         }
@@ -771,14 +872,14 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__62 = Aow.Units.AoWComp.TaowRect.Create();
-                                                FDrawList.Add(call__62);
+                                                var call__67 = Aow.Units.AoWComp.TaowRect.Create();
+                                                FDrawList.Add(call__67);
                                             }
 
-                                            var call__63 = FDrawList[FDrawCount];
-                                            N = (Aow.Units.AoWComp.TaowRect)call__63;
-                                            var call__64 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
-                                            N.R = call__64;
+                                            var call__68 = FDrawList[FDrawCount];
+                                            N = (Aow.Units.AoWComp.TaowRect)call__68;
+                                            var call__69 = Aow.Rtl.Rtl.Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
+                                            N.R = call__69;
                                             FDrawCount += 1;
                                             ARect.Left = R.R.Right + 1;
                                         }
@@ -795,8 +896,8 @@ namespace Aow.Units.AoWComp
                                         }
                                         else
                                         {
-                                            var call__65 = Aow.Rtl.Rtl.Rect(0, 0, 0, 0);
-                                            R.R = call__65;
+                                            var call__70 = Aow.Rtl.Rtl.Rect(0, 0, 0, 0);
+                                            R.R = call__70;
                                         }
                                     }
                                 }
@@ -811,12 +912,12 @@ namespace Aow.Units.AoWComp
                 {
                     if (FDrawCount == FDrawList.Count)
                     {
-                        var call__66 = Aow.Units.AoWComp.TaowRect.Create();
-                        FDrawList.Add(call__66);
+                        var call__71 = Aow.Units.AoWComp.TaowRect.Create();
+                        FDrawList.Add(call__71);
                     }
 
-                    var call__67 = FDrawList[FDrawCount];
-                    R = (Aow.Units.AoWComp.TaowRect)call__67;
+                    var call__72 = FDrawList[FDrawCount];
+                    R = (Aow.Units.AoWComp.TaowRect)call__72;
                     R.R = ARect;
                     R.Owner = Sender;
                     FDrawCount += 1;
@@ -832,8 +933,8 @@ namespace Aow.Units.AoWComp
             int OldIndex = default;
             if (FAOWOwner != null)
             {
-                var call__68 = FAOWOwner.FChildren.IndexOf(this);
-                OldIndex = call__68;
+                var call__73 = FAOWOwner.FChildren.IndexOf(this);
+                OldIndex = call__73;
                 FAOWOwner.FChildren.Delete(OldIndex);
             }
             else
@@ -853,8 +954,8 @@ namespace Aow.Units.AoWComp
                 I = 0;
                 while (I < FAOWOwner.FChildren.Count)
                 {
-                    var call__69 = FAOWOwner.FChildren[I];
-                    if (((Aow.Units.AoWComp.TAoWComponent)call__69).FPriority > FPriority)
+                    var call__74 = FAOWOwner.FChildren[I];
+                    if (((Aow.Units.AoWComp.TAoWComponent)call__74).FPriority > FPriority)
                     {
                         NewIndex = I;
                         I = FAOWOwner.FChildren.Count;
