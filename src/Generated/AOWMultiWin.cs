@@ -164,14 +164,6 @@ namespace Aow.Units.AOWMultiWin
         public Aow.Rtl.AnsiString FPendingMap;
         // { $EC }
         public int FMenuHeight;
-        // AOWMultiWin.pas:399
-        // { $F0 }
-        public void Execute(Aow.Rtl.AnsiString MapName)
-        {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.Connected */
-            throw new System.NotImplementedException();
-        }
-
         // AOWMultiWin.pas:362
         public int ConnectProvider(Aow.Rtl.TConnectionType Kind)
         {
@@ -206,15 +198,7 @@ namespace Aow.Units.AOWMultiWin
         // { $45B170 }
         public void CloseBtnClick()
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.Connected */
-            throw new System.NotImplementedException();
-        }
-
-        // AOWMultiWin.pas:112
-        // { draft }
-        public void MultiWinUpdate()
-        {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.FAsyncEnum */
+            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.DisConnect */
             throw new System.NotImplementedException();
         }
 
@@ -242,7 +226,7 @@ namespace Aow.Units.AOWMultiWin
         // AOWMultiWin.pas:163
         public void BackBtnClick()
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.ConnectionType */
+            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.GetSessions */
             throw new System.NotImplementedException();
         }
 

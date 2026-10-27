@@ -153,6 +153,7 @@ public class TGDPlay : TComponent
 {
     public TGUID AppGUID { get; set; }
     public bool Connected => false;
+    public TConnectionType ConnectionType => TConnectionType.conNone;
     public object? DPlay => null;
     public void CheckMessages() { }
     public void GetConnections(TStrings connections) => connections.Clear();
