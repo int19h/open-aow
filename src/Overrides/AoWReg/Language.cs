@@ -4,11 +4,11 @@ namespace Aow.Units.AoWReg;
 
 public partial class TAoWRegistry
 {
-    // AoWReg.pas reads the setting, then the shipped patch forces English.
+    // Automatic and English retain the shipped forcing behavior.
     public TAoWLanguage GetLanguage()
     {
         int value = 0;
         rwInteger((AnsiString)"General", (AnsiString)"Language", ref value, TReadWriteMode.rwRead);
-        return TAoWLanguage.alEnglish;
+        return value is >= 2 and <= 5 ? (TAoWLanguage)value : TAoWLanguage.alEnglish;
     }
 }
