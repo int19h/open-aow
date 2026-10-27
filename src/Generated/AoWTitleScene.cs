@@ -485,13 +485,6 @@ namespace Aow.Units.AoWTitleScene
             }
         }
 
-        // AoWTitleScene.pas:77
-        public void ShowScene(bool PlayMusic)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.Display */
-            throw new System.NotImplementedException();
-        }
-
         // AoWTitleScene.pas:261
         public void HideScene()
         {
@@ -781,20 +774,6 @@ namespace Aow.Units.AoWTitleScene
 
             var call__77 = HitTest();
             FHoverButton = call__77;
-        }
-
-        // AoWTitleScene.pas:478
-        public void WindowMouseUp(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
-        {
-            /* TODO(T-shim) Platform or editor boundary Forms.Close */
-            throw new System.NotImplementedException();
-        }
-
-        // AoWTitleScene.pas:524
-        public void WindowHide()
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.Display */
-            throw new System.NotImplementedException();
         }
     }
 

@@ -344,13 +344,6 @@ namespace Aow.Units.aowSetupEvents
             }
         }
 
-        // aowSetupEvents.pas:296
-        public void SetupEventsCreate()
-        {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.AppGUID */
-            throw new System.NotImplementedException();
-        }
-
         // aowSetupEvents.pas:299
         public void DPlayDestroyPlayer(int ID, int NumPlayers)
         {

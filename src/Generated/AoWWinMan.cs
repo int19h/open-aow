@@ -672,13 +672,6 @@ namespace Aow.Units.AoWWinMan
             return Result;
         }
 
-        // AoWWinMan.pas:211
-        public void ManagerChangeCursor()
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.MainForm */
-            throw new System.NotImplementedException();
-        }
-
         // AoWWinMan.pas:216
         // { draft }
         public void GeneralCreate()
@@ -924,13 +917,6 @@ namespace Aow.Units.AoWWinMan
             Aow.Units.E2Globals.E2Globals.DialogWin.AddDebugMessage(Text);
         }
 
-        // AoWWinMan.pas:341
-        public void MapProgress(Aow.Units.Engine.TEObject Sender, Aow.Rtl.AnsiString Message, int Progression)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.Display */
-            throw new System.NotImplementedException();
-        }
-
         // AoWWinMan.pas:351
         // { 00454CA7 }
         // { conflict: procedure MapProgress(Sender: TObject; const Text: string; Position: Integer); }
@@ -996,13 +982,6 @@ namespace Aow.Units.AoWWinMan
                         break;
                 }
             }
-        }
-
-        // AoWWinMan.pas:392
-        public void ManagerUpdate()
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.FCursorChanged */
-            throw new System.NotImplementedException();
         }
     }
 

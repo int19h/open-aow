@@ -3,6 +3,7 @@
     <AowLayoutGeneratedProject>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../Generated/Aow.Generated.csproj'))</AowLayoutGeneratedProject>
   </PropertyGroup>
   <ItemGroup Condition="'$(MSBuildProjectFullPath)' == '$(AowLayoutGeneratedProject)'">
+    <Compile Include="$(MSBuildThisFileDirectory)../Overrides/AoWUnit/**/*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)**/*.cs" Exclude="$(MSBuildThisFileDirectory)obj/**/*.cs;$(MSBuildThisFileDirectory)bin/**/*.cs" />
   </ItemGroup>
 </Project>

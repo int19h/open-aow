@@ -181,20 +181,6 @@ namespace Aow.Units.DisplayC
         internal Aow.Units.DisplayC.TAbstractDC FPrimaryDC;
         internal Aow.Units.DisplayC.TAbstractDC FSecondaryDC;
         internal Aow.Units.DisplayC.TAbstractDC FActiveDC;
-        // DisplayC.pas:1370
-        internal new void SetCursor(int Value)
-        {
-            /* TODO(T-shim) Platform or editor boundary Controls.Cursor */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:1377
-        internal int GetCursor()
-        {
-            /* TODO(T-shim) Platform or editor boundary Controls.Cursor */
-            throw new System.NotImplementedException();
-        }
-
         // DisplayC.pas:1397
         internal void SetBufferingScheme(Aow.Units.DisplayC.TBufferingScheme Value)
         {
@@ -438,31 +424,10 @@ namespace Aow.Units.DisplayC
             throw new System.NotImplementedException();
         }
 
-        // DisplayC.pas:1462
-        public override void Loaded()
-        {
-            /* TODO(T-shim) Platform or editor boundary Controls.HandleNeeded */
-            throw new System.NotImplementedException();
-        }
-
         // DisplayC.pas:1588
         protected internal override void WndProc(ref Aow.Rtl.TMessage Message)
         {
             /* TODO(T-shim) Platform or editor boundary Controls.WndProc */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:1423
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
-        {
-            /* TODO(T-shim) Platform or editor boundary Controls.Create */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:1443
-        public override void Destroy()
-        {
-            /* TODO(T-shim) Platform or editor boundary Controls.Destroy */
             throw new System.NotImplementedException();
         }
 
@@ -489,13 +454,6 @@ namespace Aow.Units.DisplayC
             return Result;
         }
 
-        // DisplayC.pas:1521
-        public virtual void Resize()
-        {
-            /* TODO(T-shim) Platform or editor boundary Controls.Width */
-            throw new System.NotImplementedException();
-        }
-
         // DisplayC.pas:1361
         public virtual void SetFrameRate(int Value)
         {
@@ -508,43 +466,6 @@ namespace Aow.Units.DisplayC
             {
                 FFrameTime = 0;
             }
-        }
-
-        // DisplayC.pas:1624
-        public virtual void ShowError(Aow.Rtl.AnsiString Msg)
-        {
-            /* TODO(T-shim) Platform or editor boundary Dialogs.MessageDlg */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:1810
-        public virtual void StopUpdateFrameLoop()
-        {
-            /* TODO(T-shim) Platform or editor boundary Classes.Suspended */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:1827
-        public virtual void PauseFrameUpdateLoop()
-        {
-            /* TODO(T-shim) Platform or editor boundary Classes.Suspend */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:1838
-        public virtual void ResumeFrameUpdateLoop()
-        {
-            /* TODO(T-shim) Platform or editor boundary Classes.Resume */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:1854
-        // { Starts the frame loop: a TUpdateFrameThread (umAsynchrone), or a loop that runs here until
-//   the loop is stopped (umSynchrone). }
-        public virtual void StartUpdateFrameLoop()
-        {
-            /* TODO(T-shim) Platform or editor boundary Forms.Terminated */
-            throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1492
@@ -594,13 +515,6 @@ namespace Aow.Units.DisplayC
             }
         }
 
-        // DisplayC.pas:1475
-        public virtual int GetMouseButton()
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetAsyncKeyState */
-            throw new System.NotImplementedException();
-        }
-
         // DisplayC.pas:1469
         public virtual void GetMousePos(ref int X, ref int Y)
         {
@@ -608,44 +522,6 @@ namespace Aow.Units.DisplayC
             {
                 FActiveDC.GetMousePos(ref X, ref Y);
             }
-        }
-
-        // DisplayC.pas:1783
-        public virtual void UpdateFrame()
-        {
-            /* TODO(T-shim) Platform or editor boundary Controls.MouseMove */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:1767
-        public virtual int SwapDC()
-        {
-            int Result = default;
-            Aow.Units.DisplayC.TAbstractDC NewDC = default;
-            if (FPrimaryDC == FActiveDC)
-            {
-                NewDC = FSecondaryDC;
-            }
-            else
-            {
-                NewDC = FPrimaryDC;
-            }
-
-            if (FOnSwapDC != null)
-            {
-                FOnSwapDC(NewDC);
-            }
-
-            if (NewDC != null)
-            {
-                Result = ActivateDC(NewDC);
-            }
-            else
-            {
-                Result = Aow.Units.DisplayC.DisplayC.DCERR_NOTSUPPORTED;
-            }
-
-            return Result;
         }
 
         // DisplayC.pas:1630
@@ -752,15 +628,6 @@ namespace Aow.Units.DisplayC
             }
 
             return Result;
-        }
-
-        // DisplayC.pas:1679
-        // { Deactivates the active DC and activates DC; falls back to the old DC when that fails. With
-//   doRestoreSurfacesOnSwap the contents of the surfaces are copied over to the new DC. }
-        public int ActivateDC(Aow.Units.DisplayC.TAbstractDC DC)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.SetFocus */
-            throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1755
@@ -1358,31 +1225,9 @@ namespace Aow.Units.DisplayC
             return Result;
         }
 
-        // DisplayC.pas:715
-        public override Aow.Rtl.TWinControl OutputWnd()
-        {
-            Aow.Rtl.TWinControl Result = default;
-            Result = GetDisplay();
-            return Result;
-        }
-
         // DisplayC.pas:720
         public override void WindowRecreated()
         {
-        }
-
-        // DisplayC.pas:724
-        public override int Handle()
-        {
-            /* TODO(T-shim) Platform or editor boundary Controls.Handle */
-            throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:729
-        public override void ShowError(Aow.Rtl.AnsiString Msg)
-        {
-            // { Match trials (5): named temporaries, with scopes, Pointer casts, zero-shift scheduling, identity assignments; still differs. }
-            FDisplay.ShowError(Msg);
         }
 
         // DisplayC.pas:734
@@ -1498,14 +1343,6 @@ namespace Aow.Units.DisplayC
             Aow.Units.GFXE.TGFXEPalette Result = default;
             Result = null;
             return Result;
-        }
-
-        // DisplayC.pas:848
-        // { Waits until the frame time (FDisplay.FFrameTime ms) has passed since the last call. }
-        public override int WaitForVerticalBlank()
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.Sleep */
-            throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:873

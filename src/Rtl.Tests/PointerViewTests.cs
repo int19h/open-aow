@@ -4,6 +4,15 @@ namespace Aow.Rtl.Tests;
 
 public sealed class PointerViewTests
 {
+    [Fact]
+    public void StringPointerConversionKeepsBytesAndTerminatesAtNul()
+    {
+        var text = AnsiString.FromBytes(65, 233, 0, 66);
+        var pointer = Ptr<byte>.Unbox(text);
+        Assert.Equal(new byte[] { 65, 233, 0, 66, 0 }, pointer.AsSpan(5).ToArray());
+        Assert.Equal(AnsiString.FromBytes(65, 233), AnsiString.FromPChar(pointer));
+        Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox(text));
+    }
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     private struct Pair
     {

@@ -149,7 +149,14 @@ public class Text : TObject { }
 public class TDataModule : TComponent { }
 public class TMainForm : TForm { }
 public class TVideoPlayer : TComponent { }
-public class TGDPlay : TComponent { }
+public class TGDPlay : TComponent
+{
+    public TGUID AppGUID { get; set; }
+    public bool Connected => false;
+    public object? DPlay => null;
+    public void CheckMessages() { }
+    public void GetConnections(TStrings connections) => connections.Clear();
+}
 public class TGDFile : TObject { }
 public class TGDMessage : TObject { }
 public enum TConnectionType : byte { conNone, conUnknown, conTCP, conIPX, conModem, conSerial }
