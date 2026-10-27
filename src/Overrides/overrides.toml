@@ -1647,3 +1647,163 @@ file = "src/Overrides/GFXE/PaletteBlit.cs"
 member = "GFXE.RemapSurface08to565"
 reason = "reinterpret destination byte storage as words, pinned by libraries picture08 cases"
 file = "src/Overrides/GFXE/PaletteBlit.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.Create"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.Destroy"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.SetCursor"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.GetCursor"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.Loaded"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.Resize"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.ShowError"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.StopUpdateFrameLoop"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.PauseFrameUpdateLoop"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.ResumeFrameUpdateLoop"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.StartUpdateFrameLoop"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.GetMouseButton"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.UpdateFrame"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.ActivateDC"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TCustomDisplay.SwapDC"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TDisplayCtrl.WaitForVerticalBlank"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TDisplayCtrl.Handle"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TDisplayCtrl.OutputWnd"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "DisplayC.TDisplayCtrl.ShowError"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/DisplayC/Display.cs"
+
+[[skip]]
+member = "AoWTitleScene.TTitleScene.ShowScene"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/AoWTitleScene/Startup.cs"
+
+[[skip]]
+member = "AoWTitleScene.TTitleScene.WindowHide"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/AoWTitleScene/Startup.cs"
+
+[[skip]]
+member = "E2GameFlow.ShowTitleScene"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/E2GameFlow/Display.cs"
+
+[[skip]]
+member = "E2GameFlow.ApplyVideoSettings"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/E2GameFlow/Display.cs"
+
+[[skip]]
+member = "AoWWinMan.TGeneral.ManagerChangeCursor"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/AoWWinMan/Display.cs"
+
+[[skip]]
+member = "AoWWinMan.TGeneral.ManagerUpdate"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/AoWWinMan/Display.cs"
+
+[[skip]]
+member = "AoWWinMan.TGeneral.MapProgress"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/AoWWinMan/Display.cs"
+
+[[skip]]
+member = "AoWVideoDlg.TVideoDialog.ApplyMode"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/AoWVideoDlg/Display.cs"
+
+[[skip]]
+member = "AoWVideoDlg.TVideoDialog.ChangeResolution"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/AoWVideoDlg/Display.cs"
+
+[[skip]]
+member = "AoWVideoDlg.TVideoDialog.CurrentMode"
+reason = "host display boundary from graphics section 7 and platform section 2"
+file = "src/Overrides/AoWVideoDlg/Display.cs"
+
+[[skip]]
+member = "aowSetupEvents.TSetupEvents.SetupEventsCreate"
+reason = "retain the application GUID on the offline transport component"
+file = "src/Overrides/aowSetupEvents/Startup.cs"
+
+[[skip]]
+member = "GFXE.ListDisplayModes"
+reason = "logical 555 display modes filtered by the host desktop"
+file = "src/Overrides/GFXE/DisplayModes.cs"
+
+[[skip]]
+member = "AoWTitleScene.TTitleScene.WindowMouseUp"
+reason = "route the title buttons through the rewritten main form"
+file = "src/Overrides/AoWTitleScene/Startup.cs"

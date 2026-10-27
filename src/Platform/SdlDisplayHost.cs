@@ -60,7 +60,28 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     }
     public (int Width, int Height) ClientSize
     {
-        get { OnThread(); var size = WindowSize(); int scale = Viewport.Scale; return (size.Width / scale, size.Height / scale); }
+        get { OnThread(); return (width, height); }
+    }
+    public (int Width, int Height) DesktopSize
+    {
+        get
+        {
+            OnThread();
+            var mode = SDL_GetDesktopDisplayMode(SDL_GetDisplayForWindow(window));
+            if (mode is null) throw Error();
+            return (mode->w, mode->h);
+        }
+    }
+    public void ResizeImage(int newWidth, int newHeight)
+    {
+        OnThread();
+        if (newWidth <= 0 || newHeight <= 0) throw new ArgumentOutOfRangeException(nameof(newWidth));
+        if (width == newWidth && height == newHeight) return;
+        width = newWidth;
+        height = newHeight;
+        CreateTexture();
+        Check(SDL_SetWindowMinimumSize(window, width, height));
+        if (!Fullscreen) Check(SDL_SetWindowSize(window, width * windowedScale, height * windowedScale));
     }
     public bool HasFocus
     {
@@ -105,11 +126,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(backSurface));
         if (backSurface.Width != width || backSurface.Height != height)
         {
-            width = backSurface.Width;
-            height = backSurface.Height;
-            CreateTexture();
-            Check(SDL_SetWindowMinimumSize(window, width, height));
-            if (!Fullscreen) Check(SDL_SetWindowSize(window, width * windowedScale, height * windowedScale));
+            ResizeImage(backSurface.Width, backSurface.Height);
         }
         int rowBytes = checked(width * 2);
         if (backSurface.Data is byte[] bytes)
