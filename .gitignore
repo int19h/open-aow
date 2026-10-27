@@ -14,3 +14,6 @@ TestResults/
 
 # Local settings and generated reports that are not part of the product
 *.local.json
+
+# vcpkg manifest output (vcpkg.json)
+vcpkg_installed/

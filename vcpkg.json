@@ -1,0 +1,9 @@
+{
+  "name": "open-aow",
+  "version-string": "0",
+  "description": "Native libraries the port loads at run time. Install with: vcpkg install (see README).",
+  "dependencies": [
+    "libopenmpt"
+  ],
+  "builtin-baseline": "5363acb796e576328288fae60c25304e227e9839"
+}
