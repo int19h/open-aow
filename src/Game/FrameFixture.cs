@@ -37,6 +37,11 @@ internal sealed class FrameFixture
         var clicks = fixture.Clicks();
         int frame = frameLimit ?? int.Parse(fixture.Get("frame"), CultureInfo.InvariantCulture);
         if (frame < 1) throw new ArgumentOutOfRangeException(nameof(frameLimit));
+        int[] checkpoints = fixture.values.TryGetValue("checkpoints", out string? checkpointText) ? JsonSerializer.Deserialize<int[]>(checkpointText)! : [];
+        if (checkpoints.Length > 30 || checkpoints.Any(f => f < 1 || f >= frame) ||
+            !checkpoints.SequenceEqual(checkpoints.Distinct().Order()) || checkpoints.Length > 0 && !afterCombatCapture)
+            throw new InvalidDataException("Checkpoints require sorted earlier frames on the after-combat clock");
+        var capturedCheckpoints = new HashSet<int>();
         var size = fixture.Pair("size");
         var mouse = fixture.Pair("mouse");
         var now = DateTime.Parse(fixture.Get("local_time"), CultureInfo.InvariantCulture);
@@ -141,9 +146,28 @@ internal sealed class FrameFixture
                 tactical ? tacticalReady && GameState.AoWHSMap.FCombatMap.Frame == frame :
                 GameState.AoWHSMap is { } map && map.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
             }
-            display.CaptureWhen = AtTarget;
+            display.CaptureWhen = () =>
+            {
+                ObserveDay();
+                int current = AfterCombatFrame();
+                if (checkpoints.Contains(current) && capturedCheckpoints.Add(current))
+                {
+                    display.FixtureFrame = current;
+                    return true;
+                }
+                display.FixtureFrame = frame;
+                return AtTarget();
+            };
             display.AfterPresent = () =>
             {
+                if (display.Frame % 100 == 0)
+                    File.WriteAllText(Path.Combine(output, "progress.json"), JsonSerializer.Serialize(new
+                    {
+                        presentation = display.Frame, applied,
+                        day = GameState.AoWHSMap?.FDay, map_frame = GameState.AoWHSMap?.Frame,
+                        seat = GameState.AoWHSMap?.FSeatedPlayer,
+                        combat_frame = GameState.AoWHSMap?.FCombatMap?.Frame
+                    }) + "\n");
                 if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
                 if (applied < clicks.Count)
                 {
@@ -157,17 +181,28 @@ internal sealed class FrameFixture
                                 if (fileStampUtc is DateTime stamp) File.SetLastWriteTimeUtc(saved, stamp);
                                 else File.SetLastWriteTime(saved, now);
                         var manager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
+                        int inputX = click.X, inputY = click.Y;
+                        if (click.Hx is int hx && click.Hy is int hy)
+                        {
+                            var mapWindow = Aow.Units.AOWMWindow.AOWMWindow.MWindow;
+                            Aow.Units.HSEngine.HSEngine.HXtoHP(hx, hy, ref inputX, ref inputY);
+                            inputX += 28 + mapWindow.MapWindow.WinLeft - mapWindow.MapViewer.SceneX;
+                            inputY += 28 + mapWindow.MapWindow.WinTop - mapWindow.MapViewer.SceneY;
+                            if (!mapWindow.InsideMap(inputX, inputY)) throw new InvalidOperationException($"Script hex {hx},{hy} is outside the map view at {inputX},{inputY}");
+                        }
                         if (click.KeyDown is int keyDown)
                             for (int i = 0; i < click.Repeat; i++) form.KeyDown((ushort)keyDown, default);
                         else if (click.Key is int key) { byte character = (byte)key; manager.CheckKeyPress(ref character); }
                         else
                         {
-                            manager.CheckMouseMove(default, click.X, click.Y);
-                            manager.CheckMouseDown((TMouseButton)click.Button, default, click.X, click.Y);
-                            manager.CheckMouseUp((TMouseButton)click.Button, default, click.X, click.Y);
+                            manager.CheckMouseMove(default, inputX, inputY);
+                            var shift = click.DoubleUi ? TSet<TShiftState>.Of(TShiftState.ssDouble) : default;
+                            manager.CheckMouseDown((TMouseButton)click.Button, shift, inputX, inputY);
+                            manager.CheckMouseUp((TMouseButton)click.Button, default, inputX, inputY);
                         }
-                        if (click.Double) form.DoubleClick();
-                        script.WriteLine(JsonSerializer.Serialize(new { script_frame = scriptFrame, click.X, click.Y, click.Button, click.Double, click.Key, click.KeyDown, click.Repeat, click.Clock, click.Day }));
+                        if (click.Double || click.DoubleUi) form.DoubleClick();
+                        script.WriteLine(JsonSerializer.Serialize(new { script_frame = scriptFrame, X = inputX, Y = inputY, click.Hx, click.Hy, click.Button, click.Double, click.DoubleUi, click.Key, click.KeyDown, click.Repeat, click.Clock, click.Day,
+                            selected_combat_unit = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit?.FUnit.FID }));
                         applied++;
                     }
                 }
@@ -176,10 +211,47 @@ internal sealed class FrameFixture
             form.Run(scene == "title" && !worldCapture && !dayCapture ? frame : 0);
             if (scene == "title" && !worldCapture && !dayCapture) complete = display.Frame == frame;
             if (!complete || applied != clicks.Count) throw new InvalidOperationException("Fixture ended before all inputs and the target frame");
+            if (!capturedCheckpoints.SetEquals(checkpoints)) throw new InvalidOperationException("Fixture missed an intermediate checkpoint");
             var taskbar = Aow.Units.AoWExeForms.AoWExeForms.TBWindow;
             var controls = Aow.Units.AOWControlWin.AOWControlWin.ControlWin;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text.ToString(), controls.Unit2Chk.Text.ToString(), controls.MovesLbl.Text.ToString() }) + "\n");
             var selected = GameState.AoWHSMap?.FSelectedArmy?.GetArmyHS();
+            if (GameState.AoWHSMap is { } world)
+            {
+                var heroes = new List<object>();
+                for (int i = 0; i < world.FHeroControl.GetCount(); i++)
+                {
+                    var hero = world.FHeroControl.GetHero(i);
+                    sbyte x = -1, y = -1, level = -1;
+                    hero.GetLocation(ref x, ref y, ref level);
+                    object[] Items(TItemList list) => Enumerable.Range(0, list.GetCount())
+                        .Select(index => list.GetItem(index))
+                        .OfType<TItem>()
+                        .Select(item => (object)new { item.FItemID, name = item.FName.ToString(), type = item.FItemType.ToString() }).ToArray();
+                    heroes.Add(new { name = hero.FHeroName.ToString(), hero.FPlayer, x, y, level,
+                        attack = hero.GetAttack(), defense = hero.GetDefense(), damage = hero.GetDamage(),
+                        equipped = Items(hero.FHeroItems), inventory = Items(hero.FInventory) });
+                }
+                File.WriteAllText(Path.Combine(output, "heroes.json"), JsonSerializer.Serialize(heroes,
+                    new JsonSerializerOptions { WriteIndented = true }) + "\n");
+                if (name.StartsWith("paths-", StringComparison.Ordinal))
+                {
+                    var players = new List<object>();
+                    var cities = new List<object>();
+                    for (int playerIndex = 0; playerIndex < world.FPlayers.GetCount(); playerIndex++)
+                    {
+                        var player = world.FPlayers.GetPlayers(playerIndex);
+                        players.Add(new { index = playerIndex, units = player.GetUnitCount(), gold = player.FGems });
+                        for (int index = 0; index < player.FStructures.GetCount(); index++)
+                            if (player.FStructures.GetStructure(index) is Aow.Units.City.TCity city)
+                                cities.Add(new { name = city.FName.ToString(), player = playerIndex, wall = city.FWallType, upgrade = city.FUpgradeLevel });
+                    }
+                    File.WriteAllText(Path.Combine(output, "world.json"), JsonSerializer.Serialize(new
+                    {
+                        day = world.FDay, seat = world.FSeatedPlayer, game_type = world.FGameType.ToString(), players, cities
+                    }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+                }
+            }
             if (GameState.AoWHSMap?.FCombatMap is Aow.Units.AoWTC.TAoWCombatMap combatMap)
             {
                 var viewer = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer;
@@ -208,8 +280,15 @@ internal sealed class FrameFixture
             }) + "\n");
             if (fixture.values.GetValueOrDefault("save_state") == "true")
             {
-                (GameState.AoWHSMap ?? throw new InvalidOperationException("State capture requires a map")).FPlayerControl.AutoSave();
-                File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "state.asg"), true);
+                var map = GameState.AoWHSMap ?? throw new InvalidOperationException("State capture requires a map");
+                string saveName = "autosave.asg";
+                if (fixture.values.GetValueOrDefault("save_world") == "true")
+                {
+                    saveName = "paths-world.asg";
+                    GameState.AoWEngine.SaveHSM(GameState.AoWEngine.StartupDirectory + (AnsiString)("Save\\" + saveName), null!);
+                }
+                else map.FPlayerControl.AutoSave();
+                File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);
             }
             if (fixture.values.TryGetValue("saved_files", out string? savedFiles))
                 foreach (string saved in JsonSerializer.Deserialize<string[]>(savedFiles)!)
@@ -228,7 +307,8 @@ internal sealed class FrameFixture
                 local_time = now, file_local_time = fixture.fileLocalTime, file_stamp_utc = fileStampUtc, address_animation_phase = FrameFixtureInputs.AddressAnimationPhase,
                 water_variant_phase = FrameFixtureInputs.WaterVariantPhase,
                 measured_frame_rate = FrameFixtureInputs.MeasuredFrameRate,
-                tactical_ready = tacticalReady, no_window = true, silent = true
+                tactical_ready = tacticalReady, no_window = true, silent = true,
+                checkpoint_frames = checkpoints
             }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
             Console.WriteLine($"fixture {name}: map frame {GameState.AoWHSMap?.Frame}, combat frame {GameState.AoWHSMap?.FCombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
         }
@@ -285,7 +365,7 @@ internal sealed class FrameFixture
 
         return result;
     }
-    private sealed record Click(int At, int X, int Y, int Button, bool Double, int? Key, string? Clock, int? Day, int? KeyDown, int Repeat);
+    private sealed record Click(int At, int X, int Y, int Button, bool Double, int? Key, string? Clock, int? Day, int? KeyDown, int Repeat, int? Hx, int? Hy, bool DoubleUi);
     private List<Click> Clicks()
     {
         if (!values.TryGetValue("clicks", out string? text)) return [];
@@ -299,7 +379,10 @@ internal sealed class FrameFixture
             c.TryGetProperty("clock", out var clock) ? clock.GetString() : null,
             c.TryGetProperty("day", out var day) ? day.GetInt32() : null,
             c.TryGetProperty("key_down", out var keyDown) ? keyDown.GetInt32() : null,
-            c.TryGetProperty("repeat", out var repeat) ? repeat.GetInt32() : 1)).ToList();
+            c.TryGetProperty("repeat", out var repeat) ? repeat.GetInt32() : 1,
+            c.TryGetProperty("hx", out var hx) ? hx.GetInt32() : null,
+            c.TryGetProperty("hy", out var hy) ? hy.GetInt32() : null,
+            c.TryGetProperty("double_ui", out var doubleUi) && doubleUi.GetBoolean())).ToList();
     }
     private sealed class FixtureHost : IRtlHost, IDialogService
     {
