@@ -254,8 +254,9 @@ namespace Aow.Units.Tower
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__13 = Aow.Units.AoWE.AoWE.TowerRStr;
+                var call__14 = Aow.Units.AoWE.AoWE.TranslateRStr(call__13);
+                Result = call__14;
                 return Result;
             }
 
@@ -287,8 +288,12 @@ namespace Aow.Units.Tower
         // Tower.pas:139
         public override void GetInfo(Aow.Units.AoWE.TAbstractUnit AUnit, ref Aow.Rtl.AnsiString Text, ref int Gold, ref int Days)
         {
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
+            var call__15 = Aow.Units.AoWE.AoWE.TowerRStr;
+            var call__16 = Aow.Units.AoWE.AoWE.TranslateRStr(call__15);
+            var call__17 = Aow.Units.AoWE.AoWE.BuildXRStr;
+            var call__18 = Aow.Units.AoWE.AoWE.TranslateRStr(call__17);
+            var call__19 = Aow.Rtl.Rtl.Format(call__18, [call__16]);
+            Text = call__19;
             Gold = 50;
             Days = 2;
         }
@@ -308,8 +313,12 @@ namespace Aow.Units.Tower
             else
             {
                 Result = false;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__20 = Aow.Units.AoWE.AoWE.TowerRStr;
+                var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(call__20);
+                var call__22 = Aow.Units.AoWE.AoWE.CannotBuildXInUndergroundRStr;
+                var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(call__22);
+                var call__24 = Aow.Rtl.Rtl.Format(call__23, [call__21]);
+                A2 = call__24;
             }
 
             return Result;
@@ -320,8 +329,8 @@ namespace Aow.Units.Tower
         {
             Aow.Units.AoWE.TStructureResource Result = default;
             // { conflict: function TTowerConstructionControl.StructureResource: TStructureResource; }
-            var call__16 = Aow.Units.AoWE.AoWE.AoWHSSet.MapObjectResourceList.FindChild(132159);
-            Result = (Aow.Units.AoWE.TStructureResource)call__16;
+            var call__25 = Aow.Units.AoWE.AoWE.AoWHSSet.MapObjectResourceList.FindChild(132159);
+            Result = (Aow.Units.AoWE.TStructureResource)call__25;
             return Result;
         }
 
@@ -380,9 +389,9 @@ namespace Aow.Units.Tower
         public static void RegisterTower(Aow.Units.Engine.TEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Tower.TTower>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Tower.TTowerResource>()]);
-            var call__17 = Aow.Units.Tower.TTowerConstructionControl.Create(null);
-            var call__18 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(125);
-            ((Aow.Units.AoWE.TConstructAbility)call__18).RegisterConstructionControl(call__17);
+            var call__26 = Aow.Units.Tower.TTowerConstructionControl.Create(null);
+            var call__27 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(125);
+            ((Aow.Units.AoWE.TConstructAbility)call__27).RegisterConstructionControl(call__26);
         }
 
         public static void Initialize()

@@ -342,12 +342,12 @@ namespace Aow.Units.AoWResultsWin
                     {
                         var call__31 = Values[I];
                         NextY = call__31;
-                        X1 = Aow.Rtl.Rtl.Round((I - 1) * XStep);
+                        X1 = Aow.Rtl.Rtl.Round(((double)(I - 1)) * XStep);
                         ;
-                        Y1 = Aow.Rtl.Rtl.Round(LastY * YStep);
+                        Y1 = Aow.Rtl.Rtl.Round(((double)LastY) * YStep);
                         // { Original advances from the rounded previous x coordinate. }
-                        X2 = Aow.Rtl.Rtl.Round(X1 + XStep);
-                        Y2 = Aow.Rtl.Rtl.Round(NextY * YStep);
+                        X2 = Aow.Rtl.Rtl.Round(((double)X1) + XStep);
+                        Y2 = Aow.Rtl.Rtl.Round(((double)NextY) * YStep);
                         Aow.Units.ImageLib.ImageLib.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
                         LastY = NextY;
                     }
@@ -356,11 +356,11 @@ namespace Aow.Units.AoWResultsWin
                 if (Values.Count == 1)
                 {
                     X1 = 0;
-                    NextY = Aow.Rtl.Rtl.Round(LastY * YStep);
+                    NextY = Aow.Rtl.Rtl.Round(((double)LastY) * YStep);
                     Y1 = NextY;
                     X2 = Width - 1;
                     // { Original repeats the rounding and discards its result. }
-                    Y2 = Aow.Rtl.Rtl.Round(LastY * YStep);
+                    Y2 = Aow.Rtl.Rtl.Round(((double)LastY) * YStep);
                     Y2 = NextY;
                     Aow.Units.ImageLib.ImageLib.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
                 }

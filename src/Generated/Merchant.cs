@@ -141,8 +141,9 @@ namespace Aow.Units.Merchant
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__1 = Aow.Units.AoWE.AoWE.MerchantRStr;
+                var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
+                Result = call__2;
                 return Result;
             }
 

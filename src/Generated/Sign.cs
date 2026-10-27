@@ -310,8 +310,9 @@ namespace Aow.Units.Sign
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__19 = Aow.Units.AoWE.AoWE.SignRStr;
+                var call__20 = Aow.Units.Sign.Sign.TranslateSignName(call__19);
+                Result = call__20;
                 return Result;
             }
 
@@ -366,8 +367,8 @@ namespace Aow.Units.Sign
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__20 = new Aow.Rtl.TStringList();
-            FText = call__20;
+            var call__21 = new Aow.Rtl.TStringList();
+            FText = call__21;
         }
 
         // Sign.pas:214
@@ -375,9 +376,9 @@ namespace Aow.Units.Sign
         {
             Aow.Units.NetworkE.TExecuteResult Result = default;
             Aow.Units.Sign.TSign Sign = default;
-            var call__21 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx);
-            var call__22 = call__21.FindOwnedChild(131330);
-            Sign = (Aow.Units.Sign.TSign)call__22;
+            var call__22 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx);
+            var call__23 = call__22.FindOwnedChild(131330);
+            Sign = (Aow.Units.Sign.TSign)call__23;
             if (Sign != null)
             {
                 Sign.SetText(FText);

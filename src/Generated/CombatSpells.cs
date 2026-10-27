@@ -824,7 +824,7 @@ namespace Aow.Units.CombatSpells
                                 Count = FCombatInfo.Radius;
                             }
 
-                            A4.SourceDamage += Aow.Rtl.Rtl.Round((A4.SourceDamage * Count) * 0.5);
+                            A4.SourceDamage += Aow.Rtl.Rtl.Round(((double)(A4.SourceDamage * Count)) * 0.5);
                         }
                     }
                 }
@@ -2092,7 +2092,7 @@ namespace Aow.Units.CombatSpells
                 var call__183 = A2.GetResistance();
                 var call__184 = Aow.Units.AoWE.AoWE.HitRoleProbability(FCombatInfo.Attack - call__183);
                 var call__185 = A2.GetHitPoints();
-                A3.SourceDamage = Aow.Rtl.Rtl.Round((call__185 * 100) * call__184);
+                A3.SourceDamage = Aow.Rtl.Rtl.Round(((double)(call__185 * 100)) * call__184);
                 var call__186 = A2.GetHitPoints();
                 A3.SourceCost = call__186;
                 A3.TargetDamage = 0;
@@ -2668,7 +2668,7 @@ namespace Aow.Units.CombatSpells
             A3.DamageTypes = FCombatInfo.DamageTypes;
             var call__216 = A2.GetResistance();
             var call__217 = Aow.Units.AoWE.AoWE.HitRoleProbability(FCombatInfo.Attack - call__216);
-            A3.SourceDamage = Aow.Rtl.Rtl.Round(call__217 * 200);
+            A3.SourceDamage = Aow.Rtl.Rtl.Round(((double)call__217) * 200);
             A3.SourceCost = 200;
             A3.TargetDamage = 0;
             A3.TargetCost = 0;
@@ -3060,7 +3060,7 @@ namespace Aow.Units.CombatSpells
             {
                 var call__257 = A2.GetResistance();
                 var call__258 = Aow.Units.AoWE.AoWE.HitRoleProbability(6 - call__257);
-                Value = Aow.Rtl.Rtl.Round(call__258 * 100);
+                Value = Aow.Rtl.Rtl.Round(((double)call__258) * 100);
             }
             else
             {
@@ -3171,7 +3171,7 @@ namespace Aow.Units.CombatSpells
                     {
                         var call__270 = Target.GetResistance();
                         var call__271 = Aow.Units.AoWE.AoWE.HitRoleProbability(6 - call__270);
-                        Value += Aow.Rtl.Rtl.Round(call__271 * 100);
+                        Value += Aow.Rtl.Rtl.Round(((double)call__271) * 100);
                     }
                 }
             }

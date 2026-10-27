@@ -570,8 +570,9 @@ namespace Aow.Units.SmokeCloud
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__33 = Aow.Units.AoWE.AoWE.SmokeCloudRStr;
+                var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(call__33);
+                Result = call__34;
                 return Result;
             }
 

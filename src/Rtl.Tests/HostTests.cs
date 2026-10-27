@@ -5,6 +5,33 @@ namespace Aow.Rtl.Tests;
 public sealed class HostTests
 {
     [Fact]
+    public void RandomTracingRecordsSeedWritesAndBothDrawsWithoutChangingTheStream()
+    {
+        int seed = Rtl.RandSeed;
+        var previous = Rtl.RandomTrace;
+        var events = new List<RandomTraceEvent>();
+        try
+        {
+            Rtl.RandomTrace = events.Add;
+            Rtl.RandSeed = 123456789;
+            int integer = Rtl.Random(20);
+            double fraction = Rtl.Random();
+            int after = Rtl.RandSeed;
+            Rtl.RandomTrace = null;
+            Rtl.RandSeed = 123456789;
+            Assert.Equal(integer, Rtl.Random(20));
+            Assert.Equal(fraction, Rtl.Random());
+            Assert.Equal(after, Rtl.RandSeed);
+            Assert.Equal(3, events.Count);
+            Assert.Equal("seed", events[0].Kind);
+            Assert.Equal(123456789, events[0].After);
+            Assert.Equal(new RandomTraceEvent("random", 20, integer, 123456789, events[1].After), events[1]);
+            Assert.Equal(new RandomTraceEvent("random", null, fraction, events[1].After, after), events[2]);
+        }
+        finally { Rtl.RandomTrace = previous; Rtl.RandSeed = seed; }
+    }
+
+    [Fact]
     public void SeededRandomizeLeavesTheCurrentStreamAlone()
     {
         int seed = Rtl.RandSeed;

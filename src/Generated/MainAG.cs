@@ -1047,7 +1047,7 @@ namespace Aow.Units.MainAG
 
             if ((FRequiredStrength > 0) && (Aow.Units.AoWE.AoWE.AoWHSMap.FDay < 10))
             {
-                FRequiredStrength = Aow.Rtl.Rtl.Round((FRequiredStrength * Aow.Units.AoWE.AoWE.AoWHSMap.FDay) * 0.1);
+                FRequiredStrength = Aow.Rtl.Rtl.Round(((double)(FRequiredStrength * Aow.Units.AoWE.AoWE.AoWHSMap.FDay)) * 0.1);
             }
 
             var call__93 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
@@ -1065,7 +1065,7 @@ namespace Aow.Units.MainAG
 
                 var call__97 = Statistics.FTurnInfo.Count;
                 var call__98 = Statistics.FTurnInfo.GetTurnInfo(call__97 - 1);
-                Strength = Aow.Rtl.Rtl.Round(call__98.FArmyStrength * 0.1);
+                Strength = Aow.Rtl.Rtl.Round(((double)call__98.FArmyStrength) * 0.1);
                 if (Strength > 50000)
                 {
                     Strength = 50000;
@@ -1073,7 +1073,7 @@ namespace Aow.Units.MainAG
 
                 if (Aow.Units.AoWE.AoWE.AoWHSMap.FDay < 10)
                 {
-                    Strength = Aow.Rtl.Rtl.Round((Strength * Aow.Units.AoWE.AoWE.AoWHSMap.FDay) * 0.1);
+                    Strength = Aow.Rtl.Rtl.Round(((double)(Strength * Aow.Units.AoWE.AoWE.AoWHSMap.FDay)) * 0.1);
                 }
 
                 if (Strength > FRequiredStrength)

@@ -507,8 +507,9 @@ namespace Aow.Units.PoisonC
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__34 = Aow.Units.AoWE.AoWE.PoisonCloudRStr;
+                var call__35 = Aow.Units.AoWE.AoWE.TranslateRStr(call__34);
+                Result = call__35;
                 return Result;
             }
 

@@ -711,7 +711,7 @@ namespace Aow.Units.Crops
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001991)
             {
-                EndTurn(unchecked((sbyte)unchecked((sbyte)Msg.Value)));
+                EndTurn(unchecked((sbyte)((sbyte)Msg.Payload.Value)));
             }
         }
 

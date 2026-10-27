@@ -90,15 +90,15 @@ namespace Aow.Units.PageTurnCtrl
         public float GetInvCos(float Value)
         {
             float Result = default;
-            Aow.Rtl.Rtl.Assert((Value >= -1) && (Value <= 1), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\PageTurnCtrl.pas", 85);
-            if (Value >= 0)
+            Aow.Rtl.Rtl.Assert((((double)Value) >= -1) && (((double)Value) <= 1), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\PageTurnCtrl.pas", 85);
+            if (((double)Value) >= 0)
             {
-                Result = FInvCos[Aow.Rtl.Rtl.Round(Value * 511)];
+                Result = FInvCos[Aow.Rtl.Rtl.Round(((double)Value) * 511)];
             }
             else
             {
                 var call__1 = System.Math.PI;
-                Result = (float)(call__1 - FInvCos[Aow.Rtl.Rtl.Round(-Value * 511)]);
+                Result = (float)(((double)call__1) - FInvCos[Aow.Rtl.Rtl.Round(((double)-Value) * 511)]);
             }
 
             return Result;
@@ -113,11 +113,11 @@ namespace Aow.Units.PageTurnCtrl
             int I = default;
             Angle = 0;
             I = 511;
-            while (Angle < (((double)System.Math.PI) / 2))
+            while (((double)Angle) < (((double)System.Math.PI) / 2))
             {
                 CosValue = (float)System.Math.Cos(Angle);
                 Target = (float)(((double)I) / 511);
-                if ((CosValue - Target) > 0)
+                if (((double)(((double)CosValue) - Target)) > 0)
                 {
                     FInvCos[I] = Angle;
                 }
@@ -126,7 +126,7 @@ namespace Aow.Units.PageTurnCtrl
                     I -= 1;
                 }
 
-                Angle = (float)(Angle + 1E-05);
+                Angle = (float)(((double)Angle) + 1E-05);
             }
         }
 
@@ -183,12 +183,12 @@ namespace Aow.Units.PageTurnCtrl
             {
                 case Aow.Units.PageTurnCtrl.TPageTurnMode.ptLeft:
                     FRadius = FHalfWidth;
-                    FShadow = (float)(FRadius * 0.5);
+                    FShadow = (float)(((double)FRadius) * 0.5);
                     FPosition = FWidth;
                     break;
                 case Aow.Units.PageTurnCtrl.TPageTurnMode.ptRight:
                     FRadius = 1;
-                    FShadow = (float)(FRadius * 0.5);
+                    FShadow = (float)(((double)FRadius) * 0.5);
                     FPosition = 0;
                     break;
                 case Aow.Units.PageTurnCtrl.TPageTurnMode.ptOpen:
@@ -218,33 +218,33 @@ namespace Aow.Units.PageTurnCtrl
                     }
                     else
                     {
-                        if (FRadius > 0)
+                        if (((double)FRadius) > 0)
                         {
                             var call__2 = System.Math.PI;
-                            FRadius = (float)(FRadius - (((double)((FSpeed * 1.25) * 2)) / call__2));
-                            if (FRadius < 1)
+                            FRadius = (float)(((double)FRadius) - (((double)(((double)(((double)FSpeed) * 1.25)) * 2)) / call__2));
+                            if (((double)FRadius) < 1)
                             {
                                 FRadius = 0;
                             }
 
-                            FShadow = (float)(FRadius * 0.5);
+                            FShadow = (float)(((double)FRadius) * 0.5);
                         }
                     }
 
-                    Result = FRadius >= 1;
+                    Result = ((double)FRadius) >= 1;
                     break;
                 case Aow.Units.PageTurnCtrl.TPageTurnMode.ptRight:
                     FShade = (float)2;
-                    if (FRadius < FHalfWidth)
+                    if (((double)FRadius) < FHalfWidth)
                     {
                         var call__3 = System.Math.PI;
-                        FRadius = (float)(FRadius + (((double)((FSpeed * 1.5) * 2)) / call__3));
-                        if (FRadius > FHalfWidth)
+                        FRadius = (float)(((double)FRadius) + (((double)(((double)(((double)FSpeed) * 1.5)) * 2)) / call__3));
+                        if (((double)FRadius) > FHalfWidth)
                         {
                             FRadius = FHalfWidth;
                         }
 
-                        FShadow = (float)(FRadius * 0.5);
+                        FShadow = (float)(((double)FRadius) * 0.5);
                     }
                     else
                     {
@@ -302,10 +302,10 @@ namespace Aow.Units.PageTurnCtrl
             Aow.Rtl.TRect R = default;
             int SourceOffset = default;
             int I = default;
-            if (FRadius >= 1)
+            if (((double)FRadius) >= 1)
             {
-                Height = (float)(FShadow * FScale);
-                Width = (float)(FRadius * FScale);
+                Height = (float)(((double)FShadow) * FScale);
+                Width = (float)(((double)FRadius) * FScale);
                 R.Left = FSourceX1;
                 R.Top = FSourceY1;
                 R.Right = (FSourceX1 + FWidth) + FPosition;
@@ -317,11 +317,11 @@ namespace Aow.Units.PageTurnCtrl
                 R.Bottom = FSourceY2 + FHeight;
                 Aow.Units.GFXE.GFXE.BltSDRectClipped(FSource2, R, Dest, (X + FWidth) + FPosition, Y);
                 var call__4 = System.Math.PI;
-                OriginalLength = Aow.Rtl.Rtl.Round((call__4 * FRadius) * 0.25);
+                OriginalLength = Aow.Rtl.Rtl.Round(((double)(((double)call__4) * FRadius)) * 0.25);
                 var call__5 = System.Math.PI;
-                ArcLength = Aow.Rtl.Rtl.Round((call__5 * FRadius) * 0.25);
+                ArcLength = Aow.Rtl.Rtl.Round(((double)(((double)call__5) * FRadius)) * 0.25);
                 SourceBase = FWidth + FPosition;
-                RadiusFactor = (float)((((double)2) / System.Math.PI) * ArcLength);
+                RadiusFactor = (float)(((double)(((double)2) / System.Math.PI)) * ArcLength);
                 BaseX = (X + FWidth) + FPosition;
                 Span = Aow.Rtl.Rtl.Round(FShadow);
                 Limit = FWidth - FPosition;
@@ -332,8 +332,8 @@ namespace Aow.Units.PageTurnCtrl
                 while ((SourceOffset < Limit) && (I < Span))
                 {
                     Angle = GetInvCos(CosValue);
-                    SourceOffset = ArcLength - Aow.Rtl.Rtl.Round(RadiusFactor * Angle);
-                    Offset = Aow.Rtl.Rtl.Round(Height - (System.Math.Sin(Angle) * Height));
+                    SourceOffset = ArcLength - Aow.Rtl.Rtl.Round(((double)RadiusFactor) * Angle);
+                    Offset = Aow.Rtl.Rtl.Round(((double)Height) - (((double)System.Math.Sin(Angle)) * Height));
                     if (SourceOffset < Limit)
                     {
                         if (((ArcLength - SourceOffset) + ArcLength) < Limit)
@@ -346,14 +346,14 @@ namespace Aow.Units.PageTurnCtrl
                         }
                     }
 
-                    CosValue = (float)(CosValue + Step);
+                    CosValue = (float)(((double)CosValue) + Step);
                     I += 1;
                 }
 
                 var call__6 = System.Math.PI;
-                ArcLength = Aow.Rtl.Rtl.Round((call__6 * FRadius) * 0.25);
+                ArcLength = Aow.Rtl.Rtl.Round(((double)(((double)call__6) * FRadius)) * 0.25);
                 SourceBase = ((FWidth * 3) - FPosition) - ArcLength;
-                RadiusFactor = (float)((((double)2) / System.Math.PI) * ArcLength);
+                RadiusFactor = (float)(((double)(((double)2) / System.Math.PI)) * ArcLength);
                 BaseX = (X + FWidth) + FPosition;
                 Span = Aow.Rtl.Rtl.Round(FShadow);
                 I = Span;
@@ -362,30 +362,30 @@ namespace Aow.Units.PageTurnCtrl
                 while ((SourceOffset >= Limit) && (I >= 0))
                 {
                     Angle = GetInvCos(CosValue);
-                    SourceOffset = -Aow.Rtl.Rtl.Round(RadiusFactor * Angle);
-                    Offset = Aow.Rtl.Rtl.Round((System.Math.Sin(Angle) * Height) + Height);
+                    SourceOffset = -Aow.Rtl.Rtl.Round(((double)RadiusFactor) * Angle);
+                    Offset = Aow.Rtl.Rtl.Round(((double)(((double)System.Math.Sin(Angle)) * Height)) + Height);
                     if (SourceOffset >= Limit)
                     {
                         BltVerticalScanLine(SourceBase + SourceOffset, BaseX + I, Y - Offset, Dest, 0, FHeight);
                     }
 
-                    CosValue = (float)(CosValue - Step);
+                    CosValue = (float)(((double)CosValue) - Step);
                     I -= 1;
                 }
 
                 var call__7 = System.Math.PI;
-                ArcLength = Aow.Rtl.Rtl.Round(((call__7 * FRadius) * 0.25) * FShade);
+                ArcLength = Aow.Rtl.Rtl.Round(((double)(((double)(((double)call__7) * FRadius)) * 0.25)) * FShade);
                 SourceBase = (((FWidth * 3) - FPosition) - (OriginalLength * 2)) - ArcLength;
-                Span = Aow.Rtl.Rtl.Round(FShadow * FShade);
+                Span = Aow.Rtl.Rtl.Round(((double)FShadow) * FShade);
                 BaseX = ((X + FWidth) + FPosition) - Span;
-                Height = (float)((FShadow * FScale) * 3.4142);
-                Width = (float)((FRadius * FScale) * 0.707);
+                Height = (float)(((double)(((double)FShadow) * FScale)) * 3.4142);
+                Width = (float)(((double)(((double)FRadius) * FScale)) * 0.707);
                 Limit = (FWidth * 2) - SourceBase;
                 SourceOffset = Aow.Rtl.Rtl.Round(ArcLength);
                 I = Span;
                 CosValue = 0;
-                Step = (float)(((double)0.707) / (FShadow * FShade));
-                if (Step > 1)
+                Step = (float)(((double)0.707) / (((double)FShadow) * FShade));
+                if (((double)Step) > 1)
                 {
                     Step = (float)1;
                 }
@@ -395,28 +395,28 @@ namespace Aow.Units.PageTurnCtrl
                     Angle = GetInvCos(CosValue);
                     var call__8 = System.Math.PI;
                     var call__9 = System.Math.PI;
-                    SourceOffset = Aow.Rtl.Rtl.Round((ArcLength * (Angle - (((double)call__8) / 4))) * (((double)4) / call__9));
-                    Offset = Aow.Rtl.Rtl.Round((System.Math.Sin(Angle) * Height) - Width);
+                    SourceOffset = Aow.Rtl.Rtl.Round(((double)(((double)ArcLength) * (((double)Angle) - (((double)call__8) / 4)))) * (((double)4) / call__9));
+                    Offset = Aow.Rtl.Rtl.Round(((double)(((double)System.Math.Sin(Angle)) * Height)) - Width);
                     if (SourceOffset >= Limit)
                     {
                         BltVerticalScanLine(SourceBase + SourceOffset, BaseX + I, Y - Offset, Dest, 0, FHeight);
                     }
 
-                    CosValue = (float)(CosValue + Step);
+                    CosValue = (float)(((double)CosValue) + Step);
                     I -= 1;
                 }
 
                 BaseX = ((X + FWidth) + FPosition) - (Span * 2);
                 SourceOffset = 0;
                 I = Span;
-                while (((SourceOffset >= Limit) && (I >= 0)) && (CosValue > 0))
+                while (((SourceOffset >= Limit) && (I >= 0)) && (((double)CosValue) > 0))
                 {
-                    CosValue = (float)(CosValue - Step);
+                    CosValue = (float)(((double)CosValue) - Step);
                     Angle = GetInvCos(CosValue);
                     var call__10 = System.Math.PI;
                     var call__11 = System.Math.PI;
-                    SourceOffset = -Aow.Rtl.Rtl.Round((ArcLength * (((double)4) / call__10)) * (Angle - (((double)call__11) / 4)));
-                    Offset = Aow.Rtl.Rtl.Round((1 - System.Math.Sin(Angle)) * Height);
+                    SourceOffset = -Aow.Rtl.Rtl.Round(((double)(((double)ArcLength) * (((double)4) / call__10))) * (((double)Angle) - (((double)call__11) / 4)));
+                    Offset = Aow.Rtl.Rtl.Round(((double)(((double)1) - System.Math.Sin(Angle))) * Height);
                     if (SourceOffset >= Limit)
                     {
                         BltVerticalScanLine(SourceBase + SourceOffset, BaseX + I, Y - Offset, Dest, 0, FHeight);
@@ -427,7 +427,7 @@ namespace Aow.Units.PageTurnCtrl
 
                 R.Left = FSourceX2;
                 R.Top = FSourceY2;
-                R.Right = ((FSourceX2 + FWidth) - FPosition) - Aow.Rtl.Rtl.Round(OriginalLength * ((2 * FShade) + 2));
+                R.Right = ((FSourceX2 + FWidth) - FPosition) - Aow.Rtl.Rtl.Round(((double)OriginalLength) * (((double)(((double)2) * FShade)) + 2));
                 R.Bottom = FSourceY2 + FHeight;
                 if (R.Right > R.Left)
                 {
@@ -454,11 +454,11 @@ namespace Aow.Units.PageTurnCtrl
             R.Bottom = FSourceY2 + FHeight;
             Aow.Units.GFXE.GFXE.BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
             var call__12 = System.Math.PI;
-            var call__13 = System.Math.Sin(((double)(FPosition * call__12)) / 180);
-            Height = Aow.Rtl.Rtl.Round(call__13 * FWidth);
+            var call__13 = System.Math.Sin(((double)(((double)FPosition) * call__12)) / 180);
+            Height = Aow.Rtl.Rtl.Round(((double)call__13) * FWidth);
             var call__14 = System.Math.PI;
-            var call__15 = System.Math.Cos(((double)(FPosition * call__14)) / 180);
-            Width = Aow.Rtl.Rtl.Round(call__15 * FWidth);
+            var call__15 = System.Math.Cos(((double)(((double)FPosition) * call__14)) / 180);
+            Width = Aow.Rtl.Rtl.Round(((double)call__15) * FWidth);
             if (Width > 0)
             {
                 Step = (float)(((double)FWidth) / Width);
@@ -470,9 +470,9 @@ namespace Aow.Units.PageTurnCtrl
                     int end__16 = Width - 1;
                     for (; I <= end__16; I += 1)
                     {
-                        Offset = Aow.Rtl.Rtl.Round(((((double)I) / Width) * Height) * FScale);
+                        Offset = Aow.Rtl.Rtl.Round(((double)(((double)(((double)I) / Width)) * Height)) * FScale);
                         BltVerticalScanLine(Aow.Rtl.Rtl.Round(SourceX), BaseX + I, Y - Offset, Dest, 0, FHeight);
-                        SourceX = (float)(SourceX + Step);
+                        SourceX = (float)(((double)SourceX) + Step);
                     }
                 }
             }
@@ -489,9 +489,9 @@ namespace Aow.Units.PageTurnCtrl
                         int end__17 = Width - 1;
                         for (; I <= end__17; I += 1)
                         {
-                            Offset = Aow.Rtl.Rtl.Round(((((double)I) / Width) * Height) * FScale);
+                            Offset = Aow.Rtl.Rtl.Round(((double)(((double)(((double)I) / Width)) * Height)) * FScale);
                             BltVerticalScanLine(Aow.Rtl.Rtl.Round(SourceX), BaseX - I, Y - Offset, Dest, 0, FHeight);
-                            SourceX = (float)(SourceX - Step);
+                            SourceX = (float)(((double)SourceX) - Step);
                         }
                     }
                 }
@@ -513,7 +513,7 @@ namespace Aow.Units.PageTurnCtrl
                     RenderLeftRightScene(X, Y, Dest);
                     R.Left = X;
                     R.Right = X + (FWidth * 2);
-                    R.Top = Y - (Aow.Rtl.Rtl.Round(FScale * FRadius) + 1);
+                    R.Top = Y - (Aow.Rtl.Rtl.Round(((double)FScale) * FRadius) + 1);
                     R.Bottom = Y + FHeight;
                     break;
                 case Aow.Units.PageTurnCtrl.TPageTurnMode.ptRight:
@@ -526,7 +526,7 @@ namespace Aow.Units.PageTurnCtrl
                     RenderLeftRightScene(X, Y, Dest);
                     R.Left = X;
                     R.Right = X + (FWidth * 2);
-                    R.Top = Y - (Aow.Rtl.Rtl.Round(FScale * FRadius) + 1);
+                    R.Top = Y - (Aow.Rtl.Rtl.Round(((double)FScale) * FRadius) + 1);
                     R.Bottom = Y + FHeight;
                     break;
                 case Aow.Units.PageTurnCtrl.TPageTurnMode.ptOpen:
@@ -540,8 +540,8 @@ namespace Aow.Units.PageTurnCtrl
                     R.Left = X;
                     R.Right = X + (FWidth * 2);
                     var call__18 = System.Math.PI;
-                    var call__19 = System.Math.Sin(((double)(FPosition * call__18)) / 180);
-                    R.Top = Y - Aow.Rtl.Rtl.Round(((call__19 * FScale) * FWidth) + 1);
+                    var call__19 = System.Math.Sin(((double)(((double)FPosition) * call__18)) / 180);
+                    R.Top = Y - Aow.Rtl.Rtl.Round(((double)(((double)(((double)call__19) * FScale)) * FWidth)) + 1);
                     R.Bottom = Y + FHeight;
                     break;
                 case Aow.Units.PageTurnCtrl.TPageTurnMode.ptClose:
@@ -555,8 +555,8 @@ namespace Aow.Units.PageTurnCtrl
                     R.Left = X;
                     R.Right = X + (FWidth * 2);
                     var call__20 = System.Math.PI;
-                    var call__21 = System.Math.Sin(((double)(FPosition * call__20)) / 180);
-                    R.Top = Y - Aow.Rtl.Rtl.Round(((call__21 * FScale) * FWidth) + 1);
+                    var call__21 = System.Math.Sin(((double)(((double)FPosition) * call__20)) / 180);
+                    R.Top = Y - Aow.Rtl.Rtl.Round(((double)(((double)(((double)call__21) * FScale)) * FWidth)) + 1);
                     R.Bottom = Y + FHeight;
                     break;
             }

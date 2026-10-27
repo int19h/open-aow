@@ -2,16 +2,36 @@ namespace Aow.Rtl;
 
 public static partial class Rtl
 {
-    public static int RandSeed;
+    private static int randomSeed;
+    public static Action<RandomTraceEvent>? RandomTrace { get; set; }
+    public static int RandSeed
+    {
+        get => randomSeed;
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        set
+        {
+            int before = randomSeed;
+            randomSeed = value;
+            RandomTrace?.Invoke(new("seed", null, value, before, value));
+        }
+    }
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
     public static int Random(int range)
     {
-        RandSeed = unchecked(RandSeed * 0x08088405 + 1);
-        return (int)(((ulong)(uint)RandSeed * (uint)range) >> 32);
+        int before = randomSeed;
+        randomSeed = unchecked(randomSeed * 0x08088405 + 1);
+        int result = (int)(((ulong)(uint)randomSeed * (uint)range) >> 32);
+        RandomTrace?.Invoke(new("random", range, result, before, randomSeed));
+        return result;
     }
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
     public static double Random()
     {
-        RandSeed = unchecked(RandSeed * 0x08088405 + 1);
-        return (uint)RandSeed * (1.0 / 4294967296.0);
+        int before = randomSeed;
+        randomSeed = unchecked(randomSeed * 0x08088405 + 1);
+        double result = (uint)randomSeed * (1.0 / 4294967296.0);
+        RandomTrace?.Invoke(new("random", null, result, before, randomSeed));
+        return result;
     }
     public static double DegToRad(double degrees) => degrees * (Math.PI / 180);
     // SYSTEM.PAS:1647 uses GetSystemTime, which returns UTC.
@@ -19,7 +39,18 @@ public static partial class Rtl
     {
         if (!SuppressRandomize) RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
     }
-    public static int Round(double value) => ToInteger(Math.Round(value, MidpointRounding.ToEven));
+    public static Action<double, int, int>? TraceRound { get; set; }
+    public static int Round(double value)
+    {
+        int result = ToInteger(Math.Round(value, MidpointRounding.ToEven));
+        if (TraceRound is { } record && double.IsFinite(value) && value >= int.MinValue && value <= int.MaxValue)
+        {
+            double roundedSingle = Math.Round((double)(float)value, MidpointRounding.ToEven);
+            if (roundedSingle >= int.MinValue && roundedSingle <= int.MaxValue && result != (int)roundedSingle)
+                record(value, result, (int)roundedSingle);
+        }
+        return result;
+    }
     public static int Trunc(double value) => ToInteger(Math.Truncate(value));
     private static int ToInteger(double value) => double.IsFinite(value) && value >= int.MinValue && value <= int.MaxValue
         ? (int)value : throw new EInvalidOp("Invalid floating point operation");

@@ -601,8 +601,7 @@ namespace Aow.Units.HxBridge
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                Result = Aow.Units.HSEngine.HSEngine.BridgeStr;
                 return Result;
             }
 

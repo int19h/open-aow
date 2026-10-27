@@ -725,8 +725,9 @@ namespace Aow.Units.AoWHex
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__61 = Aow.Units.AoWE.AoWE.WaterHexagonRStr;
+                var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(call__61);
+                Result = call__62;
                 return Result;
             }
 
