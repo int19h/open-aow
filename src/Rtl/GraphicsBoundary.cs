@@ -217,11 +217,7 @@ public static partial class Rtl
     public static void CoUninitialize() { }
     public static void RegisterClasses(Type[] types) { foreach (var type in types) RegisterClass(type); }
     public static AnsiString ExtractRelativePath(AnsiString baseName, AnsiString destination)
-    {
-        string first = baseName.ToString(), second = destination.ToString();
-        if (!string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), StringComparison.OrdinalIgnoreCase)) return destination;
-        return Path.GetRelativePath(Path.GetDirectoryName(first) ?? "", second);
-    }
+        => Files.ExtractRelativePath(baseName.ToString(), destination.ToString());
     public static bool EqualRect(in TRect left, in TRect right) => left.Left == right.Left && left.Top == right.Top && left.Right == right.Right && left.Bottom == right.Bottom;
     public static bool IntersectRect(ref TRect result, in TRect left, in TRect right)
     {
