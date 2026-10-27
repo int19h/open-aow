@@ -12,4 +12,15 @@
     <ProjectReference Include="..\Rtl\Aow.Rtl.csproj" />
     <ProjectReference Include="..\Generated\Aow.Generated.csproj" />
   </ItemGroup>
+  <!-- Native libraries built by vcpkg from the repository's vcpkg.json (README, "Native libraries").
+       They are copied next to the game when present. Without them the port runs silent. -->
+  <PropertyGroup>
+    <AowVcpkgTriplet Condition="'$(AowVcpkgTriplet)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">x64-windows</AowVcpkgTriplet>
+    <AowVcpkgTriplet Condition="'$(AowVcpkgTriplet)' == '' and $([MSBuild]::IsOSPlatform('Linux'))">x64-linux-dynamic</AowVcpkgTriplet>
+    <AowVcpkgInstalled>$(MSBuildThisFileDirectory)../../vcpkg_installed/$(AowVcpkgTriplet)/</AowVcpkgInstalled>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(AowVcpkgInstalled)bin/*.dll" Exclude="$(AowVcpkgInstalled)bin/yasm*.dll" CopyToOutputDirectory="PreserveNewest" Visible="false" LinkBase="." />
+    <None Include="$(AowVcpkgInstalled)lib/*.so*" CopyToOutputDirectory="PreserveNewest" Visible="false" LinkBase="." />
+  </ItemGroup>
 </Project>
