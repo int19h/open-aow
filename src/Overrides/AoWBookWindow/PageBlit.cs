@@ -1,0 +1,67 @@
+using Aow.Rtl;
+using Aow.Units.GFXE;
+using TPageTurnMode = Aow.Units.PageTurnCtrl.TPageTurnMode;
+
+namespace Aow.Units.AoWBookWindow;
+
+public partial class TAoWBookWindow
+{
+    public override void Blt(TSurface surface)
+    {
+        if (FPageSurface is not null && (FPageSurface.PixelFormatID != FBackSurface.PixelFormatID ||
+            FPageSurface.Width != FBackSurface.Width || FPageSurface.Height != FBackSurface.Height ||
+            (FPageSurface is TDDrawSurface) != (FBackSurface is TDDrawSurface)))
+        {
+            FPageSurface.Free();
+            FPageSurface = null;
+        }
+        var area = new[] { Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight) };
+        var pointer = Ptr<TRect>.To(area, 0);
+        if (FPageSurface is null)
+        {
+            if (FBackSurface is TDDrawSurface direct)
+            {
+                var flags = direct.Status.Contains(TDDrawSurfaceStatusElement.ssVideoMemory) && FUseVMem
+                    ? TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfVideoMemory, TDDSCreationFlagsElement.cfSystemMemory)
+                    : TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfSystemMemory);
+                var page = TDDrawSurface.Create();
+                page.CreateSurface(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, flags);
+                FPageSurface = page;
+            }
+            else FPageSurface = TDataSurface.Create(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, null);
+            FBackSurface.BltClipped(FPageSurface, pointer, 0, 0);
+        }
+        if (!FAnimating)
+        {
+            base.Blt(surface);
+            return;
+        }
+        if (FFirstAnimationFrame || !FPreviousSurfaceValid)
+        {
+            area[0] = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+            TSurface initial = FPageTurnMode == TPageTurnMode.ptLeft ? FBackSurface : FPageSurface;
+            if (FPageTurnMode is TPageTurnMode.ptLeft or TPageTurnMode.ptRight)
+            {
+                if (!FMasked) initial.BltClipped(surface, pointer, FWinLeft, FWinTop);
+                else initial.BltColorKeyClipped(surface, pointer, FWinLeft, FWinTop,
+                    Aow.Units.GFXE.GFXE.Color2PixelInfo(FMaskColor, FBackSurface.PixelFormatID, null));
+            }
+            FFirstAnimationFrame = false;
+        }
+        TSurfaceDesc destination = default, source = default, oldPage = default;
+        surface.Lock(ref destination);
+        FBackSurface.Lock(ref source);
+        FPageSurface.Lock(ref oldPage);
+        FPageTurn.RenderScene(FWinLeft + FBorderWidth, FWinTop + FBorderHeight, destination,
+            FBorderWidth, FBorderHeight, oldPage, FBorderWidth, FBorderHeight, source, ref area[0]);
+        FPageSurface.Unlock();
+        FBackSurface.Unlock();
+        surface.Unlock();
+        FBackRect.Top = area[0].Top;
+        // AOWTools 597063C2..597063DF keeps the area above the window intact.
+        if (FBackRect.Top >= FWinTop && FBackRect.Top <= FWinTop + FFrameTop) FBackRect.Top = FWinTop - 1;
+        FBackRect.Bottom = FWinTop - area[0].Top + FWinHeight;
+        FSurfaceValid = true;
+        FOnDrawSurface?.Invoke(this, surface, FWinLeft, FWinTop);
+    }
+}

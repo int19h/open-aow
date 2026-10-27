@@ -2007,3 +2007,73 @@ file = "src/Overrides/AoWUnitWindow/UnitInfo.cs"
 member = "aowTCMapEvents.TTCMapEvents.TCMapActivateMap"
 reason = "native experience layout and tactical indicator startup call"
 file = "src/Overrides/aowTCMapEvents/Activation.cs"
+
+[[skip]]
+member = "AoWPWindows.TPopupWindows.EndMenuSelect"
+reason = "Preserve the surrender and title branches across the host close boundary"
+file = "src/Overrides/AoWPWindows/EndMenu.cs"
+
+[[skip]]
+member = "GlobalTargetSpells.TGlobalTargetSpell.OnTargetSelectionChange"
+reason = "Use the target control fields that the recovered class view aliases"
+file = "src/Overrides/GlobalTargetSpells/TargetSelection.cs"
+
+[[skip]]
+member = "aowMapEvents.TMapEvents.TheMapDeactivateHSM"
+reason = "Keep map window cleanup while the offline transport has no connection to release"
+file = "src/Overrides/aowMapEvents/Deactivate.cs"
+
+[[skip]]
+member = "AoWCastUnitSpellDlg.TCastUnitSpellDlg.U1PreDraw"
+reason = "Use the unit checkbox sender coordinates without an unrelated image cast"
+file = "src/Overrides/AoWCastUnitSpellDlg/UnitPreview.cs"
+
+[[skip]]
+member = "AoWE.TUnitSpellCaster.GetRequiredMana"
+reason = "Use the hero behind the recovered casting views"
+file = "src/Overrides/AoWE/UnitSpellCosts.cs"
+
+[[skip]]
+member = "AoWE.TUnitSpellCaster.GetRequiredDays"
+reason = "Use the hero behind the recovered casting views"
+file = "src/Overrides/AoWE/UnitSpellCosts.cs"
+
+[[skip]]
+member = "CMapCtrl.TAoWCombatMapControl.MapChanged"
+reason = "Unbox the typed map-area notification for tactical movement"
+file = "src/Overrides/CMapCtrl/MapChanges.cs"
+
+[[skip]]
+member = "AoWEdit.TAOWEdit.CheckKeyDown"
+reason = "Preserve focus checks and key navigation while the clipboard has no host"
+file = "src/Overrides/AoWEdit/Navigation.cs"
+
+[[skip]]
+member = "AoWHex.TAoWWaterHexagon.Show"
+reason = "Expose the native owner-address water texture phase as a fixture input"
+file = "src/Overrides/AoWHex/WaterBase.cs"
+
+[[skip]]
+member = "AoWE.TSpell.CombatSpellCast"
+reason = "Use the combat unit hero behind the recovered casting view"
+file = "src/Overrides/AoWE/CombatSpellCost.cs"
+
+[[skip]]
+member = "AoWCastUnitSpellDlg.TCastUnitSpellDlg.U1Change"
+reason = "Keep the native colon-space separator in the required mana label"
+file = "src/Overrides/AoWCastUnitSpellDlg/Selection.cs"
+
+[[skip]]
+member = "AoWBookWindow.TAoWBookWindow.Blt"
+reason = "Retain the native redraw area above an animated page"
+file = "src/Overrides/AoWBookWindow/PageBlit.cs"
+
+[[skip]]
+member = "IsoHex.TUpperIsometricHexagon.ShowDynamic"
+reason = "Expose the native terrain-edge address phase as the map texture fixture input"
+file = "src/Overrides/IsoHex/TextureVariants.cs"
+
+[[skip]]
+member = "IsoHex.TLowerIsometricHexagon.ShowDynamic"
+reason = "Expose the native terrain-edge address phase as the map texture fixture input"
+file = "src/Overrides/IsoHex/TextureVariants.cs"

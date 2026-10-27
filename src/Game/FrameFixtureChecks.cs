@@ -29,6 +29,13 @@ internal static class FrameFixtureChecks
         var clock = new FixtureClock(new(2000, 1, 1, 12, 0, 0));
         clock.WaitMilliseconds(90000);
         Check(clock.Now == new DateTime(2000, 1, 1, 12, 0, 0) && clock.ElapsedMilliseconds == 90000, "wall time stays fixed while pacing advances");
+        Check(Aow.Rtl.Rtl.DateTimeToStr(Aow.Rtl.Rtl.EncodeDate(2000, 1, 1) + Aow.Rtl.Rtl.EncodeTime(12, 0, 0, 0)) == "1/1/2000 12:00:00 PM", "native English file date includes seconds and the day period");
+
+        var displayedFileTime = new DateTime(2000, 1, 1, 13, 0, 0);
+        Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-7)) ==
+            new DateTime(2000, 1, 1, 20, 0, 0, DateTimeKind.Utc), "daylight file stamp preserves captured 1 PM text");
+        Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-8)) ==
+            new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
 
         var oldWindow = Aow.Units.AOWMWindow.AOWMWindow.MWindow;
         var oldMap = GameState.AoWHSMap;
