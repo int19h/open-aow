@@ -17,8 +17,9 @@ names its track's directories. These rules apply to all four on top of both `AGE
 - No git commands that change the index or the working tree. Keep a status file at the path the
   prompt names, so that a resumed turn knows where it stands.
 - Game files under `D:\Games\GOG\Age of Wonders` are read only and never copied into a tracked
-  path. The product repository carries no game data, including data extracted from the game's
-  executables (form layouts, images, dictionaries): the port reads them from the user's install at
-  run time, and test expectations derived from game data live in the private repository.
+  path. The product repository carries no game data (images, sounds, dictionaries, maps): the
+  port reads them from the user's install at run time, and test expectations derived from game data
+  live in the private repository. Code is the exception: the transpiled game code, and since
+  2026-10-26 the layouts as generated C# (`ui-layout.md` section 1), are product source.
 - Done means the brief's measure, plus: the root solution builds with zero warnings, all product
   tests pass, and `python tests/probes/run.py --transpiled` still matches.
