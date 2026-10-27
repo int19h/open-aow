@@ -112,7 +112,7 @@ namespace Aow.Units.AoWIntroScene
         // AoWIntroScene.pas:137
         public void Execute()
         {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.DXDC */
+            /* TODO(T-shim) Platform or editor boundary Video.Open */
             throw new System.NotImplementedException();
         }
 

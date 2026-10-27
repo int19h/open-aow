@@ -2089,3 +2089,75 @@ file = "src/Overrides/AoWUnitWindow/MorePathsItems.cs"
 member = "AoWCampaignTransferDlg.TCampaignTransferDlg.Execute"
 reason = "Use the campaign scenario directory embedded in the native transfer dialog"
 file = "src/Overrides/AoWCampaignTransferDlg/MorePathsScenario.cs"
+
+# Brief 7.3 remaining TODO behavior
+
+[[skip]]
+member = "AoWE.TAbilityControl.UnregisterAbilityID"
+reason = "7.3: Read the managed ability slot instead of an integer address"
+file = "src/Overrides/AoWE/RemainingTodos.cs"
+
+[[skip]]
+member = "AoWE.TStrikeAbility.Remove"
+reason = "7.3: Read the global ability set without a raw pointer alias"
+file = "src/Overrides/AoWE/RemainingTodos.cs"
+
+[[skip]]
+member = "AoWE.TAbstractUnit.ResetLifeMasteryFear"
+reason = "7.3: Read the source marker written by ExecuteLifeMasteryFearRole"
+file = "src/Overrides/AoWE/RemainingTodos.cs"
+
+[[skip]]
+member = "MoveOnEvents.TMoveOnEvent.ArmyPlaced"
+reason = "7.3: Read the army player through the producer of map message 1102"
+file = "src/Overrides/MoveOnEvents/RemainingTodos.cs"
+
+[[skip]]
+member = "CMapCtrl.TAoWCombatMapControl.ExecuteEventLog"
+reason = "7.3: Unbox the event log notification cell and preserve the callback"
+file = "src/Overrides/CMapCtrl/RemainingTodos.cs"
+
+[[skip]]
+member = "AoWE.TAbstractAoWHSMap.DrawGrid"
+reason = "7.3: Replace raw storage with typed map traversal or installed host services"
+file = "src/Overrides/AoWE/GridTodos.cs"
+
+[[skip]]
+member = "GlobalEnchantmentSpells.TEnchantedRoads.ShowAnimation"
+reason = "7.3: Replace raw storage with typed map traversal or installed host services"
+file = "src/Overrides/GlobalEnchantmentSpells/RemainingTodos.cs"
+
+[[skip]]
+member = "GlobalEnchantmentSpells.TFireMastery.ShowAnimation"
+reason = "7.3: Replace raw storage with typed map traversal or installed host services"
+file = "src/Overrides/GlobalEnchantmentSpells/RemainingTodos.cs"
+
+[[skip]]
+member = "AoWE.TAoWHSMap.StartTokenEventLogging"
+reason = "7.3: Replace raw storage with typed map traversal or installed host services"
+file = "src/Overrides/AoWE/TokenLoggingTodos.cs"
+
+[[skip]]
+member = "AoWE.TAoWHSMap.StopTokenEventLogging"
+reason = "7.3: Replace raw storage with typed map traversal or installed host services"
+file = "src/Overrides/AoWE/TokenLoggingTodos.cs"
+
+[[skip]]
+member = "AoWE.TAoWHSMap.OnExecuteTokenEvent"
+reason = "7.3: Replace raw storage with typed map traversal or installed host services"
+file = "src/Overrides/AoWE/TokenLoggingTodos.cs"
+
+[[skip]]
+member = "AoWE.TAoWHSMap.OnTokenManagerMessage"
+reason = "7.3: Replace raw storage with typed map traversal or installed host services"
+file = "src/Overrides/AoWE/TokenLoggingTodos.cs"
+
+[[skip]]
+member = "AoWE.TAoWHSMap.OnStreamError"
+reason = "7.3: Replace raw storage with typed map traversal or installed host services"
+file = "src/Overrides/AoWE/TokenLoggingTodos.cs"
+
+[[skip]]
+member = "FileSecurity.ReadSecurityData"
+reason = "7.3: Read the SDID footer and CRC through the host file service"
+file = "src/Overrides/FileSecurity/RemainingTodos.cs"
