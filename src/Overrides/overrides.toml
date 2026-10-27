@@ -1137,3 +1137,33 @@ file = "src/Overrides/AoWE/SpellExecution.cs"
 member = "Engine.TEngine.VerifyEObjectClass"
 reason = "exercise construction and destruction without comparing native allocator totals to GC heap totals"
 file = "src/Overrides/Engine/VerifyLifecycle.cs"
+[[skip]]
+member = "AoWE.TMoveTE.InitializeMove"
+reason = "host trace boundary after source path initialization"
+file = "src/Overrides/AoWE/HeadlessHooks.cs"
+
+[[skip]]
+member = "AoWE.TMoveControl.CalculateTurnAroundMovePoints"
+reason = "resolve native field offsets through typed hex neighbors"
+file = "src/Overrides/AoWE/TurnAroundMovement.cs"
+
+[[skip]]
+member = "AoWE.TPlayerMagicControl.AIOverrideUpkeep"
+reason = "recover enchantment identities before list lookup instead of casting an ID to Pointer"
+file = "src/Overrides/AoWE/MagicUpkeep.cs"
+
+[[skip]]
+member = "SummonSpells.TSummonSpell.GetDispelResistance"
+reason = "the native helper ignores its nil receiver and reads only the unit argument"
+file = "src/Overrides/SummonSpells/DispelResistance.cs"
+
+
+[[skip]]
+member = "AoWE.TAIExecuter.UseProcessTime"
+reason = "optional host trace of source AI work charges"
+file = "src/Overrides/AoWE/HeadlessHooks.cs"
+
+[[skip]]
+member = "AoWE.TAIPlayerControl.Process"
+reason = "directed host inputs enter at the original debugger boundary"
+file = "src/Overrides/AoWE/HeadlessAIInput.cs"

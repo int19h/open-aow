@@ -77,6 +77,7 @@ public partial class TMoveControl
 
     public int CalculateMovePointLine(TAoWMapField origin, int direction, int moveOverCode)
     {
+        int initialOverCode = moveOverCode;
         int count = 0, points = FSettings.GetMovePoints(origin.Xhx, origin.Yhx, origin.Lhx);
         var field = origin;
         bool continueMove = true;
@@ -96,6 +97,7 @@ public partial class TMoveControl
             continueMove = moveOverCode != 0;
             if (continueMove) count++;
         }
+        HeadlessHooks.MoveLine?.Invoke(origin.GetXYL(), direction, initialOverCode, count);
         return count;
     }
 

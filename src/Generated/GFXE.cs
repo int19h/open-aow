@@ -6690,7 +6690,7 @@ namespace Aow.Units.GFXE
                             byte end__215 = 31;
                             for (; J <= end__215; J += 1)
                             {
-                                ((Aow.Units.GFXE.TBlendTable5Bit)Table).Table[I][J] = unchecked((byte)Aow.Rtl.Rtl.Round((I * Alpha) + ((1 - Alpha) * J)));
+                                ((Aow.Units.GFXE.TBlendTable5Bit)Table).Table[I][J] = unchecked((byte)Aow.Rtl.Rtl.Round(((double)(((double)I) * Alpha)) + (((double)(((double)1) - Alpha)) * J)));
                             }
                         }
                     }
@@ -6727,10 +6727,10 @@ namespace Aow.Units.GFXE
                                 }
                                 else
                                 {
-                                    F = (float)(((double)((I * Intensity) * 1.75)) / (I + J));
+                                    F = (float)(((double)(((double)(((double)I) * Intensity)) * 1.75)) / (I + J));
                                 }
 
-                                V = Aow.Rtl.Rtl.Round(I * F) + J;
+                                V = Aow.Rtl.Rtl.Round(((double)I) * F) + J;
                                 if (V > 31)
                                 {
                                     V = 31;
@@ -6763,8 +6763,8 @@ namespace Aow.Units.GFXE
                             byte end__219 = 31;
                             for (; J <= end__219; J += 1)
                             {
-                                F = (float)(((31 - I) * (((double)1) / 31)) * Shadow);
-                                V = Aow.Rtl.Rtl.Round((1 - F) * J);
+                                F = (float)(((double)(((double)(31 - I)) * (((double)1) / 31))) * Shadow);
+                                V = Aow.Rtl.Rtl.Round(((double)(((double)1) - F)) * J);
                                 if (V < 0)
                                 {
                                     V = 0;
@@ -6801,7 +6801,7 @@ namespace Aow.Units.GFXE
                             byte end__221 = 31;
                             for (; J <= end__221; J += 1)
                             {
-                                V = Aow.Rtl.Rtl.Round((I * Brighten) + ((1 - Brighten) * J));
+                                V = Aow.Rtl.Rtl.Round(((double)(((double)I) * Brighten)) + (((double)(((double)1) - Brighten)) * J));
                                 if (V < J)
                                 {
                                     V = J;
@@ -7124,7 +7124,7 @@ namespace Aow.Units.GFXE
                 Res.Index = Best;
                 try
                 {
-                    Res.Bandwidth = Aow.Rtl.Rtl.Round(((double)(T.Width * T.Height)) / ((((double)1000) / Count) * BestTime));
+                    Res.Bandwidth = Aow.Rtl.Rtl.Round(((double)(T.Width * T.Height)) / (((double)(((double)1000) / Count)) * BestTime));
                 }
                 catch (System.Exception)
                 {
@@ -7182,7 +7182,7 @@ namespace Aow.Units.GFXE
                 Res.Index = Best;
                 try
                 {
-                    Res.Bandwidth = Aow.Rtl.Rtl.Round(((double)(T.Width * T.Height)) / ((((double)1000) / Count) * BestTime));
+                    Res.Bandwidth = Aow.Rtl.Rtl.Round(((double)(T.Width * T.Height)) / (((double)(((double)1000) / Count)) * BestTime));
                 }
                 catch (System.Exception)
                 {
@@ -7240,7 +7240,7 @@ namespace Aow.Units.GFXE
                 Res.Index = Best;
                 try
                 {
-                    Res.Bandwidth = Aow.Rtl.Rtl.Round(((double)(T.Width * T.Height)) / ((((double)1000) / Count) * BestTime));
+                    Res.Bandwidth = Aow.Rtl.Rtl.Round(((double)(T.Width * T.Height)) / (((double)(((double)1000) / Count)) * BestTime));
                 }
                 catch (System.Exception)
                 {
@@ -7298,7 +7298,7 @@ namespace Aow.Units.GFXE
                 Res.Index = Best;
                 try
                 {
-                    Res.Bandwidth = Aow.Rtl.Rtl.Round(((double)(T.Width * T.Height)) / ((((double)1000) / Count) * BestTime));
+                    Res.Bandwidth = Aow.Rtl.Rtl.Round(((double)(T.Width * T.Height)) / (((double)(((double)1000) / Count)) * BestTime));
                 }
                 catch (System.Exception)
                 {
@@ -7345,16 +7345,16 @@ namespace Aow.Units.GFXE
                     byte end__242 = 31;
                     for (; I <= end__242; I += 1)
                     {
-                        if (Alpha > 0)
+                        if (((double)Alpha) > 0)
                         {
-                            F = (float)(((double)I) / (31 * Alpha));
+                            F = (float)(((double)I) / (((double)31) * Alpha));
                         }
                         else
                         {
                             F = 1;
                         }
 
-                        if (F > 1)
+                        if (((double)F) > 1)
                         {
                             F = 1;
                         }
@@ -7364,7 +7364,7 @@ namespace Aow.Units.GFXE
                             byte end__243 = 31;
                             for (; J <= end__243; J += 1)
                             {
-                                ((Aow.Units.GFXE.TBlendTable5Bit)Table).Table[I][J] = unchecked((byte)Aow.Rtl.Rtl.Round((I * F) + ((1 - F) * J)));
+                                ((Aow.Units.GFXE.TBlendTable5Bit)Table).Table[I][J] = unchecked((byte)Aow.Rtl.Rtl.Round(((double)(((double)I) * F)) + (((double)(((double)1) - F)) * J)));
                             }
                         }
                     }

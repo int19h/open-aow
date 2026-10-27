@@ -23,12 +23,18 @@ internal static class Program
         int turns = 0, seed = 123456789, firstDay = 0, day = 0;
         long frames = 0;
         bool tactical = false, ended = false, complete = false;
+        bool traceMovement = false, exerciseItems = false;
+        int tacticalBattles = 0, globalSpell = 0;
+        DirectedInputs? directed = null;
+        int viewportWidth = 1600, viewportHeight = 937, animationFps = 30;
         string? error = null, input = null;
         StreamWriter? trace = null;
+        RandomTrace? randomTrace = null;
         try
         {
             string root = Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders";
             string? settings = null;
+            string? randomTracePath = null;
             for (int i = 0; i < args.Length; i++)
             {
                 string Value() => ++i < args.Length ? args[i] : throw new ArgumentException("missing option value");
@@ -48,6 +54,17 @@ internal static class Program
                     case "--game-root": root = Path.GetFullPath(Value()); break;
                     case "--settings": settings = Value(); break;
                     case "--tactical": tactical = true; break;
+                    case "--exercise-items": exerciseItems = true; break;
+                    case "--tactical-battles": tacticalBattles = int.Parse(Value()); break;
+                    case "--global-spell": globalSpell = int.Parse(Value()); break;
+                    case "--trace-random": randomTracePath = Path.GetFullPath(Value()); break;
+                    case "--trace-movement": traceMovement = true; break;
+                    case "--animation-fps": animationFps = int.Parse(Value()); break;
+                    case "--viewport":
+                        var dimensions = Value().Split('x');
+                        viewportWidth = int.Parse(dimensions[0]);
+                        viewportHeight = int.Parse(dimensions[1]);
+                        break;
                     default: throw new ArgumentException("unknown option: " + args[i]);
                 }
             }
@@ -65,6 +82,16 @@ internal static class Program
             };
             var host = new HeadlessHost(root, output, settings);
             Shim.InstallHost(host);
+            if (randomTracePath is not null)
+            {
+                randomTrace = new(randomTracePath, () => frames);
+                Shim.RandomTrace = randomTrace.Record;
+                Shim.TraceRound = randomTrace.Rounding;
+                HeadlessHooks.BeforeMove = randomTrace.Path;
+                TList.TraceSort = randomTrace.Sort;
+                HeadlessHooks.ProcessCost = randomTrace.Cost;
+                if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
+            }
             Startup.InitializeAll();
             Aow.Units.Sound.NullSoundSystem.Install();
             Aow.Units.AoWTCReg.AoWTCReg.RegisterTacticalCombat(Game.AoWEngine);
@@ -75,6 +102,9 @@ internal static class Program
             Shim.RandSeed = seed;
             Shim.SuppressRandomize = true;
             HeadlessHooks.Tactical = tactical;
+            HeadlessHooks.TacticalBattles = tacticalBattles;
+            directed = new(map, exerciseItems, globalSpell);
+            if (globalSpell != 0) HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
             map.FGameOverEvents.Add(_ => ended = true);
             map.FExecuteEventLogEvents.Add(sender =>
             {
@@ -96,10 +126,12 @@ internal static class Program
             {
                 CheckTodos();
                 day = map.FDay;
-                if (firstDay == 0) firstDay = day;
+                if (firstDay == 0) { firstDay = day; directed.Initial(); }
                 string name = $"day-{day:D2}.asg";
                 host.FilesForRun.AutoSaveTarget = Path.Combine(output, name);
                 control.AutoSave();
+                randomTrace?.Save(map.FDay);
+                directed.DaySaved();
                 host.FilesForRun.AutoSaveTarget = null;
                 CheckTodos();
                 string file = Path.Combine(output, name);
@@ -114,7 +146,12 @@ internal static class Program
             Console.WriteLine("map activated");
             CheckTodos();
             if (saves.Count == 0) Save(map.FPlayerControl);
-            map.SetViewPort(map.ViewXhp, map.ViewYhp, map.ViewL, 1600, 940);
+            map.UpdateFPS(animationFps);
+            var viewer = Aow.Units.HSEngine.THSMapViewer.Create(null!);
+            viewer.HSMap = map;
+            viewer.SceneWidth = viewportWidth;
+            viewer.SceneHeight = viewportHeight;
+            viewer.ChangeScene(map.ViewXhp, map.ViewYhp, map.ViewL);
             var watchdog = Stopwatch.StartNew();
             int previous = day;
             while (!ended && map.FDay < firstDay + turns)
@@ -144,11 +181,20 @@ internal static class Program
                 File.WriteAllText(Path.Combine(output, "run.json"), JsonSerializer.Serialize(new
                 {
                     input, input_sha256 = input is not null && File.Exists(input) ? Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(input))) : null,
-                    seed, requested_turns = turns, tactical, tactical_selections = HeadlessHooks.TacticalSelections,
+                    seed, requested_turns = turns, tactical, tactical_battles = tacticalBattles, exercise_items = exerciseItems, global_spell = globalSpell,
+                    item_exercise = directed?.ItemActions, global_requests = directed?.GlobalRequests, tactical_selections = HeadlessHooks.TacticalSelections,
                     tactical_executions = HeadlessHooks.TacticalExecutions, complete, game_ended = ended,
                     first_day = firstDay, last_day = day, frames, saves, reached_todos = todos, gameplay_exceptions = runtimeErrors, error
                 }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
             trace?.Flush();
+            Shim.RandomTrace = null;
+            Shim.TraceRound = null;
+            HeadlessHooks.BeforeMove = null;
+            HeadlessHooks.BeforeAIPlayerProcess = null;
+            TList.TraceSort = null;
+            HeadlessHooks.ProcessCost = null;
+            HeadlessHooks.MoveLine = null;
+            randomTrace?.Dispose();
         }
         return complete && error is null ? 0 : 1;
     }

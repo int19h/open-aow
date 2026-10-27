@@ -358,15 +358,17 @@ namespace Aow.Units.WizardsTower
                     else
                     {
                         Result = false;
-                        /* TODO(T-4.3) Address needs a cell or array backing */
-                        throw new System.NotImplementedException();
+                        var call__48 = Aow.Units.AoWE.AoWE.NotEnoughGoldRStr;
+                        var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(call__48);
+                        Reason = call__49;
                     }
                 }
                 else
                 {
                     Result = false;
-                    /* TODO(T-4.3) Address needs a cell or array backing */
-                    throw new System.NotImplementedException();
+                    var call__50 = Aow.Units.AoWE.AoWE.SpellIsAlreadyResearchedRStr;
+                    var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(call__50);
+                    Reason = call__51;
                 }
             }
             else
@@ -383,23 +385,23 @@ namespace Aow.Units.WizardsTower
             bool Result = default;
             Aow.Units.AoWE.TStructureTE TE = default;
             Reason = (AnsiString)"";
-            var call__50 = CanBuy(unchecked((sbyte)Player), ref Reason);
-            bool bool__51 = call__50;
-            if (bool__51)
+            var call__52 = CanBuy(unchecked((sbyte)Player), ref Reason);
+            bool bool__53 = call__52;
+            if (bool__53)
             {
-                var call__52 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                var call__53 = call__52.GetBusy();
-                bool__51 = !call__53;
+                var call__54 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__55 = call__54.GetBusy();
+                bool__53 = !call__55;
             }
 
-            if (bool__51)
+            if (bool__53)
             {
                 TE = CreateTE();
                 SetupTE(TE);
                 TE.FAction = 1;
                 TE.FParam = Player;
-                var call__54 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(Player);
-                call__54.AddEvent(TE);
+                var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(Player);
+                call__56.AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -485,8 +487,9 @@ namespace Aow.Units.WizardsTower
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__57 = Aow.Units.AoWE.AoWE.WizardsTowerRStr;
+                var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(call__57);
+                Result = call__58;
                 return Result;
             }
 

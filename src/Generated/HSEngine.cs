@@ -555,7 +555,7 @@ namespace Aow.Units.HSEngine
             Msg.MsgID = 17;
             Msg.Result = -1;
             SendMapFieldMsg(ref Msg);
-            Result = unchecked((sbyte)Msg.Result);
+            Result = unchecked((sbyte)Msg.Result.Value);
             return Result;
         }
 
@@ -5509,7 +5509,7 @@ namespace Aow.Units.HSEngine
         public Aow.Units.HSEngine.TMapField MapField;
         public Aow.Units.FixedArray_IntOrRef_4 Param;
         public int HN;
-        public int Result;
+        public IntOrRef Result;
     }
 
     // { HSEngine.TMapLevel (instance size 124): +8 FLhx, +$C FWidth, +$10 FHeight, +$14 FCount, +$18
@@ -9504,7 +9504,7 @@ namespace Aow.Units.HSEngine
             FCount -= 1;
             if (Index < FCount)
             {
-                FList[Index] = FList[Index + 1];
+                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes((FList + (Index + 1)).Array.AsSpan((FList + (Index + 1)).Index, (FCount - Index))), MemoryMarshal.AsBytes((FList + Index).Array.AsSpan((FList + Index).Index, (FCount - Index))), (FCount - Index) * 4);
             }
         }
 
@@ -9620,7 +9620,7 @@ namespace Aow.Units.HSEngine
 
             if (Index < FCount)
             {
-                FList[Index + 1] = FList[Index];
+                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes((FList + Index).Array.AsSpan((FList + Index).Index, (FCount - Index))), MemoryMarshal.AsBytes((FList + (Index + 1)).Array.AsSpan((FList + (Index + 1)).Index, (FCount - Index))), (FCount - Index) * 4);
             }
 
             FList[Index] = Item;

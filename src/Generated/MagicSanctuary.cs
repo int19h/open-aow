@@ -275,8 +275,9 @@ namespace Aow.Units.MagicSanctuary
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__6 = Aow.Units.AoWE.AoWE.MagicSanctuaryRStr;
+                var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(call__6);
+                Result = call__7;
                 return Result;
             }
 
