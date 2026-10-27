@@ -220,105 +220,28 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             }
         }
 
-        // AoWCastUnitSpellDlg.pas:130
-        // { draft }
-        public void U1Change(Aow.Units.AoWCheckBox.TAOWCheckBox Sender)
-        {
-            byte OldSelection = default;
-            Aow.Rtl.AnsiString Reason = default;
-            {
-                var w__9 = FCaster;
-                OldSelection = unchecked((byte)w__9.FSelectionMask);
-                if (Sender.Checked)
-                {
-                    if (!w__9.FAllowMultipleTargets)
-                    {
-                        w__9.SetSelection(unchecked((byte)(1 << Sender.Tag)));
-                    }
-                    else
-                    {
-                        w__9.SetSelection(unchecked((byte)(w__9.FSelectionMask | (1 << Sender.Tag))));
-                    }
-                }
-                else
-                {
-                    w__9.SetSelection(unchecked((byte)(w__9.FSelectionMask & ~(1 << Sender.Tag))));
-                }
-            }
-
-            U1.Checked = (FCaster.FSelectionMask & 1) != 0;
-            U2.Checked = (FCaster.FSelectionMask & 2) != 0;
-            U3.Checked = (FCaster.FSelectionMask & 4) != 0;
-            U4.Checked = (FCaster.FSelectionMask & 8) != 0;
-            U5.Checked = (FCaster.FSelectionMask & 16) != 0;
-            U6.Checked = (FCaster.FSelectionMask & 32) != 0;
-            U7.Checked = (FCaster.FSelectionMask & 64) != 0;
-            U8.Checked = (FCaster.FSelectionMask & 128) != 0;
-            if (FCaster.FSelectionMask != OldSelection)
-            {
-                if (Sender.Checked)
-                {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(1);
-                }
-                else
-                {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(2);
-                }
-            }
-
-            if (FCaster.FSelectionMask != 0)
-            {
-                var call__10 = FCaster.CanCast(ref Reason);
-                if (call__10)
-                {
-                    SelectionInfoLbl.TextColor = 0;
-                }
-                else
-                {
-                    SelectionInfoLbl.TextColor = 149;
-                }
-
-                var call__11 = FCaster.GetRequiredMana();
-                var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RequiredManaRStr);
-                SelectionInfoLbl.Text = (call__12 + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(call__11);
-            }
-            else
-            {
-                SelectionInfoLbl.Text = (AnsiString)"";
-            }
-        }
-
         // AoWCastUnitSpellDlg.pas:163
         public void FaceFramePreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Units.AoWE.TAbstractUnit U = default;
             Aow.Rtl.TRect R = default;
-            var call__13 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FCaster.FCasterSourceID);
-            U = call__13;
+            var call__9 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FCaster.FCasterSourceID);
+            U = call__9;
             if (U != null)
             {
                 if (U.GetFace() != null)
                 {
                     {
-                        var w__14 = FaceFrame;
-                        R.Left = w__14.WinLeft + TopPnl.WinLeft;
-                        R.Right = R.Left + w__14.WinWidth;
-                        R.Top = w__14.WinTop + TopPnl.WinTop;
-                        R.Bottom = R.Top + w__14.WinHeight;
+                        var w__10 = FaceFrame;
+                        R.Left = w__10.WinLeft + TopPnl.WinLeft;
+                        R.Right = R.Left + w__10.WinWidth;
+                        R.Top = w__10.WinTop + TopPnl.WinTop;
+                        R.Bottom = R.Top + w__10.WinHeight;
                     }
 
-                    var call__15 = U.GetFace();
-                    call__15.ShowStretched(R, Surface);
+                    var call__11 = U.GetFace();
+                    call__11.ShowStretched(R, Surface);
                 }
-            }
-        }
-
-        // AoWCastUnitSpellDlg.pas:183
-        public void U1PreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
-        {
-            {
-                var w__16 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                DrawUnit(Sender.Tag, UnitPnl.WinLeft + w__16.WinLeft, UnitPnl.WinTop + w__16.WinTop, ref Surface);
             }
         }
 
@@ -335,20 +258,20 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             Aow.Rtl.TRect R = default;
             if (FCaster != null)
             {
-                var call__17 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FCaster.FCasterSpellID);
-                Spell = call__17;
+                var call__12 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FCaster.FCasterSpellID);
+                Spell = call__12;
                 if (Spell != null)
                 {
                     {
-                        var w__18 = SpellFr;
-                        R.Left = w__18.WinLeft + TopPnl.WinLeft;
-                        R.Right = R.Left + w__18.WinWidth;
-                        R.Top = w__18.WinTop + TopPnl.WinTop;
-                        R.Bottom = R.Top + w__18.WinHeight;
+                        var w__13 = SpellFr;
+                        R.Left = w__13.WinLeft + TopPnl.WinLeft;
+                        R.Right = R.Left + w__13.WinWidth;
+                        R.Top = w__13.WinTop + TopPnl.WinTop;
+                        R.Bottom = R.Top + w__13.WinHeight;
                     }
 
-                    var call__19 = Spell.FCastImages.GetImageSequence(10);
-                    if (call__19 != null)
+                    var call__14 = Spell.FCastImages.GetImageSequence(10);
+                    if (call__14 != null)
                     {
                         Spell.FCastImages.Show(10, R.Left + 5, R.Top + 15, 0, Surface);
                     }
@@ -368,8 +291,8 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         {
             if (Dlg.Visible && (FCaster != null))
             {
-                var call__20 = FCaster.Valid();
-                if (!call__20)
+                var call__15 = FCaster.Valid();
+                if (!call__15)
                 {
                     Dlg.Visible = false;
                 }

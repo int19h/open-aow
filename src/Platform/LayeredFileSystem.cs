@@ -9,9 +9,11 @@ public sealed class LayeredFileSystem : IFileSystem
     private readonly Dictionary<string, string> rootTree = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, string[]> userListings = new(StringComparer.OrdinalIgnoreCase);
     private string current = "";
+    private readonly string[] userOnly;
 
-    public LayeredFileSystem(string gameRoot, string userDirectory)
+    public LayeredFileSystem(string gameRoot, string userDirectory, IEnumerable<string>? userOnlyDirectories = null)
     {
+        userOnly = userOnlyDirectories?.Select(p => p.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar)).ToArray() ?? [];
         root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(gameRoot));
         user = Path.TrimEndingDirectorySeparator(Path.GetFullPath(userDirectory));
         if (!Directory.Exists(root)) throw new DirectoryNotFoundException(root);
@@ -48,6 +50,7 @@ public sealed class LayeredFileSystem : IFileSystem
         {
             if ((File.GetAttributes(entry) & FileAttributes.ReparsePoint) != 0) continue;
             string key = Path.Combine(relative, Path.GetFileName(entry));
+            if (userOnly.Any(p => Same(p, key))) continue;
             if (!rootTree.TryAdd(key, entry)) throw new IOException("Ambiguous install name: " + key);
             if (Directory.Exists(entry)) Snapshot(entry, key);
         }
@@ -190,7 +193,7 @@ public sealed class LayeredFileSystem : IFileSystem
     });
     public int GetAttributes(string path) => ReadLocation(Relative(path)) is { } p ? (int)File.GetAttributes(p) : -1;
     public int SetAttributes(string path, int attributes) => Mutate(() => File.SetAttributes(WriteLocation(Relative(path)), (FileAttributes)attributes)) ? 0 : -1;
-    public DateTime? LastWriteTime(string path) => ReadLocation(Relative(path)) is { } p ? File.GetLastWriteTime(p) : null;
+    public DateTime? LastWriteTime(string path) => ReadLocation(Relative(path)) is { } p ? RtlFileTime.LastWriteTime(p) : null;
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
     {
         string relative = Relative(directory);
@@ -204,7 +207,7 @@ public sealed class LayeredFileSystem : IFileSystem
                 if ((File.GetAttributes(entry) & FileAttributes.ReparsePoint) != 0) continue;
                 merged[Path.GetFileName(entry)] = entry;
             }
-        return merged.Values.Select(p => new RtlFileEntry(Path.GetFileName(p), Directory.Exists(p) ? 0 : unchecked((int)new FileInfo(p).Length), (int)File.GetAttributes(p), File.GetLastWriteTime(p)))
+        return merged.Values.Select(p => new RtlFileEntry(Path.GetFileName(p), Directory.Exists(p) ? 0 : unchecked((int)new FileInfo(p).Length), (int)File.GetAttributes(p), RtlFileTime.LastWriteTime(p)))
             .OrderBy(e => e.Name.ToUpperInvariant(), StringComparer.Ordinal).ThenBy(e => e.Name, StringComparer.Ordinal).ToArray();
     }
 }

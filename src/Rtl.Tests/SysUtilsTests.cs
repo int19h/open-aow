@@ -125,7 +125,7 @@ public sealed class SysUtilsTests
             Assert.Equal((1899, 12, 30), (y, month, day));
             DecodeDate(EncodeDate(1, 1, 1) - 1, out y, out month, out day);
             Assert.Equal((0, 0, 0), (y, month, day));
-            Assert.Equal((AnsiString)Clock.Now.ToString("g", CultureInfo.CurrentCulture), DateTimeToStr(Now()));
+            Assert.Equal((AnsiString)"2/29/2024 12:34:56 PM", DateTimeToStr(Now()));
             Assert.Equal(0, DateTimeToFileDate(EncodeDate(1979, 12, 31)));
             Assert.Equal(0, DateTimeToFileDate(EncodeDate(2100, 1, 1)));
             int dos = DateTimeToFileDate(date + time);

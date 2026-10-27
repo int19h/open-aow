@@ -7,6 +7,8 @@ namespace Aow.Units.AoWE;
 public static class FrameFixtureInputs
 {
     public static int? AddressAnimationPhase { get; set; }
+    // Water and adjacent raised terrain share the map texture capture phase.
+    public static int? WaterVariantPhase { get; set; }
     public static bool Tactical { get; set; }
     public static int? MeasuredFrameRate { get; set; }
     public static Action? TacticalInitialized { get; set; }

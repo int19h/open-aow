@@ -413,13 +413,6 @@ namespace Aow.Units.AoWEdit
             }
         }
 
-        // AoWEdit.pas:350
-        public override void CheckKeyDown(ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
-        {
-            /* TODO(T-shim) Platform or editor boundary Clipbrd.HasFormat */
-            throw new System.NotImplementedException();
-        }
-
         // AoWEdit.pas:119
         public virtual void SetILEdit(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
         {

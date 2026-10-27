@@ -152,7 +152,7 @@ namespace Aow.Units.AoWHex
             base.ShowDynamic(XhpSurf, YhpSurf, SurfaceDesc);
             var call__41 = FResource.ImageSequenceList.ImageSequences[0];
             IL = call__41.ImageLibrary;
-            Variant = ((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(this)) >> 8)) & 3;
+            Variant = Aow.Units.AoWE.FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)Aow.Rtl.Rtl.ObjectToInt(this) >> 8)) & 3);
             if (Variant == 3)
             {
                 Variant = 0;
