@@ -2506,8 +2506,78 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2572
         public override int WaitForVerticalBlank()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.Sleep */
-            throw new System.NotImplementedException();
+            int Result = default;
+            int Wait = default;
+            int Target = default;
+            int T = default;
+            int D = default;
+            if (FUseVerticalBlank)
+            {
+                if (Aow.Units.GFXE.GFXE.DD() != null)
+                {
+                    Wait = FDisplay.FFrameTime;
+                    if (Wait != 0)
+                    {
+                        Target = FLastVBTime + Wait;
+                        T = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
+                        if (T >= (Target - Wait))
+                        {
+                            D = Target - T;
+                            while (D > 0)
+                            {
+                                if (D > 5)
+                                {
+                                    Aow.Rtl.Rtl.Clock.WaitMilliseconds((int)0);
+                                }
+
+                                T = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
+                                D = Target - T;
+                            }
+                        }
+
+                        FLastVBTime = T;
+                    }
+
+                    var call__86 = Aow.Units.GFXE.GFXE.DD();
+                    var call__87 = call__86.WaitForVerticalBlank(Aow.Units.DisplayC.DisplayC.DDWAITVB_BLOCKBEGIN, 0);
+                    Result = call__87;
+                    var call__88 = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
+                    FLastVBTime = call__88;
+                }
+                else
+                {
+                    Result = Aow.Units.DisplayC.DisplayC.DCERR_NOTSUPPORTED;
+                }
+            }
+            else
+            {
+                Wait = FDisplay.FFrameTime;
+                if (Wait != 0)
+                {
+                    Target = FLastVBTime + Wait;
+                    T = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
+                    if (T >= (Target - Wait))
+                    {
+                        D = Target - T;
+                        while (D > 0)
+                        {
+                            if (D > 5)
+                            {
+                                Aow.Rtl.Rtl.Clock.WaitMilliseconds((int)2);
+                            }
+
+                            T = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
+                            D = Target - T;
+                        }
+                    }
+
+                    FLastVBTime = T;
+                }
+
+                Result = 0;
+            }
+
+            return Result;
         }
 
         // DisplayC.pas:2628
@@ -2523,10 +2593,10 @@ namespace Aow.Units.DisplayC
             int Result = default;
             if (GetStatus().Contains(Aow.Units.DisplayC.TDisplayCtrlStatusElement.dsActivated))
             {
-                var call__86 = Aow.Units.GFXE.GFXE.DD();
-                call__86.FlipToGDISurface();
-                var call__87 = Aow.Units.GFXE.GFXE.DD();
-                call__87.WaitForVerticalBlank(Aow.Units.DisplayC.DisplayC.DDWAITVB_BLOCKBEGIN, 0);
+                var call__89 = Aow.Units.GFXE.GFXE.DD();
+                call__89.FlipToGDISurface();
+                var call__90 = Aow.Units.GFXE.GFXE.DD();
+                call__90.WaitForVerticalBlank(Aow.Units.DisplayC.DisplayC.DDWAITVB_BLOCKBEGIN, 0);
                 FBack2.Free();
                 FBack2 = null;
                 FBack1.Free();
@@ -2630,8 +2700,8 @@ namespace Aow.Units.DisplayC
         public override Aow.Rtl.TWinControl OutputWnd()
         {
             Aow.Rtl.TWinControl Result = default;
-            var call__88 = GetDisplay();
-            Result = call__88.FFSWinControl;
+            var call__91 = GetDisplay();
+            Result = call__91.FFSWinControl;
             return Result;
         }
 
@@ -2653,9 +2723,9 @@ namespace Aow.Units.DisplayC
         public int SetDisplayMode(int AWidth, int AHeight, int ABitDepth)
         {
             int Result = default;
-            var call__89 = Aow.Units.GFXE.GFXE.DD();
-            var call__90 = call__89.SetDisplayMode(AWidth, AHeight, ABitDepth, 0, 0);
-            Result = call__90;
+            var call__92 = Aow.Units.GFXE.GFXE.DD();
+            var call__93 = call__92.SetDisplayMode(AWidth, AHeight, ABitDepth, 0, 0);
+            Result = call__93;
             return Result;
         }
 
@@ -2665,8 +2735,8 @@ namespace Aow.Units.DisplayC
         public override int FlipSurface(int Index)
         {
             int Result = default;
-            var call__91 = GetSurface(Index);
-            if (((Aow.Units.GFXE.TDDrawSurface)call__91).Status.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssComplex))
+            var call__94 = GetSurface(Index);
+            if (((Aow.Units.GFXE.TDDrawSurface)call__94).Status.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssComplex))
             {
                 while (true)
                 {
@@ -2674,28 +2744,28 @@ namespace Aow.Units.DisplayC
                     }
 
                     {
-                        var call__92 = FPrimary.Surface.GetFlipStatus(Aow.Units.GFXE.GFXE.DDGFS_ISFLIPDONE);
-                        if (call__92 != Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING)
+                        var call__95 = FPrimary.Surface.GetFlipStatus(Aow.Units.GFXE.GFXE.DDGFS_ISFLIPDONE);
+                        if (call__95 != Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING)
                             break;
                     }
                 }
 
-                var call__94 = FPrimary.Surface.GetFlipStatus(Aow.Units.DisplayC.DisplayC.DDGFS_CANFLIP);
-                Result = call__94;
+                var call__97 = FPrimary.Surface.GetFlipStatus(Aow.Units.DisplayC.DisplayC.DDGFS_CANFLIP);
+                Result = call__97;
                 if (Aow.Rtl.Rtl.Succeeded(Result))
                 {
-                    var call__95 = GetSurface(Index);
-                    var call__96 = FPrimary.Surface.Flip(((Aow.Units.GFXE.TDDrawSurface)call__95).Surface, 0);
-                    Result = call__96;
+                    var call__98 = GetSurface(Index);
+                    var call__99 = FPrimary.Surface.Flip(((Aow.Units.GFXE.TDDrawSurface)call__98).Surface, 0);
+                    Result = call__99;
                 }
             }
             else
             {
-                var call__97 = GetPrimarySurfaceRgn();
-                var call__98 = GetSurface(0);
-                var call__99 = GetSurface(Index);
-                var call__100 = call__99.BltStretch(call__98, default, call__97);
-                Result = call__100;
+                var call__100 = GetPrimarySurfaceRgn();
+                var call__101 = GetSurface(0);
+                var call__102 = GetSurface(Index);
+                var call__103 = call__102.BltStretch(call__101, default, call__100);
+                Result = call__103;
                 if (Aow.Rtl.Rtl.Succeeded(Result))
                 {
                     Result = Aow.Units.DisplayC.DisplayC.DCERR_NOFLIP;
@@ -2704,12 +2774,12 @@ namespace Aow.Units.DisplayC
 
             if (Result == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
             {
-                var call__101 = VerifyLostSurfaces();
-                var call__102 = Aow.Rtl.Rtl.Succeeded(call__101);
-                if (call__102)
+                var call__104 = VerifyLostSurfaces();
+                var call__105 = Aow.Rtl.Rtl.Succeeded(call__104);
+                if (call__105)
                 {
-                    var call__103 = GetSurface(Index);
-                    if (((Aow.Units.GFXE.TDDrawSurface)call__103).Status.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssComplex))
+                    var call__106 = GetSurface(Index);
+                    if (((Aow.Units.GFXE.TDDrawSurface)call__106).Status.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssComplex))
                     {
                         while (true)
                         {
@@ -2717,28 +2787,28 @@ namespace Aow.Units.DisplayC
                             }
 
                             {
-                                var call__104 = FPrimary.Surface.GetFlipStatus(Aow.Units.GFXE.GFXE.DDGFS_ISFLIPDONE);
-                                if (call__104 != Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING)
+                                var call__107 = FPrimary.Surface.GetFlipStatus(Aow.Units.GFXE.GFXE.DDGFS_ISFLIPDONE);
+                                if (call__107 != Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING)
                                     break;
                             }
                         }
 
-                        var call__106 = FPrimary.Surface.GetFlipStatus(Aow.Units.DisplayC.DisplayC.DDGFS_CANFLIP);
-                        Result = call__106;
+                        var call__109 = FPrimary.Surface.GetFlipStatus(Aow.Units.DisplayC.DisplayC.DDGFS_CANFLIP);
+                        Result = call__109;
                         if (Aow.Rtl.Rtl.Succeeded(Result))
                         {
-                            var call__107 = GetSurface(Index);
-                            var call__108 = FPrimary.Surface.Flip(((Aow.Units.GFXE.TDDrawSurface)call__107).Surface, 0);
-                            Result = call__108;
+                            var call__110 = GetSurface(Index);
+                            var call__111 = FPrimary.Surface.Flip(((Aow.Units.GFXE.TDDrawSurface)call__110).Surface, 0);
+                            Result = call__111;
                         }
                     }
                     else
                     {
-                        var call__109 = GetPrimarySurfaceRgn();
-                        var call__110 = GetSurface(0);
-                        var call__111 = GetSurface(Index);
-                        var call__112 = call__111.BltStretch(call__110, default, call__109);
-                        Result = call__112;
+                        var call__112 = GetPrimarySurfaceRgn();
+                        var call__113 = GetSurface(0);
+                        var call__114 = GetSurface(Index);
+                        var call__115 = call__114.BltStretch(call__113, default, call__112);
+                        Result = call__115;
                         if (Aow.Rtl.Rtl.Succeeded(Result))
                         {
                             Result = Aow.Units.DisplayC.DisplayC.DCERR_NOFLIP;
@@ -2768,30 +2838,30 @@ namespace Aow.Units.DisplayC
             int I = default;
             Result = 0;
             InvalidateAll();
-            var call__113 = GetDisplay();
-            if (call__113.FBufferingScheme != Aow.Units.DisplayC.TBufferingScheme.bsSingle)
+            var call__116 = GetDisplay();
+            if (call__116.FBufferingScheme != Aow.Units.DisplayC.TBufferingScheme.bsSingle)
             {
-                var call__114 = FBack1.Width;
-                bool bool__115 = (AWidth != call__114);
-                if (!bool__115)
+                var call__117 = FBack1.Width;
+                bool bool__118 = (AWidth != call__117);
+                if (!bool__118)
                 {
-                    var call__116 = FBack1.Height;
-                    bool__115 = (AHeight != call__116);
+                    var call__119 = FBack1.Height;
+                    bool__118 = (AHeight != call__119);
                 }
 
-                if (bool__115)
+                if (bool__118)
                 {
                     CreateSurfaces();
-                    var call__117 = GetDisplay();
-                    if (call__117.FOnSurfaceDataLost != null)
+                    var call__120 = GetDisplay();
+                    if (call__120.FOnSurfaceDataLost != null)
                     {
                         {
                             I = 1;
-                            int end__118 = (int)GetDisplay().FBufferingScheme;
-                            for (; I <= end__118; I += 1)
+                            int end__121 = (int)GetDisplay().FBufferingScheme;
+                            for (; I <= end__121; I += 1)
                             {
-                                var call__119 = GetDisplay();
-                                call__119.FOnSurfaceDataLost(this, I);
+                                var call__122 = GetDisplay();
+                                call__122.FOnSurfaceDataLost(this, I);
                             }
                         }
                     }
@@ -2883,32 +2953,32 @@ namespace Aow.Units.DisplayC
             Result = base.CreateSurfaces();
             if (Result >= 0)
             {
-                var call__120 = FPrimary.PixelFormatID;
-                if (call__120 == Aow.Units.GFXE.GFXE.pfARGB1555)
+                var call__123 = FPrimary.PixelFormatID;
+                if (call__123 == Aow.Units.GFXE.GFXE.pfARGB1555)
                 {
                     FPrimary.FPixelFormatID = Aow.Units.GFXE.GFXE.pfRGB555;
                 }
 
-                bool bool__121 = (FBack1 != null);
-                if (bool__121)
+                bool bool__124 = (FBack1 != null);
+                if (bool__124)
                 {
-                    var call__122 = FBack1.PixelFormatID;
-                    bool__121 = (call__122 == Aow.Units.GFXE.GFXE.pfARGB1555);
+                    var call__125 = FBack1.PixelFormatID;
+                    bool__124 = (call__125 == Aow.Units.GFXE.GFXE.pfARGB1555);
                 }
 
-                if (bool__121)
+                if (bool__124)
                 {
                     FBack1.FPixelFormatID = Aow.Units.GFXE.GFXE.pfRGB555;
                 }
 
-                bool bool__123 = (FBack2 != null);
-                if (bool__123)
+                bool bool__126 = (FBack2 != null);
+                if (bool__126)
                 {
-                    var call__124 = FBack2.PixelFormatID;
-                    bool__123 = (call__124 == Aow.Units.GFXE.GFXE.pfARGB1555);
+                    var call__127 = FBack2.PixelFormatID;
+                    bool__126 = (call__127 == Aow.Units.GFXE.GFXE.pfARGB1555);
                 }
 
-                if (bool__123)
+                if (bool__126)
                 {
                     FBack2.FPixelFormatID = Aow.Units.GFXE.GFXE.pfRGB555;
                 }
@@ -3096,8 +3166,8 @@ namespace Aow.Units.DisplayC
         {
             int Result = default;
             int C = default;
-            var call__125 = FOwner.FPalette.GetNearestColor(Color);
-            C = call__125;
+            var call__128 = FOwner.FPalette.GetNearestColor(Color);
+            C = call__128;
             /* TODO(T-5.8) No physical byte image for Pointer */
             throw new System.NotImplementedException();
             Result = 0;
@@ -3114,9 +3184,9 @@ namespace Aow.Units.DisplayC
                 FHeight = AHeight;
                 FPitch = -((FWidth + 7) & ~7);
                 {
-                    ref var w__126 = ref FOwner.FBitmapInfo;
-                    w__126.biWidth = System.Math.Abs(FPitch);
-                    w__126.biHeight = FHeight;
+                    ref var w__129 = ref FOwner.FBitmapInfo;
+                    w__129.biWidth = System.Math.Abs(FPitch);
+                    w__129.biHeight = FHeight;
                 }
 
                 FMem = FMem.Realloc(System.Math.Abs(FPitch * FHeight) + 7);

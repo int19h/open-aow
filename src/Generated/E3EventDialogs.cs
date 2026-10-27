@@ -481,8 +481,7 @@ namespace Aow.Units.E3EventDialogs
         // { $45B1F0 }
         public static void OriginalAssert(Aow.Rtl.AnsiString Message, Aow.Rtl.AnsiString Filename, int LineNumber)
         {
-            /* TODO(T-4.4) Routine body is absent */
-            throw new System.NotImplementedException();
+            Aow.Rtl.Rtl.Assert(false, Message, Filename.ToString(), LineNumber);
         }
     }
 }
