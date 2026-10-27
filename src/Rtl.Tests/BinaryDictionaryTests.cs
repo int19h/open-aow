@@ -14,12 +14,7 @@ public sealed class BinaryDictionaryTests
             using (var stream = File.Create(path))
             using (var writer = new BinaryWriter(stream))
             {
-                var header = new byte[48];
-                "MLD\x03"u8.CopyTo(header);
-                System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(12), 3);
-                System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(18), 4);
-                System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(20), 48);
-                writer.Write(header);
+                WriteHeader(writer, 4);
                 void Text(byte[] bytes) { writer.Write((ushort)bytes.Length); writer.Write(bytes); }
                 void Entry(string source, string form, string english, string german)
                 {
@@ -55,16 +50,44 @@ public sealed class BinaryDictionaryTests
         string path = Path.Combine(Path.GetTempPath(), "aow-dictionary-" + Guid.NewGuid().ToString("N"));
         try
         {
-            var bytes = new byte[26];
-            "MLD\x03"u8.CopyTo(bytes);
-            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(12), 2);
-            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(18), 1);
-            System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(bytes.AsSpan(20), 24);
-            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(24), 5);
-            File.WriteAllBytes(path, bytes);
+            using (var stream = File.Create(path))
+            using (var writer = new BinaryWriter(stream))
+            {
+                WriteHeader(writer, 1);
+                writer.Write((ushort)5);
+            }
             var dictionary = new TIvBinaryDictionary { FFileName = path };
-            Assert.Throws<EndOfStreamException>(dictionary.Open);
+            Assert.Throws<InvalidDataException>(dictionary.Open);
         }
         finally { File.Delete(path); }
+    }
+
+    private static void WriteHeader(BinaryWriter writer, ushort count)
+    {
+        var header = new byte[42];
+        "MLD\x03"u8.CopyTo(header);
+        header[4] = header[5] = header[6] = 1;
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(12), 3);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(14), 42);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(18), count);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(20), 120);
+        writer.Write(header);
+        for (ushort language = 0; language < 3; language++)
+        {
+            writer.Write((ushort)26);
+            writer.Write(language);
+            writer.Write("en"u8);
+            writer.Write((ushort)1);
+            writer.Write("US"u8);
+            writer.Write((ushort)0);
+            writer.Write((ushort)0);
+            writer.Write((ushort)0);
+            writer.Write((ushort)1252);
+            writer.Write((byte)0);
+            writer.Write((ushort)0);
+            writer.Write((ushort)0);
+            writer.Write((ushort)0);
+            writer.Write((byte)0);
+        }
     }
 }
