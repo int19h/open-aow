@@ -71,14 +71,14 @@ public sealed class SystemIoFileSystem : IFileSystem
         catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return -1; }
     }
     public int SetAttributes(string path, int attributes) => Attempt(() => File.SetAttributes(Resolve(path), (FileAttributes)attributes)) ? 0 : -1;
-    public DateTime? LastWriteTime(string path) => FileExists(path) ? File.GetLastWriteTime(Resolve(path)) : null;
+    public DateTime? LastWriteTime(string path) => FileExists(path) ? RtlFileTime.LastWriteTime(Resolve(path)) : null;
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
     {
         if (!DirectoryExists(directory)) yield break;
         foreach (string path in Directory.EnumerateFileSystemEntries(Resolve(directory)))
         {
             FileAttributes attr = File.GetAttributes(path);
-            yield return new(Path.GetFileName(path), (attr & FileAttributes.Directory) != 0 ? 0 : unchecked((int)new FileInfo(path).Length), (int)attr, File.GetLastWriteTime(path));
+            yield return new(Path.GetFileName(path), (attr & FileAttributes.Directory) != 0 ? 0 : unchecked((int)new FileInfo(path).Length), (int)attr, RtlFileTime.LastWriteTime(path));
         }
     }
 }
@@ -252,6 +252,6 @@ public static partial class Rtl
     public static AnsiString DateTimeToStr(double value)
     {
         DecodeDate(value, out int y, out int m, out int d); DecodeTime(value, out int h, out int n, out int s, out int ms);
-        return new DateTime(y, m, d, h, n, s, ms).ToString("g", CultureInfo.CurrentCulture);
+        return new DateTime(y, m, d, h, n, s, ms).ToString("M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
     }
 }

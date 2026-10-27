@@ -211,23 +211,6 @@ namespace Aow.Units.CMapCtrl
             }
         }
 
-        // CMapCtrl.pas:198
-        public void MapChanged(Aow.Rtl.TObject Sender)
-        {
-            try
-            {
-                if (FOnMapChanged != null)
-                {
-                    /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-                    throw new System.NotImplementedException();
-                }
-            }
-            catch (System.Exception)
-            {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during MapChanged event (TAoWCombatMapControl)");
-            }
-        }
-
         // CMapCtrl.pas:207
         public void SelectHS(Aow.Rtl.TObject Sender)
         {
