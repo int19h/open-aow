@@ -12,10 +12,14 @@ surfaces it draws into and `platform.md` has the input events it receives. Facts
 
 ## 1. Decisions
 
-1. The form files stay data. The port carries the 79 text files as they are
-   (`src/Forms/AoW/<Module>.txt`, copied from the recovery's `data/forms/AoW`, which are complete
-   and lossless, `../design.md` open question 6) and loads them at startup with a reader that
-   follows the VCL streaming rules of section 4. One reader replaces 89,294 lines of generated
+1. The form files stay data, and the data stays in the user's install. The port reads the 79 form
+   resources from the user's `AoW.exe` at startup (the binary `TPF0` streams of its `RT_RCDATA`
+   resources, the format Delphi 3's `TReader` reads), with a reader that follows the VCL streaming
+   rules of section 4. The product repository carries none of them, because they are layout data
+   of the original game (decided 2026-10-26, as for every other game file). The recovery's text
+   files (`data/forms/AoW`, complete and lossless, `../design.md` open question 6) are the test
+   expectation in the private repository, and the text grammar of section 3 stays readable, so that
+   a data mod can supply a text form in place of a resource. One reader replaces 89,294 lines of generated
    construction code, the layouts stay editable by data mods, and the setter order the original's
    streaming produced is reproduced by construction rather than by hand.
 2. No reflection. The reader binds property names, component classes and handler names through
