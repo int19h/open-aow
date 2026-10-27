@@ -303,8 +303,8 @@ namespace Aow.Units.E3Globals
             Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.SetSceneSize(640, 480);
             Aow.Units.AoWExeForms.AoWExeForms.SetVideoMode(Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog, Aow.Units.AoWVideoDlg.TScreenMode.scmTitle);
             Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.ApplyMode();
-            Aow.Units.AoWUnit.AoWUnit.MainForm.Display.FrameRate = 30;
-            Aow.Units.AoWUnit.AoWUnit.MainForm.DXDC.UseVerticalBlank = true;
+            Aow.Platform.GameHost.MainForm.Display.FrameRate = 30;
+            Aow.Platform.GameHost.MainForm.DXDC.UseVerticalBlank = true;
             Scene.FRedrawBackground = true;
             Scene.FPressedButton = -1;
             Scene.FHoverButton = -1;
@@ -315,7 +315,7 @@ namespace Aow.Units.E3Globals
         }
 
         // E3Globals.pas:104
-        public static void SetMainCursor(Aow.Units.AoWUnit.TMainForm Form, int Cursor)
+        public static void SetMainCursor(Aow.Platform.IGameHost Form, int Cursor)
         {
             Form.FCursor = unchecked((short)System.Math.Abs(Cursor));
         }

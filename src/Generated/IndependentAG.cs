@@ -1076,57 +1076,6 @@ namespace Aow.Units.IndependentAG
                 }
             }
         }
-
-        // IndependentAG.pas:598
-        public override void ProcessStates()
-        {
-            Aow.Units.AoWE.TAIGroupTargetFinder Finder = default;
-            Aow.Units.AGCPlugins.TAIGroupRazeControl Raze = default;
-            switch (FState)
-            {
-                case 0:
-                    Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
-                    Finder.Setup(this);
-                {
-                    var w__62 = Finder.FSelector;
-                    w__62.FMovePointsMax = 100;
-                    w__62.FTargetInfo.Mode = Aow.Units.AoWE.TAITargetMode.tmRaid;
-                }
-
-                    ActivatePlugin(Finder);
-                    Finder.Release();
-                    FState += 1;
-                    break;
-                case 1:
-                    FTargets.Validate();
-                    var call__63 = FTargets.Count;
-                    if (call__63 != 0)
-                    {
-                        FTargets.SortOnPriority();
-                        SetupME();
-                        var call__64 = FTargets.GetTargets(0);
-                        var call__65 = FTargets.GetTargets(0);
-                        var call__66 = FTargets.GetTargets(0);
-                        ExecuteME(unchecked((sbyte)call__66.FLocation.X), unchecked((sbyte)call__65.FLocation.Y), unchecked((sbyte)call__64.FLocation.L));
-                        FTargets.Delete(0);
-                        FState += 1;
-                    }
-                    else
-                    {
-                        Done();
-                    }
-
-                    break;
-                case 2:
-                    Raze = Aow.Units.AGCPlugins.TAIGroupRazeControl.Create(null);
-                    Raze.Setup(this);
-                    Raze.FMode = TSet<Aow.Units.AGCPlugins.TAIGroupRazeControlModeElement>.Of();
-                    ActivatePlugin(Raze);
-                    Raze.Release();
-                    FState = 1;
-                    break;
-            }
-        }
     }
 
     // { TScoutAG (instance size 80, VMT 557D89E8) }
@@ -1234,14 +1183,14 @@ namespace Aow.Units.IndependentAG
         public override void TargetFoundEvent(Aow.Units.AoWE.TAIGroupControlPlugin Sender, Aow.Units.AoWE.TAIGroupControlTarget Target, ref bool SearchDone)
         {
             SetupCP(Target);
-            var call__67 = FCombatPredictor.Execute();
-            if (TSet<Aow.Units.AoWE.TCombatResult>.Of(Aow.Units.AoWE.TCombatResult.crVictory, Aow.Units.AoWE.TCombatResult.crNoDefenders).Contains(call__67))
+            var call__62 = FCombatPredictor.Execute();
+            if (TSet<Aow.Units.AoWE.TCombatResult>.Of(Aow.Units.AoWE.TCombatResult.crVictory, Aow.Units.AoWE.TCombatResult.crNoDefenders).Contains(call__62))
             {
-                var call__68 = FCombatPredictor.GetEfficiency();
-                if (call__68 > 50)
+                var call__63 = FCombatPredictor.GetEfficiency();
+                if (call__63 > 50)
                 {
-                    var call__69 = FCombatPredictor.GetEfficiency();
-                    Target.FData.Priority = call__69 + ((Target.FData.Priority * 100) - (Target.FMovePoints * 5));
+                    var call__64 = FCombatPredictor.GetEfficiency();
+                    Target.FData.Priority = call__64 + ((Target.FData.Priority * 100) - (Target.FMovePoints * 5));
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                 }
             }
@@ -1255,20 +1204,20 @@ namespace Aow.Units.IndependentAG
             switch (FState)
             {
                 case 0:
-                    bool bool__70 = (FGroup.FPlayer != 0);
-                    if (!bool__70)
+                    bool bool__65 = (FGroup.FPlayer != 0);
+                    if (!bool__65)
                     {
-                        var call__71 = Aow.Units.AoWE.AoWE.AoWHSMap.GetIndependentAIMode();
-                        var call__72 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
-                        bool__70 = (call__72 < ((int)call__71));
+                        var call__66 = Aow.Units.AoWE.AoWE.AoWHSMap.GetIndependentAIMode();
+                        var call__67 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
+                        bool__65 = (call__67 < ((int)call__66));
                     }
 
-                    if (bool__70)
+                    if (bool__65)
                     {
                         Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
                         Finder.Setup(this);
-                        var call__73 = FGroup.GetMovePointsMin();
-                        Finder.FSelector.FMovePointsMax = call__73;
+                        var call__68 = FGroup.GetMovePointsMin();
+                        Finder.FSelector.FMovePointsMax = call__68;
                         ActivatePlugin(Finder);
                         Finder.Release();
                         FState += 1;
@@ -1281,15 +1230,15 @@ namespace Aow.Units.IndependentAG
                     break;
                 case 1:
                     FTargets.Validate();
-                    var call__74 = FTargets.Count;
-                    if (call__74 != 0)
+                    var call__69 = FTargets.Count;
+                    if (call__69 != 0)
                     {
                         FTargets.SortOnPriority();
                         SetupME();
-                        var call__75 = FTargets.GetTargets(0);
-                        var call__76 = FTargets.GetTargets(0);
-                        var call__77 = FTargets.GetTargets(0);
-                        ExecuteME(unchecked((sbyte)call__77.FLocation.X), unchecked((sbyte)call__76.FLocation.Y), unchecked((sbyte)call__75.FLocation.L));
+                        var call__70 = FTargets.GetTargets(0);
+                        var call__71 = FTargets.GetTargets(0);
+                        var call__72 = FTargets.GetTargets(0);
+                        ExecuteME(unchecked((sbyte)call__72.FLocation.X), unchecked((sbyte)call__71.FLocation.Y), unchecked((sbyte)call__70.FLocation.L));
                         FTargets.Delete(0);
                     }
                     else

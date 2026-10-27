@@ -90,6 +90,11 @@ public interface IClock
     uint TickCount { get; }
     double ElapsedMilliseconds { get; }
     void WaitMilliseconds(int milliseconds);
+    void WaitUntil(double deadline)
+    {
+        int remaining = (int)Math.Ceiling(deadline - ElapsedMilliseconds);
+        if (remaining > 0) WaitMilliseconds(remaining);
+    }
 }
 public sealed class SystemClock : IClock
 {

@@ -8,7 +8,7 @@ public partial class TGeneral
 {
     public void ManagerChangeCursor()
     {
-        if (AoWUnit.AoWUnit.MainForm is { } form) form.FCursor = unchecked((short)Math.Abs(Manager.Cursor));
+        if (Aow.Platform.GameHost.MainForm is { } form) form.FCursor = unchecked((short)Math.Abs(Manager.Cursor));
     }
     public void ManagerUpdate()
     {
@@ -27,7 +27,11 @@ public partial class TGeneral
             info.Visible = true;
         }
         AOWMWindow.AOWMWindow.MWindow.MapWindow.DoubleBuffered = Manager.FOverlayPriority > AOWMWindow.AOWMWindow.MWindow.MapWindow.Priority;
-        if (AoWUnit.AoWUnit.MainForm is { FCursorChanged: true } form) Manager.AddDrawRect(ref form.FLastCursorRect, null);
+        if (Aow.Platform.GameHost.MainForm is { FCursorChanged: true } form)
+        {
+            var rect = form.FLastCursorRect;
+            Manager.AddDrawRect(ref rect, null);
+        }
     }
     public void MapProgress(Engine.TEObject sender, AnsiString message, int progression)
     {
@@ -35,7 +39,7 @@ public partial class TGeneral
         progress.StatusLbl.Text = message;
         progress.Bar.Position = progression;
         progress.ProgDlg.FSurfaceValid = false;
-        var display = AoWUnit.AoWUnit.MainForm?.Display;
+        var display = Aow.Platform.GameHost.MainForm?.Display;
         if (display?.ActiveDC is { } dc)
         {
             Manager.DrawSurface(dc.GetSurface(1));

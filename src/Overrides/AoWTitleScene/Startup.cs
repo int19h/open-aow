@@ -14,8 +14,8 @@ public partial class TTitleScene
         VideoDialog.SetSceneSize(640, 480);
         Aow.Units.AoWExeForms.AoWExeForms.SetVideoMode(VideoDialog, Aow.Units.AoWVideoDlg.TScreenMode.scmTitle);
         VideoDialog.ApplyMode();
-        AoWUnit.AoWUnit.MainForm.Display.SetFrameRate(30);
-        AoWUnit.AoWUnit.MainForm.DXDC.UseVerticalBlank = true;
+        Aow.Platform.GameHost.MainForm.Display.SetFrameRate(30);
+        Aow.Platform.GameHost.MainForm.DXDC.UseVerticalBlank = true;
         FRedrawBackground = true;
         FPressedButton = FHoverButton = -1;
         FFont = FCreditsFont = FontModule.AoW15WhiteGrey;
@@ -25,8 +25,8 @@ public partial class TTitleScene
     public void WindowHide()
     {
         Window.WinManager.ILIndexTBack = 0;
-        AoWUnit.AoWUnit.MainForm?.Display.SetFrameRate(30);
-        if (AoWUnit.AoWUnit.MainForm is { } form) form.DXDC.UseVerticalBlank = false;
+        Aow.Platform.GameHost.MainForm?.Display.SetFrameRate(30);
+        if (Aow.Platform.GameHost.MainForm is { } form) form.DXDC.UseVerticalBlank = false;
         Window.Visible = false;
         TitleSceneIL.ReleaseDiscardableImageData();
     }
@@ -72,7 +72,7 @@ public partial class TTitleScene
                     Window.Visible = false;
                     General.PlayButtonSound(0);
                     if (AoWE.AoWE.AoWEngine.FDemo) E2Globals.E2Globals.TitleWindow.ShowExitSplash();
-                    else AoWUnit.AoWUnit.MainForm.CloseRequested();
+                    else Aow.Platform.GameHost.MainForm.CloseRequested();
                     break;
             }
         }

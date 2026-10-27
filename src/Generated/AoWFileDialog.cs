@@ -233,7 +233,7 @@ namespace Aow.Units.AoWFileDialog
         {
             if (Success)
             {
-                Aow.Units.AoWUnit.AoWUnit.DeferredSetupAction = 2;
+                Aow.Platform.GameHost.DeferredSetupAction = 2;
             }
         }
 

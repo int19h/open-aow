@@ -17,6 +17,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     public Func<bool>? CaptureWhen { get; set; }
     public Action? AfterPresent { get; set; }
     public int? FixtureFrame { get; set; }
+    public string? CaptureName { get; set; }
     public void ShowSystemCursor(bool show) { }
     public void ResizeImage(int width, int height) => ClientSize = (width, height);
     public void PumpEvents(IDisplayEvents sink) { }
@@ -33,7 +34,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
         for (int y = 0; y < surface.Height; y++)
             (source + checked(y * surface.Pitch)).AsSpan(pitch).CopyTo(bytes.AsSpan(y * pitch, pitch));
         Directory.CreateDirectory(directory);
-        string name = Path.Combine(directory, $"frame-{FixtureFrame ?? Frame}");
+        string name = Path.Combine(directory, CaptureName ?? $"frame-{FixtureFrame ?? Frame}");
         File.WriteAllBytes(name + ".raw", bytes);
         File.WriteAllText(name + ".json", JsonSerializer.Serialize(new
         {

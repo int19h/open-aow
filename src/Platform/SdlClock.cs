@@ -9,6 +9,12 @@ public sealed class SdlClock : IClock
     public DateTime UtcNow => DateTime.UtcNow;
     public uint TickCount => unchecked((uint)(SDL_GetTicksNS() / 1_000_000));
     public double ElapsedMilliseconds => SDL_GetTicksNS() / 1_000_000.0;
+    public void WaitUntil(double deadline)
+    {
+        double remaining = deadline - ElapsedMilliseconds;
+        if (remaining > 2) SDL_DelayPrecise((ulong)((remaining - 2) * 1_000_000));
+        while (ElapsedMilliseconds < deadline) Thread.SpinWait(16);
+    }
     public void WaitMilliseconds(int milliseconds)
     {
         if (milliseconds < 0) throw new ArgumentOutOfRangeException(nameof(milliseconds));
@@ -28,8 +34,7 @@ public sealed class FramePacer(IClock clock, int frameRate = 30)
     public void Wait()
     {
         double target = last + frameTime;
-        int remaining = (int)Math.Ceiling(target - clock.ElapsedMilliseconds);
-        if (remaining > 0) clock.WaitMilliseconds(remaining);
+        clock.WaitUntil(target);
         last = clock.ElapsedMilliseconds;
     }
 }

@@ -650,7 +650,7 @@ namespace Aow.Units.AoWScenSetup
             }
             else
             {
-                Aow.Units.AoWUnit.AoWUnit.DeferredSetupAction = 1;
+                Aow.Platform.GameHost.DeferredSetupAction = 1;
             }
         }
 
