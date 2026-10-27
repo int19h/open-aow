@@ -1572,3 +1572,33 @@ file = "src/Overrides/GFXE/MemorySurfaces.cs"
 member = "GFXE.TBlendTable5Bit.Assign"
 reason = "copy Pascal fixed arrays into existing storage"
 file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "ImageLib.TImageLibraryFont.TextWidth"
+reason = "glyph reference slots hold image indices, pinned by libraries font cases"
+file = "src/Overrides/ImageLib/Font.cs"
+
+[[skip]]
+member = "ImageLib.TImageLibraryFont.ShowText"
+reason = "glyph reference slots hold image indices, pinned by libraries font cases"
+file = "src/Overrides/ImageLib/Font.cs"
+
+[[skip]]
+member = "ImageLib.TImageLibraryFont.SetColor"
+reason = "write the palette entry union through its managed storage, pinned by libraries font color cases"
+file = "src/Overrides/ImageLib/Font.cs"
+
+[[skip]]
+member = "ImageLib.TPicture08.ShowOpaque"
+reason = "retain managed pointer provenance, pinned by libraries picture08 cases"
+file = "src/Overrides/ImageLib/Picture08.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface08to555"
+reason = "reinterpret destination byte storage as words, pinned by libraries picture08 cases"
+file = "src/Overrides/GFXE/PaletteBlit.cs"
+
+[[skip]]
+member = "GFXE.RemapSurface08to565"
+reason = "reinterpret destination byte storage as words, pinned by libraries picture08 cases"
+file = "src/Overrides/GFXE/PaletteBlit.cs"
