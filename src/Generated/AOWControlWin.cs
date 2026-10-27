@@ -227,317 +227,39 @@ namespace Aow.Units.AOWControlWin
         public byte FSelection;
         // { $178 }
         public Aow.Units.FixedArray_byte_3 F_ControlWin_179;
-        // AOWControlWin.pas:129
-        // { $45B054 }
-        public void UpdateArmy()
-        {
-            bool ReadOnly = default;
-            Unit1Chk.Checked = false;
-            Unit2Chk.Checked = false;
-            Unit3Chk.Checked = false;
-            Unit4Chk.Checked = false;
-            Unit5Chk.Checked = false;
-            Unit6Chk.Checked = false;
-            Unit7Chk.Checked = false;
-            Unit8Chk.Checked = false;
-            Emp1Fr.Visible = true;
-            Emp1Chk.Visible = true;
-            Emp2Fr.Visible = true;
-            Emp2Chk.Visible = true;
-            Emp3Fr.Visible = true;
-            Emp3Chk.Visible = true;
-            Emp4Fr.Visible = true;
-            Emp4Chk.Visible = true;
-            Emp5Fr.Visible = true;
-            Emp5Chk.Visible = true;
-            Emp6Fr.Visible = true;
-            Emp6Chk.Visible = true;
-            Emp7Fr.Visible = true;
-            Emp7Chk.Visible = true;
-            Emp8Fr.Visible = true;
-            Emp8Chk.Visible = true;
-            Unit1Frame.ILIndexFrame = 12;
-            Unit2Frame.ILIndexFrame = 12;
-            Unit3Frame.ILIndexFrame = 12;
-            Unit4Frame.ILIndexFrame = 12;
-            Unit5Frame.ILIndexFrame = 12;
-            Unit6Frame.ILIndexFrame = 12;
-            Unit7Frame.ILIndexFrame = 12;
-            Unit8Frame.ILIndexFrame = 12;
-            PartyActionLbl1.Visible = false;
-            PartyActionLbl2.Visible = false;
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.FPlayer == 0)
-            {
-                PartyBPnl.Visible = false;
-                PartyIPnl.Visible = true;
-                PartyILbl.Text = (AnsiString)"";
-                ReadOnly = true;
-                PartyActionLbl1.Visible = true;
-                PartyActionLbl2.Visible = true;
-                var call__1 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.PartyActionRStr);
-                PartyActionLbl1.Text = call__1;
-                var call__2 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetBehavior(255);
-                switch (unchecked((int)call__2) & 127)
-                {
-                    case 1:
-                        var call__3 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.PatrollingRStr);
-                        PartyActionLbl2.Text = call__3;
-                        break;
-                    case 2:
-                    case 3:
-                        var call__4 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.GuardingRStr);
-                        PartyActionLbl2.Text = call__4;
-                        break;
-                    case 4:
-                        var call__5 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.ScoutingRStr);
-                        PartyActionLbl2.Text = call__5;
-                        break;
-                    case 5:
-                        var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.SeekingRefugeRStr);
-                        PartyActionLbl2.Text = call__6;
-                        break;
-                    case 6:
-                        var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.RaidingRStr);
-                        PartyActionLbl2.Text = call__7;
-                        break;
-                    case 7:
-                        var call__8 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.HuntingRStr);
-                        PartyActionLbl2.Text = call__8;
-                        break;
-                    case 8:
-                        var call__9 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.ProtectingRStr);
-                        PartyActionLbl2.Text = call__9;
-                        break;
-                    case 9:
-                        var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.FortifiedRStr);
-                        PartyActionLbl2.Text = call__10;
-                        break;
-                    case 10:
-                        var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.BerserkRStr);
-                        PartyActionLbl2.Text = call__11;
-                        break;
-                    default:
-                        var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.WanderingRStr);
-                        PartyActionLbl2.Text = call__12;
-                        break;
-                }
-            }
-            else
-            {
-                if (Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.FPlayer != Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
-                {
-                    PartyBPnl.Visible = false;
-                    PartyIPnl.Visible = true;
-                    ReadOnly = true;
-                    var call__13 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.FPlayer);
-                    var call__14 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[call__13.FPlayerRace]);
-                    var call__15 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PartyOwnerXRStr);
-                    var call__16 = Aow.Units.AoWE.AoWE.Format(call__15, [call__14]);
-                    PartyILbl.Text = call__16;
-                    PControlPnl.Visible = false;
-                }
-                else
-                {
-                    PartyBPnl.Visible = true;
-                    PartyIPnl.Visible = false;
-                    ReadOnly = false;
-                    MoveIcon.Visible = true;
-                    var call__17 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetPartyMoves(255);
-                    var call__18 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__17);
-                    MoveIcon.CurrentImage = call__18;
-                    var call__19 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(255);
-                    MovesLbl.Text = Aow.Rtl.Rtl.IntToStr(call__19);
-                    Aow.Units.AOWControlWin.AOWControlWin.ControlWin.CheckEnd();
-                    PControlPnl.Visible = true;
-                    PGuard.Checked = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.FUserMode.Contains(Aow.Units.AoWE.TArmyUserModeElement.aumGuard);
-                }
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[0] != -1)
-            {
-                var call__20 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MoveTypes(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[0])));
-                var call__21 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__20);
-                U1MIcon.CurrentImage = call__21;
-                var call__22 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[0]);
-                var call__23 = call__22.GetHits();
-                Unit1Gge.Max = call__23;
-                var call__24 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[0]);
-                var call__25 = call__24.GetHitPoints();
-                Unit1Gge.Position = call__25;
-                var call__26 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[0])));
-                Unit1Chk.Text = AnsiString.FromBytes(32) + Aow.Rtl.Rtl.IntToStr(call__26);
-                Emp1Fr.Visible = false;
-                Unit1Chk.Visible = !ReadOnly;
-                Emp1Chk.Visible = ReadOnly;
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[1] != -1)
-            {
-                var call__27 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MoveTypes(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[1])));
-                var call__28 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__27);
-                U2MIcon.CurrentImage = call__28;
-                var call__29 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[1]);
-                var call__30 = call__29.GetHits();
-                Unit2Gge.Max = call__30;
-                var call__31 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[1]);
-                var call__32 = call__31.GetHitPoints();
-                Unit2Gge.Position = call__32;
-                var call__33 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[1])));
-                Unit2Chk.Text = AnsiString.FromBytes(32) + Aow.Rtl.Rtl.IntToStr(call__33);
-                Emp2Fr.Visible = false;
-                Unit2Chk.Visible = !ReadOnly;
-                Emp2Chk.Visible = ReadOnly;
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[2] != -1)
-            {
-                var call__34 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MoveTypes(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[2])));
-                var call__35 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__34);
-                U3MIcon.CurrentImage = call__35;
-                var call__36 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[2]);
-                var call__37 = call__36.GetHits();
-                Unit3Gge.Max = call__37;
-                var call__38 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[2]);
-                var call__39 = call__38.GetHitPoints();
-                Unit3Gge.Position = call__39;
-                var call__40 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[2])));
-                Unit3Chk.Text = AnsiString.FromBytes(32) + Aow.Rtl.Rtl.IntToStr(call__40);
-                Emp3Fr.Visible = false;
-                Unit3Chk.Visible = !ReadOnly;
-                Emp3Chk.Visible = ReadOnly;
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[3] != -1)
-            {
-                var call__41 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MoveTypes(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[3])));
-                var call__42 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__41);
-                U4MIcon.CurrentImage = call__42;
-                var call__43 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[3]);
-                var call__44 = call__43.GetHits();
-                Unit4Gge.Max = call__44;
-                var call__45 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[3]);
-                var call__46 = call__45.GetHitPoints();
-                Unit4Gge.Position = call__46;
-                var call__47 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[3])));
-                Unit4Chk.Text = AnsiString.FromBytes(32) + Aow.Rtl.Rtl.IntToStr(call__47);
-                Emp4Fr.Visible = false;
-                Unit4Chk.Visible = !ReadOnly;
-                Emp4Chk.Visible = ReadOnly;
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[4] != -1)
-            {
-                var call__48 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MoveTypes(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[4])));
-                var call__49 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__48);
-                U5MIcon.CurrentImage = call__49;
-                var call__50 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[4]);
-                var call__51 = call__50.GetHits();
-                Unit5Gge.Max = call__51;
-                var call__52 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[4]);
-                var call__53 = call__52.GetHitPoints();
-                Unit5Gge.Position = call__53;
-                var call__54 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[4])));
-                Unit5Chk.Text = AnsiString.FromBytes(32) + Aow.Rtl.Rtl.IntToStr(call__54);
-                Emp5Fr.Visible = false;
-                Unit5Chk.Visible = !ReadOnly;
-                Emp5Chk.Visible = ReadOnly;
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[5] != -1)
-            {
-                var call__55 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MoveTypes(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[5])));
-                var call__56 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__55);
-                U6MIcon.CurrentImage = call__56;
-                var call__57 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[5]);
-                var call__58 = call__57.GetHits();
-                Unit6Gge.Max = call__58;
-                var call__59 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[5]);
-                var call__60 = call__59.GetHitPoints();
-                Unit6Gge.Position = call__60;
-                var call__61 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[5])));
-                Unit6Chk.Text = AnsiString.FromBytes(32) + Aow.Rtl.Rtl.IntToStr(call__61);
-                Emp6Fr.Visible = false;
-                Unit6Chk.Visible = !ReadOnly;
-                Emp6Chk.Visible = ReadOnly;
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[6] != -1)
-            {
-                var call__62 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MoveTypes(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[6])));
-                var call__63 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__62);
-                U7MIcon.CurrentImage = call__63;
-                var call__64 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[6]);
-                var call__65 = call__64.GetHits();
-                Unit7Gge.Max = call__65;
-                var call__66 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[6]);
-                var call__67 = call__66.GetHitPoints();
-                Unit7Gge.Position = call__67;
-                var call__68 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[6])));
-                Unit7Chk.Text = AnsiString.FromBytes(32) + Aow.Rtl.Rtl.IntToStr(call__68);
-                Emp7Fr.Visible = false;
-                Unit7Chk.Visible = !ReadOnly;
-                Emp7Chk.Visible = ReadOnly;
-            }
-
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[7] != -1)
-            {
-                var call__69 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MoveTypes(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[7])));
-                var call__70 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__69);
-                U8MIcon.CurrentImage = call__70;
-                var call__71 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[7]);
-                var call__72 = call__71.GetHits();
-                Unit8Gge.Max = call__72;
-                var call__73 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[7]);
-                var call__74 = call__73.GetHitPoints();
-                Unit8Gge.Position = call__74;
-                var call__75 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)(1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[7])));
-                Unit8Chk.Text = AnsiString.FromBytes(32) + Aow.Rtl.Rtl.IntToStr(call__75);
-                Emp8Fr.Visible = false;
-                Unit8Chk.Visible = !ReadOnly;
-                Emp8Chk.Visible = ReadOnly;
-            }
-
-            if (!Aow.Units.AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible)
-            {
-                ControlWindow.Visible = true;
-            }
-
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible = true;
-        }
-
         // AOWControlWin.pas:294
         public void DrawUnit(int Index, in Aow.Rtl.TRect R, ref Aow.Units.GFXE.TSurfaceDesc SD)
         {
             if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index] != -1)
             {
-                var call__76 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
-                var call__77 = call__76.GetPreviewImage();
-                if (call__77 != null)
+                var call__1 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
+                var call__2 = call__1.GetPreviewImage();
+                if (call__2 != null)
                 {
                     SD.ClipRect = R;
                     // { Original tests the unsorted index when checking the background library. }
-                    var call__78 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Index);
-                    var call__79 = call__78.GetAlignment();
-                    if (((int)call__79) < Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
+                    var call__3 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Index);
+                    var call__4 = call__3.GetAlignment();
+                    if (((int)call__4) < Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                     {
-                        var call__80 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
-                        var call__81 = call__80.GetAlignment();
-                        var call__82 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)call__81];
-                        var call__83 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
-                        var call__84 = call__83.GetAlignment();
-                        var call__85 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)call__84];
-                        var call__86 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
-                        var call__87 = call__86.GetAlignment();
-                        var call__88 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)call__87];
-                        call__88.ShowClipped(R.Left + (((R.Right - R.Left) - call__85.Width) / 2), R.Top + (((R.Bottom - R.Top) - call__82.Height) / 2), SD);
+                        var call__5 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
+                        var call__6 = call__5.GetAlignment();
+                        var call__7 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)call__6];
+                        var call__8 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
+                        var call__9 = call__8.GetAlignment();
+                        var call__10 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)call__9];
+                        var call__11 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
+                        var call__12 = call__11.GetAlignment();
+                        var call__13 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)call__12];
+                        call__13.ShowClipped(R.Left + (((R.Right - R.Left) - call__10.Width) / 2), R.Top + (((R.Bottom - R.Top) - call__7.Height) / 2), SD);
                     }
 
-                    var call__89 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
-                    var call__90 = call__89.GetPreviewImage();
-                    var call__91 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
-                    var call__92 = call__91.GetPreviewImage();
-                    var call__93 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
-                    call__93.ShowEx(R.Left + (((R.Right - R.Left) - call__92.Width) / 2), R.Top + (((R.Bottom - R.Top) - call__90.Height) / 2), SD, Aow.Units.AoWWinMan.AoWWinMan.General.FUnitShowInfo);
+                    var call__14 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
+                    var call__15 = call__14.GetPreviewImage();
+                    var call__16 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
+                    var call__17 = call__16.GetPreviewImage();
+                    var call__18 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Index]);
+                    call__18.ShowEx(R.Left + (((R.Right - R.Left) - call__17.Width) / 2), R.Top + (((R.Bottom - R.Top) - call__15.Height) / 2), SD, Aow.Units.AoWWinMan.AoWWinMan.General.FUnitShowInfo);
                 }
             }
         }
@@ -567,9 +289,9 @@ namespace Aow.Units.AOWControlWin
         public void ControlWindowResize()
         {
             {
-                var w__94 = ControlWindow;
-                w__94.Alignment.RightOffset = (w__94.WinManager.WinWidth - w__94.WinLeft) - w__94.WinWidth;
-                w__94.Alignment.TopOffset = w__94.WinTop;
+                var w__19 = ControlWindow;
+                w__19.Alignment.RightOffset = (w__19.WinManager.WinWidth - w__19.WinLeft) - w__19.WinWidth;
+                w__19.Alignment.TopOffset = w__19.WinTop;
             }
         }
 
@@ -578,18 +300,18 @@ namespace Aow.Units.AOWControlWin
         public void Unit1FrameMouseDown(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             Aow.Units.AoWE.TAbstractUnit U = default;
-            bool bool__95 = (Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Sender.Tag] > -1);
-            if (bool__95)
+            bool bool__20 = (Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Sender.Tag] > -1);
+            if (bool__20)
             {
-                var call__96 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Sender.Tag]);
-                bool__95 = (call__96 != null);
+                var call__21 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Sender.Tag]);
+                bool__20 = (call__21 != null);
             }
 
-            if (bool__95)
+            if (bool__20)
             {
                 {
-                    var call__97 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Sender.Tag]);
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__97;
+                    var call__22 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetUnit(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[Sender.Tag]);
+                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__22;
                     if (Button == Aow.Rtl.TMouseButton.mbLeft)
                     {
                         Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
@@ -663,8 +385,8 @@ namespace Aow.Units.AOWControlWin
         // { draft }
         public void CheckEnd()
         {
-            var call__98 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
-            FSelection = unchecked((byte)call__98);
+            var call__23 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
+            FSelection = unchecked((byte)call__23);
             Unit1Chk.Checked = (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[0] != -1) && ((FSelection & (1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[0])) == 0);
             Unit2Chk.Checked = (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[1] != -1) && ((FSelection & (1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[1])) == 0);
             Unit3Chk.Checked = (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[2] != -1) && ((FSelection & (1 << Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnits[2])) == 0);
@@ -745,18 +467,18 @@ namespace Aow.Units.AOWControlWin
                 Unit8Frame.ILIndexFrame = 12;
             }
 
-            var call__99 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
-            var call__100 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetPartyMoves(unchecked((byte)call__99));
-            var call__101 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__100);
-            MoveIcon.CurrentImage = call__101;
-            var call__102 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
-            var call__103 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)call__102));
-            MovesLbl.Text = Aow.Rtl.Rtl.IntToStr(call__103);
-            var call__104 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
-            var call__105 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetArmyHS();
-            var call__106 = call__105.FArmy.GetPartyStatus(unchecked((byte)call__104));
-            var call__107 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPartyStatusRStr[(int)call__106]);
-            PartyStatusLbl.Text = call__107;
+            var call__24 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
+            var call__25 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.GetPartyMoves(unchecked((byte)call__24));
+            var call__26 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__25);
+            MoveIcon.CurrentImage = call__26;
+            var call__27 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
+            var call__28 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList.MovePoints(unchecked((byte)call__27));
+            MovesLbl.Text = Aow.Rtl.Rtl.IntToStr(call__28);
+            var call__29 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
+            var call__30 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetArmyHS();
+            var call__31 = call__30.FArmy.GetPartyStatus(unchecked((byte)call__29));
+            var call__32 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPartyStatusRStr[(int)call__31]);
+            PartyStatusLbl.Text = call__32;
         }
 
         // AOWControlWin.pas:407
@@ -777,13 +499,13 @@ namespace Aow.Units.AOWControlWin
             // { Tried direct coordinate paths; no exact match. }
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
             {
-                var w__108 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
-                Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(w__108.FX, w__108.FY, w__108.FL);
+                var w__33 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
+                Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(w__33.FX, w__33.FY, w__33.FL);
             }
 
             {
-                var w__109 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
-                Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)w__109.FX), unchecked((sbyte)w__109.FY), unchecked((sbyte)w__109.FL));
+                var w__34 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
+                Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)w__34.FX), unchecked((sbyte)w__34.FY), unchecked((sbyte)w__34.FL));
             }
         }
 
@@ -797,8 +519,8 @@ namespace Aow.Units.AOWControlWin
             {
                 Component = Sender;
                 SaveRect = SurfDesc.ClipRect;
-                var call__110 = Aow.Rtl.Rtl.Rect((Component.AOWOwner.WinLeft + Component.WinLeft) + 4, (Component.AOWOwner.WinTop + Component.WinTop) + 3, ((Component.AOWOwner.WinLeft + Component.WinLeft) + Component.WinWidth) - 3, ((Component.AOWOwner.WinTop + Component.WinTop) + Component.WinHeight) - 7);
-                DrawUnit(Component.Tag, call__110, ref SurfDesc);
+                var call__35 = Aow.Rtl.Rtl.Rect((Component.AOWOwner.WinLeft + Component.WinLeft) + 4, (Component.AOWOwner.WinTop + Component.WinTop) + 3, ((Component.AOWOwner.WinLeft + Component.WinLeft) + Component.WinWidth) - 3, ((Component.AOWOwner.WinTop + Component.WinTop) + Component.WinHeight) - 7);
+                DrawUnit(Component.Tag, call__35, ref SurfDesc);
                 SurfDesc.ClipRect = SaveRect;
             }
         }

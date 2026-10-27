@@ -233,8 +233,7 @@ namespace Aow.Units.AoWFileDialog
         {
             if (Success)
             {
-                /* TODO(T-shim) Platform or editor boundary AoWUnit.DeferredSetupAction */
-                throw new System.NotImplementedException();
+                Aow.Units.AoWUnit.AoWUnit.DeferredSetupAction = 2;
             }
         }
 

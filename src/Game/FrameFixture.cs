@@ -21,6 +21,8 @@ internal sealed class FrameFixture
     {
         var fixture = Load(path, name);
         string scene = fixture.Get("scene");
+        bool presentationClock = fixture.defaults.GetValueOrDefault("frame_clock") == "presentation" || fixture.values.GetValueOrDefault("frame_clock") == "presentation";
+        bool worldCapture = fixture.values.GetValueOrDefault("capture_clock") == "world";
         bool tactical = fixture.values.GetValueOrDefault("action") == "tactical";
         var clicks = fixture.Clicks();
         int frame = frameLimit ?? int.Parse(fixture.Get("frame"), CultureInfo.InvariantCulture);
@@ -42,7 +44,7 @@ internal sealed class FrameFixture
         FrameFixtureInputs.Tactical = tactical;
         // The native capture uses positive FPS below 15 at its six strategic moves.
         // Reproduce that movement tier without making animation depend on host speed.
-        FrameFixtureInputs.MeasuredFrameRate = tactical ? 9 : null;
+        FrameFixtureInputs.MeasuredFrameRate = fixture.defaults.TryGetValue("measured_frame_rate", out var measuredRate) ? int.Parse(measuredRate, CultureInfo.InvariantCulture) : tactical ? 9 : null;
         string argument = "";
         string? input = null;
         if (scene != "title")
@@ -67,34 +69,53 @@ internal sealed class FrameFixture
                 Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.MinClick();
                 tacticalReady = true;
             };
-            bool AtTarget() => scene == "title" ? display.Frame == frame :
+            bool AtTarget() => !worldCapture && (scene == "title" || presentationClock) ? display.Frame == frame :
                 tactical ? tacticalReady && GameState.AoWHSMap.FCombatMap.Frame == frame :
                 GameState.AoWHSMap is { } map && map.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
             display.CaptureWhen = AtTarget;
             display.AfterPresent = () =>
             {
                 if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
-                if (GameState.AoWHSMap is { } map && applied < clicks.Count)
+                if ((presentationClock || GameState.AoWHSMap is not null) && applied < clicks.Count)
                 {
                     var click = clicks[applied];
-                    if (map.Frame > click.At) throw new InvalidOperationException("Missed scripted map frame " + click.At);
-                    if (map.Frame == click.At)
+                    bool worldInput = (click.Clock ?? (presentationClock ? "presentation" : "world")) != "presentation";
+                    long scriptFrame = !worldInput ? display.Frame : GameState.AoWHSMap?.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) ? GameState.AoWHSMap.Frame : -1;
+                    if (scriptFrame > click.At) throw new InvalidOperationException("Missed scripted frame " + click.At);
+                    if (scriptFrame == click.At)
                     {
                         var manager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-                        manager.CheckMouseMove(default, click.X, click.Y);
-                        manager.CheckMouseDown((TMouseButton)click.Button, default, click.X, click.Y);
-                        manager.CheckMouseUp((TMouseButton)click.Button, default, click.X, click.Y);
+                        if (click.Key is int key) { byte character = (byte)key; manager.CheckKeyPress(ref character); }
+                        else
+                        {
+                            manager.CheckMouseMove(default, click.X, click.Y);
+                            manager.CheckMouseDown((TMouseButton)click.Button, default, click.X, click.Y);
+                            manager.CheckMouseUp((TMouseButton)click.Button, default, click.X, click.Y);
+                        }
                         if (click.Double) form.DoubleClick();
-                        script.WriteLine(JsonSerializer.Serialize(new { map_frame = map.Frame, click.X, click.Y, click.Button, click.Double }));
+                        script.WriteLine(JsonSerializer.Serialize(new { script_frame = scriptFrame, click.X, click.Y, click.Button, click.Double }));
                         applied++;
                     }
                 }
                 if (display.Frame >= 10000) throw new TimeoutException("Fixture target not reached");
             };
-            form.Run(scene == "title" ? frame : 0);
-            if (scene == "title") complete = display.Frame == frame;
+            form.Run(scene == "title" && !worldCapture ? frame : 0);
+            if (scene == "title" && !worldCapture) complete = display.Frame == frame;
             if (!complete || applied != clicks.Count) throw new InvalidOperationException("Fixture ended before all inputs and the target frame");
             var taskbar = Aow.Units.AoWExeForms.AoWExeForms.TBWindow;
+            var controls = Aow.Units.AOWControlWin.AOWControlWin.ControlWin;
+            File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text.ToString(), controls.Unit2Chk.Text.ToString(), controls.MovesLbl.Text.ToString() }) + "\n");
+            var selected = GameState.AoWHSMap?.FSelectedArmy?.GetArmyHS();
+            File.WriteAllText(Path.Combine(output, "selection.json"), JsonSerializer.Serialize(new
+            {
+                count = GameState.AoWHSMap?.FSelectedArmy?.FMoveSettingsList?.Count,
+                x = selected?.GetXhx(), y = selected?.GetYhx(), level = selected?.GetLhx(), units = selected?.FArmy?.Count
+            }) + "\n");
+            if (fixture.values.GetValueOrDefault("save_state") == "true")
+            {
+                (GameState.AoWHSMap ?? throw new InvalidOperationException("State capture requires a map")).FPlayerControl.AutoSave();
+                File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "state.asg"), true);
+            }
             File.WriteAllText(Path.Combine(output, "taskbar.json"), JsonSerializer.Serialize(
                 new[] { taskbar.WGTLbl, taskbar.WGILbl, taskbar.WMTLbl, taskbar.WMILbl, taskbar.TGTLbl, taskbar.TGILbl, taskbar.TMTLbl, taskbar.TMILbl }
                     .Select(c => new { name = c.Name.ToString(), text = c.Text.ToString(), c.WinLeft, c.WinTop, c.WinWidth, c.WinHeight, c.FVisible,
@@ -159,16 +180,18 @@ internal sealed class FrameFixture
 
         return result;
     }
-    private sealed record Click(int At, int X, int Y, int Button, bool Double);
+    private sealed record Click(int At, int X, int Y, int Button, bool Double, int? Key, string? Clock);
     private List<Click> Clicks()
     {
         if (!values.TryGetValue("clicks", out string? text)) return [];
         string json = Regex.Replace(text, @"(\w+)\s*=", "\"$1\":");
         using var document = JsonDocument.Parse(json);
         return document.RootElement.EnumerateArray().Select(c => new Click(c.GetProperty("at").GetInt32(),
-            c.GetProperty("x").GetInt32(), c.GetProperty("y").GetInt32(),
+            c.TryGetProperty("x", out var x) ? x.GetInt32() : 0, c.TryGetProperty("y", out var y) ? y.GetInt32() : 0,
             c.TryGetProperty("button", out var button) ? button.GetInt32() : 0,
-            c.TryGetProperty("double", out var twice) && twice.GetBoolean())).ToList();
+            c.TryGetProperty("double", out var twice) && twice.GetBoolean(),
+            c.TryGetProperty("key", out var key) ? key.GetInt32() : null,
+            c.TryGetProperty("clock", out var clock) ? clock.GetString() : null)).ToList();
     }
     private sealed class FixtureHost : IRtlHost, IDialogService
     {

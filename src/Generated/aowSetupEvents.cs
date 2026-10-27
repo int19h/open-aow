@@ -119,15 +119,21 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:84
         public void UpdatePlayerName(Aow.Rtl.AnsiString Name)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.Connected */
+            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.PlayerName */
             throw new System.NotImplementedException();
         }
 
         // aowSetupEvents.pas:90
         public void SetupControlStart()
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.Connected */
-            throw new System.NotImplementedException();
+            Aow.Units.E2Globals.E2Globals.SynchronizeDlg.Dlg.Visible = false;
+            Aow.Units.AoWExeForms.AoWExeForms.ScenSetup.CloseSetup();
+            Aow.Units.AoWWinMan.AoWWinMan.StartGame(Aow.Units.AoWWinMan.AoWWinMan.General);
+            if (DPlay.Connected)
+            {
+                ClearChat();
+                UpdateChatPlayers();
+            }
         }
 
         // aowSetupEvents.pas:102
@@ -302,13 +308,6 @@ namespace Aow.Units.aowSetupEvents
             {
                 Aow.Units.E2Globals.E2Globals.SynchronizeDlg.Dlg.Visible = true;
             }
-        }
-
-        // aowSetupEvents.pas:246
-        public void SetupControlPlayerSetupDone()
-        {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.LockSession */
-            throw new System.NotImplementedException();
         }
 
         // aowSetupEvents.pas:249
