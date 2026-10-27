@@ -149,13 +149,14 @@ public partial class TCustomDisplay
 
 public partial class TDisplayCtrl
 {
+    private double lastVerticalBlank;
     public override int WaitForVerticalBlank()
     {
         var clock = Aow.Rtl.Rtl.Clock;
-        double target = FLastVBTime + FDisplay.FFrameTime;
-        int wait = (int)Math.Ceiling(target - clock.ElapsedMilliseconds);
-        if (wait > 0) clock.WaitMilliseconds(wait);
-        FLastVBTime = (int)clock.ElapsedMilliseconds;
+        double target = lastVerticalBlank + FDisplay.FFrameTime;
+        clock.WaitUntil(target);
+        lastVerticalBlank = clock.ElapsedMilliseconds;
+        FLastVBTime = unchecked((int)lastVerticalBlank);
         return 0;
     }
     public override int Handle() => 0;

@@ -71,7 +71,7 @@ public partial class TUnitWindow
             selected.Checked = false;
             ClearItemSelection();
         }
-        AoWUnit.AoWUnit.MainForm.FCursorImage = FCursorImage;
+        Aow.Platform.GameHost.MainForm.FCursorImage = FCursorImage;
     }
 
     private void ClearItemSelection()

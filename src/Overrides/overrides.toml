@@ -2161,3 +2161,8 @@ file = "src/Overrides/AoWE/TokenLoggingTodos.cs"
 member = "FileSecurity.ReadSecurityData"
 reason = "7.3: Read the SDID footer and CRC through the host file service"
 file = "src/Overrides/FileSecurity/RemainingTodos.cs"
+
+[[skip]]
+member = "IndependentAG.TRaidAGC.ProcessStates"
+reason = "7.5: The original state-2 path loads raze mode 04 at 557D9ADC, selecting rcmAlways"
+file = "src/Overrides/IndependentAG/Raids.cs"

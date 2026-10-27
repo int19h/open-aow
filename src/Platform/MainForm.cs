@@ -1,6 +1,5 @@
 #nullable disable
 using Aow.Layout;
-using Aow.Platform;
 using Aow.Rtl;
 using Aow.Units.DisplayC;
 using Aow.Units.GFXE;
@@ -16,25 +15,18 @@ using static Aow.Units.AOWMWindow.AOWMWindow;
 using static Aow.Units.AoWSWindow.AoWSWindow;
 using static Aow.Units.AoWFileDialog.AoWFileDialog;
 
-namespace Aow.Units.AoWUnit;
-
-public static class AoWUnit
-{
-    public static TMainForm MainForm { get; internal set; }
-    public static byte DeferredSetupAction;
-    public static bool DisplayActivated;
-}
+namespace Aow.Platform;
 
 /// <summary>The host window and frame procedure from AoWUnit.pas.</summary>
-public sealed class TMainForm : IDisplayEvents, IDisposable
+public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
 {
     public TDisplay Display { get; }
     public TSdlDC WinDC { get; }
     public TSdlDC DXDC => WinDC;
-    public short FCursor;
-    public Aow.Units.ImageLib.TLibraryImage FCursorImage;
-    public TRect FLastCursorRect;
-    public bool FCursorChanged;
+    public short FCursor { get; set; }
+    public Aow.Units.ImageLib.TLibraryImage FCursorImage { get; set; }
+    public TRect FLastCursorRect { get; private set; }
+    public bool FCursorChanged { get; private set; }
     public bool IsClosed { get; private set; }
     public LayoutSession Layouts { get; }
     private readonly IDisplayHost host;
@@ -46,7 +38,7 @@ public sealed class TMainForm : IDisplayEvents, IDisposable
     {
         this.host = host;
         Layouts = layouts;
-        AoWUnit.MainForm = this;
+        GameHost.MainForm = this;
         Display = new TDisplay();
         Display.Create__init(null);
         Display.Host = host;
@@ -58,8 +50,8 @@ public sealed class TMainForm : IDisplayEvents, IDisposable
 
     public static TMainForm Create(IDisplayHost host, string argument = "")
     {
-        GFXE.GFXE.DesktopSize = () => host.DesktopSize;
-        Startup.InitializeAll();
+        GFXE.DesktopSize = () => host.DesktopSize;
+        Aow.Units.Startup.InitializeAll();
         Aow.Units.Sound.NullSoundSystem.Install();
         var layouts = new LayoutSession();
         GameLayouts.Initialize(layouts);
@@ -73,7 +65,6 @@ public sealed class TMainForm : IDisplayEvents, IDisposable
         Display.OnUpdateFrame = DisplayUpdateFrame;
         Display.OnResizeBackSurface = (_, w, h) => DisplayResizeBackSurface(w, h);
         Display.OnSurfaceDataLost = (_, _) => General.Manager.FAligned = false;
-        Display.OnActivateDC = (_, _) => AoWUnit.DisplayActivated = true;
         Display.OnSwapDC = _ => { VideoDialog.FModeChanged = true; VideoDialog.ApplyMode(); };
         Display.PrimaryDC = WinDC;
         Display.SecondaryDC = WinDC;
@@ -114,7 +105,7 @@ public sealed class TMainForm : IDisplayEvents, IDisposable
         if (argument.Length != 0 && Aow.Rtl.Rtl.FileExists(argument) && Path.GetExtension(argument).ToLowerInvariant() is ".asg" or ".acg")
         {
             ShowTitleScene(TitleScene, false);
-            AoWUnit.DeferredSetupAction = 2;
+            GameHost.DeferredSetupAction = 2;
             FileDlgWindow.FLastFileName = argument;
             return;
         }
@@ -136,10 +127,10 @@ public sealed class TMainForm : IDisplayEvents, IDisposable
     public void DisplayUpdateFrame(TObject sender, TAbstractDC dc, int surfaceType)
     {
         Aow.Rtl.Rtl.Clock.WaitMilliseconds(AoWEngine.FRegistry.GetDebugMode() ? 1 : 0);
-        switch (AoWUnit.DeferredSetupAction)
+        switch (GameHost.DeferredSetupAction)
         {
-            case 1: AoWUnit.DeferredSetupAction = 0; ScenSetup.FSetupControl.hPlayerSetupDone(); break;
-            case 2: AoWUnit.DeferredSetupAction = 0; OpenSelectedGame(FileDlgWindow); break;
+            case 1: GameHost.DeferredSetupAction = 0; ScenSetup.FSetupControl.hPlayerSetupDone(); break;
+            case 2: GameHost.DeferredSetupAction = 0; OpenSelectedGame(FileDlgWindow); break;
         }
         if (Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.DPlay.DPlay is not null)
             Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.DPlay.CheckMessages();
@@ -207,7 +198,7 @@ public sealed class TMainForm : IDisplayEvents, IDisposable
                 var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 if (player.GetBusy() && player.FGameOverStatus == Aow.Units.AoWE.TGameOverStatus.goNone)
                 {
-                    image.ShowBlended(x - 25, y - 25, surface, GFXE.GFXE.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Frame << 2) % 100 - 50) + 30));
+                    image.ShowBlended(x - 25, y - 25, surface, GFXE.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Frame << 2) % 100 - 50) + 30));
                     FCursorChanged = true;
                     return;
                 }
@@ -277,6 +268,6 @@ public sealed class TMainForm : IDisplayEvents, IDisposable
             registry.SetSFXVolume(SoundDlg.SFXVolume.Position);
             registry.SetMusicVolume(SoundDlg.MusicVolume.Position);
         }
-        if (AoWUnit.MainForm == this) AoWUnit.MainForm = null;
+        if (GameHost.MainForm == this) GameHost.MainForm = null;
     }
 }

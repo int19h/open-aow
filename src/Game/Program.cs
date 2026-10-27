@@ -1,5 +1,4 @@
 using Aow.Platform;
-using Aow.Units.AoWUnit;
 
 namespace Aow.Game;
 
@@ -13,6 +12,7 @@ internal static class Program
             string root = Value(args, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
             if (args.Contains("--verify")) return Verification.Run(root, Value(args, "--source-root"));
             if (args.Contains("--verify-frame-inputs")) return FrameFixtureChecks.Run();
+            if (args.Contains("--verify-pacing")) return PacingVerification.Run(Value(args, "--out") ?? throw new ArgumentException("--verify-pacing requires --out PATH"));
             if (args.Contains("--verify-sdl")) return SdlVerification.Run();
             if (args.Contains("--smoke-test"))
                 return FrameFixture.Run(Value(args, "--fixtures") ?? @"D:\git\open-aow-private\tests\frames\fixtures.toml", "title-60", root,

@@ -11,7 +11,7 @@ public partial class TMapEvents
             Aow.Units.AoWWinMan.AoWWinMan.General.HideWindows();
             Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer.HSMap = null;
             if (Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.FLobbyGame)
-                Aow.Units.AoWUnit.AoWUnit.MainForm.CloseRequested();
+                Aow.Platform.GameHost.MainForm.CloseRequested();
         }
         catch (System.Exception)
         {

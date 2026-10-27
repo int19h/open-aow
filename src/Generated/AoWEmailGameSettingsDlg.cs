@@ -205,7 +205,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
                     }
 
                     FSetupControl.FSettings.FEmailGameName = EmailGameNameEdit.Text;
-                    Aow.Units.AoWUnit.AoWUnit.DeferredSetupAction = 1;
+                    Aow.Platform.GameHost.DeferredSetupAction = 1;
                     Dlg.Visible = false;
                 }
             }
