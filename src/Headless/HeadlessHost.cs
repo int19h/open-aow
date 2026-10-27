@@ -6,7 +6,7 @@ namespace Aow.Headless;
 internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
 {
     private readonly string dialogFile;
-    public HeadlessHost(string root, string output, string? settings)
+    public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal")
     {
         GameRoot = Path.GetFullPath(root);
         FilesForRun = new RunFiles(GameRoot, output);
@@ -15,6 +15,12 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
         if (settings is not null)
             foreach (var property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
                 Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Value));
+        byte speed = movementSpeed switch
+        {
+            "normal" => 0, "fast" => 1, "turbo" => 2,
+            _ => throw new ArgumentException("movement speed must be normal, fast or turbo")
+        };
+        Settings.Write(@"\Software\Triumph Studios\Age of Wonders\General\Movement Speed", new byte[] { speed });
     }
     private static object ReadSetting(JsonElement value)
     {

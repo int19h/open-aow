@@ -24463,8 +24463,13 @@ namespace Aow.Units.AoWE
         // Ability.PAS:1276
         public virtual void GetDamageValueEx(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAbstractUnit A2, Aow.Units.AoWE.TWallSituation A3, ref Aow.Units.AoWE.TAbilityDamageValues A4)
         {
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
+            {
+                ref var w__2096 = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP1DamageValues>(ref A4);
+                w__2096.Damage = 0;
+                w__2096.Experience = 0;
+                w__2096.CounterDamage = 0;
+                w__2096.CounterExperience = 0;
+            }
         }
 
         // Ability.PAS:1487
@@ -24478,8 +24483,13 @@ namespace Aow.Units.AoWE
         // { Original leaves Reserved untouched. }
         public virtual void fcGetDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, Aow.Units.AoWE.TWallSituation A3, ref Aow.Units.AoWE.TAbilityDamageValues A4)
         {
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
+            {
+                ref var w__2097 = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP1DamageValues>(ref A4);
+                w__2097.Damage = 0;
+                w__2097.Experience = 0;
+                w__2097.CounterDamage = 0;
+                w__2097.CounterExperience = 0;
+            }
         }
 
         // Ability.PAS:1313
@@ -24504,8 +24514,7 @@ namespace Aow.Units.AoWE
         {
             int Result = default;
             Aow.Units.AoWE.TP1DamageValues Values = default;
-            /* TODO(T-N6) Record view argument requires a field mapping override */
-            throw new System.NotImplementedException();
+            this.tcGetDamageValueEx(Source, Target, ref Unsafe.As<Aow.Units.AoWE.TP1DamageValues, Aow.Units.AoWE.TAbilityDamageValues>(ref Values));
             Result = Values.Damage;
             return Result;
         }
@@ -98179,8 +98188,14 @@ namespace Aow.Units.AoWE
         // { +080 }
         public virtual void GetCombatDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, ref Aow.Units.AoWE.TAbilityDamageValues A3)
         {
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
+            {
+                ref var w__7902 = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP4DamageValue>(ref A3);
+                w__7902.V0 = 0;
+                w__7902.V1 = 0;
+                w__7902.V2 = 0;
+                w__7902.V3 = 0;
+                w__7902.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
+            }
         }
 
         // Spells.PAS:326

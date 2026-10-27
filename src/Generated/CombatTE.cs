@@ -3106,8 +3106,7 @@ namespace Aow.Units.CombatTE
                                 Total = Total + (13 - Distance);
                                 var call__443 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
                                 Used.Add(call__443);
-                                /* TODO(T-A3) Integer address requires managed pointer provenance */
-                                throw new System.NotImplementedException();
+                                Weights.Add(Aow.Rtl.Rtl.IntToObject((int)(13 - Distance)));
                             }
                         }
                     }
@@ -3116,21 +3115,21 @@ namespace Aow.Units.CombatTE
                 if (Target != null)
                 {
                     Used.Add(Target);
-                    /* TODO(T-A3) Integer address requires managed pointer provenance */
-                    throw new System.NotImplementedException();
+                    Weights.Add(Aow.Rtl.Rtl.IntToObject((int)Total));
                     Total = Total + Total;
                 }
 
                 if (Used.Count > 0)
                 {
-                    /* TODO(T-N7) Integer read from an untyped pointer requires a typed transport override */
-                    throw new System.NotImplementedException();
+                    var call__444 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Total);
+                    var call__445 = Weights[0];
+                    I = call__444 - ((int)Aow.Rtl.Rtl.ObjectToInt((Aow.Rtl.TObject)call__445));
                     Index = 0;
                     while ((Index < (Used.Count - 1)) && (I > 0))
                     {
                         Index = Index + 1;
-                        /* TODO(T-N7) Integer read from an untyped pointer requires a typed transport override */
-                        throw new System.NotImplementedException();
+                        var call__446 = Weights[Index];
+                        I = I - ((int)Aow.Rtl.Rtl.ObjectToInt((Aow.Rtl.TObject)call__446));
                     }
 
                     var call__447 = Used[Index];

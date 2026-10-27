@@ -1197,3 +1197,8 @@ file = "src/Overrides/AoWReg/PopupEvents.cs"
 member = "AoWE.RetrieveStormDamageInfo"
 reason = "transport the shared storm summary through a typed message cell"
 file = "src/Overrides/AoWE/StormDamage.cs"
+
+[[skip]]
+member = "AoWTC.TTacticalCombat.Finalize"
+reason = "restore common player communication settings through the actual local or remote control"
+file = "src/Overrides/AoWTC/CombatFinalize.cs"
