@@ -5,24 +5,14 @@ namespace Aow.Units.ImageLib;
 
 public static partial class ImageLib
 {
-    // Ilpack/ImageLib.pas:3202. Milestone 3 supplies the pixel implementation.
-    public static void RemapRLE565to555(object Data, int Height, int ColorKey) => throw new NotImplementedException("ImageLib.RemapRLE565to555");
-    // Ilpack/ImageLib.pas:3256. Milestone 3 supplies the pixel implementation.
-    public static void RemapRLE555to565(object Data, int Height, int ColorKey) => throw new NotImplementedException("ImageLib.RemapRLE555to565");
-    // Ilpack/ImageLib.pas:3310. Milestone 3 supplies the pixel implementation.
-    public static void BltRLE16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => throw new NotImplementedException("ImageLib.BltRLE16");
-    // Ilpack/ImageLib.pas:3615. Milestone 3 supplies the pixel implementation.
-    public static void BlendRLE565(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => throw new NotImplementedException("ImageLib.BlendRLE565");
-    // Ilpack/ImageLib.pas:3930. Milestone 3 supplies the pixel implementation.
-    public static void BlendRLE555(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => throw new NotImplementedException("ImageLib.BlendRLE555");
-    // Ilpack/ImageLib.pas:4870. Milestone 3 supplies the pixel implementation.
-    public static void ShowBitMask16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => throw new NotImplementedException("ImageLib.ShowBitMask16");
-    // Ilpack/ImageLib.pas:5150. Milestone 3 supplies the pixel implementation.
-    public static void ShowShadow565(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => throw new NotImplementedException("ImageLib.ShowShadow565");
-    // Ilpack/ImageLib.pas:5462. Milestone 3 supplies the pixel implementation.
-    public static void ShowShadow555(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => throw new NotImplementedException("ImageLib.ShowShadow555");
-    // Ilpack/ImageLib.pas:7771. Milestone 3 supplies the pixel implementation.
-    public static void ShowRLE08(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, byte ColorKey) => throw new NotImplementedException("ImageLib.ShowRLE08");
-    // Ilpack/ImageLib.pas:7830. Milestone 3 supplies the pixel implementation.
-    public static void ShowRLE08to16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, byte ColorKey, object Palette) => throw new NotImplementedException("ImageLib.ShowRLE08to16");
+    public static void RemapRLE565to555(object Data, int Height, int ColorKey) => Aow.Graphics.Blit.RemapRLE565to555(Rtl.Rtl.BytePointer(Data), Height, ColorKey);
+    public static void RemapRLE555to565(object Data, int Height, int ColorKey) => Aow.Graphics.Blit.RemapRLE555to565(Rtl.Rtl.BytePointer(Data), Height, ColorKey);
+    public static void BltRLE16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => Aow.Graphics.Blit.BltRLE16(X, Y, SD, Rtl.Rtl.BytePointer(Data), Width, Height, ColorKey);
+    public static void BlendRLE565(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => Aow.Graphics.Blit.BlendRLE565(X, Y, SD, Rtl.Rtl.BytePointer(Data), Width, Height, ColorKey);
+    public static void BlendRLE555(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => Aow.Graphics.Blit.BlendRLE555(X, Y, SD, Rtl.Rtl.BytePointer(Data), Width, Height, ColorKey);
+    public static void ShowBitMask16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => Aow.Graphics.Blit.ShowBitMask16(X, Y, SD, Rtl.Rtl.BytePointer(Data), Width, Height);
+    public static void ShowShadow565(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => Aow.Graphics.Blit.ShowShadow565(X, Y, SD, Rtl.Rtl.BytePointer(Data), Width, Height);
+    public static void ShowShadow555(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => Aow.Graphics.Blit.ShowShadow555(X, Y, SD, Rtl.Rtl.BytePointer(Data), Width, Height);
+    public static void ShowRLE08(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, byte ColorKey) => Aow.Graphics.Blit.ShowRLE08(X, Y, SD, Rtl.Rtl.BytePointer(Data), Width, Height, ColorKey);
+    public static void ShowRLE08to16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, byte ColorKey, object Palette) => Aow.Graphics.Blit.ShowRLE08to16(X, Y, SD, Rtl.Rtl.BytePointer(Data), Width, Height, ColorKey, Rtl.Rtl.BytePointer(Palette));
 }

@@ -11,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Rtl/Aow.Rtl.csproj" />
+    <ProjectReference Include="../Graphics/Aow.Graphics.csproj" />
     <Compile Include="../Overrides/AGCPlugins/**/*.cs" />
     <Compile Include="../Overrides/AOWChatWin/**/*.cs" />
     <Compile Include="../Overrides/AOWControlWin/**/*.cs" />
