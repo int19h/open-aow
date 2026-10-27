@@ -1724,8 +1724,22 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:844
         public static void ShowSaveGameEvent(Aow.Units.AoWFileDialog.TFileDlgWindow Dialog, Aow.Units.EventLog.TSaveGameEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.SetCurrentDirectory */
-            throw new System.NotImplementedException();
+            {
+                var w__128 = Dialog;
+                w__128.FDone = Done;
+                w__128.FSaveEvent = Event;
+                w__128.FSaveEvent.AddRef();
+                w__128.FMode = 1;
+                w__128.FileDialog.Visible = true;
+                if (Event.FDirectory != ((AnsiString)""))
+                {
+                    Aow.Rtl.Rtl.SetCurrentDir(Event.FDirectory);
+                }
+
+                w__128.SFileName.Text = Event.FDefaultName;
+                w__128.Title.Text = Event.FTitle;
+                w__128.FindFiles();
+            }
         }
 
         // aowMapEvents.pas:858
@@ -1733,17 +1747,17 @@ namespace Aow.Units.aowMapEvents
         {
             Aow.Units.EventLog.TPasswordEventLog Log = default;
             {
-                var w__128 = Dialog;
-                w__128.Reset();
-                w__128.FDone = Done;
-                w__128.FPasswordEvent = Event;
-                w__128.FPasswordEvent.AddRef();
-                Log = w__128.FPasswordEvent;
-                w__128.TitleLbl.Text = Log.FTitle;
-                w__128.PasswordLbl.Text = Log.FPrompt;
-                w__128.PasswordEdit.Text = Log.FPassword;
-                w__128.PasswordEdit.FRedraw = true;
-                w__128.Dlg.Visible = true;
+                var w__129 = Dialog;
+                w__129.Reset();
+                w__129.FDone = Done;
+                w__129.FPasswordEvent = Event;
+                w__129.FPasswordEvent.AddRef();
+                Log = w__129.FPasswordEvent;
+                w__129.TitleLbl.Text = Log.FTitle;
+                w__129.PasswordLbl.Text = Log.FPrompt;
+                w__129.PasswordEdit.Text = Log.FPassword;
+                w__129.PasswordEdit.FRedraw = true;
+                w__129.Dlg.Visible = true;
             }
         }
 

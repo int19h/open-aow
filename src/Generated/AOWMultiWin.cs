@@ -375,8 +375,10 @@ namespace Aow.Units.AOWMultiWin
         // { draft }
         public void LoadPBEMGameBtnClick()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.SetCurrentDirectory */
-            throw new System.NotImplementedException();
+            Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow.FMode = 0;
+            Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow.FileDialog.Visible = true;
+            Aow.Rtl.Rtl.SetCurrentDir(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"EmailIn\\"));
+            Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow.FindFiles();
         }
 
         // AOWMultiWin.pas:343
