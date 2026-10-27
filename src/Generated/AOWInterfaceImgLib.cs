@@ -26,8 +26,31 @@ namespace Aow.Units.AOWInterfaceImgLib
 //   message box that names the library and the component (Sender) that needs them }
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL CheckIL(int Index, int Count, Aow.Rtl.TComponent Sender)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            Aow.Units.AOWInterfaceImgLib.TInterfaceIL Result = default;
+            int I = default;
+            Result = this;
+            if ((Index + Count) > this.Count)
+            {
+                Result = null;
+                Aow.Rtl.Rtl.MessageBox((int)0, ((Name + ((AnsiString)" must have ")) + Aow.Rtl.Rtl.IntToStr(Index + Count)) + ((AnsiString)" Images"), ((AnsiString)"Error - ") + Sender.Name, (int)0);
+            }
+            else
+            {
+                {
+                    I = Index;
+                    int end__1 = (Index + Count) - 1;
+                    for (; I <= end__1; I += 1)
+                    {
+                        if (!ImageExist(I))
+                        {
+                            Aow.Rtl.Rtl.MessageBox((int)0, ((Name + AnsiString.FromBytes(32, 73, 109, 97, 103, 101, 32, 35, 32)) + Aow.Rtl.Rtl.IntToStr(I)) + ((AnsiString)" is invalid"), ((AnsiString)"Error - ") + Sender.Name, (int)0);
+                            Result = null;
+                        }
+                    }
+                }
+            }
+
+            return Result;
         }
 
         // AOWInterfaceImgLib.pas:58
@@ -59,72 +82,72 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__1 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__1;
-            var call__2 = this[Index];
-            call__2.ShowClipped(R.Left, R.Top, SurfDesc);
-            var call__3 = this[Index + 5];
+            var call__2 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__2;
+            var call__3 = this[Index];
+            call__3.ShowClipped(R.Left, R.Top, SurfDesc);
             var call__4 = this[Index + 5];
-            call__4.ShowClipped(R.Left, (R.Top + R.Bottom) - call__3.Height, SurfDesc);
-            var call__5 = this[Index + 4];
-            if (((R.Left + R.Right) - call__5.Width) < OldClip.Right)
+            var call__5 = this[Index + 5];
+            call__5.ShowClipped(R.Left, (R.Top + R.Bottom) - call__4.Height, SurfDesc);
+            var call__6 = this[Index + 4];
+            if (((R.Left + R.Right) - call__6.Width) < OldClip.Right)
             {
-                var call__6 = this[Index + 4];
-                SurfDesc.ClipRect.Right = (R.Left + R.Right) - call__6.Width;
+                var call__7 = this[Index + 4];
+                SurfDesc.ClipRect.Right = (R.Left + R.Right) - call__7.Width;
             }
 
             {
                 I = 0;
-                int end__7 = ((R.Right - this[Index].Width) - this[Index + 2].Width) / this[Index + 1].Width;
-                for (; I <= end__7; I += 1)
+                int end__8 = ((R.Right - this[Index].Width) - this[Index + 2].Width) / this[Index + 1].Width;
+                for (; I <= end__8; I += 1)
                 {
-                    var call__8 = this[Index];
-                    var call__9 = this[Index + 1];
+                    var call__9 = this[Index];
                     var call__10 = this[Index + 1];
-                    call__10.ShowClipped((R.Left + call__8.Width) + (call__9.Width * I), R.Top, SurfDesc);
-                    var call__11 = this[Index + 5];
-                    var call__12 = this[Index + 6];
+                    var call__11 = this[Index + 1];
+                    call__11.ShowClipped((R.Left + call__9.Width) + (call__10.Width * I), R.Top, SurfDesc);
+                    var call__12 = this[Index + 5];
                     var call__13 = this[Index + 6];
                     var call__14 = this[Index + 6];
-                    call__14.ShowClipped((R.Left + call__11.Width) + (call__12.Width * I), (R.Top + R.Bottom) - call__13.Height, SurfDesc);
+                    var call__15 = this[Index + 6];
+                    call__15.ShowClipped((R.Left + call__12.Width) + (call__13.Width * I), (R.Top + R.Bottom) - call__14.Height, SurfDesc);
                 }
             }
 
-            var call__15 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__15;
-            var call__16 = this[Index + 6];
-            if (((R.Top + R.Bottom) - call__16.Height) < OldClip.Bottom)
+            var call__16 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__16;
+            var call__17 = this[Index + 6];
+            if (((R.Top + R.Bottom) - call__17.Height) < OldClip.Bottom)
             {
-                var call__17 = this[Index + 6];
-                SurfDesc.ClipRect.Bottom = (R.Top + R.Bottom) - call__17.Height;
+                var call__18 = this[Index + 6];
+                SurfDesc.ClipRect.Bottom = (R.Top + R.Bottom) - call__18.Height;
             }
 
             {
                 I = 0;
-                int end__18 = ((R.Bottom - this[Index].Height) - this[Index + 5].Height) / this[Index + 3].Height;
-                for (; I <= end__18; I += 1)
+                int end__19 = ((R.Bottom - this[Index].Height) - this[Index + 5].Height) / this[Index + 3].Height;
+                for (; I <= end__19; I += 1)
                 {
-                    var call__19 = this[Index];
-                    var call__20 = this[Index + 3];
+                    var call__20 = this[Index];
                     var call__21 = this[Index + 3];
-                    call__21.ShowClipped(R.Left, (R.Top + call__19.Height) + (call__20.Height * I), SurfDesc);
-                    var call__22 = this[Index + 2];
-                    var call__23 = this[Index + 4];
+                    var call__22 = this[Index + 3];
+                    call__22.ShowClipped(R.Left, (R.Top + call__20.Height) + (call__21.Height * I), SurfDesc);
+                    var call__23 = this[Index + 2];
                     var call__24 = this[Index + 4];
                     var call__25 = this[Index + 4];
-                    call__25.ShowClipped((R.Left + R.Right) - call__24.Width, (R.Top + call__22.Height) + (call__23.Height * I), SurfDesc);
+                    var call__26 = this[Index + 4];
+                    call__26.ShowClipped((R.Left + R.Right) - call__25.Width, (R.Top + call__23.Height) + (call__24.Height * I), SurfDesc);
                 }
             }
 
-            var call__26 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__26;
-            var call__27 = this[Index + 2];
+            var call__27 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__27;
             var call__28 = this[Index + 2];
-            call__28.ShowClipped((R.Left + R.Right) - call__27.Width, R.Top, SurfDesc);
-            var call__29 = this[Index + 7];
+            var call__29 = this[Index + 2];
+            call__29.ShowClipped((R.Left + R.Right) - call__28.Width, R.Top, SurfDesc);
             var call__30 = this[Index + 7];
             var call__31 = this[Index + 7];
-            call__31.ShowClipped((R.Left + R.Right) - call__30.Width, (R.Top + R.Bottom) - call__29.Height, SurfDesc);
+            var call__32 = this[Index + 7];
+            call__32.ShowClipped((R.Left + R.Right) - call__31.Width, (R.Top + R.Bottom) - call__30.Height, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
 
@@ -156,8 +179,8 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__32 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__32;
+            var call__33 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__33;
             if ((R.Left + R.Right) < OldClip.Right)
             {
                 SurfDesc.ClipRect.Right = R.Left + R.Right;
@@ -170,18 +193,18 @@ namespace Aow.Units.AOWInterfaceImgLib
 
             {
                 J = 0;
-                int end__33 = R.Bottom / this[Index].Height;
-                for (; J <= end__33; J += 1)
+                int end__34 = R.Bottom / this[Index].Height;
+                for (; J <= end__34; J += 1)
                 {
                     {
                         I = 0;
-                        int end__34 = R.Right / this[Index].Width;
-                        for (; I <= end__34; I += 1)
+                        int end__35 = R.Right / this[Index].Width;
+                        for (; I <= end__35; I += 1)
                         {
-                            var call__35 = this[Index];
                             var call__36 = this[Index];
                             var call__37 = this[Index];
-                            call__37.ShowClipped(R.Left + (call__36.Width * I), R.Top + (call__35.Height * J), SurfDesc);
+                            var call__38 = this[Index];
+                            call__38.ShowClipped(R.Left + (call__37.Width * I), R.Top + (call__36.Height * J), SurfDesc);
                         }
                     }
                 }
@@ -216,10 +239,10 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__38 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__38;
-            var call__39 = this[Index];
-            call__39.ShowClipped(R.Left, R.Top, SurfDesc);
+            var call__39 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__39;
+            var call__40 = this[Index];
+            call__40.ShowClipped(R.Left, R.Top, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
 
@@ -251,34 +274,34 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__40 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__40;
-            var call__41 = this[Index];
-            call__41.ShowClipped(R.Left, R.Top, SurfDesc);
-            var call__42 = this[Index + 2];
-            if (((R.Left + R.Right) - call__42.Width) < OldClip.Right)
+            var call__41 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__41;
+            var call__42 = this[Index];
+            call__42.ShowClipped(R.Left, R.Top, SurfDesc);
+            var call__43 = this[Index + 2];
+            if (((R.Left + R.Right) - call__43.Width) < OldClip.Right)
             {
-                var call__43 = this[Index + 2];
-                SurfDesc.ClipRect.Right = (R.Left + R.Right) - call__43.Width;
+                var call__44 = this[Index + 2];
+                SurfDesc.ClipRect.Right = (R.Left + R.Right) - call__44.Width;
             }
 
             {
                 I = 0;
-                int end__44 = ((R.Right - this[Index].Width) - this[Index + 2].Width) / this[Index + 1].Width;
-                for (; I <= end__44; I += 1)
+                int end__45 = ((R.Right - this[Index].Width) - this[Index + 2].Width) / this[Index + 1].Width;
+                for (; I <= end__45; I += 1)
                 {
-                    var call__45 = this[Index];
-                    var call__46 = this[Index + 1];
+                    var call__46 = this[Index];
                     var call__47 = this[Index + 1];
-                    call__47.ShowClipped((R.Left + call__45.Width) + (call__46.Width * I), R.Top, SurfDesc);
+                    var call__48 = this[Index + 1];
+                    call__48.ShowClipped((R.Left + call__46.Width) + (call__47.Width * I), R.Top, SurfDesc);
                 }
             }
 
-            var call__48 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__48;
-            var call__49 = this[Index + 2];
+            var call__49 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__49;
             var call__50 = this[Index + 2];
-            call__50.ShowClipped((R.Left + R.Right) - call__49.Width, R.Top, SurfDesc);
+            var call__51 = this[Index + 2];
+            call__51.ShowClipped((R.Left + R.Right) - call__50.Width, R.Top, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
 
@@ -310,34 +333,34 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__51 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__51;
-            var call__52 = this[Index];
-            call__52.ShowClipped(R.Left, R.Top, SurfDesc);
-            var call__53 = this[Index + 2];
-            if (((R.Top + R.Bottom) - call__53.Height) < OldClip.Bottom)
+            var call__52 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__52;
+            var call__53 = this[Index];
+            call__53.ShowClipped(R.Left, R.Top, SurfDesc);
+            var call__54 = this[Index + 2];
+            if (((R.Top + R.Bottom) - call__54.Height) < OldClip.Bottom)
             {
-                var call__54 = this[Index + 2];
-                SurfDesc.ClipRect.Bottom = (R.Top + R.Bottom) - call__54.Height;
+                var call__55 = this[Index + 2];
+                SurfDesc.ClipRect.Bottom = (R.Top + R.Bottom) - call__55.Height;
             }
 
             {
                 I = 0;
-                int end__55 = ((R.Bottom - this[Index].Height) - this[Index + 2].Height) / this[Index + 1].Height;
-                for (; I <= end__55; I += 1)
+                int end__56 = ((R.Bottom - this[Index].Height) - this[Index + 2].Height) / this[Index + 1].Height;
+                for (; I <= end__56; I += 1)
                 {
-                    var call__56 = this[Index];
-                    var call__57 = this[Index + 1];
+                    var call__57 = this[Index];
                     var call__58 = this[Index + 1];
-                    call__58.ShowClipped(R.Left, (R.Top + call__56.Height) + (call__57.Height * I), SurfDesc);
+                    var call__59 = this[Index + 1];
+                    call__59.ShowClipped(R.Left, (R.Top + call__57.Height) + (call__58.Height * I), SurfDesc);
                 }
             }
 
-            var call__59 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__59;
-            var call__60 = this[Index + 2];
+            var call__60 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = call__60;
             var call__61 = this[Index + 2];
-            call__61.ShowClipped(R.Left, (R.Top + R.Bottom) - call__60.Height, SurfDesc);
+            var call__62 = this[Index + 2];
+            call__62.ShowClipped(R.Left, (R.Top + R.Bottom) - call__61.Height, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
 

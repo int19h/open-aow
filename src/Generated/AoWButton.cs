@@ -154,8 +154,82 @@ namespace Aow.Units.AoWButton
         // AoWButton.pas:183
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            try
+            {
+                if (FVisible && FValid)
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    if (FChecked)
+                    {
+                        if (FButtonType == Aow.Units.AoWComp.TButtonType.btText)
+                        {
+                            var call__14 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILButton.DrawILLh(FILIndexDown, call__14, ref SurfDesc);
+                        }
+                        else
+                        {
+                            var call__15 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILIcon.DrawILI(FILIndexDown, call__15, ref SurfDesc);
+                        }
+
+                        if (FAOWFont != null)
+                        {
+                            FAOWFont.Color = FSelColor;
+                            var call__16 = FAOWFont.GetTextWidth(FText);
+                            FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + (FWinWidth / 2)) - (call__16 / 2), (FAOWWindow.FWinTop + FWinTop) + FBorderHeightSelected, FText, SurfDesc);
+                        }
+                    }
+                    else
+                    {
+                        if (FButtonType == Aow.Units.AoWComp.TButtonType.btText)
+                        {
+                            if (FLit)
+                            {
+                                var call__17 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                FILButton.DrawILLh(FILIndexLit, call__17, ref SurfDesc);
+                            }
+                            else
+                            {
+                                var call__18 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                FILButton.DrawILLh(FILIndexUp, call__18, ref SurfDesc);
+                            }
+                        }
+                        else
+                        {
+                            if (FLit)
+                            {
+                                var call__19 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                FILIcon.DrawILI(FILIndexLit, call__19, ref SurfDesc);
+                            }
+                            else
+                            {
+                                var call__20 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                FILIcon.DrawILI(FILIndexUp, call__20, ref SurfDesc);
+                            }
+                        }
+
+                        if (FAOWFont != null)
+                        {
+                            FAOWFont.Color = FColor;
+                            var call__21 = FAOWFont.GetTextWidth(FText);
+                            FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + (FWinWidth / 2)) - (call__21 / 2), (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, FText, SurfDesc);
+                        }
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AoWButton.pas:136

@@ -156,8 +156,64 @@ namespace Aow.Units.AOWMenuBar
 //   image and the text one pixel lower }
         public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.MessageBox */
-            throw new System.NotImplementedException();
+            int I = default;
+            Aow.Rtl.TRect OldClip = default;
+            try
+            {
+                if (FValid && FVisible)
+                {
+                    if (FOnPreDraw != null)
+                    {
+                        FOnPreDraw(this, SurfDesc);
+                    }
+
+                    OldClip = SurfDesc.ClipRect;
+                    {
+                        I = 0;
+                        int end__18 = FItems.Count - 1;
+                        for (; I <= end__18; I += 1)
+                        {
+                            if (I != FSelected)
+                            {
+                                var call__19 = FItems.Count;
+                                var call__20 = FItems.Count;
+                                var call__21 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__20), FAOWWindow.FWinTop + FWinTop, FWinWidth / call__19, FWinHeight);
+                                FILButton.DrawILLh(FILIndexDown, call__21, ref SurfDesc);
+                                if (FAOWFont != null)
+                                {
+                                    FAOWFont.Color = FSelColor;
+                                    var call__22 = FItems[I];
+                                    var call__23 = FItems.Count;
+                                    FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__23)) + FBorderWidth, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, call__22, SurfDesc);
+                                }
+                            }
+                            else
+                            {
+                                var call__24 = FItems.Count;
+                                var call__25 = FItems.Count;
+                                var call__26 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__25), FAOWWindow.FWinTop + FWinTop, FWinWidth / call__24, FWinHeight);
+                                FILButton.DrawILLh(FILIndexUp, call__26, ref SurfDesc);
+                                if (FAOWFont != null)
+                                {
+                                    FAOWFont.Color = FColor;
+                                    var call__27 = FItems[I];
+                                    var call__28 = FItems.Count;
+                                    FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__28)) + FBorderWidth, ((FAOWWindow.FWinTop + FWinTop) + FBorderHeight) + 1, call__27, SurfDesc);
+                                }
+                            }
+                        }
+                    }
+
+                    if (FOnDraw != null)
+                    {
+                        FOnDraw(this, SurfDesc);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+            }
         }
 
         // AOWMenuBar.pas:206
@@ -174,8 +230,8 @@ namespace Aow.Units.AOWMenuBar
                 FRedraw = true;
                 if (Button == Aow.Rtl.TMouseButton.mbLeft)
                 {
-                    var call__18 = FItems.Count;
-                    I = ((X - FAOWWindow.FWinLeft) - FWinLeft) / (FWinWidth / call__18);
+                    var call__29 = FItems.Count;
+                    I = ((X - FAOWWindow.FWinLeft) - FWinLeft) / (FWinWidth / call__29);
                     if (I == FSelected)
                     {
                         FSelected = -1;
@@ -194,14 +250,14 @@ namespace Aow.Units.AOWMenuBar
                             FLastSelected = I;
                             {
                                 I = 0;
-                                int end__19 = FMenus.Count - 1;
-                                for (; I <= end__19; I += 1)
+                                int end__30 = FMenus.Count - 1;
+                                for (; I <= end__30; I += 1)
                                 {
                                     {
-                                        var w__20 = (Aow.Units.AoWComp.TAoWComponent)FMenus[I];
-                                        if (w__20.FOwnerItem == this.FSelected)
+                                        var w__31 = (Aow.Units.AoWComp.TAoWComponent)FMenus[I];
+                                        if (w__31.FOwnerItem == this.FSelected)
                                         {
-                                            w__20.SetVisible(true);
+                                            w__31.SetVisible(true);
                                         }
                                     }
                                 }
@@ -306,11 +362,11 @@ namespace Aow.Units.AOWMenuBar
             FItems.Clear();
             {
                 I = 0;
-                int end__21 = Value.Count - 1;
-                for (; I <= end__21; I += 1)
+                int end__32 = Value.Count - 1;
+                for (; I <= end__32; I += 1)
                 {
-                    var call__22 = Value[I];
-                    FItems.Add(call__22);
+                    var call__33 = Value[I];
+                    FItems.Add(call__33);
                 }
             }
         }

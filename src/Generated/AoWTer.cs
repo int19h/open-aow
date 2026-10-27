@@ -83,28 +83,19 @@ namespace Aow.Units.AoWTer
             }
         }
 
-        // AoWTer.pas:45
-        public void ValidateDenseVegetationBurned(object Info)
-        {
-            Aow.Units.Terrain.TTerrainMOR R = default;
-            Aow.Units.Engine.TECustomNode OldOwner = default;
-            /* TODO(T-N3) Untyped pointer dereference requires a typed storage override */
-            throw new System.NotImplementedException();
-        }
-
         // AoWTer.pas:67
         public void ValidateDeadTreeRegrow()
         {
             Aow.Units.Terrain.TTerrainMOR R = default;
             Aow.Units.Engine.TECustomNode OldOwner = default;
-            var call__4 = Owner.FindOwnedChild(132990);
-            if (call__4 == null)
+            var call__3 = Owner.FindOwnedChild(132990);
+            if (call__3 == null)
             {
-                var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(20);
-                if (call__5 == 0)
+                var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(20);
+                if (call__4 == 0)
                 {
-                    var call__6 = FindCompatibleResource(unchecked((byte)((Aow.Units.Terrain.TTerrainMOR)FResource).TerrainType), 1, 0);
-                    R = call__6;
+                    var call__5 = FindCompatibleResource(unchecked((byte)((Aow.Units.Terrain.TTerrainMOR)FResource).TerrainType), 1, 0);
+                    R = call__5;
                     if (R != null)
                     {
                         OldOwner = Owner;
