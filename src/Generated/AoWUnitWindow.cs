@@ -931,13 +931,6 @@ namespace Aow.Units.AoWUnitWindow
             }
         }
 
-        // AoWUnitWindow.pas:773
-        public void Gnd1Change(Aow.Rtl.TObject Sender)
-        {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.FCursorImage */
-            throw new System.NotImplementedException();
-        }
-
         // AoWUnitWindow.pas:855
         public void Gnd3MouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
