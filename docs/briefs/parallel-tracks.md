@@ -17,8 +17,17 @@ names its track's directories. These rules apply to all four on top of both `AGE
 - No git commands that change the index or the working tree. Keep a status file at the path the
   prompt names, so that a resumed turn knows where it stands.
 - Game files under `D:\Games\GOG\Age of Wonders` are read only and never copied into a tracked
-  path. The product repository carries no game data, including data extracted from the game's
-  executables (form layouts, images, dictionaries): the port reads them from the user's install at
-  run time, and test expectations derived from game data live in the private repository.
+  path. The product repository carries no game data (images, sounds, dictionaries, maps): the
+  port reads them from the user's install at run time, and test expectations derived from game data
+  live in the private repository. Code is the exception: the transpiled game code, and since
+  2026-10-26 the layouts as generated C# (`ui-layout.md` section 1), are product source.
+- The user works on this PC while runs go on. Every executable you build and run (tests, tools,
+  probes in C#) calls `SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX |
+  SEM_NOOPENFILEERRORBOX)` first thing, so a crash ends the process instead of opening a dialog,
+  and nothing opens a window on the desktop (use the headless host's null display, or a hidden
+  window). Never play sound.
+- Native runs of the original game (`AoW.exe`, `AoWEd.exe`) are allowed again (user, 2026-10-26,
+  after a pause because they disturbed full-screen applications). They run with sound and music
+  volume 0, through the harness's per-run registry setup, and the registry is verified restored.
 - Done means the brief's measure, plus: the root solution builds with zero warnings, all product
   tests pass, and `python tests/probes/run.py --transpiled` still matches.
