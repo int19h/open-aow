@@ -80,6 +80,16 @@ view, then the configured size, 1600x940 by default, the size of the oracle runs
 The two states explain the stored view center of all 417 oracle autosaves (the day-01 save is
 written during initialization, before the map view has a size).
 
+Run settings of the native harness and the host (2026-10-26). Native runs play with the game's
+sound and music volume at 0 and the enable flags unchanged, so that no sound code path changes.
+Both sides take `--movement-speed normal|fast|turbo` (`General\Movement Speed`, read by
+`TAoWRegistry.GetMovementSpeed`). Comparisons with the reference runs use normal, as those runs
+did. Turbo is safe for new traces: a native and a port run at turbo equal each other for 20 turns,
+and the port at turbo equals the normal-speed reference on all days, so the speed changes the
+animation steps and nothing that is saved. The host's frame rate (`FFPS`, which shortens moves
+below 25) is fixed at 30, while the native readings ranged 0 to 37, and turbo moves take two
+steps whatever the frame rate.
+
 ### 3.1 What the recovery already does
 
 `tools/playtest.py` in the `aow` repository runs the original and the rebuilt game under a debugger

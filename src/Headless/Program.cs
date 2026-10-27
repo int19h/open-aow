@@ -28,6 +28,7 @@ internal static class Program
         DirectedInputs? directed = null;
         int viewportWidth = 1600, viewportHeight = 937, animationFps = 30;
         string? error = null, input = null;
+        string movementSpeed = "normal";
         StreamWriter? trace = null;
         RandomTrace? randomTrace = null;
         try
@@ -53,6 +54,7 @@ internal static class Program
                     case "--turns": turns = int.Parse(Value()); break;
                     case "--game-root": root = Path.GetFullPath(Value()); break;
                     case "--settings": settings = Value(); break;
+                    case "--movement-speed": movementSpeed = Value(); break;
                     case "--tactical": tactical = true; break;
                     case "--exercise-items": exerciseItems = true; break;
                     case "--tactical-battles": tacticalBattles = int.Parse(Value()); break;
@@ -80,7 +82,7 @@ internal static class Program
                 if (gameplay) runtimeErrors.Add(detail);
                 if (exceptions.Add(detail)) { trace.WriteLine(detail); trace.Flush(); }
             };
-            var host = new HeadlessHost(root, output, settings);
+            var host = new HeadlessHost(root, output, settings, movementSpeed);
             Shim.InstallHost(host);
             if (randomTracePath is not null)
             {
@@ -184,7 +186,7 @@ internal static class Program
                 File.WriteAllText(Path.Combine(output, "run.json"), JsonSerializer.Serialize(new
                 {
                     input, input_sha256 = input is not null && File.Exists(input) ? Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(input))) : null,
-                    seed, requested_turns = turns, tactical, tactical_battles = tacticalBattles, exercise_items = exerciseItems, global_spell = globalSpell,
+                    seed, requested_turns = turns, movement_speed = movementSpeed, animation_fps = animationFps, viewport_width = viewportWidth, viewport_height = viewportHeight, tactical, tactical_battles = tacticalBattles, exercise_items = exerciseItems, global_spell = globalSpell,
                     item_exercise = directed?.ItemActions, global_requests = directed?.GlobalRequests, tactical_selections = HeadlessHooks.TacticalSelections,
                     tactical_executions = HeadlessHooks.TacticalExecutions, complete, game_ended = ended,
                     first_day = firstDay, last_day = day, frames, saves, reached_todos = todos, gameplay_exceptions = runtimeErrors, error
