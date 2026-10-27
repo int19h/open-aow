@@ -2568,9 +2568,6 @@ namespace Aow.Layout
         {
             ComponentState = ComponentState.Without(TComponentState.csReading);
         }
-
-        public Aow.Rtl.AnsiString DictionaryName { get; set; }
-        public System.Collections.Generic.List<Aow.Layout.TranslationTarget> TargetsData { get; set; } = new System.Collections.Generic.List<Aow.Layout.TranslationTarget>();
     }
 }
 

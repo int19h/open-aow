@@ -61,7 +61,6 @@ public sealed class LayoutSession
     }
 }
 
-public sealed record TranslationTarget(AnsiString ClassName, AnsiString PropertyName, int Flags);
 
 // This adapter uses the list's getter and batches its changes, as TStrings.ReadData does.
 // It also allows collection initializers without changing the frozen shim.
