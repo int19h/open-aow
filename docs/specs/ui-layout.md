@@ -12,19 +12,26 @@ surfaces it draws into and `platform.md` has the input events it receives. Facts
 
 ## 1. Decisions
 
-1. The form files stay data, and the data stays in the user's install. The port reads the 79 form
-   resources from the user's `AoW.exe` at startup (the binary `TPF0` streams of its `RT_RCDATA`
-   resources, the format Delphi 3's `TReader` reads), with a reader that follows the VCL streaming
-   rules of section 4. The product repository carries none of them, because they are layout data
-   of the original game (decided 2026-10-26, as for every other game file). The recovery's text
-   files (`data/forms/AoW`, complete and lossless, `../design.md` open question 6) are the test
-   expectation in the private repository, and the text grammar of section 3 stays readable, so that
-   a data mod can supply a text form in place of a resource. One reader replaces 89,294 lines of generated
+1. The layouts become C# code (decided by the user on 2026-10-26). The text form format is an
+   artifact of Delphi's component streaming, and C# object and collection initializers express the
+   same trees directly, so the port needs no layout language of its own. A generator in the private
+   repository (`tools/forms`) reads the 79 forms once, from the recovery's text files
+   (`data/forms/AoW`, complete and lossless, `../design.md` open question 6), and writes one C#
+   file per module into `src/Layout/<Module>.Layout.cs`: a partial class of the module with an
+   `InitializeComponent()` that creates its components and sets their properties with object
+   initializers and collection initializers, as a WinForms designer file does. These files are
+   then the source of truth, edited by hand like the rest of the second stage, and they are where
+   a mod changes a layout later. The generator is a one-time tool, like the transpiler: rerun only
+   while the layouts are still compared against the original, and kept for that comparison.
+   Sections 3 and 4 below describe what the generator parses and the loading semantics the
+   generated code must reproduce, because the order of creation, of property assignment, of
+   `Loaded` and of reference fixups is behavior. One reader replaces 89,294 lines of generated
    construction code, the layouts stay editable by data mods, and the setter order the original's
    streaming produced is reproduced by construction rather than by hand.
-2. No reflection. The reader binds property names, component classes and handler names through
-   tables the transpiler generates from the `published` sections of the component classes and the
-   data module classes (section 5). This keeps the port ahead-of-time compilable (iOS, `../design.md`
+2. No reflection. The generated code names properties, classes and handlers directly, so the
+   compiler checks every one of them, and a misspelled name is a build error with a location. The
+   tables of section 5 are what the generator uses to type each property value and to decide which
+   names are handlers, not something the port loads at run time. This keeps the port ahead-of-time compilable (iOS, `../design.md`
    section 6) and makes a misspelled name in a form file a load error with a location.
 3. The loading order is the original's: the `Application.CreateForm` sequence of `AoW.dpr`
    (section 4.1), one module after another, each module's references to earlier modules resolved
