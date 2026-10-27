@@ -1,4 +1,44 @@
 [[skip]]
+member = "E2DirectSound.*"
+reason = "Retire the COM audio declarations. SDL owns samples and the intro uses the missing-codec path"
+file = "src/Overrides/E2DirectSound/Retired.cs"
+
+[[skip]]
+member = "AoWIntroScene.TIntroScene.InitializeSound"
+reason = "The unavailable video decoder has no audio stream"
+file = "src/Overrides/AoWIntroScene/UnavailableVideo.cs"
+
+[[skip]]
+member = "AoWIntroScene.TIntroScene.ReleaseSound"
+reason = "The unavailable video decoder has no audio stream"
+file = "src/Overrides/AoWIntroScene/UnavailableVideo.cs"
+
+[[skip]]
+member = "AoWIntroScene.TIntroScene.VideoPlayerStreamSound"
+reason = "The unavailable video decoder has no audio stream"
+file = "src/Overrides/AoWIntroScene/UnavailableVideo.cs"
+
+[[skip]]
+member = "AoWIntroScene.TIntroScene.Execute"
+reason = "Follow the original missing-codec path into the title scene"
+file = "src/Overrides/AoWIntroScene/UnavailableVideo.cs"
+
+[[skip]]
+member = "AoWIntroScene.TIntroScene.WindowHide"
+reason = "The unavailable video decoder has no open resources"
+file = "src/Overrides/AoWIntroScene/UnavailableVideo.cs"
+
+[[skip]]
+member = "AoWIntroScene.TIntroScene.WindowUpdate"
+reason = "The unavailable video decoder ends at once"
+file = "src/Overrides/AoWIntroScene/UnavailableVideo.cs"
+
+[[skip]]
+member = "AoWIntroScene.TIntroScene.WindowDrawSurfaceEx"
+reason = "The unavailable video decoder has no image"
+file = "src/Overrides/AoWIntroScene/UnavailableVideo.cs"
+
+[[skip]]
 member = "AOWControlWin.TControlWin.UpdateArmy"
 reason = "Native unit movement labels have a three-space prefix verified at AoW.exe 00405D94"
 file = "src/Overrides/AOWControlWin/ArmyPanel.cs"
