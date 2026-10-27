@@ -97,6 +97,8 @@ public sealed class SysUtilsTests
         public DateTime Now => new(2024, 2, 29, 12, 34, 56, 789, DateTimeKind.Local);
         public DateTime UtcNow => new(2024, 2, 29, 20, 34, 56, 789, DateTimeKind.Utc);
         public uint TickCount => uint.MaxValue;
+        public double ElapsedMilliseconds => 0;
+        public void WaitMilliseconds(int milliseconds) => ArgumentOutOfRangeException.ThrowIfNegative(milliseconds);
     }
 
     [Fact]

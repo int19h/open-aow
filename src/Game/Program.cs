@@ -7,6 +7,7 @@ internal static class Program
 {
     public static int Main(string[] args)
     {
+        Aow.Rtl.ProcessSafety.Initialize();
         try
         {
             string root = Value(args, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
@@ -31,7 +32,7 @@ internal static class Program
             var sink = new WindowEvents();
             byte[] pixels = new byte[640 * 480 * 2];
             var surface = new TSurfaceDesc { Width = 640, Height = 480, BitCount = 16, PixelFormatID = GFXE.pfRGB555, Pitch = 640 * 2, Data = pixels };
-            var pacer = new FramePacer((IFrameClock)host.Clock);
+            var pacer = new FramePacer(host.Clock);
             int presented = 0;
             for (int frame = 0; !host.Display.IsClosed; frame++)
             {

@@ -306,14 +306,6 @@ namespace Aow.Units.AoWFileDialog
             }
         }
 
-        // AoWFileDialog.pas:198
-        // { draft }
-        public void FindDrives()
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetLogicalDrives */
-            throw new System.NotImplementedException();
-        }
-
         // AoWFileDialog.pas:233
         public void FindFiles()
         {

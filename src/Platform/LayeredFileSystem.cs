@@ -80,7 +80,20 @@ public sealed class LayeredFileSystem : IFileSystem
         return Path.Combine([.. parts]);
     }
     public string ExpandPath(string path) => PublicPath(Relative(path));
-    public string ExtractRelativePath(string baseFile, string destination) => Path.GetRelativePath(Path.GetDirectoryName(Path.Combine(root, Relative(baseFile)))!, Path.Combine(root, Relative(destination))).Replace(Path.DirectorySeparatorChar, '\\');
+    public string ExtractRelativePath(string baseFile, string destination)
+    {
+        static bool DirectoryPath(string path) => path.EndsWith('\\') || path.EndsWith('/');
+        string[] first = Relative(baseFile).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
+        string[] second = Relative(destination).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
+        int baseCount = DirectoryPath(baseFile) ? first.Length : Math.Max(0, first.Length - 1);
+        int destinationCount = DirectoryPath(destination) ? second.Length : Math.Max(0, second.Length - 1);
+        int common = 0;
+        while (common < baseCount && common < destinationCount && Same(first[common], second[common])) common++;
+        var parts = Enumerable.Repeat("..", baseCount - common).Concat(second.Skip(common).Take(destinationCount - common));
+        if (!DirectoryPath(destination) && second.Length > 0) parts = parts.Append(second[^1]);
+        string result = string.Join("\\", parts);
+        return DirectoryPath(destination) && result.Length > 0 ? result + "\\" : result;
+    }
     public bool SetCurrentDirectory(string path)
     {
         string relative = Relative(path);

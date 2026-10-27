@@ -1572,3 +1572,48 @@ file = "src/Overrides/GFXE/MemorySurfaces.cs"
 member = "GFXE.TBlendTable5Bit.Assign"
 reason = "copy Pascal fixed arrays into existing storage"
 file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "AoWImage.TAOWImage.FImageLib"
+reason = "layout accepts the plain image library in FastCombatWindow"
+file = "src/Overrides/AoWImage/ImageLibrary.cs"
+
+[[skip]]
+member = "AoWImage.TAOWImage.ImageLib"
+reason = "layout accepts the plain image library in FastCombatWindow"
+file = "src/Overrides/AoWImage/ImageLibrary.cs"
+
+[[skip]]
+member = "AoWImage.TAOWImage.SetILB"
+reason = "layout accepts the plain image library in FastCombatWindow"
+file = "src/Overrides/AoWImage/ImageLibrary.cs"
+
+[[skip]]
+member = "AoWImage.TAOWImage.Validate"
+reason = "layout accepts the plain image library in FastCombatWindow"
+file = "src/Overrides/AoWImage/ImageLibrary.cs"
+
+[[skip]]
+member = "AoWImage.TAOWImage.Draw"
+reason = "layout accepts the plain image library in FastCombatWindow"
+file = "src/Overrides/AoWImage/ImageLibrary.cs"
+
+[[skip]]
+member = "AoWReg.TAoWRegistry.SetClassicWindowPopupEvents"
+reason = "registry popup events use a one-byte set image"
+file = "src/Overrides/AoWReg/PopupEvents.cs"
+
+[[skip]]
+member = "AoWReg.TAoWRegistry.GetSimultaneousWindowPopupEvents"
+reason = "registry popup events use a one-byte set image"
+file = "src/Overrides/AoWReg/PopupEvents.cs"
+
+[[skip]]
+member = "AoWReg.TAoWRegistry.SetSimultaneousWindowPopupEvents"
+reason = "registry popup events use a one-byte set image"
+file = "src/Overrides/AoWReg/PopupEvents.cs"
+
+[[skip]]
+member = "AoWFileDialog.TFileDlgWindow.FindDrives"
+reason = "file dialog offers the emulated file service drive"
+file = "src/Overrides/AoWFileDialog/Drives.cs"
