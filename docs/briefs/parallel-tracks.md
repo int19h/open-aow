@@ -21,5 +21,10 @@ names its track's directories. These rules apply to all four on top of both `AGE
   port reads them from the user's install at run time, and test expectations derived from game data
   live in the private repository. Code is the exception: the transpiled game code, and since
   2026-10-26 the layouts as generated C# (`ui-layout.md` section 1), are product source.
+- The user works on this PC while runs go on. Every executable you build and run (tests, tools,
+  probes in C#) calls `SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX |
+  SEM_NOOPENFILEERRORBOX)` first thing, so a crash ends the process instead of opening a dialog,
+  and nothing opens a window on the desktop (use the headless host's null display, or a hidden
+  window). Never play sound.
 - Done means the brief's measure, plus: the root solution builds with zero warnings, all product
   tests pass, and `python tests/probes/run.py --transpiled` still matches.
