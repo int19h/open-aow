@@ -1202,3 +1202,373 @@ file = "src/Overrides/AoWE/StormDamage.cs"
 member = "AoWTC.TTacticalCombat.Finalize"
 reason = "restore common player communication settings through the actual local or remote control"
 file = "src/Overrides/AoWTC/CombatFinalize.cs"
+
+[[skip]]
+member = "GFXE.TSurfaceDesc"
+reason = "explicit 60-byte borrowed memory descriptor"
+file = "src/Overrides/GFXE/SurfaceDesc.cs"
+
+[[skip]]
+member = "ImageLib.TPicture16.ShowOpaqueStretched"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/ImageLib/Stretched.cs"
+
+[[skip]]
+member = "ImageLib.TPicture16.ShowBlendedStretched"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/ImageLib/Stretched.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Setup"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Clear"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Resize"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Lock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Unlock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Blt"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Cls"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.BltDC"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Destroy"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.UpdatePalette"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIBSurface.Handle"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.Create"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.SetPalette"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.Resize"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.Lock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.Unlock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.Blt"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.Cls"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.BltDC"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.Destroy"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB08Surface.UpdatePalette"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.Create"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.SetPixelFormatID"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.Resize"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.Lock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.Unlock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.Blt"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.Cls"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.BltDC"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.Destroy"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB16Surface.Handle"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.Create"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.Resize"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.Lock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.Unlock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.Blt"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.Cls"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.BltDC"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.Destroy"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB24Surface.Handle"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB32Surface.Create"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB32Surface.Resize"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB32Surface.Lock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB32Surface.Unlock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB32Surface.Blt"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB32Surface.Cls"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB32Surface.BltDC"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDIB32Surface.Destroy"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.CreateSurface"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.Resize"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.Lock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.Blt"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.BltColorKey"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.Cls"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.AsyncCls"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.Lost"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.Restore"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.Unlock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.LockEx"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.UnlockEx"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDDrawSurface.Destroy"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TDataSurface.Lock"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TSurface.BltDC"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.Color2PixelInfo"
+reason = "memory surfaces and source-aware stretched drawing"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TSurface.Cls"
+reason = "memory drawing replaces a platform or pointer boundary"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.DrawLine16"
+reason = "memory drawing replaces a platform or pointer boundary"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.ColorFillSD"
+reason = "memory drawing replaces a platform or pointer boundary"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "ImageLib.TBitMask.AllocateMaskData"
+reason = "contain the original encoder extra dword inside its allocation"
+file = "src/Overrides/ImageLib/MaskAllocation.cs"
+
+[[skip]]
+member = "GFXE.TGFXEPalette.GetNearestColor"
+reason = "palette color conversion without a GDI boundary"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TGFXEPalette.Assign"
+reason = "copy Pascal fixed arrays into existing storage"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
+
+[[skip]]
+member = "GFXE.TBlendTable5Bit.Assign"
+reason = "copy Pascal fixed arrays into existing storage"
+file = "src/Overrides/GFXE/MemorySurfaces.cs"
