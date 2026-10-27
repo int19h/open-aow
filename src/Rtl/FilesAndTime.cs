@@ -9,6 +9,13 @@ public readonly record struct RtlFileEntry(string Name, int Size, int Attr, Date
 public interface IFileSystem
 {
     string CurrentDirectory { get; }
+    string VirtualDrive => Path.GetPathRoot(ExpandPath("."))?.TrimEnd('\\', '/') ?? "";
+    string ExtractRelativePath(string baseFile, string destination)
+    {
+        string first = ExpandPath(baseFile), second = ExpandPath(destination);
+        if (!string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), StringComparison.OrdinalIgnoreCase)) return destination;
+        return Path.GetRelativePath(Path.GetDirectoryName(first) ?? CurrentDirectory, second).Replace(Path.DirectorySeparatorChar, '\\');
+    }
     bool SetCurrentDirectory(string path) => false;
     string ExpandPath(string path);
     Stream Open(string path, int mode);
@@ -80,12 +87,21 @@ public interface IClock
     DateTime Now { get; }
     DateTime UtcNow => Now.ToUniversalTime();
     uint TickCount { get; }
+    double ElapsedMilliseconds { get; }
+    void WaitMilliseconds(int milliseconds);
 }
 public sealed class SystemClock : IClock
 {
     public DateTime Now => DateTime.Now;
     public DateTime UtcNow => DateTime.UtcNow;
     public uint TickCount => unchecked((uint)Environment.TickCount64);
+    public double ElapsedMilliseconds => System.Diagnostics.Stopwatch.GetTimestamp() * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+    public void WaitMilliseconds(int milliseconds)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(milliseconds);
+        if (milliseconds == 0) Thread.Yield();
+        else Thread.Sleep(milliseconds);
+    }
 }
 
 public struct TSearchRec

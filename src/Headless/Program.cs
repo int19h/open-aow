@@ -13,6 +13,7 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
+        Aow.Rtl.ProcessSafety.Initialize();
         string? output = null;
         var saves = new List<object>();
         var todos = new SortedSet<string>(StringComparer.Ordinal);
@@ -82,7 +83,7 @@ internal static class Program
                 if (gameplay) runtimeErrors.Add(detail);
                 if (exceptions.Add(detail)) { trace.WriteLine(detail); trace.Flush(); }
             };
-            var host = new HeadlessHost(root, output, settings, movementSpeed);
+            var host = new HeadlessHost(root, output, settings, movementSpeed, input);
             Shim.InstallHost(host);
             if (randomTracePath is not null)
             {

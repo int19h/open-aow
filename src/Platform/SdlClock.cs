@@ -3,13 +3,7 @@ using static SDL.SDL3;
 
 namespace Aow.Platform;
 
-public interface IFrameClock : IClock
-{
-    double ElapsedMilliseconds { get; }
-    void WaitMilliseconds(int milliseconds);
-}
-
-public sealed class SdlClock : IFrameClock
+public sealed class SdlClock : IClock
 {
     public DateTime Now => DateTime.Now;
     public DateTime UtcNow => DateTime.UtcNow;
@@ -27,7 +21,7 @@ public sealed class SdlClock : IFrameClock
 }
 
 /// <summary>The deadline starts at the last completed frame. Slow frames never accumulate debt.</summary>
-public sealed class FramePacer(IFrameClock clock, int frameRate = 30)
+public sealed class FramePacer(IClock clock, int frameRate = 30)
 {
     private readonly int frameTime = frameRate > 0 ? 1000 / frameRate : throw new ArgumentOutOfRangeException(nameof(frameRate));
     private double last = clock.ElapsedMilliseconds;
