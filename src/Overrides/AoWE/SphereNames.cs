@@ -18,5 +18,11 @@ public static partial class AoWE
         TStatusRStr[(int)TStatus.sNeutral] = NeutralRStr;
         TStatusRStr[(int)TStatus.sPolite] = PoliteRStr;
         TStatusRStr[(int)TStatus.sFriendly] = FriendlyRStr;
+        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbNormal] = NormalRStr;
+        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbAggressor] = AggressorRStr;
+        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbDefender] = DefenderRStr;
+        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbExpander] = ExpanderRStr;
+        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbScorcher] = ScorcherRStr;
+        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbRandom] = RandomRStr;
     }
 }

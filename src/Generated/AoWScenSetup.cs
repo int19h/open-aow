@@ -579,7 +579,7 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:257
         public void ExitGameClick(Aow.Rtl.TObject Sender)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.Connected */
+            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.CloseSession */
             throw new System.NotImplementedException();
         }
 
@@ -622,20 +622,6 @@ namespace Aow.Units.AoWScenSetup
             }
         }
 
-        // AoWScenSetup.pas:316
-        public void PingListDrawItem(Aow.Units.AoWComp.TAoWComponent Sender, in Aow.Rtl.TRect DrawRect, int DrawItem, ref Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.GetPlayerIndex */
-            throw new System.NotImplementedException();
-        }
-
-        // AoWScenSetup.pas:344
-        public void ScenSetupPnlUpdate()
-        {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.Connected */
-            throw new System.NotImplementedException();
-        }
-
         // AoWScenSetup.pas:358
         public void PickScenarioBtnClick()
         {
@@ -657,8 +643,15 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:370
         public void StartBtnClick()
         {
-            /* TODO(T-shim) Platform or editor boundary AoWUnit.DeferredSetupAction */
-            throw new System.NotImplementedException();
+            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            if (FSetupControl.FSettings.FConnectionType == 2)
+            {
+                Aow.Units.E3Globals.E3Globals.EmailGameSettingsDlg.Execute(FSetupControl);
+            }
+            else
+            {
+                Aow.Units.AoWUnit.AoWUnit.DeferredSetupAction = 1;
+            }
         }
 
         // AoWScenSetup.pas:378
@@ -836,16 +829,6 @@ namespace Aow.Units.AoWScenSetup
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
         }
 
-        // AoWScenSetup.pas:478
-        public void RacePnlDrawBack(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            {
-                var w__30 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                var call__31 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields[Sender.Tag];
-                call__31.Show(w__30.WinLeft + 5, w__30.WinTop + 5, SD);
-            }
-        }
-
         // AoWScenSetup.pas:483
         public void ChatSBUpdate()
         {
@@ -859,8 +842,8 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:492
         public void TacticalCombatCBChange()
         {
-            var call__32 = TacticalCombatCB.Items.Objects[TacticalCombatCB.Selected];
-            FSetupControl.hSetTacticalCombatAvailability(unchecked((byte)Aow.Rtl.Rtl.ObjectToInt(call__32)));
+            var call__30 = TacticalCombatCB.Items.Objects[TacticalCombatCB.Selected];
+            FSetupControl.hSetTacticalCombatAvailability(unchecked((byte)Aow.Rtl.Rtl.ObjectToInt(call__30)));
         }
 
         // AoWScenSetup.pas:498
@@ -868,14 +851,14 @@ namespace Aow.Units.AoWScenSetup
         {
             if (TurnTimeSl.Position == 0)
             {
-                var call__33 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NoTimerRStr);
-                TurnTimeVal.Text = Aow.Rtl.Rtl.LowerCase(call__33);
+                var call__31 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NoTimerRStr);
+                TurnTimeVal.Text = Aow.Rtl.Rtl.LowerCase(call__31);
             }
             else
             {
-                var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XMinutesRStr);
-                var call__35 = Aow.Units.AoWE.AoWE.Format(call__34, [Aow.Rtl.Rtl.IntToStr(TurnTimeSl.Position)]);
-                TurnTimeVal.Text = call__35;
+                var call__32 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XMinutesRStr);
+                var call__33 = Aow.Units.AoWE.AoWE.Format(call__32, [Aow.Rtl.Rtl.IntToStr(TurnTimeSl.Position)]);
+                TurnTimeVal.Text = call__33;
             }
         }
 
@@ -884,44 +867,44 @@ namespace Aow.Units.AoWScenSetup
         {
             if (TurnsSl.Position == 0)
             {
-                var call__36 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NoLimitRStr);
-                TurnsVal.Text = Aow.Rtl.Rtl.LowerCase(call__36);
+                var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NoLimitRStr);
+                TurnsVal.Text = Aow.Rtl.Rtl.LowerCase(call__34);
             }
             else
             {
-                var call__37 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XTurnsRStr);
-                var call__38 = Aow.Units.AoWE.AoWE.Format(Aow.Rtl.Rtl.LowerCase(call__37), [Aow.Rtl.Rtl.IntToStr(TurnsSl.Position * 10)]);
-                TurnsVal.Text = call__38;
+                var call__35 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XTurnsRStr);
+                var call__36 = Aow.Units.AoWE.AoWE.Format(Aow.Rtl.Rtl.LowerCase(call__35), [Aow.Rtl.Rtl.IntToStr(TurnsSl.Position * 10)]);
+                TurnsVal.Text = call__36;
             }
         }
 
         // AoWScenSetup.pas:510
         public void SelectPlayer(int Index)
         {
-            bool bool__39 = (Index >= 0);
-            if (bool__39)
+            bool bool__37 = (Index >= 0);
+            if (bool__37)
             {
-                var call__40 = PlayerList.Items.Count;
-                bool__39 = (Index < call__40);
+                var call__38 = PlayerList.Items.Count;
+                bool__37 = (Index < call__38);
             }
 
-            if (bool__39)
+            if (bool__37)
             {
                 PlayerList.Selected = Index;
                 PingList.Selected = Index;
                 PreferredRaceList.Selected = Index;
-                var call__41 = FSetupControl.GetHost();
-                bool bool__42 = call__41;
-                if (bool__42)
+                var call__39 = FSetupControl.GetHost();
+                bool bool__40 = call__39;
+                if (bool__40)
                 {
-                    var call__43 = PlayerList.Items.Objects[PlayerList.Selected];
-                    bool__42 = (Aow.Rtl.Rtl.ObjectToInt(call__43) != FSetupControl.FRemotePlayer.FRemoteID);
+                    var call__41 = PlayerList.Items.Objects[PlayerList.Selected];
+                    bool__40 = (Aow.Rtl.Rtl.ObjectToInt(call__41) != FSetupControl.FRemotePlayer.FRemoteID);
                 }
 
-                EjectBtn.Visible = bool__42;
-                var call__44 = PlayerList.Items.Objects[PlayerList.Selected];
-                var call__45 = FSetupControl.CanSetHostRemoteID(Aow.Rtl.Rtl.ObjectToInt(call__44));
-                MakeHostBtn.Visible = call__45;
+                EjectBtn.Visible = bool__40;
+                var call__42 = PlayerList.Items.Objects[PlayerList.Selected];
+                var call__43 = FSetupControl.CanSetHostRemoteID(Aow.Rtl.Rtl.ObjectToInt(call__42));
+                MakeHostBtn.Visible = call__43;
             }
             else
             {

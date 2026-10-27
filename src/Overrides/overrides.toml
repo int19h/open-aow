@@ -1,4 +1,44 @@
 [[skip]]
+member = "AOWControlWin.TControlWin.UpdateArmy"
+reason = "Native unit movement labels have a three-space prefix verified at AoW.exe 00405D94"
+file = "src/Overrides/AOWControlWin/ArmyPanel.cs"
+
+[[skip]]
+member = "AoWE.TSelectedArmy.UpdateMoveCursor"
+reason = "Read the fog byte from the map field flags instead of unboxing a class as bytes"
+file = "src/Overrides/AoWE/SelectionCursor.cs"
+
+[[skip]]
+member = "AoWScenSetup.TScenSetup.RacePnlDrawBack"
+reason = "The sender is a panel with the same control coordinates as the image shape cast"
+file = "src/Overrides/AoWScenSetup/OfflineSetup.cs"
+
+[[skip]]
+member = "aowSetupEvents.TSetupEvents.SetupControlPlayerSetupDone"
+reason = "The offline transport has no session to lock"
+file = "src/Overrides/aowSetupEvents/Startup.cs"
+
+[[skip]]
+member = "AOWMultiWin.TMultiWindow.Execute"
+reason = "Offline menu with the native TCP entry"
+file = "src/Overrides/AOWMultiWin/OfflineMenu.cs"
+
+[[skip]]
+member = "AOWMultiWin.TMultiWindow.MultiWinUpdate"
+reason = "Offline menu slide without a network session"
+file = "src/Overrides/AOWMultiWin/OfflineMenu.cs"
+
+[[skip]]
+member = "AoWScenSetup.TScenSetup.ScenSetupPnlUpdate"
+reason = "Offline setup has no network ping or map validation"
+file = "src/Overrides/AoWScenSetup/OfflineSetup.cs"
+
+[[skip]]
+member = "AoWScenSetup.TScenSetup.PingListDrawItem"
+reason = "Offline player rows have no network ping"
+file = "src/Overrides/AoWScenSetup/OfflineSetup.cs"
+
+[[skip]]
 member = "Engine.FillInteger"
 reason = "assembly fill, Pascal equivalent from asm-routines.json"
 file = "src/Overrides/Engine/Fill.cs"
