@@ -4,48 +4,26 @@ namespace Aow.Units.GFXE;
 
 public static partial class GFXE
 {
-    // Gfxepack/GFXE.pas:1046. Milestone 3 supplies the pixel implementation.
-    public static void MMXBltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.MMXBltRect");
-    // Gfxepack/GFXE.pas:1143. Milestone 3 supplies the pixel implementation.
-    public static void FPBltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.FPBltRect");
-    // Gfxepack/GFXE.pas:1239. Milestone 3 supplies the pixel implementation.
-    public static void RegisterBltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RegisterBltRect");
-    // Gfxepack/GFXE.pas:1345. Milestone 3 supplies the pixel implementation.
-    public static void RepMovsdBltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RepMovsdBltRect");
-    // Gfxepack/GFXE.pas:1411. Milestone 3 supplies the pixel implementation.
-    public static void BltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.BltRect");
-    // Gfxepack/GFXE.pas:1798. Milestone 3 supplies the pixel implementation.
-    public static void BltTransparent565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.BltTransparent565");
-    // Gfxepack/GFXE.pas:1905. Milestone 3 supplies the pixel implementation.
-    public static void BltTransparent555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.BltTransparent555");
-    // Gfxepack/GFXE.pas:2013. Milestone 3 supplies the pixel implementation.
-    public static void BltColorKey16(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, int ColorKey) => throw new NotImplementedException("GFXE.BltColorKey16");
-    // Gfxepack/GFXE.pas:2207. Milestone 3 supplies the pixel implementation.
-    public static void BltStretched16(object RowTable, object ColTable, object Dst, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.BltStretched16");
-    // Gfxepack/GFXE.pas:7580. Milestone 3 supplies the pixel implementation.
-    public static void RemapSurface16to16(object Src, object Dst, object Table, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RemapSurface16to16");
-    // Gfxepack/GFXE.pas:7684. Milestone 3 supplies the pixel implementation.
-    public static void RemapSurface16to08(object Src, object Dst, object Table, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RemapSurface16to08");
-    // Gfxepack/GFXE.pas:7779. Milestone 3 supplies the pixel implementation.
-    public static void RemapSurface16to32(object Src, object Dst, object Table, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RemapSurface16to32");
-    // Gfxepack/GFXE.pas:7873. Milestone 3 supplies the pixel implementation.
-    public static void RemapSurface555to32(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RemapSurface555to32");
-    // Gfxepack/GFXE.pas:7992. Milestone 3 supplies the pixel implementation.
-    public static void RemapSurface565to32(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RemapSurface565to32");
-    // Gfxepack/GFXE.pas:8111. Milestone 3 supplies the pixel implementation.
-    public static void RemapSurface555to565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RemapSurface555to565");
-    // Gfxepack/GFXE.pas:8218. Milestone 3 supplies the pixel implementation.
-    public static void RemapSurface565to555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => throw new NotImplementedException("GFXE.RemapSurface565to555");
-    // Gfxepack/GFXE.pas:9737. Milestone 3 supplies the pixel implementation.
-    public static void BlendSurface555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, object Table) => throw new NotImplementedException("GFXE.BlendSurface555");
-    // Gfxepack/GFXE.pas:9952. Milestone 3 supplies the pixel implementation.
-    public static void BlendSurface565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, object Table) => throw new NotImplementedException("GFXE.BlendSurface565");
-    // Gfxepack/GFXE.pas:10170. Milestone 3 supplies the pixel implementation.
-    public static void BlendColorKey555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, int ColorKey, object Table) => throw new NotImplementedException("GFXE.BlendColorKey555");
-    // Gfxepack/GFXE.pas:10525. Milestone 3 supplies the pixel implementation.
-    public static void BlendColorKey565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, int ColorKey, object Table) => throw new NotImplementedException("GFXE.BlendColorKey565");
-    // Gfxepack/GFXE.pas:10884. Milestone 3 supplies the pixel implementation.
-    public static void BlendStretched555(object RowTable, object ColTable, object Dst, int DstPitch, int Width, int Height, object Table) => throw new NotImplementedException("GFXE.BlendStretched555");
-    // Gfxepack/GFXE.pas:10961. Milestone 3 supplies the pixel implementation.
-    public static void BlendStretched565(object RowTable, object ColTable, object Dst, int DstPitch, int Width, int Height, object Table) => throw new NotImplementedException("GFXE.BlendStretched565");
+    public static void MMXBltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.MMXBltRect(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void FPBltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.FPBltRect(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void RegisterBltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RegisterBltRect(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void RepMovsdBltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RepMovsdBltRect(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void BltRect(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.BltRect(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void BltTransparent565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.BltTransparent565(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void BltTransparent555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.BltTransparent555(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void BltColorKey16(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, int ColorKey) => Aow.Graphics.Blit.BltColorKey16(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height, ColorKey);
+    public static void BltStretched16(object RowTable, object ColTable, object Dst, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.BltStretched16(((Aow.Graphics.StretchRows)RowTable).Source, ((Aow.Graphics.StretchRows)RowTable).Offsets, Rtl.Rtl.BytePointer(ColTable).Reinterpret<int>().AsSpan(Width), Rtl.Rtl.BytePointer(Dst), DstPitch, Width, Height);
+    public static void RemapSurface16to16(object Src, object Dst, object Table, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RemapSurface16to16(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), Rtl.Rtl.BytePointer(Table), SrcPitch, DstPitch, Width, Height);
+    public static void RemapSurface16to08(object Src, object Dst, object Table, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RemapSurface16to08(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), Rtl.Rtl.BytePointer(Table), SrcPitch, DstPitch, Width, Height);
+    public static void RemapSurface16to32(object Src, object Dst, object Table, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RemapSurface16to32(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), Rtl.Rtl.BytePointer(Table), SrcPitch, DstPitch, Width, Height);
+    public static void RemapSurface555to32(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RemapSurface555to32(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void RemapSurface565to32(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RemapSurface565to32(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void RemapSurface555to565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RemapSurface555to565(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void RemapSurface565to555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height) => Aow.Graphics.Blit.RemapSurface565to555(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height);
+    public static void BlendSurface555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, object Table) => Aow.Graphics.Blit.BlendSurface555(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height, Rtl.Rtl.BytePointer(Table));
+    public static void BlendSurface565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, object Table) => Aow.Graphics.Blit.BlendSurface565(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height, Rtl.Rtl.BytePointer(Table));
+    public static void BlendColorKey555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, int ColorKey, object Table) => Aow.Graphics.Blit.BlendColorKey555(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height, ColorKey, Rtl.Rtl.BytePointer(Table));
+    public static void BlendColorKey565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, int ColorKey, object Table) => Aow.Graphics.Blit.BlendColorKey565(Rtl.Rtl.BytePointer(Src), Rtl.Rtl.BytePointer(Dst), SrcPitch, DstPitch, Width, Height, ColorKey, Rtl.Rtl.BytePointer(Table));
+    public static void BlendStretched555(object RowTable, object ColTable, object Dst, int DstPitch, int Width, int Height, object Table) => Aow.Graphics.Blit.BlendStretched555(((Aow.Graphics.StretchRows)RowTable).Source, ((Aow.Graphics.StretchRows)RowTable).Offsets, Rtl.Rtl.BytePointer(ColTable).Reinterpret<int>().AsSpan(Width), Rtl.Rtl.BytePointer(Dst), DstPitch, Width, Height, Rtl.Rtl.BytePointer(Table));
+    public static void BlendStretched565(object RowTable, object ColTable, object Dst, int DstPitch, int Width, int Height, object Table) => Aow.Graphics.Blit.BlendStretched565(((Aow.Graphics.StretchRows)RowTable).Source, ((Aow.Graphics.StretchRows)RowTable).Offsets, Rtl.Rtl.BytePointer(ColTable).Reinterpret<int>().AsSpan(Width), Rtl.Rtl.BytePointer(Dst), DstPitch, Width, Height, Rtl.Rtl.BytePointer(Table));
 }
