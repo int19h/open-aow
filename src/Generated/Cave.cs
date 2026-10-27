@@ -585,8 +585,13 @@ namespace Aow.Units.Cave
                     // { Original only warns the seated player. }
                     if (ArmyHS.FArmy.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
                     {
-                        /* TODO(T-4.3) Address needs a cell or array backing */
-                        throw new System.NotImplementedException();
+                        var call__69 = Field.GetPlayer();
+                        var call__70 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__69);
+                        var call__71 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[call__70.FPlayerRace]);
+                        var call__72 = Aow.Units.AoWE.AoWE.NoWarDeclaredtoXRStr;
+                        var call__73 = Aow.Units.AoWE.AoWE.TranslateRStr(call__72);
+                        var call__74 = Aow.Rtl.Rtl.Format(call__73, [call__71]);
+                        MessageText = call__74;
                         ((Aow.Units.AoWE.TAbstractAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap).ShowMessage(MessageText);
                     }
 
@@ -612,16 +617,16 @@ namespace Aow.Units.Cave
             Aow.Units.Cave.TEnterCaveEventLog Log = default;
             if (CanEnter(unchecked((sbyte)Player)))
             {
-                var call__73 = Owner.FindOwnedChild(131607);
-                ArmyHS = (Aow.Units.AoWE.TArmyHS)call__73;
-                var call__74 = CanEnterSelection((Aow.Units.AoWE.TUnitList)ArmyHS.FArmy);
-                var call__75 = Aow.Units.Cave.Cave.CaveValidateSelection(ArmyHS.FArmy, 255);
-                if (call__74 != call__75)
+                var call__75 = Owner.FindOwnedChild(131607);
+                ArmyHS = (Aow.Units.AoWE.TArmyHS)call__75;
+                var call__76 = CanEnterSelection((Aow.Units.AoWE.TUnitList)ArmyHS.FArmy);
+                var call__77 = Aow.Units.Cave.Cave.CaveValidateSelection(ArmyHS.FArmy, 255);
+                if (call__76 != call__77)
                 {
                     Log = Aow.Units.Cave.TEnterCaveEventLog.Create(null);
                     Log.FCave = this;
-                    var call__76 = Aow.Units.Cave.Cave.TranslateCaveName(Aow.Units.AoWE.AoWE.SplitOnEnterCaveWarningRStr);
-                    Log.FMessage.Text = call__76;
+                    var call__78 = Aow.Units.Cave.Cave.TranslateCaveName(Aow.Units.AoWE.AoWE.SplitOnEnterCaveWarningRStr);
+                    Log.FMessage.Text = call__78;
                     Log.FButtons = Aow.Units.EventLog.TMessageEventLogButtons.mebYesNo;
                     Log.Execute(true, Aow.Units.EventLog.TExecuteTrigger.etUser, null);
                     Log.Release();

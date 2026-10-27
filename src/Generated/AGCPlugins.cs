@@ -162,7 +162,7 @@ namespace Aow.Units.AGCPlugins
 
                     if (FMode.Contains(Aow.Units.AGCPlugins.TAIGroupRazeControlModeElement.rcmCannotDefend))
                     {
-                        Result = Result || (Aow.Rtl.Rtl.Round(Info.FriendlyStrength * FCityStrengthFactor) < Info.Strength);
+                        Result = Result || (Aow.Rtl.Rtl.Round(((double)Info.FriendlyStrength) * FCityStrengthFactor) < Info.Strength);
                     }
 
                     break;
@@ -184,7 +184,7 @@ namespace Aow.Units.AGCPlugins
                 Result = true;
             }
 
-            if (FMode.Contains(Aow.Units.AGCPlugins.TAIGroupRazeControlModeElement.rcmCannotDefend) && (Aow.Rtl.Rtl.Round(Info.FriendlyStrength * FStructureStrengthFactor) < Info.Strength))
+            if (FMode.Contains(Aow.Units.AGCPlugins.TAIGroupRazeControlModeElement.rcmCannotDefend) && (Aow.Rtl.Rtl.Round(((double)Info.FriendlyStrength) * FStructureStrengthFactor) < Info.Strength))
             {
                 Result = true;
             }
@@ -403,7 +403,7 @@ namespace Aow.Units.AGCPlugins
             NewTarget.FData = Target.FData;
             NewTarget.FLocation = Target.FLocation;
             NewTarget.FMovePoints = Target.FMovePoints;
-            NewTarget.FData.Priority += Aow.Rtl.Rtl.Round(Target.FMovePoints * FMovePointsFactor);
+            NewTarget.FData.Priority += Aow.Rtl.Rtl.Round(((double)Target.FMovePoints) * FMovePointsFactor);
             if (FMode.Contains(Aow.Units.AGCPlugins.TAIGroupDefendTargetSelectorModeElement.dtmCalculateMovepathBFS))
             {
                 var call__20 = GetMovepathBattleFieldStrength(Target.FMovepath);
@@ -614,7 +614,7 @@ namespace Aow.Units.AGCPlugins
                         I = 0;
                         while ((Fields.Count != 0) && (Field == null))
                         {
-                            var call__36 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Aow.Rtl.Rtl.Round(Fields.Count * 0.1) + 1);
+                            var call__36 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Aow.Rtl.Rtl.Round(((double)Fields.Count) * 0.1) + 1);
                             I = call__36;
                             var call__37 = Fields[I];
                             Field = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAoWMapField>((int)call__37.A);

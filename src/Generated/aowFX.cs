@@ -281,23 +281,23 @@ namespace Aow.Units.aowFX
             Total = 0;
             do
             {
-                Rad = (float)(((double)(Angle * System.Math.PI)) / 180);
+                Rad = (float)(((double)(((double)Angle) * System.Math.PI)) / 180);
                 B = (Phase + Angle) % 180;
                 switch (B)
                 {
                     case >= 0 and <= 89:
-                        R = (float)((((((double)B) / 90) * (((double)B) / 90)) * Radius) + Radius);
+                        R = (float)(((double)(((double)((((double)B) / 90) * (((double)B) / 90))) * Radius)) + Radius);
                         break;
                     default:
-                        R = (float)((((((double)(180 - B)) / 90) * (((double)(180 - B)) / 90)) * Radius) + Radius);
+                        R = (float)(((double)(((double)((((double)(180 - B)) / 90) * (((double)(180 - B)) / 90))) * Radius)) + Radius);
                         break;
                 }
 
                 XYZ = Aow.Units.aowFX.TXYZ.Create();
                 var call__13 = System.Math.Sin(Rad);
-                XYZ.X = Aow.Rtl.Rtl.Round(call__13 * R) + X;
+                XYZ.X = Aow.Rtl.Rtl.Round(((double)call__13) * R) + X;
                 var call__14 = System.Math.Cos(Rad);
-                XYZ.Y = Aow.Rtl.Rtl.Round(call__14 * R) + Y;
+                XYZ.Y = Aow.Rtl.Rtl.Round(((double)call__14) * R) + Y;
                 List.Add(XYZ);
                 switch (Direction)
                 {
@@ -346,29 +346,29 @@ namespace Aow.Units.aowFX
             Seg = Aow.Rtl.Rtl.Random(15) + 5;
             while ((Dist + Seg) < Len)
             {
-                if (A2 > Angle)
+                if (((double)A2) > Angle)
                 {
                     var call__15 = Aow.Rtl.Rtl.Random(40);
                     var call__16 = Aow.Rtl.Rtl.DegToRad(call__15 + 40);
-                    A2 = (float)(Angle - call__16);
+                    A2 = (float)(((double)Angle) - call__16);
                 }
                 else
                 {
                     var call__17 = Aow.Rtl.Rtl.Random(40);
                     var call__18 = Aow.Rtl.Rtl.DegToRad(call__17 + 40);
-                    A2 = (float)(Angle + call__18);
+                    A2 = (float)(((double)Angle) + call__18);
                 }
 
                 var call__19 = System.Math.Cos(Angle);
                 var call__20 = System.Math.Cos(A2);
-                NX = (X1 - Aow.Rtl.Rtl.Round(call__19 * Dist)) - Aow.Rtl.Rtl.Round(call__20 * Seg);
+                NX = (X1 - Aow.Rtl.Rtl.Round(((double)call__19) * Dist)) - Aow.Rtl.Rtl.Round(((double)call__20) * Seg);
                 var call__21 = System.Math.Sin(Angle);
                 var call__22 = System.Math.Sin(A2);
-                NY = (Y1 - Aow.Rtl.Rtl.Round(call__21 * Dist)) - Aow.Rtl.Rtl.Round(call__22 * Seg);
+                NY = (Y1 - Aow.Rtl.Rtl.Round(((double)call__21) * Dist)) - Aow.Rtl.Rtl.Round(((double)call__22) * Seg);
                 Aow.Units.aowFX.aowFX.MakeLinePath(CX, CY, NX, NY, Seg, ref List);
                 CX = NX;
                 CY = NY;
-                Seg = System.Math.Abs(Aow.Rtl.Rtl.Round(System.Math.Cos(A2 - Angle) * Seg));
+                Seg = System.Math.Abs(Aow.Rtl.Rtl.Round(((double)System.Math.Cos(((double)A2) - Angle)) * Seg));
                 Dist = Dist + Seg;
                 Seg = Aow.Rtl.Rtl.Random(15) + 5;
             }
@@ -390,21 +390,21 @@ namespace Aow.Units.aowFX
             Aow.Units.aowFX.TXYZ XYZ = default;
             FX = X;
             FY = Y;
-            DX = (float)(System.Math.Cos(Angle) * Speed);
-            DY = (float)(System.Math.Sin(Angle) * Speed);
-            if (Gravity > 0)
+            DX = (float)(((double)System.Math.Cos(Angle)) * Speed);
+            DY = (float)(((double)System.Math.Sin(Angle)) * Speed);
+            if (((double)Gravity) > 0)
             {
-                while (Z >= 0)
+                while (((double)Z) >= 0)
                 {
                     XYZ = Aow.Units.aowFX.TXYZ.Create();
                     XYZ.X = Aow.Rtl.Rtl.Round(FX);
                     XYZ.Y = Aow.Rtl.Rtl.Round(FY);
                     XYZ.Z = Aow.Rtl.Rtl.Round(Z);
                     List.Add(XYZ);
-                    FX = (float)(FX + DX);
-                    FY = (float)(FY + DY);
-                    VZ = (float)(VZ - Gravity);
-                    Z = (float)(Z + VZ);
+                    FX = (float)(((double)FX) + DX);
+                    FY = (float)(((double)FY) + DY);
+                    VZ = (float)(((double)VZ) - Gravity);
+                    Z = (float)(((double)Z) + VZ);
                 }
             }
         }
@@ -433,8 +433,8 @@ namespace Aow.Units.aowFX
                 XYZ.X = X1 + (((X2 - X1) * I) / Steps);
                 XYZ.Y = Y1 + (((Y2 - Y1) * I) / Steps);
                 var call__25 = System.Math.PI;
-                var call__26 = System.Math.Sin(((double)(I * call__25)) / Steps);
-                XYZ.Z = Aow.Rtl.Rtl.Round(call__26 * Height);
+                var call__26 = System.Math.Sin(((double)(((double)I) * call__25)) / Steps);
+                XYZ.Z = Aow.Rtl.Rtl.Round(((double)call__26) * Height);
                 I += 1;
             }
         }
@@ -456,13 +456,13 @@ namespace Aow.Units.aowFX
 
             if (X2 > X1)
             {
-                Result = (float)(Result + System.Math.PI);
+                Result = (float)(((double)Result) + System.Math.PI);
             }
             else
             {
                 if ((Y1 < Y2) && (X2 == X1))
                 {
-                    Result = (float)(Result + System.Math.PI);
+                    Result = (float)(((double)Result) + System.Math.PI);
                 }
             }
 

@@ -7,7 +7,7 @@ public partial class TArmyCombatMoveTE
 {
         public void ExecuteCombat()
         {
-            if (HeadlessHooks.Tactical)
+            if (HeadlessHooks.Tactical && (HeadlessHooks.TacticalBattles == 0 || HeadlessHooks.TacticalSelections < HeadlessHooks.TacticalBattles))
             {
                 FCombatType = TCombatType.ctTactical;
                 HeadlessHooks.TacticalSelections++;
@@ -103,7 +103,7 @@ public partial class TArmyCombatMoveTE
             Msg.Param[1] = FArmyHS;
             Msg.Result = 0;
             Field.SendMapFieldMsg(ref Msg);
-            if (Msg.Result == 0)
+            if (Msg.Result.Value == 0)
             {
                 var call__6644 = FArmyHS.GetLhx();
                 var call__6645 = FArmyHS.GetYhx();

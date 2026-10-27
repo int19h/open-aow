@@ -341,8 +341,13 @@ namespace Aow.Units.Teleport
                     }
                     else
                     {
-                        /* TODO(T-4.3) Address needs a cell or array backing */
-                        throw new System.NotImplementedException();
+                        var call__39 = Field.GetPlayer();
+                        var call__40 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__39);
+                        var call__41 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[call__40.FPlayerRace]);
+                        var call__42 = Aow.Units.AoWE.AoWE.NoWarDeclaredtoXRStr;
+                        var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(call__42);
+                        var call__44 = Aow.Rtl.Rtl.Format(call__43, [call__41]);
+                        MessageText = call__44;
                         ((Aow.Units.AoWE.TAbstractAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap).ShowMessage(MessageText);
                         Result = false;
                     }
@@ -464,8 +469,9 @@ namespace Aow.Units.Teleport
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__45 = Aow.Units.AoWE.AoWE.TeleportRStr;
+                var call__46 = Aow.Units.AoWE.AoWE.TranslateRStr(call__45);
+                Result = call__46;
                 return Result;
             }
 

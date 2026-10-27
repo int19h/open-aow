@@ -440,7 +440,7 @@ namespace Aow.Units.PrdPlace
             base.MapFieldMsgProc(ref Msg);
             if ((Msg.MsgID == 4609) && (Msg.HN == 0))
             {
-                Msg.Result = Aow.Rtl.Rtl.ObjectToInt(FProductionControl);
+                Msg.Result = FProductionControl;
             }
         }
 
@@ -770,7 +770,7 @@ namespace Aow.Units.PrdPlace
 
                 if (bool__73)
                 {
-                    Income += Aow.Rtl.Rtl.Round(Income * 0.25);
+                    Income += Aow.Rtl.Rtl.Round(((double)Income) * 0.25);
                 }
             }
 
@@ -1038,7 +1038,7 @@ namespace Aow.Units.PrdPlace
                         var call__113 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProducingMerchandiseRStr);
                         Names.Add(call__113);
                         var call__114 = GetBaseIncome();
-                        Values.Add(Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Round(call__114 * 0.25)));
+                        Values.Add(Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Round(((double)call__114) * 0.25)));
                     }
                 }
             }
@@ -1067,7 +1067,7 @@ namespace Aow.Units.PrdPlace
                     {
                         var call__124 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ExtraPowerRStr);
                         Names.Add(call__124);
-                        Values.Add(Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Round((Picks * 5) * 0.25)));
+                        Values.Add(Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Round(((double)(Picks * 5)) * 0.25)));
                     }
                 }
             }

@@ -269,10 +269,10 @@ public partial class TMapField
 
     public void SendMapFieldMsg(ref TMapFieldMsg message)
     {
-        int oldResult = message.Result;
+        int oldResult = message.Result.Value;
         int i = FCount;
         message.MapField = this;
-        while (i != 0 && oldResult == message.Result)
+        while (i != 0 && oldResult == message.Result.Value)
         {
             i--;
             if (i >= Count) continue;

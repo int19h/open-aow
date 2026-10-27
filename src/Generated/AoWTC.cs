@@ -2139,10 +2139,10 @@ namespace Aow.Units.AoWTC
                                         }
 
                                         var call__249 = System.Math.PI;
-                                        var call__250 = System.Math.Sin(((double)(((I * 5) + N) * call__249)) / 180);
+                                        var call__250 = System.Math.Sin(((double)(((double)((I * 5) + N)) * call__249)) / 180);
                                         var call__251 = System.Math.PI;
-                                        var call__252 = System.Math.Cos(((double)(((I * 5) + N) * call__251)) / 180);
-                                        Aow.Units.aowFX.aowFX.MakeLinePath(Aow.Rtl.Rtl.Round(call__252 * DX) + (X + 16), (Aow.Rtl.Rtl.Round(call__250 * DY) / 2) + (Y + 16), X + 16, Y + 16, 100, ref Effect.FPath);
+                                        var call__252 = System.Math.Cos(((double)(((double)((I * 5) + N)) * call__251)) / 180);
+                                        Aow.Units.aowFX.aowFX.MakeLinePath(Aow.Rtl.Rtl.Round(((double)call__252) * DX) + (X + 16), (Aow.Rtl.Rtl.Round(((double)call__250) * DY) / 2) + (Y + 16), X + 16, Y + 16, 100, ref Effect.FPath);
                                     }
                                 }
                             }
@@ -2175,9 +2175,9 @@ namespace Aow.Units.AoWTC
                                 Effect.FAbilityIndex = 52;
                                 Effect.FSpellIndex = Msg.Param[1].Value;
                                 // { Original uses this smaller value for horizontal speed. }
-                                Speed = (float)((Aow.Rtl.Rtl.Random(10) + 10) * 0.05);
+                                Speed = (float)(((double)(Aow.Rtl.Rtl.Random(10) + 10)) * 0.05);
                                 Gravity = (float)0.5;
-                                VZ = (float)((Aow.Rtl.Rtl.Random(50) + 50) * 0.05);
+                                VZ = (float)(((double)(Aow.Rtl.Rtl.Random(50) + 50)) * 0.05);
                                 Z = 0;
                                 Aow.Units.aowFX.aowFX.MakeArcPath(X + 16, Y + 16, (I * 360) / N, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                             }
@@ -2818,9 +2818,9 @@ namespace Aow.Units.AoWTC
                                     byte end__323 = 10;
                                     for (; J <= end__323; J += 1)
                                     {
-                                        Speed = (float)((Aow.Rtl.Rtl.Random(50) + 50) * 0.05);
+                                        Speed = (float)(((double)(Aow.Rtl.Rtl.Random(50) + 50)) * 0.05);
                                         Gravity = (float)1.5;
-                                        VZ = (float)((Aow.Rtl.Rtl.Random(25) + 25) * 0.05);
+                                        VZ = (float)(((double)(Aow.Rtl.Rtl.Random(25) + 25)) * 0.05);
                                         Z = 0;
                                         var call__324 = Effect.FPath.Count;
                                         var call__325 = Effect.FPath[call__324 - 1];
@@ -3668,8 +3668,8 @@ namespace Aow.Units.AoWTC
                 Aow.Units.HSEngine.HSEngine.HNtoHP(FDirection, ref DX, ref DY);
                 var call__461 = GetMoveSteps();
                 Progress = (float)(((double)FMoveStep) / call__461);
-                X += Aow.Rtl.Rtl.Round(DX * Progress);
-                Y += Aow.Rtl.Rtl.Round(DY * Progress);
+                X += Aow.Rtl.Rtl.Round(((double)DX) * Progress);
+                Y += Aow.Rtl.Rtl.Round(((double)DY) * Progress);
             }
 
             var call__462 = FUnitGFXResource.FSequences.ImageSequences[FDirection + 23];

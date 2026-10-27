@@ -975,7 +975,7 @@ namespace Aow.Units.GlobalSpells
                 Msg.Param[0] = Army;
                 Msg.Result = 0;
                 Field.SendMapFieldMsg(ref Msg);
-                bool bool__97 = (Msg.Result == 0);
+                bool bool__97 = (Msg.Result.Value == 0);
                 if (bool__97)
                 {
                     var call__98 = Army.FArmy.CanPlace(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer));
@@ -1075,7 +1075,7 @@ namespace Aow.Units.GlobalSpells
                     Msg.Param[0] = Army;
                     Msg.Result = 0;
                     Field.SendMapFieldMsg(ref Msg);
-                    bool bool__113 = (Msg.Result == 0);
+                    bool bool__113 = (Msg.Result.Value == 0);
                     if (bool__113)
                     {
                         var call__114 = Army.FArmy.CanPlace(unchecked((sbyte)Field.Xhx), unchecked((sbyte)Field.Yhx), unchecked((sbyte)Field.Lhx));
@@ -1811,7 +1811,7 @@ namespace Aow.Units.GlobalSpells
                     var w__232 = Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.FEnchantments.GetEnchantments(Index);
                     var call__233 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A1.FPlayer);
                     Mana = call__233.FMagicControl.FMana + A1.FCastingProgress;
-                    RequiredMana = Aow.Rtl.Rtl.Round((w__232.FDispelMana * 0.02) * FDispelChance) + FEventMana;
+                    RequiredMana = Aow.Rtl.Rtl.Round(((double)(((double)w__232.FDispelMana) * 0.02)) * FDispelChance) + FEventMana;
                     Result = RequiredMana <= Mana;
                 }
             }
@@ -1844,7 +1844,7 @@ namespace Aow.Units.GlobalSpells
             Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Twinkle, X, Y, Layer);
             var call__238 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
             call__238.FCastSounds.Play(0);
-            Mana = Aow.Rtl.Rtl.Round((Enchantment.FDispelMana * 0.02) * FDispelChance);
+            Mana = Aow.Rtl.Rtl.Round(((double)(((double)Enchantment.FDispelMana) * 0.02)) * FDispelChance);
             var call__239 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A1.FPlayer);
             var call__240 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A1.FPlayer);
             call__240.FMagicControl.SetMana(call__239.FMagicControl.FMana - Mana);
@@ -2070,7 +2070,7 @@ namespace Aow.Units.GlobalSpells
             Enchantment = SelectedEnchantment();
             if (Enchantment != null)
             {
-                Result = Aow.Rtl.Rtl.Round((Enchantment.FDispelMana * 0.02) * FDispelChance);
+                Result = Aow.Rtl.Rtl.Round(((double)(((double)Enchantment.FDispelMana) * 0.02)) * FDispelChance);
             }
             else
             {

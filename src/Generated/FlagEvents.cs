@@ -58,7 +58,7 @@ namespace Aow.Units.FlagEvents
             base.MsgProc(ref Msg, Sender);
             if ((Msg.MsgID == 537001987) && (FTriggerMode == Aow.Units.FlagEvents.TFlagEventTriggerMode.etmNewTurn))
             {
-                UpdateNewTurnTrigger(unchecked((sbyte)unchecked((sbyte)Msg.Value)));
+                UpdateNewTurnTrigger(unchecked((sbyte)((sbyte)Msg.Payload.Value)));
             }
         }
 

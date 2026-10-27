@@ -39,7 +39,7 @@ namespace Aow.Units.HashTabU
             FCount -= 1;
             if (Index < FCount)
             {
-                FItems[Index] = FItems[Index + 1];
+                Ptr<Aow.Units.HashTabU.THashItem>.Copy(FItems + (Index + 1), FItems + Index, (FCount - Index));
             }
         }
 
