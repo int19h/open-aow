@@ -16,6 +16,11 @@ the recovered Delphi 3 source in `D:\git\aow`. `docs/process.md` describes how w
   Delphi sources are read as Windows code page 1252 and never written.
 - The build is `dotnet build` with warnings as errors (`Directory.Build.props`), the tests are
   `dotnet test`. The brief's done measure is checked by a command, not by reading.
+- The user works on this PC while runs go on. Every executable you build and run (tests, tools,
+  probes in C#) calls `SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX |
+  SEM_NOOPENFILEERRORBOX)` first thing, so a crash ends the process instead of opening a dialog,
+  and nothing opens a window on the desktop (use the headless host's null display, or a hidden
+  window). Never play sound.
 - Report what was done, what was not done and why, and anything the brief did not anticipate. A
   report that claims completion carries the done measure's command output.
 - Prose in documents and comments is plain English: no "should", "may", "could", "would",
