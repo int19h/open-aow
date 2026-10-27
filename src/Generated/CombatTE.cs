@@ -991,9 +991,9 @@ namespace Aow.Units.CombatTE
                     Aow.Units.HSEngine.HSEngine.HXtoHP(call__105, call__104, ref X1, ref Y1);
                     Aow.Units.HSEngine.HSEngine.HXtoHP(J, K, ref X2, ref Y2);
                     Sweep = FStrikeIndex;
-                    if (Sweep > 9)
+                    if (((double)Sweep) > 9)
                     {
-                        Sweep = (float)(19 - Sweep);
+                        Sweep = (float)(((double)19) - Sweep);
                     }
 
                     if (Y2 == Y1)
@@ -1016,30 +1016,30 @@ namespace Aow.Units.CombatTE
                     {
                         var call__106 = System.Math.PI;
                         var call__107 = System.Math.PI;
-                        Angle = (float)(((((double)call__106) / 2) - A) + (((double)(((Sweep * 6) - 30) * call__107)) / 180));
+                        Angle = (float)(((double)(((double)(((double)call__106) / 2)) - A)) + (((double)(((double)(((double)(((double)Sweep) * 6)) - 30)) * call__107)) / 180));
                     }
                     else
                     {
-                        Angle = (float)(A + (((double)(((Sweep * 6) - 30) * System.Math.PI)) / 180));
+                        Angle = (float)(((double)A) + (((double)(((double)(((double)(((double)Sweep) * 6)) - 30)) * System.Math.PI)) / 180));
                     }
 
                     Radius = (float)System.Math.Sqrt(((X2 - X1) * (X2 - X1)) + ((Y2 - Y1) * (Y2 - Y1)));
                     if (X2 >= X1)
                     {
-                        DX = (Aow.Rtl.Rtl.Round(System.Math.Sin(Angle) * Radius) - X2) + X1;
+                        DX = (Aow.Rtl.Rtl.Round(((double)System.Math.Sin(Angle)) * Radius) - X2) + X1;
                     }
                     else
                     {
-                        DX = (X1 - X2) - Aow.Rtl.Rtl.Round(System.Math.Sin(Angle) * Radius);
+                        DX = (X1 - X2) - Aow.Rtl.Rtl.Round(((double)System.Math.Sin(Angle)) * Radius);
                     }
 
                     if (Y2 >= Y1)
                     {
-                        DY = (Aow.Rtl.Rtl.Round(System.Math.Cos(Angle) * Radius) - Y2) + Y1;
+                        DY = (Aow.Rtl.Rtl.Round(((double)System.Math.Cos(Angle)) * Radius) - Y2) + Y1;
                     }
                     else
                     {
-                        DY = (Y1 - Y2) - Aow.Rtl.Rtl.Round(System.Math.Cos(Angle) * Radius);
+                        DY = (Y1 - Y2) - Aow.Rtl.Rtl.Round(((double)System.Math.Cos(Angle)) * Radius);
                     }
 
                     var call__108 = FUnit.FUnitHS.Xhx;
@@ -2001,15 +2001,15 @@ namespace Aow.Units.CombatTE
                     {
                         var call__330 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.AddEffect(EffectType);
                         Effect = call__330;
-                        Speed = (float)((Aow.Rtl.Rtl.Random(10) + 10) * 0.1);
+                        Speed = (float)(((double)(Aow.Rtl.Rtl.Random(10) + 10)) * 0.1);
                         Gravity = (float)0.5;
                         if (Resisted || (EffectType == Aow.Units.AoWTC.TfxType.fxDamMagic))
                         {
-                            VZ = (float)((Aow.Rtl.Rtl.Random(50) + 50) * 0.1);
+                            VZ = (float)(((double)(Aow.Rtl.Rtl.Random(50) + 50)) * 0.1);
                         }
                         else
                         {
-                            VZ = (float)((Aow.Rtl.Rtl.Random(25) + 25) * 0.1);
+                            VZ = (float)(((double)(Aow.Rtl.Rtl.Random(25) + 25)) * 0.1);
                         }
 
                         Z = 0;

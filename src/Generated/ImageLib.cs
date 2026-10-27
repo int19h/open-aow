@@ -1324,7 +1324,7 @@ namespace Aow.Units.ImageLib
         internal void DeleteItem(int Index)
         {
             // { Tried Self identity, receiver scope and shifted index; Self/array registers still differ. }
-            FImages[Index] = FImages[Index + 1];
+            Ptr<Aow.Units.ImageLib.TImageItem>.Copy(FImages + (Index + 1), FImages + Index, ((FCount - Index) - 1));
             Ptr<Aow.Units.ImageLib.TImageItem>.Fill(FImages + (FCount - 1), 1, default);
             FCount -= 1;
             SetModified(true);
@@ -1334,7 +1334,7 @@ namespace Aow.Units.ImageLib
         internal void InsertItem(int Index)
         {
             SetCount(FCount + 1);
-            FImages[Index + 1] = FImages[Index];
+            Ptr<Aow.Units.ImageLib.TImageItem>.Copy(FImages + Index, FImages + (Index + 1), ((FCount - Index) - 1));
             Ptr<Aow.Units.ImageLib.TImageItem>.Fill(FImages + Index, 1, default);
         }
 
@@ -1451,10 +1451,10 @@ namespace Aow.Units.ImageLib
             StartPos = call__42;
             Stream.Read(Aow.Rtl.Bytes.Of(ref Header, 24));
             Stream.Seek(Header.HeaderSize + StartPos, 0);
-            if (Header.Version < 4)
+            if (((double)Header.Version) < 4)
             {
                 FDataOffset = 0;
-                if (Header.Version > 1.5)
+                if (((double)Header.Version) > 1.5)
                 {
                     FPaletteManager.LoadFromStream(Stream);
                 }
@@ -1463,7 +1463,7 @@ namespace Aow.Units.ImageLib
                     FPaletteManager.Clear();
                 }
 
-                if (Header.Version <= 2)
+                if (((double)Header.Version) <= 2)
                 {
                     Stream.Read(Aow.Rtl.Bytes.Of(ref Index, 4));
                     while (Index != -1)
@@ -1484,7 +1484,7 @@ namespace Aow.Units.ImageLib
                 }
                 else
                 {
-                    if (Header.Version == 3)
+                    if (((double)Header.Version) == 3)
                     {
                         Stream.Read(Aow.Rtl.Bytes.Of(ref Index, 4));
                         while (Index != -1)
@@ -4964,7 +4964,7 @@ namespace Aow.Units.ImageLib
                     XStep = Aow.Rtl.Rtl.Round(((double)65535) / XScale);
                     if (SX != 0)
                     {
-                        XPos = Aow.Rtl.Rtl.Round((((double)SX) / XScale) * 65535);
+                        XPos = Aow.Rtl.Rtl.Round(((double)(((double)SX) / XScale)) * 65535);
                     }
                     else
                     {
@@ -4990,7 +4990,7 @@ namespace Aow.Units.ImageLib
                     YStep = Aow.Rtl.Rtl.Round(((double)65535) / YScale);
                     if (SY != 0)
                     {
-                        YPos = Aow.Rtl.Rtl.Round((((double)SY) / YScale) * 65535);
+                        YPos = Aow.Rtl.Rtl.Round(((double)(((double)SY) / YScale)) * 65535);
                     }
                     else
                     {
@@ -5150,7 +5150,7 @@ namespace Aow.Units.ImageLib
                     XStep = Aow.Rtl.Rtl.Round(((double)65535) / XScale);
                     if (SX != 0)
                     {
-                        XPos = Aow.Rtl.Rtl.Round((((double)SX) / XScale) * 65535);
+                        XPos = Aow.Rtl.Rtl.Round(((double)(((double)SX) / XScale)) * 65535);
                     }
                     else
                     {
@@ -5176,7 +5176,7 @@ namespace Aow.Units.ImageLib
                     YStep = Aow.Rtl.Rtl.Round(((double)65535) / YScale);
                     if (SY != 0)
                     {
-                        YPos = Aow.Rtl.Rtl.Round((((double)SY) / YScale) * 65535);
+                        YPos = Aow.Rtl.Rtl.Round(((double)(((double)SY) / YScale)) * 65535);
                     }
                     else
                     {

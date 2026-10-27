@@ -2243,12 +2243,12 @@ namespace Aow.Units.GlobalTargetSpells
                         Direction = Aow.Rtl.Rtl.Random(360);
                         if ((Animation.FFrameCounter >= ((int)(((uint)I) >> 2))) && (Animation.FFrameCounter <= (((int)(((uint)I) >> 4)) + 68)))
                         {
-                            Radius = Aow.Rtl.Rtl.Round((2.997 - System.Math.Log(((I * 19) * 0.005) + 1)) * 35) + 7;
+                            Radius = Aow.Rtl.Rtl.Round(((double)(((double)2.997) - System.Math.Log(((double)(((double)(I * 19)) * 0.005)) + 1))) * 35) + 7;
                             Height = (200 - I) - 16;
-                            var call__202 = System.Math.Sin((FAnimation.FFrameCounter * 0.1) + (I * 0.02));
-                            XShift = Aow.Rtl.Rtl.Round((call__202 * (200 - I)) * 0.25) + 16;
+                            var call__202 = System.Math.Sin(((double)(((double)FAnimation.FFrameCounter) * 0.1)) + (((double)I) * 0.02));
+                            XShift = Aow.Rtl.Rtl.Round(((double)(((double)call__202) * (200 - I))) * 0.25) + 16;
                             var call__203 = System.Math.PI;
-                            Angle = (float)(((double)((Direction + FAngle) * call__203)) / 180);
+                            Angle = (float)(((double)(((double)(Direction + FAngle)) * call__203)) / 180);
                             if (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) == 0)
                             {
                                 Last = 1;
@@ -2270,11 +2270,11 @@ namespace Aow.Units.GlobalTargetSpells
                                 byte end__204 = 0;
                                 for (; Count >= end__204; Count -= 1)
                                 {
-                                    X = Aow.Rtl.Rtl.Round(System.Math.Cos(Angle) * Radius) + XShift;
-                                    Y = Aow.Rtl.Rtl.Round((System.Math.Sin(Angle) * Radius) * 0.5) + Height;
+                                    X = Aow.Rtl.Rtl.Round(((double)System.Math.Cos(Angle)) * Radius) + XShift;
+                                    Y = Aow.Rtl.Rtl.Round(((double)(((double)System.Math.Sin(Angle)) * Radius)) * 0.5) + Height;
                                     var call__205 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(68);
                                     call__205.FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
-                                    Angle = (float)(0.035 + Angle);
+                                    Angle = (float)(((double)0.035) + Angle);
                                 }
                             }
                         }
@@ -2413,7 +2413,7 @@ namespace Aow.Units.GlobalTargetSpells
                 Msg.Param[0] = Army;
                 Msg.Result = 0;
                 MapF.SendMapFieldMsg(ref Msg);
-                bool bool__217 = (Msg.Result == 0);
+                bool bool__217 = (Msg.Result.Value == 0);
                 if (bool__217)
                 {
                     var call__218 = Army.FArmy.CanPlace(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer));
@@ -2698,11 +2698,11 @@ namespace Aow.Units.GlobalTargetSpells
                         Direction = Aow.Rtl.Rtl.Random(360);
                         if ((Animation.FFrameCounter >= ((int)(((uint)(200 - I)) >> 2))) && (Animation.FFrameCounter <= (((int)(((uint)I) >> 4)) + 68)))
                         {
-                            Radius = Aow.Rtl.Rtl.Round((2.997 - System.Math.Log(((I * 19) * 0.005) + 1)) * 35) + 18;
+                            Radius = Aow.Rtl.Rtl.Round(((double)(((double)2.997) - System.Math.Log(((double)(((double)(I * 19)) * 0.005)) + 1))) * 35) + 18;
                             Height = -16;
                             XShift = 16;
                             var call__242 = System.Math.PI;
-                            Angle = (float)(((double)(-(Direction + FAngle) * call__242)) / 180);
+                            Angle = (float)(((double)(((double)-(Direction + FAngle)) * call__242)) / 180);
                             if (Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail == 0)
                             {
                                 Count = 1;
@@ -2724,11 +2724,11 @@ namespace Aow.Units.GlobalTargetSpells
                                 byte end__243 = 0;
                                 for (; J >= end__243; J -= 1)
                                 {
-                                    X = Aow.Rtl.Rtl.Round(System.Math.Cos(Angle) * Radius) + XShift;
-                                    Y = Aow.Rtl.Rtl.Round(((double)(System.Math.Sin(Angle) * Radius)) / 1.75) + Height;
+                                    X = Aow.Rtl.Rtl.Round(((double)System.Math.Cos(Angle)) * Radius) + XShift;
+                                    Y = Aow.Rtl.Rtl.Round(((double)(((double)System.Math.Sin(Angle)) * Radius)) / 1.75) + Height;
                                     var call__244 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(70);
                                     call__244.FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
-                                    Angle = (float)(0.035 + Angle);
+                                    Angle = (float)(((double)0.035) + Angle);
                                 }
                             }
                         }
@@ -3103,8 +3103,8 @@ namespace Aow.Units.GlobalTargetSpells
                         if ((Frame >= 0) && (Frame < 50))
                         {
                             Frame = Frame % 30;
-                            X -= Aow.Rtl.Rtl.Round((Frame * 4) * (Speed * 0.2));
-                            Y += Aow.Rtl.Rtl.Round((Frame * 20) * (Speed * 0.2));
+                            X -= Aow.Rtl.Rtl.Round(((double)(Frame * 4)) * (((double)Speed) * 0.2));
+                            Y += Aow.Rtl.Rtl.Round(((double)(Frame * 20)) * (((double)Speed) * 0.2));
                             if (Y < 500)
                             {
                                 {
@@ -3112,8 +3112,8 @@ namespace Aow.Units.GlobalTargetSpells
                                     byte end__288 = 10;
                                     for (; J <= end__288; J += 1)
                                     {
-                                        XShift = X - Aow.Rtl.Rtl.Round((J * 2) * 0.1);
-                                        YShift = Y + Aow.Rtl.Rtl.Round((J * 10) * 0.1);
+                                        XShift = X - Aow.Rtl.Rtl.Round(((double)(J * 2)) * 0.1);
+                                        YShift = Y + Aow.Rtl.Rtl.Round(((double)(J * 10)) * 0.1);
                                         var call__289 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(73);
                                         call__289.FCastImages.Show(0, (Xhp + XShift) + 120, ((Yhp + YShift) - 500) + 30, 0, SurfaceDesc);
                                     }
@@ -3704,10 +3704,22 @@ namespace Aow.Units.GlobalTargetSpells
         public static bool GlobalTargetActivate(Aow.Units.GlobalTargetSpells.TGlobalTargetSpell Spell, int Caster, int A2)
         {
             bool Result = default;
-            Aow.Rtl.AnsiString MessageText = default;
+            Aow.Rtl.AnsiString[] MessageText__cell = new Aow.Rtl.AnsiString[1];
+            ref Aow.Rtl.AnsiString MessageText = ref MessageText__cell[0];
             Aow.Units.GlobalTargetSpells.GlobalTargetSpells.BaseActivate(Spell, Caster, A2);
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
+            if (Aow.Units.GlobalTargetSpells.GlobalTargetSpells.VirtualCanActivate(Spell, Caster, Ptr<Aow.Rtl.AnsiString>.To(MessageText__cell, 0).ByteIndex))
+            {
+                Spell.FCasterID = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).FUnitID;
+                Spell.FCasterPlayer = unchecked((sbyte)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).FPlayer);
+                Spell.SetupTargetSelection(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster), Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection);
+                Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.Activate();
+                Result = true;
+            }
+            else
+            {
+                Result = false;
+            }
+
             return Result;
         }
 

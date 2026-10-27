@@ -278,8 +278,9 @@ namespace Aow.Units.Spring
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__15 = Aow.Units.AoWE.AoWE.SpringOfLifeRStr;
+                var call__16 = Aow.Units.AoWE.AoWE.TranslateRStr(call__15);
+                Result = call__16;
                 return Result;
             }
 

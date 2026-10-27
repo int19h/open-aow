@@ -184,7 +184,7 @@ namespace Aow.Units.Altar
                 if (call__17)
                 {
                     Value = Damage.EnemyDamage - Damage.FriendlyDamage;
-                    if (Value > (TargetMana() * 0.75))
+                    if (((double)Value) > (((double)TargetMana()) * 0.75))
                     {
                         var call__18 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
                         var call__19 = TargetMana();

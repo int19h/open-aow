@@ -974,13 +974,13 @@ namespace Aow.Units.AoWFileDialog
                     }
                     else
                     {
-                        if (((Aow.Units.AoWWorldMap.TFileTime)O2).FTime > ((Aow.Units.AoWWorldMap.TFileTime)O1).FTime)
+                        if (((double)((Aow.Units.AoWWorldMap.TFileTime)O2).FTime) > ((Aow.Units.AoWWorldMap.TFileTime)O1).FTime)
                         {
                             Result = 1;
                         }
                         else
                         {
-                            if (((Aow.Units.AoWWorldMap.TFileTime)O2).FTime < ((Aow.Units.AoWWorldMap.TFileTime)O1).FTime)
+                            if (((double)((Aow.Units.AoWWorldMap.TFileTime)O2).FTime) < ((Aow.Units.AoWWorldMap.TFileTime)O1).FTime)
                             {
                                 Result = -1;
                             }

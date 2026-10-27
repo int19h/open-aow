@@ -275,8 +275,9 @@ namespace Aow.Units.BloodShrine
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__16 = Aow.Units.AoWE.AoWE.BloodShrineRStr;
+                var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(call__16);
+                Result = call__17;
                 return Result;
             }
 

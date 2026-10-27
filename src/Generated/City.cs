@@ -1331,7 +1331,7 @@ namespace Aow.Units.City
                 {
                     if (Msg.MsgID == 4609)
                     {
-                        Msg.Result = Aow.Rtl.Rtl.ObjectToInt(FProduction);
+                        Msg.Result = FProduction;
                     }
                     else
                     {
@@ -1739,7 +1739,7 @@ namespace Aow.Units.City
                 Maximum = Aow.Rtl.Rtl.Round(GetSize() * 5000);
                 var call__250 = GetSize();
                 var call__251 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                Minimum = Aow.Rtl.Rtl.Round((call__250 * 5000) * call__251.FAIControl.FDefenseStrengthMultiplier);
+                Minimum = Aow.Rtl.Rtl.Round(((double)(call__250 * 5000)) * call__251.FAIControl.FDefenseStrengthMultiplier);
                 if (Player != 0)
                 {
                     var call__252 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FRace);
@@ -2470,7 +2470,7 @@ namespace Aow.Units.City
                 SetIncome(unchecked((byte)((call__339 * 2) + (call__340 * 5))));
                 if (TSet<Aow.Units.City.TCityAction>.Of(Aow.Units.City.TCityAction.caNone, Aow.Units.City.TCityAction.caTrade).Contains(GetActiveAction()))
                 {
-                    SetIncome(unchecked((byte)(FIncome + Aow.Rtl.Rtl.Round(FIncome * 0.25))));
+                    SetIncome(unchecked((byte)(FIncome + Aow.Rtl.Rtl.Round(((double)FIncome) * 0.25))));
                 }
 
                 if (FEnchantments.Contains(Aow.Units.City.TCityEnchantmentID.ceiGoldRush))
@@ -3765,8 +3765,8 @@ namespace Aow.Units.City
                 var call__531 = Aow.Units.AoWE.AoWE.ProducingMerchandiseRStr;
                 var call__532 = Aow.Units.AoWE.AoWE.TranslateRStr(call__531);
                 Names.Add(call__532);
-                Values.Add(Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Round(Income * 0.25)));
-                Income += Aow.Rtl.Rtl.Round(Income * 0.25);
+                Values.Add(Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Round(((double)Income) * 0.25)));
+                Income += Aow.Rtl.Rtl.Round(((double)Income) * 0.25);
             }
 
             if (FEnchantments.Contains(Aow.Units.City.TCityEnchantmentID.ceiGoldRush))
@@ -5510,7 +5510,7 @@ namespace Aow.Units.City
             {
                 Index = 0;
                 var call__700 = Cities[0];
-                Value = Aow.Rtl.Rtl.Round(call__700.B * 0.75);
+                Value = Aow.Rtl.Rtl.Round(((double)call__700.B) * 0.75);
                 while (true)
                 {
                     bool bool__701 = ((Index + 1) < Cities.Count);

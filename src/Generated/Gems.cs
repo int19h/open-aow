@@ -173,14 +173,16 @@ namespace Aow.Units.Gems
 
                 Event = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
                 Event.FPlayer = unchecked((sbyte)ArmyHS.FArmy.FPlayer);
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
-                var call__12 = GetLhx();
-                var call__13 = GetYhx();
-                var call__14 = GetXhx();
-                Event.SetLocation(unchecked((sbyte)call__14), unchecked((sbyte)call__13), unchecked((sbyte)call__12));
-                var call__15 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
-                call__15.FEventLogbook.AddEvent(Event);
+                var call__11 = Aow.Units.AoWE.AoWE.GoldFoundRStr;
+                var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(call__11);
+                var call__13 = Aow.Rtl.Rtl.Format(call__12, [Aow.Rtl.Rtl.IntToStr(FAmount)]);
+                Event.FText = call__13;
+                var call__14 = GetLhx();
+                var call__15 = GetYhx();
+                var call__16 = GetXhx();
+                Event.SetLocation(unchecked((sbyte)call__16), unchecked((sbyte)call__15), unchecked((sbyte)call__14));
+                var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+                call__17.FEventLogbook.AddEvent(Event);
                 Event.Release();
                 Destroy();
             }
@@ -260,8 +262,9 @@ namespace Aow.Units.Gems
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
+                var call__18 = Aow.Units.AoWE.AoWE.GoldRStr;
+                var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(call__18);
+                Result = call__19;
                 return Result;
             }
 

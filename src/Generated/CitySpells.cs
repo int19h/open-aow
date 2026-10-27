@@ -1236,13 +1236,13 @@ namespace Aow.Units.CitySpells
                 {
                     VX = Aow.Rtl.Rtl.Random(100) - 50;
                     VY = Aow.Rtl.Rtl.Random(5) + 7;
-                    Offset = Aow.Rtl.Rtl.Round(VX * 0.1);
+                    Offset = Aow.Rtl.Rtl.Round(((double)VX) * 0.1);
                     T = Aow.Rtl.Rtl.Random(30);
                     if ((T < Animation.FFrameCounter) && ((Animation.FFrameCounter - T) < 90))
                     {
                         T = (Animation.FFrameCounter - T) % 30;
                         DX = Aow.Rtl.Rtl.Round(((double)(T * VX)) / 30);
-                        DY = (VY * T) - Aow.Rtl.Rtl.Round((T * 0.25) * T);
+                        DY = (VY * T) - Aow.Rtl.Rtl.Round(((double)(((double)T) * 0.25)) * T);
                         if (T > 0)
                         {
                             var call__120 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(52);

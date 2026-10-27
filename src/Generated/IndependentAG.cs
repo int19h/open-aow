@@ -766,7 +766,7 @@ namespace Aow.Units.IndependentAG
                         {
                             Msg.Result = 0;
                             MapF.SendMapFieldMsg(ref Msg);
-                            if (Msg.Result == 0)
+                            if (Msg.Result.Value == 0)
                             {
                                 var call__45 = Lists[I][J];
                                 NewList.Add(call__45);

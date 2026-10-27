@@ -1530,7 +1530,7 @@ namespace Aow.Units.Storms
                     if (call__123)
                     {
                         Damage = Info.EnemyDamage - Info.FriendlyDamage;
-                        if ((FBaseManaCost * 0.75) < Damage)
+                        if (((double)(((double)FBaseManaCost) * 0.75)) < Damage)
                         {
                             Result = (Damage * 5) + 750;
                         }

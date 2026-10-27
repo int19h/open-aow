@@ -78,7 +78,12 @@ public class TList : TObject
     // CLASSES.PAS TList.Expand.
     public TList Expand() { if (count == Capacity) Grow(); return this; }
     // CLASSES.PAS TList.Sort and QuickSort. Equal keys retain the Delphi swap order.
-    public void Sort(TListSortCompare compare) { if (count > 0) QuickSort(0, count - 1, compare); }
+    public static Action<TList, TListSortCompare>? TraceSort { get; set; }
+    public void Sort(TListSortCompare compare)
+    {
+        TraceSort?.Invoke(this, compare);
+        if (count > 0) QuickSort(0, count - 1, compare);
+    }
     private void QuickSort(int left, int right, TListSortCompare compare)
     {
         int i;

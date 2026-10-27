@@ -3090,7 +3090,7 @@ namespace Aow.Units.Engine
             FCount -= 1;
             if (Index < FCount)
             {
-                FList[Index] = FList[Index + 1];
+                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes((FList + (Index + 1)).Array.AsSpan((FList + (Index + 1)).Index, (FCount - Index))), MemoryMarshal.AsBytes((FList + Index).Array.AsSpan((FList + Index).Index, (FCount - Index))), (FCount - Index) * 8);
             }
         }
 
@@ -3139,7 +3139,7 @@ namespace Aow.Units.Engine
         {
             int Result = default;
             Result = 0;
-            while ((Result < FCount) && (Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FList[Result]) != Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(Item)))
+            while ((Result < FCount) && (((double)Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FList[Result])) != Unsafe.BitCast<Aow.Units.Engine.TDoubleItem, long>(Item)))
             {
                 Result += 1;
             }
@@ -3203,7 +3203,7 @@ namespace Aow.Units.Engine
 
             if (Index < FCount)
             {
-                FList[Index + 1] = FList[Index];
+                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes((FList + Index).Array.AsSpan((FList + Index).Index, (FCount - Index))), MemoryMarshal.AsBytes((FList + (Index + 1)).Array.AsSpan((FList + (Index + 1)).Index, (FCount - Index))), (FCount - Index) * 8);
             }
 
             FList[Index] = Item;
@@ -3261,7 +3261,7 @@ namespace Aow.Units.Engine
                 {
                     var call__54 = this[I];
                     Item = call__54;
-                    if (Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref Item) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault))
+                    if (((double)Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref Item)) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault))
                     {
                         Delete(I);
                     }
@@ -3329,7 +3329,7 @@ namespace Aow.Units.Engine
             while (FCount < Count)
             {
                 Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 8));
-                if (Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref Item) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault))
+                if (((double)Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref Item)) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault))
                 {
                     Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 4));
                     SetCount(FCount + Run);
@@ -3352,7 +3352,7 @@ namespace Aow.Units.Engine
                 int J = default;
                 Result = 0;
                 J = I;
-                while ((J < FCount) && (Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FList[J]) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault)))
+                while ((J < FCount) && (((double)Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FList[J])) == Unsafe.As<Aow.Units.Engine.TDoubleItem, long>(ref FDefault)))
                 {
                     Result += 1;
                     J += 1;
@@ -3698,7 +3698,7 @@ namespace Aow.Units.Engine
             FCount -= 1;
             if (Index < FCount)
             {
-                FList[Index] = FList[Index + 1];
+                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes((FList + (Index + 1)).Array.AsSpan((FList + (Index + 1)).Index, (FCount - Index))), MemoryMarshal.AsBytes((FList + Index).Array.AsSpan((FList + Index).Index, (FCount - Index))), (FCount - Index) * 16);
             }
         }
 
@@ -3847,7 +3847,7 @@ namespace Aow.Units.Engine
 
             if (Index < FCount)
             {
-                FList[Index + 1] = FList[Index];
+                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes((FList + Index).Array.AsSpan((FList + Index).Index, (FCount - Index))), MemoryMarshal.AsBytes((FList + (Index + 1)).Array.AsSpan((FList + (Index + 1)).Index, (FCount - Index))), (FCount - Index) * 16);
             }
 
             FList[Index] = Item;
@@ -6300,7 +6300,7 @@ namespace Aow.Units.Engine
                     C.CopyFrom(this, 0);
                     var call__172 = Stream.Size;
                     var call__173 = Size;
-                    Result = Aow.Rtl.Rtl.Round((1 - (((double)(call__172 - StartSize)) / call__173)) * 100);
+                    Result = Aow.Rtl.Rtl.Round(((double)(((double)1) - (((double)(call__172 - StartSize)) / call__173))) * 100);
                 }
                 finally
                 {
@@ -8884,7 +8884,7 @@ namespace Aow.Units.Engine
             FCount -= 1;
             if (Index < FCount)
             {
-                FItems[Index] = FItems[Index + 1];
+                Ptr<Aow.Units.Engine.THashItem>.Copy(FItems + (Index + 1), FItems + Index, (FCount - Index));
             }
         }
 
@@ -10071,7 +10071,7 @@ namespace Aow.Units.Engine
                 FCount -= 1;
                 if (Result < FCount)
                 {
-                    FItems[Result] = FItems[Result + 1];
+                    Ptr<Aow.Units.Engine.TSortItem>.Copy(FItems + (Result + 1), FItems + Result, (FCount - Result));
                 }
             }
 
@@ -10106,7 +10106,7 @@ namespace Aow.Units.Engine
 
                 if (I != FCount)
                 {
-                    FItems[I + 1] = FItems[I];
+                    Ptr<Aow.Units.Engine.TSortItem>.Copy(FItems + I, FItems + (I + 1), (FCount - I));
                 }
 
                 FItems[I].Child = Child;
@@ -10221,7 +10221,7 @@ namespace Aow.Units.Engine
 
                 if (I != FCount)
                 {
-                    FItems[I + 1] = FItems[I];
+                    Ptr<Aow.Units.Engine.TSortItem>.Copy(FItems + I, FItems + (I + 1), (FCount - I));
                 }
 
                 FItems[I].Child = Child;

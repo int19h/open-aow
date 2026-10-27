@@ -188,13 +188,14 @@ namespace Aow.Units.ManaCrystals
 
             {
                 var w__11 = Aow.Units.ManaCrystals.ManaCrystals.CrystalPlayer(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, ArmyHS.FArmy.FPlayer);
-                ((Aow.Units.ManaCrystals.TCrystalMagic)w__11.FMagicControl).Mana = ((Aow.Units.ManaCrystals.TCrystalMagic)w__11.FMagicControl).Mana + FAmount;
+                w__11.FMagicControl.SetMana(w__11.FMagicControl.FMana + FAmount);
             }
 
             Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
             Log.FPlayer = unchecked((sbyte)unchecked((byte)ArmyHS.FArmy.FPlayer));
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
+            var call__12 = Aow.Units.ManaCrystals.ManaCrystals.TranslateCrystalName(Aow.Units.AoWE.AoWE.ManaCrystalsFoundRStr);
+            var call__13 = Aow.Rtl.Rtl.Format(call__12, [Aow.Rtl.Rtl.IntToStr(FAmount)]);
+            Log.FText = call__13;
             var call__14 = GetLhx();
             var call__15 = GetYhx();
             var call__16 = GetXhx();

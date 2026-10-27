@@ -356,26 +356,14 @@ namespace Aow.Units.SummonSpells
             Event.FUnitIndices.Add(call__36);
         }
 
-        // SummonSpells.pas:255
-        // { +09C }
-        public int GetDispelResistance(Aow.Units.AoWE.TAbstractUnit AUnit)
-        {
-            int Result = default;
-            // { Original looks up the summoned ability in the spell control. }
-            var call__37 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(155);
-            var call__38 = ((Aow.Units.PassiveAb.TSummonedAbility)((System.Object)call__37)).GetDefaultDispelResistance(AUnit);
-            Result = call__38;
-            return Result;
-        }
-
         // SummonSpells.pas:283
         public int GetAIUpkeepPriority()
         {
             int Result = default;
-            var call__39 = FUnitIndices[0];
-            var call__40 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(155);
-            var call__41 = ((Aow.Units.PassiveAb.TSummonedAbility)call__40).UnitIndexToAIUpkeepPriority(call__39);
-            Result = call__41;
+            var call__37 = FUnitIndices[0];
+            var call__38 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(155);
+            var call__39 = ((Aow.Units.PassiveAb.TSummonedAbility)call__38).UnitIndexToAIUpkeepPriority(call__37);
+            Result = call__39;
             return Result;
         }
 
@@ -404,9 +392,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__42 = Aow.Units.AoWE.AoWE.SummonSyronRStr;
-            var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(call__42);
-            FSpellName = call__43;
+            var call__40 = Aow.Units.AoWE.AoWE.SummonSyronRStr;
+            var call__41 = Aow.Units.AoWE.AoWE.TranslateRStr(call__40);
+            FSpellName = call__41;
             FSpellID = 24;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -441,9 +429,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__44 = Aow.Units.AoWE.AoWE.SummonFrogRStr;
-            var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(call__44);
-            FSpellName = call__45;
+            var call__42 = Aow.Units.AoWE.AoWE.SummonFrogRStr;
+            var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(call__42);
+            FSpellName = call__43;
             FSpellID = 22;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -478,9 +466,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__46 = Aow.Units.AoWE.AoWE.SummonBoarRStr;
-            var call__47 = Aow.Units.AoWE.AoWE.TranslateRStr(call__46);
-            FSpellName = call__47;
+            var call__44 = Aow.Units.AoWE.AoWE.SummonBoarRStr;
+            var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(call__44);
+            FSpellName = call__45;
             FSpellID = 31;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -514,9 +502,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__48 = Aow.Units.AoWE.AoWE.SummonAirElementalRStr;
-            var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(call__48);
-            FSpellName = call__49;
+            var call__46 = Aow.Units.AoWE.AoWE.SummonAirElementalRStr;
+            var call__47 = Aow.Units.AoWE.AoWE.TranslateRStr(call__46);
+            FSpellName = call__47;
             FSpellID = 27;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -551,9 +539,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__50 = Aow.Units.AoWE.AoWE.SummonEarthElementalRStr;
-            var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(call__50);
-            FSpellName = call__51;
+            var call__48 = Aow.Units.AoWE.AoWE.SummonEarthElementalRStr;
+            var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(call__48);
+            FSpellName = call__49;
             FSpellID = 28;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -588,9 +576,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__52 = Aow.Units.AoWE.AoWE.SummonFireElementalRStr;
-            var call__53 = Aow.Units.AoWE.AoWE.TranslateRStr(call__52);
-            FSpellName = call__53;
+            var call__50 = Aow.Units.AoWE.AoWE.SummonFireElementalRStr;
+            var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(call__50);
+            FSpellName = call__51;
             FSpellID = 29;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -625,9 +613,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__54 = Aow.Units.AoWE.AoWE.SummonWaterElementalRStr;
-            var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(call__54);
-            FSpellName = call__55;
+            var call__52 = Aow.Units.AoWE.AoWE.SummonWaterElementalRStr;
+            var call__53 = Aow.Units.AoWE.AoWE.TranslateRStr(call__52);
+            FSpellName = call__53;
             FSpellID = 30;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -662,9 +650,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__56 = Aow.Units.AoWE.AoWE.SummonGoldDragonRStr;
-            var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(call__56);
-            FSpellName = call__57;
+            var call__54 = Aow.Units.AoWE.AoWE.SummonGoldDragonRStr;
+            var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(call__54);
+            FSpellName = call__55;
             FSpellID = 25;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -699,9 +687,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__58 = Aow.Units.AoWE.AoWE.SummonBlackDragonRStr;
-            var call__59 = Aow.Units.AoWE.AoWE.TranslateRStr(call__58);
-            FSpellName = call__59;
+            var call__56 = Aow.Units.AoWE.AoWE.SummonBlackDragonRStr;
+            var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(call__56);
+            FSpellName = call__57;
             FSpellID = 26;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -736,9 +724,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__60 = Aow.Units.AoWE.AoWE.SummonGreatEagleRStr;
-            var call__61 = Aow.Units.AoWE.AoWE.TranslateRStr(call__60);
-            FSpellName = call__61;
+            var call__58 = Aow.Units.AoWE.AoWE.SummonGreatEagleRStr;
+            var call__59 = Aow.Units.AoWE.AoWE.TranslateRStr(call__58);
+            FSpellName = call__59;
             FSpellID = 23;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -773,9 +761,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__62 = Aow.Units.AoWE.AoWE.SummonFireSpriteRStr;
-            var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(call__62);
-            FSpellName = call__63;
+            var call__60 = Aow.Units.AoWE.AoWE.SummonFireSpriteRStr;
+            var call__61 = Aow.Units.AoWE.AoWE.TranslateRStr(call__60);
+            FSpellName = call__61;
             FSpellID = 21;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -810,9 +798,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__64 = Aow.Units.AoWE.AoWE.SummonBlackSpiderRStr;
-            var call__65 = Aow.Units.AoWE.AoWE.TranslateRStr(call__64);
-            FSpellName = call__65;
+            var call__62 = Aow.Units.AoWE.AoWE.SummonBlackSpiderRStr;
+            var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(call__62);
+            FSpellName = call__63;
             FSpellID = 20;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -853,9 +841,9 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__66 = Aow.Units.AoWE.AoWE.SummonMermaidRStr;
-            var call__67 = Aow.Units.AoWE.AoWE.TranslateRStr(call__66);
-            FSpellName = call__67;
+            var call__64 = Aow.Units.AoWE.AoWE.SummonMermaidRStr;
+            var call__65 = Aow.Units.AoWE.AoWE.TranslateRStr(call__64);
+            FSpellName = call__65;
             FSpellID = 78;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -891,32 +879,32 @@ namespace Aow.Units.SummonSpells
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = AEngine.FGameSet.FSpellControl;
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.SummonSpells.TSummonSpellTE>()]);
-            var call__68 = Aow.Units.SummonSpells.TSummonSyron.Create(null);
+            var call__66 = Aow.Units.SummonSpells.TSummonSyron.Create(null);
+            Control.RegisterSpell(call__66);
+            var call__67 = Aow.Units.SummonSpells.TSummonFrog.Create(null);
+            Control.RegisterSpell(call__67);
+            var call__68 = Aow.Units.SummonSpells.TSummonBoar.Create(null);
             Control.RegisterSpell(call__68);
-            var call__69 = Aow.Units.SummonSpells.TSummonFrog.Create(null);
+            var call__69 = Aow.Units.SummonSpells.TSummonAirElemental.Create(null);
             Control.RegisterSpell(call__69);
-            var call__70 = Aow.Units.SummonSpells.TSummonBoar.Create(null);
+            var call__70 = Aow.Units.SummonSpells.TSummonEarthElemental.Create(null);
             Control.RegisterSpell(call__70);
-            var call__71 = Aow.Units.SummonSpells.TSummonAirElemental.Create(null);
+            var call__71 = Aow.Units.SummonSpells.TSummonFireElemental.Create(null);
             Control.RegisterSpell(call__71);
-            var call__72 = Aow.Units.SummonSpells.TSummonEarthElemental.Create(null);
+            var call__72 = Aow.Units.SummonSpells.TSummonWaterElemental.Create(null);
             Control.RegisterSpell(call__72);
-            var call__73 = Aow.Units.SummonSpells.TSummonFireElemental.Create(null);
+            var call__73 = Aow.Units.SummonSpells.TSummonGoldDragon.Create(null);
             Control.RegisterSpell(call__73);
-            var call__74 = Aow.Units.SummonSpells.TSummonWaterElemental.Create(null);
+            var call__74 = Aow.Units.SummonSpells.TSummonBlackDragon.Create(null);
             Control.RegisterSpell(call__74);
-            var call__75 = Aow.Units.SummonSpells.TSummonGoldDragon.Create(null);
+            var call__75 = Aow.Units.SummonSpells.TSummonGreatEagle.Create(null);
             Control.RegisterSpell(call__75);
-            var call__76 = Aow.Units.SummonSpells.TSummonBlackDragon.Create(null);
+            var call__76 = Aow.Units.SummonSpells.TSummonFireSprite.Create(null);
             Control.RegisterSpell(call__76);
-            var call__77 = Aow.Units.SummonSpells.TSummonGreatEagle.Create(null);
+            var call__77 = Aow.Units.SummonSpells.TSummonBlackSpider.Create(null);
             Control.RegisterSpell(call__77);
-            var call__78 = Aow.Units.SummonSpells.TSummonFireSprite.Create(null);
+            var call__78 = Aow.Units.SummonSpells.TSummonMermaid.Create(null);
             Control.RegisterSpell(call__78);
-            var call__79 = Aow.Units.SummonSpells.TSummonBlackSpider.Create(null);
-            Control.RegisterSpell(call__79);
-            var call__80 = Aow.Units.SummonSpells.TSummonMermaid.Create(null);
-            Control.RegisterSpell(call__80);
         }
 
         // SummonSpells.pas:522
