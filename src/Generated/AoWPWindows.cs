@@ -125,13 +125,6 @@ namespace Aow.Units.AoWPWindows
             }
         }
 
-        // AoWPWindows.pas:73
-        public void EndMenuSelect(Aow.Units.AOWMenu.TAOWMenu Sender)
-        {
-            /* TODO(T-shim) Platform or editor boundary Forms.Close */
-            throw new System.NotImplementedException();
-        }
-
         // AoWPWindows.pas:83
         public void DiskMenuSelect(Aow.Units.AOWMenu.TAOWMenu Sender)
         {

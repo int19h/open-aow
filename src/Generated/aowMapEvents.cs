@@ -306,13 +306,6 @@ namespace Aow.Units.aowMapEvents
             }
         }
 
-        // aowMapEvents.pas:176
-        public void TheMapDeactivateHSM()
-        {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.DisConnect */
-            throw new System.NotImplementedException();
-        }
-
         // aowMapEvents.pas:187
         // { draft }
         public void TheMapEndTurn(sbyte Player, bool Cancelled)

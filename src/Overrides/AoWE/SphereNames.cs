@@ -24,5 +24,8 @@ public static partial class AoWE
         TPlayerBehaviorRStr[(int)TPlayerBehavior.pbExpander] = ExpanderRStr;
         TPlayerBehaviorRStr[(int)TPlayerBehavior.pbScorcher] = ScorcherRStr;
         TPlayerBehaviorRStr[(int)TPlayerBehavior.pbRandom] = RandomRStr;
+        TSpellTypeRStr[(int)TSpellType.stCombat] = CombatRStr;
+        TSpellTypeRStr[(int)TSpellType.stUnit] = UnitRStr;
+        TSpellTypeRStr[(int)TSpellType.stGlobal] = GlobalRStr;
     }
 }

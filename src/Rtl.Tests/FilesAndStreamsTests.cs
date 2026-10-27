@@ -20,7 +20,9 @@ public sealed class FilesAndStreamsTests
             using (var f = new TFileStream("a/test.bin", fmCreate)) f.WriteBuffer(new byte[] { 1, 2, 3 });
             Assert.True(FileExists("a\\test.bin")); Assert.True(FileExists("A/TEST.BIN")); Assert.False(DirectoryExists("a/test.bin"));
             var modified = new DateTime(2024, 2, 29, 12, 34, 56); File.SetLastWriteTime("a/test.bin", modified);
-            Assert.Equal(EncodeDate(2024, 2, 29) + EncodeTime(12, 34, 56, 0), FileDateToDateTime(FileAge("a/test.bin")));
+            // The native file API uses the current Windows time-zone bias.
+            DateTime nativeTime = OperatingSystem.IsWindows() ? modified.ToUniversalTime() + TimeZoneInfo.Local.GetUtcOffset(DateTime.Now) : modified;
+            Assert.Equal(EncodeDate(nativeTime.Year, nativeTime.Month, nativeTime.Day) + EncodeTime(nativeTime.Hour, nativeTime.Minute, nativeTime.Second, 0), FileDateToDateTime(FileAge("a/test.bin")));
             Assert.True(RenameFile("a/test.bin", "a/new.bin")); Assert.False(FileExists("a/test.bin"));
             using (var readwrite = new TFileStream("a/new.bin", fmOpenReadWrite)) { readwrite.Position = 1; Assert.Equal(1, readwrite.Write(new byte[] { 4 })); }
             using (var write = new TFileStream("a/new.bin", fmOpenWrite)) Assert.Equal(0, write.Read(new byte[1]));

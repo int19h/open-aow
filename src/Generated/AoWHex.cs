@@ -321,40 +321,6 @@ namespace Aow.Units.AoWHex
             this.FSides = unchecked((byte)(this.FSides | (call__21 << 6)));
         }
 
-        // AoWHex.pas:315
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
-        {
-            int Xhp = default;
-            int Yhp = default;
-            Aow.Units.ImageLib.TCustomImageLibrary IL = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            Xhp = (Xhp - XhpSurf) - 8;
-            Yhp = Yhp - YhpSurf;
-            var call__22 = FResource.ImageSequenceList.ImageSequences[0];
-            IL = call__22.ImageLibrary;
-            var call__23 = IL[((((((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(Owner)) >> 3)) + ((Aow.Units.HSEngine.TMapField)Owner).Xhx) + (((Aow.Units.HSEngine.TMapField)Owner).Yhx * 2)) + ((int)(((uint)FSides) >> 6))) & 15) + 140];
-            call__23.Show(Xhp, Yhp, SurfaceDesc);
-            Xhp -= 6;
-            Yhp -= 9;
-            if ((FSides & 1) != 0)
-            {
-                var call__24 = IL[36];
-                call__24.Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            if ((FSides & 2) != 0)
-            {
-                var call__25 = IL[37];
-                call__25.Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            if ((FSides & 32) != 0)
-            {
-                var call__26 = IL[35];
-                call__26.Show(Xhp, Yhp, SurfaceDesc);
-            }
-        }
-
         // AoWHex.pas:48
         public static new Aow.Units.AoWHex.TAoWWaterHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -453,9 +419,9 @@ namespace Aow.Units.AoWHex
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                var call__27 = Aow.Units.AoWE.AoWE.WaterHexagonRStr;
-                var call__28 = Aow.Units.AoWE.AoWE.TranslateRStr(call__27);
-                Result = call__28;
+                var call__22 = Aow.Units.AoWE.AoWE.WaterHexagonRStr;
+                var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(call__22);
+                Result = call__23;
                 return Result;
             }
 
