@@ -4886,413 +4886,6 @@ namespace Aow.Units.ImageLib
             }
         }
 
-        // ImageLib.pas:2598
-        // { The stretched blits use a table of the source row addresses and a table of the source
-//   columns, in 16.16 fixed point steps. The vertical scale is taken from FHeight, the
-//   horizontal one from FDataWidth (an original inconsistency). }
-        public override void ShowOpaqueStretched(in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            Ptr<int> RowTable = default;
-            Ptr<int> ColTable = default;
-            int W = default;
-            object Dst = default;
-            int XPos = default;
-            int YPos = default;
-            int XStep = default;
-            int YStep = default;
-            int SX = default;
-            int SY = default;
-            float XScale = default;
-            float YScale = default;
-            int H = default;
-            int L = default;
-            int T = default;
-            int Rt = default;
-            int B = default;
-            int I = default;
-            int C = default;
-            int D = default;
-            W = R.Right - R.Left;
-            H = R.Bottom - R.Top;
-            if ((W > 0) && (H > 0))
-            {
-                XScale = (float)(((double)W) / FDataWidth);
-                YScale = (float)(((double)H) / FHeight);
-                L = R.Left;
-                if (L < SD.ClipRect.Left)
-                {
-                    SX = SD.ClipRect.Left - L;
-                    L += SX;
-                }
-                else
-                {
-                    SX = 0;
-                }
-
-                T = R.Top;
-                if (T < SD.ClipRect.Top)
-                {
-                    SY = SD.ClipRect.Top - T;
-                    T += SY;
-                }
-                else
-                {
-                    SY = 0;
-                }
-
-                Rt = R.Right;
-                if (Rt > SD.ClipRect.Right)
-                {
-                    D = Rt - SD.ClipRect.Right;
-                    Rt -= D;
-                }
-
-                B = R.Bottom;
-                if (B > SD.ClipRect.Bottom)
-                {
-                    D = B - SD.ClipRect.Bottom;
-                    B -= D;
-                }
-
-                W = Rt - L;
-                H = B - T;
-                if ((W > 0) && (H > 0))
-                {
-                    Dst = ((Aow.Rtl.Rtl.BytePointer(SD.Data) + (L * 2)) + (SD.Pitch * T)).Box();
-                    RowTable = Ptr<int>.Alloc((W + H));
-                    ColTable = (RowTable.Reinterpret<byte>() + (H * 4)).Reinterpret<int>();
-                    XStep = Aow.Rtl.Rtl.Round(((double)65535) / XScale);
-                    if (SX != 0)
-                    {
-                        XPos = Aow.Rtl.Rtl.Round(((double)(((double)SX) / XScale)) * 65535);
-                    }
-                    else
-                    {
-                        XPos = 0;
-                    }
-
-                    {
-                        I = 0;
-                        int end__122 = W - 1;
-                        for (; I <= end__122; I += 1)
-                        {
-                            C = (int)(((uint)XPos) >> 16);
-                            if (C >= FDataWidth)
-                            {
-                                C = FDataWidth - 1;
-                            }
-
-                            ColTable[I] = C;
-                            XPos += XStep;
-                        }
-                    }
-
-                    YStep = Aow.Rtl.Rtl.Round(((double)65535) / YScale);
-                    if (SY != 0)
-                    {
-                        YPos = Aow.Rtl.Rtl.Round(((double)(((double)SY) / YScale)) * 65535);
-                    }
-                    else
-                    {
-                        YPos = 0;
-                    }
-
-                    if (!FDataLoaded)
-                    {
-                        LoadDiscardableImageData();
-                        {
-                            I = 0;
-                            int end__123 = H - 1;
-                            for (; I <= end__123; I += 1)
-                            {
-                                C = (int)(((uint)YPos) >> 16);
-                                if (C >= FDataHeight)
-                                {
-                                    C = FDataHeight - 1;
-                                }
-
-                                RowTable[I] = (C * FPitch) + Aow.Rtl.Rtl.BytePointer(FData).ByteIndex;
-                                YPos += YStep;
-                            }
-                        }
-
-                        if (SD.PixelFormatID == FPixelFormatID)
-                        {
-                            Aow.Units.GFXE.GFXE.BltStretched16(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H);
-                        }
-                        else
-                        {
-                            var call__124 = RemapToPixelFormat(SD.PixelFormatID);
-                            if (call__124 != 0)
-                            {
-                                throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
-                            }
-
-                            Aow.Units.GFXE.GFXE.BltStretched16(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H);
-                        }
-
-                        if (FLoadMode == Aow.Units.ImageLib.TLoadMode.lmLoadFreeOnDemand)
-                        {
-                            ReleaseDiscardableImageData();
-                        }
-                    }
-                    else
-                    {
-                        {
-                            I = 0;
-                            int end__125 = H - 1;
-                            for (; I <= end__125; I += 1)
-                            {
-                                C = (int)(((uint)YPos) >> 16);
-                                if (C >= FDataHeight)
-                                {
-                                    C = FDataHeight - 1;
-                                }
-
-                                RowTable[I] = (C * FPitch) + Aow.Rtl.Rtl.BytePointer(FData).ByteIndex;
-                                YPos += YStep;
-                            }
-                        }
-
-                        if (SD.PixelFormatID == FPixelFormatID)
-                        {
-                            Aow.Units.GFXE.GFXE.BltStretched16(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H);
-                        }
-                        else
-                        {
-                            var call__126 = RemapToPixelFormat(SD.PixelFormatID);
-                            if (call__126 != 0)
-                            {
-                                throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
-                            }
-
-                            Aow.Units.GFXE.GFXE.BltStretched16(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H);
-                        }
-                    }
-
-                    RowTable = default;
-                }
-            }
-        }
-
-        // ImageLib.pas:2710
-        public override void ShowBlendedStretched(in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc SD, Aow.Units.GFXE.TBlendTable Table)
-        {
-            Ptr<int> RowTable = default;
-            Ptr<int> ColTable = default;
-            int W = default;
-            int H = default;
-            int Rt = default;
-            object Dst = default;
-            int XPos = default;
-            int YPos = default;
-            int XStep = default;
-            int YStep = default;
-            int SX = default;
-            int SY = default;
-            float XScale = default;
-            float YScale = default;
-            int L = default;
-            int T = default;
-            int B = default;
-            int I = default;
-            int C = default;
-            int D = default;
-            W = R.Right - R.Left;
-            H = R.Bottom - R.Top;
-            if ((W > 0) && (H > 0))
-            {
-                XScale = (float)(((double)W) / FDataWidth);
-                YScale = (float)(((double)H) / FHeight);
-                L = R.Left;
-                if (L < SD.ClipRect.Left)
-                {
-                    SX = SD.ClipRect.Left - L;
-                    L += SX;
-                }
-                else
-                {
-                    SX = 0;
-                }
-
-                T = R.Top;
-                if (T < SD.ClipRect.Top)
-                {
-                    SY = SD.ClipRect.Top - T;
-                    T += SY;
-                }
-                else
-                {
-                    SY = 0;
-                }
-
-                Rt = R.Right;
-                if (Rt > SD.ClipRect.Right)
-                {
-                    D = Rt - SD.ClipRect.Right;
-                    Rt -= D;
-                }
-
-                B = R.Bottom;
-                if (B > SD.ClipRect.Bottom)
-                {
-                    D = B - SD.ClipRect.Bottom;
-                    B -= D;
-                }
-
-                W = Rt - L;
-                H = B - T;
-                if ((W > 0) && (H > 0))
-                {
-                    Dst = ((Aow.Rtl.Rtl.BytePointer(SD.Data) + (L * 2)) + (SD.Pitch * T)).Box();
-                    RowTable = Ptr<int>.Alloc((W + H));
-                    ColTable = (RowTable.Reinterpret<byte>() + (H * 4)).Reinterpret<int>();
-                    XStep = Aow.Rtl.Rtl.Round(((double)65535) / XScale);
-                    if (SX != 0)
-                    {
-                        XPos = Aow.Rtl.Rtl.Round(((double)(((double)SX) / XScale)) * 65535);
-                    }
-                    else
-                    {
-                        XPos = 0;
-                    }
-
-                    {
-                        I = 0;
-                        int end__127 = W - 1;
-                        for (; I <= end__127; I += 1)
-                        {
-                            C = (int)(((uint)XPos) >> 16);
-                            if (C >= FDataWidth)
-                            {
-                                C = FDataWidth - 1;
-                            }
-
-                            ColTable[I] = C;
-                            XPos += XStep;
-                        }
-                    }
-
-                    YStep = Aow.Rtl.Rtl.Round(((double)65535) / YScale);
-                    if (SY != 0)
-                    {
-                        YPos = Aow.Rtl.Rtl.Round(((double)(((double)SY) / YScale)) * 65535);
-                    }
-                    else
-                    {
-                        YPos = 0;
-                    }
-
-                    if (!FDataLoaded)
-                    {
-                        LoadDiscardableImageData();
-                        {
-                            I = 0;
-                            int end__128 = H - 1;
-                            for (; I <= end__128; I += 1)
-                            {
-                                C = (int)(((uint)YPos) >> 16);
-                                if (C >= FDataHeight)
-                                {
-                                    C = FDataHeight - 1;
-                                }
-
-                                RowTable[I] = (C * FPitch) + Aow.Rtl.Rtl.BytePointer(FData).ByteIndex;
-                                YPos += YStep;
-                            }
-                        }
-
-                        if (SD.PixelFormatID == FPixelFormatID)
-                        {
-                            switch (SD.PixelFormatID)
-                            {
-                                case Aow.Units.GFXE.GFXE.pfRGB555:
-                                    Aow.Units.GFXE.GFXE.BlendStretched555(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<Aow.Units.FixedArray_byte_32>.To(((Aow.Units.GFXE.TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
-                                    break;
-                                case Aow.Units.GFXE.GFXE.pfRGB565:
-                                    Aow.Units.GFXE.GFXE.BlendStretched565(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<Aow.Units.FixedArray_byte_32>.To(((Aow.Units.GFXE.TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            var call__129 = RemapToPixelFormat(SD.PixelFormatID);
-                            if (call__129 != 0)
-                            {
-                                throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
-                            }
-
-                            switch (SD.PixelFormatID)
-                            {
-                                case Aow.Units.GFXE.GFXE.pfRGB555:
-                                    Aow.Units.GFXE.GFXE.BlendStretched555(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<Aow.Units.FixedArray_byte_32>.To(((Aow.Units.GFXE.TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
-                                    break;
-                                case Aow.Units.GFXE.GFXE.pfRGB565:
-                                    Aow.Units.GFXE.GFXE.BlendStretched565(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<Aow.Units.FixedArray_byte_32>.To(((Aow.Units.GFXE.TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
-                                    break;
-                            }
-                        }
-
-                        if (FLoadMode == Aow.Units.ImageLib.TLoadMode.lmLoadFreeOnDemand)
-                        {
-                            ReleaseDiscardableImageData();
-                        }
-                    }
-                    else
-                    {
-                        {
-                            I = 0;
-                            int end__130 = H - 1;
-                            for (; I <= end__130; I += 1)
-                            {
-                                C = (int)(((uint)YPos) >> 16);
-                                if (C >= FDataHeight)
-                                {
-                                    C = FDataHeight - 1;
-                                }
-
-                                RowTable[I] = (C * FPitch) + Aow.Rtl.Rtl.BytePointer(FData).ByteIndex;
-                                YPos += YStep;
-                            }
-                        }
-
-                        if (SD.PixelFormatID == FPixelFormatID)
-                        {
-                            switch (SD.PixelFormatID)
-                            {
-                                case Aow.Units.GFXE.GFXE.pfRGB555:
-                                    Aow.Units.GFXE.GFXE.BlendStretched555(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<Aow.Units.FixedArray_byte_32>.To(((Aow.Units.GFXE.TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
-                                    break;
-                                case Aow.Units.GFXE.GFXE.pfRGB565:
-                                    Aow.Units.GFXE.GFXE.BlendStretched565(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<Aow.Units.FixedArray_byte_32>.To(((Aow.Units.GFXE.TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            var call__131 = RemapToPixelFormat(SD.PixelFormatID);
-                            if (call__131 != 0)
-                            {
-                                throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
-                            }
-
-                            switch (SD.PixelFormatID)
-                            {
-                                case Aow.Units.GFXE.GFXE.pfRGB555:
-                                    Aow.Units.GFXE.GFXE.BlendStretched555(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<Aow.Units.FixedArray_byte_32>.To(((Aow.Units.GFXE.TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
-                                    break;
-                                case Aow.Units.GFXE.GFXE.pfRGB565:
-                                    Aow.Units.GFXE.GFXE.BlendStretched565(RowTable.Box(), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<Aow.Units.FixedArray_byte_32>.To(((Aow.Units.GFXE.TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
-                                    break;
-                            }
-                        }
-                    }
-
-                    RowTable = default;
-                }
-            }
-        }
-
         public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
         {
             // ImageLib.pas:2164
@@ -5550,8 +5143,8 @@ namespace Aow.Units.ImageLib
             AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
             {
                 Y = 0;
-                int end__132 = FSpriteHeight - 1;
-                for (; Y <= end__132; Y += 1)
+                int end__122 = FSpriteHeight - 1;
+                for (; Y <= end__122; Y += 1)
                 {
                     Stream.Read((Aow.Rtl.Rtl.BytePointer(FData) + (Y * FPitch)).AsSpan(FSpriteWidth * 2));
                 }
@@ -5567,8 +5160,8 @@ namespace Aow.Units.ImageLib
             base.WriteDiscardableImageData(Stream);
             {
                 Y = 0;
-                int end__133 = FSpriteHeight - 1;
-                for (; Y <= end__133; Y += 1)
+                int end__123 = FSpriteHeight - 1;
+                for (; Y <= end__123; Y += 1)
                 {
                     Stream.Write((Aow.Rtl.Rtl.BytePointer(FData) + (Y * FPitch)).AsSpan(FSpriteWidth * 2));
                 }
@@ -5586,14 +5179,14 @@ namespace Aow.Units.ImageLib
                 {
                     case Aow.Units.GFXE.GFXE.pfRGB565:
                         Aow.Units.GFXE.GFXE.RemapSurface555to565(FData, FData, FPitch, FPitch, FSpriteWidth, FSpriteHeight);
-                        var call__134 = Aow.Units.GFXE.GFXE.RemapPixelInfo(FColorKey, Aow.Units.GFXE.GFXE.pfRGB555, null, Aow.Units.GFXE.GFXE.pfRGB565, null);
-                        FColorKey = call__134;
+                        var call__124 = Aow.Units.GFXE.GFXE.RemapPixelInfo(FColorKey, Aow.Units.GFXE.GFXE.pfRGB555, null, Aow.Units.GFXE.GFXE.pfRGB565, null);
+                        FColorKey = call__124;
                         FPixelFormatID = Aow.Units.GFXE.GFXE.pfRGB565;
                         break;
                     case Aow.Units.GFXE.GFXE.pfRGB555:
                         Aow.Units.GFXE.GFXE.RemapSurface565to555(FData, FData, FPitch, FPitch, FSpriteWidth, FSpriteHeight);
-                        var call__135 = Aow.Units.GFXE.GFXE.RemapPixelInfo(FColorKey, Aow.Units.GFXE.GFXE.pfRGB565, null, Aow.Units.GFXE.GFXE.pfRGB555, null);
-                        FColorKey = call__135;
+                        var call__125 = Aow.Units.GFXE.GFXE.RemapPixelInfo(FColorKey, Aow.Units.GFXE.GFXE.pfRGB565, null, Aow.Units.GFXE.GFXE.pfRGB555, null);
+                        FColorKey = call__125;
                         FPixelFormatID = Aow.Units.GFXE.GFXE.pfRGB555;
                         break;
                     default:
@@ -5681,8 +5274,8 @@ namespace Aow.Units.ImageLib
                         }
                         else
                         {
-                            var call__136 = RemapToPixelFormat(SD.PixelFormatID);
-                            if (call__136 != 0)
+                            var call__126 = RemapToPixelFormat(SD.PixelFormatID);
+                            if (call__126 != 0)
                             {
                                 throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                             }
@@ -5705,8 +5298,8 @@ namespace Aow.Units.ImageLib
                         }
                         else
                         {
-                            var call__137 = RemapToPixelFormat(SD.PixelFormatID);
-                            if (call__137 != 0)
+                            var call__127 = RemapToPixelFormat(SD.PixelFormatID);
+                            if (call__127 != 0)
                             {
                                 throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                             }
@@ -5794,8 +5387,8 @@ namespace Aow.Units.ImageLib
                         }
                         else
                         {
-                            var call__138 = RemapToPixelFormat(SD.PixelFormatID);
-                            if (call__138 != 0)
+                            var call__128 = RemapToPixelFormat(SD.PixelFormatID);
+                            if (call__128 != 0)
                             {
                                 throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                             }
@@ -5834,8 +5427,8 @@ namespace Aow.Units.ImageLib
                         }
                         else
                         {
-                            var call__139 = RemapToPixelFormat(SD.PixelFormatID);
-                            if (call__139 != 0)
+                            var call__129 = RemapToPixelFormat(SD.PixelFormatID);
+                            if (call__129 != 0)
                             {
                                 throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                             }
@@ -5900,25 +5493,25 @@ namespace Aow.Units.ImageLib
                 {
                     if (SD.BitCount != 16)
                     {
-                        var call__140 = Aow.Units.GFXE.TDataSurface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565, null);
-                        Surface = call__140;
+                        var call__130 = Aow.Units.GFXE.TDataSurface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565, null);
+                        Surface = call__130;
                         GR.Left = 0;
                         GR.Top = 0;
-                        var call__141 = Surface.GetWidth();
-                        GR.Right = call__141;
-                        var call__142 = Surface.GetHeight();
-                        GR.Bottom = call__142;
+                        var call__131 = Surface.GetWidth();
+                        GR.Right = call__131;
+                        var call__132 = Surface.GetHeight();
+                        GR.Bottom = call__132;
                         Surface.Lock(ref LSD);
-                        var call__143 = Surface.GetWidth();
-                        var call__144 = Surface.GetHeight();
-                        var call__145 = Aow.Units.GFXE.GFXE.RemapSurfacePart(SD, R.Left, R.Top, call__143, call__144, LSD, 0, 0);
-                        if (call__145 != 0)
+                        var call__133 = Surface.GetWidth();
+                        var call__134 = Surface.GetHeight();
+                        var call__135 = Aow.Units.GFXE.GFXE.RemapSurfacePart(SD, R.Left, R.Top, call__133, call__134, LSD, 0, 0);
+                        if (call__135 != 0)
                         {
                             throw Aow.Rtl.Exception.Create((AnsiString)"Invalid PixelFormat");
                         }
 
-                        var call__146 = Aow.Units.GFXE.GFXE.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
-                        FTransparentColor = call__146;
+                        var call__136 = Aow.Units.GFXE.GFXE.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
+                        FTransparentColor = call__136;
                     }
                     else
                     {
@@ -5933,8 +5526,8 @@ namespace Aow.Units.ImageLib
                     FDataHeight = GR.Bottom - GR.Top;
                     FWidth = FDataWidth;
                     FHeight = FDataHeight;
-                    var call__147 = Aow.Rtl.Rtl.ExtractFileName(GrabInfo.FileName);
-                    FFileName = call__147;
+                    var call__137 = Aow.Rtl.Rtl.ExtractFileName(GrabInfo.FileName);
+                    FFileName = call__137;
                     FFileIndex = GrabInfo.FileIndex;
                     FStoredPixelFormatID = LSD.PixelFormatID;
                     FPixelFormatID = FStoredPixelFormatID;
@@ -5951,8 +5544,8 @@ namespace Aow.Units.ImageLib
                     AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
                     {
                         Y = Top;
-                        int end__148 = Bottom - 1;
-                        for (; Y <= end__148; Y += 1)
+                        int end__138 = Bottom - 1;
+                        for (; Y <= end__138; Y += 1)
                         {
                             Aow.Rtl.Rtl.Move(((Aow.Rtl.Rtl.BytePointer(LSD.Data) + (LSD.Pitch * Y)) + (MR.Left * 2)).AsSpan(FSpriteWidth * 2), (Aow.Rtl.Rtl.BytePointer(FData) + ((Y - MR.Top) * FPitch)).AsSpan(FSpriteWidth * 2), FSpriteWidth * 2);
                         }
@@ -6211,8 +5804,8 @@ namespace Aow.Units.ImageLib
                 }
                 else
                 {
-                    var call__149 = RemapToPixelFormat(SD.PixelFormatID);
-                    if (call__149 != 0)
+                    var call__139 = RemapToPixelFormat(SD.PixelFormatID);
+                    if (call__139 != 0)
                     {
                         throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                     }
@@ -6233,8 +5826,8 @@ namespace Aow.Units.ImageLib
                 }
                 else
                 {
-                    var call__150 = RemapToPixelFormat(SD.PixelFormatID);
-                    if (call__150 != 0)
+                    var call__140 = RemapToPixelFormat(SD.PixelFormatID);
+                    if (call__140 != 0)
                     {
                         throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                     }
@@ -6251,14 +5844,14 @@ namespace Aow.Units.ImageLib
             if (!FDataLoaded)
             {
                 LoadDiscardableImageData();
-                bool bool__151 = (SD.PixelFormatID != FPixelFormatID);
-                if (bool__151)
+                bool bool__141 = (SD.PixelFormatID != FPixelFormatID);
+                if (bool__141)
                 {
-                    var call__152 = RemapToPixelFormat(SD.PixelFormatID);
-                    bool__151 = (call__152 != 0);
+                    var call__142 = RemapToPixelFormat(SD.PixelFormatID);
+                    bool__141 = (call__142 != 0);
                 }
 
-                if (bool__151)
+                if (bool__141)
                 {
                     throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                 }
@@ -6280,14 +5873,14 @@ namespace Aow.Units.ImageLib
             }
             else
             {
-                bool bool__153 = (SD.PixelFormatID != FPixelFormatID);
-                if (bool__153)
+                bool bool__143 = (SD.PixelFormatID != FPixelFormatID);
+                if (bool__143)
                 {
-                    var call__154 = RemapToPixelFormat(SD.PixelFormatID);
-                    bool__153 = (call__154 != 0);
+                    var call__144 = RemapToPixelFormat(SD.PixelFormatID);
+                    bool__143 = (call__144 != 0);
                 }
 
-                if (bool__153)
+                if (bool__143)
                 {
                     throw Aow.Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                 }
@@ -6348,8 +5941,8 @@ namespace Aow.Units.ImageLib
                 }
 
                 {
-                    ushort value__155 = unchecked((ushort)W);
-                    MemoryMarshal.Write<ushort>((FData + Pos).AsSpan(2), in value__155);
+                    ushort value__145 = unchecked((ushort)W);
+                    MemoryMarshal.Write<ushort>((FData + Pos).AsSpan(2), in value__145);
                 }
 
                 Pos += 2;
@@ -6381,8 +5974,8 @@ namespace Aow.Units.ImageLib
                 }
 
                 {
-                    ushort value__156 = unchecked((ushort)(Pos - RowStart));
-                    MemoryMarshal.Write<ushort>((FData + RowStart).AsSpan(2), in value__156);
+                    ushort value__146 = unchecked((ushort)(Pos - RowStart));
+                    MemoryMarshal.Write<ushort>((FData + RowStart).AsSpan(2), in value__146);
                 }
 
                 if ((Pos & 3) != 0)
@@ -6400,25 +5993,25 @@ namespace Aow.Units.ImageLib
                 {
                     if (SD.BitCount != 16)
                     {
-                        var call__157 = Aow.Units.GFXE.TDataSurface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565, null);
-                        Surface = call__157;
+                        var call__147 = Aow.Units.GFXE.TDataSurface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565, null);
+                        Surface = call__147;
                         GR.Left = 0;
                         GR.Top = 0;
-                        var call__158 = Surface.GetWidth();
-                        GR.Right = call__158;
-                        var call__159 = Surface.GetHeight();
-                        GR.Bottom = call__159;
+                        var call__148 = Surface.GetWidth();
+                        GR.Right = call__148;
+                        var call__149 = Surface.GetHeight();
+                        GR.Bottom = call__149;
                         Surface.Lock(ref LSD);
-                        var call__160 = Surface.GetWidth();
-                        var call__161 = Surface.GetHeight();
-                        var call__162 = Aow.Units.GFXE.GFXE.RemapSurfacePart(SD, R.Left, R.Top, call__160, call__161, LSD, 0, 0);
-                        if (call__162 != 0)
+                        var call__150 = Surface.GetWidth();
+                        var call__151 = Surface.GetHeight();
+                        var call__152 = Aow.Units.GFXE.GFXE.RemapSurfacePart(SD, R.Left, R.Top, call__150, call__151, LSD, 0, 0);
+                        if (call__152 != 0)
                         {
                             throw Aow.Rtl.Exception.Create((AnsiString)"Invalid PixelFormat");
                         }
 
-                        var call__163 = Aow.Units.GFXE.GFXE.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
-                        FColorKey = call__163;
+                        var call__153 = Aow.Units.GFXE.GFXE.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
+                        FColorKey = call__153;
                     }
                     else
                     {
@@ -6433,8 +6026,8 @@ namespace Aow.Units.ImageLib
                     FDataHeight = GR.Bottom - GR.Top;
                     FWidth = FDataWidth;
                     FHeight = FDataHeight;
-                    var call__164 = Aow.Rtl.Rtl.ExtractFileName(GrabInfo.FileName);
-                    FFileName = call__164;
+                    var call__154 = Aow.Rtl.Rtl.ExtractFileName(GrabInfo.FileName);
+                    FFileName = call__154;
                     FFileIndex = GrabInfo.FileIndex;
                     FStoredPixelFormatID = LSD.PixelFormatID;
                     FPixelFormatID = FStoredPixelFormatID;
@@ -6447,15 +6040,15 @@ namespace Aow.Units.ImageLib
                     FSpriteHeight = MR.Bottom - MR.Top;
                     {
                         Y = MR.Top;
-                        int end__165 = MR.Bottom - 1;
-                        for (; Y <= end__165; Y += 1)
+                        int end__155 = MR.Bottom - 1;
+                        for (; Y <= end__155; Y += 1)
                         {
                             Row = (Aow.Rtl.Rtl.BytePointer(LSD.Data) + (LSD.Pitch * Y)).Box();
                             StartRow();
                             {
                                 X = MR.Left;
-                                int end__166 = MR.Right - 1;
-                                for (; X <= end__166; X += 1)
+                                int end__156 = MR.Right - 1;
+                                for (; X <= end__156; X += 1)
                                 {
                                     C = MemoryMarshal.Read<ushort>(((Aow.Rtl.Rtl.BytePointer(Row) + X) + X).AsSpan(2));
                                     if (C != FColorKey)
@@ -6745,16 +6338,6 @@ namespace Aow.Units.ImageLib
             Stream.Write(Aow.Rtl.Bytes.Of(ref FMaskTop, 4));
         }
 
-        // ImageLib.pas:4712
-        public void AllocateMaskData(int AWidth, int AHeight)
-        {
-            FMaskWidth = AWidth;
-            FMaskHeight = AHeight;
-            FPitch = ((int)(((uint)(AWidth + 31)) >> 5)) << 2;
-            FDataSize = FPitch * FMaskHeight;
-            FMaskData = FMaskData.Realloc(FDataSize);
-        }
-
         // ImageLib.pas:4721
         public override void ReleaseDiscardableImageData()
         {
@@ -6829,8 +6412,8 @@ namespace Aow.Units.ImageLib
                 if (BitCount == 32)
                 {
                     {
-                        int value__167 = Bits;
-                        MemoryMarshal.Write<int>((FMaskData + Offset).AsSpan(4), in value__167);
+                        int value__157 = Bits;
+                        MemoryMarshal.Write<int>((FMaskData + Offset).AsSpan(4), in value__157);
                     }
 
                     Offset += 4;
@@ -6843,8 +6426,8 @@ namespace Aow.Units.ImageLib
             {
                 Bits = Bits << (32 - BitCount);
                 {
-                    int value__168 = Bits;
-                    MemoryMarshal.Write<int>((FMaskData + Offset).AsSpan(4), in value__168);
+                    int value__158 = Bits;
+                    MemoryMarshal.Write<int>((FMaskData + Offset).AsSpan(4), in value__158);
                 }
 
                 Offset += 4;
@@ -6863,8 +6446,8 @@ namespace Aow.Units.ImageLib
             FDataHeight = R.Bottom - R.Top;
             FWidth = FDataWidth;
             FHeight = FDataHeight;
-            var call__169 = Aow.Rtl.Rtl.ExtractFileName(GrabInfo.FileName);
-            FFileName = call__169;
+            var call__159 = Aow.Rtl.Rtl.ExtractFileName(GrabInfo.FileName);
+            FFileName = call__159;
             FFileIndex = GrabInfo.FileIndex;
             TransparentColor = GrabInfo.TransparentPixel;
             if (!((Aow.Units.ImageLib.TBitMaskGrabInfo)GrabInfo).Inverse)
@@ -6886,19 +6469,19 @@ namespace Aow.Units.ImageLib
             AllocateMaskData(FMaskWidth, FMaskHeight);
             {
                 Y = Top;
-                int end__170 = Bottom - 1;
-                for (; Y <= end__170; Y += 1)
+                int end__160 = Bottom - 1;
+                for (; Y <= end__160; Y += 1)
                 {
                     Offset = (Y - MinRect.Top) * FPitch;
                     {
                         X = MinRect.Left;
-                        int end__171 = MinRect.Right - 1;
-                        for (; X <= end__171; X += 1)
+                        int end__161 = MinRect.Right - 1;
+                        for (; X <= end__161; X += 1)
                         {
                             if (!((Aow.Units.ImageLib.TBitMaskGrabInfo)GrabInfo).Inverse)
                             {
-                                var call__172 = Aow.Units.GFXE.GFXE.GetPixelInfo(SD, X, Y);
-                                AddBit(call__172 != TransparentColor);
+                                var call__162 = Aow.Units.GFXE.GFXE.GetPixelInfo(SD, X, Y);
+                                AddBit(call__162 != TransparentColor);
                             }
                         }
                     }
@@ -7123,15 +6706,15 @@ namespace Aow.Units.ImageLib
             if ((FFontColorPaletteIndex >= 0) && (FPaletteManager.FPalettes.Count != 0))
             {
                 P = (Aow.Units.ImageLib.TLibraryImagePalette)FPaletteManager.FPalettes.List[0];
-                var call__173 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Value, P.FPalette.PixelFormatID, null);
-                var call__174 = P.FPalette.GetEntry(FFontColorPaletteIndex);
-                Ptr<int>.Unbox(call__174).Value = call__173;
+                var call__163 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Value, P.FPalette.PixelFormatID, null);
+                var call__164 = P.FPalette.GetEntry(FFontColorPaletteIndex);
+                Ptr<int>.Unbox(call__164).Value = call__163;
                 R = P.FRemapPalette;
                 if (R != null)
                 {
-                    var call__175 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Value, R.PixelFormatID, null);
-                    var call__176 = P.FRemapPalette.GetEntry(FFontColorPaletteIndex);
-                    Ptr<int>.Unbox(call__176).Value = call__175;
+                    var call__165 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Value, R.PixelFormatID, null);
+                    var call__166 = P.FRemapPalette.GetEntry(FFontColorPaletteIndex);
+                    Ptr<int>.Unbox(call__166).Value = call__165;
                 }
             }
 
@@ -7152,8 +6735,8 @@ namespace Aow.Units.ImageLib
             Result = 0;
             {
                 I = 1;
-                int end__177 = L;
-                for (; I <= end__177; I += 1)
+                int end__167 = L;
+                for (; I <= end__167; I += 1)
                 {
                     C = (int)S[I];
                     if (C < FCount)
@@ -7200,8 +6783,8 @@ namespace Aow.Units.ImageLib
             Aow.Units.ImageLib.TLibraryImage Image = default;
             {
                 I = 1;
-                int end__178 = S.Length;
-                for (; I <= end__178; I += 1)
+                int end__168 = S.Length;
+                for (; I <= end__168; I += 1)
                 {
                     C = (int)S[I];
                     if (C < FCount)
@@ -7257,14 +6840,14 @@ namespace Aow.Units.ImageLib
             I = 0;
             while (I < FCount)
             {
-                var call__179 = this[I];
-                if (call__179 != null)
+                var call__169 = this[I];
+                if (call__169 != null)
                 {
-                    var call__180 = this[I];
-                    if (call__180.Height > FHeight)
+                    var call__170 = this[I];
+                    if (call__170.Height > FHeight)
                     {
-                        var call__181 = this[I];
-                        FHeight = call__181.Height;
+                        var call__171 = this[I];
+                        FHeight = call__171.Height;
                     }
                 }
 
@@ -7319,28 +6902,28 @@ namespace Aow.Units.ImageLib
             H = 0;
             {
                 I = 1;
-                int end__182 = S.Length;
-                for (; I <= end__182; I += 1)
+                int end__172 = S.Length;
+                for (; I <= end__172; I += 1)
                 {
                     C = (int)S[I];
-                    bool bool__183 = (C < FCount);
-                    if (bool__183)
+                    bool bool__173 = (C < FCount);
+                    if (bool__173)
                     {
-                        var call__184 = this[C];
-                        bool__183 = (call__184 != null);
+                        var call__174 = this[C];
+                        bool__173 = (call__174 != null);
                     }
 
-                    bool bool__185 = bool__183;
-                    if (bool__185)
+                    bool bool__175 = bool__173;
+                    if (bool__175)
                     {
-                        var call__186 = this[C];
-                        bool__185 = (call__186.Height > H);
+                        var call__176 = this[C];
+                        bool__175 = (call__176.Height > H);
                     }
 
-                    if (bool__185)
+                    if (bool__175)
                     {
-                        var call__187 = this[C];
-                        H = call__187.Height;
+                        var call__177 = this[C];
+                        H = call__177.Height;
                     }
                 }
             }
@@ -7415,23 +6998,23 @@ namespace Aow.Units.ImageLib
 
             {
                 I = 1;
-                int end__188 = S.Length;
-                for (; I <= end__188; I += 1)
+                int end__178 = S.Length;
+                for (; I <= end__178; I += 1)
                 {
                     C = (int)S[I];
-                    bool bool__189 = (C < FCount);
-                    if (bool__189)
+                    bool bool__179 = (C < FCount);
+                    if (bool__179)
                     {
-                        var call__190 = this[C];
-                        bool__189 = (call__190 != null);
+                        var call__180 = this[C];
+                        bool__179 = (call__180 != null);
                     }
 
-                    if (bool__189)
+                    if (bool__179)
                     {
-                        var call__191 = this[C];
-                        call__191.ShowEx(X, Y, SD, ShowInfo);
-                        var call__192 = this[C];
-                        X += call__192.Width + FCharacterDistance;
+                        var call__181 = this[C];
+                        call__181.ShowEx(X, Y, SD, ShowInfo);
+                        var call__182 = this[C];
+                        X += call__182.Width + FCharacterDistance;
                     }
                     else
                     {
@@ -7655,7 +7238,7 @@ namespace Aow.Units.ImageLib
         internal void SetMinRowCount(int Value)
         {
             FMinRowCount = Value;
-            var call__193 = RowCount;
+            var call__183 = RowCount;
             ;
         }
 
@@ -7663,7 +7246,7 @@ namespace Aow.Units.ImageLib
         internal void SetMinColCount(int Value)
         {
             FMinColCount = Value;
-            var call__194 = ColCount;
+            var call__184 = ColCount;
             ;
         }
 
@@ -7671,7 +7254,7 @@ namespace Aow.Units.ImageLib
         internal void SetMaxRowCount(int Value)
         {
             FMaxRowCount = Value;
-            var call__195 = RowCount;
+            var call__185 = RowCount;
             ;
         }
 
@@ -7679,7 +7262,7 @@ namespace Aow.Units.ImageLib
         internal void SetMaxColCount(int Value)
         {
             FMaxColCount = Value;
-            var call__196 = ColCount;
+            var call__186 = ColCount;
             ;
         }
 
@@ -7764,14 +7347,14 @@ namespace Aow.Units.ImageLib
             switch (FGrowDirection)
             {
                 case Aow.Units.ImageLib.TILGrowDirection.ilHorizontal:
-                    var call__197 = RowCount;
-                    var call__198 = RowCount;
-                    ColCount = (call__197 + FCount) / call__198;
+                    var call__187 = RowCount;
+                    var call__188 = RowCount;
+                    ColCount = (call__187 + FCount) / call__188;
                     break;
                 case Aow.Units.ImageLib.TILGrowDirection.ilVertical:
-                    var call__199 = ColCount;
-                    var call__200 = ColCount;
-                    RowCount = (call__199 + FCount) / call__200;
+                    var call__189 = ColCount;
+                    var call__190 = ColCount;
+                    RowCount = (call__189 + FCount) / call__190;
                     break;
             }
         }
@@ -7810,18 +7393,18 @@ namespace Aow.Units.ImageLib
         public virtual int ImageIndex(int ACol, int ARow)
         {
             int Result = default;
-            var call__201 = ColCount;
-            Result = (call__201 * ARow) + ACol;
+            var call__191 = ColCount;
+            Result = (call__191 * ARow) + ACol;
             return Result;
         }
 
         // ImageLib.pas:6681
         public virtual void IndexToCell(int Index, ref int ACol, ref int ARow)
         {
-            var call__202 = ColCount;
-            ACol = Index % call__202;
-            var call__203 = ColCount;
-            ARow = Index / call__203;
+            var call__192 = ColCount;
+            ACol = Index % call__192;
+            var call__193 = ColCount;
+            ARow = Index / call__193;
         }
 
         // ImageLib.pas:6687
@@ -7959,10 +7542,10 @@ namespace Aow.Units.ImageLib
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             base.Create__init(AOwner);
-            var call__204 = Aow.Units.ImageLib.TILManagerList.Create(this);
-            FDiskList = call__204;
-            var call__205 = Aow.Units.ImageLib.TILManagerList.Create(this);
-            FOwnedList = call__205;
+            var call__194 = Aow.Units.ImageLib.TILManagerList.Create(this);
+            FDiskList = call__194;
+            var call__195 = Aow.Units.ImageLib.TILManagerList.Create(this);
+            FOwnedList = call__195;
         }
 
         // ImageLib.pas:8267
@@ -8006,8 +7589,8 @@ namespace Aow.Units.ImageLib
                 Aow.Rtl.TSearchRec SR = default;
                 bool Found = default;
                 int I = default;
-                var call__206 = Aow.Rtl.Rtl.FindFirst((FSearchPath + SubDirectory) + ((AnsiString)"*.ilb"), 63 - 16, ref SR);
-                Found = call__206 == 0;
+                var call__196 = Aow.Rtl.Rtl.FindFirst((FSearchPath + SubDirectory) + ((AnsiString)"*.ilb"), 63 - 16, ref SR);
+                Found = call__196 == 0;
                 while (Found)
                 {
                     FDiskList.AddILFile(SubDirectory + Aow.Rtl.Rtl.UpperCase(SR.Name));
@@ -8030,11 +7613,11 @@ namespace Aow.Units.ImageLib
                 Aow.Rtl.Rtl.FindClose(ref SR);
                 {
                     I = 0;
-                    int end__207 = List.Count - 1;
-                    for (; I <= end__207; I += 1)
+                    int end__197 = List.Count - 1;
+                    for (; I <= end__197; I += 1)
                     {
-                        var call__208 = List[I];
-                        SearchDirectory(call__208);
+                        var call__198 = List[I];
+                        SearchDirectory(call__198);
                     }
                 }
 
@@ -8063,14 +7646,14 @@ namespace Aow.Units.ImageLib
             Result = null;
             if (Category.Contains(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk))
             {
-                var call__209 = FDiskList.LinkToIL(FileName);
-                Result = call__209;
+                var call__199 = FDiskList.LinkToIL(FileName);
+                Result = call__199;
             }
 
             if (Category.Contains(Aow.Units.ImageLib.TILManagerCategoryElement.icOwned) && (Result == null))
             {
-                var call__210 = FOwnedList.LinkToIL(FileName);
-                Result = call__210;
+                var call__200 = FOwnedList.LinkToIL(FileName);
+                Result = call__200;
                 if (Result == null)
                 {
                     Result = Aow.Units.ImageLib.TImageLibrary.Create(null);
@@ -8099,8 +7682,8 @@ namespace Aow.Units.ImageLib
             Released = false;
             if (Category.Contains(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk))
             {
-                var call__211 = FDiskList.ReleaseIL(FileName);
-                Released = call__211;
+                var call__201 = FDiskList.ReleaseIL(FileName);
+                Released = call__201;
             }
 
             if (Category.Contains(Aow.Units.ImageLib.TILManagerCategoryElement.icOwned) && !Released)
@@ -8174,8 +7757,8 @@ namespace Aow.Units.ImageLib
         {
             ;
             FOwner = AOwner;
-            var call__212 = Aow.Units.HashTabU.TStringHashTable256.Create();
-            FHashTable = call__212;
+            var call__202 = Aow.Units.HashTabU.TStringHashTable256.Create();
+            FHashTable = call__202;
         }
 
         // ImageLib.pas:8102
@@ -8191,8 +7774,8 @@ namespace Aow.Units.ImageLib
         public Aow.Units.ImageLib.TCustomImageLibrary GetIL(int Index)
         {
             Aow.Units.ImageLib.TCustomImageLibrary Result = default;
-            var call__213 = Objects[Index];
-            Result = ((Aow.Units.ImageLib.TILManagerObject)call__213).FImageLibrary;
+            var call__203 = Objects[Index];
+            Result = ((Aow.Units.ImageLib.TILManagerObject)call__203).FImageLibrary;
             return Result;
         }
 
@@ -8203,11 +7786,11 @@ namespace Aow.Units.ImageLib
             Aow.Units.ImageLib.TILManagerObject Obj = default;
             {
                 I = Count - 1;
-                byte end__214 = 0;
-                for (; I >= end__214; I -= 1)
+                byte end__204 = 0;
+                for (; I >= end__204; I -= 1)
                 {
-                    var call__215 = Objects[I];
-                    Obj = (Aow.Units.ImageLib.TILManagerObject)call__215;
+                    var call__205 = Objects[I];
+                    Obj = (Aow.Units.ImageLib.TILManagerObject)call__205;
                     if ((Obj != null) && (Obj.FImageLibrary != null))
                     {
                         Obj.FImageLibrary.ReleaseDiscardableImageData();
@@ -8250,16 +7833,16 @@ namespace Aow.Units.ImageLib
         public override void Delete(int Index)
         {
             Aow.Units.ImageLib.TILManagerObject Obj = default;
-            var call__216 = Objects[Index];
-            Obj = (Aow.Units.ImageLib.TILManagerObject)call__216;
+            var call__206 = Objects[Index];
+            Obj = (Aow.Units.ImageLib.TILManagerObject)call__206;
             if (Obj != null)
             {
                 Obj.FImageLibrary.Free();
                 Obj.Free();
             }
 
-            var call__217 = Strings[Index];
-            FHashTable.Delete(call__217);
+            var call__207 = Strings[Index];
+            FHashTable.Delete(call__207);
             base.Delete(Index);
         }
 
@@ -8271,11 +7854,11 @@ namespace Aow.Units.ImageLib
             FHashTable.Clear();
             {
                 I = Count - 1;
-                byte end__218 = 0;
-                for (; I >= end__218; I -= 1)
+                byte end__208 = 0;
+                for (; I >= end__208; I -= 1)
                 {
-                    var call__219 = Objects[I];
-                    Obj = (Aow.Units.ImageLib.TILManagerObject)call__219;
+                    var call__209 = Objects[I];
+                    Obj = (Aow.Units.ImageLib.TILManagerObject)call__209;
                     if (Obj != null)
                     {
                         Obj.FImageLibrary.Free();
@@ -8295,15 +7878,15 @@ namespace Aow.Units.ImageLib
             Aow.Units.ImageLib.TCustomImageLibrary Result = default;
             Aow.Units.ImageLib.TILManagerObject Obj = default;
             FileName = Aow.Rtl.Rtl.UpperCase(FileName);
-            var call__220 = FHashTable.Find(FileName);
-            Obj = (Aow.Units.ImageLib.TILManagerObject)call__220;
+            var call__210 = FHashTable.Find(FileName);
+            Obj = (Aow.Units.ImageLib.TILManagerObject)call__210;
             if (Obj != null)
             {
                 Obj.FRefCount += 1;
                 if (Obj.FImageLibrary == null)
                 {
-                    var call__221 = Aow.Units.ImageLib.TImageLibrary.Create(null);
-                    Obj.FImageLibrary = call__221;
+                    var call__211 = Aow.Units.ImageLib.TImageLibrary.Create(null);
+                    Obj.FImageLibrary = call__211;
                     Obj.FImageLibrary.LoadOnDemand = true;
                     try
                     {
@@ -8311,8 +7894,8 @@ namespace Aow.Units.ImageLib
                     }
                     catch (System.Exception)
                     {
-                        var call__222 = Aow.Rtl.Exception.Create((((AnsiString)"Error loading: ") + FOwner.FSearchPath) + FileName);
-                        throw call__222;
+                        var call__212 = Aow.Rtl.Exception.Create((((AnsiString)"Error loading: ") + FOwner.FSearchPath) + FileName);
+                        throw call__212;
                     }
                 }
 
@@ -8333,8 +7916,8 @@ namespace Aow.Units.ImageLib
             bool Result = default;
             Aow.Units.ImageLib.TILManagerObject Obj = default;
             FileName = Aow.Rtl.Rtl.UpperCase(FileName);
-            var call__223 = FHashTable.Find(FileName);
-            Obj = (Aow.Units.ImageLib.TILManagerObject)call__223;
+            var call__213 = FHashTable.Find(FileName);
+            Obj = (Aow.Units.ImageLib.TILManagerObject)call__213;
             if (Obj != null)
             {
                 Obj.FRefCount -= 1;
@@ -8363,8 +7946,8 @@ namespace Aow.Units.ImageLib
             Stream.Read(Aow.Rtl.Bytes.Of(ref N, 4));
             {
                 I = 0;
-                int end__224 = N - 1;
-                for (; I <= end__224; I += 1)
+                int end__214 = N - 1;
+                for (; I <= end__214; I += 1)
                 {
                     Aow.Units.ImageLib.ImageLib.ReadStringFromStream(ref Name, Stream);
                     IL = Aow.Units.ImageLib.TImageLibrary.Create(null);
@@ -8378,18 +7961,18 @@ namespace Aow.Units.ImageLib
         public override void SaveToStream(Aow.Rtl.TStream Stream)
         {
             int I = default;
-            var call__225 = Count;
-            I = call__225;
+            var call__215 = Count;
+            I = call__215;
             Stream.Write(Aow.Rtl.Bytes.Of(ref I, 4));
             {
                 I = 0;
-                int end__226 = Count - 1;
-                for (; I <= end__226; I += 1)
+                int end__216 = Count - 1;
+                for (; I <= end__216; I += 1)
                 {
-                    var call__227 = Strings[I];
-                    Aow.Units.ImageLib.ImageLib.WriteStringToStream(call__227, Stream);
-                    var call__228 = Objects[I];
-                    ((Aow.Units.ImageLib.TILManagerObject)call__228).FImageLibrary.SaveToStream(Stream);
+                    var call__217 = Strings[I];
+                    Aow.Units.ImageLib.ImageLib.WriteStringToStream(call__217, Stream);
+                    var call__218 = Objects[I];
+                    ((Aow.Units.ImageLib.TILManagerObject)call__218).FImageLibrary.SaveToStream(Stream);
                 }
             }
         }
@@ -8640,8 +8223,8 @@ namespace Aow.Units.ImageLib
             Result = (AnsiString)"";
             {
                 I = 0;
-                int end__229 = Count - 1;
-                for (; I <= end__229; I += 1)
+                int end__219 = Count - 1;
+                for (; I <= end__219; I += 1)
                 {
                     if (List[I] != null)
                     {
@@ -8664,8 +8247,8 @@ namespace Aow.Units.ImageLib
             int I = default;
             {
                 I = Count - 1;
-                byte end__230 = 0;
-                for (; I >= end__230; I -= 1)
+                byte end__220 = 0;
+                for (; I >= end__220; I -= 1)
                 {
                     if (List[I] != null)
                     {
@@ -8724,8 +8307,8 @@ namespace Aow.Units.ImageLib
             Stream.Read(Aow.Rtl.Bytes.Of(ref N, 4));
             {
                 I = 0;
-                int end__231 = N - 1;
-                for (; I <= end__231; I += 1)
+                int end__221 = N - 1;
+                for (; I <= end__221; I += 1)
                 {
                     Stream.Read(Aow.Rtl.Bytes.Of(ref IsNil, 1));
                     if (!IsNil)
@@ -8757,8 +8340,8 @@ namespace Aow.Units.ImageLib
             Stream.Write(Aow.Rtl.Rtl.ValueBytes<int>(Count, 4));
             {
                 I = 0;
-                int end__232 = Count - 1;
-                for (; I <= end__232; I += 1)
+                int end__222 = Count - 1;
+                for (; I <= end__222; I += 1)
                 {
                     IsNil = List[I] == null;
                     Stream.Write(Aow.Rtl.Bytes.Of(ref IsNil, 1));
@@ -8983,8 +8566,8 @@ namespace Aow.Units.ImageLib
                 FLinked = true;
                 {
                     I = 0;
-                    int end__233 = Count - 1;
-                    for (; I <= end__233; I += 1)
+                    int end__223 = Count - 1;
+                    for (; I <= end__223; I += 1)
                     {
                         Sequence = (Aow.Units.ImageLib.TImageSequence)List[I];
                         while (Sequence != null)
@@ -9007,8 +8590,8 @@ namespace Aow.Units.ImageLib
                 FLinked = false;
                 {
                     I = 0;
-                    int end__234 = Count - 1;
-                    for (; I <= end__234; I += 1)
+                    int end__224 = Count - 1;
+                    for (; I <= end__224; I += 1)
                     {
                         Sequence = (Aow.Units.ImageLib.TImageSequence)List[I];
                         while (Sequence != null)
@@ -9106,11 +8689,11 @@ namespace Aow.Units.ImageLib
                     if (I != -1)
                     {
                         Result = true;
-                        var call__235 = Sequence.FImageLibrary.ImageExist(I);
-                        if (call__235)
+                        var call__225 = Sequence.FImageLibrary.ImageExist(I);
+                        if (call__225)
                         {
-                            var call__236 = Sequence.FImageLibrary[I];
-                            call__236.Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
+                            var call__226 = Sequence.FImageLibrary[I];
+                            call__226.Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
                         }
                     }
 
@@ -9159,11 +8742,11 @@ namespace Aow.Units.ImageLib
                     I = Sequence.GetFrameIndex(Frame, 0);
                     if (I != -1)
                     {
-                        var call__237 = Sequence.FImageLibrary.ImageExist(I);
-                        if (call__237)
+                        var call__227 = Sequence.FImageLibrary.ImageExist(I);
+                        if (call__227)
                         {
-                            var call__238 = Sequence.FImageLibrary[I];
-                            call__238.Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
+                            var call__228 = Sequence.FImageLibrary[I];
+                            call__228.Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
                         }
                     }
 
@@ -9185,11 +8768,11 @@ namespace Aow.Units.ImageLib
                     I = Sequence.GetFrameIndex(Frame, Offset);
                     if (I != -1)
                     {
-                        var call__239 = Sequence.FImageLibrary.ImageExist(I);
-                        if (call__239)
+                        var call__229 = Sequence.FImageLibrary.ImageExist(I);
+                        if (call__229)
                         {
-                            var call__240 = Sequence.FImageLibrary[I];
-                            call__240.Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
+                            var call__230 = Sequence.FImageLibrary[I];
+                            call__230.Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
                         }
                     }
 
@@ -9344,11 +8927,11 @@ namespace Aow.Units.ImageLib
             if (Source is Aow.Units.ImageLib.TFrameTableList)
             {
                 {
-                    var w__241 = (Aow.Units.ImageLib.TFrameTableList)Source;
-                    this.SetCapacity(w__241.FCount);
-                    this.FCount = w__241.FCount;
-                    Ptr<int>.Copy(w__241.FList, this.FList, this.FCount);
-                    this.FDefaultValue = w__241.FDefaultValue;
+                    var w__231 = (Aow.Units.ImageLib.TFrameTableList)Source;
+                    this.SetCapacity(w__231.FCount);
+                    this.FCount = w__231.FCount;
+                    Ptr<int>.Copy(w__231.FList, this.FList, this.FCount);
+                    this.FDefaultValue = w__231.FDefaultValue;
                 }
             }
             else
@@ -9478,8 +9061,8 @@ namespace Aow.Units.ImageLib
         public int Last()
         {
             int Result = default;
-            var call__242 = Get(FCount - 1);
-            Result = call__242;
+            var call__232 = Get(FCount - 1);
+            Result = call__232;
             return Result;
         }
 
@@ -9519,11 +9102,11 @@ namespace Aow.Units.ImageLib
             int I = default;
             {
                 I = FCount - 1;
-                byte end__243 = 0;
-                for (; I >= end__243; I -= 1)
+                byte end__233 = 0;
+                for (; I >= end__233; I -= 1)
                 {
-                    var call__244 = this[I];
-                    if (call__244 == 0)
+                    var call__234 = this[I];
+                    if (call__234 == 0)
                     {
                         Delete(I);
                     }
@@ -9547,8 +9130,8 @@ namespace Aow.Units.ImageLib
             Result = List.FCount == FCount;
             if (Result)
             {
-                var call__245 = Aow.Rtl.Rtl.CompareMem(MemoryMarshal.AsBytes(FList.Array.AsSpan(FList.Index, FCount)), MemoryMarshal.AsBytes(List.FList.Array.AsSpan(List.FList.Index, FCount)), FCount * 4);
-                Result = call__245;
+                var call__235 = Aow.Rtl.Rtl.CompareMem(MemoryMarshal.AsBytes(FList.Array.AsSpan(FList.Index, FCount)), MemoryMarshal.AsBytes(List.FList.Array.AsSpan(List.FList.Index, FCount)), FCount * 4);
+                Result = call__235;
             }
 
             return Result;
@@ -9583,8 +9166,8 @@ namespace Aow.Units.ImageLib
             Result = (AnsiString)"";
             {
                 I = 0;
-                int end__246 = FCount - 1;
-                for (; I <= end__246; I += 1)
+                int end__236 = FCount - 1;
+                for (; I <= end__236; I += 1)
                 {
                     Result = (Result + Aow.Rtl.Rtl.IntToStr(FList[I])) + AnsiString.FromBytes(44);
                 }
@@ -9608,8 +9191,8 @@ namespace Aow.Units.ImageLib
             Aow.Rtl.AnsiString S = default;
             {
                 I = Value.Length;
-                byte end__247 = 1;
-                for (; I >= end__247; I -= 1)
+                byte end__237 = 1;
+                for (; I >= end__237; I -= 1)
                 {
                     if (!TSet<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Value[I]))
                     {
@@ -9716,8 +9299,8 @@ namespace Aow.Units.ImageLib
         {
             if (TSet<Aow.Units.ImageLib.TSequenceMode>.Of(Aow.Units.ImageLib.TSequenceMode.smFrameTable, Aow.Units.ImageLib.TSequenceMode.smRndFrameTable).Contains(Value) && (FFrameTable == null))
             {
-                var call__248 = Aow.Units.ImageLib.TFrameTableList.Create();
-                FFrameTable = call__248;
+                var call__238 = Aow.Units.ImageLib.TFrameTableList.Create();
+                FFrameTable = call__238;
             }
 
             FSequenceMode = Value;
@@ -9775,14 +9358,14 @@ namespace Aow.Units.ImageLib
                 Result = null;
                 if ((FFrameTable != null) && (FFrameTable.FCount != 0))
                 {
-                    var call__249 = FImageLibrary.GetSafe(FFrameTable.FList[0]);
-                    Result = call__249;
+                    var call__239 = FImageLibrary.GetSafe(FFrameTable.FList[0]);
+                    Result = call__239;
                 }
 
                 if (FSequenceMode == Aow.Units.ImageLib.TSequenceMode.smNone)
                 {
-                    var call__250 = FImageLibrary.GetSafe(FImageIndex);
-                    Result = call__250;
+                    var call__240 = FImageLibrary.GetSafe(FImageIndex);
+                    Result = call__240;
                 }
 
                 if (Result == null)
@@ -9790,8 +9373,8 @@ namespace Aow.Units.ImageLib
                     I = 0;
                     while ((I != FImageLibrary.Count) && (Result == null))
                     {
-                        var call__251 = FImageLibrary[I];
-                        Result = call__251;
+                        var call__241 = FImageLibrary[I];
+                        Result = call__241;
                         I += 1;
                     }
                 }
@@ -9822,12 +9405,12 @@ namespace Aow.Units.ImageLib
                     case Aow.Units.ImageLib.TSequenceMode.smRndFrameTable:
                     {
                         I = 0;
-                        int end__252 = FFrameTable.Count - 1;
-                        for (; I <= end__252; I += 1)
+                        int end__242 = FFrameTable.Count - 1;
+                        for (; I <= end__242; I += 1)
                         {
-                            var call__253 = FFrameTable[I];
-                            var call__254 = FImageLibrary.GetSafe(call__253);
-                            Image = call__254;
+                            var call__243 = FFrameTable[I];
+                            var call__244 = FImageLibrary.GetSafe(call__243);
+                            Image = call__244;
                             if (Image != null)
                             {
                                 Image.GetVisualDimensions(ref IR);
@@ -9842,11 +9425,11 @@ namespace Aow.Units.ImageLib
                     case Aow.Units.ImageLib.TSequenceMode.smRandom:
                     {
                         I = 0;
-                        int end__255 = FImageLibrary.Count - 1;
-                        for (; I <= end__255; I += 1)
+                        int end__245 = FImageLibrary.Count - 1;
+                        for (; I <= end__245; I += 1)
                         {
-                            var call__256 = FImageLibrary.GetSafe(I);
-                            Image = call__256;
+                            var call__246 = FImageLibrary.GetSafe(I);
+                            Image = call__246;
                             if (Image != null)
                             {
                                 Image.GetVisualDimensions(ref IR);
@@ -9857,8 +9440,8 @@ namespace Aow.Units.ImageLib
 
                         break;
                     case Aow.Units.ImageLib.TSequenceMode.smNone:
-                        var call__257 = FImageLibrary.GetSafe(FImageIndex);
-                        Image = call__257;
+                        var call__247 = FImageLibrary.GetSafe(FImageIndex);
+                        Image = call__247;
                         if (Image != null)
                         {
                             Image.GetVisualDimensions(ref R);
@@ -9976,8 +9559,8 @@ namespace Aow.Units.ImageLib
                         case Aow.Units.ImageLib.TSequenceMode.smRndFrameTable:
                             if ((Frame != FLastFrame) && ((Frame % (FSequenceSpeed + 1)) == 0))
                             {
-                                var call__258 = Aow.Rtl.Rtl.Random(FFrameTable.Count);
-                                FImageIndex = call__258;
+                                var call__248 = Aow.Rtl.Rtl.Random(FFrameTable.Count);
+                                FImageIndex = call__248;
                                 FLastFrame = Frame;
                             }
 
@@ -9994,8 +9577,8 @@ namespace Aow.Units.ImageLib
                         case Aow.Units.ImageLib.TSequenceMode.smRandom:
                             if ((Frame != FLastFrame) && ((Frame % (FSequenceSpeed + 1)) == 0))
                             {
-                                var call__259 = Aow.Rtl.Rtl.Random(FImageLibrary.Count);
-                                FImageIndex = call__259;
+                                var call__249 = Aow.Rtl.Rtl.Random(FImageLibrary.Count);
+                                FImageIndex = call__249;
                                 FLastFrame = Frame;
                             }
 
@@ -10087,8 +9670,8 @@ namespace Aow.Units.ImageLib
 
             if (FImageLibraryName != ((AnsiString)""))
             {
-                var call__260 = FOwner.FILManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), FImageLibraryName);
-                FImageLibrary = call__260;
+                var call__250 = FOwner.FILManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), FImageLibraryName);
+                FImageLibrary = call__250;
             }
             else
             {
@@ -10150,20 +9733,20 @@ namespace Aow.Units.ImageLib
             {
                 if (FFrameTable == null)
                 {
-                    var call__261 = Aow.Units.ImageLib.TFrameTableList.Create();
-                    FFrameTable = call__261;
+                    var call__251 = Aow.Units.ImageLib.TFrameTableList.Create();
+                    FFrameTable = call__251;
                 }
 
                 FFrameTable.LoadFromStream(Stream);
-                var call__262 = Aow.Rtl.Rtl.Random(FFrameTable.Count);
-                FImageIndex = call__262;
+                var call__252 = Aow.Rtl.Rtl.Random(FFrameTable.Count);
+                FImageIndex = call__252;
             }
 
             Stream.Read(Aow.Rtl.Bytes.Of(ref HasNext, 1));
             if (HasNext)
             {
-                var call__263 = Aow.Units.ImageLib.TImageSequence.Create(FOwner);
-                FNext = call__263;
+                var call__253 = Aow.Units.ImageLib.TImageSequence.Create(FOwner);
+                FNext = call__253;
                 FNext.LoadFromStream(Stream);
             }
         }
@@ -10306,24 +9889,24 @@ namespace Aow.Units.ImageLib
             Aow.Units.GFXE.TSurfaceDesc SD = default;
             Aow.Units.GFXE.TDIB16Surface Surface = default;
             int Index = default;
-            var call__264 = Aow.Units.GFXE.TDIB16Surface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565);
-            Surface = call__264;
+            var call__254 = Aow.Units.GFXE.TDIB16Surface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565);
+            Surface = call__254;
             Surface.Cls(BkColor);
             Surface.Lock(ref SD);
             while (Sequence != null)
             {
                 Index = Sequence.GetUnloopedFrameIndex(Frame);
-                bool bool__265 = (Index != -1) && (Sequence.FImageLibrary != null);
-                if (bool__265)
+                bool bool__255 = (Index != -1) && (Sequence.FImageLibrary != null);
+                if (bool__255)
                 {
-                    var call__266 = Sequence.FImageLibrary.GetSafe(Index);
-                    bool__265 = (call__266 != null);
+                    var call__256 = Sequence.FImageLibrary.GetSafe(Index);
+                    bool__255 = (call__256 != null);
                 }
 
-                if (bool__265)
+                if (bool__255)
                 {
-                    var call__267 = Sequence.FImageLibrary[Index];
-                    call__267.Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
+                    var call__257 = Sequence.FImageLibrary[Index];
+                    call__257.Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
                 }
 
                 Sequence = Sequence.FNext;
@@ -10359,15 +9942,15 @@ namespace Aow.Units.ImageLib
             {
                 {
                     I = 0;
-                    int end__268 = ImageLibrary.Count - 1;
-                    for (; I <= end__268; I += 1)
+                    int end__258 = ImageLibrary.Count - 1;
+                    for (; I <= end__258; I += 1)
                     {
                         if (!ImageLibrary.IsReference(I))
                         {
                             {
                                 J = 0;
-                                int end__269 = ImageLibrary.GetSubCount(I) - 1;
-                                for (; J <= end__269; J += 1)
+                                int end__259 = ImageLibrary.GetSubCount(I) - 1;
+                                for (; J <= end__259; J += 1)
                                 {
                                     Sub = ImageLibrary.GetSub(I, J);
                                     if (((Sub != null) && (Aow.Rtl.Rtl.CompareText(Sub.FFileName, Image.FFileName) == 0)) && (Sub.FFileIndex == Image.FFileIndex))
@@ -10638,8 +10221,8 @@ namespace Aow.Units.ImageLib
         public static Aow.Units.ImageLib.TLibraryImage.Meta GetLibraryImageClass(int Index)
         {
             Aow.Units.ImageLib.TLibraryImage.Meta Result = default;
-            var call__270 = Aow.Units.ImageLib.ImageLib.LibraryImageClasses[Index];
-            Result = (Aow.Units.ImageLib.TLibraryImage.Meta)call__270;
+            var call__260 = Aow.Units.ImageLib.ImageLib.LibraryImageClasses[Index];
+            Result = (Aow.Units.ImageLib.TLibraryImage.Meta)call__260;
             return Result;
         }
 
@@ -10661,16 +10244,16 @@ namespace Aow.Units.ImageLib
             I = 0;
             while ((I < Aow.Units.ImageLib.ImageLib.LibraryImageClasses.Count) && !Found)
             {
-                var call__271 = Aow.Units.ImageLib.ImageLib.LibraryImageClasses[I];
-                var call__272 = ((Aow.Units.ImageLib.TLibraryImage.Meta)call__271).ClassID();
-                Found = ClassID == call__272;
+                var call__261 = Aow.Units.ImageLib.ImageLib.LibraryImageClasses[I];
+                var call__262 = ((Aow.Units.ImageLib.TLibraryImage.Meta)call__261).ClassID();
+                Found = ClassID == call__262;
                 I += 1;
             }
 
             if (Found)
             {
-                var call__273 = Aow.Units.ImageLib.ImageLib.LibraryImageClasses[I - 1];
-                Result = (Aow.Units.ImageLib.TLibraryImage.Meta)call__273;
+                var call__263 = Aow.Units.ImageLib.ImageLib.LibraryImageClasses[I - 1];
+                Result = (Aow.Units.ImageLib.TLibraryImage.Meta)call__263;
             }
             else
             {
@@ -10686,26 +10269,26 @@ namespace Aow.Units.ImageLib
             int I = default;
             {
                 I = 0;
-                int end__274 = AClasses.Length - 1;
-                for (; I <= end__274; I += 1)
+                int end__264 = AClasses.Length - 1;
+                for (; I <= end__264; I += 1)
                 {
-                    var call__275 = AClasses[I].ClassID();
-                    bool bool__276 = (call__275 != 0);
-                    if (bool__276)
+                    var call__265 = AClasses[I].ClassID();
+                    bool bool__266 = (call__265 != 0);
+                    if (bool__266)
                     {
-                        var call__277 = AClasses[I].ClassID();
-                        var call__278 = Aow.Units.ImageLib.ImageLib.FindLibraryImageClass(call__277);
-                        bool__276 = (call__278 == null);
+                        var call__267 = AClasses[I].ClassID();
+                        var call__268 = Aow.Units.ImageLib.ImageLib.FindLibraryImageClass(call__267);
+                        bool__266 = (call__268 == null);
                     }
 
-                    if (bool__276)
+                    if (bool__266)
                     {
                         Aow.Units.ImageLib.ImageLib.LibraryImageClasses.Add(AClasses[I]);
                     }
                     else
                     {
-                        var call__279 = Aow.Rtl.Exception.Create((((AnsiString)"Image ClassID is already used (") + ((AnsiString)AClasses[I].ClassName)) + AnsiString.FromBytes(41));
-                        throw call__279;
+                        var call__269 = Aow.Rtl.Exception.Create((((AnsiString)"Image ClassID is already used (") + ((AnsiString)AClasses[I].ClassName)) + AnsiString.FromBytes(41));
+                        throw call__269;
                     }
                 }
             }
@@ -10844,8 +10427,8 @@ namespace Aow.Units.ImageLib
                 {
                     while (true)
                     {
-                        var call__280 = SCompare(SortList[I], P);
-                        if (!(call__280 < 0))
+                        var call__270 = SCompare(SortList[I], P);
+                        if (!(call__270 < 0))
                             break;
                         {
                             I += 1;
@@ -10854,8 +10437,8 @@ namespace Aow.Units.ImageLib
 
                     while (true)
                     {
-                        var call__281 = SCompare(SortList[J], P);
-                        if (!(call__281 > 0))
+                        var call__271 = SCompare(SortList[J], P);
+                        if (!(call__271 > 0))
                             break;
                         {
                             J -= 1;
@@ -10884,12 +10467,12 @@ namespace Aow.Units.ImageLib
 
         public static void Initialize()
         {
-            var call__282 = Aow.Rtl.Rtl.Application.ExeName;
-            var call__283 = Aow.Rtl.Rtl.ExtractFilePath(call__282);
-            Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath = call__283;
+            var call__272 = Aow.Rtl.Rtl.Application.ExeName;
+            var call__273 = Aow.Rtl.Rtl.ExtractFilePath(call__272);
+            Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath = call__273;
             Aow.Rtl.Rtl.RegisterClasses([typeof(Aow.Units.ImageLib.TImageLibrary)]);
-            var call__284 = new Aow.Rtl.TList();
-            Aow.Units.ImageLib.ImageLib.LibraryImageClasses = call__284;
+            var call__274 = new Aow.Rtl.TList();
+            Aow.Units.ImageLib.ImageLib.LibraryImageClasses = call__274;
             Aow.Units.ImageLib.ImageLib.RegisterLibraryImageClasses([Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TPicture08>(), Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TRLESprite08>()]);
             Aow.Units.ImageLib.ImageLib.RegisterLibraryImageClasses([Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TPicture16>(), Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TTransparentPicture16>(), Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TRLESprite16>(), Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TTransparentRLESprite16>(), Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TShadow>(), Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TImageNode>(), Aow.Units.ImageLib.TLibraryImage.Meta.Of<Aow.Units.ImageLib.TSprite16>()]);
         }

@@ -1305,13 +1305,6 @@ namespace Aow.Units.GFXE
             Stream.Write(MemoryMarshal.AsBytes((ReadOnlySpan<Aow.Units.GFXE.TPaletteEntry>)Entries).Slice(0, 1024));
         }
 
-        // GFXE.pas:11062
-        public void Assign(Aow.Units.GFXE.TGFXEPalette Source)
-        {
-            Entries = Source.Entries;
-            PixelFormatID = Source.PixelFormatID;
-        }
-
         // GFXE.pas:11068
         public Ptr<Aow.Units.GFXE.TPaletteEntry> GetEntry(int Index)
         {
@@ -1428,13 +1421,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:11114
-        public int GetNearestColor(int Color)
-        {
-            /* TODO(T-shim) Platform or editor boundary Graphics.ColorToRGB */
-            throw new System.NotImplementedException();
-        }
-
         // GFXE.pas:11140
         public bool Compare(Aow.Units.GFXE.TGFXEPalette Palette)
         {
@@ -1496,22 +1482,6 @@ namespace Aow.Units.GFXE
         {
             return new Aow.Units.GFXE.TGFXEPalette();
         }
-    }
-
-    public struct TSurfaceDesc
-    {
-        public int Width;
-        public int Height;
-        public int BitCount;
-        public int Pitch;
-        public Aow.Rtl.TRect ClipRect;
-        public object Data;
-        public Aow.Units.GFXE.TGFXEPalette Palette;
-        public int PixelFormatID;
-        public int RMask;
-        public int GMask;
-        public int BMask;
-        public int AMask;
     }
 
     // { GFXE.TSurface (instance size 4): the abstract surface; GetWidth and GetHeight are abstract.
@@ -1962,14 +1932,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:12097
-        public virtual int BltDC(int DC, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
-        {
-            int Result = default;
-            Result = Aow.Units.GFXE.GFXE.GFXE_NOTSUPPORTED;
-            return Result;
-        }
-
         // GFXE.pas:12102
         public virtual int BltStretch(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
         {
@@ -2091,81 +2053,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:12263
-        public virtual int Cls(int Color)
-        {
-            int Result = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
-            int Pixel = default;
-            int I = default;
-            var call__51 = Lock(ref SD);
-            var call__52 = Aow.Rtl.Rtl.Succeeded(call__51);
-            if (call__52)
-            {
-                var call__53 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Color, SD.PixelFormatID, null);
-                Pixel = call__53;
-                Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-                switch (SD.BitCount)
-                {
-                    case 8:
-                    {
-                        I = 0;
-                        int end__54 = SD.Height - 1;
-                        for (; I <= end__54; I += 1)
-                        {
-                            Aow.Rtl.Rtl.FillBytes((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * I)).AsSpan(SD.Width), Pixel);
-                        }
-                    }
-
-                        break;
-                    case 16:
-                    {
-                        I = 0;
-                        int end__55 = SD.Height - 1;
-                        for (; I <= end__55; I += 1)
-                        {
-                            Aow.Units.GFXE.GFXE.FillWord((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * I)).AsSpan(SD.Width * 2), SD.Width, Pixel);
-                        }
-                    }
-
-                        break;
-                    case 24:
-                    {
-                        I = 0;
-                        int end__56 = SD.Height - 1;
-                        for (; I <= end__56; I += 1)
-                        {
-                            Aow.Units.GFXE.GFXE.FillTrippleByte((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * I)).AsSpan(SD.Width * 3), SD.Width, Pixel);
-                        }
-                    }
-
-                        break;
-                    case 32:
-                    {
-                        I = 0;
-                        int end__57 = SD.Height - 1;
-                        for (; I <= end__57; I += 1)
-                        {
-                            Aow.Units.GFXE.GFXE.FillInt((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * I)).AsSpan(SD.Width * 4), SD.Width, Pixel);
-                        }
-                    }
-
-                        break;
-                    default:
-                        Result = Aow.Units.GFXE.GFXE.GFXE_NOTSUPPORTED;
-                        break;
-                }
-
-                Unlock();
-            }
-            else
-            {
-                Result = Aow.Units.GFXE.GFXE.GFXE_NOTSUPPORTED;
-            }
-
-            return Result;
-        }
-
         public int Width { get => GetWidth(); }
         public int Height { get => GetHeight(); }
         public int PixelFormatID { get => GetPixelFormatID(); }
@@ -2237,25 +2124,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:12425
-        public override int Lock(ref Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            SD = default;
-            SD.Width = FWidth;
-            SD.Height = FHeight;
-            SD.BitCount = FBitCount;
-            SD.PixelFormatID = FPixelFormatID;
-            SD.ClipRect.Left = 0;
-            SD.ClipRect.Right = FWidth;
-            SD.ClipRect.Top = 0;
-            SD.ClipRect.Bottom = FHeight;
-            SD.Pitch = FPitch;
-            SD.Data = FData;
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
         // GFXE.pas:12441
         public override int Unlock()
         {
@@ -2319,8 +2187,8 @@ namespace Aow.Units.GFXE
             {
                 if (FPalette == null)
                 {
-                    var call__58 = Aow.Units.GFXE.TGFXEPalette.Create();
-                    FPalette = call__58;
+                    var call__51 = Aow.Units.GFXE.TGFXEPalette.Create();
+                    FPalette = call__51;
                 }
 
                 FPalette.Assign(Palette);
@@ -2409,15 +2277,6 @@ namespace Aow.Units.GFXE
         internal Aow.Rtl.TBitmapInfoHeader FInfo;
         internal Aow.Units.FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
         internal Aow.Units.GFXE.TGFXEPalette FPalette;
-        // GFXE.pas:6391
-        // { The original unit was longer: the line numbers compiled into the Assert calls (7162 for the next Assert below) prove that 3417 more lines preceded this point. Their content is unknown; the blank lines below keep the Assert line numbers identical. }
-        // { TDIBSurface }
-        public override void Destroy()
-        {
-            Clear();
-            base.Destroy();
-        }
-
         // GFXE.pas:6397
         public Ptr<Aow.Rtl.TBitmapInfo> GetBITMAPINFO()
         {
@@ -2452,165 +2311,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:6417
-        public void Clear()
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.DeleteObject */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:6435
-        public override int UpdatePalette()
-        {
-            int Result = default;
-            int I = default;
-            if ((FPalette != null) && (FPixelFormatID == Aow.Units.GFXE.GFXE.pfPAL8))
-            {
-                {
-                    I = 0;
-                    byte end__59 = 255;
-                    for (; I <= end__59; I += 1)
-                    {
-                        {
-                            ref var w__60 = ref FPalette.Entries[I];
-                            FColors[I].rgbRed = unchecked((byte)w__60.R);
-                            FColors[I].rgbGreen = unchecked((byte)w__60.G);
-                            FColors[I].rgbBlue = unchecked((byte)w__60.B);
-                        }
-                    }
-                }
-
-                Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            }
-            else
-            {
-                Result = Aow.Units.GFXE.GFXE.GFXE_NOTSUPPORTED;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:6454
-        public int Setup(int AWidth, int AHeight, int APixelFormatID, Aow.Units.GFXE.TGFXEPalette APalette)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:6580
-        public override int Resize(int AWidth, int AHeight)
-        {
-            int Result = default;
-            if ((AWidth != FWidth) || (AHeight != FHeight))
-            {
-                var call__61 = Setup(AWidth, AHeight, FPixelFormatID, FPalette);
-                Result = call__61;
-            }
-            else
-            {
-                Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:6588
-        public override int Lock(ref Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            SD = default;
-            switch (FPixelFormatID)
-            {
-                case Aow.Units.GFXE.GFXE.pfPAL8:
-                    SD.Width = FWidth;
-                    SD.Height = FHeight;
-                    SD.BitCount = 8;
-                    SD.PixelFormatID = Aow.Units.GFXE.GFXE.pfPAL8;
-                    SD.ClipRect.Left = 0;
-                    SD.ClipRect.Right = FWidth;
-                    SD.ClipRect.Top = 0;
-                    SD.ClipRect.Bottom = FHeight;
-                    SD.Pitch = FPitch;
-                    SD.Palette = FPalette;
-                    SD.Data = ((Aow.Rtl.Rtl.BytePointer(FBits) + System.Math.Abs(FHeight * FPitch)) + FPitch).Box();
-                    Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-                    break;
-                case Aow.Units.GFXE.GFXE.pfRGB555:
-                case Aow.Units.GFXE.GFXE.pfRGB565:
-                    SD.Width = FWidth;
-                    SD.Height = FHeight;
-                    SD.PixelFormatID = FPixelFormatID;
-                    SD.BitCount = 16;
-                    SD.ClipRect.Left = 0;
-                    SD.ClipRect.Right = FWidth;
-                    SD.ClipRect.Top = 0;
-                    SD.ClipRect.Bottom = FHeight;
-                    SD.Pitch = FPitch;
-                    if (FPixelFormatID == Aow.Units.GFXE.GFXE.pfRGB565)
-                    {
-                        SD.RMask = 63488;
-                        SD.GMask = 2016;
-                        SD.BMask = 31;
-                    }
-                    else
-                    {
-                        if (FPixelFormatID == Aow.Units.GFXE.GFXE.pfRGB555)
-                        {
-                            SD.RMask = 31744;
-                            SD.GMask = 992;
-                            SD.BMask = 31;
-                        }
-                    }
-
-                    SD.Data = ((Aow.Rtl.Rtl.BytePointer(FBits) + System.Math.Abs(FHeight * FPitch)) + FPitch).Box();
-                    Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-                    break;
-                case Aow.Units.GFXE.GFXE.pfRGB24:
-                    SD.Width = FWidth;
-                    SD.Height = FHeight;
-                    SD.BitCount = 24;
-                    SD.PixelFormatID = Aow.Units.GFXE.GFXE.pfRGB24;
-                    SD.ClipRect.Left = 0;
-                    SD.ClipRect.Right = FWidth;
-                    SD.ClipRect.Top = 0;
-                    SD.ClipRect.Bottom = FHeight;
-                    SD.Pitch = FPitch;
-                    SD.RMask = 16711680;
-                    SD.GMask = 65280;
-                    SD.BMask = 255;
-                    SD.Data = ((Aow.Rtl.Rtl.BytePointer(FBits) + System.Math.Abs(FHeight * FPitch)) + FPitch).Box();
-                    Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-                    break;
-                default:
-                    Result = Aow.Units.GFXE.GFXE.GFXE_NOTSUPPORTED;
-                    break;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:6655
-        public override int Unlock()
-        {
-            int Result = default;
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:6660
-        public override int Cls(int Color)
-        {
-            /* TODO(T-shim) Platform or editor boundary Graphics.ColorToRGB */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:6708
-        public override int Blt(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, int X, int Y)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
-            throw new System.NotImplementedException();
-        }
-
         // GFXE.pas:6767
         public void SaveToBMP24(Aow.Rtl.AnsiString FileName)
         {
@@ -2620,7 +2320,6 @@ namespace Aow.Units.GFXE
             Unlock();
         }
 
-        public int Handle { get => FHandle; }
         public object Bits { get => FBits; }
         public int Pitch { get => FPitch; }
         public Aow.Units.GFXE.TGFXEPalette Palette { get => FPalette; }
@@ -2639,38 +2338,6 @@ namespace Aow.Units.GFXE
         internal Aow.Rtl.TBitmapInfoHeader FInfo;
         internal Aow.Units.FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
         internal Aow.Units.GFXE.TGFXEPalette FPalette;
-        // GFXE.pas:6778
-        // { TDIB08Surface }
-        public void Create__init_TDIB08Surface(int AWidth, int AHeight, Aow.Units.GFXE.TGFXEPalette APalette)
-        {
-            ;
-            var call__62 = Aow.Units.GFXE.TGFXEPalette.Create();
-            FPalette = call__62;
-            FPalette.PixelFormatID = Aow.Units.GFXE.GFXE.pfRGB24;
-            {
-                ref var w__63 = ref FInfo;
-                w__63.biSize = 40;
-                w__63.biPlanes = 1;
-                w__63.biBitCount = 8;
-                w__63.biCompression = 0;
-                w__63.biSizeImage = 0;
-                w__63.biClrUsed = 256;
-                w__63.biClrImportant = 0;
-            }
-
-            Resize(AWidth, AHeight);
-            SetPalette(APalette);
-        }
-
-        // GFXE.pas:6797
-        public override void Destroy()
-        {
-            FMem = FMem.Realloc(0);
-            FPalette.Free();
-            FPalette = null;
-            base.Destroy();
-        }
-
         // GFXE.pas:6805
         public override int GetPixelFormatID()
         {
@@ -2693,123 +2360,6 @@ namespace Aow.Units.GFXE
             int Result = default;
             Result = FHeight;
             return Result;
-        }
-
-        // GFXE.pas:6821
-        // { Passes the address of the palette field, not the palette (original). }
-        public override int UpdatePalette()
-        {
-            int Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:6827
-        public override int Blt(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, int X, int Y)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:6865
-        public override int BltDC(int DC, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetClientRect */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:6893
-        public override int Lock(ref Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            SD = default;
-            SD.Width = FWidth;
-            SD.Height = FHeight;
-            SD.BitCount = 8;
-            SD.PixelFormatID = Aow.Units.GFXE.GFXE.pfPAL8;
-            SD.ClipRect.Left = 0;
-            SD.ClipRect.Right = FWidth;
-            SD.ClipRect.Top = 0;
-            SD.ClipRect.Bottom = FHeight;
-            SD.Pitch = FPitch;
-            SD.Palette = FPalette;
-            SD.Data = ((Aow.Rtl.Rtl.BytePointer(FBits) + System.Math.Abs(FHeight * FPitch)) + FPitch).Box();
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:6910
-        public override int Unlock()
-        {
-            int Result = default;
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:6915
-        public override int Resize(int AWidth, int AHeight)
-        {
-            int Result = default;
-            if ((AWidth != FWidth) || (AHeight != FHeight))
-            {
-                FWidth = AWidth;
-                FHeight = AHeight;
-                FPitch = -((FWidth + 7) & ~7);
-                {
-                    ref var w__64 = ref FInfo;
-                    w__64.biWidth = System.Math.Abs(FPitch);
-                    w__64.biHeight = FHeight;
-                }
-
-                FMem = FMem.Realloc(System.Math.Abs(FPitch * FHeight) + 7);
-                FBits = Aow.Rtl.Rtl.AlignPointer(FMem + 7, ~7).Box();
-                Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            }
-            else
-            {
-                Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:6935
-        public override int Cls(int Color)
-        {
-            int Result = default;
-            int Index = default;
-            var call__65 = FPalette.GetNearestColor(Color);
-            Index = call__65;
-            Aow.Rtl.Rtl.FillBytes(Aow.Rtl.Rtl.BytePointer(FBits).AsSpan(System.Math.Abs(FPitch * FHeight)), Index);
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:6944
-        public void SetPalette(Aow.Units.GFXE.TGFXEPalette Palette)
-        {
-            int I = default;
-            if (Palette != null)
-            {
-                {
-                    I = 0;
-                    byte end__66 = 255;
-                    for (; I <= end__66; I += 1)
-                    {
-                        {
-                            ref var w__67 = ref Palette.Entries[I];
-                            FColors[I].rgbRed = unchecked((byte)w__67.R);
-                            FColors[I].rgbGreen = unchecked((byte)w__67.G);
-                            FColors[I].rgbBlue = unchecked((byte)w__67.B);
-                        }
-                    }
-                }
-
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
-            }
         }
 
         public Aow.Units.GFXE.TGFXEPalette Palette { get => FPalette; set => SetPalette(value); }
@@ -2844,64 +2394,6 @@ namespace Aow.Units.GFXE
         internal int FPixelFormatID;
         internal Aow.Rtl.TBitmapInfoHeader FInfo;
         internal Aow.Units.FixedArray_int_3 FMasks;
-        // GFXE.pas:7006
-        internal void SetPixelFormatID(int Value)
-        {
-            if ((Value == Aow.Units.GFXE.GFXE.pfRGB565) || (Value == Aow.Units.GFXE.GFXE.pfRGB555))
-            {
-                FPixelFormatID = Value;
-                switch (FPixelFormatID)
-                {
-                    case Aow.Units.GFXE.GFXE.pfRGB565:
-                        FMasks[0] = 63488;
-                        FMasks[1] = 2016;
-                        FMasks[2] = 31;
-                        break;
-                    case Aow.Units.GFXE.GFXE.pfRGB555:
-                        FMasks[0] = 31744;
-                        FMasks[1] = 992;
-                        FMasks[2] = 31;
-                        break;
-                }
-            }
-            else
-            {
-                throw Aow.Rtl.Exception.Create((AnsiString)"PixelFormatID not supported");
-            }
-        }
-
-        // GFXE.pas:6963
-        // { TDIB16Surface }
-        public void Create__init_TDIB16Surface(int AWidth, int AHeight, int APixelFormatID)
-        {
-            ;
-            FWidth = 0;
-            FHeight = 0;
-            FPixelFormatID = APixelFormatID;
-            {
-                ref var w__68 = ref FInfo;
-                w__68.biSize = 40;
-                w__68.biPlanes = 1;
-                w__68.biBitCount = 16;
-                w__68.biCompression = 3;
-                w__68.biSizeImage = 0;
-                w__68.biClrUsed = 0;
-                w__68.biClrImportant = 0;
-                w__68.biXPelsPerMeter = 0;
-                w__68.biYPelsPerMeter = 0;
-            }
-
-            SetPixelFormatID(FPixelFormatID);
-            Resize(AWidth, AHeight);
-        }
-
-        // GFXE.pas:6985
-        public override void Destroy()
-        {
-            Resize(0, 0);
-            base.Destroy();
-        }
-
         // GFXE.pas:6991
         public override int GetWidth()
         {
@@ -2926,76 +2418,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:7030
-        public override int Blt(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, int X, int Y)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7068
-        public override int BltDC(int DC, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetClientRect */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7097
-        public override int Lock(ref Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            SD = default;
-            SD.Width = FWidth;
-            SD.Height = FHeight;
-            SD.PixelFormatID = FPixelFormatID;
-            SD.BitCount = 16;
-            SD.ClipRect.Left = 0;
-            SD.ClipRect.Right = FWidth;
-            SD.ClipRect.Top = 0;
-            SD.ClipRect.Bottom = FHeight;
-            SD.Pitch = FPitch;
-            if (FPixelFormatID == Aow.Units.GFXE.GFXE.pfRGB565)
-            {
-                SD.RMask = 63488;
-                SD.GMask = 2016;
-                SD.BMask = 31;
-            }
-
-            if (FPixelFormatID == Aow.Units.GFXE.GFXE.pfRGB555)
-            {
-                SD.RMask = 31744;
-                SD.GMask = 992;
-                SD.BMask = 31;
-            }
-
-            SD.Data = ((Aow.Rtl.Rtl.BytePointer(FBits) + System.Math.Abs(FHeight * FPitch)) + FPitch).Box();
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:7125
-        public override int Unlock()
-        {
-            int Result = default;
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:7130
-        public override int Cls(int Color)
-        {
-            /* TODO(T-shim) Platform or editor boundary Graphics.ColorToRGB */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7150
-        public override int Resize(int AWidth, int AHeight)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.DeleteObject */
-            throw new System.NotImplementedException();
-        }
-
-        public int Handle { get => FHandle; }
         public new int PixelFormatID { get => FPixelFormatID; set => SetPixelFormatID(value); }
 
         // GFXE.pas:531
@@ -3026,32 +2448,6 @@ namespace Aow.Units.GFXE
         internal object FBits;
         internal int FPitch;
         internal Aow.Rtl.TBitmapInfoHeader FInfo;
-        // GFXE.pas:7216
-        // { TDIB24Surface }
-        public void Create__init_TDIB24Surface(int AWidth, int AHeight)
-        {
-            ;
-            {
-                ref var w__69 = ref FInfo;
-                w__69.biSize = 40;
-                w__69.biPlanes = 1;
-                w__69.biBitCount = 24;
-                w__69.biCompression = 0;
-                w__69.biSizeImage = 0;
-                w__69.biClrUsed = 0;
-                w__69.biClrImportant = 0;
-            }
-
-            Resize(AWidth, AHeight);
-        }
-
-        // GFXE.pas:7232
-        public override void Destroy()
-        {
-            Resize(0, 0);
-            base.Destroy();
-        }
-
         // GFXE.pas:7238
         public override int GetWidth()
         {
@@ -3076,66 +2472,6 @@ namespace Aow.Units.GFXE
             throw new System.NotImplementedException();
             return Result;
         }
-
-        // GFXE.pas:7253
-        public override int Blt(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, int X, int Y)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7291
-        public override int BltDC(int DC, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetClientRect */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7319
-        public override int Cls(int Color)
-        {
-            /* TODO(T-shim) Platform or editor boundary Graphics.ColorToRGB */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7338
-        public override int Lock(ref Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            SD = default;
-            SD.Width = FWidth;
-            SD.Height = FHeight;
-            SD.BitCount = 24;
-            SD.PixelFormatID = Aow.Units.GFXE.GFXE.pfRGB24;
-            SD.ClipRect.Left = 0;
-            SD.ClipRect.Right = FWidth;
-            SD.ClipRect.Top = 0;
-            SD.ClipRect.Bottom = FHeight;
-            SD.Pitch = FPitch;
-            SD.RMask = 16711680;
-            SD.GMask = 65280;
-            SD.BMask = 255;
-            SD.Data = ((Aow.Rtl.Rtl.BytePointer(FBits) + System.Math.Abs(FHeight * FPitch)) + FPitch).Box();
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:7357
-        public override int Unlock()
-        {
-            int Result = default;
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:7362
-        public override int Resize(int AWidth, int AHeight)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.DeleteObject */
-            throw new System.NotImplementedException();
-        }
-
-        public int Handle { get => FHandle; }
 
         // GFXE.pas:557
         public static Aow.Units.GFXE.TDIB24Surface Create(int AWidth, int AHeight)
@@ -3165,32 +2501,6 @@ namespace Aow.Units.GFXE
         internal object FBits;
         internal int FPitch;
         internal Aow.Rtl.TBitmapInfoHeader FInfo;
-        // GFXE.pas:7424
-        // { TDIB32Surface }
-        public void Create__init_TDIB32Surface(int AWidth, int AHeight)
-        {
-            ;
-            {
-                ref var w__70 = ref FInfo;
-                w__70.biSize = 40;
-                w__70.biPlanes = 1;
-                w__70.biBitCount = 32;
-                w__70.biCompression = 0;
-                w__70.biSizeImage = 0;
-                w__70.biClrUsed = 0;
-                w__70.biClrImportant = 0;
-            }
-
-            Resize(AWidth, AHeight);
-        }
-
-        // GFXE.pas:7440
-        public override void Destroy()
-        {
-            FMem = FMem.Realloc(0);
-            base.Destroy();
-        }
-
         // GFXE.pas:7446
         public override int GetWidth()
         {
@@ -3204,85 +2514,6 @@ namespace Aow.Units.GFXE
         {
             int Result = default;
             Result = FHeight;
-            return Result;
-        }
-
-        // GFXE.pas:7456
-        public override int Blt(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, int X, int Y)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7494
-        public override int BltDC(int DC, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
-        {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetClientRect */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7522
-        public override int Lock(ref Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            SD = default;
-            SD.Width = FWidth;
-            SD.Height = FHeight;
-            SD.BitCount = 32;
-            SD.PixelFormatID = Aow.Units.GFXE.GFXE.pfRGB32;
-            SD.ClipRect.Left = 0;
-            SD.ClipRect.Right = FWidth;
-            SD.ClipRect.Top = 0;
-            SD.ClipRect.Bottom = FHeight;
-            SD.Pitch = FPitch;
-            SD.RMask = 16711680;
-            SD.GMask = 65280;
-            SD.BMask = 255;
-            SD.AMask = -16777216;
-            SD.Data = ((Aow.Rtl.Rtl.BytePointer(FBits) + System.Math.Abs(FHeight * FPitch)) + FPitch).Box();
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:7542
-        public override int Unlock()
-        {
-            int Result = default;
-            Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            return Result;
-        }
-
-        // GFXE.pas:7547
-        public override int Cls(int Color)
-        {
-            /* TODO(T-shim) Platform or editor boundary Graphics.ColorToRGB */
-            throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:7557
-        public override int Resize(int AWidth, int AHeight)
-        {
-            int Result = default;
-            if ((AWidth != FWidth) || (AHeight != FHeight))
-            {
-                FWidth = AWidth;
-                FHeight = AHeight;
-                FPitch = -(((FWidth * 4) + 7) & ~7);
-                {
-                    ref var w__71 = ref FInfo;
-                    w__71.biWidth = (int)(((uint)System.Math.Abs(FPitch)) >> 2);
-                    w__71.biHeight = FHeight;
-                }
-
-                FMem = FMem.Realloc(System.Math.Abs(FPitch * FHeight) + 7);
-                FBits = Aow.Rtl.Rtl.AlignPointer(FMem + 7, ~7).Box();
-                Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            }
-            else
-            {
-                Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-            }
-
             return Result;
         }
 
@@ -3409,286 +2640,6 @@ namespace Aow.Units.GFXE
         protected internal int FLockCount;
         protected internal int FLockExCount;
         protected internal Aow.Units.GFXE.TSurfaceDesc FSurfaceDesc;
-        // GFXE.pas:9108
-        // { The original unit was longer: the line numbers compiled into the Assert calls (9342 for the next Assert below) prove that 37 more lines preceded this point. Their content is unknown; the blank lines below keep the Assert line numbers identical. }
-        // { TDDrawSurface (inc\DDSurf.PAS in the original) }
-        public int CreateSurface(int AWidth, int AHeight, int APixelFormatID, TSet<Aow.Units.GFXE.TDDSCreationFlagsElement> AFlags)
-        {
-            int Result = default;
-            Aow.Units.GFXE.TDDSurfaceDesc DDSD = default;
-            Aow.Units.GFXE.IDirectDrawSurface S = default;
-            Result = Aow.Units.GFXE.GFXE.DD_OK;
-            if (FSurface != null)
-            {
-                FSurface = null;
-            }
-
-            FWidth = AWidth;
-            FHeight = AHeight;
-            FPixelFormatID = APixelFormatID;
-            if (!AFlags.Contains(Aow.Units.GFXE.TDDSCreationFlagsElement.cfVideoMemory))
-            {
-                AFlags = AFlags + TSet<Aow.Units.GFXE.TDDSCreationFlagsElement>.Of(Aow.Units.GFXE.TDDSCreationFlagsElement.cfSystemMemory);
-            }
-
-            FCreationFlags = AFlags;
-            DDSD = default;
-            DDSD.dwSize = 108;
-            DDSD.dwWidth = AWidth;
-            DDSD.dwHeight = AHeight;
-            DDSD.dwFlags = ((Aow.Units.GFXE.GFXE.DDSD_CAPS | Aow.Units.GFXE.GFXE.DDSD_HEIGHT) | Aow.Units.GFXE.GFXE.DDSD_WIDTH) | Aow.Units.GFXE.GFXE.DDSD_PIXELFORMAT;
-            DDSD.ddpfPixelFormat.dwSize = 32;
-            DDSD.ddpfPixelFormat.dwFlags = Aow.Units.GFXE.GFXE.DDPF_RGB;
-            var call__72 = Aow.Units.GFXE.GFXE.PFIDtoMASK(APixelFormatID, ref Unsafe.As<int, int>(ref DDSD.ddpfPixelFormat.dwRBitMask), ref Unsafe.As<int, int>(ref DDSD.ddpfPixelFormat.dwGBitMask), ref Unsafe.As<int, int>(ref DDSD.ddpfPixelFormat.dwBBitMask), ref Unsafe.As<int, int>(ref DDSD.ddpfPixelFormat.dwRGBAlphaBitMask));
-            DDSD.ddpfPixelFormat.dwRGBBitCount = call__72;
-            if (AFlags.Contains(Aow.Units.GFXE.TDDSCreationFlagsElement.cfVideoMemory))
-            {
-                DDSD.ddsCaps.dwCaps = Aow.Units.GFXE.GFXE.DDSCAPS_VIDEOMEMORY | Aow.Units.GFXE.GFXE.DDSCAPS_OFFSCREENPLAIN;
-                var call__73 = Aow.Units.GFXE.GFXE.DD();
-                var call__74 = call__73.CreateSurface(DDSD, ref S, null);
-                Result = call__74;
-                if (Aow.Rtl.Rtl.Succeeded(Result))
-                {
-                    FStatus = FStatus + TSet<Aow.Units.GFXE.TDDrawSurfaceStatusElement>.Of(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssVideoMemory);
-                }
-            }
-
-            if ((S == null) && AFlags.Contains(Aow.Units.GFXE.TDDSCreationFlagsElement.cfSystemMemory))
-            {
-                DDSD.ddsCaps.dwCaps = Aow.Units.GFXE.GFXE.DDSCAPS_SYSTEMMEMORY | Aow.Units.GFXE.GFXE.DDSCAPS_OFFSCREENPLAIN;
-                var call__75 = Aow.Units.GFXE.GFXE.DD();
-                var call__76 = call__75.CreateSurface(DDSD, ref S, null);
-                Result = call__76;
-            }
-
-            if (Aow.Rtl.Rtl.Succeeded(Result))
-            {
-                /* TODO(T-5.8) No physical byte image for IDirectDrawSurface2 */
-                throw new System.NotImplementedException();
-            }
-
-            S = null;
-            if (Aow.Rtl.Rtl.Succeeded(Result))
-            {
-                FStatus = FStatus + TSet<Aow.Units.GFXE.TDDrawSurfaceStatusElement>.Of(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssCreated);
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9147
-        public override void Destroy()
-        {
-            if (FSurface != null)
-            {
-                while (true)
-                {
-                    var call__78 = FSurface.GetFlipStatus(Aow.Units.GFXE.GFXE.DDGFS_ISFLIPDONE);
-                    if (!(call__78 == Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING))
-                        break;
-                    {
-                        ;
-                    }
-                }
-
-                while (true)
-                {
-                    var call__79 = FSurface.GetBltStatus(Aow.Units.GFXE.GFXE.DDGBS_CANBLT);
-                    if (!(call__79 == Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING))
-                        break;
-                    {
-                        ;
-                    }
-                }
-
-                FSurface = null;
-            }
-
-            base.Destroy();
-        }
-
-        // GFXE.pas:9158
-        public bool Lost()
-        {
-            bool Result = default;
-            bool bool__80 = (FSurface != null);
-            if (bool__80)
-            {
-                var call__81 = FSurface.IsLost();
-                bool__80 = (call__81 == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST);
-            }
-
-            Result = bool__80;
-            return Result;
-        }
-
-        // GFXE.pas:9163
-        public override int Blt(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, int X, int Y)
-        {
-            int Result = default;
-            Aow.Rtl.TRect[] R__cell = new Aow.Rtl.TRect[1];
-            ref Aow.Rtl.TRect R = ref R__cell[0];
-            if (FStatus.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssLocked))
-            {
-                throw Aow.Rtl.Exception.Create((AnsiString)"SURFACE IS LOCKED");
-            }
-
-            if (Dest is Aow.Units.GFXE.TDDrawSurface)
-            {
-                if (((Aow.Units.GFXE.TDDrawSurface)Dest).FStatus.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssLocked))
-                {
-                    throw Aow.Rtl.Exception.Create((AnsiString)"DESTSURFACE IS LOCKED");
-                }
-
-                if (SrcRect.IsNull)
-                {
-                    R.Left = 0;
-                    R.Right = FWidth;
-                    R.Top = 0;
-                    R.Bottom = FHeight;
-                    SrcRect = Ptr<Aow.Rtl.TRect>.To(R__cell, 0);
-                }
-
-                if (FStatus.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssVideoMemory) && ((Aow.Units.GFXE.TDDrawSurface)Dest).FStatus.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssVideoMemory))
-                {
-                    var call__82 = ((Aow.Units.GFXE.TDDrawSurface)Dest).FSurface.BltFast(X, Y, FSurface, SrcRect, Aow.Units.GFXE.GFXE.DDBLTFAST_WAIT);
-                    Result = call__82;
-                }
-                else
-                {
-                    Result = base.Blt(Dest, SrcRect, X, Y);
-                }
-            }
-            else
-            {
-                Result = base.Blt(Dest, SrcRect, X, Y);
-            }
-
-            if (Result == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-            {
-                var call__83 = FSurface.IsLost();
-                if (call__83 == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                {
-                    if (FOnSurfaceLost != null)
-                    {
-                        FOnSurfaceLost(this);
-                        var call__84 = FSurface.IsLost();
-                        if (call__84 != Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                        {
-                            Result = Blt(Dest, SrcRect, X, Y);
-                        }
-                    }
-                }
-                else
-                {
-                    if (Dest is Aow.Units.GFXE.TDDrawSurface)
-                    {
-                        var call__85 = ((Aow.Units.GFXE.TDDrawSurface)Dest).FSurface.IsLost();
-                        if ((call__85 == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST) && (((Aow.Units.GFXE.TDDrawSurface)Dest).FOnSurfaceLost != null))
-                        {
-                            ((Aow.Units.GFXE.TDDrawSurface)Dest).FOnSurfaceLost(this);
-                            var call__86 = ((Aow.Units.GFXE.TDDrawSurface)Dest).FSurface.IsLost();
-                            if (call__86 != Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                            {
-                                Result = Blt(Dest, SrcRect, X, Y);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9205
-        public override int BltColorKey(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, int X, int Y, int ColorKey)
-        {
-            int Result = default;
-            Aow.Units.GFXE.TDDColorKey[] Key__cell = new Aow.Units.GFXE.TDDColorKey[1];
-            ref Aow.Units.GFXE.TDDColorKey Key = ref Key__cell[0];
-            Aow.Rtl.TRect[] R__cell = new Aow.Rtl.TRect[1];
-            ref Aow.Rtl.TRect R = ref R__cell[0];
-            Aow.Rtl.TRect[] DR__cell = new Aow.Rtl.TRect[1];
-            ref Aow.Rtl.TRect DR = ref DR__cell[0];
-            if (Dest is Aow.Units.GFXE.TDDrawSurface)
-            {
-                if (SrcRect.IsNull)
-                {
-                    R.Left = 0;
-                    R.Right = FWidth;
-                    R.Top = 0;
-                    R.Bottom = FHeight;
-                    SrcRect = Ptr<Aow.Rtl.TRect>.To(R__cell, 0);
-                }
-
-                Key.dwColorSpaceLowValue = ColorKey;
-                Key.dwColorSpaceHighValue = ColorKey;
-                var call__87 = FSurface.SetColorKey(Aow.Units.GFXE.GFXE.DDCKEY_SRCBLT, Ptr<Aow.Units.GFXE.TDDColorKey>.To(Key__cell, 0));
-                Result = call__87;
-                if (Aow.Rtl.Rtl.Succeeded(Result))
-                {
-                    if (FStatus.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssVideoMemory) && ((Aow.Units.GFXE.TDDrawSurface)Dest).FStatus.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssVideoMemory))
-                    {
-                        var call__88 = ((Aow.Units.GFXE.TDDrawSurface)Dest).FSurface.BltFast(X, Y, FSurface, SrcRect, Aow.Units.GFXE.GFXE.DDBLTFAST_SRCCOLORKEY | Aow.Units.GFXE.GFXE.DDBLTFAST_WAIT);
-                        Result = call__88;
-                    }
-                    else
-                    {
-                        DR.Left = X;
-                        DR.Top = Y;
-                        DR.Right = (SrcRect.Value.Right - SrcRect.Value.Left) + X;
-                        DR.Bottom = (SrcRect.Value.Bottom - SrcRect.Value.Top) + Y;
-                        var call__89 = ((Aow.Units.GFXE.TDDrawSurface)Dest).FSurface.Blt(Ptr<Aow.Rtl.TRect>.To(DR__cell, 0), FSurface, SrcRect, Aow.Units.GFXE.GFXE.DDBLT_WAIT | Aow.Units.GFXE.GFXE.DDBLT_KEYSRC, default);
-                        Result = call__89;
-                    }
-                }
-
-                if (Aow.Rtl.Rtl.Failed(Result))
-                {
-                    Result = base.BltColorKey(Dest, SrcRect, X, Y, ColorKey);
-                }
-            }
-            else
-            {
-                Result = base.BltColorKey(Dest, SrcRect, X, Y, ColorKey);
-            }
-
-            if (Result == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-            {
-                var call__90 = FSurface.IsLost();
-                if (call__90 == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                {
-                    if (FOnSurfaceLost != null)
-                    {
-                        FOnSurfaceLost(this);
-                        var call__91 = FSurface.IsLost();
-                        if (call__91 != Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                        {
-                            Result = BltColorKey(Dest, SrcRect, X, Y, ColorKey);
-                        }
-                    }
-                }
-                else
-                {
-                    if (Dest is Aow.Units.GFXE.TDDrawSurface)
-                    {
-                        var call__92 = ((Aow.Units.GFXE.TDDrawSurface)Dest).FSurface.IsLost();
-                        if ((call__92 == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST) && (((Aow.Units.GFXE.TDDrawSurface)Dest).FOnSurfaceLost != null))
-                        {
-                            ((Aow.Units.GFXE.TDDrawSurface)Dest).FOnSurfaceLost(this);
-                            var call__93 = ((Aow.Units.GFXE.TDDrawSurface)Dest).FSurface.IsLost();
-                            if (call__93 != Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                            {
-                                Result = BltColorKey(Dest, SrcRect, X, Y, ColorKey);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return Result;
-        }
-
         // GFXE.pas:9279
         public override int GetPixelFormatID()
         {
@@ -3710,438 +2661,6 @@ namespace Aow.Units.GFXE
         {
             int Result = default;
             Result = FHeight;
-            return Result;
-        }
-
-        // GFXE.pas:9294
-        public override int Lock(ref Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            Aow.Units.GFXE.TDDSurfaceDesc DDSD = default;
-            if (FLockCount == 0)
-            {
-                DDSD = default;
-                DDSD.dwSize = 108;
-                do
-                {
-                    var call__94 = FSurface.Lock(default, ref DDSD, Aow.Units.GFXE.GFXE.DDLOCK_WAIT, 0);
-                    Result = call__94;
-                }
-                while (!(Result != Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING));
-                if (Aow.Rtl.Rtl.Succeeded(Result))
-                {
-                    FLockCount += 1;
-                    FStatus = FStatus + TSet<Aow.Units.GFXE.TDDrawSurfaceStatusElement>.Of(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssLocked);
-                    SD = default;
-                    SD.Width = DDSD.dwWidth;
-                    SD.Height = DDSD.dwHeight;
-                    SD.Pitch = DDSD.lPitch;
-                    SD.ClipRect.Left = 0;
-                    SD.ClipRect.Right = DDSD.dwWidth;
-                    SD.ClipRect.Top = 0;
-                    SD.ClipRect.Bottom = DDSD.dwHeight;
-                    SD.Data = DDSD.lpSurface;
-                    SD.PixelFormatID = FPixelFormatID;
-                    SD.BitCount = DDSD.ddpfPixelFormat.dwRGBBitCount;
-                    SD.RMask = DDSD.ddpfPixelFormat.dwRBitMask;
-                    SD.GMask = DDSD.ddpfPixelFormat.dwGBitMask;
-                    SD.BMask = DDSD.ddpfPixelFormat.dwBBitMask;
-                    SD.AMask = DDSD.ddpfPixelFormat.dwRGBAlphaBitMask;
-                }
-                else
-                {
-                    if ((Result == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST) && (FOnSurfaceLost != null))
-                    {
-                        FOnSurfaceLost(this);
-                        var call__95 = FSurface.IsLost();
-                        if (call__95 != Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                        {
-                            Result = Lock(ref SD);
-                        }
-                    }
-                }
-
-                if (Aow.Rtl.Rtl.Succeeded(Result))
-                {
-                    FSurfaceDesc = SD;
-                }
-            }
-            else
-            {
-                FLockCount += 1;
-                SD = FSurfaceDesc;
-                Result = Aow.Units.GFXE.GFXE.DD_OK;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9340
-        public override int Unlock()
-        {
-            int Result = default;
-            Aow.Rtl.Rtl.Assert(FLockCount != 0, (AnsiString)"Invalid Unlock", "D:\\git\\aow\\src\\delphi3\\Gfxepack\\GFXE.pas", 9342);
-            if (FLockCount == 1)
-            {
-                var call__96 = FSurface.Unlock(null);
-                Result = call__96;
-                if (Aow.Rtl.Rtl.Succeeded(Result))
-                {
-                    FLockCount -= 1;
-                    if (FLockExCount == 0)
-                    {
-                        FStatus = FStatus - TSet<Aow.Units.GFXE.TDDrawSurfaceStatusElement>.Of(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssLocked);
-                    }
-                }
-            }
-            else
-            {
-                FLockCount -= 1;
-                Result = Aow.Units.GFXE.GFXE.DD_OK;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9359
-        public override int LockEx(ref Aow.Units.GFXE.TSurfaceDesc SD, in Aow.Rtl.TRect R)
-        {
-            int Result = default;
-            Aow.Units.GFXE.TDDSurfaceDesc DDSD = default;
-            DDSD = default;
-            DDSD.dwSize = 108;
-            do
-            {
-                /* TODO(T-4.3) Address needs a cell or array backing */
-                throw new System.NotImplementedException();
-            }
-            while (!(Result != Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING));
-            if (Aow.Rtl.Rtl.Succeeded(Result))
-            {
-                FLockExCount += 1;
-                FStatus = TSet<Aow.Units.GFXE.TDDrawSurfaceStatusElement>.Of(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssLocked) + FStatus;
-                SD = default;
-                SD.Width = R.Right - R.Left;
-                SD.Height = R.Bottom - R.Top;
-                SD.Pitch = DDSD.lPitch;
-                SD.ClipRect.Left = 0;
-                SD.ClipRect.Right = SD.Width;
-                SD.ClipRect.Top = 0;
-                SD.ClipRect.Bottom = SD.Height;
-                SD.Data = DDSD.lpSurface;
-                SD.PixelFormatID = FPixelFormatID;
-                SD.BitCount = DDSD.ddpfPixelFormat.dwRGBBitCount;
-                SD.RMask = DDSD.ddpfPixelFormat.dwRBitMask;
-                SD.GMask = DDSD.ddpfPixelFormat.dwGBitMask;
-                SD.BMask = DDSD.ddpfPixelFormat.dwBBitMask;
-                SD.AMask = DDSD.ddpfPixelFormat.dwRGBAlphaBitMask;
-            }
-            else
-            {
-                if ((Result == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST) && (FOnSurfaceLost != null))
-                {
-                    FOnSurfaceLost(this);
-                    var call__98 = FSurface.IsLost();
-                    if (call__98 != Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                    {
-                        Result = LockEx(ref SD, R);
-                    }
-                }
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9395
-        public override int UnlockEx(in Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            var call__99 = FSurface.Unlock(SD.Data);
-            Result = call__99;
-            if (Aow.Rtl.Rtl.Succeeded(Result))
-            {
-                FLockExCount -= 1;
-                if ((FLockExCount == 0) && (FLockExCount == 0))
-                {
-                    // // sic
-                    FStatus = FStatus - TSet<Aow.Units.GFXE.TDDrawSurfaceStatusElement>.Of(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssLocked);
-                }
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9405
-        public override int Resize(int AWidth, int AHeight)
-        {
-            int Result = default;
-            bool bool__100 = (AWidth != FWidth) || (AHeight != FHeight);
-            if (!bool__100)
-            {
-                bool bool__101 = (FSurface != null);
-                if (bool__101)
-                {
-                    var call__102 = FSurface.IsLost();
-                    bool__101 = (call__102 == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST);
-                }
-
-                bool__100 = bool__101;
-            }
-
-            if (bool__100)
-            {
-                var call__103 = CreateSurface(AWidth, AHeight, FPixelFormatID, FCreationFlags);
-                Result = call__103;
-            }
-            else
-            {
-                Result = Aow.Units.GFXE.GFXE.DD_OK;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9414
-        public int Restore()
-        {
-            int Result = default;
-            bool bool__104 = (FSurface != null);
-            if (bool__104)
-            {
-                var call__105 = FSurface.IsLost();
-                bool__104 = (call__105 == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST);
-            }
-
-            if (bool__104)
-            {
-                var call__106 = FSurface.Restore();
-                Result = call__106;
-            }
-            else
-            {
-                Result = Aow.Units.GFXE.GFXE.DD_OK;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9422
-        public int AsyncCls(int Color)
-        {
-            int Result = default;
-            Aow.Rtl.TRect[] R__cell = new Aow.Rtl.TRect[1];
-            ref Aow.Rtl.TRect R = ref R__cell[0];
-            Aow.Units.GFXE.TDDBltFX[] Fx__cell = new Aow.Units.GFXE.TDDBltFX[1];
-            ref Aow.Units.GFXE.TDDBltFX Fx = ref Fx__cell[0];
-            int Count = default;
-            int Value = default;
-            int I = default;
-            R.Top = 0;
-            R.Bottom = FHeight;
-            R.Left = 0;
-            R.Right = FWidth;
-            Fx.dwSize = 100;
-            var call__107 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Color, FPixelFormatID, null);
-            Fx.dwFillColor = call__107;
-            while (true)
-            {
-                var call__108 = FSurface.GetBltStatus(Aow.Units.GFXE.GFXE.DDGBS_CANBLT);
-                if (!(call__108 == Aow.Units.GFXE.GFXE.DDERR_WASSTILLDRAWING))
-                    break;
-                {
-                    ;
-                }
-            }
-
-            var call__109 = FSurface.Blt(Ptr<Aow.Rtl.TRect>.To(R__cell, 0), null, default, Aow.Units.GFXE.GFXE.DDBLT_COLORFILL | Aow.Units.GFXE.GFXE.DDBLT_ASYNC, Ptr<Aow.Units.GFXE.TDDBltFX>.To(Fx__cell, 0));
-            Result = call__109;
-            if (Result == Aow.Units.GFXE.GFXE.DDERR_UNSUPPORTED)
-            {
-                if (FLockCount != 0)
-                {
-                    {
-                        ref var w__110 = ref FSurfaceDesc;
-                        Count = (int)(((uint)(w__110.Width * w__110.BitCount)) >> 3);
-                        switch (w__110.BitCount)
-                        {
-                            case 8:
-                                Value = (((Fx.dwFillColor << 24) + (Fx.dwFillColor << 16)) + (Fx.dwFillColor << 8)) + Fx.dwFillColor;
-                                break;
-                            case 16:
-                                Value = (Fx.dwFillColor << 16) + Fx.dwFillColor;
-                                break;
-                            case 32:
-                                Value = Fx.dwFillColor;
-                                break;
-                            default:
-                                Value = 0;
-                                break;
-                        }
-
-                        {
-                            I = 0;
-                            int end__111 = w__110.Height - 1;
-                            for (; I <= end__111; I += 1)
-                            {
-                                Aow.Units.GFXE.GFXE.FillInt((Aow.Rtl.Rtl.BytePointer(w__110.Data) + (w__110.Pitch * I)).AsSpan(Count * 4), Count, Value);
-                            }
-                        }
-                    }
-                }
-
-                Result = Aow.Units.GFXE.GFXE.DD_OK;
-            }
-
-            if ((Result == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST) && (FOnSurfaceLost != null))
-            {
-                FOnSurfaceLost(this);
-                var call__112 = FSurface.IsLost();
-                if (call__112 != Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                {
-                    Result = Cls(Color);
-                }
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:9461
-        public override int Cls(int Color)
-        {
-            int Result = default;
-            int Pixel = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
-            int I = default;
-            // { Match trials (4): named temporaries, with scopes, Pointer casts, zero-shift scheduling, identity assignments; still differs. }
-            var call__113 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Color, this.FPixelFormatID, null);
-            Pixel = call__113;
-            if (FLockCount != 0)
-            {
-                {
-                    ref var w__114 = ref FSurfaceDesc;
-                    Result = Aow.Units.GFXE.GFXE.DD_OK;
-                    switch (w__114.BitCount)
-                    {
-                        case 8:
-                        {
-                            I = 0;
-                            int end__115 = w__114.Height - 1;
-                            for (; I <= end__115; I += 1)
-                            {
-                                Aow.Rtl.Rtl.FillBytes((Aow.Rtl.Rtl.BytePointer(w__114.Data) + (w__114.Pitch * I)).AsSpan(w__114.Width), Pixel);
-                            }
-                        }
-
-                            break;
-                        case 16:
-                        {
-                            I = 0;
-                            int end__116 = w__114.Height - 1;
-                            for (; I <= end__116; I += 1)
-                            {
-                                Aow.Units.GFXE.GFXE.FillWord((Aow.Rtl.Rtl.BytePointer(w__114.Data) + (w__114.Pitch * I)).AsSpan(w__114.Width * 2), w__114.Width, Pixel);
-                            }
-                        }
-
-                            break;
-                        case 24:
-                        {
-                            I = 0;
-                            int end__117 = w__114.Height - 1;
-                            for (; I <= end__117; I += 1)
-                            {
-                                Aow.Units.GFXE.GFXE.FillTrippleByte((Aow.Rtl.Rtl.BytePointer(w__114.Data) + (w__114.Pitch * I)).AsSpan(w__114.Width * 3), w__114.Width, Pixel);
-                            }
-                        }
-
-                            break;
-                        case 32:
-                        {
-                            I = 0;
-                            int end__118 = w__114.Height - 1;
-                            for (; I <= end__118; I += 1)
-                            {
-                                Aow.Units.GFXE.GFXE.FillInt((Aow.Rtl.Rtl.BytePointer(w__114.Data) + (w__114.Pitch * I)).AsSpan(w__114.Width * 4), w__114.Width, Pixel);
-                            }
-                        }
-
-                            break;
-                        default:
-                            Result = Aow.Units.GFXE.GFXE.GFXE_NOTSUPPORTED;
-                            break;
-                    }
-                }
-            }
-            else
-            {
-                Result = Lock(ref SD);
-                if (Aow.Rtl.Rtl.Succeeded(Result))
-                {
-                    switch (SD.BitCount)
-                    {
-                        case 8:
-                        {
-                            I = 0;
-                            int end__119 = SD.Height - 1;
-                            for (; I <= end__119; I += 1)
-                            {
-                                Aow.Rtl.Rtl.FillBytes((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * I)).AsSpan(SD.Width), Pixel);
-                            }
-                        }
-
-                            break;
-                        case 16:
-                        {
-                            I = 0;
-                            int end__120 = SD.Height - 1;
-                            for (; I <= end__120; I += 1)
-                            {
-                                Aow.Units.GFXE.GFXE.FillWord((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * I)).AsSpan(SD.Width * 2), SD.Width, Pixel);
-                            }
-                        }
-
-                            break;
-                        case 24:
-                        {
-                            I = 0;
-                            int end__121 = SD.Height - 1;
-                            for (; I <= end__121; I += 1)
-                            {
-                                Aow.Units.GFXE.GFXE.FillTrippleByte((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * I)).AsSpan(SD.Width * 3), SD.Width, Pixel);
-                            }
-                        }
-
-                            break;
-                        case 32:
-                        {
-                            I = 0;
-                            int end__122 = SD.Height - 1;
-                            for (; I <= end__122; I += 1)
-                            {
-                                Aow.Units.GFXE.GFXE.FillInt((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * I)).AsSpan(SD.Width * 4), SD.Width, Pixel);
-                            }
-                        }
-
-                            break;
-                        default:
-                            Result = Aow.Units.GFXE.GFXE.GFXE_NOTSUPPORTED;
-                            break;
-                    }
-
-                    Unlock();
-                }
-            }
-
-            if ((Result == Aow.Units.GFXE.GFXE.DDERR_SURFACELOST) && (FOnSurfaceLost != null))
-            {
-                FOnSurfaceLost(this);
-                var call__123 = FSurface.IsLost();
-                if (call__123 != Aow.Units.GFXE.GFXE.DDERR_SURFACELOST)
-                {
-                    Result = Cls(Color);
-                }
-            }
-
             return Result;
         }
 
@@ -4230,11 +2749,11 @@ namespace Aow.Units.GFXE
             int I = default;
             {
                 I = Count - 1;
-                byte end__124 = 0;
-                for (; I >= end__124; I -= 1)
+                byte end__52 = 0;
+                for (; I >= end__52; I -= 1)
                 {
-                    var call__125 = this[I];
-                    ((Aow.Units.GFXE.TRectangle)call__125).Destroy();
+                    var call__53 = this[I];
+                    ((Aow.Units.GFXE.TRectangle)call__53).Destroy();
                     Delete(I);
                 }
             }
@@ -4430,8 +2949,8 @@ namespace Aow.Units.GFXE
         public void Create__init_TDisplayModeList()
         {
             ;
-            var call__126 = new Aow.Rtl.TList();
-            FList = call__126;
+            var call__54 = new Aow.Rtl.TList();
+            FList = call__54;
         }
 
         // GFXE.pas:12617
@@ -4465,8 +2984,8 @@ namespace Aow.Units.GFXE
         // GFXE.pas:12650
         public void Delete(int Index)
         {
-            var call__127 = FList[Index];
-            ((Aow.Units.GFXE.TDisplayModeItem)call__127).Free();
+            var call__55 = FList[Index];
+            ((Aow.Units.GFXE.TDisplayModeItem)call__55).Free();
             FList.Delete(Index);
         }
 
@@ -4537,16 +3056,6 @@ namespace Aow.Units.GFXE
             Initialize(5, Ptr<Aow.Units.FixedArray_byte_32>.To(Table, 0).Reinterpret<byte>().Box());
         }
 
-        // GFXE.pas:9615
-        public override void Assign(Aow.Units.GFXE.TBlendTable Source)
-        {
-            if (Source is Aow.Units.GFXE.TBlendTable5Bit)
-            {
-                /* TODO(T-5.8) Inline array requires a span for this memory operation */
-                throw new System.NotImplementedException();
-            }
-        }
-
         // GFXE.pas:9621
         public override Aow.Units.GFXE.TBlendTable Copy()
         {
@@ -4599,8 +3108,8 @@ namespace Aow.Units.GFXE
         public void Create__init_TBlendTableList()
         {
             ;
-            var call__128 = new Aow.Rtl.TList();
-            FList = call__128;
+            var call__56 = new Aow.Rtl.TList();
+            FList = call__56;
         }
 
         // GFXE.pas:9635
@@ -4682,8 +3191,8 @@ namespace Aow.Units.GFXE
         public void Create__init_TLookupBlendTableCollection100()
         {
             ;
-            var call__129 = Aow.Units.GFXE.TBlendTableList.Create();
-            FTables = call__129;
+            var call__57 = Aow.Units.GFXE.TBlendTableList.Create();
+            FTables = call__57;
         }
 
         // GFXE.pas:9680
@@ -4714,8 +3223,8 @@ namespace Aow.Units.GFXE
             {
                 {
                     I = 0;
-                    int end__130 = Count - 1;
-                    for (; I <= end__130; I += 1)
+                    int end__58 = Count - 1;
+                    for (; I <= end__58; I += 1)
                     {
                         switch (Bits)
                         {
@@ -4743,8 +3252,8 @@ namespace Aow.Units.GFXE
 
                 {
                     I = 0;
-                    byte end__131 = 100;
-                    for (; I <= end__131; I += 1)
+                    byte end__59 = 100;
+                    for (; I <= end__59; I += 1)
                     {
                         J = (I * Count) / 100;
                         if (J == Count)
@@ -4752,8 +3261,8 @@ namespace Aow.Units.GFXE
                             J = Count - 1;
                         }
 
-                        var call__132 = FTables.Tables[J];
-                        Lookup[I] = call__132;
+                        var call__60 = FTables.Tables[J];
+                        Lookup[I] = call__60;
                     }
                 }
 
@@ -4805,8 +3314,8 @@ namespace Aow.Units.GFXE
         {
             Aow.Units.GFXE.TImageFile.Meta Result = default;
             object P = default;
-            var call__231 = this[Index];
-            P = call__231;
+            var call__157 = this[Index];
+            P = call__157;
             Result = (Aow.Units.GFXE.TImageFile.Meta)P;
             return Result;
         }
@@ -4824,14 +3333,14 @@ namespace Aow.Units.GFXE
 
             while (true)
             {
-                bool bool__232 = (I != Count);
-                if (bool__232)
+                bool bool__158 = (I != Count);
+                if (bool__158)
                 {
-                    var call__233 = ((Aow.Units.GFXE.TImageFile.Meta)List[I]).GetExtension();
-                    bool__232 = (Aow.Rtl.Rtl.CompareText(call__233, Ext) != 0);
+                    var call__159 = ((Aow.Units.GFXE.TImageFile.Meta)List[I]).GetExtension();
+                    bool__158 = (Aow.Rtl.Rtl.CompareText(call__159, Ext) != 0);
                 }
 
-                if (!bool__232)
+                if (!bool__158)
                     break;
                 {
                     I += 1;
@@ -5079,19 +3588,19 @@ namespace Aow.Units.GFXE
             Result = (AnsiString)"";
             {
                 I = 0;
-                int end__133 = Aow.Units.GFXE.GFXE.ImageFileClassList.Count - 1;
-                for (; I <= end__133; I += 1)
+                int end__61 = Aow.Units.GFXE.GFXE.ImageFileClassList.Count - 1;
+                for (; I <= end__61; I += 1)
                 {
                     if (Result != ((AnsiString)""))
                     {
                         Result = Result + AnsiString.FromBytes(124);
                     }
 
-                    var call__134 = Aow.Units.GFXE.GFXE.ImageFileClassList.Classes[I];
-                    var call__135 = call__134.GetDescription();
-                    var call__136 = Aow.Units.GFXE.GFXE.ImageFileClassList.Classes[I];
-                    var call__137 = call__136.GetExtension();
-                    Result = ((Result + call__135) + ((AnsiString)"|*.")) + call__137;
+                    var call__62 = Aow.Units.GFXE.GFXE.ImageFileClassList.Classes[I];
+                    var call__63 = call__62.GetDescription();
+                    var call__64 = Aow.Units.GFXE.GFXE.ImageFileClassList.Classes[I];
+                    var call__65 = call__64.GetExtension();
+                    Result = ((Result + call__63) + ((AnsiString)"|*.")) + call__65;
                 }
             }
 
@@ -5102,9 +3611,9 @@ namespace Aow.Units.GFXE
         public static bool ValidImageFile(Aow.Rtl.AnsiString FileName)
         {
             bool Result = default;
-            var call__138 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
-            var call__139 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__138);
-            Result = call__139 != null;
+            var call__66 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
+            var call__67 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__66);
+            Result = call__67 != null;
             return Result;
         }
 
@@ -5113,9 +3622,9 @@ namespace Aow.Units.GFXE
         {
             int Result = default;
             Aow.Units.GFXE.TImageFile.Meta C = default;
-            var call__140 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
-            var call__141 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__140);
-            C = call__141;
+            var call__68 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
+            var call__69 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__68);
+            C = call__69;
             if (C != null)
             {
                 Result = C.LoadToSurfaceDesc(FileName, ref SD, X, Y);
@@ -5133,9 +3642,9 @@ namespace Aow.Units.GFXE
         {
             Aow.Units.GFXE.TSurface Result = default;
             Aow.Units.GFXE.TImageFile.Meta C = default;
-            var call__142 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
-            var call__143 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__142);
-            C = call__143;
+            var call__70 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
+            var call__71 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__70);
+            C = call__71;
             if (C != null)
             {
                 Result = C.CreateSurface(FileName);
@@ -5153,9 +3662,9 @@ namespace Aow.Units.GFXE
         {
             int Result = default;
             Aow.Units.GFXE.TImageFile.Meta C = default;
-            var call__144 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
-            var call__145 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__144);
-            C = call__145;
+            var call__72 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
+            var call__73 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__72);
+            C = call__73;
             if (C != null)
             {
                 Result = C.GetPixelFormatID(FileName);
@@ -5174,20 +3683,20 @@ namespace Aow.Units.GFXE
             int I = default;
             {
                 I = 0;
-                int end__146 = AClasses.Length - 1;
-                for (; I <= end__146; I += 1)
+                int end__74 = AClasses.Length - 1;
+                for (; I <= end__74; I += 1)
                 {
-                    var call__147 = AClasses[I].GetExtension();
-                    var call__148 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__147);
-                    if (call__148 == null)
+                    var call__75 = AClasses[I].GetExtension();
+                    var call__76 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__75);
+                    if (call__76 == null)
                     {
                         Aow.Units.GFXE.GFXE.ImageFileClassList.Add(AClasses[I]);
                     }
                     else
                     {
-                        var call__149 = AClasses[I].GetExtension();
-                        var call__150 = Aow.Rtl.Exception.Create((((AnsiString)"ImageFile class with ") + call__149) + ((AnsiString)" extension is already registered"));
-                        throw call__150;
+                        var call__77 = AClasses[I].GetExtension();
+                        var call__78 = Aow.Rtl.Exception.Create((((AnsiString)"ImageFile class with ") + call__77) + ((AnsiString)" extension is already registered"));
+                        throw call__78;
                     }
                 }
             }
@@ -5298,8 +3807,8 @@ namespace Aow.Units.GFXE
             object D = default;
             if ((Src.BitCount == 16) && (Dest.PixelFormatID == Src.PixelFormatID))
             {
-                var call__151 = Aow.Units.GFXE.GFXE.Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
-                Key = call__151;
+                var call__79 = Aow.Units.GFXE.GFXE.Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
+                Key = call__79;
                 S = ((Aow.Rtl.Rtl.BytePointer(Src.Data) + (Src.Pitch * SrcRect.Top)) + (SrcRect.Left * 2)).Box();
                 D = ((Aow.Rtl.Rtl.BytePointer(Dest.Data) + (Dest.Pitch * Y)) + (X * 2)).Box();
                 Aow.Units.GFXE.GFXE.BltColorKey16(S, D, Src.Pitch, Dest.Pitch, SrcRect.Right - SrcRect.Left, SrcRect.Bottom - SrcRect.Top, Key);
@@ -5372,8 +3881,8 @@ namespace Aow.Units.GFXE
 
                 if ((W > 0) && (H > 0))
                 {
-                    var call__152 = Aow.Units.GFXE.GFXE.Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
-                    Key = call__152;
+                    var call__80 = Aow.Units.GFXE.GFXE.Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
+                    Key = call__80;
                     S = ((Aow.Rtl.Rtl.BytePointer(Src.Data) + (Src.Pitch * SrcRect.Top)) + (SrcRect.Left * 2)).Box();
                     D = (Aow.Rtl.Rtl.BytePointer(Dest.Data) + (Dest.Pitch * Y)).Box();
                     X += X;
@@ -5386,63 +3895,6 @@ namespace Aow.Units.GFXE
             else
             {
                 Result = Aow.Units.GFXE.GFXE.GFXE_PIXELFORMATNOTSUPPORTED;
-            }
-
-            return Result;
-        }
-
-        // GFXE.pas:2247
-        public static int ColorFillSD(Aow.Rtl.TRect R, int Color, in Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int Result = default;
-            int W = default;
-            int Y = default;
-            Ptr<byte> P = default;
-            int Pixel = default;
-            if (R.Left < SD.ClipRect.Left)
-            {
-                R.Left = SD.ClipRect.Left;
-            }
-
-            if (R.Right > SD.ClipRect.Right)
-            {
-                R.Right = SD.ClipRect.Right;
-            }
-
-            if (R.Top < SD.ClipRect.Top)
-            {
-                R.Top = SD.ClipRect.Top;
-            }
-
-            if (R.Bottom > SD.ClipRect.Bottom)
-            {
-                R.Bottom = SD.ClipRect.Bottom;
-            }
-
-            W = R.Right - R.Left;
-            switch (SD.PixelFormatID)
-            {
-                case Aow.Units.GFXE.GFXE.pfRGB555:
-                case Aow.Units.GFXE.GFXE.pfARGB1555:
-                case Aow.Units.GFXE.GFXE.pfRGB565:
-                    P = ((Aow.Rtl.Rtl.BytePointer(SD.Data) + (SD.Pitch * R.Top)) + (R.Left * 2)).Reinterpret<byte>();
-                    var call__153 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Color, SD.PixelFormatID, null);
-                    Pixel = call__153;
-                {
-                    Y = R.Top;
-                    int end__154 = R.Bottom - 1;
-                    for (; Y <= end__154; Y += 1)
-                    {
-                        Aow.Units.GFXE.GFXE.FillWord(P.Array.AsSpan(P.Index, W * 2), W, Pixel);
-                        P += SD.Pitch;
-                    }
-                }
-
-                    Result = Aow.Units.GFXE.GFXE.GFXE_OK;
-                    break;
-                default:
-                    Result = Aow.Units.GFXE.GFXE.GFXE_NOTSUPPORTED;
-                    break;
             }
 
             return Result;
@@ -5500,8 +3952,8 @@ namespace Aow.Units.GFXE
                 Swapped = false;
                 {
                     I = 0;
-                    byte end__155 = 2;
-                    for (; I <= end__155; I += 1)
+                    byte end__81 = 2;
+                    for (; I <= end__81; I += 1)
                     {
                         if ((((Masks[Order[I]] < 0) || (Masks[Order[I + 1]] < Masks[Order[I]])) && (Masks[Order[I + 1]] > 0)) || ((Masks[Order[I]] == 0) && (Masks[Order[I + 1]] != 0)))
                         {
@@ -5516,8 +3968,8 @@ namespace Aow.Units.GFXE
             while (!!Swapped);
             {
                 I = 0;
-                byte end__156 = 3;
-                for (; I <= end__156; I += 1)
+                byte end__82 = 3;
+                for (; I <= end__82; I += 1)
                 {
                     Result = Result + (I << ((Order[I] * 2) + 8));
                 }
@@ -5525,8 +3977,8 @@ namespace Aow.Units.GFXE
 
             {
                 I = 0;
-                byte end__157 = 3;
-                for (; I <= end__157; I += 1)
+                byte end__83 = 3;
+                for (; I <= end__83; I += 1)
                 {
                     Bits = 0;
                     while (Masks[I] != 0)
@@ -5568,8 +4020,8 @@ namespace Aow.Units.GFXE
             Order[((int)(((uint)PixelFormatID) >> 14)) & 3] = 3;
             {
                 I = 0;
-                byte end__158 = 3;
-                for (; I <= end__158; I += 1)
+                byte end__84 = 3;
+                for (; I <= end__84; I += 1)
                 {
                     Bits = ((int)(((uint)PixelFormatID) >> ((Order[I] * 4) + 16))) & 15;
                     J = Bits;
@@ -5664,85 +4116,85 @@ namespace Aow.Units.GFXE
                 H = 1;
                 while (true)
                 {
-                    var call__159 = GetPixel(X + W, Y);
-                    bool bool__160 = (call__159 == TransparentColor);
-                    if (bool__160)
+                    var call__85 = GetPixel(X + W, Y);
+                    bool bool__86 = (call__85 == TransparentColor);
+                    if (bool__86)
                     {
-                        var call__161 = GetPixel(X + W, Y + 1);
-                        bool__160 = (call__161 != TransparentColor);
+                        var call__87 = GetPixel(X + W, Y + 1);
+                        bool__86 = (call__87 != TransparentColor);
                     }
 
-                    if (!(bool__160 && ((X + W) < (SD.Width - 1))))
+                    if (!(bool__86 && ((X + W) < (SD.Width - 1))))
                         break;
                     {
                         W += 1;
                     }
                 }
 
-                var call__162 = GetPixel(X + W, Y);
-                bool bool__163 = (call__162 == TransparentColor);
-                if (bool__163)
+                var call__88 = GetPixel(X + W, Y);
+                bool bool__89 = (call__88 == TransparentColor);
+                if (bool__89)
                 {
-                    var call__164 = GetPixel(X + W, Y + 1);
-                    bool__163 = (call__164 == TransparentColor);
+                    var call__90 = GetPixel(X + W, Y + 1);
+                    bool__89 = (call__90 == TransparentColor);
                 }
 
-                if ((bool__163 && ((X + W) < (SD.Width - 1))) && (W > 1))
+                if ((bool__89 && ((X + W) < (SD.Width - 1))) && (W > 1))
                 {
                     while (true)
                     {
-                        var call__165 = GetPixel(X, Y + H);
-                        bool bool__166 = (call__165 == TransparentColor);
-                        if (bool__166)
+                        var call__91 = GetPixel(X, Y + H);
+                        bool bool__92 = (call__91 == TransparentColor);
+                        if (bool__92)
                         {
-                            var call__167 = GetPixel(X + W, Y + H);
-                            bool__166 = (call__167 == TransparentColor);
+                            var call__93 = GetPixel(X + W, Y + H);
+                            bool__92 = (call__93 == TransparentColor);
                         }
 
-                        bool bool__168 = bool__166;
-                        if (bool__168)
+                        bool bool__94 = bool__92;
+                        if (bool__94)
                         {
-                            var call__169 = GetPixel(X + 1, Y + H);
-                            bool__168 = (call__169 != TransparentColor);
+                            var call__95 = GetPixel(X + 1, Y + H);
+                            bool__94 = (call__95 != TransparentColor);
                         }
 
-                        bool bool__170 = bool__168;
-                        if (bool__170)
+                        bool bool__96 = bool__94;
+                        if (bool__96)
                         {
-                            var call__171 = GetPixel((X + W) - 1, Y + H);
-                            bool__170 = (call__171 != TransparentColor);
+                            var call__97 = GetPixel((X + W) - 1, Y + H);
+                            bool__96 = (call__97 != TransparentColor);
                         }
 
-                        if (!(bool__170 && ((Y + H) < SD.Height)))
+                        if (!(bool__96 && ((Y + H) < SD.Height)))
                             break;
                         {
                             H += 1;
                         }
                     }
 
-                    var call__172 = GetPixel(X, Y + H);
-                    bool bool__173 = (call__172 == TransparentColor);
-                    if (bool__173)
+                    var call__98 = GetPixel(X, Y + H);
+                    bool bool__99 = (call__98 == TransparentColor);
+                    if (bool__99)
                     {
-                        var call__174 = GetPixel(X + 1, Y + H);
-                        bool__173 = (call__174 == TransparentColor);
+                        var call__100 = GetPixel(X + 1, Y + H);
+                        bool__99 = (call__100 == TransparentColor);
                     }
 
-                    bool bool__175 = bool__173;
-                    if (bool__175)
+                    bool bool__101 = bool__99;
+                    if (bool__101)
                     {
-                        var call__176 = GetPixel(X + W, Y + H);
-                        bool__175 = (call__176 == TransparentColor);
+                        var call__102 = GetPixel(X + W, Y + H);
+                        bool__101 = (call__102 == TransparentColor);
                     }
 
-                    bool bool__177 = bool__175;
-                    if (bool__177)
+                    bool bool__103 = bool__101;
+                    if (bool__103)
                     {
-                        var call__178 = GetPixel((X + W) - 1, Y + H);
-                        bool__177 = (call__178 == TransparentColor);
+                        var call__104 = GetPixel((X + W) - 1, Y + H);
+                        bool__103 = (call__104 == TransparentColor);
                     }
 
-                    if ((bool__177 && ((Y + H) < SD.Height)) && (H > 1))
+                    if ((bool__103 && ((Y + H) < SD.Height)) && (H > 1))
                     {
                         Ok = true;
                         I = 1;
@@ -5765,17 +4217,17 @@ namespace Aow.Units.GFXE
 
             List = Aow.Units.GFXE.TRectangleList.Create();
             {
-                int first__184 = (int)0;
-                int end__179 = (int)(SD.Height - 1);
-                for (int ordinal__183 = first__184; ordinal__183 <= end__179; ordinal__183++)
+                int first__110 = (int)0;
+                int end__105 = (int)(SD.Height - 1);
+                for (int ordinal__109 = first__110; ordinal__109 <= end__105; ordinal__109++)
                 {
-                    Y = (ushort)ordinal__183;
+                    Y = (ushort)ordinal__109;
                     {
-                        int first__182 = (int)0;
-                        int end__180 = (int)(SD.Width - 1);
-                        for (int ordinal__181 = first__182; ordinal__181 <= end__180; ordinal__181++)
+                        int first__108 = (int)0;
+                        int end__106 = (int)(SD.Width - 1);
+                        for (int ordinal__107 = first__108; ordinal__107 <= end__106; ordinal__107++)
                         {
-                            X = (ushort)ordinal__181;
+                            X = (ushort)ordinal__107;
                             if (GetPixel(X, Y) == TransparentColor)
                             {
                                 R = FindRectangle(X, Y);
@@ -5849,8 +4301,8 @@ namespace Aow.Units.GFXE
                 X = Rect.Left;
                 while (!Found && (X != Rect.Right))
                 {
-                    var call__185 = GetPixel(X, Rect.Top);
-                    Found = call__185 != TransparentColor;
+                    var call__111 = GetPixel(X, Rect.Top);
+                    Found = call__111 != TransparentColor;
                     X += 1;
                 }
 
@@ -5866,8 +4318,8 @@ namespace Aow.Units.GFXE
                 X = Rect.Left;
                 while (!Found && (X != Rect.Right))
                 {
-                    var call__186 = GetPixel(X, Rect.Bottom - 1);
-                    Found = call__186 != TransparentColor;
+                    var call__112 = GetPixel(X, Rect.Bottom - 1);
+                    Found = call__112 != TransparentColor;
                     X += 1;
                 }
 
@@ -5883,8 +4335,8 @@ namespace Aow.Units.GFXE
                 Y = Rect.Top;
                 while (!Found && (Y != Rect.Bottom))
                 {
-                    var call__187 = GetPixel(Rect.Left, Y);
-                    Found = call__187 != TransparentColor;
+                    var call__113 = GetPixel(Rect.Left, Y);
+                    Found = call__113 != TransparentColor;
                     Y += 1;
                 }
 
@@ -5900,8 +4352,8 @@ namespace Aow.Units.GFXE
                 Y = Rect.Top;
                 while (!Found && (Y != Rect.Bottom))
                 {
-                    var call__188 = GetPixel(Rect.Right - 1, Y);
-                    Found = call__188 != TransparentColor;
+                    var call__114 = GetPixel(Rect.Right - 1, Y);
+                    Found = call__114 != TransparentColor;
                     Y += 1;
                 }
 
@@ -5954,8 +4406,8 @@ namespace Aow.Units.GFXE
                 X = Rect.Left;
                 while (!Found && (X != Rect.Right))
                 {
-                    var call__189 = GetPixel(X, Rect.Top);
-                    Found = call__189 == TransparentColor;
+                    var call__115 = GetPixel(X, Rect.Top);
+                    Found = call__115 == TransparentColor;
                     X += 1;
                 }
 
@@ -5971,8 +4423,8 @@ namespace Aow.Units.GFXE
                 X = Rect.Left;
                 while (!Found && (X != Rect.Right))
                 {
-                    var call__190 = GetPixel(X, Rect.Bottom - 1);
-                    Found = call__190 == TransparentColor;
+                    var call__116 = GetPixel(X, Rect.Bottom - 1);
+                    Found = call__116 == TransparentColor;
                     X += 1;
                 }
 
@@ -5988,8 +4440,8 @@ namespace Aow.Units.GFXE
                 Y = Rect.Top;
                 while (!Found && (Y != Rect.Bottom))
                 {
-                    var call__191 = GetPixel(Rect.Left, Y);
-                    Found = call__191 == TransparentColor;
+                    var call__117 = GetPixel(Rect.Left, Y);
+                    Found = call__117 == TransparentColor;
                     Y += 1;
                 }
 
@@ -6005,8 +4457,8 @@ namespace Aow.Units.GFXE
                 Y = Rect.Top;
                 while (!Found && (Y != Rect.Bottom))
                 {
-                    var call__192 = GetPixel(Rect.Right - 1, Y);
-                    Found = call__192 == TransparentColor;
+                    var call__118 = GetPixel(Rect.Right - 1, Y);
+                    Found = call__118 == TransparentColor;
                     Y += 1;
                 }
 
@@ -6019,41 +4471,6 @@ namespace Aow.Units.GFXE
             Result = Rect;
         }
 
-        // GFXE.pas:2683
-        // { Bresenham line on a 16 bit surface, every Skip-th pixel left out; the clip test is only made
-//   when an end point lies outside the clip rectangle. }
-        public static void DrawLine16(int X1, int Y1, int X2, int Y2, int Skip, ushort Color, in Aow.Units.GFXE.TSurfaceDesc SD)
-        {
-            int X = default;
-            int Y = default;
-            int DX = default;
-            int DY = default;
-            int D2 = default;
-            int DX2 = default;
-            int DY2 = default;
-            int E = default;
-            Ptr<ushort> P = default;
-            int Count = default;
-            Count = 0;
-            if (X2 < X1)
-            {
-                X = X2;
-                X2 = X1;
-                X1 = X;
-                Y = Y2;
-                Y2 = Y1;
-                Y1 = Y;
-            }
-            else
-            {
-                X = X1;
-                Y = Y1;
-            }
-
-            /* TODO(T-4.3) Address needs a cell or array backing */
-            throw new System.NotImplementedException();
-        }
-
         // GFXE.pas:2958
         // { Skip is not passed on: DrawLine16 always draws every pixel (original). }
         public static void DrawLine(int X1, int Y1, int X2, int Y2, int Skip, int Color, in Aow.Units.GFXE.TSurfaceDesc SD)
@@ -6064,8 +4481,8 @@ namespace Aow.Units.GFXE
                 case Aow.Units.GFXE.GFXE.pfRGB555:
                 case Aow.Units.GFXE.GFXE.pfARGB1555:
                 case Aow.Units.GFXE.GFXE.pfRGB565:
-                    var call__193 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Color, SD.PixelFormatID, null);
-                    Pixel = call__193;
+                    var call__119 = Aow.Units.GFXE.GFXE.Color2PixelInfo(Color, SD.PixelFormatID, null);
+                    Pixel = call__119;
                     Aow.Units.GFXE.GFXE.DrawLine16(X1, Y1, X2, Y2, 0, unchecked((ushort)Pixel), SD);
                     break;
             }
@@ -6080,15 +4497,15 @@ namespace Aow.Units.GFXE
             int X = default;
             {
                 Y = 0;
-                int end__194 = Height - 1;
-                for (; Y <= end__194; Y += 1)
+                int end__120 = Height - 1;
+                for (; Y <= end__120; Y += 1)
                 {
                     S = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<ushort>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__195 = Width - 1;
-                        for (; X <= end__195; X += 1)
+                        int end__121 = Width - 1;
+                        for (; X <= end__121; X += 1)
                         {
                             D.Value = unchecked((ushort)((((S[2] & 248) << 8) + ((S[1] & 252) << 3)) + ((int)(((uint)S[0]) >> 3))));
                             S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 3).Box());
@@ -6108,15 +4525,15 @@ namespace Aow.Units.GFXE
             int X = default;
             {
                 Y = 0;
-                int end__196 = Height - 1;
-                for (; Y <= end__196; Y += 1)
+                int end__122 = Height - 1;
+                for (; Y <= end__122; Y += 1)
                 {
                     S = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<ushort>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__197 = Width - 1;
-                        for (; X <= end__197; X += 1)
+                        int end__123 = Width - 1;
+                        for (; X <= end__123; X += 1)
                         {
                             D.Value = unchecked((ushort)((((S[2] & 248) << 7) + ((S[1] & 248) << 2)) + ((int)(((uint)S[0]) >> 3))));
                             S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 3).Box());
@@ -6136,15 +4553,15 @@ namespace Aow.Units.GFXE
             Ptr<ushort> S = default;
             {
                 Y = 0;
-                int end__198 = Height - 1;
-                for (; Y <= end__198; Y += 1)
+                int end__124 = Height - 1;
+                for (; Y <= end__124; Y += 1)
                 {
                     S = Ptr<ushort>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__199 = Width - 1;
-                        for (; X <= end__199; X += 1)
+                        int end__125 = Width - 1;
+                        for (; X <= end__125; X += 1)
                         {
                             D[2] = unchecked((byte)((int)(((uint)(S.Value & 31744)) >> 7)));
                             D[1] = unchecked((byte)((int)(((uint)(S.Value & 992)) >> 2)));
@@ -6166,15 +4583,15 @@ namespace Aow.Units.GFXE
             Ptr<ushort> S = default;
             {
                 Y = 0;
-                int end__200 = Height - 1;
-                for (; Y <= end__200; Y += 1)
+                int end__126 = Height - 1;
+                for (; Y <= end__126; Y += 1)
                 {
                     S = Ptr<ushort>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__201 = Width - 1;
-                        for (; X <= end__201; X += 1)
+                        int end__127 = Width - 1;
+                        for (; X <= end__127; X += 1)
                         {
                             D[2] = unchecked((byte)((int)(((uint)(S.Value & 63488)) >> 8)));
                             D[1] = unchecked((byte)((int)(((uint)(S.Value & 2016)) >> 3)));
@@ -6197,15 +4614,15 @@ namespace Aow.Units.GFXE
             int X = default;
             {
                 Y = 0;
-                int end__202 = Height - 1;
-                for (; Y <= end__202; Y += 1)
+                int end__128 = Height - 1;
+                for (; Y <= end__128; Y += 1)
                 {
                     S = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<ushort>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__203 = Width - 1;
-                        for (; X <= end__203; X += 1)
+                        int end__129 = Width - 1;
+                        for (; X <= end__129; X += 1)
                         {
                             D.Value = unchecked((ushort)((((S[1] & 248) << 7) + ((S[2] & 248) << 2)) + ((int)(((uint)S[3]) >> 3))));
                             S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 4).Box());
@@ -6225,15 +4642,15 @@ namespace Aow.Units.GFXE
             int X = default;
             {
                 Y = 0;
-                int end__204 = Height - 1;
-                for (; Y <= end__204; Y += 1)
+                int end__130 = Height - 1;
+                for (; Y <= end__130; Y += 1)
                 {
                     S = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<ushort>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__205 = Width - 1;
-                        for (; X <= end__205; X += 1)
+                        int end__131 = Width - 1;
+                        for (; X <= end__131; X += 1)
                         {
                             D.Value = unchecked((ushort)((((S[1] & 248) << 7) + ((S[2] & 248) << 2)) + ((int)(((uint)S[3]) >> 3))));
                             S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 4).Box());
@@ -6254,15 +4671,15 @@ namespace Aow.Units.GFXE
             Ptr<Aow.Units.GFXE.TPaletteEntry> E = default;
             {
                 Y = 0;
-                int end__206 = Height - 1;
-                for (; Y <= end__206; Y += 1)
+                int end__132 = Height - 1;
+                for (; Y <= end__132; Y += 1)
                 {
                     S = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<ushort>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__207 = Width - 1;
-                        for (; X <= end__207; X += 1)
+                        int end__133 = Width - 1;
+                        for (; X <= end__133; X += 1)
                         {
                             E = Ptr<Aow.Units.GFXE.TPaletteEntry>.To(Palette.Entries, S.Value);
                             D.Value = unchecked((ushort)((((E.Value.R & 248) << 8) + ((E.Value.G & 252) << 3)) + ((int)(((uint)E.Value.B) >> 3))));
@@ -6284,15 +4701,15 @@ namespace Aow.Units.GFXE
             Ptr<Aow.Units.GFXE.TPaletteEntry> E = default;
             {
                 Y = 0;
-                int end__208 = Height - 1;
-                for (; Y <= end__208; Y += 1)
+                int end__134 = Height - 1;
+                for (; Y <= end__134; Y += 1)
                 {
                     S = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<ushort>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__209 = Width - 1;
-                        for (; X <= end__209; X += 1)
+                        int end__135 = Width - 1;
+                        for (; X <= end__135; X += 1)
                         {
                             E = Ptr<Aow.Units.GFXE.TPaletteEntry>.To(Palette.Entries, S.Value);
                             D.Value = unchecked((ushort)((((E.Value.R & 248) << 7) + ((E.Value.G & 248) << 2)) + ((int)(((uint)E.Value.B) >> 3))));
@@ -6314,15 +4731,15 @@ namespace Aow.Units.GFXE
             Ptr<Aow.Units.GFXE.TPaletteEntry> E = default;
             {
                 Y = 0;
-                int end__210 = Height - 1;
-                for (; Y <= end__210; Y += 1)
+                int end__136 = Height - 1;
+                for (; Y <= end__136; Y += 1)
                 {
                     S = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Src) + (SrcPitch * Y)).Box());
                     D = Ptr<byte>.Unbox((Aow.Rtl.Rtl.BytePointer(Dst) + (DstPitch * Y)).Box());
                     {
                         X = 0;
-                        int end__211 = Width - 1;
-                        for (; X <= end__211; X += 1)
+                        int end__137 = Width - 1;
+                        for (; X <= end__137; X += 1)
                         {
                             E = Ptr<Aow.Units.GFXE.TPaletteEntry>.To(Palette.Entries, S.Value);
                             D[2] = unchecked((byte)E.Value.R);
@@ -6514,18 +4931,11 @@ namespace Aow.Units.GFXE
             Aow.Units.GFXE.TSurfaceDesc DSD = default;
             Src.Lock(ref SSD);
             Dest.Lock(ref DSD);
-            var call__212 = Aow.Units.GFXE.GFXE.RemapSurfacePart(SSD, 0, 0, SSD.Width, SSD.Height, DSD, 0, 0);
-            Result = call__212;
+            var call__138 = Aow.Units.GFXE.GFXE.RemapSurfacePart(SSD, 0, 0, SSD.Width, SSD.Height, DSD, 0, 0);
+            Result = call__138;
             Src.Unlock();
             Dest.Unlock();
             return Result;
-        }
-
-        // GFXE.pas:8611
-        public static int Color2PixelInfo(int Color, int PixelFormatID, Aow.Units.GFXE.TGFXEPalette Palette)
-        {
-            /* TODO(T-shim) Platform or editor boundary Graphics.ColorToRGB */
-            throw new System.NotImplementedException();
         }
 
         // GFXE.pas:8637
@@ -6662,8 +5072,8 @@ namespace Aow.Units.GFXE
             SD.ClipRect.Top = 0;
             SD.ClipRect.Bottom = DDSD.dwHeight;
             SD.Data = DDSD.lpSurface;
-            var call__213 = Aow.Units.GFXE.GFXE.MASKtoPFID(DDSD.ddpfPixelFormat.dwRGBBitCount, DDSD.ddpfPixelFormat.dwRBitMask, DDSD.ddpfPixelFormat.dwGBitMask, DDSD.ddpfPixelFormat.dwBBitMask, DDSD.ddpfPixelFormat.dwRGBAlphaBitMask);
-            SD.PixelFormatID = call__213;
+            var call__139 = Aow.Units.GFXE.GFXE.MASKtoPFID(DDSD.ddpfPixelFormat.dwRGBBitCount, DDSD.ddpfPixelFormat.dwRBitMask, DDSD.ddpfPixelFormat.dwGBitMask, DDSD.ddpfPixelFormat.dwBBitMask, DDSD.ddpfPixelFormat.dwRGBAlphaBitMask);
+            SD.PixelFormatID = call__139;
             SD.RMask = DDSD.ddpfPixelFormat.dwRBitMask;
             SD.GMask = DDSD.ddpfPixelFormat.dwGBitMask;
             SD.BMask = DDSD.ddpfPixelFormat.dwBBitMask;
@@ -6682,13 +5092,13 @@ namespace Aow.Units.GFXE
             {
                 {
                     I = 0;
-                    byte end__214 = 31;
-                    for (; I <= end__214; I += 1)
+                    byte end__140 = 31;
+                    for (; I <= end__140; I += 1)
                     {
                         {
                             J = 0;
-                            byte end__215 = 31;
-                            for (; J <= end__215; J += 1)
+                            byte end__141 = 31;
+                            for (; J <= end__141; J += 1)
                             {
                                 ((Aow.Units.GFXE.TBlendTable5Bit)Table).Table[I][J] = unchecked((byte)Aow.Rtl.Rtl.Round(((double)(((double)I) * Alpha)) + (((double)(((double)1) - Alpha)) * J)));
                             }
@@ -6713,13 +5123,13 @@ namespace Aow.Units.GFXE
             {
                 {
                     I = 0;
-                    byte end__216 = 31;
-                    for (; I <= end__216; I += 1)
+                    byte end__142 = 31;
+                    for (; I <= end__142; I += 1)
                     {
                         {
                             J = 0;
-                            byte end__217 = 31;
-                            for (; J <= end__217; J += 1)
+                            byte end__143 = 31;
+                            for (; J <= end__143; J += 1)
                             {
                                 if (I == 0)
                                 {
@@ -6755,13 +5165,13 @@ namespace Aow.Units.GFXE
             {
                 {
                     I = 0;
-                    byte end__218 = 31;
-                    for (; I <= end__218; I += 1)
+                    byte end__144 = 31;
+                    for (; I <= end__144; I += 1)
                     {
                         {
                             J = 0;
-                            byte end__219 = 31;
-                            for (; J <= end__219; J += 1)
+                            byte end__145 = 31;
+                            for (; J <= end__145; J += 1)
                             {
                                 F = (float)(((double)(((double)(31 - I)) * (((double)1) / 31))) * Shadow);
                                 V = Aow.Rtl.Rtl.Round(((double)(((double)1) - F)) * J);
@@ -6793,13 +5203,13 @@ namespace Aow.Units.GFXE
             {
                 {
                     I = 0;
-                    byte end__220 = 31;
-                    for (; I <= end__220; I += 1)
+                    byte end__146 = 31;
+                    for (; I <= end__146; I += 1)
                     {
                         {
                             J = 0;
-                            byte end__221 = 31;
-                            for (; J <= end__221; J += 1)
+                            byte end__147 = 31;
+                            for (; J <= end__147; J += 1)
                             {
                                 V = Aow.Rtl.Rtl.Round(((double)(((double)I) * Brighten)) + (((double)(((double)1) - Brighten)) * J));
                                 if (V < J)
@@ -6888,12 +5298,12 @@ namespace Aow.Units.GFXE
                 DDSD.dwSize = 108;
                 DDSD.dwFlags = Aow.Units.GFXE.GFXE.DDSD_CAPS;
                 DDSD.ddsCaps.dwCaps = Aow.Units.GFXE.GFXE.DDSCAPS_PRIMARYSURFACE;
-                var call__222 = Aow.Units.GFXE.GFXE.DD();
-                call__222.SetCooperativeLevel(0, Aow.Units.GFXE.GFXE.DDSCL_NORMAL);
-                var call__223 = Aow.Units.GFXE.GFXE.DD();
-                var call__224 = call__223.CreateSurface(DDSD, ref S, null);
-                var call__225 = Aow.Rtl.Rtl.Succeeded(call__224);
-                if (call__225)
+                var call__148 = Aow.Units.GFXE.GFXE.DD();
+                call__148.SetCooperativeLevel(0, Aow.Units.GFXE.GFXE.DDSCL_NORMAL);
+                var call__149 = Aow.Units.GFXE.GFXE.DD();
+                var call__150 = call__149.CreateSurface(DDSD, ref S, null);
+                var call__151 = Aow.Rtl.Rtl.Succeeded(call__150);
+                if (call__151)
                 {
                     Result = Aow.Units.GFXE.GFXE.DDStoPFID(S);
                     S = null;
@@ -6924,8 +5334,8 @@ namespace Aow.Units.GFXE
                 Aow.Units.GFXE.GFXE.EnumDDSD.dwHeight = Height;
                 Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwSize = 32;
                 Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwFlags = Aow.Units.GFXE.GFXE.DDPF_RGB;
-                var call__226 = Aow.Units.GFXE.GFXE.PFIDtoMASK(PixelFormatID, ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwGBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwBBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBAlphaBitMask));
-                Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBBitCount = call__226;
+                var call__152 = Aow.Units.GFXE.GFXE.PFIDtoMASK(PixelFormatID, ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwGBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwBBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBAlphaBitMask));
+                Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBBitCount = call__152;
                 Aow.Units.GFXE.GFXE.ModeCount = 0;
                 /* TODO(T-4.3) Address needs a cell or array backing */
                 throw new System.NotImplementedException();
@@ -6963,8 +5373,8 @@ namespace Aow.Units.GFXE
                     Aow.Units.GFXE.GFXE.EnumDDSD.dwFlags = Aow.Units.GFXE.GFXE.EnumDDSD.dwFlags | Aow.Units.GFXE.GFXE.DDSD_PIXELFORMAT;
                     Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwSize = 32;
                     Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwFlags = Aow.Units.GFXE.GFXE.DDPF_RGB;
-                    var call__228 = Aow.Units.GFXE.GFXE.PFIDtoMASK(PixelFormatID, ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwGBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwBBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBAlphaBitMask));
-                    Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBBitCount = call__228;
+                    var call__154 = Aow.Units.GFXE.GFXE.PFIDtoMASK(PixelFormatID, ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwGBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwBBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBAlphaBitMask));
+                    Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBBitCount = call__154;
                 }
 
                 /* TODO(T-4.3) Address needs a cell or array backing */
@@ -7004,8 +5414,8 @@ namespace Aow.Units.GFXE
                 Result = Surface.Lock(default, ref DDSD, Aow.Units.GFXE.GFXE.DDLOCK_WAIT, 0);
                 if (Result >= 0)
                 {
-                    var call__230 = Aow.Units.GFXE.GFXE.MASKtoPFID(DDSD.ddpfPixelFormat.dwRGBBitCount, DDSD.ddpfPixelFormat.dwRBitMask, DDSD.ddpfPixelFormat.dwGBitMask, DDSD.ddpfPixelFormat.dwBBitMask, DDSD.ddpfPixelFormat.dwRGBAlphaBitMask);
-                    Result = call__230;
+                    var call__156 = Aow.Units.GFXE.GFXE.MASKtoPFID(DDSD.ddpfPixelFormat.dwRGBBitCount, DDSD.ddpfPixelFormat.dwRBitMask, DDSD.ddpfPixelFormat.dwGBitMask, DDSD.ddpfPixelFormat.dwBBitMask, DDSD.ddpfPixelFormat.dwRGBAlphaBitMask);
+                    Result = call__156;
                     Surface.Unlock(null);
                 }
                 else
@@ -7099,14 +5509,14 @@ namespace Aow.Units.GFXE
                 Aow.Units.GFXE.GFXE.BltProcs[0](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
                 {
                     I = 0;
-                    int end__234 = Aow.Units.GFXE.GFXE.BltProcCount - 1;
-                    for (; I <= end__234; I += 1)
+                    int end__160 = Aow.Units.GFXE.GFXE.BltProcCount - 1;
+                    for (; I <= end__160; I += 1)
                     {
                         Start = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
                         {
                             J = 0;
-                            int end__235 = Count - 1;
-                            for (; J <= end__235; J += 1)
+                            int end__161 = Count - 1;
+                            for (; J <= end__161; J += 1)
                             {
                                 Aow.Units.GFXE.GFXE.BltProcs[I](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
                             }
@@ -7157,14 +5567,14 @@ namespace Aow.Units.GFXE
                 Aow.Units.GFXE.GFXE.BltProcs[0](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
                 {
                     I = 0;
-                    int end__236 = Aow.Units.GFXE.GFXE.BltProcCount - 1;
-                    for (; I <= end__236; I += 1)
+                    int end__162 = Aow.Units.GFXE.GFXE.BltProcCount - 1;
+                    for (; I <= end__162; I += 1)
                     {
                         Start = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
                         {
                             J = 0;
-                            int end__237 = Count - 1;
-                            for (; J <= end__237; J += 1)
+                            int end__163 = Count - 1;
+                            for (; J <= end__163; J += 1)
                             {
                                 Aow.Units.GFXE.GFXE.BltProcs[I](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
                             }
@@ -7215,14 +5625,14 @@ namespace Aow.Units.GFXE
                 Aow.Units.GFXE.GFXE.BltProcs[0](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
                 {
                     I = 0;
-                    int end__238 = Aow.Units.GFXE.GFXE.BltProcCount - 1;
-                    for (; I <= end__238; I += 1)
+                    int end__164 = Aow.Units.GFXE.GFXE.BltProcCount - 1;
+                    for (; I <= end__164; I += 1)
                     {
                         Start = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
                         {
                             J = 0;
-                            int end__239 = Count - 1;
-                            for (; J <= end__239; J += 1)
+                            int end__165 = Count - 1;
+                            for (; J <= end__165; J += 1)
                             {
                                 Aow.Units.GFXE.GFXE.BltProcs[I](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
                             }
@@ -7273,14 +5683,14 @@ namespace Aow.Units.GFXE
                 Aow.Units.GFXE.GFXE.BltProcs[0](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
                 {
                     I = 0;
-                    int end__240 = Aow.Units.GFXE.GFXE.BltProcCount - 1;
-                    for (; I <= end__240; I += 1)
+                    int end__166 = Aow.Units.GFXE.GFXE.BltProcCount - 1;
+                    for (; I <= end__166; I += 1)
                     {
                         Start = Aow.Units.GFXE.GFXE.GetElapsedMilliSeconds();
                         {
                             J = 0;
-                            int end__241 = Count - 1;
-                            for (; J <= end__241; J += 1)
+                            int end__167 = Count - 1;
+                            for (; J <= end__167; J += 1)
                             {
                                 Aow.Units.GFXE.GFXE.BltProcs[I](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
                             }
@@ -7342,8 +5752,8 @@ namespace Aow.Units.GFXE
             {
                 {
                     I = 0;
-                    byte end__242 = 31;
-                    for (; I <= end__242; I += 1)
+                    byte end__168 = 31;
+                    for (; I <= end__168; I += 1)
                     {
                         if (((double)Alpha) > 0)
                         {
@@ -7361,8 +5771,8 @@ namespace Aow.Units.GFXE
 
                         {
                             J = 0;
-                            byte end__243 = 31;
-                            for (; J <= end__243; J += 1)
+                            byte end__169 = 31;
+                            for (; J <= end__169; J += 1)
                             {
                                 ((Aow.Units.GFXE.TBlendTable5Bit)Table).Table[I][J] = unchecked((byte)Aow.Rtl.Rtl.Round(((double)(((double)I) * F)) + (((double)(((double)1) - F)) * J)));
                             }
@@ -7406,8 +5816,8 @@ namespace Aow.Units.GFXE
         {
             int Result = default;
             int PFID = default;
-            var call__244 = Aow.Units.GFXE.GFXE.MASKtoPFID(DDSD.Value.ddpfPixelFormat.dwRGBBitCount, DDSD.Value.ddpfPixelFormat.dwRBitMask, DDSD.Value.ddpfPixelFormat.dwGBitMask, DDSD.Value.ddpfPixelFormat.dwBBitMask, DDSD.Value.ddpfPixelFormat.dwRGBAlphaBitMask);
-            PFID = call__244;
+            var call__170 = Aow.Units.GFXE.GFXE.MASKtoPFID(DDSD.Value.ddpfPixelFormat.dwRGBBitCount, DDSD.Value.ddpfPixelFormat.dwRBitMask, DDSD.Value.ddpfPixelFormat.dwGBitMask, DDSD.Value.ddpfPixelFormat.dwBBitMask, DDSD.Value.ddpfPixelFormat.dwRGBAlphaBitMask);
+            PFID = call__170;
             if ((Aow.Units.GFXE.GFXE.ListPixelFormatID == 0) || (PFID == Aow.Units.GFXE.GFXE.ListPixelFormatID))
             {
                 ((Aow.Units.GFXE.TDisplayModeList)Context).Add(DDSD.Value.dwWidth, DDSD.Value.dwHeight, PFID);
@@ -7436,24 +5846,24 @@ namespace Aow.Units.GFXE
 
         public static void Initialize()
         {
-            var call__245 = Aow.Rtl.Rtl.QueryPerformanceFrequency(ref Aow.Units.GFXE.GFXE.PerformanceFrequency);
-            Aow.Units.GFXE.GFXE.PerformanceCounterAvailable = call__245;
-            var call__246 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
-            Aow.Units.GFXE.GFXE.AlphaBlendTable = call__246;
-            var call__247 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
-            Aow.Units.GFXE.GFXE.IntensityBlendTable = call__247;
-            var call__248 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
-            Aow.Units.GFXE.GFXE.BrightenBlendTable = call__248;
-            var call__249 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
-            Aow.Units.GFXE.GFXE.ShadowBlendTable = call__249;
-            var call__250 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
-            Aow.Units.GFXE.GFXE.LinearAlphaBlendTable = call__250;
+            var call__171 = Aow.Rtl.Rtl.QueryPerformanceFrequency(ref Aow.Units.GFXE.GFXE.PerformanceFrequency);
+            Aow.Units.GFXE.GFXE.PerformanceCounterAvailable = call__171;
+            var call__172 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            Aow.Units.GFXE.GFXE.AlphaBlendTable = call__172;
+            var call__173 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            Aow.Units.GFXE.GFXE.IntensityBlendTable = call__173;
+            var call__174 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            Aow.Units.GFXE.GFXE.BrightenBlendTable = call__174;
+            var call__175 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            Aow.Units.GFXE.GFXE.ShadowBlendTable = call__175;
+            var call__176 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            Aow.Units.GFXE.GFXE.LinearAlphaBlendTable = call__176;
             Aow.Units.GFXE.GFXE.InitBlendTables(5, 31);
             Aow.Units.GFXE.GFXE.FDirectDrawActivated = false;
             Aow.Units.GFXE.GFXE.BltProcCount = 0;
             Aow.Units.GFXE.GFXE.ForcedPixelFormatID = 0;
-            var call__251 = Aow.Units.GFXE.TImageFileClassList.Create();
-            Aow.Units.GFXE.GFXE.ImageFileClassList = call__251;
+            var call__177 = Aow.Units.GFXE.TImageFileClassList.Create();
+            Aow.Units.GFXE.GFXE.ImageFileClassList = call__177;
             Aow.Units.GFXE.GFXE.RegisterImageFileClasses([Aow.Units.GFXE.TImageFile.Meta.Of<Aow.Units.GFXE.TBMPImageFile>()]);
             Aow.Units.GFXE.GFXE.RegisterBltProc(Aow.Units.GFXE.GFXE.RegisterBltRect, (AnsiString)"Register Blt");
             if (Aow.Units.GFXE.GFXE.MMXsupport())
