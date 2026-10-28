@@ -434,7 +434,7 @@ internal sealed class FrameFixture
         public IDialogService Dialogs => this;
         public IClock Clock { get; }
         public ISettingsStore Settings { get; } = new MemorySettingsStore();
-        public string ExeName => Path.Combine(GameRoot, "AoW.exe");
+        public string ExeName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
         public string GameRoot { get; }
         public int Show(DialogRequest request) => throw new InvalidOperationException("Fixture dialog: " + request.Text);
     }
