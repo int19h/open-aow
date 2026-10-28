@@ -85,8 +85,8 @@ The rules are in `../design.md` section 9. The first passes, in order of payoff:
 
 | step | work | done |
 |---|---|---|
-| 9.0 | Hand-over to editable src/Units and Aow.Units, with folded partial files and direct layout compilation | Done on 2026-10-27. All 13 verification layers pass with unchanged counts and zero build warnings. See briefs/9.0-report.md |
-| 9.1 | The comparator learns the hash-ordered properties and the model-level comparison, so that later passes can change save order and format | O2 and O3 still hold with the comparator in model mode |
+| 9.0 | Hand-over to editable src/Units and Aow.Units, with folded partial files and direct layout compilation | Done on 2026-10-27. All 13 verification layers pass with unchanged counts and zero build warnings. The report is `data/9.0-report.md` in the private repository |
+| 9.1 | The comparator learns the hash-ordered properties and the model-level comparison, so that later passes can change save order and format | Done on 2026-10-27. All seven oracle scenarios (177 saves) and the 23 scenarios (92 states) equal the original in byte and model modes, and all 13 verification layers pass. The report is `data/oracle/9.1-report.md` in the private repository |
 | 9.2 | `Ptr<T>` retired from Engine, HSEngine and the rules: arrays, spans and indices in its place | O3 holds; `Ptr<T>` remains only in the graphics and image library code until 9.5 |
 | 9.3 | Split constructors to constructors, `with` blocks to plain code, the override shapes A1 to A3 folded into their classes | O3 holds; `report.md` no longer lists them |
 | 9.4 | Metaclass objects retired: the engine's class registry carries creation by class id, generics with static abstract interface members carry the remaining class-side dispatch | O3 holds; the shim's `Meta` type is deleted |
