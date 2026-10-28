@@ -10,16 +10,19 @@ public sealed unsafe class OpenMptModule : IDisposable
     private static readonly LogCallback log = (_, _) => { };
     private static readonly ErrorCallback errorHandler = (_, _) => 2;
     public static string? LastError { get; private set; }
+    private static string? reported;
 
     static OpenMptModule() => NativeLibrary.SetDllImportResolver(typeof(OpenMptModule).Assembly, Resolve);
 
     private static nint Resolve(string name, Assembly assembly, DllImportSearchPath? path)
     {
         if (name != Library) return 0;
-        string file = OperatingSystem.IsWindows() ? "openmpt.dll" : OperatingSystem.IsLinux() ? "libopenmpt.so" : "libopenmpt.dylib";
-        if (NativeLibrary.TryLoad(Path.Combine(AppContext.BaseDirectory, file), out nint handle) ||
-            NativeLibrary.TryLoad(file, assembly, path, out handle)) return handle;
-        throw new DllNotFoundException($"Music is silent: {file} is missing. Install the native libopenmpt libraries next to the game.");
+        // A distribution's runtime package installs only the versioned name, the development package adds the plain one.
+        string[] files = OperatingSystem.IsWindows() ? ["openmpt.dll"] : OperatingSystem.IsLinux() ? ["libopenmpt.so.0", "libopenmpt.so"] : ["libopenmpt.0.dylib", "libopenmpt.dylib"];
+        foreach (string file in files)
+            if (NativeLibrary.TryLoad(Path.Combine(AppContext.BaseDirectory, file), out nint handle) ||
+                NativeLibrary.TryLoad(file, assembly, path, out handle)) return handle;
+        throw new DllNotFoundException($"Music is silent: {files[0]} is missing. Install the native libopenmpt libraries next to the game or system-wide.");
     }
 
     private OpenMptModule(nint module) => this.module = module;
@@ -43,7 +46,7 @@ public sealed unsafe class OpenMptModule : IDisposable
         catch (System.Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException or InvalidDataException)
         {
             LastError = ex.Message;
-            Console.Error.WriteLine(LastError);
+            if (LastError != reported) Console.Error.WriteLine(reported = LastError);
             return null;
         }
     }
