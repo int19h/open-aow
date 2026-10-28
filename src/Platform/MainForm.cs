@@ -51,6 +51,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     public static TMainForm Create(IDisplayHost host, string argument = "", bool mute = true, bool audioOutput = false)
     {
         GFXE.DesktopSize = () => host.DesktopSize;
+        GFXE.FullscreenSizes = () => host.FullscreenSizes;
         Aow.Units.Startup.InitializeAll();
         TSdlSoundSystem.Install(mute, audioOutput);
         var layouts = new LayoutSession();
