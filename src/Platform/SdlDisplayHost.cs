@@ -26,11 +26,13 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         if (Interlocked.CompareExchange(ref owned, 1, 0) != 0) throw new InvalidOperationException("One SDL window is supported.");
         try
         {
+            // Real pixels on a scaled Windows desktop, instead of a bitmap the system stretches.
+            SDL_SetHint("SDL_WINDOWS_DPI_AWARENESS", "permonitorv2");
             Check(SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO));
             this.width = width;
             this.height = height;
             windowedScale = scale;
-            window = SDL_CreateWindow(title, checked(width * scale), checked(height * scale), SDL_WindowFlags.SDL_WINDOW_RESIZABLE | (hidden ? SDL_WindowFlags.SDL_WINDOW_HIDDEN : 0));
+            window = SDL_CreateWindow(title, checked(width * scale), checked(height * scale), SDL_WindowFlags.SDL_WINDOW_RESIZABLE | SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY | (hidden ? SDL_WindowFlags.SDL_WINDOW_HIDDEN : 0));
             if (window is null) throw Error();
             renderer = SDL_CreateRenderer(window, (byte*)null);
             if (renderer is null) throw Error();
@@ -56,7 +58,23 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     }
     private DisplayViewport Viewport
     {
-        get { var size = WindowSize(); return DisplayViewport.Fit(width, height, size.Width, size.Height); }
+        get
+        {
+            int w, h;
+            Check(SDL_GetCurrentRenderOutputSize(renderer, &w, &h));
+            return DisplayViewport.Fit(width, height, w, h);
+        }
+    }
+    private (float X, float Y) ToOutput(float x, float y)
+    {
+        float rx, ry;
+        Check(SDL_RenderCoordinatesFromWindow(renderer, x, y, &rx, &ry));
+        return (rx, ry);
+    }
+    private (int X, int Y, bool Inside) Map(float x, float y)
+    {
+        var point = ToOutput(x, y);
+        return Viewport.Map(point.X, point.Y);
     }
     public (int Width, int Height) ClientSize
     {
@@ -69,8 +87,12 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             OnThread();
             var mode = SDL_GetDesktopDisplayMode(SDL_GetDisplayForWindow(window));
             if (mode is null) throw Error();
-            return (mode->w, mode->h);
+            return ((int)(mode->w * mode->pixel_density), (int)(mode->h * mode->pixel_density));
         }
+    }
+    public IReadOnlyList<(int Width, int Height)> FullscreenSizes
+    {
+        get { var desktop = DesktopSize; return GFXE.IntegerScaleSizes(desktop.Width, desktop.Height); }
     }
     public void ResizeImage(int newWidth, int newHeight)
     {
@@ -104,7 +126,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         if (!HasFocus || SDL_GetMouseFocus() != window) return (-1, -1, false);
         float x, y;
         SDL_GetMouseState(&x, &y);
-        return Viewport.Map(x, y);
+        return Map(x, y);
     }
     public void ShowSystemCursor(bool show)
     {
@@ -192,13 +214,15 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                     break;
                 case SDL_EVENT_MOUSE_MOTION:
                     input.SetModifiers((int)SDL_GetModState());
-                    input.Motion(ev.motion.x, ev.motion.y, (uint)ev.motion.state, Viewport, sink);
-                    ShowSystemCursor(!Viewport.Map(ev.motion.x, ev.motion.y).Inside);
+                    var motion = ToOutput(ev.motion.x, ev.motion.y);
+                    input.Motion(motion.X, motion.Y, (uint)ev.motion.state, Viewport, sink);
+                    ShowSystemCursor(!Viewport.Map(motion.X, motion.Y).Inside);
                     break;
                 case SDL_EVENT_MOUSE_BUTTON_DOWN:
                 case SDL_EVENT_MOUSE_BUTTON_UP:
                     input.SetModifiers((int)SDL_GetModState());
-                    input.Button(ev.button.button, type == SDL_EVENT_MOUSE_BUTTON_DOWN, ev.button.timestamp / 1_000_000, ev.button.x, ev.button.y, Viewport, sink);
+                    var press = ToOutput(ev.button.x, ev.button.y);
+                    input.Button(ev.button.button, type == SDL_EVENT_MOUSE_BUTTON_DOWN, ev.button.timestamp / 1_000_000, press.X, press.Y, Viewport, sink);
                     break;
                 case SDL_EVENT_KEY_DOWN:
                 case SDL_EVENT_KEY_UP:
