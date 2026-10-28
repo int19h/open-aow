@@ -32,8 +32,12 @@ public sealed class FilesAndStreamsTests
             TSearchRec search = default;
             Assert.Equal(3, FindFirst("absent\\*", faAnyFile, ref search));
             File.WriteAllBytes("a/hidden", []); File.SetAttributes("a/hidden", FileAttributes.Hidden);
-            Assert.Equal(18, FindFirst("a\\hidden", 0, ref search)); FindClose(ref search);
-            Assert.Equal(0, FindFirst("a/hidden", faHidden, ref search)); Assert.True((search.Attr & faHidden) != 0); FindClose(ref search); Assert.Equal(6, FindNext(ref search));
+            // Only Windows has a hidden attribute. On Linux a hidden file is one whose name starts with a dot.
+            if (OperatingSystem.IsWindows())
+            {
+                Assert.Equal(18, FindFirst("a\\hidden", 0, ref search)); FindClose(ref search);
+                Assert.Equal(0, FindFirst("a/hidden", faHidden, ref search)); Assert.True((search.Attr & faHidden) != 0); FindClose(ref search); Assert.Equal(6, FindNext(ref search));
+            }
             Assert.Equal((AnsiString)"C:\\", ExtractFileDir("C:\\file.ext")); Assert.Equal((AnsiString)"\\", ExtractFileDir("\\file")); Assert.Equal((AnsiString)"C:", ExtractFileDir("C:file"));
             Assert.Equal((AnsiString)"\\\\server\\share\\", ExtractFilePath("\\\\server\\share\\file"));
         }
@@ -134,7 +138,8 @@ public sealed class FilesAndStreamsTests
         Assert.Throws<EStreamError>(() => destination.Capacity = -1); Assert.Throws<EStreamError>(() => destination.SetSize(-1));
         source.Clear(); destination.LoadFromStream(source); Assert.Equal(0, destination.Size); Assert.Equal(0, destination.Capacity);
         using var file = new TFileStream("memory.bin", fmOpenRead | fmShareDenyWrite);
-        Assert.Throws<EFOpenError>(() => new TFileStream("memory.bin", fmOpenWrite));
+        // .NET enforces share modes between opens only on Windows.
+        if (OperatingSystem.IsWindows()) Assert.Throws<EFOpenError>(() => new TFileStream("memory.bin", fmOpenWrite));
         Assert.Equal(5, Assert.Throws<EWin32Error>(() => file.Size = 2).ErrorCode); Assert.Equal(2, file.Position); Assert.Equal(4, file.Size);
     }
 }

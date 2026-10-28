@@ -49,7 +49,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
     public IClock Clock => this;
     public ISettingsStore Settings { get; } = new MemorySettingsStore();
     public string GameRoot { get; }
-    public string ExeName => Path.Combine(GameRoot, "AoW.exe");
+    public string ExeName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
     public DateTime Now => new(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     public uint TickCount => 0;
     public double ElapsedMilliseconds => 0;

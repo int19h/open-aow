@@ -73,7 +73,8 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         created = true;
         Display.ActivateDC(WinDC);
         Display.PresentInitialFrame();
-        FormShow(argument);
+        // The game reads its command line as a path on its own drive, so a host path becomes the file system's public path.
+        FormShow(argument.Length == 0 ? argument : Aow.Rtl.Rtl.Files.ExpandPath(argument));
     }
     private void FormCreate()
     {
