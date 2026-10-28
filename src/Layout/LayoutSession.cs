@@ -9,7 +9,7 @@ public interface ILayoutComponent
     void EndRead();
 }
 
-// The generated code performs local fixups and calls Loaded explicitly. This list holds only
+// The layout code performs local fixups and calls Loaded explicitly. This list holds only
 // references to modules that have not finished construction yet.
 public sealed class LayoutSession
 {

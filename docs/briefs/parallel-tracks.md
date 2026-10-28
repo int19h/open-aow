@@ -6,9 +6,9 @@ names its track's directories. These rules apply to all four on top of both `AGE
 
 - Each track works in its own git worktree of the product repository, named in its prompt, on its
   own branch. Write only in that worktree and in the private repository paths the brief names.
-- The transpiler (`D:\git\open-aow-private\tools\transpile`) is frozen while the tracks run, and
-  `src/Generated` is not regenerated. A track that needs a transpiler change writes an override
-  instead, and if no override can do it, stops and reports the change it needs.
+- Since the hand-over on 2026-10-27, `src/Units` is source and is edited by hand. Every edit
+  keeps `python tools/check.py` passing from `D:\git\open-aow-private`. The transpiler stays
+  in the private repository and emits reference diffs outside the product repository.
 - The probe runner (`tests/probes/run.py`) is shared: add probes, change the runner only where a
   brief says so.
 - The sandbox has no network. The design session restores the packages a brief names before the
@@ -20,7 +20,7 @@ names its track's directories. These rules apply to all four on top of both `AGE
   path. The product repository carries no game data (images, sounds, dictionaries, maps): the
   port reads them from the user's install at run time, and test expectations derived from game data
   live in the private repository. Code is the exception: the transpiled game code, and since
-  2026-10-26 the layouts as generated C# (`ui-layout.md` section 1), are product source.
+  2026-10-26 the layouts as editable C# (`ui-layout.md` section 1), are product source.
 - The user works on this PC while runs go on. Every executable you build and run (tests, tools,
   probes in C#) calls `SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX |
   SEM_NOOPENFILEERRORBOX)` first thing, so a crash ends the process instead of opening a dialog,

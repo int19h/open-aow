@@ -10,7 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rtl\Aow.Rtl.csproj" />
-    <ProjectReference Include="..\Generated\Aow.Generated.csproj" />
+    <ProjectReference Include="..\Units\Aow.Units.csproj" />
   </ItemGroup>
   <!-- Native libraries built by vcpkg from the repository's vcpkg.json (README, "Native libraries").
        They are copied next to the game when present. Without them the port runs silent. -->

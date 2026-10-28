@@ -97,7 +97,7 @@ public sealed class FilesAndStreamsTests
     [Fact]
     public void TypedStreamBuffersUseRecordBytesAndShortTransfersRaise()
     {
-        // CLASSES.PAS:2792..2854. The generated forms preserve the struct's byte layout.
+        // CLASSES.PAS:2792..2854. The translated forms preserve the struct's byte layout.
         using var memory = new TMemoryStream();
         var record = new Record { Number = 0x04030201, Tail = 5 };
         Assert.Equal(8, memory.Write(in record)); memory.WriteBuffer(in record); Assert.Equal(2, memory.Write(in record, 2)); memory.WriteBuffer(in record, 2);

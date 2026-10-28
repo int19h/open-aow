@@ -2,12 +2,12 @@
   <Project Path="src/Game/Aow.Game.csproj" />
   <Project Path="src/Headless/Aow.Headless.csproj" />
   <Folder Name="/src/" />
-  <Folder Name="/src/Generated/" />
+  <Folder Name="/src/Units/" />
   <Folder Name="/src/Platform/">
     <Project Path="src/Platform/Aow.Platform.csproj" />
   </Folder>
   <Folder Name="/src/Rtl/" />
-  <Project Path="src/Generated/Aow.Generated.csproj" />
+  <Project Path="src/Units/Aow.Units.csproj" />
   <Project Path="src/Rtl/Aow.Rtl.csproj" />
   <Project Path="src/Rtl.Tests/Aow.Rtl.Tests.csproj" />
 </Solution>

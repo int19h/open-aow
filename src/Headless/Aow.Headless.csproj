@@ -3,7 +3,7 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../Generated/Aow.Generated.csproj" />
+    <ProjectReference Include="../Units/Aow.Units.csproj" />
     <ProjectReference Include="../Platform/Aow.Platform.csproj" />
   </ItemGroup>
 </Project>

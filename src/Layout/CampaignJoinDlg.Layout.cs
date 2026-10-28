@@ -1,4 +1,4 @@
-// Generated once from recovered text forms. This layout is editable product source.
+// Layout translated from recovered Delphi forms.
 #nullable disable
 using System;
 using Aow.Rtl;

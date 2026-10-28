@@ -12,6 +12,11 @@ surfaces it draws into and `platform.md` has the input events it receives. Facts
 
 ## 1. Decisions
 
+The hand-over took place on 2026-10-27. Layouts and units are source, edited by hand,
+and every edit keeps `python tools/check.py` passing. `src/Units/Aow.Units.csproj`
+compiles the layouts directly. The private generator writes reference output outside the
+product repository and the runtime never reads the recovered form files.
+
 1. The layouts become C# code (decided by the user on 2026-10-26). The text form format is an
    artifact of Delphi's component streaming, and C# object and collection initializers express the
    same trees directly, so the port needs no layout language of its own. A generator in the private

@@ -124,8 +124,9 @@ writable: pass the extra roots again as `-c "sandbox_workspace_write.writable_ro
 (seen on 2026-10-26, when a resumed emitter run could not write `src/Generated`). A turn that fails
 with `Selected model is at capacity` is resumed later, in the same thread.
 
-A task in the private repository that writes into the product repository (the transpiler writing
-`src/Generated/`) adds `--add-dir D:\git\open-aow`.
+A task in the private repository that edits product source adds `--add-dir D:\git\open-aow`.
+The transpiler no longer writes into the product. Its `emit --out <dir>` writes reference output
+under the private repository for porting upstream changes by hand.
 
 Fork a task to try an alternative without losing the first line of work:
 
@@ -190,8 +191,9 @@ Every brief carries these:
 - Do not commit, do not switch branches, do not push.
 - Product code goes to `D:\git\open-aow`, everything else to `D:\git\open-aow-private`
   (`docs/design.md` section 8). The brief names the repository the task works in.
-- Generated code under `src/Generated/` is never edited by hand. Change the transpiler or add an
-  override under `src/Overrides/`.
+- The units under `src/Units/` are source and are edited by hand. Every edit keeps
+  `python tools/check.py` passing from the private repository. The hand-over took place on
+  2026-10-27. The private transpiler emits reference diffs outside the product repository.
 - Do not change `D:\git\aow`.
 - Tests run with one command named in the brief, and the brief's done measure is checked by a
   command, not by reading.
