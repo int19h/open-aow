@@ -1,10 +1,13 @@
 # Transpiler specification: Delphi 3 to C#
 
+Status: the product hand-over took place on 2026-10-27. This specification records the
+reference transpiler. Product source lives in `src/Units` and is edited by hand.
+
 State: draft, 2026-10-24. Decisions in `../design.md` section 3 apply.
 
 The transpiler reads the recovered Delphi 3 units of the transpile set and writes C# 15 for .NET 11
 that compiles against the RTL shim (`rtl-shim.md`). It is regenerable: the same input gives the same
-output, and hand-written code lives only in overrides. This document fixes the pipeline, the mapping
+reference output. The product units and former overrides are now edited by hand. This document fixes the pipeline, the mapping
 of every construct the source uses, the normalization of the byte-matching idioms, the semantic
 traps, the override mechanism, the report and the done measures.
 
@@ -25,9 +28,9 @@ rewritten by hand into idiomatic C#, piece by piece. Three consequences shape ev
    members that use it, not for every class, because every unused line is a line a later rewrite
    has to read and delete. Sections 4.3 and 4.4 apply this to records and metaclasses.
 
-Lifecycle. Generated code is regenerated from upstream until the headless oracle passes
-(`../milestones.md` 2.4). After that the C# tree is the source of truth, and the transpiler is run
-on single units to produce reference diffs for upstream changes that are then ported by hand.
+Lifecycle. Regeneration ended at the hand-over on 2026-10-27 after the headless oracle passed
+(`../milestones.md` 2.4). The C# tree is the source of truth. The transpiler produces reference
+diffs outside the product repository for upstream changes that are then ported by hand.
 
 The numbers in this document come from a survey of `D:\git\aow\src\delphi3` on 2026-10-24 over the
 units in the transpile set (section 3 of `../design.md`). They size the work and show which
@@ -67,12 +70,12 @@ Inputs:
   directory as `--source-catalogues`. `classes.json` and `initialization-order.json` come from the
   original binaries and are read from `D:\git\aow\data\` as they are. The first regeneration,
   at d898ee4 on 2026-10-26, moved 13 views and one shape cast to their new lines.
-- The override manifest `src/Overrides/overrides.toml` (section 8).
+- The override manifest `tools/transpile/reference/overrides.toml` (section 8).
 
 Outputs:
 
-- One C# file per unit, `src/Generated/<Unit>.cs`, in the project `src/Generated/Generated.csproj`.
-- The report (section 9), written to `src/Generated/obj/report.md` and kept, with the shim
+- One C# file per unit, `<out>/<Unit>.cs`, in the reference project `<out>/Aow.Units.csproj`.
+- The report (section 9), written to `<out>/obj/report.md` and kept, with the shim
   demand list, in `data/transpile/` of the private repository, since it is not product code.
 - The shim demand list `shim-demand.md` beside the report: every RTL, VCL and third-party symbol the
   generated code references, with its declaring unit and the number of references. It is the work
@@ -88,7 +91,7 @@ Before a file is written the transpiler parses it back with Roslyn, and a syntax
 internal error in the report (section 9), never a file on disk. One command runs it:
 
 ```bash
-dotnet run --project tools/transpile -- --source D:\git\aow\src\delphi3 --rtl C:\Tools\Delphi3\SOURCE --data D:\git\aow\data --out D:\git\open-aow\src\Generated
+dotnet tools/transpile/Transpiler/bin/Debug/net11.0/Transpiler.dll emit --source D:/git/aow/src/delphi3 --rtl C:/Tools/Delphi3/SOURCE --data D:/git/aow/data --source-catalogues data/recovery-d898ee4 --port-data data --overrides tools/transpile/reference/overrides.toml --out tools/transpile/obj/reference --set all
 ```
 
 Source files are read as Windows code page 1252. String and character literals keep their byte
@@ -151,8 +154,8 @@ the source uses freely (unit routines read private fields of the unit's classes)
 
 The generated project is one assembly, so `internal` gives the unit-level access that Delphi gives.
 
-Generated file header. Every file starts with a comment that names the source unit, the
-transpiler version and the date, and says that the file is generated and never edited by hand.
+Reference output header. Scratch emission records the source unit, transpiler version and date.
+Product source carries a one-line translation note naming its Delphi unit. It is edited by hand.
 Every method gets a comment `// <file>.pas:<line>` with the location of its Delphi declaration.
 Delphi comments are kept at their statements, including the recovery project's notes in braces.
 
@@ -453,7 +456,7 @@ design check appended to `metaclass.md`, which read the rule against every site)
   (Meta)MetaRegistry.Of(typeof(T))`, the spelling of a class used as a value of that type. 15 of
   them, one per `class of` type, which is why every target needs its own `Meta` type: generic
   constraints do not overload.
-- One generated file, `src/Generated/MetaRegistry.cs`, registers every class of the closure in
+- One generated file, `src/Units/MetaRegistry.cs`, registers every class of the closure in
   inheritance order: `MetaRegistry.Register(typeof(TFoo), new TFoo.Meta(), () => new TFoo(),
   instanceSize)`, with the nearest ancestor's `Meta` type when `TFoo` has none of its own, and the
   instance size from the layout model (`FieldClass.InstanceSize` in `THSEngine` reads it through a
@@ -984,15 +987,21 @@ Each entry names the rule and the probe (section 11) that proves it.
 
 ## 8. Overrides
 
+Retired for the product on 2026-10-27. The replacements now live beside their units in
+`src/Units`, with no product manifest or skip mechanism. The specification below records the
+first-stage mechanism. The private transpiler retains it in
+`tools/transpile/reference/overrides.toml` for upstream reference diffs and probe translation.
+Every product edit is a hand edit checked by `python tools/check.py`.
+
 ### 8.1 The manifest
 
-`src/Overrides/overrides.toml` lists what the transpiler must not emit:
+`tools/transpile/reference/overrides.toml` lists what the transpiler must not emit:
 
 ```toml
 [[skip]]
 member = "Engine.TBitList.Get"        # Unit.Class.Member, or Unit.Routine, or Unit.Class
 reason = "inline assembly"
-file = "src/Overrides/Engine/TBitList.cs"
+file = "src/Units/Engine.TBitList.cs"
 ```
 
 The generated class is `partial`, so the override file declares `partial class TBitList` in the

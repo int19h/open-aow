@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Aow.Generated")]
+[assembly: InternalsVisibleTo("Aow.Units")]
 
 namespace Aow.Rtl;
 

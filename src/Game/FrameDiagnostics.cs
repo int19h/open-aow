@@ -34,11 +34,11 @@ internal sealed class FrameDiagnostics : IDisposable
             writer.WriteLine(JsonSerializer.Serialize(new { kind = "startup-random", argument = entry.Argument,
                 before = unchecked((uint)entry.Before), after = unchecked((uint)entry.After), result = entry.Result,
                 stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
-                    .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Generated")
+                    .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
                     .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}") }));
         if (GameState.AoWHSMap is not { FDay: 2 } map || entry.Kind != "random") return;
         var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
-            .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Generated").ToArray();
+            .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units").ToArray();
         if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: "TAoWHSMap" })) return;
         writer.WriteLine(JsonSerializer.Serialize(new { kind = "random", day = map.FDay, frame = map.Frame,
             current_player = map.FCurrentPlayer, ai_player = map.FAIExecuter.FPlayer, argument = entry.Argument,
@@ -52,7 +52,7 @@ internal sealed class FrameDiagnostics : IDisposable
         writer.WriteLine(JsonSerializer.Serialize(new { kind = "cost", day = map.FDay, frame = map.Frame,
             ai_player = map.FAIExecuter.FPlayer, cost, used,
             stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
-                .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Generated")
+                .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
                 .Take(10).Select(method => $"{method!.DeclaringType!.Name}.{method.Name}") }));
     }
 

@@ -1,5 +1,5 @@
 <Project>
-  <!-- Defaults for every project under src/. A project overrides what it must: the generated
+  <!-- Defaults for every project under src/. A project overrides what it must: the units
        project turns Nullable off, because transpiled Delphi code has no nullability. -->
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>

@@ -127,8 +127,10 @@ We write our own transpiler. Delphi 3 has a small grammar: no generics, no anony
 overloading. Every recovered unit parses with Free Pascal in Delphi mode, so a hand-written parser
 is a bounded job. Commercial converters produce code that needs a rewrite anyway.
 
-The transpile is regenerable while generated code is the source of truth, and that ends when the
-oracle passes. The recovery is at 96 percent byte matching, the remaining functions were verified
+The hand-over took place on 2026-10-27 after the oracle, frames, scenarios and audio passed.
+The C# units are now source, edited by hand. Every edit keeps `python tools/check.py` passing
+from the private repository. Transpilation remains available only for reference diffs of upstream
+changes outside the product repository. The recovery is at 96 percent byte matching, the remaining functions were verified
 by hand, by automated computer-only games and by play, and only minor bugs are expected to remain.
 So the port does not wait for upstream to freeze: it translates the source as it stands when the
 transpiler is ready. The rules are:
@@ -140,8 +142,8 @@ transpiler is ready. The rules are:
 - After that, the C# tree is the source of truth and the second stage (section 9) begins. An
   upstream change is ported by hand: the transpiler is run on the changed unit and its output is the
   reference diff, never a replacement of the tree. The transpiler stays in the repository for that.
-- The transpiler lives in this repository, with the Delphi source as an input path, and runs in one
-  command.
+- The transpiler lives in the private repository, with the Delphi source as an input path, and
+  runs with `emit --out <dir>` into a directory outside the product repository.
 
 What gets transpiled and what gets rewritten. The list is per unit, because several packages mix
 rules code with editor dialogs. It was reviewed against `doc/modules.md` and the unit imports on
@@ -453,12 +455,16 @@ documents that starts with `docs/` or `src/` is in this repository. One that sta
 `correspondence/`, `data/`, `tools/` or `tests/` is in the private repository. What exists is
 marked. The rest is where the specifications put things.
 
+Since 2026-10-27, `src/Units/Aow.Units.csproj` compiles the units, their partial files and
+`src/Layout` directly. There is no override manifest or layout import in the product. The
+private transpiler accepts `emit --out <dir>` for reference output outside the product tree.
+
 ```
 D:\git\open-aow
 docs/                 this file, process.md, milestones.md, specs/, briefs/               (exists)
 src/Rtl/              the Delphi RTL and VCL shim                                    rtl-shim.md
-src/Generated/        transpiled output, regenerated, never edited                   transpiler.md
-src/Overrides/        hand-written replacements for generated members                transpiler.md 8
+src/Units/            editable C# units and their partial class files                transpiler.md
+src/Layout/           editable layout source compiled directly into Aow.Units       ui-layout.md
 src/Graphics/         the rewritten blitters and memory surfaces                     graphics.md
 src/Forms/            the form files as data                                         ui-layout.md
 src/Platform/         the SDL host: window, input, audio, video, files, settings     platform.md

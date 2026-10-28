@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <!-- Delphi locals start with default values, including unused locals (CS0168, CS0219).
+         Exit leaves unreachable statements in the mechanical translation (CS0162).
+         Unit Finalize methods keep the Delphi section name (CS0465).
+         The metaclass registry runs before static fields (CA2255). -->
+    <!-- Delphi zeroes fields, including fields assigned only by pending boundary bodies (CS0649). -->
+    <NoWarn>$(NoWarn);CS0168;CS0219;CS0162;CS0465;CS0649;CA2255</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Keep unit declarations before their partial files to preserve initializer order. -->
+    <Compile Include="*.cs" Exclude="*.*.cs" />
+    <Compile Include="*.*.cs" />
+    <ProjectReference Include="../Rtl/Aow.Rtl.csproj" />
+    <ProjectReference Include="../Graphics/Aow.Graphics.csproj" />
+    <Compile Include="../Layout/**/*.cs" Exclude="../Layout/obj/**/*.cs;../Layout/bin/**/*.cs" />
+  </ItemGroup>
+</Project>
