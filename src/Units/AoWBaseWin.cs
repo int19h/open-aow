@@ -161,8 +161,7 @@ namespace Aow.Units.AoWBaseWin
             int OldTop = default;
             bool Locked = default;
             Aow.Units.GFXE.TSurfaceDesc SD = default;
-            Aow.Rtl.TRect[] R__cell = new Aow.Rtl.TRect[1];
-            ref Aow.Rtl.TRect R = ref R__cell[0];
+            Aow.Rtl.TRect R = default;
             try
             {
                 if (FValid && FVisible)
@@ -326,13 +325,13 @@ namespace Aow.Units.AoWBaseWin
                                                 R = call__17;
                                                 if (!FMasked)
                                                 {
-                                                    FBackSurface.BltClipped(Surface, Ptr<Aow.Rtl.TRect>.To(R__cell, 0), D.R.Left + OldLeft, D.R.Top + OldTop);
+                                                    FBackSurface.BltAreaClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop);
                                                 }
                                                 else
                                                 {
                                                     var call__18 = FBackSurface.GetPixelFormatID();
                                                     var call__19 = Aow.Units.GFXE.GFXE.Color2PixelInfo(FMaskColor, call__18, null);
-                                                    FBackSurface.BltColorKeyClipped(Surface, Ptr<Aow.Rtl.TRect>.To(R__cell, 0), D.R.Left + OldLeft, D.R.Top + OldTop, call__19);
+                                                    FBackSurface.BltAreaColorKeyClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop, call__19);
                                                 }
 
                                                 var call__20 = Aow.Rtl.Rtl.Rect(D.R.Left + OldLeft, D.R.Top + OldTop, D.R.Right + OldLeft, D.R.Bottom + OldTop);

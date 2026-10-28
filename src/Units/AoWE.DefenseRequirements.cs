@@ -7,25 +7,24 @@ public partial class TAoWMapField
 {
     public bool GetAITarget(TAIGroupControl control, in TAITargetInfo info, ref TAITargetData data)
     {
-        TAITargetInfo[] input = [info];
-        TAITargetData[] output = [default];
+        var query = new AITargetQuery { Info = info };
         var message = new TMapFieldMsg { MsgID = 0x1200, Result = 0 };
-        message.Param[0] = Ptr<TAITargetInfo>.To(input, 0).Box();
-        message.Param[1] = Ptr<TAITargetData>.To(output, 0).Box();
+        message.Param[0] = query;
+        message.Param[1] = query;
         message.Param[2] = control;
         try { SendMapFieldMsg(ref message); }
-        finally { data = output[0]; }
+        finally { data = query.Data; }
         return data.Priority != 0;
     }
 
     public void GetDefenseRequirements(sbyte player, ref TDefenseRequirements requirements)
     {
-        TDefenseRequirements[] cell = [default];
+        var query = new DefenseRequirementsQuery();
         var message = new TMapFieldMsg { MsgID = 0x1127, Result = 0 };
         message.Param[0] = player;
-        message.Param[1] = Ptr<TDefenseRequirements>.To(cell, 0).Box();
+        message.Param[1] = query;
         try { SendMapFieldMsg(ref message); }
-        finally { requirements = cell[0]; }
+        finally { requirements = query.Requirements; }
     }
 }
 
@@ -33,9 +32,9 @@ public partial class TAoWHSMap
 {
     public void RetrieveBattleFieldInfo(int x, int y, int level, int radius, ref TBattleFieldInfo info)
     {
-        TBattleFieldInfo[] cell = [info];
+        var query = new BattleFieldQuery { Info = info };
         var message = new TMapFieldMsg { MsgID = 0x1108 };
-        message.Param[0] = Ptr<TBattleFieldInfo>.To(cell, 0).Box();
+        message.Param[0] = query;
         var mapLevel = MapContainer.GetMapLevel(level);
         THNWalkData walk = default;
         HSEngine.HSEngine.InitHNWalk(ref walk, x, y, 0);
@@ -48,15 +47,15 @@ public partial class TAoWHSMap
                     var field = (TAoWMapField)mapLevel.GetField(walk.X, walk.Y);
                     if ((field.FFieldFlags & 0x04000000) != 0)
                     {
-                        int friendly = cell[0].FriendlyStrength, enemy = cell[0].Strength;
+                        int friendly = query.Info.FriendlyStrength, enemy = query.Info.Strength;
                         field.SendMapFieldMsg(ref message);
-                        cell[0].FriendlyStrength = Math.Max(friendly, cell[0].FriendlyStrength);
-                        cell[0].Strength = Math.Max(enemy, cell[0].Strength);
+                        query.Info.FriendlyStrength = Math.Max(friendly, query.Info.FriendlyStrength);
+                        query.Info.Strength = Math.Max(enemy, query.Info.Strength);
                     }
                 }
                 HSEngine.HSEngine.WalkToNextHN(ref walk);
             }
         }
-        finally { info = cell[0]; }
+        finally { info = query.Info; }
     }
 }

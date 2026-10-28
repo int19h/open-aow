@@ -796,7 +796,7 @@ namespace Aow.Units.AoWTC
             catch (System.Exception)
             {
                 var call__46 = U.FUnit.GetName();
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Eval Movepath", AnsiString.FromPChar(Ptr<byte>.Unbox(((AnsiString)"Error - TCAI ") + call__46)), (int)0);
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Eval Movepath", Aow.Rtl.Rtl.NullTerminatedText(((AnsiString)"Error - TCAI ") + call__46), (int)0);
             }
 
             return Result;
@@ -2181,7 +2181,7 @@ namespace Aow.Units.AoWTC
                                 }
                                 catch (System.Exception)
                                 {
-                                    Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Spell Check", AnsiString.FromPChar(Ptr<byte>.Unbox(((((AnsiString)"Error - TCAI ") + Aow.Rtl.Rtl.IntToStr(Ability)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell))), (int)0);
+                                    Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Spell Check", Aow.Rtl.Rtl.NullTerminatedText(((((AnsiString)"Error - TCAI ") + Aow.Rtl.Rtl.IntToStr(Ability)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell)), (int)0);
                                 }
 
                                 break;
@@ -2379,7 +2379,7 @@ namespace Aow.Units.AoWTC
                                             }
                                             catch (System.Exception)
                                             {
-                                                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Touch Check", AnsiString.FromPChar(Ptr<byte>.Unbox(((((AnsiString)"Error - TCAI ") + Aow.Rtl.Rtl.IntToStr(Ability)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell))), (int)0);
+                                                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Touch Check", Aow.Rtl.Rtl.NullTerminatedText(((((AnsiString)"Error - TCAI ") + Aow.Rtl.Rtl.IntToStr(Ability)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell)), (int)0);
                                             }
                                         }
 
@@ -2765,7 +2765,7 @@ namespace Aow.Units.AoWTC
                                         }
                                         catch (System.Exception)
                                         {
-                                            Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Ranged Check", AnsiString.FromPChar(Ptr<byte>.Unbox(((((AnsiString)"Error - TCAI ") + Aow.Rtl.Rtl.IntToStr(Ability)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell))), (int)0);
+                                            Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Ranged Check", Aow.Rtl.Rtl.NullTerminatedText(((((AnsiString)"Error - TCAI ") + Aow.Rtl.Rtl.IntToStr(Ability)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell)), (int)0);
                                         }
 
                                         break;
@@ -3206,7 +3206,7 @@ namespace Aow.Units.AoWTC
                                     catch (System.Exception)
                                     {
                                         var call__548 = U.FUnit.GetName();
-                                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Eval Enemies", AnsiString.FromPChar(Ptr<byte>.Unbox(((AnsiString)"Error - TCAI ") + call__548)), (int)0);
+                                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Eval Enemies", Aow.Rtl.Rtl.NullTerminatedText(((AnsiString)"Error - TCAI ") + call__548), (int)0);
                                     }
 
                                     Settings = Aow.Units.AoWTC.TCombatMoveControlSettings.Create(null);
@@ -3334,7 +3334,7 @@ namespace Aow.Units.AoWTC
                                     catch (System.Exception)
                                     {
                                         var call__577 = U.FUnit.GetName();
-                                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Eval Friends", AnsiString.FromPChar(Ptr<byte>.Unbox(((AnsiString)"Error - TCAI ") + call__577)), (int)0);
+                                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Eval Friends", Aow.Rtl.Rtl.NullTerminatedText(((AnsiString)"Error - TCAI ") + call__577), (int)0);
                                     }
 
                                     if (Abilities.Count > 0)
@@ -6758,7 +6758,7 @@ namespace Aow.Units.AoWTC
             catch (System.Exception)
             {
                 // { Original puts the diagnostic in the message-box caption. }
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during NewFrame", AnsiString.FromPChar(Ptr<byte>.Unbox(((((AnsiString)"Error - fxHS ") + Aow.Rtl.Rtl.IntToStr(FAbilityIndex)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(FSpellIndex))), (int)0);
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during NewFrame", Aow.Rtl.Rtl.NullTerminatedText(((((AnsiString)"Error - fxHS ") + Aow.Rtl.Rtl.IntToStr(FAbilityIndex)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(FSpellIndex)), (int)0);
             }
         }
 
@@ -12595,7 +12595,7 @@ namespace Aow.Units.AoWTC
         public Aow.Units.AoWTC.TAoWCombatMap RandomMap(Aow.Units.AoWTC.TTacticalCombat Combat, int X, int Y, int L)
         {
             Aow.Units.AoWTC.TAoWCombatMap Result = default;
-            Ptr<byte> TerrainBuffer = default;
+            byte[] TerrainBuffer = [];
             int I = default;
             int J = default;
             int K = default;
@@ -12604,7 +12604,7 @@ namespace Aow.Units.AoWTC
             int Row = default;
             int TerrainType = default;
             int Tag = default;
-            Ptr<byte> ShapeBuffer = default;
+            byte[] ShapeBuffer = [];
             byte Shape = default;
             bool HasUnit = default;
             bool SiteCombat = default;
@@ -12626,7 +12626,7 @@ namespace Aow.Units.AoWTC
                     for (; I <= end__2239; I += 1)
                     {
                         Aow.Units.HSEngine.HSEngine.CenterHNtoHX(X, Y, Aow.Units.AoWTC.AoWTC.clusterChk[I], ref NX, ref NY);
-                        Kind = TerrainBuffer.Reinterpret<byte>().Reinterpret<byte>()[(NY * 65) + NX];
+                        Kind = TerrainBuffer[(NY * 65) + NX];
                         Result = ((((((((((((((Result || (Kind == 1)) || (Kind == 2)) || (Kind == 3)) || (Kind == 5)) || (Kind == 6)) || (Kind == 7)) || (Kind == 11)) || (Kind == 14)) || (Kind == 15)) || (Kind == 16)) || (Kind == 17)) || (Kind == 18)) || (Kind == 252)) || (Kind == 253)) || (Kind == 254);
                     }
                 }
@@ -12978,8 +12978,8 @@ namespace Aow.Units.AoWTC
             if (RandomTerrain)
             {
                 Aow.Units.AoWTC.AoWTC.AoWCombatMap.LockMapChangedEvent();
-                ShapeBuffer = Ptr<byte>.Unbox(Aow.Rtl.Rtl.AllocMem(unchecked((uint)((uint)3770))));
-                TerrainBuffer = Ptr<byte>.Unbox(Aow.Rtl.Rtl.AllocMem(unchecked((uint)((uint)3770))));
+                ShapeBuffer = new byte[3770];
+                TerrainBuffer = new byte[3770];
                 {
                     Row = 6;
                     byte end__2263 = 52;

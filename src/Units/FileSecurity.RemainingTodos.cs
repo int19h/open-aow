@@ -24,7 +24,7 @@ public static partial class FileSecurity
             byte[] bytes = new byte[size];
             stream.ReadExactly(bytes);
             bytes.CopyTo(MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref data, 1)));
-            return Engine.Engine.GetCRC32(Ptr<byte>.To(bytes, 0), size) == BinaryPrimitives.ReadInt32LittleEndian(footer);
+            return Engine.Engine.GetCRC32(bytes, size) == BinaryPrimitives.ReadInt32LittleEndian(footer);
         }
         catch (IOException) { return false; }
         catch (UnauthorizedAccessException) { return false; }

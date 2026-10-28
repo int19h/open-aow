@@ -97,7 +97,7 @@ namespace Aow.Units.HSEngine
 //     FStaticCount (priority shr 26 <= 15) are the static ones. }
     public partial class TMapField : Aow.Units.Engine.TECustomNode
     {
-        internal Ptr<Aow.Units.HSEngine.THexagonSprite> FHSList;
+        internal Aow.Units.HSEngine.THexagonSprite[] FHSList = [];
         internal byte FCapacity;
         internal byte FCount;
         internal byte FStaticCount;
@@ -116,7 +116,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1907
         public override void Destroy()
         {
-            FHSList = FHSList.Realloc(0);
+            Array.Resize(ref FHSList, 0);
             FCount = 0;
         }
 
@@ -585,7 +585,7 @@ namespace Aow.Units.HSEngine
             }
         }
 
-        public Ptr<Aow.Units.HSEngine.THexagonSprite> HSList { get => FHSList; }
+        public Aow.Units.HSEngine.THexagonSprite[] HSList { get => FHSList; }
         public byte Capacity { get => FCapacity; }
         public byte StaticCount { get => FStaticCount; }
         public TSet<Aow.Units.HSEngine.TMapFieldStatusElement> Status { get => FStatus; set => FStatus = value; }
@@ -1207,13 +1207,13 @@ namespace Aow.Units.HSEngine
         // HSMAP.PAS:141
         public virtual void TriggerTerrainChangedEvent(in Aow.Rtl.TRect R, sbyte L)
         {
-            Aow.Units.HSEngine.TTerrainChangedInfo[] Info__cell = new Aow.Units.HSEngine.TTerrainChangedInfo[1];
-            ref Aow.Units.HSEngine.TTerrainChangedInfo Info = ref Info__cell[0];
+            var notification = new TerrainChangedNotification();
+            ref var Info = ref notification.Info;
             Info.Rect = R;
             Info.Level = L;
             var call__45 = FMapContainer.GetMapLevel(L);
             Info.MapLevel = call__45;
-            FTerrainChangedEvents.TriggerNotifyEvents(Ptr<Aow.Units.HSEngine.TTerrainChangedInfo>.To(Info__cell, 0).Box());
+            FTerrainChangedEvents.TriggerNotifyEvents(notification);
         }
 
         // HSMAP.PAS:705
@@ -2497,12 +2497,12 @@ namespace Aow.Units.HSEngine
                 Mem.Read(Aow.Rtl.Bytes.Of(ref Header, 52));
                 Mem.Position = Header.Size;
                 var call__113 = Mem.Size;
-                CRC = MemoryMarshal.Read<int>(((Ptr<byte>.To(Mem.Memory, 0) + call__113) - 4).AsSpan(4));
+                CRC = MemoryMarshal.Read<int>(Mem.Memory.AsSpan(call__113 - 4, 4));
                 bool bool__114 = (Header.ID != AnsiString.FromBytes(72, 83, 83, 0));
                 if (!bool__114)
                 {
                     var call__115 = Mem.Size;
-                    var call__116 = Aow.Units.Engine.Engine.GetCRC32(Ptr<byte>.To(Mem.Memory, 0), call__115 - 4);
+                    var call__116 = Aow.Units.Engine.Engine.GetCRC32(Mem.Memory, call__115 - 4);
                     bool__114 = (CRC != call__116);
                 }
 
@@ -2546,7 +2546,7 @@ namespace Aow.Units.HSEngine
                     Mem.Write(Aow.Rtl.Bytes.Of(ref Header, 52));
                     WriteEObject(Mem, FHSSet, AProgress);
                     var call__118 = Mem.Size;
-                    var call__119 = Aow.Units.Engine.Engine.GetCRC32(Ptr<byte>.To(Mem.Memory, 0), call__118);
+                    var call__119 = Aow.Units.Engine.Engine.GetCRC32(Mem.Memory, call__118);
                     CRC = call__119;
                     Mem.Write(Aow.Rtl.Bytes.Of(ref CRC, 4));
                     var call__120 = new Aow.Rtl.TFileStream(FHSSFileName, 65535);
@@ -5094,13 +5094,13 @@ namespace Aow.Units.HSEngine
     {
         internal int FCount;
         // { +04 }
-        internal Ptr<byte> FList;
+        internal byte[] FList = [];
         // HSEngine.pas:1411
         // { TTerrainList }
         // { +08 }
         public override void Destroy()
         {
-            FList = FList.Realloc(0);
+            Array.Resize(ref FList, 0);
             base.Destroy();
         }
 
@@ -5108,7 +5108,7 @@ namespace Aow.Units.HSEngine
         public virtual void Assign(Aow.Units.HSEngine.TTerrainList Source)
         {
             SetCount(Source.FCount);
-            Ptr<byte>.Copy(Source.FList, FList, FCount * 2);
+            Array.Copy(Source.FList, 0, FList, 0, FCount * 2);
         }
 
         // HSEngine.pas:1562
@@ -5116,7 +5116,7 @@ namespace Aow.Units.HSEngine
         {
             Stream.Read(Aow.Rtl.Bytes.Of(ref FCount, 4));
             SetCount(FCount);
-            Stream.Read(FList.Array.AsSpan(FList.Index, FCount * 2));
+            Stream.Read(FList.AsSpan(0, FCount * 2));
         }
 
         // HSEngine.pas:1569
@@ -5124,7 +5124,7 @@ namespace Aow.Units.HSEngine
         {
             Pack();
             Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
-            Stream.Write(FList.Array.AsSpan(FList.Index, FCount * 2));
+            Stream.Write(FList.AsSpan(0, FCount * 2));
         }
 
         // HSEngine.pas:1423
@@ -5133,7 +5133,7 @@ namespace Aow.Units.HSEngine
             sbyte Result = default;
             if (Index < FCount)
             {
-                Result = unchecked((sbyte)MemoryMarshal.Read<sbyte>(((FList.Reinterpret<byte>() + Index) + Index).AsSpan(1)));
+                Result = unchecked((sbyte)MemoryMarshal.Read<sbyte>(FList.AsSpan(Index * 2, 1)));
             }
             else
             {
@@ -5153,17 +5153,17 @@ namespace Aow.Units.HSEngine
 
             {
                 sbyte value__206 = unchecked((sbyte)Value);
-                MemoryMarshal.Write<sbyte>(((FList.Reinterpret<byte>() + Index) + Index).AsSpan(1), in value__206);
+                MemoryMarshal.Write<sbyte>(FList.AsSpan(Index * 2, 1), in value__206);
             }
         }
 
         // HSEngine.pas:1437
         public void SetCount(int NewCount)
         {
-            FList = FList.Realloc(NewCount + NewCount);
+            Array.Resize(ref FList, NewCount + NewCount);
             if (NewCount > FCount)
             {
-                Aow.Rtl.Rtl.FillBytes(((FList + FCount) + FCount).Array.AsSpan(((FList + FCount) + FCount).Index, (NewCount - FCount) * 2), -2);
+                Aow.Rtl.Rtl.FillBytes(FList.AsSpan(FCount * 2, (NewCount - FCount) * 2), -2);
             }
 
             FCount = NewCount;
@@ -5175,7 +5175,7 @@ namespace Aow.Units.HSEngine
             sbyte Result = default;
             if (Index < FCount)
             {
-                Result = unchecked((sbyte)MemoryMarshal.Read<sbyte>((((FList.Reinterpret<byte>() + Index) + Index) + 1).AsSpan(1)));
+                Result = unchecked((sbyte)MemoryMarshal.Read<sbyte>(FList.AsSpan(Index * 2 + 1, 1)));
             }
             else
             {
@@ -5195,7 +5195,7 @@ namespace Aow.Units.HSEngine
 
             {
                 sbyte value__207 = unchecked((sbyte)Value);
-                MemoryMarshal.Write<sbyte>((((FList.Reinterpret<byte>() + Index) + Index) + 1).AsSpan(1), in value__207);
+                MemoryMarshal.Write<sbyte>(FList.AsSpan(Index * 2 + 1, 1), in value__207);
             }
         }
 
@@ -5205,7 +5205,7 @@ namespace Aow.Units.HSEngine
             ushort Result = default;
             if (Index < FCount)
             {
-                Result = unchecked((ushort)MemoryMarshal.Read<ushort>(((FList.Reinterpret<byte>() + Index) + Index).AsSpan(2)));
+                Result = unchecked((ushort)MemoryMarshal.Read<ushort>(FList.AsSpan(Index * 2, 2)));
             }
             else
             {
@@ -5225,7 +5225,7 @@ namespace Aow.Units.HSEngine
 
             {
                 ushort value__208 = unchecked((ushort)Value);
-                MemoryMarshal.Write<ushort>(((FList.Reinterpret<byte>() + Index) + Index).AsSpan(2), in value__208);
+                MemoryMarshal.Write<ushort>(FList.AsSpan(Index * 2, 2), in value__208);
             }
         }
 
@@ -5233,58 +5233,26 @@ namespace Aow.Units.HSEngine
         public bool GetUsed(int Index)
         {
             bool Result = default;
-            Result = (Index < FCount) && ((MemoryMarshal.Read<ushort>(((FList.Reinterpret<byte>() + Index) + Index).AsSpan(2)) & 32896) != 32896);
+            Result = (Index < FCount) && ((MemoryMarshal.Read<ushort>(FList.AsSpan(Index * 2, 2)) & 32896) != 32896);
             return Result;
         }
 
         // HSEngine.pas:1478
         public int UsedTerrain()
         {
-            int Result = default;
-            int I = default;
-            Ptr<sbyte> P = default;
-            Result = 0;
-            P = FList.Reinterpret<byte>().Reinterpret<sbyte>();
-            {
-                I = FCount - 1;
-                byte end__209 = 0;
-                for (; I >= end__209; I -= 1)
-                {
-                    if (P.Value > -1)
-                    {
-                        Result += 1;
-                    }
-
-                    P = (P.Reinterpret<byte>() + (2 * 1)).Reinterpret<sbyte>();
-                }
-            }
-
-            return Result;
+            int count = 0;
+            for (int i = 0; i < FCount; i++)
+                if (unchecked((sbyte)FList[i * 2 + 0]) > -1) count++;
+            return count;
         }
 
         // HSEngine.pas:1492
         public int UsedOverlays()
         {
-            int Result = default;
-            int I = default;
-            Ptr<sbyte> P = default;
-            Result = 0;
-            P = (FList.Reinterpret<byte>() + 1).Reinterpret<sbyte>();
-            {
-                I = FCount - 1;
-                byte end__210 = 0;
-                for (; I >= end__210; I -= 1)
-                {
-                    if (P.Value > -1)
-                    {
-                        Result += 1;
-                    }
-
-                    P = (P.Reinterpret<byte>() + (2 * 1)).Reinterpret<sbyte>();
-                }
-            }
-
-            return Result;
+            int count = 0;
+            for (int i = 0; i < FCount; i++)
+                if (unchecked((sbyte)FList[i * 2 + 1]) > -1) count++;
+            return count;
         }
 
         // HSEngine.pas:1506
@@ -5512,12 +5480,8 @@ namespace Aow.Units.HSEngine
         public IntOrRef Result;
     }
 
-    // { HSEngine.TMapLevel (instance size 124): +8 FLhx, +$C FWidth, +$10 FHeight, +$14 FCount, +$18
-//     FMapContainer, +$1C FMap, +$20 FEngine, +$24 FMapFieldCID, +$28 FFieldSize, +$2C FFields, +$30
-//     FFieldsSize, +$34 FHNOffsets, +$74 FXOffsets, +$78 FYOffsets. One level of the map: the
-//     FWidth * FHeight fields lie row by row in the block FFields (FFieldSize bytes each, the instance
-//     size of MapFieldClass); field (X, Y) is at FYOffsets[Y] + FXOffsets[X], its neighbour in
-//     direction HN (1..6) FHNOffsets[X and 1, HN] bytes from it. The fields are the children. }
+    // A map level owns its fields in row order. The fields are its children.
+    // Field size and neighbour offsets keep the recovered layout values.
     public partial class TMapLevel : Aow.Units.Engine.TECustomNode
     {
         protected internal int FLhx;
@@ -5529,12 +5493,9 @@ namespace Aow.Units.HSEngine
         protected internal Aow.Units.Engine.TEngine FEngine;
         protected internal int FMapFieldCID;
         protected internal int FFieldSize;
-        protected internal Ptr<byte> FFields;
         protected internal int FFieldsSize;
         public Aow.Units.FixedArray_Aow_Units_FixedArray_int_8_2 FHNOffsets;
         // { $74/$78 inherited access: AoWE 55772161/55772167. }
-        protected internal Ptr<int> FXOffsets;
-        protected internal Ptr<int> FYOffsets;
         // HSEngine.pas:2925
         public override Aow.Units.Engine.TEngine GetEngine()
         {
@@ -5633,7 +5594,7 @@ namespace Aow.Units.HSEngine
         public Aow.Units.HSEngine.THSMap Map { get => FMap; }
         public int MapFieldCID { get => FMapFieldCID; set => FMapFieldCID = value; }
         public int FieldSize { get => FFieldSize; }
-        public object Fields { get => FFields; }
+        public ReadOnlySpan<Aow.Units.HSEngine.TMapField> Fields => fields;
 
         public sealed class FieldAccessor(Aow.Units.HSEngine.TMapLevel target)
         {
@@ -6599,7 +6560,7 @@ namespace Aow.Units.HSEngine
                     {
                         if (FStaticSurfaceValid)
                         {
-                            FStaticSurface.BltClipped(Surface, default, X, Y);
+                            FStaticSurface.BltClipped(Surface, X, Y);
                             M.UpdateDynamicScene();
                             if (Surface.LockEx(ref SD, R) >= 0)
                             {
@@ -6618,7 +6579,7 @@ namespace Aow.Units.HSEngine
                                 FStaticSurfaceValid = true;
                             }
 
-                            var call__265 = FStaticSurface.BltClipped(Surface, default, X, Y);
+                            var call__265 = FStaticSurface.BltClipped(Surface, X, Y);
                             if (call__265 >= 0)
                             {
                                 M.UpdateDynamicScene();
@@ -9193,7 +9154,7 @@ namespace Aow.Units.HSEngine
 //     locations }
     public partial class TXYLList : Aow.Rtl.TPersistent
     {
-        internal Ptr<Aow.Units.HSEngine.TXYL> FList;
+        internal Aow.Units.HSEngine.TXYL[] FList = [];
         // { +04 }
         internal int FCount;
         // { +08 }
@@ -9243,7 +9204,7 @@ namespace Aow.Units.HSEngine
 
             if (NewCapacity != FCapacity)
             {
-                FList = FList.Realloc(NewCapacity);
+                Array.Resize(ref FList, NewCapacity);
                 FCapacity = NewCapacity;
             }
         }
@@ -9263,7 +9224,7 @@ namespace Aow.Units.HSEngine
 
             if (NewCount > FCount)
             {
-                Aow.Units.GFXE.GFXE.FillInt(MemoryMarshal.AsBytes((FList + FCount).Array.AsSpan((FList + FCount).Index, ((NewCount - FCount) * 4) / 4)), NewCount - FCount, Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FDefault));
+                FList.AsSpan(FCount, NewCount - FCount).Fill(FDefault);
             }
 
             FCount = NewCount;
@@ -9318,7 +9279,7 @@ namespace Aow.Units.HSEngine
                     var w__410 = (Aow.Units.HSEngine.TXYLList)Source;
                     this.FCount = w__410.FCount;
                     this.SetCapacity(w__410.FCapacity);
-                    Ptr<Aow.Units.HSEngine.TXYL>.Copy(w__410.FList, this.FList, this.FCount);
+                    Array.Copy(w__410.FList, 0, this.FList, 0, this.FCount);
                     this.FDefault = w__410.FDefault;
                 }
             }
@@ -9379,7 +9340,7 @@ namespace Aow.Units.HSEngine
             FCount -= 1;
             if (Index < FCount)
             {
-                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes((FList + (Index + 1)).Array.AsSpan((FList + (Index + 1)).Index, (FCount - Index))), MemoryMarshal.AsBytes((FList + Index).Array.AsSpan((FList + Index).Index, (FCount - Index))), (FCount - Index) * 4);
+                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan((Index + 1), (FCount - Index))), MemoryMarshal.AsBytes(FList.AsSpan(Index, (FCount - Index))), (FCount - Index) * 4);
             }
         }
 
@@ -9495,7 +9456,7 @@ namespace Aow.Units.HSEngine
 
             if (Index < FCount)
             {
-                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes((FList + Index).Array.AsSpan((FList + Index).Index, (FCount - Index))), MemoryMarshal.AsBytes((FList + (Index + 1)).Array.AsSpan((FList + (Index + 1)).Index, (FCount - Index))), (FCount - Index) * 4);
+                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, (FCount - Index))), MemoryMarshal.AsBytes(FList.AsSpan((Index + 1), (FCount - Index))), (FCount - Index) * 4);
             }
 
             FList[Index] = Item;
@@ -9562,7 +9523,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1815
         public void Sort(Aow.Units.HSEngine.TXYLSortCompare Compare)
         {
-            if (!FList.IsNull && (Count > 0))
+            if (FList.Length != 0 && (Count > 0))
             {
                 Aow.Units.HSEngine.HSEngine.QuickSortXYL(FList, 0, Count - 1, Compare);
             }
@@ -9575,7 +9536,7 @@ namespace Aow.Units.HSEngine
             Result = List.FCount == FCount;
             if (Result)
             {
-                var call__414 = Aow.Rtl.Rtl.CompareMem(MemoryMarshal.AsBytes(FList.Array.AsSpan(FList.Index, FCount)), MemoryMarshal.AsBytes(List.FList.Array.AsSpan(List.FList.Index, FCount)), FCount * 4);
+                var call__414 = Aow.Rtl.Rtl.CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
                 Result = call__414;
             }
 
@@ -9641,7 +9602,7 @@ namespace Aow.Units.HSEngine
                 }
                 else
                 {
-                    Stream.Write(MemoryMarshal.AsBytes((FList + I).Array.AsSpan((FList + I).Index, 1)));
+                    Stream.Write(MemoryMarshal.AsBytes(FList.AsSpan(I, 1)));
                     I += 1;
                 }
             }
@@ -9653,7 +9614,7 @@ namespace Aow.Units.HSEngine
 
         public Aow.Units.HSEngine.TXYL this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public Ptr<Aow.Units.HSEngine.TXYL> List { get => FList; }
+        public Aow.Units.HSEngine.TXYL[] List { get => FList; }
 
         // HSEngine.pas:1279
         public static Aow.Units.HSEngine.TXYLList Create()
@@ -10560,7 +10521,7 @@ namespace Aow.Units.HSEngine
         // { the step from side to side of a ring around a centre (WalkToNextHN), by column parity }
         public static Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 HNWalkTable = Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2.From([Aow.Units.FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }]), Aow.Units.FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }])]);
         // HSEngine.pas:1788
-        public static void QuickSortXYL(Ptr<Aow.Units.HSEngine.TXYL> SortList, int L, int R, Aow.Units.HSEngine.TXYLSortCompare SCompare)
+        public static void QuickSortXYL(Span<Aow.Units.HSEngine.TXYL> SortList, int L, int R, Aow.Units.HSEngine.TXYLSortCompare SCompare)
         {
             int I = default;
             int J = default;

@@ -14,7 +14,7 @@ namespace Aow.Units.FMemStr
     // { FMemStr.TFastMemoryStream (instance size 20): +4 FMemory, +8 FSize, +$C FPosition, +$10 FCapacity }
     public partial class TFastMemoryStream : Aow.Rtl.TStream
     {
-        internal Ptr<byte> FMemory;
+        internal byte[] FMemory = [];
         internal int FSize;
         internal int FPosition;
         internal int FCapacity;
@@ -35,29 +35,7 @@ namespace Aow.Units.FMemStr
 
             if (NewCapacity != FCapacity)
             {
-                if (NewCapacity == 0)
-                {
-                    FMemory = default;
-                    FMemory = default;
-                }
-                else
-                {
-                    if (FCapacity == 0)
-                    {
-                        var call__1 = Ptr<byte>.Alloc(NewCapacity);
-                        FMemory = call__1;
-                    }
-                    else
-                    {
-                        var call__2 = FMemory.Realloc(NewCapacity);
-                        FMemory = call__2;
-                    }
-
-                    if (FMemory.IsNull)
-                    {
-                        throw Aow.Rtl.EStreamError.Create((AnsiString)"Out of memory while expanding memory stream");
-                    }
-                }
+                Array.Resize(ref FMemory, NewCapacity);
 
                 FCapacity = NewCapacity;
                 if (FCapacity > FSize)
@@ -89,6 +67,7 @@ namespace Aow.Units.FMemStr
         // FMemStr.pas:43
         public override int Read(Span<byte> Buffer)
         {
+            if (Buffer.IsEmpty) return 0;
             int Count = Buffer.Length;
             int Result = default;
             Result = FSize - FPosition;
@@ -102,7 +81,7 @@ namespace Aow.Units.FMemStr
                 if (Count == 4)
                 {
                     {
-                        int value__3 = MemoryMarshal.Read<int>((FMemory + FPosition).AsSpan(4));
+                        int value__3 = MemoryMarshal.Read<int>(FMemory.AsSpan(FPosition, 4));
                         MemoryMarshal.Write<int>(Buffer, in value__3);
                     }
                 }
@@ -111,7 +90,7 @@ namespace Aow.Units.FMemStr
                     if (Count == 1)
                     {
                         {
-                            byte value__4 = unchecked((byte)MemoryMarshal.Read<byte>((FMemory + FPosition).AsSpan(1)));
+                            byte value__4 = unchecked((byte)MemoryMarshal.Read<byte>(FMemory.AsSpan(FPosition, 1)));
                             MemoryMarshal.Write<byte>(Buffer, in value__4);
                         }
                     }
@@ -120,13 +99,13 @@ namespace Aow.Units.FMemStr
                         if (Count == 2)
                         {
                             {
-                                ushort value__5 = unchecked((ushort)MemoryMarshal.Read<ushort>((FMemory + FPosition).AsSpan(2)));
+                                ushort value__5 = unchecked((ushort)MemoryMarshal.Read<ushort>(FMemory.AsSpan(FPosition, 2)));
                                 MemoryMarshal.Write<ushort>(Buffer, in value__5);
                             }
                         }
                         else
                         {
-                            Aow.Rtl.Rtl.Move((FMemory + FPosition).AsSpan(Result), Buffer.Slice(0, Result), Result);
+                            Aow.Rtl.Rtl.Move(FMemory.AsSpan(FPosition, Result), Buffer.Slice(0, Result), Result);
                         }
                     }
                 }
@@ -164,7 +143,7 @@ namespace Aow.Units.FMemStr
                     {
                         {
                             int value__6 = MemoryMarshal.Read<int>(Buffer);
-                            MemoryMarshal.Write<int>((FMemory + FPosition).AsSpan(4), in value__6);
+                            MemoryMarshal.Write<int>(FMemory.AsSpan(FPosition, 4), in value__6);
                         }
                     }
                     else
@@ -173,7 +152,7 @@ namespace Aow.Units.FMemStr
                         {
                             {
                                 byte value__7 = unchecked((byte)MemoryMarshal.Read<byte>(Buffer));
-                                MemoryMarshal.Write<byte>((FMemory + FPosition).AsSpan(1), in value__7);
+                                MemoryMarshal.Write<byte>(FMemory.AsSpan(FPosition, 1), in value__7);
                             }
                         }
                         else
@@ -182,12 +161,13 @@ namespace Aow.Units.FMemStr
                             {
                                 {
                                     ushort value__8 = unchecked((ushort)MemoryMarshal.Read<ushort>(Buffer));
-                                    MemoryMarshal.Write<ushort>((FMemory + FPosition).AsSpan(2), in value__8);
+                                    MemoryMarshal.Write<ushort>(FMemory.AsSpan(FPosition, 2), in value__8);
                                 }
                             }
                             else
                             {
-                                Aow.Rtl.Rtl.Move(Buffer.Slice(0, Count), (FMemory + FPosition).AsSpan(Count), Count);
+                                if (Count != 0)
+                                    Aow.Rtl.Rtl.Move(Buffer.Slice(0, Count), FMemory.AsSpan(FPosition, Count), Count);
                             }
                         }
                     }
@@ -241,7 +221,7 @@ namespace Aow.Units.FMemStr
             SetSize(Count);
             if (Count != 0)
             {
-                Stream.ReadBuffer(FMemory.AsSpan(Count));
+                Stream.ReadBuffer(FMemory.AsSpan(0, Count));
             }
         }
 
@@ -265,7 +245,7 @@ namespace Aow.Units.FMemStr
         {
             if (FSize != 0)
             {
-                Stream.WriteBuffer(FMemory.AsSpan(FSize));
+                Stream.WriteBuffer(FMemory.AsSpan(0, FSize));
             }
         }
 
@@ -284,7 +264,7 @@ namespace Aow.Units.FMemStr
             }
         }
 
-        public Ptr<byte> Memory { get => FMemory; }
+        public byte[] Memory { get => FMemory; }
         public new int Position { get => FPosition; set => FPosition = value; }
         public int Capacity { get => FCapacity; set => SetCapacity(value); }
     }

@@ -988,8 +988,8 @@ namespace Aow.Units.MainAG
             int Result = default;
             Aow.Units.AoWE.TMoveControlSettings Settings = default;
             Aow.Units.HSEngine.TMapFieldMsg Msg = default;
-            Aow.Units.AoWE.TBattleFieldInfo[] Info__cell = new Aow.Units.AoWE.TBattleFieldInfo[1];
-            ref Aow.Units.AoWE.TBattleFieldInfo Info = ref Info__cell[0];
+            var query = new Aow.Units.AoWE.BattleFieldQuery();
+            ref var Info = ref query.Info;
             int I = default;
             Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
             Settings.FPlayer = unchecked((sbyte)FGroup.FPlayer);
@@ -1004,7 +1004,7 @@ namespace Aow.Units.MainAG
             Aow.Units.AoWE.AoWE.SetupBattleFieldInfo(ref Info, unchecked((sbyte)FGroup.FPlayer), unchecked((sbyte)FGroup.FIndependentRelation), TSet<Aow.Units.AoWE.TBattleFieldInfoRequestsElement>.Of(Aow.Units.AoWE.TBattleFieldInfoRequestsElement.bfrIgnorePassiveIndependents), Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
             Info.FriendlyRelations = TSet<byte>.WithBounds(0, 7);
             Msg.MsgID = 4360;
-            Msg.Param[0] = Ptr<Aow.Units.AoWE.TBattleFieldInfo>.To(Info__cell, 0).Box();
+            Msg.Param[0] = query;
             {
                 I = Settings.FProcessedMapFields.Count - 1;
                 byte end__91 = 0;

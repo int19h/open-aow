@@ -780,7 +780,7 @@ namespace Aow.Units.AoWSetup
             Aow.Rtl.TMemoryStream Stream = default;
             Stream = new Aow.Rtl.TMemoryStream();
             Stream.Size = Size;
-            Aow.Rtl.Rtl.Move(Aow.Rtl.Rtl.BytePointer(Data).AsSpan(Size), Stream.Memory.AsSpan(0, Size), Size);
+            Aow.Rtl.Rtl.Move(Aow.Rtl.Rtl.BufferBytes(Data)[..Size], Stream.Memory.AsSpan(0, Size), Size);
             Stream.Position = 0;
             try
             {
@@ -989,7 +989,7 @@ namespace Aow.Units.AoWSetup
                 if (bool__33)
                 {
                     var call__34 = FStream.Size;
-                    var call__35 = Aow.Units.Engine.Engine.GetCRC32(Ptr<byte>.To(FStream.Memory, 0), call__34);
+                    var call__35 = Aow.Units.Engine.Engine.GetCRC32(FStream.Memory, call__34);
                     bool__33 = (call__35 == FSettings.FMapCRC);
                 }
 
@@ -1251,7 +1251,7 @@ namespace Aow.Units.AoWSetup
             if (!GetHost())
             {
                 FStream.Size = Size;
-                Aow.Rtl.Rtl.Move(Aow.Rtl.Rtl.BytePointer(Data).AsSpan(Size), FStream.Memory.AsSpan(0, Size), Size);
+                Aow.Rtl.Rtl.Move(Aow.Rtl.Rtl.BufferBytes(Data)[..Size], FStream.Memory.AsSpan(0, Size), Size);
                 ValidateMap();
                 SendHostMessage(11, FRemotePlayer, 0, 0);
             }

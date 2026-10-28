@@ -616,13 +616,12 @@ namespace Aow.Units.EventLog
     // { TExecuteEventLogCallBackList: size $08; $04 list of $10-byte callback records. VMT 557FC130. }
     public partial class TExecuteEventLogCallBackList : Aow.Rtl.TObject
     {
-        public Aow.Rtl.TList FList;
+        public System.Collections.Generic.List<TExecuteEventLogInfo> FList = [];
         // EventLog.pas:283
         // { $04 }
         public override void Destroy()
         {
             Clear();
-            FList.Free();
             base.Destroy();
         }
 
@@ -630,7 +629,7 @@ namespace Aow.Units.EventLog
         public void Create__init_TExecuteEventLogCallBackList()
         {
             ;
-            var call__13 = new Aow.Rtl.TList();
+            var call__13 = new System.Collections.Generic.List<TExecuteEventLogInfo>();
             FList = call__13;
         }
 
@@ -652,20 +651,12 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:300
-        public Ptr<Aow.Units.EventLog.TExecuteEventLogInfo> GetItem(int Index)
-        {
-            Ptr<Aow.Units.EventLog.TExecuteEventLogInfo> Result = default;
-            Result = Ptr<Aow.Units.EventLog.TExecuteEventLogInfo>.Unbox(FList.List[Index]);
-            return Result;
-        }
+        public ref TExecuteEventLogInfo GetItem(int Index) => ref CollectionsMarshal.AsSpan(FList)[Index];
 
         // EventLog.pas:305
         public void Add(in Aow.Units.EventLog.TExecuteEventLogInfo Info)
         {
-            Ptr<Aow.Units.EventLog.TExecuteEventLogInfo> Item = default;
-            Item = Ptr<Aow.Units.EventLog.TExecuteEventLogInfo>.Alloc(1);
-            Item.Value = Info;
-            FList.Add(Item.Box());
+            FList.Add(Info);
         }
 
         // EventLog.pas:314
@@ -674,7 +665,7 @@ namespace Aow.Units.EventLog
             if (Index < FList.Count)
             {
                 ;
-                FList.Delete(Index);
+                FList.RemoveAt(Index);
             }
         }
 

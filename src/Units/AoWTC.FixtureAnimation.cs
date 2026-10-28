@@ -819,7 +819,7 @@ namespace Aow.Units.AoWTC
             catch (System.Exception)
             {
                 // { Original puts the diagnostic in the message-box caption. }
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Show", AnsiString.FromPChar(Ptr<byte>.Unbox(((((AnsiString)"Error - fxHS ") + Aow.Rtl.Rtl.IntToStr(FAbilityIndex)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(FSpellIndex))), (int)0);
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Show", Aow.Rtl.Rtl.NullTerminatedText(((((AnsiString)"Error - fxHS ") + Aow.Rtl.Rtl.IntToStr(FAbilityIndex)) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(FSpellIndex)), (int)0);
             }
         }
     }
@@ -1170,7 +1170,7 @@ namespace Aow.Units.AoWTC
             catch (System.Exception)
             {
                 var call__1590 = FUnit.FUnit.GetName();
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during ShowUnit", AnsiString.FromPChar(Ptr<byte>.Unbox(((AnsiString)"Error - ") + call__1590)), (int)0);
+                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during ShowUnit", Aow.Rtl.Rtl.NullTerminatedText(((AnsiString)"Error - ") + call__1590), (int)0);
             }
         }
 

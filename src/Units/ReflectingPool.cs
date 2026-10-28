@@ -595,7 +595,7 @@ namespace Aow.Units.ReflectingPool
         public static int ComparePools(object Item1, object Item2)
         {
             int Result = default;
-            Result = Aow.Rtl.Rtl.BytePointer(Item1).ByteIndex - Aow.Rtl.Rtl.BytePointer(Item2).ByteIndex;
+            Result = (((Aow.Rtl.TObject)Item1)?.InstanceId ?? 0) - (((Aow.Rtl.TObject)Item2)?.InstanceId ?? 0);
             return Result;
         }
 

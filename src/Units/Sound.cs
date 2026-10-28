@@ -289,7 +289,7 @@ namespace Aow.Units.Sound
 
         // Sound.pas:683
         // { Sound data from memory; it is not put in SampleDataList. }
-        public virtual void CreateEx__init(Ptr<Aow.Rtl.TWaveFormatEx> Format, object Data, int Size)
+        public virtual void CreateEx__init(in Aow.Rtl.TWaveFormatEx Format, object Data, int Size)
         {
             ;
             FName = (AnsiString)"";
@@ -340,7 +340,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:61
-        public static Aow.Units.Sound.TSampleData CreateEx(Ptr<Aow.Rtl.TWaveFormatEx> Format, object Data, int Size)
+        public static Aow.Units.Sound.TSampleData CreateEx(in Aow.Rtl.TWaveFormatEx Format, object Data, int Size)
         {
             Aow.Units.Sound.TSampleData o = new Aow.Units.Sound.TSampleData();
             try
@@ -376,7 +376,7 @@ namespace Aow.Units.Sound
             }
 
             // Sound.pas:61
-            public Aow.Units.Sound.TSampleData CreateEx(Ptr<Aow.Rtl.TWaveFormatEx> Format, object Data, int Size)
+            public Aow.Units.Sound.TSampleData CreateEx(in Aow.Rtl.TWaveFormatEx Format, object Data, int Size)
             {
                 Aow.Units.Sound.TSampleData o = (Aow.Units.Sound.TSampleData)NewInstance();
                 try
@@ -1934,13 +1934,13 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1213
-        public static Aow.Units.Sound.TSampleData CreateSampleDataEx(Ptr<Aow.Rtl.TWaveFormatEx> Format, object Data, int Size)
+        public static Aow.Units.Sound.TSampleData CreateSampleDataEx(ReadOnlySpan<Aow.Rtl.TWaveFormatEx> Format, object Data, int Size)
         {
             Aow.Units.Sound.TSampleData Result = default;
             if (Aow.Units.Sound.Sound.SoundSystem != null)
             {
                 var call__54 = Aow.Units.Sound.Sound.SoundSystem.SampleDataClass();
-                var call__55 = call__54.CreateEx(Format, Data, Size);
+                var call__55 = call__54.CreateEx(Format[0], Data, Size);
                 Result = call__55;
             }
             else

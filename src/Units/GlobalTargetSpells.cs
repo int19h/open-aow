@@ -3616,10 +3616,10 @@ namespace Aow.Units.GlobalTargetSpells
         // { needs: TUnitControl.FindUnit(ID: Integer): TAbstractUnit ($5579E4F7). }
         // { needs: AoWE.TranslateRStr(const S: string): string ($5579E62D). }
         // { needs: TSpell.CanActivate(Caster: TAbstractUnit; var Msg: string): Boolean. }
-        public static bool BaseCanActivate(Aow.Units.AoWE.TSpell Spell, int Caster, int MessagePtr)
+        public static bool BaseCanActivate(Aow.Units.AoWE.TSpell Spell, int Caster, ref Aow.Rtl.AnsiString MessageText)
         {
             bool Result = default;
-            Result = Spell.CanActivate__static(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster), ref Unsafe.As<int, Aow.Rtl.AnsiString>(ref MessagePtr));
+            Result = Spell.CanActivate__static(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster), ref MessageText);
             return Result;
         }
 
@@ -3627,21 +3627,20 @@ namespace Aow.Units.GlobalTargetSpells
         // { needs: Boolean result; stack arguments require the normal EBP frame. }
         // { needs: Boolean results on the shared TSpell virtuals. Helpers keep managed
 //   string finalization before returning AL; the public methods tail-call them. }
-        public static bool GlobalTargetCanActivate(Aow.Units.GlobalTargetSpells.TGlobalTargetSpell Spell, int Caster, int MessagePtr)
+        public static bool GlobalTargetCanActivate(Aow.Units.GlobalTargetSpells.TGlobalTargetSpell Spell, int Caster, ref Aow.Rtl.AnsiString MessageText)
         {
             bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte Layer = default;
-            Result = Aow.Units.GlobalTargetSpells.GlobalTargetSpells.BaseCanActivate(Spell, Caster, MessagePtr);
+            Result = Aow.Units.GlobalTargetSpells.GlobalTargetSpells.BaseCanActivate(Spell, Caster, ref MessageText);
             if (Result && Spell.FAboveGroundOnly)
             {
                 Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).GetLocation(ref X, ref Y, ref Layer);
                 if (Layer != 0)
                 {
                     Result = false;
-                    /* TODO(T-A3) Integer address requires managed pointer provenance */
-                    throw new System.NotImplementedException();
+                    MessageText = Aow.Units.AoWE.AoWE.TranslateRStr(CannotCastSpellInUndergoundRStr);
                 }
             }
 
@@ -3649,10 +3648,10 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:585
-        public static bool VirtualCanActivate(Aow.Units.AoWE.TSpell Spell, int Caster, int MessagePtr)
+        public static bool VirtualCanActivate(Aow.Units.AoWE.TSpell Spell, int Caster, ref Aow.Rtl.AnsiString MessageText)
         {
             bool Result = default;
-            Result = Spell.CanActivate(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster), ref Unsafe.As<int, Aow.Rtl.AnsiString>(ref MessagePtr));
+            Result = Spell.CanActivate(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster), ref MessageText);
             return Result;
         }
 
@@ -3666,10 +3665,9 @@ namespace Aow.Units.GlobalTargetSpells
         public static bool GlobalTargetActivate(Aow.Units.GlobalTargetSpells.TGlobalTargetSpell Spell, int Caster, int A2)
         {
             bool Result = default;
-            Aow.Rtl.AnsiString[] MessageText__cell = new Aow.Rtl.AnsiString[1];
-            ref Aow.Rtl.AnsiString MessageText = ref MessageText__cell[0];
+            Aow.Rtl.AnsiString MessageText = default;
             Aow.Units.GlobalTargetSpells.GlobalTargetSpells.BaseActivate(Spell, Caster, A2);
-            if (Aow.Units.GlobalTargetSpells.GlobalTargetSpells.VirtualCanActivate(Spell, Caster, Ptr<Aow.Rtl.AnsiString>.To(MessageText__cell, 0).ByteIndex))
+            if (Aow.Units.GlobalTargetSpells.GlobalTargetSpells.VirtualCanActivate(Spell, Caster, ref MessageText))
             {
                 Spell.FCasterID = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).FUnitID;
                 Spell.FCasterPlayer = unchecked((sbyte)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).FPlayer);

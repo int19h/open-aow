@@ -649,30 +649,6 @@ namespace Aow.Units.MoveOnEvents
         }
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 166)]
-    public struct TMapView
-    {
-        [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_165 Reserved;
-        [FieldOffset(165)]
-        public sbyte SeatedPlayer;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 19)]
-    public struct TPlayerView
-    {
-        [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_18 Reserved;
-        [FieldOffset(18)]
-        public sbyte ID;
-    }
-
-    public struct TArmyView
-    {
-        public Aow.Units.FixedArray_byte_28 Reserved;
-        public Ptr<Aow.Units.MoveOnEvents.TPlayerView> Player;
-    }
-
     public static partial class MoveOnEvents
     {
         // MoveOnEvents.pas:381

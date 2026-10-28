@@ -55,6 +55,8 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
             view = (int i) => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref Unsafe.As<T, byte>(ref pointer.RawReference(0)), offset + i * Unsafe.SizeOf<U>()))
         };
     }
+    public static implicit operator Span<T>(Ptr<T> pointer) => pointer.AsSpan();
+    public static implicit operator ReadOnlySpan<T>(Ptr<T> pointer) => pointer.AsSpan();
     public static Ptr<T> To(T[] array, int index) => new() { Array = array, Index = index };
     // SYSTEM.PAS:1042 returns nil without calling the allocator for size zero.
     public static Ptr<T> Alloc(int count) => count == 0 ? default : To(new T[count], 0);

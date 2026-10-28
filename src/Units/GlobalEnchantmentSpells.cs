@@ -1530,14 +1530,14 @@ namespace Aow.Units.GlobalEnchantmentSpells
         // { $08 }
         public int FHeight;
         // { $0C }
-        public Ptr<sbyte> FOriginalTerrain;
+        public sbyte[] FOriginalTerrain = [];
         // GlobalEnchantmentSpells.pas:1072
         // { $10 }
         public override void Destroy()
         {
-            if (!FOriginalTerrain.IsNull)
+            if (FOriginalTerrain.Length != 0)
             {
-                FOriginalTerrain = FOriginalTerrain.Realloc(0);
+                Array.Resize(ref FOriginalTerrain, 0);
             }
 
             base.Destroy();
@@ -1553,10 +1553,10 @@ namespace Aow.Units.GlobalEnchantmentSpells
             {
                 if (Stream.StorageMode().Contains(Aow.Units.Engine.TStorageModeElement.smRead))
                 {
-                    FOriginalTerrain = FOriginalTerrain.Realloc((FWidth * FHeight) * 2);
+                    Array.Resize(ref FOriginalTerrain, (FWidth * FHeight) * 2);
                 }
 
-                Stream.rwData(MemoryMarshal.AsBytes(FOriginalTerrain.Array.AsSpan(FOriginalTerrain.Index, (FWidth * FHeight) * 2)), (FWidth * FHeight) * 2, 22);
+                Stream.rwData(MemoryMarshal.AsBytes(FOriginalTerrain.AsSpan(0, (FWidth * FHeight) * 2)), (FWidth * FHeight) * 2, 22);
             }
         }
 
@@ -1564,7 +1564,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            FOriginalTerrain = default;
+            FOriginalTerrain = [];
         }
 
         // GlobalEnchantmentSpells.pas:1090
@@ -1572,8 +1572,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             FWidth = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.Width;
             FHeight = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.Height;
-            FOriginalTerrain = FOriginalTerrain.Realloc((FWidth * FHeight) * 2);
-            Ptr<sbyte>.Fill(FOriginalTerrain, (FWidth * FHeight) * 2, default);
+            Array.Resize(ref FOriginalTerrain, (FWidth * FHeight) * 2);
+            Array.Clear(FOriginalTerrain);
         }
 
         // GlobalEnchantmentSpells.pas:1098
@@ -2503,12 +2503,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
             int Y = default;
             int L = default;
             int Index = default;
-            Ptr<byte> Flags = default;
+            byte[] Flags = [];
             int Mask = default;
             Aow.Units.HSEngine.TMapLevel MapLevel = default;
             Aow.Units.HSEngine.THNWalkData Walk = default;
             bool Border = default;
-            Flags = default;
+            Flags = [];
             Mask = 1 << (Player - 1);
             {
                 L = 0;
@@ -2518,8 +2518,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                     var call__158 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(L);
                     MapLevel = call__158;
                     Index = 0;
-                    Flags = Flags.Realloc(MapLevel.Width * MapLevel.Height);
-                    Ptr<byte>.Fill(Flags, MapLevel.Width * MapLevel.Height, default);
+                    Array.Resize(ref Flags, MapLevel.Width * MapLevel.Height);
+                    Array.Clear(Flags);
                     {
                         Y = 1;
                         int end__159 = MapLevel.Height - 1;
@@ -2584,7 +2584,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
 
             Aow.Units.AoWE.AoWE.AoWHSMap.UpdateVisibility();
-            Flags = Flags.Realloc(0);
+            Array.Resize(ref Flags, 0);
         }
 
         // GlobalEnchantmentSpells.pas:262
