@@ -15,8 +15,7 @@ public partial class TAoWBookWindow
             FPageSurface.Free();
             FPageSurface = null;
         }
-        var area = new[] { Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight) };
-        var pointer = Ptr<TRect>.To(area, 0);
+        var area = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
         if (FPageSurface is null)
         {
             if (FBackSurface is TDDrawSurface direct)
@@ -29,7 +28,7 @@ public partial class TAoWBookWindow
                 FPageSurface = page;
             }
             else FPageSurface = TDataSurface.Create(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, null);
-            FBackSurface.BltClipped(FPageSurface, pointer, 0, 0);
+            FBackSurface.BltAreaClipped(FPageSurface, area, 0, 0);
         }
         if (!FAnimating)
         {
@@ -38,12 +37,12 @@ public partial class TAoWBookWindow
         }
         if (FFirstAnimationFrame || !FPreviousSurfaceValid)
         {
-            area[0] = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+            area = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
             TSurface initial = FPageTurnMode == TPageTurnMode.ptLeft ? FBackSurface : FPageSurface;
             if (FPageTurnMode is TPageTurnMode.ptLeft or TPageTurnMode.ptRight)
             {
-                if (!FMasked) initial.BltClipped(surface, pointer, FWinLeft, FWinTop);
-                else initial.BltColorKeyClipped(surface, pointer, FWinLeft, FWinTop,
+                if (!FMasked) initial.BltAreaClipped(surface, area, FWinLeft, FWinTop);
+                else initial.BltAreaColorKeyClipped(surface, area, FWinLeft, FWinTop,
                     Aow.Units.GFXE.GFXE.Color2PixelInfo(FMaskColor, FBackSurface.PixelFormatID, null));
             }
             FFirstAnimationFrame = false;
@@ -53,14 +52,14 @@ public partial class TAoWBookWindow
         FBackSurface.Lock(ref source);
         FPageSurface.Lock(ref oldPage);
         FPageTurn.RenderScene(FWinLeft + FBorderWidth, FWinTop + FBorderHeight, destination,
-            FBorderWidth, FBorderHeight, oldPage, FBorderWidth, FBorderHeight, source, ref area[0]);
+            FBorderWidth, FBorderHeight, oldPage, FBorderWidth, FBorderHeight, source, ref area);
         FPageSurface.Unlock();
         FBackSurface.Unlock();
         surface.Unlock();
-        FBackRect.Top = area[0].Top;
+        FBackRect.Top = area.Top;
         // AOWTools 597063C2..597063DF keeps the area above the window intact.
         if (FBackRect.Top >= FWinTop && FBackRect.Top <= FWinTop + FFrameTop) FBackRect.Top = FWinTop - 1;
-        FBackRect.Bottom = FWinTop - area[0].Top + FWinHeight;
+        FBackRect.Bottom = FWinTop - area.Top + FWinHeight;
         FSurfaceValid = true;
         FOnDrawSurface?.Invoke(this, surface, FWinLeft, FWinTop);
     }

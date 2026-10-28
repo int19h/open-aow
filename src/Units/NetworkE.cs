@@ -2019,7 +2019,7 @@ namespace Aow.Units.NetworkE
             Aow.Rtl.TMemoryStream S = default;
             S = new Aow.Rtl.TMemoryStream();
             S.Size = Size;
-            Aow.Rtl.Rtl.Move(Aow.Rtl.Rtl.BytePointer(Data).AsSpan(Size), S.Memory.AsSpan(0, Size), Size);
+            Aow.Rtl.Rtl.Move(Aow.Rtl.Rtl.BufferBytes(Data)[..Size], S.Memory.AsSpan(0, Size), Size);
             FList.Add(S);
         }
 

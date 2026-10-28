@@ -832,7 +832,7 @@ namespace Aow.Units.MapCtrl
             {
                 if (FOnExecuteEventLog != null)
                 {
-                    FOnExecuteEventLog(Ptr<Aow.Units.EventLog.TExecuteEventLogInfo>.Unbox(Info).Value.Log, Ptr<Aow.Units.EventLog.TExecuteEventLogInfo>.Unbox(Info).Value.Immediate, Ptr<Aow.Units.EventLog.TExecuteEventLogInfo>.Unbox(Info).Value.Done);
+                    FOnExecuteEventLog(((Aow.Units.AoWE.ExecuteEventLogNotification)Info).Info.Log, ((Aow.Units.AoWE.ExecuteEventLogNotification)Info).Info.Immediate, ((Aow.Units.AoWE.ExecuteEventLogNotification)Info).Info.Done);
                 }
             }
             catch (System.Exception)

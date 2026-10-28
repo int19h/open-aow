@@ -1337,7 +1337,7 @@ namespace Aow.Units.City
                     {
                         if (Msg.MsgID == 4360)
                         {
-                            ReturnBattleFieldInfo(ref Ptr<Aow.Units.AoWE.TBattleFieldInfo>.FromBox(Msg.Param[0].Ref).Value);
+                            ReturnBattleFieldInfo(ref ((Aow.Units.AoWE.BattleFieldQuery)Msg.Param[0].Ref).Info);
                         }
                         else
                         {

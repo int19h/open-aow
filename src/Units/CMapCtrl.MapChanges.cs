@@ -5,12 +5,12 @@ namespace Aow.Units.CMapCtrl;
 
 public partial class TAoWCombatMapControl
 {
-    // CMapCtrl.pas:198. The notification carries a pointer to TMapChangedInfo.
+    // CMapCtrl.pas:198. The notification carries the changed map area.
     public void MapChanged(TObject sender)
     {
         try
         {
-            if (FOnMapChanged is not null) FOnMapChanged(Ptr<TMapChangedInfo>.Unbox(sender).Value);
+            if (FOnMapChanged is not null) FOnMapChanged(((Aow.Units.AoWE.MapChangedNotification)sender).Info);
         }
         catch (System.Exception)
         {

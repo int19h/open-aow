@@ -10,7 +10,8 @@ public partial class TAoWCombatMapControl
         try
         {
             if (FOnExecuteEventLog is null) return;
-            ref var info = ref Ptr<TExecuteEventLogInfo>.Unbox(sender).Value;
+            var info = sender is Aow.Units.AoWE.ExecuteEventLogNotification notification
+                ? notification.Info : Aow.Rtl.Rtl.ReadLegacyRecord<TExecuteEventLogInfo>(sender);
             FOnExecuteEventLog(info.Log, info.Done);
         }
         catch (System.Exception) { Aow.Rtl.Rtl.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWCombatMapControl)"); }

@@ -10798,9 +10798,9 @@ namespace Aow.Units.AoWE
         // { $14 }
         public Aow.Rtl.TList FProcessedMapFields;
         // { $18; 557D7BF9 }
-        public Ptr<int> FRowOffsets;
+        public int[] FRowOffsets = [];
         // { $1C }
-        public Ptr<Ptr<int>> FLevelData;
+        public int[][] FLevelData = [];
         // { $20 }
         public Aow.Units.FixedArray_int_8 FEvenOffsets;
         // { $24 }
@@ -10910,12 +10910,12 @@ namespace Aow.Units.AoWE
                 int end__884 = FLevelCount - 1;
                 for (; I <= end__884; I += 1)
                 {
-                    FLevelData[I] = FLevelData[I].Realloc(0);
+                    Array.Resize(ref FLevelData[I], 0);
                 }
             }
 
-            FRowOffsets = FRowOffsets.Realloc(0);
-            FLevelData = FLevelData.Realloc(0);
+            Array.Resize(ref FRowOffsets, 0);
+            Array.Resize(ref FLevelData, 0);
             FWidth = 0;
             FHeight = 0;
             FLevelCount = 0;
@@ -10941,9 +10941,9 @@ namespace Aow.Units.AoWE
                 int end__885 = FLevelCount - 1;
                 for (; I <= end__885; I += 1)
                 {
-                    if (!FLevelData[I].IsNull)
+                    if (FLevelData[I] is not null)
                     {
-                        Aow.Units.GFXE.GFXE.FillInt(MemoryMarshal.AsBytes(FLevelData[I].Array.AsSpan(FLevelData[I].Index, ((FWidth * FHeight) * 4) / 4)), FWidth * FHeight, 16777215);
+                        Aow.Units.GFXE.GFXE.FillInt(MemoryMarshal.AsBytes(FLevelData[I].AsSpan(0, ((FWidth * FHeight) * 4) / 4)), FWidth * FHeight, 16777215);
                     }
                 }
             }
@@ -10999,10 +10999,10 @@ namespace Aow.Units.AoWE
         // MoveT.PAS:175
         public void SetupLevel(int Level)
         {
-            if (FLevelData[Level].IsNull)
+            if (FLevelData[Level] is null)
             {
-                FLevelData[Level] = FLevelData[Level].Realloc(FWidth * FHeight);
-                Aow.Units.GFXE.GFXE.FillInt(MemoryMarshal.AsBytes(FLevelData[Level].Array.AsSpan(FLevelData[Level].Index, ((FWidth * FHeight) * 4) / 4)), FWidth * FHeight, 16777215);
+                Array.Resize(ref FLevelData[Level], FWidth * FHeight);
+                Aow.Units.GFXE.GFXE.FillInt(MemoryMarshal.AsBytes(FLevelData[Level].AsSpan(0, ((FWidth * FHeight) * 4) / 4)), FWidth * FHeight, 16777215);
             }
         }
 
@@ -11021,7 +11021,7 @@ namespace Aow.Units.AoWE
                 FMovePointsClear = true;
                 Offset = 0;
                 RowSize = Width * 4;
-                FRowOffsets = FRowOffsets.Realloc(Height);
+                Array.Resize(ref FRowOffsets, Height);
                 {
                     I = 0;
                     int end__889 = Height - 1;
@@ -11032,8 +11032,8 @@ namespace Aow.Units.AoWE
                     }
                 }
 
-                FLevelData = FLevelData.Realloc(LevelCount);
-                Ptr<Ptr<int>>.Fill(FLevelData, LevelCount, default);
+                Array.Resize(ref FLevelData, LevelCount);
+                Array.Clear(FLevelData);
                 {
                     I = 1;
                     byte end__890 = 6;
@@ -11061,9 +11061,9 @@ namespace Aow.Units.AoWE
                     int end__891 = FLevelCount - 1;
                     for (; I <= end__891; I += 1)
                     {
-                        if (!FLevelData[I].IsNull)
+                        if (FLevelData[I] is not null)
                         {
-                            Aow.Units.GFXE.GFXE.FillInt(MemoryMarshal.AsBytes(FLevelData[I].Array.AsSpan(FLevelData[I].Index, ((FWidth * FHeight) * 4) / 4)), FWidth * FHeight, 16777215);
+                            Aow.Units.GFXE.GFXE.FillInt(MemoryMarshal.AsBytes(FLevelData[I].AsSpan(0, ((FWidth * FHeight) * 4) / 4)), FWidth * FHeight, 16777215);
                         }
                     }
                 }
@@ -11073,9 +11073,9 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:238
-        public Ptr<int> GetMovePointLevelData(int Level)
+        public int[] GetMovePointLevelData(int Level)
         {
-            Ptr<int> Result = default;
+            int[] Result = default;
             Result = FLevelData[Level];
             return Result;
         }
@@ -16370,7 +16370,7 @@ namespace Aow.Units.AoWE
                         }
                         else
                         {
-                            if ((Ptr<byte>.Unbox(Field)[26] != 0) || !Aow.Units.AoWE.AoWE.AoWHSMap.FFogEnabled)
+                            if ((((Field.FFieldFlags >> 16) & 255) != 0) || !Aow.Units.AoWE.AoWE.AoWHSMap.FFogEnabled)
                             {
                                 var call__1473 = Field.GetPlayer();
                                 var call__1474 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1473);
@@ -18447,8 +18447,8 @@ namespace Aow.Units.AoWE
         // { $10C }
         public virtual void ShowMessage(Aow.Rtl.AnsiString Text)
         {
-            Aow.Units.AoWE.TShowMessageInfo[] Info__cell = new Aow.Units.AoWE.TShowMessageInfo[1];
-            ref Aow.Units.AoWE.TShowMessageInfo Info = ref Info__cell[0];
+            var notification = new Aow.Units.AoWE.ShowMessageNotification();
+            ref var Info = ref notification.Info;
             var call__1661 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetDebugMode();
             if (!call__1661 && (Text != ((AnsiString)"")))
             {
@@ -18457,7 +18457,7 @@ namespace Aow.Units.AoWE
 
             Info.Text = Text;
             Info.Color = 16777215;
-            FShowMessageEvents.TriggerNotifyEvents(Ptr<Aow.Units.AoWE.TShowMessageInfo>.To(Info__cell, 0).Box());
+            FShowMessageEvents.TriggerNotifyEvents(notification);
             FMessageText = Text;
             FMessageFrame = 128;
         }
@@ -18465,8 +18465,8 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:566
         public virtual void ShowWarning(Aow.Rtl.AnsiString Text)
         {
-            Aow.Units.AoWE.TShowMessageInfo[] Info__cell = new Aow.Units.AoWE.TShowMessageInfo[1];
-            ref Aow.Units.AoWE.TShowMessageInfo Info = ref Info__cell[0];
+            var notification = new Aow.Units.AoWE.ShowMessageNotification();
+            ref var Info = ref notification.Info;
             var call__1662 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetDebugMode();
             if (!call__1662 && (Text != ((AnsiString)"")))
             {
@@ -18475,7 +18475,7 @@ namespace Aow.Units.AoWE
 
             Info.Text = Text;
             Info.Color = 16777215;
-            FShowMessageEvents.TriggerNotifyEvents(Ptr<Aow.Units.AoWE.TShowMessageInfo>.To(Info__cell, 0).Box());
+            FShowMessageEvents.TriggerNotifyEvents(notification);
             FMessageText = Text;
             FMessageFrame = 160;
         }
@@ -18569,13 +18569,13 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:480
         public void TriggerMapChangedEvent(in Aow.Rtl.TRect R, int L)
         {
-            Aow.Units.AoWE.TMapChangedInfo[] Info__cell = new Aow.Units.AoWE.TMapChangedInfo[1];
-            ref Aow.Units.AoWE.TMapChangedInfo Info = ref Info__cell[0];
+            var notification = new Aow.Units.AoWE.MapChangedNotification();
+            ref var Info = ref notification.Info;
             Info.Bounds = R;
             Info.Level = L;
             var call__1666 = MapContainer.GetMapLevel(L);
             Info.MapLevel = call__1666;
-            FMapChangedEvents.TriggerNotifyEvents(Ptr<Aow.Units.AoWE.TMapChangedInfo>.To(Info__cell, 0).Box());
+            FMapChangedEvents.TriggerNotifyEvents(notification);
         }
 
         // AoWHSMap.PAS:490
@@ -18656,20 +18656,20 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:533
         public void TriggerScannerIconsChangedEvent(in Aow.Rtl.TRect R, int L)
         {
-            Aow.Units.AoWE.TMapChangedInfo[] Info__cell = new Aow.Units.AoWE.TMapChangedInfo[1];
-            ref Aow.Units.AoWE.TMapChangedInfo Info = ref Info__cell[0];
+            var notification = new Aow.Units.AoWE.MapChangedNotification();
+            ref var Info = ref notification.Info;
             Info.Bounds = R;
             Info.Level = L;
             var call__1669 = MapContainer.GetMapLevel(L);
             Info.MapLevel = call__1669;
-            FScannerIconsChangedEvents.TriggerNotifyEvents(Ptr<Aow.Units.AoWE.TMapChangedInfo>.To(Info__cell, 0).Box());
+            FScannerIconsChangedEvents.TriggerNotifyEvents(notification);
         }
 
         // AoWHSMap.PAS:542
         public void UpdateShowMessage()
         {
-            Aow.Units.AoWE.TShowMessageInfo[] Info__cell = new Aow.Units.AoWE.TShowMessageInfo[1];
-            ref Aow.Units.AoWE.TShowMessageInfo Info = ref Info__cell[0];
+            var notification = new Aow.Units.AoWE.ShowMessageNotification();
+            ref var Info = ref notification.Info;
             if (FMessageFrame != 0)
             {
                 FMessageFrame = (byte)(((int)FMessageFrame) - 1);
@@ -18686,14 +18686,14 @@ namespace Aow.Units.AoWE
                         Info.Color = 16777215;
                     }
 
-                    FShowMessageEvents.TriggerNotifyEvents(Ptr<Aow.Units.AoWE.TShowMessageInfo>.To(Info__cell, 0).Box());
+                    FShowMessageEvents.TriggerNotifyEvents(notification);
                 }
 
                 if (FMessageFrame == 0)
                 {
                     Info.Text = (AnsiString)"";
                     Info.Color = 16777215;
-                    FShowMessageEvents.TriggerNotifyEvents(Ptr<Aow.Units.AoWE.TShowMessageInfo>.To(Info__cell, 0).Box());
+                    FShowMessageEvents.TriggerNotifyEvents(notification);
                 }
             }
         }
@@ -20221,8 +20221,8 @@ namespace Aow.Units.AoWE
         // { +128 draft }
         public virtual void TriggerExecuteEventLog(Aow.Units.EventLog.TEventLog Log, bool Immediate, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
-            Aow.Units.EventLog.TExecuteEventLogInfo[] Info__cell = new Aow.Units.EventLog.TExecuteEventLogInfo[1];
-            ref Aow.Units.EventLog.TExecuteEventLogInfo Info = ref Info__cell[0];
+            var notification = new Aow.Units.AoWE.ExecuteEventLogNotification();
+            ref var Info = ref notification.Info;
             Info.Log = Log;
             Info.Done = Done;
             Info.Immediate = Immediate;
@@ -20237,7 +20237,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                FExecuteEventLogEvents.TriggerNotifyEvents(Ptr<Aow.Units.EventLog.TExecuteEventLogInfo>.To(Info__cell, 0).Box());
+                FExecuteEventLogEvents.TriggerNotifyEvents(notification);
             }
         }
 
@@ -20949,11 +20949,11 @@ namespace Aow.Units.AoWE
                     break;
                 {
                     var call__1885 = FExecuteEventLogCallBacks.GetItem(0);
-                    if (call__1885.Value.Done != null)
+                    if (call__1885.Done != null)
                     {
                         var call__1886 = FExecuteEventLogCallBacks.GetItem(1);
                         var call__1887 = FExecuteEventLogCallBacks.GetItem(0);
-                        call__1887.Value.Done(call__1886.Value.Log);
+                        call__1887.Done(call__1886.Log);
                     }
 
                     // { Original passes the second record's log to the first callback, even for a one-item list. }
@@ -20965,16 +20965,16 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:1937
         public void ExecuteNextEventLog()
         {
-            Aow.Units.EventLog.TExecuteEventLogInfo[] Info__cell = new Aow.Units.EventLog.TExecuteEventLogInfo[1];
-            ref Aow.Units.EventLog.TExecuteEventLogInfo Info = ref Info__cell[0];
+            var notification = new Aow.Units.AoWE.ExecuteEventLogNotification();
+            ref var Info = ref notification.Info;
             var call__1888 = FExecuteEventLogCallBacks.GetCount();
             if (call__1888 != 0)
             {
                 FAILockCount += 1;
                 var call__1889 = FExecuteEventLogCallBacks.GetItem(0);
-                Info = call__1889.Value;
+                Info = call__1889;
                 Info.Done = ExecuteEventLogDone;
-                FExecuteEventLogEvents.TriggerNotifyEvents(Ptr<Aow.Units.EventLog.TExecuteEventLogInfo>.To(Info__cell, 0).Box());
+                FExecuteEventLogEvents.TriggerNotifyEvents(notification);
             }
         }
 
@@ -21017,13 +21017,13 @@ namespace Aow.Units.AoWE
             if (bool__1891)
             {
                 var call__1892 = FExecuteEventLogCallBacks.GetItem(0);
-                bool__1891 = (Log == call__1892.Value.Log);
+                bool__1891 = (Log == call__1892.Log);
             }
 
             if (bool__1891)
             {
                 var call__1893 = FExecuteEventLogCallBacks.GetItem(0);
-                Info = call__1893.Value;
+                Info = call__1893;
                 FExecuteEventLogCallBacks.Delete(0);
                 if (Info.Done != null)
                 {
@@ -24254,7 +24254,7 @@ namespace Aow.Units.AoWE
     // { TCustomAbilityList: size $10; $08 ability-bit buffer, $0C bit count. }
     public partial class TCustomAbilityList : Aow.Units.Engine.TEObject
     {
-        public Ptr<byte> FAbilityBits;
+        public byte[] FAbilityBits = [];
         // { $08 }
         public int FAbilityCount;
         // Ability.PAS:942
@@ -24275,12 +24275,12 @@ namespace Aow.Units.AoWE
                 {
                     Stream.rwInteger(ref I, 2);
                     SetAbCount(I);
-                    Stream.rwData(FAbilityBits.AsSpan((int)(((uint)(FAbilityCount + 7)) >> 3)), (int)(((uint)(FAbilityCount + 7)) >> 3), 3);
+                    Stream.rwData(FAbilityBits.AsSpan(0, (int)(((uint)(FAbilityCount + 7)) >> 3)), (int)(((uint)(FAbilityCount + 7)) >> 3), 3);
                 }
                 else
                 {
                     Stream.rwInteger(ref FAbilityCount, 2);
-                    Stream.rwData(FAbilityBits.AsSpan((int)(((uint)(FAbilityCount + 7)) >> 3)), (int)(((uint)(FAbilityCount + 7)) >> 3), 3);
+                    Stream.rwData(FAbilityBits.AsSpan(0, (int)(((uint)(FAbilityCount + 7)) >> 3)), (int)(((uint)(FAbilityCount + 7)) >> 3), 3);
                 }
             }
 
@@ -24360,10 +24360,10 @@ namespace Aow.Units.AoWE
             NewSize = (int)(((uint)(Value + 7)) >> 3);
             if (NewSize != OldSize)
             {
-                FAbilityBits = FAbilityBits.Realloc(NewSize);
+                Array.Resize(ref FAbilityBits, NewSize);
                 if (NewSize > OldSize)
                 {
-                    Aow.Rtl.Rtl.FillBytes((FAbilityBits.Reinterpret<byte>() + OldSize).AsSpan(NewSize - OldSize), 0);
+                    Aow.Rtl.Rtl.FillBytes(FAbilityBits.AsSpan(OldSize, NewSize - OldSize), 0);
                 }
             }
 
@@ -24411,7 +24411,7 @@ namespace Aow.Units.AoWE
             if (Result)
             {
                 var call__2072 = GetAbCount();
-                var call__2073 = Aow.Rtl.Rtl.CompareMem(FAbilityBits.AsSpan((int)(((uint)(call__2072 + 7)) >> 3)), Source.FAbilityBits.AsSpan((int)(((uint)(call__2072 + 7)) >> 3)), (int)(((uint)(call__2072 + 7)) >> 3));
+                var call__2073 = Aow.Rtl.Rtl.CompareMem(FAbilityBits.AsSpan(0, (int)(((uint)(call__2072 + 7)) >> 3)), Source.FAbilityBits.AsSpan(0, (int)(((uint)(call__2072 + 7)) >> 3)), (int)(((uint)(call__2072 + 7)) >> 3));
                 Result = call__2073;
             }
 
@@ -46427,8 +46427,8 @@ namespace Aow.Units.AoWE
                 {
                     if (Msg.MsgID == 4608)
                     {
-                        FArmy.UpdateAITarget(Ptr<Aow.Units.AoWE.TAITargetInfo>.FromBox(Msg.Param[0].Ref).Value, ref Ptr<Aow.Units.AoWE.TAITargetData>.FromBox(Msg.Param[1].Ref).Value);
-                        if (Ptr<Aow.Units.AoWE.TAITargetData>.FromBox(Msg.Param[1].Ref).Value.Priority < 0)
+                        FArmy.UpdateAITarget(((AITargetQuery)Msg.Param[0].Ref).Info, ref ((AITargetQuery)Msg.Param[0].Ref).Data);
+                        if (((AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
                         {
                             Msg.Result = 1;
                         }
@@ -46437,7 +46437,7 @@ namespace Aow.Units.AoWE
                     {
                         if (Msg.MsgID == 4360)
                         {
-                            FArmy.ReturnBattleFieldInfo(ref Ptr<Aow.Units.AoWE.TBattleFieldInfo>.FromBox(Msg.Param[0].Ref).Value);
+                            FArmy.ReturnBattleFieldInfo(ref ((BattleFieldQuery)Msg.Param[0].Ref).Info);
                         }
                         else
                         {
@@ -46586,7 +46586,7 @@ namespace Aow.Units.AoWE
 
                                                                     if (bool__3633)
                                                                     {
-                                                                        FArmy.RetrieveStormDamageInfo((Aow.Units.AoWE.TStormType)Msg.Param[0].Value, Msg.Param[1].Value, ref Ptr<Aow.Units.AoWE.TStormDamageInfo>.FromBox(Msg.Param[2].Ref).Value);
+                                                                        FArmy.RetrieveStormDamageInfo((Aow.Units.AoWE.TStormType)Msg.Param[0].Value, Msg.Param[1].Value, ref ((StormDamageQuery)Msg.Param[2].Ref).Info);
                                                                         return;
                                                                     }
                                                                     else
@@ -48579,8 +48579,8 @@ namespace Aow.Units.AoWE
                 {
                     if (Msg.MsgID == 4608)
                     {
-                        UpdateAITarget(Ptr<Aow.Units.AoWE.TAITargetInfo>.FromBox(Msg.Param[0].Ref).Value, ref Ptr<Aow.Units.AoWE.TAITargetData>.FromBox(Msg.Param[1].Ref).Value);
-                        if (Ptr<Aow.Units.AoWE.TAITargetData>.FromBox(Msg.Param[1].Ref).Value.Priority < 0)
+                        UpdateAITarget(((AITargetQuery)Msg.Param[0].Ref).Info, ref ((AITargetQuery)Msg.Param[0].Ref).Data);
+                        if (((AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
                         {
                             Msg.Result = 1;
                         }
@@ -48629,7 +48629,7 @@ namespace Aow.Units.AoWE
                                             {
                                                 if (Msg.MsgID == 4391)
                                                 {
-                                                    var call__3755 = GetDefenseRequirements(unchecked((sbyte)Msg.Param[0].Value), ref Ptr<Aow.Units.AoWE.TDefenseRequirements>.FromBox(Msg.Param[1].Ref).Value);
+                                                    var call__3755 = GetDefenseRequirements(unchecked((sbyte)Msg.Param[0].Value), ref ((DefenseRequirementsQuery)Msg.Param[1].Ref).Requirements);
                                                     if (call__3755)
                                                     {
                                                         Msg.Result = 1;
@@ -51020,7 +51020,7 @@ namespace Aow.Units.AoWE
                     if (bool__3968)
                     {
                         var call__3970 = GetCombatEventText(Msg.Param[0].As<Aow.Units.AoWE.TCombat>());
-                        Ptr<Aow.Rtl.AnsiString>.FromBox(Msg.Result.Ref).Value = call__3970;
+                        ((CombatResultQuery)Msg.Result.Ref).Text = call__3970;
                     }
                 }
             }
@@ -52998,7 +52998,7 @@ namespace Aow.Units.AoWE
             CRCs.Add(call__4199);
             var call__4200 = GetFileCRC(Path + ((AnsiString)"RELEASE.HSS"), true);
             CRCs.Add(call__4200);
-            var call__4201 = Aow.Units.Engine.Engine.GetCRC32(CRCs.List.Reinterpret<byte>(), CRCs.Count * 4);
+            var call__4201 = Aow.Units.Engine.Engine.GetCRC32(MemoryMarshal.AsBytes(CRCs.List.AsSpan()), CRCs.Count * 4);
             Result = call__4201;
             CRCs.Free();
             return Result;
@@ -62326,13 +62326,13 @@ namespace Aow.Units.AoWE
         // { }
         public Aow.Rtl.AnsiString GetCombatResultText()
         {
-            Aow.Rtl.AnsiString[] Result__cell = new Aow.Rtl.AnsiString[1];
-            ref Aow.Rtl.AnsiString Result = ref Result__cell[0];
+            var query = new CombatResultQuery();
+            ref var Result = ref query.Text;
             Aow.Units.AoWE.TCombatData Data = default;
             Aow.Units.HSEngine.TMapFieldMsg Msg = default;
             Result = (AnsiString)"";
             Msg.MsgID = 4361;
-            Msg.Result = Ptr<Aow.Rtl.AnsiString>.To(Result__cell, 0).Box();
+            Msg.Result = query;
             Msg.Param[0] = this;
             // { direct combat data }
             var call__4743 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FCombatData.FX, FCombatData.FY, FCombatData.FL);
@@ -66653,7 +66653,7 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:4738
-        public virtual Aow.Units.AoWE.TAIMoveExecuterMove CreateMove(Aow.Units.AoWE.TAIMoveExecuterArmy Army, byte Selection, sbyte X, sbyte Y, sbyte L, TSet<Aow.Units.AoWE.TCreateMoveModeElement> Mode, Ptr<byte> MoveResult)
+        public virtual Aow.Units.AoWE.TAIMoveExecuterMove CreateMove(Aow.Units.AoWE.TAIMoveExecuterArmy Army, byte Selection, sbyte X, sbyte Y, sbyte L, TSet<Aow.Units.AoWE.TCreateMoveModeElement> Mode, ref byte MoveResult)
         {
             Aow.Units.AoWE.TAIMoveExecuterMove Result = default;
             Aow.Units.AoWE.TMoveControlSettings Settings = default;
@@ -66770,16 +66770,13 @@ namespace Aow.Units.AoWE
                     Army.SetMoveResult(unchecked((byte)Selection), 2);
                 }
 
-                if (!MoveResult.IsNull)
+                if (Position == 0)
                 {
-                    if (Position == 0)
-                    {
-                        MoveResult.Value = 2;
-                    }
-                    else
-                    {
-                        MoveResult.Value = 0;
-                    }
+                    MoveResult = 2;
+                }
+                else
+                {
+                    MoveResult = 0;
                 }
 
                 if (Mode.Contains(Aow.Units.AoWE.TCreateMoveModeElement.cmmSurround) && (Position == 0))
@@ -66805,12 +66802,9 @@ namespace Aow.Units.AoWE
                             break;
                         {
                             Position += 1;
-                            if (!MoveResult.IsNull)
+                            if (MoveResult == 2)
                             {
-                                if (MoveResult.Value == 2)
-                                {
-                                    MoveResult.Value = 1;
-                                }
+                                MoveResult = 1;
                             }
                         }
                     }
@@ -66851,16 +66845,13 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                if (!MoveResult.IsNull)
+                if (((Army.FLocation.X == X) && (Army.FLocation.Y == Y)) && (Army.FLocation.L == L))
                 {
-                    if (((Army.FLocation.X == X) && (Army.FLocation.Y == Y)) && (Army.FLocation.L == L))
-                    {
-                        MoveResult.Value = 2;
-                    }
-                    else
-                    {
-                        MoveResult.Value = 3;
-                    }
+                    MoveResult = 2;
+                }
+                else
+                {
+                    MoveResult = 3;
                 }
 
                 if (((FExecuter.FDestination.X == Settings.FSourceX) && (FExecuter.FDestination.Y == Settings.FSourceY)) && (FExecuter.FDestination.L == Settings.FSourceL))
@@ -67159,8 +67150,7 @@ namespace Aow.Units.AoWE
             int I = default;
             Aow.Units.AoWE.TAIMoveExecuterArmyList Armies = default;
             Aow.Units.AoWE.TAIMoveExecuterMove Move = default;
-            byte[] MoveResult__cell = new byte[1];
-            ref byte MoveResult = ref MoveResult__cell[0];
+            byte MoveResult = default;
             TSet<Aow.Units.AoWE.TCreateMoveModeElement> Mode = default;
             bool CannotMove = default;
             switch (FState)
@@ -67181,7 +67171,7 @@ namespace Aow.Units.AoWE
                         }
 
                         var call__5085 = Armies.GetArmies(0);
-                        var call__5086 = CreateMove(call__5085, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), Mode, Ptr<byte>.To(MoveResult__cell, 0));
+                        var call__5086 = CreateMove(call__5085, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), Mode, ref MoveResult);
                         Move = call__5086;
                         if (Move != null)
                         {
@@ -67253,7 +67243,7 @@ namespace Aow.Units.AoWE
                             break;
                         {
                             var call__5095 = Armies.GetArmies(I);
-                            var call__5096 = CreateMove(call__5095, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(Aow.Units.AoWE.TCreateMoveModeElement.cmmDontQueue, Aow.Units.AoWE.TCreateMoveModeElement.cmmSurround), Ptr<byte>.To(MoveResult__cell, 0));
+                            var call__5096 = CreateMove(call__5095, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(Aow.Units.AoWE.TCreateMoveModeElement.cmmDontQueue, Aow.Units.AoWE.TCreateMoveModeElement.cmmSurround), ref MoveResult);
                             Move = call__5096;
                             CannotMove = MoveResult != 0;
                             if (Move != null)
@@ -67282,7 +67272,7 @@ namespace Aow.Units.AoWE
                                 break;
                             {
                                 var call__5099 = Armies.GetArmies(I);
-                                var call__5100 = CreateMove(call__5099, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), Ptr<byte>.To(MoveResult__cell, 0));
+                                var call__5100 = CreateMove(call__5099, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), ref MoveResult);
                                 Move = call__5100;
                                 if (Move != null)
                                 {
@@ -67512,8 +67502,7 @@ namespace Aow.Units.AoWE
             int J = default;
             int I = default;
             Aow.Units.AoWE.TAIMoveExecuterArmyList Armies = default;
-            byte[] MoveResult__cell = new byte[1];
-            ref byte MoveResult = ref MoveResult__cell[0];
+            byte MoveResult = default;
             Aow.Units.AoWE.TMoveControlSettings Settings = default;
             byte ArmySelection = default;
             Aow.Units.AoWE.TArmyHS ArmyHS = default;
@@ -67721,7 +67710,7 @@ namespace Aow.Units.AoWE
                                 }
 
                                 var call__5145 = Armies.GetArmies(Index);
-                                var call__5146 = CreateMove(call__5145, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), Mode, Ptr<byte>.To(MoveResult__cell, 0));
+                                var call__5146 = CreateMove(call__5145, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), Mode, ref MoveResult);
                                 Move = call__5146;
                                 if (Move == null)
                                 {
@@ -67778,7 +67767,7 @@ namespace Aow.Units.AoWE
                             }
 
                             var call__5148 = Armies.GetArmies(0);
-                            var call__5149 = CreateMove(call__5148, 255, unchecked((sbyte)FMeetingPoint.X), unchecked((sbyte)FMeetingPoint.Y), unchecked((sbyte)FMeetingPoint.L), Mode, Ptr<byte>.To(MoveResult__cell, 0));
+                            var call__5149 = CreateMove(call__5148, 255, unchecked((sbyte)FMeetingPoint.X), unchecked((sbyte)FMeetingPoint.Y), unchecked((sbyte)FMeetingPoint.L), Mode, ref MoveResult);
                             Move = call__5149;
                             if (Move != null)
                             {
@@ -67884,7 +67873,7 @@ namespace Aow.Units.AoWE
                             break;
                         {
                             var call__5157 = Armies.GetArmies(I);
-                            var call__5158 = CreateMove(call__5157, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(Aow.Units.AoWE.TCreateMoveModeElement.cmmDontQueue, Aow.Units.AoWE.TCreateMoveModeElement.cmmSurround), Ptr<byte>.To(MoveResult__cell, 0));
+                            var call__5158 = CreateMove(call__5157, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(Aow.Units.AoWE.TCreateMoveModeElement.cmmDontQueue, Aow.Units.AoWE.TCreateMoveModeElement.cmmSurround), ref MoveResult);
                             Move = call__5158;
                             bool bool__5159 = (MoveResult != 0);
                             if (!bool__5159)
@@ -67941,7 +67930,7 @@ namespace Aow.Units.AoWE
                                 break;
                             {
                                 var call__5168 = Armies.GetArmies(I);
-                                var call__5169 = CreateMove(call__5168, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), Ptr<byte>.To(MoveResult__cell, 0));
+                                var call__5169 = CreateMove(call__5168, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), ref MoveResult);
                                 Move = call__5169;
                                 if (Move != null)
                                 {
@@ -67969,8 +67958,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TAIMoveExecuterArmyList Armies = default;
             Aow.Units.Engine.TDoubleItemList Sorted = default;
             Aow.Units.AoWE.TAIMoveExecuterArmy Army = default;
-            byte[] MoveResult__cell = new byte[1];
-            ref byte MoveResult = ref MoveResult__cell[0];
+            byte MoveResult = default;
             Aow.Units.HSEngine.TXYL Location = default;
             Result = true;
             var call__5170 = FExecuter.CreateArmies(TSet<Aow.Units.AoWE.TAIMoveExecuterUnitStatus>.Of(Aow.Units.AoWE.TAIMoveExecuterUnitStatus.esReady, Aow.Units.AoWE.TAIMoveExecuterUnitStatus.esDone));
@@ -68010,7 +67998,7 @@ namespace Aow.Units.AoWE
 
                     if (bool__5179)
                     {
-                        CreateMove(Army, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(Aow.Units.AoWE.TCreateMoveModeElement.cmmSurroundEx), Ptr<byte>.To(MoveResult__cell, 0));
+                        CreateMove(Army, 255, unchecked((sbyte)FExecuter.FDestination.X), unchecked((sbyte)FExecuter.FDestination.Y), unchecked((sbyte)FExecuter.FDestination.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(Aow.Units.AoWE.TCreateMoveModeElement.cmmSurroundEx), ref MoveResult);
                         Result = (MoveResult != 0) && (MoveResult != 3);
                     }
                 }
@@ -68122,8 +68110,7 @@ namespace Aow.Units.AoWE
             int Index = default;
             Aow.Units.AoWE.TAIMoveExecuterArmyList Armies = default;
             Aow.Units.Engine.TDoubleItemList Sorted = default;
-            byte[] MoveResult__cell = new byte[1];
-            ref byte MoveResult = ref MoveResult__cell[0];
+            byte MoveResult = default;
             Aow.Units.HSEngine.TXYL Location = default;
             Result = true;
             Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Location) = CalculateMeetingPoint();
@@ -68163,7 +68150,7 @@ namespace Aow.Units.AoWE
                     if (Index != -1)
                     {
                         var call__5212 = Armies.GetArmies(Index);
-                        CreateMove(call__5212, 255, unchecked((sbyte)Location.X), unchecked((sbyte)Location.Y), unchecked((sbyte)Location.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), Ptr<byte>.To(MoveResult__cell, 0));
+                        CreateMove(call__5212, 255, unchecked((sbyte)Location.X), unchecked((sbyte)Location.Y), unchecked((sbyte)Location.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), ref MoveResult);
                         if (MoveResult == 0)
                         {
                             Result = false;
@@ -68282,7 +68269,7 @@ namespace Aow.Units.AoWE
                         {
                             ref var w__5220 = ref Armies.GetArmies(Index).FArrivalPoint;
                             var call__5221 = Armies.GetArmies(Index);
-                            var call__5222 = CreateMove(call__5221, 255, unchecked((sbyte)w__5220.X), unchecked((sbyte)w__5220.Y), unchecked((sbyte)w__5220.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), default);
+                            var call__5222 = CreateMove(call__5221, 255, unchecked((sbyte)w__5220.X), unchecked((sbyte)w__5220.Y), unchecked((sbyte)w__5220.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
                             Move = call__5222;
                         }
 
@@ -68405,7 +68392,7 @@ namespace Aow.Units.AoWE
                                 var call__5246 = Transporters.GetArmies(I);
                                 var call__5247 = Transporters.GetArmies(I);
                                 var call__5248 = Armies.GetArmies(Index);
-                                var call__5249 = CreateMove(call__5248, 255, unchecked((sbyte)call__5247.FLocation.X), unchecked((sbyte)call__5245.FLocation.Y), unchecked((sbyte)call__5246.FLocation.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), default);
+                                var call__5249 = CreateMove(call__5248, 255, unchecked((sbyte)call__5247.FLocation.X), unchecked((sbyte)call__5245.FLocation.Y), unchecked((sbyte)call__5246.FLocation.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
                                 Move = call__5249;
                             }
                         }
@@ -68414,7 +68401,7 @@ namespace Aow.Units.AoWE
                             {
                                 ref var w__5250 = ref Armies.GetArmies(Index).FArrivalPoint;
                                 var call__5251 = Armies.GetArmies(Index);
-                                var call__5252 = CreateMove(call__5251, 255, unchecked((sbyte)w__5250.X), unchecked((sbyte)w__5250.Y), unchecked((sbyte)w__5250.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), default);
+                                var call__5252 = CreateMove(call__5251, 255, unchecked((sbyte)w__5250.X), unchecked((sbyte)w__5250.Y), unchecked((sbyte)w__5250.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
                                 Move = call__5252;
                             }
                         }
@@ -68489,7 +68476,7 @@ namespace Aow.Units.AoWE
                                 if ((Army.FBoardingPoint.X != -1) && (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Army.FLocation) != Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Army.FBoardingPoint)))
                                 {
                                     var call__5263 = Armies.GetArmies(I);
-                                    var call__5264 = CreateMove(call__5263, 255, unchecked((sbyte)Army.FBoardingPoint.X), unchecked((sbyte)Army.FBoardingPoint.Y), unchecked((sbyte)Army.FBoardingPoint.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), default);
+                                    var call__5264 = CreateMove(call__5263, 255, unchecked((sbyte)Army.FBoardingPoint.X), unchecked((sbyte)Army.FBoardingPoint.Y), unchecked((sbyte)Army.FBoardingPoint.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
                                     Move = call__5264;
                                     if (Move == null)
                                     {
@@ -68558,7 +68545,7 @@ namespace Aow.Units.AoWE
                                 if (Selection != 0)
                                 {
                                     var call__5274 = Armies.GetArmies(Index);
-                                    var call__5275 = CreateMove(call__5274, unchecked((byte)Selection), unchecked((sbyte)Army.FTransportSource.X), unchecked((sbyte)Army.FTransportSource.Y), unchecked((sbyte)Army.FTransportSource.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), default);
+                                    var call__5275 = CreateMove(call__5274, unchecked((byte)Selection), unchecked((sbyte)Army.FTransportSource.X), unchecked((sbyte)Army.FTransportSource.Y), unchecked((sbyte)Army.FTransportSource.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
                                     Move = call__5275;
                                     if (Move == null)
                                     {
@@ -68819,7 +68806,7 @@ namespace Aow.Units.AoWE
 
                 if (Found)
                 {
-                    var call__5305 = CreateMove(Army, unchecked((byte)Transporting), unchecked((sbyte)Field.Xhx), unchecked((sbyte)Field.Yhx), unchecked((sbyte)Field.Lhx), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), default);
+                    var call__5305 = CreateMove(Army, unchecked((byte)Transporting), unchecked((sbyte)Field.Xhx), unchecked((sbyte)Field.Yhx), unchecked((sbyte)Field.Lhx), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
                     if (call__5305 != null)
                     {
                         FExecuter.ExecuteMoves();
@@ -68869,7 +68856,7 @@ namespace Aow.Units.AoWE
 
                 if (Found)
                 {
-                    var call__5308 = CreateMove(Army, unchecked((byte)Others), unchecked((sbyte)Field.Xhx), unchecked((sbyte)Field.Yhx), unchecked((sbyte)Field.Lhx), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of(), default);
+                    var call__5308 = CreateMove(Army, unchecked((byte)Others), unchecked((sbyte)Field.Xhx), unchecked((sbyte)Field.Yhx), unchecked((sbyte)Field.Lhx), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
                     if (call__5308 != null)
                     {
                         FExecuter.ExecuteMoves();
@@ -86307,7 +86294,7 @@ namespace Aow.Units.AoWE
         // { $04 }
         public int FCapacity;
         // { $08 }
-        public Ptr<Aow.Units.AoWE.TMeleeStrike> FStrikes;
+        public Aow.Units.AoWE.TMeleeStrike[] FStrikes = [];
         // { $0C }
         public Aow.Units.AoWE.TCombatObject FAttacker;
         public Aow.Units.AoWE.TCombatObject FDefender;
@@ -86346,7 +86333,7 @@ namespace Aow.Units.AoWE
                 FCount = FCapacity;
             }
 
-            FStrikes = FStrikes.Realloc(A1);
+            Array.Resize(ref FStrikes, A1);
         }
 
         // AoWAb.PAS:1505
@@ -86359,7 +86346,7 @@ namespace Aow.Units.AoWE
 
             if (A1 > FCount)
             {
-                Ptr<Aow.Units.AoWE.TMeleeStrike>.Fill(FStrikes + FCount, (A1 - FCount), default);
+                FStrikes.AsSpan(FCount, A1 - FCount).Clear();
             }
 
             FCount = A1;
@@ -86392,7 +86379,6 @@ namespace Aow.Units.AoWE
             int AttackerCount = default;
             int DefenderCount = default;
             Aow.Units.AoWE.TCombatSideIndex Side = default;
-            Ptr<Aow.Units.AoWE.TMeleeStrike> Strike = default;
             Aow.Units.AoWE.TAbstractUnit Source = default;
             Aow.Units.AoWE.TAbstractUnit Target = default;
             Side = A1;
@@ -86415,18 +86401,18 @@ namespace Aow.Units.AoWE
                         Target = FAttackerUnit;
                     }
 
-                    Strike = FStrikes + I;
-                    Strike.Value.Side = Side;
+                    ref var Strike = ref FStrikes[I];
+                    Strike.Side = Side;
                     if ((I == 0) || ((I == 1) && (Side != A1)))
                     {
                         if (((Side == Aow.Units.AoWE.TCombatSideIndex.csAttacker) && (I == 0)) && Source.GetAbilityEnabled(111))
                         {
-                            Strike.Value.DamageBonus += 2;
+                            Strike.DamageBonus += 2;
                         }
 
                         if (Target.GetAbilityEnabled(113))
                         {
-                            Strike.Value.AttackBonus -= 2;
+                            Strike.AttackBonus -= 2;
                         }
                     }
 
@@ -86447,8 +86433,8 @@ namespace Aow.Units.AoWE
 
                     if (bool__6761)
                     {
-                        Strike.Value.DamageBonus += 2;
-                        Strike.Value.AttackBonus += 2;
+                        Strike.DamageBonus += 2;
+                        Strike.AttackBonus += 2;
                     }
 
                     var call__6763 = Source.GetAbilityEnabled(147);
@@ -86468,8 +86454,8 @@ namespace Aow.Units.AoWE
 
                     if (bool__6766)
                     {
-                        Strike.Value.DamageBonus += 2;
-                        Strike.Value.AttackBonus += 2;
+                        Strike.DamageBonus += 2;
+                        Strike.AttackBonus += 2;
                     }
 
                     var call__6768 = Source.GetAbilityEnabled(112);
@@ -86482,8 +86468,8 @@ namespace Aow.Units.AoWE
 
                     if (bool__6769)
                     {
-                        Strike.Value.AttackBonus += 3;
-                        Strike.Value.DamageBonus += 3;
+                        Strike.AttackBonus += 3;
+                        Strike.DamageBonus += 3;
                     }
 
                     // { Original uses the attacker's damage types for both sides. }
@@ -86493,8 +86479,8 @@ namespace Aow.Units.AoWE
                     var call__6774 = Target.GetProtectionTypes();
                     var call__6775 = Source.GetDamage();
                     var call__6776 = Source.GetAttack();
-                    var call__6777 = Aow.Units.AoWE.AoWE.StatisticsToDV(call__6776 + Strike.Value.AttackBonus, call__6775 + Strike.Value.DamageBonus, FAttackerDamageTypes, call__6771, call__6772, call__6773, call__6774);
-                    Strike.Value.DamageValue = call__6777;
+                    var call__6777 = Aow.Units.AoWE.AoWE.StatisticsToDV(call__6776 + Strike.AttackBonus, call__6775 + Strike.DamageBonus, FAttackerDamageTypes, call__6771, call__6772, call__6773, call__6774);
+                    Strike.DamageValue = call__6777;
                     switch (Side)
                     {
                         case Aow.Units.AoWE.TCombatSideIndex.csAttacker:
@@ -86598,7 +86584,6 @@ namespace Aow.Units.AoWE
             int AttackerCount = default;
             int DefenderCount = default;
             Aow.Units.AoWE.TCombatSideIndex Side = default;
-            Ptr<Aow.Units.AoWE.TMeleeStrike> Strike = default;
             Aow.Units.AoWE.TCombatObject Source = default;
             Aow.Units.AoWE.TCombatObject Target = default;
             Side = A1;
@@ -86621,18 +86606,18 @@ namespace Aow.Units.AoWE
                         Target = FAttacker;
                     }
 
-                    Strike = FStrikes + I;
-                    Strike.Value.Side = Side;
+                    ref var Strike = ref FStrikes[I];
+                    Strike.Side = Side;
                     if ((I == 0) || ((I == 1) && (Side != A1)))
                     {
                         if (((Side == Aow.Units.AoWE.TCombatSideIndex.csAttacker) && (I == 0)) && Source.GetAbilityEnabled(111))
                         {
-                            Strike.Value.DamageBonus += 2;
+                            Strike.DamageBonus += 2;
                         }
 
                         if (Target.GetAbilityEnabled(113))
                         {
-                            Strike.Value.AttackBonus -= 2;
+                            Strike.AttackBonus -= 2;
                         }
                     }
 
@@ -86653,8 +86638,8 @@ namespace Aow.Units.AoWE
 
                     if (bool__6792)
                     {
-                        Strike.Value.AttackBonus += 2;
-                        Strike.Value.DamageBonus += 2;
+                        Strike.AttackBonus += 2;
+                        Strike.DamageBonus += 2;
                     }
 
                     var call__6794 = Source.GetAbilityEnabled(147);
@@ -86674,8 +86659,8 @@ namespace Aow.Units.AoWE
 
                     if (bool__6797)
                     {
-                        Strike.Value.AttackBonus += 2;
-                        Strike.Value.DamageBonus += 2;
+                        Strike.AttackBonus += 2;
+                        Strike.DamageBonus += 2;
                     }
 
                     var call__6799 = Source.GetAbilityEnabled(112);
@@ -86688,8 +86673,8 @@ namespace Aow.Units.AoWE
 
                     if (bool__6800)
                     {
-                        Strike.Value.AttackBonus += 3;
-                        Strike.Value.DamageBonus += 3;
+                        Strike.AttackBonus += 3;
+                        Strike.DamageBonus += 3;
                     }
 
                     // { Original uses the attacker's damage types for both sides. }
@@ -86699,8 +86684,8 @@ namespace Aow.Units.AoWE
                     var call__6805 = Target.GetProtectionTypes();
                     var call__6806 = Source.GetDamage();
                     var call__6807 = Source.GetAttack();
-                    var call__6808 = Aow.Units.AoWE.AoWE.StatisticsToDV(call__6807 + Strike.Value.AttackBonus, call__6806 + Strike.Value.DamageBonus, FAttackerDamageTypes, call__6802, call__6803, call__6804, call__6805);
-                    Strike.Value.DamageValue = call__6808;
+                    var call__6808 = Aow.Units.AoWE.AoWE.StatisticsToDV(call__6807 + Strike.AttackBonus, call__6806 + Strike.DamageBonus, FAttackerDamageTypes, call__6802, call__6803, call__6804, call__6805);
+                    Strike.DamageValue = call__6808;
                     switch (Side)
                     {
                         case Aow.Units.AoWE.TCombatSideIndex.csAttacker:
@@ -86825,12 +86810,11 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TStrikeCA CreateStrikeCA(int A1)
         {
             Aow.Units.AoWE.TStrikeCA Result = default;
-            Ptr<Aow.Units.AoWE.TMeleeStrike> Strike = default;
             Result = null;
             if (A1 < FCount)
             {
-                Strike = FStrikes + A1;
-                switch (Strike.Value.Side)
+                ref var Strike = ref FStrikes[A1];
+                switch (Strike.Side)
                 {
                     case Aow.Units.AoWE.TCombatSideIndex.csAttacker:
                         var call__6823 = FAttacker.GetLocked();
@@ -86839,7 +86823,7 @@ namespace Aow.Units.AoWE
                             Result = Aow.Units.AoWE.TStrikeCA.Create(null);
                             var call__6824 = FAttacker.GetDamage();
                             var call__6825 = FAttacker.GetAttack();
-                            Result.Generate(FAttacker, FDefender, unchecked((sbyte)(call__6825 + Strike.Value.AttackBonus)), unchecked((sbyte)(call__6824 + Strike.Value.DamageBonus)), FAttackerDamageTypes);
+                            Result.Generate(FAttacker, FDefender, unchecked((sbyte)(call__6825 + Strike.AttackBonus)), unchecked((sbyte)(call__6824 + Strike.DamageBonus)), FAttackerDamageTypes);
                             var call__6826 = FAttacker.GetAbilityEnabled(118);
                             if (call__6826)
                             {
@@ -86856,7 +86840,7 @@ namespace Aow.Units.AoWE
                             Result.SetDefensive(true);
                             var call__6828 = FDefender.GetDamage();
                             var call__6829 = FDefender.GetAttack();
-                            Result.Generate(FDefender, FAttacker, unchecked((sbyte)(call__6829 + Strike.Value.AttackBonus)), unchecked((sbyte)(call__6828 + Strike.Value.DamageBonus)), FDefenderDamageTypes);
+                            Result.Generate(FDefender, FAttacker, unchecked((sbyte)(call__6829 + Strike.AttackBonus)), unchecked((sbyte)(call__6828 + Strike.DamageBonus)), FDefenderDamageTypes);
                         }
 
                         break;
@@ -113487,7 +113471,7 @@ namespace Aow.Units.AoWE
 
             if (Result == 0)
             {
-                Result = Aow.Rtl.Rtl.BytePointer(Item1).ByteIndex - Aow.Rtl.Rtl.BytePointer(Item2).ByteIndex;
+                Result = ((Aow.Rtl.TObject)Item1).InstanceId - ((Aow.Rtl.TObject)Item2).InstanceId;
             }
 
             return Result;
@@ -114296,7 +114280,7 @@ namespace Aow.Units.AoWE
                 Result = Aow.Rtl.Rtl.CompareText(((Aow.Units.AoWE.TItem)Item1).FOwnerName, ((Aow.Units.AoWE.TItem)Item2).FOwnerName);
                 if (Result == 0)
                 {
-                    Result = Aow.Rtl.Rtl.BytePointer(Item1).ByteIndex - Aow.Rtl.Rtl.BytePointer(Item2).ByteIndex;
+                    Result = ((Aow.Rtl.TObject)Item1).InstanceId - ((Aow.Rtl.TObject)Item2).InstanceId;
                 }
             }
             else
@@ -114315,7 +114299,7 @@ namespace Aow.Units.AoWE
             Result = ((int)((Aow.Units.AoWE.TItem)Item1).FItemType) - ((int)((Aow.Units.AoWE.TItem)Item2).FItemType);
             if (Result == 0)
             {
-                Result = Aow.Rtl.Rtl.BytePointer(Item1).ByteIndex - Aow.Rtl.Rtl.BytePointer(Item2).ByteIndex;
+                Result = ((Aow.Rtl.TObject)Item1).InstanceId - ((Aow.Rtl.TObject)Item2).InstanceId;
             }
 
             return Result;

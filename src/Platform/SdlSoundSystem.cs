@@ -186,10 +186,10 @@ internal sealed class SdlSampleData : TSampleData
         using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name).ToString(), 0);
         Wave = WaveData.Read(stream);
     }
-    public override void CreateEx__init(Ptr<TWaveFormatEx> format, object data, int size)
+    public override void CreateEx__init(in TWaveFormatEx format, object data, int size)
     {
         base.CreateEx__init(format, data, size);
-        Wave = WaveData.Decode(format.Value, data is byte[] bytes ? bytes.AsSpan(0, size) : Aow.Rtl.Rtl.BytePointer(data).AsSpan(size));
+        Wave = WaveData.Decode(format, Aow.Rtl.Rtl.BufferBytes(data)[..size]);
     }
 }
 

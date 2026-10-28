@@ -82,8 +82,8 @@ namespace Aow.Units.Gems
 
             if ((Msg.MsgID == 4608) && (Msg.HN == 0))
             {
-                UpdateAITarget(ref Ptr<Aow.Units.AoWE.TAITargetInfo>.FromBox(Msg.Param[0].Ref).Value, ref Ptr<int>.FromBox(Msg.Param[1].Ref).Value);
-                if (Ptr<int>.FromBox(Msg.Param[1].Ref).Value < 0)
+                UpdateAITarget(ref ((Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref).Info, ref ((Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref).Data.Priority);
+                if (((Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
                 {
                     Msg.Result = 1;
                 }

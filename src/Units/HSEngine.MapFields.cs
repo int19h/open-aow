@@ -37,19 +37,13 @@ public partial class TMapLevel
             for (int parity = 0; parity <= 1; parity++)
                 FHNOffsets[parity][hn] = (HSEngine.HNtoXYTable[parity][hn].X
                     + HSEngine.HNtoXYTable[parity][hn].Y * width) * FFieldSize;
-        FXOffsets = Ptr<int>.Alloc(width);
-        FYOffsets = Ptr<int>.Alloc(height);
-        for (int x = 0; x < width; x++) FXOffsets[x] = x * FFieldSize;
-        for (int y = 0; y < height; y++) FYOffsets[y] = y * width * FFieldSize;
+
     }
 
     public void DestroyMapFieldList()
     {
         fields = [];
-        FFields = default;
         FFieldsSize = 0;
-        FXOffsets = default;
-        FYOffsets = default;
     }
 
     public override void Destroy()

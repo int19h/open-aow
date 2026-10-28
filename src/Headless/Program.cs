@@ -111,7 +111,7 @@ internal static class Program
             map.FGameOverEvents.Add(_ => ended = true);
             map.FExecuteEventLogEvents.Add(sender =>
             {
-                var info = Ptr<Aow.Units.EventLog.TExecuteEventLogInfo>.Unbox(sender).Value;
+                var info = ((Aow.Units.AoWE.ExecuteEventLogNotification)sender).Info;
                 if (info.Log is Aow.Units.EventLog.TMessageEventLog message)
                 {
                     bool yes = message.FButtons is Aow.Units.EventLog.TMessageEventLogButtons.mebYesNo or Aow.Units.EventLog.TMessageEventLogButtons.mebYesNoCancel;

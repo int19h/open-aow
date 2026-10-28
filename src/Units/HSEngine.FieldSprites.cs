@@ -9,7 +9,7 @@ public partial class TMapField
     public void Resize(byte capacity)
     {
         if (capacity is > 0 and < 3) capacity = 3;
-        FHSList = FHSList.Realloc(capacity);
+        Array.Resize(ref FHSList, capacity);
         Array.Resize(ref directions, capacity);
         FCapacity = capacity;
     }
@@ -41,7 +41,7 @@ public partial class TMapField
             while (index < FCount && priority > FHSList[index].GetShowPriority()) index++;
         if (index < FCount)
         {
-            Ptr<THexagonSprite>.Copy(FHSList + index, FHSList + index + 1, FCount - index);
+            Array.Copy(FHSList, index, FHSList, index + 1, FCount - index);
             Array.Copy(directions, index, directions, index + 1, FCount - index);
         }
         if ((uint)priority >> 26 <= 15) FStaticCount++;
@@ -60,7 +60,7 @@ public partial class TMapField
         if (index < FCount)
         {
             Array.Copy(directions, index + 1, directions, index, FCount - index);
-            Ptr<THexagonSprite>.Copy(FHSList + index + 1, FHSList + index, FCount - index);
+            Array.Copy(FHSList, index + 1, FHSList, index, FCount - index);
         }
         if ((uint)sprite.GetShowPriority() >> 26 <= 15)
         {
@@ -80,7 +80,7 @@ public partial class TMapField
         if (index < FCount)
         {
             Array.Copy(directions, index + 1, directions, index, FCount - index);
-            Ptr<THexagonSprite>.Copy(FHSList + index + 1, FHSList + index, FCount - index);
+            Array.Copy(FHSList, index + 1, FHSList, index, FCount - index);
         }
         if (FCapacity > FCount + 1) Resize(FCount);
     }

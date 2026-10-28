@@ -220,8 +220,7 @@ namespace Aow.Units.AoWWinControl
         // AoWWinControl.pas:208
         public virtual void Blt(Aow.Units.GFXE.TSurface Surface)
         {
-            Aow.Rtl.TRect[] R__cell = new Aow.Rtl.TRect[1];
-            ref Aow.Rtl.TRect R = ref R__cell[0];
+            Aow.Rtl.TRect R = default;
             if (FOnPreDrawSurface != null)
             {
                 FOnPreDrawSurface(this, Surface, FWinLeft, FWinTop);
@@ -231,13 +230,13 @@ namespace Aow.Units.AoWWinControl
             R = call__7;
             if (!FMasked)
             {
-                FBackSurface.BltClipped(Surface, Ptr<Aow.Rtl.TRect>.To(R__cell, 0), FWinLeft, FWinTop);
+                FBackSurface.BltAreaClipped(Surface, R, FWinLeft, FWinTop);
             }
             else
             {
                 var call__8 = FBackSurface.GetPixelFormatID();
                 var call__9 = Aow.Units.GFXE.GFXE.Color2PixelInfo(FMaskColor, call__8, null);
-                FBackSurface.BltColorKeyClipped(Surface, Ptr<Aow.Rtl.TRect>.To(R__cell, 0), FWinLeft, FWinTop, call__9);
+                FBackSurface.BltAreaColorKeyClipped(Surface, R, FWinLeft, FWinTop, call__9);
             }
 
             if (FOnDrawSurface != null)

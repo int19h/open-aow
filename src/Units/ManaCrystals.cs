@@ -97,9 +97,14 @@ namespace Aow.Units.ManaCrystals
                 var call__1 = FResource.TerrainList.Terrain[Msg.HN];
                 if (call__1 >= 0)
                 {
-                    UpdateAITarget(ref Ptr<Aow.Units.ManaCrystals.TCrystalAIInfo>.FromBox(Msg.Param[0].Ref).Value, ref Ptr<int>.FromBox(Msg.Param[1].Ref).Value);
+                    var query = (Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref;
+                    var info = new TCrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
+                    UpdateAITarget(ref info, ref query.Data.Priority);
+                    query.Info.Player = info.Player;
+                    query.Info.IndependentRelation = info.OtherPlayer;
+                    query.Info.Mode = (Aow.Units.AoWE.TAITargetMode)info.Kind;
                     // { Original marks the message only when the resulting priority is negative. }
-                    if (Ptr<int>.FromBox(Msg.Param[1].Ref).Value < 0)
+                    if (((Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
                     {
                         Msg.Result = 1;
                     }

@@ -1,0 +1,6 @@
+namespace Aow.Rtl;
+
+public static partial class Rtl
+{
+    public static T ReadLegacyRecord<T>(TObject value) => Ptr<T>.Unbox(value).Value;
+}
