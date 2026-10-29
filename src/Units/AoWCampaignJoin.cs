@@ -179,7 +179,7 @@ namespace Aow.Units.AoWCampaignJoin
         // { draft }
         public void CampaignJoinDlgCreate()
         {
-            var call__4 = Aow.Units.AoWE.TLeader.Create(null);
+            var call__4 = new Aow.Units.AoWE.TLeader(null);
             FLeader = call__4;
             var call__5 = new Aow.Rtl.TStringList();
             FScrollText = call__5;

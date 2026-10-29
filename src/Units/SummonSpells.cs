@@ -87,7 +87,7 @@ namespace Aow.Units.SummonSpells
                 int end__2 = FUnitIndices.Count - 1;
                 for (; I <= end__2; I += 1)
                 {
-                    U = Aow.Units.AoWE.TUnit.Create(null);
+                    U = new Aow.Units.AoWE.TUnit(null);
                     var call__3 = FUnitIndices[I];
                     var call__4 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__3);
                     U.SetUnitResource(call__4);

@@ -1003,7 +1003,7 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:269
         public void LeaderSetupWinCreate()
         {
-            var call__70 = Aow.Units.AoWE.TLeader.Create(null);
+            var call__70 = new Aow.Units.AoWE.TLeader(null);
             FLeader = call__70;
         }
 

@@ -1102,7 +1102,7 @@ namespace Aow.Units.PrdPlace
 
                 if (UnitIndex != -1)
                 {
-                    AUnit = Aow.Units.AoWE.TUnit.Create(null);
+                    AUnit = new Aow.Units.AoWE.TUnit(null);
                     var call__126 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(UnitIndex);
                     AUnit.SetUnitResource(call__126);
                     AUnit.SetPlayer(unchecked((sbyte)FPlayer));
