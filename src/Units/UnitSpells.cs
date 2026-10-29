@@ -170,7 +170,7 @@ namespace Aow.Units.UnitSpells
             if (ValidTargetUnit(Source, Target))
             {
                 Count = 0;
-                Enchantments = Aow.Units.AoWE.TEnchantmentList.Create(null);
+                Enchantments = new Aow.Units.AoWE.TEnchantmentList(null);
                 Target.ListEnchantments(Enchantments);
                 {
                     I = Enchantments.GetCount() - 1;

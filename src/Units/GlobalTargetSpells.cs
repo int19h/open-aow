@@ -2007,7 +2007,7 @@ namespace Aow.Units.GlobalTargetSpells
                                 }
                             }
 
-                            MovedUnits = Aow.Units.AoWE.TUnitUserList.Create(null);
+                            MovedUnits = new Aow.Units.AoWE.TUnitUserList(null);
                             Owner = unchecked((byte)Army.FArmy.FPlayer);
                             var call__192 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetFieldXYL(Location.XYL);
                             MapF = (Aow.Units.AoWE.TAoWMapField)call__192;

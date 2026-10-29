@@ -214,7 +214,7 @@ namespace Aow.Units.AoWPartyJoin
         // AoWPartyJoin.pas:127
         public void PartyJoinDlgCreate()
         {
-            var call__8 = Aow.Units.AoWE.TUnitUserList.Create(null);
+            var call__8 = new Aow.Units.AoWE.TUnitUserList(null);
             FUnits = call__8;
         }
 

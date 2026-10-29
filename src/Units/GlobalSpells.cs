@@ -1123,7 +1123,7 @@ namespace Aow.Units.GlobalSpells
 
             if (A3 == 20)
             {
-                Heroes = Aow.Units.AoWE.THeroList.Create(null);
+                Heroes = new Aow.Units.AoWE.THeroList(null);
                 Aow.Units.AoWE.AoWE.AoWHSMap.FHeroControl.ListDeadHeroes(Heroes);
                 {
                     I = Heroes.Count - 1;
@@ -1302,7 +1302,7 @@ namespace Aow.Units.GlobalSpells
 
             if (A3 == 20)
             {
-                Heroes = Aow.Units.AoWE.THeroList.Create(null);
+                Heroes = new Aow.Units.AoWE.THeroList(null);
                 Aow.Units.AoWE.AoWE.AoWHSMap.FHeroControl.ListDeadHeroes(Heroes);
                 {
                     I = Heroes.Count - 1;

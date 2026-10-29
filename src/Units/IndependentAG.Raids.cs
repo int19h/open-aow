@@ -11,7 +11,7 @@ public partial class TRaidAGC
         switch (FState)
         {
             case 0:
-                var finder = TAIGroupTargetFinder.Create(null!);
+                var finder = new TAIGroupTargetFinder(null!);
                 finder.Setup(this);
                 finder.FSelector.FMovePointsMax = 100;
                 finder.FSelector.FTargetInfo.Mode = TAITargetMode.tmRaid;

@@ -1178,7 +1178,7 @@ namespace Aow.Units.AoWCityScreen
             var call__154 = Generator.RandomMap(null, call__153, call__152, call__151);
             FPreview = call__154;
             Generator.Free();
-            Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+            Armies = new Aow.Units.AoWE.TArmyHSList(null);
             FCity.ListArmies(Armies);
             {
                 I = 0;

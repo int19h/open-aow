@@ -63,7 +63,7 @@ namespace Aow.Units.PowerNode
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1 = Aow.Units.AoWE.TPlayerStructurePowerSource.Create(null);
+            var call__1 = new Aow.Units.AoWE.TPlayerStructurePowerSource(null);
             FPowerSource = call__1;
             FPowerSource.Setup(this);
         }

@@ -163,7 +163,7 @@ namespace Aow.Units.ItemGrid
         {
             Aow.Units.AoWE.TItem Item = default;
             FStream.Clear();
-            var call__6 = Aow.Units.AoWE.TItem.Create(FItems);
+            var call__6 = new Aow.Units.AoWE.TItem(FItems);
             Item = call__6;
             Aow.Units.AoWE.AoWE.AoWEngine.ActivateEObject(Item);
             var call__7 = Item.Editor();

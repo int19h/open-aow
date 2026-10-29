@@ -1008,7 +1008,7 @@ namespace Aow.Units.AoWRelations
         // AoWRelations.pas:540
         public void RelWindowCreate()
         {
-            var call__130 = Aow.Units.AoWE.TDiplomaticActionList.Create(null);
+            var call__130 = new Aow.Units.AoWE.TDiplomaticActionList(null);
             FActions = call__130;
             var call__131 = new Aow.Units.Engine.TIntegerList();
             FRaces = call__131;

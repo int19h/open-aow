@@ -273,7 +273,7 @@ namespace Aow.Units.IndependentAG
                         ((Aow.Units.IndependentAG.TGuardAreaAG)FGroup).FGuardLocation = FLocation;
                     }
 
-                    Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                    Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                     Finder.Setup(this);
                 {
                     Finder.FSelector.FSourceLocation = ((Aow.Units.IndependentAG.TGuardAreaAG)FGroup).FGuardLocation;
@@ -295,7 +295,7 @@ namespace Aow.Units.IndependentAG
                         var call__8 = FArmy.MovePoints(unchecked((byte)FSelection));
                         if ((call__7 != call__8) || (((Aow.Units.IndependentAG.TGuardAreaAG)FGroup).FGuardLocation.XYL != FLocation.XYL))
                         {
-                            Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+                            Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
                             Settings.FPlayer = unchecked((sbyte)FArmy.FPlayer);
                             Settings.FMode = Settings.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmAI);
                             Settings.SetSourcePos(FArmy.FX, FArmy.FY, FArmy.FL);
@@ -551,7 +551,7 @@ namespace Aow.Units.IndependentAG
                         ((Aow.Units.IndependentAG.TPatrolAG)FGroup).FPatrolStrength = FStrengthMax;
                     }
 
-                    Defense = Aow.Units.AoWE.TAIGroupDefenseControl.Create(null);
+                    Defense = new Aow.Units.AoWE.TAIGroupDefenseControl(null);
                     Defense.FDefendMode = Aow.Units.AoWE.TGroupDefendMode.gdmWait;
                     ActivatePlugin(Defense);
                     Defense.Release();
@@ -582,7 +582,7 @@ namespace Aow.Units.IndependentAG
                     if (FStrengthMax < ((Aow.Units.IndependentAG.TPatrolAG)FGroup).FPatrolStrength)
                     {
                         FState += 1;
-                        Recruitment = Aow.Units.AoWE.TAIRecruitmentGroupFinder.Create(null);
+                        Recruitment = new Aow.Units.AoWE.TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -597,7 +597,7 @@ namespace Aow.Units.IndependentAG
                     var call__31 = FRecruitmentGroups.Count;
                     if ((call__31 != 0) && (FStrengthMax < ((Aow.Units.IndependentAG.TPatrolAG)FGroup).FPatrolStrength))
                     {
-                        Recruit = Aow.Units.AoWE.TAIGroupRecruitControl.Create(null);
+                        Recruit = new Aow.Units.AoWE.TAIGroupRecruitControl(null);
                         Recruit.Reset();
                         Recruit.FRecruitStrength = ((Aow.Units.IndependentAG.TPatrolAG)FGroup).FPatrolStrength - FStrengthMax;
                         Recruit.FMode = Aow.Units.AoWE.TAIGroupRecruitControlMode.rcmAutoRecruit;
@@ -608,7 +608,7 @@ namespace Aow.Units.IndependentAG
                     FState += 1;
                     break;
                 case 4:
-                    Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                    Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                     Finder.Setup(this);
                     var call__32 = FArmy.Moves(unchecked((byte)FSelection));
                     Finder.FSelector.FMovePointsMax = call__32;
@@ -649,7 +649,7 @@ namespace Aow.Units.IndependentAG
 
                     break;
                 case 7:
-                    Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+                    Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
                     Settings.FPlayer = unchecked((sbyte)FGroup.FPlayer);
                     Settings.FMode = Settings.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmAI);
                     Settings.SetSourcePos(FLocation.X, FLocation.Y, FLocation.L);
@@ -698,7 +698,7 @@ namespace Aow.Units.IndependentAG
                 Group.FPatrolFrom = FLocation;
             }
 
-            Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+            Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
             Settings.FPlayer = unchecked((sbyte)Group.FPlayer);
             Settings.FMode = Settings.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmAI, Aow.Units.AoWE.TMoveModeElement.mmIgnoreArmies);
             Settings.SetSourcePos(Group.FPatrolFrom.X, Group.FPatrolFrom.Y, Group.FPatrolFrom.L);
@@ -1211,7 +1211,7 @@ namespace Aow.Units.IndependentAG
 
                     if (bool__65)
                     {
-                        Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                        Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                         Finder.Setup(this);
                         var call__68 = FGroup.GetMovePointsMin();
                         Finder.FSelector.FMovePointsMax = call__68;

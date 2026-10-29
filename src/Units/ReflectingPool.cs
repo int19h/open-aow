@@ -328,7 +328,7 @@ namespace Aow.Units.ReflectingPool
                 FCenterFrame += 1;
                 if ((FCenterFrame % 8) == 0)
                 {
-                    List = Aow.Units.AoWE.TPlayerStructureList.Create(null);
+                    List = new Aow.Units.AoWE.TPlayerStructureList(null);
                     ListReflectingPools(ref List);
                     List.RemoveChild(this);
                     List.Sort(Aow.Units.ReflectingPool.ReflectingPool.ComparePools);

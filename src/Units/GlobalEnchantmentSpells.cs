@@ -321,7 +321,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             int Result = default;
             Aow.Units.AoWE.TGlobalEnchantment Enchantment = default;
             // { Original creates the base enchantment here. }
-            Enchantment = Aow.Units.AoWE.TGlobalEnchantment.Create(null);
+            Enchantment = new Aow.Units.AoWE.TGlobalEnchantment(null);
             Result = Enchantment.GetAIUpkeepPriority();
             Enchantment.Release();
             return Result;

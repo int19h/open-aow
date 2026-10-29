@@ -932,7 +932,7 @@ namespace Aow.Units.CombatTE
                             }
                             else
                             {
-                                var call__124 = Aow.Units.AoWE.TMeleeRound.Create();
+                                var call__124 = new Aow.Units.AoWE.TMeleeRound();
                                 FMeleeRound = call__124;
                                 FMeleeRound.Calculate(FUnit, FPreviousUnit);
                                 if (FMeleeRound.FCount == 0)

@@ -530,7 +530,7 @@ namespace Aow.Units.CombatSpells
                             fcGetDamageValueEx(A1.FSource, Target, call__56, ref Values);
                             if (Values.SourceDamage != 0)
                             {
-                                Command = Aow.Units.AoWE.TSpellCC.Create(52);
+                                Command = new Aow.Units.AoWE.TSpellCC(52);
                                 var call__57 = A1.FTargetSide.GetObjects(I);
                                 Command.FTarget = call__57;
                                 Command.FMoveCost = 1;
@@ -1176,7 +1176,7 @@ namespace Aow.Units.CombatSpells
 
             if (Value != 0)
             {
-                Command = Aow.Units.AoWE.TSpellCC.Create(52);
+                Command = new Aow.Units.AoWE.TSpellCC(52);
                 Command.FTarget = null;
                 Command.FMoveCost = 1;
                 Command.FSpellID = FSpellID;
@@ -2411,7 +2411,7 @@ namespace Aow.Units.CombatSpells
 
             if (Value != 0)
             {
-                Command = Aow.Units.AoWE.TSpellCC.Create(52);
+                Command = new Aow.Units.AoWE.TSpellCC(52);
                 Command.FTarget = null;
                 Command.FMoveCost = 1;
                 Command.FSpellID = FSpellID;

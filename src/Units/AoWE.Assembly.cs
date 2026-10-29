@@ -158,7 +158,7 @@ public partial class TSpell
     }
     public virtual TAICastSpellAction CreateCastSpellAction()
     {
-        var action = new TAICastSpellAction();
+        var action = new TAICastSpellAction(null);
         // TEObject.Create only calls SetOwner. It bypasses descendant constructor bodies.
         try { action.SetOwner(null); } catch { action.Destroy(); throw; }
         return action;

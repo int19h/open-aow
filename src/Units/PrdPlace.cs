@@ -403,14 +403,14 @@ namespace Aow.Units.PrdPlace
             FProductionControl.FProductionPlace = this;
             if (GetMagicSphere() == Aow.Units.AoWE.TMagicSphere.msNone)
             {
-                var call__49 = Aow.Units.AoWE.TPlayerStructureIncomeSource.Create(null);
+                var call__49 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
                 FIncomeSource = call__49;
                 FIncomeSource.Setup(this);
                 FDefenderLevel = 2;
             }
             else
             {
-                var call__50 = Aow.Units.AoWE.TPlayerStructurePowerSource.Create(null);
+                var call__50 = new Aow.Units.AoWE.TPlayerStructurePowerSource(null);
                 FPowerSource = call__50;
                 FPowerSource.Setup(this);
                 FDefenderLevel = 3;
@@ -893,7 +893,7 @@ namespace Aow.Units.PrdPlace
                     Collection = call__98;
                     if (Collection != -1)
                     {
-                        Units = Aow.Units.AoWE.TUnitIndexList.Create();
+                        Units = new Aow.Units.AoWE.TUnitIndexList();
                         var unitIndexListCollection = ((Aow.Units.AoWE.TStructureResource)Resource).FDefenders;
                         {
                             I = unitIndexListCollection.GetCollectionCount(Collection) - 1;
@@ -1279,7 +1279,7 @@ namespace Aow.Units.PrdPlace
 
             if (bool__156)
             {
-                Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                Item = new Aow.Units.AoWE.TProductionItem(null);
                 Item.FProductionID = 10;
                 if (Queue)
                 {
@@ -1400,7 +1400,7 @@ namespace Aow.Units.PrdPlace
         {
             base.Create__init(AOwner);
             FClaimed = false;
-            var call__162 = Aow.Units.AoWE.TUnitIndexList.Create();
+            var call__162 = new Aow.Units.AoWE.TUnitIndexList();
             FUnits = call__162;
             FRazeable = true;
         }

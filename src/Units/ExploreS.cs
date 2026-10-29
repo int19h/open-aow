@@ -522,7 +522,7 @@ namespace Aow.Units.ExploreS
             Collection = call__48;
             if (Collection != -1)
             {
-                List = Aow.Units.AoWE.TUnitIndexList.Create();
+                List = new Aow.Units.AoWE.TUnitIndexList();
                 Collections = ((Aow.Units.ExploreS.TExplorationSiteResource)FResource).FDefenderCollections;
                 {
                     I = Collections.GetCollectionCount(Collection) - 1;
@@ -620,7 +620,7 @@ namespace Aow.Units.ExploreS
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__51 = Aow.Units.AoWE.TUnitIndexListCollection.Create();
+            var call__51 = new Aow.Units.AoWE.TUnitIndexListCollection();
             FDefenderCollections = call__51;
             FTerrainBound = false;
         }

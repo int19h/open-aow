@@ -609,7 +609,7 @@ namespace Aow.Units.AoWProdScreen
                     break;
                 case 4:
                     MainBtn1.Visible = true;
-                    Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                    Item = new Aow.Units.AoWE.TProductionItem(null);
                     Item.FProductionID = 10;
                     var call__53 = FPlace.GetProductionName(Item);
                     MainBtn1.Text = call__53;
@@ -802,7 +802,7 @@ namespace Aow.Units.AoWProdScreen
                     if (Aow.Rtl.Rtl.CompareText(ActiveAction.Text, call__93) != 0)
                     {
                         ActiveActionTurns.Visible = true;
-                        Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                        Item = new Aow.Units.AoWE.TProductionItem(null);
                         Item.FProductionID = 10;
                         var call__94 = ActivityImage(Item);
                         CurrentActionImage.CurrentImage = call__94;
@@ -1017,7 +1017,7 @@ namespace Aow.Units.AoWProdScreen
                     var call__123 = FPlace.GetBaseIncome();
                     if (call__123 != 0)
                     {
-                        Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                        Item = new Aow.Units.AoWE.TProductionItem(null);
                         Item.FProductionID = 10;
                         var call__124 = ActivityImage(Item);
                         var call__125 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[call__124];

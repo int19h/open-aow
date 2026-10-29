@@ -1338,7 +1338,7 @@ namespace Aow.Units.CitySpells
                 {
                     TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
                     TargetCity.StopTownQuake();
-                    Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+                    Armies = new Aow.Units.AoWE.TArmyHSList(null);
                     var call__131 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(10);
                     if (call__131 < 7)
                     {

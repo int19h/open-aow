@@ -1411,7 +1411,7 @@ namespace Aow.Units.AoWTC
                     {
                         Ability = 0;
                         Spell = 0;
-                        Round = Aow.Units.AoWE.TMeleeRound.Create();
+                        Round = new Aow.Units.AoWE.TMeleeRound();
                         Round.Calculate(U, Target);
                         if (Round.GetAttackerDV() > 0)
                         {
@@ -7811,7 +7811,7 @@ namespace Aow.Units.AoWTC
         }
 
         // intf_P5_01.inc:120
-        public static new Aow.Units.AoWTC.TCombatMoveControl Create(Aow.Units.HSEngine.THSMap AOwner)
+        public static Aow.Units.AoWTC.TCombatMoveControl Create(Aow.Units.HSEngine.THSMap AOwner)
         {
             Aow.Units.AoWTC.TCombatMoveControl o = new Aow.Units.AoWTC.TCombatMoveControl();
             try
@@ -9268,6 +9268,9 @@ namespace Aow.Units.AoWTC
 //     $1C FTargetImages; $20 FRangedPathHS; $24 FTargetX; $28 FTargetY; $2C FCursorImage; $2E FCursorFrame; $34 FRangedPath; $38 FObstacles. }
     public partial class TCombatUnitSelectionControl : Aow.Units.AoWE.TMoveSelector
     {
+        // Its guarded legacy factory invokes the inherited body after raw allocation.
+        public TCombatUnitSelectionControl() : base(default(Aow.Units.AoWE.RawAoWERuleConstruction)) { }
+
         public TSet<Aow.Units.AoWTC.AnonymousEnum_piMove> FPathInvalid;
         // { $18 }
         public Aow.Units.FixedArray_byte_3 F_CombatUnitSelectionControl_19;
@@ -11137,7 +11140,7 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:398
-        public static new Aow.Units.AoWTC.TCombatUnitSelectionControl Create()
+        public static Aow.Units.AoWTC.TCombatUnitSelectionControl Create()
         {
             Aow.Units.AoWTC.TCombatUnitSelectionControl o = new Aow.Units.AoWTC.TCombatUnitSelectionControl();
             try

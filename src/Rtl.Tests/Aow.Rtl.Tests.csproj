@@ -5,6 +5,8 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AoWERuleConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.AoWERuleConstructionBaseline.json" />
+    <EmbeddedResource Include="AoWERuleFailureBaseline.json" LogicalName="Aow.Rtl.Tests.AoWERuleFailureBaseline.json" />
     <EmbeddedResource Include="SpellConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.SpellConstructionBaseline.json" />
     <None Update="AnsiCompareText-order-exceptions.txt" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />

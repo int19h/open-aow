@@ -1172,7 +1172,7 @@ namespace Aow.Units.City
             var call__199 = Aow.Units.City.TCityOverlayHS.Create(null);
             FOverlay = call__199;
             FOverlay.FCity = this;
-            var call__200 = Aow.Units.AoWE.TGlobalEnchantmentList.Create(null);
+            var call__200 = new Aow.Units.AoWE.TGlobalEnchantmentList(null);
             FEnchantmentList = call__200;
             FEnchantmentsVisible = false;
         }
@@ -2775,7 +2775,7 @@ namespace Aow.Units.City
             int I = default;
             Aow.Units.Animation.TImageSequenceAnimation Animation = default;
             bool PlaySound = default;
-            Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+            Armies = new Aow.Units.AoWE.TArmyHSList(null);
             ListArmies(Armies);
             Result = false;
             PlaySound = false;
@@ -2939,7 +2939,7 @@ namespace Aow.Units.City
                         if (BestIndex != -1)
                         {
                             FProduction.ExecuteDeleteProductions();
-                            Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                            Item = new Aow.Units.AoWE.TProductionItem(null);
                             var call__415 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caMigrate);
                             Item.FProductionID = call__415;
                             var call__416 = Selection.GetItems(BestIndex);
@@ -3167,7 +3167,7 @@ namespace Aow.Units.City
 
             if (bool__450)
             {
-                Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                Item = new Aow.Units.AoWE.TProductionItem(null);
                 var call__453 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caUpgrade);
                 Item.FProductionID = call__453;
                 FProduction.Produce(Item, Queue);
@@ -3268,7 +3268,7 @@ namespace Aow.Units.City
 
             if (bool__462)
             {
-                Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                Item = new Aow.Units.AoWE.TProductionItem(null);
                 var call__465 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caFortify);
                 Item.FProductionID = call__465;
                 FProduction.Produce(Item, Queue);
@@ -3380,7 +3380,7 @@ namespace Aow.Units.City
 
             if (bool__475)
             {
-                Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                Item = new Aow.Units.AoWE.TProductionItem(null);
                 var call__478 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caTrade);
                 Item.FProductionID = call__478;
                 if (Queue)
@@ -3437,7 +3437,7 @@ namespace Aow.Units.City
 
             if (bool__480)
             {
-                Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                Item = new Aow.Units.AoWE.TProductionItem(null);
                 var call__483 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caLoot);
                 Item.FProductionID = call__483;
                 FProduction.Produce(Item, false);
@@ -3558,7 +3558,7 @@ namespace Aow.Units.City
 
             if (bool__492)
             {
-                Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                Item = new Aow.Units.AoWE.TProductionItem(null);
                 var call__495 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caMigrate);
                 Item.FProductionID = call__495;
                 Item.FParameter = Race;
@@ -3670,7 +3670,7 @@ namespace Aow.Units.City
                         Aow.Units.EventLog.EventLog.DistributeLocationEventLog(Log, unchecked((sbyte)FPlayer), unchecked((sbyte)call__508), unchecked((sbyte)call__506), unchecked((sbyte)call__507), false);
                         Log.Release();
                         SetPlayer(0);
-                        Units = Aow.Units.AoWE.TUnitList.Create(null);
+                        Units = new Aow.Units.AoWE.TUnitList(null);
                         GenerateRebelUnits(Units);
                         {
                             I = Units.Count - 1;
@@ -3701,7 +3701,7 @@ namespace Aow.Units.City
             var call__514 = GetRazed();
             if (((!call__514 && (FDefendersMode != Aow.Units.City.TDefendersGenerateMode.dgNone)) && !FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode)) && (FPlayer == 0))
             {
-                Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+                Armies = new Aow.Units.AoWE.TArmyHSList(null);
                 ListArmies(Armies);
                 if (FDefendersMode == Aow.Units.City.TDefendersGenerateMode.dgRandom)
                 {
@@ -3818,8 +3818,8 @@ namespace Aow.Units.City
                     List.Add(call__548);
                 }
 
-                Predictor = Aow.Units.AoWE.TCombatPredictor.Create();
-                Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+                Predictor = new Aow.Units.AoWE.TCombatPredictor();
+                Armies = new Aow.Units.AoWE.TArmyHSList(null);
                 ListArmies(Armies);
                 {
                     I = 0;
@@ -3847,7 +3847,7 @@ namespace Aow.Units.City
                     }
                 }
 
-                Units = Aow.Units.AoWE.TUnitList.Create(null);
+                Units = new Aow.Units.AoWE.TUnitList(null);
                 GenerateRebelUnits(Units);
                 {
                     J = 0;
@@ -3958,9 +3958,9 @@ namespace Aow.Units.City
                         Value += 10;
                     }
 
-                    Predictor = Aow.Units.AoWE.TCombatPredictor.Create();
+                    Predictor = new Aow.Units.AoWE.TCombatPredictor();
                     ArmyValue = 0;
-                    Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+                    Armies = new Aow.Units.AoWE.TArmyHSList(null);
                     ListArmies(Armies);
                     {
                         I = 0;
@@ -3997,7 +3997,7 @@ namespace Aow.Units.City
                     Armies.Free();
                     if (TSet<Aow.Units.AoWE.TStatus>.Of(Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sWary).Contains(Relation))
                     {
-                        Units = Aow.Units.AoWE.TUnitList.Create(null);
+                        Units = new Aow.Units.AoWE.TUnitList(null);
                         GenerateRebelUnits(Units);
                         {
                             I = 0;
@@ -4247,7 +4247,7 @@ namespace Aow.Units.City
             byte Relation = default;
             byte Selection = default;
             Result = 0;
-            Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+            Armies = new Aow.Units.AoWE.TArmyHSList(null);
             ListArmies(Armies);
             var call__602 = Armies.Count;
             I = call__602;
@@ -4360,7 +4360,7 @@ namespace Aow.Units.City
                     if (call__616.FGems >= Offer.FGold)
                     {
                         SetPlayer(unchecked((sbyte)Offer.FPlayer));
-                        Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+                        Armies = new Aow.Units.AoWE.TArmyHSList(null);
                         ListArmies(Armies);
                         {
                             I = 0;
@@ -4422,7 +4422,7 @@ namespace Aow.Units.City
             sbyte Result = default;
             Aow.Units.AoWE.TUnitUserList Units = default;
             int I = default;
-            Units = Aow.Units.AoWE.TUnitUserList.Create(null);
+            Units = new Aow.Units.AoWE.TUnitUserList(null);
             ListUnits(Units);
             {
                 I = Units.Count - 1;
@@ -4451,7 +4451,7 @@ namespace Aow.Units.City
         {
             sbyte Result = default;
             Aow.Units.AoWE.TUnitUserList Units = default;
-            Units = Aow.Units.AoWE.TUnitUserList.Create(null);
+            Units = new Aow.Units.AoWE.TUnitUserList(null);
             ListUnits(Units);
             // { Original uses the race index as the default relation. }
             var call__636 = Aow.Units.AoWE.AoWE.UnitsToIndependentRelation(Units, unchecked((sbyte)FRace));
@@ -5533,7 +5533,7 @@ namespace Aow.Units.City
                 if (Index != -1)
                 {
                     City.FProduction.ExecuteDeleteProductions();
-                    Production = Aow.Units.AoWE.TProductionItem.Create(null);
+                    Production = new Aow.Units.AoWE.TProductionItem(null);
                     Production.FProductionID = 2;
                     Production.FParameter = Index;
                     City.FProduction.ExecuteAddProduction(Production);
@@ -5651,7 +5651,7 @@ namespace Aow.Units.City
                 City = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.City.TCity>((int)call__720.A);
                 {
                     City.FProduction.ExecuteDeleteProductions();
-                    Production = Aow.Units.AoWE.TProductionItem.Create(null);
+                    Production = new Aow.Units.AoWE.TProductionItem(null);
                     var call__721 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caUpgrade);
                     Production.FProductionID = call__721;
                     City.FProduction.ExecuteAddProduction(Production);
@@ -5826,7 +5826,7 @@ namespace Aow.Units.City
                     City.FProduction.ExecuteDeleteProductions();
                     var call__738 = City.FortifyCost();
                     Player.FAIBudget.BudgetExpenseMade(call__738, 0, Budget, Aow.Units.AoWE.TBudgetExpenseMode.bemBudget);
-                    Production = Aow.Units.AoWE.TProductionItem.Create(null);
+                    Production = new Aow.Units.AoWE.TProductionItem(null);
                     var call__739 = Aow.Units.City.City.CityActionToProductionID(Aow.Units.City.TCityAction.caFortify);
                     Production.FProductionID = call__739;
                     City.FProduction.ExecuteAddProduction(Production);

@@ -61,7 +61,7 @@ namespace Aow.Units.SummonSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1 = Aow.Units.AoWE.TUnitIndexList.Create();
+            var call__1 = new Aow.Units.AoWE.TUnitIndexList();
             FUnitIndices = call__1;
         }
 
@@ -252,7 +252,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:241
         private protected TSummonSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            var call__25 = Aow.Units.AoWE.TUnitIndexList.Create();
+            var call__25 = new Aow.Units.AoWE.TUnitIndexList();
             FUnitIndices = call__25;
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             FAIBasePriority = -1;
