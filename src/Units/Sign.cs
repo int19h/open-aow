@@ -64,7 +64,7 @@ namespace Aow.Units.Sign
             base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FText = call__1;
-            var call__2 = Aow.Units.Engine.TBitList.Create();
+            var call__2 = new Aow.Units.Engine.TBitList();
             FTextSeen = call__2;
         }
 

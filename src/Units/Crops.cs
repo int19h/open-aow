@@ -460,7 +460,7 @@ namespace Aow.Units.Crops
                 FChangingCrops = true;
                 MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
                 Crops = new Aow.Rtl.TList();
-                Locations = Aow.Units.Engine.TWordList.Create();
+                Locations = new Aow.Units.Engine.TWordList();
                 Locations.Assign(((Aow.Units.Crops.TPlayerCropStructureResource)FResource).FCropLocations);
                 {
                     I = Locations.Count - 1;

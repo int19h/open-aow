@@ -5442,7 +5442,7 @@ namespace Aow.Units.City
             Aow.Units.AoWE.TProductionItem Production = default;
             Result = false;
             Player = FControl.FPlayer;
-            Cities = Aow.Units.Engine.TDoubleItemList.Create();
+            Cities = new Aow.Units.Engine.TDoubleItemList();
             {
                 I = Player.FStructures.Count - 1;
                 byte end__689 = 0;
@@ -5625,7 +5625,7 @@ namespace Aow.Units.City
             Aow.Units.City.TCity City = default;
             Aow.Units.AoWE.TProductionItem Production = default;
             Player = FControl.FPlayer;
-            Cities = Aow.Units.Engine.TDoubleItemList.Create();
+            Cities = new Aow.Units.Engine.TDoubleItemList();
             {
                 I = Player.FStructures.Count - 1;
                 byte end__717 = 0;
@@ -5793,7 +5793,7 @@ namespace Aow.Units.City
             Aow.Units.City.TCity City = default;
             Aow.Units.AoWE.TProductionItem Production = default;
             Player = FControl.FPlayer;
-            Cities = Aow.Units.Engine.TDoubleItemList.Create();
+            Cities = new Aow.Units.Engine.TDoubleItemList();
             {
                 I = Player.FStructures.Count - 1;
                 byte end__734 = 0;

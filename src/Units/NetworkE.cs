@@ -27,13 +27,13 @@ namespace Aow.Units.NetworkE
         {
             base.Create__init(AOwner);
             FReceivedPackage = null;
-            var call__1 = Aow.Units.Engine.TEventList.Create();
+            var call__1 = new Aow.Units.Engine.TEventList();
             FOnReceive = call__1;
             var call__2 = new Aow.Rtl.TMemoryStream();
             FSendStream = call__2;
             var call__3 = new Aow.Rtl.TMemoryStream();
             FReceiveStream = call__3;
-            var call__4 = Aow.Units.Engine.TEventList.Create();
+            var call__4 = new Aow.Units.Engine.TEventList();
             FOnProcess = call__4;
         }
 
@@ -913,9 +913,9 @@ namespace Aow.Units.NetworkE
             FEvents = call__55;
             var call__56 = new Aow.Rtl.TList();
             FTCList = call__56;
-            var call__57 = Aow.Units.Engine.TEventList.Create();
+            var call__57 = new Aow.Units.Engine.TEventList();
             FOnEventsExecuted = call__57;
-            var call__58 = Aow.Units.Engine.TEventList.Create();
+            var call__58 = new Aow.Units.Engine.TEventList();
             FOnActivateTC = call__58;
             var call__59 = Aow.Units.NetworkE.TTokenEventList.Create(null);
             FSystemEvents = call__59;

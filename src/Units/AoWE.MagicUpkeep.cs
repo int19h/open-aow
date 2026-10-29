@@ -8,7 +8,7 @@ public partial class TPlayerMagicControl
     // Spells.PAS:2400. List entries retain object identities instead of native addresses.
     public int AIOverrideUpkeep(int priority, int amount)
     {
-        var list = TQuadItemList.Create();
+        var list = new TQuadItemList();
         for (int i = 0; i < FEnchantments.GetCount(); i++)
         {
             var enchantment = FEnchantments.GetEnchantments(i);

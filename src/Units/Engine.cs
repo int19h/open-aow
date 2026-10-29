@@ -1563,12 +1563,6 @@ namespace Aow.Units.Engine
 
         public sbyte[] List { get => FList; }
 
-        // System.pas:111
-        public static Aow.Units.Engine.TShortIntList Create()
-        {
-            return new Aow.Units.Engine.TShortIntList();
-        }
-
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:3992
@@ -2037,12 +2031,6 @@ namespace Aow.Units.Engine
 
         public ushort[] List { get => FList; }
 
-        // System.pas:111
-        public static Aow.Units.Engine.TWordList Create()
-        {
-            return new Aow.Units.Engine.TWordList();
-        }
-
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:4303
@@ -2509,12 +2497,6 @@ namespace Aow.Units.Engine
         public int BitsSet { get => GetBitsSet(); }
         public int BitsCleared { get => GetBitsCleared(); }
 
-        // System.pas:111
-        public static Aow.Units.Engine.TBitList Create()
-        {
-            return new Aow.Units.Engine.TBitList();
-        }
-
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:4613
@@ -2880,12 +2862,6 @@ namespace Aow.Units.Engine
         public Aow.Rtl.TNotifyEvent this[int Index] { get => Get(Index); set => Put(Index, value); }
 
         public Aow.Rtl.TNotifyEvent[] List { get => FList; }
-
-        // System.pas:111
-        public static Aow.Units.Engine.TEventList Create()
-        {
-            return new Aow.Units.Engine.TEventList();
-        }
 
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
@@ -3481,12 +3457,6 @@ namespace Aow.Units.Engine
 
         public Aow.Units.Engine.TDoubleItem[] List { get => FList; }
 
-        // System.pas:111
-        public static Aow.Units.Engine.TDoubleItemList Create()
-        {
-            return new Aow.Units.Engine.TDoubleItemList();
-        }
-
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:5107
@@ -4044,12 +4014,6 @@ namespace Aow.Units.Engine
 
         public Aow.Units.Engine.TQuadInteger[] List { get => FList; }
 
-        // System.pas:111
-        public static Aow.Units.Engine.TQuadItemList Create()
-        {
-            return new Aow.Units.Engine.TQuadItemList();
-        }
-
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:5505
@@ -4356,12 +4320,6 @@ namespace Aow.Units.Engine
         public Aow.Units.Engine.TPropertyItem[] Items { get => FItems; }
         public int Count { get => FCount; }
         public int First { get => FFirst; }
-
-        // System.pas:111
-        public static Aow.Units.Engine.TPropertyTable Create()
-        {
-            return new Aow.Units.Engine.TPropertyTable();
-        }
     }
 
     // { Engine.TEObject (instance size 8): +4 FOwner. }
@@ -4712,6 +4670,16 @@ namespace Aow.Units.Engine
 //     forward to children. }
     public partial class TECustomNode : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TENode and the other legacy descendant factories and registry entries.
+        public TECustomNode() { }
+
+        // This bridge has no own body. Both routes share TEObject.InitializeOwner.
+        // Engine.pas:2430
+        protected TECustomNode(TECustomNode AOwner) : base(AOwner) { }
+
+        private protected TECustomNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner) { }
+
         // Engine.pas:2666
         public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -5237,13 +5205,13 @@ namespace Aow.Units.Engine
             base.Create__init(AOwner);
             UpdateStartupDirectory();
             FOptions = TSet<Aow.Units.Engine.TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
-            var call__128 = Aow.Units.Engine.TEventList.Create();
+            var call__128 = new Aow.Units.Engine.TEventList();
             FDebugEvents = call__128;
-            var call__129 = Aow.Units.Engine.TEObjectClassList.Create();
+            var call__129 = new Aow.Units.Engine.TEObjectClassList();
             FEClasses = call__129;
             var call__130 = Aow.Units.Engine.TIntegerHashTable256.Create();
             FClassTable = call__130;
-            var call__131 = Aow.Units.Engine.TEObjectEditorList.Create();
+            var call__131 = new Aow.Units.Engine.TEObjectEditorList();
             FEditors = call__131;
             var call__132 = Aow.Units.Engine.TEControlStyleNode.Create(this);
             FControlNode = call__132;
@@ -5429,7 +5397,7 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEObjectClassList Result = default;
             int I = default;
             Aow.Units.Engine.TEObjectClassList L = default;
-            L = Aow.Units.Engine.TEObjectClassList.Create();
+            L = new Aow.Units.Engine.TEObjectClassList();
             {
                 I = 0;
                 int end__144 = FEClasses.Count - 1;
@@ -6047,12 +6015,6 @@ namespace Aow.Units.Engine
 
             return Result;
         }
-
-        // System.pas:111
-        public static new Aow.Units.Engine.TEObjectEditorList Create()
-        {
-            return new Aow.Units.Engine.TEObjectEditorList();
-        }
     }
 
     // { Engine.TEResource (instance size 24): +8 FResourceList, +$C FResourceID, +$10 FEditID (the
@@ -6217,10 +6179,7 @@ namespace Aow.Units.Engine
     public partial class TEBufferStream : Aow.Units.FMemStr.TFastMemoryStream
     {
         // System.pas:111
-        public static Aow.Units.Engine.TEBufferStream Create()
-        {
-            return new Aow.Units.Engine.TEBufferStream();
-        }
+        public TEBufferStream() { }
     }
 
     public enum TCompressLevel : byte
@@ -6619,9 +6578,8 @@ namespace Aow.Units.Engine
 
         // Engine.pas:9252
         // { TPlugInControl }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TPlugInControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__191 = new Aow.Rtl.TStringList();
             FUsedPlugIns = call__191;
             FUsedPlugIns.Sorted = true;
@@ -6666,23 +6624,6 @@ namespace Aow.Units.Engine
 
         public Aow.Units.Engine.TEngine Engine { get => FEngine; set => FEngine = value; }
         public Aow.Rtl.TStrings UsedPlugIns { get => GetUsedPlugIns(); set => SetUsedPlugIns(value); }
-
-        // Engine.pas:575
-        public static new Aow.Units.Engine.TPlugInControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TPlugInControl o = new Aow.Units.Engine.TPlugInControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Engine.TEObjectList (instance size 16): the child list of a TENode }
@@ -6821,12 +6762,6 @@ namespace Aow.Units.Engine
         }
 
         public EObjectsAccessor EObjects => new EObjectsAccessor(this);
-
-        // System.pas:111
-        public static Aow.Units.Engine.TEObjectList Create()
-        {
-            return new Aow.Units.Engine.TEObjectList();
-        }
     }
 
     // { Engine.TENode (instance size 12): +8 FChildren }
@@ -6838,7 +6773,7 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__200 = Aow.Units.Engine.TEObjectList.Create();
+            var call__200 = new Aow.Units.Engine.TEObjectList();
             FChildren = call__200;
         }
 
@@ -7313,10 +7248,9 @@ namespace Aow.Units.Engine
 
         // Engine.pas:1819
         // { TETimerNode }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TETimerNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
             int I = default;
-            base.Create__init(AOwner);
             FCount = 0;
             {
                 I = 1;
@@ -7526,23 +7460,6 @@ namespace Aow.Units.Engine
 
         public int Tick { get => FTick; }
 
-        // Engine.pas:656
-        public static new Aow.Units.Engine.TETimerNode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TETimerNode o = new Aow.Units.Engine.TETimerNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:1836
@@ -7551,23 +7468,6 @@ namespace Aow.Units.Engine
                 int Result = default;
                 Result = 264;
                 return Result;
-            }
-
-            // Engine.pas:656
-            public new Aow.Units.Engine.TETimerNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TETimerNode o = (Aow.Units.Engine.TETimerNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
             }
 
             public static new Meta Of<T>()
@@ -7585,7 +7485,7 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__244 = Aow.Units.Engine.TEObjectList.Create();
+            var call__244 = new Aow.Units.Engine.TEObjectList();
             FChildren = call__244;
             FUpdateCount = 0;
         }
@@ -8732,7 +8632,7 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__274 = Aow.Units.Engine.TEventList.Create();
+            var call__274 = new Aow.Units.Engine.TEventList();
             FEvents = call__274;
         }
 
@@ -9736,12 +9636,6 @@ namespace Aow.Units.Engine
         }
 
         public EClassesAccessor EClasses => new EClassesAccessor(this);
-
-        // System.pas:111
-        public static Aow.Units.Engine.TEObjectClassList Create()
-        {
-            return new Aow.Units.Engine.TEObjectClassList();
-        }
     }
 
     // { Engine.TEResourceEditSettings (instance size 16): +$C FEditors, editor names with ids }
@@ -9882,6 +9776,15 @@ namespace Aow.Units.Engine
 
     public partial class TESortNode : Aow.Units.Engine.TECustomNode
     {
+        // Raw allocation for TESortNode.Create, Meta.NewInstance and legacy inverse-sort descendants.
+        public TESortNode() { }
+
+        // Engine.pas:1466
+        protected TESortNode(TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeSortItems();
+        }
+
         protected internal bool FSorted;
         protected internal int FCount;
         protected internal int FCapacity;
@@ -9917,6 +9820,12 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeSortItems();
+        }
+
+        // Engine.pas:1466
+        private void InitializeSortItems()
+        {
             FItems = [];
         }
 
@@ -10082,21 +9991,7 @@ namespace Aow.Units.Engine
             }
 
             // Engine.pas:922
-            public new Aow.Units.Engine.TESortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TESortNode o = (Aow.Units.Engine.TESortNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Engine.TESortNode Create(Aow.Units.Engine.TECustomNode AOwner) => (TESortNode)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TESortNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -10193,9 +10088,8 @@ namespace Aow.Units.Engine
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:1666
         // { TEControlStyleSortNode }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TEControlStyleSortNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FControlStyle = base.GetControlStyle();
         }
 
@@ -10213,23 +10107,6 @@ namespace Aow.Units.Engine
             FControlStyle = Value;
         }
 
-        // Engine.pas:952
-        public static new Aow.Units.Engine.TEControlStyleSortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEControlStyleSortNode o = new Aow.Units.Engine.TEControlStyleSortNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TESortNode.Meta
         {
             // Engine.pas:1672
@@ -10238,23 +10115,6 @@ namespace Aow.Units.Engine
                 int Result = default;
                 Result = 261;
                 return Result;
-            }
-
-            // Engine.pas:952
-            public new Aow.Units.Engine.TEControlStyleSortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEControlStyleSortNode o = (Aow.Units.Engine.TEControlStyleSortNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
             }
 
             public static new Meta Of<T>()
@@ -10466,6 +10326,9 @@ namespace Aow.Units.Engine
     // { Engine.TEUser (instance size 12): +8 FNode, the node the user is connected to }
     public partial class TEUser : Aow.Units.Engine.TEObject
     {
+        // Engine.pas:2430
+        public TEUser(TECustomNode AOwner) : base(AOwner) { }
+
         internal Aow.Units.Engine.TECustomNode FNode;
         // Engine.pas:7112
         // { Original source line layout for the HashTab assertions.
@@ -11898,9 +11761,8 @@ namespace Aow.Units.Engine
         internal ref TCallBackEvent GetItem(int Index) => ref CollectionsMarshal.AsSpan(FList)[Index];
 
         // Engine.pas:5846
-        public void Create__init_TCallBackEventList()
+        public TCallBackEventList()
         {
-            ;
             var call__320 = new System.Collections.Generic.List<TCallBackEvent>();
             FList = call__320;
         }
@@ -11940,23 +11802,6 @@ namespace Aow.Units.Engine
         public int Count { get => GetCount(); }
 
         public ref TCallBackEvent this[int Index] => ref GetItem(Index);
-
-        // Engine.pas:1083
-        public static Aow.Units.Engine.TCallBackEventList Create()
-        {
-            Aow.Units.Engine.TCallBackEventList o = new Aow.Units.Engine.TCallBackEventList();
-            try
-            {
-                o.Create__init_TCallBackEventList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TEngine.OutputDebugStr / OutputDebugMessage hand this to the debug events }
@@ -12139,7 +11984,7 @@ namespace Aow.Units.Engine
 
             var call__338 = new Aow.Rtl.TStringList();
             FValues = call__338;
-            var call__339 = Aow.Units.Engine.TPropertyTable.Create();
+            var call__339 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__339;
             var call__340 = new Aow.Rtl.TStringList();
             FText = call__340;
@@ -12374,9 +12219,9 @@ namespace Aow.Units.Engine
         {
             base.Create__init_TEStorageStream(AStream, AEngine);
             FPath = (AnsiString)"";
-            var call__356 = Aow.Units.Engine.TEBufferStream.Create();
+            var call__356 = new Aow.Units.Engine.TEBufferStream();
             FBuffer = call__356;
-            var call__357 = Aow.Units.Engine.TPropertyTable.Create();
+            var call__357 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__357;
         }
 
@@ -12420,7 +12265,7 @@ namespace Aow.Units.Engine
                 SavedBuffer = FBuffer;
                 SavedPath = FPath;
                 FPropertyTable.BackupSettings();
-                var call__359 = Aow.Units.Engine.TEBufferStream.Create();
+                var call__359 = new Aow.Units.Engine.TEBufferStream();
                 FBuffer = call__359;
                 if (FPath != ((AnsiString)""))
                 {
@@ -12616,7 +12461,7 @@ namespace Aow.Units.Engine
         public void Create__init_TEReadStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
         {
             base.Create__init_TEStorageStream(AStream, AEngine);
-            var call__371 = Aow.Units.Engine.TPropertyTable.Create();
+            var call__371 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__371;
             FPropertyTable.LoadFromStream(AStream);
             var call__372 = FStream.Position;
@@ -13222,9 +13067,9 @@ namespace Aow.Units.Engine
             base.Create__init_TEStorageStream(AStream, AEngine);
             FEngine = AEngine;
             FStream = AStream;
-            var call__419 = Aow.Units.Engine.TEBufferStream.Create();
+            var call__419 = new Aow.Units.Engine.TEBufferStream();
             FBuffer = call__419;
-            var call__420 = Aow.Units.Engine.TPropertyTable.Create();
+            var call__420 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__420;
             FPartial = APartial;
         }
@@ -13585,7 +13430,7 @@ namespace Aow.Units.Engine
                 if (AClassID != 0)
                 {
                     Outer = FBuffer;
-                    var call__439 = Aow.Units.Engine.TEBufferStream.Create();
+                    var call__439 = new Aow.Units.Engine.TEBufferStream();
                     FBuffer = call__439;
                     FPropertyTable.BackupSettings();
                     try
@@ -13636,7 +13481,7 @@ namespace Aow.Units.Engine
             {
                 Start = FBuffer.Position;
                 Outer = FBuffer;
-                var call__442 = Aow.Units.Engine.TEBufferStream.Create();
+                var call__442 = new Aow.Units.Engine.TEBufferStream();
                 FBuffer = call__442;
                 FPropertyTable.BackupSettings();
                 {
@@ -13691,7 +13536,7 @@ namespace Aow.Units.Engine
             {
                 Start = FBuffer.Position;
                 Outer = FBuffer;
-                var call__450 = Aow.Units.Engine.TEBufferStream.Create();
+                var call__450 = new Aow.Units.Engine.TEBufferStream();
                 FBuffer = call__450;
                 FPropertyTable.BackupSettings();
                 try
@@ -13732,7 +13577,7 @@ namespace Aow.Units.Engine
             // { Match trials (3): named temporaries, with scopes, identity assignments, try-entry lifetimes; still differs. }
             Start = FBuffer.Position;
             Outer = FBuffer;
-            var call__452 = Aow.Units.Engine.TEBufferStream.Create();
+            var call__452 = new Aow.Units.Engine.TEBufferStream();
             FBuffer = call__452;
             FPropertyTable.BackupSettings();
             try
@@ -13794,7 +13639,7 @@ namespace Aow.Units.Engine
             FEngine = AEngine;
             FStream = AStream;
             FBuffer = (Aow.Units.Engine.TEBufferStream)AStream;
-            var call__454 = Aow.Units.Engine.TPropertyTable.Create();
+            var call__454 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__454;
             FPartial = false;
             FErrorHandled = false;
@@ -13990,7 +13835,7 @@ namespace Aow.Units.Engine
         public void Create__init_TTranslateStorageStream(Aow.Units.Engine.TEngine AEngine)
         {
             base.Create__init_TEStorageStream(null, AEngine);
-            var call__467 = Aow.Units.Engine.TPropertyTable.Create();
+            var call__467 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__467;
         }
 

@@ -714,7 +714,7 @@ namespace Aow.Units.IndependentAG
                 byte end__38 = 6;
                 for (; I <= end__38; I += 1)
                 {
-                    var call__39 = Aow.Units.Engine.TDoubleItemList.Create();
+                    var call__39 = new Aow.Units.Engine.TDoubleItemList();
                     Lists[I] = call__39;
                 }
             }
@@ -754,7 +754,7 @@ namespace Aow.Units.IndependentAG
                 byte end__44 = 6;
                 for (; I <= end__44; I += 1)
                 {
-                    NewList = Aow.Units.Engine.TDoubleItemList.Create();
+                    NewList = new Aow.Units.Engine.TDoubleItemList();
                     J = 0;
                     while ((NewList.Count != 30) && (J != Lists[I].Count))
                     {
