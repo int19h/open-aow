@@ -1,19 +1,18 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Aow.Rtl.Tests")]
-[assembly: InternalsVisibleTo("Aow.Game")]
 
 namespace Aow.Rtl;
 
 // One context belongs to one allocation. Capture in the common root before semantic work.
 // Managed field initializers and constructor arguments that run before capture stay outside
 // this failure boundary. Independently allocated children use their own factory and context.
-internal sealed class ConstructionContext
+public sealed class ConstructionContext
 {
     private TObject? instance;
     private bool finished;
 
-    internal static T Create<T>(Func<ConstructionContext, T> construct) where T : TObject
+    public static T Create<T>(Func<ConstructionContext, T> construct) where T : TObject
     {
         var context = new ConstructionContext();
         try
@@ -29,7 +28,7 @@ internal sealed class ConstructionContext
         }
     }
 
-    internal static T Create<TArg, T>(TArg arg, Func<ConstructionContext, TArg, T> construct) where T : TObject
+    public static T Create<TArg, T>(TArg arg, Func<ConstructionContext, TArg, T> construct) where T : TObject
     {
         var context = new ConstructionContext();
         try
@@ -45,7 +44,7 @@ internal sealed class ConstructionContext
         }
     }
 
-    internal void Capture(TObject value)
+    public void Capture(TObject value)
     {
         ArgumentNullException.ThrowIfNull(value);
         if (finished || instance is not null)
@@ -53,13 +52,13 @@ internal sealed class ConstructionContext
         instance = value;
     }
 
-    internal void Complete()
+    public void Complete()
     {
         instance = null;
         finished = true;
     }
 
-    internal void Fail()
+    public void Fail()
     {
         if (finished) return;
         TObject? failed = instance;

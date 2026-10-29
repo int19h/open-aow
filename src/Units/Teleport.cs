@@ -269,7 +269,7 @@ namespace Aow.Units.Teleport
                 if (CanTeleportArmy(ArmyHS))
                 {
                     ArmyHS.FArmy.ResetDestinationPos();
-                    Path = Aow.Units.AoWE.TMovepath.Create();
+                    Path = new Aow.Units.AoWE.TMovepath();
                     Path.AddXYL(unchecked((sbyte)FDestinationX), unchecked((sbyte)FDestinationY), unchecked((sbyte)FDestinationL));
                     var call__23 = GetLhx();
                     var call__24 = GetYhx();

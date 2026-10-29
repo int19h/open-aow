@@ -192,7 +192,7 @@ namespace Aow.Units.ILTer
 
             if (CanPlaceHere)
             {
-                TerrainList = Aow.Units.HSEngine.TTerrainList.Create();
+                TerrainList = new Aow.Units.HSEngine.TTerrainList();
                 TerrainList.Assign(FResource.TerrainList);
                 {
                     I = 0;

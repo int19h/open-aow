@@ -494,7 +494,7 @@ namespace Aow.Units.Cave
                 var call__47 = CanEnterSelection((Aow.Units.AoWE.TUnitList)ArmyHS.FArmy);
                 Selection = unchecked((byte)call__47);
                 L = 0;
-                Path = Aow.Units.AoWE.TMovepath.Create();
+                Path = new Aow.Units.AoWE.TMovepath();
                 switch (FEntrance)
                 {
                     case Aow.Units.Cave.TCaveEntrance.ceDown:
