@@ -27,6 +27,8 @@ public struct TVarRec
     public static implicit operator TVarRec(bool value) => new() { Kind = VarKind.Boolean, Bool = value };
     public static implicit operator TVarRec(double value) => new() { Kind = VarKind.Extended, Ext = value };
     public static implicit operator TVarRec(AnsiString value) => new() { Kind = VarKind.String, Str = value };
+    public static implicit operator TVarRec(string? value) => new() { Kind = VarKind.String, Str = AnsiString.FromBytes(Cp1252.Encode(value)) };
+    public static implicit operator TVarRec(char value) => new() { Kind = VarKind.Char, Chr = Cp1252.Byte(value) };
     public static implicit operator TVarRec(TObject? value) => new() { Kind = VarKind.Object, Obj = value };
     public static implicit operator TVarRec(TObject.Meta? value) => new() { Kind = VarKind.Class, Obj = value };
     public static implicit operator TVarRec(Ptr<byte> value) => new() { Kind = VarKind.PChar, Obj = value };
