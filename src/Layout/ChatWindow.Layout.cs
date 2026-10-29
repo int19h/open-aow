@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AOWChatWin
 {
-    public partial class TChatWindow
+    public partial class TChatWindow : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,394 +17,350 @@ namespace Aow.Units.AOWChatWin
         {
             session.Begin(this);
             Name = "ChatWindow";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            ChatWin = new Aow.Units.AoWWindow.TAOWWindow(this)
+            ChatWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            session.BeginRead(ChatWin);
+            ChatWin.Name = "ChatWin";
+            ChatWin.Visible = false;
+            ChatWin.Priority = 10;
+            ChatWin.WinLeft = 0;
+            ChatWin.WinTop = 272;
+            ChatWin.WinWidth = 440;
+            ChatWin.Masked = false;
+            ChatWin.OnHide = Layout_ChatWinHide_0;
+            ChatWin.OnShow = Layout_ChatWinShow_1;
+            ChatWin.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            ChatWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            ChatWin.Alignment.HeightPercent = (byte)(0);
+            ChatWin.Alignment.WidthPercent = (byte)(0);
+            ChatWin.Alignment.LeftOffPercent = 0;
+            ChatWin.Alignment.RightOffPercent = 0;
+            ChatWin.Alignment.TopOffPercent = 0;
+            ChatWin.Alignment.BottomOffPercent = 0;
+            ChatWin.Alignment.LeftOffset = 0;
+            ChatWin.Alignment.RightOffset = 200;
+            ChatWin.Alignment.TopOffset = 0;
+            ChatWin.Alignment.BottomOffset = 0;
+            ChatWin.UseVMem = false;
+            ChatWin.BorderWidth = 4;
+            ChatWin.BorderHeight = 4;
+            ChatWin.OverlapTopCorners = false;
+            ChatWin.Cursor = 0;
+            ChatWin.DoubleBuffered = true;
+            ChatWin.MaskColor = 0;
+            ChatWin.FreeSurfaceOnHide = true;
+            ChatWin.ILIndexFrame = 0;
+            ChatWin.ILIndexTexture = 2;
+            ChatWin.DragHeight = 20;
+            ChatWin.Draggable = true;
+            ChatWin.Resizable = true;
+            ChatWin.OnDrag = Layout_ChatWinResize_2;
+            ChatWin.OnResize = Layout_ChatWinResize_2;
+            ChatWin.MinWidth = 440;
+            ChatWin.MinHeight = 160;
+            ChatWin.MaxWidth = 0;
+            ChatWin.MaxHeight = 0;
+            ChatWin.UseManagerBorders = true;
+            ChatWin.Modal = false;
+            ChatWin.WinHeight = 160;
+            ChatWin.Dockable = false;
+            session.EndRead(ChatWin);
+            ChatMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            session.BeginRead(ChatMemo);
+            ChatMemo.Name = "ChatMemo";
+            ChatMemo.OnUpdate = Layout_ChatMemoUpdate_3;
+            ChatMemo.Priority = 0;
+            ChatMemo.WinLeft = 1;
+            ChatMemo.WinTop = 0;
+            ChatMemo.CaptureInput = true;
+            ChatMemo.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            ChatMemo.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            ChatMemo.Alignment.HeightPercent = (byte)(0);
+            ChatMemo.Alignment.WidthPercent = (byte)(0);
+            ChatMemo.Alignment.LeftOffPercent = 0;
+            ChatMemo.Alignment.RightOffPercent = 0;
+            ChatMemo.Alignment.TopOffPercent = 0;
+            ChatMemo.Alignment.BottomOffPercent = 0;
+            ChatMemo.Alignment.LeftOffset = 1;
+            ChatMemo.Alignment.RightOffset = 117;
+            ChatMemo.Alignment.TopOffset = 0;
+            ChatMemo.Alignment.BottomOffset = 21;
+            ChatMemo.Masked = false;
+            ChatMemo.WinWidth = 306;
+            ChatMemo.WinHeight = 108;
+            ChatMemo.BorderWidth = 8;
+            ChatMemo.BorderHeight = 5;
+            ChatMemo.TextColor = 12632256;
+            ChatMemo.CursorChar = (byte)124;
+            ChatMemo.BlinkDelay = (byte)(0);
+            ChatMemo.Editable = false;
+            ChatMemo.ILIndexFrame = 113;
+            ChatMemo.ILIndexTexture = 17;
+            ChatMemo.ItemHeight = 15;
+            ChatMemo.ColorChangeChar = (byte)0;
+            ChatMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+            session.EndRead(ChatMemo);
+            ChatEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(ChatEdit);
+            ChatEdit.Name = "ChatEdit";
+            ChatEdit.Priority = 0;
+            ChatEdit.WinLeft = 1;
+            ChatEdit.WinTop = 107;
+            ChatEdit.CaptureInput = true;
+            ChatEdit.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            ChatEdit.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            ChatEdit.Alignment.HeightPercent = (byte)(0);
+            ChatEdit.Alignment.WidthPercent = (byte)(0);
+            ChatEdit.Alignment.LeftOffPercent = 0;
+            ChatEdit.Alignment.RightOffPercent = 0;
+            ChatEdit.Alignment.TopOffPercent = 0;
+            ChatEdit.Alignment.BottomOffPercent = 0;
+            ChatEdit.Alignment.LeftOffset = 1;
+            ChatEdit.Alignment.RightOffset = 117;
+            ChatEdit.Alignment.TopOffset = 0;
+            ChatEdit.Alignment.BottomOffset = 1;
+            ChatEdit.Masked = false;
+            ChatEdit.WinWidth = 306;
+            ChatEdit.BorderWidth = 8;
+            ChatEdit.BorderHeight = 6;
+            ChatEdit.MaxChars = 0;
+            ChatEdit.CursorChar = (byte)95;
+            ChatEdit.BlinkDelay = 1;
+            ChatEdit.TextColor = 11002593;
+            ChatEdit.Editable = true;
+            ChatEdit.ILIndex = 15;
+            ChatEdit.OnReturn = Layout_ChatEditReturn_4;
+            ChatEdit.PassWordChar = (byte)0;
+            session.EndRead(ChatEdit);
+            PlayerList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            session.BeginRead(PlayerList);
+            PlayerList.Name = "PlayerList";
+            PlayerList.Priority = 0;
+            PlayerList.WinLeft = 307;
+            PlayerList.WinTop = 0;
+            PlayerList.CaptureInput = true;
+            PlayerList.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            PlayerList.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            PlayerList.Alignment.HeightPercent = (byte)(0);
+            PlayerList.Alignment.WidthPercent = (byte)(0);
+            PlayerList.Alignment.LeftOffPercent = 70;
+            PlayerList.Alignment.RightOffPercent = 0;
+            PlayerList.Alignment.TopOffPercent = 0;
+            PlayerList.Alignment.BottomOffPercent = 0;
+            PlayerList.Alignment.LeftOffset = 11;
+            PlayerList.Alignment.RightOffset = 0;
+            PlayerList.Alignment.TopOffset = 0;
+            PlayerList.Alignment.BottomOffset = 1;
+            PlayerList.Masked = false;
+            PlayerList.WinWidth = 117;
+            PlayerList.WinHeight = 128;
+            PlayerList.BorderWidth = 8;
+            PlayerList.BorderHeight = 2;
+            PlayerList.Selected = -1;
+            PlayerList.OnPreDrawItem = Layout_PlayerListPreDrawItem_5;
+            PlayerList.TextColor = 9415072;
+            PlayerList.TextSelColor = 16777215;
+            PlayerList.ILIndexFrame = 113;
+            PlayerList.ILIndexTNormal = 21;
+            PlayerList.ILIndexTSelected = 8;
+            PlayerList.ItemHeight = 17;
+            PlayerList.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+            session.EndRead(PlayerList);
+            SIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(SIcon);
+            SIcon.Name = "SIcon";
+            SIcon.Priority = 0;
+            SIcon.WinLeft = 2;
+            SIcon.WinTop = 1;
+            SIcon.CaptureInput = false;
+            SIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SIcon.Alignment.HeightPercent = (byte)(0);
+            SIcon.Alignment.WidthPercent = (byte)(0);
+            SIcon.Alignment.LeftOffPercent = 0;
+            SIcon.Alignment.RightOffPercent = 0;
+            SIcon.Alignment.TopOffPercent = 0;
+            SIcon.Alignment.BottomOffPercent = 0;
+            SIcon.Alignment.LeftOffset = 2;
+            SIcon.Alignment.RightOffset = 0;
+            SIcon.Alignment.TopOffset = 1;
+            SIcon.Alignment.BottomOffset = 0;
+            SIcon.Masked = false;
+            SIcon.AnimStart = 0;
+            SIcon.CurrentImage = 6;
+            SIcon.AnimEnd = 11;
+            SIcon.WinWidth = 19;
+            SIcon.WinHeight = 16;
+            SIcon.Animate = false;
+            SIcon.AnimFrameDelay = 0;
+            session.EndRead(SIcon);
+            IWTitle = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(IWTitle);
+            IWTitle.Name = "IWTitle";
+            IWTitle.Priority = 0;
+            IWTitle.WinLeft = 25;
+            IWTitle.WinTop = 4;
+            IWTitle.CaptureInput = false;
+            IWTitle.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            IWTitle.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            IWTitle.Alignment.HeightPercent = (byte)(0);
+            IWTitle.Alignment.WidthPercent = (byte)(0);
+            IWTitle.Alignment.LeftOffPercent = 0;
+            IWTitle.Alignment.RightOffPercent = 0;
+            IWTitle.Alignment.TopOffPercent = 0;
+            IWTitle.Alignment.BottomOffPercent = 0;
+            IWTitle.Alignment.LeftOffset = 25;
+            IWTitle.Alignment.RightOffset = 10;
+            IWTitle.Alignment.TopOffset = 4;
+            IWTitle.Alignment.BottomOffset = 0;
+            IWTitle.Masked = true;
+            IWTitle.Text = "Chat";
+            IWTitle.TextColor = 0;
+            session.EndRead(IWTitle);
+            Min = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Min);
+            Min.Name = "Min";
+            Min.Priority = 0;
+            Min.WinLeft = 421;
+            Min.WinTop = 1;
+            Min.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "ChatWin",
-                Visible = false,
-                Priority = 10,
-                WinLeft = 0,
-                WinTop = 272,
-                WinWidth = 440,
-                Masked = false,
-                OnHide = Layout_ChatWinHide_0,
-                OnShow = Layout_ChatWinShow_1,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 200,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = false,
-                BorderWidth = 4,
-                BorderHeight = 4,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = true,
-                MaskColor = 0,
-                FreeSurfaceOnHide = true,
-                ILIndexFrame = 0,
-                ILIndexTexture = 2,
-                DragHeight = 20,
-                Draggable = true,
-                Resizable = true,
-                OnDrag = Layout_ChatWinResize_2,
-                OnResize = Layout_ChatWinResize_2,
-                MinWidth = 440,
-                MinHeight = 160,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = true,
-                Modal = false,
-                WinHeight = 160,
-                Dockable = false
+                "Minimizes the window."
             };
-            LayoutSession.EndRead(ChatWin);
-            ChatMemo = new Aow.Units.AoWMemo.TAOWMemo(this)
-            {
-                Name = "ChatMemo",
-                OnUpdate = Layout_ChatMemoUpdate_3,
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 117,
-                    TopOffset = 0,
-                    BottomOffset = 21
-                },
-                Masked = false,
-                WinWidth = 306,
-                WinHeight = 108,
-                BorderWidth = 8,
-                BorderHeight = 5,
-                TextColor = 12632256,
-                CursorChar = (byte)124,
-                BlinkDelay = (byte)(0),
-                Editable = false,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                ItemHeight = 15,
-                ColorChangeChar = (byte)0,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft
-            };
-            LayoutSession.EndRead(ChatMemo);
-            ChatEdit = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "ChatEdit",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 107,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 117,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 306,
-                BorderWidth = 8,
-                BorderHeight = 6,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = true,
-                ILIndex = 15,
-                OnReturn = Layout_ChatEditReturn_4,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(ChatEdit);
-            PlayerList = new Aow.Units.AoWListBox.TAOWListBox(this)
-            {
-                Name = "PlayerList",
-                Priority = 0,
-                WinLeft = 307,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 70,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 11,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 117,
-                WinHeight = 128,
-                BorderWidth = 8,
-                BorderHeight = 2,
-                Selected = -1,
-                OnPreDrawItem = Layout_PlayerListPreDrawItem_5,
-                TextColor = 9415072,
-                TextSelColor = 16777215,
-                ILIndexFrame = 113,
-                ILIndexTNormal = 21,
-                ILIndexTSelected = 8,
-                ItemHeight = 17,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft
-            };
-            LayoutSession.EndRead(PlayerList);
-            SIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "SIcon",
-                Priority = 0,
-                WinLeft = 2,
-                WinTop = 1,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 2,
-                    RightOffset = 0,
-                    TopOffset = 1,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 6,
-                AnimEnd = 11,
-                WinWidth = 19,
-                WinHeight = 16,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(SIcon);
-            IWTitle = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "IWTitle",
-                Priority = 0,
-                WinLeft = 25,
-                WinTop = 4,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 25,
-                    RightOffset = 10,
-                    TopOffset = 4,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Chat",
-                TextColor = 0
-            };
-            LayoutSession.EndRead(IWTitle);
-            Min = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Min",
-                Priority = 0,
-                WinLeft = 421,
-                WinTop = 1,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Minimizes the window."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 4,
-                    TopOffset = 1,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 4,
-                ILIndexLit = 5,
-                ILIndexUp = 3,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                OnClick = Layout_MinClick_6
-            };
-            LayoutSession.EndRead(Min);
-            ChatPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "ChatPnl",
-                Priority = 0,
-                WinLeft = 8,
-                WinTop = 23,
-                WinWidth = 424,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 8,
-                    RightOffset = 8,
-                    TopOffset = 23,
-                    BottomOffset = 8
-                },
-                WinHeight = 129,
-                ILIndexFrame = 105,
-                ILIndexTexture = 0,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(ChatPnl);
-            NSBar = new Aow.Units.AoWVScroll.TAOWVScrollBar(this)
-            {
-                Name = "NSBar",
-                Visible = false,
-                Priority = 0,
-                WinLeft = 407,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                Min = 0,
-                Max = 2,
-                SmallChange = 1,
-                LargeChange = 2,
-                Position = 0,
-                WinHeight = 128,
-                WinWidth = 17,
-                NumberVisible = 2,
-                VanishWhenFull = true,
-                ILIndexIncUp = 96,
-                ILIndexIncDown = 97,
-                ILIndexDecUp = 94,
-                ILIndexDecDown = 95,
-                ILIndexBack = 101,
-                ILIndexTab = 98
-            };
-            LayoutSession.EndRead(NSBar);
-            ChatSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this)
-            {
-                Name = "ChatSB",
-                Visible = false,
-                Priority = 0,
-                WinLeft = 290,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                Min = 0,
-                Max = 2,
-                SmallChange = 1,
-                LargeChange = 5,
-                Position = 0,
-                WinHeight = 108,
-                WinWidth = 17,
-                NumberVisible = 2,
-                VanishWhenFull = true,
-                ILIndexIncUp = 96,
-                ILIndexIncDown = 97,
-                ILIndexDecUp = 94,
-                ILIndexDecDown = 95,
-                ILIndexBack = 101,
-                ILIndexTab = 98
-            };
-            LayoutSession.EndRead(ChatSB);
-            Translator = new Aow.Layout.LayoutTIvTranslator(this)
-            {
-                Name = "Translator",
-                DictionaryName = "AoW",
-                TargetsData =
-                {
-                    new TranslationTarget("", "Items", 0),
-                    new TranslationTarget("", "Text", 0),
-                    new TranslationTarget("", "ToolTipText", 0)
-                }
-            };
-            LayoutSession.EndRead(Translator);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            Min.CaptureInput = true;
+            Min.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Min.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Min.Alignment.HeightPercent = (byte)(0);
+            Min.Alignment.WidthPercent = (byte)(0);
+            Min.Alignment.LeftOffPercent = 0;
+            Min.Alignment.RightOffPercent = 0;
+            Min.Alignment.TopOffPercent = 0;
+            Min.Alignment.BottomOffPercent = 0;
+            Min.Alignment.LeftOffset = 0;
+            Min.Alignment.RightOffset = 4;
+            Min.Alignment.TopOffset = 1;
+            Min.Alignment.BottomOffset = 0;
+            Min.Masked = false;
+            Min.BorderHeight = 0;
+            Min.BorderHeightSelected = 0;
+            Min.ILIndexDown = 4;
+            Min.ILIndexLit = 5;
+            Min.ILIndexUp = 3;
+            Min.TextColor = 0;
+            Min.TextSelColor = 0;
+            Min.WinWidth = 15;
+            Min.OnClick = Layout_MinClick_6;
+            session.EndRead(Min);
+            ChatPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(ChatPnl);
+            ChatPnl.Name = "ChatPnl";
+            ChatPnl.Priority = 0;
+            ChatPnl.WinLeft = 8;
+            ChatPnl.WinTop = 23;
+            ChatPnl.WinWidth = 424;
+            ChatPnl.Masked = true;
+            ChatPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            ChatPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            ChatPnl.Alignment.HeightPercent = (byte)(0);
+            ChatPnl.Alignment.WidthPercent = (byte)(0);
+            ChatPnl.Alignment.LeftOffPercent = 0;
+            ChatPnl.Alignment.RightOffPercent = 0;
+            ChatPnl.Alignment.TopOffPercent = 0;
+            ChatPnl.Alignment.BottomOffPercent = 0;
+            ChatPnl.Alignment.LeftOffset = 8;
+            ChatPnl.Alignment.RightOffset = 8;
+            ChatPnl.Alignment.TopOffset = 23;
+            ChatPnl.Alignment.BottomOffset = 8;
+            ChatPnl.WinHeight = 129;
+            ChatPnl.ILIndexFrame = 105;
+            ChatPnl.ILIndexTexture = 0;
+            ChatPnl.OwnerItem = 0;
+            ChatPnl.MinWidth = 0;
+            ChatPnl.MinHeight = 0;
+            session.EndRead(ChatPnl);
+            NSBar = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            session.BeginRead(NSBar);
+            NSBar.Name = "NSBar";
+            NSBar.Visible = false;
+            NSBar.Priority = 0;
+            NSBar.WinLeft = 407;
+            NSBar.WinTop = 0;
+            NSBar.CaptureInput = true;
+            NSBar.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            NSBar.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            NSBar.Alignment.HeightPercent = (byte)(0);
+            NSBar.Alignment.WidthPercent = (byte)(0);
+            NSBar.Alignment.LeftOffPercent = 0;
+            NSBar.Alignment.RightOffPercent = 0;
+            NSBar.Alignment.TopOffPercent = 0;
+            NSBar.Alignment.BottomOffPercent = 0;
+            NSBar.Alignment.LeftOffset = 0;
+            NSBar.Alignment.RightOffset = 0;
+            NSBar.Alignment.TopOffset = 0;
+            NSBar.Alignment.BottomOffset = 0;
+            NSBar.Masked = false;
+            NSBar.Min = 0;
+            NSBar.Max = 2;
+            NSBar.SmallChange = 1;
+            NSBar.LargeChange = 2;
+            NSBar.Position = 0;
+            NSBar.WinHeight = 128;
+            NSBar.WinWidth = 17;
+            NSBar.NumberVisible = 2;
+            NSBar.VanishWhenFull = true;
+            NSBar.ILIndexIncUp = 96;
+            NSBar.ILIndexIncDown = 97;
+            NSBar.ILIndexDecUp = 94;
+            NSBar.ILIndexDecDown = 95;
+            NSBar.ILIndexBack = 101;
+            NSBar.ILIndexTab = 98;
+            session.EndRead(NSBar);
+            ChatSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            session.BeginRead(ChatSB);
+            ChatSB.Name = "ChatSB";
+            ChatSB.Visible = false;
+            ChatSB.Priority = 0;
+            ChatSB.WinLeft = 290;
+            ChatSB.WinTop = 0;
+            ChatSB.CaptureInput = true;
+            ChatSB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            ChatSB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            ChatSB.Alignment.HeightPercent = (byte)(0);
+            ChatSB.Alignment.WidthPercent = (byte)(0);
+            ChatSB.Alignment.LeftOffPercent = 0;
+            ChatSB.Alignment.RightOffPercent = 0;
+            ChatSB.Alignment.TopOffPercent = 0;
+            ChatSB.Alignment.BottomOffPercent = 0;
+            ChatSB.Alignment.LeftOffset = 0;
+            ChatSB.Alignment.RightOffset = 0;
+            ChatSB.Alignment.TopOffset = 0;
+            ChatSB.Alignment.BottomOffset = 0;
+            ChatSB.Masked = false;
+            ChatSB.Min = 0;
+            ChatSB.Max = 2;
+            ChatSB.SmallChange = 1;
+            ChatSB.LargeChange = 5;
+            ChatSB.Position = 0;
+            ChatSB.WinHeight = 108;
+            ChatSB.WinWidth = 17;
+            ChatSB.NumberVisible = 2;
+            ChatSB.VanishWhenFull = true;
+            ChatSB.ILIndexIncUp = 96;
+            ChatSB.ILIndexIncDown = 97;
+            ChatSB.ILIndexDecUp = 94;
+            ChatSB.ILIndexDecDown = 95;
+            ChatSB.ILIndexBack = 101;
+            ChatSB.ILIndexTab = 98;
+            session.EndRead(ChatSB);
+            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            Translator = created__Translator;
+            session.BeginRead(created__Translator);
+            created__Translator.Name = "Translator";
+            created__Translator.DictionaryName = "AoW";
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+            session.EndRead(created__Translator);
+            session.EndRead(this);
             ChatMemo.AOWWindow = ChatPnl;
             ChatMemo.VScrollBar = ChatSB;
             ChatEdit.AOWWindow = ChatPnl;

@@ -1,12 +1,14 @@
+#nullable enable
 using System.Collections;
 using Aow.Rtl;
 using Aow.Units.ImageLib;
 
 namespace Aow.Layout;
 
-public interface ILayoutComponent
+// A data module whose layout is generated. GameLayouts loads each root through the session.
+public interface ILayoutModule
 {
-    void EndRead();
+    void InitializeComponent(LayoutSession session);
 }
 
 // The layout code performs local fixups and calls Loaded explicitly. This list holds only
@@ -27,6 +29,36 @@ public sealed class LayoutSession
         // FileName setters read image headers during loading. The registry must exist before
         // the first resource component is built, including callers that load one module.
         Aow.Units.Startup.InitializeSelected(["ImageLib"]);
+        BeginRead(root);
+    }
+
+    // VCL sets csLoading and csReading before the reader creates a component. The port sets
+    // them right after construction. No constructor body reads ComponentState, so the order is
+    // not observable. Loaded clears csLoading.
+    public void BeginRead(TComponent component) =>
+        component.ComponentState = component.ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
+
+    public void EndRead(TComponent component) =>
+        component.ComponentState = component.ComponentState.Without(TComponentState.csReading);
+
+    // The module failure boundary. Application.CreateForm publishes the global before the
+    // constructor runs and clears it when the constructor raises, and the failed module is
+    // destroyed with every component it owns. Earlier modules stay as they are. OnCreate runs
+    // inside InitializeComponent, so its failures reach this boundary as well.
+    public void Load<T>(T module, Action<T?> publish) where T : TComponent, ILayoutModule
+    {
+        publish(module);
+        try
+        {
+            module.InitializeComponent(this);
+        }
+        catch (System.Exception error)
+        {
+            publish(null);
+            try { module.Destroy(); }
+            catch (System.Exception cleanup) { throw new AggregateException(error, cleanup); }
+            throw;
+        }
     }
 
     public void Defer<T>(string module, Action<T> apply) where T : TComponent
@@ -53,8 +85,6 @@ public sealed class LayoutSession
             for (int index = 0; index < module.ComponentCount; index++)
                 if (module.Components[index] is TIvCustomTranslator translator) translator.Translate();
     }
-
-    public static void EndRead(TComponent component) => ((ILayoutComponent)component).EndRead();
 
     public static void ReadImageData(TCustomImageLibrary library, byte[] data)
     {

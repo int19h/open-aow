@@ -311,12 +311,15 @@ public sealed class GraphicsConstructionTests
     public void LibraryLegacyBridgeAndLayoutFlagsRunOnce()
     {
         var owner = new TComponent();
-        var library = TImageLibrary.CreateForLayout(owner);
-        var font = TImageLibraryFont.CreateForLayout(owner);
+        var session = new Aow.Layout.LayoutSession();
+        var library = TImageLibrary.Create(owner);
+        session.BeginRead(library);
+        var font = TImageLibraryFont.Create(owner);
+        session.BeginRead(font);
         Assert.Equal(2, owner.ComponentCount);
         Assert.True(library.ComponentState.Contains(TComponentState.csLoading));
         Assert.True(library.ComponentState.Contains(TComponentState.csReading));
-        Aow.Layout.LayoutSession.EndRead(library);
+        session.EndRead(library);
         Assert.False(library.ComponentState.Contains(TComponentState.csReading));
         Assert.True(library.ComponentState.Contains(TComponentState.csLoading));
         Assert.Equal(2, Field(font, "FCharacterDistance"));

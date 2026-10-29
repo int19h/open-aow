@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.aowTCMapEvents
 {
-    public partial class TTCMapEvents
+    public partial class TTCMapEvents : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,25 +17,23 @@ namespace Aow.Units.aowTCMapEvents
         {
             session.Begin(this);
             Name = "TCMapEvents";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            TCMap = new Aow.Units.CMapCtrl.TAoWCombatMapControl(this)
-            {
-                Name = "TCMap",
-                OnSelected = TCMapSelected,
-                OnDeselected = TCMapDeselected,
-                OnMouseOverTarget = TCMapMouseOverTarget,
-                OnUnitChanged = Layout_TCMapUnitChanged_0,
-                OnShowMessage = TCMapShowMessage,
-                OnTurnChanged = Layout_TCMapTurnChanged_1,
-                OnSeatedPlayerChanged = TCMapSeatedPlayerChanged,
-                OnMapChanged = TCMapMapChanged,
-                OnActivateMap = Layout_TCMapActivateMap_2,
-                OnDeActivateMap = Layout_TCMapDeActivateMap_3,
-                OnCastSpell = TCMapCastSpell,
-                OnActivateAbility = TCMapActivateAbility
-            };
-            LayoutSession.EndRead(TCMap);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            TCMap = Aow.Units.CMapCtrl.TAoWCombatMapControl.Create(this);
+            session.BeginRead(TCMap);
+            TCMap.Name = "TCMap";
+            TCMap.OnSelected = TCMapSelected;
+            TCMap.OnDeselected = TCMapDeselected;
+            TCMap.OnMouseOverTarget = TCMapMouseOverTarget;
+            TCMap.OnUnitChanged = Layout_TCMapUnitChanged_0;
+            TCMap.OnShowMessage = TCMapShowMessage;
+            TCMap.OnTurnChanged = Layout_TCMapTurnChanged_1;
+            TCMap.OnSeatedPlayerChanged = TCMapSeatedPlayerChanged;
+            TCMap.OnMapChanged = TCMapMapChanged;
+            TCMap.OnActivateMap = Layout_TCMapActivateMap_2;
+            TCMap.OnDeActivateMap = Layout_TCMapDeActivateMap_3;
+            TCMap.OnCastSpell = TCMapCastSpell;
+            TCMap.OnActivateAbility = TCMapActivateAbility;
+            session.EndRead(TCMap);
+            session.EndRead(this);
             Loaded();
             TCMap.Loaded();
             session.Resolve(this);

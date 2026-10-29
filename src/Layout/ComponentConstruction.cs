@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AOWChatWin
 {
-    public partial class TChatWindow : ILayoutComponent
+    public partial class TChatWindow
     {
         public TChatWindow()
         {
@@ -15,19 +15,13 @@ namespace Aow.Units.AOWChatWin
         public TChatWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AOWControlWin
 {
-    public partial class TControlWin : ILayoutComponent
+    public partial class TControlWin
     {
         public TControlWin()
         {
@@ -36,19 +30,13 @@ namespace Aow.Units.AOWControlWin
         public TControlWin(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AOWDialogWin
 {
-    public partial class TDWin : ILayoutComponent
+    public partial class TDWin
     {
         public TDWin()
         {
@@ -57,35 +45,14 @@ namespace Aow.Units.AOWDialogWin
         public TDWin(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AOWGauge
 {
-    public partial class TAoWGauge : ILayoutComponent
+    public partial class TAoWGauge
     {
-        public TAoWGauge()
-        {
-        }
-
-        public TAoWGauge(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutToolTipText
         {
             set
@@ -98,23 +65,8 @@ namespace Aow.Units.AOWGauge
 
 namespace Aow.Units.AOWInterfaceImgLib
 {
-    public partial class TInterfaceIL : ILayoutComponent
+    public partial class TInterfaceIL
     {
-        public TInterfaceIL()
-        {
-        }
-
-        public TInterfaceIL(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public byte[] LayoutData
         {
             set
@@ -127,7 +79,7 @@ namespace Aow.Units.AOWInterfaceImgLib
 
 namespace Aow.Units.AOWMWindow
 {
-    public partial class TMWindow : ILayoutComponent
+    public partial class TMWindow
     {
         public TMWindow()
         {
@@ -136,12 +88,6 @@ namespace Aow.Units.AOWMWindow
         public TMWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -150,23 +96,8 @@ namespace Aow.Units.AOWMWindow
 
 namespace Aow.Units.AOWMenu
 {
-    public partial class TAOWMenu : ILayoutComponent
+    public partial class TAOWMenu
     {
-        public TAOWMenu()
-        {
-        }
-
-        public TAOWMenu(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutItems
         {
             set
@@ -179,23 +110,8 @@ namespace Aow.Units.AOWMenu
 
 namespace Aow.Units.AOWMenuBar
 {
-    public partial class TAOWMenuBar : ILayoutComponent
+    public partial class TAOWMenuBar
     {
-        public TAOWMenuBar()
-        {
-        }
-
-        public TAOWMenuBar(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutItems
         {
             set
@@ -216,7 +132,7 @@ namespace Aow.Units.AOWMenuBar
 
 namespace Aow.Units.AOWMultiWin
 {
-    public partial class TMultiWindow : ILayoutComponent
+    public partial class TMultiWindow
     {
         public TMultiWindow()
         {
@@ -225,19 +141,13 @@ namespace Aow.Units.AOWMultiWin
         public TMultiWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AOWPyreScrn
 {
-    public partial class TPyreScreen : ILayoutComponent
+    public partial class TPyreScreen
     {
         public TPyreScreen()
         {
@@ -246,19 +156,13 @@ namespace Aow.Units.AOWPyreScrn
         public TPyreScreen(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AOWTitleWindow
 {
-    public partial class TTitleWindow : ILayoutComponent
+    public partial class TTitleWindow
     {
         public TTitleWindow()
         {
@@ -267,61 +171,13 @@ namespace Aow.Units.AOWTitleWindow
         public TTitleWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.AOWToolTip
-{
-    public partial class TAOWToolTip : ILayoutComponent
-    {
-        public TAOWToolTip()
-        {
-        }
-
-        public TAOWToolTip(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.AOWWinManager
-{
-    public partial class TAOWWinManager : ILayoutComponent
-    {
-        public TAOWWinManager()
-        {
-        }
-
-        public TAOWWinManager(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWArenaDlg
 {
-    public partial class TArenaDlg : ILayoutComponent
+    public partial class TArenaDlg
     {
         public TArenaDlg()
         {
@@ -330,19 +186,13 @@ namespace Aow.Units.AoWArenaDlg
         public TArenaDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWArmyEventDlg
 {
-    public partial class TArmyEventDlg : ILayoutComponent
+    public partial class TArmyEventDlg
     {
         public TArmyEventDlg()
         {
@@ -351,12 +201,6 @@ namespace Aow.Units.AoWArmyEventDlg
         public TArmyEventDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -379,7 +223,7 @@ namespace Aow.Units.AoWArmyEventDlg
 
 namespace Aow.Units.AoWArmyInfoDlg
 {
-    public partial class TArmyInfoDlg : ILayoutComponent
+    public partial class TArmyInfoDlg
     {
         public TArmyInfoDlg()
         {
@@ -388,61 +232,13 @@ namespace Aow.Units.AoWArmyInfoDlg
         public TArmyInfoDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.AoWArnoLine
-{
-    public partial class TAoWArnoLine : ILayoutComponent
-    {
-        public TAoWArnoLine()
-        {
-        }
-
-        public TAoWArnoLine(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.AoWBookWindow
-{
-    public partial class TAoWBookWindow : ILayoutComponent
-    {
-        public TAoWBookWindow()
-        {
-        }
-
-        public TAoWBookWindow(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWButton
 {
-    public partial class TAOWButton : ILayoutComponent
+    public partial class TAOWButton
     {
         public TAOWButton()
         {
@@ -451,12 +247,6 @@ namespace Aow.Units.AoWButton
         public TAOWButton(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public LayoutStrings LayoutToolTipText
@@ -471,7 +261,7 @@ namespace Aow.Units.AoWButton
 
 namespace Aow.Units.AoWCampaignJoin
 {
-    public partial class TCampaignJoinDlg : ILayoutComponent
+    public partial class TCampaignJoinDlg
     {
         public TCampaignJoinDlg()
         {
@@ -480,12 +270,6 @@ namespace Aow.Units.AoWCampaignJoin
         public TCampaignJoinDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -508,7 +292,7 @@ namespace Aow.Units.AoWCampaignJoin
 
 namespace Aow.Units.AoWCampaignSettings
 {
-    public partial class TCampaignSettingsDlg : ILayoutComponent
+    public partial class TCampaignSettingsDlg
     {
         public TCampaignSettingsDlg()
         {
@@ -517,19 +301,13 @@ namespace Aow.Units.AoWCampaignSettings
         public TCampaignSettingsDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWCampaignTransferDlg
 {
-    public partial class TCampaignTransferDlg : ILayoutComponent
+    public partial class TCampaignTransferDlg
     {
         public TCampaignTransferDlg()
         {
@@ -538,19 +316,13 @@ namespace Aow.Units.AoWCampaignTransferDlg
         public TCampaignTransferDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWCastUnitSpellDlg
 {
-    public partial class TCastUnitSpellDlg : ILayoutComponent
+    public partial class TCastUnitSpellDlg
     {
         public TCastUnitSpellDlg()
         {
@@ -559,19 +331,13 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         public TCastUnitSpellDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWCheckBox
 {
-    public partial class TAOWCheckBox : ILayoutComponent
+    public partial class TAOWCheckBox
     {
         public TAOWCheckBox()
         {
@@ -580,12 +346,6 @@ namespace Aow.Units.AoWCheckBox
         public TAOWCheckBox(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public LayoutStrings LayoutToolTipText
@@ -600,7 +360,7 @@ namespace Aow.Units.AoWCheckBox
 
 namespace Aow.Units.AoWCityJoinDlg
 {
-    public partial class TCityJoinDlg : ILayoutComponent
+    public partial class TCityJoinDlg
     {
         public TCityJoinDlg()
         {
@@ -609,19 +369,13 @@ namespace Aow.Units.AoWCityJoinDlg
         public TCityJoinDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWCityRebelDlg
 {
-    public partial class TCityRebelDlg : ILayoutComponent
+    public partial class TCityRebelDlg
     {
         public TCityRebelDlg()
         {
@@ -630,19 +384,13 @@ namespace Aow.Units.AoWCityRebelDlg
         public TCityRebelDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWCityScreen
 {
-    public partial class TCityScreen : ILayoutComponent
+    public partial class TCityScreen
     {
         public TCityScreen()
         {
@@ -651,12 +399,6 @@ namespace Aow.Units.AoWCityScreen
         public TCityScreen(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -679,23 +421,8 @@ namespace Aow.Units.AoWCityScreen
 
 namespace Aow.Units.AoWComboBox
 {
-    public partial class TAOWComboBox : ILayoutComponent
+    public partial class TAOWComboBox
     {
-        public TAOWComboBox()
-        {
-        }
-
-        public TAOWComboBox(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutItems
         {
             set
@@ -708,7 +435,7 @@ namespace Aow.Units.AoWComboBox
 
 namespace Aow.Units.AoWConstructDlg
 {
-    public partial class TConstructDlg : ILayoutComponent
+    public partial class TConstructDlg
     {
         public TConstructDlg()
         {
@@ -717,19 +444,13 @@ namespace Aow.Units.AoWConstructDlg
         public TConstructDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWDeformFaceDlg
 {
-    public partial class TDeformFaceDlg : ILayoutComponent
+    public partial class TDeformFaceDlg
     {
         public TDeformFaceDlg()
         {
@@ -738,19 +459,13 @@ namespace Aow.Units.AoWDeformFaceDlg
         public TDeformFaceDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWDisjunctionDlg
 {
-    public partial class TDisjunctionDlg : ILayoutComponent
+    public partial class TDisjunctionDlg
     {
         public TDisjunctionDlg()
         {
@@ -759,35 +474,14 @@ namespace Aow.Units.AoWDisjunctionDlg
         public TDisjunctionDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWEdit
 {
-    public partial class TAOWEdit : ILayoutComponent
+    public partial class TAOWEdit
     {
-        public TAOWEdit()
-        {
-        }
-
-        public TAOWEdit(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutToolTipText
         {
             set
@@ -800,7 +494,7 @@ namespace Aow.Units.AoWEdit
 
 namespace Aow.Units.AoWEmailGameSettingsDlg
 {
-    public partial class TEmailGameSettingsDlg : ILayoutComponent
+    public partial class TEmailGameSettingsDlg
     {
         public TEmailGameSettingsDlg()
         {
@@ -809,12 +503,6 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         public TEmailGameSettingsDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -837,7 +525,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
 
 namespace Aow.Units.AoWEmailSettingsDlg
 {
-    public partial class TEmailSettingsDlg : ILayoutComponent
+    public partial class TEmailSettingsDlg
     {
         public TEmailSettingsDlg()
         {
@@ -846,19 +534,13 @@ namespace Aow.Units.AoWEmailSettingsDlg
         public TEmailSettingsDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWFileDialog
 {
-    public partial class TFileDlgWindow : ILayoutComponent
+    public partial class TFileDlgWindow
     {
         public TFileDlgWindow()
         {
@@ -867,12 +549,6 @@ namespace Aow.Units.AoWFileDialog
         public TFileDlgWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -895,7 +571,7 @@ namespace Aow.Units.AoWFileDialog
 
 namespace Aow.Units.AoWFrame
 {
-    public partial class TAoWFrame : ILayoutComponent
+    public partial class TAoWFrame
     {
         public TAoWFrame()
         {
@@ -904,19 +580,13 @@ namespace Aow.Units.AoWFrame
         public TAoWFrame(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWGamePlayDlg
 {
-    public partial class TGamePlayDlg : ILayoutComponent
+    public partial class TGamePlayDlg
     {
         public TGamePlayDlg()
         {
@@ -925,19 +595,13 @@ namespace Aow.Units.AoWGamePlayDlg
         public TGamePlayDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWHScroll
 {
-    public partial class TAOWHScrollBar : ILayoutComponent
+    public partial class TAOWHScrollBar
     {
         public TAOWHScrollBar()
         {
@@ -946,12 +610,6 @@ namespace Aow.Units.AoWHScroll
         public TAOWHScrollBar(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public LayoutStrings LayoutToolTipText
@@ -966,7 +624,7 @@ namespace Aow.Units.AoWHScroll
 
 namespace Aow.Units.AoWHeroInfoDlg
 {
-    public partial class THeroInfoDlg : ILayoutComponent
+    public partial class THeroInfoDlg
     {
         public THeroInfoDlg()
         {
@@ -975,19 +633,13 @@ namespace Aow.Units.AoWHeroInfoDlg
         public THeroInfoDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWHeroJoinDlg
 {
-    public partial class THeroJoinDlg : ILayoutComponent
+    public partial class THeroJoinDlg
     {
         public THeroJoinDlg()
         {
@@ -996,12 +648,6 @@ namespace Aow.Units.AoWHeroJoinDlg
         public THeroJoinDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -1024,7 +670,7 @@ namespace Aow.Units.AoWHeroJoinDlg
 
 namespace Aow.Units.AoWHeroUpgradeDlg
 {
-    public partial class THeroUpgradeDlg : ILayoutComponent
+    public partial class THeroUpgradeDlg
     {
         public THeroUpgradeDlg()
         {
@@ -1033,19 +679,13 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         public THeroUpgradeDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWImage
 {
-    public partial class TAOWImage : ILayoutComponent
+    public partial class TAOWImage
     {
         public TAOWImage()
         {
@@ -1054,12 +694,6 @@ namespace Aow.Units.AoWImage
         public TAOWImage(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public LayoutStrings LayoutToolTipText
@@ -1074,7 +708,7 @@ namespace Aow.Units.AoWImage
 
 namespace Aow.Units.AoWInfoBanner
 {
-    public partial class TInfoBanner : ILayoutComponent
+    public partial class TInfoBanner
     {
         public TInfoBanner()
         {
@@ -1083,19 +717,13 @@ namespace Aow.Units.AoWInfoBanner
         public TInfoBanner(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWInfoWin
 {
-    public partial class TIWindow : ILayoutComponent
+    public partial class TIWindow
     {
         public TIWindow()
         {
@@ -1104,19 +732,13 @@ namespace Aow.Units.AoWInfoWin
         public TIWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWIntroScene
 {
-    public partial class TIntroScene : ILayoutComponent
+    public partial class TIntroScene
     {
         public TIntroScene()
         {
@@ -1125,19 +747,13 @@ namespace Aow.Units.AoWIntroScene
         public TIntroScene(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWItemBanner
 {
-    public partial class TItemBanner : ILayoutComponent
+    public partial class TItemBanner
     {
         public TItemBanner()
         {
@@ -1146,19 +762,13 @@ namespace Aow.Units.AoWItemBanner
         public TItemBanner(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWItemsFoundDlg
 {
-    public partial class TItemsFoundDlg : ILayoutComponent
+    public partial class TItemsFoundDlg
     {
         public TItemsFoundDlg()
         {
@@ -1167,19 +777,13 @@ namespace Aow.Units.AoWItemsFoundDlg
         public TItemsFoundDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWLabel
 {
-    public partial class TAOWLabel : ILayoutComponent
+    public partial class TAOWLabel
     {
         public TAOWLabel()
         {
@@ -1188,12 +792,6 @@ namespace Aow.Units.AoWLabel
         public TAOWLabel(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public LayoutStrings LayoutToolTipText
@@ -1208,7 +806,7 @@ namespace Aow.Units.AoWLabel
 
 namespace Aow.Units.AoWLeaderSetup
 {
-    public partial class TLeaderSetupWin : ILayoutComponent
+    public partial class TLeaderSetupWin
     {
         public TLeaderSetupWin()
         {
@@ -1217,12 +815,6 @@ namespace Aow.Units.AoWLeaderSetup
         public TLeaderSetupWin(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -1245,23 +837,8 @@ namespace Aow.Units.AoWLeaderSetup
 
 namespace Aow.Units.AoWListBox
 {
-    public partial class TAOWListBox : ILayoutComponent
+    public partial class TAOWListBox
     {
-        public TAOWListBox()
-        {
-        }
-
-        public TAOWListBox(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutItems
         {
             set
@@ -1282,7 +859,7 @@ namespace Aow.Units.AoWListBox
 
 namespace Aow.Units.AoWMagic
 {
-    public partial class TMagicWin : ILayoutComponent
+    public partial class TMagicWin
     {
         public TMagicWin()
         {
@@ -1291,35 +868,14 @@ namespace Aow.Units.AoWMagic
         public TMagicWin(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWMemo
 {
-    public partial class TAOWMemo : ILayoutComponent
+    public partial class TAOWMemo
     {
-        public TAOWMemo()
-        {
-        }
-
-        public TAOWMemo(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutItems
         {
             set
@@ -1340,7 +896,7 @@ namespace Aow.Units.AoWMemo
 
 namespace Aow.Units.AoWMessageDlg
 {
-    public partial class TMessageDlg : ILayoutComponent
+    public partial class TMessageDlg
     {
         public TMessageDlg()
         {
@@ -1349,19 +905,13 @@ namespace Aow.Units.AoWMessageDlg
         public TMessageDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWMsgReceiveDlg
 {
-    public partial class TMsgReceiveDlg : ILayoutComponent
+    public partial class TMsgReceiveDlg
     {
         public TMsgReceiveDlg()
         {
@@ -1370,19 +920,13 @@ namespace Aow.Units.AoWMsgReceiveDlg
         public TMsgReceiveDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWNewTurnDialog
 {
-    public partial class TNewTurnDlg : ILayoutComponent
+    public partial class TNewTurnDlg
     {
         public TNewTurnDlg()
         {
@@ -1391,19 +935,13 @@ namespace Aow.Units.AoWNewTurnDialog
         public TNewTurnDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWPInfoWin
 {
-    public partial class TPInfoW : ILayoutComponent
+    public partial class TPInfoW
     {
         public TPInfoW()
         {
@@ -1412,19 +950,13 @@ namespace Aow.Units.AoWPInfoWin
         public TPInfoW(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWPOP3Dlg
 {
-    public partial class TPOP3Dlg : ILayoutComponent
+    public partial class TPOP3Dlg
     {
         public TPOP3Dlg()
         {
@@ -1433,19 +965,13 @@ namespace Aow.Units.AoWPOP3Dlg
         public TPOP3Dlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWPWindows
 {
-    public partial class TPopupWindows : ILayoutComponent
+    public partial class TPopupWindows
     {
         public TPopupWindows()
         {
@@ -1454,40 +980,13 @@ namespace Aow.Units.AoWPWindows
         public TPopupWindows(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.AoWPanel
-{
-    public partial class TAOWPanel : ILayoutComponent
-    {
-        public TAOWPanel()
-        {
-        }
-
-        public TAOWPanel(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWPartyJoin
 {
-    public partial class TPartyJoinDlg : ILayoutComponent
+    public partial class TPartyJoinDlg
     {
         public TPartyJoinDlg()
         {
@@ -1496,12 +995,6 @@ namespace Aow.Units.AoWPartyJoin
         public TPartyJoinDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -1524,7 +1017,7 @@ namespace Aow.Units.AoWPartyJoin
 
 namespace Aow.Units.AoWPasswordDlg
 {
-    public partial class TPasswordDlg : ILayoutComponent
+    public partial class TPasswordDlg
     {
         public TPasswordDlg()
         {
@@ -1533,19 +1026,13 @@ namespace Aow.Units.AoWPasswordDlg
         public TPasswordDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWPowerDlg
 {
-    public partial class TPowerDlg : ILayoutComponent
+    public partial class TPowerDlg
     {
         public TPowerDlg()
         {
@@ -1554,19 +1041,13 @@ namespace Aow.Units.AoWPowerDlg
         public TPowerDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWProdScreen
 {
-    public partial class TProductionScreen : ILayoutComponent
+    public partial class TProductionScreen
     {
         public TProductionScreen()
         {
@@ -1575,12 +1056,6 @@ namespace Aow.Units.AoWProdScreen
         public TProductionScreen(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -1603,7 +1078,7 @@ namespace Aow.Units.AoWProdScreen
 
 namespace Aow.Units.AoWProgressDialog
 {
-    public partial class TProgressDialog : ILayoutComponent
+    public partial class TProgressDialog
     {
         public TProgressDialog()
         {
@@ -1612,19 +1087,13 @@ namespace Aow.Units.AoWProgressDialog
         public TProgressDialog(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWRealm
 {
-    public partial class TRealmWin : ILayoutComponent
+    public partial class TRealmWin
     {
         public TRealmWin()
         {
@@ -1633,19 +1102,13 @@ namespace Aow.Units.AoWRealm
         public TRealmWin(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWRelations
 {
-    public partial class TRelWindow : ILayoutComponent
+    public partial class TRelWindow
     {
         public TRelWindow()
         {
@@ -1654,12 +1117,6 @@ namespace Aow.Units.AoWRelations
         public TRelWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -1682,7 +1139,7 @@ namespace Aow.Units.AoWRelations
 
 namespace Aow.Units.AoWResultsWin
 {
-    public partial class TResultsWin : ILayoutComponent
+    public partial class TResultsWin
     {
         public TResultsWin()
         {
@@ -1691,12 +1148,6 @@ namespace Aow.Units.AoWResultsWin
         public TResultsWin(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -1719,7 +1170,7 @@ namespace Aow.Units.AoWResultsWin
 
 namespace Aow.Units.AoWSMTPDlg
 {
-    public partial class TSMTPDlg : ILayoutComponent
+    public partial class TSMTPDlg
     {
         public TSMTPDlg()
         {
@@ -1728,19 +1179,13 @@ namespace Aow.Units.AoWSMTPDlg
         public TSMTPDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWSMTPDlg
 {
-    public partial class TmsMessage : ILayoutComponent
+    public partial class TmsMessage
     {
         public TmsMessage()
         {
@@ -1749,12 +1194,6 @@ namespace Aow.Units.AoWSMTPDlg
         public TmsMessage(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.AnsiString ContentType { get; set; }
@@ -1764,7 +1203,7 @@ namespace Aow.Units.AoWSMTPDlg
 
 namespace Aow.Units.AoWSMTPDlg
 {
-    public partial class TmsSMTP : ILayoutComponent
+    public partial class TmsSMTP
     {
         public TmsSMTP()
         {
@@ -1773,12 +1212,6 @@ namespace Aow.Units.AoWSMTPDlg
         public TmsSMTP(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public int DefaultPort { get; set; }
@@ -1789,7 +1222,7 @@ namespace Aow.Units.AoWSMTPDlg
 
 namespace Aow.Units.AoWSWindow
 {
-    public partial class TSWindow : ILayoutComponent
+    public partial class TSWindow
     {
         public TSWindow()
         {
@@ -1798,19 +1231,13 @@ namespace Aow.Units.AoWSWindow
         public TSWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWScenSetup
 {
-    public partial class TScenSetup : ILayoutComponent
+    public partial class TScenSetup
     {
         public TScenSetup()
         {
@@ -1819,19 +1246,13 @@ namespace Aow.Units.AoWScenSetup
         public TScenSetup(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWSelFactionWin
 {
-    public partial class TSelFactionWin : ILayoutComponent
+    public partial class TSelFactionWin
     {
         public TSelFactionWin()
         {
@@ -1840,19 +1261,13 @@ namespace Aow.Units.AoWSelFactionWin
         public TSelFactionWin(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWSendEmailGameDlg
 {
-    public partial class TSendEmailGameDlg : ILayoutComponent
+    public partial class TSendEmailGameDlg
     {
         public TSendEmailGameDlg()
         {
@@ -1861,40 +1276,13 @@ namespace Aow.Units.AoWSendEmailGameDlg
         public TSendEmailGameDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.AoWSetup
-{
-    public partial class TSetupControl : ILayoutComponent
-    {
-        public TSetupControl()
-        {
-        }
-
-        public TSetupControl(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWSoundDlg
 {
-    public partial class TSoundDlg : ILayoutComponent
+    public partial class TSoundDlg
     {
         public TSoundDlg()
         {
@@ -1903,12 +1291,6 @@ namespace Aow.Units.AoWSoundDlg
         public TSoundDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -1931,7 +1313,7 @@ namespace Aow.Units.AoWSoundDlg
 
 namespace Aow.Units.AoWSpellBook
 {
-    public partial class TSpellBook : ILayoutComponent
+    public partial class TSpellBook
     {
         public TSpellBook()
         {
@@ -1940,12 +1322,6 @@ namespace Aow.Units.AoWSpellBook
         public TSpellBook(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -1968,7 +1344,7 @@ namespace Aow.Units.AoWSpellBook
 
 namespace Aow.Units.AoWSyncDlg
 {
-    public partial class TSynchronizeDlg : ILayoutComponent
+    public partial class TSynchronizeDlg
     {
         public TSynchronizeDlg()
         {
@@ -1977,19 +1353,13 @@ namespace Aow.Units.AoWSyncDlg
         public TSynchronizeDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWTBWindow
 {
-    public partial class TTBWindow : ILayoutComponent
+    public partial class TTBWindow
     {
         public TTBWindow()
         {
@@ -1998,19 +1368,13 @@ namespace Aow.Units.AoWTBWindow
         public TTBWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWTCScanner
 {
-    public partial class TTCScanner : ILayoutComponent
+    public partial class TTCScanner
     {
         public TTCScanner()
         {
@@ -2019,19 +1383,13 @@ namespace Aow.Units.AoWTCScanner
         public TTCScanner(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWTCUnit
 {
-    public partial class TTCUnit : ILayoutComponent
+    public partial class TTCUnit
     {
         public TTCUnit()
         {
@@ -2040,35 +1398,14 @@ namespace Aow.Units.AoWTCUnit
         public TTCUnit(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWTabPanel
 {
-    public partial class TAOWTabPanel : ILayoutComponent
+    public partial class TAOWTabPanel
     {
-        public TAOWTabPanel()
-        {
-        }
-
-        public TAOWTabPanel(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutItems
         {
             set
@@ -2089,7 +1426,7 @@ namespace Aow.Units.AoWTabPanel
 
 namespace Aow.Units.AoWTargetSelection
 {
-    public partial class TTargetSelectionDlg : ILayoutComponent
+    public partial class TTargetSelectionDlg
     {
         public TTargetSelectionDlg()
         {
@@ -2098,19 +1435,13 @@ namespace Aow.Units.AoWTargetSelection
         public TTargetSelectionDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWTitleScene
 {
-    public partial class TTitleScene : ILayoutComponent
+    public partial class TTitleScene
     {
         public TTitleScene()
         {
@@ -2119,12 +1450,6 @@ namespace Aow.Units.AoWTitleScene
         public TTitleScene(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -2147,7 +1472,7 @@ namespace Aow.Units.AoWTitleScene
 
 namespace Aow.Units.AoWTutorialWin
 {
-    public partial class TTutorialWindow : ILayoutComponent
+    public partial class TTutorialWindow
     {
         public TTutorialWindow()
         {
@@ -2156,19 +1481,13 @@ namespace Aow.Units.AoWTutorialWin
         public TTutorialWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWUnitBanner
 {
-    public partial class TUnitBanner : ILayoutComponent
+    public partial class TUnitBanner
     {
         public TUnitBanner()
         {
@@ -2177,19 +1496,13 @@ namespace Aow.Units.AoWUnitBanner
         public TUnitBanner(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWUnitSelDlg
 {
-    public partial class TUnitSelectionDlg : ILayoutComponent
+    public partial class TUnitSelectionDlg
     {
         public TUnitSelectionDlg()
         {
@@ -2198,19 +1511,13 @@ namespace Aow.Units.AoWUnitSelDlg
         public TUnitSelectionDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWUnitWindow
 {
-    public partial class TUnitWindow : ILayoutComponent
+    public partial class TUnitWindow
     {
         public TUnitWindow()
         {
@@ -2219,12 +1526,6 @@ namespace Aow.Units.AoWUnitWindow
         public TUnitWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -2233,7 +1534,7 @@ namespace Aow.Units.AoWUnitWindow
 
 namespace Aow.Units.AoWVScroll
 {
-    public partial class TAOWVScrollBar : ILayoutComponent
+    public partial class TAOWVScrollBar
     {
         public TAOWVScrollBar()
         {
@@ -2242,19 +1543,13 @@ namespace Aow.Units.AoWVScroll
         public TAOWVScrollBar(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWVideoDlg
 {
-    public partial class TVideoDialog : ILayoutComponent
+    public partial class TVideoDialog
     {
         public TVideoDialog()
         {
@@ -2263,12 +1558,6 @@ namespace Aow.Units.AoWVideoDlg
         public TVideoDialog(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -2291,7 +1580,7 @@ namespace Aow.Units.AoWVideoDlg
 
 namespace Aow.Units.AoWWinMan
 {
-    public partial class TGeneral : ILayoutComponent
+    public partial class TGeneral
     {
         public TGeneral()
         {
@@ -2300,12 +1589,6 @@ namespace Aow.Units.AoWWinMan
         public TGeneral(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -2326,30 +1609,9 @@ namespace Aow.Units.AoWWinMan
     }
 }
 
-namespace Aow.Units.AoWWindow
-{
-    public partial class TAOWWindow : ILayoutComponent
-    {
-        public TAOWWindow()
-        {
-        }
-
-        public TAOWWindow(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
 namespace Aow.Units.AoWWizardsTowerDlg
 {
-    public partial class TWizardsTowerDlg : ILayoutComponent
+    public partial class TWizardsTowerDlg
     {
         public TWizardsTowerDlg()
         {
@@ -2358,19 +1620,13 @@ namespace Aow.Units.AoWWizardsTowerDlg
         public TWizardsTowerDlg(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.AoWWorldMap
 {
-    public partial class TWorldMap : ILayoutComponent
+    public partial class TWorldMap
     {
         public TWorldMap()
         {
@@ -2379,12 +1635,6 @@ namespace Aow.Units.AoWWorldMap
         public TWorldMap(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -2393,7 +1643,7 @@ namespace Aow.Units.AoWWorldMap
 
 namespace Aow.Units.AowUserWindow
 {
-    public partial class TAoWUserWindow : ILayoutComponent
+    public partial class TAoWUserWindow
     {
         public TAoWUserWindow()
         {
@@ -2402,40 +1652,13 @@ namespace Aow.Units.AowUserWindow
         public TAoWUserWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.CMapCtrl
-{
-    public partial class TAoWCombatMapControl : ILayoutComponent
-    {
-        public TAoWCombatMapControl()
-        {
-        }
-
-        public TAoWCombatMapControl(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.FastCombatWin
 {
-    public partial class TFastCombatWindow : ILayoutComponent
+    public partial class TFastCombatWindow
     {
         public TFastCombatWindow()
         {
@@ -2444,12 +1667,6 @@ namespace Aow.Units.FastCombatWin
         public TFastCombatWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -2472,7 +1689,7 @@ namespace Aow.Units.FastCombatWin
 
 namespace Aow.Units.FontMod
 {
-    public partial class TFontModule : ILayoutComponent
+    public partial class TFontModule
     {
         public TFontModule()
         {
@@ -2481,138 +1698,24 @@ namespace Aow.Units.FontMod
         public TFontModule(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.HSEngine
-{
-    public partial class THSMapViewer : ILayoutComponent
-    {
-        public THSMapViewer()
-        {
-        }
-
-        public THSMapViewer(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.ImageLib
-{
-    public partial class TImageLibrary : ILayoutComponent
-    {
-        // Raw construction serves THSLibrary and TInterfaceIL legacy descendants.
-        protected TImageLibrary() { }
-
-        public static TImageLibrary CreateForLayout(TComponent owner)
-        {
-            var value = Create(owner);
-            value.ComponentState = value.ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            return value;
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.ImageLib
-{
-    public partial class TImageLibraryFont : ILayoutComponent
-    {
-        public static TImageLibraryFont CreateForLayout(TComponent owner)
-        {
-            var value = Create(owner);
-            value.ComponentState = value.ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            return value;
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Layout
 {
-    public class LayoutTIvTranslator : Aow.Rtl.TIvTranslator, ILayoutComponent
+    public class LayoutTIvTranslator : Aow.Rtl.TIvTranslator
     {
         public LayoutTIvTranslator(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.MapCtrl
-{
-    public partial class TAoWMapControl : ILayoutComponent
-    {
-        public TAoWMapControl()
-        {
-        }
-
-        public TAoWMapControl(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-    }
-}
-
-namespace Aow.Units.Scanner
-{
-    public partial class TScanner : ILayoutComponent
-    {
-        public TScanner()
-        {
-        }
-
-        public TScanner(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.StartMenu
 {
-    public partial class TStartMenu : ILayoutComponent
+    public partial class TStartMenu
     {
         public TStartMenu()
         {
@@ -2621,19 +1724,13 @@ namespace Aow.Units.StartMenu
         public TStartMenu(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.TCFCDlg
 {
-    public partial class TTCFCDialog : ILayoutComponent
+    public partial class TTCFCDialog
     {
         public TTCFCDialog()
         {
@@ -2642,35 +1739,14 @@ namespace Aow.Units.TCFCDlg
         public TTCFCDialog(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.TurnButton
 {
-    public partial class TAOWTurnButton : ILayoutComponent
+    public partial class TAOWTurnButton
     {
-        public TAOWTurnButton()
-        {
-        }
-
-        public TAOWTurnButton(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
-        }
-
         public LayoutStrings LayoutToolTipText
         {
             set
@@ -2683,17 +1759,11 @@ namespace Aow.Units.TurnButton
 
 namespace Aow.Layout
 {
-    public class LayoutTVideoPlayer : Aow.Rtl.TVideoPlayer, ILayoutComponent
+    public class LayoutTVideoPlayer : Aow.Rtl.TVideoPlayer
     {
         public LayoutTVideoPlayer(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Layout.TVideoPlayerLoopMode Loopmode { get; set; }
@@ -2704,17 +1774,11 @@ namespace Aow.Layout
 
 namespace Aow.Layout
 {
-    public class LayoutTGDPlay : Aow.Rtl.TGDPlay, ILayoutComponent
+    public class LayoutTGDPlay : Aow.Rtl.TGDPlay
     {
         public LayoutTGDPlay(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public int FilePacketSize { get; set; }
@@ -2739,7 +1803,7 @@ namespace Aow.Layout
 
 namespace Aow.Units.aowHelpWin
 {
-    public partial class THelpWindow : ILayoutComponent
+    public partial class THelpWindow
     {
         public THelpWindow()
         {
@@ -2748,19 +1812,13 @@ namespace Aow.Units.aowHelpWin
         public THelpWindow(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.aowIntGfxMod
 {
-    public partial class TIntGfxMod : ILayoutComponent
+    public partial class TIntGfxMod
     {
         public TIntGfxMod()
         {
@@ -2769,19 +1827,13 @@ namespace Aow.Units.aowIntGfxMod
         public TIntGfxMod(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.aowMapEvents
 {
-    public partial class TMapEvents : ILayoutComponent
+    public partial class TMapEvents
     {
         public TMapEvents()
         {
@@ -2790,19 +1842,13 @@ namespace Aow.Units.aowMapEvents
         public TMapEvents(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.aowSetupEvents
 {
-    public partial class TSetupEvents : ILayoutComponent
+    public partial class TSetupEvents
     {
         public TSetupEvents()
         {
@@ -2811,12 +1857,6 @@ namespace Aow.Units.aowSetupEvents
         public TSetupEvents(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
 
         public Aow.Rtl.TNotifyEvent LayoutOnCreate { get; set; }
@@ -2825,7 +1865,7 @@ namespace Aow.Units.aowSetupEvents
 
 namespace Aow.Units.aowTCMapEvents
 {
-    public partial class TTCMapEvents : ILayoutComponent
+    public partial class TTCMapEvents
     {
         public TTCMapEvents()
         {
@@ -2834,19 +1874,13 @@ namespace Aow.Units.aowTCMapEvents
         public TTCMapEvents(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }
 
 namespace Aow.Units.aowUserDrawBox
 {
-    public partial class TaowUserDrawBox : ILayoutComponent
+    public partial class TaowUserDrawBox
     {
         public TaowUserDrawBox()
         {
@@ -2855,12 +1889,6 @@ namespace Aow.Units.aowUserDrawBox
         public TaowUserDrawBox(TComponent owner)
         {
             Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-        }
-
-        void ILayoutComponent.EndRead()
-        {
-            ComponentState = ComponentState.Without(TComponentState.csReading);
         }
     }
 }

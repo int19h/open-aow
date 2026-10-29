@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.aowMapEvents
 {
-    public partial class TMapEvents
+    public partial class TMapEvents : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,47 +17,45 @@ namespace Aow.Units.aowMapEvents
         {
             session.Begin(this);
             Name = "MapEvents";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            TheMap = new Aow.Units.MapCtrl.TAoWMapControl(this)
-            {
-                Name = "TheMap",
-                OnArmySelected = Layout_TheMapArmySelected_0,
-                OnArmyDeselected = Layout_TheMapArmyDeselected_1,
-                OnArmyChanged = Layout_TheMapArmyChanged_2,
-                OnArmyDestroyed = Layout_TheMapArmyDestroyed_3,
-                OnStructureSelected = Layout_TheMapStructureSelected_4,
-                OnStructureDeselected = Layout_TheMapStructureDeselected_5,
-                OnStructureDblClick = Layout_TheMapStructureDblClick_6,
-                OnStructureChanged = Layout_TheMapStructureChanged_7,
-                OnStructureDestroyed = Layout_TheMapStructureDestroyed_8,
-                OnUnitChanged = Layout_TheMapUnitChanged_9,
-                OnDeactivateHSM = Layout_TheMapDeactivateHSM_10,
-                OnGemsChanged = TheMapGemsChanged,
-                OnIncomeChanged = TheMapIncomeChanged,
-                OnUpkeepChanged = TheMapIncomeChanged,
-                OnShowMessage = Layout_TheMapShowMessage_11,
-                OnDayChanged = TheMapDayChanged,
-                OnEndTurn = TheMapEndTurn,
-                OnHSChanged = Layout_TheMapHSChanged_12,
-                OnSeatedPlayerChanged = TheMapSeatedPlayerChanged,
-                OnMapChanged = Layout_TheMapMapChanged_13,
-                OnScannerIconsChanged = Layout_TheMapScannerIconsChanged_14,
-                OnLogbookChanged = TheMapLogbookChanged,
-                OnTargetSelectionChange = TheMapTargetSelectionChange,
-                OnCastSpell = Layout_TheMapCastSpell_15,
-                OnActivateAbility = Layout_TheMapActivateAbility_16,
-                OnPlayerMagicChanged = TheMapPlayerMagicChanged,
-                OnGlobalMagicChanged = Layout_TheMapGlobalMagicChanged_17,
-                OnRelationsChanged = Layout_TheMapRelationsChanged_18,
-                OnItemsSelected = Layout_TheMapItemsSelected_19,
-                OnItemsDeselected = Layout_TheMapItemsDeselected_20,
-                OnGameOver = Layout_TheMapGameOver_21,
-                OnPlayerTerminated = Layout_TheMapPlayerTerminated_22,
-                OnExecuteEventLog = TheMapExecuteEventLog,
-                OnDiplomaticChange = Layout_TheMapDiplomaticChange_23
-            };
-            LayoutSession.EndRead(TheMap);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            TheMap = Aow.Units.MapCtrl.TAoWMapControl.Create(this);
+            session.BeginRead(TheMap);
+            TheMap.Name = "TheMap";
+            TheMap.OnArmySelected = Layout_TheMapArmySelected_0;
+            TheMap.OnArmyDeselected = Layout_TheMapArmyDeselected_1;
+            TheMap.OnArmyChanged = Layout_TheMapArmyChanged_2;
+            TheMap.OnArmyDestroyed = Layout_TheMapArmyDestroyed_3;
+            TheMap.OnStructureSelected = Layout_TheMapStructureSelected_4;
+            TheMap.OnStructureDeselected = Layout_TheMapStructureDeselected_5;
+            TheMap.OnStructureDblClick = Layout_TheMapStructureDblClick_6;
+            TheMap.OnStructureChanged = Layout_TheMapStructureChanged_7;
+            TheMap.OnStructureDestroyed = Layout_TheMapStructureDestroyed_8;
+            TheMap.OnUnitChanged = Layout_TheMapUnitChanged_9;
+            TheMap.OnDeactivateHSM = Layout_TheMapDeactivateHSM_10;
+            TheMap.OnGemsChanged = TheMapGemsChanged;
+            TheMap.OnIncomeChanged = TheMapIncomeChanged;
+            TheMap.OnUpkeepChanged = TheMapIncomeChanged;
+            TheMap.OnShowMessage = Layout_TheMapShowMessage_11;
+            TheMap.OnDayChanged = TheMapDayChanged;
+            TheMap.OnEndTurn = TheMapEndTurn;
+            TheMap.OnHSChanged = Layout_TheMapHSChanged_12;
+            TheMap.OnSeatedPlayerChanged = TheMapSeatedPlayerChanged;
+            TheMap.OnMapChanged = Layout_TheMapMapChanged_13;
+            TheMap.OnScannerIconsChanged = Layout_TheMapScannerIconsChanged_14;
+            TheMap.OnLogbookChanged = TheMapLogbookChanged;
+            TheMap.OnTargetSelectionChange = TheMapTargetSelectionChange;
+            TheMap.OnCastSpell = Layout_TheMapCastSpell_15;
+            TheMap.OnActivateAbility = Layout_TheMapActivateAbility_16;
+            TheMap.OnPlayerMagicChanged = TheMapPlayerMagicChanged;
+            TheMap.OnGlobalMagicChanged = Layout_TheMapGlobalMagicChanged_17;
+            TheMap.OnRelationsChanged = Layout_TheMapRelationsChanged_18;
+            TheMap.OnItemsSelected = Layout_TheMapItemsSelected_19;
+            TheMap.OnItemsDeselected = Layout_TheMapItemsDeselected_20;
+            TheMap.OnGameOver = Layout_TheMapGameOver_21;
+            TheMap.OnPlayerTerminated = Layout_TheMapPlayerTerminated_22;
+            TheMap.OnExecuteEventLog = TheMapExecuteEventLog;
+            TheMap.OnDiplomaticChange = Layout_TheMapDiplomaticChange_23;
+            session.EndRead(TheMap);
+            session.EndRead(this);
             Loaded();
             TheMap.Loaded();
             session.Resolve(this);
@@ -120,7 +118,7 @@ namespace Aow.Units.aowMapEvents
 
         private void Layout_TheMapShowMessage_11(TObject p0)
         {
-            TheMapShowMessage(ref ((Aow.Units.AoWE.ShowMessageNotification)p0).Info);
+            TheMapShowMessage(ref Aow.Rtl.Ptr<Aow.Units.AoWE.TShowMessageInfo>.Unbox(p0).Value);
         }
 
         private void Layout_TheMapHSChanged_12(TObject p0)
@@ -130,12 +128,12 @@ namespace Aow.Units.aowMapEvents
 
         private void Layout_TheMapMapChanged_13(TObject p0)
         {
-            TheMapMapChanged(ref ((Aow.Units.AoWE.MapChangedNotification)p0).Info);
+            TheMapMapChanged(ref Aow.Rtl.Ptr<Aow.Units.AoWE.TMapChangedInfo>.Unbox(p0).Value);
         }
 
         private void Layout_TheMapScannerIconsChanged_14(TObject p0)
         {
-            TheMapScannerIconsChanged(ref ((Aow.Units.AoWE.MapChangedNotification)p0).Info);
+            TheMapScannerIconsChanged(ref Aow.Rtl.Ptr<Aow.Units.AoWE.TMapChangedInfo>.Unbox(p0).Value);
         }
 
         private void Layout_TheMapCastSpell_15(TObject p0)

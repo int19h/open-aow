@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AOWMWindow
 {
-    public partial class TMWindow
+    public partial class TMWindow : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,70 +17,64 @@ namespace Aow.Units.AOWMWindow
         {
             session.Begin(this);
             Name = "MWindow";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
             LayoutOnCreate = Layout_MWindowCreate_0;
-            MapWindow = new Aow.Units.AoWWindow.TAOWWindow(this)
-            {
-                Name = "MapWindow",
-                OnMouseDown = Layout_MapWindowMouseDown_1,
-                OnMouseUp = Layout_MapWindowMouseUp_2,
-                OnMouseMove = Layout_MapWindowMouseMove_3,
-                OnKeyDown = Layout_MapWindowKeyDown_4,
-                OnUpdate = Layout_MapWindowUpdate_5,
-                Visible = false,
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 440,
-                OnExit = MapWindowExit,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = true,
-                BorderWidth = 11,
-                BorderHeight = 11,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = false,
-                MaskColor = 0,
-                OnPreDrawSurface = MapWindowPreDrawSurface,
-                FreeSurfaceOnHide = false,
-                ILIndexFrame = 8,
-                ILIndexTexture = 0,
-                DragHeight = 0,
-                Draggable = false,
-                Resizable = true,
-                OnResize = Layout_MapWindowResize_6,
-                MinWidth = 200,
-                MinHeight = 200,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = true,
-                Modal = false,
-                WinHeight = 432,
-                Dockable = false
-            };
-            LayoutSession.EndRead(MapWindow);
-            MapViewer = new Aow.Units.HSEngine.THSMapViewer(this)
-            {
-                Name = "MapViewer",
-                OnSceneChanged = Layout_MapViewerSceneChanged_7
-            };
-            LayoutSession.EndRead(MapViewer);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            MapWindow = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            session.BeginRead(MapWindow);
+            MapWindow.Name = "MapWindow";
+            MapWindow.OnMouseDown = Layout_MapWindowMouseDown_1;
+            MapWindow.OnMouseUp = Layout_MapWindowMouseUp_2;
+            MapWindow.OnMouseMove = Layout_MapWindowMouseMove_3;
+            MapWindow.OnKeyDown = Layout_MapWindowKeyDown_4;
+            MapWindow.OnUpdate = Layout_MapWindowUpdate_5;
+            MapWindow.Visible = false;
+            MapWindow.Priority = 0;
+            MapWindow.WinLeft = 0;
+            MapWindow.WinTop = 0;
+            MapWindow.WinWidth = 440;
+            MapWindow.OnExit = MapWindowExit;
+            MapWindow.Masked = false;
+            MapWindow.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            MapWindow.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            MapWindow.Alignment.HeightPercent = (byte)(0);
+            MapWindow.Alignment.WidthPercent = (byte)(0);
+            MapWindow.Alignment.LeftOffPercent = 0;
+            MapWindow.Alignment.RightOffPercent = 0;
+            MapWindow.Alignment.TopOffPercent = 0;
+            MapWindow.Alignment.BottomOffPercent = 0;
+            MapWindow.Alignment.LeftOffset = 0;
+            MapWindow.Alignment.RightOffset = 0;
+            MapWindow.Alignment.TopOffset = 0;
+            MapWindow.Alignment.BottomOffset = 0;
+            MapWindow.UseVMem = true;
+            MapWindow.BorderWidth = 11;
+            MapWindow.BorderHeight = 11;
+            MapWindow.OverlapTopCorners = false;
+            MapWindow.Cursor = 0;
+            MapWindow.DoubleBuffered = false;
+            MapWindow.MaskColor = 0;
+            MapWindow.OnPreDrawSurface = MapWindowPreDrawSurface;
+            MapWindow.FreeSurfaceOnHide = false;
+            MapWindow.ILIndexFrame = 8;
+            MapWindow.ILIndexTexture = 0;
+            MapWindow.DragHeight = 0;
+            MapWindow.Draggable = false;
+            MapWindow.Resizable = true;
+            MapWindow.OnResize = Layout_MapWindowResize_6;
+            MapWindow.MinWidth = 200;
+            MapWindow.MinHeight = 200;
+            MapWindow.MaxWidth = 0;
+            MapWindow.MaxHeight = 0;
+            MapWindow.UseManagerBorders = true;
+            MapWindow.Modal = false;
+            MapWindow.WinHeight = 432;
+            MapWindow.Dockable = false;
+            session.EndRead(MapWindow);
+            MapViewer = Aow.Units.HSEngine.THSMapViewer.Create(this);
+            session.BeginRead(MapViewer);
+            MapViewer.Name = "MapViewer";
+            MapViewer.OnSceneChanged = Layout_MapViewerSceneChanged_7;
+            session.EndRead(MapViewer);
+            session.EndRead(this);
             Loaded();
             MapWindow.Loaded();
             MapViewer.Loaded();

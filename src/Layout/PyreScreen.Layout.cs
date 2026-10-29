@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AOWPyreScrn
 {
-    public partial class TPyreScreen
+    public partial class TPyreScreen : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,137 +17,120 @@ namespace Aow.Units.AOWPyreScrn
         {
             session.Begin(this);
             Name = "PyreScreen";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            DeadPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "DeadPnl",
-                OnMouseDown = DeadPnlMouseDown,
-                OnKeyDown = DeadPnlKeyDown,
-                OnUpdate = Layout_DeadPnlUpdate_0,
-                Visible = false,
-                Priority = 5,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 640,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 43,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                WinHeight = 480,
-                ILIndexFrame = 2,
-                ILIndexTexture = 0,
-                OwnerItem = 0,
-                MinWidth = 640,
-                MinHeight = 480
-            };
-            LayoutSession.EndRead(DeadPnl);
-            PyreTop = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "PyreTop",
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 0,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 9,
-                AnimEnd = 0,
-                WinWidth = 640,
-                WinHeight = 43,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(PyreTop);
-            LeaderFaceFr = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "LeaderFaceFr",
-                OnPreDraw = LeaderFaceFrPreDraw,
-                Priority = 1000,
-                WinLeft = 225,
-                WinTop = 5,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                AnimStart = 0,
-                CurrentImage = 10,
-                AnimEnd = 2,
-                WinWidth = 191,
-                WinHeight = 198,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(LeaderFaceFr);
-            PyreAnimation = new Aow.Units.aowUserDrawBox.TaowUserDrawBox(this)
-            {
-                Name = "PyreAnimation",
-                OnDraw = PyreAnimationDraw,
-                OnUpdate = Layout_PyreAnimationUpdate_1,
-                Priority = 10,
-                WinLeft = 0,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 43,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                WinWidth = 640,
-                WinHeight = 437
-            };
-            LayoutSession.EndRead(PyreAnimation);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            DeadPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(DeadPnl);
+            DeadPnl.Name = "DeadPnl";
+            DeadPnl.OnMouseDown = DeadPnlMouseDown;
+            DeadPnl.OnKeyDown = DeadPnlKeyDown;
+            DeadPnl.OnUpdate = Layout_DeadPnlUpdate_0;
+            DeadPnl.Visible = false;
+            DeadPnl.Priority = 5;
+            DeadPnl.WinLeft = 0;
+            DeadPnl.WinTop = 0;
+            DeadPnl.WinWidth = 640;
+            DeadPnl.Masked = true;
+            DeadPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            DeadPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+            DeadPnl.Alignment.HeightPercent = (byte)(0);
+            DeadPnl.Alignment.WidthPercent = (byte)(0);
+            DeadPnl.Alignment.LeftOffPercent = 0;
+            DeadPnl.Alignment.RightOffPercent = 0;
+            DeadPnl.Alignment.TopOffPercent = 43;
+            DeadPnl.Alignment.BottomOffPercent = 0;
+            DeadPnl.Alignment.LeftOffset = 0;
+            DeadPnl.Alignment.RightOffset = 0;
+            DeadPnl.Alignment.TopOffset = 0;
+            DeadPnl.Alignment.BottomOffset = 0;
+            DeadPnl.WinHeight = 480;
+            DeadPnl.ILIndexFrame = 2;
+            DeadPnl.ILIndexTexture = 0;
+            DeadPnl.OwnerItem = 0;
+            DeadPnl.MinWidth = 640;
+            DeadPnl.MinHeight = 480;
+            session.EndRead(DeadPnl);
+            PyreTop = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(PyreTop);
+            PyreTop.Name = "PyreTop";
+            PyreTop.Priority = 0;
+            PyreTop.WinLeft = 0;
+            PyreTop.WinTop = 0;
+            PyreTop.CaptureInput = false;
+            PyreTop.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PyreTop.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PyreTop.Alignment.HeightPercent = (byte)(0);
+            PyreTop.Alignment.WidthPercent = (byte)(0);
+            PyreTop.Alignment.LeftOffPercent = 0;
+            PyreTop.Alignment.RightOffPercent = 0;
+            PyreTop.Alignment.TopOffPercent = 0;
+            PyreTop.Alignment.BottomOffPercent = 0;
+            PyreTop.Alignment.LeftOffset = 0;
+            PyreTop.Alignment.RightOffset = 0;
+            PyreTop.Alignment.TopOffset = 0;
+            PyreTop.Alignment.BottomOffset = 0;
+            PyreTop.Masked = false;
+            PyreTop.AnimStart = 0;
+            PyreTop.CurrentImage = 9;
+            PyreTop.AnimEnd = 0;
+            PyreTop.WinWidth = 640;
+            PyreTop.WinHeight = 43;
+            PyreTop.Animate = false;
+            PyreTop.AnimFrameDelay = 0;
+            session.EndRead(PyreTop);
+            LeaderFaceFr = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(LeaderFaceFr);
+            LeaderFaceFr.Name = "LeaderFaceFr";
+            LeaderFaceFr.OnPreDraw = LeaderFaceFrPreDraw;
+            LeaderFaceFr.Priority = 1000;
+            LeaderFaceFr.WinLeft = 225;
+            LeaderFaceFr.WinTop = 5;
+            LeaderFaceFr.CaptureInput = true;
+            LeaderFaceFr.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            LeaderFaceFr.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            LeaderFaceFr.Alignment.HeightPercent = (byte)(0);
+            LeaderFaceFr.Alignment.WidthPercent = (byte)(0);
+            LeaderFaceFr.Alignment.LeftOffPercent = 0;
+            LeaderFaceFr.Alignment.RightOffPercent = 0;
+            LeaderFaceFr.Alignment.TopOffPercent = 0;
+            LeaderFaceFr.Alignment.BottomOffPercent = 0;
+            LeaderFaceFr.Alignment.LeftOffset = 0;
+            LeaderFaceFr.Alignment.RightOffset = 0;
+            LeaderFaceFr.Alignment.TopOffset = 5;
+            LeaderFaceFr.Alignment.BottomOffset = 0;
+            LeaderFaceFr.Masked = true;
+            LeaderFaceFr.AnimStart = 0;
+            LeaderFaceFr.CurrentImage = 10;
+            LeaderFaceFr.AnimEnd = 2;
+            LeaderFaceFr.WinWidth = 191;
+            LeaderFaceFr.WinHeight = 198;
+            LeaderFaceFr.Animate = false;
+            LeaderFaceFr.AnimFrameDelay = 0;
+            session.EndRead(LeaderFaceFr);
+            PyreAnimation = new Aow.Units.aowUserDrawBox.TaowUserDrawBox(this);
+            session.BeginRead(PyreAnimation);
+            PyreAnimation.Name = "PyreAnimation";
+            PyreAnimation.OnDraw = PyreAnimationDraw;
+            PyreAnimation.OnUpdate = Layout_PyreAnimationUpdate_1;
+            PyreAnimation.Priority = 10;
+            PyreAnimation.WinLeft = 0;
+            PyreAnimation.WinTop = 0;
+            PyreAnimation.CaptureInput = true;
+            PyreAnimation.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PyreAnimation.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PyreAnimation.Alignment.HeightPercent = (byte)(0);
+            PyreAnimation.Alignment.WidthPercent = (byte)(0);
+            PyreAnimation.Alignment.LeftOffPercent = 0;
+            PyreAnimation.Alignment.RightOffPercent = 0;
+            PyreAnimation.Alignment.TopOffPercent = 0;
+            PyreAnimation.Alignment.BottomOffPercent = 0;
+            PyreAnimation.Alignment.LeftOffset = 0;
+            PyreAnimation.Alignment.RightOffset = 0;
+            PyreAnimation.Alignment.TopOffset = 43;
+            PyreAnimation.Alignment.BottomOffset = 0;
+            PyreAnimation.Masked = false;
+            PyreAnimation.WinWidth = 640;
+            PyreAnimation.WinHeight = 437;
+            session.EndRead(PyreAnimation);
+            session.EndRead(this);
             PyreTop.AOWWindow = DeadPnl;
             LeaderFaceFr.AOWWindow = DeadPnl;
             PyreAnimation.AOWWindow = DeadPnl;
