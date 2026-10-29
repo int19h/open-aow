@@ -28,6 +28,22 @@ internal sealed class ConstructionContext
         }
     }
 
+    internal static T Create<TArg, T>(TArg arg, Func<ConstructionContext, TArg, T> construct) where T : TObject
+    {
+        var context = new ConstructionContext();
+        try
+        {
+            T result = construct(context, arg);
+            context.Complete();
+            return result;
+        }
+        catch
+        {
+            context.Fail();
+            throw;
+        }
+    }
+
     internal void Capture(TObject value)
     {
         ArgumentNullException.ThrowIfNull(value);

@@ -16,8 +16,9 @@ public class TObject
         public string ClassName => ClassNameOf(Type);
         public Meta ClassParent => MetaRegistry.Of(Type.BaseType!);
         public int InstanceSize { get; internal set; }
-        internal Func<TObject> Factory = null!;
-        public virtual TObject NewInstance() => Factory();
+        internal Func<TObject>? Factory;
+        public virtual TObject NewInstance() => Factory is { } factory ? factory()
+            : throw new InvalidOperationException($"Class {Type} has no raw allocation route.");
         public bool InheritsFrom(Type type) => type.IsAssignableFrom(Type);
         public static Meta Of<T>() where T : TObject => MetaRegistry.Of(typeof(T));
     }
@@ -29,9 +30,17 @@ public static class MetaRegistry
 
     public static void Register(Type type, TObject.Meta meta, Func<TObject> factory, int instanceSize)
     {
+        ArgumentNullException.ThrowIfNull(factory);
+        RegisterCore(type, meta, factory, instanceSize);
+    }
+
+    public static void Register(Type type, TObject.Meta meta, int instanceSize) =>
+        RegisterCore(type, meta, null, instanceSize);
+
+    private static void RegisterCore(Type type, TObject.Meta meta, Func<TObject>? factory, int instanceSize)
+    {
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNull(meta);
-        ArgumentNullException.ThrowIfNull(factory);
         if (!typeof(TObject).IsAssignableFrom(type))
             throw new ArgumentException("A metaclass represents a TObject descendant.", nameof(type));
         ArgumentOutOfRangeException.ThrowIfNegative(instanceSize);

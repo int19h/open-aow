@@ -52174,9 +52174,8 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:3614
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TPadControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__4090 = Aow.Units.Engine.TBitList.Create();
             FTerrainTypes = call__4090;
             var call__4091 = new Aow.Rtl.TList();
@@ -52269,29 +52268,15 @@ namespace Aow.Units.AoWE
 
             return Result;
         }
-
-        // intf_P5_03.inc:8
-        public static new Aow.Units.AoWE.TPadControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPadControl o = new Aow.Units.AoWE.TPadControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Interface declaration run owned by P1. }
     // { TFlagControl: size $14; $0C race resources, $10 flag library. VMT 557149F8. }
     public partial class TFlagControl : Aow.Units.Engine.TEControlStyleObject
     {
+        // Raw allocation for the image-injection fixture in private tests/probes/remaining-todos/Program.cs.
+        public TFlagControl() { }
+
         public Aow.Units.AoWE.TRaceResourceList FRaceResources;
         // { $0C }
         public Aow.Units.ImageLib.TCustomImageLibrary FFlags;
@@ -52305,9 +52290,8 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:1909
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private TFlagControl(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var gameSet = (Aow.Units.AoWE.TAoWHSSet)AOwner;
             var call__4095 = gameSet.ImageLibraryManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"Flags.ILB");
             FFlags = call__4095;
@@ -52400,21 +52384,12 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // intf_P1_10.inc:8
-        public static new Aow.Units.AoWE.TFlagControl Create(Aow.Units.Engine.TECustomNode AOwner)
+        // PlayerC.PAS:1909
+        public static new TFlagControl Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TFlagControl o = new Aow.Units.AoWE.TFlagControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            // No link exists for a null owner, and the game never creates this control that way.
+            if (AOwner is null) throw new NullReferenceException();
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFlagControl(context, owner));
         }
     }
 
@@ -52710,7 +52685,7 @@ namespace Aow.Units.AoWE
             DecorationTypes.Add(call__4170);
             var call__4171 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ToadstoolsRStr);
             DecorationTypes.Add(call__4171);
-            var call__4172 = Aow.Units.AoWE.TPadControl.Create(this);
+            var call__4172 = new Aow.Units.AoWE.TPadControl(this);
             FPadControl = call__4172;
             Enabled = FPadControl.FTerrainTypes;
             Enabled[1] = true;
