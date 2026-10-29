@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AoWUnitWindow
 {
-    public partial class TUnitWindow
+    public partial class TUnitWindow : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,4023 +17,3551 @@ namespace Aow.Units.AoWUnitWindow
         {
             session.Begin(this);
             Name = "UnitWindow";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
             LayoutOnCreate = UnitWindowCreate;
-            UnitWin = new Aow.Units.AoWWindow.TAOWWindow(this)
-            {
-                Name = "UnitWin",
-                OnMouseDown = UnitWinMouseDown,
-                OnKeyDown = UnitWinKeyDown,
-                OnUpdate = UnitWinUpdate,
-                Visible = false,
-                Priority = 300,
-                WinLeft = 110,
-                WinTop = 8,
-                WinWidth = 420,
-                OnEnter = UnitWinEnter,
-                OnExit = UnitWinExit,
-                Masked = true,
-                OnHide = UnitWinShow,
-                OnShow = UnitWinShow,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 10,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 10,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = true,
-                BorderWidth = 4,
-                BorderHeight = 4,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = true,
-                MaskColor = 5808200,
-                FreeSurfaceOnHide = false,
-                ILIndexFrame = 32,
-                ILIndexTexture = 2,
-                DragHeight = 20,
-                Draggable = true,
-                Resizable = false,
-                OnDrag = UnitWinResize,
-                OnResize = UnitWinResize,
-                MinWidth = 420,
-                MinHeight = 417,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = true,
-                Modal = true,
-                WinHeight = 417,
-                Dockable = false
-            };
-            LayoutSession.EndRead(UnitWin);
-            UnitFrameLeft = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UnitFrameLeft",
-                Priority = 200,
-                WinLeft = 0,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 44,
-                AnimEnd = 6,
-                WinWidth = 118,
-                WinHeight = 143,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UnitFrameLeft);
-            UnitTab = new Aow.Units.AoWTabPanel.TAOWTabPanel(this)
-            {
-                Name = "UnitTab",
-                Priority = 3000,
-                WinLeft = 21,
-                WinTop = 163,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 21,
-                    RightOffset = 20,
-                    TopOffset = 163,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 6,
-                OnChange = UnitTabChange,
-                Selected = -1,
-                WinWidth = 379,
-                TextColor = 0,
-                TextSelColor = 9415072,
-                ILIndexDown = 67,
-                ILIndexUp = 70,
-                BorderHeightSelected = 7
-            };
-            LayoutSession.EndRead(UnitTab);
-            Close = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Close",
-                Priority = 0,
-                WinLeft = 385,
-                WinTop = 4,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Closes the window."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 20,
-                    TopOffset = 4,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 1,
-                ILIndexLit = 2,
-                ILIndexUp = 0,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                OnClick = CloseClick
-            };
-            LayoutSession.EndRead(Close);
-            Title = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "Title",
-                Priority = 0,
-                WinLeft = 42,
-                WinTop = 7,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 42,
-                    RightOffset = 0,
-                    TopOffset = 7,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Unit ",
-                TextColor = 0
-            };
-            LayoutSession.EndRead(Title);
-            Help = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Help",
-                Visible = false,
-                Priority = 0,
-                WinLeft = 369,
-                WinTop = 4,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Displays help on this window"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 36,
-                    TopOffset = 4,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 60,
-                ILIndexLit = 61,
-                ILIndexUp = 59,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                OnClick = HelpClick
-            };
-            LayoutSession.EndRead(Help);
-            TitleIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "TitleIcon",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 11,
-                WinWidth = 19,
-                WinHeight = 16,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(TitleIcon);
-            BCloseBtn = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "BCloseBtn",
-                Priority = 250,
-                WinLeft = 212,
-                WinTop = 380,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 50,
-                    RightOffPercent = 32,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 2,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                BorderHeight = 8,
-                BorderHeightSelected = 9,
-                ILIndexDown = 22,
-                ILIndexLit = 25,
-                ILIndexUp = 19,
-                Text = "Close",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 119,
-                OnClick = CloseClick
-            };
-            LayoutSession.EndRead(BCloseBtn);
-            CeltLineR = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "CeltLineR",
-                Priority = 100,
-                WinLeft = 339,
-                WinTop = 380,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 27,
-                    RightOffset = 27,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 12,
-                WinWidth = 54,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(CeltLineR);
-            T2Memo = new Aow.Units.AoWMemo.TAOWMemo(this)
-            {
-                Name = "T2Memo",
-                Priority = 200,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 365,
-                WinHeight = 86,
-                BorderWidth = 5,
-                BorderHeight = 3,
-                TextColor = 9415072,
-                CursorChar = (byte)124,
-                BlinkDelay = (byte)(0),
-                Editable = false,
-                ILIndexFrame = 113,
-                ILIndexTexture = 18,
-                ItemHeight = 15,
-                ColorChangeChar = (byte)126,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft
-            };
-            LayoutSession.EndRead(T2Memo);
-            ManaIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "ManaIcon",
-                Priority = 0,
-                WinLeft = 74,
-                WinTop = 66,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Channeling is the amount of mana the Hero can pull from their Leader's pool (Current/Maximum)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 66,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 5,
-                AnimEnd = 6,
-                WinWidth = 15,
-                WinHeight = 17,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(ManaIcon);
-            Mana = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "Mana",
-                Priority = 0,
-                WinLeft = 25,
-                WinTop = 68,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Channeling is the amount of mana the Hero can pull from their Leader's pool (Current/Maximum)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 68,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(Mana);
-            T1AbilityLB = new Aow.Units.AoWListBox.TAOWListBox(this)
-            {
-                Name = "T1AbilityLB",
-                OnMouseDown = T1AbilityLBMouseDown,
-                Priority = 100,
-                WinLeft = 1,
-                WinTop = 14,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 55,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 14,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 164,
-                WinHeight = 141,
-                BorderWidth = 4,
-                BorderHeight = 4,
-                OnChange = T1AbilityLBChange,
-                OnDoubleClick = Layout_UseAbility_0,
-                Selected = -1,
-                OnPreDrawItem = PreDrawAbilityItem,
-                TextColor = 14679807,
-                TextSelColor = 0,
-                ILIndexFrame = 113,
-                ILIndexTNormal = 21,
-                ILIndexTSelected = 8,
-                ItemHeight = 17,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft
-            };
-            LayoutSession.EndRead(T1AbilityLB);
-            T1UseBut = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "T1UseBut",
-                Priority = 100,
-                WinLeft = 63,
-                WinTop = 174,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 9,
-                    TopOffset = 0,
-                    BottomOffset = 5
-                },
-                Masked = true,
-                BorderHeight = 6,
-                BorderHeightSelected = 7,
-                ILIndexDown = 46,
-                ILIndexLit = 49,
-                ILIndexUp = 43,
-                Text = "####",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 250,
-                OnClick = Layout_UseAbility_0
-            };
-            LayoutSession.EndRead(T1UseBut);
-            T1SortName = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "T1SortName",
-                Priority = 1000,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 54,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 3,
-                BorderHeightSelected = 3,
-                ILIndexDown = 88,
-                ILIndexLit = 91,
-                ILIndexUp = 85,
-                Text = "Ability Name",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 168,
-                OnClick = Layout_T1SortNameClick_1
-            };
-            LayoutSession.EndRead(T1SortName);
-            T1SortType = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "T1SortType",
-                Priority = 1000,
-                WinLeft = 164,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 45,
-                    RightOffPercent = 32,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 3,
-                BorderHeightSelected = 3,
-                ILIndexDown = 88,
-                ILIndexLit = 91,
-                ILIndexUp = 85,
-                Text = "Type",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 85,
-                OnClick = Layout_T1SortTypeClick_2
-            };
-            LayoutSession.EndRead(T1SortType);
-            T1SortSource = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "T1SortSource",
-                Priority = 1000,
-                WinLeft = 248,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 68,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 3,
-                BorderHeightSelected = 3,
-                ILIndexDown = 88,
-                ILIndexLit = 91,
-                ILIndexUp = 85,
-                Text = "Source",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 118,
-                OnClick = Layout_T1SortSourceClick_3
-            };
-            LayoutSession.EndRead(T1SortSource);
-            T1UseMsg = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "T1UseMsg",
-                Visible = false,
-                Priority = 0,
-                WinLeft = 109,
-                WinTop = 175,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 158,
-                    BottomOffset = 14
-                },
-                Masked = true,
-                Text = "Can only be used in Combat!",
-                TextColor = 13165253
-            };
-            LayoutSession.EndRead(T1UseMsg);
-            T1Panel = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T1Panel",
-                Priority = 900,
-                WinLeft = 22,
-                WinTop = 178,
-                WinWidth = 376,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 22,
-                    RightOffset = 22,
-                    TopOffset = 178,
-                    BottomOffset = 38
-                },
-                WinHeight = 201,
-                ILIndexFrame = 0,
-                ILIndexTexture = 2,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T1Panel);
-            T2Panel = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T2Panel",
-                Visible = false,
-                Priority = 900,
-                WinLeft = 22,
-                WinTop = 178,
-                WinWidth = 376,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 22,
-                    RightOffset = 22,
-                    TopOffset = 178,
-                    BottomOffset = 38
-                },
-                WinHeight = 201,
-                ILIndexFrame = 0,
-                ILIndexTexture = 2,
-                OwnerItem = 1,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T2Panel);
-            T1TypeLB = new Aow.Units.AoWListBox.TAOWListBox(this)
-            {
-                Name = "T1TypeLB",
-                OnMouseDown = T1AbilityLBMouseDown,
-                Priority = 80,
-                WinLeft = 164,
-                WinTop = 14,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 45,
-                    RightOffPercent = 32,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 14,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 85,
-                WinHeight = 141,
-                BorderWidth = 4,
-                BorderHeight = 4,
-                OnChange = T1AbilityLBChange,
-                OnDoubleClick = Layout_UseAbility_0,
-                Selected = -1,
-                OnPreDrawItem = PreDrawAbilityItem,
-                TextColor = 9415072,
-                TextSelColor = 0,
-                ILIndexFrame = 113,
-                ILIndexTNormal = 21,
-                ILIndexTSelected = 8,
-                ItemHeight = 17,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft
-            };
-            LayoutSession.EndRead(T1TypeLB);
-            T1SrcLB = new Aow.Units.AoWListBox.TAOWListBox(this)
-            {
-                Name = "T1SrcLB",
-                OnMouseDown = T1AbilityLBMouseDown,
-                Priority = 40,
-                WinLeft = 248,
-                WinTop = 14,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 68,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 14,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 118,
-                WinHeight = 141,
-                BorderWidth = 4,
-                BorderHeight = 4,
-                OnChange = T1AbilityLBChange,
-                OnDoubleClick = Layout_UseAbility_0,
-                Selected = -1,
-                OnPreDrawItem = PreDrawAbilityItem,
-                TextColor = 9415072,
-                TextSelColor = 0,
-                ILIndexFrame = 113,
-                ILIndexTNormal = 21,
-                ILIndexTSelected = 8,
-                ItemHeight = 17,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft
-            };
-            LayoutSession.EndRead(T1SrcLB);
-            T1ListPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T1ListPnl",
-                Priority = 100,
-                WinLeft = 5,
-                WinTop = 15,
-                WinWidth = 366,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 5,
-                    TopOffset = 15,
-                    BottomOffset = 30
-                },
-                WinHeight = 156,
-                ILIndexFrame = 105,
-                ILIndexTexture = 2,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T1ListPnl);
-            T1SBar = new Aow.Units.AoWVScroll.TAOWVScrollBar(this)
-            {
-                Name = "T1SBar",
-                Visible = false,
-                Priority = 40,
-                WinLeft = 349,
-                WinTop = 14,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                Min = 0,
-                Max = 0,
-                SmallChange = 1,
-                LargeChange = 1,
-                Position = 0,
-                WinHeight = 141,
-                WinWidth = 17,
-                NumberVisible = 1,
-                OnChange = T1SbarChange,
-                VanishWhenFull = true,
-                ILIndexIncUp = 96,
-                ILIndexIncDown = 97,
-                ILIndexDecUp = 94,
-                ILIndexDecDown = 95,
-                ILIndexBack = 101,
-                ILIndexTab = 98
-            };
-            LayoutSession.EndRead(T1SBar);
-            T2SBar = new Aow.Units.AoWVScroll.TAOWVScrollBar(this)
-            {
-                Name = "T2SBar",
-                Visible = false,
-                Priority = 200,
-                WinLeft = 349,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                Min = 0,
-                Max = 0,
-                SmallChange = 1,
-                LargeChange = 4,
-                Position = 0,
-                WinHeight = 86,
-                WinWidth = 17,
-                NumberVisible = 1,
-                VanishWhenFull = true,
-                ILIndexIncUp = 96,
-                ILIndexIncDown = 97,
-                ILIndexDecUp = 94,
-                ILIndexDecDown = 95,
-                ILIndexBack = 101,
-                ILIndexTab = 98
-            };
-            LayoutSession.EndRead(T2SBar);
-            T2Text = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T2Text",
-                Priority = 100,
-                WinLeft = 5,
-                WinTop = 15,
-                WinWidth = 366,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 5,
-                    TopOffset = 15,
-                    BottomOffset = 85
-                },
-                WinHeight = 87,
-                ILIndexFrame = 105,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T2Text);
-            T2Leader = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T2Leader",
-                Priority = 1000,
-                WinLeft = 5,
-                WinTop = 15,
-                WinWidth = 366,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 5,
-                    TopOffset = 15,
-                    BottomOffset = 85
-                },
-                WinHeight = 87,
-                ILIndexFrame = 105,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T2Leader);
-            Sel4 = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Sel4",
-                Priority = 10,
-                WinLeft = 157,
-                WinTop = 0,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 109,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 28,
-                ILIndexLit = 29,
-                ILIndexUp = 27,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 52
-            };
-            LayoutSession.EndRead(Sel4);
-            SelPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "SelPnl",
-                Priority = 10,
-                WinLeft = 0,
-                WinTop = 8,
-                WinWidth = 366,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 20,
-                    BottomOffset = 0
-                },
-                WinHeight = 70,
-                ILIndexFrame = 72,
-                ILIndexTexture = 1,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(SelPnl);
-            Sel3 = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Sel3",
-                Priority = 10,
-                WinLeft = 110,
-                WinTop = 0,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 110,
-                    RightOffset = 110,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 28,
-                ILIndexLit = 29,
-                ILIndexUp = 27,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 52
-            };
-            LayoutSession.EndRead(Sel3);
-            Sel2 = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Sel2",
-                Priority = 10,
-                WinLeft = 62,
-                WinTop = 0,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 62,
-                    RightOffset = 62,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 28,
-                ILIndexLit = 29,
-                ILIndexUp = 27,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 52
-            };
-            LayoutSession.EndRead(Sel2);
-            Sel1 = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Sel1",
-                Priority = 10,
-                WinLeft = 15,
-                WinTop = 0,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 15,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 28,
-                ILIndexLit = 29,
-                ILIndexUp = 27,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 52
-            };
-            LayoutSession.EndRead(Sel1);
-            Sel5 = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Sel5",
-                Priority = 10,
-                WinLeft = 204,
-                WinTop = 0,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 110,
-                    RightOffset = 110,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 28,
-                ILIndexLit = 29,
-                ILIndexUp = 27,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 52
-            };
-            LayoutSession.EndRead(Sel5);
-            Sel6 = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Sel6",
-                Priority = 10,
-                WinLeft = 252,
-                WinTop = 0,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 62,
-                    RightOffset = 62,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 28,
-                ILIndexLit = 29,
-                ILIndexUp = 27,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 52
-            };
-            LayoutSession.EndRead(Sel6);
-            Sel7 = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Sel7",
-                Priority = 10,
-                WinLeft = 299,
-                WinTop = 0,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 15,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 28,
-                ILIndexLit = 29,
-                ILIndexUp = 27,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 52
-            };
-            LayoutSession.EndRead(Sel7);
-            AAlignment = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "AAlignment",
-                Priority = 0,
-                WinLeft = 6,
-                WinTop = 10,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 31,
-                AnimEnd = 37,
-                WinWidth = 113,
-                WinHeight = 36,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(AAlignment);
-            AAlignmentLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "AAlignmentLbl",
-                Priority = 0,
-                WinLeft = 62,
-                WinTop = 80,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 7
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(AAlignmentLbl);
-            T2Alignnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T2Alignnl",
-                Priority = 10,
-                WinLeft = 126,
-                WinTop = 109,
-                WinWidth = 125,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 60,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 5,
-                    TopOffset = 10,
-                    BottomOffset = 5
-                },
-                WinHeight = 87,
-                ILIndexFrame = 105,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T2Alignnl);
-            AlFr = new Aow.Units.AoWFrame.TAoWFrame(this)
-            {
-                Name = "AlFr",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 124,
-                WinHeight = 86,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox,
-                ILIndexFrame = 113,
-                ILIndexLine = 0,
-                ILIndexTexture = 0
-            };
-            LayoutSession.EndRead(AlFr);
-            TypeIcn = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "TypeIcn",
-                Priority = 0,
-                WinLeft = 39,
-                WinTop = 10,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 21,
-                AnimEnd = 37,
-                WinWidth = 39,
-                WinHeight = 36,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(TypeIcn);
-            TypeV = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "TypeV",
-                Priority = 0,
-                WinLeft = 58,
-                WinTop = 80,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 7
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(TypeV);
-            T2TypePnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T2TypePnl",
-                Priority = 10,
-                WinLeft = 5,
-                WinTop = 109,
-                WinWidth = 116,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 68,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 5,
-                    TopOffset = 10,
-                    BottomOffset = 5
-                },
-                WinHeight = 87,
-                ILIndexFrame = 105,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T2TypePnl);
-            TypeFr = new Aow.Units.AoWFrame.TAoWFrame(this)
-            {
-                Name = "TypeFr",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 115,
-                WinHeight = 86,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox,
-                ILIndexFrame = 113,
-                ILIndexLine = 0,
-                ILIndexTexture = 0
-            };
-            LayoutSession.EndRead(TypeFr);
-            LdrFr = new Aow.Units.AoWFrame.TAoWFrame(this)
-            {
-                Name = "LdrFr",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 365,
-                WinHeight = 86,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox,
-                ILIndexFrame = 113,
-                ILIndexLine = 0,
-                ILIndexTexture = 0
-            };
-            LayoutSession.EndRead(LdrFr);
-            SphereLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "SphereLbl",
-                Priority = 0,
-                WinLeft = 131,
-                WinTop = 66,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 10
-                },
-                Masked = true,
-                Text = "Leader's magic spheres",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(SphereLbl);
-            T3Panel = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T3Panel",
-                Visible = false,
-                Priority = 900,
-                WinLeft = 22,
-                WinTop = 178,
-                WinWidth = 376,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 22,
-                    RightOffset = 22,
-                    TopOffset = 178,
-                    BottomOffset = 38
-                },
-                WinHeight = 201,
-                ILIndexFrame = 0,
-                ILIndexTexture = 2,
-                OwnerItem = 2,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T3Panel);
-            BP1 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "BP1",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 10,
-                WinTop = 29,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Regular inventory, any item can be place here."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 29,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 31,
-                ILIndexLit = 30,
-                ILIndexUp = 30,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(BP1);
-            BPLbl1 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "BPLbl1",
-                Visible = false,
-                Priority = 1000,
-                WinLeft = 15,
-                WinTop = 15,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 13,
-                    TopOffset = 15,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Backpack",
-                TextColor = 2370853
-            };
-            LayoutSession.EndRead(BPLbl1);
-            BP2 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "BP2",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 10,
-                WinTop = 71,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Regular inventory, any item can be place here."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 71,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 31,
-                ILIndexLit = 30,
-                ILIndexUp = 30,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(BP2);
-            BP3 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "BP3",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 10,
-                WinTop = 113,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Regular inventory, any item can be place here."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 113,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 31,
-                ILIndexLit = 30,
-                ILIndexUp = 30,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(BP3);
-            BP4 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "BP4",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 10,
-                WinTop = 155,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Regular inventory, any item can be place here."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 155,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 31,
-                ILIndexLit = 30,
-                ILIndexUp = 30,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(BP4);
-            BP5 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "BP5",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 325,
-                WinTop = 29,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Regular inventory, any item can be place here."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 4,
-                    RightOffset = 10,
-                    TopOffset = 29,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 31,
-                ILIndexLit = 30,
-                ILIndexUp = 30,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(BP5);
-            BP6 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "BP6",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 325,
-                WinTop = 71,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Regular inventory, any item can be place here."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 4,
-                    RightOffset = 10,
-                    TopOffset = 71,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 31,
-                ILIndexLit = 30,
-                ILIndexUp = 30,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(BP6);
-            BP7 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "BP7",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 325,
-                WinTop = 113,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Regular inventory, any item can be place here."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 4,
-                    RightOffset = 10,
-                    TopOffset = 113,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 31,
-                ILIndexLit = 30,
-                ILIndexUp = 30,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(BP7);
-            BP8 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "BP8",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 325,
-                WinTop = 155,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Regular inventory, any item can be place here."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 4,
-                    RightOffset = 10,
-                    TopOffset = 155,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 31,
-                ILIndexLit = 30,
-                ILIndexUp = 30,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(BP8);
-            BPLbl2 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "BPLbl2",
-                Visible = false,
-                Priority = 1000,
-                WinLeft = 322,
-                WinTop = 15,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 13,
-                    TopOffset = 15,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Backpack",
-                TextColor = 2370853
-            };
-            LayoutSession.EndRead(BPLbl2);
-            BodyLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "BodyLbl",
-                Priority = 10,
-                WinLeft = 164,
-                WinTop = 15,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 7,
-                    RightOffset = 0,
-                    TopOffset = 15,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Body Slots",
-                TextColor = 2370853
-            };
-            LayoutSession.EndRead(BodyLbl);
-            Head = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Head",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = HeadDraw,
-                Priority = 500,
-                WinLeft = 168,
-                WinTop = 25,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Head slot",
-                    ""
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 4,
-                    RightOffset = 0,
-                    TopOffset = 25,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 35,
-                ILIndexLit = 34,
-                ILIndexUp = 34,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Head);
-            Torso = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Torso",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = TorsoDraw,
-                Priority = 500,
-                WinLeft = 168,
-                WinTop = 84,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Torso slot"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 4,
-                    RightOffset = 0,
-                    TopOffset = 84,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 35,
-                ILIndexLit = 34,
-                ILIndexUp = 34,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Torso);
-            Attack = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Attack",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = AttackDraw,
-                Priority = 500,
-                WinLeft = 78,
-                WinTop = 46,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Melee weapon slot"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 78,
-                    RightOffset = 0,
-                    TopOffset = 46,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 35,
-                ILIndexLit = 34,
-                ILIndexUp = 34,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Attack);
-            Defend = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Defend",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = DefendDraw,
-                Priority = 500,
-                WinLeft = 256,
-                WinTop = 46,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Defensive weapon slot"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 70,
-                    RightOffset = 79,
-                    TopOffset = 46,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 35,
-                ILIndexLit = 34,
-                ILIndexUp = 34,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Defend);
-            RingL = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "RingL",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = RingLDraw,
-                Priority = 500,
-                WinLeft = 230,
-                WinTop = 95,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Ring slot"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 105,
-                    RightOffset = 105,
-                    TopOffset = 95,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 37,
-                ILIndexLit = 36,
-                ILIndexUp = 36,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(RingL);
-            RingR = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "RingR",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = RingLDraw,
-                Priority = 500,
-                WinLeft = 105,
-                WinTop = 95,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Ring slot",
-                    ""
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 105,
-                    RightOffset = 105,
-                    TopOffset = 95,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 37,
-                ILIndexLit = 36,
-                ILIndexUp = 36,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(RingR);
-            Gnd3 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Gnd3",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 168,
-                WinTop = 155,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 4,
-                    RightOffset = 0,
-                    TopOffset = 155,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 33,
-                ILIndexLit = 32,
-                ILIndexUp = 32,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Gnd3);
-            Gnd2 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Gnd2",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 124,
-                WinTop = 155,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 124,
-                    RightOffset = 0,
-                    TopOffset = 155,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 33,
-                ILIndexLit = 32,
-                ILIndexUp = 32,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Gnd2);
-            Gnd1 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Gnd1",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 80,
-                WinTop = 155,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 80,
-                    RightOffset = 0,
-                    TopOffset = 155,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 33,
-                ILIndexLit = 32,
-                ILIndexUp = 32,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Gnd1);
-            Gnd4 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Gnd4",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 212,
-                WinTop = 155,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 123,
-                    TopOffset = 155,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 33,
-                ILIndexLit = 32,
-                ILIndexUp = 32,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Gnd4);
-            Gnd5 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "Gnd5",
-                OnMouseDown = Gnd3MouseDown,
-                OnDraw = Gnd1Draw,
-                Priority = 1000,
-                WinLeft = 256,
-                WinTop = 155,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 77,
-                    RightOffset = 79,
-                    TopOffset = 155,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 33,
-                ILIndexLit = 32,
-                ILIndexUp = 32,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 41,
-                Checked = false,
-                OnChange = Gnd1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(Gnd5);
-            GndLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "GndLbl",
-                Priority = 1000,
-                WinLeft = 141,
-                WinTop = 143,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 7,
-                    RightOffset = 7,
-                    TopOffset = 143,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Items on the Ground",
-                TextColor = 2370853
-            };
-            LayoutSession.EndRead(GndLbl);
-            SlotBack = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "SlotBack",
-                Priority = 0,
-                WinLeft = 9,
-                WinTop = 2,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 2,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 40,
-                AnimEnd = 0,
-                WinWidth = 358,
-                WinHeight = 193,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(SlotBack);
-            DisbandBtn = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "DisbandBtn",
-                Priority = 250,
-                WinLeft = 89,
-                WinTop = 380,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 32,
-                    RightOffPercent = 50,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 2,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                BorderHeight = 8,
-                BorderHeightSelected = 9,
-                ILIndexDown = 22,
-                ILIndexLit = 25,
-                ILIndexUp = 19,
-                Text = "Disband",
-                TextColor = 89,
-                TextSelColor = 16777215,
-                WinWidth = 119,
-                OnClick = Layout_DisbandBtnClick_4
-            };
-            LayoutSession.EndRead(DisbandBtn);
-            ItemUsePnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "ItemUsePnl",
-                Visible = false,
-                Priority = 500,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 376,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                WinHeight = 201,
-                ILIndexFrame = 0,
-                ILIndexTexture = 2,
-                OwnerItem = 3,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(ItemUsePnl);
-            ItemUseBtn = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "ItemUseBtn",
-                Priority = 100,
-                WinLeft = 83,
-                WinTop = 103,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Uses selected item"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 9,
-                    TopOffset = 0,
-                    BottomOffset = 76
-                },
-                Masked = true,
-                BorderHeight = 6,
-                BorderHeightSelected = 7,
-                ILIndexDown = 46,
-                ILIndexLit = 49,
-                ILIndexUp = 43,
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 210,
-                OnClick = UseItemClick
-            };
-            LayoutSession.EndRead(ItemUseBtn);
-            ItemPic = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "ItemPic",
-                Priority = 0,
-                WinLeft = 9,
-                WinTop = 2,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 2,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 40,
-                AnimEnd = 0,
-                WinWidth = 358,
-                WinHeight = 193,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(ItemPic);
-            UnitMainPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "UnitMainPnl",
-                Priority = 0,
-                WinLeft = 21,
-                WinTop = 22,
-                WinWidth = 378,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 21,
-                    RightOffset = 21,
-                    TopOffset = 22,
-                    BottomOffset = 0
-                },
-                WinHeight = 143,
-                ILIndexFrame = 40,
-                ILIndexTexture = 2,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(UnitMainPnl);
-            UnitName = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UnitName",
-                Priority = 1500,
-                WinLeft = 189,
-                WinTop = 8,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 130,
-                    RightOffset = 0,
-                    TopOffset = 8,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 13299411
-            };
-            LayoutSession.EndRead(UnitName);
-            UnitFrRight = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UnitFrRight",
-                Priority = 200,
-                WinLeft = 260,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 45,
-                AnimEnd = 6,
-                WinWidth = 118,
-                WinHeight = 143,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UnitFrRight);
-            UAttackIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UAttackIcon",
-                Priority = 0,
-                WinLeft = 5,
-                WinTop = 1,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Attack is the ability of a unit to hit a target with a melee strike."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 0,
-                    TopOffset = 1,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 0,
-                AnimEnd = 6,
-                WinWidth = 15,
-                WinHeight = 17,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UAttackIcon);
-            UDefenseIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UDefenseIcon",
-                Priority = 0,
-                WinLeft = 5,
-                WinTop = 22,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Defense is the ability of a unit to avoid being hit by physical attacks."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 0,
-                    TopOffset = 22,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 1,
-                AnimEnd = 6,
-                WinWidth = 15,
-                WinHeight = 17,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UDefenseIcon);
-            UMovesIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UMovesIcon",
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 45,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Moves are the range a unit can move in a turn (Current/Maximum)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 0,
-                AnimEnd = 19,
-                WinWidth = 32,
-                WinHeight = 17,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UMovesIcon);
-            UDamageIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UDamageIcon",
-                Priority = 0,
-                WinLeft = 74,
-                WinTop = 1,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Damage is the maximum strength of a unit's melee attack."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 1,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 2,
-                AnimEnd = 6,
-                WinWidth = 15,
-                WinHeight = 17,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UDamageIcon);
-            UResistanceIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UResistanceIcon",
-                Priority = 0,
-                WinLeft = 74,
-                WinTop = 22,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Resistance is the ability of a unit to repel non-physical attacks."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 22,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 6,
-                WinWidth = 15,
-                WinHeight = 17,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UResistanceIcon);
-            UHitsIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UHitsIcon",
-                Priority = 0,
-                WinLeft = 74,
-                WinTop = 45,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 4,
-                AnimEnd = 6,
-                WinWidth = 15,
-                WinHeight = 17,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UHitsIcon);
-            UAttack = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UAttack",
-                Priority = 0,
-                WinLeft = 22,
-                WinTop = 3,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Attack is the ability of a unit to hit a target with a melee strike."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 57,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 3,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(UAttack);
-            UDefense = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UDefense",
-                Priority = 0,
-                WinLeft = 22,
-                WinTop = 25,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Defense is the ability of a unit to avoid being hit by physical attacks."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 57,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 25,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(UDefense);
-            UMoves = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UMoves",
-                Priority = 0,
-                WinLeft = 22,
-                WinTop = 47,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Moves are the range a unit can move in a turn (Current/Maximum)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 57,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 47,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(UMoves);
-            UDamage = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UDamage",
-                Priority = 0,
-                WinLeft = 25,
-                WinTop = 3,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Damage is the maximum strength of a unit's melee attack."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 6,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 3,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(UDamage);
-            UResistance = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UResistance",
-                Priority = 0,
-                WinLeft = 25,
-                WinTop = 25,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Resistance is the ability of a unit to repel non-physical attacks."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 6,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 25,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(UResistance);
-            UHits = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UHits",
-                Priority = 0,
-                WinLeft = 25,
-                WinTop = 47,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 6,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 47,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(UHits);
-            UStatPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "UStatPnl",
-                Priority = 0,
-                WinLeft = 117,
-                WinTop = 28,
-                WinWidth = 144,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 0
-                },
-                WinHeight = 86,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(UStatPnl);
-            UStatP1 = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "UStatP1",
-                Priority = 0,
-                WinLeft = 28,
-                WinTop = 0,
-                WinWidth = 44,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 50,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 28,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                WinHeight = 86,
-                ILIndexFrame = 0,
-                ILIndexTexture = 0,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(UStatP1);
-            UStatP2 = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "UStatP2",
-                Priority = 0,
-                WinLeft = 93,
-                WinTop = 0,
-                WinWidth = 51,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 65,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                WinHeight = 86,
-                ILIndexFrame = 0,
-                ILIndexTexture = 0,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(UStatP2);
-            UnitFr = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "UnitFr",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 7,
-                WinWidth = 50,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 7,
-                    BottomOffset = 0
-                },
-                WinHeight = 47,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(UnitFr);
-            Level = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "Level",
-                Priority = 1000000,
-                WinLeft = 59,
-                WinTop = 18,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 7,
-                    RightOffset = 7,
-                    TopOffset = 18,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 1514524
-            };
-            LayoutSession.EndRead(Level);
-            UnitLine1 = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UnitLine1",
-                Priority = 1000,
-                WinLeft = 118,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 11,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 11
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 1,
-                AnimEnd = 12,
-                WinWidth = 142,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UnitLine1);
-            UnitLine2 = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UnitLine2",
-                Priority = 1000,
-                WinLeft = 118,
-                WinTop = 116,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 11,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 1,
-                AnimEnd = 12,
-                WinWidth = 142,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UnitLine2);
-            FrLSh = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "FrLSh",
-                OnPreDraw = FrLShPreDraw,
-                Priority = 100,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                AnimStart = 0,
-                CurrentImage = 46,
-                AnimEnd = 6,
-                WinWidth = 118,
-                WinHeight = 143,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(FrLSh);
-            FrRSh = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "FrRSh",
-                OnPreDraw = FrRShPreDraw,
-                Priority = 100,
-                WinLeft = 260,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                AnimStart = 0,
-                CurrentImage = 46,
-                AnimEnd = 6,
-                WinWidth = 118,
-                WinHeight = 143,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(FrRSh);
-            RightFramePnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "RightFramePnl",
-                Priority = 0,
-                WinLeft = 260,
-                WinTop = 0,
-                WinWidth = 118,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 50,
-                    BottomOffset = 0
-                },
-                WinHeight = 143,
-                ILIndexFrame = 113,
-                ILIndexTexture = 7,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(RightFramePnl);
-            MoraleLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "MoraleLbl",
-                Priority = 1500,
-                WinLeft = 189,
-                WinTop = 136,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Morale modifiers: High [-], Good[-], Okay [-], Poor [Def-1/Res-1], Terrible [Def-2/Res-2]"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 130,
-                    RightOffset = 0,
-                    TopOffset = 8,
-                    BottomOffset = 7
-                },
-                Masked = true,
-                TextColor = 13299411
-            };
-            LayoutSession.EndRead(MoraleLbl);
-            UpkeepIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "UpkeepIcon",
-                Priority = 0,
-                WinLeft = 5,
-                WinTop = 64,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Upkeep is the cost to maintain the unit, in Gold or Mana, per turn."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 0,
-                    TopOffset = 64,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 51,
-                AnimEnd = 6,
-                WinWidth = 19,
-                WinHeight = 21,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(UpkeepIcon);
-            UpKeep = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UpKeep",
-                Priority = 0,
-                WinLeft = 22,
-                WinTop = 68,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Upkeep is the cost to maintain the unit, in Gold or Mana, per turn."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 57,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 68,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(UpKeep);
-            BCeltL = new Aow.Units.AoWFrame.TAoWFrame(this)
-            {
-                Name = "BCeltL",
-                Priority = 0,
-                WinLeft = 21,
-                WinTop = 380,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 21,
-                    RightOffset = 21,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                WinWidth = 378,
-                WinHeight = 27,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHorizLine,
-                ILIndexFrame = 0,
-                ILIndexLine = 55,
-                ILIndexTexture = 0
-            };
-            LayoutSession.EndRead(BCeltL);
-            CeltLineL = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "CeltLineL",
-                Priority = 100,
-                WinLeft = 27,
-                WinTop = 380,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 27,
-                    RightOffset = 27,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 12,
-                WinWidth = 54,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(CeltLineL);
-            GroundL = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "GroundL",
-                Visible = false,
-                Priority = 0,
-                WinLeft = 65,
-                WinTop = 170,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Displays help on this window"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 65,
-                    RightOffset = 36,
-                    TopOffset = 4,
-                    BottomOffset = 17
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 33,
-                ILIndexLit = 32,
-                ILIndexUp = 32,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 13,
-                OnClick = GroundLClick
-            };
-            LayoutSession.EndRead(GroundL);
-            GroundR = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "GroundR",
-                Visible = false,
-                Priority = 0,
-                WinLeft = 300,
-                WinTop = 170,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Displays help on this window"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 654,
-                    RightOffset = 63,
-                    TopOffset = 4,
-                    BottomOffset = 17
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 35,
-                ILIndexLit = 34,
-                ILIndexUp = 34,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 13,
-                OnClick = GroundRClick
-            };
-            LayoutSession.EndRead(GroundR);
-            RelationIcn = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "RelationIcn",
-                Priority = 0,
-                WinLeft = 32,
-                WinTop = 10,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 11,
-                AnimEnd = 37,
-                WinWidth = 51,
-                WinHeight = 36,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(RelationIcn);
-            RelationV = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "RelationV",
-                Priority = 0,
-                WinLeft = 57,
-                WinTop = 80,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 7
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(RelationV);
-            T2RelPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "T2RelPnl",
-                Priority = 10,
-                WinLeft = 256,
-                WinTop = 109,
-                WinWidth = 115,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 5,
-                    RightOffset = 5,
-                    TopOffset = 10,
-                    BottomOffset = 5
-                },
-                WinHeight = 87,
-                ILIndexFrame = 105,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(T2RelPnl);
-            RelFr = new Aow.Units.AoWFrame.TAoWFrame(this)
-            {
-                Name = "RelFr",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 114,
-                WinHeight = 86,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox,
-                ILIndexFrame = 113,
-                ILIndexLine = 0,
-                ILIndexTexture = 0
-            };
-            LayoutSession.EndRead(RelFr);
-            RelRing = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "RelRing",
-                Priority = 0,
-                WinLeft = 37,
-                WinTop = 10,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 37,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 20,
-                AnimEnd = 37,
-                WinWidth = 39,
-                WinHeight = 36,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(RelRing);
-            RelationLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "RelationLbl",
-                Priority = 0,
-                WinLeft = 27,
-                WinTop = 56,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 30,
-                    BottomOffset = 20
-                },
-                Masked = true,
-                Text = "Race Relation",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(RelationLbl);
-            AlignLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "AlignLbl",
-                Priority = 0,
-                WinLeft = 42,
-                WinTop = 56,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 20
-                },
-                Masked = true,
-                Text = "Alignment",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(AlignLbl);
-            TypeLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "TypeLbl",
-                Priority = 0,
-                WinLeft = 48,
-                WinTop = 56,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 20
-                },
-                Masked = true,
-                Text = "Type",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(TypeLbl);
-            XP = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "XP",
-                Priority = 1000000,
-                WinLeft = 59,
-                WinTop = 30,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Indicates combat experience needed for next level."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 7,
-                    RightOffset = 7,
-                    TopOffset = 30,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 1514524
-            };
-            LayoutSession.EndRead(XP);
-            PNext = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "PNext",
-                Priority = 50000,
-                WinLeft = 331,
-                WinTop = 109,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects the next unit in the party."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 85,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 35,
-                    TopOffset = 0,
-                    BottomOffset = 25
-                },
-                Masked = true,
-                BorderHeight = 5,
-                BorderHeightSelected = 5,
-                ILIndexDown = 26,
-                ILIndexLit = 25,
-                ILIndexUp = 25,
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 12,
-                OnClick = Layout_PNextClick_5
-            };
-            LayoutSession.EndRead(PNext);
-            PPrev = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "PPrev",
-                Priority = 50000,
-                WinLeft = 296,
-                WinTop = 109,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects the previous unit in the party."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 70,
-                    TopOffset = 0,
-                    BottomOffset = 25
-                },
-                Masked = true,
-                BorderHeight = 5,
-                BorderHeightSelected = 5,
-                ILIndexDown = 24,
-                ILIndexLit = 23,
-                ILIndexUp = 23,
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 12,
-                OnClick = Layout_PPrevClick_6
-            };
-            LayoutSession.EndRead(PPrev);
-            Translator = new Aow.Layout.LayoutTIvTranslator(this)
-            {
-                Name = "Translator",
-                DictionaryName = "AoW",
-                TargetsData =
-                {
-                    new TranslationTarget("", "Items", 0),
-                    new TranslationTarget("", "Text", 0),
-                    new TranslationTarget("", "ToolTipText", 0)
-                }
-            };
-            LayoutSession.EndRead(Translator);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            UnitWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            session.BeginRead(UnitWin);
+            UnitWin.Name = "UnitWin";
+            UnitWin.OnMouseDown = UnitWinMouseDown;
+            UnitWin.OnKeyDown = UnitWinKeyDown;
+            UnitWin.OnUpdate = UnitWinUpdate;
+            UnitWin.Visible = false;
+            UnitWin.Priority = 300;
+            UnitWin.WinLeft = 110;
+            UnitWin.WinTop = 8;
+            UnitWin.WinWidth = 420;
+            UnitWin.OnEnter = UnitWinEnter;
+            UnitWin.OnExit = UnitWinExit;
+            UnitWin.Masked = true;
+            UnitWin.OnHide = UnitWinShow;
+            UnitWin.OnShow = UnitWinShow;
+            UnitWin.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UnitWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+            UnitWin.Alignment.HeightPercent = (byte)(0);
+            UnitWin.Alignment.WidthPercent = (byte)(0);
+            UnitWin.Alignment.LeftOffPercent = 0;
+            UnitWin.Alignment.RightOffPercent = 10;
+            UnitWin.Alignment.TopOffPercent = 0;
+            UnitWin.Alignment.BottomOffPercent = 0;
+            UnitWin.Alignment.LeftOffset = 0;
+            UnitWin.Alignment.RightOffset = 10;
+            UnitWin.Alignment.TopOffset = 0;
+            UnitWin.Alignment.BottomOffset = 0;
+            UnitWin.UseVMem = true;
+            UnitWin.BorderWidth = 4;
+            UnitWin.BorderHeight = 4;
+            UnitWin.OverlapTopCorners = false;
+            UnitWin.Cursor = 0;
+            UnitWin.DoubleBuffered = true;
+            UnitWin.MaskColor = 5808200;
+            UnitWin.FreeSurfaceOnHide = false;
+            UnitWin.ILIndexFrame = 32;
+            UnitWin.ILIndexTexture = 2;
+            UnitWin.DragHeight = 20;
+            UnitWin.Draggable = true;
+            UnitWin.Resizable = false;
+            UnitWin.OnDrag = UnitWinResize;
+            UnitWin.OnResize = UnitWinResize;
+            UnitWin.MinWidth = 420;
+            UnitWin.MinHeight = 417;
+            UnitWin.MaxWidth = 0;
+            UnitWin.MaxHeight = 0;
+            UnitWin.UseManagerBorders = true;
+            UnitWin.Modal = true;
+            UnitWin.WinHeight = 417;
+            UnitWin.Dockable = false;
+            session.EndRead(UnitWin);
+            UnitFrameLeft = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UnitFrameLeft);
+            UnitFrameLeft.Name = "UnitFrameLeft";
+            UnitFrameLeft.Priority = 200;
+            UnitFrameLeft.WinLeft = 0;
+            UnitFrameLeft.WinTop = 0;
+            UnitFrameLeft.CaptureInput = true;
+            UnitFrameLeft.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UnitFrameLeft.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UnitFrameLeft.Alignment.HeightPercent = (byte)(0);
+            UnitFrameLeft.Alignment.WidthPercent = (byte)(0);
+            UnitFrameLeft.Alignment.LeftOffPercent = 0;
+            UnitFrameLeft.Alignment.RightOffPercent = 0;
+            UnitFrameLeft.Alignment.TopOffPercent = 0;
+            UnitFrameLeft.Alignment.BottomOffPercent = 0;
+            UnitFrameLeft.Alignment.LeftOffset = 0;
+            UnitFrameLeft.Alignment.RightOffset = 0;
+            UnitFrameLeft.Alignment.TopOffset = 0;
+            UnitFrameLeft.Alignment.BottomOffset = 0;
+            UnitFrameLeft.Masked = false;
+            UnitFrameLeft.AnimStart = 0;
+            UnitFrameLeft.CurrentImage = 44;
+            UnitFrameLeft.AnimEnd = 6;
+            UnitFrameLeft.WinWidth = 118;
+            UnitFrameLeft.WinHeight = 143;
+            UnitFrameLeft.Animate = false;
+            UnitFrameLeft.AnimFrameDelay = 0;
+            session.EndRead(UnitFrameLeft);
+            UnitTab = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            session.BeginRead(UnitTab);
+            UnitTab.Name = "UnitTab";
+            UnitTab.Priority = 3000;
+            UnitTab.WinLeft = 21;
+            UnitTab.WinTop = 163;
+            UnitTab.CaptureInput = true;
+            UnitTab.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            UnitTab.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UnitTab.Alignment.HeightPercent = (byte)(0);
+            UnitTab.Alignment.WidthPercent = (byte)(0);
+            UnitTab.Alignment.LeftOffPercent = 0;
+            UnitTab.Alignment.RightOffPercent = 0;
+            UnitTab.Alignment.TopOffPercent = 0;
+            UnitTab.Alignment.BottomOffPercent = 0;
+            UnitTab.Alignment.LeftOffset = 21;
+            UnitTab.Alignment.RightOffset = 20;
+            UnitTab.Alignment.TopOffset = 163;
+            UnitTab.Alignment.BottomOffset = 0;
+            UnitTab.Masked = true;
+            UnitTab.BorderHeight = 6;
+            UnitTab.OnChange = UnitTabChange;
+            UnitTab.Selected = -1;
+            UnitTab.WinWidth = 379;
+            UnitTab.TextColor = 0;
+            UnitTab.TextSelColor = 9415072;
+            UnitTab.ILIndexDown = 67;
+            UnitTab.ILIndexUp = 70;
+            UnitTab.BorderHeightSelected = 7;
+            session.EndRead(UnitTab);
+            Close = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Close);
+            Close.Name = "Close";
+            Close.Priority = 0;
+            Close.WinLeft = 385;
+            Close.WinTop = 4;
+            Close.LayoutToolTipText = new LayoutStrings()
+            {
+                "Closes the window."
+            };
+            Close.CaptureInput = true;
+            Close.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Close.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Close.Alignment.HeightPercent = (byte)(0);
+            Close.Alignment.WidthPercent = (byte)(0);
+            Close.Alignment.LeftOffPercent = 0;
+            Close.Alignment.RightOffPercent = 0;
+            Close.Alignment.TopOffPercent = 0;
+            Close.Alignment.BottomOffPercent = 0;
+            Close.Alignment.LeftOffset = 0;
+            Close.Alignment.RightOffset = 20;
+            Close.Alignment.TopOffset = 4;
+            Close.Alignment.BottomOffset = 0;
+            Close.Masked = false;
+            Close.BorderHeight = 0;
+            Close.BorderHeightSelected = 0;
+            Close.ILIndexDown = 1;
+            Close.ILIndexLit = 2;
+            Close.ILIndexUp = 0;
+            Close.TextColor = 0;
+            Close.TextSelColor = 0;
+            Close.WinWidth = 15;
+            Close.OnClick = CloseClick;
+            session.EndRead(Close);
+            Title = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(Title);
+            Title.Name = "Title";
+            Title.Priority = 0;
+            Title.WinLeft = 42;
+            Title.WinTop = 7;
+            Title.CaptureInput = false;
+            Title.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Title.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Title.Alignment.HeightPercent = (byte)(0);
+            Title.Alignment.WidthPercent = (byte)(0);
+            Title.Alignment.LeftOffPercent = 0;
+            Title.Alignment.RightOffPercent = 0;
+            Title.Alignment.TopOffPercent = 0;
+            Title.Alignment.BottomOffPercent = 0;
+            Title.Alignment.LeftOffset = 42;
+            Title.Alignment.RightOffset = 0;
+            Title.Alignment.TopOffset = 7;
+            Title.Alignment.BottomOffset = 0;
+            Title.Masked = true;
+            Title.Text = "Unit ";
+            Title.TextColor = 0;
+            session.EndRead(Title);
+            Help = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Help);
+            Help.Name = "Help";
+            Help.Visible = false;
+            Help.Priority = 0;
+            Help.WinLeft = 369;
+            Help.WinTop = 4;
+            Help.LayoutToolTipText = new LayoutStrings()
+            {
+                "Displays help on this window"
+            };
+            Help.CaptureInput = true;
+            Help.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Help.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Help.Alignment.HeightPercent = (byte)(0);
+            Help.Alignment.WidthPercent = (byte)(0);
+            Help.Alignment.LeftOffPercent = 0;
+            Help.Alignment.RightOffPercent = 0;
+            Help.Alignment.TopOffPercent = 0;
+            Help.Alignment.BottomOffPercent = 0;
+            Help.Alignment.LeftOffset = 0;
+            Help.Alignment.RightOffset = 36;
+            Help.Alignment.TopOffset = 4;
+            Help.Alignment.BottomOffset = 0;
+            Help.Masked = false;
+            Help.BorderHeight = 0;
+            Help.BorderHeightSelected = 0;
+            Help.ILIndexDown = 60;
+            Help.ILIndexLit = 61;
+            Help.ILIndexUp = 59;
+            Help.TextColor = 0;
+            Help.TextSelColor = 0;
+            Help.WinWidth = 15;
+            Help.OnClick = HelpClick;
+            session.EndRead(Help);
+            TitleIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(TitleIcon);
+            TitleIcon.Name = "TitleIcon";
+            TitleIcon.Priority = 0;
+            TitleIcon.WinLeft = 20;
+            TitleIcon.WinTop = 5;
+            TitleIcon.CaptureInput = false;
+            TitleIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            TitleIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            TitleIcon.Alignment.HeightPercent = (byte)(0);
+            TitleIcon.Alignment.WidthPercent = (byte)(0);
+            TitleIcon.Alignment.LeftOffPercent = 0;
+            TitleIcon.Alignment.RightOffPercent = 0;
+            TitleIcon.Alignment.TopOffPercent = 0;
+            TitleIcon.Alignment.BottomOffPercent = 0;
+            TitleIcon.Alignment.LeftOffset = 20;
+            TitleIcon.Alignment.RightOffset = 0;
+            TitleIcon.Alignment.TopOffset = 5;
+            TitleIcon.Alignment.BottomOffset = 0;
+            TitleIcon.Masked = false;
+            TitleIcon.AnimStart = 0;
+            TitleIcon.CurrentImage = 3;
+            TitleIcon.AnimEnd = 11;
+            TitleIcon.WinWidth = 19;
+            TitleIcon.WinHeight = 16;
+            TitleIcon.Animate = false;
+            TitleIcon.AnimFrameDelay = 0;
+            session.EndRead(TitleIcon);
+            BCloseBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(BCloseBtn);
+            BCloseBtn.Name = "BCloseBtn";
+            BCloseBtn.Priority = 250;
+            BCloseBtn.WinLeft = 212;
+            BCloseBtn.WinTop = 380;
+            BCloseBtn.CaptureInput = true;
+            BCloseBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            BCloseBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            BCloseBtn.Alignment.HeightPercent = (byte)(0);
+            BCloseBtn.Alignment.WidthPercent = (byte)(0);
+            BCloseBtn.Alignment.LeftOffPercent = 50;
+            BCloseBtn.Alignment.RightOffPercent = 32;
+            BCloseBtn.Alignment.TopOffPercent = 0;
+            BCloseBtn.Alignment.BottomOffPercent = 0;
+            BCloseBtn.Alignment.LeftOffset = 2;
+            BCloseBtn.Alignment.RightOffset = 0;
+            BCloseBtn.Alignment.TopOffset = 0;
+            BCloseBtn.Alignment.BottomOffset = 10;
+            BCloseBtn.Masked = false;
+            BCloseBtn.BorderHeight = 8;
+            BCloseBtn.BorderHeightSelected = 9;
+            BCloseBtn.ILIndexDown = 22;
+            BCloseBtn.ILIndexLit = 25;
+            BCloseBtn.ILIndexUp = 19;
+            BCloseBtn.Text = "Close";
+            BCloseBtn.TextColor = 0;
+            BCloseBtn.TextSelColor = 16777215;
+            BCloseBtn.WinWidth = 119;
+            BCloseBtn.OnClick = CloseClick;
+            session.EndRead(BCloseBtn);
+            CeltLineR = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(CeltLineR);
+            CeltLineR.Name = "CeltLineR";
+            CeltLineR.Priority = 100;
+            CeltLineR.WinLeft = 339;
+            CeltLineR.WinTop = 380;
+            CeltLineR.CaptureInput = true;
+            CeltLineR.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            CeltLineR.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            CeltLineR.Alignment.HeightPercent = (byte)(0);
+            CeltLineR.Alignment.WidthPercent = (byte)(0);
+            CeltLineR.Alignment.LeftOffPercent = 0;
+            CeltLineR.Alignment.RightOffPercent = 0;
+            CeltLineR.Alignment.TopOffPercent = 0;
+            CeltLineR.Alignment.BottomOffPercent = 0;
+            CeltLineR.Alignment.LeftOffset = 27;
+            CeltLineR.Alignment.RightOffset = 27;
+            CeltLineR.Alignment.TopOffset = 0;
+            CeltLineR.Alignment.BottomOffset = 10;
+            CeltLineR.Masked = false;
+            CeltLineR.AnimStart = 0;
+            CeltLineR.CurrentImage = 3;
+            CeltLineR.AnimEnd = 12;
+            CeltLineR.WinWidth = 54;
+            CeltLineR.WinHeight = 27;
+            CeltLineR.Animate = false;
+            CeltLineR.AnimFrameDelay = 0;
+            session.EndRead(CeltLineR);
+            T2Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            session.BeginRead(T2Memo);
+            T2Memo.Name = "T2Memo";
+            T2Memo.Priority = 200;
+            T2Memo.WinLeft = 1;
+            T2Memo.WinTop = 0;
+            T2Memo.CaptureInput = true;
+            T2Memo.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T2Memo.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            T2Memo.Alignment.HeightPercent = (byte)(0);
+            T2Memo.Alignment.WidthPercent = (byte)(0);
+            T2Memo.Alignment.LeftOffPercent = 0;
+            T2Memo.Alignment.RightOffPercent = 0;
+            T2Memo.Alignment.TopOffPercent = 0;
+            T2Memo.Alignment.BottomOffPercent = 0;
+            T2Memo.Alignment.LeftOffset = 1;
+            T2Memo.Alignment.RightOffset = 0;
+            T2Memo.Alignment.TopOffset = 0;
+            T2Memo.Alignment.BottomOffset = 1;
+            T2Memo.Masked = false;
+            T2Memo.WinWidth = 365;
+            T2Memo.WinHeight = 86;
+            T2Memo.BorderWidth = 5;
+            T2Memo.BorderHeight = 3;
+            T2Memo.TextColor = 9415072;
+            T2Memo.CursorChar = (byte)124;
+            T2Memo.BlinkDelay = (byte)(0);
+            T2Memo.Editable = false;
+            T2Memo.ILIndexFrame = 113;
+            T2Memo.ILIndexTexture = 18;
+            T2Memo.ItemHeight = 15;
+            T2Memo.ColorChangeChar = (byte)126;
+            T2Memo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+            session.EndRead(T2Memo);
+            ManaIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(ManaIcon);
+            ManaIcon.Name = "ManaIcon";
+            ManaIcon.Priority = 0;
+            ManaIcon.WinLeft = 74;
+            ManaIcon.WinTop = 66;
+            ManaIcon.LayoutToolTipText = new LayoutStrings()
+            {
+                "Channeling is the amount of mana the Hero can pull from their Leader's pool (Current/Maximum)."
+            };
+            ManaIcon.CaptureInput = true;
+            ManaIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            ManaIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            ManaIcon.Alignment.HeightPercent = (byte)(0);
+            ManaIcon.Alignment.WidthPercent = (byte)(0);
+            ManaIcon.Alignment.LeftOffPercent = 52;
+            ManaIcon.Alignment.RightOffPercent = 0;
+            ManaIcon.Alignment.TopOffPercent = 0;
+            ManaIcon.Alignment.BottomOffPercent = 0;
+            ManaIcon.Alignment.LeftOffset = 0;
+            ManaIcon.Alignment.RightOffset = 0;
+            ManaIcon.Alignment.TopOffset = 66;
+            ManaIcon.Alignment.BottomOffset = 0;
+            ManaIcon.Masked = false;
+            ManaIcon.AnimStart = 0;
+            ManaIcon.CurrentImage = 5;
+            ManaIcon.AnimEnd = 6;
+            ManaIcon.WinWidth = 15;
+            ManaIcon.WinHeight = 17;
+            ManaIcon.Animate = false;
+            ManaIcon.AnimFrameDelay = 0;
+            session.EndRead(ManaIcon);
+            Mana = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(Mana);
+            Mana.Name = "Mana";
+            Mana.Priority = 0;
+            Mana.WinLeft = 25;
+            Mana.WinTop = 68;
+            Mana.LayoutToolTipText = new LayoutStrings()
+            {
+                "Channeling is the amount of mana the Hero can pull from their Leader's pool (Current/Maximum)."
+            };
+            Mana.CaptureInput = true;
+            Mana.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            Mana.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Mana.Alignment.HeightPercent = (byte)(0);
+            Mana.Alignment.WidthPercent = (byte)(0);
+            Mana.Alignment.LeftOffPercent = 0;
+            Mana.Alignment.RightOffPercent = 0;
+            Mana.Alignment.TopOffPercent = 0;
+            Mana.Alignment.BottomOffPercent = 0;
+            Mana.Alignment.LeftOffset = 0;
+            Mana.Alignment.RightOffset = 0;
+            Mana.Alignment.TopOffset = 68;
+            Mana.Alignment.BottomOffset = 0;
+            Mana.Masked = true;
+            Mana.TextColor = 16777215;
+            session.EndRead(Mana);
+            T1AbilityLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            session.BeginRead(T1AbilityLB);
+            T1AbilityLB.Name = "T1AbilityLB";
+            T1AbilityLB.OnMouseDown = T1AbilityLBMouseDown;
+            T1AbilityLB.Priority = 100;
+            T1AbilityLB.WinLeft = 1;
+            T1AbilityLB.WinTop = 14;
+            T1AbilityLB.CaptureInput = true;
+            T1AbilityLB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T1AbilityLB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            T1AbilityLB.Alignment.HeightPercent = (byte)(0);
+            T1AbilityLB.Alignment.WidthPercent = (byte)(0);
+            T1AbilityLB.Alignment.LeftOffPercent = 0;
+            T1AbilityLB.Alignment.RightOffPercent = 55;
+            T1AbilityLB.Alignment.TopOffPercent = 0;
+            T1AbilityLB.Alignment.BottomOffPercent = 0;
+            T1AbilityLB.Alignment.LeftOffset = 1;
+            T1AbilityLB.Alignment.RightOffset = 0;
+            T1AbilityLB.Alignment.TopOffset = 14;
+            T1AbilityLB.Alignment.BottomOffset = 1;
+            T1AbilityLB.Masked = false;
+            T1AbilityLB.WinWidth = 164;
+            T1AbilityLB.WinHeight = 141;
+            T1AbilityLB.BorderWidth = 4;
+            T1AbilityLB.BorderHeight = 4;
+            T1AbilityLB.OnChange = T1AbilityLBChange;
+            T1AbilityLB.OnDoubleClick = Layout_UseAbility_0;
+            T1AbilityLB.Selected = -1;
+            T1AbilityLB.OnPreDrawItem = PreDrawAbilityItem;
+            T1AbilityLB.TextColor = 14679807;
+            T1AbilityLB.TextSelColor = 0;
+            T1AbilityLB.ILIndexFrame = 113;
+            T1AbilityLB.ILIndexTNormal = 21;
+            T1AbilityLB.ILIndexTSelected = 8;
+            T1AbilityLB.ItemHeight = 17;
+            T1AbilityLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+            session.EndRead(T1AbilityLB);
+            T1UseBut = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(T1UseBut);
+            T1UseBut.Name = "T1UseBut";
+            T1UseBut.Priority = 100;
+            T1UseBut.WinLeft = 63;
+            T1UseBut.WinTop = 174;
+            T1UseBut.CaptureInput = true;
+            T1UseBut.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            T1UseBut.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            T1UseBut.Alignment.HeightPercent = (byte)(0);
+            T1UseBut.Alignment.WidthPercent = (byte)(0);
+            T1UseBut.Alignment.LeftOffPercent = 0;
+            T1UseBut.Alignment.RightOffPercent = 0;
+            T1UseBut.Alignment.TopOffPercent = 0;
+            T1UseBut.Alignment.BottomOffPercent = 0;
+            T1UseBut.Alignment.LeftOffset = 0;
+            T1UseBut.Alignment.RightOffset = 9;
+            T1UseBut.Alignment.TopOffset = 0;
+            T1UseBut.Alignment.BottomOffset = 5;
+            T1UseBut.Masked = true;
+            T1UseBut.BorderHeight = 6;
+            T1UseBut.BorderHeightSelected = 7;
+            T1UseBut.ILIndexDown = 46;
+            T1UseBut.ILIndexLit = 49;
+            T1UseBut.ILIndexUp = 43;
+            T1UseBut.Text = "####";
+            T1UseBut.TextColor = 0;
+            T1UseBut.TextSelColor = 16777215;
+            T1UseBut.WinWidth = 250;
+            T1UseBut.OnClick = Layout_UseAbility_0;
+            session.EndRead(T1UseBut);
+            T1SortName = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(T1SortName);
+            T1SortName.Name = "T1SortName";
+            T1SortName.Priority = 1000;
+            T1SortName.WinLeft = 1;
+            T1SortName.WinTop = 0;
+            T1SortName.CaptureInput = true;
+            T1SortName.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T1SortName.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            T1SortName.Alignment.HeightPercent = (byte)(0);
+            T1SortName.Alignment.WidthPercent = (byte)(0);
+            T1SortName.Alignment.LeftOffPercent = 0;
+            T1SortName.Alignment.RightOffPercent = 54;
+            T1SortName.Alignment.TopOffPercent = 0;
+            T1SortName.Alignment.BottomOffPercent = 0;
+            T1SortName.Alignment.LeftOffset = 1;
+            T1SortName.Alignment.RightOffset = 0;
+            T1SortName.Alignment.TopOffset = 0;
+            T1SortName.Alignment.BottomOffset = 0;
+            T1SortName.Masked = false;
+            T1SortName.BorderHeight = 3;
+            T1SortName.BorderHeightSelected = 3;
+            T1SortName.ILIndexDown = 88;
+            T1SortName.ILIndexLit = 91;
+            T1SortName.ILIndexUp = 85;
+            T1SortName.Text = "Ability Name";
+            T1SortName.TextColor = 0;
+            T1SortName.TextSelColor = 16777215;
+            T1SortName.WinWidth = 168;
+            T1SortName.OnClick = Layout_T1SortNameClick_1;
+            session.EndRead(T1SortName);
+            T1SortType = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(T1SortType);
+            T1SortType.Name = "T1SortType";
+            T1SortType.Priority = 1000;
+            T1SortType.WinLeft = 164;
+            T1SortType.WinTop = 0;
+            T1SortType.CaptureInput = true;
+            T1SortType.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T1SortType.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            T1SortType.Alignment.HeightPercent = (byte)(0);
+            T1SortType.Alignment.WidthPercent = (byte)(0);
+            T1SortType.Alignment.LeftOffPercent = 45;
+            T1SortType.Alignment.RightOffPercent = 32;
+            T1SortType.Alignment.TopOffPercent = 0;
+            T1SortType.Alignment.BottomOffPercent = 0;
+            T1SortType.Alignment.LeftOffset = 0;
+            T1SortType.Alignment.RightOffset = 0;
+            T1SortType.Alignment.TopOffset = 0;
+            T1SortType.Alignment.BottomOffset = 0;
+            T1SortType.Masked = false;
+            T1SortType.BorderHeight = 3;
+            T1SortType.BorderHeightSelected = 3;
+            T1SortType.ILIndexDown = 88;
+            T1SortType.ILIndexLit = 91;
+            T1SortType.ILIndexUp = 85;
+            T1SortType.Text = "Type";
+            T1SortType.TextColor = 0;
+            T1SortType.TextSelColor = 16777215;
+            T1SortType.WinWidth = 85;
+            T1SortType.OnClick = Layout_T1SortTypeClick_2;
+            session.EndRead(T1SortType);
+            T1SortSource = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(T1SortSource);
+            T1SortSource.Name = "T1SortSource";
+            T1SortSource.Priority = 1000;
+            T1SortSource.WinLeft = 248;
+            T1SortSource.WinTop = 0;
+            T1SortSource.CaptureInput = true;
+            T1SortSource.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T1SortSource.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            T1SortSource.Alignment.HeightPercent = (byte)(0);
+            T1SortSource.Alignment.WidthPercent = (byte)(0);
+            T1SortSource.Alignment.LeftOffPercent = 68;
+            T1SortSource.Alignment.RightOffPercent = 0;
+            T1SortSource.Alignment.TopOffPercent = 0;
+            T1SortSource.Alignment.BottomOffPercent = 0;
+            T1SortSource.Alignment.LeftOffset = 0;
+            T1SortSource.Alignment.RightOffset = 0;
+            T1SortSource.Alignment.TopOffset = 0;
+            T1SortSource.Alignment.BottomOffset = 0;
+            T1SortSource.Masked = false;
+            T1SortSource.BorderHeight = 3;
+            T1SortSource.BorderHeightSelected = 3;
+            T1SortSource.ILIndexDown = 88;
+            T1SortSource.ILIndexLit = 91;
+            T1SortSource.ILIndexUp = 85;
+            T1SortSource.Text = "Source";
+            T1SortSource.TextColor = 0;
+            T1SortSource.TextSelColor = 16777215;
+            T1SortSource.WinWidth = 118;
+            T1SortSource.OnClick = Layout_T1SortSourceClick_3;
+            session.EndRead(T1SortSource);
+            T1UseMsg = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(T1UseMsg);
+            T1UseMsg.Name = "T1UseMsg";
+            T1UseMsg.Visible = false;
+            T1UseMsg.Priority = 0;
+            T1UseMsg.WinLeft = 109;
+            T1UseMsg.WinTop = 175;
+            T1UseMsg.CaptureInput = true;
+            T1UseMsg.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            T1UseMsg.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            T1UseMsg.Alignment.HeightPercent = (byte)(0);
+            T1UseMsg.Alignment.WidthPercent = (byte)(0);
+            T1UseMsg.Alignment.LeftOffPercent = 0;
+            T1UseMsg.Alignment.RightOffPercent = 0;
+            T1UseMsg.Alignment.TopOffPercent = 0;
+            T1UseMsg.Alignment.BottomOffPercent = 0;
+            T1UseMsg.Alignment.LeftOffset = 0;
+            T1UseMsg.Alignment.RightOffset = 0;
+            T1UseMsg.Alignment.TopOffset = 158;
+            T1UseMsg.Alignment.BottomOffset = 14;
+            T1UseMsg.Masked = true;
+            T1UseMsg.Text = "Can only be used in Combat!";
+            T1UseMsg.TextColor = 13165253;
+            session.EndRead(T1UseMsg);
+            T1Panel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T1Panel);
+            T1Panel.Name = "T1Panel";
+            T1Panel.Priority = 900;
+            T1Panel.WinLeft = 22;
+            T1Panel.WinTop = 178;
+            T1Panel.WinWidth = 376;
+            T1Panel.Masked = true;
+            T1Panel.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T1Panel.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            T1Panel.Alignment.HeightPercent = (byte)(0);
+            T1Panel.Alignment.WidthPercent = (byte)(0);
+            T1Panel.Alignment.LeftOffPercent = 0;
+            T1Panel.Alignment.RightOffPercent = 0;
+            T1Panel.Alignment.TopOffPercent = 0;
+            T1Panel.Alignment.BottomOffPercent = 0;
+            T1Panel.Alignment.LeftOffset = 22;
+            T1Panel.Alignment.RightOffset = 22;
+            T1Panel.Alignment.TopOffset = 178;
+            T1Panel.Alignment.BottomOffset = 38;
+            T1Panel.WinHeight = 201;
+            T1Panel.ILIndexFrame = 0;
+            T1Panel.ILIndexTexture = 2;
+            T1Panel.OwnerItem = 0;
+            T1Panel.MinWidth = 0;
+            T1Panel.MinHeight = 0;
+            session.EndRead(T1Panel);
+            T2Panel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T2Panel);
+            T2Panel.Name = "T2Panel";
+            T2Panel.Visible = false;
+            T2Panel.Priority = 900;
+            T2Panel.WinLeft = 22;
+            T2Panel.WinTop = 178;
+            T2Panel.WinWidth = 376;
+            T2Panel.Masked = true;
+            T2Panel.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T2Panel.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            T2Panel.Alignment.HeightPercent = (byte)(0);
+            T2Panel.Alignment.WidthPercent = (byte)(0);
+            T2Panel.Alignment.LeftOffPercent = 0;
+            T2Panel.Alignment.RightOffPercent = 0;
+            T2Panel.Alignment.TopOffPercent = 0;
+            T2Panel.Alignment.BottomOffPercent = 0;
+            T2Panel.Alignment.LeftOffset = 22;
+            T2Panel.Alignment.RightOffset = 22;
+            T2Panel.Alignment.TopOffset = 178;
+            T2Panel.Alignment.BottomOffset = 38;
+            T2Panel.WinHeight = 201;
+            T2Panel.ILIndexFrame = 0;
+            T2Panel.ILIndexTexture = 2;
+            T2Panel.OwnerItem = 1;
+            T2Panel.MinWidth = 0;
+            T2Panel.MinHeight = 0;
+            session.EndRead(T2Panel);
+            T1TypeLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            session.BeginRead(T1TypeLB);
+            T1TypeLB.Name = "T1TypeLB";
+            T1TypeLB.OnMouseDown = T1AbilityLBMouseDown;
+            T1TypeLB.Priority = 80;
+            T1TypeLB.WinLeft = 164;
+            T1TypeLB.WinTop = 14;
+            T1TypeLB.CaptureInput = true;
+            T1TypeLB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T1TypeLB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            T1TypeLB.Alignment.HeightPercent = (byte)(0);
+            T1TypeLB.Alignment.WidthPercent = (byte)(0);
+            T1TypeLB.Alignment.LeftOffPercent = 45;
+            T1TypeLB.Alignment.RightOffPercent = 32;
+            T1TypeLB.Alignment.TopOffPercent = 0;
+            T1TypeLB.Alignment.BottomOffPercent = 0;
+            T1TypeLB.Alignment.LeftOffset = 0;
+            T1TypeLB.Alignment.RightOffset = 0;
+            T1TypeLB.Alignment.TopOffset = 14;
+            T1TypeLB.Alignment.BottomOffset = 1;
+            T1TypeLB.Masked = false;
+            T1TypeLB.WinWidth = 85;
+            T1TypeLB.WinHeight = 141;
+            T1TypeLB.BorderWidth = 4;
+            T1TypeLB.BorderHeight = 4;
+            T1TypeLB.OnChange = T1AbilityLBChange;
+            T1TypeLB.OnDoubleClick = Layout_UseAbility_0;
+            T1TypeLB.Selected = -1;
+            T1TypeLB.OnPreDrawItem = PreDrawAbilityItem;
+            T1TypeLB.TextColor = 9415072;
+            T1TypeLB.TextSelColor = 0;
+            T1TypeLB.ILIndexFrame = 113;
+            T1TypeLB.ILIndexTNormal = 21;
+            T1TypeLB.ILIndexTSelected = 8;
+            T1TypeLB.ItemHeight = 17;
+            T1TypeLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+            session.EndRead(T1TypeLB);
+            T1SrcLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            session.BeginRead(T1SrcLB);
+            T1SrcLB.Name = "T1SrcLB";
+            T1SrcLB.OnMouseDown = T1AbilityLBMouseDown;
+            T1SrcLB.Priority = 40;
+            T1SrcLB.WinLeft = 248;
+            T1SrcLB.WinTop = 14;
+            T1SrcLB.CaptureInput = true;
+            T1SrcLB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T1SrcLB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            T1SrcLB.Alignment.HeightPercent = (byte)(0);
+            T1SrcLB.Alignment.WidthPercent = (byte)(0);
+            T1SrcLB.Alignment.LeftOffPercent = 68;
+            T1SrcLB.Alignment.RightOffPercent = 0;
+            T1SrcLB.Alignment.TopOffPercent = 0;
+            T1SrcLB.Alignment.BottomOffPercent = 0;
+            T1SrcLB.Alignment.LeftOffset = 0;
+            T1SrcLB.Alignment.RightOffset = 0;
+            T1SrcLB.Alignment.TopOffset = 14;
+            T1SrcLB.Alignment.BottomOffset = 1;
+            T1SrcLB.Masked = false;
+            T1SrcLB.WinWidth = 118;
+            T1SrcLB.WinHeight = 141;
+            T1SrcLB.BorderWidth = 4;
+            T1SrcLB.BorderHeight = 4;
+            T1SrcLB.OnChange = T1AbilityLBChange;
+            T1SrcLB.OnDoubleClick = Layout_UseAbility_0;
+            T1SrcLB.Selected = -1;
+            T1SrcLB.OnPreDrawItem = PreDrawAbilityItem;
+            T1SrcLB.TextColor = 9415072;
+            T1SrcLB.TextSelColor = 0;
+            T1SrcLB.ILIndexFrame = 113;
+            T1SrcLB.ILIndexTNormal = 21;
+            T1SrcLB.ILIndexTSelected = 8;
+            T1SrcLB.ItemHeight = 17;
+            T1SrcLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+            session.EndRead(T1SrcLB);
+            T1ListPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T1ListPnl);
+            T1ListPnl.Name = "T1ListPnl";
+            T1ListPnl.Priority = 100;
+            T1ListPnl.WinLeft = 5;
+            T1ListPnl.WinTop = 15;
+            T1ListPnl.WinWidth = 366;
+            T1ListPnl.Masked = true;
+            T1ListPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T1ListPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            T1ListPnl.Alignment.HeightPercent = (byte)(0);
+            T1ListPnl.Alignment.WidthPercent = (byte)(0);
+            T1ListPnl.Alignment.LeftOffPercent = 0;
+            T1ListPnl.Alignment.RightOffPercent = 0;
+            T1ListPnl.Alignment.TopOffPercent = 0;
+            T1ListPnl.Alignment.BottomOffPercent = 0;
+            T1ListPnl.Alignment.LeftOffset = 5;
+            T1ListPnl.Alignment.RightOffset = 5;
+            T1ListPnl.Alignment.TopOffset = 15;
+            T1ListPnl.Alignment.BottomOffset = 30;
+            T1ListPnl.WinHeight = 156;
+            T1ListPnl.ILIndexFrame = 105;
+            T1ListPnl.ILIndexTexture = 2;
+            T1ListPnl.OwnerItem = 0;
+            T1ListPnl.MinWidth = 0;
+            T1ListPnl.MinHeight = 0;
+            session.EndRead(T1ListPnl);
+            T1SBar = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            session.BeginRead(T1SBar);
+            T1SBar.Name = "T1SBar";
+            T1SBar.Visible = false;
+            T1SBar.Priority = 40;
+            T1SBar.WinLeft = 349;
+            T1SBar.WinTop = 14;
+            T1SBar.CaptureInput = true;
+            T1SBar.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            T1SBar.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            T1SBar.Alignment.HeightPercent = (byte)(0);
+            T1SBar.Alignment.WidthPercent = (byte)(0);
+            T1SBar.Alignment.LeftOffPercent = 0;
+            T1SBar.Alignment.RightOffPercent = 0;
+            T1SBar.Alignment.TopOffPercent = 0;
+            T1SBar.Alignment.BottomOffPercent = 0;
+            T1SBar.Alignment.LeftOffset = 0;
+            T1SBar.Alignment.RightOffset = 0;
+            T1SBar.Alignment.TopOffset = 0;
+            T1SBar.Alignment.BottomOffset = 0;
+            T1SBar.Masked = false;
+            T1SBar.Min = 0;
+            T1SBar.Max = 0;
+            T1SBar.SmallChange = 1;
+            T1SBar.LargeChange = 1;
+            T1SBar.Position = 0;
+            T1SBar.WinHeight = 141;
+            T1SBar.WinWidth = 17;
+            T1SBar.NumberVisible = 1;
+            T1SBar.OnChange = T1SbarChange;
+            T1SBar.VanishWhenFull = true;
+            T1SBar.ILIndexIncUp = 96;
+            T1SBar.ILIndexIncDown = 97;
+            T1SBar.ILIndexDecUp = 94;
+            T1SBar.ILIndexDecDown = 95;
+            T1SBar.ILIndexBack = 101;
+            T1SBar.ILIndexTab = 98;
+            session.EndRead(T1SBar);
+            T2SBar = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            session.BeginRead(T2SBar);
+            T2SBar.Name = "T2SBar";
+            T2SBar.Visible = false;
+            T2SBar.Priority = 200;
+            T2SBar.WinLeft = 349;
+            T2SBar.WinTop = 0;
+            T2SBar.CaptureInput = true;
+            T2SBar.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            T2SBar.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            T2SBar.Alignment.HeightPercent = (byte)(0);
+            T2SBar.Alignment.WidthPercent = (byte)(0);
+            T2SBar.Alignment.LeftOffPercent = 0;
+            T2SBar.Alignment.RightOffPercent = 0;
+            T2SBar.Alignment.TopOffPercent = 0;
+            T2SBar.Alignment.BottomOffPercent = 0;
+            T2SBar.Alignment.LeftOffset = 0;
+            T2SBar.Alignment.RightOffset = 0;
+            T2SBar.Alignment.TopOffset = 0;
+            T2SBar.Alignment.BottomOffset = 0;
+            T2SBar.Masked = false;
+            T2SBar.Min = 0;
+            T2SBar.Max = 0;
+            T2SBar.SmallChange = 1;
+            T2SBar.LargeChange = 4;
+            T2SBar.Position = 0;
+            T2SBar.WinHeight = 86;
+            T2SBar.WinWidth = 17;
+            T2SBar.NumberVisible = 1;
+            T2SBar.VanishWhenFull = true;
+            T2SBar.ILIndexIncUp = 96;
+            T2SBar.ILIndexIncDown = 97;
+            T2SBar.ILIndexDecUp = 94;
+            T2SBar.ILIndexDecDown = 95;
+            T2SBar.ILIndexBack = 101;
+            T2SBar.ILIndexTab = 98;
+            session.EndRead(T2SBar);
+            T2Text = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T2Text);
+            T2Text.Name = "T2Text";
+            T2Text.Priority = 100;
+            T2Text.WinLeft = 5;
+            T2Text.WinTop = 15;
+            T2Text.WinWidth = 366;
+            T2Text.Masked = true;
+            T2Text.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T2Text.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            T2Text.Alignment.HeightPercent = (byte)(0);
+            T2Text.Alignment.WidthPercent = (byte)(0);
+            T2Text.Alignment.LeftOffPercent = 0;
+            T2Text.Alignment.RightOffPercent = 0;
+            T2Text.Alignment.TopOffPercent = 0;
+            T2Text.Alignment.BottomOffPercent = 0;
+            T2Text.Alignment.LeftOffset = 5;
+            T2Text.Alignment.RightOffset = 5;
+            T2Text.Alignment.TopOffset = 15;
+            T2Text.Alignment.BottomOffset = 85;
+            T2Text.WinHeight = 87;
+            T2Text.ILIndexFrame = 105;
+            T2Text.ILIndexTexture = 17;
+            T2Text.OwnerItem = 0;
+            T2Text.MinWidth = 0;
+            T2Text.MinHeight = 0;
+            session.EndRead(T2Text);
+            T2Leader = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T2Leader);
+            T2Leader.Name = "T2Leader";
+            T2Leader.Priority = 1000;
+            T2Leader.WinLeft = 5;
+            T2Leader.WinTop = 15;
+            T2Leader.WinWidth = 366;
+            T2Leader.Masked = true;
+            T2Leader.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T2Leader.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            T2Leader.Alignment.HeightPercent = (byte)(0);
+            T2Leader.Alignment.WidthPercent = (byte)(0);
+            T2Leader.Alignment.LeftOffPercent = 0;
+            T2Leader.Alignment.RightOffPercent = 0;
+            T2Leader.Alignment.TopOffPercent = 0;
+            T2Leader.Alignment.BottomOffPercent = 0;
+            T2Leader.Alignment.LeftOffset = 5;
+            T2Leader.Alignment.RightOffset = 5;
+            T2Leader.Alignment.TopOffset = 15;
+            T2Leader.Alignment.BottomOffset = 85;
+            T2Leader.WinHeight = 87;
+            T2Leader.ILIndexFrame = 105;
+            T2Leader.ILIndexTexture = 17;
+            T2Leader.OwnerItem = 0;
+            T2Leader.MinWidth = 0;
+            T2Leader.MinHeight = 0;
+            session.EndRead(T2Leader);
+            Sel4 = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Sel4);
+            Sel4.Name = "Sel4";
+            Sel4.Priority = 10;
+            Sel4.WinLeft = 157;
+            Sel4.WinTop = 0;
+            Sel4.CaptureInput = false;
+            Sel4.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            Sel4.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Sel4.Alignment.HeightPercent = (byte)(0);
+            Sel4.Alignment.WidthPercent = (byte)(0);
+            Sel4.Alignment.LeftOffPercent = 0;
+            Sel4.Alignment.RightOffPercent = 0;
+            Sel4.Alignment.TopOffPercent = 0;
+            Sel4.Alignment.BottomOffPercent = 0;
+            Sel4.Alignment.LeftOffset = 109;
+            Sel4.Alignment.RightOffset = 0;
+            Sel4.Alignment.TopOffset = 0;
+            Sel4.Alignment.BottomOffset = 0;
+            Sel4.Masked = true;
+            Sel4.BorderHeight = 0;
+            Sel4.BorderHeightSelected = 0;
+            Sel4.ILIndexDown = 28;
+            Sel4.ILIndexLit = 29;
+            Sel4.ILIndexUp = 27;
+            Sel4.TextColor = 0;
+            Sel4.TextSelColor = 0;
+            Sel4.WinWidth = 52;
+            session.EndRead(Sel4);
+            SelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(SelPnl);
+            SelPnl.Name = "SelPnl";
+            SelPnl.Priority = 10;
+            SelPnl.WinLeft = 0;
+            SelPnl.WinTop = 8;
+            SelPnl.WinWidth = 366;
+            SelPnl.Masked = true;
+            SelPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            SelPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+            SelPnl.Alignment.HeightPercent = (byte)(0);
+            SelPnl.Alignment.WidthPercent = (byte)(0);
+            SelPnl.Alignment.LeftOffPercent = 0;
+            SelPnl.Alignment.RightOffPercent = 0;
+            SelPnl.Alignment.TopOffPercent = 0;
+            SelPnl.Alignment.BottomOffPercent = 0;
+            SelPnl.Alignment.LeftOffset = 0;
+            SelPnl.Alignment.RightOffset = 0;
+            SelPnl.Alignment.TopOffset = 20;
+            SelPnl.Alignment.BottomOffset = 0;
+            SelPnl.WinHeight = 70;
+            SelPnl.ILIndexFrame = 72;
+            SelPnl.ILIndexTexture = 1;
+            SelPnl.OwnerItem = 0;
+            SelPnl.MinWidth = 0;
+            SelPnl.MinHeight = 0;
+            session.EndRead(SelPnl);
+            Sel3 = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Sel3);
+            Sel3.Name = "Sel3";
+            Sel3.Priority = 10;
+            Sel3.WinLeft = 110;
+            Sel3.WinTop = 0;
+            Sel3.CaptureInput = false;
+            Sel3.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Sel3.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Sel3.Alignment.HeightPercent = (byte)(0);
+            Sel3.Alignment.WidthPercent = (byte)(0);
+            Sel3.Alignment.LeftOffPercent = 0;
+            Sel3.Alignment.RightOffPercent = 0;
+            Sel3.Alignment.TopOffPercent = 0;
+            Sel3.Alignment.BottomOffPercent = 0;
+            Sel3.Alignment.LeftOffset = 110;
+            Sel3.Alignment.RightOffset = 110;
+            Sel3.Alignment.TopOffset = 0;
+            Sel3.Alignment.BottomOffset = 0;
+            Sel3.Masked = true;
+            Sel3.BorderHeight = 0;
+            Sel3.BorderHeightSelected = 0;
+            Sel3.ILIndexDown = 28;
+            Sel3.ILIndexLit = 29;
+            Sel3.ILIndexUp = 27;
+            Sel3.TextColor = 0;
+            Sel3.TextSelColor = 0;
+            Sel3.WinWidth = 52;
+            session.EndRead(Sel3);
+            Sel2 = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Sel2);
+            Sel2.Name = "Sel2";
+            Sel2.Priority = 10;
+            Sel2.WinLeft = 62;
+            Sel2.WinTop = 0;
+            Sel2.CaptureInput = false;
+            Sel2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Sel2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Sel2.Alignment.HeightPercent = (byte)(0);
+            Sel2.Alignment.WidthPercent = (byte)(0);
+            Sel2.Alignment.LeftOffPercent = 0;
+            Sel2.Alignment.RightOffPercent = 0;
+            Sel2.Alignment.TopOffPercent = 0;
+            Sel2.Alignment.BottomOffPercent = 0;
+            Sel2.Alignment.LeftOffset = 62;
+            Sel2.Alignment.RightOffset = 62;
+            Sel2.Alignment.TopOffset = 0;
+            Sel2.Alignment.BottomOffset = 0;
+            Sel2.Masked = true;
+            Sel2.BorderHeight = 0;
+            Sel2.BorderHeightSelected = 0;
+            Sel2.ILIndexDown = 28;
+            Sel2.ILIndexLit = 29;
+            Sel2.ILIndexUp = 27;
+            Sel2.TextColor = 0;
+            Sel2.TextSelColor = 0;
+            Sel2.WinWidth = 52;
+            session.EndRead(Sel2);
+            Sel1 = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Sel1);
+            Sel1.Name = "Sel1";
+            Sel1.Priority = 10;
+            Sel1.WinLeft = 15;
+            Sel1.WinTop = 0;
+            Sel1.CaptureInput = false;
+            Sel1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Sel1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Sel1.Alignment.HeightPercent = (byte)(0);
+            Sel1.Alignment.WidthPercent = (byte)(0);
+            Sel1.Alignment.LeftOffPercent = 0;
+            Sel1.Alignment.RightOffPercent = 0;
+            Sel1.Alignment.TopOffPercent = 0;
+            Sel1.Alignment.BottomOffPercent = 0;
+            Sel1.Alignment.LeftOffset = 15;
+            Sel1.Alignment.RightOffset = 15;
+            Sel1.Alignment.TopOffset = 0;
+            Sel1.Alignment.BottomOffset = 0;
+            Sel1.Masked = true;
+            Sel1.BorderHeight = 0;
+            Sel1.BorderHeightSelected = 0;
+            Sel1.ILIndexDown = 28;
+            Sel1.ILIndexLit = 29;
+            Sel1.ILIndexUp = 27;
+            Sel1.TextColor = 0;
+            Sel1.TextSelColor = 0;
+            Sel1.WinWidth = 52;
+            session.EndRead(Sel1);
+            Sel5 = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Sel5);
+            Sel5.Name = "Sel5";
+            Sel5.Priority = 10;
+            Sel5.WinLeft = 204;
+            Sel5.WinTop = 0;
+            Sel5.CaptureInput = false;
+            Sel5.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Sel5.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Sel5.Alignment.HeightPercent = (byte)(0);
+            Sel5.Alignment.WidthPercent = (byte)(0);
+            Sel5.Alignment.LeftOffPercent = 0;
+            Sel5.Alignment.RightOffPercent = 0;
+            Sel5.Alignment.TopOffPercent = 0;
+            Sel5.Alignment.BottomOffPercent = 0;
+            Sel5.Alignment.LeftOffset = 110;
+            Sel5.Alignment.RightOffset = 110;
+            Sel5.Alignment.TopOffset = 0;
+            Sel5.Alignment.BottomOffset = 0;
+            Sel5.Masked = true;
+            Sel5.BorderHeight = 0;
+            Sel5.BorderHeightSelected = 0;
+            Sel5.ILIndexDown = 28;
+            Sel5.ILIndexLit = 29;
+            Sel5.ILIndexUp = 27;
+            Sel5.TextColor = 0;
+            Sel5.TextSelColor = 0;
+            Sel5.WinWidth = 52;
+            session.EndRead(Sel5);
+            Sel6 = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Sel6);
+            Sel6.Name = "Sel6";
+            Sel6.Priority = 10;
+            Sel6.WinLeft = 252;
+            Sel6.WinTop = 0;
+            Sel6.CaptureInput = false;
+            Sel6.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Sel6.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Sel6.Alignment.HeightPercent = (byte)(0);
+            Sel6.Alignment.WidthPercent = (byte)(0);
+            Sel6.Alignment.LeftOffPercent = 0;
+            Sel6.Alignment.RightOffPercent = 0;
+            Sel6.Alignment.TopOffPercent = 0;
+            Sel6.Alignment.BottomOffPercent = 0;
+            Sel6.Alignment.LeftOffset = 62;
+            Sel6.Alignment.RightOffset = 62;
+            Sel6.Alignment.TopOffset = 0;
+            Sel6.Alignment.BottomOffset = 0;
+            Sel6.Masked = true;
+            Sel6.BorderHeight = 0;
+            Sel6.BorderHeightSelected = 0;
+            Sel6.ILIndexDown = 28;
+            Sel6.ILIndexLit = 29;
+            Sel6.ILIndexUp = 27;
+            Sel6.TextColor = 0;
+            Sel6.TextSelColor = 0;
+            Sel6.WinWidth = 52;
+            session.EndRead(Sel6);
+            Sel7 = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Sel7);
+            Sel7.Name = "Sel7";
+            Sel7.Priority = 10;
+            Sel7.WinLeft = 299;
+            Sel7.WinTop = 0;
+            Sel7.CaptureInput = false;
+            Sel7.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Sel7.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Sel7.Alignment.HeightPercent = (byte)(0);
+            Sel7.Alignment.WidthPercent = (byte)(0);
+            Sel7.Alignment.LeftOffPercent = 0;
+            Sel7.Alignment.RightOffPercent = 0;
+            Sel7.Alignment.TopOffPercent = 0;
+            Sel7.Alignment.BottomOffPercent = 0;
+            Sel7.Alignment.LeftOffset = 15;
+            Sel7.Alignment.RightOffset = 15;
+            Sel7.Alignment.TopOffset = 0;
+            Sel7.Alignment.BottomOffset = 0;
+            Sel7.Masked = true;
+            Sel7.BorderHeight = 0;
+            Sel7.BorderHeightSelected = 0;
+            Sel7.ILIndexDown = 28;
+            Sel7.ILIndexLit = 29;
+            Sel7.ILIndexUp = 27;
+            Sel7.TextColor = 0;
+            Sel7.TextSelColor = 0;
+            Sel7.WinWidth = 52;
+            session.EndRead(Sel7);
+            AAlignment = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(AAlignment);
+            AAlignment.Name = "AAlignment";
+            AAlignment.Priority = 0;
+            AAlignment.WinLeft = 6;
+            AAlignment.WinTop = 10;
+            AAlignment.CaptureInput = true;
+            AAlignment.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            AAlignment.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            AAlignment.Alignment.HeightPercent = (byte)(0);
+            AAlignment.Alignment.WidthPercent = (byte)(0);
+            AAlignment.Alignment.LeftOffPercent = 0;
+            AAlignment.Alignment.RightOffPercent = 0;
+            AAlignment.Alignment.TopOffPercent = 0;
+            AAlignment.Alignment.BottomOffPercent = 0;
+            AAlignment.Alignment.LeftOffset = 0;
+            AAlignment.Alignment.RightOffset = 0;
+            AAlignment.Alignment.TopOffset = 10;
+            AAlignment.Alignment.BottomOffset = 0;
+            AAlignment.Masked = false;
+            AAlignment.AnimStart = 0;
+            AAlignment.CurrentImage = 31;
+            AAlignment.AnimEnd = 37;
+            AAlignment.WinWidth = 113;
+            AAlignment.WinHeight = 36;
+            AAlignment.Animate = false;
+            AAlignment.AnimFrameDelay = 0;
+            session.EndRead(AAlignment);
+            AAlignmentLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(AAlignmentLbl);
+            AAlignmentLbl.Name = "AAlignmentLbl";
+            AAlignmentLbl.Priority = 0;
+            AAlignmentLbl.WinLeft = 62;
+            AAlignmentLbl.WinTop = 80;
+            AAlignmentLbl.CaptureInput = true;
+            AAlignmentLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            AAlignmentLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            AAlignmentLbl.Alignment.HeightPercent = (byte)(0);
+            AAlignmentLbl.Alignment.WidthPercent = (byte)(0);
+            AAlignmentLbl.Alignment.LeftOffPercent = 0;
+            AAlignmentLbl.Alignment.RightOffPercent = 0;
+            AAlignmentLbl.Alignment.TopOffPercent = 0;
+            AAlignmentLbl.Alignment.BottomOffPercent = 0;
+            AAlignmentLbl.Alignment.LeftOffset = 10;
+            AAlignmentLbl.Alignment.RightOffset = 0;
+            AAlignmentLbl.Alignment.TopOffset = 45;
+            AAlignmentLbl.Alignment.BottomOffset = 7;
+            AAlignmentLbl.Masked = true;
+            AAlignmentLbl.TextColor = 9415072;
+            session.EndRead(AAlignmentLbl);
+            T2Alignnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T2Alignnl);
+            T2Alignnl.Name = "T2Alignnl";
+            T2Alignnl.Priority = 10;
+            T2Alignnl.WinLeft = 126;
+            T2Alignnl.WinTop = 109;
+            T2Alignnl.WinWidth = 125;
+            T2Alignnl.Masked = true;
+            T2Alignnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            T2Alignnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            T2Alignnl.Alignment.HeightPercent = (byte)(0);
+            T2Alignnl.Alignment.WidthPercent = (byte)(0);
+            T2Alignnl.Alignment.LeftOffPercent = 0;
+            T2Alignnl.Alignment.RightOffPercent = 60;
+            T2Alignnl.Alignment.TopOffPercent = 0;
+            T2Alignnl.Alignment.BottomOffPercent = 0;
+            T2Alignnl.Alignment.LeftOffset = 5;
+            T2Alignnl.Alignment.RightOffset = 5;
+            T2Alignnl.Alignment.TopOffset = 10;
+            T2Alignnl.Alignment.BottomOffset = 5;
+            T2Alignnl.WinHeight = 87;
+            T2Alignnl.ILIndexFrame = 105;
+            T2Alignnl.ILIndexTexture = 17;
+            T2Alignnl.OwnerItem = 0;
+            T2Alignnl.MinWidth = 0;
+            T2Alignnl.MinHeight = 0;
+            session.EndRead(T2Alignnl);
+            AlFr = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(AlFr);
+            AlFr.Name = "AlFr";
+            AlFr.Priority = 0;
+            AlFr.WinLeft = 1;
+            AlFr.WinTop = 0;
+            AlFr.CaptureInput = true;
+            AlFr.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            AlFr.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            AlFr.Alignment.HeightPercent = (byte)(0);
+            AlFr.Alignment.WidthPercent = (byte)(0);
+            AlFr.Alignment.LeftOffPercent = 0;
+            AlFr.Alignment.RightOffPercent = 0;
+            AlFr.Alignment.TopOffPercent = 0;
+            AlFr.Alignment.BottomOffPercent = 0;
+            AlFr.Alignment.LeftOffset = 1;
+            AlFr.Alignment.RightOffset = 0;
+            AlFr.Alignment.TopOffset = 0;
+            AlFr.Alignment.BottomOffset = 1;
+            AlFr.Masked = false;
+            AlFr.WinWidth = 124;
+            AlFr.WinHeight = 86;
+            AlFr.FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox;
+            AlFr.ILIndexFrame = 113;
+            AlFr.ILIndexLine = 0;
+            AlFr.ILIndexTexture = 0;
+            session.EndRead(AlFr);
+            TypeIcn = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(TypeIcn);
+            TypeIcn.Name = "TypeIcn";
+            TypeIcn.Priority = 0;
+            TypeIcn.WinLeft = 39;
+            TypeIcn.WinTop = 10;
+            TypeIcn.CaptureInput = true;
+            TypeIcn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            TypeIcn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            TypeIcn.Alignment.HeightPercent = (byte)(0);
+            TypeIcn.Alignment.WidthPercent = (byte)(0);
+            TypeIcn.Alignment.LeftOffPercent = 0;
+            TypeIcn.Alignment.RightOffPercent = 0;
+            TypeIcn.Alignment.TopOffPercent = 0;
+            TypeIcn.Alignment.BottomOffPercent = 0;
+            TypeIcn.Alignment.LeftOffset = 0;
+            TypeIcn.Alignment.RightOffset = 0;
+            TypeIcn.Alignment.TopOffset = 10;
+            TypeIcn.Alignment.BottomOffset = 0;
+            TypeIcn.Masked = false;
+            TypeIcn.AnimStart = 0;
+            TypeIcn.CurrentImage = 21;
+            TypeIcn.AnimEnd = 37;
+            TypeIcn.WinWidth = 39;
+            TypeIcn.WinHeight = 36;
+            TypeIcn.Animate = false;
+            TypeIcn.AnimFrameDelay = 0;
+            session.EndRead(TypeIcn);
+            TypeV = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(TypeV);
+            TypeV.Name = "TypeV";
+            TypeV.Priority = 0;
+            TypeV.WinLeft = 58;
+            TypeV.WinTop = 80;
+            TypeV.CaptureInput = true;
+            TypeV.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            TypeV.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            TypeV.Alignment.HeightPercent = (byte)(0);
+            TypeV.Alignment.WidthPercent = (byte)(0);
+            TypeV.Alignment.LeftOffPercent = 0;
+            TypeV.Alignment.RightOffPercent = 0;
+            TypeV.Alignment.TopOffPercent = 0;
+            TypeV.Alignment.BottomOffPercent = 0;
+            TypeV.Alignment.LeftOffset = 10;
+            TypeV.Alignment.RightOffset = 0;
+            TypeV.Alignment.TopOffset = 45;
+            TypeV.Alignment.BottomOffset = 7;
+            TypeV.Masked = true;
+            TypeV.TextColor = 9415072;
+            session.EndRead(TypeV);
+            T2TypePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T2TypePnl);
+            T2TypePnl.Name = "T2TypePnl";
+            T2TypePnl.Priority = 10;
+            T2TypePnl.WinLeft = 5;
+            T2TypePnl.WinTop = 109;
+            T2TypePnl.WinWidth = 116;
+            T2TypePnl.Masked = true;
+            T2TypePnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            T2TypePnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            T2TypePnl.Alignment.HeightPercent = (byte)(0);
+            T2TypePnl.Alignment.WidthPercent = (byte)(0);
+            T2TypePnl.Alignment.LeftOffPercent = 0;
+            T2TypePnl.Alignment.RightOffPercent = 68;
+            T2TypePnl.Alignment.TopOffPercent = 0;
+            T2TypePnl.Alignment.BottomOffPercent = 0;
+            T2TypePnl.Alignment.LeftOffset = 5;
+            T2TypePnl.Alignment.RightOffset = 5;
+            T2TypePnl.Alignment.TopOffset = 10;
+            T2TypePnl.Alignment.BottomOffset = 5;
+            T2TypePnl.WinHeight = 87;
+            T2TypePnl.ILIndexFrame = 105;
+            T2TypePnl.ILIndexTexture = 17;
+            T2TypePnl.OwnerItem = 0;
+            T2TypePnl.MinWidth = 0;
+            T2TypePnl.MinHeight = 0;
+            session.EndRead(T2TypePnl);
+            TypeFr = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(TypeFr);
+            TypeFr.Name = "TypeFr";
+            TypeFr.Priority = 0;
+            TypeFr.WinLeft = 1;
+            TypeFr.WinTop = 0;
+            TypeFr.CaptureInput = true;
+            TypeFr.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            TypeFr.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            TypeFr.Alignment.HeightPercent = (byte)(0);
+            TypeFr.Alignment.WidthPercent = (byte)(0);
+            TypeFr.Alignment.LeftOffPercent = 0;
+            TypeFr.Alignment.RightOffPercent = 0;
+            TypeFr.Alignment.TopOffPercent = 0;
+            TypeFr.Alignment.BottomOffPercent = 0;
+            TypeFr.Alignment.LeftOffset = 1;
+            TypeFr.Alignment.RightOffset = 0;
+            TypeFr.Alignment.TopOffset = 0;
+            TypeFr.Alignment.BottomOffset = 1;
+            TypeFr.Masked = false;
+            TypeFr.WinWidth = 115;
+            TypeFr.WinHeight = 86;
+            TypeFr.FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox;
+            TypeFr.ILIndexFrame = 113;
+            TypeFr.ILIndexLine = 0;
+            TypeFr.ILIndexTexture = 0;
+            session.EndRead(TypeFr);
+            LdrFr = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(LdrFr);
+            LdrFr.Name = "LdrFr";
+            LdrFr.Priority = 0;
+            LdrFr.WinLeft = 1;
+            LdrFr.WinTop = 0;
+            LdrFr.CaptureInput = true;
+            LdrFr.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            LdrFr.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            LdrFr.Alignment.HeightPercent = (byte)(0);
+            LdrFr.Alignment.WidthPercent = (byte)(0);
+            LdrFr.Alignment.LeftOffPercent = 0;
+            LdrFr.Alignment.RightOffPercent = 0;
+            LdrFr.Alignment.TopOffPercent = 0;
+            LdrFr.Alignment.BottomOffPercent = 0;
+            LdrFr.Alignment.LeftOffset = 1;
+            LdrFr.Alignment.RightOffset = 0;
+            LdrFr.Alignment.TopOffset = 0;
+            LdrFr.Alignment.BottomOffset = 1;
+            LdrFr.Masked = false;
+            LdrFr.WinWidth = 365;
+            LdrFr.WinHeight = 86;
+            LdrFr.FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox;
+            LdrFr.ILIndexFrame = 113;
+            LdrFr.ILIndexLine = 0;
+            LdrFr.ILIndexTexture = 0;
+            session.EndRead(LdrFr);
+            SphereLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SphereLbl);
+            SphereLbl.Name = "SphereLbl";
+            SphereLbl.Priority = 0;
+            SphereLbl.WinLeft = 131;
+            SphereLbl.WinTop = 66;
+            SphereLbl.CaptureInput = true;
+            SphereLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            SphereLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            SphereLbl.Alignment.HeightPercent = (byte)(0);
+            SphereLbl.Alignment.WidthPercent = (byte)(0);
+            SphereLbl.Alignment.LeftOffPercent = 0;
+            SphereLbl.Alignment.RightOffPercent = 0;
+            SphereLbl.Alignment.TopOffPercent = 0;
+            SphereLbl.Alignment.BottomOffPercent = 0;
+            SphereLbl.Alignment.LeftOffset = 10;
+            SphereLbl.Alignment.RightOffset = 0;
+            SphereLbl.Alignment.TopOffset = 45;
+            SphereLbl.Alignment.BottomOffset = 10;
+            SphereLbl.Masked = true;
+            SphereLbl.Text = "Leader's magic spheres";
+            SphereLbl.TextColor = 9415072;
+            session.EndRead(SphereLbl);
+            T3Panel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T3Panel);
+            T3Panel.Name = "T3Panel";
+            T3Panel.Visible = false;
+            T3Panel.Priority = 900;
+            T3Panel.WinLeft = 22;
+            T3Panel.WinTop = 178;
+            T3Panel.WinWidth = 376;
+            T3Panel.Masked = false;
+            T3Panel.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            T3Panel.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            T3Panel.Alignment.HeightPercent = (byte)(0);
+            T3Panel.Alignment.WidthPercent = (byte)(0);
+            T3Panel.Alignment.LeftOffPercent = 0;
+            T3Panel.Alignment.RightOffPercent = 0;
+            T3Panel.Alignment.TopOffPercent = 0;
+            T3Panel.Alignment.BottomOffPercent = 0;
+            T3Panel.Alignment.LeftOffset = 22;
+            T3Panel.Alignment.RightOffset = 22;
+            T3Panel.Alignment.TopOffset = 178;
+            T3Panel.Alignment.BottomOffset = 38;
+            T3Panel.WinHeight = 201;
+            T3Panel.ILIndexFrame = 0;
+            T3Panel.ILIndexTexture = 2;
+            T3Panel.OwnerItem = 2;
+            T3Panel.MinWidth = 0;
+            T3Panel.MinHeight = 0;
+            session.EndRead(T3Panel);
+            BP1 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BP1);
+            BP1.Name = "BP1";
+            BP1.OnMouseDown = Gnd3MouseDown;
+            BP1.OnDraw = Gnd1Draw;
+            BP1.Priority = 1000;
+            BP1.WinLeft = 10;
+            BP1.WinTop = 29;
+            BP1.LayoutToolTipText = new LayoutStrings()
+            {
+                "Regular inventory, any item can be place here."
+            };
+            BP1.CaptureInput = true;
+            BP1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            BP1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BP1.Alignment.HeightPercent = (byte)(0);
+            BP1.Alignment.WidthPercent = (byte)(0);
+            BP1.Alignment.LeftOffPercent = 0;
+            BP1.Alignment.RightOffPercent = 0;
+            BP1.Alignment.TopOffPercent = 0;
+            BP1.Alignment.BottomOffPercent = 0;
+            BP1.Alignment.LeftOffset = 10;
+            BP1.Alignment.RightOffset = 0;
+            BP1.Alignment.TopOffset = 29;
+            BP1.Alignment.BottomOffset = 0;
+            BP1.Masked = true;
+            BP1.BorderHeight = 0;
+            BP1.BorderHeightSelected = 0;
+            BP1.ILIndexDown = 31;
+            BP1.ILIndexLit = 30;
+            BP1.ILIndexUp = 30;
+            BP1.TextColor = 0;
+            BP1.TextSelColor = 0;
+            BP1.WinWidth = 41;
+            BP1.Checked = false;
+            BP1.OnChange = Gnd1Change;
+            BP1.RadioIndex = 1;
+            session.EndRead(BP1);
+            BPLbl1 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(BPLbl1);
+            BPLbl1.Name = "BPLbl1";
+            BPLbl1.Visible = false;
+            BPLbl1.Priority = 1000;
+            BPLbl1.WinLeft = 15;
+            BPLbl1.WinTop = 15;
+            BPLbl1.CaptureInput = true;
+            BPLbl1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            BPLbl1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BPLbl1.Alignment.HeightPercent = (byte)(0);
+            BPLbl1.Alignment.WidthPercent = (byte)(0);
+            BPLbl1.Alignment.LeftOffPercent = 0;
+            BPLbl1.Alignment.RightOffPercent = 0;
+            BPLbl1.Alignment.TopOffPercent = 0;
+            BPLbl1.Alignment.BottomOffPercent = 0;
+            BPLbl1.Alignment.LeftOffset = 15;
+            BPLbl1.Alignment.RightOffset = 13;
+            BPLbl1.Alignment.TopOffset = 15;
+            BPLbl1.Alignment.BottomOffset = 0;
+            BPLbl1.Masked = true;
+            BPLbl1.Text = "Backpack";
+            BPLbl1.TextColor = 2370853;
+            session.EndRead(BPLbl1);
+            BP2 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BP2);
+            BP2.Name = "BP2";
+            BP2.OnMouseDown = Gnd3MouseDown;
+            BP2.OnDraw = Gnd1Draw;
+            BP2.Priority = 1000;
+            BP2.WinLeft = 10;
+            BP2.WinTop = 71;
+            BP2.LayoutToolTipText = new LayoutStrings()
+            {
+                "Regular inventory, any item can be place here."
+            };
+            BP2.CaptureInput = true;
+            BP2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            BP2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BP2.Alignment.HeightPercent = (byte)(0);
+            BP2.Alignment.WidthPercent = (byte)(0);
+            BP2.Alignment.LeftOffPercent = 0;
+            BP2.Alignment.RightOffPercent = 0;
+            BP2.Alignment.TopOffPercent = 0;
+            BP2.Alignment.BottomOffPercent = 0;
+            BP2.Alignment.LeftOffset = 10;
+            BP2.Alignment.RightOffset = 0;
+            BP2.Alignment.TopOffset = 71;
+            BP2.Alignment.BottomOffset = 0;
+            BP2.Masked = true;
+            BP2.BorderHeight = 0;
+            BP2.BorderHeightSelected = 0;
+            BP2.ILIndexDown = 31;
+            BP2.ILIndexLit = 30;
+            BP2.ILIndexUp = 30;
+            BP2.TextColor = 0;
+            BP2.TextSelColor = 0;
+            BP2.WinWidth = 41;
+            BP2.Checked = false;
+            BP2.OnChange = Gnd1Change;
+            BP2.RadioIndex = 1;
+            session.EndRead(BP2);
+            BP3 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BP3);
+            BP3.Name = "BP3";
+            BP3.OnMouseDown = Gnd3MouseDown;
+            BP3.OnDraw = Gnd1Draw;
+            BP3.Priority = 1000;
+            BP3.WinLeft = 10;
+            BP3.WinTop = 113;
+            BP3.LayoutToolTipText = new LayoutStrings()
+            {
+                "Regular inventory, any item can be place here."
+            };
+            BP3.CaptureInput = true;
+            BP3.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            BP3.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BP3.Alignment.HeightPercent = (byte)(0);
+            BP3.Alignment.WidthPercent = (byte)(0);
+            BP3.Alignment.LeftOffPercent = 0;
+            BP3.Alignment.RightOffPercent = 0;
+            BP3.Alignment.TopOffPercent = 0;
+            BP3.Alignment.BottomOffPercent = 0;
+            BP3.Alignment.LeftOffset = 10;
+            BP3.Alignment.RightOffset = 0;
+            BP3.Alignment.TopOffset = 113;
+            BP3.Alignment.BottomOffset = 0;
+            BP3.Masked = true;
+            BP3.BorderHeight = 0;
+            BP3.BorderHeightSelected = 0;
+            BP3.ILIndexDown = 31;
+            BP3.ILIndexLit = 30;
+            BP3.ILIndexUp = 30;
+            BP3.TextColor = 0;
+            BP3.TextSelColor = 0;
+            BP3.WinWidth = 41;
+            BP3.Checked = false;
+            BP3.OnChange = Gnd1Change;
+            BP3.RadioIndex = 1;
+            session.EndRead(BP3);
+            BP4 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BP4);
+            BP4.Name = "BP4";
+            BP4.OnMouseDown = Gnd3MouseDown;
+            BP4.OnDraw = Gnd1Draw;
+            BP4.Priority = 1000;
+            BP4.WinLeft = 10;
+            BP4.WinTop = 155;
+            BP4.LayoutToolTipText = new LayoutStrings()
+            {
+                "Regular inventory, any item can be place here."
+            };
+            BP4.CaptureInput = true;
+            BP4.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            BP4.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BP4.Alignment.HeightPercent = (byte)(0);
+            BP4.Alignment.WidthPercent = (byte)(0);
+            BP4.Alignment.LeftOffPercent = 0;
+            BP4.Alignment.RightOffPercent = 0;
+            BP4.Alignment.TopOffPercent = 0;
+            BP4.Alignment.BottomOffPercent = 0;
+            BP4.Alignment.LeftOffset = 10;
+            BP4.Alignment.RightOffset = 0;
+            BP4.Alignment.TopOffset = 155;
+            BP4.Alignment.BottomOffset = 0;
+            BP4.Masked = true;
+            BP4.BorderHeight = 0;
+            BP4.BorderHeightSelected = 0;
+            BP4.ILIndexDown = 31;
+            BP4.ILIndexLit = 30;
+            BP4.ILIndexUp = 30;
+            BP4.TextColor = 0;
+            BP4.TextSelColor = 0;
+            BP4.WinWidth = 41;
+            BP4.Checked = false;
+            BP4.OnChange = Gnd1Change;
+            BP4.RadioIndex = 1;
+            session.EndRead(BP4);
+            BP5 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BP5);
+            BP5.Name = "BP5";
+            BP5.OnMouseDown = Gnd3MouseDown;
+            BP5.OnDraw = Gnd1Draw;
+            BP5.Priority = 1000;
+            BP5.WinLeft = 325;
+            BP5.WinTop = 29;
+            BP5.LayoutToolTipText = new LayoutStrings()
+            {
+                "Regular inventory, any item can be place here."
+            };
+            BP5.CaptureInput = true;
+            BP5.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            BP5.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BP5.Alignment.HeightPercent = (byte)(0);
+            BP5.Alignment.WidthPercent = (byte)(0);
+            BP5.Alignment.LeftOffPercent = 0;
+            BP5.Alignment.RightOffPercent = 0;
+            BP5.Alignment.TopOffPercent = 0;
+            BP5.Alignment.BottomOffPercent = 0;
+            BP5.Alignment.LeftOffset = 4;
+            BP5.Alignment.RightOffset = 10;
+            BP5.Alignment.TopOffset = 29;
+            BP5.Alignment.BottomOffset = 0;
+            BP5.Masked = true;
+            BP5.BorderHeight = 0;
+            BP5.BorderHeightSelected = 0;
+            BP5.ILIndexDown = 31;
+            BP5.ILIndexLit = 30;
+            BP5.ILIndexUp = 30;
+            BP5.TextColor = 0;
+            BP5.TextSelColor = 0;
+            BP5.WinWidth = 41;
+            BP5.Checked = false;
+            BP5.OnChange = Gnd1Change;
+            BP5.RadioIndex = 1;
+            session.EndRead(BP5);
+            BP6 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BP6);
+            BP6.Name = "BP6";
+            BP6.OnMouseDown = Gnd3MouseDown;
+            BP6.OnDraw = Gnd1Draw;
+            BP6.Priority = 1000;
+            BP6.WinLeft = 325;
+            BP6.WinTop = 71;
+            BP6.LayoutToolTipText = new LayoutStrings()
+            {
+                "Regular inventory, any item can be place here."
+            };
+            BP6.CaptureInput = true;
+            BP6.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            BP6.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BP6.Alignment.HeightPercent = (byte)(0);
+            BP6.Alignment.WidthPercent = (byte)(0);
+            BP6.Alignment.LeftOffPercent = 0;
+            BP6.Alignment.RightOffPercent = 0;
+            BP6.Alignment.TopOffPercent = 0;
+            BP6.Alignment.BottomOffPercent = 0;
+            BP6.Alignment.LeftOffset = 4;
+            BP6.Alignment.RightOffset = 10;
+            BP6.Alignment.TopOffset = 71;
+            BP6.Alignment.BottomOffset = 0;
+            BP6.Masked = true;
+            BP6.BorderHeight = 0;
+            BP6.BorderHeightSelected = 0;
+            BP6.ILIndexDown = 31;
+            BP6.ILIndexLit = 30;
+            BP6.ILIndexUp = 30;
+            BP6.TextColor = 0;
+            BP6.TextSelColor = 0;
+            BP6.WinWidth = 41;
+            BP6.Checked = false;
+            BP6.OnChange = Gnd1Change;
+            BP6.RadioIndex = 1;
+            session.EndRead(BP6);
+            BP7 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BP7);
+            BP7.Name = "BP7";
+            BP7.OnMouseDown = Gnd3MouseDown;
+            BP7.OnDraw = Gnd1Draw;
+            BP7.Priority = 1000;
+            BP7.WinLeft = 325;
+            BP7.WinTop = 113;
+            BP7.LayoutToolTipText = new LayoutStrings()
+            {
+                "Regular inventory, any item can be place here."
+            };
+            BP7.CaptureInput = true;
+            BP7.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            BP7.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BP7.Alignment.HeightPercent = (byte)(0);
+            BP7.Alignment.WidthPercent = (byte)(0);
+            BP7.Alignment.LeftOffPercent = 0;
+            BP7.Alignment.RightOffPercent = 0;
+            BP7.Alignment.TopOffPercent = 0;
+            BP7.Alignment.BottomOffPercent = 0;
+            BP7.Alignment.LeftOffset = 4;
+            BP7.Alignment.RightOffset = 10;
+            BP7.Alignment.TopOffset = 113;
+            BP7.Alignment.BottomOffset = 0;
+            BP7.Masked = true;
+            BP7.BorderHeight = 0;
+            BP7.BorderHeightSelected = 0;
+            BP7.ILIndexDown = 31;
+            BP7.ILIndexLit = 30;
+            BP7.ILIndexUp = 30;
+            BP7.TextColor = 0;
+            BP7.TextSelColor = 0;
+            BP7.WinWidth = 41;
+            BP7.Checked = false;
+            BP7.OnChange = Gnd1Change;
+            BP7.RadioIndex = 1;
+            session.EndRead(BP7);
+            BP8 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BP8);
+            BP8.Name = "BP8";
+            BP8.OnMouseDown = Gnd3MouseDown;
+            BP8.OnDraw = Gnd1Draw;
+            BP8.Priority = 1000;
+            BP8.WinLeft = 325;
+            BP8.WinTop = 155;
+            BP8.LayoutToolTipText = new LayoutStrings()
+            {
+                "Regular inventory, any item can be place here."
+            };
+            BP8.CaptureInput = true;
+            BP8.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            BP8.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BP8.Alignment.HeightPercent = (byte)(0);
+            BP8.Alignment.WidthPercent = (byte)(0);
+            BP8.Alignment.LeftOffPercent = 0;
+            BP8.Alignment.RightOffPercent = 0;
+            BP8.Alignment.TopOffPercent = 0;
+            BP8.Alignment.BottomOffPercent = 0;
+            BP8.Alignment.LeftOffset = 4;
+            BP8.Alignment.RightOffset = 10;
+            BP8.Alignment.TopOffset = 155;
+            BP8.Alignment.BottomOffset = 0;
+            BP8.Masked = true;
+            BP8.BorderHeight = 0;
+            BP8.BorderHeightSelected = 0;
+            BP8.ILIndexDown = 31;
+            BP8.ILIndexLit = 30;
+            BP8.ILIndexUp = 30;
+            BP8.TextColor = 0;
+            BP8.TextSelColor = 0;
+            BP8.WinWidth = 41;
+            BP8.Checked = false;
+            BP8.OnChange = Gnd1Change;
+            BP8.RadioIndex = 1;
+            session.EndRead(BP8);
+            BPLbl2 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(BPLbl2);
+            BPLbl2.Name = "BPLbl2";
+            BPLbl2.Visible = false;
+            BPLbl2.Priority = 1000;
+            BPLbl2.WinLeft = 322;
+            BPLbl2.WinTop = 15;
+            BPLbl2.CaptureInput = true;
+            BPLbl2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            BPLbl2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BPLbl2.Alignment.HeightPercent = (byte)(0);
+            BPLbl2.Alignment.WidthPercent = (byte)(0);
+            BPLbl2.Alignment.LeftOffPercent = 0;
+            BPLbl2.Alignment.RightOffPercent = 0;
+            BPLbl2.Alignment.TopOffPercent = 0;
+            BPLbl2.Alignment.BottomOffPercent = 0;
+            BPLbl2.Alignment.LeftOffset = 15;
+            BPLbl2.Alignment.RightOffset = 13;
+            BPLbl2.Alignment.TopOffset = 15;
+            BPLbl2.Alignment.BottomOffset = 0;
+            BPLbl2.Masked = true;
+            BPLbl2.Text = "Backpack";
+            BPLbl2.TextColor = 2370853;
+            session.EndRead(BPLbl2);
+            BodyLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(BodyLbl);
+            BodyLbl.Name = "BodyLbl";
+            BodyLbl.Priority = 10;
+            BodyLbl.WinLeft = 164;
+            BodyLbl.WinTop = 15;
+            BodyLbl.CaptureInput = true;
+            BodyLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            BodyLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BodyLbl.Alignment.HeightPercent = (byte)(0);
+            BodyLbl.Alignment.WidthPercent = (byte)(0);
+            BodyLbl.Alignment.LeftOffPercent = 0;
+            BodyLbl.Alignment.RightOffPercent = 0;
+            BodyLbl.Alignment.TopOffPercent = 0;
+            BodyLbl.Alignment.BottomOffPercent = 0;
+            BodyLbl.Alignment.LeftOffset = 7;
+            BodyLbl.Alignment.RightOffset = 0;
+            BodyLbl.Alignment.TopOffset = 15;
+            BodyLbl.Alignment.BottomOffset = 0;
+            BodyLbl.Masked = true;
+            BodyLbl.Text = "Body Slots";
+            BodyLbl.TextColor = 2370853;
+            session.EndRead(BodyLbl);
+            Head = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Head);
+            Head.Name = "Head";
+            Head.OnMouseDown = Gnd3MouseDown;
+            Head.OnDraw = HeadDraw;
+            Head.Priority = 500;
+            Head.WinLeft = 168;
+            Head.WinTop = 25;
+            Head.LayoutToolTipText = new LayoutStrings()
+            {
+                "Head slot",
+                ""
+            };
+            Head.CaptureInput = true;
+            Head.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            Head.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Head.Alignment.HeightPercent = (byte)(0);
+            Head.Alignment.WidthPercent = (byte)(0);
+            Head.Alignment.LeftOffPercent = 0;
+            Head.Alignment.RightOffPercent = 0;
+            Head.Alignment.TopOffPercent = 0;
+            Head.Alignment.BottomOffPercent = 0;
+            Head.Alignment.LeftOffset = 4;
+            Head.Alignment.RightOffset = 0;
+            Head.Alignment.TopOffset = 25;
+            Head.Alignment.BottomOffset = 0;
+            Head.Masked = true;
+            Head.BorderHeight = 0;
+            Head.BorderHeightSelected = 0;
+            Head.ILIndexDown = 35;
+            Head.ILIndexLit = 34;
+            Head.ILIndexUp = 34;
+            Head.TextColor = 0;
+            Head.TextSelColor = 0;
+            Head.WinWidth = 41;
+            Head.Checked = false;
+            Head.OnChange = Gnd1Change;
+            Head.RadioIndex = 1;
+            session.EndRead(Head);
+            Torso = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Torso);
+            Torso.Name = "Torso";
+            Torso.OnMouseDown = Gnd3MouseDown;
+            Torso.OnDraw = TorsoDraw;
+            Torso.Priority = 500;
+            Torso.WinLeft = 168;
+            Torso.WinTop = 84;
+            Torso.LayoutToolTipText = new LayoutStrings()
+            {
+                "Torso slot"
+            };
+            Torso.CaptureInput = true;
+            Torso.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            Torso.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Torso.Alignment.HeightPercent = (byte)(0);
+            Torso.Alignment.WidthPercent = (byte)(0);
+            Torso.Alignment.LeftOffPercent = 0;
+            Torso.Alignment.RightOffPercent = 0;
+            Torso.Alignment.TopOffPercent = 0;
+            Torso.Alignment.BottomOffPercent = 0;
+            Torso.Alignment.LeftOffset = 4;
+            Torso.Alignment.RightOffset = 0;
+            Torso.Alignment.TopOffset = 84;
+            Torso.Alignment.BottomOffset = 0;
+            Torso.Masked = true;
+            Torso.BorderHeight = 0;
+            Torso.BorderHeightSelected = 0;
+            Torso.ILIndexDown = 35;
+            Torso.ILIndexLit = 34;
+            Torso.ILIndexUp = 34;
+            Torso.TextColor = 0;
+            Torso.TextSelColor = 0;
+            Torso.WinWidth = 41;
+            Torso.Checked = false;
+            Torso.OnChange = Gnd1Change;
+            Torso.RadioIndex = 1;
+            session.EndRead(Torso);
+            Attack = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Attack);
+            Attack.Name = "Attack";
+            Attack.OnMouseDown = Gnd3MouseDown;
+            Attack.OnDraw = AttackDraw;
+            Attack.Priority = 500;
+            Attack.WinLeft = 78;
+            Attack.WinTop = 46;
+            Attack.LayoutToolTipText = new LayoutStrings()
+            {
+                "Melee weapon slot"
+            };
+            Attack.CaptureInput = true;
+            Attack.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Attack.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Attack.Alignment.HeightPercent = (byte)(0);
+            Attack.Alignment.WidthPercent = (byte)(0);
+            Attack.Alignment.LeftOffPercent = 0;
+            Attack.Alignment.RightOffPercent = 0;
+            Attack.Alignment.TopOffPercent = 0;
+            Attack.Alignment.BottomOffPercent = 0;
+            Attack.Alignment.LeftOffset = 78;
+            Attack.Alignment.RightOffset = 0;
+            Attack.Alignment.TopOffset = 46;
+            Attack.Alignment.BottomOffset = 0;
+            Attack.Masked = true;
+            Attack.BorderHeight = 0;
+            Attack.BorderHeightSelected = 0;
+            Attack.ILIndexDown = 35;
+            Attack.ILIndexLit = 34;
+            Attack.ILIndexUp = 34;
+            Attack.TextColor = 0;
+            Attack.TextSelColor = 0;
+            Attack.WinWidth = 41;
+            Attack.Checked = false;
+            Attack.OnChange = Gnd1Change;
+            Attack.RadioIndex = 1;
+            session.EndRead(Attack);
+            Defend = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Defend);
+            Defend.Name = "Defend";
+            Defend.OnMouseDown = Gnd3MouseDown;
+            Defend.OnDraw = DefendDraw;
+            Defend.Priority = 500;
+            Defend.WinLeft = 256;
+            Defend.WinTop = 46;
+            Defend.LayoutToolTipText = new LayoutStrings()
+            {
+                "Defensive weapon slot"
+            };
+            Defend.CaptureInput = true;
+            Defend.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Defend.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Defend.Alignment.HeightPercent = (byte)(0);
+            Defend.Alignment.WidthPercent = (byte)(0);
+            Defend.Alignment.LeftOffPercent = 0;
+            Defend.Alignment.RightOffPercent = 0;
+            Defend.Alignment.TopOffPercent = 0;
+            Defend.Alignment.BottomOffPercent = 0;
+            Defend.Alignment.LeftOffset = 70;
+            Defend.Alignment.RightOffset = 79;
+            Defend.Alignment.TopOffset = 46;
+            Defend.Alignment.BottomOffset = 0;
+            Defend.Masked = true;
+            Defend.BorderHeight = 0;
+            Defend.BorderHeightSelected = 0;
+            Defend.ILIndexDown = 35;
+            Defend.ILIndexLit = 34;
+            Defend.ILIndexUp = 34;
+            Defend.TextColor = 0;
+            Defend.TextSelColor = 0;
+            Defend.WinWidth = 41;
+            Defend.Checked = false;
+            Defend.OnChange = Gnd1Change;
+            Defend.RadioIndex = 1;
+            session.EndRead(Defend);
+            RingL = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(RingL);
+            RingL.Name = "RingL";
+            RingL.OnMouseDown = Gnd3MouseDown;
+            RingL.OnDraw = RingLDraw;
+            RingL.Priority = 500;
+            RingL.WinLeft = 230;
+            RingL.WinTop = 95;
+            RingL.LayoutToolTipText = new LayoutStrings()
+            {
+                "Ring slot"
+            };
+            RingL.CaptureInput = true;
+            RingL.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            RingL.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            RingL.Alignment.HeightPercent = (byte)(0);
+            RingL.Alignment.WidthPercent = (byte)(0);
+            RingL.Alignment.LeftOffPercent = 0;
+            RingL.Alignment.RightOffPercent = 0;
+            RingL.Alignment.TopOffPercent = 0;
+            RingL.Alignment.BottomOffPercent = 0;
+            RingL.Alignment.LeftOffset = 105;
+            RingL.Alignment.RightOffset = 105;
+            RingL.Alignment.TopOffset = 95;
+            RingL.Alignment.BottomOffset = 0;
+            RingL.Masked = true;
+            RingL.BorderHeight = 0;
+            RingL.BorderHeightSelected = 0;
+            RingL.ILIndexDown = 37;
+            RingL.ILIndexLit = 36;
+            RingL.ILIndexUp = 36;
+            RingL.TextColor = 0;
+            RingL.TextSelColor = 0;
+            RingL.WinWidth = 41;
+            RingL.Checked = false;
+            RingL.OnChange = Gnd1Change;
+            RingL.RadioIndex = 1;
+            session.EndRead(RingL);
+            RingR = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(RingR);
+            RingR.Name = "RingR";
+            RingR.OnMouseDown = Gnd3MouseDown;
+            RingR.OnDraw = RingLDraw;
+            RingR.Priority = 500;
+            RingR.WinLeft = 105;
+            RingR.WinTop = 95;
+            RingR.LayoutToolTipText = new LayoutStrings()
+            {
+                "Ring slot",
+                ""
+            };
+            RingR.CaptureInput = true;
+            RingR.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            RingR.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            RingR.Alignment.HeightPercent = (byte)(0);
+            RingR.Alignment.WidthPercent = (byte)(0);
+            RingR.Alignment.LeftOffPercent = 0;
+            RingR.Alignment.RightOffPercent = 0;
+            RingR.Alignment.TopOffPercent = 0;
+            RingR.Alignment.BottomOffPercent = 0;
+            RingR.Alignment.LeftOffset = 105;
+            RingR.Alignment.RightOffset = 105;
+            RingR.Alignment.TopOffset = 95;
+            RingR.Alignment.BottomOffset = 0;
+            RingR.Masked = true;
+            RingR.BorderHeight = 0;
+            RingR.BorderHeightSelected = 0;
+            RingR.ILIndexDown = 37;
+            RingR.ILIndexLit = 36;
+            RingR.ILIndexUp = 36;
+            RingR.TextColor = 0;
+            RingR.TextSelColor = 0;
+            RingR.WinWidth = 41;
+            RingR.Checked = false;
+            RingR.OnChange = Gnd1Change;
+            RingR.RadioIndex = 1;
+            session.EndRead(RingR);
+            Gnd3 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Gnd3);
+            Gnd3.Name = "Gnd3";
+            Gnd3.OnMouseDown = Gnd3MouseDown;
+            Gnd3.OnDraw = Gnd1Draw;
+            Gnd3.Priority = 1000;
+            Gnd3.WinLeft = 168;
+            Gnd3.WinTop = 155;
+            Gnd3.LayoutToolTipText = new LayoutStrings()
+            {
+                "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
+            };
+            Gnd3.CaptureInput = true;
+            Gnd3.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            Gnd3.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Gnd3.Alignment.HeightPercent = (byte)(0);
+            Gnd3.Alignment.WidthPercent = (byte)(0);
+            Gnd3.Alignment.LeftOffPercent = 0;
+            Gnd3.Alignment.RightOffPercent = 0;
+            Gnd3.Alignment.TopOffPercent = 0;
+            Gnd3.Alignment.BottomOffPercent = 0;
+            Gnd3.Alignment.LeftOffset = 4;
+            Gnd3.Alignment.RightOffset = 0;
+            Gnd3.Alignment.TopOffset = 155;
+            Gnd3.Alignment.BottomOffset = 0;
+            Gnd3.Masked = true;
+            Gnd3.BorderHeight = 0;
+            Gnd3.BorderHeightSelected = 0;
+            Gnd3.ILIndexDown = 33;
+            Gnd3.ILIndexLit = 32;
+            Gnd3.ILIndexUp = 32;
+            Gnd3.TextColor = 0;
+            Gnd3.TextSelColor = 0;
+            Gnd3.WinWidth = 41;
+            Gnd3.Checked = false;
+            Gnd3.OnChange = Gnd1Change;
+            Gnd3.RadioIndex = 1;
+            session.EndRead(Gnd3);
+            Gnd2 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Gnd2);
+            Gnd2.Name = "Gnd2";
+            Gnd2.OnMouseDown = Gnd3MouseDown;
+            Gnd2.OnDraw = Gnd1Draw;
+            Gnd2.Priority = 1000;
+            Gnd2.WinLeft = 124;
+            Gnd2.WinTop = 155;
+            Gnd2.LayoutToolTipText = new LayoutStrings()
+            {
+                "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
+            };
+            Gnd2.CaptureInput = true;
+            Gnd2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Gnd2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Gnd2.Alignment.HeightPercent = (byte)(0);
+            Gnd2.Alignment.WidthPercent = (byte)(0);
+            Gnd2.Alignment.LeftOffPercent = 0;
+            Gnd2.Alignment.RightOffPercent = 0;
+            Gnd2.Alignment.TopOffPercent = 0;
+            Gnd2.Alignment.BottomOffPercent = 0;
+            Gnd2.Alignment.LeftOffset = 124;
+            Gnd2.Alignment.RightOffset = 0;
+            Gnd2.Alignment.TopOffset = 155;
+            Gnd2.Alignment.BottomOffset = 0;
+            Gnd2.Masked = true;
+            Gnd2.BorderHeight = 0;
+            Gnd2.BorderHeightSelected = 0;
+            Gnd2.ILIndexDown = 33;
+            Gnd2.ILIndexLit = 32;
+            Gnd2.ILIndexUp = 32;
+            Gnd2.TextColor = 0;
+            Gnd2.TextSelColor = 0;
+            Gnd2.WinWidth = 41;
+            Gnd2.Checked = false;
+            Gnd2.OnChange = Gnd1Change;
+            Gnd2.RadioIndex = 1;
+            session.EndRead(Gnd2);
+            Gnd1 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Gnd1);
+            Gnd1.Name = "Gnd1";
+            Gnd1.OnMouseDown = Gnd3MouseDown;
+            Gnd1.OnDraw = Gnd1Draw;
+            Gnd1.Priority = 1000;
+            Gnd1.WinLeft = 80;
+            Gnd1.WinTop = 155;
+            Gnd1.LayoutToolTipText = new LayoutStrings()
+            {
+                "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
+            };
+            Gnd1.CaptureInput = true;
+            Gnd1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Gnd1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Gnd1.Alignment.HeightPercent = (byte)(0);
+            Gnd1.Alignment.WidthPercent = (byte)(0);
+            Gnd1.Alignment.LeftOffPercent = 0;
+            Gnd1.Alignment.RightOffPercent = 0;
+            Gnd1.Alignment.TopOffPercent = 0;
+            Gnd1.Alignment.BottomOffPercent = 0;
+            Gnd1.Alignment.LeftOffset = 80;
+            Gnd1.Alignment.RightOffset = 0;
+            Gnd1.Alignment.TopOffset = 155;
+            Gnd1.Alignment.BottomOffset = 0;
+            Gnd1.Masked = true;
+            Gnd1.BorderHeight = 0;
+            Gnd1.BorderHeightSelected = 0;
+            Gnd1.ILIndexDown = 33;
+            Gnd1.ILIndexLit = 32;
+            Gnd1.ILIndexUp = 32;
+            Gnd1.TextColor = 0;
+            Gnd1.TextSelColor = 0;
+            Gnd1.WinWidth = 41;
+            Gnd1.Checked = false;
+            Gnd1.OnChange = Gnd1Change;
+            Gnd1.RadioIndex = 1;
+            session.EndRead(Gnd1);
+            Gnd4 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Gnd4);
+            Gnd4.Name = "Gnd4";
+            Gnd4.OnMouseDown = Gnd3MouseDown;
+            Gnd4.OnDraw = Gnd1Draw;
+            Gnd4.Priority = 1000;
+            Gnd4.WinLeft = 212;
+            Gnd4.WinTop = 155;
+            Gnd4.LayoutToolTipText = new LayoutStrings()
+            {
+                "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
+            };
+            Gnd4.CaptureInput = true;
+            Gnd4.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Gnd4.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Gnd4.Alignment.HeightPercent = (byte)(0);
+            Gnd4.Alignment.WidthPercent = (byte)(0);
+            Gnd4.Alignment.LeftOffPercent = 0;
+            Gnd4.Alignment.RightOffPercent = 0;
+            Gnd4.Alignment.TopOffPercent = 0;
+            Gnd4.Alignment.BottomOffPercent = 0;
+            Gnd4.Alignment.LeftOffset = 0;
+            Gnd4.Alignment.RightOffset = 123;
+            Gnd4.Alignment.TopOffset = 155;
+            Gnd4.Alignment.BottomOffset = 0;
+            Gnd4.Masked = true;
+            Gnd4.BorderHeight = 0;
+            Gnd4.BorderHeightSelected = 0;
+            Gnd4.ILIndexDown = 33;
+            Gnd4.ILIndexLit = 32;
+            Gnd4.ILIndexUp = 32;
+            Gnd4.TextColor = 0;
+            Gnd4.TextSelColor = 0;
+            Gnd4.WinWidth = 41;
+            Gnd4.Checked = false;
+            Gnd4.OnChange = Gnd1Change;
+            Gnd4.RadioIndex = 1;
+            session.EndRead(Gnd4);
+            Gnd5 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(Gnd5);
+            Gnd5.Name = "Gnd5";
+            Gnd5.OnMouseDown = Gnd3MouseDown;
+            Gnd5.OnDraw = Gnd1Draw;
+            Gnd5.Priority = 1000;
+            Gnd5.WinLeft = 256;
+            Gnd5.WinTop = 155;
+            Gnd5.LayoutToolTipText = new LayoutStrings()
+            {
+                "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
+            };
+            Gnd5.CaptureInput = true;
+            Gnd5.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Gnd5.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Gnd5.Alignment.HeightPercent = (byte)(0);
+            Gnd5.Alignment.WidthPercent = (byte)(0);
+            Gnd5.Alignment.LeftOffPercent = 0;
+            Gnd5.Alignment.RightOffPercent = 0;
+            Gnd5.Alignment.TopOffPercent = 0;
+            Gnd5.Alignment.BottomOffPercent = 0;
+            Gnd5.Alignment.LeftOffset = 77;
+            Gnd5.Alignment.RightOffset = 79;
+            Gnd5.Alignment.TopOffset = 155;
+            Gnd5.Alignment.BottomOffset = 0;
+            Gnd5.Masked = true;
+            Gnd5.BorderHeight = 0;
+            Gnd5.BorderHeightSelected = 0;
+            Gnd5.ILIndexDown = 33;
+            Gnd5.ILIndexLit = 32;
+            Gnd5.ILIndexUp = 32;
+            Gnd5.TextColor = 0;
+            Gnd5.TextSelColor = 0;
+            Gnd5.WinWidth = 41;
+            Gnd5.Checked = false;
+            Gnd5.OnChange = Gnd1Change;
+            Gnd5.RadioIndex = 1;
+            session.EndRead(Gnd5);
+            GndLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(GndLbl);
+            GndLbl.Name = "GndLbl";
+            GndLbl.Priority = 1000;
+            GndLbl.WinLeft = 141;
+            GndLbl.WinTop = 143;
+            GndLbl.CaptureInput = true;
+            GndLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            GndLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            GndLbl.Alignment.HeightPercent = (byte)(0);
+            GndLbl.Alignment.WidthPercent = (byte)(0);
+            GndLbl.Alignment.LeftOffPercent = 0;
+            GndLbl.Alignment.RightOffPercent = 0;
+            GndLbl.Alignment.TopOffPercent = 0;
+            GndLbl.Alignment.BottomOffPercent = 0;
+            GndLbl.Alignment.LeftOffset = 7;
+            GndLbl.Alignment.RightOffset = 7;
+            GndLbl.Alignment.TopOffset = 143;
+            GndLbl.Alignment.BottomOffset = 0;
+            GndLbl.Masked = true;
+            GndLbl.Text = "Items on the Ground";
+            GndLbl.TextColor = 2370853;
+            session.EndRead(GndLbl);
+            SlotBack = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(SlotBack);
+            SlotBack.Name = "SlotBack";
+            SlotBack.Priority = 0;
+            SlotBack.WinLeft = 9;
+            SlotBack.WinTop = 2;
+            SlotBack.CaptureInput = true;
+            SlotBack.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            SlotBack.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SlotBack.Alignment.HeightPercent = (byte)(0);
+            SlotBack.Alignment.WidthPercent = (byte)(0);
+            SlotBack.Alignment.LeftOffPercent = 0;
+            SlotBack.Alignment.RightOffPercent = 0;
+            SlotBack.Alignment.TopOffPercent = 0;
+            SlotBack.Alignment.BottomOffPercent = 0;
+            SlotBack.Alignment.LeftOffset = 0;
+            SlotBack.Alignment.RightOffset = 0;
+            SlotBack.Alignment.TopOffset = 2;
+            SlotBack.Alignment.BottomOffset = 0;
+            SlotBack.Masked = false;
+            SlotBack.AnimStart = 0;
+            SlotBack.CurrentImage = 40;
+            SlotBack.AnimEnd = 0;
+            SlotBack.WinWidth = 358;
+            SlotBack.WinHeight = 193;
+            SlotBack.Animate = false;
+            SlotBack.AnimFrameDelay = 0;
+            session.EndRead(SlotBack);
+            DisbandBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(DisbandBtn);
+            DisbandBtn.Name = "DisbandBtn";
+            DisbandBtn.Priority = 250;
+            DisbandBtn.WinLeft = 89;
+            DisbandBtn.WinTop = 380;
+            DisbandBtn.CaptureInput = true;
+            DisbandBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            DisbandBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            DisbandBtn.Alignment.HeightPercent = (byte)(0);
+            DisbandBtn.Alignment.WidthPercent = (byte)(0);
+            DisbandBtn.Alignment.LeftOffPercent = 32;
+            DisbandBtn.Alignment.RightOffPercent = 50;
+            DisbandBtn.Alignment.TopOffPercent = 0;
+            DisbandBtn.Alignment.BottomOffPercent = 0;
+            DisbandBtn.Alignment.LeftOffset = 0;
+            DisbandBtn.Alignment.RightOffset = 2;
+            DisbandBtn.Alignment.TopOffset = 0;
+            DisbandBtn.Alignment.BottomOffset = 10;
+            DisbandBtn.Masked = false;
+            DisbandBtn.BorderHeight = 8;
+            DisbandBtn.BorderHeightSelected = 9;
+            DisbandBtn.ILIndexDown = 22;
+            DisbandBtn.ILIndexLit = 25;
+            DisbandBtn.ILIndexUp = 19;
+            DisbandBtn.Text = "Disband";
+            DisbandBtn.TextColor = 89;
+            DisbandBtn.TextSelColor = 16777215;
+            DisbandBtn.WinWidth = 119;
+            DisbandBtn.OnClick = Layout_DisbandBtnClick_4;
+            session.EndRead(DisbandBtn);
+            ItemUsePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(ItemUsePnl);
+            ItemUsePnl.Name = "ItemUsePnl";
+            ItemUsePnl.Visible = false;
+            ItemUsePnl.Priority = 500;
+            ItemUsePnl.WinLeft = 0;
+            ItemUsePnl.WinTop = 0;
+            ItemUsePnl.WinWidth = 376;
+            ItemUsePnl.Masked = false;
+            ItemUsePnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            ItemUsePnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            ItemUsePnl.Alignment.HeightPercent = (byte)(0);
+            ItemUsePnl.Alignment.WidthPercent = (byte)(0);
+            ItemUsePnl.Alignment.LeftOffPercent = 0;
+            ItemUsePnl.Alignment.RightOffPercent = 0;
+            ItemUsePnl.Alignment.TopOffPercent = 0;
+            ItemUsePnl.Alignment.BottomOffPercent = 0;
+            ItemUsePnl.Alignment.LeftOffset = 0;
+            ItemUsePnl.Alignment.RightOffset = 0;
+            ItemUsePnl.Alignment.TopOffset = 0;
+            ItemUsePnl.Alignment.BottomOffset = 0;
+            ItemUsePnl.WinHeight = 201;
+            ItemUsePnl.ILIndexFrame = 0;
+            ItemUsePnl.ILIndexTexture = 2;
+            ItemUsePnl.OwnerItem = 3;
+            ItemUsePnl.MinWidth = 0;
+            ItemUsePnl.MinHeight = 0;
+            session.EndRead(ItemUsePnl);
+            ItemUseBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(ItemUseBtn);
+            ItemUseBtn.Name = "ItemUseBtn";
+            ItemUseBtn.Priority = 100;
+            ItemUseBtn.WinLeft = 83;
+            ItemUseBtn.WinTop = 103;
+            ItemUseBtn.LayoutToolTipText = new LayoutStrings()
+            {
+                "Uses selected item"
+            };
+            ItemUseBtn.CaptureInput = true;
+            ItemUseBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            ItemUseBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            ItemUseBtn.Alignment.HeightPercent = (byte)(0);
+            ItemUseBtn.Alignment.WidthPercent = (byte)(0);
+            ItemUseBtn.Alignment.LeftOffPercent = 0;
+            ItemUseBtn.Alignment.RightOffPercent = 0;
+            ItemUseBtn.Alignment.TopOffPercent = 0;
+            ItemUseBtn.Alignment.BottomOffPercent = 0;
+            ItemUseBtn.Alignment.LeftOffset = 0;
+            ItemUseBtn.Alignment.RightOffset = 9;
+            ItemUseBtn.Alignment.TopOffset = 0;
+            ItemUseBtn.Alignment.BottomOffset = 76;
+            ItemUseBtn.Masked = true;
+            ItemUseBtn.BorderHeight = 6;
+            ItemUseBtn.BorderHeightSelected = 7;
+            ItemUseBtn.ILIndexDown = 46;
+            ItemUseBtn.ILIndexLit = 49;
+            ItemUseBtn.ILIndexUp = 43;
+            ItemUseBtn.TextColor = 0;
+            ItemUseBtn.TextSelColor = 16777215;
+            ItemUseBtn.WinWidth = 210;
+            ItemUseBtn.OnClick = UseItemClick;
+            session.EndRead(ItemUseBtn);
+            ItemPic = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(ItemPic);
+            ItemPic.Name = "ItemPic";
+            ItemPic.Priority = 0;
+            ItemPic.WinLeft = 9;
+            ItemPic.WinTop = 2;
+            ItemPic.CaptureInput = true;
+            ItemPic.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            ItemPic.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            ItemPic.Alignment.HeightPercent = (byte)(0);
+            ItemPic.Alignment.WidthPercent = (byte)(0);
+            ItemPic.Alignment.LeftOffPercent = 0;
+            ItemPic.Alignment.RightOffPercent = 0;
+            ItemPic.Alignment.TopOffPercent = 0;
+            ItemPic.Alignment.BottomOffPercent = 0;
+            ItemPic.Alignment.LeftOffset = 0;
+            ItemPic.Alignment.RightOffset = 0;
+            ItemPic.Alignment.TopOffset = 2;
+            ItemPic.Alignment.BottomOffset = 0;
+            ItemPic.Masked = false;
+            ItemPic.AnimStart = 0;
+            ItemPic.CurrentImage = 40;
+            ItemPic.AnimEnd = 0;
+            ItemPic.WinWidth = 358;
+            ItemPic.WinHeight = 193;
+            ItemPic.Animate = false;
+            ItemPic.AnimFrameDelay = 0;
+            session.EndRead(ItemPic);
+            UnitMainPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(UnitMainPnl);
+            UnitMainPnl.Name = "UnitMainPnl";
+            UnitMainPnl.Priority = 0;
+            UnitMainPnl.WinLeft = 21;
+            UnitMainPnl.WinTop = 22;
+            UnitMainPnl.WinWidth = 378;
+            UnitMainPnl.Masked = true;
+            UnitMainPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            UnitMainPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UnitMainPnl.Alignment.HeightPercent = (byte)(0);
+            UnitMainPnl.Alignment.WidthPercent = (byte)(0);
+            UnitMainPnl.Alignment.LeftOffPercent = 0;
+            UnitMainPnl.Alignment.RightOffPercent = 0;
+            UnitMainPnl.Alignment.TopOffPercent = 0;
+            UnitMainPnl.Alignment.BottomOffPercent = 0;
+            UnitMainPnl.Alignment.LeftOffset = 21;
+            UnitMainPnl.Alignment.RightOffset = 21;
+            UnitMainPnl.Alignment.TopOffset = 22;
+            UnitMainPnl.Alignment.BottomOffset = 0;
+            UnitMainPnl.WinHeight = 143;
+            UnitMainPnl.ILIndexFrame = 40;
+            UnitMainPnl.ILIndexTexture = 2;
+            UnitMainPnl.OwnerItem = 0;
+            UnitMainPnl.MinWidth = 0;
+            UnitMainPnl.MinHeight = 0;
+            session.EndRead(UnitMainPnl);
+            UnitName = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UnitName);
+            UnitName.Name = "UnitName";
+            UnitName.Priority = 1500;
+            UnitName.WinLeft = 189;
+            UnitName.WinTop = 8;
+            UnitName.CaptureInput = true;
+            UnitName.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UnitName.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UnitName.Alignment.HeightPercent = (byte)(0);
+            UnitName.Alignment.WidthPercent = (byte)(0);
+            UnitName.Alignment.LeftOffPercent = 0;
+            UnitName.Alignment.RightOffPercent = 0;
+            UnitName.Alignment.TopOffPercent = 0;
+            UnitName.Alignment.BottomOffPercent = 0;
+            UnitName.Alignment.LeftOffset = 130;
+            UnitName.Alignment.RightOffset = 0;
+            UnitName.Alignment.TopOffset = 8;
+            UnitName.Alignment.BottomOffset = 0;
+            UnitName.Masked = true;
+            UnitName.TextColor = 13299411;
+            session.EndRead(UnitName);
+            UnitFrRight = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UnitFrRight);
+            UnitFrRight.Name = "UnitFrRight";
+            UnitFrRight.Priority = 200;
+            UnitFrRight.WinLeft = 260;
+            UnitFrRight.WinTop = 0;
+            UnitFrRight.CaptureInput = true;
+            UnitFrRight.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            UnitFrRight.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UnitFrRight.Alignment.HeightPercent = (byte)(0);
+            UnitFrRight.Alignment.WidthPercent = (byte)(0);
+            UnitFrRight.Alignment.LeftOffPercent = 0;
+            UnitFrRight.Alignment.RightOffPercent = 0;
+            UnitFrRight.Alignment.TopOffPercent = 0;
+            UnitFrRight.Alignment.BottomOffPercent = 0;
+            UnitFrRight.Alignment.LeftOffset = 0;
+            UnitFrRight.Alignment.RightOffset = 0;
+            UnitFrRight.Alignment.TopOffset = 0;
+            UnitFrRight.Alignment.BottomOffset = 0;
+            UnitFrRight.Masked = false;
+            UnitFrRight.AnimStart = 0;
+            UnitFrRight.CurrentImage = 45;
+            UnitFrRight.AnimEnd = 6;
+            UnitFrRight.WinWidth = 118;
+            UnitFrRight.WinHeight = 143;
+            UnitFrRight.Animate = false;
+            UnitFrRight.AnimFrameDelay = 0;
+            session.EndRead(UnitFrRight);
+            UAttackIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UAttackIcon);
+            UAttackIcon.Name = "UAttackIcon";
+            UAttackIcon.Priority = 0;
+            UAttackIcon.WinLeft = 5;
+            UAttackIcon.WinTop = 1;
+            UAttackIcon.LayoutToolTipText = new LayoutStrings()
+            {
+                "Attack is the ability of a unit to hit a target with a melee strike."
+            };
+            UAttackIcon.CaptureInput = true;
+            UAttackIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UAttackIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UAttackIcon.Alignment.HeightPercent = (byte)(0);
+            UAttackIcon.Alignment.WidthPercent = (byte)(0);
+            UAttackIcon.Alignment.LeftOffPercent = 0;
+            UAttackIcon.Alignment.RightOffPercent = 0;
+            UAttackIcon.Alignment.TopOffPercent = 0;
+            UAttackIcon.Alignment.BottomOffPercent = 0;
+            UAttackIcon.Alignment.LeftOffset = 5;
+            UAttackIcon.Alignment.RightOffset = 0;
+            UAttackIcon.Alignment.TopOffset = 1;
+            UAttackIcon.Alignment.BottomOffset = 0;
+            UAttackIcon.Masked = false;
+            UAttackIcon.AnimStart = 0;
+            UAttackIcon.CurrentImage = 0;
+            UAttackIcon.AnimEnd = 6;
+            UAttackIcon.WinWidth = 15;
+            UAttackIcon.WinHeight = 17;
+            UAttackIcon.Animate = false;
+            UAttackIcon.AnimFrameDelay = 0;
+            session.EndRead(UAttackIcon);
+            UDefenseIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UDefenseIcon);
+            UDefenseIcon.Name = "UDefenseIcon";
+            UDefenseIcon.Priority = 0;
+            UDefenseIcon.WinLeft = 5;
+            UDefenseIcon.WinTop = 22;
+            UDefenseIcon.LayoutToolTipText = new LayoutStrings()
+            {
+                "Defense is the ability of a unit to avoid being hit by physical attacks."
+            };
+            UDefenseIcon.CaptureInput = true;
+            UDefenseIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UDefenseIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UDefenseIcon.Alignment.HeightPercent = (byte)(0);
+            UDefenseIcon.Alignment.WidthPercent = (byte)(0);
+            UDefenseIcon.Alignment.LeftOffPercent = 0;
+            UDefenseIcon.Alignment.RightOffPercent = 0;
+            UDefenseIcon.Alignment.TopOffPercent = 0;
+            UDefenseIcon.Alignment.BottomOffPercent = 0;
+            UDefenseIcon.Alignment.LeftOffset = 5;
+            UDefenseIcon.Alignment.RightOffset = 0;
+            UDefenseIcon.Alignment.TopOffset = 22;
+            UDefenseIcon.Alignment.BottomOffset = 0;
+            UDefenseIcon.Masked = false;
+            UDefenseIcon.AnimStart = 0;
+            UDefenseIcon.CurrentImage = 1;
+            UDefenseIcon.AnimEnd = 6;
+            UDefenseIcon.WinWidth = 15;
+            UDefenseIcon.WinHeight = 17;
+            UDefenseIcon.Animate = false;
+            UDefenseIcon.AnimFrameDelay = 0;
+            session.EndRead(UDefenseIcon);
+            UMovesIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UMovesIcon);
+            UMovesIcon.Name = "UMovesIcon";
+            UMovesIcon.Priority = 0;
+            UMovesIcon.WinLeft = 0;
+            UMovesIcon.WinTop = 45;
+            UMovesIcon.LayoutToolTipText = new LayoutStrings()
+            {
+                "Moves are the range a unit can move in a turn (Current/Maximum)."
+            };
+            UMovesIcon.CaptureInput = true;
+            UMovesIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UMovesIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UMovesIcon.Alignment.HeightPercent = (byte)(0);
+            UMovesIcon.Alignment.WidthPercent = (byte)(0);
+            UMovesIcon.Alignment.LeftOffPercent = 0;
+            UMovesIcon.Alignment.RightOffPercent = 0;
+            UMovesIcon.Alignment.TopOffPercent = 0;
+            UMovesIcon.Alignment.BottomOffPercent = 0;
+            UMovesIcon.Alignment.LeftOffset = 0;
+            UMovesIcon.Alignment.RightOffset = 0;
+            UMovesIcon.Alignment.TopOffset = 45;
+            UMovesIcon.Alignment.BottomOffset = 0;
+            UMovesIcon.Masked = false;
+            UMovesIcon.AnimStart = 0;
+            UMovesIcon.CurrentImage = 0;
+            UMovesIcon.AnimEnd = 19;
+            UMovesIcon.WinWidth = 32;
+            UMovesIcon.WinHeight = 17;
+            UMovesIcon.Animate = false;
+            UMovesIcon.AnimFrameDelay = 0;
+            session.EndRead(UMovesIcon);
+            UDamageIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UDamageIcon);
+            UDamageIcon.Name = "UDamageIcon";
+            UDamageIcon.Priority = 0;
+            UDamageIcon.WinLeft = 74;
+            UDamageIcon.WinTop = 1;
+            UDamageIcon.LayoutToolTipText = new LayoutStrings()
+            {
+                "Damage is the maximum strength of a unit's melee attack."
+            };
+            UDamageIcon.CaptureInput = true;
+            UDamageIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UDamageIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UDamageIcon.Alignment.HeightPercent = (byte)(0);
+            UDamageIcon.Alignment.WidthPercent = (byte)(0);
+            UDamageIcon.Alignment.LeftOffPercent = 52;
+            UDamageIcon.Alignment.RightOffPercent = 0;
+            UDamageIcon.Alignment.TopOffPercent = 0;
+            UDamageIcon.Alignment.BottomOffPercent = 0;
+            UDamageIcon.Alignment.LeftOffset = 0;
+            UDamageIcon.Alignment.RightOffset = 0;
+            UDamageIcon.Alignment.TopOffset = 1;
+            UDamageIcon.Alignment.BottomOffset = 0;
+            UDamageIcon.Masked = false;
+            UDamageIcon.AnimStart = 0;
+            UDamageIcon.CurrentImage = 2;
+            UDamageIcon.AnimEnd = 6;
+            UDamageIcon.WinWidth = 15;
+            UDamageIcon.WinHeight = 17;
+            UDamageIcon.Animate = false;
+            UDamageIcon.AnimFrameDelay = 0;
+            session.EndRead(UDamageIcon);
+            UResistanceIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UResistanceIcon);
+            UResistanceIcon.Name = "UResistanceIcon";
+            UResistanceIcon.Priority = 0;
+            UResistanceIcon.WinLeft = 74;
+            UResistanceIcon.WinTop = 22;
+            UResistanceIcon.LayoutToolTipText = new LayoutStrings()
+            {
+                "Resistance is the ability of a unit to repel non-physical attacks."
+            };
+            UResistanceIcon.CaptureInput = true;
+            UResistanceIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UResistanceIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UResistanceIcon.Alignment.HeightPercent = (byte)(0);
+            UResistanceIcon.Alignment.WidthPercent = (byte)(0);
+            UResistanceIcon.Alignment.LeftOffPercent = 52;
+            UResistanceIcon.Alignment.RightOffPercent = 0;
+            UResistanceIcon.Alignment.TopOffPercent = 0;
+            UResistanceIcon.Alignment.BottomOffPercent = 0;
+            UResistanceIcon.Alignment.LeftOffset = 0;
+            UResistanceIcon.Alignment.RightOffset = 0;
+            UResistanceIcon.Alignment.TopOffset = 22;
+            UResistanceIcon.Alignment.BottomOffset = 0;
+            UResistanceIcon.Masked = false;
+            UResistanceIcon.AnimStart = 0;
+            UResistanceIcon.CurrentImage = 3;
+            UResistanceIcon.AnimEnd = 6;
+            UResistanceIcon.WinWidth = 15;
+            UResistanceIcon.WinHeight = 17;
+            UResistanceIcon.Animate = false;
+            UResistanceIcon.AnimFrameDelay = 0;
+            session.EndRead(UResistanceIcon);
+            UHitsIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UHitsIcon);
+            UHitsIcon.Name = "UHitsIcon";
+            UHitsIcon.Priority = 0;
+            UHitsIcon.WinLeft = 74;
+            UHitsIcon.WinTop = 45;
+            UHitsIcon.LayoutToolTipText = new LayoutStrings()
+            {
+                "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
+            };
+            UHitsIcon.CaptureInput = true;
+            UHitsIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UHitsIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UHitsIcon.Alignment.HeightPercent = (byte)(0);
+            UHitsIcon.Alignment.WidthPercent = (byte)(0);
+            UHitsIcon.Alignment.LeftOffPercent = 52;
+            UHitsIcon.Alignment.RightOffPercent = 0;
+            UHitsIcon.Alignment.TopOffPercent = 0;
+            UHitsIcon.Alignment.BottomOffPercent = 0;
+            UHitsIcon.Alignment.LeftOffset = 0;
+            UHitsIcon.Alignment.RightOffset = 0;
+            UHitsIcon.Alignment.TopOffset = 45;
+            UHitsIcon.Alignment.BottomOffset = 0;
+            UHitsIcon.Masked = false;
+            UHitsIcon.AnimStart = 0;
+            UHitsIcon.CurrentImage = 4;
+            UHitsIcon.AnimEnd = 6;
+            UHitsIcon.WinWidth = 15;
+            UHitsIcon.WinHeight = 17;
+            UHitsIcon.Animate = false;
+            UHitsIcon.AnimFrameDelay = 0;
+            session.EndRead(UHitsIcon);
+            UAttack = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UAttack);
+            UAttack.Name = "UAttack";
+            UAttack.Priority = 0;
+            UAttack.WinLeft = 22;
+            UAttack.WinTop = 3;
+            UAttack.LayoutToolTipText = new LayoutStrings()
+            {
+                "Attack is the ability of a unit to hit a target with a melee strike."
+            };
+            UAttack.CaptureInput = true;
+            UAttack.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UAttack.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UAttack.Alignment.HeightPercent = (byte)(0);
+            UAttack.Alignment.WidthPercent = (byte)(0);
+            UAttack.Alignment.LeftOffPercent = 0;
+            UAttack.Alignment.RightOffPercent = 57;
+            UAttack.Alignment.TopOffPercent = 0;
+            UAttack.Alignment.BottomOffPercent = 0;
+            UAttack.Alignment.LeftOffset = 0;
+            UAttack.Alignment.RightOffset = 0;
+            UAttack.Alignment.TopOffset = 3;
+            UAttack.Alignment.BottomOffset = 0;
+            UAttack.Masked = true;
+            UAttack.TextColor = 16777215;
+            session.EndRead(UAttack);
+            UDefense = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UDefense);
+            UDefense.Name = "UDefense";
+            UDefense.Priority = 0;
+            UDefense.WinLeft = 22;
+            UDefense.WinTop = 25;
+            UDefense.LayoutToolTipText = new LayoutStrings()
+            {
+                "Defense is the ability of a unit to avoid being hit by physical attacks."
+            };
+            UDefense.CaptureInput = true;
+            UDefense.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UDefense.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UDefense.Alignment.HeightPercent = (byte)(0);
+            UDefense.Alignment.WidthPercent = (byte)(0);
+            UDefense.Alignment.LeftOffPercent = 0;
+            UDefense.Alignment.RightOffPercent = 57;
+            UDefense.Alignment.TopOffPercent = 0;
+            UDefense.Alignment.BottomOffPercent = 0;
+            UDefense.Alignment.LeftOffset = 0;
+            UDefense.Alignment.RightOffset = 0;
+            UDefense.Alignment.TopOffset = 25;
+            UDefense.Alignment.BottomOffset = 0;
+            UDefense.Masked = true;
+            UDefense.TextColor = 16777215;
+            session.EndRead(UDefense);
+            UMoves = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UMoves);
+            UMoves.Name = "UMoves";
+            UMoves.Priority = 0;
+            UMoves.WinLeft = 22;
+            UMoves.WinTop = 47;
+            UMoves.LayoutToolTipText = new LayoutStrings()
+            {
+                "Moves are the range a unit can move in a turn (Current/Maximum)."
+            };
+            UMoves.CaptureInput = true;
+            UMoves.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UMoves.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UMoves.Alignment.HeightPercent = (byte)(0);
+            UMoves.Alignment.WidthPercent = (byte)(0);
+            UMoves.Alignment.LeftOffPercent = 0;
+            UMoves.Alignment.RightOffPercent = 57;
+            UMoves.Alignment.TopOffPercent = 0;
+            UMoves.Alignment.BottomOffPercent = 0;
+            UMoves.Alignment.LeftOffset = 0;
+            UMoves.Alignment.RightOffset = 0;
+            UMoves.Alignment.TopOffset = 47;
+            UMoves.Alignment.BottomOffset = 0;
+            UMoves.Masked = true;
+            UMoves.TextColor = 16777215;
+            session.EndRead(UMoves);
+            UDamage = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UDamage);
+            UDamage.Name = "UDamage";
+            UDamage.Priority = 0;
+            UDamage.WinLeft = 25;
+            UDamage.WinTop = 3;
+            UDamage.LayoutToolTipText = new LayoutStrings()
+            {
+                "Damage is the maximum strength of a unit's melee attack."
+            };
+            UDamage.CaptureInput = true;
+            UDamage.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UDamage.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UDamage.Alignment.HeightPercent = (byte)(0);
+            UDamage.Alignment.WidthPercent = (byte)(0);
+            UDamage.Alignment.LeftOffPercent = 0;
+            UDamage.Alignment.RightOffPercent = 6;
+            UDamage.Alignment.TopOffPercent = 0;
+            UDamage.Alignment.BottomOffPercent = 0;
+            UDamage.Alignment.LeftOffset = 0;
+            UDamage.Alignment.RightOffset = 0;
+            UDamage.Alignment.TopOffset = 3;
+            UDamage.Alignment.BottomOffset = 0;
+            UDamage.Masked = true;
+            UDamage.TextColor = 16777215;
+            session.EndRead(UDamage);
+            UResistance = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UResistance);
+            UResistance.Name = "UResistance";
+            UResistance.Priority = 0;
+            UResistance.WinLeft = 25;
+            UResistance.WinTop = 25;
+            UResistance.LayoutToolTipText = new LayoutStrings()
+            {
+                "Resistance is the ability of a unit to repel non-physical attacks."
+            };
+            UResistance.CaptureInput = true;
+            UResistance.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UResistance.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UResistance.Alignment.HeightPercent = (byte)(0);
+            UResistance.Alignment.WidthPercent = (byte)(0);
+            UResistance.Alignment.LeftOffPercent = 0;
+            UResistance.Alignment.RightOffPercent = 6;
+            UResistance.Alignment.TopOffPercent = 0;
+            UResistance.Alignment.BottomOffPercent = 0;
+            UResistance.Alignment.LeftOffset = 0;
+            UResistance.Alignment.RightOffset = 0;
+            UResistance.Alignment.TopOffset = 25;
+            UResistance.Alignment.BottomOffset = 0;
+            UResistance.Masked = true;
+            UResistance.TextColor = 16777215;
+            session.EndRead(UResistance);
+            UHits = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UHits);
+            UHits.Name = "UHits";
+            UHits.Priority = 0;
+            UHits.WinLeft = 25;
+            UHits.WinTop = 47;
+            UHits.LayoutToolTipText = new LayoutStrings()
+            {
+                "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
+            };
+            UHits.CaptureInput = true;
+            UHits.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UHits.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UHits.Alignment.HeightPercent = (byte)(0);
+            UHits.Alignment.WidthPercent = (byte)(0);
+            UHits.Alignment.LeftOffPercent = 0;
+            UHits.Alignment.RightOffPercent = 6;
+            UHits.Alignment.TopOffPercent = 0;
+            UHits.Alignment.BottomOffPercent = 0;
+            UHits.Alignment.LeftOffset = 0;
+            UHits.Alignment.RightOffset = 0;
+            UHits.Alignment.TopOffset = 47;
+            UHits.Alignment.BottomOffset = 0;
+            UHits.Masked = true;
+            UHits.TextColor = 16777215;
+            session.EndRead(UHits);
+            UStatPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(UStatPnl);
+            UStatPnl.Name = "UStatPnl";
+            UStatPnl.Priority = 0;
+            UStatPnl.WinLeft = 117;
+            UStatPnl.WinTop = 28;
+            UStatPnl.WinWidth = 144;
+            UStatPnl.Masked = true;
+            UStatPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UStatPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+            UStatPnl.Alignment.HeightPercent = (byte)(0);
+            UStatPnl.Alignment.WidthPercent = (byte)(0);
+            UStatPnl.Alignment.LeftOffPercent = 0;
+            UStatPnl.Alignment.RightOffPercent = 0;
+            UStatPnl.Alignment.TopOffPercent = 0;
+            UStatPnl.Alignment.BottomOffPercent = 0;
+            UStatPnl.Alignment.LeftOffset = 1;
+            UStatPnl.Alignment.RightOffset = 0;
+            UStatPnl.Alignment.TopOffset = 45;
+            UStatPnl.Alignment.BottomOffset = 0;
+            UStatPnl.WinHeight = 86;
+            UStatPnl.ILIndexFrame = 113;
+            UStatPnl.ILIndexTexture = 17;
+            UStatPnl.OwnerItem = 0;
+            UStatPnl.MinWidth = 0;
+            UStatPnl.MinHeight = 0;
+            session.EndRead(UStatPnl);
+            UStatP1 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(UStatP1);
+            UStatP1.Name = "UStatP1";
+            UStatP1.Priority = 0;
+            UStatP1.WinLeft = 28;
+            UStatP1.WinTop = 0;
+            UStatP1.WinWidth = 44;
+            UStatP1.Masked = true;
+            UStatP1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            UStatP1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            UStatP1.Alignment.HeightPercent = (byte)(0);
+            UStatP1.Alignment.WidthPercent = (byte)(0);
+            UStatP1.Alignment.LeftOffPercent = 0;
+            UStatP1.Alignment.RightOffPercent = 50;
+            UStatP1.Alignment.TopOffPercent = 0;
+            UStatP1.Alignment.BottomOffPercent = 0;
+            UStatP1.Alignment.LeftOffset = 28;
+            UStatP1.Alignment.RightOffset = 0;
+            UStatP1.Alignment.TopOffset = 0;
+            UStatP1.Alignment.BottomOffset = 0;
+            UStatP1.WinHeight = 86;
+            UStatP1.ILIndexFrame = 0;
+            UStatP1.ILIndexTexture = 0;
+            UStatP1.OwnerItem = 0;
+            UStatP1.MinWidth = 0;
+            UStatP1.MinHeight = 0;
+            session.EndRead(UStatP1);
+            UStatP2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(UStatP2);
+            UStatP2.Name = "UStatP2";
+            UStatP2.Priority = 0;
+            UStatP2.WinLeft = 93;
+            UStatP2.WinTop = 0;
+            UStatP2.WinWidth = 51;
+            UStatP2.Masked = true;
+            UStatP2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            UStatP2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            UStatP2.Alignment.HeightPercent = (byte)(0);
+            UStatP2.Alignment.WidthPercent = (byte)(0);
+            UStatP2.Alignment.LeftOffPercent = 65;
+            UStatP2.Alignment.RightOffPercent = 0;
+            UStatP2.Alignment.TopOffPercent = 0;
+            UStatP2.Alignment.BottomOffPercent = 0;
+            UStatP2.Alignment.LeftOffset = 0;
+            UStatP2.Alignment.RightOffset = 0;
+            UStatP2.Alignment.TopOffset = 0;
+            UStatP2.Alignment.BottomOffset = 0;
+            UStatP2.WinHeight = 86;
+            UStatP2.ILIndexFrame = 0;
+            UStatP2.ILIndexTexture = 0;
+            UStatP2.OwnerItem = 0;
+            UStatP2.MinWidth = 0;
+            UStatP2.MinHeight = 0;
+            session.EndRead(UStatP2);
+            UnitFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(UnitFr);
+            UnitFr.Name = "UnitFr";
+            UnitFr.Priority = 0;
+            UnitFr.WinLeft = 1;
+            UnitFr.WinTop = 7;
+            UnitFr.WinWidth = 50;
+            UnitFr.Masked = false;
+            UnitFr.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UnitFr.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UnitFr.Alignment.HeightPercent = (byte)(0);
+            UnitFr.Alignment.WidthPercent = (byte)(0);
+            UnitFr.Alignment.LeftOffPercent = 0;
+            UnitFr.Alignment.RightOffPercent = 0;
+            UnitFr.Alignment.TopOffPercent = 0;
+            UnitFr.Alignment.BottomOffPercent = 0;
+            UnitFr.Alignment.LeftOffset = 1;
+            UnitFr.Alignment.RightOffset = 0;
+            UnitFr.Alignment.TopOffset = 7;
+            UnitFr.Alignment.BottomOffset = 0;
+            UnitFr.WinHeight = 47;
+            UnitFr.ILIndexFrame = 113;
+            UnitFr.ILIndexTexture = 17;
+            UnitFr.OwnerItem = 0;
+            UnitFr.MinWidth = 0;
+            UnitFr.MinHeight = 0;
+            session.EndRead(UnitFr);
+            Level = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(Level);
+            Level.Name = "Level";
+            Level.Priority = 1000000;
+            Level.WinLeft = 59;
+            Level.WinTop = 18;
+            Level.CaptureInput = true;
+            Level.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            Level.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Level.Alignment.HeightPercent = (byte)(0);
+            Level.Alignment.WidthPercent = (byte)(0);
+            Level.Alignment.LeftOffPercent = 0;
+            Level.Alignment.RightOffPercent = 0;
+            Level.Alignment.TopOffPercent = 0;
+            Level.Alignment.BottomOffPercent = 0;
+            Level.Alignment.LeftOffset = 7;
+            Level.Alignment.RightOffset = 7;
+            Level.Alignment.TopOffset = 18;
+            Level.Alignment.BottomOffset = 0;
+            Level.Masked = true;
+            Level.TextColor = 1514524;
+            session.EndRead(Level);
+            UnitLine1 = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UnitLine1);
+            UnitLine1.Name = "UnitLine1";
+            UnitLine1.Priority = 1000;
+            UnitLine1.WinLeft = 118;
+            UnitLine1.WinTop = 0;
+            UnitLine1.CaptureInput = true;
+            UnitLine1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UnitLine1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UnitLine1.Alignment.HeightPercent = (byte)(0);
+            UnitLine1.Alignment.WidthPercent = (byte)(0);
+            UnitLine1.Alignment.LeftOffPercent = 0;
+            UnitLine1.Alignment.RightOffPercent = 0;
+            UnitLine1.Alignment.TopOffPercent = 0;
+            UnitLine1.Alignment.BottomOffPercent = 0;
+            UnitLine1.Alignment.LeftOffset = 11;
+            UnitLine1.Alignment.RightOffset = 0;
+            UnitLine1.Alignment.TopOffset = 0;
+            UnitLine1.Alignment.BottomOffset = 11;
+            UnitLine1.Masked = false;
+            UnitLine1.AnimStart = 0;
+            UnitLine1.CurrentImage = 1;
+            UnitLine1.AnimEnd = 12;
+            UnitLine1.WinWidth = 142;
+            UnitLine1.WinHeight = 27;
+            UnitLine1.Animate = false;
+            UnitLine1.AnimFrameDelay = 0;
+            session.EndRead(UnitLine1);
+            UnitLine2 = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UnitLine2);
+            UnitLine2.Name = "UnitLine2";
+            UnitLine2.Priority = 1000;
+            UnitLine2.WinLeft = 118;
+            UnitLine2.WinTop = 116;
+            UnitLine2.CaptureInput = true;
+            UnitLine2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UnitLine2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            UnitLine2.Alignment.HeightPercent = (byte)(0);
+            UnitLine2.Alignment.WidthPercent = (byte)(0);
+            UnitLine2.Alignment.LeftOffPercent = 0;
+            UnitLine2.Alignment.RightOffPercent = 0;
+            UnitLine2.Alignment.TopOffPercent = 0;
+            UnitLine2.Alignment.BottomOffPercent = 0;
+            UnitLine2.Alignment.LeftOffset = 11;
+            UnitLine2.Alignment.RightOffset = 0;
+            UnitLine2.Alignment.TopOffset = 0;
+            UnitLine2.Alignment.BottomOffset = 0;
+            UnitLine2.Masked = false;
+            UnitLine2.AnimStart = 0;
+            UnitLine2.CurrentImage = 1;
+            UnitLine2.AnimEnd = 12;
+            UnitLine2.WinWidth = 142;
+            UnitLine2.WinHeight = 27;
+            UnitLine2.Animate = false;
+            UnitLine2.AnimFrameDelay = 0;
+            session.EndRead(UnitLine2);
+            FrLSh = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(FrLSh);
+            FrLSh.Name = "FrLSh";
+            FrLSh.OnPreDraw = FrLShPreDraw;
+            FrLSh.Priority = 100;
+            FrLSh.WinLeft = 1;
+            FrLSh.WinTop = 0;
+            FrLSh.CaptureInput = true;
+            FrLSh.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            FrLSh.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            FrLSh.Alignment.HeightPercent = (byte)(0);
+            FrLSh.Alignment.WidthPercent = (byte)(0);
+            FrLSh.Alignment.LeftOffPercent = 0;
+            FrLSh.Alignment.RightOffPercent = 0;
+            FrLSh.Alignment.TopOffPercent = 0;
+            FrLSh.Alignment.BottomOffPercent = 0;
+            FrLSh.Alignment.LeftOffset = 1;
+            FrLSh.Alignment.RightOffset = 0;
+            FrLSh.Alignment.TopOffset = 0;
+            FrLSh.Alignment.BottomOffset = 0;
+            FrLSh.Masked = true;
+            FrLSh.AnimStart = 0;
+            FrLSh.CurrentImage = 46;
+            FrLSh.AnimEnd = 6;
+            FrLSh.WinWidth = 118;
+            FrLSh.WinHeight = 143;
+            FrLSh.Animate = false;
+            FrLSh.AnimFrameDelay = 0;
+            session.EndRead(FrLSh);
+            FrRSh = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(FrRSh);
+            FrRSh.Name = "FrRSh";
+            FrRSh.OnPreDraw = FrRShPreDraw;
+            FrRSh.Priority = 100;
+            FrRSh.WinLeft = 260;
+            FrRSh.WinTop = 0;
+            FrRSh.CaptureInput = true;
+            FrRSh.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            FrRSh.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            FrRSh.Alignment.HeightPercent = (byte)(0);
+            FrRSh.Alignment.WidthPercent = (byte)(0);
+            FrRSh.Alignment.LeftOffPercent = 0;
+            FrRSh.Alignment.RightOffPercent = 0;
+            FrRSh.Alignment.TopOffPercent = 0;
+            FrRSh.Alignment.BottomOffPercent = 0;
+            FrRSh.Alignment.LeftOffset = 0;
+            FrRSh.Alignment.RightOffset = 0;
+            FrRSh.Alignment.TopOffset = 0;
+            FrRSh.Alignment.BottomOffset = 0;
+            FrRSh.Masked = true;
+            FrRSh.AnimStart = 0;
+            FrRSh.CurrentImage = 46;
+            FrRSh.AnimEnd = 6;
+            FrRSh.WinWidth = 118;
+            FrRSh.WinHeight = 143;
+            FrRSh.Animate = false;
+            FrRSh.AnimFrameDelay = 0;
+            session.EndRead(FrRSh);
+            RightFramePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(RightFramePnl);
+            RightFramePnl.Name = "RightFramePnl";
+            RightFramePnl.Priority = 0;
+            RightFramePnl.WinLeft = 260;
+            RightFramePnl.WinTop = 0;
+            RightFramePnl.WinWidth = 118;
+            RightFramePnl.Masked = true;
+            RightFramePnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            RightFramePnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            RightFramePnl.Alignment.HeightPercent = (byte)(0);
+            RightFramePnl.Alignment.WidthPercent = (byte)(0);
+            RightFramePnl.Alignment.LeftOffPercent = 0;
+            RightFramePnl.Alignment.RightOffPercent = 0;
+            RightFramePnl.Alignment.TopOffPercent = 0;
+            RightFramePnl.Alignment.BottomOffPercent = 0;
+            RightFramePnl.Alignment.LeftOffset = 1;
+            RightFramePnl.Alignment.RightOffset = 0;
+            RightFramePnl.Alignment.TopOffset = 50;
+            RightFramePnl.Alignment.BottomOffset = 0;
+            RightFramePnl.WinHeight = 143;
+            RightFramePnl.ILIndexFrame = 113;
+            RightFramePnl.ILIndexTexture = 7;
+            RightFramePnl.OwnerItem = 0;
+            RightFramePnl.MinWidth = 0;
+            RightFramePnl.MinHeight = 0;
+            session.EndRead(RightFramePnl);
+            MoraleLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(MoraleLbl);
+            MoraleLbl.Name = "MoraleLbl";
+            MoraleLbl.Priority = 1500;
+            MoraleLbl.WinLeft = 189;
+            MoraleLbl.WinTop = 136;
+            MoraleLbl.LayoutToolTipText = new LayoutStrings()
+            {
+                "Morale modifiers: High [-], Good[-], Okay [-], Poor [Def-1/Res-1], Terrible [Def-2/Res-2]"
+            };
+            MoraleLbl.CaptureInput = true;
+            MoraleLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            MoraleLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            MoraleLbl.Alignment.HeightPercent = (byte)(0);
+            MoraleLbl.Alignment.WidthPercent = (byte)(0);
+            MoraleLbl.Alignment.LeftOffPercent = 0;
+            MoraleLbl.Alignment.RightOffPercent = 0;
+            MoraleLbl.Alignment.TopOffPercent = 0;
+            MoraleLbl.Alignment.BottomOffPercent = 0;
+            MoraleLbl.Alignment.LeftOffset = 130;
+            MoraleLbl.Alignment.RightOffset = 0;
+            MoraleLbl.Alignment.TopOffset = 8;
+            MoraleLbl.Alignment.BottomOffset = 7;
+            MoraleLbl.Masked = true;
+            MoraleLbl.TextColor = 13299411;
+            session.EndRead(MoraleLbl);
+            UpkeepIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(UpkeepIcon);
+            UpkeepIcon.Name = "UpkeepIcon";
+            UpkeepIcon.Priority = 0;
+            UpkeepIcon.WinLeft = 5;
+            UpkeepIcon.WinTop = 64;
+            UpkeepIcon.LayoutToolTipText = new LayoutStrings()
+            {
+                "Upkeep is the cost to maintain the unit, in Gold or Mana, per turn."
+            };
+            UpkeepIcon.CaptureInput = true;
+            UpkeepIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UpkeepIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UpkeepIcon.Alignment.HeightPercent = (byte)(0);
+            UpkeepIcon.Alignment.WidthPercent = (byte)(0);
+            UpkeepIcon.Alignment.LeftOffPercent = 0;
+            UpkeepIcon.Alignment.RightOffPercent = 0;
+            UpkeepIcon.Alignment.TopOffPercent = 0;
+            UpkeepIcon.Alignment.BottomOffPercent = 0;
+            UpkeepIcon.Alignment.LeftOffset = 5;
+            UpkeepIcon.Alignment.RightOffset = 0;
+            UpkeepIcon.Alignment.TopOffset = 64;
+            UpkeepIcon.Alignment.BottomOffset = 0;
+            UpkeepIcon.Masked = false;
+            UpkeepIcon.AnimStart = 0;
+            UpkeepIcon.CurrentImage = 51;
+            UpkeepIcon.AnimEnd = 6;
+            UpkeepIcon.WinWidth = 19;
+            UpkeepIcon.WinHeight = 21;
+            UpkeepIcon.Animate = false;
+            UpkeepIcon.AnimFrameDelay = 0;
+            session.EndRead(UpkeepIcon);
+            UpKeep = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UpKeep);
+            UpKeep.Name = "UpKeep";
+            UpKeep.Priority = 0;
+            UpKeep.WinLeft = 22;
+            UpKeep.WinTop = 68;
+            UpKeep.LayoutToolTipText = new LayoutStrings()
+            {
+                "Upkeep is the cost to maintain the unit, in Gold or Mana, per turn."
+            };
+            UpKeep.CaptureInput = true;
+            UpKeep.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            UpKeep.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UpKeep.Alignment.HeightPercent = (byte)(0);
+            UpKeep.Alignment.WidthPercent = (byte)(0);
+            UpKeep.Alignment.LeftOffPercent = 0;
+            UpKeep.Alignment.RightOffPercent = 57;
+            UpKeep.Alignment.TopOffPercent = 0;
+            UpKeep.Alignment.BottomOffPercent = 0;
+            UpKeep.Alignment.LeftOffset = 0;
+            UpKeep.Alignment.RightOffset = 0;
+            UpKeep.Alignment.TopOffset = 68;
+            UpKeep.Alignment.BottomOffset = 0;
+            UpKeep.Masked = true;
+            UpKeep.TextColor = 16777215;
+            session.EndRead(UpKeep);
+            BCeltL = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(BCeltL);
+            BCeltL.Name = "BCeltL";
+            BCeltL.Priority = 0;
+            BCeltL.WinLeft = 21;
+            BCeltL.WinTop = 380;
+            BCeltL.CaptureInput = true;
+            BCeltL.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            BCeltL.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            BCeltL.Alignment.HeightPercent = (byte)(0);
+            BCeltL.Alignment.WidthPercent = (byte)(0);
+            BCeltL.Alignment.LeftOffPercent = 0;
+            BCeltL.Alignment.RightOffPercent = 0;
+            BCeltL.Alignment.TopOffPercent = 0;
+            BCeltL.Alignment.BottomOffPercent = 0;
+            BCeltL.Alignment.LeftOffset = 21;
+            BCeltL.Alignment.RightOffset = 21;
+            BCeltL.Alignment.TopOffset = 0;
+            BCeltL.Alignment.BottomOffset = 10;
+            BCeltL.Masked = false;
+            BCeltL.WinWidth = 378;
+            BCeltL.WinHeight = 27;
+            BCeltL.FrameType = Aow.Units.AoWFrame.TFrameType.frHorizLine;
+            BCeltL.ILIndexFrame = 0;
+            BCeltL.ILIndexLine = 55;
+            BCeltL.ILIndexTexture = 0;
+            session.EndRead(BCeltL);
+            CeltLineL = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(CeltLineL);
+            CeltLineL.Name = "CeltLineL";
+            CeltLineL.Priority = 100;
+            CeltLineL.WinLeft = 27;
+            CeltLineL.WinTop = 380;
+            CeltLineL.CaptureInput = true;
+            CeltLineL.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            CeltLineL.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            CeltLineL.Alignment.HeightPercent = (byte)(0);
+            CeltLineL.Alignment.WidthPercent = (byte)(0);
+            CeltLineL.Alignment.LeftOffPercent = 0;
+            CeltLineL.Alignment.RightOffPercent = 0;
+            CeltLineL.Alignment.TopOffPercent = 0;
+            CeltLineL.Alignment.BottomOffPercent = 0;
+            CeltLineL.Alignment.LeftOffset = 27;
+            CeltLineL.Alignment.RightOffset = 27;
+            CeltLineL.Alignment.TopOffset = 0;
+            CeltLineL.Alignment.BottomOffset = 10;
+            CeltLineL.Masked = false;
+            CeltLineL.AnimStart = 0;
+            CeltLineL.CurrentImage = 3;
+            CeltLineL.AnimEnd = 12;
+            CeltLineL.WinWidth = 54;
+            CeltLineL.WinHeight = 27;
+            CeltLineL.Animate = false;
+            CeltLineL.AnimFrameDelay = 0;
+            session.EndRead(CeltLineL);
+            GroundL = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(GroundL);
+            GroundL.Name = "GroundL";
+            GroundL.Visible = false;
+            GroundL.Priority = 0;
+            GroundL.WinLeft = 65;
+            GroundL.WinTop = 170;
+            GroundL.LayoutToolTipText = new LayoutStrings()
+            {
+                "Displays help on this window"
+            };
+            GroundL.CaptureInput = true;
+            GroundL.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            GroundL.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            GroundL.Alignment.HeightPercent = (byte)(0);
+            GroundL.Alignment.WidthPercent = (byte)(0);
+            GroundL.Alignment.LeftOffPercent = 0;
+            GroundL.Alignment.RightOffPercent = 0;
+            GroundL.Alignment.TopOffPercent = 0;
+            GroundL.Alignment.BottomOffPercent = 0;
+            GroundL.Alignment.LeftOffset = 65;
+            GroundL.Alignment.RightOffset = 36;
+            GroundL.Alignment.TopOffset = 4;
+            GroundL.Alignment.BottomOffset = 17;
+            GroundL.Masked = false;
+            GroundL.BorderHeight = 0;
+            GroundL.BorderHeightSelected = 0;
+            GroundL.ILIndexDown = 33;
+            GroundL.ILIndexLit = 32;
+            GroundL.ILIndexUp = 32;
+            GroundL.TextColor = 0;
+            GroundL.TextSelColor = 0;
+            GroundL.WinWidth = 13;
+            GroundL.OnClick = GroundLClick;
+            session.EndRead(GroundL);
+            GroundR = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(GroundR);
+            GroundR.Name = "GroundR";
+            GroundR.Visible = false;
+            GroundR.Priority = 0;
+            GroundR.WinLeft = 300;
+            GroundR.WinTop = 170;
+            GroundR.LayoutToolTipText = new LayoutStrings()
+            {
+                "Displays help on this window"
+            };
+            GroundR.CaptureInput = true;
+            GroundR.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            GroundR.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            GroundR.Alignment.HeightPercent = (byte)(0);
+            GroundR.Alignment.WidthPercent = (byte)(0);
+            GroundR.Alignment.LeftOffPercent = 0;
+            GroundR.Alignment.RightOffPercent = 0;
+            GroundR.Alignment.TopOffPercent = 0;
+            GroundR.Alignment.BottomOffPercent = 0;
+            GroundR.Alignment.LeftOffset = 654;
+            GroundR.Alignment.RightOffset = 63;
+            GroundR.Alignment.TopOffset = 4;
+            GroundR.Alignment.BottomOffset = 17;
+            GroundR.Masked = false;
+            GroundR.BorderHeight = 0;
+            GroundR.BorderHeightSelected = 0;
+            GroundR.ILIndexDown = 35;
+            GroundR.ILIndexLit = 34;
+            GroundR.ILIndexUp = 34;
+            GroundR.TextColor = 0;
+            GroundR.TextSelColor = 0;
+            GroundR.WinWidth = 13;
+            GroundR.OnClick = GroundRClick;
+            session.EndRead(GroundR);
+            RelationIcn = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(RelationIcn);
+            RelationIcn.Name = "RelationIcn";
+            RelationIcn.Priority = 0;
+            RelationIcn.WinLeft = 32;
+            RelationIcn.WinTop = 10;
+            RelationIcn.CaptureInput = true;
+            RelationIcn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            RelationIcn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            RelationIcn.Alignment.HeightPercent = (byte)(0);
+            RelationIcn.Alignment.WidthPercent = (byte)(0);
+            RelationIcn.Alignment.LeftOffPercent = 0;
+            RelationIcn.Alignment.RightOffPercent = 0;
+            RelationIcn.Alignment.TopOffPercent = 0;
+            RelationIcn.Alignment.BottomOffPercent = 0;
+            RelationIcn.Alignment.LeftOffset = 0;
+            RelationIcn.Alignment.RightOffset = 0;
+            RelationIcn.Alignment.TopOffset = 10;
+            RelationIcn.Alignment.BottomOffset = 0;
+            RelationIcn.Masked = false;
+            RelationIcn.AnimStart = 0;
+            RelationIcn.CurrentImage = 11;
+            RelationIcn.AnimEnd = 37;
+            RelationIcn.WinWidth = 51;
+            RelationIcn.WinHeight = 36;
+            RelationIcn.Animate = false;
+            RelationIcn.AnimFrameDelay = 0;
+            session.EndRead(RelationIcn);
+            RelationV = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(RelationV);
+            RelationV.Name = "RelationV";
+            RelationV.Priority = 0;
+            RelationV.WinLeft = 57;
+            RelationV.WinTop = 80;
+            RelationV.CaptureInput = true;
+            RelationV.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            RelationV.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            RelationV.Alignment.HeightPercent = (byte)(0);
+            RelationV.Alignment.WidthPercent = (byte)(0);
+            RelationV.Alignment.LeftOffPercent = 0;
+            RelationV.Alignment.RightOffPercent = 0;
+            RelationV.Alignment.TopOffPercent = 0;
+            RelationV.Alignment.BottomOffPercent = 0;
+            RelationV.Alignment.LeftOffset = 10;
+            RelationV.Alignment.RightOffset = 0;
+            RelationV.Alignment.TopOffset = 45;
+            RelationV.Alignment.BottomOffset = 7;
+            RelationV.Masked = true;
+            RelationV.TextColor = 9415072;
+            session.EndRead(RelationV);
+            T2RelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(T2RelPnl);
+            T2RelPnl.Name = "T2RelPnl";
+            T2RelPnl.Priority = 10;
+            T2RelPnl.WinLeft = 256;
+            T2RelPnl.WinTop = 109;
+            T2RelPnl.WinWidth = 115;
+            T2RelPnl.Masked = true;
+            T2RelPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            T2RelPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            T2RelPnl.Alignment.HeightPercent = (byte)(0);
+            T2RelPnl.Alignment.WidthPercent = (byte)(0);
+            T2RelPnl.Alignment.LeftOffPercent = 0;
+            T2RelPnl.Alignment.RightOffPercent = 0;
+            T2RelPnl.Alignment.TopOffPercent = 0;
+            T2RelPnl.Alignment.BottomOffPercent = 0;
+            T2RelPnl.Alignment.LeftOffset = 5;
+            T2RelPnl.Alignment.RightOffset = 5;
+            T2RelPnl.Alignment.TopOffset = 10;
+            T2RelPnl.Alignment.BottomOffset = 5;
+            T2RelPnl.WinHeight = 87;
+            T2RelPnl.ILIndexFrame = 105;
+            T2RelPnl.ILIndexTexture = 17;
+            T2RelPnl.OwnerItem = 0;
+            T2RelPnl.MinWidth = 0;
+            T2RelPnl.MinHeight = 0;
+            session.EndRead(T2RelPnl);
+            RelFr = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(RelFr);
+            RelFr.Name = "RelFr";
+            RelFr.Priority = 0;
+            RelFr.WinLeft = 1;
+            RelFr.WinTop = 0;
+            RelFr.CaptureInput = true;
+            RelFr.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            RelFr.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            RelFr.Alignment.HeightPercent = (byte)(0);
+            RelFr.Alignment.WidthPercent = (byte)(0);
+            RelFr.Alignment.LeftOffPercent = 0;
+            RelFr.Alignment.RightOffPercent = 0;
+            RelFr.Alignment.TopOffPercent = 0;
+            RelFr.Alignment.BottomOffPercent = 0;
+            RelFr.Alignment.LeftOffset = 1;
+            RelFr.Alignment.RightOffset = 0;
+            RelFr.Alignment.TopOffset = 0;
+            RelFr.Alignment.BottomOffset = 1;
+            RelFr.Masked = false;
+            RelFr.WinWidth = 114;
+            RelFr.WinHeight = 86;
+            RelFr.FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox;
+            RelFr.ILIndexFrame = 113;
+            RelFr.ILIndexLine = 0;
+            RelFr.ILIndexTexture = 0;
+            session.EndRead(RelFr);
+            RelRing = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(RelRing);
+            RelRing.Name = "RelRing";
+            RelRing.Priority = 0;
+            RelRing.WinLeft = 37;
+            RelRing.WinTop = 10;
+            RelRing.CaptureInput = true;
+            RelRing.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            RelRing.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            RelRing.Alignment.HeightPercent = (byte)(0);
+            RelRing.Alignment.WidthPercent = (byte)(0);
+            RelRing.Alignment.LeftOffPercent = 0;
+            RelRing.Alignment.RightOffPercent = 0;
+            RelRing.Alignment.TopOffPercent = 0;
+            RelRing.Alignment.BottomOffPercent = 0;
+            RelRing.Alignment.LeftOffset = 37;
+            RelRing.Alignment.RightOffset = 0;
+            RelRing.Alignment.TopOffset = 10;
+            RelRing.Alignment.BottomOffset = 0;
+            RelRing.Masked = false;
+            RelRing.AnimStart = 0;
+            RelRing.CurrentImage = 20;
+            RelRing.AnimEnd = 37;
+            RelRing.WinWidth = 39;
+            RelRing.WinHeight = 36;
+            RelRing.Animate = false;
+            RelRing.AnimFrameDelay = 0;
+            session.EndRead(RelRing);
+            RelationLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(RelationLbl);
+            RelationLbl.Name = "RelationLbl";
+            RelationLbl.Priority = 0;
+            RelationLbl.WinLeft = 27;
+            RelationLbl.WinTop = 56;
+            RelationLbl.CaptureInput = true;
+            RelationLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            RelationLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            RelationLbl.Alignment.HeightPercent = (byte)(0);
+            RelationLbl.Alignment.WidthPercent = (byte)(0);
+            RelationLbl.Alignment.LeftOffPercent = 0;
+            RelationLbl.Alignment.RightOffPercent = 0;
+            RelationLbl.Alignment.TopOffPercent = 0;
+            RelationLbl.Alignment.BottomOffPercent = 0;
+            RelationLbl.Alignment.LeftOffset = 10;
+            RelationLbl.Alignment.RightOffset = 0;
+            RelationLbl.Alignment.TopOffset = 30;
+            RelationLbl.Alignment.BottomOffset = 20;
+            RelationLbl.Masked = true;
+            RelationLbl.Text = "Race Relation";
+            RelationLbl.TextColor = 9415072;
+            session.EndRead(RelationLbl);
+            AlignLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(AlignLbl);
+            AlignLbl.Name = "AlignLbl";
+            AlignLbl.Priority = 0;
+            AlignLbl.WinLeft = 42;
+            AlignLbl.WinTop = 56;
+            AlignLbl.CaptureInput = true;
+            AlignLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            AlignLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            AlignLbl.Alignment.HeightPercent = (byte)(0);
+            AlignLbl.Alignment.WidthPercent = (byte)(0);
+            AlignLbl.Alignment.LeftOffPercent = 0;
+            AlignLbl.Alignment.RightOffPercent = 0;
+            AlignLbl.Alignment.TopOffPercent = 0;
+            AlignLbl.Alignment.BottomOffPercent = 0;
+            AlignLbl.Alignment.LeftOffset = 10;
+            AlignLbl.Alignment.RightOffset = 0;
+            AlignLbl.Alignment.TopOffset = 45;
+            AlignLbl.Alignment.BottomOffset = 20;
+            AlignLbl.Masked = true;
+            AlignLbl.Text = "Alignment";
+            AlignLbl.TextColor = 9415072;
+            session.EndRead(AlignLbl);
+            TypeLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(TypeLbl);
+            TypeLbl.Name = "TypeLbl";
+            TypeLbl.Priority = 0;
+            TypeLbl.WinLeft = 48;
+            TypeLbl.WinTop = 56;
+            TypeLbl.CaptureInput = true;
+            TypeLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            TypeLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            TypeLbl.Alignment.HeightPercent = (byte)(0);
+            TypeLbl.Alignment.WidthPercent = (byte)(0);
+            TypeLbl.Alignment.LeftOffPercent = 0;
+            TypeLbl.Alignment.RightOffPercent = 0;
+            TypeLbl.Alignment.TopOffPercent = 0;
+            TypeLbl.Alignment.BottomOffPercent = 0;
+            TypeLbl.Alignment.LeftOffset = 10;
+            TypeLbl.Alignment.RightOffset = 0;
+            TypeLbl.Alignment.TopOffset = 45;
+            TypeLbl.Alignment.BottomOffset = 20;
+            TypeLbl.Masked = true;
+            TypeLbl.Text = "Type";
+            TypeLbl.TextColor = 9415072;
+            session.EndRead(TypeLbl);
+            XP = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(XP);
+            XP.Name = "XP";
+            XP.Priority = 1000000;
+            XP.WinLeft = 59;
+            XP.WinTop = 30;
+            XP.LayoutToolTipText = new LayoutStrings()
+            {
+                "Indicates combat experience needed for next level."
+            };
+            XP.CaptureInput = true;
+            XP.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            XP.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            XP.Alignment.HeightPercent = (byte)(0);
+            XP.Alignment.WidthPercent = (byte)(0);
+            XP.Alignment.LeftOffPercent = 0;
+            XP.Alignment.RightOffPercent = 0;
+            XP.Alignment.TopOffPercent = 0;
+            XP.Alignment.BottomOffPercent = 0;
+            XP.Alignment.LeftOffset = 7;
+            XP.Alignment.RightOffset = 7;
+            XP.Alignment.TopOffset = 30;
+            XP.Alignment.BottomOffset = 0;
+            XP.Masked = true;
+            XP.TextColor = 1514524;
+            session.EndRead(XP);
+            PNext = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(PNext);
+            PNext.Name = "PNext";
+            PNext.Priority = 50000;
+            PNext.WinLeft = 331;
+            PNext.WinTop = 109;
+            PNext.LayoutToolTipText = new LayoutStrings()
+            {
+                "Selects the next unit in the party."
+            };
+            PNext.CaptureInput = true;
+            PNext.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            PNext.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            PNext.Alignment.HeightPercent = (byte)(0);
+            PNext.Alignment.WidthPercent = (byte)(0);
+            PNext.Alignment.LeftOffPercent = 85;
+            PNext.Alignment.RightOffPercent = 0;
+            PNext.Alignment.TopOffPercent = 0;
+            PNext.Alignment.BottomOffPercent = 0;
+            PNext.Alignment.LeftOffset = 0;
+            PNext.Alignment.RightOffset = 35;
+            PNext.Alignment.TopOffset = 0;
+            PNext.Alignment.BottomOffset = 25;
+            PNext.Masked = true;
+            PNext.BorderHeight = 5;
+            PNext.BorderHeightSelected = 5;
+            PNext.ILIndexDown = 26;
+            PNext.ILIndexLit = 25;
+            PNext.ILIndexUp = 25;
+            PNext.TextColor = 0;
+            PNext.TextSelColor = 16777215;
+            PNext.WinWidth = 12;
+            PNext.OnClick = Layout_PNextClick_5;
+            session.EndRead(PNext);
+            PPrev = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(PPrev);
+            PPrev.Name = "PPrev";
+            PPrev.Priority = 50000;
+            PPrev.WinLeft = 296;
+            PPrev.WinTop = 109;
+            PPrev.LayoutToolTipText = new LayoutStrings()
+            {
+                "Selects the previous unit in the party."
+            };
+            PPrev.CaptureInput = true;
+            PPrev.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            PPrev.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            PPrev.Alignment.HeightPercent = (byte)(0);
+            PPrev.Alignment.WidthPercent = (byte)(0);
+            PPrev.Alignment.LeftOffPercent = 0;
+            PPrev.Alignment.RightOffPercent = 0;
+            PPrev.Alignment.TopOffPercent = 0;
+            PPrev.Alignment.BottomOffPercent = 0;
+            PPrev.Alignment.LeftOffset = 1;
+            PPrev.Alignment.RightOffset = 70;
+            PPrev.Alignment.TopOffset = 0;
+            PPrev.Alignment.BottomOffset = 25;
+            PPrev.Masked = true;
+            PPrev.BorderHeight = 5;
+            PPrev.BorderHeightSelected = 5;
+            PPrev.ILIndexDown = 24;
+            PPrev.ILIndexLit = 23;
+            PPrev.ILIndexUp = 23;
+            PPrev.TextColor = 0;
+            PPrev.TextSelColor = 16777215;
+            PPrev.WinWidth = 12;
+            PPrev.OnClick = Layout_PPrevClick_6;
+            session.EndRead(PPrev);
+            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            Translator = created__Translator;
+            session.BeginRead(created__Translator);
+            created__Translator.Name = "Translator";
+            created__Translator.DictionaryName = "AoW";
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+            session.EndRead(created__Translator);
+            session.EndRead(this);
             UnitFrameLeft.AOWWindow = UnitMainPnl;
             UnitTab.AOWWindow = UnitWin;
             Close.AOWWindow = UnitWin;

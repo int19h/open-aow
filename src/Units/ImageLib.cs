@@ -2463,6 +2463,9 @@ namespace Aow.Units.ImageLib
     // { ImageLib.TImageLibrary (instance size 80): the image library component }
     public partial class TImageLibrary : Aow.Units.ImageLib.TCustomImageLibrary
     {
+        // Raw construction serves the THSLibrary and TInterfaceIL legacy descendants.
+        protected TImageLibrary() { }
+
         private protected TImageLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
 
         public static new TImageLibrary Create(Aow.Rtl.TComponent AOwner) =>

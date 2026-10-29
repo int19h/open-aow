@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AoWTitleScene
 {
-    public partial class TTitleScene
+    public partial class TTitleScene : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,223 +17,198 @@ namespace Aow.Units.AoWTitleScene
         {
             session.Begin(this);
             Name = "TitleScene";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
             LayoutOnCreate = Layout_TitleSceneCreate_0;
             LayoutOnDestroy = Layout_TitleSceneDestroy_1;
-            var created__TitleSceneIL = Aow.Units.ImageLib.TImageLibrary.CreateForLayout(this);
-            created__TitleSceneIL.Name = "TitleSceneIL";
-            created__TitleSceneIL.LoadOnDemand = true;
-            created__TitleSceneIL.FileName = "Int\\Scenes\\Title.ILB";
-            TitleSceneIL = created__TitleSceneIL;
-            LayoutSession.EndRead(TitleSceneIL);
-            Window = new Aow.Units.AowUserWindow.TAoWUserWindow(this)
+            TitleSceneIL = Aow.Units.ImageLib.TImageLibrary.Create(this);
+            session.BeginRead(TitleSceneIL);
+            TitleSceneIL.Name = "TitleSceneIL";
+            TitleSceneIL.LoadOnDemand = true;
+            TitleSceneIL.FileName = "Int\\Scenes\\Title.ILB";
+            session.EndRead(TitleSceneIL);
+            Window = new Aow.Units.AowUserWindow.TAoWUserWindow(this);
+            session.BeginRead(Window);
+            Window.Name = "Window";
+            Window.OnMouseDown = WindowMouseDown;
+            Window.OnMouseUp = WindowMouseUp;
+            Window.OnMouseMove = WindowMouseMove;
+            Window.OnUpdate = Layout_WindowUpdate_2;
+            Window.Visible = false;
+            Window.Priority = 0;
+            Window.WinLeft = 0;
+            Window.WinTop = 0;
+            Window.WinWidth = 640;
+            Window.Masked = false;
+            Window.OnHide = Layout_WindowHide_3;
+            Window.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            Window.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            Window.Alignment.HeightPercent = (byte)(0);
+            Window.Alignment.WidthPercent = (byte)(0);
+            Window.Alignment.LeftOffPercent = 0;
+            Window.Alignment.RightOffPercent = 0;
+            Window.Alignment.TopOffPercent = 0;
+            Window.Alignment.BottomOffPercent = 0;
+            Window.Alignment.LeftOffset = 0;
+            Window.Alignment.RightOffset = 0;
+            Window.Alignment.TopOffset = 0;
+            Window.Alignment.BottomOffset = 0;
+            Window.UseVMem = false;
+            Window.BorderWidth = 0;
+            Window.BorderHeight = 0;
+            Window.OverlapTopCorners = false;
+            Window.Cursor = 0;
+            Window.DoubleBuffered = false;
+            Window.MaskColor = 0;
+            Window.FreeSurfaceOnHide = false;
+            Window.ILIndexFrame = 0;
+            Window.ILIndexTexture = 0;
+            Window.DragHeight = 0;
+            Window.Draggable = false;
+            Window.Resizable = false;
+            Window.MinWidth = 0;
+            Window.MinHeight = 0;
+            Window.MaxWidth = 0;
+            Window.MaxHeight = 0;
+            Window.UseManagerBorders = false;
+            Window.Modal = false;
+            Window.WinHeight = 480;
+            Window.Dockable = false;
+            Window.OnDrawSurfaceEx = WindowDrawSurfaceEx;
+            session.EndRead(Window);
+            LegalNotice = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            session.BeginRead(LegalNotice);
+            LegalNotice.Name = "LegalNotice";
+            LegalNotice.Priority = 0;
+            LegalNotice.WinLeft = 0;
+            LegalNotice.WinTop = 268;
+            LegalNotice.CaptureInput = true;
+            LegalNotice.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            LegalNotice.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            LegalNotice.Alignment.HeightPercent = (byte)(0);
+            LegalNotice.Alignment.WidthPercent = (byte)(0);
+            LegalNotice.Alignment.LeftOffPercent = 0;
+            LegalNotice.Alignment.RightOffPercent = 0;
+            LegalNotice.Alignment.TopOffPercent = 56;
+            LegalNotice.Alignment.BottomOffPercent = 0;
+            LegalNotice.Alignment.LeftOffset = 0;
+            LegalNotice.Alignment.RightOffset = 0;
+            LegalNotice.Alignment.TopOffset = 0;
+            LegalNotice.Alignment.BottomOffset = 0;
+            LegalNotice.Masked = true;
+            LegalNotice.WinWidth = 640;
+            LegalNotice.WinHeight = 120;
+            LegalNotice.LayoutItems = new LayoutStrings()
             {
-                Name = "Window",
-                OnMouseDown = WindowMouseDown,
-                OnMouseUp = WindowMouseUp,
-                OnMouseMove = WindowMouseMove,
-                OnUpdate = Layout_WindowUpdate_2,
-                Visible = false,
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 640,
-                Masked = false,
-                OnHide = Layout_WindowHide_3,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = false,
-                BorderWidth = 0,
-                BorderHeight = 0,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = false,
-                MaskColor = 0,
-                FreeSurfaceOnHide = false,
-                ILIndexFrame = 0,
-                ILIndexTexture = 0,
-                DragHeight = 0,
-                Draggable = false,
-                Resizable = false,
-                MinWidth = 0,
-                MinHeight = 0,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = false,
-                Modal = false,
-                WinHeight = 480,
-                Dockable = false,
-                OnDrawSurfaceEx = WindowDrawSurfaceEx
+                "Age of Wonders(TM)  Triumph Studios and Epic Games, Inc.",
+                "All Rights Reserved",
+                "Copyright (c) 1996, 1997, 1998, 1999, Triumph Studios and Epic Games, Inc.",
+                "CONFIDENTIAL AND PROPRIETARY INFORMATION",
+                "DO NOT DISTRIBUTE"
             };
-            LayoutSession.EndRead(Window);
-            LegalNotice = new Aow.Units.AoWMemo.TAOWMemo(this)
-            {
-                Name = "LegalNotice",
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 268,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 56,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                WinWidth = 640,
-                WinHeight = 120,
-                LayoutItems = new LayoutStrings()
-                {
-                    "Age of Wonders(TM)  Triumph Studios and Epic Games, Inc.",
-                    "All Rights Reserved",
-                    "Copyright (c) 1996, 1997, 1998, 1999, Triumph Studios and Epic Games, Inc.",
-                    "CONFIDENTIAL AND PROPRIETARY INFORMATION",
-                    "DO NOT DISTRIBUTE"
-                },
-                BorderWidth = 0,
-                BorderHeight = 0,
-                TextColor = 255,
-                CursorChar = (byte)124,
-                BlinkDelay = (byte)(0),
-                Editable = false,
-                ILIndexFrame = 0,
-                ILIndexTexture = 0,
-                ItemHeight = 13,
-                ColorChangeChar = (byte)0,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter
-            };
-            LayoutSession.EndRead(LegalNotice);
-            StrLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "StrLbl",
-                Priority = 100,
-                WinLeft = 145,
-                WinTop = 220,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 46,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "This special demo version of Age of Wonders has been internally marked for:",
-                TextColor = 255
-            };
-            LayoutSession.EndRead(StrLbl);
-            NameLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "NameLbl",
-                Priority = 100,
-                WinLeft = 293,
-                WinTop = 235,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 49,
-                    BottomOffPercent = 0,
-                    LeftOffset = 130,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "######",
-                TextColor = 255
-            };
-            LayoutSession.EndRead(NameLbl);
-            Copyright = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "Copyright",
-                Priority = 0,
-                WinLeft = 10,
-                WinTop = 458,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 2,
-                    BottomOffPercent = 0,
-                    LeftOffset = 10,
-                    RightOffset = 0,
-                    TopOffset = 190,
-                    BottomOffset = 10
-                },
-                Masked = true,
-                Text = "Copyright (C) 1999 Epic MegaGames and Kolbitar Development",
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(Copyright);
-            Version = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "Version",
-                Priority = 0,
-                WinLeft = 582,
-                WinTop = 464,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 10,
-                    TopOffset = 0,
-                    BottomOffset = 3
-                },
-                Masked = true,
-                Text = "########",
-                TextColor = 8421504
-            };
-            LayoutSession.EndRead(Version);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            LegalNotice.BorderWidth = 0;
+            LegalNotice.BorderHeight = 0;
+            LegalNotice.TextColor = 255;
+            LegalNotice.CursorChar = (byte)124;
+            LegalNotice.BlinkDelay = (byte)(0);
+            LegalNotice.Editable = false;
+            LegalNotice.ILIndexFrame = 0;
+            LegalNotice.ILIndexTexture = 0;
+            LegalNotice.ItemHeight = 13;
+            LegalNotice.ColorChangeChar = (byte)0;
+            LegalNotice.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
+            session.EndRead(LegalNotice);
+            StrLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(StrLbl);
+            StrLbl.Name = "StrLbl";
+            StrLbl.Priority = 100;
+            StrLbl.WinLeft = 145;
+            StrLbl.WinTop = 220;
+            StrLbl.CaptureInput = true;
+            StrLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            StrLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            StrLbl.Alignment.HeightPercent = (byte)(0);
+            StrLbl.Alignment.WidthPercent = (byte)(0);
+            StrLbl.Alignment.LeftOffPercent = 0;
+            StrLbl.Alignment.RightOffPercent = 0;
+            StrLbl.Alignment.TopOffPercent = 46;
+            StrLbl.Alignment.BottomOffPercent = 0;
+            StrLbl.Alignment.LeftOffset = 0;
+            StrLbl.Alignment.RightOffset = 0;
+            StrLbl.Alignment.TopOffset = 0;
+            StrLbl.Alignment.BottomOffset = 0;
+            StrLbl.Masked = true;
+            StrLbl.Text = "This special demo version of Age of Wonders has been internally marked for:";
+            StrLbl.TextColor = 255;
+            session.EndRead(StrLbl);
+            NameLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(NameLbl);
+            NameLbl.Name = "NameLbl";
+            NameLbl.Priority = 100;
+            NameLbl.WinLeft = 293;
+            NameLbl.WinTop = 235;
+            NameLbl.CaptureInput = true;
+            NameLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            NameLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            NameLbl.Alignment.HeightPercent = (byte)(0);
+            NameLbl.Alignment.WidthPercent = (byte)(0);
+            NameLbl.Alignment.LeftOffPercent = 0;
+            NameLbl.Alignment.RightOffPercent = 0;
+            NameLbl.Alignment.TopOffPercent = 49;
+            NameLbl.Alignment.BottomOffPercent = 0;
+            NameLbl.Alignment.LeftOffset = 130;
+            NameLbl.Alignment.RightOffset = 0;
+            NameLbl.Alignment.TopOffset = 0;
+            NameLbl.Alignment.BottomOffset = 0;
+            NameLbl.Masked = true;
+            NameLbl.Text = "######";
+            NameLbl.TextColor = 255;
+            session.EndRead(NameLbl);
+            Copyright = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(Copyright);
+            Copyright.Name = "Copyright";
+            Copyright.Priority = 0;
+            Copyright.WinLeft = 10;
+            Copyright.WinTop = 458;
+            Copyright.CaptureInput = true;
+            Copyright.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Copyright.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            Copyright.Alignment.HeightPercent = (byte)(0);
+            Copyright.Alignment.WidthPercent = (byte)(0);
+            Copyright.Alignment.LeftOffPercent = 0;
+            Copyright.Alignment.RightOffPercent = 0;
+            Copyright.Alignment.TopOffPercent = 2;
+            Copyright.Alignment.BottomOffPercent = 0;
+            Copyright.Alignment.LeftOffset = 10;
+            Copyright.Alignment.RightOffset = 0;
+            Copyright.Alignment.TopOffset = 190;
+            Copyright.Alignment.BottomOffset = 10;
+            Copyright.Masked = true;
+            Copyright.Text = "Copyright (C) 1999 Epic MegaGames and Kolbitar Development";
+            Copyright.TextColor = 16777215;
+            session.EndRead(Copyright);
+            Version = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(Version);
+            Version.Name = "Version";
+            Version.Priority = 0;
+            Version.WinLeft = 582;
+            Version.WinTop = 464;
+            Version.CaptureInput = true;
+            Version.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Version.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            Version.Alignment.HeightPercent = (byte)(0);
+            Version.Alignment.WidthPercent = (byte)(0);
+            Version.Alignment.LeftOffPercent = 0;
+            Version.Alignment.RightOffPercent = 0;
+            Version.Alignment.TopOffPercent = 0;
+            Version.Alignment.BottomOffPercent = 0;
+            Version.Alignment.LeftOffset = 0;
+            Version.Alignment.RightOffset = 10;
+            Version.Alignment.TopOffset = 0;
+            Version.Alignment.BottomOffset = 3;
+            Version.Masked = true;
+            Version.Text = "########";
+            Version.TextColor = 8421504;
+            session.EndRead(Version);
+            session.EndRead(this);
             LegalNotice.AOWWindow = Window;
             StrLbl.AOWWindow = Window;
             NameLbl.AOWWindow = Window;

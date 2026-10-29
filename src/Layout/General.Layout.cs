@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AoWWinMan
 {
-    public partial class TGeneral
+    public partial class TGeneral : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,73 +17,67 @@ namespace Aow.Units.AoWWinMan
         {
             session.Begin(this);
             Name = "General";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
             LayoutOnCreate = Layout_GeneralCreate_0;
             LayoutOnDestroy = Layout_GeneralDestroy_1;
-            Manager = new Aow.Units.AOWWinManager.TAOWWinManager(this)
-            {
-                Name = "Manager",
-                OnKeyDown = ManagerKeyDown,
-                OnUpdate = Layout_ManagerUpdate_2,
-                OnDebugMessage = ManagerDebugMessage,
-                Cursor = 0,
-                OnChangeCursor = Layout_ManagerChangeCursor_3,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 640,
-                WinHeight = 480,
-                ILIndexTBack = 0,
-                ILIndexTFore = 1,
-                OverlayPriority = 0,
-                BorderLeft = 0,
-                BorderRight = 0,
-                BorderTop = 0,
-                BorderBottom = 48,
-                DrawOverlay = true
-            };
-            LayoutSession.EndRead(Manager);
-            ToolTip = new Aow.Units.AOWToolTip.TAOWToolTip(this)
-            {
-                Name = "ToolTip",
-                Visible = false,
-                Priority = 25000,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 200,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = false,
-                BorderWidth = 10,
-                BorderHeight = 3,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = false,
-                MaskColor = 0,
-                FreeSurfaceOnHide = false,
-                ILIndexFrame = 24,
-                ILIndexTexture = 3,
-                TextColor = 0,
-                ToolTipStatic = false,
-                ToolTipDelay = 25,
-                ShowDuration = 250,
-                ItemHeight = 12
-            };
-            LayoutSession.EndRead(ToolTip);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            Manager = Aow.Units.AOWWinManager.TAOWWinManager.Create(this);
+            session.BeginRead(Manager);
+            Manager.Name = "Manager";
+            Manager.OnKeyDown = ManagerKeyDown;
+            Manager.OnUpdate = Layout_ManagerUpdate_2;
+            Manager.OnDebugMessage = ManagerDebugMessage;
+            Manager.Cursor = 0;
+            Manager.OnChangeCursor = Layout_ManagerChangeCursor_3;
+            Manager.WinLeft = 0;
+            Manager.WinTop = 0;
+            Manager.WinWidth = 640;
+            Manager.WinHeight = 480;
+            Manager.ILIndexTBack = 0;
+            Manager.ILIndexTFore = 1;
+            Manager.OverlayPriority = 0;
+            Manager.BorderLeft = 0;
+            Manager.BorderRight = 0;
+            Manager.BorderTop = 0;
+            Manager.BorderBottom = 48;
+            Manager.DrawOverlay = true;
+            session.EndRead(Manager);
+            ToolTip = Aow.Units.AOWToolTip.TAOWToolTip.Create(this);
+            session.BeginRead(ToolTip);
+            ToolTip.Name = "ToolTip";
+            ToolTip.Visible = false;
+            ToolTip.Priority = 25000;
+            ToolTip.WinLeft = 0;
+            ToolTip.WinTop = 0;
+            ToolTip.WinWidth = 200;
+            ToolTip.Masked = false;
+            ToolTip.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            ToolTip.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            ToolTip.Alignment.HeightPercent = (byte)(0);
+            ToolTip.Alignment.WidthPercent = (byte)(0);
+            ToolTip.Alignment.LeftOffPercent = 0;
+            ToolTip.Alignment.RightOffPercent = 0;
+            ToolTip.Alignment.TopOffPercent = 0;
+            ToolTip.Alignment.BottomOffPercent = 0;
+            ToolTip.Alignment.LeftOffset = 0;
+            ToolTip.Alignment.RightOffset = 0;
+            ToolTip.Alignment.TopOffset = 0;
+            ToolTip.Alignment.BottomOffset = 0;
+            ToolTip.UseVMem = false;
+            ToolTip.BorderWidth = 10;
+            ToolTip.BorderHeight = 3;
+            ToolTip.OverlapTopCorners = false;
+            ToolTip.Cursor = 0;
+            ToolTip.DoubleBuffered = false;
+            ToolTip.MaskColor = 0;
+            ToolTip.FreeSurfaceOnHide = false;
+            ToolTip.ILIndexFrame = 24;
+            ToolTip.ILIndexTexture = 3;
+            ToolTip.TextColor = 0;
+            ToolTip.ToolTipStatic = false;
+            ToolTip.ToolTipDelay = 25;
+            ToolTip.ShowDuration = 250;
+            ToolTip.ItemHeight = 12;
+            session.EndRead(ToolTip);
+            session.EndRead(this);
             ToolTip.WinManager = Manager;
             Loaded();
             Manager.Loaded();

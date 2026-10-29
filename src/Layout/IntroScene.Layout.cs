@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AoWIntroScene
 {
-    public partial class TIntroScene
+    public partial class TIntroScene : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,68 +17,63 @@ namespace Aow.Units.AoWIntroScene
         {
             session.Begin(this);
             Name = "IntroScene";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            Window = new Aow.Units.AowUserWindow.TAoWUserWindow(this)
-            {
-                Name = "Window",
-                OnMouseDown = WindowMouseDown,
-                OnKeyDown = WindowKeyDown,
-                OnUpdate = Layout_WindowUpdate_0,
-                Visible = false,
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 640,
-                Masked = false,
-                OnHide = Layout_WindowHide_1,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = false,
-                BorderWidth = 0,
-                BorderHeight = 0,
-                OverlapTopCorners = false,
-                Cursor = -1,
-                DoubleBuffered = false,
-                MaskColor = 0,
-                FreeSurfaceOnHide = false,
-                ILIndexFrame = 0,
-                ILIndexTexture = 0,
-                DragHeight = 0,
-                Draggable = false,
-                Resizable = false,
-                MinWidth = 0,
-                MinHeight = 0,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = false,
-                Modal = false,
-                WinHeight = 480,
-                Dockable = false,
-                OnDrawSurfaceEx = WindowDrawSurfaceEx
-            };
-            LayoutSession.EndRead(Window);
-            VideoPlayer = new Aow.Layout.LayoutTVideoPlayer(this)
-            {
-                Name = "VideoPlayer",
-                OnStreamSound = VideoPlayerStreamSound,
-                Loopmode = Aow.Layout.TVideoPlayerLoopMode.vplmNone,
-                Options = Aow.Rtl.TSet<Aow.Layout.TVideoPlayerOptions_Element>.Of(Aow.Layout.TVideoPlayerOptions_Element.vpoSoundEnabled, Aow.Layout.TVideoPlayerOptions_Element.vpoVideoEnabled)
-            };
-            LayoutSession.EndRead(VideoPlayer);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            Window = new Aow.Units.AowUserWindow.TAoWUserWindow(this);
+            session.BeginRead(Window);
+            Window.Name = "Window";
+            Window.OnMouseDown = WindowMouseDown;
+            Window.OnKeyDown = WindowKeyDown;
+            Window.OnUpdate = Layout_WindowUpdate_0;
+            Window.Visible = false;
+            Window.Priority = 0;
+            Window.WinLeft = 0;
+            Window.WinTop = 0;
+            Window.WinWidth = 640;
+            Window.Masked = false;
+            Window.OnHide = Layout_WindowHide_1;
+            Window.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            Window.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            Window.Alignment.HeightPercent = (byte)(0);
+            Window.Alignment.WidthPercent = (byte)(0);
+            Window.Alignment.LeftOffPercent = 0;
+            Window.Alignment.RightOffPercent = 0;
+            Window.Alignment.TopOffPercent = 0;
+            Window.Alignment.BottomOffPercent = 0;
+            Window.Alignment.LeftOffset = 0;
+            Window.Alignment.RightOffset = 0;
+            Window.Alignment.TopOffset = 0;
+            Window.Alignment.BottomOffset = 0;
+            Window.UseVMem = false;
+            Window.BorderWidth = 0;
+            Window.BorderHeight = 0;
+            Window.OverlapTopCorners = false;
+            Window.Cursor = -1;
+            Window.DoubleBuffered = false;
+            Window.MaskColor = 0;
+            Window.FreeSurfaceOnHide = false;
+            Window.ILIndexFrame = 0;
+            Window.ILIndexTexture = 0;
+            Window.DragHeight = 0;
+            Window.Draggable = false;
+            Window.Resizable = false;
+            Window.MinWidth = 0;
+            Window.MinHeight = 0;
+            Window.MaxWidth = 0;
+            Window.MaxHeight = 0;
+            Window.UseManagerBorders = false;
+            Window.Modal = false;
+            Window.WinHeight = 480;
+            Window.Dockable = false;
+            Window.OnDrawSurfaceEx = WindowDrawSurfaceEx;
+            session.EndRead(Window);
+            var created__VideoPlayer = new Aow.Layout.LayoutTVideoPlayer(this);
+            VideoPlayer = created__VideoPlayer;
+            session.BeginRead(created__VideoPlayer);
+            created__VideoPlayer.Name = "VideoPlayer";
+            created__VideoPlayer.OnStreamSound = VideoPlayerStreamSound;
+            created__VideoPlayer.Loopmode = Aow.Layout.TVideoPlayerLoopMode.vplmNone;
+            created__VideoPlayer.Options = Aow.Rtl.TSet<Aow.Layout.TVideoPlayerOptions_Element>.Of(Aow.Layout.TVideoPlayerOptions_Element.vpoSoundEnabled, Aow.Layout.TVideoPlayerOptions_Element.vpoVideoEnabled);
+            session.EndRead(created__VideoPlayer);
+            session.EndRead(this);
             Loaded();
             Window.Loaded();
             VideoPlayer.Loaded();
