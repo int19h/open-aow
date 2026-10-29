@@ -40,9 +40,8 @@ namespace Aow.Units.PassiveAb
     public partial class TVisionAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // PassiveAb.pas:461
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TVisionAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astHeadItem, Aow.Units.AoWE.TAbilitySelectionType.astTorsoItem, Aow.Units.AoWE.TAbilitySelectionType.astDefenseItem, Aow.Units.AoWE.TAbilitySelectionType.astRingItem, Aow.Units.AoWE.TAbilitySelectionType.astEditor);
             FMaxLevel = 4;
             FAbilityID = 64;
@@ -78,22 +77,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:65
         public static new Aow.Units.PassiveAb.TVisionAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TVisionAbility o = new Aow.Units.PassiveAb.TVisionAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TVisionAbility(context, owner));
     }
 
     // { THolyChampionAbility (instance size 40, VMT 557B51B8):
@@ -101,9 +86,8 @@ namespace Aow.Units.PassiveAb
     public partial class THolyChampionAbility : Aow.Units.AoWE.TEnhancementAbility
     {
         // PassiveAb.pas:484
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THolyChampionAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyChampionRStr);
             FAbilityName = call__1;
             FAbilityID = 146;
@@ -123,22 +107,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:73
         public static new Aow.Units.PassiveAb.THolyChampionAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.THolyChampionAbility o = new Aow.Units.PassiveAb.THolyChampionAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THolyChampionAbility(context, owner));
     }
 
     // { TUnholyChampionAbility (instance size 40, VMT 557B534C):
@@ -146,9 +116,8 @@ namespace Aow.Units.PassiveAb
     public partial class TUnholyChampionAbility : Aow.Units.AoWE.TEnhancementAbility
     {
         // PassiveAb.pas:499
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TUnholyChampionAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnholyChampionRStr);
             FAbilityName = call__2;
             FAbilityID = 147;
@@ -168,22 +137,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:81
         public static new Aow.Units.PassiveAb.TUnholyChampionAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TUnholyChampionAbility o = new Aow.Units.PassiveAb.TUnholyChampionAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnholyChampionAbility(context, owner));
     }
 
     // { TNaturesBlessingAbility (instance size 44, VMT 557B54E4):
@@ -191,9 +146,8 @@ namespace Aow.Units.PassiveAb
     public partial class TNaturesBlessingAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:514
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TNaturesBlessingAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__3 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NaturesBlessingRStr);
             FAbilityName = call__3;
             FAbilityID = 99;
@@ -241,31 +195,16 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:89
         public static new Aow.Units.PassiveAb.TNaturesBlessingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TNaturesBlessingAbility o = new Aow.Units.PassiveAb.TNaturesBlessingAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TNaturesBlessingAbility(context, owner));
     }
 
     // { THighPrayerBlessingAbility (instance size 44; $08 name, $0C ID, $20 selection types, $24 ability type, $28 duration mode; VMT 557B5684) }
     public partial class THighPrayerBlessingAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:1267
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THighPrayerBlessingAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HighPrayerBlessingRStr);
             FAbilityName = call__6;
             FAbilityID = 100;
@@ -290,22 +229,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:99
         public static new Aow.Units.PassiveAb.THighPrayerBlessingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.THighPrayerBlessingAbility o = new Aow.Units.PassiveAb.THighPrayerBlessingAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THighPrayerBlessingAbility(context, owner));
     }
 
     // { TCrusaderAbility (instance size 44, VMT 557B582C):
@@ -314,9 +239,8 @@ namespace Aow.Units.PassiveAb
     public partial class TCrusaderAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:703
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCrusaderAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CrusaderRStr);
             FAbilityName = call__7;
             FAbilityID = 101;
@@ -357,22 +281,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:109
         public static new Aow.Units.PassiveAb.TCrusaderAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TCrusaderAbility o = new Aow.Units.PassiveAb.TCrusaderAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCrusaderAbility(context, owner));
     }
 
     // { TBloodlustAbility (instance size 44, VMT 557B59C0):
@@ -380,9 +290,8 @@ namespace Aow.Units.PassiveAb
     public partial class TBloodlustAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:546
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TBloodlustAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__9 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BloodlustRStr);
             FAbilityName = call__9;
             FAbilityID = 168;
@@ -415,22 +324,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:119
         public static new Aow.Units.PassiveAb.TBloodlustAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TBloodlustAbility o = new Aow.Units.PassiveAb.TBloodlustAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TBloodlustAbility(context, owner));
     }
 
     // { TPoisonedAbility (instance size 44, VMT 557B5B58):
@@ -438,9 +333,8 @@ namespace Aow.Units.PassiveAb
     public partial class TPoisonedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:571
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TPoisonedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PoisonedRStr);
             FAbilityName = call__10;
             FAbilityID = 96;
@@ -481,22 +375,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:129
         public static new Aow.Units.PassiveAb.TPoisonedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TPoisonedAbility o = new Aow.Units.PassiveAb.TPoisonedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPoisonedAbility(context, owner));
     }
 
     // { TDecayAbility (instance size 44, VMT 557B5CEC):
@@ -504,9 +384,8 @@ namespace Aow.Units.PassiveAb
     public partial class TDecayAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:844
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDecayAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DecayRStr);
             FAbilityName = call__11;
             FAbilityID = 131;
@@ -537,22 +416,8 @@ namespace Aow.Units.PassiveAb
             A1.DestroyObject();
         }
 
-        // PassiveAb.pas:140
         public static new Aow.Units.PassiveAb.TDecayAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TDecayAbility o = new Aow.Units.PassiveAb.TDecayAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDecayAbility(context, owner));
     }
 
     // { TWebbedAbility (instance size 44, VMT 557B5E7C):
@@ -561,9 +426,8 @@ namespace Aow.Units.PassiveAb
     public partial class TWebbedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:736
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWebbedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__15 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WebbedRStr);
             FAbilityName = call__15;
             FAbilityID = 97;
@@ -588,22 +452,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:150
         public static new Aow.Units.PassiveAb.TWebbedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TWebbedAbility o = new Aow.Units.PassiveAb.TWebbedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWebbedAbility(context, owner));
     }
 
     // { TStunnedAbility (instance size 44, VMT 557B600C):
@@ -611,9 +461,8 @@ namespace Aow.Units.PassiveAb
     public partial class TStunnedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:793
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TStunnedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__16 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StunnedRStr);
             FAbilityName = call__16;
             FAbilityID = 92;
@@ -638,22 +487,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:159
         public static new Aow.Units.PassiveAb.TStunnedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TStunnedAbility o = new Aow.Units.PassiveAb.TStunnedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TStunnedAbility(context, owner));
     }
 
     // { TBurningAbility (instance size 44, VMT 557B619C):
@@ -661,9 +496,8 @@ namespace Aow.Units.PassiveAb
     public partial class TBurningAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:756
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TBurningAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BurningRStr);
             FAbilityName = call__17;
             FAbilityID = 127;
@@ -717,22 +551,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:168
         public static new Aow.Units.PassiveAb.TBurningAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TBurningAbility o = new Aow.Units.PassiveAb.TBurningAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TBurningAbility(context, owner));
     }
 
     // { TVertigoAbility (instance size 44, VMT 557B632C):
@@ -740,9 +560,8 @@ namespace Aow.Units.PassiveAb
     public partial class TVertigoAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:952
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TVertigoAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__25 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.VertigoRStr);
             FAbilityName = call__25;
             FAbilityID = 98;
@@ -775,22 +594,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:177
         public static new Aow.Units.PassiveAb.TVertigoAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TVertigoAbility o = new Aow.Units.PassiveAb.TVertigoAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TVertigoAbility(context, owner));
     }
 
     // { TCursedAbility (instance size 44, VMT 557B64BC):
@@ -798,9 +603,8 @@ namespace Aow.Units.PassiveAb
     public partial class TCursedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:981
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCursedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__26 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CursedRStr);
             FAbilityName = call__26;
             FAbilityID = 93;
@@ -851,22 +655,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:187
         public static new Aow.Units.PassiveAb.TCursedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TCursedAbility o = new Aow.Units.PassiveAb.TCursedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCursedAbility(context, owner));
     }
 
     // { THolyFear (instance size 44, VMT 557B664C):
@@ -874,9 +664,8 @@ namespace Aow.Units.PassiveAb
     public partial class THolyFear : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:816
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THolyFear(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__28 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyFearRStr);
             FAbilityName = call__28;
             FAbilityID = 53;
@@ -911,22 +700,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:198
         public static new Aow.Units.PassiveAb.THolyFear Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.THolyFear o = new Aow.Units.PassiveAb.THolyFear();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THolyFear(context, owner));
     }
 
     // { TPanickedAbility (instance size 44, VMT 557B67D4):
@@ -934,9 +709,8 @@ namespace Aow.Units.PassiveAb
     public partial class TPanickedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:874
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TPanickedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__30 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PanickedRStr);
             FAbilityName = call__30;
             FAbilityID = 108;
@@ -958,22 +732,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:207
         public static new Aow.Units.PassiveAb.TPanickedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TPanickedAbility o = new Aow.Units.PassiveAb.TPanickedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPanickedAbility(context, owner));
     }
 
     // { TWallClimbingAbility (instance size 40, VMT 557B6968):
@@ -981,9 +741,8 @@ namespace Aow.Units.PassiveAb
     public partial class TWallClimbingAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:922
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWallClimbingAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__31 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WallClimbingRStr);
             FAbilityName = call__31;
             FAbilityID = 36;
@@ -998,22 +757,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:215
         public static new Aow.Units.PassiveAb.TWallClimbingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TWallClimbingAbility o = new Aow.Units.PassiveAb.TWallClimbingAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWallClimbingAbility(context, owner));
     }
 
     // { TPassWallAbility (instance size 40, VMT 557B6AFC):
@@ -1021,9 +766,8 @@ namespace Aow.Units.PassiveAb
     public partial class TPassWallAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:937
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TPassWallAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__32 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PassWallRStr);
             FAbilityName = call__32;
             FAbilityID = 66;
@@ -1038,22 +782,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:223
         public static new Aow.Units.PassiveAb.TPassWallAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TPassWallAbility o = new Aow.Units.PassiveAb.TPassWallAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPassWallAbility(context, owner));
     }
 
     // { TResurrectedAbility (instance size 40, VMT 557B6C88):
@@ -1061,9 +791,8 @@ namespace Aow.Units.PassiveAb
     public partial class TResurrectedAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:892
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TResurrectedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__33 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResurrectedRStr);
             FAbilityName = call__33;
             FAbilityID = 128;
@@ -1071,22 +800,8 @@ namespace Aow.Units.PassiveAb
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of();
         }
 
-        // PassiveAb.pas:231
         public static new Aow.Units.PassiveAb.TResurrectedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TResurrectedAbility o = new Aow.Units.PassiveAb.TResurrectedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TResurrectedAbility(context, owner));
     }
 
     // { TAnimatedAbility (instance size 40, VMT 557B6E18):
@@ -1094,9 +809,8 @@ namespace Aow.Units.PassiveAb
     public partial class TAnimatedAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:902
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TAnimatedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimatedRStr);
             FAbilityName = call__34;
             FAbilityID = 129;
@@ -1104,22 +818,8 @@ namespace Aow.Units.PassiveAb
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of();
         }
 
-        // PassiveAb.pas:238
         public static new Aow.Units.PassiveAb.TAnimatedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TAnimatedAbility o = new Aow.Units.PassiveAb.TAnimatedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAnimatedAbility(context, owner));
     }
 
     // { TCombatResurrectedAbility (instance size 40, VMT 557B6FA4):
@@ -1127,9 +827,8 @@ namespace Aow.Units.PassiveAb
     public partial class TCombatResurrectedAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:912
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCombatResurrectedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__35 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResurrectedRStr);
             FAbilityName = call__35;
             FAbilityID = 130;
@@ -1137,31 +836,16 @@ namespace Aow.Units.PassiveAb
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of();
         }
 
-        // PassiveAb.pas:245
         public static new Aow.Units.PassiveAb.TCombatResurrectedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TCombatResurrectedAbility o = new Aow.Units.PassiveAb.TCombatResurrectedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCombatResurrectedAbility(context, owner));
     }
 
     // { TMarksmanshipAbility (instance size 48; $28 maximum level, $2C level costs; VMT 557B7144) }
     public partial class TMarksmanshipAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // PassiveAb.pas:1384
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TMarksmanshipAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__36 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MarksmanshipRStr);
             FAbilityName = call__36;
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
@@ -1200,22 +884,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:251
         public static new Aow.Units.PassiveAb.TMarksmanshipAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TMarksmanshipAbility o = new Aow.Units.PassiveAb.TMarksmanshipAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TMarksmanshipAbility(context, owner));
     }
 
     // { TMovementAbility (instance size 44; $28 FMoveTypes; VMT 557B72DC) }
@@ -1225,9 +895,8 @@ namespace Aow.Units.PassiveAb
         // { $28 }
         public Aow.Units.FixedArray_byte_3 F_MovementAbility_29;
         // PassiveAb.pas:1409
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TMovementAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astRingItem);
             FAbilityType = Aow.Units.AoWE.TAbilityType.atMovement;
             FSkillPointCost = 0;
@@ -1257,22 +926,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:260
         public static new Aow.Units.PassiveAb.TMovementAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TMovementAbility o = new Aow.Units.PassiveAb.TMovementAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TMovementAbility(context, owner));
     }
 
     // { TImmunityAbility (instance size 44; $28 FImmunityTypes; VMT 557B7468) }
@@ -1282,9 +937,8 @@ namespace Aow.Units.PassiveAb
         // { $28 }
         public Aow.Units.FixedArray_byte_2 F_ImmunityAbility_2A;
         // PassiveAb.pas:1428
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TImmunityAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astDefenseItem, Aow.Units.AoWE.TAbilitySelectionType.astRingItem);
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
         }
@@ -1313,22 +967,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:270
         public static new Aow.Units.PassiveAb.TImmunityAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TImmunityAbility o = new Aow.Units.PassiveAb.TImmunityAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TImmunityAbility(context, owner));
     }
 
     // { TProtectionAbility (instance size 44; $28 FProtectionTypes; VMT 557B75F4) }
@@ -1338,9 +978,8 @@ namespace Aow.Units.PassiveAb
         // { $28 }
         public Aow.Units.FixedArray_byte_2 F_ProtectionAbility_2A;
         // PassiveAb.pas:1446
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TProtectionAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astDefenseItem, Aow.Units.AoWE.TAbilitySelectionType.astRingItem, Aow.Units.AoWE.TAbilitySelectionType.astEditor);
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
         }
@@ -1353,22 +992,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:280
         public static new Aow.Units.PassiveAb.TProtectionAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TProtectionAbility o = new Aow.Units.PassiveAb.TProtectionAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TProtectionAbility(context, owner));
     }
 
     // { TEntangledAbility (instance size 40, VMT 557B7784):
@@ -1376,9 +1001,8 @@ namespace Aow.Units.PassiveAb
     public partial class TEntangledAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:620
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TEntangledAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__37 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EntangledRStr);
             FAbilityName = call__37;
             FAbilityID = 94;
@@ -1418,22 +1042,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:288
         public static new Aow.Units.PassiveAb.TEntangledAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TEntangledAbility o = new Aow.Units.PassiveAb.TEntangledAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEntangledAbility(context, owner));
     }
 
     // { TFrozenAbility (instance size 40, VMT 557B7928):
@@ -1441,9 +1051,8 @@ namespace Aow.Units.PassiveAb
     public partial class TFrozenAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:649
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFrozenAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__38 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FrozenRStr);
             FAbilityName = call__38;
             FAbilityID = 95;
@@ -1484,22 +1093,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:299
         public static new Aow.Units.PassiveAb.TFrozenAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TFrozenAbility o = new Aow.Units.PassiveAb.TFrozenAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFrozenAbility(context, owner));
     }
 
     // { TTurnedUndeadAbility (instance size 40, VMT 557B7AC4):
@@ -1507,9 +1102,8 @@ namespace Aow.Units.PassiveAb
     public partial class TTurnedUndeadAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:679
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TTurnedUndeadAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__39 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TurnedUndeadRStr);
             FAbilityName = call__39;
             FAbilityID = 34;
@@ -1541,22 +1135,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:310
         public static new Aow.Units.PassiveAb.TTurnedUndeadAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TTurnedUndeadAbility o = new Aow.Units.PassiveAb.TTurnedUndeadAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTurnedUndeadAbility(context, owner));
     }
 
     // { THasteAbility (instance size 40, VMT 557B7C6C):
@@ -1564,30 +1144,15 @@ namespace Aow.Units.PassiveAb
     public partial class THasteAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1021
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THasteAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__40 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HasteRStr);
             FAbilityName = call__40;
             FAbilityID = 152;
         }
 
-        // PassiveAb.pas:320
         public static new Aow.Units.PassiveAb.THasteAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.THasteAbility o = new Aow.Units.PassiveAb.THasteAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THasteAbility(context, owner));
     }
 
     // { TStoneSkinAbility (instance size 40, VMT 557B7E08):
@@ -1595,9 +1160,8 @@ namespace Aow.Units.PassiveAb
     public partial class TStoneSkinAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1029
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TStoneSkinAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__41 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StoneSkinRStr);
             FAbilityName = call__41;
             FAbilityID = 153;
@@ -1629,22 +1193,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:327
         public static new Aow.Units.PassiveAb.TStoneSkinAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TStoneSkinAbility o = new Aow.Units.PassiveAb.TStoneSkinAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TStoneSkinAbility(context, owner));
     }
 
     // { TEnchantedWeaponAbility (instance size 40, VMT 557B7FAC):
@@ -1652,9 +1202,8 @@ namespace Aow.Units.PassiveAb
     public partial class TEnchantedWeaponAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1073
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TEnchantedWeaponAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantedWeaponRStr);
             FAbilityName = call__43;
             FAbilityID = 154;
@@ -1689,22 +1238,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:336
         public static new Aow.Units.PassiveAb.TEnchantedWeaponAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TEnchantedWeaponAbility o = new Aow.Units.PassiveAb.TEnchantedWeaponAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEnchantedWeaponAbility(context, owner));
     }
 
     // { TSummonedAbility (instance size 40, VMT 557B8158):
@@ -1712,9 +1247,8 @@ namespace Aow.Units.PassiveAb
     public partial class TSummonedAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1100
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TSummonedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__44 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SummonedRStr);
             FAbilityName = call__44;
             FAbilityID = 155;
@@ -1820,22 +1354,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:346
         public static new Aow.Units.PassiveAb.TSummonedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TSummonedAbility o = new Aow.Units.PassiveAb.TSummonedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonedAbility(context, owner));
     }
 
     // { TFuryAbility (instance size 40, VMT 557B82F8):
@@ -1843,9 +1363,8 @@ namespace Aow.Units.PassiveAb
     public partial class TFuryAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1160
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFuryAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__47 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FuryRStr);
             FAbilityName = call__47;
             FAbilityID = 156;
@@ -1880,22 +1399,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:358
         public static new Aow.Units.PassiveAb.TFuryAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TFuryAbility o = new Aow.Units.PassiveAb.TFuryAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFuryAbility(context, owner));
     }
 
     // { TFreeMovementAbility (instance size 40, VMT 557B8490):
@@ -1903,30 +1408,15 @@ namespace Aow.Units.PassiveAb
     public partial class TFreeMovementAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1187
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFreeMovementAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__48 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FreeMovementRStr);
             FAbilityName = call__48;
             FAbilityID = 157;
         }
 
-        // PassiveAb.pas:368
         public static new Aow.Units.PassiveAb.TFreeMovementAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TFreeMovementAbility o = new Aow.Units.PassiveAb.TFreeMovementAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFreeMovementAbility(context, owner));
     }
 
     // { THolyChampionEnchantment (instance size 40, VMT 557B8638):
@@ -1934,30 +1424,15 @@ namespace Aow.Units.PassiveAb
     public partial class THolyChampionEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1195
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THolyChampionEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyChampionRStr);
             FAbilityName = call__49;
             FAbilityID = 160;
         }
 
-        // PassiveAb.pas:375
         public static new Aow.Units.PassiveAb.THolyChampionEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.THolyChampionEnchantment o = new Aow.Units.PassiveAb.THolyChampionEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THolyChampionEnchantment(context, owner));
     }
 
     // { TUnholyChampionEnchantment (instance size 40, VMT 557B87E8):
@@ -1965,69 +1440,38 @@ namespace Aow.Units.PassiveAb
     public partial class TUnholyChampionEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1203
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TUnholyChampionEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__50 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnholyChampionRStr);
             FAbilityName = call__50;
             FAbilityID = 161;
         }
 
-        // PassiveAb.pas:382
         public static new Aow.Units.PassiveAb.TUnholyChampionEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TUnholyChampionEnchantment o = new Aow.Units.PassiveAb.TUnholyChampionEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnholyChampionEnchantment(context, owner));
     }
 
     // { TConcealmentEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B899C) }
     public partial class TConcealmentEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1287
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TConcealmentEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ConcealmentRStr);
             FAbilityName = call__51;
             FAbilityID = 162;
         }
 
-        // PassiveAb.pas:388
         public static new Aow.Units.PassiveAb.TConcealmentEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TConcealmentEnchantment o = new Aow.Units.PassiveAb.TConcealmentEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TConcealmentEnchantment(context, owner));
     }
 
     // { TFireAuraEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B8B48) }
     public partial class TFireAuraEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1294
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFireAuraEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__52 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireAuraRStr);
             FAbilityName = call__52;
             FAbilityID = 163;
@@ -2054,31 +1498,16 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:394
         public static new Aow.Units.PassiveAb.TFireAuraEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TFireAuraEnchantment o = new Aow.Units.PassiveAb.TFireAuraEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireAuraEnchantment(context, owner));
     }
 
     // { TWaterWalkingEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B8CF0) }
     public partial class TWaterWalkingEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1315
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWaterWalkingEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__54 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WaterWalkingRStr);
             FAbilityName = call__54;
             FAbilityID = 164;
@@ -2105,31 +1534,16 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:401
         public static new Aow.Units.PassiveAb.TWaterWalkingEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TWaterWalkingEnchantment o = new Aow.Units.PassiveAb.TWaterWalkingEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWaterWalkingEnchantment(context, owner));
     }
 
     // { TWindWalkingEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B8EA0) }
     public partial class TWindWalkingEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1336
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWindWalkingEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__56 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WindWalkingRStr);
             FAbilityName = call__56;
             FAbilityID = 165;
@@ -2156,31 +1570,16 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:408
         public static new Aow.Units.PassiveAb.TWindWalkingEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TWindWalkingEnchantment o = new Aow.Units.PassiveAb.TWindWalkingEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWindWalkingEnchantment(context, owner));
     }
 
     // { TLiquidFormEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B904C) }
     public partial class TLiquidFormEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1357
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TLiquidFormEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LiquidFormRStr);
             FAbilityName = call__58;
             FAbilityID = 166;
@@ -2220,22 +1619,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:415
         public static new Aow.Units.PassiveAb.TLiquidFormEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TLiquidFormEnchantment o = new Aow.Units.PassiveAb.TLiquidFormEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLiquidFormEnchantment(context, owner));
     }
 
     // { TBlessedEnchantment (instance size 40, VMT 557B91F8):
@@ -2243,9 +1628,8 @@ namespace Aow.Units.PassiveAb
     public partial class TBlessedEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1211
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TBlessedEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__60 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BlessedRStr);
             FAbilityName = call__60;
             FAbilityID = 158;
@@ -2298,31 +1682,16 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:424
         public static new Aow.Units.PassiveAb.TBlessedEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TBlessedEnchantment o = new Aow.Units.PassiveAb.TBlessedEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TBlessedEnchantment(context, owner));
     }
 
     // { TDarkGiftEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B939C) }
     public partial class TDarkGiftEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1249
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDarkGiftEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DarkGiftRStr);
             FAbilityName = call__62;
             FAbilityID = 169;
@@ -2349,22 +1718,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:434
         public static new Aow.Units.PassiveAb.TDarkGiftEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TDarkGiftEnchantment o = new Aow.Units.PassiveAb.TDarkGiftEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDarkGiftEnchantment(context, owner));
     }
 
     // { TFireProtectionEnchantment (instance size 40, VMT 557B9544):
@@ -2372,9 +1727,8 @@ namespace Aow.Units.PassiveAb
     public partial class TFireProtectionEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1054
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFireProtectionEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireProtectionRStr);
             FAbilityName = call__63;
             FAbilityID = 167;
@@ -2398,22 +1752,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:443
         public static new Aow.Units.PassiveAb.TFireProtectionEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TFireProtectionEnchantment o = new Aow.Units.PassiveAb.TFireProtectionEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireProtectionEnchantment(context, owner));
     }
 
     // { TSlowEnchantmentAbility (instance size 40, VMT 557B96F8):
@@ -2421,9 +1761,8 @@ namespace Aow.Units.PassiveAb
     public partial class TSlowEnchantmentAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:601
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TSlowEnchantmentAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__65 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SlowRStr);
             FAbilityName = call__65;
             FAbilityID = 132;
@@ -2446,22 +1785,8 @@ namespace Aow.Units.PassiveAb
             return Result;
         }
 
-        // PassiveAb.pas:451
         public static new Aow.Units.PassiveAb.TSlowEnchantmentAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PassiveAb.TSlowEnchantmentAbility o = new Aow.Units.PassiveAb.TSlowEnchantmentAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSlowEnchantmentAbility(context, owner));
     }
 
     public static partial class PassiveAb

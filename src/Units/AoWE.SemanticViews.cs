@@ -47,7 +47,7 @@ public partial class TWallCrushingAbility
         if (target.GetEnabled())
         {
             // The Boolean argument holds byte six. Generate receives that same signed byte.
-            var action = TDamageCA.Create(null);
+            var action = new TDamageCA(null);
             action.Generate(source, target, 6, 6, TSet<TDamageType>.Of(TDamageType.dtWall));
             source.FCombat.ExecuteCombatAction(action);
             action.Release();

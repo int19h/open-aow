@@ -54,7 +54,7 @@ namespace Aow.Units.Crops
         {
             base.Create__init(AOwner);
             FChangingCrops = false;
-            var call__1 = Aow.Units.AoWE.TPlayerStructureIncomeSource.Create(null);
+            var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
             FIncomeSource = call__1;
             FIncomeSource.Setup(this);
         }

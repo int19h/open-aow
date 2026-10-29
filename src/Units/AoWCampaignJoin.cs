@@ -96,7 +96,7 @@ namespace Aow.Units.AoWCampaignJoin
             Aow.Units.AoWE.TLeaderSetupControl Control = default;
             FStage = 2;
             CharGenPnl.Visible = false;
-            Control = Aow.Units.AoWE.TLeaderSetupControl.Create(null);
+            Control = new Aow.Units.AoWE.TLeaderSetupControl(null);
             Control.FLeader.Assign(FLeader, Aow.Units.AoWE.AoWE.AoWEngine);
             Control.FOriginalLeader.Assign(FLeader, Aow.Units.AoWE.AoWE.AoWEngine);
             Control.FMode = Control.FMode + TSet<Aow.Units.AoWE.TLeaderSetupModeElement>.Of(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign);

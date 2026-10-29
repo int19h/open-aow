@@ -70,7 +70,7 @@ namespace Aow.Units.BehaviorAG
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1 = Aow.Units.AoWE.TAIGroupTargetSelector.Create(null);
+            var call__1 = new Aow.Units.AoWE.TAIGroupTargetSelector(null);
             FTargetSelector = call__1;
         }
 
@@ -180,7 +180,7 @@ namespace Aow.Units.BehaviorAG
             {
                 case 0:
                     FTargets.Clear();
-                    Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                    Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
@@ -352,7 +352,7 @@ namespace Aow.Units.BehaviorAG
             switch (FState)
             {
                 case 0:
-                    Defense = Aow.Units.AoWE.TAIGroupDefenseControl.Create(null);
+                    Defense = new Aow.Units.AoWE.TAIGroupDefenseControl(null);
                     Defense.FDefendMode = Aow.Units.AoWE.TGroupDefendMode.gdmSplit;
                     ActivatePlugin(Defense);
                     Defense.Release();
@@ -363,7 +363,7 @@ namespace Aow.Units.BehaviorAG
                     if (call__8 > 0)
                     {
                         FTargets.Clear();
-                        Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                        Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                         Finder.Setup(this);
                         if (FGroup.FTransporter == null)
                         {
@@ -389,7 +389,7 @@ namespace Aow.Units.BehaviorAG
                     var call__10 = FTargets.Count;
                     if (call__10 != 0)
                     {
-                        Recruitment = Aow.Units.AoWE.TAIRecruitmentGroupFinder.Create(null);
+                        Recruitment = new Aow.Units.AoWE.TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -406,7 +406,7 @@ namespace Aow.Units.BehaviorAG
                     if (call__11 != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = Aow.Units.AoWE.TAIProductionLocationFinder.Create(null);
+                        Production = new Aow.Units.AoWE.TAIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -582,7 +582,7 @@ namespace Aow.Units.BehaviorAG
             switch (FState)
             {
                 case 0:
-                    Defense = Aow.Units.AoWE.TAIGroupDefenseControl.Create(null);
+                    Defense = new Aow.Units.AoWE.TAIGroupDefenseControl(null);
                     Defense.FDefendMode = Aow.Units.AoWE.TGroupDefendMode.gdmSplit;
                     ActivatePlugin(Defense);
                     Defense.Release();
@@ -590,7 +590,7 @@ namespace Aow.Units.BehaviorAG
                     break;
                 case 1:
                     FTargets.Clear();
-                    Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                    Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
@@ -610,7 +610,7 @@ namespace Aow.Units.BehaviorAG
                     var call__15 = FTargets.Count;
                     if (call__15 != 0)
                     {
-                        Recruitment = Aow.Units.AoWE.TAIRecruitmentGroupFinder.Create(null);
+                        Recruitment = new Aow.Units.AoWE.TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -627,7 +627,7 @@ namespace Aow.Units.BehaviorAG
                     if (call__16 != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = Aow.Units.AoWE.TAIProductionLocationFinder.Create(null);
+                        Production = new Aow.Units.AoWE.TAIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -804,7 +804,7 @@ namespace Aow.Units.BehaviorAG
             switch (FState)
             {
                 case 0:
-                    Defense = Aow.Units.AoWE.TAIGroupDefenseControl.Create(null);
+                    Defense = new Aow.Units.AoWE.TAIGroupDefenseControl(null);
                     Defense.FDefendMode = Aow.Units.AoWE.TGroupDefendMode.gdmSplit;
                     ActivatePlugin(Defense);
                     Defense.Release();
@@ -812,7 +812,7 @@ namespace Aow.Units.BehaviorAG
                     break;
                 case 1:
                     FTargets.Clear();
-                    Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                    Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
@@ -832,7 +832,7 @@ namespace Aow.Units.BehaviorAG
                     var call__20 = FTargets.Count;
                     if (call__20 != 0)
                     {
-                        Recruitment = Aow.Units.AoWE.TAIRecruitmentGroupFinder.Create(null);
+                        Recruitment = new Aow.Units.AoWE.TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -849,7 +849,7 @@ namespace Aow.Units.BehaviorAG
                     if (call__21 != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = Aow.Units.AoWE.TAIProductionLocationFinder.Create(null);
+                        Production = new Aow.Units.AoWE.TAIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -1025,7 +1025,7 @@ namespace Aow.Units.BehaviorAG
             switch (FState)
             {
                 case 0:
-                    Defense = Aow.Units.AoWE.TAIGroupDefenseControl.Create(null);
+                    Defense = new Aow.Units.AoWE.TAIGroupDefenseControl(null);
                     Defense.FDefendMode = Aow.Units.AoWE.TGroupDefendMode.gdmSplit;
                     ActivatePlugin(Defense);
                     Defense.Release();
@@ -1033,7 +1033,7 @@ namespace Aow.Units.BehaviorAG
                     break;
                 case 1:
                     FTargets.Clear();
-                    Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                    Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
@@ -1053,7 +1053,7 @@ namespace Aow.Units.BehaviorAG
                     var call__25 = FTargets.Count;
                     if (call__25 != 0)
                     {
-                        Recruitment = Aow.Units.AoWE.TAIRecruitmentGroupFinder.Create(null);
+                        Recruitment = new Aow.Units.AoWE.TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -1070,7 +1070,7 @@ namespace Aow.Units.BehaviorAG
                     if (call__26 != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = Aow.Units.AoWE.TAIProductionLocationFinder.Create(null);
+                        Production = new Aow.Units.AoWE.TAIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -1248,7 +1248,7 @@ namespace Aow.Units.BehaviorAG
             switch (FState)
             {
                 case 0:
-                    Defense = Aow.Units.AoWE.TAIGroupDefenseControl.Create(null);
+                    Defense = new Aow.Units.AoWE.TAIGroupDefenseControl(null);
                     Defense.FDefendMode = Aow.Units.AoWE.TGroupDefendMode.gdmSplit;
                     ActivatePlugin(Defense);
                     Defense.Release();
@@ -1256,7 +1256,7 @@ namespace Aow.Units.BehaviorAG
                     break;
                 case 1:
                     FTargets.Clear();
-                    Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                    Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
@@ -1276,7 +1276,7 @@ namespace Aow.Units.BehaviorAG
                     var call__30 = FTargets.Count;
                     if (call__30 != 0)
                     {
-                        Recruitment = Aow.Units.AoWE.TAIRecruitmentGroupFinder.Create(null);
+                        Recruitment = new Aow.Units.AoWE.TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -1293,7 +1293,7 @@ namespace Aow.Units.BehaviorAG
                     if (call__31 != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = Aow.Units.AoWE.TAIProductionLocationFinder.Create(null);
+                        Production = new Aow.Units.AoWE.TAIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();

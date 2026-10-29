@@ -59,7 +59,7 @@ namespace Aow.Units.Mine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1 = Aow.Units.AoWE.TPlayerStructureIncomeSource.Create(null);
+            var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
             FIncomeSource = call__1;
             FIncomeSource.Setup(this);
         }

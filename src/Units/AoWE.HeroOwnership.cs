@@ -8,11 +8,11 @@ public partial class THero
     public override void Create__init(TECustomNode owner)
     {
         base.Create__init(owner);
-        FHeroItems = THeroItems.Create(null);
+        FHeroItems = new THeroItems(null);
         FHeroItems.Hero = this;
-        FInventory = THeroInventory.Create(null);
+        FInventory = new THeroInventory(null);
         FInventory.Hero = this;
-        FPowerSource = THeroPowerSource.Create(null);
+        FPowerSource = new THeroPowerSource(null);
         FPowerSource.FHero = this;
         FHeroResourceIndex = -1;
         FHeroStatus = default;

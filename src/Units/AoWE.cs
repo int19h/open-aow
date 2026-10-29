@@ -1127,6 +1127,9 @@ namespace Aow.Units.AoWE
     // { TPlayerStructureList (instance size 24, VMT 55709EC8) }
     public partial class TPlayerStructureList : Aow.Units.Engine.TEChangeNotifyEventList
     {
+        public TPlayerStructureList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TPlayer FPlayer;
         // Player.PAS:1
         // { $14 }
@@ -1138,26 +1141,15 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:708
-        public static new Aow.Units.AoWE.TPlayerStructureList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerStructureList o = new Aow.Units.AoWE.TPlayerStructureList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TArmyList (instance size 24, VMT 55709FD8) }
     public partial class TArmyList : Aow.Units.Engine.TEChangeNotifyEventList
     {
+        public TArmyList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TPlayer FPlayer;
         // Player.PAS:6
         // { $14 }
@@ -1169,26 +1161,15 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:708
-        public static new Aow.Units.AoWE.TArmyList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TArmyList o = new Aow.Units.AoWE.TArmyList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitProduction: size $10; $08 unit index, $0C researched. VMT 5570A0D0. }
     public partial class TUnitProduction : Aow.Units.Engine.TEObject
     {
+        public TUnitProduction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FUnitIndex;
         // { $08 }
         public bool FResearched;
@@ -1203,21 +1184,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TUnitProduction Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitProduction o = new Aow.Units.AoWE.TUnitProduction();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -1232,20 +1198,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnitProduction => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TUnitProduction Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TUnitProduction Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TUnitProduction o = (Aow.Units.AoWE.TUnitProduction)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TUnitProduction)base.Create(AOwner);
             }
         }
     }
@@ -1253,6 +1208,9 @@ namespace Aow.Units.AoWE
     // { TUnitProductionList: size $0C, no added fields. VMT 5570A194. }
     public partial class TUnitProductionList : Aow.Units.Engine.TENode
     {
+        public TUnitProductionList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Structur.PAS:14
         public Aow.Units.AoWE.TUnitProduction GetItem(int Index)
         {
@@ -1279,7 +1237,7 @@ namespace Aow.Units.AoWE
         // Structur.PAS:20
         public void Add(int UnitIndex, bool Researched)
         {
-            var unitProduction = Aow.Units.AoWE.TUnitProduction.Create(this);
+            var unitProduction = new Aow.Units.AoWE.TUnitProduction(this);
             unitProduction.FUnitIndex = UnitIndex;
             unitProduction.FResearched = Researched;
         }
@@ -1311,26 +1269,15 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TUnitProductionList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitProductionList o = new Aow.Units.AoWE.TUnitProductionList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TProductionItem: size $14; $08 production ID, $0C parameter, $10 group ID. VMT 5570A29C. }
     public partial class TProductionItem : Aow.Units.Engine.TEObject
     {
+        public TProductionItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FProductionID;
         // { $08 }
         public int FParameter;
@@ -1382,21 +1329,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TProductionItem Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TProductionItem o = new Aow.Units.AoWE.TProductionItem();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -1411,20 +1343,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TProductionItem => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TProductionItem Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TProductionItem Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TProductionItem o = (Aow.Units.AoWE.TProductionItem)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TProductionItem)base.Create(AOwner);
             }
         }
     }
@@ -1432,6 +1353,9 @@ namespace Aow.Units.AoWE
     // { TProductionQueue: size $10; $0C production control. VMT 5570A364. }
     public partial class TProductionQueue : Aow.Units.Engine.TENode
     {
+        public TProductionQueue(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TProductionControl FProductionControl;
         // Structur.PAS:83
         // { $0C }
@@ -1496,27 +1420,16 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TProductionQueue Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TProductionQueue o = new Aow.Units.AoWE.TProductionQueue();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TProductionSettings: size $2C; $08/$0C costs, $10 turns left, $14/$18 upkeep,
 //     $1C turns total, $1D player, $20 group, $24 unit, $28 unit production. VMT 5570A4B4. }
     public partial class TProductionSettings : Aow.Units.Engine.TEObject
     {
+        public TProductionSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FGold;
         // { $08 }
         public int FMana;
@@ -1584,21 +1497,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TProductionSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TProductionSettings o = new Aow.Units.AoWE.TProductionSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TProductionEventLog (instance size 32, VMT 5570A580) }
@@ -1758,6 +1657,15 @@ namespace Aow.Units.AoWE
 //     $18 loop queue, $1C unit productions, $20 status, $24 settings. VMT 5570A784. }
     public partial class TProductionControl : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TCityProductionControl, TProductionPlaceControl legacy factories.
+        protected TProductionControl() { }
+
+        // Structur.PAS:191
+        public TProductionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Rtl.TNotifyEvent FOnChange;
         // { $08 }
         public int FUpdateCount;
@@ -1798,11 +1706,16 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__114 = Aow.Units.AoWE.TProductionSettings.Create(null);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
+            var call__114 = new Aow.Units.AoWE.TProductionSettings(null);
             FSettings = call__114;
-            var call__115 = Aow.Units.AoWE.TUnitProductionList.Create(null);
+            var call__115 = new Aow.Units.AoWE.TUnitProductionList(null);
             FUnitProductions = call__115;
-            var call__116 = Aow.Units.AoWE.TProductionQueue.Create(null);
+            var call__116 = new Aow.Units.AoWE.TProductionQueue(null);
             FQueue = call__116;
             FQueue.FProductionControl = this;
             FStatus = Aow.Units.AoWE.TProductionControlStatus.pcsIdle;
@@ -1891,7 +1804,7 @@ namespace Aow.Units.AoWE
             bool Result = default;
             Aow.Units.AoWE.TProductionItem Item = default;
             ExecuteDeleteProductions();
-            Item = Aow.Units.AoWE.TProductionItem.Create(null);
+            Item = new Aow.Units.AoWE.TProductionItem(null);
             Item.FProductionID = 1;
             Item.FParameter = Index;
             Item.FGroupID = GroupID;
@@ -1911,7 +1824,7 @@ namespace Aow.Units.AoWE
             if (!call__125.FResearched)
             {
                 ExecuteDeleteProductions();
-                Item = Aow.Units.AoWE.TProductionItem.Create(null);
+                Item = new Aow.Units.AoWE.TProductionItem(null);
                 Item.FProductionID = 2;
                 Item.FParameter = Index;
                 ExecuteAddProduction(Item);
@@ -2666,7 +2579,7 @@ namespace Aow.Units.AoWE
                 Event = CreateProductionTE();
                 Event.FCommand = 0;
                 Event.FQueue = Queue;
-                var call__229 = Aow.Units.AoWE.TProductionItem.Create(null);
+                var call__229 = new Aow.Units.AoWE.TProductionItem(null);
                 Event.FItem = call__229;
                 {
                     // { explicit item receiver }
@@ -2775,7 +2688,7 @@ namespace Aow.Units.AoWE
                 Event = CreateProductionTE();
                 Event.FCommand = 0;
                 Event.FQueue = Queue;
-                var call__243 = Aow.Units.AoWE.TProductionItem.Create(null);
+                var call__243 = new Aow.Units.AoWE.TProductionItem(null);
                 Event.FItem = call__243;
                 {
                     // { explicit item receiver }
@@ -3108,21 +3021,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_02.inc:120
-        public static new Aow.Units.AoWE.TProductionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TProductionControl o = new Aow.Units.AoWE.TProductionControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TProductionControlList: size $10; inherited $04 item array. VMT 5570A8FC. }
@@ -3137,16 +3036,23 @@ namespace Aow.Units.AoWE
         }
 
         // System.pas:111
-        public static Aow.Units.AoWE.TProductionControlList Create()
-        {
-            return new Aow.Units.AoWE.TProductionControlList();
-        }
+
     }
 
     // { TEnchantment (instance size 24, VMT 5570A98C; $08 ID, $0C source,
 //     $10 upkeep, $14 signed dispel resistance) }
     public partial class TEnchantment : Aow.Units.Engine.TEObject
     {
+        // Spells.PAS:1692
+        // { TEnchantment: instance size 24; $08 ID, $0C source, $10 upkeep, $14 dispel resistance. }
+        public TEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FDispelResistance = 10;
+            FUpkeep = 1;
+            FSource = unchecked((sbyte)-1);
+            FEnchantmentID = 0;
+        }
+
         public int FEnchantmentID;
         // { $08 }
         public sbyte FSource;
@@ -3165,17 +3071,6 @@ namespace Aow.Units.AoWE
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FSource), 11);
             Stream.rwInteger(ref FUpkeep, 12);
             Stream.rwInteger(ref FEnchantmentID, 13);
-        }
-
-        // Spells.PAS:1692
-        // { TEnchantment: instance size 24; $08 ID, $0C source, $10 upkeep, $14 dispel resistance. }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FDispelResistance = 10;
-            FUpkeep = 1;
-            FSource = unchecked((sbyte)-1);
-            FEnchantmentID = 0;
         }
 
         // Spells.PAS:1700
@@ -3313,26 +3208,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_01.inc:28
-        public static new Aow.Units.AoWE.TEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TEnchantment o = new Aow.Units.AoWE.TEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TEnchantmentList (instance size 12, VMT 5570AA70) }
     public partial class TEnchantmentList : Aow.Units.Engine.TENode
     {
+        public TEnchantmentList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Spells.PAS:1762
         // { TEnchantmentList: instance size 12; inherited $08 children. }
         public Aow.Units.AoWE.TEnchantment GetEnchantments(int A1)
@@ -3380,21 +3264,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TEnchantmentList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TEnchantmentList o = new Aow.Units.AoWE.TEnchantmentList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TChangePlayerMagicTE (instance size 28, VMT 5570ABDC; $10 mode, $11 player, $14/$18 values) }
@@ -3686,6 +3556,9 @@ namespace Aow.Units.AoWE
     // { TPowerSource (instance size 8, VMT 5570AE18) }
     public partial class TPowerSource : Aow.Units.Engine.TEObject
     {
+        public TPowerSource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Spells.PAS:1782
         public virtual Aow.Rtl.AnsiString Name()
         {
@@ -3729,6 +3602,9 @@ namespace Aow.Units.AoWE
     // { TExternalPowerSource (instance size 12, VMT 5570AEEC; $08 external power control) }
     public partial class TExternalPowerSource : Aow.Units.AoWE.TPowerSource
     {
+        public TExternalPowerSource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TPlayerMagicControl FExternalPowerControl;
         // Spells.PAS:1835
         // { $08 }
@@ -3740,26 +3616,15 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TExternalPowerSource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TExternalPowerSource o = new Aow.Units.AoWE.TExternalPowerSource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TPowerSourceList (instance size 12, VMT 5570AFD0) }
     public partial class TPowerSourceList : Aow.Units.Engine.TENode
     {
+        public TPowerSourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Spells.PAS:1828
         public Aow.Units.AoWE.TPowerSource GetItems(int A1)
         {
@@ -3769,21 +3634,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TPowerSourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPowerSourceList o = new Aow.Units.AoWE.TPowerSourceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { 5577CA19 }
@@ -3794,6 +3645,21 @@ namespace Aow.Units.AoWE
 //     $40 power sources, $44/$45 enchantment sets, $48 changed events) }
     public partial class TPlayerMagicControl : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TCrystalMagic legacy factories.
+        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
+        public TPlayerMagicControl() { }
+
+        // Spells.PAS:1908
+        // { TPlayerMagicControl: instance size 76; $08 next enchantment ID, $0C cheat,
+//   $10 player, $14 update count, $18 external mana, $1C external power,
+//   $20 external source, $24 mana, $28 spheres, $2C research percentage,
+//   $30 spells, $34 research spell, $38 points, $3C enchantments,
+//   $40 power sources, $44/$45 active/enemy enchantments, $48 change events. }
+        public TPlayerMagicControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FNextEnchantmentID;
         // { $08 }
         public bool FCheatEnabled;
@@ -3891,17 +3757,23 @@ namespace Aow.Units.AoWE
 //   $40 power sources, $44/$45 active/enemy enchantments, $48 change events. }
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TExternalPowerSource Source = default;
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
+            Aow.Units.AoWE.TExternalPowerSource Source = default;
+
             var call__314 = new Aow.Units.Engine.TIntegerList();
             FSpells = call__314;
             var call__315 = new Aow.Units.Engine.TEventList();
             FChangedEvents = call__315;
-            var call__316 = Aow.Units.AoWE.TEnchantmentList.Create(null);
+            var call__316 = new Aow.Units.AoWE.TEnchantmentList(null);
             FEnchantments = call__316;
-            var call__317 = Aow.Units.AoWE.TPowerSourceList.Create(null);
+            var call__317 = new Aow.Units.AoWE.TPowerSourceList(null);
             FPowerSources = call__317;
-            Source = Aow.Units.AoWE.TExternalPowerSource.Create(null);
+            Source = new Aow.Units.AoWE.TExternalPowerSource(null);
             FExternalPowerSource = Source;
             Source.FExternalPowerControl = this;
             FPowerSources.AddChild(Source);
@@ -4887,27 +4759,25 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_01.inc:135
-        public static new Aow.Units.AoWE.TPlayerMagicControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerMagicControl o = new Aow.Units.AoWE.TPlayerMagicControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TGlobalEnchantment (instance size 36, VMT 5570B398; $08 ID, $0C references,
 //     $10 status, $11 mode, $14 dispel mana, $18 type, $19 player, $1C name, $20 upkeep) }
     public partial class TGlobalEnchantment : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTGlobalEnchantment.
+        // Raw allocation for TCityEnchantment, TSmokeCloudEnchantment legacy factories.
+        protected TGlobalEnchantment() { }
+
+        public TGlobalEnchantment(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // Spells.PAS:2471
+        private protected TGlobalEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FEnchantmentID;
         // { $08 }
         public int FRefCount;
@@ -4945,6 +4815,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FRefCount = 1;
             FEnchantmentMode = TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement>.Of(Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemTrueGlobal, Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemOwned);
         }
@@ -5303,21 +5178,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_01.inc:194
-        public static new Aow.Units.AoWE.TGlobalEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TGlobalEnchantment o = new Aow.Units.AoWE.TGlobalEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { 5577DA8C }
@@ -5411,6 +5272,9 @@ namespace Aow.Units.AoWE
     // { TGlobalEnchantmentList (instance size 12, VMT 5570B5C0) }
     public partial class TGlobalEnchantmentList : Aow.Units.Engine.TENode
     {
+        public TGlobalEnchantmentList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Spells.PAS:2671
         public Aow.Units.AoWE.TGlobalEnchantment GetEnchantments(int A1)
         {
@@ -5420,21 +5284,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TGlobalEnchantmentList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TGlobalEnchantmentList o = new Aow.Units.AoWE.TGlobalEnchantmentList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TChangeGlobalMagicTE (instance size 28, VMT 5570B724):
@@ -5543,6 +5393,19 @@ namespace Aow.Units.AoWE
     // { TGlobalMagicControl: size $40, VMT 5570B7F8; $08 next ID, $0C update count, $10 active types, $14 enchantments, $18..38 double-mana counters, $3C changed events. }
     public partial class TGlobalMagicControl : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
+        public TGlobalMagicControl() { }
+
+        // Spells.PAS:2673
+        public TGlobalMagicControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__437 = new Aow.Units.AoWE.TGlobalEnchantmentList(null);
+            FEnchantments = call__437;
+            var call__438 = new Aow.Units.Engine.TEventList();
+            FChangedEvents = call__438;
+            FNextEnchantmentID = 1;
+        }
+
         public int FNextEnchantmentID;
         // { $08 }
         public int FUpdateCount;
@@ -5572,17 +5435,6 @@ namespace Aow.Units.AoWE
             Stream.rwInteger(ref FNextEnchantmentID, 11);
             Stream.rwData(MemoryMarshal.AsBytes((Span<int>)FDoubleSphereManaCount).Slice(0, 36), 36, 0);
             UpdateActiveEnchantments();
-        }
-
-        // Spells.PAS:2673
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__437 = Aow.Units.AoWE.TGlobalEnchantmentList.Create(null);
-            FEnchantments = call__437;
-            var call__438 = new Aow.Units.Engine.TEventList();
-            FChangedEvents = call__438;
-            FNextEnchantmentID = 1;
         }
 
         // Spells.PAS:2690
@@ -5973,27 +5825,24 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_01.inc:258
-        public static new Aow.Units.AoWE.TGlobalMagicControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TGlobalMagicControl o = new Aow.Units.AoWE.TGlobalMagicControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Interface declaration run owned by P1. }
     // { TRace: size $18; $08 race, $0C defaults, $10 player relations, $14 enabled. }
     public partial class TRace : Aow.Units.Engine.TEObject
     {
+        // Ability.PAS:212
+        public TRace(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__477 = new Aow.Units.Engine.TIntegerList();
+            FPlayerRelations = call__477;
+            var call__478 = new Aow.Units.Engine.TByteList();
+            FDefaultRelations = call__478;
+            FRace = unchecked((sbyte)-1);
+            FEnabled = false;
+        }
+
         public sbyte FRace;
         // { $08 }
         public Aow.Units.FixedArray_byte_3 F_Race_09;
@@ -6037,18 +5886,6 @@ namespace Aow.Units.AoWE
             {
                 ResetDefaultRaceRelations();
             }
-        }
-
-        // Ability.PAS:212
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__477 = new Aow.Units.Engine.TIntegerList();
-            FPlayerRelations = call__477;
-            var call__478 = new Aow.Units.Engine.TByteList();
-            FDefaultRelations = call__478;
-            FRace = unchecked((sbyte)-1);
-            FEnabled = false;
         }
 
         // Ability.PAS:361
@@ -6293,21 +6130,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:13
-        public static new Aow.Units.AoWE.TRace Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TRace o = new Aow.Units.AoWE.TRace();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -6320,20 +6142,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P1_03.inc:13
-            public new Aow.Units.AoWE.TRace Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TRace Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TRace o = (Aow.Units.AoWE.TRace)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TRace)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -6344,13 +6155,13 @@ namespace Aow.Units.AoWE
     // { TRaceList (instance size 20, VMT 5570B974) }
     public partial class TRaceList : Aow.Units.Engine.TEControlStyleNode
     {
-        public int FRelationOffset;
         // Ability.PAS:367
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TRaceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
         }
+
+        public int FRelationOffset;
 
         // Ability.PAS:379
         public Aow.Units.AoWE.TRace GetRace(int Index)
@@ -6471,7 +6282,7 @@ namespace Aow.Units.AoWE
                     {
                         if (GetRace(I) == null)
                         {
-                            Race = Aow.Units.AoWE.TRace.Create(null);
+                            Race = new Aow.Units.AoWE.TRace(null);
                             Race.FRace = unchecked((sbyte)I);
                             Race.SetArrayOwner(this, I);
                             Race.SetEnabled(true);
@@ -6487,30 +6298,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:34
-        public static new Aow.Units.AoWE.TRaceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TRaceList o = new Aow.Units.AoWE.TRaceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TDiplomaticRelationList: size $14; inherited TByteList, $10 default relation }
     public partial class TDiplomaticRelationList : Aow.Units.Engine.TByteList
     {
         // Player.PAS:11
-        public void Create__init_TDiplomaticRelationList()
+        public TDiplomaticRelationList()
         {
-            ;
             Default = unchecked((byte)((int)Aow.Units.AoWE.TDiplomaticRelation.drUnknown));
         }
 
@@ -6537,26 +6333,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:46
-        public static Aow.Units.AoWE.TDiplomaticRelationList Create()
-        {
-            Aow.Units.AoWE.TDiplomaticRelationList o = new Aow.Units.AoWE.TDiplomaticRelationList();
-            try
-            {
-                o.Create__init_TDiplomaticRelationList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TDiplomaticRelationHistoryItem: size $10; $08 day, $0C relation }
     public partial class TDiplomaticRelationHistoryItem : Aow.Units.Engine.TEObject
     {
+        public TDiplomaticRelationHistoryItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FDay;
         // { $08 }
         public Aow.Units.AoWE.TDiplomaticRelation FRelation;
@@ -6571,21 +6356,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TDiplomaticRelationHistoryItem Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDiplomaticRelationHistoryItem o = new Aow.Units.AoWE.TDiplomaticRelationHistoryItem();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -6600,20 +6370,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDiplomaticRelationHistoryItem => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TDiplomaticRelationHistoryItem Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDiplomaticRelationHistoryItem Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDiplomaticRelationHistoryItem o = (Aow.Units.AoWE.TDiplomaticRelationHistoryItem)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDiplomaticRelationHistoryItem)base.Create(AOwner);
             }
         }
     }
@@ -6621,6 +6380,9 @@ namespace Aow.Units.AoWE
     // { TDiplomaticRelationHistoryList (instance size 12, VMT 5570BBE8) }
     public partial class TDiplomaticRelationHistoryList : Aow.Units.Engine.TENode
     {
+        public TDiplomaticRelationHistoryList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Player.PAS:45
         public Aow.Units.AoWE.TDiplomaticRelationHistoryItem GetItems(int Index)
         {
@@ -6681,27 +6443,12 @@ namespace Aow.Units.AoWE
         // Player.PAS:69
         public void Add(Aow.Units.AoWE.TDiplomaticRelation Relation, int Day)
         {
-            var diplomaticRelationHistoryItem = Aow.Units.AoWE.TDiplomaticRelationHistoryItem.Create(this);
+            var diplomaticRelationHistoryItem = new Aow.Units.AoWE.TDiplomaticRelationHistoryItem(this);
             diplomaticRelationHistoryItem.FDay = Day;
             diplomaticRelationHistoryItem.FRelation = Relation;
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TDiplomaticRelationHistoryList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDiplomaticRelationHistoryList o = new Aow.Units.AoWE.TDiplomaticRelationHistoryList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
@@ -6716,20 +6463,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDiplomaticRelationHistoryList => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:631
-            public new Aow.Units.AoWE.TDiplomaticRelationHistoryList Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDiplomaticRelationHistoryList Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDiplomaticRelationHistoryList o = (Aow.Units.AoWE.TDiplomaticRelationHistoryList)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDiplomaticRelationHistoryList)base.Create(AOwner);
             }
         }
     }
@@ -6737,6 +6473,15 @@ namespace Aow.Units.AoWE
     // { TPlayerDiplomaticRelations: size $14; $08 player, $0C relations, $10 history }
     public partial class TPlayerDiplomaticRelations : Aow.Units.Engine.TEObject
     {
+        // Player.PAS:78
+        public TPlayerDiplomaticRelations(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__528 = new Aow.Units.Engine.TByteList();
+            FRelations = call__528;
+            var call__529 = Aow.Units.Engine.TENode.Create(null);
+            FHistory = call__529;
+        }
+
         public Aow.Units.AoWE.TPlayer FPlayer;
         // { $08 }
         public Aow.Units.Engine.TByteList FRelations;
@@ -6761,16 +6506,6 @@ namespace Aow.Units.AoWE
             {
                 FRelations.Default = unchecked((byte)((int)Aow.Units.AoWE.TDiplomaticRelation.drUnknown));
             }
-        }
-
-        // Player.PAS:78
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__528 = new Aow.Units.Engine.TByteList();
-            FRelations = call__528;
-            var call__529 = Aow.Units.Engine.TENode.Create(null);
-            FHistory = call__529;
         }
 
         // Player.PAS:127
@@ -6868,7 +6603,7 @@ namespace Aow.Units.AoWE
                 if (!((call__537 + 1) < call__538))
                     break;
                 {
-                    var call__539 = Aow.Units.AoWE.TDiplomaticRelationHistoryList.Create(null);
+                    var call__539 = new Aow.Units.AoWE.TDiplomaticRelationHistoryList(null);
                     call__539.Owner = FHistory;
                 }
             }
@@ -6888,26 +6623,22 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:79
-        public static new Aow.Units.AoWE.TPlayerDiplomaticRelations Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerDiplomaticRelations o = new Aow.Units.AoWE.TPlayerDiplomaticRelations();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TLeaderSetupControl: size $28; $08 references, $0C leader, $10 mode, $14 original leader, $18 items, $20 done event. VMT 5570BE8C. }
     public partial class TLeaderSetupControl : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TCustomizeLeaderControl legacy factories.
+        protected TLeaderSetupControl() { }
+
+        // Player.PAS:1755
+        // { Return the final search index. }
+        public TLeaderSetupControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FRefCount;
         // { $08 }
         public Aow.Units.AoWE.TLeader FLeader;
@@ -6938,6 +6669,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__544 = new Aow.Units.Engine.TIntegerList();
             FItems = call__544;
             var call__545 = Aow.Units.AoWE.TLeader.Create(null);
@@ -6986,26 +6722,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:99
-        public static new Aow.Units.AoWE.TLeaderSetupControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TLeaderSetupControl o = new Aow.Units.AoWE.TLeaderSetupControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TTurnInfoItem: size $1C; $08 gold, $0C mana, $10 structures, $14 army strength, $18 heroes }
     public partial class TTurnInfoItem : Aow.Units.Engine.TEObject
     {
+        public TTurnInfoItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FGold;
         // { $08 }
         public int FMana;
@@ -7037,21 +6762,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TTurnInfoItem Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TTurnInfoItem o = new Aow.Units.AoWE.TTurnInfoItem();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -7066,20 +6776,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TTurnInfoItem => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TTurnInfoItem Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TTurnInfoItem Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TTurnInfoItem o = (Aow.Units.AoWE.TTurnInfoItem)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TTurnInfoItem)base.Create(AOwner);
             }
         }
     }
@@ -7087,6 +6786,9 @@ namespace Aow.Units.AoWE
     // { TTurnInfo (instance size 12, VMT 5570C01C) }
     public partial class TTurnInfo : Aow.Units.Engine.TENode
     {
+        public TTurnInfo(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Player.PAS:177
         public Aow.Units.AoWE.TTurnInfoItem GetTurnInfo(int Index)
         {
@@ -7096,26 +6798,19 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TTurnInfo Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TTurnInfo o = new Aow.Units.AoWE.TTurnInfo();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TPlayerStatistics: size $14; $08 turn info, $0C units killed, $10 units lost }
     public partial class TPlayerStatistics : Aow.Units.Engine.TEObject
     {
+        // Player.PAS:182
+        public TPlayerStatistics(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__547 = new Aow.Units.AoWE.TTurnInfo(null);
+            FTurnInfo = call__547;
+        }
+
         public Aow.Units.AoWE.TTurnInfo FTurnInfo;
         // { $08 }
         public int FUnitsKilled;
@@ -7138,35 +6833,16 @@ namespace Aow.Units.AoWE
             Stream.rwInteger(ref FUnitsLost, 22);
         }
 
-        // Player.PAS:182
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__547 = Aow.Units.AoWE.TTurnInfo.Create(null);
-            FTurnInfo = call__547;
-        }
-
         // intf_P1_03.inc:133
-        public static new Aow.Units.AoWE.TPlayerStatistics Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerStatistics o = new Aow.Units.AoWE.TPlayerStatistics();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TIncomeSource (instance size 8, VMT 5570C1D8) }
     public partial class TIncomeSource : Aow.Units.Engine.TEObject
     {
+        public TIncomeSource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Player.PAS:202
         public virtual Aow.Rtl.AnsiString Name()
         {
@@ -7213,6 +6889,9 @@ namespace Aow.Units.AoWE
     // { TIncomeSourceList (instance size 12, VMT 5570C2A8) }
     public partial class TIncomeSourceList : Aow.Units.Engine.TENode
     {
+        public TIncomeSourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Player.PAS:231
         public Aow.Units.AoWE.TIncomeSource GetItems(int Index)
         {
@@ -7222,26 +6901,20 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TIncomeSourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TIncomeSourceList o = new Aow.Units.AoWE.TIncomeSourceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TPBEMPlayerSettings: size $10; $08 status, $0C email game }
     public partial class TPBEMPlayerSettings : Aow.Units.Engine.TEObject
     {
+        // Player.PAS:236
+        public TPBEMPlayerSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FStatus = TSet<Aow.Units.AoWE.TPBEMPlayerStatusElement>.Of();
+            var call__548 = new Aow.Units.AoWE.TEmailGame(null);
+            FEmailGame = call__548;
+        }
+
         public TSet<Aow.Units.AoWE.TPBEMPlayerStatusElement> FStatus;
         // { $08 }
         public Aow.Units.FixedArray_byte_3 F_PBEMPlayerSettings_09;
@@ -7263,15 +6936,6 @@ namespace Aow.Units.AoWE
             Stream.rwEObject(FEmailGame, 21);
         }
 
-        // Player.PAS:236
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FStatus = TSet<Aow.Units.AoWE.TPBEMPlayerStatusElement>.Of();
-            var call__548 = Aow.Units.AoWE.TEmailGame.Create(null);
-            FEmailGame = call__548;
-        }
-
         // Player.PAS:256
         public void SetGame(Aow.Units.Engine.TEObject Game)
         {
@@ -7279,21 +6943,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:160
-        public static new Aow.Units.AoWE.TPBEMPlayerSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPBEMPlayerSettings o = new Aow.Units.AoWE.TPBEMPlayerSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TPlayer: size $DC; $08 update count, $0C..$18 events, $1C structures,
@@ -7307,6 +6957,92 @@ namespace Aow.Units.AoWE
 //     $74 emerging hero ID, $78 emerge day, $7C highest hero level, $BC/$C0 settings/description }
     public partial class TPlayer : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
+        // Raw allocation for Game/FrameFixtureChecks.cs.
+        public TPlayer() { }
+
+        // Player.PAS:261
+        public TPlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__562 = new Aow.Units.Engine.TEventList();
+            FIncomeChangedEvents = call__562;
+            var call__563 = new Aow.Units.Engine.TEventList();
+            FGemsChangedEvents = call__563;
+            var call__564 = new Aow.Units.Engine.TEventList();
+            FUpkeepChangedEvents = call__564;
+            var call__565 = new Aow.Units.AoWE.TPlayerStructureList(null);
+            FStructures = call__565;
+            FStructures.FPlayer = this;
+            var call__566 = new Aow.Units.AoWE.TArmyList(null);
+            FArmies = call__566;
+            var call__567 = new Aow.Units.AoWE.TAIPlayerControl(null);
+            FAIControl = call__567;
+            FAIControl.FPlayer = this;
+            var call__568 = new Aow.Units.AoWE.TAIBudgetManager(null);
+            FAIBudget = call__568;
+            FAIBudget.FPlayer = this;
+            var call__569 = new Aow.Units.AoWE.TAIGroupList(null);
+            FAIGroups = call__569;
+            var call__570 = new Aow.Units.AoWE.TPlayerMagicControl(null);
+            FMagicControl = call__570;
+            FMagicControl.FPlayer = this;
+            var call__571 = new Aow.Units.AoWE.TPlayerStatistics(null);
+            FStatistics = call__571;
+            FArmies.FPlayer = this;
+            FArmies.Events.Add(ArmiesChanged);
+            var call__572 = new Aow.Units.AoWE.THeroList(null);
+            FHeroes = call__572;
+            FInitialGold = 250;
+            FBaseIncome = 0;
+            FPlayerIndex = unchecked((sbyte)-1);
+            FParticipating = false;
+            var call__573 = Aow.Units.EventLog.TEventLogbook.Create(null);
+            FEventLogbook = call__573;
+            FEventLogbook.SetOnChanged(LogbookChangedEvent);
+            var call__574 = new Aow.Units.Engine.TEventList();
+            FLogbookChangedEvents = call__574;
+            var call__575 = new Aow.Units.AoWE.TPlayerDiplomaticRelations(null);
+            FDiplomaticRelations = call__575;
+            FDiplomaticRelations.FPlayer = this;
+            var call__576 = new Aow.Units.AoWE.TDiplomaticRelationList();
+            FLegacyNewRelations = call__576;
+            var call__577 = new Aow.Units.AoWE.TProductionControlList();
+            FProductionControls = call__577;
+            var call__578 = new Aow.Units.AoWE.TIncomeSourceList(null);
+            FIncomeSources = call__578;
+            var call__579 = Aow.Units.AoWE.TLeader.Create(null);
+            FLeaderSetup = call__579;
+            FStatus = Aow.Units.AoWE.TPlayerStatus.psIdle;
+            FGameOverStatus = Aow.Units.AoWE.TGameOverStatus.goNone;
+            var call__580 = new Aow.Units.Engine.TIntegerList();
+            FFirstDaySeen = call__580;
+            FFirstDaySeen.Default = -1;
+            var call__581 = new Aow.Units.Engine.TIntegerList();
+            FLastDaySeen = call__581;
+            FLastDaySeen.Default = -1;
+            var call__582 = new Aow.Units.AoWE.TPlayerStructureList(null);
+            FVictoryLocations = call__582;
+            var call__583 = new Aow.Units.AoWE.TPlayerStructureList(null);
+            FKnownStructures = call__583;
+            var call__584 = new Aow.Rtl.TStringList();
+            FMessages = call__584;
+            var call__585 = new Aow.Units.AoWE.TDiplomaticActionList(null);
+            FDiplomaticActions = call__585;
+            var call__586 = new Aow.Units.Engine.TBitList();
+            FAIValidAttackPlayers = call__586;
+            var call__587 = new Aow.Units.AoWE.TPBEMPlayerSettings(null);
+            FPBEMSettings = call__587;
+            var call__588 = new Aow.Units.AoWE.TDiplomaticRelationList();
+            FLegacyRelations = call__588;
+            FHeroEmerging = false;
+            FBaseHeroJoinDay = -1;
+            FHeroJoinDay = -1;
+            FPlayerRace = unchecked((sbyte)-1);
+            FViewX = 255;
+            FViewY = 255;
+        }
+
         public int FUpdateCount;
         // { $08 }
         public Aow.Units.Engine.TEventList FGemsChangedEvents;
@@ -7744,88 +7480,6 @@ namespace Aow.Units.AoWE
             {
                 FPlayerType = Aow.Units.AoWE.TPlayerType.ptIndependent;
             }
-        }
-
-        // Player.PAS:261
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__562 = new Aow.Units.Engine.TEventList();
-            FIncomeChangedEvents = call__562;
-            var call__563 = new Aow.Units.Engine.TEventList();
-            FGemsChangedEvents = call__563;
-            var call__564 = new Aow.Units.Engine.TEventList();
-            FUpkeepChangedEvents = call__564;
-            var call__565 = Aow.Units.AoWE.TPlayerStructureList.Create(null);
-            FStructures = call__565;
-            FStructures.FPlayer = this;
-            var call__566 = Aow.Units.AoWE.TArmyList.Create(null);
-            FArmies = call__566;
-            var call__567 = Aow.Units.AoWE.TAIPlayerControl.Create(null);
-            FAIControl = call__567;
-            FAIControl.FPlayer = this;
-            var call__568 = Aow.Units.AoWE.TAIBudgetManager.Create(null);
-            FAIBudget = call__568;
-            FAIBudget.FPlayer = this;
-            var call__569 = Aow.Units.AoWE.TAIGroupList.Create(null);
-            FAIGroups = call__569;
-            var call__570 = Aow.Units.AoWE.TPlayerMagicControl.Create(null);
-            FMagicControl = call__570;
-            FMagicControl.FPlayer = this;
-            var call__571 = Aow.Units.AoWE.TPlayerStatistics.Create(null);
-            FStatistics = call__571;
-            FArmies.FPlayer = this;
-            FArmies.Events.Add(ArmiesChanged);
-            var call__572 = Aow.Units.AoWE.THeroList.Create(null);
-            FHeroes = call__572;
-            FInitialGold = 250;
-            FBaseIncome = 0;
-            FPlayerIndex = unchecked((sbyte)-1);
-            FParticipating = false;
-            var call__573 = Aow.Units.EventLog.TEventLogbook.Create(null);
-            FEventLogbook = call__573;
-            FEventLogbook.SetOnChanged(LogbookChangedEvent);
-            var call__574 = new Aow.Units.Engine.TEventList();
-            FLogbookChangedEvents = call__574;
-            var call__575 = Aow.Units.AoWE.TPlayerDiplomaticRelations.Create(null);
-            FDiplomaticRelations = call__575;
-            FDiplomaticRelations.FPlayer = this;
-            var call__576 = Aow.Units.AoWE.TDiplomaticRelationList.Create();
-            FLegacyNewRelations = call__576;
-            var call__577 = Aow.Units.AoWE.TProductionControlList.Create();
-            FProductionControls = call__577;
-            var call__578 = Aow.Units.AoWE.TIncomeSourceList.Create(null);
-            FIncomeSources = call__578;
-            var call__579 = Aow.Units.AoWE.TLeader.Create(null);
-            FLeaderSetup = call__579;
-            FStatus = Aow.Units.AoWE.TPlayerStatus.psIdle;
-            FGameOverStatus = Aow.Units.AoWE.TGameOverStatus.goNone;
-            var call__580 = new Aow.Units.Engine.TIntegerList();
-            FFirstDaySeen = call__580;
-            FFirstDaySeen.Default = -1;
-            var call__581 = new Aow.Units.Engine.TIntegerList();
-            FLastDaySeen = call__581;
-            FLastDaySeen.Default = -1;
-            var call__582 = Aow.Units.AoWE.TPlayerStructureList.Create(null);
-            FVictoryLocations = call__582;
-            var call__583 = Aow.Units.AoWE.TPlayerStructureList.Create(null);
-            FKnownStructures = call__583;
-            var call__584 = new Aow.Rtl.TStringList();
-            FMessages = call__584;
-            var call__585 = Aow.Units.AoWE.TDiplomaticActionList.Create(null);
-            FDiplomaticActions = call__585;
-            var call__586 = new Aow.Units.Engine.TBitList();
-            FAIValidAttackPlayers = call__586;
-            var call__587 = Aow.Units.AoWE.TPBEMPlayerSettings.Create(null);
-            FPBEMSettings = call__587;
-            var call__588 = Aow.Units.AoWE.TDiplomaticRelationList.Create();
-            FLegacyRelations = call__588;
-            FHeroEmerging = false;
-            FBaseHeroJoinDay = -1;
-            FHeroJoinDay = -1;
-            FPlayerRace = unchecked((sbyte)-1);
-            FViewX = 255;
-            FViewY = 255;
         }
 
         // Player.PAS:974
@@ -9032,7 +8686,7 @@ namespace Aow.Units.AoWE
             int J = default;
             Aow.Units.AoWE.TArmy Army = default;
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
-            var call__726 = Aow.Units.AoWE.TTurnInfoItem.Create(FStatistics.FTurnInfo);
+            var call__726 = new Aow.Units.AoWE.TTurnInfoItem(FStatistics.FTurnInfo);
             Info = call__726;
             if (FGameOverStatus != Aow.Units.AoWE.TGameOverStatus.goLost)
             {
@@ -9282,7 +8936,7 @@ namespace Aow.Units.AoWE
             var call__749 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Target);
             if (call__749.FStatus == Aow.Units.AoWE.TPlayerStatus.psPlaying)
             {
-                Result = Aow.Units.AoWE.TDiplomaticAction.Create(null);
+                Result = new Aow.Units.AoWE.TDiplomaticAction(null);
                 Result.FSource = unchecked((sbyte)FPlayerIndex);
                 Result.FTarget = unchecked((sbyte)Target);
                 Result.FOtherPlayer = unchecked((sbyte)Other);
@@ -9640,21 +9294,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:248
-        public static new Aow.Units.AoWE.TPlayer Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayer o = new Aow.Units.AoWE.TPlayer();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -9667,20 +9306,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P1_03.inc:248
-            public new Aow.Units.AoWE.TPlayer Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TPlayer Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TPlayer o = (Aow.Units.AoWE.TPlayer)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TPlayer)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -9691,19 +9319,13 @@ namespace Aow.Units.AoWE
     // { TPlayerList: size $20; $10 active, $14 local, $18 human, $1C local human lists. VMT 5570C5E8. }
     public partial class TPlayerList : Aow.Units.Engine.TEControlStyleNode
     {
-        public Aow.Units.Engine.TByteList FActivePlayers;
-        // { $10 }
-        public int F_PlayerList_14;
-        public Aow.Units.Engine.TByteList FLocalPlayers;
-        // { $18 }
-        // { conflict: FLocalPlayers: TByteList; $14 }
-        // { conflict: FHumanPlayers: TByteList; }
-        // { conflict: FActivePlayers: TIntegerList; }
-        public Aow.Units.Engine.TByteList FLocalHumanPlayers;
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        // Raw allocation for Game/FrameFixtureChecks.cs.
+        public TPlayerList() { }
+
         // Player.PAS:1414
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TPlayerList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
             SetNumberOfPlayers(2);
             var call__802 = new Aow.Units.Engine.TByteList();
@@ -9715,6 +9337,16 @@ namespace Aow.Units.AoWE
             var call__805 = new Aow.Units.Engine.TByteList();
             FLocalPlayers = call__805;
         }
+
+        public Aow.Units.Engine.TByteList FActivePlayers;
+        // { $10 }
+        public int F_PlayerList_14;
+        public Aow.Units.Engine.TByteList FLocalPlayers;
+        // { $18 }
+        // { conflict: FLocalPlayers: TByteList; $14 }
+        // { conflict: FHumanPlayers: TByteList; }
+        // { conflict: FActivePlayers: TIntegerList; }
+        public Aow.Units.Engine.TByteList FLocalHumanPlayers;
 
         // Player.PAS:1543
         public override void Assign(Aow.Units.Engine.TEObject Source, Aow.Units.Engine.TEngine AEngine)
@@ -10089,7 +9721,7 @@ namespace Aow.Units.AoWE
                 if (!(call__847 <= Value))
                     break;
                 {
-                    Player = Aow.Units.AoWE.TPlayer.Create(null);
+                    Player = new Aow.Units.AoWE.TPlayer(null);
                     var call__848 = Count;
                     Player.SetPlayerIndex(unchecked((sbyte)call__848));
                     var call__849 = Count;
@@ -10326,21 +9958,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:319
-        public static new Aow.Units.AoWE.TPlayerList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerList o = new Aow.Units.AoWE.TPlayerList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAoWNewHSMapSettings: size $20; inherited $14 map and $1C level class IDs. VMT 5570C6E0. }
@@ -10652,6 +10270,15 @@ namespace Aow.Units.AoWE
     // { TSubMove: instance size $14; $08 location, $0C origin, $10 move point lines. }
     public partial class TSubMove : Aow.Units.Engine.TEObject
     {
+        // MoveT.PAS:20
+        public TSubMove(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__878 = new Aow.Units.Engine.TDoubleItemList();
+            FMovePointLines = call__878;
+            FOrigin.XYL = 16777215;
+            FLocation.XYL = 16777215;
+        }
+
         public Aow.Units.HSEngine.TXYL FLocation;
         // { $08 }
         public Aow.Units.HSEngine.TXYL FOrigin;
@@ -10665,16 +10292,6 @@ namespace Aow.Units.AoWE
             base.Destroy();
         }
 
-        // MoveT.PAS:20
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__878 = new Aow.Units.Engine.TDoubleItemList();
-            FMovePointLines = call__878;
-            FOrigin.XYL = 16777215;
-            FLocation.XYL = 16777215;
-        }
-
         // MoveT.PAS:34
         public void AddMovePointLine(int Direction, int Count)
         {
@@ -10682,26 +10299,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_01.inc:9
-        public static new Aow.Units.AoWE.TSubMove Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TSubMove o = new Aow.Units.AoWE.TSubMove();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TSubMoveList (instance size 12, VMT 5570CAF8) }
     public partial class TSubMoveList : Aow.Units.Engine.TENode
     {
+        public TSubMoveList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // MoveT.PAS:39
         public Aow.Units.AoWE.TSubMove GetSubMove(int Index)
         {
@@ -10757,25 +10363,20 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TSubMoveList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TSubMoveList o = new Aow.Units.AoWE.TSubMoveList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public partial class TMoveControlSettings : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TCombatMoveControlSettings legacy factories.
+        protected TMoveControlSettings() { }
+
+        // MoveT.PAS:73
+        public TMoveControlSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FRefCount;
         // { $08 }
         public int FMovePointsLimit;
@@ -10852,14 +10453,19 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FRefCount = 1;
             var call__880 = new Aow.Rtl.TList();
             FProcessedMapFields = call__880;
             var call__881 = new Aow.Units.AoWE.TMovepath();
             FPath = call__881;
-            var call__882 = Aow.Units.AoWE.TSubMoveList.Create(null);
+            var call__882 = new Aow.Units.AoWE.TSubMoveList(null);
             FSubMoves = call__882;
-            var call__883 = Aow.Units.AoWE.TUnitUserList.Create(null);
+            var call__883 = new Aow.Units.AoWE.TUnitUserList(null);
             FUnits = call__883;
             Reset();
         }
@@ -11069,21 +10675,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_01.inc:63
-        public static new Aow.Units.AoWE.TMoveControlSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TMoveControlSettings o = new Aow.Units.AoWE.TMoveControlSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMoveControl: instance size $1E0; $04 map, $08 status, $09 player, $0A mode,
@@ -11093,6 +10685,17 @@ namespace Aow.Units.AoWE
 //     $1D0 direct route, $1D8 exploration mask, $1DC settings. }
     public partial class TMoveControl : Aow.Rtl.TObject
     {
+        // Raw allocation for TCombatMoveControl legacy factories.
+        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
+        public TMoveControl() { }
+
+        // MoveT.PAS:257
+        // { +004 }
+        public TMoveControl(Aow.Units.HSEngine.THSMap AOwner)
+        {
+            InitializeConstruction(AOwner);
+        }
+
         public Aow.Units.HSEngine.THSMap FMap;
         // { $04; AoWTCPCK 0041B428 }
         public TSet<Aow.Units.AoWE.TMoveControlStatusElement> FStatus;
@@ -11278,7 +10881,11 @@ namespace Aow.Units.AoWE
         // { +004 }
         public void Create__init_TMoveControl(Aow.Units.HSEngine.THSMap AOwner)
         {
-            ;
+            InitializeConstruction(AOwner);
+        }
+
+        private void InitializeConstruction(Aow.Units.HSEngine.THSMap AOwner)
+        {
             FMap = AOwner;
             var call__897 = new Aow.Units.HSEngine.TXYLList();
             FGapStarts = call__897;
@@ -11441,7 +11048,7 @@ namespace Aow.Units.AoWE
                     }
                     else
                     {
-                        SubMove = Aow.Units.AoWE.TSubMove.Create(null);
+                        SubMove = new Aow.Units.AoWE.TSubMove(null);
                         var call__915 = Target.GetXYL();
                         SubMove.FLocation.XYL = call__915;
                         var call__916 = Source.GetXYL();
@@ -11462,7 +11069,7 @@ namespace Aow.Units.AoWE
             int I = default;
             int Count = default;
             int HT = default;
-            SubMove = Aow.Units.AoWE.TSubMove.Create(null);
+            SubMove = new Aow.Units.AoWE.TSubMove(null);
             var call__917 = MapF.GetXYL();
             SubMove.FLocation.XYL = call__917;
             if (Origin != null)
@@ -11939,21 +11546,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_01.inc:120
-        public static Aow.Units.AoWE.TMoveControl Create(Aow.Units.HSEngine.THSMap AOwner)
-        {
-            Aow.Units.AoWE.TMoveControl o = new Aow.Units.AoWE.TMoveControl();
-            try
-            {
-                o.Create__init_TMoveControl(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAoWTokenManager (instance size 28, VMT 5570CE24) }
@@ -12102,6 +11695,13 @@ namespace Aow.Units.AoWE
 //     $18 disconnected-player list, $1C sync warning shown. VMT 5570D074. }
     public partial class TPlayerControl : Aow.Units.Engine.TEObject
     {
+        // PlayerC.PAS:1
+        public TPlayerControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__963 = new Aow.Units.Engine.TDoubleItemList();
+            FDisconnectedPlayers = call__963;
+        }
+
         public Aow.Units.AoWE.TExitGameCallBack FExitCallBack;
         // { $08 }
         public Aow.Units.AoWE.TExitGameMode FExitMode;
@@ -12126,14 +11726,6 @@ namespace Aow.Units.AoWE
 
             FDisconnectedPlayers.Free();
             base.Destroy();
-        }
-
-        // PlayerC.PAS:1
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__963 = new Aow.Units.Engine.TDoubleItemList();
-            FDisconnectedPlayers = call__963;
         }
 
         // PlayerC.PAS:70
@@ -13069,27 +12661,20 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_04.inc:26
-        public static new Aow.Units.AoWE.TPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerControl o = new Aow.Units.AoWE.TPlayerControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TTextControlItem (instance size 20, VMT 5570D198) }
     // { TTextControlItem: instance size $14; +$08 ID, +$0C Text, +$10 Name. }
     public partial class TTextControlItem : Aow.Units.Engine.TEObject
     {
+        // Structur.PAS:4394
+        public TTextControlItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1059 = new Aow.Rtl.TStringList();
+            FText = call__1059;
+        }
+
         public int FID;
         // { $08 }
         public Aow.Rtl.TStrings FText;
@@ -13115,30 +12700,7 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // Structur.PAS:4394
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1059 = new Aow.Rtl.TStringList();
-            FText = call__1059;
-        }
-
         // intf_P1_04.inc:67
-        public static new Aow.Units.AoWE.TTextControlItem Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TTextControlItem o = new Aow.Units.AoWE.TTextControlItem();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -13151,20 +12713,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P1_04.inc:67
-            public new Aow.Units.AoWE.TTextControlItem Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TTextControlItem Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TTextControlItem o = (Aow.Units.AoWE.TTextControlItem)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TTextControlItem)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -13176,6 +12727,9 @@ namespace Aow.Units.AoWE
     // { TTextControl: instance size $0C; inherits the children list at +$08. }
     public partial class TTextControl : Aow.Units.Engine.TENode
     {
+        public TTextControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Structur.PAS:4419
         public Aow.Units.AoWE.TTextControlItem GetItem(int Index)
         {
@@ -13206,7 +12760,7 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TTextControlItem New()
         {
             Aow.Units.AoWE.TTextControlItem Result = default;
-            Result = Aow.Units.AoWE.TTextControlItem.Create(this);
+            Result = new Aow.Units.AoWE.TTextControlItem(this);
             return Result;
         }
 
@@ -13258,21 +12812,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TTextControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TTextControl o = new Aow.Units.AoWE.TTextControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TNewTurnEventLog: size $24; $18 player, $1C text, $20 mode, $21 dialog style. VMT 5570D448. }
@@ -13308,6 +12848,9 @@ namespace Aow.Units.AoWE
     // { TTurnPlayerControl: size $20, no added fields. VMT 5570D54C. }
     public partial class TTurnPlayerControl : Aow.Units.AoWE.TPlayerControl
     {
+        public TTurnPlayerControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // PlayerC.PAS:589
         public override void NewTurn(sbyte Player)
         {
@@ -13438,7 +12981,7 @@ namespace Aow.Units.AoWE
                     var call__1083 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
                     if (call__1083.FMagicControl.FResearchSpellID == 0)
                     {
-                        Spells = Aow.Units.AoWE.TSpellList.Create();
+                        Spells = new Aow.Units.AoWE.TSpellList();
                         var call__1084 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
                         call__1084.FMagicControl.ListResearchSpells(ref Spells, TSet<Aow.Units.AoWE.TSpellType>.Of(Aow.Units.AoWE.TSpellType.stCombat, Aow.Units.AoWE.TSpellType.stUnit, Aow.Units.AoWE.TSpellType.stGlobal));
                         if (Spells.GetCount() > 0)
@@ -13803,21 +13346,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_04.inc:26
-        public static new Aow.Units.AoWE.TTurnPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TTurnPlayerControl o = new Aow.Units.AoWE.TTurnPlayerControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -13832,20 +13360,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TTurnPlayerControl => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_04.inc:26
-            public new Aow.Units.AoWE.TTurnPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TTurnPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TTurnPlayerControl o = (Aow.Units.AoWE.TTurnPlayerControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TTurnPlayerControl)base.Create(AOwner);
             }
         }
     }
@@ -13878,6 +13395,9 @@ namespace Aow.Units.AoWE
     // { TPBEMPlayerControl: size $24; $20 local player. VMT 5570D7AC. }
     public partial class TPBEMPlayerControl : Aow.Units.AoWE.TTurnPlayerControl
     {
+        public TPBEMPlayerControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public sbyte FLocalPlayer;
         // { $20 }
         public Aow.Units.FixedArray_byte_3 F_PBEMPlayerControl_21;
@@ -14418,21 +13938,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_04.inc:26
-        public static new Aow.Units.AoWE.TPBEMPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPBEMPlayerControl o = new Aow.Units.AoWE.TPBEMPlayerControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TTurnPlayerControl.Meta
         {
@@ -14447,20 +13952,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPBEMPlayerControl => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_04.inc:26
-            public new Aow.Units.AoWE.TPBEMPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TPBEMPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TPBEMPlayerControl o = (Aow.Units.AoWE.TPBEMPlayerControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TPBEMPlayerControl)base.Create(AOwner);
             }
         }
     }
@@ -14468,6 +13962,9 @@ namespace Aow.Units.AoWE
     // { TSimultaniousPlayerControl: size $20, no added fields. VMT 5570D8C8. }
     public partial class TSimultaniousPlayerControl : Aow.Units.AoWE.TPlayerControl
     {
+        public TSimultaniousPlayerControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // PlayerC.PAS:1343
         public override void NewDay()
         {
@@ -14513,7 +14010,7 @@ namespace Aow.Units.AoWE
                         var call__1212 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
                         if (call__1212.FMagicControl.FResearchSpellID == 0)
                         {
-                            Spells = Aow.Units.AoWE.TSpellList.Create();
+                            Spells = new Aow.Units.AoWE.TSpellList();
                             var call__1213 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
                             call__1213.FMagicControl.ListResearchSpells(ref Spells, TSet<Aow.Units.AoWE.TSpellType>.Of(Aow.Units.AoWE.TSpellType.stCombat, Aow.Units.AoWE.TSpellType.stUnit, Aow.Units.AoWE.TSpellType.stGlobal));
                             if (Spells.GetCount() > 0)
@@ -14840,21 +14337,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_04.inc:26
-        public static new Aow.Units.AoWE.TSimultaniousPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TSimultaniousPlayerControl o = new Aow.Units.AoWE.TSimultaniousPlayerControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -14869,20 +14351,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSimultaniousPlayerControl => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_04.inc:26
-            public new Aow.Units.AoWE.TSimultaniousPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TSimultaniousPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TSimultaniousPlayerControl o = (Aow.Units.AoWE.TSimultaniousPlayerControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TSimultaniousPlayerControl)base.Create(AOwner);
             }
         }
     }
@@ -14955,6 +14426,16 @@ namespace Aow.Units.AoWE
 //     $24 FMovePos, $28 FValid. }
     public partial class TMoveSettings : Aow.Units.Engine.TEObject
     {
+        // Structur.PAS:4011
+        // { TMoveSettings (instance size 44): $08 path, $0C path cost, $10 object,
+//   $14 available points, $1C priority, $20 selection, $24 position, $28 valid. }
+        public TMoveSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1253 = new Aow.Units.AoWE.TMovepath();
+            FPath = call__1253;
+            FPriority = 1;
+        }
+
         public Aow.Units.AoWE.TMovepath FPath;
         // { $08 }
         public int FPathMovePoints;
@@ -14983,16 +14464,6 @@ namespace Aow.Units.AoWE
             base.Destroy();
         }
 
-        // Structur.PAS:4011
-        // { TMoveSettings (instance size 44): $08 path, $0C path cost, $10 object,
-//   $14 available points, $1C priority, $20 selection, $24 position, $28 valid. }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1253 = new Aow.Units.AoWE.TMovepath();
-            FPath = call__1253;
-            FPriority = 1;
-        }
 
         // Structur.PAS:4024
         public Aow.Units.HSEngine.TXYL GetMoveLoc()
@@ -15020,26 +14491,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_04.inc:197
-        public static new Aow.Units.AoWE.TMoveSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TMoveSettings o = new Aow.Units.AoWE.TMoveSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMoveSettingsList (instance size 12): inherited $08 FChildren. }
     public partial class TMoveSettingsList : Aow.Units.Engine.TENode
     {
+        public TMoveSettingsList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Structur.PAS:4040
         // { TMoveSettingsList (instance size 12): inherited $08 FChildren. }
         public Aow.Units.AoWE.TMoveSettings GetMoveSettings(int Index)
@@ -15165,26 +14625,24 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TMoveSettingsList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TMoveSettingsList o = new Aow.Units.AoWE.TMoveSettingsList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMoveSelector (instance size 24, VMT 5570DC88) }
     public partial class TMoveSelector : Aow.Rtl.TObject
     {
+        // Raw allocation for AoWTC.TCombatUnitSelectionControl and its guarded factory.
+        private protected TMoveSelector(RawAoWERuleConstruction raw) { }
+
+        // Structur.PAS:4109
+        // { TMoveSelector (instance size 24): $04 control settings, $08 moves, $0C current move,
+//   $10 map, $14 status. }
+        // { $30 }
+        public TMoveSelector()
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Units.AoWE.TMoveControlSettings FMoveControlSettings;
         // { $04 }
         public Aow.Units.AoWE.TMoveSettingsList FMoveSettingsList;
@@ -15252,7 +14710,7 @@ namespace Aow.Units.AoWE
         public virtual Aow.Units.AoWE.TMoveControlSettings CreateMCS()
         {
             Aow.Units.AoWE.TMoveControlSettings Result = default;
-            Result = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+            Result = new Aow.Units.AoWE.TMoveControlSettings(null);
             return Result;
         }
 
@@ -15718,10 +15176,14 @@ namespace Aow.Units.AoWE
         // { $30 }
         public void Create__init_TMoveSelector()
         {
-            ;
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__1352 = CreateMCS();
             FMoveControlSettings = call__1352;
-            var call__1353 = Aow.Units.AoWE.TMoveSettingsList.Create(null);
+            var call__1353 = new Aow.Units.AoWE.TMoveSettingsList(null);
             FMoveSettingsList = call__1353;
             FCurrentMove = -1;
             FMap = null;
@@ -15740,7 +15202,7 @@ namespace Aow.Units.AoWE
         {
             int Result = default;
             Aow.Units.AoWE.TMoveSettings Settings = default;
-            Settings = Aow.Units.AoWE.TMoveSettings.Create(null);
+            Settings = new Aow.Units.AoWE.TMoveSettings(null);
             Settings.FMoveObject = Obj;
             Settings.SetOwner(FMoveSettingsList);
             var call__1354 = FMoveSettingsList.Count;
@@ -15795,21 +15257,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_04.inc:237
-        public static Aow.Units.AoWE.TMoveSelector Create()
-        {
-            Aow.Units.AoWE.TMoveSelector o = new Aow.Units.AoWE.TMoveSelector();
-            try
-            {
-                o.Create__init_TMoveSelector();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Interface declaration run owned by P2. }
@@ -15817,6 +15265,13 @@ namespace Aow.Units.AoWE
 //     $20 selected graphics references, $24 ignore next mouse-down. }
     public partial class TSelectedArmy : Aow.Units.AoWE.TMoveSelector
     {
+        // Army.PAS:3567
+        public TSelectedArmy() : base()
+        {
+            var call__1486 = new Aow.Units.Engine.TIntegerList();
+            FSelectedUnitGFX = call__1486;
+        }
+
         public Aow.Units.AoWE.TSelectedArmyMode FMode;
         // { $18 }
         public Aow.Units.FixedArray_byte_3 F_SelectedArmy_19;
@@ -16384,14 +15839,6 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // Army.PAS:3567
-        public void Create__init_TSelectedArmy()
-        {
-            base.Create__init_TMoveSelector();
-            var call__1486 = new Aow.Units.Engine.TIntegerList();
-            FSelectedUnitGFX = call__1486;
-        }
-
         // Army.PAS:3590
         public int AddMoveArmy(Aow.Units.AoWE.TArmyHS ArmyHS, byte Selection)
         {
@@ -16587,7 +16034,7 @@ namespace Aow.Units.AoWE
             Aow.Rtl.TRect R = default;
             Aow.Units.HSEngine.TMapLevel Level = default;
             Aow.Units.AoWE.TArmyHS ArmyHS = default;
-            Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+            Armies = new Aow.Units.AoWE.TArmyHSList(null);
             R = ((Aow.Units.AoWE.TAbstractAoWHSMapMouse)Sender).FSelectionRectangle;
             var call__1518 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWE.AoWE.AoWHSMap.ViewL);
             Level = call__1518;
@@ -16971,27 +16418,28 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_02.inc:23
-        public static new Aow.Units.AoWE.TSelectedArmy Create()
-        {
-            Aow.Units.AoWE.TSelectedArmy o = new Aow.Units.AoWE.TSelectedArmy();
-            try
-            {
-                o.Create__init_TSelectedArmy();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Interface declaration run owned by P1. }
     // { TTargetSelectionControl (instance size 92, VMT 5570E03C) }
     public partial class TTargetSelectionControl : Aow.Rtl.TObject
     {
+        // Structur.PAS:3785
+        // { TTargetSelectionControl (instance size 92): $04 images, $08 HNs,
+//   $0C status, $0D mode, $10/$18 callbacks, $20 range, $24..$2C source
+//   coordinates, $30 source, $34 change events, $38 change, $39..$3B target,
+//   $3C text, $40 title, $44 cancel text, $50/$54/$58 images. }
+        public TTargetSelectionControl()
+        {
+            var call__1577 = new Aow.Units.Engine.TEventList();
+            FOnChange = call__1577;
+            var call__1578 = new Aow.Units.Engine.TShortIntList();
+            FHNs = call__1578;
+            var call__1579 = new Aow.Rtl.TStringList();
+            FText = call__1579;
+        }
+
         public Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
         // { $04 }
         public Aow.Units.Engine.TShortIntList FHNs;
@@ -17058,21 +16506,6 @@ namespace Aow.Units.AoWE
             base.Destroy();
         }
 
-        // Structur.PAS:3785
-        // { TTargetSelectionControl (instance size 92): $04 images, $08 HNs,
-//   $0C status, $0D mode, $10/$18 callbacks, $20 range, $24..$2C source
-//   coordinates, $30 source, $34 change events, $38 change, $39..$3B target,
-//   $3C text, $40 title, $44 cancel text, $50/$54/$58 images. }
-        public void Create__init_TTargetSelectionControl()
-        {
-            ;
-            var call__1577 = new Aow.Units.Engine.TEventList();
-            FOnChange = call__1577;
-            var call__1578 = new Aow.Units.Engine.TShortIntList();
-            FHNs = call__1578;
-            var call__1579 = new Aow.Rtl.TStringList();
-            FText = call__1579;
-        }
 
         // Structur.PAS:3809
         public void TriggerOnChangeEvent(Aow.Units.AoWE.TTargetSelectionChange Change)
@@ -17349,27 +16782,16 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_05.inc:31
-        public static Aow.Units.AoWE.TTargetSelectionControl Create()
-        {
-            Aow.Units.AoWE.TTargetSelectionControl o = new Aow.Units.AoWE.TTargetSelectionControl();
-            try
-            {
-                o.Create__init_TTargetSelectionControl();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TNotifyEvent target passed directly at 55774D17. }
     // { TAoWHSMapKeyboard: size $14; $08 cheat text, $0C mode, $10 lock count. VMT 5570E11C. }
     public partial class TAoWHSMapKeyboard : Aow.Units.Engine.TEObject
     {
+        public TAoWHSMapKeyboard(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Rtl.AnsiString FCheatText;
         // { $08 }
         public Aow.Units.AoWE.TAoWHSMapKeyboardMode FMode;
@@ -17646,21 +17068,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TAoWHSMapKeyboard Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAoWHSMapKeyboard o = new Aow.Units.AoWE.TAoWHSMapKeyboard();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAbstractAoWHSMapMouse: size $50; $3C selection rectangle, $4C events. VMT 5570E22C. }
@@ -18861,6 +18269,13 @@ namespace Aow.Units.AoWE
     // { TTutorialControl: size $0C; +$08 list of shown message IDs. }
     public partial class TTutorialControl : Aow.Units.Engine.TEObject
     {
+        // AoWHSMap.PAS:1
+        public TTutorialControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1684 = new Aow.Units.Engine.TIntegerList();
+            FShownMessages = call__1684;
+        }
+
         public Aow.Units.Engine.TIntegerList FShownMessages;
         // AoWHSMap.PAS:6
         // { $08 }
@@ -18875,14 +18290,6 @@ namespace Aow.Units.AoWE
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(20, FShownMessages.LoadFromStream, FShownMessages.SaveToStream);
-        }
-
-        // AoWHSMap.PAS:1
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1684 = new Aow.Units.Engine.TIntegerList();
-            FShownMessages = call__1684;
         }
 
         // AoWHSMap.PAS:16
@@ -18922,21 +18329,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_05.inc:187
-        public static new Aow.Units.AoWE.TTutorialControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TTutorialControl o = new Aow.Units.AoWE.TTutorialControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TStartupSongList: instance size $10; inherited $08 Songs, $0C SongNames. VMT 5570E7AC. }
@@ -19541,7 +18934,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1712 = Aow.Units.AoWE.TItemControl.Create(null);
+            var call__1712 = new Aow.Units.AoWE.TItemControl(null);
             FItemControl = call__1712;
             var call__1713 = Aow.Units.AoWE.TAoWTokenManager.Create(Aow.Units.AoWE.AoWE.AoWEngine);
             FTokenManager = call__1713;
@@ -19552,30 +18945,30 @@ namespace Aow.Units.AoWE
             FPlayerCommunicator = call__1714;
             FPlayerCommunicator.Engine = Aow.Units.AoWE.AoWE.AoWEngine;
             FConnectionType = Aow.Units.AoWE.TPlayerConnectionType.pcLocal;
-            var call__1715 = Aow.Units.AoWE.TAIExecuter.Create(null);
+            var call__1715 = new Aow.Units.AoWE.TAIExecuter(null);
             FAIExecuter = call__1715;
-            var call__1716 = Aow.Units.AoWE.TAIGroupManager.Create(null);
+            var call__1716 = new Aow.Units.AoWE.TAIGroupManager(null);
             FAIGroupManager = call__1716;
-            var call__1717 = Aow.Units.AoWE.TAIPlayerActionManager.Create(null);
+            var call__1717 = new Aow.Units.AoWE.TAIPlayerActionManager(null);
             FAIPlayerActionManager = call__1717;
             FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TEndTurnAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TGroupControlAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TGroupControlLoopAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TInitializeAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TBudgetManagerAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TAutoProduceAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TDiplomacyAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TProcessEventlogAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TResearchSpellAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TCastSpellAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TStructurePhase1AIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TStructurePhase2AIPA>()]);
             FTokenManager.TokenExecuter.OnEventsExecuted.Add(FAIExecuter.TokenControlDoneEvent);
             FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.AoWE.THuntAG>()]);
             FPlayMode = Aow.Units.AoWE.TPlayMode.pmNone;
-            var call__1718 = Aow.Units.AoWE.TAoWHSMapKeyboard.Create(null);
+            var call__1718 = new Aow.Units.AoWE.TAoWHSMapKeyboard(null);
             FKeyboard = call__1718;
-            var call__1719 = Aow.Units.AoWE.TTargetSelectionControl.Create();
+            var call__1719 = new Aow.Units.AoWE.TTargetSelectionControl();
             FTargetSelection = call__1719;
             var call__1720 = new Aow.Rtl.TList();
             FEffects = call__1720;
             FDefendersSeed = 0;
             FHeroCountMax = 5;
-            var call__1721 = Aow.Units.AoWE.TSelectedArmy.Create();
+            var call__1721 = new Aow.Units.AoWE.TSelectedArmy();
             FSelectedArmy = call__1721;
             ((Aow.Units.AoWE.TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents.Add(FSelectedArmy.RectangleSelectEvent);
-            var call__1722 = Aow.Units.AoWE.TMoveControl.Create(this);
+            var call__1722 = new Aow.Units.AoWE.TMoveControl(this);
             FMoveControl = call__1722;
-            var call__1723 = Aow.Units.AoWE.TGlobalMagicControl.Create(null);
+            var call__1723 = new Aow.Units.AoWE.TGlobalMagicControl(null);
             FGlobalMagicControl = call__1723;
             FMapName = (AnsiString)"noname";
             FAuthor = (AnsiString)"";
@@ -19588,9 +18981,9 @@ namespace Aow.Units.AoWE
             var call__1725 = new Aow.Rtl.TStringList();
             FObjectives = call__1725;
             FIndependentAIMode = Aow.Units.AoWE.TIndependentAIMode.iaNormal;
-            var call__1726 = Aow.Units.AoWE.TPlayerList.Create(null);
+            var call__1726 = new Aow.Units.AoWE.TPlayerList(null);
             FPlayers = call__1726;
-            var call__1727 = Aow.Units.AoWE.TRaceList.Create(null);
+            var call__1727 = new Aow.Units.AoWE.TRaceList(null);
             FRaces = call__1727;
             var call__1728 = new Aow.Units.Engine.TEventList();
             FPlayerChangedEvents = call__1728;
@@ -19601,7 +18994,7 @@ namespace Aow.Units.AoWE
             var call__1729 = Aow.Units.EventLog.TEventLogList.Create(null);
             FExecuteEventLogBuffer = call__1729;
             FDebugSave = false;
-            var call__1730 = Aow.Units.AoWE.TTutorialControl.Create(null);
+            var call__1730 = new Aow.Units.AoWE.TTutorialControl(null);
             FTutorialControl = call__1730;
             FTurnOrderMode = Aow.Units.AoWE.TTurnOrderMode.toFixed;
             var call__1731 = new Aow.Units.Engine.TByteList();
@@ -19612,15 +19005,15 @@ namespace Aow.Units.AoWE
             FSessionName = (AnsiString)"";
             var call__1732 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetDetailLevel();
             FShowUnitShadows = TSet<Aow.Units.AoWReg.TDetailLevel>.Of(Aow.Units.AoWReg.TDetailLevel.dtlNormal, Aow.Units.AoWReg.TDetailLevel.dtlHigh).Contains(call__1732);
-            var call__1733 = Aow.Units.AoWE.THeroControl.Create(null);
+            var call__1733 = new Aow.Units.AoWE.THeroControl(null);
             FHeroControl = call__1733;
-            var call__1734 = Aow.Units.AoWE.TUnitControl.Create(null);
+            var call__1734 = new Aow.Units.AoWE.TUnitControl(null);
             FUnitControl = call__1734;
-            var call__1735 = Aow.Units.AoWE.TStructureControl.Create(null);
+            var call__1735 = new Aow.Units.AoWE.TStructureControl(null);
             FStructureControl = call__1735;
             var call__1736 = new Aow.Units.Engine.TEventList();
             FOnLeaderChanged = call__1736;
-            var call__1737 = Aow.Units.AoWE.TTextControl.Create(null);
+            var call__1737 = new Aow.Units.AoWE.TTextControl(null);
             FTextControl = call__1737;
             var call__1738 = new Aow.Units.Engine.TEventList();
             FNewDayEvents = call__1738;
@@ -19678,7 +19071,7 @@ namespace Aow.Units.AoWE
             FCombatMapDestroyedEvents = call__1763;
             var call__1764 = new Aow.Units.Engine.TEventList();
             FExitEvents = call__1764;
-            var call__1765 = Aow.Units.AoWE.TAoWMapCampaignSettings.Create(null);
+            var call__1765 = new Aow.Units.AoWE.TAoWMapCampaignSettings(null);
             FCampaignSettings = call__1765;
             Mouse.OnMove.Add(MouseMoved);
         }
@@ -21588,7 +20981,7 @@ namespace Aow.Units.AoWE
                         if (!(FPlayerControl is Aow.Units.AoWE.TPBEMPlayerControl))
                         {
                             FPlayerControl.Free();
-                            var call__1950 = Aow.Units.AoWE.TPBEMPlayerControl.Create(null);
+                            var call__1950 = new Aow.Units.AoWE.TPBEMPlayerControl(null);
                             FPlayerControl = call__1950;
                         }
                     }
@@ -21598,7 +20991,7 @@ namespace Aow.Units.AoWE
                         if (!(FPlayerControl is Aow.Units.AoWE.TPBEMPlayerControl))
                         {
                             FPlayerControl.Free();
-                            var call__1951 = Aow.Units.AoWE.TTurnPlayerControl.Create(null);
+                            var call__1951 = new Aow.Units.AoWE.TTurnPlayerControl(null);
                             FPlayerControl = call__1951;
                         }
                     }
@@ -21611,7 +21004,7 @@ namespace Aow.Units.AoWE
                     }
 
                     // { Original replaces an existing control without freeing it. }
-                    var call__1952 = Aow.Units.AoWE.TSimultaniousPlayerControl.Create(null);
+                    var call__1952 = new Aow.Units.AoWE.TSimultaniousPlayerControl(null);
                     FPlayerControl = call__1952;
                     break;
             }
@@ -22313,6 +21706,27 @@ namespace Aow.Units.AoWE
 //     +30 flags; +34..44 FSFXLibraries. }
     public partial class TUnitGFXResource : Aow.Units.Engine.TEResource
     {
+        // Raw allocation for Game/FrameFixtureChecks.cs.
+        public TUnitGFXResource() { }
+
+        // UnitHS.PAS:1
+        public TUnitGFXResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1995 = new Aow.Units.ImageLib.TImageSequenceList(null, null);
+            FSequences = call__1995;
+            FRefCount = 0;
+            var call__1996 = new Aow.Units.Sound.TSFXLibrary(null);
+            FSFXLibraries[0] = call__1996;
+            var call__1997 = new Aow.Units.Sound.TSFXLibrary(null);
+            FSFXLibraries[1] = call__1997;
+            var call__1998 = new Aow.Units.Sound.TSFXLibrary(null);
+            FSFXLibraries[2] = call__1998;
+            var call__1999 = new Aow.Units.Sound.TSFXLibrary(null);
+            FSFXLibraries[3] = call__1999;
+            var call__2000 = new Aow.Units.Sound.TSFXLibrary(null);
+            FSFXLibraries[4] = call__2000;
+        }
+
         public Aow.Rtl.AnsiString FName;
         // { $18 }
         public int FFaceIndex;
@@ -22374,25 +21788,6 @@ namespace Aow.Units.AoWE
             Stream.rwEObject(FSFXLibraries[2], 17);
             Stream.rwEObject(FSFXLibraries[3], 18);
             Stream.rwEObject(FSFXLibraries[4], 19);
-        }
-
-        // UnitHS.PAS:1
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1995 = new Aow.Units.ImageLib.TImageSequenceList(null, null);
-            FSequences = call__1995;
-            FRefCount = 0;
-            var call__1996 = new Aow.Units.Sound.TSFXLibrary(null);
-            FSFXLibraries[0] = call__1996;
-            var call__1997 = new Aow.Units.Sound.TSFXLibrary(null);
-            FSFXLibraries[1] = call__1997;
-            var call__1998 = new Aow.Units.Sound.TSFXLibrary(null);
-            FSFXLibraries[2] = call__1998;
-            var call__1999 = new Aow.Units.Sound.TSFXLibrary(null);
-            FSFXLibraries[3] = call__1999;
-            var call__2000 = new Aow.Units.Sound.TSFXLibrary(null);
-            FSFXLibraries[4] = call__2000;
         }
 
         // UnitHS.PAS:66
@@ -22556,21 +21951,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_03.inc:22
-        public static new Aow.Units.AoWE.TUnitGFXResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitGFXResource o = new Aow.Units.AoWE.TUnitGFXResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
@@ -22583,20 +21963,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P2_03.inc:22
-            public new Aow.Units.AoWE.TUnitGFXResource Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TUnitGFXResource Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TUnitGFXResource o = (Aow.Units.AoWE.TUnitGFXResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TUnitGFXResource)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -22608,9 +21977,8 @@ namespace Aow.Units.AoWE
     public partial class TUnitGFXResourceList : Aow.Units.Engine.TEResourceList
     {
         // UnitHS.PAS:133
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TUnitGFXResourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.Engine.csKeepIndex));
         }
 
@@ -22650,26 +22018,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_03.inc:39
-        public static new Aow.Units.AoWE.TUnitGFXResourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitGFXResourceList o = new Aow.Units.AoWE.TUnitGFXResourceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAoWMapObjectEditor (instance size 8, VMT 5570EC78) }
     public partial class TAoWMapObjectEditor : Aow.Units.Engine.TEObjectEditor
     {
+        public TAoWMapObjectEditor(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public new partial class Meta : Aow.Units.Engine.TEObjectEditor.Meta
         {
             // Army.PAS:5753
@@ -22683,20 +22040,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAoWMapObjectEditor => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TAoWMapObjectEditor Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAoWMapObjectEditor Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAoWMapObjectEditor o = (Aow.Units.AoWE.TAoWMapObjectEditor)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAoWMapObjectEditor)base.Create(AOwner);
             }
         }
     }
@@ -23490,6 +22836,12 @@ namespace Aow.Units.AoWE
     // { TAbilityData (instance size $0C, +$08 FNext, VMT 5570F05C) }
     public partial class TAbilityData : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TDurationAbilityData raw probe allocations.
+        protected TAbilityData() { }
+
+        public TAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TAbilityData FNext;
         // Ability.PAS:1234
         // { $08 }
@@ -23505,6 +22857,12 @@ namespace Aow.Units.AoWE
     // { TActivateAbilityInfo (instance size 28, VMT 5570F120) }
     public partial class TActivateAbilityInfo : Aow.Units.Engine.TEObject
     {
+        // Ability.PAS:920
+        public TActivateAbilityInfo(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FReferences = 1;
+        }
+
         public int FReferences;
         // { $08 }
         public int FUnitID;
@@ -23512,12 +22870,6 @@ namespace Aow.Units.AoWE
         public int FAbilityID;
         // { $10 }
         public Aow.Units.FixedArray_byte_8 F_ActivateAbilityInfo_14;
-        // Ability.PAS:920
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FReferences = 1;
-        }
 
         // Ability.PAS:926
         public override int AddRef()
@@ -23545,21 +22897,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_06.inc:17
-        public static new Aow.Units.AoWE.TActivateAbilityInfo Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TActivateAbilityInfo o = new Aow.Units.AoWE.TActivateAbilityInfo();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAbility: size $24; $08 name, $0C ID, $10 description, $14 cost,
@@ -23567,6 +22905,18 @@ namespace Aow.Units.AoWE
 //     Procedure return-ABI adapters preserve unmarked overrides in other packages. }
     public partial class TAbility : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTAbility.
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TAbility() { }
+
+        protected TAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // Ability.PAS:1238
+        private protected TAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Rtl.AnsiString FAbilityName;
         // { $08 }
         public int FAbilityID;
@@ -23606,6 +22956,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__2033 = new Aow.Rtl.TStringList();
             FDescription = call__2033;
             var call__2034 = new Aow.Units.Sound.TSFXLibrary(null);
@@ -23762,7 +23117,7 @@ namespace Aow.Units.AoWE
             // { The original reports successful activation after releasing the notification. }
             if (CanActivate(A1, ref A2))
             {
-                Info = Aow.Units.AoWE.TActivateAbilityInfo.Create(null);
+                Info = new Aow.Units.AoWE.TActivateAbilityInfo(null);
                 Info.FAbilityID = FAbilityID;
                 if (A1 is Aow.Units.AoWE.TAbstractUnit)
                 {
@@ -23803,7 +23158,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TActivateAbilityInfo Info = default;
             if (this.CanActivateCombat(Owner, ref Reason))
             {
-                Info = Aow.Units.AoWE.TActivateAbilityInfo.Create(null);
+                Info = new Aow.Units.AoWE.TActivateAbilityInfo(null);
                 Info.FAbilityID = FAbilityID;
                 if (Owner is Aow.Units.AoWE.TAbstractUnit)
                 {
@@ -24060,20 +23415,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_06.inc:37
-        public static new Aow.Units.AoWE.TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TAbility o = new Aow.Units.AoWE.TAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -24081,22 +23425,8 @@ namespace Aow.Units.AoWE
             // Ability.PAS:1445
             public virtual Aow.Units.Engine.TEObject.Meta AbilityDataClass() => default;
 
-            // intf_P1_06.inc:37
             public new Aow.Units.AoWE.TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TAbility o = (Aow.Units.AoWE.TAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TAbility)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAbility => (Meta)MetaRegistry.Of(typeof(T));
@@ -24108,6 +23438,12 @@ namespace Aow.Units.AoWE
     // { TCustomAbilityList: size $10; $08 ability-bit buffer, $0C bit count. }
     public partial class TCustomAbilityList : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TAbstractUnit, TAdjustableUnit, THero legacy factories.
+        protected TCustomAbilityList() { }
+
+        public TCustomAbilityList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public byte[] FAbilityBits = [];
         // { $08 }
         public int FAbilityCount;
@@ -24361,11 +23697,24 @@ namespace Aow.Units.AoWE
     // { TAbilityList (instance size 16, VMT 5570F4B8) }
     public partial class TAbilityList : Aow.Units.AoWE.TCustomAbilityList
     {
+        public TAbilityList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
     }
 
     // { TAbilityOwner (instance size $14, +$10 FAbilityData, VMT 5570F588) }
     public partial class TAbilityOwner : Aow.Units.AoWE.TCustomAbilityList
     {
+        // Raw allocation for TAbstractUnit, TAdjustableUnit, THero legacy factories.
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TAbilityOwner() { }
+
+        // Ability.PAS:1663
+        public TAbilityOwner(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Units.AoWE.TAbilityData FAbilityData;
         // Ability.PAS:1762
         // { $10 }
@@ -24455,6 +23804,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
         }
 
         // Ability.PAS:1667
@@ -25350,21 +24704,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_06.inc:120
-        public static new Aow.Units.AoWE.TAbilityOwner Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAbilityOwner o = new Aow.Units.AoWE.TAbilityOwner();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAbilityTypeList (instance size 16, VMT 5570F698) }
@@ -25379,15 +24719,31 @@ namespace Aow.Units.AoWE
         }
 
         // System.pas:111
-        public static Aow.Units.AoWE.TAbilityTypeList Create()
-        {
-            return new Aow.Units.AoWE.TAbilityTypeList();
-        }
+
     }
 
     // { TAbilityControl (instance size $20, +$08 FAbilities, +$0C..$1C FAbilitiesByType, VMT 5570F71C) }
     public partial class TAbilityControl : Aow.Units.Engine.TEObject
     {
+        // Ability.PAS:2035
+        public TAbilityControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            Aow.Units.AoWE.TAbilityType Kind = default;
+
+            var call__2199 = new Aow.Rtl.TList();
+            FAbilities = call__2199;
+            {
+                int first__2203 = (int)((Aow.Units.AoWE.TAbilityType)0);
+                int end__2200 = (int)((Aow.Units.AoWE.TAbilityType)4);
+                for (int ordinal__2202 = first__2203; ordinal__2202 <= end__2200; ordinal__2202++)
+                {
+                    Kind = (Aow.Units.AoWE.TAbilityType)ordinal__2202;
+                    var call__2201 = new Aow.Units.AoWE.TAbilityTypeList();
+                    FAbilitiesByType[(int)Kind] = call__2201;
+                }
+            }
+        }
+
         public Aow.Rtl.TList FAbilities;
         // { $08 }
         public Aow.Units.FixedArray_Aow_Units_AoWE_TAbilityTypeList_5 FAbilitiesByType;
@@ -25428,25 +24784,6 @@ namespace Aow.Units.AoWE
                         var call__2198 = FAbilities[I];
                         Stream.rwEObject((Aow.Units.AoWE.TAbility)call__2198, I + 10);
                     }
-                }
-            }
-        }
-
-        // Ability.PAS:2035
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAbilityType Kind = default;
-            base.Create__init(AOwner);
-            var call__2199 = new Aow.Rtl.TList();
-            FAbilities = call__2199;
-            {
-                int first__2203 = (int)((Aow.Units.AoWE.TAbilityType)0);
-                int end__2200 = (int)((Aow.Units.AoWE.TAbilityType)4);
-                for (int ordinal__2202 = first__2203; ordinal__2202 <= end__2200; ordinal__2202++)
-                {
-                    Kind = (Aow.Units.AoWE.TAbilityType)ordinal__2202;
-                    var call__2201 = Aow.Units.AoWE.TAbilityTypeList.Create();
-                    FAbilitiesByType[(int)Kind] = call__2201;
                 }
             }
         }
@@ -25609,27 +24946,16 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_06.inc:178
-        public static new Aow.Units.AoWE.TAbilityControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAbilityControl o = new Aow.Units.AoWE.TAbilityControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TItemGFX (instance size $30): $18 library name, $1C image index,
 //     $20 item type, $24 library, $28 references, $2C hidden. }
     public partial class TItemGFX : Aow.Units.Engine.TEResource
     {
+        public TItemGFX(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Rtl.AnsiString FImageLibraryName;
         // { $18 }
         public int FImageIndex;
@@ -25792,20 +25118,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TItemGFX => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TItemGFX Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TItemGFX Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TItemGFX o = (Aow.Units.AoWE.TItemGFX)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TItemGFX)base.Create(AOwner);
             }
         }
     }
@@ -25814,9 +25129,8 @@ namespace Aow.Units.AoWE
     public partial class TItemGFXList : Aow.Units.Engine.TEResourceList
     {
         // Army.PAS:5176
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TItemGFXList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
         }
 
@@ -25857,21 +25171,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_04.inc:37
-        public static new Aow.Units.AoWE.TItemGFXList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TItemGFXList o = new Aow.Units.AoWE.TItemGFXList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TItemTE (instance size $1C): $10 item ID, $14 action, $18 hero ID. }
@@ -25990,6 +25290,16 @@ namespace Aow.Units.AoWE
 //     $46 attack, $47 defense, $48 damage, $49 resistance. }
     public partial class TItem : Aow.Units.AoWE.TAbilityOwner
     {
+        // Army.PAS:4211
+        public TItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FItemGFXIndex = -1;
+            var call__2237 = new Aow.Rtl.TStringList();
+            FDescription = call__2237;
+            FLibraryID = -1;
+            FRefCount = 1;
+        }
+
         public int FItemID;
         // { $14 }
         public Aow.Rtl.AnsiString FOwnerName;
@@ -26131,17 +25441,6 @@ namespace Aow.Units.AoWE
                     Stream.rwString(ref FLibraryName, 22);
                 }
             }
-        }
-
-        // Army.PAS:4211
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FItemGFXIndex = -1;
-            var call__2237 = new Aow.Rtl.TStringList();
-            FDescription = call__2237;
-            FLibraryID = -1;
-            FRefCount = 1;
         }
 
         // Army.PAS:4229
@@ -26584,21 +25883,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_04.inc:84
-        public static new Aow.Units.AoWE.TItem Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TItem o = new Aow.Units.AoWE.TItem();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -26611,20 +25895,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P2_04.inc:84
-            public new Aow.Units.AoWE.TItem Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TItem Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TItem o = (Aow.Units.AoWE.TItem)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TItem)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -26636,6 +25909,15 @@ namespace Aow.Units.AoWE
 //     $10..$17 change event. }
     public partial class TItemList : Aow.Units.Engine.TEChangeNotifyNode
     {
+        // Raw allocation for TExplorationSiteItemList legacy factories.
+        protected TItemList() { }
+
+        // Army.PAS:4516
+        public TItemList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Rtl.TNotifyEvent FOnChanged;
         // Army.PAS:4537
         // { $10 code, $14 data }
@@ -26663,6 +25945,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
         }
 
         // Army.PAS:4546
@@ -26850,26 +26137,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_04.inc:118
-        public static new Aow.Units.AoWE.TItemList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TItemList o = new Aow.Units.AoWE.TItemList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TItemLibrary (instance size $20): $18 name, $1C last library ID. }
     public partial class TItemLibrary : Aow.Units.AoWE.TItemList
     {
+        public TItemLibrary(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Rtl.AnsiString FName;
         // { $18 }
         public int FLastID;
@@ -26968,7 +26244,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TItem Result = default;
             Aow.Units.AoWE.TItem Item = default;
-            Item = Aow.Units.AoWE.TItem.Create(null);
+            Item = new Aow.Units.AoWE.TItem(null);
             var call__2271 = CreateUniqueLibraryID();
             Item.FLibraryID = call__2271;
             Item.FLibraryName = FName;
@@ -26991,26 +26267,21 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_04.inc:118
-        public static new Aow.Units.AoWE.TItemLibrary Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TItemLibrary o = new Aow.Units.AoWE.TItemLibrary();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TItemLibraryManager (instance size $10): $08 system library, $0C libraries. }
     public partial class TItemLibraryManager : Aow.Units.Engine.TEObject
     {
+        // Army.PAS:4967
+        public TItemLibraryManager(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__2273 = new Aow.Units.AoWE.TItemLibrary(null);
+            FSystemLibrary = call__2273;
+            var call__2274 = Aow.Units.Engine.TENode.Create(null);
+            FLibraries = call__2274;
+        }
+
         public Aow.Units.AoWE.TItemLibrary FSystemLibrary;
         // { $08 }
         public Aow.Units.Engine.TENode FLibraries;
@@ -27049,16 +26320,6 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // Army.PAS:4967
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__2273 = Aow.Units.AoWE.TItemLibrary.Create(null);
-            FSystemLibrary = call__2273;
-            var call__2274 = Aow.Units.Engine.TENode.Create(null);
-            FLibraries = call__2274;
-        }
-
         // Army.PAS:5002
         public Aow.Units.AoWE.TItemLibrary GetLibrary(int Index)
         {
@@ -27089,7 +26350,7 @@ namespace Aow.Units.AoWE
             Found = call__2277 == 0;
             while (Found)
             {
-                ItemLibrary = Aow.Units.AoWE.TItemLibrary.Create(null);
+                ItemLibrary = new Aow.Units.AoWE.TItemLibrary(null);
                 try
                 {
                     ItemLibrary.LoadFromFile((Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"User\\")) + Search.Name);
@@ -27184,7 +26445,7 @@ namespace Aow.Units.AoWE
 
             if ((LibraryName != ((AnsiString)"")) && (IndexOfLibraryName(LibraryName) == -1))
             {
-                var call__2283 = Aow.Units.AoWE.TItemLibrary.Create(FLibraries);
+                var call__2283 = new Aow.Units.AoWE.TItemLibrary(FLibraries);
                 Result = call__2283;
                 Result.FName = LibraryName;
                 // { Original creates in Release while reading and deleting from User. }
@@ -27213,27 +26474,24 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_04.inc:157
-        public static new Aow.Units.AoWE.TItemLibraryManager Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TItemLibraryManager o = new Aow.Units.AoWE.TItemLibraryManager();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TItemControl (instance size $20): $08 items, $0C change events,
 //     $10 update lock, $14 item change events, $18 last ID, $1C status. }
     public partial class TItemControl : Aow.Units.Engine.TEObject
     {
+        // Army.PAS:4639
+        public TItemControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__2295 = new Aow.Rtl.TList();
+            FItems = call__2295;
+            var call__2296 = new Aow.Units.Engine.TEventList();
+            FOnChanged = call__2296;
+            var call__2297 = new Aow.Units.Engine.TEventList();
+            FOnItemChanged = call__2297;
+        }
+
         public Aow.Rtl.TList FItems;
         // { $08 }
         public Aow.Units.Engine.TEventList FOnChanged;
@@ -27343,18 +26601,6 @@ namespace Aow.Units.AoWE
                     }
                 }
             }
-        }
-
-        // Army.PAS:4639
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__2295 = new Aow.Rtl.TList();
-            FItems = call__2295;
-            var call__2296 = new Aow.Units.Engine.TEventList();
-            FOnChanged = call__2296;
-            var call__2297 = new Aow.Units.Engine.TEventList();
-            FOnItemChanged = call__2297;
         }
 
         // Army.PAS:4707
@@ -27674,26 +26920,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_04.inc:182
-        public static new Aow.Units.AoWE.TItemControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TItemControl o = new Aow.Units.AoWE.TItemControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TItemHSList (instance size $18): inherited $08 children, $0C update lock, $10 change event. }
     public partial class TItemHSList : Aow.Units.AoWE.TItemList
     {
+        public TItemHSList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Army.PAS:5202
         public override void SetOwner(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -27701,21 +26936,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_04.inc:118
-        public static new Aow.Units.AoWE.TItemHSList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TItemHSList o = new Aow.Units.AoWE.TItemHSList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TItemHS (instance size $14): $0C items, $10 generation mode. }
@@ -27947,6 +27168,9 @@ namespace Aow.Units.AoWE
     // { TFaceResource (instance size 44, VMT 557102F0) }
     public partial class TFaceResource : Aow.Units.Engine.TEResource
     {
+        public TFaceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Rtl.AnsiString FImageLibraryName;
         // { $18 }
         public int FImageIndex;
@@ -28106,20 +27330,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TFaceResource => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TFaceResource Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TFaceResource Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TFaceResource o = (Aow.Units.AoWE.TFaceResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TFaceResource)base.Create(AOwner);
             }
         }
     }
@@ -28128,9 +27341,8 @@ namespace Aow.Units.AoWE
     public partial class TFaceResourceList : Aow.Units.Engine.TEResourceList
     {
         // Ability.PAS:520
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TFaceResourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
         }
 
@@ -28213,27 +27425,23 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_07.inc:27
-        public static new Aow.Units.AoWE.TFaceResourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TFaceResourceList o = new Aow.Units.AoWE.TFaceResourceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitControl (instance size 20, VMT 557105E8):
 //     +08 FNextUnitID; +0C FUnitTable; +10 FUnits. }
     public partial class TUnitControl : Aow.Units.Engine.TEObject
     {
+        // Unit.PAS:1
+        public TUnitControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__2332 = Aow.Units.Engine.TIntegerHashTable256.Create();
+            FUnitTable = call__2332;
+            var call__2333 = new Aow.Rtl.TList();
+            FUnits = call__2333;
+            FNextUnitID = 1;
+        }
+
         public int FNextUnitID;
         public Aow.Units.Engine.TIntegerHashTable256 FUnitTable;
         public Aow.Rtl.TList FUnits;
@@ -28254,17 +27462,6 @@ namespace Aow.Units.AoWE
             {
                 FNextUnitID = 1;
             }
-        }
-
-        // Unit.PAS:1
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__2332 = Aow.Units.Engine.TIntegerHashTable256.Create();
-            FUnitTable = call__2332;
-            var call__2333 = new Aow.Rtl.TList();
-            FUnits = call__2333;
-            FNextUnitID = 1;
         }
 
         // Unit.PAS:20
@@ -28393,21 +27590,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_05.inc:21
-        public static new Aow.Units.AoWE.TUnitControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitControl o = new Aow.Units.AoWE.TUnitControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAbstractUnit (instance size 60, VMT 55710740):
@@ -31673,6 +30856,9 @@ namespace Aow.Units.AoWE
     // { TAbstractUnitResource (instance size 28, VMT 5571096C): +18 FUnitGFXResourceIndex. }
     public partial class TAbstractUnitResource : Aow.Units.Engine.TEResource
     {
+        public TAbstractUnitResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FUnitGFXResourceIndex;
         // UnitRes.PAS:1
         // { $18 }
@@ -31810,20 +30996,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAbstractUnitResource => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TAbstractUnitResource Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAbstractUnitResource Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAbstractUnitResource o = (Aow.Units.AoWE.TAbstractUnitResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAbstractUnitResource)base.Create(AOwner);
             }
         }
     }
@@ -31833,6 +31008,34 @@ namespace Aow.Units.AoWE
 //     +44 FTransportCapacity; +48 FDescription; +4C FObtainValue; +50 size; +51 blood. }
     public partial class TUnitResource : Aow.Units.AoWE.TAbstractUnitResource
     {
+        // UnitRes.PAS:73
+        public TUnitResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            Aow.Units.AoWE.TUnitRank Rank = default;
+
+            var call__2615 = new Aow.Rtl.TStringList();
+            FDescription = call__2615;
+            {
+                int first__2619 = (int)((Aow.Units.AoWE.TUnitRank)0);
+                int end__2616 = (int)((Aow.Units.AoWE.TUnitRank)2);
+                for (int ordinal__2618 = first__2619; ordinal__2618 <= end__2616; ordinal__2618++)
+                {
+                    Rank = (Aow.Units.AoWE.TUnitRank)ordinal__2618;
+                    var call__2617 = new Aow.Units.AoWE.TUnitResourceAbilityOwner(null);
+                    FAbilities[(int)Rank] = call__2617;
+                }
+            }
+
+            FMoves = 16;
+            FHits = 5;
+            FAttack = 3;
+            FDefense = 3;
+            FResistance = 3;
+            FDamage = 3;
+            FUnitSize = Aow.Units.AoWE.TUnitSize.usMedium;
+            FBloodType = Aow.Units.AoWE.TBloodType.btRed;
+        }
+
         public Aow.Rtl.AnsiString FName;
         // { $1C }
         public sbyte FRace;
@@ -31920,34 +31123,6 @@ namespace Aow.Units.AoWE
                     }
                 }
             }
-        }
-
-        // UnitRes.PAS:73
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitRank Rank = default;
-            base.Create__init(AOwner);
-            var call__2615 = new Aow.Rtl.TStringList();
-            FDescription = call__2615;
-            {
-                int first__2619 = (int)((Aow.Units.AoWE.TUnitRank)0);
-                int end__2616 = (int)((Aow.Units.AoWE.TUnitRank)2);
-                for (int ordinal__2618 = first__2619; ordinal__2618 <= end__2616; ordinal__2618++)
-                {
-                    Rank = (Aow.Units.AoWE.TUnitRank)ordinal__2618;
-                    var call__2617 = Aow.Units.AoWE.TUnitResourceAbilityOwner.Create(null);
-                    FAbilities[(int)Rank] = call__2617;
-                }
-            }
-
-            FMoves = 16;
-            FHits = 5;
-            FAttack = 3;
-            FDefense = 3;
-            FResistance = 3;
-            FDamage = 3;
-            FUnitSize = Aow.Units.AoWE.TUnitSize.usMedium;
-            FBloodType = Aow.Units.AoWE.TBloodType.btRed;
         }
 
         // UnitRes.PAS:130
@@ -32070,21 +31245,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_05.inc:243
-        public static new Aow.Units.AoWE.TUnitResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitResource o = new Aow.Units.AoWE.TUnitResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAbstractUnitResource.Meta
         {
@@ -32097,20 +31257,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P2_05.inc:243
-            public new Aow.Units.AoWE.TUnitResource Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TUnitResource Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TUnitResource o = (Aow.Units.AoWE.TUnitResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TUnitResource)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -32122,9 +31271,8 @@ namespace Aow.Units.AoWE
     public partial class TUnitResourceList : Aow.Units.Engine.TEResourceList
     {
         // UnitRes.PAS:206
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TUnitResourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
         }
 
@@ -32145,21 +31293,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_05.inc:260
-        public static new Aow.Units.AoWE.TUnitResourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitResourceList o = new Aow.Units.AoWE.TUnitResourceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnit (instance size 72, VMT 55710CAC) }
@@ -32833,6 +31967,12 @@ namespace Aow.Units.AoWE
 //     +0C UpdateCount. }
     public partial class TUnitList : Aow.Units.Engine.TEChangeNotifyNode
     {
+        // Raw allocation for TAbstractBehaviorAG, TAggressorAG, TDefenderAG legacy factories.
+        protected TUnitList() { }
+
+        public TUnitList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Unit.PAS:2294
         public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -33189,26 +32329,18 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:680
-        public static new Aow.Units.AoWE.TUnitList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitList o = new Aow.Units.AoWE.TUnitList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitUserList (instance size 16, VMT 55710FEC): inherited +08 FChildren. }
     public partial class TUnitUserList : Aow.Units.AoWE.TUnitList
     {
+        // Raw allocation for TAbstractBehaviorAG, TAggressorAG, TDefenderAG legacy factories.
+        protected TUnitUserList() { }
+
+        public TUnitUserList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Unit.PAS:2380
         public override void Clear()
         {
@@ -33274,21 +32406,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:680
-        public static new Aow.Units.AoWE.TUnitUserList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitUserList o = new Aow.Units.AoWE.TUnitUserList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitIndexList (instance size 20, VMT 55711118): inherited +04 List,
@@ -33296,9 +32414,8 @@ namespace Aow.Units.AoWE
     public partial class TUnitIndexList : Aow.Units.Engine.TIntegerList
     {
         // UnitRes.PAS:219
-        public void Create__init_TUnitIndexList()
+        public TUnitIndexList()
         {
-            ;
             Default = -1;
         }
 
@@ -33378,26 +32495,20 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_05.inc:364
-        public static Aow.Units.AoWE.TUnitIndexList Create()
-        {
-            Aow.Units.AoWE.TUnitIndexList o = new Aow.Units.AoWE.TUnitIndexList();
-            try
-            {
-                o.Create__init_TUnitIndexList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitIndexListCollection (instance size 12, VMT 557111A4): +04 FCollectionSize; +08 FUnits. }
     public partial class TUnitIndexListCollection : Aow.Rtl.TObject
     {
+        // Unit.PAS:2413
+        public TUnitIndexListCollection()
+        {
+            var call__2689 = new Aow.Units.AoWE.TUnitIndexList();
+            FUnits = call__2689;
+            FCollectionSize = 8;
+        }
+
         public int FCollectionSize;
         // { $04 }
         public Aow.Units.AoWE.TUnitIndexList FUnits;
@@ -33407,15 +32518,6 @@ namespace Aow.Units.AoWE
         {
             base.Destroy();
             FUnits.Free();
-        }
-
-        // Unit.PAS:2413
-        public void Create__init_TUnitIndexListCollection()
-        {
-            ;
-            var call__2689 = Aow.Units.AoWE.TUnitIndexList.Create();
-            FUnits = call__2689;
-            FCollectionSize = 8;
         }
 
         // Unit.PAS:2424
@@ -33562,21 +32664,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_05.inc:377
-        public static Aow.Units.AoWE.TUnitIndexListCollection Create()
-        {
-            Aow.Units.AoWE.TUnitIndexListCollection o = new Aow.Units.AoWE.TUnitIndexListCollection();
-            try
-            {
-                o.Create__init_TUnitIndexListCollection();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitCategoryList (instance size 16, VMT 55711230) }
@@ -33653,7 +32741,7 @@ namespace Aow.Units.AoWE
             // { Original does not reject negative category indexes. }
             if (List[Category] == null)
             {
-                var call__2701 = Aow.Units.AoWE.TUnitIndexList.Create();
+                var call__2701 = new Aow.Units.AoWE.TUnitIndexList();
                 List[Category] = call__2701;
             }
 
@@ -33665,15 +32753,30 @@ namespace Aow.Units.AoWE
         }
 
         // System.pas:111
-        public static Aow.Units.AoWE.TUnitCategoryList Create()
-        {
-            return new Aow.Units.AoWE.TUnitCategoryList();
-        }
+
     }
 
     // { TUnitSelectionControl (instance size 80, VMT 557112B4) }
     public partial class TUnitSelectionControl : Aow.Rtl.TStringList
     {
+        // Ability.PAS:763
+        public TUnitSelectionControl()
+        {
+            var call__2703 = new Aow.Units.Engine.TBitList();
+            FRacesEnabled = call__2703;
+            FRacesEnabled.Default = true;
+            var call__2704 = new Aow.Units.Engine.TBitList();
+            FTypesEnabled = call__2704;
+            FTypesEnabled.Default = true;
+            var call__2705 = new Aow.Units.AoWE.TUnitCategoryList();
+            FRaceUnits = call__2705;
+            var call__2706 = new Aow.Units.AoWE.TUnitCategoryList();
+            FTypeUnits = call__2706;
+            var call__2707 = new Aow.Units.AoWE.TUnitIndexList();
+            FAllUnits = call__2707;
+            Reset();
+        }
+
         public byte FMinimumLevel;
         // { $2C }
         public byte FMaximumLevel;
@@ -33713,25 +32816,6 @@ namespace Aow.Units.AoWE
             FTypeUnits.Free();
             FAllUnits.Free();
             base.Destroy();
-        }
-
-        // Ability.PAS:763
-        public void Create__init_TUnitSelectionControl()
-        {
-            ;
-            var call__2703 = new Aow.Units.Engine.TBitList();
-            FRacesEnabled = call__2703;
-            FRacesEnabled.Default = true;
-            var call__2704 = new Aow.Units.Engine.TBitList();
-            FTypesEnabled = call__2704;
-            FTypesEnabled.Default = true;
-            var call__2705 = Aow.Units.AoWE.TUnitCategoryList.Create();
-            FRaceUnits = call__2705;
-            var call__2706 = Aow.Units.AoWE.TUnitCategoryList.Create();
-            FTypeUnits = call__2706;
-            var call__2707 = Aow.Units.AoWE.TUnitIndexList.Create();
-            FAllUnits = call__2707;
-            Reset();
         }
 
         // Ability.PAS:787
@@ -34041,26 +33125,21 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_08.inc:32
-        public static Aow.Units.AoWE.TUnitSelectionControl Create()
-        {
-            Aow.Units.AoWE.TUnitSelectionControl o = new Aow.Units.AoWE.TUnitSelectionControl();
-            try
-            {
-                o.Create__init_TUnitSelectionControl();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitSelector (instance size 44, VMT 557113B8) }
     public partial class TUnitSelector : Aow.Rtl.TObject
     {
+        // Ability.PAS:575
+        public TUnitSelector()
+        {
+            var call__2746 = new Aow.Units.AoWE.TUnitUserList(null);
+            FUnits = call__2746;
+            FReferences = 1;
+            FCanceled = false;
+        }
+
         public int FReferences;
         // { $04 }
         public sbyte FPlayer;
@@ -34159,16 +33238,6 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // Ability.PAS:575
-        public void Create__init_TUnitSelector()
-        {
-            ;
-            var call__2746 = Aow.Units.AoWE.TUnitUserList.Create(null);
-            FUnits = call__2746;
-            FReferences = 1;
-            FCanceled = false;
-        }
-
         // Ability.PAS:589
         // { draft }
         public int AddRef()
@@ -34216,26 +33285,18 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_08.inc:65
-        public static Aow.Units.AoWE.TUnitSelector Create()
-        {
-            Aow.Units.AoWE.TUnitSelector o = new Aow.Units.AoWE.TUnitSelector();
-            try
-            {
-                o.Create__init_TUnitSelector();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitSelectorAAI (instance size 32, VMT 55711454) }
     public partial class TUnitSelectorAAI : Aow.Units.AoWE.TActivateAbilityInfo
     {
+        // Ability.PAS:690
+        public TUnitSelectorAAI(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FUnitSelector = null;
+        }
+
         public Aow.Units.AoWE.TUnitSelector FUnitSelector;
         // Ability.PAS:696
         // { $1C }
@@ -34250,13 +33311,6 @@ namespace Aow.Units.AoWE
             }
 
             base.Destroy();
-        }
-
-        // Ability.PAS:690
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FUnitSelector = null;
         }
 
         // Ability.PAS:709
@@ -34281,21 +33335,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_08.inc:76
-        public static new Aow.Units.AoWE.TUnitSelectorAAI Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitSelectorAAI o = new Aow.Units.AoWE.TUnitSelectorAAI();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Interface declaration run owned by P2. }
@@ -34303,6 +33343,12 @@ namespace Aow.Units.AoWE
 //     +08 FChildren holds inventory slots. }
     public partial class THeroInventory : Aow.Units.AoWE.TItemList
     {
+        // Hero.PAS:274
+        public THeroInventory(Aow.Units.Engine.TECustomNode AOwner) : base(null)
+        {
+            FOwner = AOwner;
+        }
+
         // Hero.PAS:280
         public override void Destroy()
         {
@@ -34316,13 +33362,6 @@ namespace Aow.Units.AoWE
             TSet<Aow.Units.Engine.TEControlStyleElement> Result = default;
             Result = base.GetControlStyle() + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csArrayMode);
             return Result;
-        }
-
-        // Hero.PAS:274
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(null);
-            FOwner = AOwner;
         }
 
         // Hero.PAS:286
@@ -34551,27 +33590,19 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_06.inc:8
-        public static new Aow.Units.AoWE.THeroInventory Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroInventory o = new Aow.Units.AoWE.THeroInventory();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THeroItems (instance size 24, VMT 55711738): inherited +04 FOwner is the hero;
 //     +08 FChildren holds six equipment slots. }
     public partial class THeroItems : Aow.Units.AoWE.TItemList
     {
+        // Hero.PAS:388
+        public THeroItems(Aow.Units.Engine.TECustomNode AOwner) : base(null)
+        {
+            FOwner = AOwner;
+        }
+
         // Hero.PAS:394
         public override void Destroy()
         {
@@ -34585,13 +33616,6 @@ namespace Aow.Units.AoWE
             TSet<Aow.Units.Engine.TEControlStyleElement> Result = default;
             Result = base.GetControlStyle() + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csArrayMode);
             return Result;
-        }
-
-        // Hero.PAS:388
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(null);
-            FOwner = AOwner;
         }
 
         // Hero.PAS:410
@@ -34978,21 +34002,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_06.inc:25
-        public static new Aow.Units.AoWE.THeroItems Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroItems o = new Aow.Units.AoWE.THeroItems();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THeroUpgradeTE (instance size 32, VMT 55711920): +10 FUnitID; +14 FPlayer;
@@ -35044,7 +34054,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__2793 = Aow.Units.AoWE.TAbilityOwner.Create(null);
+            var call__2793 = new Aow.Units.AoWE.TAbilityOwner(null);
             FAbilities = call__2793;
         }
 
@@ -35264,6 +34274,9 @@ namespace Aow.Units.AoWE
     // { THeroPowerSource (instance size 12, VMT 55711AAC): +08 FHero. }
     public partial class THeroPowerSource : Aow.Units.AoWE.TPowerSource
     {
+        public THeroPowerSource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.THero FHero;
         // Hero.PAS:587
         // { $08 }
@@ -35310,21 +34323,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.THeroPowerSource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroPowerSource o = new Aow.Units.AoWE.THeroPowerSource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THeroUpgradeEventLog (instance size 36, VMT 55711B88): +18 FUnitID;
@@ -39997,6 +38996,9 @@ namespace Aow.Units.AoWE
     // { THeroList (instance size 12, VMT 557124C8) }
     public partial class THeroList : Aow.Units.Engine.TEReferenceNode
     {
+        public THeroList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Hero.PAS:2395
         public Aow.Units.AoWE.THero FindHero(int ID)
         {
@@ -40034,27 +39036,24 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.THeroList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroList o = new Aow.Units.AoWE.THeroList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THeroControl (instance size 24, VMT 557125BC): +08 FOnChanged; +0C FUpdateCount;
 //     +10 FOnHeroChanged; +14 FHeroes. }
     public partial class THeroControl : Aow.Units.Engine.TEObject
     {
+        // Hero.PAS:2413
+        public THeroControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__3193 = new Aow.Units.Engine.TEventList();
+            FOnChanged = call__3193;
+            var call__3194 = new Aow.Units.Engine.TEventList();
+            FOnHeroChanged = call__3194;
+            var call__3195 = new Aow.Units.AoWE.THeroList(null);
+            FHeroes = call__3195;
+        }
+
         public Aow.Units.Engine.TEventList FOnChanged;
         // { $08 }
         public int FUpdateCount;
@@ -40101,18 +39100,6 @@ namespace Aow.Units.AoWE
                     }
                 }
             }
-        }
-
-        // Hero.PAS:2413
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__3193 = new Aow.Units.Engine.TEventList();
-            FOnChanged = call__3193;
-            var call__3194 = new Aow.Units.Engine.TEventList();
-            FOnHeroChanged = call__3194;
-            var call__3195 = Aow.Units.AoWE.THeroList.Create(null);
-            FHeroes = call__3195;
         }
 
         // Hero.PAS:2567
@@ -40448,26 +39435,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_07.inc:267
-        public static new Aow.Units.AoWE.THeroControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroControl o = new Aow.Units.AoWE.THeroControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THeroLibrary (instance size 20, VMT 5571267C): +0C FLibraryName; +10 FNextLibraryID. }
     public partial class THeroLibrary : Aow.Units.AoWE.THeroList
     {
+        public THeroLibrary(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Rtl.AnsiString FLibraryName;
         // { $0C }
         public int FNextLibraryID;
@@ -40595,26 +39571,21 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.THeroLibrary Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroLibrary o = new Aow.Units.AoWE.THeroLibrary();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THeroLibraryManager (instance size 16, VMT 55712788): +08 FSystemLibrary; +0C FLibraries. }
     public partial class THeroLibraryManager : Aow.Units.Engine.TEObject
     {
+        // Hero.PAS:2646
+        public THeroLibraryManager(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__3220 = new Aow.Units.AoWE.THeroLibrary(null);
+            FSystemLibrary = call__3220;
+            var call__3221 = Aow.Units.Engine.TENode.Create(null);
+            FLibraries = call__3221;
+        }
+
         public Aow.Units.AoWE.THeroLibrary FSystemLibrary;
         // { $08 }
         public Aow.Units.Engine.TENode FLibraries;
@@ -40653,16 +39624,6 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // Hero.PAS:2646
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__3220 = Aow.Units.AoWE.THeroLibrary.Create(null);
-            FSystemLibrary = call__3220;
-            var call__3221 = Aow.Units.Engine.TENode.Create(null);
-            FLibraries = call__3221;
-        }
-
         // Hero.PAS:2677
         public Aow.Units.AoWE.THeroLibrary GetLibrary(int Index)
         {
@@ -40693,7 +39654,7 @@ namespace Aow.Units.AoWE
             Found = call__3224 == 0;
             while (Found)
             {
-                Lib = Aow.Units.AoWE.THeroLibrary.Create(null);
+                Lib = new Aow.Units.AoWE.THeroLibrary(null);
                 try
                 {
                     Lib.LoadFromFile((Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"User\\")) + Search.Name);
@@ -40788,7 +39749,7 @@ namespace Aow.Units.AoWE
 
             if ((LibraryName != ((AnsiString)"")) && (IndexOfLibraryName(LibraryName) == -1))
             {
-                var call__3230 = Aow.Units.AoWE.THeroLibrary.Create(FLibraries);
+                var call__3230 = new Aow.Units.AoWE.THeroLibrary(FLibraries);
                 Result = call__3230;
                 Result.FLibraryName = LibraryName;
                 Result.SaveToFile(((Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"Release\\")) + LibraryName) + ((AnsiString)".ahl"));
@@ -40816,27 +39777,26 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_07.inc:311
-        public static new Aow.Units.AoWE.THeroLibraryManager Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroLibraryManager o = new Aow.Units.AoWE.THeroLibraryManager();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THeroResource (instance size 52, VMT 55712854): +20 FRace; +21 FHeroType;
 //     +1C FName; +22 FAlignment; +23 FHidden; +24..29 base statistics; +2C FAbilities; +30 FFaceIndex. }
     public partial class THeroResource : Aow.Units.AoWE.TAbstractUnitResource
     {
+        // Hero.PAS:2308
+        public THeroResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__3235 = new Aow.Units.AoWE.THeroResourceAbilityOwner(null);
+            FAbilities = call__3235;
+            FAttack = 3;
+            FDefense = 3;
+            FDamage = 3;
+            FHits = 5;
+            FMoves = 28;
+            FResistance = 2;
+        }
+
         public Aow.Rtl.AnsiString FName;
         // { $1C }
         public sbyte FRace;
@@ -40895,20 +39855,6 @@ namespace Aow.Units.AoWE
             Stream.rwInteger(ref FFaceIndex, 30);
         }
 
-        // Hero.PAS:2308
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__3235 = Aow.Units.AoWE.THeroResourceAbilityOwner.Create(null);
-            FAbilities = call__3235;
-            FAttack = 3;
-            FDefense = 3;
-            FDamage = 3;
-            FHits = 5;
-            FMoves = 28;
-            FResistance = 2;
-        }
-
         // Hero.PAS:2326
         public override int ResourceUserClassID()
         {
@@ -40951,21 +39897,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_07.inc:343
-        public static new Aow.Units.AoWE.THeroResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroResource o = new Aow.Units.AoWE.THeroResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAbstractUnitResource.Meta
         {
@@ -40978,20 +39909,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P2_07.inc:343
-            public new Aow.Units.AoWE.THeroResource Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new THeroResource Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.THeroResource o = (Aow.Units.AoWE.THeroResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (THeroResource)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -41003,9 +39923,8 @@ namespace Aow.Units.AoWE
     public partial class THeroResourceList : Aow.Units.Engine.TEResourceList
     {
         // Hero.PAS:2360
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public THeroResourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
         }
 
@@ -41073,21 +39992,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_07.inc:353
-        public static new Aow.Units.AoWE.THeroResourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroResourceList o = new Aow.Units.AoWE.THeroResourceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAdjustableUnit (instance size 72, VMT 55712A54): +3C attack; +3D defense; +3E resistance;
@@ -41370,6 +40275,13 @@ namespace Aow.Units.AoWE
     // { TArmyID (instance size 20, VMT 55712FF4): +08 FUnitIDs; +0C FPlayer; +10 FX, FY, FL. }
     public partial class TArmyID : Aow.Units.Engine.TEObject
     {
+        // Army.PAS:1
+        public TArmyID(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__3242 = new Aow.Units.Engine.TIntegerList();
+            FUnitIDs = call__3242;
+        }
+
         public Aow.Units.Engine.TIntegerList FUnitIDs;
         // { $08 }
         public sbyte FPlayer;
@@ -41385,14 +40297,6 @@ namespace Aow.Units.AoWE
         {
             FUnitIDs.Free();
             base.Destroy();
-        }
-
-        // Army.PAS:1
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__3242 = new Aow.Units.Engine.TIntegerList();
-            FUnitIDs = call__3242;
         }
 
         // Army.PAS:24
@@ -41478,21 +40382,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_07.inc:411
-        public static new Aow.Units.AoWE.TArmyID Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TArmyID o = new Aow.Units.AoWE.TArmyID();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -41505,20 +40394,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P2_07.inc:411
-            public new Aow.Units.AoWE.TArmyID Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TArmyID Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TArmyID o = (Aow.Units.AoWE.TArmyID)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TArmyID)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -41532,6 +40410,16 @@ namespace Aow.Units.AoWE
 //     +29 FVisibilityRanges; +2A FConcealedUnits. }
     public partial class TArmy : Aow.Units.AoWE.TUnitList
     {
+        // Raw allocation for TDefendersArmy, TPrisonersArmy legacy factories.
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TArmy() { }
+
+        // Army.PAS:324
+        public TArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public TSet<Aow.Units.AoWE.TArmyStatusElement> FStatus;
         // { $10 }
         public TSet<Aow.Units.AoWE.TArmyModeElement> FMode;
@@ -41618,6 +40506,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FX = unchecked((sbyte)-1);
             FY = unchecked((sbyte)-1);
             FL = unchecked((sbyte)-1);
@@ -42430,7 +41323,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TArmyID Result = default;
             Aow.Units.AoWE.TArmyID ID = default;
             int I = default;
-            ID = Aow.Units.AoWE.TArmyID.Create(null);
+            ID = new Aow.Units.AoWE.TArmyID(null);
             ID.FX = unchecked((sbyte)FX);
             ID.FY = unchecked((sbyte)FY);
             ID.FL = unchecked((sbyte)FL);
@@ -44225,7 +43118,7 @@ namespace Aow.Units.AoWE
             if (Result == Aow.Units.AoWE.TAddUnitsResult.arOK)
             {
                 Units.BeginUpdate();
-                List = Aow.Units.AoWE.TUnitUserList.Create(null);
+                List = new Aow.Units.AoWE.TUnitUserList(null);
                 {
                     I = Units.GetCount() - 1;
                     byte end__3441 = 0;
@@ -44389,7 +43282,7 @@ namespace Aow.Units.AoWE
                         var call__3455 = AUnit.GetRace();
                         if (Races.List[call__3455] == null)
                         {
-                            var call__3456 = Aow.Units.AoWE.TArmy.Create(null);
+                            var call__3456 = new Aow.Units.AoWE.TArmy(null);
                             var call__3457 = AUnit.GetRace();
                             Races.List[call__3457] = call__3456;
                         }
@@ -44471,7 +43364,7 @@ namespace Aow.Units.AoWE
                         {
                             if (GoodArmy == null)
                             {
-                                GoodArmy = Aow.Units.AoWE.TArmy.Create(null);
+                                GoodArmy = new Aow.Units.AoWE.TArmy(null);
                             }
 
                             GoodArmy.AddUnit(AUnit);
@@ -44481,7 +43374,7 @@ namespace Aow.Units.AoWE
                         {
                             if (EvilArmy == null)
                             {
-                                EvilArmy = Aow.Units.AoWE.TArmy.Create(null);
+                                EvilArmy = new Aow.Units.AoWE.TArmy(null);
                             }
 
                             EvilArmy.AddUnit(AUnit);
@@ -44820,7 +43713,7 @@ namespace Aow.Units.AoWE
                 }
             }
 
-            Armies = Aow.Units.AoWE.TArmyHSList.Create(null);
+            Armies = new Aow.Units.AoWE.TArmyHSList(null);
             Player = unchecked((sbyte)FPlayer);
             MakeIndependent(unchecked((byte)Selection), ref Armies);
             while (Units.Count != 0)
@@ -44871,7 +43764,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
             Morale = 100;
             Count = 0;
-            Predictor = Aow.Units.AoWE.TCombatPredictor.Create();
+            Predictor = new Aow.Units.AoWE.TCombatPredictor();
             {
                 I = 0;
                 int end__3513 = FChildren.Count - 1;
@@ -45829,21 +44722,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_07.inc:445
-        public static new Aow.Units.AoWE.TArmy Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TArmy o = new Aow.Units.AoWE.TArmy();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEChangeNotifyNode.Meta
         {
@@ -45856,20 +44734,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P2_07.inc:445
-            public new Aow.Units.AoWE.TArmy Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TArmy Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TArmy o = (Aow.Units.AoWE.TArmy)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TArmy)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -45881,6 +44748,9 @@ namespace Aow.Units.AoWE
 //     +3C FConcealedForPlayers; +40 FMoraleValues. }
     public partial class TArmyView : Aow.Units.AoWE.TArmy
     {
+        public TArmyView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.FixedArray_ushort_8 FUnitConcealment;
         // { $2C }
         public ushort FConcealedForPlayers;
@@ -46014,21 +44884,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_07.inc:445
-        public static new Aow.Units.AoWE.TArmyView Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TArmyView o = new Aow.Units.AoWE.TArmyView();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TArmy.Meta
         {
@@ -46043,20 +44898,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyView => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P2_07.inc:445
-            public new Aow.Units.AoWE.TArmyView Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TArmyView Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TArmyView o = (Aow.Units.AoWE.TArmyView)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TArmyView)base.Create(AOwner);
             }
         }
     }
@@ -46094,7 +44938,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__3608 = Aow.Units.AoWE.TArmy.Create(null);
+            var call__3608 = new Aow.Units.AoWE.TArmy(null);
             FArmy = call__3608;
         }
 
@@ -47146,6 +45990,9 @@ namespace Aow.Units.AoWE
     // { TArmyHSList (instance size 20, VMT 5571352C) }
     public partial class TArmyHSList : Aow.Units.Engine.TEChangeNotifyEventList
     {
+        public TArmyHSList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Army.PAS:3562
         public Aow.Units.AoWE.TArmyHS GetArmyHS(int Index)
         {
@@ -47155,21 +46002,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:708
-        public static new Aow.Units.AoWE.TArmyHSList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TArmyHSList o = new Aow.Units.AoWE.TArmyHSList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TArmyEventLog (instance size 52, VMT 55713628): +18 FArmyView; +1C FArmyText;
@@ -47220,7 +46053,7 @@ namespace Aow.Units.AoWE
             base.Create__init(AOwner);
             var call__3692 = new Aow.Rtl.TStringList();
             FArmyMessages = call__3692;
-            var call__3693 = Aow.Units.AoWE.TArmyView.Create(null);
+            var call__3693 = new Aow.Units.AoWE.TArmyView(null);
             FArmyView = call__3693;
             var call__3694 = new Aow.Units.Engine.TByteList();
             FDamageValues = call__3694;
@@ -47500,7 +46333,7 @@ namespace Aow.Units.AoWE
             base.Create__init(AOwner);
             var call__3720 = new Aow.Rtl.TStringList();
             FMessages = call__3720;
-            var call__3721 = Aow.Units.AoWE.TArmyView.Create(null);
+            var call__3721 = new Aow.Units.AoWE.TArmyView(null);
             FArmyView = call__3721;
             FTriggers = TSet<Aow.Units.EventLog.TExecuteTrigger>.Of(Aow.Units.EventLog.TExecuteTrigger.etEvent, Aow.Units.EventLog.TExecuteTrigger.etUser, Aow.Units.EventLog.TExecuteTrigger.etNewTurn);
         }
@@ -47624,6 +46457,17 @@ namespace Aow.Units.AoWE
 //     $38 units, $3C hero unit, $40 special units, $44 hero names. VMT 55713838. }
     public partial class TRaceResource : Aow.Units.Engine.TEResource
     {
+        // PlayerC.PAS:1732
+        public TRaceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__3722 = new Aow.Units.AoWE.TUnitIndexList();
+            FUnitIndexes = call__3722;
+            var call__3723 = new Aow.Units.AoWE.TUnitIndexList();
+            FSpecialUnitIndexes = call__3723;
+            var call__3724 = new Aow.Rtl.TStringList();
+            FHeroNames = call__3724;
+        }
+
         public Aow.Units.ImageLib.TCustomImageLibrary FFaceLibrary;
         // { $18 }
         public Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
@@ -47685,18 +46529,6 @@ namespace Aow.Units.AoWE
             Stream.rwStreamProc(11, FSpecialUnitIndexes.LoadFromStream, FSpecialUnitIndexes.SaveToStream);
             Stream.rwInteger(ref FHeroUnitIndex, 12);
             Stream.rwStrings(FHeroNames, 13);
-        }
-
-        // PlayerC.PAS:1732
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__3722 = Aow.Units.AoWE.TUnitIndexList.Create();
-            FUnitIndexes = call__3722;
-            var call__3723 = Aow.Units.AoWE.TUnitIndexList.Create();
-            FSpecialUnitIndexes = call__3723;
-            var call__3724 = new Aow.Rtl.TStringList();
-            FHeroNames = call__3724;
         }
 
         // PlayerC.PAS:1798
@@ -47939,21 +46771,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_09.inc:24
-        public static new Aow.Units.AoWE.TRaceResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TRaceResource o = new Aow.Units.AoWE.TRaceResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
@@ -47974,20 +46791,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P1_09.inc:24
-            public new Aow.Units.AoWE.TRaceResource Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TRaceResource Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TRaceResource o = (Aow.Units.AoWE.TRaceResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TRaceResource)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -47999,9 +46805,8 @@ namespace Aow.Units.AoWE
     public partial class TRaceResourceList : Aow.Units.Engine.TEResourceList
     {
         // PlayerC.PAS:1890
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TRaceResourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
         }
 
@@ -48036,21 +46841,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_09.inc:44
-        public static new Aow.Units.AoWE.TRaceResourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TRaceResourceList o = new Aow.Units.AoWE.TRaceResourceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TStructureShadow: size $10; $08 connected/visible flags, $0C structure. VMT 55713A94. }
@@ -49185,7 +47976,7 @@ namespace Aow.Units.AoWE
             Collection = call__3820;
             if (Collection != -1)
             {
-                Indexes = Aow.Units.AoWE.TUnitIndexList.Create();
+                Indexes = new Aow.Units.AoWE.TUnitIndexList();
                 var unitIndexListCollection = ((Aow.Units.AoWE.TStructureResource)FResource).FDefenders;
                 {
                     I = unitIndexListCollection.GetCollectionCount(Collection) - 1;
@@ -49226,9 +48017,9 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TUnitList Attackers = default;
             int I = default;
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
-            Defenders = Aow.Units.AoWE.TUnitList.Create(null);
-            Placed = Aow.Units.AoWE.TUnitUserList.Create(null);
-            Attackers = Aow.Units.AoWE.TUnitUserList.Create(null);
+            Defenders = new Aow.Units.AoWE.TUnitList(null);
+            Placed = new Aow.Units.AoWE.TUnitUserList(null);
+            Attackers = new Aow.Units.AoWE.TUnitUserList(null);
             GenerateRazeDefenders(unchecked((sbyte)Player), Defenders);
             var call__3827 = Defenders.Count;
             if (call__3827 != 0)
@@ -49658,9 +48449,9 @@ namespace Aow.Units.AoWE
 
             if (bool__3886)
             {
-                Predictor = Aow.Units.AoWE.TCombatPredictor.Create();
-                Defenders = Aow.Units.AoWE.TUnitList.Create(null);
-                Units = Aow.Units.AoWE.TUnitUserList.Create(null);
+                Predictor = new Aow.Units.AoWE.TCombatPredictor();
+                Defenders = new Aow.Units.AoWE.TUnitList(null);
+                Units = new Aow.Units.AoWE.TUnitUserList(null);
                 ListUnits(Units);
                 {
                     I = 0;
@@ -49990,6 +48781,15 @@ namespace Aow.Units.AoWE
     // { TStructureControl (instance size 20, VMT 55713E78) }
     public partial class TStructureControl : Aow.Units.Engine.TEObject
     {
+        // Structur.PAS:3220
+        // { TStructureControl (instance size 20; $08 structures, $0C next ID, $10 city count). }
+        public TStructureControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__3910 = Aow.Units.Engine.TENode.Create(null);
+            FStructures = call__3910;
+            FNextID = 0;
+        }
+
         public Aow.Units.Engine.TENode FStructures;
         // { $08 }
         public int FNextID;
@@ -50009,16 +48809,6 @@ namespace Aow.Units.AoWE
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FNextID, 20);
             Stream.rwInteger(ref FCityCount, 21);
-        }
-
-        // Structur.PAS:3220
-        // { TStructureControl (instance size 20; $08 structures, $0C next ID, $10 city count). }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__3910 = Aow.Units.Engine.TENode.Create(null);
-            FStructures = call__3910;
-            FNextID = 0;
         }
 
         // Structur.PAS:3233
@@ -50153,21 +48943,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_09.inc:166
-        public static new Aow.Units.AoWE.TStructureControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TStructureControl o = new Aow.Units.AoWE.TStructureControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TStructureResource: size $64; $48 selection SFX, $50 description,
@@ -50240,7 +49016,7 @@ namespace Aow.Units.AoWE
             FTerrainBound = true;
             var call__3918 = new Aow.Rtl.TStringList();
             FDescription = call__3918;
-            var call__3919 = Aow.Units.AoWE.TUnitIndexListCollection.Create();
+            var call__3919 = new Aow.Units.AoWE.TUnitIndexListCollection();
             FDefenders = call__3919;
             FRazeDefenderBudget = 50;
             FRazeable = false;
@@ -50423,6 +49199,9 @@ namespace Aow.Units.AoWE
     // { TPlayerStructureIncomeSource (instance size 12, VMT 55714160) }
     public partial class TPlayerStructureIncomeSource : Aow.Units.AoWE.TIncomeSource
     {
+        public TPlayerStructureIncomeSource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TPlayerStructure FStructure;
         // Structur.PAS:2486
         // { $08 }
@@ -50461,26 +49240,15 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TPlayerStructureIncomeSource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerStructureIncomeSource o = new Aow.Units.AoWE.TPlayerStructureIncomeSource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TPlayerStructurePowerSource (instance size 12, VMT 55714250) }
     public partial class TPlayerStructurePowerSource : Aow.Units.AoWE.TPowerSource
     {
+        public TPlayerStructurePowerSource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TPlayerStructure FStructure;
         // Structur.PAS:2509
         // { $08 }
@@ -50525,21 +49293,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TPlayerStructurePowerSource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerStructurePowerSource o = new Aow.Units.AoWE.TPlayerStructurePowerSource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TPlayerStructure: size $3C; $30 player, $31 turns owned (FProductionPriority),
@@ -52687,31 +51441,31 @@ namespace Aow.Units.AoWE
             Enabled[5] = true;
             Enabled[6] = true;
             Enabled[12] = true;
-            var call__4173 = Aow.Units.AoWE.TRaceResourceList.Create(this);
+            var call__4173 = new Aow.Units.AoWE.TRaceResourceList(this);
             FRaceResources = call__4173;
             var call__4174 = Aow.Units.AoWE.TFlagControl.Create(this);
             FFlagControl = call__4174;
-            var call__4175 = Aow.Units.AoWE.TFireControl.Create();
+            var call__4175 = new Aow.Units.AoWE.TFireControl();
             FFireControl = call__4175;
-            var call__4176 = Aow.Units.AoWE.TUnitResourceList.Create(this);
+            var call__4176 = new Aow.Units.AoWE.TUnitResourceList(this);
             FUnitResources = call__4176;
-            var call__4177 = Aow.Units.AoWE.TUnitGFXResourceList.Create(this);
+            var call__4177 = new Aow.Units.AoWE.TUnitGFXResourceList(this);
             FUnitGFXResources = call__4177;
-            var call__4178 = Aow.Units.AoWE.THeroResourceList.Create(this);
+            var call__4178 = new Aow.Units.AoWE.THeroResourceList(this);
             FHeroResources = call__4178;
-            var call__4179 = Aow.Units.AoWE.TItemGFXList.Create(this);
+            var call__4179 = new Aow.Units.AoWE.TItemGFXList(this);
             FItemGFXResources = call__4179;
-            var call__4180 = Aow.Units.AoWE.TFaceResourceList.Create(this);
+            var call__4180 = new Aow.Units.AoWE.TFaceResourceList(this);
             FFaceResources = call__4180;
-            var call__4181 = Aow.Units.AoWE.TItemLibraryManager.Create(null);
+            var call__4181 = new Aow.Units.AoWE.TItemLibraryManager(null);
             FItemLibraries = call__4181;
-            var call__4182 = Aow.Units.AoWE.THeroLibraryManager.Create(null);
+            var call__4182 = new Aow.Units.AoWE.THeroLibraryManager(null);
             FHeroLibraries = call__4182;
-            var call__4183 = Aow.Units.AoWE.TAbilityControl.Create(null);
+            var call__4183 = new Aow.Units.AoWE.TAbilityControl(null);
             FAbilityControl = call__4183;
-            var call__4184 = Aow.Units.AoWE.TSpellControl.Create(null);
+            var call__4184 = new Aow.Units.AoWE.TSpellControl(null);
             FSpellControl = call__4184;
-            var call__4185 = Aow.Units.AoWE.TTextControl.Create(null);
+            var call__4185 = new Aow.Units.AoWE.TTextControl(null);
             FTextControl = call__4185;
             var call__4186 = ImageLibraryManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"GENERAL.ILB");
             FGeneralImages = call__4186;
@@ -52847,6 +51601,9 @@ namespace Aow.Units.AoWE
 //     $18 email address; $1C last day (not serialized by the original). }
     public partial class TEmailGame : Aow.Units.Engine.TEObject
     {
+        public TEmailGame(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Rtl.AnsiString FName;
         // { $08 }
         public int FUniqueLocalID;
@@ -52871,21 +51628,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TEmailGame Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TEmailGame o = new Aow.Units.AoWE.TEmailGame();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -52900,20 +51642,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TEmailGame => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TEmailGame Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TEmailGame Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TEmailGame o = (Aow.Units.AoWE.TEmailGame)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TEmailGame)base.Create(AOwner);
             }
         }
     }
@@ -52921,6 +51652,9 @@ namespace Aow.Units.AoWE
     // { TEmailGameList (instance size 12, VMT 55714C84) }
     public partial class TEmailGameList : Aow.Units.Engine.TENode
     {
+        public TEmailGameList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Diplomacy.pas:2475
         public Aow.Units.AoWE.TEmailGame GetEmailGames(int Index)
         {
@@ -52949,26 +51683,19 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TEmailGameList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TEmailGameList o = new Aow.Units.AoWE.TEmailGameList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TEmailGameControl (instance size $0C, VMT 55714D84). $08 games. }
     public partial class TEmailGameControl : Aow.Units.Engine.TEObject
     {
+        // Diplomacy.pas:2489
+        public TEmailGameControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4203 = new Aow.Units.AoWE.TEmailGameList(null);
+            FGames = call__4203;
+        }
+
         public Aow.Units.AoWE.TEmailGameList FGames;
         // Diplomacy.pas:2495
         // { $08 }
@@ -52976,14 +51703,6 @@ namespace Aow.Units.AoWE
         {
             FGames.Free();
             base.Destroy();
-        }
-
-        // Diplomacy.pas:2489
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4203 = Aow.Units.AoWE.TEmailGameList.Create(null);
-            FGames = call__4203;
         }
 
         // Diplomacy.pas:2498
@@ -53119,7 +51838,7 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TEmailGame CreateEmailGame(Aow.Rtl.AnsiString Name, Aow.Rtl.AnsiString EmailAddress)
         {
             Aow.Units.AoWE.TEmailGame Result = default;
-            Result = Aow.Units.AoWE.TEmailGame.Create(null);
+            Result = new Aow.Units.AoWE.TEmailGame(null);
             Result.FEmailAddress = EmailAddress;
             var call__4215 = CreateUniqueLocalID();
             Result.FUniqueLocalID = call__4215;
@@ -53246,21 +51965,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_04.inc:29
-        public static new Aow.Units.AoWE.TEmailGameControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TEmailGameControl o = new Aow.Units.AoWE.TEmailGameControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TRestartGameEventLog (instance size 40, VMT 55714E4C) }
@@ -53987,6 +52692,14 @@ namespace Aow.Units.AoWE
     // { TFireControl (instance size 8): $04 FResources. }
     public partial class TFireControl : Aow.Rtl.TObject
     {
+        // Structur.PAS:3720
+        // { TFireControl (instance size 8): $04 FResources. }
+        public TFireControl()
+        {
+            var call__4271 = new Aow.Rtl.TList();
+            FResources = call__4271;
+        }
+
         public Aow.Rtl.TList FResources;
         // Structur.PAS:3726
         // { $04 }
@@ -53994,15 +52707,6 @@ namespace Aow.Units.AoWE
         {
             FResources.Free();
             base.Destroy();
-        }
-
-        // Structur.PAS:3720
-        // { TFireControl (instance size 8): $04 FResources. }
-        public void Create__init_TFireControl()
-        {
-            ;
-            var call__4271 = new Aow.Rtl.TList();
-            FResources = call__4271;
         }
 
         // Structur.PAS:3732
@@ -54082,21 +52786,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_11.inc:62
-        public static Aow.Units.AoWE.TFireControl Create()
-        {
-            Aow.Units.AoWE.TFireControl o = new Aow.Units.AoWE.TFireControl();
-            try
-            {
-                o.Create__init_TFireControl();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Interface declaration run owned by P3. }
@@ -54109,6 +52799,13 @@ namespace Aow.Units.AoWE
 //     $48 FTargetPriority; $4C FHitPoints; $50 FStatus. }
     public partial class TCombatPredictorUnit : Aow.Rtl.TObject
     {
+        // CombatPredictor.pas:1
+        public TCombatPredictorUnit()
+        {
+            var call__4275 = new Aow.Units.Engine.TQuadItemList();
+            FRoundTargets = call__4275;
+        }
+
         public Aow.Units.AoWE.TAbstractUnit FUnit;
         // { $04 }
         public int FCPUID;
@@ -54170,14 +52867,6 @@ namespace Aow.Units.AoWE
             }
 
             base.Destroy();
-        }
-
-        // CombatPredictor.pas:1
-        public void Create__init_TCombatPredictorUnit()
-        {
-            ;
-            var call__4275 = new Aow.Units.Engine.TQuadItemList();
-            FRoundTargets = call__4275;
         }
 
         // CombatPredictor.pas:36
@@ -54603,21 +53292,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_01.inc:38
-        public static Aow.Units.AoWE.TCombatPredictorUnit Create()
-        {
-            Aow.Units.AoWE.TCombatPredictorUnit o = new Aow.Units.AoWE.TCombatPredictorUnit();
-            try
-            {
-                o.Create__init_TCombatPredictorUnit();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { draft }
@@ -54670,10 +53345,7 @@ namespace Aow.Units.AoWE
         }
 
         // System.pas:111
-        public static Aow.Units.AoWE.TCombatPredictorUnitList Create()
-        {
-            return new Aow.Units.AoWE.TCombatPredictorUnitList();
-        }
+
     }
 
     // { draft }
@@ -54722,10 +53394,7 @@ namespace Aow.Units.AoWE
         }
 
         // System.pas:111
-        public static new Aow.Units.AoWE.TCombatPredictorSide Create()
-        {
-            return new Aow.Units.AoWE.TCombatPredictorSide();
-        }
+
     }
 
     // { draft }
@@ -54735,6 +53404,19 @@ namespace Aow.Units.AoWE
 //     $28 FNextCPUID; $2C FInvalid; $30 FWork. }
     public partial class TCombatPredictor : Aow.Rtl.TObject
     {
+        // CombatPredictor.pas:292
+        public TCombatPredictor()
+        {
+            var call__4300 = new Aow.Units.AoWE.TCombatPredictorUnitList();
+            FAllUnits = call__4300;
+            var call__4301 = new Aow.Units.AoWE.TCombatPredictorUnitList();
+            FActiveUnits = call__4301;
+            var call__4302 = new Aow.Units.AoWE.TCombatPredictorSide();
+            FSides[0] = call__4302;
+            var call__4303 = new Aow.Units.AoWE.TCombatPredictorSide();
+            FSides[1] = call__4303;
+        }
+
         public Aow.Units.AoWE.TCombatPredictorUnitList FAllUnits;
         // { $04 }
         public Aow.Units.AoWE.TCombatPredictorUnitList FActiveUnits;
@@ -54761,20 +53443,6 @@ namespace Aow.Units.AoWE
             ((Aow.Rtl.TObject)FSides[0]).Free();
             ((Aow.Rtl.TObject)FSides[1]).Free();
             base.Destroy();
-        }
-
-        // CombatPredictor.pas:292
-        public void Create__init_TCombatPredictor()
-        {
-            ;
-            var call__4300 = Aow.Units.AoWE.TCombatPredictorUnitList.Create();
-            FAllUnits = call__4300;
-            var call__4301 = Aow.Units.AoWE.TCombatPredictorUnitList.Create();
-            FActiveUnits = call__4301;
-            var call__4302 = Aow.Units.AoWE.TCombatPredictorSide.Create();
-            FSides[0] = call__4302;
-            var call__4303 = Aow.Units.AoWE.TCombatPredictorSide.Create();
-            FSides[1] = call__4303;
         }
 
         // CombatPredictor.pas:311
@@ -55198,7 +53866,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TCombatPredictorUnit Result = default;
             Aow.Units.AoWE.TCombatPredictorUnit U = default;
             Aow.Units.AoWE.TDamageType D = default;
-            U = Aow.Units.AoWE.TCombatPredictorUnit.Create();
+            U = new Aow.Units.AoWE.TCombatPredictorUnit();
             U.Setup(A1, (Aow.Units.AoWE.TCombatPredictor)((System.Object)this), unchecked((byte)A2));
             U.FBehindWall = unchecked((byte)A3);
             ((Aow.Rtl.TList)FAllUnits).Add(U);
@@ -55936,7 +54604,7 @@ namespace Aow.Units.AoWE
             bool Useful = default;
             EnableAllUnits();
             Validate();
-            U = Aow.Units.AoWE.TCombatPredictorUnit.Create();
+            U = new Aow.Units.AoWE.TCombatPredictorUnit();
             U.Setup(A1, (Aow.Units.AoWE.TCombatPredictor)((System.Object)this), 0);
             Wall = FWall;
             if ((Wall != null) && (Wall.FHitPoints > 0))
@@ -55996,21 +54664,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_01.inc:92
-        public static Aow.Units.AoWE.TCombatPredictor Create()
-        {
-            Aow.Units.AoWE.TCombatPredictor o = new Aow.Units.AoWE.TCombatPredictor();
-            try
-            {
-                o.Create__init_TCombatPredictor();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCombatObject: instance size $4C, VMT 557158EC.
@@ -56021,6 +54675,15 @@ namespace Aow.Units.AoWE
 //     $45 FCombatPlayer; $46 FPosition; $47 FStatus; $48 FControlMode. }
     public partial class TCombatObject : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TTacticalCombatUnit legacy factories.
+        protected TCombatObject() { }
+
+        // Combat.pas:1922
+        public TCombatObject(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Units.AoWE.TCombat FCombat;
         // { $08 }
         public byte FID;
@@ -56082,6 +54745,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__4400 = new Aow.Units.Engine.TQuadItemList();
             FTargets = call__4400;
             var call__4401 = new Aow.Units.Engine.TQuadItemList();
@@ -56849,7 +55517,7 @@ namespace Aow.Units.AoWE
         public virtual void TurnDone()
         {
             Aow.Units.AoWE.TCombatObjectTurnDoneCA A = default;
-            A = Aow.Units.AoWE.TCombatObjectTurnDoneCA.Create(null);
+            A = new Aow.Units.AoWE.TCombatObjectTurnDoneCA(null);
             A.F_CombatObjectTurnDoneCA_0C = unchecked((byte)FID);
             FCombat.ExecuteCombatAction(A);
             A.Release();
@@ -57076,21 +55744,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_01.inc:157
-        public static new Aow.Units.AoWE.TCombatObject Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatObject o = new Aow.Units.AoWE.TCombatObject();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCombatUnit (instance size $5C, VMT 55715A94).
@@ -57099,6 +55753,16 @@ namespace Aow.Units.AoWE
 //     $47 FStatus; $48 FControlMode. }
     public partial class TCombatUnit : Aow.Units.AoWE.TCombatObject
     {
+        // Raw allocation for TTacticalCombatUnit legacy factories.
+        protected TCombatUnit() { }
+
+        // Combat.pas:1071
+        // { CombatDID is declared with the shared engine globals. }
+        public TCombatUnit(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Units.AoWE.TAbstractUnit FUnit;
         public Aow.Units.AoWE.TCombatParty FParty;
         // { $50 }
@@ -57140,6 +55804,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FControlMode = TSet<Aow.Units.AoWE.TCombatObjectControlModeElement>.Of(Aow.Units.AoWE.TCombatObjectControlModeElement.cmConquerObject);
             FUnitGFXResourceIndex = -1;
         }
@@ -58257,21 +56926,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_01.inc:244
-        public static new Aow.Units.AoWE.TCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatUnit o = new Aow.Units.AoWE.TCombatUnit();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -58284,20 +56938,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P3_01.inc:244
-            public new Aow.Units.AoWE.TCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCombatUnit o = (Aow.Units.AoWE.TCombatUnit)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCombatUnit)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -58309,6 +56952,13 @@ namespace Aow.Units.AoWE
 //     $4D FHitPoints; $4E FLocked. }
     public partial class TCombatWall : Aow.Units.AoWE.TCombatObject
     {
+        // Combat.pas:1660
+        public TCombatWall(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FPosition = 128;
+            FControlMode = TSet<Aow.Units.AoWE.TCombatObjectControlModeElement>.Of();
+        }
+
         public byte FWallType;
         public byte FHitPoints;
         public bool FLocked;
@@ -58325,14 +56975,6 @@ namespace Aow.Units.AoWE
             base.ReadWrite(Stream);
             Stream.rwData(Aow.Rtl.Bytes.Of(ref FWallType, 1), 1, 20);
             Stream.rwByte(ref FHitPoints, 21);
-        }
-
-        // Combat.pas:1660
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FPosition = 128;
-            FControlMode = TSet<Aow.Units.AoWE.TCombatObjectControlModeElement>.Of();
         }
 
         // Combat.pas:1673
@@ -58551,21 +57193,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_01.inc:316
-        public static new Aow.Units.AoWE.TCombatWall Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatWall o = new Aow.Units.AoWE.TCombatWall();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -58597,20 +57224,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P3_01.inc:316
-            public new Aow.Units.AoWE.TCombatWall Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCombatWall Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCombatWall o = (Aow.Units.AoWE.TCombatWall)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCombatWall)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -58622,6 +57238,11 @@ namespace Aow.Units.AoWE
 //     $0C FSideIndex; $10 FOpponent; $14 FStrength; $18 FConquerCount. }
     public partial class TCombatSide : Aow.Units.Engine.TENode
     {
+        // Combat.pas:5999
+        public TCombatSide(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public byte FSideIndex;
         public Aow.Units.FixedArray_byte_3 F_CombatSide_0D;
         public Aow.Units.AoWE.TCombatSide FOpponent;
@@ -58637,12 +57258,6 @@ namespace Aow.Units.AoWE
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-        }
-
-        // Combat.pas:5999
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // Combat.pas:6008
@@ -58782,21 +57397,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_01.inc:352
-        public static new Aow.Units.AoWE.TCombatSide Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatSide o = new Aow.Units.AoWE.TCombatSide();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Interface declaration run owned by P5. }
@@ -58804,6 +57405,13 @@ namespace Aow.Units.AoWE
 //     $08 source DV, $0C target DV, $10 expected DV, $14 move cost, $18 target. }
     public partial class TFastCombatCommand : Aow.Rtl.TObject
     {
+        // AIGroup.pas:6705
+        // { +000; 557790CF..5577910F }
+        public TFastCombatCommand(int AbilityID)
+        {
+            FAbilityID = AbilityID;
+        }
+
         public int FAbilityID;
         // { $04 }
         public int FSourceDV;
@@ -58829,35 +57437,32 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        // AIGroup.pas:6705
-        // { +000; 557790CF..5577910F }
-        public void Create__init_TFastCombatCommand(int AbilityID)
-        {
-            FAbilityID = AbilityID;
-        }
-
         // intf_P5_05.inc:10
-        public static Aow.Units.AoWE.TFastCombatCommand Create(int AbilityID)
-        {
-            Aow.Units.AoWE.TFastCombatCommand o = new Aow.Units.AoWE.TFastCombatCommand();
-            try
-            {
-                o.Create__init_TFastCombatCommand(AbilityID);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TFastCombatCommandList (instance size $18, VMT 55715F60).
 //     $04 source, $08 source side, $0C target side, $10 combat, $14 command list. }
     public partial class TFastCombatCommandList : Aow.Rtl.TObject
     {
+        // AIGroup.pas:6716
+        public TFastCombatCommandList(Aow.Units.AoWE.TCombatObject Source, Aow.Units.AoWE.TFastCombat Combat, Aow.Units.AoWE.TCombatSide Side)
+        {
+            var call__4544 = new Aow.Rtl.TList();
+            FCommands = call__4544;
+            FSource = Source;
+            FCombat = Combat;
+            FSourceSide = Side;
+            if (FSourceSide.FSideIndex == 0)
+            {
+                FTargetSide = FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender];
+            }
+            else
+            {
+                FTargetSide = FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker];
+            }
+        }
+
         public Aow.Units.AoWE.TCombatObject FSource;
         // { $04 }
         public Aow.Units.AoWE.TCombatSide FSourceSide;
@@ -58874,25 +57479,6 @@ namespace Aow.Units.AoWE
             Clear();
             FCommands.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:6716
-        public void Create__init_TFastCombatCommandList(Aow.Units.AoWE.TCombatObject Source, Aow.Units.AoWE.TFastCombat Combat, Aow.Units.AoWE.TCombatSide Side)
-        {
-            ;
-            var call__4544 = new Aow.Rtl.TList();
-            FCommands = call__4544;
-            FSource = Source;
-            FCombat = Combat;
-            FSourceSide = Side;
-            if (FSourceSide.FSideIndex == 0)
-            {
-                FTargetSide = FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender];
-            }
-            else
-            {
-                FTargetSide = FCombat.FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker];
-            }
         }
 
         // AIGroup.pas:6734
@@ -58947,27 +57533,23 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_05.inc:23
-        public static Aow.Units.AoWE.TFastCombatCommandList Create(Aow.Units.AoWE.TCombatObject Source, Aow.Units.AoWE.TFastCombat Combat, Aow.Units.AoWE.TCombatSide Side)
-        {
-            Aow.Units.AoWE.TFastCombatCommandList o = new Aow.Units.AoWE.TFastCombatCommandList();
-            try
-            {
-                o.Create__init_TFastCombatCommandList(Source, Combat, Side);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCombatViewer (instance size $1C, VMT 55716040):
 //     $04 FStatus; $08 FCombat; $0C FDelay; $0D FSpeed; $10 FPosition; $14 FTime; $18 FLogbook. }
     public partial class TCombatViewer : Aow.Rtl.TObject
     {
+        // Combat2.pas:546
+        public TCombatViewer()
+        {
+            var call__4546 = new Aow.Units.AoWE.TCombat(null);
+            FCombat = call__4546;
+            FTime = -1;
+            FSpeed = 5;
+            FDelay = 5;
+        }
+
         public TSet<Aow.Units.AoWE.TCombatViewerStatusElement> FStatus;
         public Aow.Units.FixedArray_byte_3 F_CombatViewer_05;
         public Aow.Units.AoWE.TCombat FCombat;
@@ -58989,17 +57571,6 @@ namespace Aow.Units.AoWE
 
             ((Aow.Rtl.TObject)FCombat).Free();
             base.Destroy();
-        }
-
-        // Combat2.pas:546
-        public void Create__init_TCombatViewer()
-        {
-            ;
-            var call__4546 = Aow.Units.AoWE.TCombat.Create(null);
-            FCombat = call__4546;
-            FTime = -1;
-            FSpeed = 5;
-            FDelay = 5;
         }
 
         // Combat2.pas:562
@@ -59272,31 +57843,31 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:19
-        public static Aow.Units.AoWE.TCombatViewer Create()
-        {
-            Aow.Units.AoWE.TCombatViewer o = new Aow.Units.AoWE.TCombatViewer();
-            try
-            {
-                o.Create__init_TCombatViewer();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCombatAction: instance size $0C, VMT 557160B4; $08 FRefCount. }
     public partial class TCombatAction : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTCombatAction.
+        protected TCombatAction() { }
+
+        // Combat2.pas:698
+        public TCombatAction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FRefCount;
         // Combat2.pas:698
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FRefCount = 1;
         }
 
@@ -59368,21 +57939,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TCombatAction Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatAction o = new Aow.Units.AoWE.TCombatAction();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { +060 }
@@ -59390,6 +57947,13 @@ namespace Aow.Units.AoWE
 //     $0C FMode; $0D FSourceID; $0E FTargetID. }
     public partial class TSingleTargetCA : Aow.Units.AoWE.TCombatAction
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTSingleTargetCA.
+        protected TSingleTargetCA() { }
+
+        public TSingleTargetCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public TSet<Aow.Units.AoWE.TSingleTargetModeElement> FMode;
         public byte FSourceID;
         public byte FTargetID;
@@ -59490,6 +58054,13 @@ namespace Aow.Units.AoWE
 //     The two damage sets are deliberately unaligned packed fields. }
     public partial class TDamageCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTDamageCA.
+        protected TDamageCA() { }
+
+        public TDamageCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public byte FDamage;
         // { $10 }
         public Aow.Units.AoWE.TP3PackedDamageTypes FDamageTypes;
@@ -59680,21 +58251,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TDamageCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDamageCA o = new Aow.Units.AoWE.TDamageCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -59708,22 +58264,8 @@ namespace Aow.Units.AoWE
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDamageCA => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P3_02.inc:38
             public new Aow.Units.AoWE.TDamageCA Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TDamageCA o = (Aow.Units.AoWE.TDamageCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TDamageCA)base.Create(AOwner);
         }
     }
 
@@ -59731,6 +58273,9 @@ namespace Aow.Units.AoWE
     // { TDamageEffectCA: instance size $14, VMT 557163D0; $10 FDamageType. }
     public partial class TDamageEffectCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public TDamageEffectCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TDamageType FDamageType;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_DamageEffectCA_11;
@@ -59834,20 +58379,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDamageEffectCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TDamageEffectCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDamageEffectCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDamageEffectCA o = (Aow.Units.AoWE.TDamageEffectCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDamageEffectCA)base.Create(AOwner);
             }
         }
     }
@@ -59856,6 +58390,9 @@ namespace Aow.Units.AoWE
     // { TUpdateHeaderCA (instance size 16, VMT 557164AC) }
     public partial class TUpdateHeaderCA : Aow.Units.AoWE.TCombatAction
     {
+        public TUpdateHeaderCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Rtl.AnsiString F_UpdateHeaderCA_0C;
         // Combat2.pas:963
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
@@ -59872,21 +58409,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TUpdateHeaderCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUpdateHeaderCA o = new Aow.Units.AoWE.TUpdateHeaderCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -59901,20 +58423,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUpdateHeaderCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TUpdateHeaderCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TUpdateHeaderCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TUpdateHeaderCA o = (Aow.Units.AoWE.TUpdateHeaderCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TUpdateHeaderCA)base.Create(AOwner);
             }
         }
     }
@@ -59922,6 +58433,9 @@ namespace Aow.Units.AoWE
     // { TNewCombatTurnCA (instance size 16, VMT 5571659C) }
     public partial class TNewCombatTurnCA : Aow.Units.AoWE.TCombatAction
     {
+        public TNewCombatTurnCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public byte F_NewCombatTurnCA_0C;
         public Aow.Units.FixedArray_byte_3 F_NewCombatTurnCA_0D;
         // Combat2.pas:985
@@ -59962,21 +58476,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TNewCombatTurnCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TNewCombatTurnCA o = new Aow.Units.AoWE.TNewCombatTurnCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -59991,20 +58490,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TNewCombatTurnCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TNewCombatTurnCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TNewCombatTurnCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TNewCombatTurnCA o = (Aow.Units.AoWE.TNewCombatTurnCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TNewCombatTurnCA)base.Create(AOwner);
             }
         }
     }
@@ -60012,6 +58500,9 @@ namespace Aow.Units.AoWE
     // { TNewCombatRoundCA (instance size 12, VMT 5571667C) }
     public partial class TNewCombatRoundCA : Aow.Units.AoWE.TCombatAction
     {
+        public TNewCombatRoundCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Combat2.pas:1012
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
@@ -60031,21 +58522,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TNewCombatRoundCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TNewCombatRoundCA o = new Aow.Units.AoWE.TNewCombatRoundCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -60060,20 +58536,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TNewCombatRoundCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TNewCombatRoundCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TNewCombatRoundCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TNewCombatRoundCA o = (Aow.Units.AoWE.TNewCombatRoundCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TNewCombatRoundCA)base.Create(AOwner);
             }
         }
     }
@@ -60081,6 +58546,9 @@ namespace Aow.Units.AoWE
     // { TCombatObjectTurnDoneCA (instance size 16, VMT 5571675C) }
     public partial class TCombatObjectTurnDoneCA : Aow.Units.AoWE.TCombatAction
     {
+        public TCombatObjectTurnDoneCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public byte F_CombatObjectTurnDoneCA_0C;
         public Aow.Units.FixedArray_byte_3 F_CombatObjectTurnDoneCA_0D;
         // Combat2.pas:1041
@@ -60100,21 +58568,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TCombatObjectTurnDoneCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatObjectTurnDoneCA o = new Aow.Units.AoWE.TCombatObjectTurnDoneCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -60129,20 +58582,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCombatObjectTurnDoneCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TCombatObjectTurnDoneCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCombatObjectTurnDoneCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCombatObjectTurnDoneCA o = (Aow.Units.AoWE.TCombatObjectTurnDoneCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCombatObjectTurnDoneCA)base.Create(AOwner);
             }
         }
     }
@@ -60150,6 +58592,9 @@ namespace Aow.Units.AoWE
     // { TMoveWallCA (instance size 16, VMT 55716880) }
     public partial class TMoveWallCA : Aow.Units.AoWE.TCombatAction
     {
+        public TMoveWallCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public byte F_MoveWallCA_0C;
         public byte F_MoveWallCA_0D;
         public Aow.Units.FixedArray_byte_2 F_MoveWallCA_0E;
@@ -60179,21 +58624,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TMoveWallCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TMoveWallCA o = new Aow.Units.AoWE.TMoveWallCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -60208,20 +58638,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TMoveWallCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TMoveWallCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TMoveWallCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TMoveWallCA o = (Aow.Units.AoWE.TMoveWallCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TMoveWallCA)base.Create(AOwner);
             }
         }
     }
@@ -60229,6 +58648,9 @@ namespace Aow.Units.AoWE
     // { TFleeCA (instance size 16, VMT 55716954) }
     public partial class TFleeCA : Aow.Units.AoWE.TCombatAction
     {
+        public TFleeCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public byte FObjectID;
         // { $0C }
         public Aow.Units.FixedArray_byte_3 F_FleeCA_0D;
@@ -60249,21 +58671,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TFleeCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TFleeCA o = new Aow.Units.AoWE.TFleeCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -60278,20 +58685,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TFleeCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TFleeCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TFleeCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TFleeCA o = (Aow.Units.AoWE.TFleeCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TFleeCA)base.Create(AOwner);
             }
         }
     }
@@ -60299,6 +58695,9 @@ namespace Aow.Units.AoWE
     // { TCombatActionList (instance size 12, VMT 55716A20) }
     public partial class TCombatActionList : Aow.Units.Engine.TEReferenceNode
     {
+        public TCombatActionList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Combat2.pas:729
         public Aow.Units.AoWE.TCombatAction GetCombatActions(int A1)
         {
@@ -60308,27 +58707,20 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TCombatActionList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatActionList o = new Aow.Units.AoWE.TCombatActionList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { draft }
     // { TCombatParty (instance size 28, VMT 55716B24) }
     public partial class TCombatParty : Aow.Units.Engine.TEObject
     {
+        // Combat2.pas:37
+        public TCombatParty(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4604 = new Aow.Units.AoWE.TArmy(null);
+            FArmy = call__4604;
+        }
+
         public Aow.Units.AoWE.TArmy FArmy;
         // { $08; 00435D7C }
         public int F_CombatParty_0C;
@@ -60360,14 +58752,6 @@ namespace Aow.Units.AoWE
             Stream.rwByte(ref F_CombatParty_19, 16);
         }
 
-        // Combat2.pas:37
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4604 = Aow.Units.AoWE.TArmy.Create(null);
-            FArmy = call__4604;
-        }
-
         // Combat2.pas:61
         public void Activate(int A1)
         {
@@ -60382,21 +58766,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:180
-        public static new Aow.Units.AoWE.TCombatParty Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatParty o = new Aow.Units.AoWE.TCombatParty();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -60409,20 +58778,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P3_02.inc:180
-            public new Aow.Units.AoWE.TCombatParty Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCombatParty Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCombatParty o = (Aow.Units.AoWE.TCombatParty)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCombatParty)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -60434,6 +58792,9 @@ namespace Aow.Units.AoWE
     // { TCombatPartyList (instance size 12, VMT 55716BE4) }
     public partial class TCombatPartyList : Aow.Units.Engine.TENode
     {
+        public TCombatPartyList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Combat2.pas:70
         public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
         {
@@ -60449,7 +58810,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TCombatParty P = default;
             if (GetParty(unchecked((byte)A2)) == null)
             {
-                P = Aow.Units.AoWE.TCombatParty.Create(null);
+                P = new Aow.Units.AoWE.TCombatParty(null);
                 P.FPlayerIndex = unchecked((byte)A3);
                 P.F_CombatParty_19 = unchecked((byte)A2);
                 P.F_CombatParty_0C = A4;
@@ -60529,27 +58890,19 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TCombatPartyList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatPartyList o = new Aow.Units.AoWE.TCombatPartyList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { draft }
     // { TCombatPlayer (instance size 12, VMT 55716CE8) }
     public partial class TCombatPlayer : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TTacticalCombatPlayer legacy factories.
+        protected TCombatPlayer() { }
+
+        public TCombatPlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public sbyte FPlayer;
         // { $08 }
         // { conflict: FPlayer: Byte; }
@@ -60568,21 +58921,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TCombatPlayer Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatPlayer o = new Aow.Units.AoWE.TCombatPlayer();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -60597,20 +58935,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCombatPlayer => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TCombatPlayer Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCombatPlayer Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCombatPlayer o = (Aow.Units.AoWE.TCombatPlayer)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCombatPlayer)base.Create(AOwner);
             }
         }
     }
@@ -60618,16 +58945,15 @@ namespace Aow.Units.AoWE
     // { TCombatPlayerList (instance size 12, VMT 55716DA8) }
     public partial class TCombatPlayerList : Aow.Units.Engine.TENode
     {
+        // Combat2.pas:126
+        public TCombatPlayerList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // Combat2.pas:129
         public override void Destroy()
         {
             base.Destroy();
-        }
-
-        // Combat2.pas:126
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // Combat2.pas:132
@@ -60685,21 +59011,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:212
-        public static new Aow.Units.AoWE.TCombatPlayerList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatPlayerList o = new Aow.Units.AoWE.TCombatPlayerList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { draft }
@@ -60708,6 +59020,26 @@ namespace Aow.Units.AoWE
 //     $3C parties; $44 round; $48 header string; $4D Boolean; $50 combat wall. }
     public partial class TCombatData : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
+        public TCombatData() { }
+
+        // Combat2.pas:162
+        public TCombatData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4610 = new Aow.Units.AoWE.TCombatPlayerList(null);
+            FPlayers = call__4610;
+            var call__4611 = new Aow.Units.AoWE.TCombatPartyList(null);
+            FParties = call__4611;
+            var call__4612 = Aow.Units.Engine.TENode.Create(null);
+            F_CombatData_34 = Aow.Rtl.Rtl.ObjectToInt(call__4612);
+            var call__4613 = new Aow.Units.Engine.TByteList();
+            F_CombatData_2C = Aow.Rtl.Rtl.ObjectToInt(call__4613);
+            var call__4614 = new Aow.Units.Engine.TByteList();
+            FTurnOrder = call__4614;
+            var call__4615 = new Aow.Units.Engine.TByteList();
+            F_CombatData_28 = Aow.Rtl.Rtl.ObjectToInt(call__4615);
+        }
+
         public int FX;
         // { $08 }
         public int FY;
@@ -60761,24 +59093,6 @@ namespace Aow.Units.AoWE
             Aow.Rtl.Rtl.IntToObject((int)F_CombatData_28).Free();
             ((Aow.Rtl.TObject)FTurnOrder).Free();
             base.Destroy();
-        }
-
-        // Combat2.pas:162
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4610 = Aow.Units.AoWE.TCombatPlayerList.Create(null);
-            FPlayers = call__4610;
-            var call__4611 = Aow.Units.AoWE.TCombatPartyList.Create(null);
-            FParties = call__4611;
-            var call__4612 = Aow.Units.Engine.TENode.Create(null);
-            F_CombatData_34 = Aow.Rtl.Rtl.ObjectToInt(call__4612);
-            var call__4613 = new Aow.Units.Engine.TByteList();
-            F_CombatData_2C = Aow.Rtl.Rtl.ObjectToInt(call__4613);
-            var call__4614 = new Aow.Units.Engine.TByteList();
-            FTurnOrder = call__4614;
-            var call__4615 = new Aow.Units.Engine.TByteList();
-            F_CombatData_28 = Aow.Rtl.Rtl.ObjectToInt(call__4615);
         }
 
         // Combat2.pas:212
@@ -60896,21 +59210,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:252
-        public static new Aow.Units.AoWE.TCombatData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatData o = new Aow.Units.AoWE.TCombatData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -60923,20 +59222,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P3_02.inc:252
-            public new Aow.Units.AoWE.TCombatData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCombatData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCombatData o = (Aow.Units.AoWE.TCombatData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCombatData)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -60949,6 +59237,19 @@ namespace Aow.Units.AoWE
 //     $0C FInitialData; $10 FFinalData; $14 FActions; $19 result flag. }
     public partial class TCombatLogbook : Aow.Units.Engine.TEObject
     {
+        // Combat2.pas:349
+        public TCombatLogbook(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRefCount = 1;
+            var call__4622 = new Aow.Units.AoWE.TCombatActionList(null);
+            FActions = call__4622;
+            var call__4623 = new Aow.Units.AoWE.TCombatData(null);
+            FFinalData = call__4623;
+            var call__4624 = new Aow.Units.AoWE.TCombatData(null);
+            FInitialData = call__4624;
+            F_CombatLogbook_19 = false;
+        }
+
         public int FRefCount;
         public Aow.Units.AoWE.TCombatData FInitialData;
         // { $0C }
@@ -60978,20 +59279,6 @@ namespace Aow.Units.AoWE
             Stream.rwEObject((Aow.Units.Engine.TEObject)FFinalData, 6);
             Stream.rwEObject((Aow.Units.Engine.TEObject)FActions, 7);
             Stream.rwBool(ref F_CombatLogbook_19, 8);
-        }
-
-        // Combat2.pas:349
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRefCount = 1;
-            var call__4622 = Aow.Units.AoWE.TCombatActionList.Create(null);
-            FActions = call__4622;
-            var call__4623 = Aow.Units.AoWE.TCombatData.Create(null);
-            FFinalData = call__4623;
-            var call__4624 = Aow.Units.AoWE.TCombatData.Create(null);
-            FInitialData = call__4624;
-            F_CombatLogbook_19 = false;
         }
 
         // Combat2.pas:384
@@ -61040,21 +59327,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:278
-        public static new Aow.Units.AoWE.TCombatLogbook Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatLogbook o = new Aow.Units.AoWE.TCombatLogbook();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -61067,20 +59339,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P3_02.inc:278
-            public new Aow.Units.AoWE.TCombatLogbook Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCombatLogbook Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCombatLogbook o = (Aow.Units.AoWE.TCombatLogbook)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCombatLogbook)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -61094,6 +59355,15 @@ namespace Aow.Units.AoWE
 //     $2C FOnExecuted; $34 FTerminated; $38 FOnTerminated; $40 FVisibilityMode. }
     public partial class TCombat : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TTacticalCombat legacy factories.
+        protected TCombat() { }
+
+        // Combat.pas:6067
+        public TCombat(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public TSet<Aow.Units.AoWE.TCombatStatusElement> FStatus;
         // { $08 }
         // { conflict: FCombatStatus: TCombatStatus; }
@@ -61161,19 +59431,24 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__4625 = new Aow.Units.Engine.TEventList();
             FExecutedEvents = call__4625;
-            var call__4626 = Aow.Units.AoWE.TCombatSide.Create(null);
+            var call__4626 = new Aow.Units.AoWE.TCombatSide(null);
             FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker] = call__4626;
-            var call__4627 = Aow.Units.AoWE.TCombatSide.Create(null);
+            var call__4627 = new Aow.Units.AoWE.TCombatSide(null);
             FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender] = call__4627;
             FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].FSideIndex = 0;
             FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].FSideIndex = 1;
             FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].FOpponent = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender];
             FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].FOpponent = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker];
-            var call__4628 = Aow.Units.AoWE.TCombatData.Create(null);
+            var call__4628 = new Aow.Units.AoWE.TCombatData(null);
             FCombatData = call__4628;
-            var call__4629 = Aow.Units.AoWE.TCombatLogbook.Create(null);
+            var call__4629 = new Aow.Units.AoWE.TCombatLogbook(null);
             FLogbook = call__4629;
             Clear();
         }
@@ -61289,7 +59564,7 @@ namespace Aow.Units.AoWE
         public virtual Aow.Units.AoWE.TCombatUnit CreateCombatUnit()
         {
             Aow.Units.AoWE.TCombatUnit Result = default;
-            Result = Aow.Units.AoWE.TFastCombatUnit.Create(null);
+            Result = new Aow.Units.AoWE.TFastCombatUnit(null);
             var call__4638 = CreateUniqueCOID();
             Result.FID = unchecked((byte)call__4638);
             return Result;
@@ -61300,7 +59575,7 @@ namespace Aow.Units.AoWE
         public virtual Aow.Units.AoWE.TCombatPlayer CreateCombatPlayer()
         {
             Aow.Units.AoWE.TCombatPlayer Result = default;
-            Result = Aow.Units.AoWE.TCombatPlayer.Create(null);
+            Result = new Aow.Units.AoWE.TCombatPlayer(null);
             return Result;
         }
 
@@ -61388,7 +59663,7 @@ namespace Aow.Units.AoWE
 
             if (WallType != 0)
             {
-                Wall = Aow.Units.AoWE.TCombatWall.Create(null);
+                Wall = new Aow.Units.AoWE.TCombatWall(null);
                 var call__4648 = CreateUniqueCOID();
                 Wall.Setup(unchecked((byte)call__4648), unchecked((byte)WallType), unchecked((byte)FCombatData.FDefenderPlayer));
                 FCombatData.AddObject(Wall);
@@ -61622,7 +59897,7 @@ namespace Aow.Units.AoWE
         public virtual void NewTurn(byte A1)
         {
             Aow.Units.AoWE.TNewCombatTurnCA A = default;
-            A = Aow.Units.AoWE.TNewCombatTurnCA.Create(null);
+            A = new Aow.Units.AoWE.TNewCombatTurnCA(null);
             A.F_NewCombatTurnCA_0C = unchecked((byte)A1);
             ExecuteCombatAction(A);
             A.Release();
@@ -61634,7 +59909,7 @@ namespace Aow.Units.AoWE
         public virtual void NewRound()
         {
             Aow.Units.AoWE.TNewCombatRoundCA A = default;
-            A = Aow.Units.AoWE.TNewCombatRoundCA.Create(null);
+            A = new Aow.Units.AoWE.TNewCombatRoundCA(null);
             ExecuteCombatAction(A);
             A.Release();
         }
@@ -61787,7 +60062,7 @@ namespace Aow.Units.AoWE
         public void SetLogbookHeader(Aow.Rtl.AnsiString A1)
         {
             Aow.Units.AoWE.TUpdateHeaderCA A = default;
-            A = Aow.Units.AoWE.TUpdateHeaderCA.Create(null);
+            A = new Aow.Units.AoWE.TUpdateHeaderCA(null);
             A.F_UpdateHeaderCA_0C = A1;
             ExecuteCombatAction(A);
             A.Release();
@@ -62189,21 +60464,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:318
-        public static new Aow.Units.AoWE.TCombat Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombat o = new Aow.Units.AoWE.TCombat();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { }
@@ -62575,6 +60836,12 @@ namespace Aow.Units.AoWE
 //     $08 process cycles, $0C player control, $10 phase. }
     public partial class TAIPlayerAction : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TCityAIPA legacy factories.
+        protected TAIPlayerAction() { }
+
+        public TAIPlayerAction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FProcessCycles;
         // { $08 }
         public Aow.Units.AoWE.TAIPlayerControl FControl;
@@ -62620,21 +60887,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TAIPlayerAction Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIPlayerAction o = new Aow.Units.AoWE.TAIPlayerAction();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -62656,20 +60908,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAIPlayerAction => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TAIPlayerAction Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAIPlayerAction Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAIPlayerAction o = (Aow.Units.AoWE.TAIPlayerAction)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAIPlayerAction)base.Create(AOwner);
             }
         }
 
@@ -62679,6 +60920,9 @@ namespace Aow.Units.AoWE
     // { TAIPlayerActionList (instance size $0C, VMT 55717534). $08 children. }
     public partial class TAIPlayerActionList : Aow.Units.Engine.TENode
     {
+        public TAIPlayerActionList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AI.pas:26
         public Aow.Units.AoWE.TAIPlayerAction GetActions(int Index)
         {
@@ -62697,26 +60941,19 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIPlayerActionList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIPlayerActionList o = new Aow.Units.AoWE.TAIPlayerActionList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIPlayerActionManager (instance size $0C, VMT 5571763C). $08 registered classes. }
     public partial class TAIPlayerActionManager : Aow.Units.Engine.TEObject
     {
+        // AI.pas:36
+        public TAIPlayerActionManager(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4771 = new Aow.Rtl.TList();
+            FRegisteredClasses = call__4771;
+        }
+
         public Aow.Rtl.TList FRegisteredClasses;
         // AI.pas:42
         // { $08 }
@@ -62724,14 +60961,6 @@ namespace Aow.Units.AoWE
         {
             FRegisteredClasses.Free();
             base.Destroy();
-        }
-
-        // AI.pas:36
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4771 = new Aow.Rtl.TList();
-            FRegisteredClasses = call__4771;
         }
 
         // AI.pas:48
@@ -62787,26 +61016,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:32
-        public static new Aow.Units.AoWE.TAIPlayerActionManager Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIPlayerActionManager o = new Aow.Units.AoWE.TAIPlayerActionManager();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupList (instance size $0C, VMT 55717710). $08 children. }
     public partial class TAIGroupList : Aow.Units.Engine.TENode
     {
+        public TAIGroupList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:526
         public Aow.Units.AoWE.TAIGroup GetGroups(int Index)
         {
@@ -62873,21 +61091,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIGroupList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupList o = new Aow.Units.AoWE.TAIGroupList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIPlayerControl (instance size $28, VMT 5571780C).
@@ -62895,6 +61099,16 @@ namespace Aow.Units.AoWE
 //     $1C move executer, $20 phase, $24 progress. }
     public partial class TAIPlayerControl : Aow.Units.Engine.TEObject
     {
+        // AI.pas:84
+        public TAIPlayerControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4777 = new Aow.Units.AoWE.TAIPlayerActionList(null);
+            FActions = call__4777;
+            var call__4778 = new Aow.Units.AoWE.TAIMoveExecuter(null);
+            FMoveExecuter = call__4778;
+            FProcessCyclesMax = 10;
+        }
+
         public Aow.Units.AoWE.TPlayer FPlayer;
         // { $08 }
         public Aow.Units.AoWE.TAIPlayerActionList FActions;
@@ -62943,17 +61157,6 @@ namespace Aow.Units.AoWE
         {
             base.ReadWrite(Stream);
             Stream.rwData(Aow.Rtl.Bytes.Of(ref FDefenseStrengthMultiplier, 4), 4, 10);
-        }
-
-        // AI.pas:84
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4777 = Aow.Units.AoWE.TAIPlayerActionList.Create(null);
-            FActions = call__4777;
-            var call__4778 = Aow.Units.AoWE.TAIMoveExecuter.Create(null);
-            FMoveExecuter = call__4778;
-            FProcessCyclesMax = 10;
         }
 
         // AI.pas:114
@@ -63719,21 +61922,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:65
-        public static new Aow.Units.AoWE.TAIPlayerControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIPlayerControl o = new Aow.Units.AoWE.TAIPlayerControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIExecuter (instance size $34, VMT 55717968).
@@ -63742,6 +61931,20 @@ namespace Aow.Units.AoWE
 //     $28 token cycles, $2C token cycle, $30 lock count. }
     public partial class TAIExecuter : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TAIExecuter() { }
+
+        // AI.pas:559
+        public TAIExecuter(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4867 = new Aow.Units.Engine.TByteList();
+            FPlayers = call__4867;
+            FPlayer = unchecked((sbyte)-1);
+            FProcessTimeMode = Aow.Units.AoWE.TProcessTimeMode.ptmStatic;
+            FProcessTime = 5000;
+            FTokenCycles = 5;
+        }
+
         public int FProcessCycles;
         // { $08 }
         public Aow.Units.Engine.TByteList FPlayers;
@@ -63775,18 +61978,6 @@ namespace Aow.Units.AoWE
         {
             FPlayers.Free();
             base.Destroy();
-        }
-
-        // AI.pas:559
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4867 = new Aow.Units.Engine.TByteList();
-            FPlayers = call__4867;
-            FPlayer = unchecked((sbyte)-1);
-            FProcessTimeMode = Aow.Units.AoWE.TProcessTimeMode.ptmStatic;
-            FProcessTime = 5000;
-            FTokenCycles = 5;
         }
 
         // AI.pas:575
@@ -64080,21 +62271,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:108
-        public static new Aow.Units.AoWE.TAIExecuter Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIExecuter o = new Aow.Units.AoWE.TAIExecuter();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveControlSettings: instance size $168, VMT 55717A78.
@@ -64104,6 +62281,15 @@ namespace Aow.Units.AoWE
 //     $148 cycles, $14C status, $150 cost, $154 path, $158..$164 transport locations. }
     public partial class TAIMoveControlSettings : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:3841
+        public TAIMoveControlSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4889 = new Aow.Units.AoWE.TMovepath();
+            FTransportPath = call__4889;
+            FRefCount = 1;
+            Clear();
+        }
+
         public int FRefCount;
         // { $08 }
         public sbyte FPlayer;
@@ -64156,16 +62342,6 @@ namespace Aow.Units.AoWE
         {
             FTransportPath.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:3841
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4889 = new Aow.Units.AoWE.TMovepath();
-            FTransportPath = call__4889;
-            FRefCount = 1;
-            Clear();
         }
 
         // AIGroup.pas:3874
@@ -64242,21 +62418,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:154
-        public static new Aow.Units.AoWE.TAIMoveControlSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveControlSettings o = new Aow.Units.AoWE.TAIMoveControlSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveControl: instance size $220; $08 status, $0C settings, $10 cycles,
@@ -64264,6 +62426,14 @@ namespace Aow.Units.AoWE
 //     $218 search state, $21C path settings. }
     public partial class TAIMoveControl : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:3911
+        public TAIMoveControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4893 = new Aow.Units.AoWE.TMoveControlSettings(null);
+            FPathSettings = call__4893;
+            Clear();
+        }
+
         public Aow.Units.AoWE.TAIMoveControlStatus FStatus;
         // { $08 }
         public Aow.Units.FixedArray_byte_3 F_AIMoveControl_09;
@@ -64290,15 +62460,6 @@ namespace Aow.Units.AoWE
             Clear();
             FPathSettings.Release();
             base.Destroy();
-        }
-
-        // AIGroup.pas:3911
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4893 = Aow.Units.AoWE.TMoveControlSettings.Create(null);
-            FPathSettings = call__4893;
-            Clear();
         }
 
         // AIGroup.pas:3925
@@ -64745,27 +62906,19 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:180
-        public static new Aow.Units.AoWE.TAIMoveControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveControl o = new Aow.Units.AoWE.TAIMoveControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMoveTarget: instance size $34; $08 references, $0C target data,
 //     $24 location, $28 move points, $2C transporter ID, $30 path. }
     public partial class TMoveTarget : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:4215
+        public TMoveTarget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRefCount = 1;
+        }
+
         public int FRefCount;
         // { $08 }
         public Aow.Units.AoWE.TAITargetData FData;
@@ -64786,13 +62939,6 @@ namespace Aow.Units.AoWE
             }
 
             base.Destroy();
-        }
-
-        // AIGroup.pas:4215
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRefCount = 1;
         }
 
         // AIGroup.pas:4227
@@ -64820,26 +62966,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:204
-        public static new Aow.Units.AoWE.TMoveTarget Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TMoveTarget o = new Aow.Units.AoWE.TMoveTarget();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMoveTargetList: instance size $0C; $08 reference children. }
     public partial class TMoveTargetList : Aow.Units.Engine.TEReferenceNode
     {
+        public TMoveTargetList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:4240
         public Aow.Units.AoWE.TMoveTarget GetTarget(int Index)
         {
@@ -64871,7 +63006,7 @@ namespace Aow.Units.AoWE
         public void AddTargetEx(int Location, int MovePoints, int TransporterID, in Aow.Units.AoWE.TAITargetData Data)
         {
             Aow.Units.AoWE.TMoveTarget Target = default;
-            Target = Aow.Units.AoWE.TMoveTarget.Create(null);
+            Target = new Aow.Units.AoWE.TMoveTarget(null);
             Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Target.FLocation) = Location;
             Target.FMovePoints = MovePoints;
             Target.FTransporterID = TransporterID;
@@ -64887,27 +63022,26 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TMoveTargetList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TMoveTargetList o = new Aow.Units.AoWE.TMoveTargetList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveTargetSelector (instance size $250). $08 state, $0C targets,
 //     $14 settings, $1C buffer, $2C transporter movement table, $244 transporter, $24C control. }
     public partial class TAIMoveTargetSelector : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:6375
+        public TAIMoveTargetSelector(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4930 = new Aow.Units.AoWE.TMoveControlSettings(null);
+            FSettings = call__4930;
+            var call__4931 = new Aow.Units.AoWE.TMoveTargetList(null);
+            FTargets = call__4931;
+            var call__4932 = new Aow.Units.AoWE.TMoveTargetList(null);
+            FBufferedTargets = call__4932;
+            var call__4933 = new Aow.Units.AoWE.TUnitUserList(null);
+            FUnits = call__4933;
+        }
+
         public int FState;
         // { $08 }
         public Aow.Units.AoWE.TMoveTargetList FTargets;
@@ -64952,20 +63086,6 @@ namespace Aow.Units.AoWE
             FBufferedTargets.Free();
             FUnits.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:6375
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4930 = Aow.Units.AoWE.TMoveControlSettings.Create(null);
-            FSettings = call__4930;
-            var call__4931 = Aow.Units.AoWE.TMoveTargetList.Create(null);
-            FTargets = call__4931;
-            var call__4932 = Aow.Units.AoWE.TMoveTargetList.Create(null);
-            FBufferedTargets = call__4932;
-            var call__4933 = Aow.Units.AoWE.TUnitUserList.Create(null);
-            FUnits = call__4933;
         }
 
         // AIGroup.pas:6393
@@ -65222,7 +63342,7 @@ namespace Aow.Units.AoWE
 
                             if (bool__4957)
                             {
-                                Target = Aow.Units.AoWE.TMoveTarget.Create(null);
+                                Target = new Aow.Units.AoWE.TMoveTarget(null);
                                 var call__4959 = Field.GetXYL();
                                 Target.FLocation.XYL = call__4959;
                                 var call__4960 = Settings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
@@ -65360,7 +63480,7 @@ namespace Aow.Units.AoWE
 
                             if (bool__4971 && (FMovePointTable[Field.TerrainType][Field.OverlayType - -1] >= 0))
                             {
-                                Target = Aow.Units.AoWE.TMoveTarget.Create(null);
+                                Target = new Aow.Units.AoWE.TMoveTarget(null);
                                 var call__4973 = Field.GetXYL();
                                 Target.FLocation.XYL = call__4973;
                                 var call__4974 = Settings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
@@ -65465,21 +63585,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:242
-        public static new Aow.Units.AoWE.TAIMoveTargetSelector Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveTargetSelector o = new Aow.Units.AoWE.TAIMoveTargetSelector();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveExecuterUnit: instance size $38; $08 unit, $0C ID, $10 location,
@@ -65487,6 +63593,9 @@ namespace Aow.Units.AoWE
 //     $24..$30 transport points, $34 status, $35 move result. }
     public partial class TAIMoveExecuterUnit : Aow.Units.Engine.TEObject
     {
+        public TAIMoveExecuterUnit(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TAbstractUnit FUnit;
         // { $08 }
         public int FUnitID;
@@ -65571,26 +63680,15 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TAIMoveExecuterUnit Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveExecuterUnit o = new Aow.Units.AoWE.TAIMoveExecuterUnit();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveExecuterUnitList: instance size $0C; $08 children. }
     public partial class TAIMoveExecuterUnitList : Aow.Units.Engine.TENode
     {
+        public TAIMoveExecuterUnitList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:4328
         public Aow.Units.AoWE.TAIMoveExecuterUnit GetUnits(int Index)
         {
@@ -65776,27 +63874,16 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIMoveExecuterUnitList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveExecuterUnitList o = new Aow.Units.AoWE.TAIMoveExecuterUnitList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveExecuterArmy: instance size $30; $0C location, $10 destination,
 //     $14 transport status, $18..$24 transport points, $28 player, $29 grouped. }
     public partial class TAIMoveExecuterArmy : Aow.Units.AoWE.TAIMoveExecuterUnitList
     {
+        public TAIMoveExecuterArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.HSEngine.TXYL FLocation;
         // { $0C }
         public Aow.Units.HSEngine.TXYL FDestination;
@@ -66019,26 +64106,15 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIMoveExecuterArmy Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveExecuterArmy o = new Aow.Units.AoWE.TAIMoveExecuterArmy();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveExecuterArmyList: instance size $0C; $08 armies. }
     public partial class TAIMoveExecuterArmyList : Aow.Units.Engine.TENode
     {
+        public TAIMoveExecuterArmyList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:4642
         public Aow.Units.AoWE.TAIMoveExecuterArmy GetArmies(int Index)
         {
@@ -66160,27 +64236,20 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIMoveExecuterArmyList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveExecuterArmyList o = new Aow.Units.AoWE.TAIMoveExecuterArmyList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveExecuterMove: instance size $20; $08 units, $0C path, $10 points,
 //     $14 moves, $18..$1A source, $1B..$1D destination. }
     public partial class TAIMoveExecuterMove : Aow.Units.AoWE.TAIMoveExecuterUnitList
     {
+        // AIGroup.pas:4440
+        public TAIMoveExecuterMove(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5017 = new Aow.Units.AoWE.TMovepath();
+            FPath = call__5017;
+        }
+
         public Aow.Units.AoWE.TMovepath FPath;
         // { $0C }
         public int FMovePoints;
@@ -66219,14 +64288,6 @@ namespace Aow.Units.AoWE
             FPath.Free();
             FPath = null;
             base.Destroy();
-        }
-
-        // AIGroup.pas:4440
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5017 = new Aow.Units.AoWE.TMovepath();
-            FPath = call__5017;
         }
 
         // AIGroup.pas:4460
@@ -66313,26 +64374,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:347
-        public static new Aow.Units.AoWE.TAIMoveExecuterMove Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveExecuterMove o = new Aow.Units.AoWE.TAIMoveExecuterMove();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveExecuterMoveQueue: instance size $0C; $08 queued moves. }
     public partial class TAIMoveExecuterMoveQueue : Aow.Units.Engine.TENode
     {
+        public TAIMoveExecuterMoveQueue(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:4522
         public override void Clear()
         {
@@ -66364,26 +64414,19 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIMoveExecuterMoveQueue Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveExecuterMoveQueue o = new Aow.Units.AoWE.TAIMoveExecuterMoveQueue();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIMoveExecuterControl: instance size $14; $08 move control, $0C executer, $10 state. }
     public partial class TAIMoveExecuterControl : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:4726
+        public TAIMoveExecuterControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5027 = new Aow.Units.AoWE.TAIMoveControl(null);
+            FMoveControl = call__5027;
+        }
+
         public Aow.Units.AoWE.TAIMoveControl FMoveControl;
         // { $08 }
         public Aow.Units.AoWE.TAIMoveExecuter FExecuter;
@@ -66395,14 +64438,6 @@ namespace Aow.Units.AoWE
         {
             FMoveControl.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:4726
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5027 = Aow.Units.AoWE.TAIMoveControl.Create(null);
-            FMoveControl = call__5027;
         }
 
         // AIGroup.pas:4738
@@ -66422,7 +64457,7 @@ namespace Aow.Units.AoWE
             Aow.Units.HSEngine.THNWalkData Walk = default;
             Move = null;
             Army.RetrieveArmy(unchecked((byte)Selection), ref ArmyHS, ref ArmySelection);
-            Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+            Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
             if (Mode.Contains(Aow.Units.AoWE.TCreateMoveModeElement.cmmSurroundEx))
             {
                 var call__5028 = Army.MovePoints(255);
@@ -66564,7 +64599,7 @@ namespace Aow.Units.AoWE
 
                     if (Position < (Settings.FPath.Count - 1))
                     {
-                        Move = Aow.Units.AoWE.TAIMoveExecuterMove.Create(null);
+                        Move = new Aow.Units.AoWE.TAIMoveExecuterMove(null);
                         Move.AddUnits(Army, unchecked((byte)Selection));
                         {
                             I = Position;
@@ -66853,39 +64888,13 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:369
-        public static new Aow.Units.AoWE.TAIMoveExecuterControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveExecuterControl o = new Aow.Units.AoWE.TAIMoveExecuterControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // intf_P5_06.inc:369
-            public new Aow.Units.AoWE.TAIMoveExecuterControl Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAIMoveExecuterControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAIMoveExecuterControl o = (Aow.Units.AoWE.TAIMoveExecuterControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAIMoveExecuterControl)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -66897,6 +64906,9 @@ namespace Aow.Units.AoWE
     // { TDefaultMEC: instance size $14; inherited move control, executer and state. }
     public partial class TDefaultMEC : Aow.Units.AoWE.TAIMoveExecuterControl
     {
+        public TDefaultMEC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:4978
         public override void CalculateMoves()
         {
@@ -67051,6 +65063,13 @@ namespace Aow.Units.AoWE
 //     $10 current move points, $14 path. }
     public partial class TAdjacentArmy : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:5045
+        public TAdjacentArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5101 = new Aow.Units.AoWE.TMovepath();
+            FPath = call__5101;
+        }
+
         public Aow.Units.HSEngine.TXYL FLocation;
         // { $08 }
         public int FMoves;
@@ -67064,14 +65083,6 @@ namespace Aow.Units.AoWE
         {
             FPath.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:5045
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5101 = new Aow.Units.AoWE.TMovepath();
-            FPath = call__5101;
         }
 
         // AIGroup.pas:5057
@@ -67108,26 +65119,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:394
-        public static new Aow.Units.AoWE.TAdjacentArmy Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAdjacentArmy o = new Aow.Units.AoWE.TAdjacentArmy();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAdjacentArmyList: instance size $0C; $08 adjacent armies. }
     public partial class TAdjacentArmyList : Aow.Units.Engine.TENode
     {
+        public TAdjacentArmyList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:5071
         public Aow.Units.AoWE.TAdjacentArmy GetAdjacentArmies(int Index)
         {
@@ -67207,26 +65207,19 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAdjacentArmyList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAdjacentArmyList o = new Aow.Units.AoWE.TAdjacentArmyList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAdjacentMEC: instance size $1C; $14 meeting point, $18 adjacent armies. }
     public partial class TAdjacentMEC : Aow.Units.AoWE.TAIMoveExecuterControl
     {
+        // AIGroup.pas:5117
+        public TAdjacentMEC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5109 = new Aow.Units.AoWE.TAdjacentArmyList(null);
+            FAdjacentArmies = call__5109;
+        }
+
         public Aow.Units.HSEngine.TXYL FMeetingPoint;
         // { $14 }
         public Aow.Units.AoWE.TAdjacentArmyList FAdjacentArmies;
@@ -67236,14 +65229,6 @@ namespace Aow.Units.AoWE
         {
             FAdjacentArmies.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:5117
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5109 = Aow.Units.AoWE.TAdjacentArmyList.Create(null);
-            FAdjacentArmies = call__5109;
         }
 
         // AIGroup.pas:5239
@@ -67290,7 +65275,7 @@ namespace Aow.Units.AoWE
                     var call__5115 = Armies.Count;
                     if (I < call__5115)
                     {
-                        Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+                        Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
                         try
                         {
                             var call__5116 = Armies.GetArmies(I);
@@ -67318,7 +65303,7 @@ namespace Aow.Units.AoWE
                         Settings.SetupArmy(ArmyHS, unchecked((byte)ArmySelection));
                         Settings.SetDestinationPos(FExecuter.FDestination.X, FExecuter.FDestination.Y, FExecuter.FDestination.L);
                         Aow.Units.AoWE.AoWE.AoWHSMap.FMoveControl.ProcessMove(Settings);
-                        var call__5120 = Aow.Units.AoWE.TAdjacentArmy.Create(FAdjacentArmies);
+                        var call__5120 = new Aow.Units.AoWE.TAdjacentArmy(FAdjacentArmies);
                         Adjacent = call__5120;
                         Adjacent.FPath.Assign(Settings.FPath);
                         var call__5121 = ArmyHS.FArmy.Moves(unchecked((byte)ArmySelection));
@@ -67922,26 +65907,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:413
-        public static new Aow.Units.AoWE.TAdjacentMEC Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAdjacentMEC o = new Aow.Units.AoWE.TAdjacentMEC();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TTransportMEC (instance size $18, VMT 55718CD0). $14 meeting point. }
     public partial class TTransportMEC : Aow.Units.AoWE.TAIMoveExecuterControl
     {
+        public TTransportMEC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.HSEngine.TXYL FMeetingPoint;
         // AIGroup.pas:5741
         // { $14 }
@@ -67973,7 +65947,7 @@ namespace Aow.Units.AoWE
                             var call__5216 = Armies.GetArmies(I);
                             if (call__5216.FTransportStatus == Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsIdle)
                             {
-                                Settings = Aow.Units.AoWE.TAIMoveControlSettings.Create(null);
+                                Settings = new Aow.Units.AoWE.TAIMoveControlSettings(null);
                                 var call__5217 = Armies.GetArmies(I);
                                 call__5217.RetrieveArmy(255, ref ArmyHS, ref Selection);
                                 Settings.Setup(ArmyHS, unchecked((byte)Selection), FExecuter.FDestination.X, FExecuter.FDestination.Y, FExecuter.FDestination.L);
@@ -68365,7 +66339,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TArmyHS ArmyHS = default;
             Aow.Units.AoWE.TMoveControlSettings Settings = default;
             Move = null;
-            Army = Aow.Units.AoWE.TAIMoveExecuterArmy.Create(null);
+            Army = new Aow.Units.AoWE.TAIMoveExecuterArmy(null);
             Army.Setup(FExecuter.FTransporter);
             {
                 I = 0;
@@ -68386,7 +66360,7 @@ namespace Aow.Units.AoWE
             var call__5285 = ((Aow.Units.AoWE.TAoWMapField)call__5284).GetArmyHS();
             ArmyHS = call__5285;
 
-            Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+            Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
             Settings.SetupArmy(ArmyHS, 255);
             Settings.SetDestinationPos(X, Y, L);
             Aow.Units.AoWE.AoWE.AoWHSMap.FMoveControl.ProcessMove(Settings);
@@ -68419,7 +66393,7 @@ namespace Aow.Units.AoWE
 
                     if (Pos < (Settings.FPath.Count - 1))
                     {
-                        Move = Aow.Units.AoWE.TAIMoveExecuterMove.Create(null);
+                        Move = new Aow.Units.AoWE.TAIMoveExecuterMove(null);
                         Move.AddUnits(Army, 255);
                         {
                             I = Pos;
@@ -68517,7 +66491,7 @@ namespace Aow.Units.AoWE
 
             if (Transporting != 0)
             {
-                Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+                Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
                 Army.RetrieveArmy(unchecked((byte)Transporting), ref ArmyHS, ref Selection);
                 Settings.SetupArmy(ArmyHS, unchecked((byte)Selection));
                 var call__5303 = ArmyHS.FArmy.Moves(unchecked((byte)Selection));
@@ -68567,7 +66541,7 @@ namespace Aow.Units.AoWE
 
             if ((Transporting == 0) && (Others != 0))
             {
-                Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+                Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
                 Army.RetrieveArmy(unchecked((byte)Others), ref ArmyHS, ref Selection);
                 Settings.SetupArmy(ArmyHS, unchecked((byte)Selection));
                 var call__5306 = ArmyHS.FArmy.Moves(unchecked((byte)Selection));
@@ -68668,7 +66642,7 @@ namespace Aow.Units.AoWE
 
                 if (Found)
                 {
-                    Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+                    Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
                     var call__5316 = Armies.GetArmies(I);
                     call__5316.RetrieveArmy(255, ref ArmyHS, ref Selection);
                     Settings.SetupArmy(ArmyHS, unchecked((byte)Selection));
@@ -68844,6 +66818,18 @@ namespace Aow.Units.AoWE
 //     $2D player, $30 process cycles, $34 completion event. }
     public partial class TAIMoveExecuter : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:5976
+        public TAIMoveExecuter(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5344 = new Aow.Units.AoWE.TAIMoveExecuterUnitList(null);
+            FUnits = call__5344;
+            var call__5345 = new Aow.Units.AoWE.TAIMoveExecuterMoveQueue(null);
+            FMoves = call__5345;
+            var call__5346 = new Aow.Units.Engine.TIntegerList();
+            FControlQueue = call__5346;
+            Clear();
+        }
+
         public Aow.Units.HSEngine.TXYL FDestination;
         // { $08 }
         public Aow.Units.AoWE.TAIMoveExecuterControl FControl;
@@ -68884,19 +66870,6 @@ namespace Aow.Units.AoWE
             FControlQueue.Free();
             FControlQueue = null;
             base.Destroy();
-        }
-
-        // AIGroup.pas:5976
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5344 = Aow.Units.AoWE.TAIMoveExecuterUnitList.Create(null);
-            FUnits = call__5344;
-            var call__5345 = Aow.Units.AoWE.TAIMoveExecuterMoveQueue.Create(null);
-            FMoves = call__5345;
-            var call__5346 = new Aow.Units.Engine.TIntegerList();
-            FControlQueue = call__5346;
-            Clear();
         }
 
         // AIGroup.pas:6017
@@ -68968,7 +66941,7 @@ namespace Aow.Units.AoWE
             }
 
             AUnit.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-            UnitEntry = Aow.Units.AoWE.TAIMoveExecuterUnit.Create(null);
+            UnitEntry = new Aow.Units.AoWE.TAIMoveExecuterUnit(null);
             UnitEntry.Initialize(AUnit, unchecked((sbyte)Location.X), unchecked((sbyte)Location.Y), unchecked((sbyte)Location.L));
             UnitEntry.Owner = FUnits;
             Result = UnitEntry;
@@ -69029,7 +67002,7 @@ namespace Aow.Units.AoWE
             }
 
             AUnit.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-            var call__5356 = Aow.Units.AoWE.TAIMoveExecuterUnit.Create(null);
+            var call__5356 = new Aow.Units.AoWE.TAIMoveExecuterUnit(null);
             FTransporter = call__5356;
             FTransporter.Initialize(AUnit, unchecked((sbyte)Location.X), unchecked((sbyte)Location.Y), unchecked((sbyte)Location.L));
         }
@@ -69108,7 +67081,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TAIMoveExecuterUnit UnitEntry = default;
             Aow.Units.AoWE.TAIMoveExecuterArmy Army = default;
             Used = new Aow.Units.Engine.TIntegerList();
-            Armies = Aow.Units.AoWE.TAIMoveExecuterArmyList.Create(null);
+            Armies = new Aow.Units.AoWE.TAIMoveExecuterArmyList(null);
             {
                 I = 0;
                 int end__5363 = FUnits.Count - 1;
@@ -69121,7 +67094,7 @@ namespace Aow.Units.AoWE
                         if (Status.Contains(UnitEntry.FStatus))
                         {
                             Used.Add(I);
-                            Army = Aow.Units.AoWE.TAIMoveExecuterArmy.Create(null);
+                            Army = new Aow.Units.AoWE.TAIMoveExecuterArmy(null);
                             Army.Setup(UnitEntry);
                             {
                                 J = 0;
@@ -69619,26 +67592,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:459
-        public static new Aow.Units.AoWE.TAIMoveExecuter Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIMoveExecuter o = new Aow.Units.AoWE.TAIMoveExecuter();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TEndTurnAIPA (instance size 20, VMT 55718EDC) }
     public partial class TEndTurnAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        public TEndTurnAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AI.pas:1024
         public override void Destroy()
         {
@@ -69682,20 +67644,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TEndTurnAIPA => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TEndTurnAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TEndTurnAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TEndTurnAIPA o = (Aow.Units.AoWE.TEndTurnAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TEndTurnAIPA)base.Create(AOwner);
             }
         }
     }
@@ -69703,6 +67654,9 @@ namespace Aow.Units.AoWE
     // { TInitializeAIPA (instance size 20, VMT 55718FB4) }
     public partial class TInitializeAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        public TInitializeAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AI.pas:1017
         public override bool Process()
         {
@@ -69730,20 +67684,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TInitializeAIPA => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TInitializeAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TInitializeAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TInitializeAIPA o = (Aow.Units.AoWE.TInitializeAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TInitializeAIPA)base.Create(AOwner);
             }
         }
     }
@@ -69751,6 +67694,11 @@ namespace Aow.Units.AoWE
     // { TGroupControlAIPA (instance size $1C). $14 group cycles, $18 group control. }
     public partial class TGroupControlAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        // AI.pas:1049
+        public TGroupControlAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public int FGroupProcessCycles;
         // { $14 }
         public Aow.Units.AoWE.TAIGroupControl FGroupControl;
@@ -69760,12 +67708,6 @@ namespace Aow.Units.AoWE
         {
             DeactivateGroupControl();
             base.Destroy();
-        }
-
-        // AI.pas:1049
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // AI.pas:1083
@@ -69875,21 +67817,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:504
-        public static new Aow.Units.AoWE.TGroupControlAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TGroupControlAIPA o = new Aow.Units.AoWE.TGroupControlAIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -69902,20 +67829,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_06.inc:504
-            public new Aow.Units.AoWE.TGroupControlAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TGroupControlAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TGroupControlAIPA o = (Aow.Units.AoWE.TGroupControlAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TGroupControlAIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -69926,6 +67842,11 @@ namespace Aow.Units.AoWE
     // { TGroupControlLoopAIPA (instance size $1C). $14 group cycles, $18 group control. }
     public partial class TGroupControlLoopAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        // AI.pas:1119
+        public TGroupControlLoopAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public int FGroupProcessCycles;
         // { $14 }
         public Aow.Units.AoWE.TAIGroupControl FGroupControl;
@@ -69935,12 +67856,6 @@ namespace Aow.Units.AoWE
         {
             DeactivateGroupControl();
             base.Destroy();
-        }
-
-        // AI.pas:1119
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // AI.pas:1156
@@ -70071,21 +67986,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:517
-        public static new Aow.Units.AoWE.TGroupControlLoopAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TGroupControlLoopAIPA o = new Aow.Units.AoWE.TGroupControlLoopAIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -70106,20 +68006,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_06.inc:517
-            public new Aow.Units.AoWE.TGroupControlLoopAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TGroupControlLoopAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TGroupControlLoopAIPA o = (Aow.Units.AoWE.TGroupControlLoopAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TGroupControlLoopAIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -70132,6 +68021,12 @@ namespace Aow.Units.AoWE
 //     $20/$24 daily limits, $28/$2C daily requirements, $30/$34 gold/mana. }
     public partial class TAIBudget : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TAICityFortifyBudget, TAICityResearchBudget, TAICityUpgradeBudget legacy factories.
+        protected TAIBudget() { }
+
+        public TAIBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FPriority;
         // { $08 }
         public int FRequiredGold;
@@ -70239,20 +68134,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAIBudget => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TAIBudget Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAIBudget Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAIBudget o = (Aow.Units.AoWE.TAIBudget)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAIBudget)base.Create(AOwner);
             }
         }
     }
@@ -70262,9 +68146,8 @@ namespace Aow.Units.AoWE
     public partial class TAISavingsBudget : Aow.Units.AoWE.TAIBudget
     {
         // AI.pas:2180
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAISavingsBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FRequiredGold = 150;
             FRequiredMana = 150;
             FDayGoldMax = 25;
@@ -70272,21 +68155,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:555
-        public static new Aow.Units.AoWE.TAISavingsBudget Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAISavingsBudget o = new Aow.Units.AoWE.TAISavingsBudget();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
@@ -70299,20 +68167,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_06.inc:555
-            public new Aow.Units.AoWE.TAISavingsBudget Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAISavingsBudget Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAISavingsBudget o = (Aow.Units.AoWE.TAISavingsBudget)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAISavingsBudget)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -70324,28 +68181,12 @@ namespace Aow.Units.AoWE
     public partial class TAITransporterBudget : Aow.Units.AoWE.TAIBudget
     {
         // AI.pas:2192
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAITransporterBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FDayGoldMax = 15;
         }
 
         // intf_P5_06.inc:562
-        public static new Aow.Units.AoWE.TAITransporterBudget Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAITransporterBudget o = new Aow.Units.AoWE.TAITransporterBudget();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
@@ -70358,20 +68199,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_06.inc:562
-            public new Aow.Units.AoWE.TAITransporterBudget Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAITransporterBudget Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAITransporterBudget o = (Aow.Units.AoWE.TAITransporterBudget)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAITransporterBudget)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -70382,6 +68212,9 @@ namespace Aow.Units.AoWE
     // { TAIBudgetList (instance size 12, VMT 557194D8) }
     public partial class TAIBudgetList : Aow.Units.Engine.TENode
     {
+        public TAIBudgetList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AI.pas:1707
         public Aow.Units.AoWE.TAIBudget GetBudgets(int Index)
         {
@@ -70391,21 +68224,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIBudgetList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIBudgetList o = new Aow.Units.AoWE.TAIBudgetList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIBudgetManager (instance size $3C, VMT 55719628). $08 player, $0C budgets,
@@ -70413,6 +68232,17 @@ namespace Aow.Units.AoWE
 //     $28/$2C available upkeep, $30/$34 pool, $38 savings budget. }
     public partial class TAIBudgetManager : Aow.Units.Engine.TEObject
     {
+        // AI.pas:1712
+        public TAIBudgetManager(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5443 = new Aow.Units.AoWE.TAIBudgetList(null);
+            FBudgets = call__5443;
+            FGoldIncomeFactor = (float)0.75;
+            FManaIncomeFactor = (float)0.75;
+            FGoldReserveFactor = (float)0.5;
+            FManaReserveFactor = (float)0.5;
+        }
+
         public Aow.Units.AoWE.TPlayer FPlayer;
         // { $08 }
         public Aow.Units.AoWE.TAIBudgetList FBudgets;
@@ -70460,18 +68290,6 @@ namespace Aow.Units.AoWE
             Stream.rwInteger(ref FProductionManaUpkeep, 26);
         }
 
-        // AI.pas:1712
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5443 = Aow.Units.AoWE.TAIBudgetList.Create(null);
-            FBudgets = call__5443;
-            FGoldIncomeFactor = (float)0.75;
-            FManaIncomeFactor = (float)0.75;
-            FGoldReserveFactor = (float)0.5;
-            FManaReserveFactor = (float)0.5;
-        }
-
         // AI.pas:2166
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
@@ -70482,7 +68300,7 @@ namespace Aow.Units.AoWE
                 FDefaultBudget = (Aow.Units.AoWE.TAIBudget)call__5444;
                 if (FDefaultBudget == null)
                 {
-                    var call__5445 = Aow.Units.AoWE.TAISavingsBudget.Create(null);
+                    var call__5445 = new Aow.Units.AoWE.TAISavingsBudget(null);
                     FDefaultBudget = call__5445;
                     FDefaultBudget.SetOwner(FBudgets);
                 }
@@ -71253,36 +69071,21 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:593
-        public static new Aow.Units.AoWE.TAIBudgetManager Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIBudgetManager o = new Aow.Units.AoWE.TAIBudgetManager();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TBudgetManagerAIPA (instance size $14, VMT 557196F0). No new fields. }
     public partial class TBudgetManagerAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        // AI.pas:2201
+        public TBudgetManagerAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // AI.pas:2204
         public override void Destroy()
         {
             base.Destroy();
-        }
-
-        // AI.pas:2201
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // AI.pas:2210
@@ -71294,21 +69097,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:627
-        public static new Aow.Units.AoWE.TBudgetManagerAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TBudgetManagerAIPA o = new Aow.Units.AoWE.TBudgetManagerAIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -71321,20 +69109,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_06.inc:627
-            public new Aow.Units.AoWE.TBudgetManagerAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TBudgetManagerAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TBudgetManagerAIPA o = (Aow.Units.AoWE.TBudgetManagerAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TBudgetManagerAIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -71346,6 +69123,13 @@ namespace Aow.Units.AoWE
 //     $14 production index, $18 state, $1C gold upkeep, $20 mana upkeep, $24 productions. }
     public partial class TAutoProduceAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        // AI.pas:1202
+        public TAutoProduceAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5505 = new Aow.Units.Engine.TQuadItemList();
+            FProductions = call__5505;
+        }
+
         public int FProductionIndex;
         // { $14 }
         public int FState;
@@ -71361,14 +69145,6 @@ namespace Aow.Units.AoWE
         {
             FProductions.Free();
             base.Destroy();
-        }
-
-        // AI.pas:1202
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5505 = new Aow.Units.Engine.TQuadItemList();
-            FProductions = call__5505;
         }
 
         // AI.pas:1532
@@ -71400,7 +69176,7 @@ namespace Aow.Units.AoWE
                             Budget = (Aow.Units.AoWE.TAIBudget)call__5510;
                             if (Budget == null)
                             {
-                                Budget = Aow.Units.AoWE.TAITransporterBudget.Create(null);
+                                Budget = new Aow.Units.AoWE.TAITransporterBudget(null);
                                 Budget.SetOwner(player.FAIBudget.FBudgets);
                             }
 
@@ -72025,21 +69801,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:642
-        public static new Aow.Units.AoWE.TAutoProduceAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAutoProduceAIPA o = new Aow.Units.AoWE.TAutoProduceAIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -72052,20 +69813,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_06.inc:642
-            public new Aow.Units.AoWE.TAutoProduceAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAutoProduceAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAutoProduceAIPA o = (Aow.Units.AoWE.TAutoProduceAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAutoProduceAIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -72076,19 +69826,18 @@ namespace Aow.Units.AoWE
     // { TProcessEventlogAIPA (instance size $18, VMT 557198B4). $14 log index. }
     public partial class TProcessEventlogAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        // AI.pas:1610
+        public TProcessEventlogAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FLogIndex = -1;
+        }
+
         public int FLogIndex;
         // AI.pas:1616
         // { $14 }
         public override void Destroy()
         {
             base.Destroy();
-        }
-
-        // AI.pas:1610
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FLogIndex = -1;
         }
 
         // AI.pas:1626
@@ -72143,21 +69892,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_06.inc:662
-        public static new Aow.Units.AoWE.TProcessEventlogAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TProcessEventlogAIPA o = new Aow.Units.AoWE.TProcessEventlogAIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -72170,20 +69904,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_06.inc:662
-            public new Aow.Units.AoWE.TProcessEventlogAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TProcessEventlogAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TProcessEventlogAIPA o = (Aow.Units.AoWE.TProcessEventlogAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TProcessEventlogAIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -72195,6 +69918,14 @@ namespace Aow.Units.AoWE
     // { TStructureAIPA (instance size 28, VMT 5571999C) }
     public partial class TStructureAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        // Structur.PAS:3318
+        // { TStructureAIPA (instance size 28; $14 phase, $18 structure IDs). }
+        public TStructureAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5601 = new Aow.Units.Engine.TIntegerList();
+            FStructureIDs = call__5601;
+        }
+
         public new int FPhase;
         // { $14; 557626E3 }
         public Aow.Units.Engine.TIntegerList FStructureIDs;
@@ -72204,15 +69935,6 @@ namespace Aow.Units.AoWE
         {
             FStructureIDs.Free();
             base.Destroy();
-        }
-
-        // Structur.PAS:3318
-        // { TStructureAIPA (instance size 28; $14 phase, $18 structure IDs). }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5601 = new Aow.Units.Engine.TIntegerList();
-            FStructureIDs = call__5601;
         }
 
         // Structur.PAS:3330
@@ -72290,21 +70012,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_12.inc:8
-        public static new Aow.Units.AoWE.TStructureAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TStructureAIPA o = new Aow.Units.AoWE.TStructureAIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TStructurePhase1AIPA (instance size 28, VMT 55719A78) }
@@ -72312,28 +70020,12 @@ namespace Aow.Units.AoWE
     {
         // Structur.PAS:3361
         // { TStructurePhase1AIPA (instance size 28; inherited $14 phase). }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TStructurePhase1AIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FPhase = 1;
         }
 
         // intf_P1_12.inc:16
-        public static new Aow.Units.AoWE.TStructurePhase1AIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TStructurePhase1AIPA o = new Aow.Units.AoWE.TStructurePhase1AIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -72346,20 +70038,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P1_12.inc:16
-            public new Aow.Units.AoWE.TStructurePhase1AIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TStructurePhase1AIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TStructurePhase1AIPA o = (Aow.Units.AoWE.TStructurePhase1AIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TStructurePhase1AIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -72372,28 +70053,12 @@ namespace Aow.Units.AoWE
     {
         // Structur.PAS:3373
         // { TStructurePhase2AIPA (instance size 28): inherited $14 FPhase. }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TStructurePhase2AIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FPhase = 2;
         }
 
         // intf_P1_12.inc:23
-        public static new Aow.Units.AoWE.TStructurePhase2AIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TStructurePhase2AIPA o = new Aow.Units.AoWE.TStructurePhase2AIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -72406,20 +70071,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P1_12.inc:23
-            public new Aow.Units.AoWE.TStructurePhase2AIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TStructurePhase2AIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TStructurePhase2AIPA o = (Aow.Units.AoWE.TStructurePhase2AIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TStructurePhase2AIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -72430,31 +70084,23 @@ namespace Aow.Units.AoWE
     // { TAIGroupProduction (instance size 16, VMT 55719DDC) }
     public partial class TAIGroupProduction : Aow.Units.Engine.TEObject
     {
+        public TAIGroupProduction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TAbstractUnit FUnit;
         // { $08 }
         public Aow.Units.AoWE.TProductionControl FControl;
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TAIGroupProduction Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupProduction o = new Aow.Units.AoWE.TAIGroupProduction();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Interface declaration run owned by P5. }
     // { TAIGroupProductionList (instance size $0C, VMT 55719EA8). $08 children. }
     public partial class TAIGroupProductionList : Aow.Units.Engine.TENode
     {
+        public TAIGroupProductionList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1
         public Aow.Units.AoWE.TAIGroupProduction GetProductions(int Index)
         {
@@ -72485,7 +70131,7 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:15
         public void Add(Aow.Units.AoWE.TProductionControl Control, Aow.Units.AoWE.TAbstractUnit AUnit)
         {
-            var aiGroupProduction = Aow.Units.AoWE.TAIGroupProduction.Create(this);
+            var aiGroupProduction = new Aow.Units.AoWE.TAIGroupProduction(this);
             aiGroupProduction.FControl = Control;
             aiGroupProduction.FUnit = AUnit;
         }
@@ -72537,25 +70183,21 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIGroupProductionList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupProductionList o = new Aow.Units.AoWE.TAIGroupProductionList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public partial class TAIGroup : Aow.Units.AoWE.TUnitUserList
     {
+        // Raw allocation for TAbstractBehaviorAG, TAggressorAG, TDefenderAG legacy factories.
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TAIGroup() { }
+
+        // AIGroup.pas:57
+        public TAIGroup(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public TSet<Aow.Units.AoWE.TAIGroupStatusElement> FStatus;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_AIGroup_11;
@@ -72658,9 +70300,14 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FRefCount = 1;
             FStatus = TSet<Aow.Units.AoWE.TAIGroupStatusElement>.Of();
-            var call__5620 = Aow.Units.AoWE.TAIGroupProductionList.Create(null);
+            var call__5620 = new Aow.Units.AoWE.TAIGroupProductionList(null);
             FProductions = call__5620;
             FGroupID = -1;
             FPlayer = unchecked((sbyte)-1);
@@ -73378,21 +71025,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:54
-        public static new Aow.Units.AoWE.TAIGroup Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroup o = new Aow.Units.AoWE.TAIGroup();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEChangeNotifyNode.Meta
         {
@@ -73423,20 +71055,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_07.inc:54
-            public new Aow.Units.AoWE.TAIGroup Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAIGroup Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAIGroup o = (Aow.Units.AoWE.TAIGroup)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAIGroup)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -73449,6 +71070,14 @@ namespace Aow.Units.AoWE
     // { TAIGroupManager (instance size $14, VMT 5571A104). $0C next ID, $10 classes. }
     public partial class TAIGroupManager : Aow.Units.AoWE.TAIGroupList
     {
+        // AIGroup.pas:564
+        public TAIGroupManager(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FNextID = 1;
+            var call__5670 = new Aow.Rtl.TList();
+            FRegisteredClasses = call__5670;
+        }
+
         public int FNextID;
         // { $0C }
         public Aow.Rtl.TList FRegisteredClasses;
@@ -73465,15 +71094,6 @@ namespace Aow.Units.AoWE
         {
             base.ReadWrite(Stream);
             Stream.rwIntegerEx(ref FNextID, 1, 30);
-        }
-
-        // AIGroup.pas:564
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FNextID = 1;
-            var call__5670 = new Aow.Rtl.TList();
-            FRegisteredClasses = call__5670;
         }
 
         // AIGroup.pas:583
@@ -73563,21 +71183,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:101
-        public static new Aow.Units.AoWE.TAIGroupManager Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupManager o = new Aow.Units.AoWE.TAIGroupManager();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupControlTarget (instance size $4C, VMT 5571A280).
@@ -73585,6 +71191,14 @@ namespace Aow.Units.AoWE
 //     $3C status; $40 path strength; $44 data A; $48 data B. }
     public partial class TAIGroupControlTarget : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:635
+        // { $48 }
+        public TAIGroupControlTarget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRefCount = 1;
+            FTransporterID = -1;
+        }
+
         public int FRefCount;
         // { $08 }
         public Aow.Units.AoWE.TAITargetInfo FInfo;
@@ -73605,14 +71219,6 @@ namespace Aow.Units.AoWE
         public int FDataA;
         // { $44 }
         public int FDataB;
-        // AIGroup.pas:635
-        // { $48 }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRefCount = 1;
-            FTransporterID = -1;
-        }
 
         // AIGroup.pas:642
         public override int AddRef()
@@ -73686,27 +71292,16 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:124
-        public static new Aow.Units.AoWE.TAIGroupControlTarget Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupControlTarget o = new Aow.Units.AoWE.TAIGroupControlTarget();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupControlTargetList (instance size $10, VMT 5571A354).
 //     $08 children; $0C group control. }
     public partial class TAIGroupControlTargetList : Aow.Units.Engine.TEReferenceNode
     {
+        public TAIGroupControlTargetList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // AIGroup.pas:684
         // { $0C }
@@ -73790,27 +71385,19 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIGroupControlTargetList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupControlTargetList o = new Aow.Units.AoWE.TAIGroupControlTargetList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIRecruitmentGroup (instance size $28, VMT 5571A468). $08 references,
 //     $0C location, $10 group, $14 moves, $18 transporter, $1C path strength. }
     public partial class TAIRecruitmentGroup : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:750
+        public TAIRecruitmentGroup(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRefCount = 1;
+        }
+
         public int FRefCount;
         // { $08 }
         public Aow.Units.HSEngine.TXYL FLocation;
@@ -73829,13 +71416,6 @@ namespace Aow.Units.AoWE
         {
             SetGroup(null);
             base.Destroy();
-        }
-
-        // AIGroup.pas:750
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRefCount = 1;
         }
 
         // AIGroup.pas:762
@@ -73903,26 +71483,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:159
-        public static new Aow.Units.AoWE.TAIRecruitmentGroup Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIRecruitmentGroup o = new Aow.Units.AoWE.TAIRecruitmentGroup();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIRecruitmentGroupList (instance size $0C, VMT 5571A538). $08 children. }
     public partial class TAIRecruitmentGroupList : Aow.Units.Engine.TEReferenceNode
     {
+        public TAIRecruitmentGroupList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:800
         public Aow.Units.AoWE.TAIRecruitmentGroup GetRecruitmentGroups(int Index)
         {
@@ -74036,27 +71605,19 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIRecruitmentGroupList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIRecruitmentGroupList o = new Aow.Units.AoWE.TAIRecruitmentGroupList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupProductionLocation (instance size $28, VMT 5571A648). $08 references,
 //     $0C production control, $10 location, $14 moves, $18 transporter, $1C path strength. }
     public partial class TAIGroupProductionLocation : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:887
+        public TAIGroupProductionLocation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRefCount = 1;
+        }
+
         public int FRefCount;
         // { $08 }
         public Aow.Units.AoWE.TProductionControl FProductionControl;
@@ -74070,12 +71631,6 @@ namespace Aow.Units.AoWE
         public int FPathStrength;
         // { $1C }
         public Aow.Units.FixedArray_byte_8 F_AIGroupProductionLocation_20;
-        // AIGroup.pas:887
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRefCount = 1;
-        }
 
         // AIGroup.pas:892
         public override int AddRef()
@@ -74109,27 +71664,16 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:190
-        public static new Aow.Units.AoWE.TAIGroupProductionLocation Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupProductionLocation o = new Aow.Units.AoWE.TAIGroupProductionLocation();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { $4C }
     // { TAIGroupProductionLocationList (instance size $0C, VMT 5571A728). $08 children. }
     public partial class TAIGroupProductionLocationList : Aow.Units.Engine.TEReferenceNode
     {
+        public TAIGroupProductionLocationList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:907
         public Aow.Units.AoWE.TAIGroupProductionLocation GetProductionLocation(int Index)
         {
@@ -74221,27 +71765,23 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIGroupProductionLocationList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupProductionLocationList o = new Aow.Units.AoWE.TAIGroupProductionLocationList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupControlPlugin (instance size $1C, VMT 5571A894).
 //     $08 references, $0C cycles, $10 control, $14 status, $18 state. }
     public partial class TAIGroupControlPlugin : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TAIGroupDefendTargetSelector, TAIGroupRazeControl, TAIGroupWanderControl legacy factories.
+        protected TAIGroupControlPlugin() { }
+
+        // AIGroup.pas:1354
+        // { $18; 557D7422 }
+        public TAIGroupControlPlugin(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FRefCount;
         // { $08 }
         public int FProcessCycles;
@@ -74257,6 +71797,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FRefCount = 1;
             FState = -1;
         }
@@ -74379,21 +71924,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:218
-        public static new Aow.Units.AoWE.TAIGroupControlPlugin Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupControlPlugin o = new Aow.Units.AoWE.TAIGroupControlPlugin();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupControl (instance size $170, VMT 5571A978).
@@ -74403,6 +71934,15 @@ namespace Aow.Units.AoWE
 //     $164 production locations, $168 plugin, $16C state. }
     public partial class TAIGroupControl : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TAbstractBehaviorAGC, TAggressorAGC, TDefenderAGC legacy factories.
+        protected TAIGroupControl() { }
+
+        // AIGroup.pas:973
+        public TAIGroupControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FProcessCycles;
         // { $08 }
         public Aow.Units.AoWE.TAIGroup FGroup;
@@ -74458,14 +71998,19 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__5702 = Aow.Units.AoWE.TAIGroupControlTargetList.Create(null);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
+            var call__5702 = new Aow.Units.AoWE.TAIGroupControlTargetList(null);
             FTargets = call__5702;
             FTargets.FControl = this;
-            var call__5703 = Aow.Units.AoWE.TAIRecruitmentGroupList.Create(null);
+            var call__5703 = new Aow.Units.AoWE.TAIRecruitmentGroupList(null);
             FRecruitmentGroups = call__5703;
-            var call__5704 = Aow.Units.AoWE.TAIGroupProductionLocationList.Create(null);
+            var call__5704 = new Aow.Units.AoWE.TAIGroupProductionLocationList(null);
             FProductionLocations = call__5704;
-            var call__5705 = Aow.Units.AoWE.TCombatPredictor.Create();
+            var call__5705 = new Aow.Units.AoWE.TCombatPredictor();
             FCombatPredictor = call__5705;
         }
 
@@ -75100,39 +72645,13 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:259
-        public static new Aow.Units.AoWE.TAIGroupControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupControl o = new Aow.Units.AoWE.TAIGroupControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // intf_P5_07.inc:259
-            public new Aow.Units.AoWE.TAIGroupControl Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAIGroupControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAIGroupControl o = (Aow.Units.AoWE.TAIGroupControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAIGroupControl)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -75144,6 +72663,13 @@ namespace Aow.Units.AoWE
 //     $1C control, $20 selector, $24 mode, $28/$2C ranges, $30 step, $34 damage types. }
     public partial class TAIGroupTargetFinder : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        // AIGroup.pas:1889
+        public TAIGroupTargetFinder(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5774 = new Aow.Units.AoWE.TAIMoveTargetSelector(null);
+            FSelector = call__5774;
+        }
+
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // { $1C }
         public Aow.Units.AoWE.TAIMoveTargetSelector FSelector;
@@ -75165,14 +72691,6 @@ namespace Aow.Units.AoWE
         {
             FSelector.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:1889
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5774 = Aow.Units.AoWE.TAIMoveTargetSelector.Create(null);
-            FSelector = call__5774;
         }
 
         // AIGroup.pas:1958
@@ -75257,7 +72775,7 @@ namespace Aow.Units.AoWE
         public void TargetFoundEvent(Aow.Units.AoWE.TMoveTarget Target, ref bool SearchDone)
         {
             Aow.Units.AoWE.TAIGroupControlTarget NewTarget = default;
-            NewTarget = Aow.Units.AoWE.TAIGroupControlTarget.Create(null);
+            NewTarget = new Aow.Units.AoWE.TAIGroupControlTarget(null);
             NewTarget.FInfo = FSelector.FTargetInfo;
             NewTarget.FData = Target.FData;
             NewTarget.FLocation = Target.FLocation;
@@ -75278,21 +72796,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:301
-        public static new Aow.Units.AoWE.TAIGroupTargetFinder Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupTargetFinder o = new Aow.Units.AoWE.TAIGroupTargetFinder();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TDamageStrengths is shared with TDefenseRequirements in intf_P1_01.inc. }
@@ -75300,6 +72804,13 @@ namespace Aow.Units.AoWE
 //     $08 defenders, $0C selected defense location. }
     public partial class TGroupDefenseSelector : Aow.Rtl.TObject
     {
+        // AIGroup.pas:1640
+        public TGroupDefenseSelector()
+        {
+            var call__5778 = new Aow.Units.AoWE.TUnitUserList(null);
+            FDefenders = call__5778;
+        }
+
         public Aow.Units.FixedArray_byte_4 F_GroupDefenseSelector_04;
         public Aow.Units.AoWE.TUnitList FDefenders;
         // { $08 }
@@ -75310,14 +72821,6 @@ namespace Aow.Units.AoWE
         {
             FDefenders.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:1640
-        public virtual void Create__init()
-        {
-            ;
-            var call__5778 = Aow.Units.AoWE.TUnitUserList.Create(null);
-            FDefenders = call__5778;
         }
 
         // AIGroup.pas:1652
@@ -75440,7 +72943,7 @@ namespace Aow.Units.AoWE
             var call__5795 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(L);
             Level = call__5795;
             FDefenseLocation.XYL = 16777215;
-            Candidates = Aow.Units.AoWE.TUnitUserList.Create(null);
+            Candidates = new Aow.Units.AoWE.TUnitUserList(null);
             Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 0);
             while (true)
             {
@@ -75604,27 +73107,23 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:320
-        public static Aow.Units.AoWE.TGroupDefenseSelector Create()
-        {
-            Aow.Units.AoWE.TGroupDefenseSelector o = new Aow.Units.AoWE.TGroupDefenseSelector();
-            try
-            {
-                o.Create__init();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupDefenseControl: instance size $28, VMT 5571ACDC.
 //     $1C selector, $20 custom state, $24 mode, $25 defend mode. }
     public partial class TAIGroupDefenseControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        // AIGroup.pas:1807
+        public TAIGroupDefenseControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5831 = new Aow.Units.AoWE.TGroupDefenseSelector();
+            FSelector = call__5831;
+            FMode = TSet<Aow.Units.AoWE.TGroupDefenseControlModeElement>.Of();
+            FDefendMode = Aow.Units.AoWE.TGroupDefendMode.gdmWait;
+            FState = 0;
+        }
+
         public Aow.Units.AoWE.TGroupDefenseSelector FSelector;
         // { $1C }
         public int FCustomState;
@@ -75639,17 +73138,6 @@ namespace Aow.Units.AoWE
         {
             FSelector.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:1807
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5831 = Aow.Units.AoWE.TGroupDefenseSelector.Create();
-            FSelector = call__5831;
-            FMode = TSet<Aow.Units.AoWE.TGroupDefenseControlModeElement>.Of();
-            FDefendMode = Aow.Units.AoWE.TGroupDefendMode.gdmWait;
-            FState = 0;
         }
 
         // AIGroup.pas:1822
@@ -75691,7 +73179,7 @@ namespace Aow.Units.AoWE
                         switch (FDefendMode)
                         {
                             case Aow.Units.AoWE.TGroupDefendMode.gdmSplit:
-                                Units = Aow.Units.AoWE.TUnitUserList.Create(null);
+                                Units = new Aow.Units.AoWE.TUnitUserList(null);
                             {
                                 var aiGroupControl2 = FGroupControl;
                                 FSelector.GetDefenders(unchecked((sbyte)aiGroupControl2.FGroup.FPlayer), unchecked((sbyte)aiGroupControl2.FLocation.X), unchecked((sbyte)aiGroupControl2.FLocation.Y), unchecked((sbyte)aiGroupControl2.FLocation.L), Units);
@@ -75746,27 +73234,20 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:338
-        public static new Aow.Units.AoWE.TAIGroupDefenseControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupDefenseControl o = new Aow.Units.AoWE.TAIGroupDefenseControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIRecruitmentGroupFinder (instance size 52, VMT 5571AE1C).
 //     $1C control, $20 selector, $24 range, $28 step, $2C target range, $30 mode. }
     public partial class TAIRecruitmentGroupFinder : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        // AIGroup.pas:1981
+        public TAIRecruitmentGroupFinder(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5837 = new Aow.Units.AoWE.TAIMoveTargetSelector(null);
+            FSelector = call__5837;
+        }
+
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // { $1C }
         public Aow.Units.AoWE.TAIMoveTargetSelector FSelector;
@@ -75785,14 +73266,6 @@ namespace Aow.Units.AoWE
         {
             FSelector.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:1981
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5837 = Aow.Units.AoWE.TAIMoveTargetSelector.Create(null);
-            FSelector = call__5837;
         }
 
         // AIGroup.pas:1993
@@ -75878,7 +73351,7 @@ namespace Aow.Units.AoWE
                         AUnit = call__5842;
                         if (((AUnit.FGroup != null) && (AUnit.FGroup.FLeader == AUnit)) && (AUnit.FGroup != FControl.FGroup))
                         {
-                            Group = Aow.Units.AoWE.TAIRecruitmentGroup.Create(null);
+                            Group = new Aow.Units.AoWE.TAIRecruitmentGroup(null);
                             Group.SetGroup(AUnit.FGroup);
                             Group.FLocation = Target.FLocation;
                             Group.FMovePoints = Target.FMovePoints;
@@ -75909,21 +73382,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:356
-        public static new Aow.Units.AoWE.TAIRecruitmentGroupFinder Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIRecruitmentGroupFinder o = new Aow.Units.AoWE.TAIRecruitmentGroupFinder();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupRecruitControl: instance size $98, VMT 5571AF78.
@@ -75933,6 +73392,13 @@ namespace Aow.Units.AoWE
 //     $94 path-strength factor. }
     public partial class TAIGroupRecruitControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        // AIGroup.pas:2070
+        public TAIGroupRecruitControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5844 = new Aow.Units.AoWE.TUnitUserList(null);
+            FUnits = call__5844;
+        }
+
         public Aow.Units.AoWE.TAIGroupRecruitControlMode FMode;
         // { $1C }
         public Aow.Units.FixedArray_byte_3 F_AIGroupRecruitControl_1D;
@@ -75968,14 +73434,6 @@ namespace Aow.Units.AoWE
         {
             FUnits.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:2070
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5844 = Aow.Units.AoWE.TUnitUserList.Create(null);
-            FUnits = call__5844;
         }
 
         // AIGroup.pas:2097
@@ -76314,7 +73772,7 @@ namespace Aow.Units.AoWE
             int I = default;
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
             Result = false;
-            Units = Aow.Units.AoWE.TUnitUserList.Create(null);
+            Units = new Aow.Units.AoWE.TUnitUserList(null);
             {
                 I = Group.FGroup.Count - 1;
                 byte end__5887 = 0;
@@ -76333,7 +73791,7 @@ namespace Aow.Units.AoWE
             var call__5891 = Units.Count;
             if (call__5891 != 0)
             {
-                Recruitable = Aow.Units.AoWE.TUnitUserList.Create(null);
+                Recruitable = new Aow.Units.AoWE.TUnitUserList(null);
                 if (FMode != Aow.Units.AoWE.TAIGroupRecruitControlMode.rcmForceRecruit)
                 {
                     Group.FGroup.GetRecruitableUnits(Aow.Rtl.Rtl.ObjectToInt(FControl.FGroup), Units, Recruitable);
@@ -76386,21 +73844,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:390
-        public static new Aow.Units.AoWE.TAIGroupRecruitControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupRecruitControl o = new Aow.Units.AoWE.TAIGroupRecruitControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupCooperationControl: instance size $94, VMT 5571B0C8.
@@ -76409,6 +73853,13 @@ namespace Aow.Units.AoWE
 //     $64 damage types, $68 strengths, $90 required superiority. }
     public partial class TAIGroupCooperationControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        // AIGroup.pas:2839
+        public TAIGroupCooperationControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5893 = new Aow.Units.AoWE.TAIRecruitmentGroupList(null);
+            FGroups = call__5893;
+        }
+
         public bool FComplete;
         // { $1C }
         public Aow.Units.FixedArray_byte_3 F_AIGroupCooperationControl_1D;
@@ -76441,14 +73892,6 @@ namespace Aow.Units.AoWE
         {
             FGroups.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:2839
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5893 = Aow.Units.AoWE.TAIRecruitmentGroupList.Create(null);
-            FGroups = call__5893;
         }
 
         // AIGroup.pas:2919
@@ -76804,27 +74247,20 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:431
-        public static new Aow.Units.AoWE.TAIGroupCooperationControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupCooperationControl o = new Aow.Units.AoWE.TAIGroupCooperationControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIProductionLocationFinder: instance size $34, VMT 5571B218.
 //     $1C control, $20 selector, $24 mode, $28 range, $2C step, $30 target range. }
     public partial class TAIProductionLocationFinder : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        // AIGroup.pas:2303
+        public TAIProductionLocationFinder(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5930 = new Aow.Units.AoWE.TAIMoveTargetSelector(null);
+            FSelector = call__5930;
+        }
+
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // { $1C }
         public Aow.Units.AoWE.TAIMoveTargetSelector FSelector;
@@ -76843,14 +74279,6 @@ namespace Aow.Units.AoWE
         {
             FSelector.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:2303
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5930 = Aow.Units.AoWE.TAIMoveTargetSelector.Create(null);
-            FSelector = call__5930;
         }
 
         // AIGroup.pas:2315
@@ -76927,7 +74355,7 @@ namespace Aow.Units.AoWE
             var call__5934 = FControl.FProductionLocations.IndexOfPC(Control);
             if (call__5934 == -1)
             {
-                Location = Aow.Units.AoWE.TAIGroupProductionLocation.Create(null);
+                Location = new Aow.Units.AoWE.TAIGroupProductionLocation(null);
                 Location.FProductionControl = Control;
                 Location.FLocation = Target.FLocation;
                 Location.FMovePoints = Target.FMovePoints;
@@ -76955,21 +74383,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:459
-        public static new Aow.Units.AoWE.TAIProductionLocationFinder Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIProductionLocationFinder o = new Aow.Units.AoWE.TAIProductionLocationFinder();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupUnitProduction: instance size $30, VMT 5571B36C.
@@ -76977,6 +74391,12 @@ namespace Aow.Units.AoWE
 //     $1C/$20 upkeep, $24 production time, $28 priority, $2C research. }
     public partial class TAIGroupUnitProduction : Aow.Units.Engine.TEObject
     {
+        // AIGroup.pas:2389
+        public TAIGroupUnitProduction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRefCount = 1;
+        }
+
         public int FRefCount;
         // { $08 }
         public Aow.Units.AoWE.TUnit FU;
@@ -77004,13 +74424,6 @@ namespace Aow.Units.AoWE
             SetU(null);
             SetProductionLocation(null);
             base.Destroy();
-        }
-
-        // AIGroup.pas:2389
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRefCount = 1;
         }
 
         // AIGroup.pas:2402
@@ -77075,26 +74488,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:485
-        public static new Aow.Units.AoWE.TAIGroupUnitProduction Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupUnitProduction o = new Aow.Units.AoWE.TAIGroupUnitProduction();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupUnitProductionList: instance size $0C, VMT 5571B440; $08 children. }
     public partial class TAIGroupUnitProductionList : Aow.Units.Engine.TEReferenceNode
     {
+        public TAIGroupUnitProductionList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:2435
         public Aow.Units.AoWE.TAIGroupUnitProduction GetUnitProductions(int Index)
         {
@@ -77105,21 +74507,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAIGroupUnitProductionList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupUnitProductionList o = new Aow.Units.AoWE.TAIGroupUnitProductionList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupProductionControl: instance size $C0, VMT 5571B558.
@@ -77131,6 +74519,15 @@ namespace Aow.Units.AoWE
 //     $B4 move types, $B8 minimum moves, $BC path-strength factor. }
     public partial class TAIGroupProductionControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        // AIGroup.pas:2440
+        public TAIGroupProductionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__5937 = new Aow.Units.AoWE.TAIGroupUnitProductionList(null);
+            FProductions = call__5937;
+            var call__5938 = new Aow.Units.AoWE.TAIGroupUnitProductionList(null);
+            FProduceableUnits = call__5938;
+        }
+
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // { $1C }
         public Aow.Units.AoWE.TAIGroupProductionControlMode FMode;
@@ -77192,16 +74589,6 @@ namespace Aow.Units.AoWE
             FProduceableUnits.Free();
             FProduceableUnits = null;
             base.Destroy();
-        }
-
-        // AIGroup.pas:2440
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__5937 = Aow.Units.AoWE.TAIGroupUnitProductionList.Create(null);
-            FProductions = call__5937;
-            var call__5938 = Aow.Units.AoWE.TAIGroupUnitProductionList.Create(null);
-            FProduceableUnits = call__5938;
         }
 
         // AIGroup.pas:2471
@@ -77296,7 +74683,7 @@ namespace Aow.Units.AoWE
                             int end__5948 = FControl.FGroup.FProductions.Count - 1;
                             for (; I <= end__5948; I += 1)
                             {
-                                Production = Aow.Units.AoWE.TAIGroupUnitProduction.Create(null);
+                                Production = new Aow.Units.AoWE.TAIGroupUnitProduction(null);
                                 var call__5949 = FControl.FGroup.FProductions.GetProductions(I);
                                 Production.SetU(call__5949.FControl.FSettings.FUnit);
                                 if (Production.FU != null)
@@ -77737,7 +75124,7 @@ namespace Aow.Units.AoWE
                                         var call__6015 = Location.FProductionControl.FUnitProductions.GetItem(I);
                                         var call__6016 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__6015.FUnitIndex);
                                         NewUnit.SetUnitResource(call__6016);
-                                        Production = Aow.Units.AoWE.TAIGroupUnitProduction.Create(null);
+                                        Production = new Aow.Units.AoWE.TAIGroupUnitProduction(null);
                                         Production.SetU(NewUnit);
                                         var call__6017 = Location.FProductionControl.UnitProductionGold(I);
                                         Production.FGold = call__6017;
@@ -77779,7 +75166,7 @@ namespace Aow.Units.AoWE
                                             var call__6028 = Location.FProductionControl.FUnitProductions.GetItem(I);
                                             var call__6029 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__6028.FUnitIndex);
                                             NewUnit.SetUnitResource(call__6029);
-                                            Production = Aow.Units.AoWE.TAIGroupUnitProduction.Create(null);
+                                            Production = new Aow.Units.AoWE.TAIGroupUnitProduction(null);
                                             Production.SetU(NewUnit);
                                             var call__6030 = Location.FProductionControl.UnitResearchGold(I);
                                             Production.FGold = call__6030;
@@ -77856,21 +75243,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:537
-        public static new Aow.Units.AoWE.TAIGroupProductionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupProductionControl o = new Aow.Units.AoWE.TAIGroupProductionControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupTargetPrioritySettings: instance size $3C, VMT 5571B750.
@@ -77908,10 +75281,7 @@ namespace Aow.Units.AoWE
         public int FPartialProductionPenalty;
         public int FProductionDayPenalty;
         // System.pas:111
-        public static Aow.Units.AoWE.TAIGroupTargetPrioritySettings Create()
-        {
-            return new Aow.Units.AoWE.TAIGroupTargetPrioritySettings();
-        }
+
     }
 
     // { $34, $38 }
@@ -77924,6 +75294,21 @@ namespace Aow.Units.AoWE
 //     $84 priority settings. }
     public partial class TAIGroupTargetSelector : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        // AIGroup.pas:3041
+        public TAIGroupTargetSelector(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__6040 = new Aow.Units.AoWE.TAIGroupRecruitControl(null);
+            FRecruitment = call__6040;
+            var call__6041 = new Aow.Units.AoWE.TAIGroupProductionControl(null);
+            FProduction = call__6041;
+            var call__6042 = new Aow.Units.AoWE.TAIGroupCooperationControl(null);
+            FCooperation = call__6042;
+            var call__6043 = new Aow.Units.AoWE.TAIGroupTargetPrioritySettings();
+            FPrioritySettings = call__6043;
+            var call__6044 = new Aow.Units.AoWE.TUnitUserList(null);
+            FSpareUnits = call__6044;
+        }
+
         public Aow.Units.AoWE.TAIGroupTargetSelectorStatus FTargetStatus;
         // { $1C }
         // { conflict: FStatus: TAIGroupTargetSelectorStatus; }
@@ -77994,22 +75379,6 @@ namespace Aow.Units.AoWE
             FCooperation.Release();
             FSpareUnits.Free();
             base.Destroy();
-        }
-
-        // AIGroup.pas:3041
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__6040 = Aow.Units.AoWE.TAIGroupRecruitControl.Create(null);
-            FRecruitment = call__6040;
-            var call__6041 = Aow.Units.AoWE.TAIGroupProductionControl.Create(null);
-            FProduction = call__6041;
-            var call__6042 = Aow.Units.AoWE.TAIGroupCooperationControl.Create(null);
-            FCooperation = call__6042;
-            var call__6043 = Aow.Units.AoWE.TAIGroupTargetPrioritySettings.Create();
-            FPrioritySettings = call__6043;
-            var call__6044 = Aow.Units.AoWE.TUnitUserList.Create(null);
-            FSpareUnits = call__6044;
         }
 
         // AIGroup.pas:3421
@@ -78738,8 +76107,8 @@ namespace Aow.Units.AoWE
                         var call__6133 = FGroupControl.FTargets.Count;
                         if (I < call__6133)
                         {
-                            Required = Aow.Units.AoWE.TUnitUserList.Create(null);
-                            Optional = Aow.Units.AoWE.TUnitUserList.Create(null);
+                            Required = new Aow.Units.AoWE.TUnitUserList(null);
+                            Optional = new Aow.Units.AoWE.TUnitUserList(null);
                             var call__6134 = FGroupControl.FTargets.GetTargets(I);
                             FNextTarget = call__6134;
                             var call__6135 = ValidMultiTarget(FSpareUnits, FNextTarget, Required, Optional);
@@ -79212,9 +76581,9 @@ namespace Aow.Units.AoWE
             int I = default;
             int Superiority = default;
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
-            Predictor = Aow.Units.AoWE.TCombatPredictor.Create();
-            RequiredUnits = Aow.Units.AoWE.TUnitUserList.Create(null);
-            OptionalUnits = Aow.Units.AoWE.TUnitUserList.Create(null);
+            Predictor = new Aow.Units.AoWE.TCombatPredictor();
+            RequiredUnits = new Aow.Units.AoWE.TUnitUserList(null);
+            OptionalUnits = new Aow.Units.AoWE.TUnitUserList(null);
             Predictor.AddUnits(Units);
             var call__6165 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Target.FLocation));
             var call__6166 = ((Aow.Units.AoWE.TAoWMapField)call__6165).GetMoveAction(unchecked((sbyte)FGroupControl.FGroup.FPlayer));
@@ -79437,27 +76806,20 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:624
-        public static new Aow.Units.AoWE.TAIGroupTargetSelector Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAIGroupTargetSelector o = new Aow.Units.AoWE.TAIGroupTargetSelector();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THuntAG (instance size 84, VMT 5571B8D0) }
     // { THuntAG (instance size $54). $50 hunted unit IDs. }
     public partial class THuntAG : Aow.Units.AoWE.TAIGroup
     {
+        // AIGroup.pas:1430
+        public THuntAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__6198 = new Aow.Units.Engine.TIntegerList();
+            FTargetUnitIDs = call__6198;
+        }
+
         public Aow.Units.Engine.TIntegerList FTargetUnitIDs;
         // AIGroup.pas:1436
         // { $50; 5575FE61 }
@@ -79472,14 +76834,6 @@ namespace Aow.Units.AoWE
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(30, FTargetUnitIDs.LoadFromStream, FTargetUnitIDs.SaveToStream);
-        }
-
-        // AIGroup.pas:1430
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__6198 = new Aow.Units.Engine.TIntegerList();
-            FTargetUnitIDs = call__6198;
         }
 
         // AIGroup.pas:1457
@@ -79503,21 +76857,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:660
-        public static new Aow.Units.AoWE.THuntAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THuntAG o = new Aow.Units.AoWE.THuntAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
@@ -79546,20 +76885,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_07.inc:660
-            public new Aow.Units.AoWE.THuntAG Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new THuntAG Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.THuntAG o = (Aow.Units.AoWE.THuntAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (THuntAG)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -79570,6 +76898,9 @@ namespace Aow.Units.AoWE
     // { THuntAGC (instance size 368, VMT 5571BA18) }
     public partial class THuntAGC : Aow.Units.AoWE.TAIGroupControl
     {
+        public THuntAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1479
         public override void TargetFoundEvent(Aow.Units.AoWE.TAIGroupControlPlugin Sender, Aow.Units.AoWE.TAIGroupControlTarget Target, ref bool SearchDone)
         {
@@ -79644,7 +76975,7 @@ namespace Aow.Units.AoWE
 
                     if (Group.FTargetUnitIDs.Count != 0)
                     {
-                        Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
+                        Finder = new Aow.Units.AoWE.TAIGroupTargetFinder(null);
                         Finder.Setup(this);
                         Finder.FSelector.FTargetInfo.Mode = Aow.Units.AoWE.TAITargetMode.tmHunt;
                         ActivatePlugin(Finder);
@@ -79685,6 +77016,9 @@ namespace Aow.Units.AoWE
     // { TGroupControl (instance size 8, VMT 5571BB04) }
     public partial class TGroupControl : Aow.Units.Engine.TEObject
     {
+        public TGroupControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1565
         public virtual Aow.Units.AoWE.TGroupBehavior Behavior()
         {
@@ -79698,6 +77032,9 @@ namespace Aow.Units.AoWE
     // { TGuardGC (instance size 8, VMT 5571BBC8) }
     public partial class TGuardGC : Aow.Units.AoWE.TGroupControl
     {
+        public TGuardGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1575
         public override Aow.Units.AoWE.TGroupBehavior Behavior()
         {
@@ -79719,20 +77056,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TGuardGC => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TGuardGC Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TGuardGC Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TGuardGC o = (Aow.Units.AoWE.TGuardGC)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TGuardGC)base.Create(AOwner);
             }
         }
     }
@@ -79740,6 +77066,9 @@ namespace Aow.Units.AoWE
     // { TPassiveGC (instance size 8, VMT 5571BC84) }
     public partial class TPassiveGC : Aow.Units.AoWE.TGroupControl
     {
+        public TPassiveGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1585
         public override Aow.Units.AoWE.TGroupBehavior Behavior()
         {
@@ -79761,20 +77090,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPassiveGC => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TPassiveGC Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TPassiveGC Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TPassiveGC o = (Aow.Units.AoWE.TPassiveGC)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TPassiveGC)base.Create(AOwner);
             }
         }
     }
@@ -79782,6 +77100,9 @@ namespace Aow.Units.AoWE
     // { TGuardAreaGC (instance size 8, VMT 5571BD44) }
     public partial class TGuardAreaGC : Aow.Units.AoWE.TGroupControl
     {
+        public TGuardAreaGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1595
         public override Aow.Units.AoWE.TGroupBehavior Behavior()
         {
@@ -79803,20 +77124,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TGuardAreaGC => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TGuardAreaGC Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TGuardAreaGC Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TGuardAreaGC o = (Aow.Units.AoWE.TGuardAreaGC)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TGuardAreaGC)base.Create(AOwner);
             }
         }
     }
@@ -79824,6 +77134,9 @@ namespace Aow.Units.AoWE
     // { TSuicidalGC (instance size 8, VMT 5571BE08) }
     public partial class TSuicidalGC : Aow.Units.AoWE.TGroupControl
     {
+        public TSuicidalGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1605
         public override Aow.Units.AoWE.TGroupBehavior Behavior()
         {
@@ -79845,20 +77158,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSuicidalGC => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TSuicidalGC Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TSuicidalGC Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TSuicidalGC o = (Aow.Units.AoWE.TSuicidalGC)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TSuicidalGC)base.Create(AOwner);
             }
         }
     }
@@ -79866,6 +77168,9 @@ namespace Aow.Units.AoWE
     // { TPatrolGC (instance size 8, VMT 5571BEC8) }
     public partial class TPatrolGC : Aow.Units.AoWE.TGroupControl
     {
+        public TPatrolGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1615
         public override Aow.Units.AoWE.TGroupBehavior Behavior()
         {
@@ -79887,20 +77192,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPatrolGC => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TPatrolGC Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TPatrolGC Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TPatrolGC o = (Aow.Units.AoWE.TPatrolGC)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TPatrolGC)base.Create(AOwner);
             }
         }
     }
@@ -79908,6 +77202,9 @@ namespace Aow.Units.AoWE
     // { TScoutGC (instance size 8, VMT 5571BF84) }
     public partial class TScoutGC : Aow.Units.AoWE.TGroupControl
     {
+        public TScoutGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1625
         public override Aow.Units.AoWE.TGroupBehavior Behavior()
         {
@@ -79929,20 +77226,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TScoutGC => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TScoutGC Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TScoutGC Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TScoutGC o = (Aow.Units.AoWE.TScoutGC)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TScoutGC)base.Create(AOwner);
             }
         }
     }
@@ -79950,6 +77236,9 @@ namespace Aow.Units.AoWE
     // { TRefugeGC (instance size 8, VMT 5571C040) }
     public partial class TRefugeGC : Aow.Units.AoWE.TGroupControl
     {
+        public TRefugeGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AIGroup.pas:1635
         public override Aow.Units.AoWE.TGroupBehavior Behavior()
         {
@@ -79971,20 +77260,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TRefugeGC => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TRefugeGC Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TRefugeGC Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TRefugeGC o = (Aow.Units.AoWE.TRefugeGC)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TRefugeGC)base.Create(AOwner);
             }
         }
     }
@@ -80737,7 +78015,7 @@ namespace Aow.Units.AoWE
                         Result = call__6266 != -1;
                     }
 
-                    Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+                    Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
                     Settings.SetupArmy(FArmyHS, unchecked((byte)FSelection));
                     Settings.FMode = Settings.FMode.With(Aow.Units.AoWE.TMoveModeElement.mmAI);
                     var call__6267 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer);
@@ -82313,7 +79591,7 @@ namespace Aow.Units.AoWE
 
             if ((FCombatMode == Aow.Units.AoWE.TCombatMoveMode.cmRequestingCombatType) || ((FCombatType == Aow.Units.AoWE.TCombatType.ctTactical) && (FCombatMode == Aow.Units.AoWE.TCombatMoveMode.cmSetupReady)))
             {
-                Combat = Aow.Units.AoWE.TCombat.Create(null);
+                Combat = new Aow.Units.AoWE.TCombat(null);
                 var call__6455 = FArmyHS.GetYhx();
                 var call__6456 = FArmyHS.GetLhx();
                 var call__6457 = Field.GetPlayer();
@@ -83978,6 +81256,11 @@ namespace Aow.Units.AoWE
     // { TFastCombatUnit (instance size $64, VMT 5571D4BC). $5C round distance, $60 state. }
     public partial class TFastCombatUnit : Aow.Units.AoWE.TCombatUnit
     {
+        // AIGroup.pas:6773
+        public TFastCombatUnit(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public int FRoundDistance;
         // { $5C }
         public TSet<Aow.Units.AoWE.TFastCombatUnitStateElement> FState;
@@ -83988,12 +81271,6 @@ namespace Aow.Units.AoWE
         {
             base.ReadWrite(Stream);
             Aow.Rtl.Rtl.RwSet(ref FState, 1, 40, Stream.rwData, 0);
-        }
-
-        // AIGroup.pas:6773
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // AIGroup.pas:6862
@@ -84311,7 +81588,7 @@ namespace Aow.Units.AoWE
             bool Executed = default;
             Combat = (Aow.Units.AoWE.TFastCombat)FCombat;
             var call__6624 = GetSide();
-            var call__6625 = Aow.Units.AoWE.TFastCombatCommandList.Create(this, Combat, Combat.FSides[(int)call__6624]);
+            var call__6625 = new Aow.Units.AoWE.TFastCombatCommandList(this, Combat, Combat.FSides[(int)call__6624]);
             Commands = call__6625;
             AUnit = FUnit;
             {
@@ -84433,7 +81710,7 @@ namespace Aow.Units.AoWE
 
                     if (bool__6648)
                     {
-                        Action = Aow.Units.AoWE.TFleeCA.Create(null);
+                        Action = new Aow.Units.AoWE.TFleeCA(null);
                         Action.FObjectID = unchecked((byte)FID);
                         FCombat.ExecuteCombatAction(Action);
                         Action.Release();
@@ -84639,21 +81916,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:1031
-        public static new Aow.Units.AoWE.TFastCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TFastCombatUnit o = new Aow.Units.AoWE.TFastCombatUnit();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TCombatUnit.Meta
         {
@@ -84666,20 +81928,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_07.inc:1031
-            public new Aow.Units.AoWE.TFastCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TFastCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TFastCombatUnit o = (Aow.Units.AoWE.TFastCombatUnit)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TFastCombatUnit)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -84690,6 +81941,9 @@ namespace Aow.Units.AoWE
     // { TFastCombatParty (instance size 28, VMT 5571D670) }
     public partial class TFastCombatParty : Aow.Units.AoWE.TCombatParty
     {
+        public TFastCombatParty(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
     }
 
     // { TCombatObjectList (instance size 16, VMT 5571D738) }
@@ -84705,16 +81959,21 @@ namespace Aow.Units.AoWE
         }
 
         // System.pas:111
-        public static Aow.Units.AoWE.TCombatObjectList Create()
-        {
-            return new Aow.Units.AoWE.TCombatObjectList();
-        }
+
     }
 
     // { TFastCombat (instance size 80, VMT 5571D7BC) }
     // { TFastCombat: instance size $50; $4C wall siege object count. }
     public partial class TFastCombat : Aow.Units.AoWE.TCombat
     {
+        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
+        public TFastCombat() { }
+
+        // AIGroup.pas:7118
+        public TFastCombat(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public int FWallSiegeObjectCount;
         // AIGroup.pas:7123
         // { $4C }
@@ -84723,17 +81982,11 @@ namespace Aow.Units.AoWE
             base.Destroy();
         }
 
-        // AIGroup.pas:7118
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
-
         // AIGroup.pas:7175
         public override Aow.Units.AoWE.TCombatUnit CreateCombatUnit()
         {
             Aow.Units.AoWE.TCombatUnit Result = default;
-            Result = Aow.Units.AoWE.TFastCombatUnit.Create(null);
+            Result = new Aow.Units.AoWE.TFastCombatUnit(null);
             return Result;
         }
 
@@ -85044,7 +82297,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TCombatObject Obj = default;
             NewRound();
             Idle = true;
-            Objects = Aow.Units.AoWE.TCombatObjectList.Create();
+            Objects = new Aow.Units.AoWE.TCombatObjectList();
             var call__6694 = GetRound();
             var call__6695 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5RoundXRStr);
             var call__6696 = Aow.Units.AoWE.AoWE.Format(call__6695, [Aow.Rtl.Rtl.IntToStr(call__6694)]);
@@ -85126,21 +82379,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:1073
-        public static new Aow.Units.AoWE.TFastCombat Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TFastCombat o = new Aow.Units.AoWE.TFastCombat();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -85153,20 +82391,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_07.inc:1073
-            public new Aow.Units.AoWE.TFastCombat Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TFastCombat Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TFastCombat o = (Aow.Units.AoWE.TFastCombat)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TFastCombat)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -85233,6 +82460,21 @@ namespace Aow.Units.AoWE
     // { TAdjustableAbility (instance size 40, VMT 5571D930; $24 ability type) }
     public partial class TAdjustableAbility : Aow.Units.AoWE.TAbility
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTAdjustableAbility.
+        protected TAdjustableAbility() { }
+
+        public static new TAdjustableAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAdjustableAbility(context, owner));
+        }
+
+
+        protected TAdjustableAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TAdjustableAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+        }
+
         public Aow.Units.AoWE.TAbilityType FAbilityType;
         // { $24 }
         public Aow.Units.FixedArray_byte_3 FAbilityTypePadding;
@@ -85249,29 +82491,34 @@ namespace Aow.Units.AoWE
     // { TEnhancementAbility (instance size 40, VMT 5571DABC) }
     public partial class TEnhancementAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTEnhancementAbility.
+        protected TEnhancementAbility() { }
+
+        protected TEnhancementAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // AoWAb.PAS:922
+        private protected TEnhancementAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         // AoWAb.PAS:922
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit);
         }
 
         // intf_P4_02.inc:21
-        public static new Aow.Units.AoWE.TEnhancementAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TEnhancementAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TEnhancementAbility o = new Aow.Units.AoWE.TEnhancementAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEnhancementAbility(context, owner));
         }
     }
 
@@ -85279,6 +82526,13 @@ namespace Aow.Units.AoWE
 //     $0C duration, $0D player index, $0E ability ID, $10 unresolved Integer) }
     public partial class TDurationAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
+        public TDurationAbilityData() { }
+
+        public TDurationAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public byte FDuration;
         public byte FPlayerIndex;
         public ushort FAbilityID;
@@ -85303,21 +82557,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TDurationAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDurationAbilityData o = new Aow.Units.AoWE.TDurationAbilityData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -85332,20 +82571,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDurationAbilityData => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TDurationAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDurationAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDurationAbilityData o = (Aow.Units.AoWE.TDurationAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDurationAbilityData)base.Create(AOwner);
             }
         }
     }
@@ -85353,12 +82581,28 @@ namespace Aow.Units.AoWE
     // { TDurationAbility (instance size 44, VMT 5571DD68; $28 duration mode) }
     public partial class TDurationAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTDurationAbility.
+        protected TDurationAbility() { }
+
+        protected TDurationAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // AoWAb.PAS:25
+        private protected TDurationAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Units.AoWE.TDurationMode FDurationMode;
         public Aow.Units.FixedArray_byte_3 FDurationPadding;
         // AoWAb.PAS:25
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
         }
 
         // AoWAb.PAS:96
@@ -85450,7 +82694,7 @@ namespace Aow.Units.AoWE
             Data = (Aow.Units.AoWE.TDurationAbilityData)call__6723;
             if (Data == null)
             {
-                Data = Aow.Units.AoWE.TDurationAbilityData.Create(null);
+                Data = new Aow.Units.AoWE.TDurationAbilityData(null);
                 Data.FAbilityID = unchecked((ushort)FAbilityID);
                 var call__6724 = GetTotalDuration();
                 Data.FDuration = unchecked((byte)call__6724);
@@ -85543,20 +82787,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:42
-        public static new Aow.Units.AoWE.TDurationAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TDurationAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TDurationAbility o = new Aow.Units.AoWE.TDurationAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDurationAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -85569,22 +82802,8 @@ namespace Aow.Units.AoWE
                 return Result;
             }
 
-            // intf_P4_02.inc:42
             public new Aow.Units.AoWE.TDurationAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TDurationAbility o = (Aow.Units.AoWE.TDurationAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TDurationAbility)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDurationAbility => (Meta)MetaRegistry.Of(typeof(T));
@@ -85594,6 +82813,9 @@ namespace Aow.Units.AoWE
     // { TMultiLevelAbilityData (instance size 16, VMT 5571DEF8; $0C level, $0E ability ID) }
     public partial class TMultiLevelAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public TMultiLevelAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public byte FLevel;
         public Aow.Units.FixedArray_byte_1 F_MultiLevelAbilityData_0D;
         public ushort FLevelAbilityID;
@@ -85614,21 +82836,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TMultiLevelAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TMultiLevelAbilityData o = new Aow.Units.AoWE.TMultiLevelAbilityData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -85643,20 +82850,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TMultiLevelAbilityData => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TMultiLevelAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TMultiLevelAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TMultiLevelAbilityData o = (Aow.Units.AoWE.TMultiLevelAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TMultiLevelAbilityData)base.Create(AOwner);
             }
         }
     }
@@ -85664,6 +82860,17 @@ namespace Aow.Units.AoWE
     // { TMultiLevelAbility (instance size 48, VMT 5571DFD0; $28 max level, $2C level costs) }
     public partial class TMultiLevelAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTMultiLevelAbility.
+        protected TMultiLevelAbility() { }
+
+        protected TMultiLevelAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // AoWAb.PAS:248
+        private protected TMultiLevelAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FMaxLevel;
         public Aow.Units.Engine.TIntegerList FLevelCosts;
         // AoWAb.PAS:255
@@ -85678,6 +82885,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__6733 = new Aow.Units.Engine.TIntegerList();
             FLevelCosts = call__6733;
             FMaxLevel = 4;
@@ -85692,20 +82904,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:72
-        public static new Aow.Units.AoWE.TMultiLevelAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TMultiLevelAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TMultiLevelAbility o = new Aow.Units.AoWE.TMultiLevelAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TMultiLevelAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -85714,22 +82915,8 @@ namespace Aow.Units.AoWE
             // { branch past the missing-data exit and nil-owner zero result }
             public override Aow.Units.Engine.TEObject.Meta AbilityDataClass() => Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
 
-            // intf_P4_02.inc:72
             public new Aow.Units.AoWE.TMultiLevelAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TMultiLevelAbility o = (Aow.Units.AoWE.TMultiLevelAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TMultiLevelAbility)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TMultiLevelAbility => (Meta)MetaRegistry.Of(typeof(T));
@@ -85740,9 +82927,8 @@ namespace Aow.Units.AoWE
     public partial class TTransportAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // AoWAb.PAS:939
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TTransportAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit);
             FMaxLevel = 7;
             FAbilityID = 50;
@@ -85759,26 +82945,18 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:89
-        public static new Aow.Units.AoWE.TTransportAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TTransportAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TTransportAbility o = new Aow.Units.AoWE.TTransportAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTransportAbility(context, owner));
         }
     }
 
     // { TStrikeCA (instance size 28, VMT 5571E344; $18 strike mode) }
     public partial class TStrikeCA : Aow.Units.AoWE.TDamageCA
     {
+        public TStrikeCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public TSet<Aow.Units.AoWE.TStrikeModeElement> FStrikeMode;
         // { $18 }
         public Aow.Units.FixedArray_byte_3 F_StrikeCA_19;
@@ -85904,21 +83082,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TStrikeCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TStrikeCA o = new Aow.Units.AoWE.TStrikeCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
@@ -85933,20 +83096,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TStrikeCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TStrikeCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TStrikeCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TStrikeCA o = (Aow.Units.AoWE.TStrikeCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TStrikeCA)base.Create(AOwner);
             }
         }
     }
@@ -85957,6 +83109,11 @@ namespace Aow.Units.AoWE
 //     $30/$32 attacker/defender damage types. }
     public partial class TMeleeRound : Aow.Rtl.TObject
     {
+        // AoWAb.PAS:1487
+        public TMeleeRound()
+        {
+        }
+
         public int FCount;
         // { $04 }
         public int FCapacity;
@@ -85983,12 +83140,6 @@ namespace Aow.Units.AoWE
         {
             SetCapacity(0);
             base.Destroy();
-        }
-
-        // AoWAb.PAS:1487
-        public void Create__init_TMeleeRound()
-        {
-            ;
         }
 
         // AoWAb.PAS:1498
@@ -86487,7 +83638,7 @@ namespace Aow.Units.AoWE
                         var call__6823 = FAttacker.GetLocked();
                         if (!call__6823)
                         {
-                            Result = Aow.Units.AoWE.TStrikeCA.Create(null);
+                            Result = new Aow.Units.AoWE.TStrikeCA(null);
                             var call__6824 = FAttacker.GetDamage();
                             var call__6825 = FAttacker.GetAttack();
                             Result.Generate(FAttacker, FDefender, unchecked((sbyte)(call__6825 + Strike.AttackBonus)), unchecked((sbyte)(call__6824 + Strike.DamageBonus)), FAttackerDamageTypes);
@@ -86503,7 +83654,7 @@ namespace Aow.Units.AoWE
                         var call__6827 = FDefender.GetLocked();
                         if (!call__6827)
                         {
-                            Result = Aow.Units.AoWE.TStrikeCA.Create(null);
+                            Result = new Aow.Units.AoWE.TStrikeCA(null);
                             Result.SetDefensive(true);
                             var call__6828 = FDefender.GetDamage();
                             var call__6829 = FDefender.GetAttack();
@@ -86620,30 +83771,18 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:123
-        public static Aow.Units.AoWE.TMeleeRound Create()
-        {
-            Aow.Units.AoWE.TMeleeRound o = new Aow.Units.AoWE.TMeleeRound();
-            try
-            {
-                o.Create__init_TMeleeRound();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TStrikeEnhancementAbility (instance size 40, VMT 5571E4D0) }
     public partial class TStrikeEnhancementAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for private tests/probes/remaining-todos/Program.cs Enhancement.
+        protected TStrikeEnhancementAbility() { }
+
         // AoWAb.PAS:1475
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TStrikeEnhancementAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
         }
 
@@ -86657,26 +83796,30 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:143
-        public static new Aow.Units.AoWE.TStrikeEnhancementAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TStrikeEnhancementAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TStrikeEnhancementAbility o = new Aow.Units.AoWE.TStrikeEnhancementAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TStrikeEnhancementAbility(context, owner));
         }
     }
 
     // { TStrikeAbility (instance size 44, VMT 5571E668; $28 melee round) }
     public partial class TStrikeAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TStrikeAbility() { }
+
+        // AoWAb.PAS:1210
+        private protected TStrikeAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astAttackItem);
+            FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
+            FAbilityID = 21;
+            var call__6835 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StrikeRStr);
+            FAbilityName = call__6835;
+            var call__6836 = new Aow.Units.AoWE.TMeleeRound();
+            FMeleeRound = call__6836;
+        }
+
         public Aow.Units.AoWE.TMeleeRound FMeleeRound;
         // AoWAb.PAS:1220
         // { $28 }
@@ -86684,19 +83827,6 @@ namespace Aow.Units.AoWE
         {
             FMeleeRound.Free();
             base.Destroy();
-        }
-
-        // AoWAb.PAS:1210
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astAttackItem);
-            FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
-            FAbilityID = 21;
-            var call__6835 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StrikeRStr);
-            FAbilityName = call__6835;
-            var call__6836 = Aow.Units.AoWE.TMeleeRound.Create();
-            FMeleeRound = call__6836;
         }
 
         // AoWAb.PAS:1349
@@ -86749,7 +83879,7 @@ namespace Aow.Units.AoWE
                         fcGetDamageValueEx(A1.FSource, Target, Aow.Units.AoWE.TWallSituation.wsNone, ref Values);
                         if (Values.SourceDamage != 0)
                         {
-                            var call__6844 = Aow.Units.AoWE.TFastCombatCommand.Create(FAbilityID);
+                            var call__6844 = new Aow.Units.AoWE.TFastCombatCommand(FAbilityID);
                             Command = call__6844;
                             Command.FTarget = Target;
                             Command.FSourceDV = Values.SourceDamage;
@@ -86785,7 +83915,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TMoveWallCA MoveCA = default;
             Aow.Units.AoWE.TMeleeStrike Strike = default;
             Target = A2.FTarget;
-            Round = Aow.Units.AoWE.TMeleeRound.Create();
+            Round = new Aow.Units.AoWE.TMeleeRound();
             Round.Calculate(A1, Target);
             Stop = false;
             I = 0;
@@ -86809,7 +83939,7 @@ namespace Aow.Units.AoWE
 
                 if (bool__6849)
                 {
-                    MoveCA = Aow.Units.AoWE.TMoveWallCA.Create(null);
+                    MoveCA = new Aow.Units.AoWE.TMoveWallCA(null);
                     MoveCA.F_MoveWallCA_0C = unchecked((byte)A1.FID);
 
                     MoveCA.F_MoveWallCA_0D = 0;
@@ -87148,26 +84278,18 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:152
-        public static new Aow.Units.AoWE.TStrikeAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TStrikeAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TStrikeAbility o = new Aow.Units.AoWE.TStrikeAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TStrikeAbility(context, owner));
         }
     }
 
     // { TRangedAttackCA (instance size 28, VMT 5571E7EC; $18 ability ID) }
     public partial class TRangedAttackCA : Aow.Units.AoWE.TDamageCA
     {
+        public TRangedAttackCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FAbilityID;
         // AoWAb.PAS:4631
         // { $18 }
@@ -87213,21 +84335,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TRangedAttackCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TRangedAttackCA o = new Aow.Units.AoWE.TRangedAttackCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
@@ -87242,20 +84349,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TRangedAttackCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TRangedAttackCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TRangedAttackCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TRangedAttackCA o = (Aow.Units.AoWE.TRangedAttackCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TRangedAttackCA)base.Create(AOwner);
             }
         }
     }
@@ -87264,6 +84360,13 @@ namespace Aow.Units.AoWE
 //     $28 range, $29 damage, $2A attack, $2B packed damage types, $2D repeats) }
     public partial class TRangedAttackAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // AoWAb.PAS:4653
+        private protected TRangedAttackAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astUseItem);
+            FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
+        }
+
         public Aow.Units.AoWE.TCombatRange FRangeRA;
         // { $28 }
         public sbyte FDamageRA;
@@ -87275,13 +84378,6 @@ namespace Aow.Units.AoWE
         public sbyte FAttackRepeatRA;
         // { $2D }
         public Aow.Units.FixedArray_byte_2 F_RangedAttackAbility_2E;
-        // AoWAb.PAS:4653
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astUseItem);
-            FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
-        }
 
         // AoWAb.PAS:4694
         public override Aow.Units.AoWE.TCombatMode GetCombatMode(Aow.Units.AoWE.TAbilityOwner A1)
@@ -87379,7 +84475,7 @@ namespace Aow.Units.AoWE
                         fcGetDamageValueEx(A1.FSource, Target, call__6914, ref Values);
                         if (Values.SourceDamage != 0)
                         {
-                            var call__6915 = Aow.Units.AoWE.TFastCombatCommand.Create(FAbilityID);
+                            var call__6915 = new Aow.Units.AoWE.TFastCombatCommand(FAbilityID);
                             Command = call__6915;
                             var call__6916 = A1.FTargetSide.GetObjects(I);
                             Command.FTarget = call__6916;
@@ -87656,7 +84752,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TRangedAttackCA Result = default;
             Aow.Units.AoWE.TRangedAttackCA Action = default;
-            Action = Aow.Units.AoWE.TRangedAttackCA.Create(null);
+            Action = new Aow.Units.AoWE.TRangedAttackCA(null);
             var call__6963 = A1.GetAbilityOwner();
             var call__6964 = GetDamageRA(call__6963);
             var call__6965 = A1.GetAbilityOwner();
@@ -87670,20 +84766,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:188
-        public static new Aow.Units.AoWE.TRangedAttackAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TRangedAttackAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TRangedAttackAbility o = new Aow.Units.AoWE.TRangedAttackAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TRangedAttackAbility(context, owner));
         }
     }
 
@@ -87691,9 +84776,8 @@ namespace Aow.Units.AoWE
     public partial class TBoltsAbility : Aow.Units.AoWE.TRangedAttackAbility
     {
         // AoWAb.PAS:4844
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TBoltsAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astUseItem);
             FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
             FRangeRA = Aow.Units.AoWE.TCombatRange.crMedium;
@@ -87701,20 +84785,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:211
-        public static new Aow.Units.AoWE.TBoltsAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TBoltsAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TBoltsAbility o = new Aow.Units.AoWE.TBoltsAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TBoltsAbility(context, owner));
         }
     }
 
@@ -87722,9 +84795,8 @@ namespace Aow.Units.AoWE
     public partial class TBreathAbility : Aow.Units.AoWE.TRangedAttackAbility
     {
         // AoWAb.PAS:4852
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TBreathAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FRangeRA = Aow.Units.AoWE.TCombatRange.crShort;
             FAttackRepeatRA = 1;
             FAttackRA = 7;
@@ -87885,20 +84957,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:217
-        public static new Aow.Units.AoWE.TBreathAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TBreathAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TBreathAbility o = new Aow.Units.AoWE.TBreathAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TBreathAbility(context, owner));
         }
     }
 
@@ -87906,9 +84967,8 @@ namespace Aow.Units.AoWE
     public partial class TFlameThrowingAbility : Aow.Units.AoWE.TBreathAbility
     {
         // AoWAb.PAS:4934
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFlameThrowingAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 30;
             var call__6996 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FlameThrowingRStr);
             FAbilityName = call__6996;
@@ -87930,20 +84990,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:227
-        public static new Aow.Units.AoWE.TFlameThrowingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TFlameThrowingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TFlameThrowingAbility o = new Aow.Units.AoWE.TFlameThrowingAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFlameThrowingAbility(context, owner));
         }
     }
 
@@ -87951,9 +85000,8 @@ namespace Aow.Units.AoWE
     public partial class TTouchAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // AoWAb.PAS:1843
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TTouchAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSelectionTypes = FSelectionTypes + TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUseItem);
             FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
         }
@@ -88008,7 +85056,7 @@ namespace Aow.Units.AoWE
                         fcGetDamageValueEx(A1.FSource, Target, Aow.Units.AoWE.TWallSituation.wsNone, ref Values);
                         if (Values.SourceDamage != 0)
                         {
-                            var call__7008 = Aow.Units.AoWE.TFastCombatCommand.Create(FAbilityID);
+                            var call__7008 = new Aow.Units.AoWE.TFastCombatCommand(FAbilityID);
                             Command = call__7008;
                             var call__7009 = A1.FTargetSide.GetObjects(I);
                             Command.FTarget = call__7009;
@@ -88266,7 +85314,7 @@ namespace Aow.Units.AoWE
 
             if (bool__7053)
             {
-                Action = Aow.Units.AoWE.TMoveWallCA.Create(null);
+                Action = new Aow.Units.AoWE.TMoveWallCA(null);
                 Action.F_MoveWallCA_0C = unchecked((byte)A1.FID);
                 Action.F_MoveWallCA_0D = 0;
                 A1.FCombat.ExecuteCombatAction(Action);
@@ -88275,26 +85323,18 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:234
-        public static new Aow.Units.AoWE.TTouchAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TTouchAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TTouchAbility o = new Aow.Units.AoWE.TTouchAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTouchAbility(context, owner));
         }
     }
 
     // { TPossessCA (instance size 20, VMT 5571F0E0; $10 possession succeeded) }
     public partial class TPossessCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public TPossessCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public bool FSuccessful;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_PossessCA_11;
@@ -88426,21 +85466,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TPossessCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPossessCA o = new Aow.Units.AoWE.TPossessCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -88455,20 +85480,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPossessCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TPossessCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TPossessCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TPossessCA o = (Aow.Units.AoWE.TPossessCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TPossessCA)base.Create(AOwner);
             }
         }
     }
@@ -88477,9 +85491,8 @@ namespace Aow.Units.AoWE
     public partial class TPossessAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2627
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TPossessAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 106;
             var call__7066 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PossessRStr);
             FAbilityName = call__7066;
@@ -88692,33 +85705,25 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TPossessCA CreatePossessCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
         {
             Aow.Units.AoWE.TPossessCA Result = default;
-            Result = Aow.Units.AoWE.TPossessCA.Create(null);
+            Result = new Aow.Units.AoWE.TPossessCA(null);
             var call__7088 = CombatTouchRole((Aow.Units.AoWE.TCombatUnit)A1, A2);
             Result.Initialize(unchecked((byte)A1.FID), unchecked((byte)A2.FID), call__7088);
             return Result;
         }
 
         // intf_P4_02.inc:264
-        public static new Aow.Units.AoWE.TPossessAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TPossessAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TPossessAbility o = new Aow.Units.AoWE.TPossessAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPossessAbility(context, owner));
         }
     }
 
     // { TPossessedAbilityData (instance size 16, VMT 5571F350; $0C source experience) }
     public partial class TPossessedAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public TPossessedAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FSourceExperience;
         // AoWAb.PAS:2556
         // { $0C }
@@ -88737,21 +85742,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TPossessedAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPossessedAbilityData o = new Aow.Units.AoWE.TPossessedAbilityData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -88766,20 +85756,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPossessedAbilityData => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TPossessedAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TPossessedAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TPossessedAbilityData o = (Aow.Units.AoWE.TPossessedAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TPossessedAbilityData)base.Create(AOwner);
             }
         }
     }
@@ -88788,9 +85767,8 @@ namespace Aow.Units.AoWE
     public partial class TPossessedAbility : Aow.Units.AoWE.TPossessAbility
     {
         // AoWAb.PAS:2562
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TPossessedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 107;
             var call__7089 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PossessedRStr);
             FAbilityName = call__7089;
@@ -88808,7 +85786,7 @@ namespace Aow.Units.AoWE
             Data = (Aow.Units.AoWE.TPossessedAbilityData)call__7090;
             if (Data == null)
             {
-                Data = Aow.Units.AoWE.TPossessedAbilityData.Create(null);
+                Data = new Aow.Units.AoWE.TPossessedAbilityData(null);
                 SetAb(A1, FAbilityID, 1);
                 A1.AddAbilityData(Data);
                 Result = true;
@@ -88866,20 +85844,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:288
-        public static new Aow.Units.AoWE.TPossessedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TPossessedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TPossessedAbility o = new Aow.Units.AoWE.TPossessedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPossessedAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -88893,20 +85860,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:288
-            public new Aow.Units.AoWE.TPossessedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TPossessedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TPossessedAbility o = (Aow.Units.AoWE.TPossessedAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TPossessedAbility)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -88917,6 +85873,9 @@ namespace Aow.Units.AoWE
     // { TWebCA (instance size 20, VMT 5571F5C4; $10 successful) }
     public partial class TWebCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public TWebCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public bool FSuccessful;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_WebCA_11;
@@ -88979,21 +85938,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TWebCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TWebCA o = new Aow.Units.AoWE.TWebCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -89008,20 +85952,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TWebCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TWebCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TWebCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TWebCA o = (Aow.Units.AoWE.TWebCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TWebCA)base.Create(AOwner);
             }
         }
     }
@@ -89030,9 +85963,8 @@ namespace Aow.Units.AoWE
     public partial class TWebAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2806
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWebAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 27;
             var call__7099 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WebRStr);
             FAbilityName = call__7099;
@@ -89212,33 +86144,25 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TWebCA CreateWebCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
         {
             Aow.Units.AoWE.TWebCA Result = default;
-            Result = Aow.Units.AoWE.TWebCA.Create(null);
+            Result = new Aow.Units.AoWE.TWebCA(null);
             var call__7123 = CombatTouchRole((Aow.Units.AoWE.TCombatUnit)A1, A2);
             Result.Initialize(unchecked((byte)A1.FID), unchecked((byte)A2.FID), call__7123);
             return Result;
         }
 
         // intf_P4_02.inc:311
-        public static new Aow.Units.AoWE.TWebAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TWebAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TWebAbility o = new Aow.Units.AoWE.TWebAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWebAbility(context, owner));
         }
     }
 
     // { TEntangleCA (instance size 20, VMT 5571F824; $10 successful) }
     public partial class TEntangleCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public TEntangleCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public bool FSuccessful;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_EntangleCA_11;
@@ -89311,21 +86235,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TEntangleCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TEntangleCA o = new Aow.Units.AoWE.TEntangleCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -89340,20 +86249,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TEntangleCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TEntangleCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TEntangleCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TEntangleCA o = (Aow.Units.AoWE.TEntangleCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TEntangleCA)base.Create(AOwner);
             }
         }
     }
@@ -89362,9 +86260,8 @@ namespace Aow.Units.AoWE
     public partial class TEntangleAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2968
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TEntangleAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 40;
             var call__7130 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EntangleRStr);
             FAbilityName = call__7130;
@@ -89530,33 +86427,25 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TEntangleCA CreateEntangleCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
         {
             Aow.Units.AoWE.TEntangleCA Result = default;
-            Result = Aow.Units.AoWE.TEntangleCA.Create(null);
+            Result = new Aow.Units.AoWE.TEntangleCA(null);
             var call__7150 = CombatTouchRole((Aow.Units.AoWE.TCombatUnit)A1, A2);
             Result.Initialize(unchecked((byte)A1.FID), unchecked((byte)A2.FID), call__7150);
             return Result;
         }
 
         // intf_P4_02.inc:338
-        public static new Aow.Units.AoWE.TEntangleAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TEntangleAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TEntangleAbility o = new Aow.Units.AoWE.TEntangleAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEntangleAbility(context, owner));
         }
     }
 
     // { TInvokeDeathCA (instance size 20, VMT 5571FA98; $10 successful) }
     public partial class TInvokeDeathCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public TInvokeDeathCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public bool FSuccessful;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_InvokeDeathCA_11;
@@ -89622,21 +86511,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TInvokeDeathCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TInvokeDeathCA o = new Aow.Units.AoWE.TInvokeDeathCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -89651,20 +86525,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TInvokeDeathCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TInvokeDeathCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TInvokeDeathCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TInvokeDeathCA o = (Aow.Units.AoWE.TInvokeDeathCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TInvokeDeathCA)base.Create(AOwner);
             }
         }
     }
@@ -89673,9 +86536,8 @@ namespace Aow.Units.AoWE
     public partial class TInvokeDeathAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:3437
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TInvokeDeathAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 35;
             var call__7156 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.InvokeDeathRStr);
             FAbilityName = call__7156;
@@ -89920,33 +86782,25 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TInvokeDeathCA CreateCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
         {
             Aow.Units.AoWE.TInvokeDeathCA Result = default;
-            Result = Aow.Units.AoWE.TInvokeDeathCA.Create(null);
+            Result = new Aow.Units.AoWE.TInvokeDeathCA(null);
             var call__7193 = CombatTouchRole((Aow.Units.AoWE.TCombatUnit)A1, A2);
             Result.Initialize(unchecked((byte)A1.FID), unchecked((byte)A2.FID), call__7193);
             return Result;
         }
 
         // intf_P4_02.inc:365
-        public static new Aow.Units.AoWE.TInvokeDeathAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TInvokeDeathAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TInvokeDeathAbility o = new Aow.Units.AoWE.TInvokeDeathAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TInvokeDeathAbility(context, owner));
         }
     }
 
     // { TTurnUndeadCA (instance size 24, VMT 5571FD18) }
     public partial class TTurnUndeadCA : Aow.Units.AoWE.TDamageCA
     {
+        public TTurnUndeadCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWAb.PAS:3088
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
@@ -90009,21 +86863,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TTurnUndeadCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TTurnUndeadCA o = new Aow.Units.AoWE.TTurnUndeadCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
@@ -90038,20 +86877,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TTurnUndeadCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TTurnUndeadCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TTurnUndeadCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TTurnUndeadCA o = (Aow.Units.AoWE.TTurnUndeadCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TTurnUndeadCA)base.Create(AOwner);
             }
         }
     }
@@ -90060,9 +86888,8 @@ namespace Aow.Units.AoWE
     public partial class TTurnUndeadAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:3121
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TTurnUndeadAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 38;
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astHeadItem, Aow.Units.AoWE.TAbilitySelectionType.astTorsoItem, Aow.Units.AoWE.TAbilitySelectionType.astDefenseItem, Aow.Units.AoWE.TAbilitySelectionType.astRingItem, Aow.Units.AoWE.TAbilitySelectionType.astUseItem, Aow.Units.AoWE.TAbilitySelectionType.astEditor);
             var call__7201 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TurnUndeadRStr);
@@ -90201,7 +87028,7 @@ namespace Aow.Units.AoWE
             Data = (Aow.Units.AoWE.TMultiLevelAbilityData)call__7210;
             if (Data == null)
             {
-                Data = Aow.Units.AoWE.TMultiLevelAbilityData.Create(null);
+                Data = new Aow.Units.AoWE.TMultiLevelAbilityData(null);
                 Data.FLevelAbilityID = unchecked((ushort)FAbilityID);
                 Data.FLevel = 1;
                 SetAb(A1, FAbilityID, 1);
@@ -90535,7 +87362,7 @@ namespace Aow.Units.AoWE
             ;
             // { These eliminated copies preserve the original saved registers. }
             ;
-            Action = Aow.Units.AoWE.TTurnUndeadCA.Create(null);
+            Action = new Aow.Units.AoWE.TTurnUndeadCA(null);
             var call__7247 = A1.GetAttack();
             var call__7248 = A2.GetDefense();
             var call__7249 = Aow.Units.AoWE.AoWE.HitRole(call__7247 - call__7248);
@@ -90558,20 +87385,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:391
-        public static new Aow.Units.AoWE.TTurnUndeadAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TTurnUndeadAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TTurnUndeadAbility o = new Aow.Units.AoWE.TTurnUndeadAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTurnUndeadAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -90585,20 +87401,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:391
-            public new Aow.Units.AoWE.TTurnUndeadAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TTurnUndeadAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TTurnUndeadAbility o = (Aow.Units.AoWE.TTurnUndeadAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TTurnUndeadAbility)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -90610,9 +87415,8 @@ namespace Aow.Units.AoWE
     public partial class TRoundAttackAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2262
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TRoundAttackAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 114;
             FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
             var call__7253 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RoundAttackRStr);
@@ -90657,7 +87461,7 @@ namespace Aow.Units.AoWE
 
                 if (bool__7257)
                 {
-                    MoveAction = Aow.Units.AoWE.TMoveWallCA.Create(null);
+                    MoveAction = new Aow.Units.AoWE.TMoveWallCA(null);
                     MoveAction.F_MoveWallCA_0C = unchecked((byte)A1.FID);
                     MoveAction.F_MoveWallCA_0D = 0;
                     A1.FCombat.ExecuteCombatAction(MoveAction);
@@ -90974,20 +87778,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:418
-        public static new Aow.Units.AoWE.TRoundAttackAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TRoundAttackAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TRoundAttackAbility o = new Aow.Units.AoWE.TRoundAttackAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TRoundAttackAbility(context, owner));
         }
     }
 
@@ -90995,6 +87788,9 @@ namespace Aow.Units.AoWE
 //     $0C ability ID, $10 commander ID, $14 command ability ID, $18 original combat player) }
     public partial class TCommandedAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public TCommandedAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FAbilityID;
         // { $0C }
         public byte FSourceID;
@@ -91036,20 +87832,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCommandedAbilityData => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TCommandedAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCommandedAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCommandedAbilityData o = (Aow.Units.AoWE.TCommandedAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCommandedAbilityData)base.Create(AOwner);
             }
         }
     }
@@ -91058,9 +87843,8 @@ namespace Aow.Units.AoWE
     public partial class TCommandedAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // AoWAb.PAS:5013
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCommandedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityType = Aow.Units.AoWE.TAbilityType.atHandicap;
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of();
         }
@@ -91100,20 +87884,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:446
-        public static new Aow.Units.AoWE.TCommandedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TCommandedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TCommandedAbility o = new Aow.Units.AoWE.TCommandedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCommandedAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -91127,20 +87900,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:446
-            public new Aow.Units.AoWE.TCommandedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCommandedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCommandedAbility o = (Aow.Units.AoWE.TCommandedAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCommandedAbility)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -91151,6 +87913,9 @@ namespace Aow.Units.AoWE
     // { TCommandCA (instance size 24, VMT 557203A0; $10 ability ID, $14 success) }
     public partial class TCommandCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public TCommandCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FAbilityID;
         // { $10 }
         public bool FSuccessful;
@@ -91248,21 +88013,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TCommandCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCommandCA o = new Aow.Units.AoWE.TCommandCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -91277,20 +88027,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCommandCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TCommandCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCommandCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCommandCA o = (Aow.Units.AoWE.TCommandCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCommandCA)base.Create(AOwner);
             }
         }
     }
@@ -91299,6 +88038,13 @@ namespace Aow.Units.AoWE
 //     $0C ability ID, $10 commanded combat-unit IDs) }
     public partial class TCommandAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        // AoWAb.PAS:4949
+        public TCommandAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__7334 = new Aow.Units.Engine.TByteList();
+            FCommandedUnits = call__7334;
+        }
+
         public int FAbilityID;
         // { $0C }
         public Aow.Units.Engine.TByteList FCommandedUnits;
@@ -91316,14 +88062,6 @@ namespace Aow.Units.AoWE
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FAbilityID, 20);
             Stream.rwStreamProc(21, FCommandedUnits.LoadFromStream, FCommandedUnits.SaveToStream);
-        }
-
-        // AoWAb.PAS:4949
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__7334 = new Aow.Units.Engine.TByteList();
-            FCommandedUnits = call__7334;
         }
 
         // AoWAb.PAS:4963
@@ -91383,21 +88121,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:475
-        public static new Aow.Units.AoWE.TCommandAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCommandAbilityData o = new Aow.Units.AoWE.TCommandAbilityData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -91410,20 +88133,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:475
-            public new Aow.Units.AoWE.TCommandAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCommandAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCommandAbilityData o = (Aow.Units.AoWE.TCommandAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCommandAbilityData)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -91434,14 +88146,14 @@ namespace Aow.Units.AoWE
     // { TCommandAbility (instance size 44, VMT 55720544; $28 commanded ability ID) }
     public partial class TCommandAbility : Aow.Units.AoWE.TTouchAbility
     {
-        public int FCommandedAbilityID;
         // AoWAb.PAS:5088
         // { $28 }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCommandAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astUseItem);
         }
+
+        public int FCommandedAbilityID;
 
         // AoWAb.PAS:5190
         public override Aow.Units.AoWE.TAbilityType GetAbilityType()
@@ -91494,7 +88206,7 @@ namespace Aow.Units.AoWE
                         fcGetDamageValueEx(A1.FSource, Target, Aow.Units.AoWE.TWallSituation.wsNone, ref Values);
                         if (Values.SourceDamage != 0)
                         {
-                            var call__7348 = Aow.Units.AoWE.TFastCombatCommand.Create(FAbilityID);
+                            var call__7348 = new Aow.Units.AoWE.TFastCombatCommand(FAbilityID);
                             Command = call__7348;
                             var call__7349 = A1.FTargetSide.GetObjects(I);
                             Command.FTarget = call__7349;
@@ -91734,7 +88446,7 @@ namespace Aow.Units.AoWE
             SourceData = (Aow.Units.AoWE.TCommandAbilityData)call__7377;
             if (SourceData == null)
             {
-                SourceData = Aow.Units.AoWE.TCommandAbilityData.Create(null);
+                SourceData = new Aow.Units.AoWE.TCommandAbilityData(null);
                 SourceData.FAbilityID = FAbilityID;
                 Source.FUnit.AddAbilityData(SourceData);
             }
@@ -91747,7 +88459,7 @@ namespace Aow.Units.AoWE
         public virtual Aow.Units.AoWE.TCommandCA CreateCommandCA(Aow.Units.AoWE.TCombatUnit Source, Aow.Units.AoWE.TCombatUnit Target)
         {
             Aow.Units.AoWE.TCommandCA Result = default;
-            Result = Aow.Units.AoWE.TCommandCA.Create(null);
+            Result = new Aow.Units.AoWE.TCommandCA(null);
             bool bool__7378 = !(Target.FUnit is Aow.Units.AoWE.TLeader);
             if (bool__7378)
             {
@@ -91830,20 +88542,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:486
-        public static new Aow.Units.AoWE.TCommandAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TCommandAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TCommandAbility o = new Aow.Units.AoWE.TCommandAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCommandAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -91857,20 +88558,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:486
-            public new Aow.Units.AoWE.TCommandAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCommandAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCommandAbility o = (Aow.Units.AoWE.TCommandAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCommandAbility)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -91883,29 +88573,17 @@ namespace Aow.Units.AoWE
     public partial class TDominatedAbility : Aow.Units.AoWE.TCommandedAbility
     {
         // AoWAb.PAS:5315
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDominatedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 150;
             var call__7389 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DominatedRStr);
             FAbilityName = call__7389;
         }
 
         // intf_P4_02.inc:509
-        public static new Aow.Units.AoWE.TDominatedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TDominatedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TDominatedAbility o = new Aow.Units.AoWE.TDominatedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDominatedAbility(context, owner));
         }
     }
 
@@ -91913,9 +88591,8 @@ namespace Aow.Units.AoWE
     public partial class TDominateAbility : Aow.Units.AoWE.TCommandAbility
     {
         // AoWAb.PAS:5321
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDominateAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 28;
             var call__7390 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DominateRStr);
             FAbilityName = call__7390;
@@ -91932,20 +88609,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:515
-        public static new Aow.Units.AoWE.TDominateAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TDominateAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TDominateAbility o = new Aow.Units.AoWE.TDominateAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDominateAbility(context, owner));
         }
     }
 
@@ -91953,29 +88619,17 @@ namespace Aow.Units.AoWE
     public partial class TCharmedAbility : Aow.Units.AoWE.TCommandedAbility
     {
         // AoWAb.PAS:5333
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCharmedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 149;
             var call__7391 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CharmedRStr);
             FAbilityName = call__7391;
         }
 
         // intf_P4_02.inc:522
-        public static new Aow.Units.AoWE.TCharmedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TCharmedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TCharmedAbility o = new Aow.Units.AoWE.TCharmedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCharmedAbility(context, owner));
         }
     }
 
@@ -91983,9 +88637,8 @@ namespace Aow.Units.AoWE
     public partial class TCharmAbility : Aow.Units.AoWE.TCommandAbility
     {
         // AoWAb.PAS:5339
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCharmAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 148;
             var call__7392 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CharmRStr);
             FAbilityName = call__7392;
@@ -92059,20 +88712,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:528
-        public static new Aow.Units.AoWE.TCharmAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TCharmAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TCharmAbility o = new Aow.Units.AoWE.TCharmAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCharmAbility(context, owner));
         }
     }
 
@@ -92080,29 +88722,17 @@ namespace Aow.Units.AoWE
     public partial class TSeducedAbility : Aow.Units.AoWE.TCommandedAbility
     {
         // AoWAb.PAS:5366
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TSeducedAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 48;
             var call__7404 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SeducedRStr);
             FAbilityName = call__7404;
         }
 
         // intf_P4_02.inc:537
-        public static new Aow.Units.AoWE.TSeducedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TSeducedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TSeducedAbility o = new Aow.Units.AoWE.TSeducedAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSeducedAbility(context, owner));
         }
     }
 
@@ -92110,9 +88740,8 @@ namespace Aow.Units.AoWE
     public partial class TSeduceAbility : Aow.Units.AoWE.TCommandAbility
     {
         // AoWAb.PAS:5372
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TSeduceAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 29;
             var call__7405 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SeduceRStr);
             FAbilityName = call__7405;
@@ -92173,26 +88802,18 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:543
-        public static new Aow.Units.AoWE.TSeduceAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TSeduceAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TSeduceAbility o = new Aow.Units.AoWE.TSeduceAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSeduceAbility(context, owner));
         }
     }
 
     // { TSelfDestructCA (instance size 24, VMT 55721084) }
     public partial class TSelfDestructCA : Aow.Units.AoWE.TDamageCA
     {
+        public TSelfDestructCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWAb.PAS:2116
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
@@ -92226,21 +88847,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TSelfDestructCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TSelfDestructCA o = new Aow.Units.AoWE.TSelfDestructCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
@@ -92255,20 +88861,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSelfDestructCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TSelfDestructCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TSelfDestructCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TSelfDestructCA o = (Aow.Units.AoWE.TSelfDestructCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TSelfDestructCA)base.Create(AOwner);
             }
         }
     }
@@ -92277,9 +88872,8 @@ namespace Aow.Units.AoWE
     public partial class TSelfDestructAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2136
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TSelfDestructAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 65;
             FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
             var call__7418 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelfDestructRStr);
@@ -92479,26 +89073,15 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TSelfDestructCA CreateSelfDestructCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
         {
             Aow.Units.AoWE.TSelfDestructCA Result = default;
-            Result = Aow.Units.AoWE.TSelfDestructCA.Create(null);
+            Result = new Aow.Units.AoWE.TSelfDestructCA(null);
             Result.Generate(A1, A2, 8, 6, TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire, Aow.Units.AoWE.TDamageType.dtWall));
             return Result;
         }
 
         // intf_P4_02.inc:560
-        public static new Aow.Units.AoWE.TSelfDestructAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TSelfDestructAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TSelfDestructAbility o = new Aow.Units.AoWE.TSelfDestructAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSelfDestructAbility(context, owner));
         }
     }
 
@@ -92506,9 +89089,8 @@ namespace Aow.Units.AoWE
     public partial class TWallCrushingAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:1991
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWallCrushingAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 117;
             FAbilityType = Aow.Units.AoWE.TAbilityType.atCombat;
             var call__7455 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WallCrushingRStr);
@@ -92658,26 +89240,18 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:576
-        public static new Aow.Units.AoWE.TWallCrushingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TWallCrushingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TWallCrushingAbility o = new Aow.Units.AoWE.TWallCrushingAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWallCrushingAbility(context, owner));
         }
     }
 
     // { THealingCA (instance size 16, VMT 557214BC) }
     public partial class THealingCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public THealingCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWAb.PAS:3579
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
@@ -92731,21 +89305,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.THealingCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THealingCA o = new Aow.Units.AoWE.THealingCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -92760,20 +89319,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THealingCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.THealingCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new THealingCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.THealingCA o = (Aow.Units.AoWE.THealingCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (THealingCA)base.Create(AOwner);
             }
         }
     }
@@ -92781,6 +89329,9 @@ namespace Aow.Units.AoWE
     // { THealingAbilityData (instance size 16, VMT 55721590; $0C enabled) }
     public partial class THealingAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public THealingAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public bool FEnabled;
         // { $0C }
         public Aow.Units.FixedArray_byte_3 F_HealingAbilityData_0D;
@@ -92800,21 +89351,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.THealingAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THealingAbilityData o = new Aow.Units.AoWE.THealingAbilityData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -92829,20 +89365,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THealingAbilityData => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.THealingAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new THealingAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.THealingAbilityData o = (Aow.Units.AoWE.THealingAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (THealingAbilityData)base.Create(AOwner);
             }
         }
     }
@@ -92979,6 +89504,9 @@ namespace Aow.Units.AoWE
     // { THealingUnitSelector (instance size 44, VMT 55721720) }
     public partial class THealingUnitSelector : Aow.Units.AoWE.TUnitSelector
     {
+        public THealingUnitSelector() : base()
+        {}
+
         // AoWAb.PAS:3894
         public override bool CanSelectUnit(Aow.Units.AoWE.TUnit A1)
         {
@@ -93074,30 +89602,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_08.inc:65
-        public static new Aow.Units.AoWE.THealingUnitSelector Create()
-        {
-            Aow.Units.AoWE.THealingUnitSelector o = new Aow.Units.AoWE.THealingUnitSelector();
-            try
-            {
-                o.Create__init_TUnitSelector();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THealingAbility (instance size 40, VMT 557217BC) }
     public partial class THealingAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:3616
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THealingAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 47;
             var call__7517 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HealingRStr);
             FAbilityName = call__7517;
@@ -93181,7 +89694,7 @@ namespace Aow.Units.AoWE
                         fcGetDamageValueEx(A1.FSource, Target, Aow.Units.AoWE.TWallSituation.wsNone, ref Values);
                         if (Values.SourceDamage != 0)
                         {
-                            var call__7526 = Aow.Units.AoWE.TFastCombatCommand.Create(FAbilityID);
+                            var call__7526 = new Aow.Units.AoWE.TFastCombatCommand(FAbilityID);
                             Command = call__7526;
                             Command.FTarget = Target;
                             Command.FSourceDV = Values.SourceDamage;
@@ -93228,7 +89741,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.THealingUnitSelector Selector = default;
             if (CanActivate(A1, ref A2))
             {
-                Info = Aow.Units.AoWE.TUnitSelectorAAI.Create(null);
+                Info = new Aow.Units.AoWE.TUnitSelectorAAI(null);
                 Info.FAbilityID = FAbilityID;
                 if (A1 is Aow.Units.AoWE.TAbstractUnit)
                 {
@@ -93239,7 +89752,7 @@ namespace Aow.Units.AoWE
                     Info.FUnitID = 0;
                 }
 
-                Selector = Aow.Units.AoWE.THealingUnitSelector.Create();
+                Selector = new Aow.Units.AoWE.THealingUnitSelector();
                 var call__7528 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HealingRStr);
                 var call__7529 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelectUnitForXRStr);
                 var call__7530 = Aow.Units.AoWE.AoWE.Format(call__7529, [call__7528]);
@@ -93453,7 +89966,7 @@ namespace Aow.Units.AoWE
             Data = (Aow.Units.AoWE.THealingAbilityData)call__7556;
             if (Data == null)
             {
-                Data = Aow.Units.AoWE.THealingAbilityData.Create(null);
+                Data = new Aow.Units.AoWE.THealingAbilityData(null);
                 A1.AddAbilityData(Data);
             }
 
@@ -93479,7 +89992,7 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.THealingCA CreateHealingCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
         {
             Aow.Units.AoWE.THealingCA Result = default;
-            Result = Aow.Units.AoWE.THealingCA.Create(null);
+            Result = new Aow.Units.AoWE.THealingCA(null);
             Result.Initialize(unchecked((byte)A1.FID), unchecked((byte)A2.FID));
             return Result;
         }
@@ -93530,20 +90043,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:632
-        public static new Aow.Units.AoWE.THealingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new THealingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.THealingAbility o = new Aow.Units.AoWE.THealingAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THealingAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -93557,20 +90059,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:632
-            public new Aow.Units.AoWE.THealingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new THealingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.THealingAbility o = (Aow.Units.AoWE.THealingAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (THealingAbility)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -93581,6 +90072,15 @@ namespace Aow.Units.AoWE
     // { TDispelMagicCA (instance size 20, VMT 55721958; $10 dispelled enchantment IDs) }
     public partial class TDispelMagicCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTDispelMagicCA.
+        protected TDispelMagicCA() { }
+
+        // AoWAb.PAS:3936
+        public TDispelMagicCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Units.Engine.TIntegerList FEnchantmentIDs;
         // AoWAb.PAS:3941
         // { $10 }
@@ -93601,6 +90101,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__7564 = new Aow.Units.Engine.TIntegerList();
             FEnchantmentIDs = call__7564;
         }
@@ -93620,7 +90125,7 @@ namespace Aow.Units.AoWE
             Target = call__7566;
             if ((Source is Aow.Units.AoWE.TCombatUnit) && (Target is Aow.Units.AoWE.TCombatUnit))
             {
-                Enchantments = Aow.Units.AoWE.TEnchantmentList.Create(null);
+                Enchantments = new Aow.Units.AoWE.TEnchantmentList(null);
                 var combatUnit = (Aow.Units.AoWE.TCombatUnit)Target;
                 combatUnit.FUnit.ListEnchantments(Enchantments);
                 var call__7568 = combatUnit.FUnit.GetAbilityEnabled(155);
@@ -93698,7 +90203,7 @@ namespace Aow.Units.AoWE
             FTargetID = unchecked((byte)A2.FID);
             if ((A1 is Aow.Units.AoWE.TCombatUnit) && (A2 is Aow.Units.AoWE.TCombatUnit))
             {
-                Enchantments = Aow.Units.AoWE.TEnchantmentList.Create(null);
+                Enchantments = new Aow.Units.AoWE.TEnchantmentList(null);
                 ((Aow.Units.AoWE.TCombatUnit)A2).FUnit.ListEnchantments(Enchantments);
                 {
                     I = Enchantments.GetCount() - 1;
@@ -93722,26 +90227,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:660
-        public static new Aow.Units.AoWE.TDispelMagicCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDispelMagicCA o = new Aow.Units.AoWE.TDispelMagicCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TDispelMagicAbilityCA (instance size 20, VMT 55721A34) }
     public partial class TDispelMagicAbilityCA : Aow.Units.AoWE.TDispelMagicCA
     {
+        public TDispelMagicAbilityCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWAb.PAS:4018
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
@@ -93754,21 +90248,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:660
-        public static new Aow.Units.AoWE.TDispelMagicAbilityCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDispelMagicAbilityCA o = new Aow.Units.AoWE.TDispelMagicAbilityCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -93783,20 +90262,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDispelMagicAbilityCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P4_02.inc:660
-            public new Aow.Units.AoWE.TDispelMagicAbilityCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDispelMagicAbilityCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDispelMagicAbilityCA o = (Aow.Units.AoWE.TDispelMagicAbilityCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDispelMagicAbilityCA)base.Create(AOwner);
             }
         }
     }
@@ -93843,7 +90311,7 @@ namespace Aow.Units.AoWE
             int Chance = default;
             Aow.Units.Animation.TImageSequenceAnimation Anim = default;
             base.Execute(TE);
-            Enchantments = Aow.Units.AoWE.TEnchantmentList.Create(null);
+            Enchantments = new Aow.Units.AoWE.TEnchantmentList(null);
             var call__7584 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FSourceID);
             Source = call__7584;
             var call__7585 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FTargetID);
@@ -93983,6 +90451,9 @@ namespace Aow.Units.AoWE
     // { TDispelMagicAbilityData (instance size 16, VMT 55721BF0; $0C enabled, $0D level) }
     public partial class TDispelMagicAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public TDispelMagicAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public bool FEnabled;
         // { $0C }
         public byte FLevel;
@@ -94005,21 +90476,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TDispelMagicAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDispelMagicAbilityData o = new Aow.Units.AoWE.TDispelMagicAbilityData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -94034,20 +90490,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDispelMagicAbilityData => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TDispelMagicAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDispelMagicAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDispelMagicAbilityData o = (Aow.Units.AoWE.TDispelMagicAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDispelMagicAbilityData)base.Create(AOwner);
             }
         }
     }
@@ -94055,6 +90500,9 @@ namespace Aow.Units.AoWE
     // { TDispelMagicAbilityUnitSelector (instance size 44, VMT 55721CC8) }
     public partial class TDispelMagicAbilityUnitSelector : Aow.Units.AoWE.TUnitSelector
     {
+        public TDispelMagicAbilityUnitSelector() : base()
+        {}
+
         // AoWAb.PAS:4403
         public override bool CanSelectUnit(Aow.Units.AoWE.TUnit A1)
         {
@@ -94136,30 +90584,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_08.inc:65
-        public static new Aow.Units.AoWE.TDispelMagicAbilityUnitSelector Create()
-        {
-            Aow.Units.AoWE.TDispelMagicAbilityUnitSelector o = new Aow.Units.AoWE.TDispelMagicAbilityUnitSelector();
-            try
-            {
-                o.Create__init_TUnitSelector();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TDispelMagicAbility (instance size 40, VMT 55721D78) }
     public partial class TDispelMagicAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:4040
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDispelMagicAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 60;
             var call__7611 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DispelMagicRStr);
             FAbilityName = call__7611;
@@ -94284,7 +90717,7 @@ namespace Aow.Units.AoWE
                         fcGetDamageValueEx(A1.FSource, Target, Aow.Units.AoWE.TWallSituation.wsNone, ref Values);
                         if (Values.SourceDamage != 0)
                         {
-                            var call__7622 = Aow.Units.AoWE.TFastCombatCommand.Create(FAbilityID);
+                            var call__7622 = new Aow.Units.AoWE.TFastCombatCommand(FAbilityID);
                             Command = call__7622;
                             Command.FTarget = Target;
                             Command.FSourceDV = Values.SourceDamage;
@@ -94307,7 +90740,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TDispelMagicAbilityCA Action = default;
             Target = A2.FTarget;
             fcValidateMoveOutsideWall(A1, Target);
-            Action = Aow.Units.AoWE.TDispelMagicAbilityCA.Create(null);
+            Action = new Aow.Units.AoWE.TDispelMagicAbilityCA(null);
             var call__7624 = GetDispelMana(((Aow.Units.AoWE.TCombatUnit)A1).FUnit);
             Action.Generate(A1, Target, call__7624);
             A1.FCombat.ExecuteCombatAction(Action);
@@ -94333,7 +90766,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TDispelMagicAbilityUnitSelector Selector = default;
             if (CanActivate(A1, ref A2))
             {
-                Info = Aow.Units.AoWE.TUnitSelectorAAI.Create(null);
+                Info = new Aow.Units.AoWE.TUnitSelectorAAI(null);
                 Info.FAbilityID = FAbilityID;
                 if (A1 is Aow.Units.AoWE.TAbstractUnit)
                 {
@@ -94344,7 +90777,7 @@ namespace Aow.Units.AoWE
                     Info.FUnitID = 0;
                 }
 
-                Selector = Aow.Units.AoWE.TDispelMagicAbilityUnitSelector.Create();
+                Selector = new Aow.Units.AoWE.TDispelMagicAbilityUnitSelector();
                 var call__7625 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DispelMagicRStr);
                 var call__7626 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelectUnitForXRStr);
                 var call__7627 = Aow.Units.AoWE.AoWE.Format(call__7626, [call__7625]);
@@ -94414,7 +90847,7 @@ namespace Aow.Units.AoWE
             Data = (Aow.Units.AoWE.TDispelMagicAbilityData)call__7633;
             if (Data == null)
             {
-                Data = Aow.Units.AoWE.TDispelMagicAbilityData.Create(null);
+                Data = new Aow.Units.AoWE.TDispelMagicAbilityData(null);
                 Data.FLevel = 1;
                 Data.FEnabled = true;
                 SetAb(A1, FAbilityID, 1);
@@ -94592,7 +91025,7 @@ namespace Aow.Units.AoWE
             Data = (Aow.Units.AoWE.TDispelMagicAbilityData)call__7643;
             if (Data == null)
             {
-                Data = Aow.Units.AoWE.TDispelMagicAbilityData.Create(null);
+                Data = new Aow.Units.AoWE.TDispelMagicAbilityData(null);
                 A1.AddAbilityData(Data);
             }
 
@@ -94636,7 +91069,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TDispelMagicAbilityCA Result = default;
             bool Successful = default;
             Aow.Units.AoWE.TCombatUnit Source = default;
-            Result = Aow.Units.AoWE.TDispelMagicAbilityCA.Create(null);
+            Result = new Aow.Units.AoWE.TDispelMagicAbilityCA(null);
             var call__7644 = GetDispelMana(A1.FUnit);
             Result.Generate(A1, A2, call__7644);
             var call__7645 = A1.GetSide();
@@ -94659,20 +91092,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:710
-        public static new Aow.Units.AoWE.TDispelMagicAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TDispelMagicAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TDispelMagicAbility o = new Aow.Units.AoWE.TDispelMagicAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDispelMagicAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -94686,20 +91108,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:710
-            public new Aow.Units.AoWE.TDispelMagicAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDispelMagicAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDispelMagicAbility o = (Aow.Units.AoWE.TDispelMagicAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDispelMagicAbility)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -94711,6 +91122,9 @@ namespace Aow.Units.AoWE
     // { TLeadershipAbilityData (instance size 24, VMT 55721F1C; $10 external level, $14 source name) }
     public partial class TLeadershipAbilityData : Aow.Units.AoWE.TMultiLevelAbilityData
     {
+        public TLeadershipAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public byte FExternalLevel;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_LeadershipAbilityData_11;
@@ -94728,21 +91142,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TLeadershipAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TLeadershipAbilityData o = new Aow.Units.AoWE.TLeadershipAbilityData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TMultiLevelAbilityData.Meta
         {
@@ -94757,20 +91156,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TLeadershipAbilityData => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TLeadershipAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TLeadershipAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TLeadershipAbilityData o = (Aow.Units.AoWE.TLeadershipAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TLeadershipAbilityData)base.Create(AOwner);
             }
         }
     }
@@ -94779,9 +91167,8 @@ namespace Aow.Units.AoWE
     public partial class TLeadershipAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // AoWAb.PAS:965
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TLeadershipAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FMaxLevel = 1;
             FAbilityID = 46;
             FLevelCosts[1] = 10;
@@ -94923,7 +91310,7 @@ namespace Aow.Units.AoWE
             if (Data == null)
             {
                 SetAb(A1, FAbilityID, 1);
-                Data = Aow.Units.AoWE.TLeadershipAbilityData.Create(null);
+                Data = new Aow.Units.AoWE.TLeadershipAbilityData(null);
                 Data.FLevelAbilityID = unchecked((ushort)FAbilityID);
                 Data.FLevel = 0;
                 A1.AddAbilityData(Data);
@@ -94969,20 +91356,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:751
-        public static new Aow.Units.AoWE.TLeadershipAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TLeadershipAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TLeadershipAbility o = new Aow.Units.AoWE.TLeadershipAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLeadershipAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TMultiLevelAbility.Meta
@@ -94996,20 +91372,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:751
-            public new Aow.Units.AoWE.TLeadershipAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TLeadershipAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TLeadershipAbility o = (Aow.Units.AoWE.TLeadershipAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TLeadershipAbility)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -95020,6 +91385,14 @@ namespace Aow.Units.AoWE
     // { TUnitEnchantment (instance size 32, VMT 55722198; $18 unit ID, $1C ability ID) }
     public partial class TUnitEnchantment : Aow.Units.AoWE.TEnchantment
     {
+        // AoWAb.PAS:785
+        public TUnitEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(null)
+        {
+            // { Original ignores the supplied owner. }
+
+            FSource = unchecked((sbyte)-1);
+        }
+
         public int FUnitID;
         // { $18 }
         public int FEnchantmentAbilityID;
@@ -95030,14 +91403,6 @@ namespace Aow.Units.AoWE
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FEnchantmentAbilityID, 20);
             Stream.rwInteger(ref FUnitID, 21);
-        }
-
-        // AoWAb.PAS:785
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            // { Original ignores the supplied owner. }
-            base.Create__init(null);
-            FSource = unchecked((sbyte)-1);
         }
 
         // AoWAb.PAS:804
@@ -95182,21 +91547,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:770
-        public static new Aow.Units.AoWE.TUnitEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitEnchantment o = new Aow.Units.AoWE.TUnitEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -95209,20 +91559,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:770
-            public new Aow.Units.AoWE.TUnitEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TUnitEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TUnitEnchantment o = (Aow.Units.AoWE.TUnitEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TUnitEnchantment)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -95233,6 +91572,13 @@ namespace Aow.Units.AoWE
     // { TUnitEnchantmentAbilityData (instance size 20, VMT 55722284; $0C ability ID, $0E duration, $0F player, $10 enchantment) }
     public partial class TUnitEnchantmentAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        // AoWAb.PAS:555
+        public TUnitEnchantmentAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FEnchantmentPlayerIndex = unchecked((sbyte)-1);
+            FEnchantmentDuration = unchecked((sbyte)-1);
+        }
+
         public ushort FEnchantmentAbilityID;
         public sbyte FEnchantmentDuration;
         // { $0E; -1 is permanent }
@@ -95263,14 +91609,6 @@ namespace Aow.Units.AoWE
             Stream.rwShortintEx(ref FEnchantmentDuration, unchecked((sbyte)-1), 18);
         }
 
-        // AoWAb.PAS:555
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FEnchantmentPlayerIndex = unchecked((sbyte)-1);
-            FEnchantmentDuration = unchecked((sbyte)-1);
-        }
-
         // AoWAb.PAS:577
         public override int GetAbilityID()
         {
@@ -95293,21 +91631,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:789
-        public static new Aow.Units.AoWE.TUnitEnchantmentAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitEnchantmentAbilityData o = new Aow.Units.AoWE.TUnitEnchantmentAbilityData();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -95320,20 +91643,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:789
-            public new Aow.Units.AoWE.TUnitEnchantmentAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TUnitEnchantmentAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TUnitEnchantmentAbilityData o = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TUnitEnchantmentAbilityData)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -95344,10 +91656,27 @@ namespace Aow.Units.AoWE
     // { TUnitEnchantmentAbility (instance size 40, VMT 55722364) }
     public partial class TUnitEnchantmentAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTUnitEnchantmentAbility.
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TUnitEnchantmentAbility() { }
+
+        protected TUnitEnchantmentAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // AoWAb.PAS:601
+        private protected TUnitEnchantmentAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         // AoWAb.PAS:601
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnchantment;
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of();
         }
@@ -95485,7 +91814,7 @@ namespace Aow.Units.AoWE
                     Aow.Rtl.Rtl.Assert(false, (AnsiString)"Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46181);
                 }
 
-                Data = Aow.Units.AoWE.TUnitEnchantmentAbilityData.Create(null);
+                Data = new Aow.Units.AoWE.TUnitEnchantmentAbilityData(null);
                 Data.FEnchantmentAbilityID = unchecked((ushort)FAbilityID);
                 var call__7689 = GetTotalDuration();
                 Data.FEnchantmentDuration = unchecked((sbyte)call__7689);
@@ -95624,25 +91953,14 @@ namespace Aow.Units.AoWE
         public virtual Aow.Units.AoWE.TUnitEnchantment CreateEnchantment()
         {
             Aow.Units.AoWE.TUnitEnchantment Result = default;
-            Result = Aow.Units.AoWE.TUnitEnchantment.Create(null);
+            Result = new Aow.Units.AoWE.TUnitEnchantment(null);
             return Result;
         }
 
         // intf_P4_02.inc:798
-        public static new Aow.Units.AoWE.TUnitEnchantmentAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TUnitEnchantmentAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TUnitEnchantmentAbility o = new Aow.Units.AoWE.TUnitEnchantmentAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnitEnchantmentAbility(context, owner));
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
@@ -95655,22 +91973,8 @@ namespace Aow.Units.AoWE
                 return Result;
             }
 
-            // intf_P4_02.inc:798
             public new Aow.Units.AoWE.TUnitEnchantmentAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TUnitEnchantmentAbility o = (Aow.Units.AoWE.TUnitEnchantmentAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TUnitEnchantmentAbility)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnitEnchantmentAbility => (Meta)MetaRegistry.Of(typeof(T));
@@ -95680,6 +91984,12 @@ namespace Aow.Units.AoWE
     // { TConstructionControl (instance size 8, VMT 5572250C) }
     public partial class TConstructionControl : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TShipyardConstructionControl, TTowerConstructionControl legacy factories.
+        protected TConstructionControl() { }
+
+        public TConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWAb.PAS:5494
         public virtual void GetInfo(Aow.Units.AoWE.TAbstractUnit AUnit, ref Aow.Rtl.AnsiString Text, ref int Gold, ref int Days)
         {
@@ -95733,20 +92043,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TConstructionControl o = (Aow.Units.AoWE.TConstructionControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TConstructionControl)base.Create(AOwner);
             }
         }
 
@@ -95757,6 +92056,9 @@ namespace Aow.Units.AoWE
     // { TConstructionControlList (instance size 12, VMT 557225EC) }
     public partial class TConstructionControlList : Aow.Units.Engine.TENode
     {
+        public TConstructionControlList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWAb.PAS:5519
         public Aow.Units.AoWE.TConstructionControl GetConstructionControl(int Index)
         {
@@ -95788,26 +92090,28 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TConstructionControlList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TConstructionControlList o = new Aow.Units.AoWE.TConstructionControlList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TConstructAbility (instance size 44, VMT 55722700; $28 construction controls) }
     public partial class TConstructAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // AoWAb.PAS:5537
+        private protected TConstructAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            var call__7701 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P4ConstructRStr);
+            FAbilityName = call__7701;
+            FAbilityID = 125;
+            FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
+            FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit);
+            var call__7702 = new Aow.Units.AoWE.TConstructionControlList(null);
+            FConstructionControls = call__7702;
+            var call__7703 = new Aow.Units.AoWE.TRebuildConstructionControl(null);
+            RegisterConstructionControl(call__7703);
+            var call__7704 = new Aow.Units.AoWE.TBuildRoadsControl(null);
+            RegisterConstructionControl(call__7704);
+        }
+
         public Aow.Units.AoWE.TConstructionControlList FConstructionControls;
         // AoWAb.PAS:5548
         // { $28 }
@@ -95815,23 +92119,6 @@ namespace Aow.Units.AoWE
         {
             FConstructionControls.Free();
             base.Destroy();
-        }
-
-        // AoWAb.PAS:5537
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__7701 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P4ConstructRStr);
-            FAbilityName = call__7701;
-            FAbilityID = 125;
-            FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
-            FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit);
-            var call__7702 = Aow.Units.AoWE.TConstructionControlList.Create(null);
-            FConstructionControls = call__7702;
-            var call__7703 = Aow.Units.AoWE.TRebuildConstructionControl.Create(null);
-            RegisterConstructionControl(call__7703);
-            var call__7704 = Aow.Units.AoWE.TBuildRoadsControl.Create(null);
-            RegisterConstructionControl(call__7704);
         }
 
         // AoWAb.PAS:5553
@@ -95874,26 +92161,20 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:835
-        public static new Aow.Units.AoWE.TConstructAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TConstructAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TConstructAbility o = new Aow.Units.AoWE.TConstructAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TConstructAbility(context, owner));
         }
     }
 
     // { TCosmeticSurgeryEnchantment (instance size 36, VMT 55722888) }
     public partial class TCosmeticSurgeryEnchantment : Aow.Units.AoWE.TUnitEnchantment
     {
+        // AoWAb.PAS:885
+        public TCosmeticSurgeryEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public int FFaceIndex;
         // AoWAb.PAS:895
         // { $20 }
@@ -95901,12 +92182,6 @@ namespace Aow.Units.AoWE
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FFaceIndex, 25);
-        }
-
-        // AoWAb.PAS:885
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // AoWAb.PAS:901
@@ -95925,21 +92200,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:846
-        public static new Aow.Units.AoWE.TCosmeticSurgeryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCosmeticSurgeryEnchantment o = new Aow.Units.AoWE.TCosmeticSurgeryEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TUnitEnchantment.Meta
         {
@@ -95952,20 +92212,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:846
-            public new Aow.Units.AoWE.TCosmeticSurgeryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCosmeticSurgeryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCosmeticSurgeryEnchantment o = (Aow.Units.AoWE.TCosmeticSurgeryEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCosmeticSurgeryEnchantment)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -95977,9 +92226,8 @@ namespace Aow.Units.AoWE
     public partial class TCosmeticSurgeryAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // AoWAb.PAS:910
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCosmeticSurgeryAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__7711 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CosmeticSurgeryRStr);
             FAbilityName = call__7711;
             FAbilityID = 126;
@@ -95989,25 +92237,14 @@ namespace Aow.Units.AoWE
         public override Aow.Units.AoWE.TUnitEnchantment CreateEnchantment()
         {
             Aow.Units.AoWE.TUnitEnchantment Result = default;
-            Result = Aow.Units.AoWE.TCosmeticSurgeryEnchantment.Create(null);
+            Result = new Aow.Units.AoWE.TCosmeticSurgeryEnchantment(null);
             return Result;
         }
 
         // intf_P4_02.inc:854
-        public static new Aow.Units.AoWE.TCosmeticSurgeryAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TCosmeticSurgeryAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TCosmeticSurgeryAbility o = new Aow.Units.AoWE.TCosmeticSurgeryAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCosmeticSurgeryAbility(context, owner));
         }
     }
 
@@ -96015,9 +92252,8 @@ namespace Aow.Units.AoWE
     public partial class TSpellCastingAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // AoWAb.PAS:4439
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TSpellCastingAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAbilityID = 52;
             var call__7712 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SpellCastingRStr);
             FAbilityName = call__7712;
@@ -96396,26 +92632,18 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:861
-        public static new Aow.Units.AoWE.TSpellCastingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TSpellCastingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TSpellCastingAbility o = new Aow.Units.AoWE.TSpellCastingAbility();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSpellCastingAbility(context, owner));
         }
     }
 
     // { TSpellCC (instance size 32, VMT 55722D0C) }
     public partial class TSpellCC : Aow.Units.AoWE.TFastCombatCommand
     {
+        public TSpellCC(int AbilityID) : base(AbilityID)
+        {}
+
         public int FSpellID;
         // Spells.PAS:1
         // { $1C }
@@ -96436,21 +92664,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_05.inc:10
-        public static new Aow.Units.AoWE.TSpellCC Create(int AbilityID)
-        {
-            Aow.Units.AoWE.TSpellCC o = new Aow.Units.AoWE.TSpellCC();
-            try
-            {
-                o.Create__init_TFastCombatCommand(AbilityID);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TSpell (instance size 52, VMT 55722D7C; $08 name, $0C control types,
@@ -96458,6 +92672,19 @@ namespace Aow.Units.AoWE
 //     $24 text, $28 sounds, $2C images; $18/$1C/$30 remain unresolved Integers) }
     public partial class TSpell : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTSpell.
+        // Raw allocation for TDeathStormSpell, TDivineStormSpell, TFireStormSpell legacy factories.
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TSpell() { }
+
+        protected TSpell(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // Spells.PAS:10
+        private protected TSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Rtl.AnsiString FSpellName;
         // { $08 }
         public TSet<Aow.Units.AoWE.TSpellControlTypeElement> FSpellControlTypes;
@@ -96511,6 +92738,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__7763 = new Aow.Rtl.TStringList();
             FSpellText = call__7763;
             var call__7764 = new Aow.Units.Sound.TSFXLibrary(null);
@@ -96672,7 +92904,7 @@ namespace Aow.Units.AoWE
             Aow.Rtl.AnsiString Reason = default;
             if (CanActivateCombat(A1, ref Reason))
             {
-                Caster = Aow.Units.AoWE.TCombatSpellCaster.Create(null);
+                Caster = new Aow.Units.AoWE.TCombatSpellCaster(null);
                 Caster.FCombatCasterSpellID = FSpellID;
                 Caster.FCombatCasterSourceID = A1.FUnitID;
                 Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap.FCombatStartedEvents.TriggerNotifyEvents(Caster);
@@ -96820,26 +93052,25 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:913
-        public static new Aow.Units.AoWE.TSpell Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TSpell o = new Aow.Units.AoWE.TSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSpell(context, owner));
         }
     }
 
     // { TSpellControl (instance size 12, VMT 55722E94; $08 registered-spell list) }
     public partial class TSpellControl : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TSpellControl() { }
+
+        // Spells.PAS:577
+        public TSpellControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__7789 = new Aow.Rtl.TList();
+            FRegisteredSpells = call__7789;
+        }
+
         public Aow.Rtl.TList FRegisteredSpells;
         // Spells.PAS:582
         // { $08 }
@@ -96868,14 +93099,6 @@ namespace Aow.Units.AoWE
                     }
                 }
             }
-        }
-
-        // Spells.PAS:577
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__7789 = new Aow.Rtl.TList();
-            FRegisteredSpells = call__7789;
         }
 
         // Spells.PAS:597
@@ -97062,26 +93285,19 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:947
-        public static new Aow.Units.AoWE.TSpellControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TSpellControl o = new Aow.Units.AoWE.TSpellControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TSpellList (instance size 8, VMT 55722F54; $04 spell list) }
     public partial class TSpellList : Aow.Rtl.TObject
     {
+        // Spells.PAS:695
+        public TSpellList()
+        {
+            var call__7804 = new Aow.Rtl.TList();
+            FSpells = call__7804;
+        }
+
         public Aow.Rtl.TList FSpells;
         // Spells.PAS:700
         // { $04 }
@@ -97089,14 +93305,6 @@ namespace Aow.Units.AoWE
         {
             FSpells.Free();
             base.Destroy();
-        }
-
-        // Spells.PAS:695
-        public void Create__init_TSpellList()
-        {
-            ;
-            var call__7804 = new Aow.Rtl.TList();
-            FSpells = call__7804;
         }
 
         // Spells.PAS:705
@@ -97158,21 +93366,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:964
-        public static Aow.Units.AoWE.TSpellList Create()
-        {
-            Aow.Units.AoWE.TSpellList o = new Aow.Units.AoWE.TSpellList();
-            try
-            {
-                o.Create__init_TSpellList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { draft }
@@ -97255,6 +93449,15 @@ namespace Aow.Units.AoWE
     // { TSpellCaster (instance size 20, VMT 5572308C; $08 spell ID, $0C source ID, $10 refcount) }
     public partial class TSpellCaster : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTSpellCaster.
+        protected TSpellCaster() { }
+
+        // Spells.PAS:748
+        public TSpellCaster(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FCasterSpellID;
         public int FCasterSourceID;
         public int FCasterRefCount;
@@ -97262,6 +93465,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FCasterRefCount = 1;
         }
 
@@ -97297,37 +93505,23 @@ namespace Aow.Units.AoWE
         public virtual bool Cast() => true;
 
         // intf_P4_02.inc:998
-        public static new Aow.Units.AoWE.TSpellCaster Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TSpellCaster o = new Aow.Units.AoWE.TSpellCaster();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCombatSpellCaster (instance size 20, VMT 55723154; $08 spell ID, $0C source ID, $10 refcount) }
     public partial class TCombatSpellCaster : Aow.Units.Engine.TEObject
     {
+        // Spells.PAS:793
+        public TCombatSpellCaster(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FCombatCasterRefCount = 1;
+        }
+
         public int FCombatCasterSpellID;
         // { $08 }
         public int FCombatCasterSourceID;
         // { $0C }
         public int FCombatCasterRefCount;
-        // Spells.PAS:793
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FCombatCasterRefCount = 1;
-        }
 
         // Spells.PAS:798
         public override int AddRef()
@@ -97357,21 +93551,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:1012
-        public static new Aow.Units.AoWE.TCombatSpellCaster Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCombatSpellCaster o = new Aow.Units.AoWE.TCombatSpellCaster();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TSpellCastEventLog (instance size 32, VMT 55723220; $18 unit ID, $1C spell ID) }
@@ -97525,6 +93705,13 @@ namespace Aow.Units.AoWE
     // { TUnitSpellCaster (instance size 28, VMT 55723318; $14 target-unit users, $18 selection bits) }
     public partial class TUnitSpellCaster : Aow.Units.AoWE.TSpellCaster
     {
+        // Spells.PAS:859
+        public TUnitSpellCaster(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__7820 = new Aow.Units.AoWE.TUnitUserList(null);
+            FTargetUnits = call__7820;
+        }
+
         public Aow.Units.AoWE.TUnitUserList FTargetUnits;
         // { $14 }
         public byte FSelectionMask;
@@ -97538,14 +93725,6 @@ namespace Aow.Units.AoWE
         {
             FTargetUnits.Free();
             base.Destroy();
-        }
-
-        // Spells.PAS:859
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__7820 = Aow.Units.AoWE.TUnitUserList.Create(null);
-            FTargetUnits = call__7820;
         }
 
         // Spells.PAS:947
@@ -97625,7 +93804,7 @@ namespace Aow.Units.AoWE
                 Source = call__7827;
                 if (Source != null)
                 {
-                    Targets = Aow.Units.AoWE.TUnitUserList.Create(null);
+                    Targets = new Aow.Units.AoWE.TUnitUserList(null);
                     {
                         I = 0;
                         int end__7828 = FTargetUnits.Count - 1;
@@ -97697,21 +93876,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:1038
-        public static new Aow.Units.AoWE.TUnitSpellCaster Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitSpellCaster o = new Aow.Units.AoWE.TUnitSpellCaster();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitSpellTE (instance size 52, VMT 557233E8;
@@ -97750,7 +93915,7 @@ namespace Aow.Units.AoWE
             base.Create__init(AOwner);
             var call__7833 = new Aow.Units.Engine.TIntegerList();
             FTargetUnitIDs = call__7833;
-            var call__7834 = Aow.Units.AoWE.TUnitUserList.Create(null);
+            var call__7834 = new Aow.Units.AoWE.TUnitUserList(null);
             FTargetUnits = call__7834;
         }
 
@@ -97926,6 +94091,9 @@ namespace Aow.Units.AoWE
 //     $0C spell ID, $10/$11 source/target IDs, $14 spell data, $1C mana) }
     public partial class TUnitSpellCA : Aow.Units.AoWE.TCombatAction
     {
+        public TUnitSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FSpellID;
         // { $0C }
         public byte FSourceID;
@@ -97965,21 +94133,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:38
-        public static new Aow.Units.AoWE.TUnitSpellCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitSpellCA o = new Aow.Units.AoWE.TUnitSpellCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -97994,20 +94147,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnitSpellCA => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:38
-            public new Aow.Units.AoWE.TUnitSpellCA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TUnitSpellCA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TUnitSpellCA o = (Aow.Units.AoWE.TUnitSpellCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TUnitSpellCA)base.Create(AOwner);
             }
         }
     }
@@ -98016,6 +94158,18 @@ namespace Aow.Units.AoWE
 //     $34 multiple targets, $38 range, $3C dispel resistance, $40 AI value) }
     public partial class TUnitSpell : Aow.Units.AoWE.TSpell
     {
+        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTUnitSpell.
+        protected TUnitSpell() { }
+
+        protected TUnitSpell(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // Spells.PAS:1210
+        // { $40 }
+        private protected TUnitSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public bool FAllowMultipleTargets;
         // { $34 }
         public Aow.Units.FixedArray_byte_3 F_UnitSpell_35;
@@ -98030,6 +94184,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FAIValue = -1;
             FSpellType = Aow.Units.AoWE.TSpellType.stUnit;
             FAllowMultipleTargets = true;
@@ -98139,7 +94298,7 @@ namespace Aow.Units.AoWE
             {
                 if (FTargetRange == 0)
                 {
-                    Caster = Aow.Units.AoWE.TUnitSpellCaster.Create(null);
+                    Caster = new Aow.Units.AoWE.TUnitSpellCaster(null);
                     SetupUSC(Caster, A1, (Aow.Units.AoWE.TUnitList)A1.Owner);
                     Aow.Units.AoWE.AoWE.AoWHSMap.FCosmeticSurgeryEvents.TriggerNotifyEvents(Caster);
                     Caster.Release();
@@ -98190,7 +94349,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TUnitSpellCA Action = default;
             if (FSpellControlTypes.Contains(Aow.Units.AoWE.TSpellControlTypeElement.sctCombat))
             {
-                Action = Aow.Units.AoWE.TUnitSpellCA.Create(null);
+                Action = new Aow.Units.AoWE.TUnitSpellCA(null);
                 Action.FSpellID = FSpellID;
                 Action.FSourceID = unchecked((byte)A1.FID);
                 Action.FTargetID = unchecked((byte)A2.FID);
@@ -98331,7 +94490,7 @@ namespace Aow.Units.AoWE
         public virtual void TargetPartySelected(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TArmyHS Party)
         {
             Aow.Units.AoWE.TUnitSpellCaster Caster = default;
-            Caster = Aow.Units.AoWE.TUnitSpellCaster.Create(null);
+            Caster = new Aow.Units.AoWE.TUnitSpellCaster(null);
             SetupUSC(Caster, Source, Party.FArmy);
             Aow.Units.AoWE.AoWE.AoWHSMap.FCosmeticSurgeryEvents.TriggerNotifyEvents(Caster);
             Caster.Release();
@@ -98353,7 +94512,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TUnitSpellCA Result = default;
             if (FSpellControlTypes.Contains(Aow.Units.AoWE.TSpellControlTypeElement.sctCombat))
             {
-                Result = Aow.Units.AoWE.TUnitSpellCA.Create(null);
+                Result = new Aow.Units.AoWE.TUnitSpellCA(null);
                 Result.FSpellID = FSpellID;
                 Result.FSourceID = unchecked((byte)Source.FID);
                 Result.FTargetID = unchecked((byte)Target.FID);
@@ -98587,20 +94746,9 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:1092
-        public static new Aow.Units.AoWE.TUnitSpell Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static new TUnitSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.AoWE.TUnitSpell o = new Aow.Units.AoWE.TUnitSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnitSpell(context, owner));
         }
     }
 
@@ -98608,6 +94756,9 @@ namespace Aow.Units.AoWE
     // { TResearchSpellAIPA (instance size 20, VMT 557236C4) }
     public partial class TResearchSpellAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        public TResearchSpellAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Spells.PAS:1504
         public override bool Process()
         {
@@ -98619,7 +94770,7 @@ namespace Aow.Units.AoWE
             int Index = default;
             if ((FControl.FPlayer.FPlayerIndex != 0) && (FControl.FPlayer.FMagicControl.FResearchSpellID == 0))
             {
-                Spells = Aow.Units.AoWE.TSpellList.Create();
+                Spells = new Aow.Units.AoWE.TSpellList();
                 Choices = new Aow.Units.Engine.TDoubleItemList();
                 FControl.FPlayer.FMagicControl.ListResearchSpells(ref Spells, TSet<Aow.Units.AoWE.TSpellType>.Of(Aow.Units.AoWE.TSpellType.stCombat, Aow.Units.AoWE.TSpellType.stUnit, Aow.Units.AoWE.TSpellType.stGlobal));
                 {
@@ -98674,20 +94825,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TResearchSpellAIPA => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TResearchSpellAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TResearchSpellAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TResearchSpellAIPA o = (Aow.Units.AoWE.TResearchSpellAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TResearchSpellAIPA)base.Create(AOwner);
             }
         }
     }
@@ -98695,6 +94835,9 @@ namespace Aow.Units.AoWE
     // { TAICastSpellAction (instance size 28, VMT 557237A8) }
     public partial class TAICastSpellAction : Aow.Units.Engine.TEObject
     {
+        public TAICastSpellAction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FSourceUnitID;
         // { $08 }
         public int FSpellID;
@@ -98707,6 +94850,9 @@ namespace Aow.Units.AoWE
     // { TAICastSpellActionList (instance size 12, VMT 55723874) }
     public partial class TAICastSpellActionList : Aow.Units.Engine.TENode
     {
+        public TAICastSpellActionList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Spells.PAS:1535
         // { TAICastSpellActionList: instance size 12; inherited $08 children. }
         public Aow.Units.AoWE.TAICastSpellAction GetCastSpellActions(int A1)
@@ -98724,27 +94870,28 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAICastSpellActionList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAICastSpellActionList o = new Aow.Units.AoWE.TAICastSpellActionList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { 5577B8EC }
     // { TCastSpellAIPA (instance size 40, VMT 55723984) }
     public partial class TCastSpellAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        // Spells.PAS:1543
+        // { TCastSpellAIPA: instance size 40; $14 state, $18 casting heroes,
+//   $1C idle heroes, $20 pending hero IDs, $24 candidate actions. }
+        public TCastSpellAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__7924 = new Aow.Units.Engine.TIntegerList();
+            FCastingHeroes = call__7924;
+            var call__7925 = new Aow.Units.Engine.TIntegerList();
+            FIdleHeroes = call__7925;
+            var call__7926 = new Aow.Units.Engine.TIntegerList();
+            FPendingHeroes = call__7926;
+            var call__7927 = new Aow.Units.AoWE.TAICastSpellActionList(null);
+            FCastSpellActions = call__7927;
+        }
+
         public int FState;
         // { $14 }
         public Aow.Units.Engine.TIntegerList FCastingHeroes;
@@ -98765,21 +94912,6 @@ namespace Aow.Units.AoWE
             base.Destroy();
         }
 
-        // Spells.PAS:1543
-        // { TCastSpellAIPA: instance size 40; $14 state, $18 casting heroes,
-//   $1C idle heroes, $20 pending hero IDs, $24 candidate actions. }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__7924 = new Aow.Units.Engine.TIntegerList();
-            FCastingHeroes = call__7924;
-            var call__7925 = new Aow.Units.Engine.TIntegerList();
-            FIdleHeroes = call__7925;
-            var call__7926 = new Aow.Units.Engine.TIntegerList();
-            FPendingHeroes = call__7926;
-            var call__7927 = Aow.Units.AoWE.TAICastSpellActionList.Create(null);
-            FCastSpellActions = call__7927;
-        }
 
         // Spells.PAS:1561
         public override bool Activate()
@@ -98865,7 +94997,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TSpellList Spells = default;
             int I = default;
-            Spells = Aow.Units.AoWE.TSpellList.Create();
+            Spells = new Aow.Units.AoWE.TSpellList();
             FControl.FPlayer.FMagicControl.ListSpells(ref Spells, TSet<Aow.Units.AoWE.TSpellType>.Of(Aow.Units.AoWE.TSpellType.stUnit, Aow.Units.AoWE.TSpellType.stGlobal));
             {
                 I = 0;
@@ -99062,21 +95194,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:1147
-        public static new Aow.Units.AoWE.TCastSpellAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TCastSpellAIPA o = new Aow.Units.AoWE.TCastSpellAIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -99089,20 +95206,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_02.inc:1147
-            public new Aow.Units.AoWE.TCastSpellAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TCastSpellAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TCastSpellAIPA o = (Aow.Units.AoWE.TCastSpellAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TCastSpellAIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -99115,6 +95221,16 @@ namespace Aow.Units.AoWE
 //     $08 allied victory; $09 padding; $0C points; $10 gold; $14 mana; $18 next scenario. }
     public partial class TAoWMapCampaignSettings : Aow.Units.Engine.TEObject
     {
+        // Diplomacy.pas:1716
+        public TAoWMapCampaignSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FTransferPointsMax = 1000;
+            FTransferGoldMax = 100;
+            FTransferManaMax = 100;
+            FHeroLevelMax = -1;
+            FAlliedVictory = false;
+        }
+
         public bool FAlliedVictory;
         public Aow.Units.FixedArray_byte_3 F_AoWMapCampaignSettings_09;
         public int FTransferPointsMax;
@@ -99133,33 +95249,8 @@ namespace Aow.Units.AoWE
             Stream.rwBool(ref FAlliedVictory, 24);
         }
 
-        // Diplomacy.pas:1716
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FTransferPointsMax = 1000;
-            FTransferGoldMax = 100;
-            FTransferManaMax = 100;
-            FHeroLevelMax = -1;
-            FAlliedVictory = false;
-        }
-
         // intf_P5_08.inc:13
-        public static new Aow.Units.AoWE.TAoWMapCampaignSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAoWMapCampaignSettings o = new Aow.Units.AoWE.TAoWMapCampaignSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAoWCampaignTransferSettings (instance size $50, VMT 55723B34).
@@ -99169,6 +95260,28 @@ namespace Aow.Units.AoWE
 //     $40 points max; $44 gold max; $48 mana max; $4C points left. }
     public partial class TAoWCampaignTransferSettings : Aow.Units.Engine.TEObject
     {
+        // Diplomacy.pas:1736
+        public TAoWCampaignTransferSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__7960 = new Aow.Units.AoWE.THeroList(null);
+            FHeroes = call__7960;
+            var call__7961 = new Aow.Units.AoWE.TItemList(null);
+            FItems = call__7961;
+            var call__7962 = new Aow.Units.AoWE.TUnitList(null);
+            FUnits = call__7962;
+            var call__7963 = new Aow.Units.Engine.TIntegerList();
+            FSpells = call__7963;
+            FResearchPercentage = 50;
+            var call__7964 = new Aow.Units.Engine.TIntegerList();
+            FSelectedHeroes = call__7964;
+            var call__7965 = new Aow.Units.Engine.TIntegerList();
+            FSelectedItems = call__7965;
+            var call__7966 = new Aow.Units.Engine.TIntegerList();
+            FSelectedUnits = call__7966;
+            var call__7967 = new Aow.Units.Engine.TByteList();
+            FSelectedSpheres = call__7967;
+        }
+
         public Aow.Units.AoWE.TLeader FLeader;
         // { $08 }
         public Aow.Units.AoWE.THeroList FHeroes;
@@ -99244,29 +95357,6 @@ namespace Aow.Units.AoWE
             {
                 Stream.rwCreateEObject(ref FLeader, null, 27);
             }
-        }
-
-        // Diplomacy.pas:1736
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__7960 = Aow.Units.AoWE.THeroList.Create(null);
-            FHeroes = call__7960;
-            var call__7961 = Aow.Units.AoWE.TItemList.Create(null);
-            FItems = call__7961;
-            var call__7962 = Aow.Units.AoWE.TUnitList.Create(null);
-            FUnits = call__7962;
-            var call__7963 = new Aow.Units.Engine.TIntegerList();
-            FSpells = call__7963;
-            FResearchPercentage = 50;
-            var call__7964 = new Aow.Units.Engine.TIntegerList();
-            FSelectedHeroes = call__7964;
-            var call__7965 = new Aow.Units.Engine.TIntegerList();
-            FSelectedItems = call__7965;
-            var call__7966 = new Aow.Units.Engine.TIntegerList();
-            FSelectedUnits = call__7966;
-            var call__7967 = new Aow.Units.Engine.TByteList();
-            FSelectedSpheres = call__7967;
         }
 
         // Diplomacy.pas:1762
@@ -99396,7 +95486,7 @@ namespace Aow.Units.AoWE
             Clear();
             if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
             {
-                Units = Aow.Units.AoWE.TUnitUserList.Create(null);
+                Units = new Aow.Units.AoWE.TUnitUserList(null);
                 var call__7977 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.FLocalPlayers[0];
                 Player = unchecked((sbyte)unchecked((sbyte)call__7977));
                 var call__7978 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
@@ -100085,27 +96175,22 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_08.inc:43
-        public static new Aow.Units.AoWE.TAoWCampaignTransferSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAoWCampaignTransferSettings o = new Aow.Units.AoWE.TAoWCampaignTransferSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAoWCampaignScenario (instance size $14, VMT 55723C14).
 //     $08 ID; $0C name; $10 map file name. }
     public partial class TAoWCampaignScenario : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TWMCampaignScenario legacy factories.
+        protected TAoWCampaignScenario() { }
+
+        // Diplomacy.pas:2194
+        public TAoWCampaignScenario(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FID;
         // { $08 }
         public Aow.Rtl.AnsiString FName;
@@ -100134,24 +96219,14 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
         }
 
         // intf_P5_08.inc:71
-        public static new Aow.Units.AoWE.TAoWCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAoWCampaignScenario o = new Aow.Units.AoWE.TAoWCampaignScenario();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -100164,20 +96239,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_08.inc:71
-            public new Aow.Units.AoWE.TAoWCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TAoWCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TAoWCampaignScenario o = (Aow.Units.AoWE.TAoWCampaignScenario)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TAoWCampaignScenario)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -100188,6 +96252,9 @@ namespace Aow.Units.AoWE
     // { TAoWCampaignScenarioList (instance size 12, VMT 55723CFC) }
     public partial class TAoWCampaignScenarioList : Aow.Units.Engine.TENode
     {
+        public TAoWCampaignScenarioList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Diplomacy.pas:2214
         public Aow.Units.AoWE.TAoWCampaignScenario GetScenario(int Index)
         {
@@ -100255,21 +96322,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TAoWCampaignScenarioList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAoWCampaignScenarioList o = new Aow.Units.AoWE.TAoWCampaignScenarioList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAoWCampaign (instance size $34, VMT 55723E4C).
@@ -100278,6 +96331,15 @@ namespace Aow.Units.AoWE
 //     $24 current ID; $28 next ID; $30 difficulty; $31 play mode. }
     public partial class TAoWCampaign : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TWMCampaign legacy factories.
+        protected TAoWCampaign() { }
+
+        // Diplomacy.pas:2246
+        public TAoWCampaign(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Rtl.AnsiString FName;
         // { $08 }
         public Aow.Rtl.TMemoryStream FStream;
@@ -100392,11 +96454,16 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__8109 = new Aow.Rtl.TMemoryStream();
             FStream = call__8109;
-            var call__8110 = Aow.Units.AoWE.TAoWCampaignTransferSettings.Create(null);
+            var call__8110 = new Aow.Units.AoWE.TAoWCampaignTransferSettings(null);
             FTransferSettings = call__8110;
-            var call__8111 = Aow.Units.AoWE.TAoWCampaignScenarioList.Create(null);
+            var call__8111 = new Aow.Units.AoWE.TAoWCampaignScenarioList(null);
             FScenarios = call__8111;
             var call__8112 = new Aow.Units.Engine.TIntegerList();
             FCompletedScenarios = call__8112;
@@ -100425,7 +96492,7 @@ namespace Aow.Units.AoWE
         public virtual Aow.Units.AoWE.TAoWCampaignScenario CreateScenario()
         {
             Aow.Units.AoWE.TAoWCampaignScenario Result = default;
-            Result = Aow.Units.AoWE.TAoWCampaignScenario.Create(null);
+            Result = new Aow.Units.AoWE.TAoWCampaignScenario(null);
             return Result;
         }
 
@@ -100765,21 +96832,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_08.inc:107
-        public static new Aow.Units.AoWE.TAoWCampaign Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAoWCampaign o = new Aow.Units.AoWE.TAoWCampaign();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TDiplomaticAction (instance size $30, VMT 55723F48).
@@ -100788,6 +96841,14 @@ namespace Aow.Units.AoWE
 //     $24 EscrowGold, $28 EscrowMana, $2C EventLogID. }
     public partial class TDiplomaticAction : Aow.Units.Engine.TEObject
     {
+        // Diplomacy.pas:482
+        public TDiplomaticAction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRefCount = 1;
+            var call__8165 = new Aow.Rtl.TStringList();
+            FMessage = call__8165;
+        }
+
         public int FRefCount;
         public int FDay;
         public sbyte FSource;
@@ -100828,15 +96889,6 @@ namespace Aow.Units.AoWE
             Stream.rwInteger(ref FEscrowMana, 29);
             Stream.rwInteger(ref FEventLogID, 30);
             Stream.rwInteger(ref FDay, 31);
-        }
-
-        // Diplomacy.pas:482
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRefCount = 1;
-            var call__8165 = new Aow.Rtl.TStringList();
-            FMessage = call__8165;
         }
 
         // Diplomacy.pas:586
@@ -102018,21 +98070,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_08.inc:143
-        public static new Aow.Units.AoWE.TDiplomaticAction Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDiplomaticAction o = new Aow.Units.AoWE.TDiplomaticAction();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -102045,20 +98082,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_08.inc:143
-            public new Aow.Units.AoWE.TDiplomaticAction Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDiplomaticAction Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDiplomaticAction o = (Aow.Units.AoWE.TDiplomaticAction)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDiplomaticAction)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -102069,6 +98095,9 @@ namespace Aow.Units.AoWE
     // { TDiplomaticActionList (instance size 12, VMT 55724038) }
     public partial class TDiplomaticActionList : Aow.Units.Engine.TEReferenceNode
     {
+        public TDiplomaticActionList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Diplomacy.pas:1097
         public Aow.Units.AoWE.TDiplomaticAction GetDiplomaticActions(int Index)
         {
@@ -102100,21 +98129,7 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:631
-        public static new Aow.Units.AoWE.TDiplomaticActionList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDiplomaticActionList o = new Aow.Units.AoWE.TDiplomaticActionList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TDiplomaticActionTE (instance size $18, VMT 55724144): $10 Operation, $14 Action. }
@@ -102848,18 +98863,17 @@ namespace Aow.Units.AoWE
     // { TDiplomacyAIPA (instance size 24, VMT 55724318) }
     public partial class TDiplomacyAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        // Diplomacy.pas:1540
+        public TDiplomacyAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public sbyte FNextPlayer;
         public Aow.Units.FixedArray_byte_3 F_DiplomacyAIPA_15;
         // Diplomacy.pas:1543
         public override void Destroy()
         {
             base.Destroy();
-        }
-
-        // Diplomacy.pas:1540
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // Diplomacy.pas:1549
@@ -103225,21 +99239,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_08.inc:209
-        public static new Aow.Units.AoWE.TDiplomacyAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TDiplomacyAIPA o = new Aow.Units.AoWE.TDiplomacyAIPA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
@@ -103252,20 +99251,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P5_08.inc:209
-            public new Aow.Units.AoWE.TDiplomacyAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TDiplomacyAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TDiplomacyAIPA o = (Aow.Units.AoWE.TDiplomacyAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TDiplomacyAIPA)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -103276,11 +99264,14 @@ namespace Aow.Units.AoWE
     // { TAoWDictionary (instance size 152, VMT 557243F4) }
     public partial class TAoWDictionary : Aow.Rtl.TIvBinaryDictionary
     {
+        // Raw allocation for tests/probes/remaining-todos/Program.cs.
+        public TAoWDictionary() { }
+
+        public TAoWDictionary(Aow.Rtl.TComponent AOwner)
+        {}
+
         // IvAMulti.pas:21
-        public static Aow.Units.AoWE.TAoWDictionary Create(Aow.Rtl.TComponent AOwner)
-        {
-            return new Aow.Units.AoWE.TAoWDictionary();
-        }
+
     }
 
     // { Interface declaration run owned by P2. }
@@ -103349,9 +99340,9 @@ namespace Aow.Units.AoWE
             FDebug = call__8506;
             var call__8507 = FRegistry.GetDetailLevel();
             FAnimationDetail = unchecked((byte)unchecked((byte)call__8507));
-            var call__8508 = Aow.Units.AoWE.TEmailGameControl.Create(null);
+            var call__8508 = new Aow.Units.AoWE.TEmailGameControl(null);
             FEmailGames = call__8508;
-            var call__8509 = Aow.Units.AoWE.TAoWDictionary.Create(null);
+            var call__8509 = new Aow.Units.AoWE.TAoWDictionary(null);
             FDictionary = call__8509;
             FDictionary.SetDictionaryName((AnsiString)"ResourceStringDictionary");
             // { Original selects English for every explicit language here. }
@@ -103511,7 +99502,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TAoWDictionary Dictionary = default;
             if (Aow.Rtl.Rtl.FileExists(FileName))
             {
-                Dictionary = Aow.Units.AoWE.TAoWDictionary.Create(null);
+                Dictionary = new Aow.Units.AoWE.TAoWDictionary(null);
                 try
                 {
                     Dictionary.FFileName = FileName;
@@ -103963,6 +99954,12 @@ namespace Aow.Units.AoWE
     // { TStructureConstructionControl (instance size 8, VMT 557246C8) }
     public partial class TStructureConstructionControl : Aow.Units.AoWE.TConstructionControl
     {
+        // Raw allocation for TShipyardConstructionControl, TTowerConstructionControl legacy factories.
+        protected TStructureConstructionControl() { }
+
+        public TStructureConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Structur.PAS:3195
         public override bool CanConstruct(Aow.Units.AoWE.TAbstractUnit A1, ref Aow.Rtl.AnsiString A2)
         {
@@ -104402,6 +100399,9 @@ namespace Aow.Units.AoWE
     // { TRebuildConstructionControl (instance size 8, VMT 55770A28) }
     public partial class TRebuildConstructionControl : Aow.Units.AoWE.TConstructionControl
     {
+        public TRebuildConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWAb.PAS:5404
         public Aow.Units.AoWE.TStructure GetStructure(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
@@ -104494,21 +100494,6 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWE.TRebuildConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TRebuildConstructionControl o = new Aow.Units.AoWE.TRebuildConstructionControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
         {
@@ -104523,20 +100508,9 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TRebuildConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TRebuildConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TRebuildConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TRebuildConstructionControl o = (Aow.Units.AoWE.TRebuildConstructionControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TRebuildConstructionControl)base.Create(AOwner);
             }
         }
     }
@@ -104544,16 +100518,15 @@ namespace Aow.Units.AoWE
     // { TBuildRoadsControl (instance size 8, VMT 55770AE0) }
     public partial class TBuildRoadsControl : Aow.Units.AoWE.TConstructionControl
     {
+        // AoWAb.PAS:5446
+        public TBuildRoadsControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // AoWAb.PAS:5450
         public override void Destroy()
         {
             base.Destroy();
-        }
-
-        // AoWAb.PAS:5446
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
         }
 
         // AoWAb.PAS:5458
@@ -104607,21 +100580,6 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_03.inc:16
-        public static new Aow.Units.AoWE.TBuildRoadsControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TBuildRoadsControl o = new Aow.Units.AoWE.TBuildRoadsControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
         {
@@ -104634,20 +100592,9 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P4_03.inc:16
-            public new Aow.Units.AoWE.TBuildRoadsControl Create(Aow.Units.Engine.TECustomNode AOwner)
+            public new TBuildRoadsControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
-                Aow.Units.AoWE.TBuildRoadsControl o = (Aow.Units.AoWE.TBuildRoadsControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
+                return (TBuildRoadsControl)base.Create(AOwner);
             }
 
             public static new Meta Of<T>()
@@ -104659,6 +100606,9 @@ namespace Aow.Units.AoWE
     // { TUnitResourceAbilityOwner (instance size 20, VMT 55784B80) }
     public partial class TUnitResourceAbilityOwner : Aow.Units.AoWE.TAbilityOwner
     {
+        public TUnitResourceAbilityOwner(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Army.PAS:6125
         public override TSet<Aow.Units.AoWE.TAbilitySelectionType> GetAbilitySelectionTypes()
         {
@@ -104668,26 +100618,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_06.inc:120
-        public static new Aow.Units.AoWE.TUnitResourceAbilityOwner Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitResourceAbilityOwner o = new Aow.Units.AoWE.TUnitResourceAbilityOwner();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { THeroResourceAbilityOwner (instance size 20, VMT 55789DE8) }
     public partial class THeroResourceAbilityOwner : Aow.Units.AoWE.TAbilityOwner
     {
+        public THeroResourceAbilityOwner(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Army.PAS:6128
         public override TSet<Aow.Units.AoWE.TAbilitySelectionType> GetAbilitySelectionTypes()
         {
@@ -104697,21 +100636,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_06.inc:120
-        public static new Aow.Units.AoWE.THeroResourceAbilityOwner Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.THeroResourceAbilityOwner o = new Aow.Units.AoWE.THeroResourceAbilityOwner();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public enum TAoWTerrainType : byte
@@ -105955,6 +101880,9 @@ namespace Aow.Units.AoWE
 
     public partial class TP1OwnerView : Aow.Units.Engine.TEObject
     {
+        public TP1OwnerView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Combat.pas:24
         public virtual bool HasAbility(int Index)
         {
@@ -106060,6 +101988,9 @@ namespace Aow.Units.AoWE
 
     public partial class TP1AbilityView : Aow.Units.Engine.TEObject
     {
+        public TP1AbilityView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Combat.pas:43
         public virtual void Execute()
         {
@@ -106352,6 +102283,9 @@ namespace Aow.Units.AoWE
     // { TAbility name-return ABI at VMT +$58; declarations in other packages remain unchanged. }
     public partial class TP1AbilityNameView : Aow.Units.Engine.TEObject
     {
+        public TP1AbilityNameView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Combat.pas:94
         public virtual void Execute()
         {
@@ -107659,11 +103593,16 @@ namespace Aow.Units.AoWE
 
     public partial class TP3NodeAccess : Aow.Units.Engine.TENode
     {
+        public TP3NodeAccess(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.Engine.TEObjectList ChildrenList { get => FChildren; }
     }
 
     public partial class TUnitControlCallViewP4 : Aow.Units.AoWE.TUnitControl
     {
+        public TUnitControlCallViewP4(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
 
     }
 
@@ -107744,6 +103683,14 @@ namespace Aow.Units.AoWE
     // { Temporary declaration views: no instances are created. }
     public partial class TDurationReturnView : Aow.Units.AoWE.TAbility
     {
+        public static new TDurationReturnView Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDurationReturnView(context, owner));
+        }
+
+        private protected TDurationReturnView(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {}
+
         // Combat.pas:853
         public virtual byte GetDuration(Aow.Units.AoWE.TAbilityOwner AbilityOwner)
         {
@@ -107763,6 +103710,14 @@ namespace Aow.Units.AoWE
     // { Only VMT $128/$12C are called; this view is never instantiated. }
     public partial class TCastingPointsReturnViewP4 : Aow.Units.AoWE.TDurationReturnView
     {
+        public static new TCastingPointsReturnViewP4 Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCastingPointsReturnViewP4(context, owner));
+        }
+
+        private protected TCastingPointsReturnViewP4(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {}
+
         // Combat.pas:861
         public virtual void Slot114()
         {
@@ -107811,6 +103766,9 @@ namespace Aow.Units.AoWE
 //     Never instantiated; EventLog size $18, JoinEventLog size $3C. }
     public partial class TP5EventLogABI : Aow.Units.Engine.TEObject
     {
+        public TP5EventLogABI(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.FixedArray_byte_16 FReserved;
         // Combat.pas:951
         public virtual void Slot4C()
@@ -108295,7 +104253,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TDamageCA Result = default;
             Aow.Units.AoWE.TDamageCA Action = default;
-            Action = Aow.Units.AoWE.TDamageCA.Create(null);
+            Action = new Aow.Units.AoWE.TDamageCA(null);
             Action.Generate(Source, Target, unchecked((sbyte)unchecked((sbyte)Damage)), unchecked((sbyte)((sbyte)(Defensive ? 1 : 0))), DamageTypes);
             Result = Action;
             return Result;
@@ -108733,7 +104691,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TMoveArmyTE Result = default;
             Aow.Units.AoWE.TMoveControlSettings Settings = default;
-            Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+            Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
             var call__8667 = Army.GetLhx();
             var call__8668 = Army.GetYhx();
             var call__8669 = Army.GetXhx();
@@ -108846,7 +104804,7 @@ namespace Aow.Units.AoWE
         {
             bool Result = default;
             Aow.Units.AoWE.TMoveControlSettings Settings = default;
-            Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+            Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
             var call__8689 = Army.GetLhx();
             var call__8690 = Army.GetYhx();
             var call__8691 = Army.GetXhx();
@@ -108876,7 +104834,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TMoveArmyTE Result = default;
             Aow.Units.AoWE.TMoveControlSettings Settings = default;
-            Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+            Settings = new Aow.Units.AoWE.TMoveControlSettings(null);
             var call__8693 = Army.GetLhx();
             var call__8694 = Army.GetYhx();
             var call__8695 = Army.GetXhx();
@@ -110681,7 +106639,7 @@ namespace Aow.Units.AoWE
                 Info.Requests = Info.Requests + TSet<Aow.Units.AoWE.TBattleFieldInfoRequestsElement>.Of(Aow.Units.AoWE.TBattleFieldInfoRequestsElement.bfrIgnorePassiveIndependents, Aow.Units.AoWE.TBattleFieldInfoRequestsElement.bfrEffectiveStrength);
                 if (Step > 0)
                 {
-                    Units = Aow.Units.AoWE.TUnitUserList.Create(null);
+                    Units = new Aow.Units.AoWE.TUnitUserList(null);
                     var call__8878 = Movepath[Movepath.Count - 1];
                     var call__8879 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[call__8878.L];
                     Level = call__8879;
@@ -111083,7 +107041,7 @@ namespace Aow.Units.AoWE
                     Damage = (sbyte)(((int)Damage) + 3);
                 }
 
-                Result = Aow.Units.AoWE.TStrikeCA.Create(null);
+                Result = new Aow.Units.AoWE.TStrikeCA(null);
                 Result.Generate(A1, A2, unchecked((sbyte)Attack), unchecked((sbyte)Damage), Types);
                 Result.SetDefensive(A3);
             }

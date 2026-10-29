@@ -7,7 +7,7 @@ public partial class TItemHS
     public override void Create__init(TECustomNode owner)
     {
         base.Create__init(owner);
-        FItems = TItemHSList.Create(null);
+        FItems = new TItemHSList(null);
         FItems.Sprite = this;
         FItems.FOnChanged = ItemsChanged;
     }

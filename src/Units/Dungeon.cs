@@ -244,7 +244,7 @@ namespace Aow.Units.Dungeon
             Collection = call__18;
             if (Collection != -1)
             {
-                List = Aow.Units.AoWE.TUnitIndexList.Create();
+                List = new Aow.Units.AoWE.TUnitIndexList();
                 Collections = ((Aow.Units.Dungeon.TDungeonResource)FResource).FPrisonerCollections;
                 {
                     I = Collections.GetCollectionCount(Collection) - 1;
@@ -428,7 +428,7 @@ namespace Aow.Units.Dungeon
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__63 = Aow.Units.AoWE.TUnitIndexListCollection.Create();
+            var call__63 = new Aow.Units.AoWE.TUnitIndexListCollection();
             FPrisonerCollections = call__63;
         }
 

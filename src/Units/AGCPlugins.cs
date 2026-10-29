@@ -244,9 +244,9 @@ namespace Aow.Units.AGCPlugins
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__5 = Aow.Units.AoWE.TAIMoveTargetSelector.Create(null);
+            var call__5 = new Aow.Units.AoWE.TAIMoveTargetSelector(null);
             FSelector = call__5;
-            var call__6 = Aow.Units.AoWE.TAIGroupControlTargetList.Create(null);
+            var call__6 = new Aow.Units.AoWE.TAIGroupControlTargetList(null);
             FTargets = call__6;
         }
 
@@ -387,7 +387,7 @@ namespace Aow.Units.AGCPlugins
         public void TargetFoundEvent(Aow.Units.AoWE.TMoveTarget Target, ref bool SearchDone)
         {
             Aow.Units.AoWE.TAIGroupControlTarget NewTarget = default;
-            NewTarget = Aow.Units.AoWE.TAIGroupControlTarget.Create(null);
+            NewTarget = new Aow.Units.AoWE.TAIGroupControlTarget(null);
             NewTarget.FInfo = this.FSelector.FTargetInfo;
 
             NewTarget.FData = Target.FData;
@@ -485,7 +485,7 @@ namespace Aow.Units.AGCPlugins
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__22 = Aow.Units.AoWE.TMoveControlSettings.Create(null);
+            var call__22 = new Aow.Units.AoWE.TMoveControlSettings(null);
             FMoveSettings = call__22;
         }
 

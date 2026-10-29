@@ -591,7 +591,7 @@ namespace Aow.Units.FastCombatWin
         // FastCombatWin.pas:389
         public void FastCombatWindowCreate()
         {
-            var call__40 = Aow.Units.AoWE.TCombatViewer.Create();
+            var call__40 = new Aow.Units.AoWE.TCombatViewer();
             FViewer = call__40;
         }
 

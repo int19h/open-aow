@@ -838,7 +838,7 @@ namespace Aow.Units.AoWWorldMap
             WorldPnl.Visible = false;
             var call__238 = GetCampaign();
             Picks = call__238.FTransferSettings.FLeader.FSpherePicksMax;
-            Control = Aow.Units.AoWE.TLeaderSetupControl.Create(null);
+            Control = new Aow.Units.AoWE.TLeaderSetupControl(null);
             var call__239 = GetCampaign();
             Control.FLeader.Assign(call__239.FTransferSettings.FLeader, Aow.Units.AoWE.AoWE.AoWEngine);
             Control.FLeader.SetSpherePicksMax(unchecked((byte)(Picks + 2)));

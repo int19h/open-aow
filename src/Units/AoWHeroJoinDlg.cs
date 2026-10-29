@@ -206,7 +206,7 @@ namespace Aow.Units.AoWHeroJoinDlg
         // AoWHeroJoinDlg.pas:122
         public void HeroJoinDlgCreate()
         {
-            var call__8 = Aow.Units.AoWE.TUnitUserList.Create(null);
+            var call__8 = new Aow.Units.AoWE.TUnitUserList(null);
             FUnits = call__8;
         }
 

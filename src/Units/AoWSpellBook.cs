@@ -1274,7 +1274,7 @@ namespace Aow.Units.AoWSpellBook
         public void SpellBookCreate()
         {
             Aow.Units.Engine.TDoubleItem Defaults = default;
-            var call__148 = Aow.Units.AoWE.TSpellList.Create();
+            var call__148 = new Aow.Units.AoWE.TSpellList();
             FSpells = call__148;
             Defaults.A = 2;
             Defaults.B = 0;
