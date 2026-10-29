@@ -790,8 +790,8 @@ namespace Aow.Units.ImageLib
                 }
                 else
                 {
-                    Rects = Aow.Units.GFXE.TRectangleList.Create();
-                    var call__12 = Aow.Units.GFXE.TRectangle.Create(0, 0, SD.Width, SD.Height);
+                    Rects = new Aow.Units.GFXE.TRectangleList();
+                    var call__12 = new Aow.Units.GFXE.TRectangle(0, 0, SD.Width, SD.Height);
                     Rects.Add(call__12);
                 }
 

@@ -38,7 +38,7 @@ public sealed class ClassesTests
     private sealed class Assigned : TPersistent
     {
         internal TPersistent? Target;
-        protected override void AssignTo(TPersistent target) => Target = target;
+        protected internal override void AssignTo(TPersistent target) => Target = target;
     }
     private sealed class Owned(TPersistent owner) : TPersistent
     {
