@@ -109,15 +109,10 @@ namespace Aow.Units.AOWChatWin
         // AOWChatWin.pas:67
         public void ChatWinResize()
         {
-            {
-                var w__1 = ChatWin;
-                {
-                    var w__2 = w__1.Alignment;
-                    w__2.LeftOffset = w__1.WinLeft;
-                    w__2.BottomOffset = (w__1.FWinManager.WinHeight - w__1.WinTop) - w__1.WinHeight;
-                    w__2.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-                }
-            }
+            var alignment = this.ChatWin.Alignment;
+            alignment.LeftOffset = this.ChatWin.WinLeft;
+            alignment.BottomOffset = (this.ChatWin.FWinManager.WinHeight - this.ChatWin.WinTop) - this.ChatWin.WinHeight;
+            alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
 
             FScrollPending = true;
         }
@@ -140,10 +135,7 @@ namespace Aow.Units.AOWChatWin
         {
             if (FScrollPending)
             {
-                {
-                    var w__3 = ChatSB;
-                    w__3.Position = (w__3.Max + 1) - w__3.NumberVisible;
-                }
+                this.ChatSB.Position = (this.ChatSB.Max + 1) - this.ChatSB.NumberVisible;
 
                 FScrollPending = false;
             }

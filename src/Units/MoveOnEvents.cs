@@ -62,30 +62,26 @@ namespace Aow.Units.MoveOnEvents
             if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
             {
                 FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
-                {
-                    var w__1 = (Aow.Units.HSEngine.TMapField)Owner;
-                    MapLevel = (Aow.Units.HSEngine.TMapLevel)w__1.Owner;
-                    Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, w__1.Xhx, w__1.Yhx, 0);
-                }
+                var mapField = (Aow.Units.HSEngine.TMapField)Owner;
+                MapLevel = (Aow.Units.HSEngine.TMapLevel)mapField.Owner;
+                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, mapField.Xhx, mapField.Yhx, 0);
 
+                ref var walk = ref Walk;
+                while (walk.Radius <= FRadius)
                 {
-                    ref var w__2 = ref Walk;
-                    while (w__2.Radius <= FRadius)
+                    if ((((walk.X >= 0) && (walk.Y >= 0)) && (walk.X < MapLevel.Width)) && (walk.Y < MapLevel.Height))
                     {
-                        if ((((w__2.X >= 0) && (w__2.Y >= 0)) && (w__2.X < MapLevel.Width)) && (w__2.Y < MapLevel.Height))
+                        var call__3 = MapLevel.GetField(walk.X, walk.Y);
+                        MapField = call__3;
+                        if (MapField == Owner)
                         {
-                            var call__3 = MapLevel.GetField(w__2.X, w__2.Y);
-                            MapField = call__3;
-                            if (MapField == Owner)
-                            {
-                                MapField.RemoveHS(this);
-                            }
-
-                            MapField.AddHS(this, w__2.HN);
+                            MapField.RemoveHS(this);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                        MapField.AddHS(this, walk.HN);
                     }
+
+                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
                 }
             }
         }

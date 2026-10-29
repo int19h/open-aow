@@ -813,12 +813,10 @@ namespace Aow.Units.AOWMenu
                             int end__87 = FSubMenus.Count - 1;
                             for (; I <= end__87; I += 1)
                             {
+                                var component = (Aow.Units.AoWComp.TAoWComponent)FSubMenus[I];
+                                if (component.FHandled == true)
                                 {
-                                    var w__88 = (Aow.Units.AoWComp.TAoWComponent)FSubMenus[I];
-                                    if (w__88.FHandled == true)
-                                    {
-                                        this.FHighlighted = w__88.FOwnerItem;
-                                    }
+                                    this.FHighlighted = component.FOwnerItem;
                                 }
                             }
                         }

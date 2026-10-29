@@ -365,17 +365,14 @@ namespace Aow.Units.Crops
         public void SetIncome(byte A1)
         {
             sbyte Player = default;
+            if ((A1 != this.FIncome) && this.FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated))
             {
-                var w__28 = this;
-                if ((A1 != w__28.FIncome) && w__28.FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated))
+                this.FIncome = unchecked((byte)A1);
+                Player = unchecked((sbyte)this.FPlayer);
+                if (Player != -1)
                 {
-                    w__28.FIncome = unchecked((byte)A1);
-                    Player = unchecked((sbyte)w__28.FPlayer);
-                    if (Player != -1)
-                    {
-                        var call__29 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                        call__29.UpdateIncome();
-                    }
+                    var call__29 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                    call__29.UpdateIncome();
                 }
             }
         }
@@ -784,11 +781,9 @@ namespace Aow.Units.Crops
         {
             if ((FCropOwner != null) && !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msDestroying))
             {
-                {
-                    var w__52 = FCropOwner;
-                    this.FCropOwner = null;
-                    w__52.CropsChanged();
-                }
+                var playerCropStructure = FCropOwner;
+                this.FCropOwner = null;
+                playerCropStructure.CropsChanged();
             }
 
             base.Deactivate();

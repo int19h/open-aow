@@ -615,21 +615,19 @@ namespace Aow.Units.AoWRealm
                 var call__57 = U.GetPreviewImage();
                 var call__58 = U.GetPreviewImage();
                 U.ShowEx(DrawRect.Left - ((call__58.Width - (DrawRect.Right - DrawRect.Left)) / 2), DrawRect.Top - ((call__57.Height - (Unit1LB.ItemHeight - 10)) / 2), SurfDesc, Aow.Units.AoWWinMan.AoWWinMan.General.FUnitShowInfo);
-                {
-                    var w__59 = UnitGg;
-                    w__59.Visible = true;
-                    var call__60 = U.GetHits();
-                    w__59.Max = call__60;
-                    var call__61 = U.GetHitPoints();
-                    w__59.Position = call__61;
-                    w__59.WinLeft = (DrawRect.Left - T4LBPnl.WinLeft) + 5;
-                    w__59.WinWidth = (DrawRect.Right - DrawRect.Left) - 10;
-                    w__59.WinTop = ((DrawRect.Top + Unit1LB.ItemHeight) - T4LBPnl.WinTop) - 9;
-                    // { Original sizes and draws the gauge directly. }
-                    w__59.SetSize();
-                    w__59.Draw(SurfDesc);
-                    w__59.Visible = false;
-                }
+                var gauge2 = UnitGg;
+                gauge2.Visible = true;
+                var call__60 = U.GetHits();
+                gauge2.Max = call__60;
+                var call__61 = U.GetHitPoints();
+                gauge2.Position = call__61;
+                gauge2.WinLeft = (DrawRect.Left - T4LBPnl.WinLeft) + 5;
+                gauge2.WinWidth = (DrawRect.Right - DrawRect.Left) - 10;
+                gauge2.WinTop = ((DrawRect.Top + Unit1LB.ItemHeight) - T4LBPnl.WinTop) - 9;
+                // { Original sizes and draws the gauge directly. }
+                gauge2.SetSize();
+                gauge2.Draw(SurfDesc);
+                gauge2.Visible = false;
 
                 SurfDesc.ClipRect = OldClip;
             }
@@ -692,69 +690,67 @@ namespace Aow.Units.AoWRealm
         public void Unit1LBChange(Aow.Rtl.TObject Sender)
         {
             // { Tried typed Sender without redundant with cast; typed Sender retaining cast plus explicit window with; no exact match. }
+            var listBox = (Aow.Units.AoWListBox.TAOWListBox)Sender;
+            var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__69 = call__68.FArmies.GetArmy(listBox.Selected);
+            var call__70 = call__69.GetCount();
+            if (call__70 > 0)
             {
-                var w__67 = (Aow.Units.AoWListBox.TAOWListBox)Sender;
-                var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                var call__69 = call__68.FArmies.GetArmy(w__67.Selected);
-                var call__70 = call__69.GetCount();
-                if (call__70 > 0)
-                {
-                    w__67.PopupMenu = Aow.Units.AoWUnitBanner.AoWUnitBanner.UnitBanner.BannerPopup;
-                    var call__71 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                    var call__72 = call__71.FArmies.GetArmy(w__67.Selected);
-                    var call__73 = call__72.GetUnit(w__67.Tag);
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__73;
-                    var call__74 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                    var call__75 = call__74.FArmies.GetArmy(w__67.Selected);
-                    var call__76 = call__75.GetArmyHS();
-                    Aow.Units.AoWE.AoWE.AoWHSMap.Select(call__76, true);
-                    Dlg.Priority = Dlg.Priority;
-                }
-                else
-                {
-                    w__67.PopupMenu = null;
-                    w__67.Selected = -1;
-                }
+                listBox.PopupMenu = Aow.Units.AoWUnitBanner.AoWUnitBanner.UnitBanner.BannerPopup;
+                var call__71 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__72 = call__71.FArmies.GetArmy(listBox.Selected);
+                var call__73 = call__72.GetUnit(listBox.Tag);
+                Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__73;
+                var call__74 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__75 = call__74.FArmies.GetArmy(listBox.Selected);
+                var call__76 = call__75.GetArmyHS();
+                Aow.Units.AoWE.AoWE.AoWHSMap.Select(call__76, true);
+                Dlg.Priority = Dlg.Priority;
+            }
+            else
+            {
+                listBox.PopupMenu = null;
+                listBox.Selected = -1;
+            }
 
-                if (Sender != Unit1LB)
-                {
-                    Unit1LB.Selected = -1;
-                }
+            if (Sender != Unit1LB)
+            {
+                Unit1LB.Selected = -1;
+            }
 
-                if (Sender != Unit2LB)
-                {
-                    Unit2LB.Selected = -1;
-                }
+            if (Sender != Unit2LB)
+            {
+                Unit2LB.Selected = -1;
+            }
 
-                if (Sender != Unit3LB)
-                {
-                    Unit3LB.Selected = -1;
-                }
+            if (Sender != Unit3LB)
+            {
+                Unit3LB.Selected = -1;
+            }
 
-                if (Sender != Unit4LB)
-                {
-                    Unit4LB.Selected = -1;
-                }
+            if (Sender != Unit4LB)
+            {
+                Unit4LB.Selected = -1;
+            }
 
-                if (Sender != Unit5LB)
-                {
-                    Unit5LB.Selected = -1;
-                }
+            if (Sender != Unit5LB)
+            {
+                Unit5LB.Selected = -1;
+            }
 
-                if (Sender != Unit6LB)
-                {
-                    Unit6LB.Selected = -1;
-                }
+            if (Sender != Unit6LB)
+            {
+                Unit6LB.Selected = -1;
+            }
 
-                if (Sender != Unit7LB)
-                {
-                    Unit7LB.Selected = -1;
-                }
+            if (Sender != Unit7LB)
+            {
+                Unit7LB.Selected = -1;
+            }
 
-                if (Sender != Unit8LB)
-                {
-                    Unit8LB.Selected = -1;
-                }
+            if (Sender != Unit8LB)
+            {
+                Unit8LB.Selected = -1;
             }
         }
 
@@ -791,19 +787,17 @@ namespace Aow.Units.AoWRealm
         // AoWRealm.pas:469
         public void CityListChange(Aow.Rtl.TObject Sender)
         {
-            {
-                var w__87 = (Aow.Units.AoWListBox.TAOWListBox)Sender;
-                T2NameLB.Selected = w__87.Selected;
-                T2RaceLB.Selected = w__87.Selected;
-                T2IncomeLB.Selected = w__87.Selected;
-                T2LevelLB.Selected = w__87.Selected;
-                T2WallLB.Selected = w__87.Selected;
-                T2SizeLB.Selected = w__87.Selected;
-                T2RelLB.Selected = w__87.Selected;
-                T2MorLB.Selected = w__87.Selected;
-                T2ActLB.Selected = w__87.Selected;
-                T2EncLB.Selected = w__87.Selected;
-            }
+            var listBox = (Aow.Units.AoWListBox.TAOWListBox)Sender;
+            T2NameLB.Selected = listBox.Selected;
+            T2RaceLB.Selected = listBox.Selected;
+            T2IncomeLB.Selected = listBox.Selected;
+            T2LevelLB.Selected = listBox.Selected;
+            T2WallLB.Selected = listBox.Selected;
+            T2SizeLB.Selected = listBox.Selected;
+            T2RelLB.Selected = listBox.Selected;
+            T2MorLB.Selected = listBox.Selected;
+            T2ActLB.Selected = listBox.Selected;
+            T2EncLB.Selected = listBox.Selected;
         }
 
         // AoWRealm.pas:486
@@ -858,14 +852,12 @@ namespace Aow.Units.AoWRealm
         public void HeroListDoubleClick(Aow.Rtl.TObject Sender)
         {
             // { Tried separate selection cast; no exact match. }
+            var listBox = (Aow.Units.AoWListBox.TAOWListBox)Sender;
+            if (listBox.Selected != -1)
             {
-                var w__99 = (Aow.Units.AoWListBox.TAOWListBox)Sender;
-                if (w__99.Selected != -1)
-                {
-                    var call__100 = T5Name.Items.Objects[w__99.Selected];
-                    var call__101 = ((Aow.Units.AoWE.TArmy)call__100).GetArmyHS();
-                    Aow.Units.AoWE.AoWE.AoWHSMap.Select(call__101, true);
-                }
+                var call__100 = T5Name.Items.Objects[listBox.Selected];
+                var call__101 = ((Aow.Units.AoWE.TArmy)call__100).GetArmyHS();
+                Aow.Units.AoWE.AoWE.AoWHSMap.Select(call__101, true);
             }
         }
 
@@ -962,13 +954,10 @@ namespace Aow.Units.AoWRealm
         // AoWRealm.pas:592
         public void OverWindowResize()
         {
-            {
-                var w__117 = Dlg;
-                w__117.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-                w__117.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-                w__117.Alignment.LeftOffset = w__117.WinLeft;
-                w__117.Alignment.TopOffset = w__117.WinTop;
-            }
+            this.Dlg.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            this.Dlg.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            this.Dlg.Alignment.LeftOffset = this.Dlg.WinLeft;
+            this.Dlg.Alignment.TopOffset = this.Dlg.WinTop;
         }
 
         // AoWRealm.pas:603

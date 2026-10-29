@@ -156,19 +156,17 @@ namespace Aow.Units.Arena
 
                     if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == A1.FParam)
                     {
+                        var arenaTE = (Aow.Units.Arena.TArenaTE)A1;
+                        if (arenaTE.FUnitIDs.Count == 1)
                         {
-                            var w__9 = (Aow.Units.Arena.TArenaTE)A1;
-                            if (w__9.FUnitIDs.Count == 1)
-                            {
-                                var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.OneUnitTrainedRStr);
-                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__10);
-                            }
-                            else
-                            {
-                                var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XUnitsTrainedRStr);
-                                var call__12 = Aow.Rtl.Rtl.Format(call__11, [Aow.Rtl.Rtl.IntToStr(w__9.FUnitIDs.Count)]);
-                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__12);
-                            }
+                            var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.OneUnitTrainedRStr);
+                            Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__10);
+                        }
+                        else
+                        {
+                            var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XUnitsTrainedRStr);
+                            var call__12 = Aow.Rtl.Rtl.Format(call__11, [Aow.Rtl.Rtl.IntToStr(arenaTE.FUnitIDs.Count)]);
+                            Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__12);
                         }
                     }
                 }
@@ -199,18 +197,16 @@ namespace Aow.Units.Arena
 
             if (AUnit is Aow.Units.AoWE.TUnit)
             {
+                var unit = (Aow.Units.AoWE.TUnit)AUnit;
+                if (unit.GetRank() != Aow.Units.AoWE.TUnitRank.urGold)
                 {
-                    var w__14 = (Aow.Units.AoWE.TUnit)AUnit;
-                    if (w__14.GetRank() != Aow.Units.AoWE.TUnitRank.urGold)
-                    {
-                        var call__15 = w__14.GetNextLevelExperience();
-                        var call__16 = AUnit.GetExperience();
-                        Result = (call__15 - call__16) * 5;
-                    }
-                    else
-                    {
-                        Result = -1;
-                    }
+                    var call__15 = unit.GetNextLevelExperience();
+                    var call__16 = AUnit.GetExperience();
+                    Result = (call__15 - call__16) * 5;
+                }
+                else
+                {
+                    Result = -1;
                 }
             }
             else
@@ -227,24 +223,20 @@ namespace Aow.Units.Arena
             // { Unmatched: tried Pointer identity assignment to unit; Pointer cast branch receivers; explicit incoming unit local. }
             if (AUnit is Aow.Units.AoWE.THero)
             {
-                {
-                    var w__17 = (Aow.Units.AoWE.THero)AUnit;
-                    var call__18 = w__17.GetNextLevelExperience();
-                    w__17.SetExperience(call__18);
-                    w__17.Changed();
-                }
+                var hero = (Aow.Units.AoWE.THero)AUnit;
+                var call__18 = hero.GetNextLevelExperience();
+                hero.SetExperience(call__18);
+                hero.Changed();
 
                 return;
             }
 
             if (AUnit is Aow.Units.AoWE.TUnit)
             {
-                {
-                    var w__19 = (Aow.Units.AoWE.TUnit)AUnit;
-                    var call__20 = w__19.GetNextLevelExperience();
-                    w__19.SetExperience(call__20);
-                    w__19.Changed();
-                }
+                var unit2 = (Aow.Units.AoWE.TUnit)AUnit;
+                var call__20 = unit2.GetNextLevelExperience();
+                unit2.SetExperience(call__20);
+                unit2.Changed();
             }
         }
 

@@ -1365,19 +1365,16 @@ namespace Aow.Units.DisplayC
             if (FInvMatrix != null)
             {
                 {
-                    var w__52 = FInvMatrix;
+                    I = 0;
+                    int end__53 = this.FInvMatrix.Width - 1;
+                    for (; I <= end__53; I += 1)
                     {
-                        I = 0;
-                        int end__53 = w__52.Width - 1;
-                        for (; I <= end__53; I += 1)
                         {
+                            J = 0;
+                            int end__54 = this.FInvMatrix.Height - 1;
+                            for (; J <= end__54; J += 1)
                             {
-                                J = 0;
-                                int end__54 = w__52.Height - 1;
-                                for (; J <= end__54; J += 1)
-                                {
-                                    w__52.SetVal(unchecked((byte)I), unchecked((byte)J), 1);
-                                }
+                                this.FInvMatrix.SetVal(unchecked((byte)I), unchecked((byte)J), 1);
                             }
                         }
                     }
@@ -2341,11 +2338,9 @@ namespace Aow.Units.DisplayC
                 {
                     FWidth = DDSD.dwWidth;
                     FHeight = DDSD.dwHeight;
-                    {
-                        ref var w__69 = ref DDSD.ddpfPixelFormat;
-                        var call__70 = Aow.Units.GFXE.GFXE.MASKtoPFID(w__69.dwRGBBitCount, w__69.dwRBitMask, w__69.dwGBitMask, w__69.dwBBitMask, w__69.dwRGBAlphaBitMask);
-                        FPixelFormatID = call__70;
-                    }
+                    ref var ddPixelFormat = ref DDSD.ddpfPixelFormat;
+                    var call__70 = Aow.Units.GFXE.GFXE.MASKtoPFID(ddPixelFormat.dwRGBBitCount, ddPixelFormat.dwRBitMask, ddPixelFormat.dwGBitMask, ddPixelFormat.dwBBitMask, ddPixelFormat.dwRGBAlphaBitMask);
+                    FPixelFormatID = call__70;
 
                     FSurface.Unlock(null);
                     FStatus = AStatus;
@@ -3183,11 +3178,9 @@ namespace Aow.Units.DisplayC
                 FWidth = AWidth;
                 FHeight = AHeight;
                 FPitch = -((FWidth + 7) & ~7);
-                {
-                    ref var w__129 = ref FOwner.FBitmapInfo;
-                    w__129.biWidth = System.Math.Abs(FPitch);
-                    w__129.biHeight = FHeight;
-                }
+                ref var bitmapInfoHeader = ref FOwner.FBitmapInfo;
+                bitmapInfoHeader.biWidth = System.Math.Abs(FPitch);
+                bitmapInfoHeader.biHeight = FHeight;
 
                 FMem = FMem.Realloc(System.Math.Abs(FPitch * FHeight) + 7);
                 FBits = Aow.Rtl.Rtl.AlignPointer(FMem + 7, ~7).Box();

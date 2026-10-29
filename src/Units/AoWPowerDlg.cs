@@ -203,14 +203,12 @@ namespace Aow.Units.AoWPowerDlg
             int X = default;
             int Y = default;
             int Intensity = default;
-            {
-                var w__16 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                X = w__16.AOWWindow.WinLeft;
-                Y = w__16.AOWWindow.WinTop;
-                Intensity = Aow.Rtl.Rtl.Round(((double)((100 - PowerSlider.Position) * 50)) / 100);
-                var call__17 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[7];
-                call__17.ShowBlended(w__16.WinLeft + X, w__16.WinTop + Y, SD, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[Intensity]);
-            }
+            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            X = image.AOWWindow.WinLeft;
+            Y = image.AOWWindow.WinTop;
+            Intensity = Aow.Rtl.Rtl.Round(((double)((100 - PowerSlider.Position) * 50)) / 100);
+            var call__17 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[7];
+            call__17.ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[Intensity]);
         }
 
         // AoWPowerDlg.pas:128
@@ -219,14 +217,12 @@ namespace Aow.Units.AoWPowerDlg
             int X = default;
             int Y = default;
             int Intensity = default;
-            {
-                var w__18 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                X = w__18.AOWWindow.WinLeft;
-                Y = w__18.AOWWindow.WinTop;
-                Intensity = Aow.Rtl.Rtl.Round(((double)(PowerSlider.Position * 50)) / 100);
-                var call__19 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[8];
-                call__19.ShowBlended(w__18.WinLeft + X, w__18.WinTop + Y, SD, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[Intensity]);
-            }
+            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            X = image.AOWWindow.WinLeft;
+            Y = image.AOWWindow.WinTop;
+            Intensity = Aow.Rtl.Rtl.Round(((double)(PowerSlider.Position * 50)) / 100);
+            var call__19 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[8];
+            call__19.ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[Intensity]);
         }
 
         // AoWPowerDlg.pas:141

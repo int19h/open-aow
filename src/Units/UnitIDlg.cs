@@ -278,59 +278,6 @@ namespace Aow.Units.UnitIDlg
 
     public static partial class UnitIDlg
     {
-        // UnitIDlg.pas:94
-        // { needs: typed callable results for the draft methods; preserve the existing ABI. }
-        public static sbyte Stat(Aow.Units.AoWE.TAbstractUnit AUnit, int VMTOffset)
-        {
-            sbyte Result = default;
-            Result = VMTOffset switch
-            {
-                156 => unchecked((sbyte)AUnit.GetUpkeep()),
-                160 => unchecked((sbyte)AUnit.GetUnitLevel()),
-                164 => unchecked((sbyte)AUnit.GetRace()),
-                168 => unchecked((sbyte)AUnit.GetInherentAttack()),
-                172 => unchecked((sbyte)AUnit.GetInherentDefense()),
-                176 => unchecked((sbyte)AUnit.GetInherentDamage()),
-                180 => unchecked((sbyte)AUnit.GetInherentResistance()),
-                192 => unchecked((sbyte)AUnit.GetAttack()),
-                196 => unchecked((sbyte)AUnit.GetDefense()),
-                200 => unchecked((sbyte)AUnit.GetDamage()),
-                204 => unchecked((sbyte)AUnit.GetResistance()),
-                208 => unchecked((sbyte)AUnit.GetHits()),
-                212 => unchecked((sbyte)AUnit.GetMoves()),
-                216 => unchecked((sbyte)AUnit.GetMovePoints()),
-                224 => unchecked((sbyte)AUnit.GetHitPoints()),
-                260 => unchecked((sbyte)AUnit.GetTransportCapacity()),
-                296 => unchecked((sbyte)AUnit.GetCastingPointsMax()),
-                300 => unchecked((sbyte)AUnit.GetCastingPoints()),
-                368 => unchecked((sbyte)AUnit.GetIndependentRelation()),
-                _ => throw new Aow.Rtl.EAccessViolation()};
-            return Result;
-        }
-
-        // UnitIDlg.pas:96
-        public static Aow.Units.AoWE.TAlignment UnitAlignment(Aow.Units.AoWE.TAbstractUnit AUnit)
-        {
-            Aow.Units.AoWE.TAlignment Result = default;
-            Result = AUnit.GetAlignment();
-            return Result;
-        }
-
-        // UnitIDlg.pas:98
-        public static Aow.Rtl.AnsiString TranslateABI(Aow.Rtl.AnsiString S)
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(S);
-            return Result;
-        }
-
-        // UnitIDlg.pas:101
-        public static Aow.Rtl.AnsiString ResourceName(Aow.Units.AoWE.TUnitResource Resource)
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Resource.GetUnitName();
-            return Result;
-        }
 
         public static void Initialize()
         {

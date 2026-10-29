@@ -850,8 +850,8 @@ namespace Aow.Units.AoWSetup
                 }
                 else
                 {
-                    var call__17 = Aow.Units.AoWSetup.AoWSetup.MinorVersion(Aow.Units.AoWE.AoWE.AoWEngine);
-                    var call__18 = Aow.Units.AoWSetup.AoWSetup.MajorVersion(Aow.Units.AoWE.AoWE.AoWEngine);
+                    var call__17 = Aow.Units.AoWE.AoWE.AoWEngine.GetMinorVersion();
+                    var call__18 = Aow.Units.AoWE.AoWE.AoWEngine.GetMajorVersion();
                     SendMessage(9, null, call__18, call__17, Player.FRemoteID);
                 }
             }
@@ -2627,40 +2627,38 @@ namespace Aow.Units.AoWSetup
                     int end__250 = Preview.FPlayers.GetCount() - 1;
                     for (; I <= end__250; I += 1)
                     {
+                        var player = Preview.FPlayers.GetPlayers(I);
+                        if (player.FStatus != Aow.Units.AoWE.TPlayerStatus.psTerminated)
                         {
-                            var w__251 = Preview.FPlayers.GetPlayers(I);
-                            if (w__251.FStatus != Aow.Units.AoWE.TPlayerStatus.psTerminated)
+                            var call__252 = Aow.Units.AoWSetup.TPlayerSetupSettings.Create(this.FSettings);
+                            Settings = call__252;
+                            Settings.FPlayerID = unchecked((byte)I);
+                            Settings.FRace = unchecked((sbyte)player.FPlayerRace);
+                            Settings.FLeader.Assign(player.FLeaderSetup, Aow.Units.AoWE.AoWE.AoWEngine);
+                            Settings.FBehaviorMode = unchecked((byte)((int)player.FBehavior));
+                            if (player.FParticipating)
                             {
-                                var call__252 = Aow.Units.AoWSetup.TPlayerSetupSettings.Create(this.FSettings);
-                                Settings = call__252;
-                                Settings.FPlayerID = unchecked((byte)I);
-                                Settings.FRace = unchecked((sbyte)w__251.FPlayerRace);
-                                Settings.FLeader.Assign(w__251.FLeaderSetup, Aow.Units.AoWE.AoWE.AoWEngine);
-                                Settings.FBehaviorMode = unchecked((byte)((int)w__251.FBehavior));
-                                if (w__251.FParticipating)
-                                {
-                                    Settings.FStatus = Settings.FStatus + TSet<Aow.Units.AoWSetup.TPlayerSetupStatusElement>.Of(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssFixed);
-                                }
+                                Settings.FStatus = Settings.FStatus + TSet<Aow.Units.AoWSetup.TPlayerSetupStatusElement>.Of(Aow.Units.AoWSetup.TPlayerSetupStatusElement.pssFixed);
+                            }
 
-                                var call__253 = GetRemote();
-                                if (call__253 && !w__251.FParticipating)
+                            var call__253 = GetRemote();
+                            if (call__253 && !player.FParticipating)
+                            {
+                                Settings.FBehavior.PlayerType = 5;
+                                Settings.FOriginalBehavior.PlayerType = 5;
+                            }
+                            else
+                            {
+                                Settings.FBehavior.PlayerType = unchecked((byte)((int)player.FPlayerType));
+                                Settings.FOriginalBehavior.PlayerType = unchecked((byte)((int)player.FPlayerType));
+                                if (player.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
                                 {
-                                    Settings.FBehavior.PlayerType = 5;
-                                    Settings.FOriginalBehavior.PlayerType = 5;
-                                }
-                                else
-                                {
-                                    Settings.FBehavior.PlayerType = unchecked((byte)((int)w__251.FPlayerType));
-                                    Settings.FOriginalBehavior.PlayerType = unchecked((byte)((int)w__251.FPlayerType));
-                                    if (w__251.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
+                                    if (!FirstHuman)
                                     {
-                                        if (!FirstHuman)
-                                        {
-                                            Settings.FBehavior.PlayerType = 1;
-                                        }
-
-                                        FirstHuman = false;
+                                        Settings.FBehavior.PlayerType = 1;
                                     }
+
+                                    FirstHuman = false;
                                 }
                             }
                         }
@@ -2725,29 +2723,23 @@ namespace Aow.Units.AoWSetup
             bool Result = default;
             Reset();
             FPhase = Aow.Units.AoWSetup.TSetupPhase.spSetupPlayers;
+            this.FSettings.FHostRemoteID = RemoteID;
+            this.FSettings.FConnectionType = unchecked((byte)Mode);
+            switch (Mode)
             {
-                var w__260 = FSettings;
-                w__260.FHostRemoteID = RemoteID;
-                w__260.FConnectionType = unchecked((byte)Mode);
-                switch (Mode)
-                {
-                    case 2:
-                        w__260.FPlayMode = 1;
-                        break;
-                    default:
-                        w__260.FPlayMode = 2;
-                        break;
-                }
+                case 2:
+                    this.FSettings.FPlayMode = 1;
+                    break;
+                default:
+                    this.FSettings.FPlayMode = 2;
+                    break;
             }
 
             var call__261 = ValidatePlayerName(Name);
             FRemotePlayer.FName = call__261;
-            {
-                var w__262 = FRemotePlayer;
-                w__262.FRemoteID = RemoteID;
-                w__262.FPreferredRace = 255;
-                w__262.FVersion = Aow.Units.AoWE.AoWE.AoWEngine.FVersion;
-            }
+            this.FRemotePlayer.FRemoteID = RemoteID;
+            this.FRemotePlayer.FPreferredRace = 255;
+            this.FRemotePlayer.FVersion = Aow.Units.AoWE.AoWE.AoWEngine.FVersion;
 
             FStatus = FStatus + TSet<Aow.Units.AoWSetup.TSetupStatusElement>.Of(Aow.Units.AoWSetup.TSetupStatusElement.ssBusy);
             if (RemoteID != 0)
@@ -2912,21 +2904,6 @@ namespace Aow.Units.AoWSetup
             Reserved = Aow.Units.FixedArray_byte_3.From([0, 0, 0]),
             Flags = 0
         };
-        // AoWSetup.pas:232
-        public static int MajorVersion(Aow.Units.AoWE.TAoWEngine AEngine)
-        {
-            int Result = default;
-            Result = AEngine.GetMajorVersion();
-            return Result;
-        }
-
-        // AoWSetup.pas:234
-        public static int MinorVersion(Aow.Units.AoWE.TAoWEngine AEngine)
-        {
-            int Result = default;
-            Result = AEngine.GetMinorVersion();
-            return Result;
-        }
 
         public static void Initialize()
         {

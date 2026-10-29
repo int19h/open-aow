@@ -1064,12 +1064,9 @@ namespace Aow.Units.AoWCityScreen
                     ActiveActionTurns.Text = call__133;
                     ActiveActionTurns.Visible = true;
                     ActiveActionTurns.TextColor = 6783862;
-                    {
-                        var w__134 = ActiveActionTurnsBar;
-                        w__134.Min = 0;
-                        w__134.Max = FCity.FProduction.FSettings.FTurnsTotal;
-                        w__134.Position = FCity.FProduction.FSettings.FTurnsTotal - FCity.FProduction.FSettings.FTurnsLeft;
-                    }
+                    this.ActiveActionTurnsBar.Min = 0;
+                    this.ActiveActionTurnsBar.Max = FCity.FProduction.FSettings.FTurnsTotal;
+                    this.ActiveActionTurnsBar.Position = FCity.FProduction.FSettings.FTurnsTotal - FCity.FProduction.FSettings.FTurnsLeft;
 
                     ActiveActionTurnsBar.Visible = true;
                 }
@@ -1208,21 +1205,19 @@ namespace Aow.Units.AoWCityScreen
             }
 
             Armies.Free();
+            var mapObject = FPreview.FCenterViewLocation;
+            if (FPreview.FCenterViewLocation != null)
             {
-                var w__163 = FPreview.FCenterViewLocation;
-                if (FPreview.FCenterViewLocation != null)
-                {
-                    var call__164 = w__163.GetYhx();
-                    var call__165 = w__163.GetXhx();
-                    Aow.Units.HSEngine.HSEngine.HXtoHP(call__165, call__164, ref FViewX, ref FViewY);
-                    FViewX = (FViewX + 16) - (MapView.WinWidth / 2);
-                    FViewY = (FViewY + 16) - (MapView.WinHeight / 2);
-                }
-                else
-                {
-                    FViewX = 800;
-                    FViewY = 800;
-                }
+                var call__164 = mapObject.GetYhx();
+                var call__165 = mapObject.GetXhx();
+                Aow.Units.HSEngine.HSEngine.HXtoHP(call__165, call__164, ref FViewX, ref FViewY);
+                FViewX = (FViewX + 16) - (MapView.WinWidth / 2);
+                FViewY = (FViewY + 16) - (MapView.WinHeight / 2);
+            }
+            else
+            {
+                FViewX = 800;
+                FViewY = 800;
             }
 
             Aow.Units.AoWE.AoWE.AoWHSMap.FTutorialControl.ShowMessage(56, true, true);

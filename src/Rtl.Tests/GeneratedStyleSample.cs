@@ -106,12 +106,10 @@ public static class GeneratedStyleSample
                 pointer.Value.Value = instance.Value + i;
                 pointer += 1;
             }
-            {
-                ref var w__1 = ref records[1];
-                w__1.Flags = TSet<TFlag>.Of(TFlag.First).Range(TFlag.Second, TFlag.Third);
-                w__1.Name = "abcdef";
-                w__1.Value += instance.ClassType.ClassID();
-            }
+            ref var sampleRecord = ref records[1];
+            sampleRecord.Flags = TSet<TFlag>.Of(TFlag.First).Range(TFlag.Second, TFlag.Third);
+            sampleRecord.Name = "abcdef";
+            sampleRecord.Value += instance.ClassType.ClassID();
             return records[1];
         }
         finally { instance.Free(); }

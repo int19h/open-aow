@@ -73,387 +73,368 @@ namespace Aow.Units.E3EventDialogs
         public static void ShowDiplomaticEvent(Aow.Units.AoWRelations.TRelWindow Dialog, Aow.Units.AoWE.TDiplomaticActionEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
             // { Tried typed event view and explicit action case; no exact match. }
+            Dialog.ClearActions();
+            Dialog.ResetChecks();
+            // { Original reports its source filename, independent of this checkout. }
+            if (Dialog.FEvent != null)
             {
-                var w__1 = Dialog;
-                w__1.ClearActions();
-                w__1.ResetChecks();
-                // { Original reports its source filename, independent of this checkout. }
-                if (w__1.FEvent != null)
-                {
-                    Aow.Units.E3EventDialogs.E3EventDialogs.OriginalAssert((AnsiString)"Assertion failure", (AnsiString)"D:\\AoWDev\\AoWRelations.pas", 663);
-                }
+                Aow.Units.E3EventDialogs.E3EventDialogs.OriginalAssert((AnsiString)"Assertion failure", (AnsiString)"D:\\AoWDev\\AoWRelations.pas", 663);
+            }
 
-                w__1.FDone = Done;
-                {
-                    var w__2 = Event;
-                    w__1.FEvent = Event;
-                    w__2.AddRef();
-                }
+            Dialog.FDone = Done;
+            Dialog.FEvent = Event;
+            Event.AddRef();
 
-                var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                if (call__3.FStatus == Aow.Units.AoWE.TPlayerStatus.psPlaying)
+            var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            if (call__3.FStatus == Aow.Units.AoWE.TPlayerStatus.psPlaying)
+            {
+                Dialog.ShowRelations(Event.FAction.FTarget);
+                Dialog.SetAction(Event.FAction);
+                switch (Dialog.FAction.FActionType)
                 {
-                    w__1.ShowRelations(Event.FAction.FTarget);
-                    w__1.SetAction(Event.FAction);
-                    switch (w__1.FAction.FActionType)
-                    {
-                        case Aow.Units.AoWE.TDiplomaticActionType.daSendMessage:
-                            w__1.HighlightPlayer(unchecked((sbyte)w__1.FAction.FSource));
-                            w__1.ShowPlayerInformation(unchecked((sbyte)w__1.FAction.FSource));
-                            w__1.RNewActionPnl.Visible = false;
-                            w__1.RMsgRecPnl.Visible = true;
-                            var call__4 = w__1.FAction.FMessage.Text;
-                            w__1.RMMemo.Items.Text = call__4;
-                            var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(w__1.FAction.FSource);
-                            var call__6 = call__5.GetName();
-                            var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MessageFromXRStr);
-                            var call__8 = Aow.Units.AoWE.AoWE.Format(call__7, [call__6]);
-                            w__1.RMHeaderLbl.Text = call__8;
-                            break;
-                        case Aow.Units.AoWE.TDiplomaticActionType.daSendMessageAsY:
-                            w__1.HighlightPlayer(unchecked((sbyte)w__1.FAction.FOtherPlayer));
-                            w__1.ShowPlayerInformation(unchecked((sbyte)w__1.FAction.FOtherPlayer));
-                            w__1.RNewActionPnl.Visible = false;
-                            w__1.RMsgRecPnl.Visible = true;
-                            var call__9 = w__1.FAction.FMessage.Text;
-                            w__1.RMMemo.Items.Text = call__9;
-                            var call__10 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(w__1.FAction.FOtherPlayer);
-                            var call__11 = call__10.GetName();
-                            var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MessageFromXRStr);
-                            var call__13 = Aow.Units.AoWE.AoWE.Format(call__12, [call__11]);
-                            w__1.RMHeaderLbl.Text = call__13;
-                            break;
-                        case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
-                        case Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance:
-                        case Aow.Units.AoWE.TDiplomaticActionType.daMakeTribute:
-                        case Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY:
-                        case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
-                            w__1.RNewActionPnl.Visible = false;
-                            if (w__1.FAction.FReaction == Aow.Units.AoWE.TDiplomaticActionReaction.darNone)
+                    case Aow.Units.AoWE.TDiplomaticActionType.daSendMessage:
+                        Dialog.HighlightPlayer(unchecked((sbyte)Dialog.FAction.FSource));
+                        Dialog.ShowPlayerInformation(unchecked((sbyte)Dialog.FAction.FSource));
+                        Dialog.RNewActionPnl.Visible = false;
+                        Dialog.RMsgRecPnl.Visible = true;
+                        var call__4 = Dialog.FAction.FMessage.Text;
+                        Dialog.RMMemo.Items.Text = call__4;
+                        var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FSource);
+                        var call__6 = call__5.GetName();
+                        var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MessageFromXRStr);
+                        var call__8 = Aow.Units.AoWE.AoWE.Format(call__7, [call__6]);
+                        Dialog.RMHeaderLbl.Text = call__8;
+                        break;
+                    case Aow.Units.AoWE.TDiplomaticActionType.daSendMessageAsY:
+                        Dialog.HighlightPlayer(unchecked((sbyte)Dialog.FAction.FOtherPlayer));
+                        Dialog.ShowPlayerInformation(unchecked((sbyte)Dialog.FAction.FOtherPlayer));
+                        Dialog.RNewActionPnl.Visible = false;
+                        Dialog.RMsgRecPnl.Visible = true;
+                        var call__9 = Dialog.FAction.FMessage.Text;
+                        Dialog.RMMemo.Items.Text = call__9;
+                        var call__10 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FOtherPlayer);
+                        var call__11 = call__10.GetName();
+                        var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MessageFromXRStr);
+                        var call__13 = Aow.Units.AoWE.AoWE.Format(call__12, [call__11]);
+                        Dialog.RMHeaderLbl.Text = call__13;
+                        break;
+                    case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
+                    case Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance:
+                    case Aow.Units.AoWE.TDiplomaticActionType.daMakeTribute:
+                    case Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY:
+                    case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
+                        Dialog.RNewActionPnl.Visible = false;
+                        if (Dialog.FAction.FReaction == Aow.Units.AoWE.TDiplomaticActionReaction.darNone)
+                        {
+                            Dialog.HighlightPlayer(unchecked((sbyte)Dialog.FAction.FSource));
+                            Dialog.ShowPlayerInformation(unchecked((sbyte)Dialog.FAction.FSource));
+                            Dialog.RIncomingPnl.Visible = true;
+                            Dialog.MBGoldBribeV.Text = Aow.Rtl.Rtl.IntToStr(Dialog.FAction.FGold);
+                            Dialog.MBManaBribeV.Text = Aow.Rtl.Rtl.IntToStr(Dialog.FAction.FMana);
+                            var call__14 = Dialog.FAction.FMessage.Text;
+                            Dialog.MMemo.Items.Text = call__14;
+                            switch (Dialog.FAction.FActionType)
                             {
-                                w__1.HighlightPlayer(unchecked((sbyte)w__1.FAction.FSource));
-                                w__1.ShowPlayerInformation(unchecked((sbyte)w__1.FAction.FSource));
-                                w__1.RIncomingPnl.Visible = true;
-                                w__1.MBGoldBribeV.Text = Aow.Rtl.Rtl.IntToStr(w__1.FAction.FGold);
-                                w__1.MBManaBribeV.Text = Aow.Rtl.Rtl.IntToStr(w__1.FAction.FMana);
-                                var call__14 = w__1.FAction.FMessage.Text;
-                                w__1.MMemo.Items.Text = call__14;
-                                switch (w__1.FAction.FActionType)
+                                case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
+                                    Dialog.MIcon.CurrentImage = 8;
+                                    break;
+                                case Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance:
+                                    Dialog.MIcon.CurrentImage = 10;
+                                    break;
+                                case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
+                                    Dialog.MIcon.CurrentImage = 47;
+                                    break;
+                                case Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY:
+                                    Dialog.MIcon.CurrentImage = 47;
+                                    break;
+                                case Aow.Units.AoWE.TDiplomaticActionType.daMakeTribute:
+                                    Dialog.MIcon.CurrentImage = 48;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            if ((Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Dialog.FAction.FSource) && (Dialog.FAction.FReaction != ((Aow.Units.AoWE.TDiplomaticActionReaction)3)))
+                            {
+                                Dialog.HighlightPlayer(unchecked((sbyte)Dialog.FAction.FTarget));
+                                Dialog.ShowPlayerInformation(unchecked((sbyte)Dialog.FAction.FTarget));
+                                Dialog.RNewActionPnl.Visible = false;
+                                Dialog.IncommingInfoPnl.Visible = true;
+                                var call__15 = Dialog.FAction.FMessage.Text;
+                                Dialog.IIMemo.Items.Text = call__15;
+                                switch (Dialog.FAction.FActionType)
                                 {
                                     case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
-                                        w__1.MIcon.CurrentImage = 8;
+                                        Dialog.IIIcon.CurrentImage = 8;
                                         break;
                                     case Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance:
-                                        w__1.MIcon.CurrentImage = 10;
+                                        Dialog.IIIcon.CurrentImage = 10;
                                         break;
                                     case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
-                                        w__1.MIcon.CurrentImage = 47;
+                                        Dialog.IIIcon.CurrentImage = 47;
                                         break;
                                     case Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY:
-                                        w__1.MIcon.CurrentImage = 47;
+                                        Dialog.IIIcon.CurrentImage = 47;
                                         break;
                                     case Aow.Units.AoWE.TDiplomaticActionType.daMakeTribute:
-                                        w__1.MIcon.CurrentImage = 48;
+                                        Dialog.IIIcon.CurrentImage = 48;
                                         break;
                                 }
                             }
                             else
                             {
-                                if ((Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == w__1.FAction.FSource) && (w__1.FAction.FReaction != ((Aow.Units.AoWE.TDiplomaticActionReaction)3)))
+                                Dialog.FinishEvent();
+                                if (Dialog.FAction.FReaction == ((Aow.Units.AoWE.TDiplomaticActionReaction)3))
                                 {
-                                    w__1.HighlightPlayer(unchecked((sbyte)w__1.FAction.FTarget));
-                                    w__1.ShowPlayerInformation(unchecked((sbyte)w__1.FAction.FTarget));
-                                    w__1.RNewActionPnl.Visible = false;
-                                    w__1.IncommingInfoPnl.Visible = true;
-                                    var call__15 = w__1.FAction.FMessage.Text;
-                                    w__1.IIMemo.Items.Text = call__15;
-                                    switch (w__1.FAction.FActionType)
-                                    {
-                                        case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
-                                            w__1.IIIcon.CurrentImage = 8;
-                                            break;
-                                        case Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance:
-                                            w__1.IIIcon.CurrentImage = 10;
-                                            break;
-                                        case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
-                                            w__1.IIIcon.CurrentImage = 47;
-                                            break;
-                                        case Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY:
-                                            w__1.IIIcon.CurrentImage = 47;
-                                            break;
-                                        case Aow.Units.AoWE.TDiplomaticActionType.daMakeTribute:
-                                            w__1.IIIcon.CurrentImage = 48;
-                                            break;
-                                    }
+                                    Dialog.ShowPlayerActions(unchecked((sbyte)Dialog.FAction.FTarget));
                                 }
                                 else
                                 {
-                                    w__1.FinishEvent();
-                                    if (w__1.FAction.FReaction == ((Aow.Units.AoWE.TDiplomaticActionReaction)3))
-                                    {
-                                        w__1.ShowPlayerActions(unchecked((sbyte)w__1.FAction.FTarget));
-                                    }
-                                    else
-                                    {
-                                        w__1.ShowPlayerActions(unchecked((sbyte)w__1.FAction.FSource));
-                                    }
+                                    Dialog.ShowPlayerActions(unchecked((sbyte)Dialog.FAction.FSource));
                                 }
                             }
+                        }
 
-                            break;
-                        case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWar:
-                        case Aow.Units.AoWE.TDiplomaticActionType.daBreakAlliance:
-                            if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == w__1.FAction.FSource)
+                        break;
+                    case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWar:
+                    case Aow.Units.AoWE.TDiplomaticActionType.daBreakAlliance:
+                        if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Dialog.FAction.FSource)
+                        {
+                            Dialog.FinishEvent();
+                            Dialog.ShowPlayerActions(unchecked((sbyte)Dialog.FAction.FTarget));
+                        }
+                        else
+                        {
+                            if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Dialog.FAction.FTarget)
                             {
-                                w__1.FinishEvent();
-                                w__1.ShowPlayerActions(unchecked((sbyte)w__1.FAction.FTarget));
+                                Dialog.HighlightPlayer(unchecked((sbyte)Dialog.FAction.FSource));
+                                Dialog.ShowPlayerInformation(unchecked((sbyte)Dialog.FAction.FSource));
+                                Dialog.RNewActionPnl.Visible = false;
+                                Dialog.IncommingInfoPnl.Visible = true;
+                                var call__16 = Dialog.FAction.FMessage.Text;
+                                Dialog.IIMemo.Items.Text = call__16;
+                                if (Dialog.FAction.FActionType == Aow.Units.AoWE.TDiplomaticActionType.daDeclareWar)
+                                {
+                                    Dialog.IIIcon.CurrentImage = 9;
+                                }
+                                else
+                                {
+                                    if (Dialog.FAction.FActionType == Aow.Units.AoWE.TDiplomaticActionType.daBreakAlliance)
+                                    {
+                                        Dialog.IIIcon.CurrentImage = 8;
+                                    }
+                                }
                             }
                             else
                             {
-                                if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == w__1.FAction.FTarget)
-                                {
-                                    w__1.HighlightPlayer(unchecked((sbyte)w__1.FAction.FSource));
-                                    w__1.ShowPlayerInformation(unchecked((sbyte)w__1.FAction.FSource));
-                                    w__1.RNewActionPnl.Visible = false;
-                                    w__1.IncommingInfoPnl.Visible = true;
-                                    var call__16 = w__1.FAction.FMessage.Text;
-                                    w__1.IIMemo.Items.Text = call__16;
-                                    if (w__1.FAction.FActionType == Aow.Units.AoWE.TDiplomaticActionType.daDeclareWar)
-                                    {
-                                        w__1.IIIcon.CurrentImage = 9;
-                                    }
-                                    else
-                                    {
-                                        if (w__1.FAction.FActionType == Aow.Units.AoWE.TDiplomaticActionType.daBreakAlliance)
-                                        {
-                                            w__1.IIIcon.CurrentImage = 8;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    w__1.FinishEvent();
-                                    w__1.ShowPlayerActions(unchecked((sbyte)w__1.FAction.FSource));
-                                }
+                                Dialog.FinishEvent();
+                                Dialog.ShowPlayerActions(unchecked((sbyte)Dialog.FAction.FSource));
                             }
+                        }
 
-                            break;
-                        case Aow.Units.AoWE.TDiplomaticActionType.daThreatenToAttack:
-                            w__1.HighlightPlayer(unchecked((sbyte)w__1.FAction.FSource));
-                            w__1.ShowPlayerInformation(unchecked((sbyte)w__1.FAction.FSource));
-                            w__1.RNewActionPnl.Visible = false;
-                            w__1.IncommingInfoPnl.Visible = true;
-                            var call__17 = w__1.FAction.FMessage.Text;
-                            w__1.IIMemo.Items.Text = call__17;
-                            w__1.IIIcon.CurrentImage = 46;
-                            break;
-                    }
+                        break;
+                    case Aow.Units.AoWE.TDiplomaticActionType.daThreatenToAttack:
+                        Dialog.HighlightPlayer(unchecked((sbyte)Dialog.FAction.FSource));
+                        Dialog.ShowPlayerInformation(unchecked((sbyte)Dialog.FAction.FSource));
+                        Dialog.RNewActionPnl.Visible = false;
+                        Dialog.IncommingInfoPnl.Visible = true;
+                        var call__17 = Dialog.FAction.FMessage.Text;
+                        Dialog.IIMemo.Items.Text = call__17;
+                        Dialog.IIIcon.CurrentImage = 46;
+                        break;
                 }
-                else
-                {
-                    w__1.FinishDialog();
-                }
+            }
+            else
+            {
+                Dialog.FinishDialog();
             }
         }
 
         // E3EventDialogs.pas:751
         public static void ShowInformationBook(Aow.Units.AoWWorldMap.TWorldMap Dialog, Aow.Units.EventLog.TShowBookEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
+            Dialog.FOnBookClosed = Aow.Rtl.Rtl.RebindDelegate<Aow.Rtl.TNotifyEvent>(Done);
+            Dialog.FBookContext = Event;
+            if (Dialog.FBookContext != null)
             {
-                var w__18 = Dialog;
-                w__18.FOnBookClosed = Aow.Rtl.Rtl.RebindDelegate<Aow.Rtl.TNotifyEvent>(Done);
-                w__18.FBookContext = Event;
-                if (w__18.FBookContext != null)
-                {
-                    w__18.FBookContext.AddRef();
-                }
-
-                w__18.LabelL.Text = Aow.Units.AoWE.AoWE.AoWHSMap.FMapName;
-                w__18.MemoL.Items.Clear();
-                w__18.MemoL.Items.AddStrings(Aow.Units.AoWE.AoWE.AoWHSMap.FDescription);
-                var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.MapSettingsRStr);
-                w__18.LabelR.Text = call__19;
-                w__18.MemoR.Items.Clear();
-                if (Aow.Units.AoWE.AoWE.AoWHSMap.FVictoryCondition == ((Aow.Units.AoWE.TVictoryCondition)0))
-                {
-                    var call__20 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ConquerTheMapRStr);
-                    var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ObjectiveXRStr);
-                    var call__22 = Aow.Units.AoWE.AoWE.Format(call__21, [call__20]);
-                    w__18.MemoR.Items.Add(call__22);
-                }
-                else
-                {
-                    var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TVictoryConditionRStr[(int)Aow.Units.AoWE.AoWE.AoWHSMap.FVictoryCondition]);
-                    var call__24 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ObjectiveXRStr);
-                    var call__25 = Aow.Units.AoWE.AoWE.Format(call__24, [call__23]);
-                    w__18.MemoR.Items.Add(call__25);
-                }
-
-                if (Aow.Units.AoWE.AoWE.AoWHSMap.FDayLimit > 0)
-                {
-                    var call__26 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.DayLimitXRStr);
-                    var call__27 = Aow.Units.AoWE.AoWE.Format(call__26, [Aow.Rtl.Rtl.IntToStr(Aow.Units.AoWE.AoWE.AoWHSMap.FDayLimit)]);
-                    w__18.MemoR.Items.Add(call__27);
-                }
-
-                if (Aow.Units.AoWE.AoWE.AoWHSMap.FAlliedVictory)
-                {
-                    var call__28 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnabledRStr);
-                    var call__29 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AlliedVictoryXRStr);
-                    var call__30 = Aow.Units.AoWE.AoWE.Format(call__29, [call__28]);
-                    w__18.MemoR.Items.Add(call__30);
-                }
-                else
-                {
-                    var call__31 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DisabledRStr);
-                    var call__32 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AlliedVictoryXRStr);
-                    var call__33 = Aow.Units.AoWE.AoWE.Format(call__32, [call__31]);
-                    w__18.MemoR.Items.Add(call__33);
-                }
-
-                var call__34 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount();
-                var call__35 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PlayersOnMapXRStr);
-                var call__36 = Aow.Units.AoWE.AoWE.Format(call__35, [Aow.Rtl.Rtl.IntToStr(call__34 - 1)]);
-                w__18.MemoR.Items.Add(call__36);
-                var call__37 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MaximumSphereLevelXRStr);
-                var call__38 = Aow.Units.AoWE.AoWE.Format(call__37, [Aow.Rtl.Rtl.IntToStr(Aow.Units.AoWE.AoWE.AoWHSMap.FSphereCount)]);
-                w__18.MemoR.Items.Add(call__38);
-                var call__39 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MaximumPlayerHeroesXRStr);
-                var call__40 = Aow.Units.AoWE.AoWE.Format(call__39, [Aow.Rtl.Rtl.IntToStr(Aow.Units.AoWE.AoWE.AoWHSMap.FHeroCountMax)]);
-                w__18.MemoR.Items.Add(call__40);
-                if ((Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType == ((Aow.Units.AoWE.TPlayerConnectionType)0)) && Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType)
-                {
-                    var call__41 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerConnectionTypeRStr[(int)Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType]);
-                    var call__42 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HotSeatRStr);
-                    var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GametypeXRStr);
-                    var call__44 = Aow.Units.AoWE.AoWE.Format(call__43, [(call__41 + AnsiString.FromBytes(47)) + call__42]);
-                    w__18.MemoR.Items.Add(call__44);
-                }
-                else
-                {
-                    var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerConnectionTypeRStr[(int)Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType]);
-                    var call__46 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GametypeXRStr);
-                    var call__47 = Aow.Units.AoWE.AoWE.Format(call__46, [call__45]);
-                    w__18.MemoR.Items.Add(call__47);
-                }
-
-                var call__48 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayModeRStr[(int)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode]);
-                var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TurnModeXRStr);
-                var call__50 = Aow.Units.AoWE.AoWE.Format(call__49, [call__48]);
-                w__18.MemoR.Items.Add(call__50);
-                w__18.PicL.Visible = false;
-                w__18.PicR.Visible = false;
-                w__18.MemoL.Visible = true;
-                w__18.MemoR.Visible = true;
-                w__18.Back.Visible = false;
-                w__18.Cancel.Visible = false;
-                w__18.Next.Visible = false;
-                w__18.BookWin.Visible = true;
-                if (w__18.BookWin.FBackSurface != null)
-                {
-                    w__18.BookWin.FBackSurface.Cls(w__18.BookWin.FMaskColor);
-                }
-
-                Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
+                Dialog.FBookContext.AddRef();
             }
+
+            Dialog.LabelL.Text = Aow.Units.AoWE.AoWE.AoWHSMap.FMapName;
+            Dialog.MemoL.Items.Clear();
+            Dialog.MemoL.Items.AddStrings(Aow.Units.AoWE.AoWE.AoWHSMap.FDescription);
+            var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.MapSettingsRStr);
+            Dialog.LabelR.Text = call__19;
+            Dialog.MemoR.Items.Clear();
+            if (Aow.Units.AoWE.AoWE.AoWHSMap.FVictoryCondition == ((Aow.Units.AoWE.TVictoryCondition)0))
+            {
+                var call__20 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ConquerTheMapRStr);
+                var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ObjectiveXRStr);
+                var call__22 = Aow.Units.AoWE.AoWE.Format(call__21, [call__20]);
+                Dialog.MemoR.Items.Add(call__22);
+            }
+            else
+            {
+                var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TVictoryConditionRStr[(int)Aow.Units.AoWE.AoWE.AoWHSMap.FVictoryCondition]);
+                var call__24 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ObjectiveXRStr);
+                var call__25 = Aow.Units.AoWE.AoWE.Format(call__24, [call__23]);
+                Dialog.MemoR.Items.Add(call__25);
+            }
+
+            if (Aow.Units.AoWE.AoWE.AoWHSMap.FDayLimit > 0)
+            {
+                var call__26 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.DayLimitXRStr);
+                var call__27 = Aow.Units.AoWE.AoWE.Format(call__26, [Aow.Rtl.Rtl.IntToStr(Aow.Units.AoWE.AoWE.AoWHSMap.FDayLimit)]);
+                Dialog.MemoR.Items.Add(call__27);
+            }
+
+            if (Aow.Units.AoWE.AoWE.AoWHSMap.FAlliedVictory)
+            {
+                var call__28 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnabledRStr);
+                var call__29 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AlliedVictoryXRStr);
+                var call__30 = Aow.Units.AoWE.AoWE.Format(call__29, [call__28]);
+                Dialog.MemoR.Items.Add(call__30);
+            }
+            else
+            {
+                var call__31 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DisabledRStr);
+                var call__32 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AlliedVictoryXRStr);
+                var call__33 = Aow.Units.AoWE.AoWE.Format(call__32, [call__31]);
+                Dialog.MemoR.Items.Add(call__33);
+            }
+
+            var call__34 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount();
+            var call__35 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PlayersOnMapXRStr);
+            var call__36 = Aow.Units.AoWE.AoWE.Format(call__35, [Aow.Rtl.Rtl.IntToStr(call__34 - 1)]);
+            Dialog.MemoR.Items.Add(call__36);
+            var call__37 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MaximumSphereLevelXRStr);
+            var call__38 = Aow.Units.AoWE.AoWE.Format(call__37, [Aow.Rtl.Rtl.IntToStr(Aow.Units.AoWE.AoWE.AoWHSMap.FSphereCount)]);
+            Dialog.MemoR.Items.Add(call__38);
+            var call__39 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MaximumPlayerHeroesXRStr);
+            var call__40 = Aow.Units.AoWE.AoWE.Format(call__39, [Aow.Rtl.Rtl.IntToStr(Aow.Units.AoWE.AoWE.AoWHSMap.FHeroCountMax)]);
+            Dialog.MemoR.Items.Add(call__40);
+            if ((Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType == ((Aow.Units.AoWE.TPlayerConnectionType)0)) && Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType)
+            {
+                var call__41 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerConnectionTypeRStr[(int)Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType]);
+                var call__42 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HotSeatRStr);
+                var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GametypeXRStr);
+                var call__44 = Aow.Units.AoWE.AoWE.Format(call__43, [(call__41 + AnsiString.FromBytes(47)) + call__42]);
+                Dialog.MemoR.Items.Add(call__44);
+            }
+            else
+            {
+                var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayerConnectionTypeRStr[(int)Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType]);
+                var call__46 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GametypeXRStr);
+                var call__47 = Aow.Units.AoWE.AoWE.Format(call__46, [call__45]);
+                Dialog.MemoR.Items.Add(call__47);
+            }
+
+            var call__48 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayModeRStr[(int)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode]);
+            var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TurnModeXRStr);
+            var call__50 = Aow.Units.AoWE.AoWE.Format(call__49, [call__48]);
+            Dialog.MemoR.Items.Add(call__50);
+            Dialog.PicL.Visible = false;
+            Dialog.PicR.Visible = false;
+            Dialog.MemoL.Visible = true;
+            Dialog.MemoR.Visible = true;
+            Dialog.Back.Visible = false;
+            Dialog.Cancel.Visible = false;
+            Dialog.Next.Visible = false;
+            Dialog.BookWin.Visible = true;
+            if (Dialog.BookWin.FBackSurface != null)
+            {
+                Dialog.BookWin.FBackSurface.Cls(Dialog.BookWin.FMaskColor);
+            }
+
+            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
         }
 
         // E3EventDialogs.pas:170
         public static void ShowCombatType(Aow.Units.TCFCDlg.TTCFCDialog Dialog, Aow.Units.AoWE.TCombatTypeRequestEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
+            if (Aow.Units.E2Globals.E2Globals.DialogWin.FSkipCombatChoice)
             {
-                var w__51 = Dialog;
-                if (Aow.Units.E2Globals.E2Globals.DialogWin.FSkipCombatChoice)
+                if (Dialog.TCchk.Checked)
                 {
-                    if (w__51.TCchk.Checked)
-                    {
-                        Event.Select((Aow.Units.AoWE.TCombatType)2);
-                    }
-                    else
-                    {
-                        Event.Select((Aow.Units.AoWE.TCombatType)1);
-                    }
-
-                    Done(Event);
+                    Event.Select((Aow.Units.AoWE.TCombatType)2);
                 }
                 else
                 {
-                    w__51.FRequest = Event;
-                    w__51.FRequest.AddRef();
-                    w__51.FOnDone = Aow.Rtl.Rtl.RebindDelegate<Aow.Rtl.TNotifyEvent>(Done);
-                    Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
-                    if (w__51.TCchk.Checked)
-                    {
-                        Event.Select((Aow.Units.AoWE.TCombatType)2);
-                    }
-                    else
-                    {
-                        Event.Select((Aow.Units.AoWE.TCombatType)1);
-                    }
-
-                    var call__52 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(w__51.FRequest.FPlayer);
-                    if (call__52.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
-                    {
-                        w__51.CancelBtn.Visible = true;
-                        w__51.FightBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-                    }
-                    else
-                    {
-                        w__51.CancelBtn.Visible = false;
-                        w__51.FightBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-                    }
-
-                    w__51.Dlg.ReAlign();
-                    w__51.Dlg.Visible = true;
-                    Aow.Units.AoWE.AoWE.AoWHSMap.FTutorialControl.ShowMessage(61, true, true);
+                    Event.Select((Aow.Units.AoWE.TCombatType)1);
                 }
+
+                Done(Event);
+            }
+            else
+            {
+                Dialog.FRequest = Event;
+                Dialog.FRequest.AddRef();
+                Dialog.FOnDone = Aow.Rtl.Rtl.RebindDelegate<Aow.Rtl.TNotifyEvent>(Done);
+                Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
+                if (Dialog.TCchk.Checked)
+                {
+                    Event.Select((Aow.Units.AoWE.TCombatType)2);
+                }
+                else
+                {
+                    Event.Select((Aow.Units.AoWE.TCombatType)1);
+                }
+
+                var call__52 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Dialog.FRequest.FPlayer);
+                if (call__52.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
+                {
+                    Dialog.CancelBtn.Visible = true;
+                    Dialog.FightBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+                }
+                else
+                {
+                    Dialog.CancelBtn.Visible = false;
+                    Dialog.FightBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+                }
+
+                Dialog.Dlg.ReAlign();
+                Dialog.Dlg.Visible = true;
+                Aow.Units.AoWE.AoWE.AoWHSMap.FTutorialControl.ShowMessage(61, true, true);
             }
         }
 
         // E3EventDialogs.pas:786
         public static void ShowSMTPEvent(Aow.Units.AoWSMTPDlg.TSMTPDlg Dialog, Aow.Units.AoWE.TSMTPEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
+            Dialog.ResetProgress();
+            Dialog.FDone = Done;
+            Dialog.FEvent = Event;
+            var smtpEventLog = Dialog.FEvent;
+            smtpEventLog.AddRef();
+
+            var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RecipientXRStr);
+            var call__56 = Aow.Units.AoWE.AoWE.Format(call__55, [Event.FToAddress]);
+            Dialog.RecipientLbl.Text = call__56;
+            try
             {
-                var w__53 = Dialog;
-                w__53.ResetProgress();
-                w__53.FDone = Done;
-                w__53.FEvent = Event;
-                {
-                    var w__54 = w__53.FEvent;
-                    w__54.AddRef();
-                }
+                Dialog.IMSSMTP.FMessage = Dialog.IMSMessage;
+                var call__57 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
+                Dialog.IMSSMTP.FHost = call__57;
+                Dialog.IMSSMTP.WinsockLoaded = true;
+                var tmsMessage = Dialog.IMSMessage;
+                tmsMessage.FEncode = false;
+                tmsMessage.FIncludeHeader = false;
+                tmsMessage.FHeader.FFrom = Event.FFromAddress;
+                tmsMessage.FRecipients.Clear();
+                Dialog.IMSMessage.FRecipients.AddAddress(Event.FToAddress, (AnsiString)"");
 
-                var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RecipientXRStr);
-                var call__56 = Aow.Units.AoWE.AoWE.Format(call__55, [Event.FToAddress]);
-                w__53.RecipientLbl.Text = call__56;
-                try
-                {
-                    w__53.IMSSMTP.FMessage = w__53.IMSMessage;
-                    var call__57 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
-                    w__53.IMSSMTP.FHost = call__57;
-                    w__53.IMSSMTP.WinsockLoaded = true;
-                    {
-                        var w__58 = w__53.IMSMessage;
-                        w__58.FEncode = false;
-                        w__58.FIncludeHeader = false;
-                        w__58.FHeader.FFrom = Event.FFromAddress;
-                        w__58.FRecipients.Clear();
-                        Dialog.IMSMessage.FRecipients.AddAddress(Event.FToAddress, (AnsiString)"");
-                    }
-
-                    w__53.IMSMessage.FSubject = Event.FSubject;
-                    w__53.IMSMessage.SetBody(Event.FMessage);
-                    w__53.IMSMessage.FAttachments.Clear();
-                    w__53.IMSMessage.FAttachments.AddFile(Event.FFileName);
-                    w__53.StartSending();
-                    w__53.Dlg.Visible = true;
-                }
-                catch (System.Exception)
-                {
-                    w__53.FEvent.FSuccess = false;
-                    w__53.FFinished = true;
-                    w__53.Dlg.Visible = true;
-                }
+                Dialog.IMSMessage.FSubject = Event.FSubject;
+                Dialog.IMSMessage.SetBody(Event.FMessage);
+                Dialog.IMSMessage.FAttachments.Clear();
+                Dialog.IMSMessage.FAttachments.AddFile(Event.FFileName);
+                Dialog.StartSending();
+                Dialog.Dlg.Visible = true;
+            }
+            catch (System.Exception)
+            {
+                Dialog.FEvent.FSuccess = false;
+                Dialog.FFinished = true;
+                Dialog.Dlg.Visible = true;
             }
         }
 

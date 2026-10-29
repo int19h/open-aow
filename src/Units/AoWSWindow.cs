@@ -160,11 +160,8 @@ namespace Aow.Units.AoWSWindow
         // AoWSWindow.pas:79
         public void ScannerWindowResize()
         {
-            {
-                var w__1 = ScannerWindow;
-                w__1.Alignment.RightOffset = (w__1.FWinManager.WinWidth - w__1.WinLeft) - w__1.WinWidth;
-                w__1.Alignment.TopOffset = w__1.WinTop;
-            }
+            this.ScannerWindow.Alignment.RightOffset = (this.ScannerWindow.FWinManager.WinWidth - this.ScannerWindow.WinLeft) - this.ScannerWindow.WinWidth;
+            this.ScannerWindow.Alignment.TopOffset = this.ScannerWindow.WinTop;
         }
 
         // AoWSWindow.pas:88

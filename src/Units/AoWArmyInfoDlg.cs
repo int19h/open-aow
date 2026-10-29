@@ -229,14 +229,12 @@ namespace Aow.Units.AoWArmyInfoDlg
         public void U1PreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
         {
             Aow.Rtl.TRect R = default;
-            {
-                var w__9 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                R.Left = (w__9.WinLeft + UnitPnl.WinLeft) + 1;
-                R.Right = w__9.WinWidth + R.Left;
-                R.Top = w__9.WinTop + UnitPnl.WinTop;
-                R.Bottom = w__9.WinHeight + R.Top;
-                DrawUnit(Sender.Tag, R, ref SD);
-            }
+            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            R.Left = (image.WinLeft + UnitPnl.WinLeft) + 1;
+            R.Right = image.WinWidth + R.Left;
+            R.Top = image.WinTop + UnitPnl.WinTop;
+            R.Bottom = image.WinHeight + R.Top;
+            DrawUnit(Sender.Tag, R, ref SD);
         }
 
         // AoWArmyInfoDlg.pas:146
@@ -245,13 +243,10 @@ namespace Aow.Units.AoWArmyInfoDlg
             Aow.Rtl.TRect R = default;
             int I = default;
             ;
-            {
-                var w__10 = FaceFrame;
-                R.Left = w__10.WinLeft + Dlg.WinLeft;
-                R.Right = w__10.WinWidth + R.Left;
-                R.Top = w__10.WinTop + Dlg.WinTop;
-                R.Bottom = w__10.WinHeight + R.Top;
-            }
+            R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
+            R.Right = this.FaceFrame.WinWidth + R.Left;
+            R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
+            R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
             I = 0;
             while (true)

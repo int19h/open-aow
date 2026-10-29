@@ -142,28 +142,26 @@ namespace Aow.Units.AoWSendEmailGameDlg
             ;
             FSendEvent = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TSendEmailGameEventLog>((int)(Aow.Rtl.Rtl.ObjectToInt(Event) << 0));
             FSendEvent.AddRef();
+            var sendEmailGameEventLog = FSendEvent;
+            var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
+            EmailAddressEdit.Text = call__2.FPBEMSettings.FEmailGame.FEmailAddress;
+            // { Original reuses the resource-string temporary for the formatted text. }
+            var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
+            var call__4 = call__3.GetNameEx();
+            var call__5 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NextPlayerXRStr);
+            var call__6 = Aow.Units.AoWE.AoWE.Format(call__5, [call__4]);
+            RecipientNameLbl.Text = call__6;
+            if (sendEmailGameEventLog.FMode == 2)
             {
-                var w__1 = FSendEvent;
-                var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
-                EmailAddressEdit.Text = call__2.FPBEMSettings.FEmailGame.FEmailAddress;
-                // { Original reuses the resource-string temporary for the formatted text. }
-                var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
-                var call__4 = call__3.GetNameEx();
-                var call__5 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NextPlayerXRStr);
-                var call__6 = Aow.Units.AoWE.AoWE.Format(call__5, [call__4]);
-                RecipientNameLbl.Text = call__6;
-                if (w__1.FMode == 2)
-                {
-                    var call__7 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
-                    AutomatedChk.Checked = call__7 != ((AnsiString)"");
-                    var call__8 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
-                    ManualChk.Checked = call__8 == ((AnsiString)"");
-                }
-                else
-                {
-                    AutomatedChk.Checked = w__1.FMode == 0;
-                    ManualChk.Checked = w__1.FMode == 1;
-                }
+                var call__7 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
+                AutomatedChk.Checked = call__7 != ((AnsiString)"");
+                var call__8 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
+                ManualChk.Checked = call__8 == ((AnsiString)"");
+            }
+            else
+            {
+                AutomatedChk.Checked = sendEmailGameEventLog.FMode == 0;
+                ManualChk.Checked = sendEmailGameEventLog.FMode == 1;
             }
 
             Dlg.Visible = true;

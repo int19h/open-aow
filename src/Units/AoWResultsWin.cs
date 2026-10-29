@@ -621,27 +621,25 @@ namespace Aow.Units.AoWResultsWin
         public void P1CBPreDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Rtl.TRect R = default;
+            var component = (Aow.Units.AoWComp.TAoWComponent)Sender;
+            if (component.Tag < FPlayers.Count)
             {
-                var w__65 = (Aow.Units.AoWComp.TAoWComponent)Sender;
-                if (w__65.Tag < FPlayers.Count)
+                var call__66 = Aow.Rtl.Rtl.Rect((component.WinLeft + ResultsPnl.WinLeft) + 1, (component.WinTop + ResultsPnl.WinTop) + 1, ((component.WinLeft + component.WinWidth) + ResultsPnl.WinLeft) - 1, ((component.WinTop + component.WinHeight) + ResultsPnl.WinTop) - 1);
+                R = call__66;
+                var call__67 = FPlayers[component.Tag];
+                var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__67);
+                var call__69 = call__68.GetFace();
+                if (call__69 != null)
                 {
-                    var call__66 = Aow.Rtl.Rtl.Rect((w__65.WinLeft + ResultsPnl.WinLeft) + 1, (w__65.WinTop + ResultsPnl.WinTop) + 1, ((w__65.WinLeft + w__65.WinWidth) + ResultsPnl.WinLeft) - 1, ((w__65.WinTop + w__65.WinHeight) + ResultsPnl.WinTop) - 1);
-                    R = call__66;
-                    var call__67 = FPlayers[w__65.Tag];
-                    var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__67);
-                    var call__69 = call__68.GetFace();
-                    if (call__69 != null)
-                    {
-                        var call__70 = FPlayers[w__65.Tag];
-                        var call__71 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__70);
-                        call__71.FLeader.ShowFace(R, Surface);
-                    }
-
-                    var call__72 = FPlayers[w__65.Tag];
-                    var call__73 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__72);
-                    var call__74 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[call__73.FPlayerRace + 16];
-                    call__74.ShowClipped(w__65.WinLeft + ResultsPnl.WinLeft, w__65.WinTop + ResultsPnl.WinTop, Surface);
+                    var call__70 = FPlayers[component.Tag];
+                    var call__71 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__70);
+                    call__71.FLeader.ShowFace(R, Surface);
                 }
+
+                var call__72 = FPlayers[component.Tag];
+                var call__73 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__72);
+                var call__74 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[call__73.FPlayerRace + 16];
+                call__74.ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
             }
         }
 

@@ -288,11 +288,8 @@ namespace Aow.Units.AOWControlWin
         // AOWControlWin.pas:324
         public void ControlWindowResize()
         {
-            {
-                var w__19 = ControlWindow;
-                w__19.Alignment.RightOffset = (w__19.WinManager.WinWidth - w__19.WinLeft) - w__19.WinWidth;
-                w__19.Alignment.TopOffset = w__19.WinTop;
-            }
+            this.ControlWindow.Alignment.RightOffset = (this.ControlWindow.WinManager.WinWidth - this.ControlWindow.WinLeft) - this.ControlWindow.WinWidth;
+            this.ControlWindow.Alignment.TopOffset = this.ControlWindow.WinTop;
         }
 
         // AOWControlWin.pas:333
@@ -498,15 +495,11 @@ namespace Aow.Units.AOWControlWin
         {
             // { Tried direct coordinate paths; no exact match. }
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            {
-                var w__33 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
-                Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(w__33.FX, w__33.FY, w__33.FL);
-            }
+            var army = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
+            Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(army.FX, army.FY, army.FL);
 
-            {
-                var w__34 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
-                Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)w__34.FX), unchecked((sbyte)w__34.FY), unchecked((sbyte)w__34.FL));
-            }
+            var army2 = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
+            Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)army2.FX), unchecked((sbyte)army2.FY), unchecked((sbyte)army2.FL));
         }
 
         // AOWControlWin.pas:422

@@ -216,11 +216,8 @@ namespace Aow.Units.AoWTCUnit
         // { +0150 }
         public void TCUnitWinResize()
         {
-            {
-                var w__1 = TCUnitWin;
-                w__1.Alignment.RightOffset = (w__1.WinManager.WinWidth - w__1.WinLeft) - w__1.WinWidth;
-                w__1.Alignment.BottomOffset = (w__1.WinManager.WinHeight - w__1.WinTop) - w__1.WinHeight;
-            }
+            this.TCUnitWin.Alignment.RightOffset = (this.TCUnitWin.WinManager.WinWidth - this.TCUnitWin.WinLeft) - this.TCUnitWin.WinWidth;
+            this.TCUnitWin.Alignment.BottomOffset = (this.TCUnitWin.WinManager.WinHeight - this.TCUnitWin.WinTop) - this.TCUnitWin.WinHeight;
         }
 
         // AoWTCUnit.pas:116
@@ -341,13 +338,11 @@ namespace Aow.Units.AoWTCUnit
                         return;
                     }
 
+                    var tacticalCombatUnit = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit;
+                    var call__23 = tacticalCombatUnit.FUnit.GetMoves();
+                    if (call__23 <= tacticalCombatUnit.FMovePoints)
                     {
-                        var w__22 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit;
-                        var call__23 = w__22.FUnit.GetMoves();
-                        if (call__23 <= w__22.FMovePoints)
-                        {
-                            return;
-                        }
+                        return;
                     }
                 }
 
@@ -423,19 +418,15 @@ namespace Aow.Units.AoWTCUnit
                         Window.UnitMana.Position = call__31;
                     }
 
-                    {
-                        var w__32 = Window.UnitFr;
-                        w__32.Alignment.TopOffset = 7;
-                        w__32.WinHeight = 54;
-                    }
+                    var panel = Window.UnitFr;
+                    panel.Alignment.TopOffset = 7;
+                    panel.WinHeight = 54;
                 }
                 else
                 {
-                    {
-                        var w__33 = Window.UnitFr;
-                        w__33.Alignment.TopOffset = 0;
-                        w__33.WinHeight = 61;
-                    }
+                    var panel2 = Window.UnitFr;
+                    panel2.Alignment.TopOffset = 0;
+                    panel2.WinHeight = 61;
                 }
 
                 Window.UnitFr.FAligned = false;

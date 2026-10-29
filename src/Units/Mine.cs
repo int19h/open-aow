@@ -241,7 +241,7 @@ namespace Aow.Units.Mine
             Aow.Rtl.AnsiString Result = default;
             if ((Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crVictory) || (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crNoDefenders))
             {
-                Aow.Units.Mine.Mine.TranslateMineText(Aow.Units.AoWE.AoWE.MineBattleWonRStr, ref Result);
+                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MineBattleWonRStr);
             }
             else
             {
@@ -440,13 +440,6 @@ namespace Aow.Units.Mine
         public static void RegisterMine(Aow.Units.Engine.TEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mine.TMine>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mine.TMineResource>()]);
-        }
-
-        // Mine.pas:65
-        // { needs: draft AoWE methods have object, integer and Boolean results. }
-        public static void TranslateMineText(Aow.Rtl.AnsiString S, ref Aow.Rtl.AnsiString Text)
-        {
-            Text = Aow.Units.AoWE.AoWE.TranslateRStr(S);
         }
 
         public static void Initialize()

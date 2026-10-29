@@ -276,9 +276,8 @@ namespace Aow.Units.IndependentAG
                     Finder = Aow.Units.AoWE.TAIGroupTargetFinder.Create(null);
                     Finder.Setup(this);
                 {
-                    var w__4 = Finder;
-                    w__4.FSelector.FSourceLocation = ((Aow.Units.IndependentAG.TGuardAreaAG)FGroup).FGuardLocation;
-                    w__4.FSelector.FTargetInfo.Mode = Aow.Units.AoWE.TAITargetMode.tmGuardArea;
+                    Finder.FSelector.FSourceLocation = ((Aow.Units.IndependentAG.TGuardAreaAG)FGroup).FGuardLocation;
+                    Finder.FSelector.FTargetInfo.Mode = Aow.Units.AoWE.TAITargetMode.tmGuardArea;
                 }
 
                     var call__5 = FArmy.Moves(unchecked((byte)FSelection));
@@ -361,10 +360,8 @@ namespace Aow.Units.IndependentAG
                         if (bool__19)
                         {
                             SetupME();
-                            {
-                                var w__21 = (Aow.Units.IndependentAG.TGuardAreaAG)FGroup;
-                                ExecuteME(unchecked((sbyte)w__21.FGuardLocation.X), unchecked((sbyte)w__21.FGuardLocation.Y), unchecked((sbyte)w__21.FGuardLocation.L));
-                            }
+                            var guardAreaAG = (Aow.Units.IndependentAG.TGuardAreaAG)FGroup;
+                            ExecuteME(unchecked((sbyte)guardAreaAG.FGuardLocation.X), unchecked((sbyte)guardAreaAG.FGuardLocation.Y), unchecked((sbyte)guardAreaAG.FGuardLocation.L));
                         }
                         else
                         {

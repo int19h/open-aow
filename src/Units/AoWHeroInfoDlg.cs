@@ -160,10 +160,8 @@ namespace Aow.Units.AoWHeroInfoDlg
                 Alignment = call__3;
                 if (((int)Alignment) < Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                 {
-                    {
-                        var w__4 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[unchecked((int)Alignment)];
-                        w__4.ShowClipped(X - (w__4.Width / 2), Y - (w__4.Height / 2), Surface);
-                    }
+                    var image = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[unchecked((int)Alignment)];
+                    image.ShowClipped(X - (image.Width / 2), Y - (image.Height / 2), Surface);
                 }
 
                 Info = default;
@@ -173,10 +171,8 @@ namespace Aow.Units.AoWHeroInfoDlg
                 call__5.ShowEx(X - 33, Y - 35, Surface, Info);
                 if ((((int)(((uint)FArmyInfo.FSelection) >> Index)) & 1) == 0)
                 {
-                    {
-                        var w__6 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
-                        w__6.ShowClipped(X - (w__6.Width / 2), Y - (w__6.Height / 2), Surface);
-                    }
+                    var image2 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
+                    image2.ShowClipped(X - (image2.Width / 2), Y - (image2.Height / 2), Surface);
                 }
 
                 Surface.ClipRect = OldClip;
@@ -197,13 +193,10 @@ namespace Aow.Units.AoWHeroInfoDlg
             Aow.Rtl.TRect R = default;
             Aow.Units.AoWE.THero Hero = default;
             int I = default;
-            {
-                var w__7 = FaceFrame;
-                R.Left = w__7.WinLeft + Dlg.WinLeft;
-                R.Right = w__7.WinWidth + R.Left;
-                R.Top = w__7.WinTop + Dlg.WinTop;
-                R.Bottom = w__7.WinHeight + R.Top;
-            }
+            R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
+            R.Right = this.FaceFrame.WinWidth + R.Left;
+            R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
+            R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
             var call__8 = FArmyInfo.FArmyView.Hero(unchecked((byte)FArmyInfo.FSelection), Aow.Units.E2CampaignSupport.E2CampaignSupport.AllHeroTypes);
             Hero = call__8;
@@ -243,13 +236,10 @@ namespace Aow.Units.AoWHeroInfoDlg
         public void U1PreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Rtl.TRect R = default;
-            {
-                var w__13 = Sender;
-                R.Left = (w__13.WinLeft + UnitPnl.WinLeft) + 1;
-                R.Right = w__13.WinWidth + R.Left;
-                R.Top = w__13.WinTop + UnitPnl.WinTop;
-                R.Bottom = w__13.WinHeight + R.Top;
-            }
+            R.Left = (Sender.WinLeft + UnitPnl.WinLeft) + 1;
+            R.Right = Sender.WinWidth + R.Left;
+            R.Top = Sender.WinTop + UnitPnl.WinTop;
+            R.Bottom = Sender.WinHeight + R.Top;
 
             DrawUnit(Sender.Tag, R, ref Surface);
         }
@@ -295,33 +285,30 @@ namespace Aow.Units.AoWHeroInfoDlg
         public static void ShowHeroInfo(Aow.Units.AoWHeroInfoDlg.THeroInfoDlg Dialog, Aow.Units.AoWE.TArmyInfoEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
             Aow.Units.AoWE.THero Hero = default;
+            Aow.Rtl.Rtl.Assert(Dialog.FArmyInfo == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWHeroInfoDlg.pas", 80);
+            Dialog.FDone = Done;
+            Dialog.FArmyInfo = Event;
+            Dialog.FArmyInfo.AddRef();
+            var call__17 = Event.FMessages.Text;
+            Dialog.Message.Items.Text = call__17;
+            var call__18 = Dialog.FArmyInfo.FArmyView.Hero(unchecked((byte)Dialog.FArmyInfo.FSelection), Aow.Units.E2CampaignSupport.E2CampaignSupport.AllHeroTypes);
+            Hero = call__18;
+            if (Hero != null)
             {
-                var w__16 = Dialog;
-                Aow.Rtl.Rtl.Assert(w__16.FArmyInfo == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWHeroInfoDlg.pas", 80);
-                w__16.FDone = Done;
-                w__16.FArmyInfo = Event;
-                w__16.FArmyInfo.AddRef();
-                var call__17 = Event.FMessages.Text;
-                w__16.Message.Items.Text = call__17;
-                var call__18 = w__16.FArmyInfo.FArmyView.Hero(unchecked((byte)w__16.FArmyInfo.FSelection), Aow.Units.E2CampaignSupport.E2CampaignSupport.AllHeroTypes);
-                Hero = call__18;
-                if (Hero != null)
-                {
-                    w__16.HeroName.Text = Hero.FHeroName;
-                    var call__19 = Hero.GetLevel();
-                    var call__20 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LevelXRStr);
-                    var call__21 = Aow.Units.AoWE.AoWE.Format(call__20, [Aow.Rtl.Rtl.IntToStr(call__19)]);
-                    w__16.HeroLevel.Text = call__21;
-                }
-                else
-                {
-                    w__16.HeroName.Text = (AnsiString)"";
-                    w__16.HeroLevel.Text = (AnsiString)"";
-                }
-
-                w__16.Dlg.Visible = true;
-                w__16.FDetailsOpen = false;
+                Dialog.HeroName.Text = Hero.FHeroName;
+                var call__19 = Hero.GetLevel();
+                var call__20 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LevelXRStr);
+                var call__21 = Aow.Units.AoWE.AoWE.Format(call__20, [Aow.Rtl.Rtl.IntToStr(call__19)]);
+                Dialog.HeroLevel.Text = call__21;
             }
+            else
+            {
+                Dialog.HeroName.Text = (AnsiString)"";
+                Dialog.HeroLevel.Text = (AnsiString)"";
+            }
+
+            Dialog.Dlg.Visible = true;
+            Dialog.FDetailsOpen = false;
         }
     }
 }

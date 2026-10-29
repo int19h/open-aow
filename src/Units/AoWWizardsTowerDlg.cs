@@ -169,24 +169,20 @@ namespace Aow.Units.AoWWizardsTowerDlg
             Aow.Units.AoWE.TSpell S = default;
             int X = default;
             int Y = default;
+            var wizardsTower = FEvent.FTower;
+            if (wizardsTower.FSpellID != 0)
             {
-                var w__2 = FEvent.FTower;
-                if (w__2.FSpellID != 0)
+                var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(wizardsTower.FSpellID);
+                S = call__3;
+                if (S != null)
                 {
-                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(w__2.FSpellID);
-                    S = call__3;
-                    if (S != null)
+                    var call__4 = S.FCastImages.GetImageSequence(10);
+                    if (call__4 != null)
                     {
-                        var call__4 = S.FCastImages.GetImageSequence(10);
-                        if (call__4 != null)
-                        {
-                            {
-                                var w__5 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                                X = w__5.AOWWindow.WinLeft;
-                                Y = w__5.AOWWindow.WinTop;
-                                S.FCastImages.Show(10, w__5.WinLeft + X, w__5.WinTop + Y, 0, SD);
-                            }
-                        }
+                        var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+                        X = image.AOWWindow.WinLeft;
+                        Y = image.AOWWindow.WinTop;
+                        S.FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);
                     }
                 }
             }

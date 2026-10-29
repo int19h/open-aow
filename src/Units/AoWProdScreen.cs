@@ -773,12 +773,9 @@ namespace Aow.Units.AoWProdScreen
                     ActiveActionTurns.Text = call__87;
                     ActiveActionTurns.Visible = true;
                     ActiveActionTurns.TextColor = 6783862;
-                    {
-                        var w__88 = ActiveActionTurnsBar;
-                        w__88.Min = 0;
-                        w__88.Max = FPlace.FProductionControl.FSettings.FTurnsTotal;
-                        w__88.Position = FPlace.FProductionControl.FSettings.FTurnsTotal - FPlace.FProductionControl.FSettings.FTurnsLeft;
-                    }
+                    this.ActiveActionTurnsBar.Min = 0;
+                    this.ActiveActionTurnsBar.Max = FPlace.FProductionControl.FSettings.FTurnsTotal;
+                    this.ActiveActionTurnsBar.Position = FPlace.FProductionControl.FSettings.FTurnsTotal - FPlace.FProductionControl.FSettings.FTurnsLeft;
 
                     ActiveActionTurnsBar.Visible = true;
                 }
@@ -1318,23 +1315,21 @@ namespace Aow.Units.AoWProdScreen
                 {
                     var call__150 = Aow.Rtl.Rtl.Rect(ActiveActionPnl.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop, (ActiveActionPnl.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinWidth, (ActiveActionPnl.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinHeight);
                     R = call__150;
+                    var productionPlaceControl = FPlace.FProductionControl;
+                    var call__152 = productionPlaceControl.FUnitProductions.GetItem(productionPlaceControl.FSettings.FUnitProductionIndex);
+                    if (call__152 != null)
                     {
-                        var w__151 = FPlace.FProductionControl;
-                        var call__152 = w__151.FUnitProductions.GetItem(w__151.FSettings.FUnitProductionIndex);
-                        if (call__152 != null)
+                        var call__153 = FPlace.FProductionControl.CreateUnitProduction(FPlace.FProductionControl.FSettings.FUnitProductionIndex);
+                        U = call__153;
+                        if (U != null)
                         {
-                            var call__153 = FPlace.FProductionControl.CreateUnitProduction(FPlace.FProductionControl.FSettings.FUnitProductionIndex);
-                            U = call__153;
-                            if (U != null)
-                            {
-                                Info.Direction = 3;
-                                Info.Overlays = TSet<Aow.Units.AoWE.TUnitOverlayModesElement>.Of();
-                                Info.Animation = (Aow.Units.AoWE.TUnitAnimation)0;
-                                Info.Frame = 0;
-                                Info.Looped = false;
-                                U.ShowEx(R.Left - 12, R.Top - 5, SD, Info);
-                                U.Release();
-                            }
+                            Info.Direction = 3;
+                            Info.Overlays = TSet<Aow.Units.AoWE.TUnitOverlayModesElement>.Of();
+                            Info.Animation = (Aow.Units.AoWE.TUnitAnimation)0;
+                            Info.Frame = 0;
+                            Info.Looped = false;
+                            U.ShowEx(R.Left - 12, R.Top - 5, SD, Info);
+                            U.Release();
                         }
                     }
                 }

@@ -307,15 +307,11 @@ namespace Aow.Units.AGCPlugins
                     else
                     {
                         FControl.SetupME();
-                        {
-                            var w__13 = FControl.FMoveExecuter;
-                            w__13.FMode = w__13.FMode - TSet<Aow.Units.AoWE.TAIMoveExecuterModeElement>.Of(Aow.Units.AoWE.TAIMoveExecuterModeElement.memAdjacent);
-                        }
+                        var aiMoveExecuter = FControl.FMoveExecuter;
+                        aiMoveExecuter.FMode = aiMoveExecuter.FMode - TSet<Aow.Units.AoWE.TAIMoveExecuterModeElement>.Of(Aow.Units.AoWE.TAIMoveExecuterModeElement.memAdjacent);
 
-                        {
-                            var w__14 = FControl;
-                            w__14.ExecuteME(unchecked((sbyte)w__14.FLocation.X), unchecked((sbyte)w__14.FLocation.Y), unchecked((sbyte)w__14.FLocation.L));
-                        }
+                        var aiGroupControl = FControl;
+                        aiGroupControl.ExecuteME(unchecked((sbyte)aiGroupControl.FLocation.X), unchecked((sbyte)aiGroupControl.FLocation.Y), unchecked((sbyte)aiGroupControl.FLocation.L));
 
                         FControl.FGroup.SetupTarget(null, Aow.Units.AoWE.TAIGroupTargetStatus.gtsIdle, 0);
                         Done();
@@ -339,13 +335,10 @@ namespace Aow.Units.AGCPlugins
         public void Reset()
         {
             FSelector.Reset();
-            {
-                var w__15 = FSelector;
-                w__15.FOnTargetFound = TargetFoundEvent;
-                w__15.FMovePointsMax = 150;
-                w__15.FMovePointsMin = 0;
-                w__15.FTargetInfo.Mode = Aow.Units.AoWE.TAITargetMode.tmDefend;
-            }
+            this.FSelector.FOnTargetFound = TargetFoundEvent;
+            this.FSelector.FMovePointsMax = 150;
+            this.FSelector.FMovePointsMin = 0;
+            this.FSelector.FTargetInfo.Mode = Aow.Units.AoWE.TAITargetMode.tmDefend;
 
             FPathStep = 7;
             FDamageTypes = Aow.Units.AGCPlugins.AGCPlugins.AllDamageTypes - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall);
@@ -395,10 +388,7 @@ namespace Aow.Units.AGCPlugins
         {
             Aow.Units.AoWE.TAIGroupControlTarget NewTarget = default;
             NewTarget = Aow.Units.AoWE.TAIGroupControlTarget.Create(null);
-            {
-                var w__19 = FSelector;
-                NewTarget.FInfo = w__19.FTargetInfo;
-            }
+            NewTarget.FInfo = this.FSelector.FTargetInfo;
 
             NewTarget.FData = Target.FData;
             NewTarget.FLocation = Target.FLocation;
@@ -526,29 +516,28 @@ namespace Aow.Units.AGCPlugins
                     Control = FControl;
                     FMoveSettings.Reset();
                 {
-                    var w__23 = FMoveSettings;
-                    w__23.FPlayer = unchecked((sbyte)Control.FGroup.FPlayer);
-                    w__23.FMode = w__23.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmAI);
-                    w__23.SetSourcePos(Control.FLocation.X, Control.FLocation.Y, Control.FLocation.L);
+                    this.FMoveSettings.FPlayer = unchecked((sbyte)Control.FGroup.FPlayer);
+                    this.FMoveSettings.FMode = this.FMoveSettings.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmAI);
+                    this.FMoveSettings.SetSourcePos(Control.FLocation.X, Control.FLocation.Y, Control.FLocation.L);
                 }
 
                 {
-                    var w__24 = FMoveSettings;
-                    w__24.FMovePointsMax = this.FMovePointsMax;
-                    w__24.FArmyHS = Control.FArmyHS;
-                    w__24.FSelection = Control.FSelection;
-                    w__24.FMovePointTable = Control.FMovePointTable;
-                    w__24.FMode = w__24.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmLogProcessedMapFields);
+                    var moveControlSettings = FMoveSettings;
+                    moveControlSettings.FMovePointsMax = this.FMovePointsMax;
+                    moveControlSettings.FArmyHS = Control.FArmyHS;
+                    moveControlSettings.FSelection = Control.FSelection;
+                    moveControlSettings.FMovePointTable = Control.FMovePointTable;
+                    moveControlSettings.FMode = moveControlSettings.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmLogProcessedMapFields);
                     Aow.Units.AoWE.AoWE.AoWHSMap.FMoveControl.ProcessMove(FMoveSettings);
                 }
 
                 {
-                    var w__25 = Control.FGroup;
+                    var group = Control.FGroup;
                     // { Original reloads the current control. }
-                    bool bool__26 = (w__25.FTargetMode == 1) && (this.FControl.FGroup.FTargetXYL.X > 0);
+                    bool bool__26 = (group.FTargetMode == 1) && (this.FControl.FGroup.FTargetXYL.X > 0);
                     if (bool__26)
                     {
-                        var call__27 = FMoveSettings.GetMovePoints(w__25.FTargetXYL.X, w__25.FTargetXYL.Y, w__25.FTargetXYL.L);
+                        var call__27 = FMoveSettings.GetMovePoints(group.FTargetXYL.X, group.FTargetXYL.Y, group.FTargetXYL.L);
                         bool__26 = (call__27 != 16777215);
                     }
 
@@ -652,9 +641,9 @@ namespace Aow.Units.AGCPlugins
                     break;
                 case 2:
                 {
-                    var w__40 = FControl;
-                    w__40.SetupME();
-                    w__40.ExecuteME(unchecked((sbyte)w__40.FGroup.FTargetXYL.X), unchecked((sbyte)w__40.FGroup.FTargetXYL.Y), unchecked((sbyte)w__40.FGroup.FTargetXYL.L));
+                    var aiGroupControl = FControl;
+                    aiGroupControl.SetupME();
+                    aiGroupControl.ExecuteME(unchecked((sbyte)aiGroupControl.FGroup.FTargetXYL.X), unchecked((sbyte)aiGroupControl.FGroup.FTargetXYL.Y), unchecked((sbyte)aiGroupControl.FGroup.FTargetXYL.L));
                 }
 
                     FState += 1;

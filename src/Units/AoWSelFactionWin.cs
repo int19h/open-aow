@@ -268,11 +268,8 @@ namespace Aow.Units.AoWSelFactionWin
                     }
                 }
 
-                {
-                    var w__6 = FactionPnl;
-                    var call__7 = Aow.Rtl.Rtl.Rect(w__6.WinLeft, w__6.WinTop, w__6.WinLeft + w__6.WinWidth, FactionPnl.WinTop + w__6.WinHeight);
-                    R = call__7;
-                }
+                var call__7 = Aow.Rtl.Rtl.Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
+                R = call__7;
 
                 Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.AddBltRect(ref R, null);
             }

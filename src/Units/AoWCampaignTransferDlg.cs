@@ -372,10 +372,8 @@ namespace Aow.Units.AoWCampaignTransferDlg
         // { draft }
         public void GoldSliderChange(Aow.Rtl.TObject Sender)
         {
-            {
-                var w__6 = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
-                w__6.SetSelectedTransferGold(GoldSlider.Position);
-            }
+            var aoWCampaignTransferSettings = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
+            aoWCampaignTransferSettings.SetSelectedTransferGold(GoldSlider.Position);
 
             UpdateControls();
         }
@@ -383,10 +381,8 @@ namespace Aow.Units.AoWCampaignTransferDlg
         // AoWCampaignTransferDlg.pas:197
         public void ManaSliderChange(Aow.Rtl.TObject Sender)
         {
-            {
-                var w__7 = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
-                w__7.SetSelectedTransferMana(ManaSlider.Position);
-            }
+            var aoWCampaignTransferSettings = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
+            aoWCampaignTransferSettings.SetSelectedTransferMana(ManaSlider.Position);
 
             UpdateControls();
         }
@@ -549,11 +545,9 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Obj = call__11;
             if (Obj != null)
             {
-                {
-                    var w__12 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                    var call__13 = Aow.Rtl.Rtl.Rect((LHeroPnl.WinLeft + w__12.WinLeft) + 1, (LHeroPnl.WinTop + w__12.WinTop) + 2, ((LHeroPnl.WinLeft + w__12.WinLeft) + w__12.WinWidth) - 2, ((LHeroPnl.WinTop + w__12.WinTop) + w__12.WinHeight) - 2);
-                    R = call__13;
-                }
+                var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                var call__13 = Aow.Rtl.Rtl.Rect((LHeroPnl.WinLeft + checkBox.WinLeft) + 1, (LHeroPnl.WinTop + checkBox.WinTop) + 2, ((LHeroPnl.WinLeft + checkBox.WinLeft) + checkBox.WinWidth) - 2, ((LHeroPnl.WinTop + checkBox.WinTop) + checkBox.WinHeight) - 2);
+                R = call__13;
 
                 R.Left += 1;
                 Obj.ShowFace(R, SurfDesc);
@@ -593,11 +587,9 @@ namespace Aow.Units.AoWCampaignTransferDlg
                 Obj = call__20;
                 if (Obj != null)
                 {
-                    {
-                        var w__21 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__22 = Aow.Rtl.Rtl.Rect((RHeroPnl.WinLeft + w__21.WinLeft) + 1, (RHeroPnl.WinTop + w__21.WinTop) + 2, ((RHeroPnl.WinLeft + w__21.WinLeft) + w__21.WinWidth) - 2, ((RHeroPnl.WinTop + w__21.WinTop) + w__21.WinHeight) - 2);
-                        R = call__22;
-                    }
+                    var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                    var call__22 = Aow.Rtl.Rtl.Rect((RHeroPnl.WinLeft + checkBox.WinLeft) + 1, (RHeroPnl.WinTop + checkBox.WinTop) + 2, ((RHeroPnl.WinLeft + checkBox.WinLeft) + checkBox.WinWidth) - 2, ((RHeroPnl.WinTop + checkBox.WinTop) + checkBox.WinHeight) - 2);
+                    R = call__22;
 
                     R.Left += 1;
                     Obj.ShowFace(R, SurfDesc);
@@ -632,11 +624,9 @@ namespace Aow.Units.AoWCampaignTransferDlg
                 Obj = call__27;
                 if (Obj != null)
                 {
-                    {
-                        var w__28 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__29 = Aow.Rtl.Rtl.Rect((LUnitPnl.WinLeft + w__28.WinLeft) + 1, (LUnitPnl.WinTop + w__28.WinTop) + 2, ((LUnitPnl.WinLeft + w__28.WinLeft) + w__28.WinWidth) - 2, ((LUnitPnl.WinTop + w__28.WinTop) + w__28.WinHeight) - 2);
-                        R = call__29;
-                    }
+                    var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                    var call__29 = Aow.Rtl.Rtl.Rect((LUnitPnl.WinLeft + checkBox.WinLeft) + 1, (LUnitPnl.WinTop + checkBox.WinTop) + 2, ((LUnitPnl.WinLeft + checkBox.WinLeft) + checkBox.WinWidth) - 2, ((LUnitPnl.WinTop + checkBox.WinTop) + checkBox.WinHeight) - 2);
+                    R = call__29;
 
                     var call__30 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4];
                     call__30.Show(R.Left + 1, R.Top, SurfDesc);
@@ -683,11 +673,9 @@ namespace Aow.Units.AoWCampaignTransferDlg
                 Obj = call__37;
                 if (Obj != null)
                 {
-                    {
-                        var w__38 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__39 = Aow.Rtl.Rtl.Rect((RUnitPnl.WinLeft + w__38.WinLeft) + 1, (RUnitPnl.WinTop + w__38.WinTop) + 2, ((RUnitPnl.WinLeft + w__38.WinLeft) + w__38.WinWidth) - 2, ((RUnitPnl.WinTop + w__38.WinTop) + w__38.WinHeight) - 2);
-                        R = call__39;
-                    }
+                    var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                    var call__39 = Aow.Rtl.Rtl.Rect((RUnitPnl.WinLeft + checkBox.WinLeft) + 1, (RUnitPnl.WinTop + checkBox.WinTop) + 2, ((RUnitPnl.WinLeft + checkBox.WinLeft) + checkBox.WinWidth) - 2, ((RUnitPnl.WinTop + checkBox.WinTop) + checkBox.WinHeight) - 2);
+                    R = call__39;
 
                     var call__40 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4];
                     call__40.Show(R.Left + 1, R.Top, SurfDesc);
@@ -723,11 +711,9 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Obj = call__44;
             if (Obj != null)
             {
-                {
-                    var w__45 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                    var call__46 = Aow.Rtl.Rtl.Rect((LItemPnl.WinLeft + w__45.WinLeft) + 2, (LItemPnl.WinTop + w__45.WinTop) + 2, ((LItemPnl.WinLeft + w__45.WinLeft) + w__45.WinWidth) - 4, ((LItemPnl.WinTop + w__45.WinTop) + w__45.WinHeight) - 2);
-                    R = call__46;
-                }
+                var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                var call__46 = Aow.Rtl.Rtl.Rect((LItemPnl.WinLeft + checkBox.WinLeft) + 2, (LItemPnl.WinTop + checkBox.WinTop) + 2, ((LItemPnl.WinLeft + checkBox.WinLeft) + checkBox.WinWidth) - 4, ((LItemPnl.WinTop + checkBox.WinTop) + checkBox.WinHeight) - 2);
+                R = call__46;
 
                 var call__47 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4];
                 call__47.Show(R.Left, R.Top, SurfDesc);
@@ -767,11 +753,9 @@ namespace Aow.Units.AoWCampaignTransferDlg
                 Obj = call__54;
                 if (Obj != null)
                 {
-                    {
-                        var w__55 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                        var call__56 = Aow.Rtl.Rtl.Rect((RItemPnl.WinLeft + w__55.WinLeft) + 2, (RItemPnl.WinTop + w__55.WinTop) + 2, ((RItemPnl.WinLeft + w__55.WinLeft) + w__55.WinWidth) - 4, ((RItemPnl.WinTop + w__55.WinTop) + w__55.WinHeight) - 2);
-                        R = call__56;
-                    }
+                    var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                    var call__56 = Aow.Rtl.Rtl.Rect((RItemPnl.WinLeft + checkBox.WinLeft) + 2, (RItemPnl.WinTop + checkBox.WinTop) + 2, ((RItemPnl.WinLeft + checkBox.WinLeft) + checkBox.WinWidth) - 4, ((RItemPnl.WinTop + checkBox.WinTop) + checkBox.WinHeight) - 2);
+                    R = call__56;
 
                     var call__57 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4];
                     call__57.Show(R.Left, R.Top, SurfDesc);
@@ -797,12 +781,10 @@ namespace Aow.Units.AoWCampaignTransferDlg
             if (((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked)
             {
                 ClearLeftSelection();
-                {
-                    var w__61 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                    w__61.Checked = true;
-                    FLeftKind = 1;
-                    FLeftSelection = w__61.Tag + FLeftHero;
-                }
+                var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+                checkBox.Checked = true;
+                FLeftKind = 1;
+                FLeftSelection = checkBox.Tag + FLeftHero;
             }
         }
 
@@ -810,60 +792,50 @@ namespace Aow.Units.AoWCampaignTransferDlg
         public void LItemsSelect(Aow.Rtl.TObject Sender)
         {
             ClearLeftSelection();
-            {
-                var w__62 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                w__62.Checked = true;
-                FLeftKind = 2;
-                FLeftSelection = w__62.Tag + FLeftItem;
-            }
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            checkBox.Checked = true;
+            FLeftKind = 2;
+            FLeftSelection = checkBox.Tag + FLeftItem;
         }
 
         // AoWCampaignTransferDlg.pas:495
         public void LUnitSelect(Aow.Rtl.TObject Sender)
         {
             ClearLeftSelection();
-            {
-                var w__63 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                w__63.Checked = true;
-                FLeftKind = 3;
-                FLeftSelection = w__63.Tag + FLeftUnit;
-            }
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            checkBox.Checked = true;
+            FLeftKind = 3;
+            FLeftSelection = checkBox.Tag + FLeftUnit;
         }
 
         // AoWCampaignTransferDlg.pas:506
         public void RHeroesSelect(Aow.Rtl.TObject Sender)
         {
             ClearRightSelection();
-            {
-                var w__64 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                w__64.Checked = true;
-                FRightKind = 1;
-                FRightSelection = w__64.Tag + FRightHero;
-            }
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            checkBox.Checked = true;
+            FRightKind = 1;
+            FRightSelection = checkBox.Tag + FRightHero;
         }
 
         // AoWCampaignTransferDlg.pas:517
         public void RItemsSelect(Aow.Rtl.TObject Sender)
         {
             ClearRightSelection();
-            {
-                var w__65 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                w__65.Checked = true;
-                FRightKind = 2;
-                FRightSelection = w__65.Tag + FRightItem;
-            }
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            checkBox.Checked = true;
+            FRightKind = 2;
+            FRightSelection = checkBox.Tag + FRightItem;
         }
 
         // AoWCampaignTransferDlg.pas:528
         public void RUnitsSelect(Aow.Rtl.TObject Sender)
         {
             ClearRightSelection();
-            {
-                var w__66 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                w__66.Checked = true;
-                FRightKind = 3;
-                FRightSelection = w__66.Tag + FRightUnit;
-            }
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            checkBox.Checked = true;
+            FRightKind = 3;
+            FRightSelection = checkBox.Tag + FRightUnit;
         }
 
         // AoWCampaignTransferDlg.pas:539
@@ -967,24 +939,22 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Aow.Units.AoWE.TAoWCampaignTransferSettings S = default;
             S = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
             ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked = (FLeftKind == 1) && ((((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag + FLeftHero) == FLeftSelection);
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            bool bool__77 = !checkBox.Checked;
+            if (bool__77)
             {
-                var w__76 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                bool bool__77 = !w__76.Checked;
-                if (bool__77)
-                {
-                    var call__78 = S.FHeroes.Count;
-                    bool__77 = (call__78 > (w__76.Tag + FLeftHero));
-                }
-
-                bool bool__79 = bool__77;
-                if (bool__79)
-                {
-                    var call__80 = S.FSelectedHeroes.IndexOf(w__76.Tag + FLeftHero);
-                    bool__79 = (call__80 == -1);
-                }
-
-                w__76.FCaptureInput = bool__79;
+                var call__78 = S.FHeroes.Count;
+                bool__77 = (call__78 > (checkBox.Tag + FLeftHero));
             }
+
+            bool bool__79 = bool__77;
+            if (bool__79)
+            {
+                var call__80 = S.FSelectedHeroes.IndexOf(checkBox.Tag + FLeftHero);
+                bool__79 = (call__80 == -1);
+            }
+
+            checkBox.FCaptureInput = bool__79;
         }
 
         // AoWCampaignTransferDlg.pas:617
@@ -993,24 +963,22 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Aow.Units.AoWE.TAoWCampaignTransferSettings S = default;
             S = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
             ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked = (FLeftKind == 2) && ((((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag + FLeftItem) == FLeftSelection);
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            bool bool__82 = !checkBox.Checked;
+            if (bool__82)
             {
-                var w__81 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                bool bool__82 = !w__81.Checked;
-                if (bool__82)
-                {
-                    var call__83 = S.FItems.Count;
-                    bool__82 = (call__83 > (w__81.Tag + FLeftItem));
-                }
-
-                bool bool__84 = bool__82;
-                if (bool__84)
-                {
-                    var call__85 = S.FSelectedItems.IndexOf(w__81.Tag + FLeftItem);
-                    bool__84 = (call__85 == -1);
-                }
-
-                w__81.FCaptureInput = bool__84;
+                var call__83 = S.FItems.Count;
+                bool__82 = (call__83 > (checkBox.Tag + FLeftItem));
             }
+
+            bool bool__84 = bool__82;
+            if (bool__84)
+            {
+                var call__85 = S.FSelectedItems.IndexOf(checkBox.Tag + FLeftItem);
+                bool__84 = (call__85 == -1);
+            }
+
+            checkBox.FCaptureInput = bool__84;
         }
 
         // AoWCampaignTransferDlg.pas:629
@@ -1019,24 +987,22 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Aow.Units.AoWE.TAoWCampaignTransferSettings S = default;
             S = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
             ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked = (FLeftKind == 3) && ((((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag + FLeftUnit) == FLeftSelection);
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            bool bool__87 = !checkBox.Checked;
+            if (bool__87)
             {
-                var w__86 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                bool bool__87 = !w__86.Checked;
-                if (bool__87)
-                {
-                    var call__88 = S.FUnits.Count;
-                    bool__87 = (call__88 > (w__86.Tag + FLeftUnit));
-                }
-
-                bool bool__89 = bool__87;
-                if (bool__89)
-                {
-                    var call__90 = S.FSelectedUnits.IndexOf(w__86.Tag + FLeftUnit);
-                    bool__89 = (call__90 == -1);
-                }
-
-                w__86.FCaptureInput = bool__89;
+                var call__88 = S.FUnits.Count;
+                bool__87 = (call__88 > (checkBox.Tag + FLeftUnit));
             }
+
+            bool bool__89 = bool__87;
+            if (bool__89)
+            {
+                var call__90 = S.FSelectedUnits.IndexOf(checkBox.Tag + FLeftUnit);
+                bool__89 = (call__90 == -1);
+            }
+
+            checkBox.FCaptureInput = bool__89;
         }
 
         // AoWCampaignTransferDlg.pas:641
@@ -1045,10 +1011,8 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Aow.Units.AoWE.TAoWCampaignTransferSettings S = default;
             S = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
             ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked = (FRightKind == 1) && ((((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag + FRightHero) == FRightSelection);
-            {
-                var w__91 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                w__91.FCaptureInput = !w__91.Checked && ((w__91.Tag + FRightHero) < S.FSelectedHeroes.Count);
-            }
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            checkBox.FCaptureInput = !checkBox.Checked && ((checkBox.Tag + FRightHero) < S.FSelectedHeroes.Count);
         }
 
         // AoWCampaignTransferDlg.pas:652
@@ -1057,10 +1021,8 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Aow.Units.AoWE.TAoWCampaignTransferSettings S = default;
             S = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
             ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked = (FRightKind == 2) && ((((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag + FRightItem) == FRightSelection);
-            {
-                var w__92 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                w__92.FCaptureInput = !w__92.Checked && ((w__92.Tag + FRightItem) < S.FSelectedItems.Count);
-            }
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            checkBox.FCaptureInput = !checkBox.Checked && ((checkBox.Tag + FRightItem) < S.FSelectedItems.Count);
         }
 
         // AoWCampaignTransferDlg.pas:663
@@ -1069,10 +1031,8 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Aow.Units.AoWE.TAoWCampaignTransferSettings S = default;
             S = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;
             ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked = (FRightKind == 3) && ((((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag + FRightUnit) == FRightSelection);
-            {
-                var w__93 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                w__93.FCaptureInput = !w__93.Checked && ((w__93.Tag + FRightUnit) < S.FSelectedUnits.Count);
-            }
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            checkBox.FCaptureInput = !checkBox.Checked && ((checkBox.Tag + FRightUnit) < S.FSelectedUnits.Count);
         }
 
         // AoWCampaignTransferDlg.pas:674

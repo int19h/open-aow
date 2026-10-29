@@ -248,20 +248,18 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         {
             Aow.Units.AoWE.TRaceResource R = default;
             int I = default;
+            var panel = (Aow.Units.AoWPanel.TAOWPanel)Sender;
+            I = panel.Tag + PlayerSB.Position;
+            var call__12 = FEmailAddresses.Count;
+            if (I < call__12)
             {
-                var w__11 = (Aow.Units.AoWPanel.TAOWPanel)Sender;
-                I = w__11.Tag + PlayerSB.Position;
-                var call__12 = FEmailAddresses.Count;
-                if (I < call__12)
-                {
-                    var call__13 = FEmailAddresses.Objects[I];
-                    var call__14 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Rtl.Rtl.ObjectToInt(call__13));
-                    R = call__14;
-                    R.AddRef();
-                    var call__15 = R.FImageLibrary[38];
-                    call__15.Show(w__11.WinLeft, w__11.WinTop, SD);
-                    R.Release();
-                }
+                var call__13 = FEmailAddresses.Objects[I];
+                var call__14 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Rtl.Rtl.ObjectToInt(call__13));
+                R = call__14;
+                R.AddRef();
+                var call__15 = R.FImageLibrary[38];
+                call__15.Show(panel.WinLeft, panel.WinTop, SD);
+                R.Release();
             }
         }
 

@@ -101,16 +101,14 @@ namespace Aow.Units.AoWArmyEventDlg
         {
             int Offset = default;
             int I = default;
+            var byteList = FUnits;
+            Offset = X - (byteList.Count * 16);
             {
-                var w__1 = FUnits;
-                Offset = X - (w__1.Count * 16);
+                I = 0;
+                int end__2 = byteList.Count - 1;
+                for (; I <= end__2; I += 1)
                 {
-                    I = 0;
-                    int end__2 = w__1.Count - 1;
-                    for (; I <= end__2; I += 1)
-                    {
-                        DrawUnit(I, (I * 32) + Offset, Y, SD);
-                    }
+                    DrawUnit(I, (I * 32) + Offset, Y, SD);
                 }
             }
         }
@@ -306,49 +304,46 @@ namespace Aow.Units.AoWArmyEventDlg
             Aow.Units.AoWE.TArmyView Army = default;
             int I = default;
             int Image = default;
+            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWArmyEventDlg.pas", 92);
+            Dialog.FOnClose = Done;
+            Dialog.FEvent = Event;
+            Dialog.FEvent.AddRef();
+            Log = Dialog.FEvent;
+            Dialog.DamagePic.CurrentImage = Log.FArmyIcon;
+            var call__49 = Log.FArmyMessages.Text;
+            Dialog.EventText.Text = call__49;
+            Army = Log.FArmyView;
+            Dialog.FUnits.Clear();
             {
-                var w__48 = Dialog;
-                Aow.Rtl.Rtl.Assert(w__48.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWArmyEventDlg.pas", 92);
-                w__48.FOnClose = Done;
-                w__48.FEvent = Event;
-                w__48.FEvent.AddRef();
-                Log = w__48.FEvent;
-                w__48.DamagePic.CurrentImage = Log.FArmyIcon;
-                var call__49 = Log.FArmyMessages.Text;
-                w__48.EventText.Text = call__49;
-                Army = Log.FArmyView;
-                w__48.FUnits.Clear();
+                I = 0;
+                int end__50 = Army.GetCount() - 1;
+                for (; I <= end__50; I += 1)
                 {
-                    I = 0;
-                    int end__50 = Army.GetCount() - 1;
-                    for (; I <= end__50; I += 1)
+                    var call__51 = Army.GetUnitConcealedForPlayer(I, unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                    bool bool__52 = !call__51;
+                    if (!bool__52)
                     {
-                        var call__51 = Army.GetUnitConcealedForPlayer(I, unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
-                        bool bool__52 = !call__51;
-                        if (!bool__52)
-                        {
-                            var call__53 = Log.FDamageValues[I];
-                            bool__52 = (call__53 != 0);
-                        }
+                        var call__53 = Log.FDamageValues[I];
+                        bool__52 = (call__53 != 0);
+                    }
 
-                        if (bool__52)
+                    if (bool__52)
+                    {
+                        Dialog.FUnits.Add(unchecked((byte)I));
+                        var call__54 = Log.FArmyView.GetUnit(I);
+                        var call__55 = call__54.GetUnitGFXResourceIndex();
+                        Image = call__55;
+                        if (Image != -1)
                         {
-                            w__48.FUnits.Add(unchecked((byte)I));
-                            var call__54 = Log.FArmyView.GetUnit(I);
-                            var call__55 = call__54.GetUnitGFXResourceIndex();
-                            Image = call__55;
-                            if (Image != -1)
-                            {
-                                var call__56 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image);
-                                call__56.AddRef();
-                            }
+                            var call__56 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image);
+                            call__56.AddRef();
                         }
                     }
                 }
-
-                w__48.ArmyEventWin.Visible = true;
-                w__48.FFrame = 0;
             }
+
+            Dialog.ArmyEventWin.Visible = true;
+            Dialog.FFrame = 0;
         }
     }
 }

@@ -142,42 +142,38 @@ namespace Aow.Units.TCFCDlg
         // TCFCDlg.pas:70
         public void FCchkChange(Aow.Rtl.TObject Sender)
         {
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            if (checkBox.Checked)
             {
-                var w__1 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                if (w__1.Checked)
-                {
-                    FRequest.Select((Aow.Units.AoWE.TCombatType)1);
-                }
+                FRequest.Select((Aow.Units.AoWE.TCombatType)1);
+            }
 
-                if (w__1.Checked)
-                {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(1);
-                }
-                else
-                {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(2);
-                }
+            if (checkBox.Checked)
+            {
+                Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(1);
+            }
+            else
+            {
+                Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(2);
             }
         }
 
         // TCFCDlg.pas:79
         public void TCchkChange(Aow.Rtl.TObject Sender)
         {
+            var checkBox = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            if (checkBox.Checked)
             {
-                var w__2 = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
-                if (w__2.Checked)
-                {
-                    FRequest.Select((Aow.Units.AoWE.TCombatType)2);
-                }
+                FRequest.Select((Aow.Units.AoWE.TCombatType)2);
+            }
 
-                if (w__2.Checked)
-                {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(1);
-                }
-                else
-                {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(2);
-                }
+            if (checkBox.Checked)
+            {
+                Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(1);
+            }
+            else
+            {
+                Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(2);
             }
         }
 

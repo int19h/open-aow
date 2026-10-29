@@ -588,10 +588,8 @@ namespace Aow.Units.GlobalSpells
             A2.GetLocation(ref X, ref Y, ref Layer);
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == A2.FPlayer)
             {
-                {
-                    var w__51 = Aow.Units.GlobalSpells.TBirdsViewHS.Create(null);
-                    w__51.StartAnimation(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 14);
-                }
+                var birdsViewHS = Aow.Units.GlobalSpells.TBirdsViewHS.Create(null);
+                birdsViewHS.StartAnimation(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 14);
             }
 
             Aow.Units.AoWE.AoWE.AoWHSMap.ExploreArea(X, Y, Layer, unchecked((sbyte)A2.FPlayer), 14);
@@ -1807,13 +1805,11 @@ namespace Aow.Units.GlobalSpells
             Result = Result && (Index != -1);
             if (Result)
             {
-                {
-                    var w__232 = Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.FEnchantments.GetEnchantments(Index);
-                    var call__233 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A1.FPlayer);
-                    Mana = call__233.FMagicControl.FMana + A1.FCastingProgress;
-                    RequiredMana = Aow.Rtl.Rtl.Round(((double)(((double)w__232.FDispelMana) * 0.02)) * FDispelChance) + FEventMana;
-                    Result = RequiredMana <= Mana;
-                }
+                var globalEnchantment = Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.FEnchantments.GetEnchantments(Index);
+                var call__233 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A1.FPlayer);
+                Mana = call__233.FMagicControl.FMana + A1.FCastingProgress;
+                RequiredMana = Aow.Rtl.Rtl.Round(((double)(((double)globalEnchantment.FDispelMana) * 0.02)) * FDispelChance) + FEventMana;
+                Result = RequiredMana <= Mana;
             }
 
             return Result;
@@ -2297,12 +2293,10 @@ namespace Aow.Units.GlobalSpells
                 A2.GetLocation(ref X, ref Y, ref Layer);
                 Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
                 Aow.Units.HSEngine.HSEngine.HXtoHP(X, Y, ref Xhp, ref Yhp);
-                {
-                    var w__280 = Aow.Units.AoWE.AoWE.AoWHSMap.AddEffect(Aow.Units.AoWE.TworldFXType.fxCrusade);
-                    w__280.FX = Xhp + 16;
-                    w__280.FY = Yhp + 16;
-                    w__280.FLayer = Layer;
-                }
+                var worldFXHS = Aow.Units.AoWE.AoWE.AoWHSMap.AddEffect(Aow.Units.AoWE.TworldFXType.fxCrusade);
+                worldFXHS.FX = Xhp + 16;
+                worldFXHS.FY = Yhp + 16;
+                worldFXHS.FLayer = Layer;
 
                 var call__281 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(100);
                 if (call__281 < 20)

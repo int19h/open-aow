@@ -242,46 +242,38 @@ namespace Aow.Units.GlobalTargetSpells
             sbyte UnitX = default;
             sbyte UnitY = default;
             sbyte UnitLayer = default;
-            {
-                var w__10 = A2;
-                w__10.Initialize(A1);
-                w__10.FTargetMode = w__10.FTargetMode + TSet<Aow.Units.AoWE.TTargetSelectionModeElement>.Of(Aow.Units.AoWE.TTargetSelectionModeElement.tmOwnerDraw, Aow.Units.AoWE.TTargetSelectionModeElement.tmValidateDistance, Aow.Units.AoWE.TTargetSelectionModeElement.tmExternalFloater);
-                A1.GetLocation(ref UnitX, ref UnitY, ref UnitLayer);
-                w__10.FSourceX = UnitX;
-                w__10.FSourceY = UnitY;
-                w__10.FSourceL = UnitLayer;
-                w__10.FRange = 12;
-                w__10.FOnChange.Add(OnTargetSelectionChange);
-                w__10.FOnShow = ShowTargetSelection;
-                var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelectTargetLocationForXOnMapRStr);
-                var call__12 = Aow.Rtl.Rtl.Format(call__11, [FSpellName]);
-                w__10.FText.Text = call__12;
-                w__10.FTitle = FSpellName;
-                var call__13 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CancelRStr);
-                w__10.FCancelText = call__13;
-                var call__14 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var call__15 = call__14.FCastImages.ImageSequences[20];
-                var call__16 = call__15.GetPreviewImage();
-                w__10.FSourceImage = call__16;
-                var call__17 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var call__18 = call__17.FCastImages.ImageSequences[21];
-                var call__19 = call__18.GetPreviewImage();
-                w__10.FValidTargetImage = call__19;
-                var call__20 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var call__21 = call__20.FCastImages.ImageSequences[22];
-                var call__22 = call__21.GetPreviewImage();
-                w__10.FInvalidTargetImage = call__22;
-            }
+            A2.Initialize(A1);
+            A2.FTargetMode = A2.FTargetMode + TSet<Aow.Units.AoWE.TTargetSelectionModeElement>.Of(Aow.Units.AoWE.TTargetSelectionModeElement.tmOwnerDraw, Aow.Units.AoWE.TTargetSelectionModeElement.tmValidateDistance, Aow.Units.AoWE.TTargetSelectionModeElement.tmExternalFloater);
+            A1.GetLocation(ref UnitX, ref UnitY, ref UnitLayer);
+            A2.FSourceX = UnitX;
+            A2.FSourceY = UnitY;
+            A2.FSourceL = UnitLayer;
+            A2.FRange = 12;
+            A2.FOnChange.Add(OnTargetSelectionChange);
+            A2.FOnShow = ShowTargetSelection;
+            var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelectTargetLocationForXOnMapRStr);
+            var call__12 = Aow.Rtl.Rtl.Format(call__11, [FSpellName]);
+            A2.FText.Text = call__12;
+            A2.FTitle = FSpellName;
+            var call__13 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CancelRStr);
+            A2.FCancelText = call__13;
+            var call__14 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+            var call__15 = call__14.FCastImages.ImageSequences[20];
+            var call__16 = call__15.GetPreviewImage();
+            A2.FSourceImage = call__16;
+            var call__17 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+            var call__18 = call__17.FCastImages.ImageSequences[21];
+            var call__19 = call__18.GetPreviewImage();
+            A2.FValidTargetImage = call__19;
+            var call__20 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+            var call__21 = call__20.FCastImages.ImageSequences[22];
+            var call__22 = call__21.GetPreviewImage();
+            A2.FInvalidTargetImage = call__22;
         }
 
         // GlobalTargetSpells.pas:544
         // { +0A4 }
-        public virtual bool TargetSelected(Aow.Units.AoWE.TAbstractUnit A1, int A2, int A3, int A4)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool TargetSelected(Aow.Units.AoWE.TAbstractUnit A1, int A2, int A3, int A4) => false;
 
         // GlobalTargetSpells.pas:487
         // { +0A8  }
@@ -318,12 +310,7 @@ namespace Aow.Units.GlobalTargetSpells
 
         // GlobalTargetSpells.pas:469
         // { +0B0  }
-        public virtual bool ValidTargetMapF(Aow.Units.HSEngine.TMapField A1)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public virtual bool ValidTargetMapF(Aow.Units.HSEngine.TMapField A1) => true;
 
         // GlobalTargetSpells.pas:62
         public static new Aow.Units.GlobalTargetSpells.TGlobalTargetSpell Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -1412,68 +1399,66 @@ namespace Aow.Units.GlobalTargetSpells
             int OwnerPlayer = default;
             int Range = default;
             ;
+            ref var mapFieldMsg = ref Msg;
+            base.MapFieldMsgProc(ref Msg);
+            if (mapFieldMsg.MsgID == 4363)
             {
-                ref var w__108 = ref Msg;
-                base.MapFieldMsgProc(ref Msg);
-                if (w__108.MsgID == 4363)
+                if (Activated())
                 {
-                    if (Activated())
+                    OwnerPlayer = FEnchantment.FPlayerIndex;
+                    bool bool__109 = (OwnerPlayer == mapFieldMsg.Param[1].Value);
+                    if (!bool__109)
                     {
-                        OwnerPlayer = FEnchantment.FPlayerIndex;
-                        bool bool__109 = (OwnerPlayer == w__108.Param[1].Value);
-                        if (!bool__109)
-                        {
-                            var call__110 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0);
-                            var call__111 = Aow.Units.GlobalTargetSpells.GlobalTargetSpells.SpellRelation(call__110.FDiplomaticRelations, unchecked((byte)w__108.Param[1].Value));
-                            bool__109 = (call__111 == 2);
-                        }
+                        var call__110 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0);
+                        var call__111 = unchecked((byte)call__110.FDiplomaticRelations.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)mapFieldMsg.Param[1].Value))));
+                        bool__109 = (call__111 == 2);
+                    }
 
-                        if (bool__109)
+                    if (bool__109)
+                    {
+                        var call__112 = VisibilityRange();
+                        if (mapFieldMsg.Param[0].Value <= call__112)
                         {
-                            var call__112 = VisibilityRange();
-                            if (w__108.Param[0].Value <= call__112)
-                            {
-                                w__108.Result = 1;
-                            }
+                            mapFieldMsg.Result = 1;
                         }
                     }
                 }
+            }
 
-                if (w__108.MsgID == 4362)
+            if (mapFieldMsg.MsgID == 4362)
+            {
+                if (Activated())
                 {
-                    if (Activated())
+                    OwnerPlayer = FEnchantment.FPlayerIndex;
+                    bool bool__113 = (OwnerPlayer == mapFieldMsg.Param[1].Value);
+                    if (!bool__113)
                     {
-                        OwnerPlayer = FEnchantment.FPlayerIndex;
-                        bool bool__113 = (OwnerPlayer == w__108.Param[1].Value);
-                        if (!bool__113)
-                        {
-                            var call__114 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0);
-                            var call__115 = Aow.Units.GlobalTargetSpells.GlobalTargetSpells.SpellRelation(call__114.FDiplomaticRelations, unchecked((byte)w__108.Param[1].Value));
-                            bool__113 = (call__115 == 2);
-                        }
+                        var call__114 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0);
+                        var call__115 = unchecked((byte)call__114.FDiplomaticRelations.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)mapFieldMsg.Param[1].Value))));
+                        bool__113 = (call__115 == 2);
+                    }
 
-                        if (bool__113)
+                    if (bool__113)
+                    {
+                        var call__116 = VisibilityRange();
+                        if (mapFieldMsg.Param[0].Value <= call__116)
                         {
-                            var call__116 = VisibilityRange();
-                            if (w__108.Param[0].Value <= call__116)
-                            {
-                                w__108.Result = 1;
-                            }
+                            mapFieldMsg.Result = 1;
                         }
                     }
                 }
+            }
 
-                if (w__108.MsgID == 4365)
+            if (mapFieldMsg.MsgID == 4365)
+            {
+                var call__117 = VisibilityRange();
+                if (call__117 >= mapFieldMsg.Param[0].Value)
                 {
-                    var call__117 = VisibilityRange();
-                    if (call__117 >= w__108.Param[0].Value)
-                    {
-                        // { Param[0] is already available. }
-                        Aow.Units.AoWE.AoWE.AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx, w__108.Param[0].Value, w__108.Param[0].Value);
-                    }
-
-                    UpdateVisibleForSeatedPlayer();
+                    // { Param[0] is already available. }
+                    Aow.Units.AoWE.AoWE.AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx, mapFieldMsg.Param[0].Value, mapFieldMsg.Param[0].Value);
                 }
+
+                UpdateVisibleForSeatedPlayer();
             }
         }
 
@@ -1484,10 +1469,8 @@ namespace Aow.Units.GlobalTargetSpells
             base.Activate();
             FWatcherState = (byte)(TSet<Aow.Units.GlobalTargetSpells.TWatcherStateElement>.FromMask((ulong)FWatcherState) + TSet<Aow.Units.GlobalTargetSpells.TWatcherStateElement>.Of(Aow.Units.GlobalTargetSpells.TWatcherStateElement.wsActive)).Image;
             FEnchantment.Activate(unchecked((sbyte)FEnchantment.FPlayerIndex));
-            {
-                var w__118 = (Aow.Units.HSEngine.TMapField)Owner;
-                Aow.Units.AoWE.AoWE.AoWHSMap.NotifyPlayerChanged(w__118.Xhx, w__118.Yhx, w__118.Lhx);
-            }
+            var mapField = (Aow.Units.HSEngine.TMapField)Owner;
+            Aow.Units.AoWE.AoWE.AoWHSMap.NotifyPlayerChanged(mapField.Xhx, mapField.Yhx, mapField.Lhx);
 
             MapF = (Aow.Units.HSEngine.TMapField)Owner;
             var call__119 = VisibilityRange();
@@ -1583,7 +1566,7 @@ namespace Aow.Units.GlobalTargetSpells
                         if (!bool__127)
                         {
                             var call__128 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(OwnerPlayer);
-                            var call__129 = Aow.Units.GlobalTargetSpells.GlobalTargetSpells.SpellRelation(call__128.FDiplomaticRelations, unchecked((byte)I));
+                            var call__129 = unchecked((byte)call__128.FDiplomaticRelations.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)I))));
                             bool__127 = (call__129 == 2);
                         }
 
@@ -1612,7 +1595,7 @@ namespace Aow.Units.GlobalTargetSpells
                 if (!bool__134)
                 {
                     var call__135 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FEnchantment.FPlayerIndex);
-                    var call__136 = Aow.Units.GlobalTargetSpells.GlobalTargetSpells.SpellRelation(call__135.FDiplomaticRelations, unchecked((byte)unchecked((byte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)));
+                    var call__136 = unchecked((byte)call__135.FDiplomaticRelations.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)unchecked((byte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)))));
                     bool__134 = (call__136 == 2);
                 }
 
@@ -3609,19 +3592,6 @@ namespace Aow.Units.GlobalTargetSpells
         public static System.Type SpellStructureClass = typeof(Aow.Units.AoWE.TStructure);
         // { needs: AoWE.CancelRStr, referenced at $5579E664; absent from draft. }
         public static readonly Aow.Rtl.AnsiString SpellCancelRStr = (AnsiString)"Cancel";
-        // GlobalTargetSpells.pas:396
-        // { needs: TSpellControl.GetSpell must return TSpell. Preserve its register ABI
-//   with a tail call until the shared declaration is corrected. }
-        // { needs: TAoWMapField.GetExplored(Player: Integer): Boolean ($5579E4C8). }
-        // { needs: TUnitControl.FindUnit(ID: Integer): TAbstractUnit ($5579E4F7). }
-        // { needs: AoWE.TranslateRStr(const S: string): string ($5579E62D). }
-        // { needs: TSpell.CanActivate(Caster: TAbstractUnit; var Msg: string): Boolean. }
-        public static bool BaseCanActivate(Aow.Units.AoWE.TSpell Spell, int Caster, ref Aow.Rtl.AnsiString MessageText)
-        {
-            bool Result = default;
-            Result = Spell.CanActivate__static(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster), ref MessageText);
-            return Result;
-        }
 
         // GlobalTargetSpells.pas:552
         // { needs: Boolean result; stack arguments require the normal EBP frame. }
@@ -3633,7 +3603,7 @@ namespace Aow.Units.GlobalTargetSpells
             sbyte X = default;
             sbyte Y = default;
             sbyte Layer = default;
-            Result = Aow.Units.GlobalTargetSpells.GlobalTargetSpells.BaseCanActivate(Spell, Caster, ref MessageText);
+            Result = ((Aow.Units.AoWE.TSpell)(Spell)).CanActivate__static(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster), ref MessageText);
             if (Result && Spell.FAboveGroundOnly)
             {
                 Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).GetLocation(ref X, ref Y, ref Layer);
@@ -3647,27 +3617,13 @@ namespace Aow.Units.GlobalTargetSpells
             return Result;
         }
 
-        // GlobalTargetSpells.pas:585
-        public static bool VirtualCanActivate(Aow.Units.AoWE.TSpell Spell, int Caster, ref Aow.Rtl.AnsiString MessageText)
-        {
-            bool Result = default;
-            Result = Spell.CanActivate(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster), ref MessageText);
-            return Result;
-        }
-
-        // GlobalTargetSpells.pas:596
-        public static void BaseActivate(Aow.Units.AoWE.TSpell Spell, int Caster, int A2)
-        {
-            Spell.Activate__static(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster));
-        }
-
         // GlobalTargetSpells.pas:601
         public static bool GlobalTargetActivate(Aow.Units.GlobalTargetSpells.TGlobalTargetSpell Spell, int Caster, int A2)
         {
             bool Result = default;
             Aow.Rtl.AnsiString MessageText = default;
-            Aow.Units.GlobalTargetSpells.GlobalTargetSpells.BaseActivate(Spell, Caster, A2);
-            if (Aow.Units.GlobalTargetSpells.GlobalTargetSpells.VirtualCanActivate(Spell, Caster, ref MessageText))
+            ((Aow.Units.AoWE.TSpell)(Spell)).Activate__static(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster));
+            if (((Aow.Units.AoWE.TSpell)(Spell)).CanActivate(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>(Caster), ref MessageText))
             {
                 Spell.FCasterID = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).FUnitID;
                 Spell.FCasterPlayer = unchecked((sbyte)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAbstractUnit>((int)Caster).FPlayer);
@@ -3683,72 +3639,7 @@ namespace Aow.Units.GlobalTargetSpells
             return Result;
         }
 
-        // GlobalTargetSpells.pas:1185
-        // { needs: TGlobalEnchantment.Deactivate returns a value; P7 overrides retain
-//     the procedure draft, so preserve the original ABI and conditional Free. }
-        // { needs: typed result declarations in the AoWE interface and matching
-//   implementation headers. Register ABI shims keep those owners untouched. }
-        public static byte SpellRelation(Aow.Units.AoWE.TPlayerDiplomaticRelations Relations, byte Player)
-        {
-            byte Result = default;
-            Result = unchecked((byte)Relations.GetDiplomaticRelation(unchecked((sbyte)Player)));
-            return Result;
-        }
-
-        // GlobalTargetSpells.pas:1188
-        public static bool SpellEnchantmentVisible(Aow.Units.AoWE.TGlobalEnchantment Enchantment, byte Player)
-        {
-            bool Result = default;
-            Result = Enchantment.VisibleForPlayer(unchecked((sbyte)Player));
-            return Result;
-        }
-
         public static readonly Aow.Rtl.AnsiString SpellXCastRStr = (AnsiString)"%s cast";
-        // GlobalTargetSpells.pas:1644
-        public static byte SpellUnitLevel(Aow.Units.AoWE.TAbstractUnit UnitObj)
-        {
-            byte Result = default;
-            Result = unchecked((byte)UnitObj.GetUnitLevel());
-            return Result;
-        }
-
-        // GlobalTargetSpells.pas:1647
-        public static byte SpellIndependentRelation(Aow.Units.AoWE.TUnitList Units, byte Default)
-        {
-            byte Result = default;
-            Result = unchecked((byte)Aow.Units.AoWE.AoWE.UnitsToIndependentRelation(Units, unchecked((sbyte)Default)));
-            return Result;
-        }
-
-        // GlobalTargetSpells.pas:1650
-        public static Aow.Units.AoWE.TAIGroup SpellCreateGroup(Aow.Units.AoWE.TAIGroupManager Manager, byte Player, byte Relation, int Behavior)
-        {
-            Aow.Units.AoWE.TAIGroup Result = default;
-            Result = Manager.CreateGroup(unchecked((sbyte)Player), unchecked((sbyte)Relation), (Aow.Units.AoWE.TGroupBehavior)Behavior);
-            return Result;
-        }
-
-        // GlobalTargetSpells.pas:1985
-        public static byte SpellMoveTypes(Aow.Units.AoWE.TAbstractUnit UnitObj)
-        {
-            byte Result = default;
-            Result = (byte)UnitObj.GetMoveTypes().Image;
-            return Result;
-        }
-
-        // GlobalTargetSpells.pas:1988
-        public static void SpellValidateTerrainObservation(Aow.Units.AoWE.TArmy Army, byte Terrain, byte Overlay, byte Player)
-        {
-            Army.ValidateTerrainEx(unchecked((sbyte)Terrain), unchecked((sbyte)Overlay), unchecked((sbyte)Player));
-        }
-
-        // GlobalTargetSpells.pas:2135
-        public static sbyte SpellHitPointsMax(Aow.Units.AoWE.TAbstractUnit UnitObj)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)UnitObj.GetHits());
-            return Result;
-        }
 
         public static void Initialize()
         {

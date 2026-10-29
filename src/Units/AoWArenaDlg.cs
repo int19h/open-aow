@@ -272,10 +272,8 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:196
         public void U1PreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
         {
-            {
-                var w__10 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                DrawUnit(Sender.Tag, UnitPnl.WinLeft + w__10.WinLeft, UnitPnl.WinTop + w__10.WinTop, ref SD);
-            }
+            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            DrawUnit(Sender.Tag, UnitPnl.WinLeft + image.WinLeft, UnitPnl.WinTop + image.WinTop, ref SD);
         }
 
         // AoWArenaDlg.pas:201
@@ -350,33 +348,27 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:90
         public static void ShowArena(Aow.Units.AoWArenaDlg.TArenaDlg Dialog, Aow.Units.Arena.TEnterArenaEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
-            {
-                var w__15 = Dialog;
-                Aow.Rtl.Rtl.Assert(w__15.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWArenaDlg.pas", 94);
-                Aow.Units.AoWArenaDlg.AoWArenaDlg.ResetArena(Dialog);
-                w__15.FOnClose = Done;
-                w__15.FEvent = Event;
-                w__15.FEvent.AddRef();
-                Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
-                w__15.Dlg.Visible = true;
-            }
+            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWArenaDlg.pas", 94);
+            Aow.Units.AoWArenaDlg.AoWArenaDlg.ResetArena(Dialog);
+            Dialog.FOnClose = Done;
+            Dialog.FEvent = Event;
+            Dialog.FEvent.AddRef();
+            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
+            Dialog.Dlg.Visible = true;
         }
 
         // AoWArenaDlg.pas:238
         public static void ResetArena(Aow.Units.AoWArenaDlg.TArenaDlg Dialog)
         {
-            {
-                var w__16 = Dialog;
-                w__16.U1.Checked = false;
-                w__16.U2.Checked = false;
-                w__16.U3.Checked = false;
-                w__16.U4.Checked = false;
-                w__16.U5.Checked = false;
-                w__16.U6.Checked = false;
-                w__16.U7.Checked = false;
-                w__16.U8.Checked = false;
-                w__16.SelectionInfoLbl.Text = (AnsiString)"";
-            }
+            Dialog.U1.Checked = false;
+            Dialog.U2.Checked = false;
+            Dialog.U3.Checked = false;
+            Dialog.U4.Checked = false;
+            Dialog.U5.Checked = false;
+            Dialog.U6.Checked = false;
+            Dialog.U7.Checked = false;
+            Dialog.U8.Checked = false;
+            Dialog.SelectionInfoLbl.Text = (AnsiString)"";
         }
     }
 }

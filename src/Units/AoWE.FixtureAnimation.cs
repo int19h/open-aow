@@ -233,12 +233,12 @@ namespace Aow.Units.AoWE
             {
                 if (Info.Looped)
                 {
-                    var call__2490 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 96);
+                    var call__2490 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(96);
                     call__2490.FImageSequences.ShowLooped(0, X + 32, Y + 32, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
                 else
                 {
-                    var call__2491 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 96);
+                    var call__2491 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(96);
                     call__2491.FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
                 }
             }
@@ -247,12 +247,12 @@ namespace Aow.Units.AoWE
             {
                 if (Info.Looped)
                 {
-                    var call__2492 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 98);
+                    var call__2492 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(98);
                     call__2492.FImageSequences.ShowLooped(0, X + 32, Y + 32, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
                 else
                 {
-                    var call__2493 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 98);
+                    var call__2493 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(98);
                     call__2493.FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
                 }
             }
@@ -261,12 +261,12 @@ namespace Aow.Units.AoWE
             {
                 if (Info.Looped)
                 {
-                    var call__2494 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 93);
+                    var call__2494 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(93);
                     call__2494.FImageSequences.ShowLooped(0, X + 32, Y + 32, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
                 else
                 {
-                    var call__2495 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 93);
+                    var call__2495 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(93);
                     call__2495.FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
                 }
             }
@@ -275,8 +275,8 @@ namespace Aow.Units.AoWE
             {
                 var call__2496 = GetHits();
                 var call__2497 = GetHitPoints();
-                var call__2498 = Aow.Units.AoWE.AoWE.P2HitPercent(unchecked((sbyte)call__2497), unchecked((sbyte)call__2496));
-                Aow.Units.AoWE.AoWE.P2ShowHitPercent(X, Y, SD, unchecked((byte)call__2498));
+                var call__2498 = unchecked((byte)Aow.Units.AoWE.AoWE.HitPointsToHitPcnt(unchecked((sbyte)unchecked((sbyte)call__2497)), unchecked((sbyte)unchecked((sbyte)call__2496))));
+                Aow.Units.AoWE.AoWE.ShowHitPcnt(X, Y, SD, unchecked((byte)call__2498));
             }
 
             if (Info.Overlays.Contains(Aow.Units.AoWE.TUnitOverlayModesElement.uoCombat))
@@ -289,61 +289,61 @@ namespace Aow.Units.AoWE
 
                 if (GetAbilityEnabled(48))
                 {
-                    var call__2500 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 48);
+                    var call__2500 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(48);
                     call__2500.FImageSequences.ShowLooped(0, X + 32, Y + 40, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(150))
                 {
-                    var call__2501 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 150);
+                    var call__2501 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(150);
                     call__2501.FImageSequences.ShowLooped(0, X + 32, Y + 40, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(149))
                 {
-                    var call__2502 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 149);
+                    var call__2502 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(149);
                     call__2502.FImageSequences.ShowLooped(0, X + 32, Y + 40, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(97))
                 {
-                    var call__2503 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 97);
+                    var call__2503 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(97);
                     call__2503.FImageSequences.ShowLooped(0, X + 32, Y + 40, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(92))
                 {
-                    var call__2504 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 92);
+                    var call__2504 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(92);
                     call__2504.FImageSequences.ShowLooped(0, X + 32, Y + 35, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(95))
                 {
-                    var call__2505 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 95);
+                    var call__2505 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(95);
                     call__2505.FImageSequences.ShowLooped(0, X + 32, Y + 32, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(94))
                 {
-                    var call__2506 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 94);
+                    var call__2506 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(94);
                     call__2506.FImageSequences.ShowLooped(0, X + 32, Y + 35, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(127))
                 {
-                    var call__2507 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 127);
+                    var call__2507 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(127);
                     call__2507.FImageSequences.ShowLooped(0, X + 32, Y + 35, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(107))
                 {
-                    var call__2508 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 107);
+                    var call__2508 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(107);
                     call__2508.FImageSequences.ShowLooped(0, X + 32, Y + 40, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
 
                 if (GetAbilityEnabled(34))
                 {
-                    var call__2509 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, 34);
+                    var call__2509 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(34);
                     call__2509.FImageSequences.ShowLooped(0, X + 32, Y + 40, Aow.Units.AoWE.AoWE.AoWHSMap.Frame, SD);
                 }
             }

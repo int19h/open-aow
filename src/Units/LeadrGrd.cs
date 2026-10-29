@@ -102,7 +102,7 @@ namespace Aow.Units.LeadrGrd
 
             if (bool__2)
             {
-                var call__4 = Aow.Units.LeadrGrd.LeadrGrd.PlayerAt(FMap.FPlayers, Player);
+                var call__4 = FMap.FPlayers.GetPlayers((int)(Player));
                 Result = call__4.FLeader;
             }
             else
@@ -126,7 +126,7 @@ namespace Aow.Units.LeadrGrd
             int I = default;
             if (FMap != null)
             {
-                var call__5 = Aow.Units.LeadrGrd.LeadrGrd.RaceToPlayer(FMap.FPlayers, unchecked((byte)Value.FRace));
+                var call__5 = FMap.FPlayers.RaceToPlayer(unchecked((sbyte)unchecked((byte)Value.FRace)));
                 I = call__5;
                 if (I != -1)
                 {
@@ -235,86 +235,6 @@ namespace Aow.Units.LeadrGrd
 
         public static readonly Aow.Rtl.AnsiString GridUsedRStr = (AnsiString)"Used";
         public static readonly Aow.Rtl.AnsiString GridPlayerRStr = (AnsiString)"Player";
-        // LeadrGrd.pas:79
-        // { needs: typed results for the existing draft methods. These tail jumps keep their ABI. }
-        public static Aow.Units.AoWE.THero HeroAt(Aow.Units.AoWE.THeroList List, int Index)
-        {
-            Aow.Units.AoWE.THero Result = default;
-            Result = List.GetHero(Index);
-            return Result;
-        }
-
-        // LeadrGrd.pas:81
-        public static Aow.Units.AoWE.THero ControlHeroAt(Aow.Units.AoWE.THeroControl Control, int Index)
-        {
-            Aow.Units.AoWE.THero Result = default;
-            Result = Control.GetHero(Index);
-            return Result;
-        }
-
-        // LeadrGrd.pas:83
-        public static int HeroCount(Aow.Units.AoWE.THeroControl Control)
-        {
-            int Result = default;
-            Result = Control.GetCount();
-            return Result;
-        }
-
-        // LeadrGrd.pas:85
-        public static int HeroIndexOf(Aow.Units.AoWE.THeroControl Control, Aow.Units.AoWE.THero Hero)
-        {
-            int Result = default;
-            Result = Control.IndexOf(Hero);
-            return Result;
-        }
-
-        // LeadrGrd.pas:87
-        public static sbyte HeroLevel(Aow.Units.AoWE.THero Hero)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Hero.GetLevel());
-            return Result;
-        }
-
-        // LeadrGrd.pas:89
-        public static Aow.Units.AoWE.TItem ItemAt(Aow.Units.AoWE.TItemList List, int Index)
-        {
-            Aow.Units.AoWE.TItem Result = default;
-            Result = List.GetItem(Index);
-            return Result;
-        }
-
-        // LeadrGrd.pas:91
-        public static Aow.Units.AoWE.TItem ControlItemAt(Aow.Units.AoWE.TItemControl Control, int Index)
-        {
-            Aow.Units.AoWE.TItem Result = default;
-            Result = Control.GetItem(Index);
-            return Result;
-        }
-
-        // LeadrGrd.pas:93
-        public static int ItemCount(Aow.Units.AoWE.TItemControl Control)
-        {
-            int Result = default;
-            Result = Control.GetCount();
-            return Result;
-        }
-
-        // LeadrGrd.pas:95
-        public static Aow.Units.AoWE.TPlayer PlayerAt(Aow.Units.AoWE.TPlayerList List, int Index)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = List.GetPlayers(Index);
-            return Result;
-        }
-
-        // LeadrGrd.pas:97
-        public static int RaceToPlayer(Aow.Units.AoWE.TPlayerList List, byte Race)
-        {
-            int Result = default;
-            Result = List.RaceToPlayer(unchecked((sbyte)Race));
-            return Result;
-        }
 
         public static void Initialize()
         {

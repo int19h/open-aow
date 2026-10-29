@@ -233,11 +233,9 @@ namespace Aow.Units.PassiveAb
             Result = base.Expand(A1);
             if (A1 is Aow.Units.AoWE.TAbstractUnit)
             {
-                {
-                    var w__4 = (Aow.Units.AoWE.TAbstractUnit)A1;
-                    var call__5 = w__4.GetHits();
-                    w__4.SetHitPoints(unchecked((sbyte)call__5));
-                }
+                var unit = (Aow.Units.AoWE.TAbstractUnit)A1;
+                var call__5 = unit.GetHits();
+                unit.SetHitPoints(unchecked((sbyte)call__5));
             }
 
             return Result;
@@ -521,17 +519,14 @@ namespace Aow.Units.PassiveAb
         public override void NewCombatTurn(Aow.Units.AoWE.TCombatObject A1, sbyte A2)
         {
             Aow.Units.AoWE.TDurationAbilityData Data = default;
+            var call__13 = A1.GetAbilityOwner();
+            var call__14 = call__13.GetAbilityData(FAbilityID);
+            Data = (Aow.Units.AoWE.TDurationAbilityData)call__14;
+            if ((Data != null) && (Data.FPlayerIndex == A2))
             {
-                var w__12 = A1;
-                var call__13 = w__12.GetAbilityOwner();
-                var call__14 = call__13.GetAbilityData(FAbilityID);
-                Data = (Aow.Units.AoWE.TDurationAbilityData)call__14;
-                if ((Data != null) && (Data.FPlayerIndex == A2))
+                if (A1.GetAbilityOwner() is Aow.Units.AoWE.TAbstractUnit)
                 {
-                    if (w__12.GetAbilityOwner() is Aow.Units.AoWE.TAbstractUnit)
-                    {
-                        w__12.ExecuteDamage(1);
-                    }
+                    A1.ExecuteDamage(1);
                 }
             }
         }
@@ -697,14 +692,12 @@ namespace Aow.Units.PassiveAb
 
                     if (A1.GetAbilityOwner() is Aow.Units.AoWE.TAbstractUnit)
                     {
+                        var unit = (Aow.Units.AoWE.TAbstractUnit)A1.GetAbilityOwner();
+                        var call__22 = unit.GetResistance();
+                        var call__23 = Aow.Units.AoWE.AoWE.HitRole(4 - call__22);
+                        if (call__23)
                         {
-                            var w__21 = (Aow.Units.AoWE.TAbstractUnit)A1.GetAbilityOwner();
-                            var call__22 = w__21.GetResistance();
-                            var call__23 = Aow.Units.AoWE.AoWE.HitRole(4 - call__22);
-                            if (call__23)
-                            {
-                                A1.ExecuteDamage(1);
-                            }
+                            A1.ExecuteDamage(1);
                         }
                     }
                 }
@@ -897,16 +890,14 @@ namespace Aow.Units.PassiveAb
         {
             Aow.Rtl.AnsiString Result = default;
             // { Original assumes the ability data exists. }
+            var durationAbilityData = (Aow.Units.AoWE.TDurationAbilityData)A1.GetAbilityData(FAbilityID);
+            if (durationAbilityData.FSource == 1)
             {
-                var w__29 = (Aow.Units.AoWE.TDurationAbilityData)A1.GetAbilityData(FAbilityID);
-                if (w__29.FSource == 1)
-                {
-                    Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LifeMasteryRStr);
-                }
-                else
-                {
-                    Result = base.GetSourceName(A1);
-                }
+                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LifeMasteryRStr);
+            }
+            else
+            {
+                Result = base.GetSourceName(A1);
             }
 
             return Result;
@@ -1625,16 +1616,14 @@ namespace Aow.Units.PassiveAb
         {
             Aow.Rtl.AnsiString Result = default;
             // { Original assumes the ability data and enchantment exist. }
+            var unitEnchantmentAbilityData = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
+            if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
             {
-                var w__42 = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
-                if (w__42.FEnchantment.FSource == -2)
-                {
-                    Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EarthMasteryRStr);
-                }
-                else
-                {
-                    Result = base.GetSourceName(A1);
-                }
+                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EarthMasteryRStr);
+            }
+            else
+            {
+                Result = base.GetSourceName(A1);
             }
 
             return Result;
@@ -1738,11 +1727,9 @@ namespace Aow.Units.PassiveAb
             Result = base.Remove(A1);
             if (Result)
             {
-                {
-                    var w__45 = (Aow.Units.AoWE.TAbstractUnit)A1;
-                    w__45.Killed();
-                    w__45.SetOwner(null);
-                }
+                var unit = (Aow.Units.AoWE.TAbstractUnit)A1;
+                unit.Killed();
+                unit.SetOwner(null);
             }
 
             return Result;
@@ -2059,10 +2046,8 @@ namespace Aow.Units.PassiveAb
                 ((Aow.Units.AoWE.TAbstractUnit)A1).GetLocation(ref X, ref Y, ref L);
                 if (X != -1)
                 {
-                    {
-                        var w__53 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
-                        ((Aow.Units.AoWE.TArmy)A1.Owner).ValidateTerrain(unchecked((sbyte)w__53.TerrainType), unchecked((sbyte)w__53.OverlayType));
-                    }
+                    var mapField = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
+                    ((Aow.Units.AoWE.TArmy)A1.Owner).ValidateTerrain(unchecked((sbyte)mapField.TerrainType), unchecked((sbyte)mapField.OverlayType));
                 }
             }
 
@@ -2112,10 +2097,8 @@ namespace Aow.Units.PassiveAb
                 ((Aow.Units.AoWE.TAbstractUnit)A1).GetLocation(ref X, ref Y, ref L);
                 if (X != -1)
                 {
-                    {
-                        var w__55 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
-                        ((Aow.Units.AoWE.TArmy)A1.Owner).ValidateTerrain(unchecked((sbyte)w__55.TerrainType), unchecked((sbyte)w__55.OverlayType));
-                    }
+                    var mapField = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
+                    ((Aow.Units.AoWE.TArmy)A1.Owner).ValidateTerrain(unchecked((sbyte)mapField.TerrainType), unchecked((sbyte)mapField.OverlayType));
                 }
             }
 
@@ -2165,10 +2148,8 @@ namespace Aow.Units.PassiveAb
                 ((Aow.Units.AoWE.TAbstractUnit)A1).GetLocation(ref X, ref Y, ref L);
                 if (X != -1)
                 {
-                    {
-                        var w__57 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
-                        ((Aow.Units.AoWE.TArmy)A1.Owner).ValidateTerrain(unchecked((sbyte)w__57.TerrainType), unchecked((sbyte)w__57.OverlayType));
-                    }
+                    var mapField = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
+                    ((Aow.Units.AoWE.TArmy)A1.Owner).ValidateTerrain(unchecked((sbyte)mapField.TerrainType), unchecked((sbyte)mapField.OverlayType));
                 }
             }
 
@@ -2218,10 +2199,8 @@ namespace Aow.Units.PassiveAb
                 ((Aow.Units.AoWE.TAbstractUnit)A1).GetLocation(ref X, ref Y, ref L);
                 if (X != -1)
                 {
-                    {
-                        var w__59 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
-                        ((Aow.Units.AoWE.TArmy)A1.Owner).ValidateTerrain(unchecked((sbyte)w__59.TerrainType), unchecked((sbyte)w__59.OverlayType));
-                    }
+                    var mapField = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
+                    ((Aow.Units.AoWE.TArmy)A1.Owner).ValidateTerrain(unchecked((sbyte)mapField.TerrainType), unchecked((sbyte)mapField.OverlayType));
                 }
             }
 
@@ -2293,16 +2272,14 @@ namespace Aow.Units.PassiveAb
         {
             Aow.Rtl.AnsiString Result = default;
             // { Original assumes the ability data and enchantment exist. }
+            var unitEnchantmentAbilityData = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
+            if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
             {
-                var w__61 = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
-                if (w__61.FEnchantment.FSource == -2)
-                {
-                    Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LifeMasteryRStr);
-                }
-                else
-                {
-                    Result = base.GetSourceName(A1);
-                }
+                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LifeMasteryRStr);
+            }
+            else
+            {
+                Result = base.GetSourceName(A1);
             }
 
             return Result;
@@ -2408,16 +2385,14 @@ namespace Aow.Units.PassiveAb
         {
             Aow.Rtl.AnsiString Result = default;
             // { Original assumes the ability data and enchantment exist. }
+            var unitEnchantmentAbilityData = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
+            if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
             {
-                var w__64 = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
-                if (w__64.FEnchantment.FSource == -2)
-                {
-                    Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireMasteryRStr);
-                }
-                else
-                {
-                    Result = base.GetSourceName(A1);
-                }
+                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireMasteryRStr);
+            }
+            else
+            {
+                Result = base.GetSourceName(A1);
             }
 
             return Result;

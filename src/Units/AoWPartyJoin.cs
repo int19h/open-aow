@@ -192,10 +192,8 @@ namespace Aow.Units.AoWPartyJoin
                 Alignment = call__4;
                 if (((int)Alignment) < Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                 {
-                    {
-                        var w__5 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[unchecked((int)Alignment)];
-                        w__5.ShowClipped(X - (w__5.Width / 2), Y - (w__5.Height / 2), Surface);
-                    }
+                    var image = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[unchecked((int)Alignment)];
+                    image.ShowClipped(X - (image.Width / 2), Y - (image.Height / 2), Surface);
                 }
 
                 Info = default;
@@ -205,10 +203,8 @@ namespace Aow.Units.AoWPartyJoin
                 call__6.ShowEx(X - 33, Y - 35, Surface, Info);
                 if ((((int)(((uint)FSelection) >> Index)) & 1) == 0)
                 {
-                    {
-                        var w__7 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
-                        w__7.ShowClipped(X - (w__7.Width / 2), Y - (w__7.Height / 2), Surface);
-                    }
+                    var image2 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
+                    image2.ShowClipped(X - (image2.Width / 2), Y - (image2.Height / 2), Surface);
                 }
 
                 Surface.ClipRect = OldClip;
@@ -321,13 +317,10 @@ namespace Aow.Units.AoWPartyJoin
             Aow.Rtl.TRect R = default;
             if (ValidateJoin())
             {
-                {
-                    var w__13 = Sender;
-                    R.Left = (w__13.WinLeft + UnitPnl.WinLeft) + 1;
-                    R.Right = w__13.WinWidth + R.Left;
-                    R.Top = w__13.WinTop + UnitPnl.WinTop;
-                    R.Bottom = w__13.WinHeight + R.Top;
-                }
+                R.Left = (Sender.WinLeft + UnitPnl.WinLeft) + 1;
+                R.Right = Sender.WinWidth + R.Left;
+                R.Top = Sender.WinTop + UnitPnl.WinTop;
+                R.Bottom = Sender.WinHeight + R.Top;
 
                 DrawUnit(Sender.Tag, R, ref Surface);
             }

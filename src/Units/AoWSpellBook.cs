@@ -1348,13 +1348,11 @@ namespace Aow.Units.AoWSpellBook
                 var call__153 = call__152.FCastImages.GetImageSequence(10);
                 if (call__153 != null)
                 {
-                    {
-                        var w__154 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                        X = w__154.FAOWWindow.WinLeft;
-                        Y = w__154.FAOWWindow.WinTop;
-                        var call__155 = FSpells.GetSpell(Index);
-                        call__155.FCastImages.Show(10, w__154.WinLeft + X, w__154.WinTop + Y, 0, SD);
-                    }
+                    var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+                    X = image.FAOWWindow.WinLeft;
+                    Y = image.FAOWWindow.WinTop;
+                    var call__155 = FSpells.GetSpell(Index);
+                    call__155.FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);
                 }
             }
         }
@@ -1478,11 +1476,9 @@ namespace Aow.Units.AoWSpellBook
         public void FaceDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
         {
             Aow.Rtl.TRect R = default;
-            {
-                var w__159 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                var call__160 = Aow.Rtl.Rtl.Rect(LeftInfoPage.WinLeft + w__159.WinLeft, LeftInfoPage.WinTop + w__159.WinTop, (LeftInfoPage.WinLeft + w__159.WinLeft) + w__159.WinWidth, (LeftInfoPage.WinTop + w__159.WinTop) + w__159.WinHeight);
-                R = call__160;
-            }
+            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            var call__160 = Aow.Rtl.Rtl.Rect(LeftInfoPage.WinLeft + image.WinLeft, LeftInfoPage.WinTop + image.WinTop, (LeftInfoPage.WinLeft + image.WinLeft) + image.WinWidth, (LeftInfoPage.WinTop + image.WinTop) + image.WinHeight);
+            R = call__160;
 
             var call__161 = FHero.GetFace();
             call__161.ShowStretched(R, SD);
@@ -1504,11 +1500,8 @@ namespace Aow.Units.AoWSpellBook
 
             if (Spell != null)
             {
-                {
-                    var w__165 = Sender;
-                    X = w__165.FAOWWindow.WinLeft;
-                    Spell.FCastImages.Show(10, w__165.WinLeft + X, w__165.FAOWWindow.WinTop + w__165.WinTop, 0, SD);
-                }
+                X = Sender.FAOWWindow.WinLeft;
+                Spell.FCastImages.Show(10, Sender.WinLeft + X, Sender.FAOWWindow.WinTop + Sender.WinTop, 0, SD);
             }
         }
 
@@ -1526,11 +1519,8 @@ namespace Aow.Units.AoWSpellBook
                     Spell = call__167;
                     if (Spell != null)
                     {
-                        {
-                            var w__168 = Sender;
-                            X = w__168.FAOWWindow.WinLeft;
-                            Spell.FCastImages.Show(10, w__168.WinLeft + X, w__168.FAOWWindow.WinTop + w__168.WinTop, 0, SD);
-                        }
+                        X = Sender.FAOWWindow.WinLeft;
+                        Spell.FCastImages.Show(10, Sender.WinLeft + X, Sender.FAOWWindow.WinTop + Sender.WinTop, 0, SD);
                     }
                 }
             }

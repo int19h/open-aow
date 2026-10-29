@@ -70,12 +70,7 @@ namespace Aow.Units.Spring
         {
             // Spring.pas:59
             // { needs: AnimationControlMode returns TAnimationControlMode in AL. }
-            public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
-            {
-                TSet<Aow.Units.Animation.TAnimationControlModeElement> Result = default;
-                Result = Aow.Units.Spring.Spring.SpringMode;
-                return Result;
-            }
+            public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode() => Aow.Units.Spring.Spring.SpringMode;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Spring.TSpringOfLifeAnimation => (Meta)MetaRegistry.Of(typeof(T));

@@ -632,16 +632,14 @@ namespace Aow.Units.AoWTBWindow
         public void RelationsBtnClick(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            var relWindow = Aow.Units.E1Globals.E1Globals.RelWindow;
+            if (relWindow.RelWin.Visible)
             {
-                var w__21 = Aow.Units.E1Globals.E1Globals.RelWindow;
-                if (w__21.RelWin.Visible)
-                {
-                    w__21.RelWin.Visible = false;
-                }
-                else
-                {
-                    Aow.Units.E1Globals.E1Globals.RelWindow.ShowRelations(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                }
+                relWindow.RelWin.Visible = false;
+            }
+            else
+            {
+                Aow.Units.E1Globals.E1Globals.RelWindow.ShowRelations(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
             }
         }
 
@@ -658,9 +656,9 @@ namespace Aow.Units.AoWTBWindow
                     case 91:
                     case 121:
                     {
-                        var w__22 = (Aow.Units.AoWButton.TAOWButton)Sender;
-                        w__22.FDrawn = false;
-                        w__22.ILIndexUp = 14;
+                        var button = (Aow.Units.AoWButton.TAOWButton)Sender;
+                        button.FDrawn = false;
+                        button.ILIndexUp = 14;
                     }
 
                         break;
@@ -670,9 +668,9 @@ namespace Aow.Units.AoWTBWindow
                     case 106:
                     case 136:
                     {
-                        var w__23 = (Aow.Units.AoWButton.TAOWButton)Sender;
-                        w__23.FDrawn = false;
-                        w__23.ILIndexUp = 20;
+                        var button2 = (Aow.Units.AoWButton.TAOWButton)Sender;
+                        button2.FDrawn = false;
+                        button2.ILIndexUp = 20;
                     }
 
                         break;

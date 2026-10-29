@@ -90,13 +90,10 @@ namespace Aow.Units.aowTCMapEvents
 
             Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer.HSMap = Aow.Units.AoWTC.AoWTC.AoWCombatMap;
             Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.SetMap(Aow.Units.AoWTC.AoWTC.AoWCombatMap);
-            {
-                var w__1 = Aow.Units.AoWExeForms.AoWExeForms.TCScanner;
-                w__1.Scanner.FPreviousWidth = 0;
-                w__1.Scanner.FIncremental = false;
-                w__1.Scanner.FSized = false;
-                w__1.Scanner.FUpdateStep = -1;
-            }
+            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.FPreviousWidth = 0;
+            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.FIncremental = false;
+            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.FSized = false;
+            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.Scanner.FUpdateStep = -1;
 
             Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible = true;
             Aow.Units.AoWWinMan.AoWWinMan.General.HideWindows();
