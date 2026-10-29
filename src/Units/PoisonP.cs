@@ -49,6 +49,9 @@ namespace Aow.Units.PoisonP
 //     $1C summoning status; $1D caster player; $1E remaining turns; $1F original overlay. }
     public partial class TPoisonPlant : Aow.Units.ILTer.TILTerrainMO
     {
+        // PoisonP.pas:87
+        public new const int ClassID = 131998;
+
         public TSet<Aow.Units.PoisonP.TPoisonPlantStatusElement> FPlantStatus;
         // { $1C }
         public sbyte FCasterPlayer;
@@ -442,29 +445,10 @@ namespace Aow.Units.PoisonP
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
             // PoisonP.pas:87
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131998;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PoisonP.TPoisonPlant.ClassID;
 
             // PoisonP.pas:28
-            public new Aow.Units.PoisonP.TPoisonPlant Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PoisonP.TPoisonPlant o = (Aow.Units.PoisonP.TPoisonPlant)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PoisonP.TPoisonPlant Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PoisonP.TPoisonPlant)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PoisonP.TPoisonPlant => (Meta)MetaRegistry.Of(typeof(T));
@@ -474,6 +458,9 @@ namespace Aow.Units.PoisonP
     // { TPoisonPlantResource (instance size 68, VMT 557C3C68) }
     public partial class TPoisonPlantResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        // PoisonP.pas:293
+        public new const int ClassID = 131999;
+
         // PoisonP.pas:298
         public override int ResourceUserClassID()
         {
@@ -485,12 +472,7 @@ namespace Aow.Units.PoisonP
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // PoisonP.pas:293
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131999;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PoisonP.TPoisonPlantResource.ClassID;
 
             // PoisonP.pas:288
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -503,27 +485,16 @@ namespace Aow.Units.PoisonP
             public static new Meta Of<T>()
                 where T : Aow.Units.PoisonP.TPoisonPlantResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.PoisonP.TPoisonPlantResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PoisonP.TPoisonPlantResource o = (Aow.Units.PoisonP.TPoisonPlantResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PoisonP.TPoisonPlantResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PoisonP.TPoisonPlantResource)base.Create(AOwner);
         }
     }
 
     // { TPoisonPlantSpellTE (instance size 36, VMT 557C3D68) }
     public partial class TPoisonPlantSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        // PoisonP.pas:303
+        public new const int ClassID = 135941;
+
         // PoisonP.pas:361
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
         {
@@ -628,31 +599,12 @@ namespace Aow.Units.PoisonP
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // PoisonP.pas:303
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135941;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PoisonP.TPoisonPlantSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PoisonP.TPoisonPlantSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.PoisonP.TPoisonPlantSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PoisonP.TPoisonPlantSpellTE o = (Aow.Units.PoisonP.TPoisonPlantSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PoisonP.TPoisonPlantSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PoisonP.TPoisonPlantSpellTE)base.Create(AOwner);
         }
     }
 
@@ -788,7 +740,7 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:426
         public static void RegisterPoisonPlant(Aow.Units.AoWE.TAoWEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PoisonP.TPoisonPlant>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PoisonP.TPoisonPlantResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PoisonP.TPoisonPlantSpellTE>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlant>(), Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlantResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlantSpellTE>()]);
             var call__76 = Aow.Units.PoisonP.TPoisonPlantSpell.Create(null);
             AEngine.FGameSet.FSpellControl.RegisterSpell(call__76);
         }
@@ -796,7 +748,7 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:432
         public static void UnRegisterPoisonPlant(Aow.Units.AoWE.TAoWEngine AEngine)
         {
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PoisonP.TPoisonPlant>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PoisonP.TPoisonPlantResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PoisonP.TPoisonPlantSpellTE>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlant>(), Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlantResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlantSpellTE>()]);
             AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
         }
 

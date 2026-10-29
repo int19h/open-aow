@@ -266,6 +266,9 @@ namespace Aow.Units.AoWVideoDlg
     // { TWMCampaignScenarioPage: size $18; $08 image library, $0C image index, $10 heading, $14 text. VMT 0040B804. }
     public partial class TWMCampaignScenarioPage : Aow.Units.Engine.TEObject
     {
+        // AoWVideoDlg.pas:264
+        public new const int ClassID = 2248706;
+
         public Aow.Rtl.AnsiString FImageLibrary;
         // { $08 }
         // { Managed string at $08. }
@@ -308,12 +311,7 @@ namespace Aow.Units.AoWVideoDlg
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWVideoDlg.pas:264
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2248706;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage.ClassID;
 
             // AoWVideoDlg.pas:78
             public new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage)base.Create(AOwner);
@@ -333,6 +331,9 @@ namespace Aow.Units.AoWVideoDlg
     // { TWMCampaignScenario: size $3C; $14 image library, $18 path text, $1C description, $20 flag, $24/$28 position, $2C paths, $30/$34 pages, $38 map kind. VMT 0040B9A8. }
     public partial class TWMCampaignScenario : Aow.Units.AoWE.TAoWCampaignScenario
     {
+        // AoWVideoDlg.pas:304
+        public new const int ClassID = 2248705;
+
         public Aow.Rtl.AnsiString FImageLibrary;
         // { $14 }
         // { Managed string at $14. }
@@ -415,12 +416,7 @@ namespace Aow.Units.AoWVideoDlg
         public new partial class Meta : Aow.Units.AoWE.TAoWCampaignScenario.Meta
         {
             // AoWVideoDlg.pas:304
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2248705;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWVideoDlg.TWMCampaignScenario.ClassID;
 
             // AoWVideoDlg.pas:109
             public new Aow.Units.AoWVideoDlg.TWMCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaignScenario)base.Create(AOwner);
@@ -433,6 +429,9 @@ namespace Aow.Units.AoWVideoDlg
     // { TWMCampaign: size $40; $34 faction, $38 state, $3C page. VMT 0040BA6C. }
     public partial class TWMCampaign : Aow.Units.AoWE.TAoWCampaign
     {
+        // AoWVideoDlg.pas:334
+        public new const int ClassID = 2248704;
+
         public int FFaction;
         // { $34; 0041D90E }
         public int FState;
@@ -501,12 +500,7 @@ namespace Aow.Units.AoWVideoDlg
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWVideoDlg.pas:334
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2248704;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWVideoDlg.TWMCampaign.ClassID;
 
             // AoWVideoDlg.pas:120
             public new Aow.Units.AoWVideoDlg.TWMCampaign Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaign)base.Create(AOwner);
@@ -522,7 +516,7 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:422
         public static void RegisterWorldMapCampaign(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWVideoDlg.TWMCampaignScenario>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWVideoDlg.TWMCampaign>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWVideoDlg.TWMCampaignScenario>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWVideoDlg.TWMCampaign>()]);
         }
     }
 }

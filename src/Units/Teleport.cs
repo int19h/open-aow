@@ -64,6 +64,9 @@ namespace Aow.Units.Teleport
 //     +$32 FDestinationL, +$33 FState (bit 0 razed). }
     public partial class TTeleport : Aow.Units.AoWE.TStructure
     {
+        // Teleport.pas:105
+        public new const int ClassID = 131332;
+
         public sbyte FDestinationX;
         public sbyte FDestinationY;
         public sbyte FDestinationL;
@@ -388,29 +391,10 @@ namespace Aow.Units.Teleport
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // Teleport.pas:105
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131332;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Teleport.TTeleport.ClassID;
 
             // Teleport.pas:26
-            public new Aow.Units.Teleport.TTeleport Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Teleport.TTeleport o = (Aow.Units.Teleport.TTeleport)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Teleport.TTeleport Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Teleport.TTeleport)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Teleport.TTeleport => (Meta)MetaRegistry.Of(typeof(T));
@@ -420,6 +404,9 @@ namespace Aow.Units.Teleport
     // { TTeleportResource (instance size 100, VMT 557A4C88) }
     public partial class TTeleportResource : Aow.Units.AoWE.TStructureResource
     {
+        // Teleport.pas:299
+        public new const int ClassID = 131333;
+
         // Teleport.pas:290
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -458,12 +445,7 @@ namespace Aow.Units.Teleport
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Teleport.pas:299
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131333;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Teleport.TTeleportResource.ClassID;
 
             // Teleport.pas:302
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -476,21 +458,7 @@ namespace Aow.Units.Teleport
             }
 
             // Teleport.pas:45
-            public new Aow.Units.Teleport.TTeleportResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Teleport.TTeleportResource o = (Aow.Units.Teleport.TTeleportResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Teleport.TTeleportResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Teleport.TTeleportResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Teleport.TTeleportResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -538,7 +506,7 @@ namespace Aow.Units.Teleport
         // Teleport.pas:308
         public static void RegisterTeleport(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Teleport.TTeleport>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Teleport.TTeleportResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Teleport.TTeleport>(), Aow.Units.Engine.EClass.Of<Aow.Units.Teleport.TTeleportResource>()]);
         }
 
         // { Original AoWE resource initialization table $55798BC0..$557990E4. }

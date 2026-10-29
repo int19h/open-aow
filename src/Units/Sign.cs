@@ -37,6 +37,9 @@ namespace Aow.Units.Sign
     // { TSign (instance size 56, VMT 557A4098): +$30 FText, +$34 FTextSeen. }
     public partial class TSign : Aow.Units.AoWE.TStructure
     {
+        // Sign.pas:99
+        public new const int ClassID = 131330;
+
         public Aow.Rtl.TStringList FText;
         public Aow.Units.Engine.TBitList FTextSeen;
         // Sign.pas:92
@@ -165,29 +168,10 @@ namespace Aow.Units.Sign
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // Sign.pas:99
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131330;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sign.TSign.ClassID;
 
             // Sign.pas:24
-            public new Aow.Units.Sign.TSign Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Sign.TSign o = (Aow.Units.Sign.TSign)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Sign.TSign Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sign.TSign)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sign.TSign => (Meta)MetaRegistry.Of(typeof(T));
@@ -197,6 +181,9 @@ namespace Aow.Units.Sign
     // { TSignResource (instance size 100, VMT 557A42EC) }
     public partial class TSignResource : Aow.Units.AoWE.TStructureResource
     {
+        // Sign.pas:159
+        public new const int ClassID = 131331;
+
         // Sign.pas:152
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -294,12 +281,7 @@ namespace Aow.Units.Sign
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Sign.pas:159
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131331;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sign.TSignResource.ClassID;
 
             // Sign.pas:162
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -312,21 +294,7 @@ namespace Aow.Units.Sign
             }
 
             // Sign.pas:37
-            public new Aow.Units.Sign.TSignResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Sign.TSignResource o = (Aow.Units.Sign.TSignResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Sign.TSignResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sign.TSignResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sign.TSignResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -336,6 +304,9 @@ namespace Aow.Units.Sign
     // { TUpdateSignTE (instance size 24, VMT 557A43DC): +$10 FText, +$14 FXhx, +$15 FYhx, +$16 FLhx. }
     public partial class TUpdateSignTE : Aow.Units.NetworkE.TTokenEvent
     {
+        // Sign.pas:202
+        public new const int ClassID = 131343;
+
         public Aow.Rtl.TStringList FText;
         public sbyte FXhx;
         public sbyte FYhx;
@@ -409,29 +380,10 @@ namespace Aow.Units.Sign
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Sign.pas:202
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131343;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sign.TUpdateSignTE.ClassID;
 
             // Sign.pas:54
-            public new Aow.Units.Sign.TUpdateSignTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Sign.TUpdateSignTE o = (Aow.Units.Sign.TUpdateSignTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Sign.TUpdateSignTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sign.TUpdateSignTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sign.TUpdateSignTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -458,7 +410,7 @@ namespace Aow.Units.Sign
         // Sign.pas:229
         public static void RegisterSign(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sign.TSign>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sign.TSignResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sign.TUpdateSignTE>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Sign.TSign>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sign.TSignResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sign.TUpdateSignTE>()]);
         }
 
         public static void Initialize()

@@ -39,6 +39,9 @@ namespace Aow.Units.Arena
     // { TArenaTE: size $2C; $28 FUnitIDs. }
     public partial class TArenaTE : Aow.Units.AoWE.TStructureTE
     {
+        // Arena.pas:86
+        public new const int ClassID = 133294;
+
         public Aow.Units.Engine.TIntegerList FUnitIDs;
         // Arena.pas:80
         public override void Destroy()
@@ -82,29 +85,10 @@ namespace Aow.Units.Arena
         public new partial class Meta : Aow.Units.AoWE.TStructureTE.Meta
         {
             // Arena.pas:86
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133294;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Arena.TArenaTE.ClassID;
 
             // Arena.pas:23
-            public new Aow.Units.Arena.TArenaTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Arena.TArenaTE o = (Aow.Units.Arena.TArenaTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Arena.TArenaTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Arena.TArenaTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Arena.TArenaTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -114,6 +98,9 @@ namespace Aow.Units.Arena
     // { TArena (instance size 48, VMT 557D6240) }
     public partial class TArena : Aow.Units.AoWE.TStructure
     {
+        // Arena.pas:95
+        public new const int ClassID = 133276;
+
         // Arena.pas:212
         public override Aow.Units.AoWE.TStructureTE CreateTE()
         {
@@ -399,37 +386,21 @@ namespace Aow.Units.Arena
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // Arena.pas:95
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133276;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Arena.TArena.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Arena.TArena => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:78
-            public new Aow.Units.Arena.TArena Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Arena.TArena o = (Aow.Units.Arena.TArena)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Arena.TArena Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Arena.TArena)base.Create(AOwner);
         }
     }
 
     // { TArenaResource (instance size 100, VMT 557D6498) }
     public partial class TArenaResource : Aow.Units.AoWE.TStructureResource
     {
+        // Arena.pas:253
+        public new const int ClassID = 133277;
+
         // Arena.pas:244
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -465,12 +436,7 @@ namespace Aow.Units.Arena
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Arena.pas:253
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133277;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Arena.TArenaResource.ClassID;
 
             // Arena.pas:250
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -481,21 +447,7 @@ namespace Aow.Units.Arena
             }
 
             // Arena.pas:45
-            public new Aow.Units.Arena.TArenaResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Arena.TArenaResource o = (Aow.Units.Arena.TArenaResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Arena.TArenaResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Arena.TArenaResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Arena.TArenaResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -674,7 +626,7 @@ namespace Aow.Units.Arena
         // Arena.pas:318
         public static void RegisterArena(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Arena.TArena>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Arena.TArenaTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Arena.TArenaResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Arena.TArena>(), Aow.Units.Engine.EClass.Of<Aow.Units.Arena.TArenaTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.Arena.TArenaResource>()]);
         }
 
         public static void Initialize()

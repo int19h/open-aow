@@ -39,6 +39,9 @@ namespace Aow.Units.WaterNode
     // { TWaterNode (instance size 76, no added fields, VMT 557C092C) }
     public partial class TWaterNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        // WaterNode.pas:37
+        public new const int ClassID = 132275;
+
         // WaterNode.pas:40
         public override Aow.Units.AoWE.TMagicSphere GetMagicSphere()
         {
@@ -50,37 +53,21 @@ namespace Aow.Units.WaterNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
         {
             // WaterNode.pas:37
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132275;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.WaterNode.TWaterNode.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.WaterNode.TWaterNode => (Meta)MetaRegistry.Of(typeof(T));
             // PrdPlace.pas:51
-            public new Aow.Units.WaterNode.TWaterNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.WaterNode.TWaterNode o = (Aow.Units.WaterNode.TWaterNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.WaterNode.TWaterNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WaterNode.TWaterNode)base.Create(AOwner);
         }
     }
 
     // { TWaterNodeResource (instance size 120, no added fields, VMT 557C0BE0) }
     public partial class TWaterNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
+        // WaterNode.pas:55
+        public new const int ClassID = 132276;
+
         // WaterNode.pas:43
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -119,12 +106,7 @@ namespace Aow.Units.WaterNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // WaterNode.pas:55
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132276;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.WaterNode.TWaterNodeResource.ClassID;
 
             // WaterNode.pas:52
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -135,21 +117,7 @@ namespace Aow.Units.WaterNode
             }
 
             // WaterNode.pas:27
-            public new Aow.Units.WaterNode.TWaterNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.WaterNode.TWaterNodeResource o = (Aow.Units.WaterNode.TWaterNodeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.WaterNode.TWaterNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WaterNode.TWaterNodeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.WaterNode.TWaterNodeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -161,7 +129,7 @@ namespace Aow.Units.WaterNode
         // WaterNode.pas:61
         public static void RegisterWaterNode(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.WaterNode.TWaterNode>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.WaterNode.TWaterNodeResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.WaterNode.TWaterNode>(), Aow.Units.Engine.EClass.Of<Aow.Units.WaterNode.TWaterNodeResource>()]);
         }
 
         public static void Initialize()

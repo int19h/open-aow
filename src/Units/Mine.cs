@@ -38,6 +38,9 @@ namespace Aow.Units.Mine
 //     +$40 FIncomeSource. }
     public partial class TMine : Aow.Units.AoWE.TPlayerStructure
     {
+        // Mine.pas:82
+        public new const int ClassID = 131962;
+
         public byte FState;
         public Aow.Units.FixedArray_byte_3 FReserved3D;
         public Aow.Units.AoWE.TPlayerStructureIncomeSource FIncomeSource;
@@ -271,29 +274,10 @@ namespace Aow.Units.Mine
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
             // Mine.pas:82
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131962;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Mine.TMine.ClassID;
 
             // Mine.pas:25
-            public new Aow.Units.Mine.TMine Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Mine.TMine o = (Aow.Units.Mine.TMine)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Mine.TMine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mine.TMine)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Mine.TMine => (Meta)MetaRegistry.Of(typeof(T));
@@ -303,6 +287,9 @@ namespace Aow.Units.Mine
     // { TMineResource (instance size 116, VMT 557B42A8) }
     public partial class TMineResource : Aow.Units.AoWE.TPlayerStructureResource
     {
+        // Mine.pas:200
+        public new const int ClassID = 131963;
+
         // Mine.pas:186
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -343,12 +330,7 @@ namespace Aow.Units.Mine
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // Mine.pas:200
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131963;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Mine.TMineResource.ClassID;
 
             // Mine.pas:197
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -359,21 +341,7 @@ namespace Aow.Units.Mine
             }
 
             // Mine.pas:41
-            public new Aow.Units.Mine.TMineResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Mine.TMineResource o = (Aow.Units.Mine.TMineResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Mine.TMineResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mine.TMineResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Mine.TMineResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -419,7 +387,7 @@ namespace Aow.Units.Mine
                     {
                         var call__22 = P.FStructures.GetStructure(I);
                         S = call__22;
-                        var call__23 = S.ClassType.ClassID();
+                        var call__23 = S.EClass.ClassID;
                         if ((call__23 == 131962) && (unchecked((sbyte)unchecked((byte)S.FPlayer)) == Player))
                         {
                             Result += S.GetIncome();
@@ -439,7 +407,7 @@ namespace Aow.Units.Mine
         // { draft }
         public static void RegisterMine(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mine.TMine>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mine.TMineResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Mine.TMine>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mine.TMineResource>()]);
         }
 
         public static void Initialize()

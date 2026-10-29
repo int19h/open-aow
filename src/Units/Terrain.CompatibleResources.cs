@@ -12,7 +12,7 @@ public partial class TTerrainMO
         for (int i = 0; i < resources.Count; i++)
         {
             var item = (Engine.TEObject)resources.List[i];
-            if (item.ClassType.ClassID() != FResource.ClassType.ClassID()) continue;
+            if (item.EClass.ClassID != FResource.EClass.ClassID) continue;
             var resource = (TTerrainMOR)item;
             if (resource.FDecorationType == ((TTerrainMOR)FResource).FDecorationType &&
                 resource.FTerrainType == terrainType && resource != FResource &&
@@ -32,7 +32,7 @@ public partial class TTerrainMO
         for (int i = 0; i < resources.Count; i++)
         {
             var item = (Engine.TEObject)resources.List[i];
-            if (item.ClassType.ClassID() != FResource.ClassType.ClassID()) continue;
+            if (item.EClass.ClassID != FResource.EClass.ClassID) continue;
             var resource = (TTerrainMOR)item;
             if (decorationType != -1 && resource.FDecorationType != decorationType) continue;
             if (resource.FTerrainType != terrainType || resource == FResource ||

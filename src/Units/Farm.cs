@@ -45,6 +45,9 @@ namespace Aow.Units.Farm
     // { TFarm (instance size 72, VMT 557B281C): $44 FMode. }
     public partial class TFarm : Aow.Units.Crops.TPlayerCropStructure
     {
+        // Farm.pas:54
+        public new const int ClassID = 131950;
+
         public TSet<Aow.Units.Farm.TFarmModeElement> FMode;
         // { $44 }
         public Aow.Units.FixedArray_byte_3 F_Farm_45;
@@ -224,37 +227,21 @@ namespace Aow.Units.Farm
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructure.Meta
         {
             // Farm.pas:54
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131950;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Farm.TFarm.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Farm.TFarm => (Meta)MetaRegistry.Of(typeof(T));
             // Crops.pas:27
-            public new Aow.Units.Farm.TFarm Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Farm.TFarm o = (Aow.Units.Farm.TFarm)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Farm.TFarm Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Farm.TFarm)base.Create(AOwner);
         }
     }
 
     // { TFarmResource (instance size 120, VMT 557B2AC4) }
     public partial class TFarmResource : Aow.Units.Crops.TPlayerCropStructureResource
     {
+        // Farm.pas:151
+        public new const int ClassID = 131951;
+
         // Farm.pas:136
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -294,12 +281,7 @@ namespace Aow.Units.Farm
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructureResource.Meta
         {
             // Farm.pas:151
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131951;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Farm.TFarmResource.ClassID;
 
             // Farm.pas:146
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -312,21 +294,7 @@ namespace Aow.Units.Farm
             }
 
             // Farm.pas:36
-            public new Aow.Units.Farm.TFarmResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Farm.TFarmResource o = (Aow.Units.Farm.TFarmResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Farm.TFarmResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Farm.TFarmResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Farm.TFarmResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -354,7 +322,7 @@ namespace Aow.Units.Farm
                     {
                         var call__21 = P.FStructures.GetStructure(I);
                         Structure = call__21;
-                        var call__22 = Structure.ClassType.ClassID();
+                        var call__22 = Structure.EClass.ClassID;
                         if ((call__22 == 131950) && (Structure.FPlayer == Player))
                         {
                             Result += ((Aow.Units.Farm.TFarm)Structure).FIncome;
@@ -373,7 +341,7 @@ namespace Aow.Units.Farm
         // Farm.pas:177
         public static void RegisterFarm(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Farm.TFarm>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Farm.TFarmResource>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Farm.TFarm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Farm.TFarmResource>()]);
         }
 
         public static void Initialize()

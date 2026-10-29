@@ -24,6 +24,8 @@ namespace Aow.Units.RndHex
     // { RndHex.TRndHexagonResource (instance size 56) }
     public partial class TRndHexagonResource : Aow.Units.Hexagon.THexagonResource
     {
+        public new const int ClassID = 131412;
+
         // RndHex.pas:38
         public override Aow.Units.Engine.TEObject CreateResourceUser()
         {
@@ -62,12 +64,7 @@ namespace Aow.Units.RndHex
         {
             // RndHex.pas:28
             // { TRndHexagonResource }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131412;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.RndHex.TRndHexagonResource.ClassID;
 
             // RndHex.pas:33
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -80,21 +77,7 @@ namespace Aow.Units.RndHex
             public static new Meta Of<T>()
                 where T : Aow.Units.RndHex.TRndHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
             // Hexagon.pas:32
-            public new Aow.Units.RndHex.TRndHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.RndHex.TRndHexagonResource o = (Aow.Units.RndHex.TRndHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.RndHex.TRndHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.RndHex.TRndHexagonResource)base.Create(AOwner);
         }
     }
 
@@ -103,7 +86,7 @@ namespace Aow.Units.RndHex
         // RndHex.pas:61
         public static void RegisterRandomHexagon(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.RndHex.TRndHexagonResource>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.RndHex.TRndHexagonResource>()]);
         }
     }
 }

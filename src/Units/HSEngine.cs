@@ -97,6 +97,9 @@ namespace Aow.Units.HSEngine
 //     FStaticCount (priority shr 26 <= 15) are the static ones. }
     public partial class TMapField : Aow.Units.Engine.TECustomNode
     {
+        // HSEngine.pas:1933
+        public new const int ClassID = 65793;
+
         // HSEngine.pas:1898
         private void InitializeMapField(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -306,7 +309,7 @@ namespace Aow.Units.HSEngine
                 bool bool__8 = (I < FCount);
                 if (bool__8)
                 {
-                    var call__9 = FHSList[I].ClassType.ClassID();
+                    var call__9 = FHSList[I].EClass.ClassID;
                     bool__8 = (call__9 != AClassID);
                 }
 
@@ -340,7 +343,7 @@ namespace Aow.Units.HSEngine
                 bool bool__10 = (I < FCount);
                 if (bool__10)
                 {
-                    var call__11 = FHSList[I].ClassType.ClassID();
+                    var call__11 = FHSList[I].EClass.ClassID;
                     bool__10 = !((call__11 == AClassID) && (FHSList[I].Owner == this));
                 }
 
@@ -621,12 +624,7 @@ namespace Aow.Units.HSEngine
         {
 
             // HSEngine.pas:1933
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65793;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TMapField.ClassID;
 
             // HSEngine.pas:219
             public new Aow.Units.HSEngine.TMapField Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapField)base.Create(AOwner);
@@ -640,6 +638,9 @@ namespace Aow.Units.HSEngine
 //     FMap, +$1C FEngine. The levels of a map (the children, TMapLevel). }
     public partial class TMapContainer : Aow.Units.Engine.TENode
     {
+        // HSEngine.pas:3208
+        public new const int ClassID = 65795;
+
         internal int FWidth;
         internal int FHeight;
         internal int FLevelCount;
@@ -743,7 +744,7 @@ namespace Aow.Units.HSEngine
         public virtual bool AddLevel(int AClassID)
         {
             bool Result = default;
-            Aow.Units.Engine.TEObject.Meta LevelClass = default;
+            Aow.Units.Engine.EClass LevelClass = default;
             Aow.Units.HSEngine.TMapLevel Level = default;
             var call__21 = FEngine.GetEClass(AClassID);
             LevelClass = call__21;
@@ -767,7 +768,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:3277
         public virtual void New(Aow.Units.HSEngine.TNewHSMapSettings Settings)
         {
-            Aow.Units.Engine.TEObject.Meta LevelClass = default;
+            Aow.Units.Engine.EClass LevelClass = default;
             int I = default;
             Aow.Units.HSEngine.TMapLevel Level = default;
             Clear();
@@ -863,12 +864,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // HSEngine.pas:3208
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65795;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TMapContainer.ClassID;
 
             // HSEngine.pas:354
             public new Aow.Units.HSEngine.TMapContainer Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapContainer)base.Create(AOwner);
@@ -927,6 +923,8 @@ namespace Aow.Units.HSEngine
 //     FVersion is a guessed name: nothing but ReadWrite touches it. }
     public partial class THSMap : Aow.Units.Engine.TENode
     {
+        public new const int ClassID = 66048;
+
         // HSMAP.PAS:14
         private void InitializeHSMap(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -2060,12 +2058,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // HSMAP.PAS:66
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 66048;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.THSMap.ClassID;
 
             // HSEngine.pas:562
             public new Aow.Units.HSEngine.THSMap Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THSMap)base.Create(AOwner);
@@ -2082,6 +2075,9 @@ namespace Aow.Units.HSEngine
 //     map, compressed); the event lists are told when a map or a set is loaded or closed. }
     public partial class THSEngine : Aow.Units.Engine.TEngine
     {
+        // HSEngine.pas:4957
+        public new const int ClassID = 65537;
+
         internal TSet<Aow.Units.HSEngine.THSEngineStatusElement> FStatus;
         protected internal Aow.Units.HSEngine.THSSet FHSSet;
         protected internal Aow.Units.HSEngine.THSMap FHSMap;
@@ -2120,9 +2116,9 @@ namespace Aow.Units.HSEngine
             FOnHSSLoaded = call__99;
             var call__100 = new Aow.Units.Engine.TEventList();
             FOnHSSClose = call__100;
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMapContainer>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMapLevel>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.THSMap>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.THSSet>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMapObjectResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMultiHexMOR>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TAbstractHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TAbstractBorderHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TAbstractRoad>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMapContainer>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMapLevel>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.THSMap>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.THSSet>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMapObjectResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMultiHexMOR>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TAbstractHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TAbstractBorderHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TAbstractRoad>()]);
             var call__101 = RegisterDebugID((AnsiString)"HS-Engine");
             Aow.Units.HSEngine.HSEngine.HSEngineDID = call__101;
             FHSSFileName = (AnsiString)"noname.hss";
@@ -2258,7 +2254,7 @@ namespace Aow.Units.HSEngine
             {
                 Header = default;
                 Header.Size = 16;
-                var call__107 = FHSMap.ClassType.ClassID();
+                var call__107 = FHSMap.EClass.ClassID;
                 Header.ClassID = call__107;
                 Header.Reserved = 0;
                 Header.ID = Aow.Units.HSEngine.HSEngine.HSMID;
@@ -2645,7 +2641,7 @@ namespace Aow.Units.HSEngine
             {
                 Header = default;
                 Header.Size = 16;
-                var call__125 = FHSMap.ClassType.ClassID();
+                var call__125 = FHSMap.EClass.ClassID;
                 Header.ClassID = call__125;
                 Header.Reserved = 0;
                 Header.ID = Aow.Units.HSEngine.HSEngine.HSMID;
@@ -2729,29 +2725,10 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.Engine.TEngine.Meta
         {
             // HSEngine.pas:4957
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65537;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.THSEngine.ClassID;
 
             // HSEngine.pas:803
-            public new Aow.Units.HSEngine.THSEngine Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.THSEngine o = (Aow.Units.HSEngine.THSEngine)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.THSEngine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THSEngine)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.THSEngine => (Meta)MetaRegistry.Of(typeof(T));
@@ -2762,6 +2739,8 @@ namespace Aow.Units.HSEngine
 //     the TMapField the sprite stands on (for the multi-hex sprites the field of the base hexagon). }
     public partial class THexagonSprite : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 65872;
+
         // Raw allocation for the legacy sprite factories and IsoHex Attach protocol.
         public THexagonSprite() { }
         public THexagonSprite(TECustomNode owner) : base(owner) { }
@@ -3776,12 +3755,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // HXSPRITE.PAS:12
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65872;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.THexagonSprite.ClassID;
 
             // HXSPRITE.PAS:77
             public virtual TSet<Aow.Units.HSEngine.TControlModeElement> ControlMode()
@@ -3805,6 +3779,8 @@ namespace Aow.Units.HSEngine
 //     FStatus. }
     public partial class TMapObject : Aow.Units.HSEngine.THexagonSprite
     {
+        public new const int ClassID = 65878;
+
         public TMapObject(TECustomNode owner) : base(owner) { }
 
         // Raw allocation for TMultiHexMO and TCenterViewLocation.
@@ -4358,12 +4334,7 @@ namespace Aow.Units.HSEngine
         {
             // MAPOBJ.PAS:3
             // { TMapObject }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65878;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TMapObject.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TMapObject => (Meta)MetaRegistry.Of(typeof(T));
@@ -4378,6 +4349,8 @@ namespace Aow.Units.HSEngine
 //     FLevel (id 5), +$30 FName (id 6). }
     public partial class TMapObjectResource : Aow.Units.Engine.TEResource
     {
+        public new const int ClassID = 65876;
+
         // MAPOBJ.PAS:383
         private void InitializeMapObjectResource(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -4749,12 +4722,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
             // MAPOBJ.PAS:410
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65876;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TMapObjectResource.ClassID;
 
             // MAPOBJ.PAS:415
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -4804,7 +4772,7 @@ namespace Aow.Units.HSEngine
                 for (; I <= end__203; I += 1)
                 {
                     R = (Aow.Units.HSEngine.TMapObjectResource)FChildren.List[I];
-                    if (R.ClassType.ClassID() == AClassID)
+                    if (R.EClass.ClassID == AClassID)
                     {
                         bool bool__204 = (TerrainList == null);
                         if (!bool__204)
@@ -5327,6 +5295,9 @@ namespace Aow.Units.HSEngine
     // Field size and neighbour offsets keep the recovered layout values.
     public partial class TMapLevel : Aow.Units.Engine.TECustomNode
     {
+        // HSEngine.pas:2837
+        public new const int ClassID = 65794;
+
         // HSEngine.pas:2815
         private void InitializeMapLevel(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -5440,10 +5411,10 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2842
-        public virtual Aow.Units.Engine.TEObject.Meta MapFieldClass()
+        public virtual Aow.Units.Engine.EClass MapFieldClass()
         {
-            Aow.Units.Engine.TEObject.Meta Result = default;
-            Result = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMapField>();
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMapField>();
             return Result;
         }
 
@@ -5466,12 +5437,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // HSEngine.pas:2837
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65794;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TMapLevel.ClassID;
 
             // HSEngine.pas:312
             public new Aow.Units.HSEngine.TMapLevel Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapLevel)base.Create(AOwner);
@@ -6561,7 +6527,7 @@ namespace Aow.Units.HSEngine
                 MO = (Aow.Units.HSEngine.TMapObject)call__274;
                 if (MO != null)
                 {
-                    var call__275 = MO.FResource.ClassType.ClassID();
+                    var call__275 = MO.FResource.EClass.ClassID;
                     var call__276 = GetRndResource(TerrainType, call__275);
                     R = call__276;
                     if (R != null)
@@ -6605,13 +6571,13 @@ namespace Aow.Units.HSEngine
                 bool bool__281 = (MO != null);
                 if (bool__281)
                 {
-                    var call__282 = MO.FResource.ClassType.ClassID();
+                    var call__282 = MO.FResource.EClass.ClassID;
                     bool__281 = (call__282 == AClassID);
                 }
 
                 if (bool__281)
                 {
-                    var call__283 = MO.FResource.ClassType.ClassID();
+                    var call__283 = MO.FResource.EClass.ClassID;
                     var call__284 = GetRndResource(TerrainType, call__283);
                     R = call__284;
                     if (R != null)
@@ -6652,7 +6618,7 @@ namespace Aow.Units.HSEngine
                 {
                     var call__287 = Aow.Rtl.Rtl.Random(List.Count);
                     Result = (Aow.Units.HSEngine.TMapObjectResource)List.List[call__287];
-                    if (Result.ClassType.ClassID() != AClassID)
+                    if (Result.EClass.ClassID != AClassID)
                     {
                         Result = null;
                     }
@@ -6666,7 +6632,7 @@ namespace Aow.Units.HSEngine
                     while ((I != List.Count) && (Result == null))
                     {
                         Result = (Aow.Units.HSEngine.TMapObjectResource)List.List[I];
-                        if (Result.ClassType.ClassID() != AClassID)
+                        if (Result.EClass.ClassID != AClassID)
                         {
                             Result = null;
                         }
@@ -6731,6 +6697,9 @@ namespace Aow.Units.HSEngine
 //     lists are filled by the game (TAoWHSSet.Create) and not stored. }
     public partial class THSSet : Aow.Units.Engine.TECustomOwner
     {
+        // HSEngine.pas:3394
+        public new const int ClassID = 66049;
+
         // HSEngine.pas:3348
         private void InitializeHSSet(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -6933,12 +6902,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.Engine.TECustomOwner.Meta
         {
             // HSEngine.pas:3394
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 66049;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.THSSet.ClassID;
 
             // HSEngine.pas:757
             public new Aow.Units.HSEngine.THSSet Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THSSet)base.Create(AOwner);
@@ -7321,6 +7285,8 @@ namespace Aow.Units.HSEngine
 //     (rwData), 2 FShowPriority, 3 FXhp, 4 FYhp, 5 FLhx (rwByte). }
     public partial class TLibraryImageHS : Aow.Units.HSEngine.THexagonSprite
     {
+        public new const int ClassID = 65875;
+
         internal TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement> FStatus;
         internal Aow.Units.ImageLib.TLibraryImage FImage;
         internal int FXhp;
@@ -7616,12 +7582,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // LibImgHS.PAS:13
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65875;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TLibraryImageHS.ClassID;
 
             // HSEngine.pas:996
             public new Aow.Units.HSEngine.TLibraryImageHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TLibraryImageHS)base.Create(AOwner);
@@ -7636,6 +7597,8 @@ namespace Aow.Units.HSEngine
 //     5 FYhp, 6 FLhx (rwByte). }
     public partial class THPBasedHS : Aow.Units.HSEngine.THexagonSprite
     {
+        public new const int ClassID = 65874;
+
         // HXSPRITE.PAS:599
         private void InitializeHPBasedHS(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -7701,12 +7664,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // HXSPRITE.PAS:607
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65874;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.THPBasedHS.ClassID;
 
             // HSEngine.pas:1034
             public new Aow.Units.HSEngine.THPBasedHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THPBasedHS)base.Create(AOwner);
@@ -8265,6 +8223,8 @@ namespace Aow.Units.HSEngine
 //     priority offset) }
     public partial class TMultiHexMOR : Aow.Units.HSEngine.TMapObjectResource
     {
+        public new const int ClassID = 65877;
+
         // MAPOBJ.PAS:1232
         private void InitializeMultiHexMOR(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -8324,12 +8284,7 @@ namespace Aow.Units.HSEngine
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // MAPOBJ.PAS:1239
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65877;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TMultiHexMOR.ClassID;
 
             // HSEngine.pas:1194
             public new Aow.Units.HSEngine.TMultiHexMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMultiHexMOR)base.Create(AOwner);
@@ -8342,6 +8297,8 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractHexagon (instance size 16): the base of the terrain hexagons }
     public partial class TAbstractHexagon : Aow.Units.HSEngine.TMapObject
     {
+        public new const int ClassID = 65904;
+
         public TAbstractHexagon(TECustomNode owner) : base(owner) { }
 
         // Raw allocation for TIsometricHexagon and TCombatHexagon.
@@ -8385,7 +8342,7 @@ namespace Aow.Units.HSEngine
                 Control = call__372;
                 if (Control != null)
                 {
-                    var call__373 = FResource.ClassType.ClassID();
+                    var call__373 = FResource.EClass.ClassID;
                     var call__374 = Control.GetRndResource(Msg.TerrainType, call__373);
                     R = call__374;
                     if (R != null)
@@ -8509,12 +8466,7 @@ namespace Aow.Units.HSEngine
         {
             // MAPOBJ.PAS:666
             // { TAbstractHexagon }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65904;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TAbstractHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TAbstractHexagon => (Meta)MetaRegistry.Of(typeof(T));
@@ -8575,6 +8527,8 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractBorderHexagon (instance size 16) }
     public partial class TAbstractBorderHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
+        public new const int ClassID = 65905;
+
         public TAbstractBorderHexagon(TECustomNode owner) : base(owner) { }
 
         // Raw allocation for TBorderHexagon.
@@ -8584,12 +8538,7 @@ namespace Aow.Units.HSEngine
         {
             // MAPOBJ.PAS:791
             // { TAbstractBorderHexagon }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65905;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TAbstractBorderHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TAbstractBorderHexagon => (Meta)MetaRegistry.Of(typeof(T));
@@ -8606,6 +8555,8 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractRoad (instance size 16): the base of roads and bridges }
     public partial class TAbstractRoad : Aow.Units.HSEngine.TMapObject
     {
+        public new const int ClassID = 65906;
+
         public TAbstractRoad(TECustomNode owner) : base(owner) { }
 
         // Raw allocation for TRoad and TBridge.
@@ -8645,7 +8596,7 @@ namespace Aow.Units.HSEngine
 
             if (bool__391)
             {
-                var call__393 = FResource.ClassType.ClassID();
+                var call__393 = FResource.EClass.ClassID;
                 var call__394 = ((Aow.Units.HSEngine.TAbstractRoadResource)FResource).GetRoadControl();
                 var call__395 = call__394.GetRndResource(Msg.TerrainType, call__393);
                 R = call__395;
@@ -8722,12 +8673,7 @@ namespace Aow.Units.HSEngine
         {
             // MAPOBJ.PAS:798
             // { TAbstractRoad }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 65906;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.HSEngine.TAbstractRoad.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TAbstractRoad => (Meta)MetaRegistry.Of(typeof(T));

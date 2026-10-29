@@ -75,27 +75,16 @@ namespace Aow.Units.Spring
             public static new Meta Of<T>()
                 where T : Aow.Units.Spring.TSpringOfLifeAnimation => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
-            public new Aow.Units.Spring.TSpringOfLifeAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Spring.TSpringOfLifeAnimation o = (Aow.Units.Spring.TSpringOfLifeAnimation)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Spring.TSpringOfLifeAnimation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Spring.TSpringOfLifeAnimation)base.Create(AOwner);
         }
     }
 
     // { TSpringOfLife (instance size 48, VMT 557A3A04) }
     public partial class TSpringOfLife : Aow.Units.AoWE.TStructure
     {
+        // Spring.pas:73
+        public new const int ClassID = 131328;
+
         // Spring.pas:70
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -195,29 +184,10 @@ namespace Aow.Units.Spring
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // Spring.pas:73
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131328;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Spring.TSpringOfLife.ClassID;
 
             // Spring.pas:27
-            public new Aow.Units.Spring.TSpringOfLife Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Spring.TSpringOfLife o = (Aow.Units.Spring.TSpringOfLife)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Spring.TSpringOfLife Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Spring.TSpringOfLife)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Spring.TSpringOfLife => (Meta)MetaRegistry.Of(typeof(T));
@@ -227,6 +197,9 @@ namespace Aow.Units.Spring
     // { TSpringOfLifeResource (instance size 100, VMT 557A3C6C) }
     public partial class TSpringOfLifeResource : Aow.Units.AoWE.TStructureResource
     {
+        // Spring.pas:123
+        public new const int ClassID = 131329;
+
         // Spring.pas:117
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -262,12 +235,7 @@ namespace Aow.Units.Spring
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Spring.pas:123
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131329;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Spring.TSpringOfLifeResource.ClassID;
 
             // Spring.pas:126
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -280,21 +248,7 @@ namespace Aow.Units.Spring
             }
 
             // Spring.pas:37
-            public new Aow.Units.Spring.TSpringOfLifeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Spring.TSpringOfLifeResource o = (Aow.Units.Spring.TSpringOfLifeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Spring.TSpringOfLifeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Spring.TSpringOfLifeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Spring.TSpringOfLifeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -312,7 +266,7 @@ namespace Aow.Units.Spring
         // Spring.pas:132
         public static void RegisterSpringOfLife(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Spring.TSpringOfLife>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Spring.TSpringOfLifeResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Spring.TSpringOfLife>(), Aow.Units.Engine.EClass.Of<Aow.Units.Spring.TSpringOfLifeResource>()]);
         }
 
         public static TSet<Aow.Units.Animation.TAnimationControlModeElement> SpringMode = TSet<Aow.Units.Animation.TAnimationControlModeElement>.FromMask(17UL);

@@ -37,6 +37,9 @@ namespace Aow.Units.Hill
     // { THillMO (instance size 20, VMT 55800AFC) }
     public partial class THillMO : Aow.Units.Terrain.TTerrainMO
     {
+        // Hill.pas:39
+        public new const int ClassID = 131432;
+
         // Terrain.pas:19
         public static new Aow.Units.Hill.THillMO Create(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -57,37 +60,21 @@ namespace Aow.Units.Hill
         public new partial class Meta : Aow.Units.Terrain.TTerrainMO.Meta
         {
             // Hill.pas:39
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131432;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Hill.THillMO.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Hill.THillMO => (Meta)MetaRegistry.Of(typeof(T));
             // Terrain.pas:19
-            public new Aow.Units.Hill.THillMO Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Hill.THillMO o = (Aow.Units.Hill.THillMO)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Hill.THillMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Hill.THillMO)base.Create(AOwner);
         }
     }
 
     // { THillMOR (instance size 72, VMT 55800C98) }
     public partial class THillMOR : Aow.Units.Terrain.TTerrainMOR
     {
+        // Hill.pas:42
+        public new const int ClassID = 131433;
+
         // Hill.pas:48
         public override Aow.Units.Engine.TEObject CreateResourceUser()
         {
@@ -103,12 +90,7 @@ namespace Aow.Units.Hill
         public new partial class Meta : Aow.Units.Terrain.TTerrainMOR.Meta
         {
             // Hill.pas:42
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131433;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Hill.THillMOR.ClassID;
 
             // Hill.pas:45
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -123,21 +105,7 @@ namespace Aow.Units.Hill
             public static new Meta Of<T>()
                 where T : Aow.Units.Hill.THillMOR => (Meta)MetaRegistry.Of(typeof(T));
             // Terrain.pas:42
-            public new Aow.Units.Hill.THillMOR Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Hill.THillMOR o = (Aow.Units.Hill.THillMOR)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Hill.THillMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Hill.THillMOR)base.Create(AOwner);
         }
     }
 
@@ -146,7 +114,7 @@ namespace Aow.Units.Hill
         // Hill.pas:58
         public static void RegisterHill(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Hill.THillMO>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Hill.THillMO>()]);
         }
 
         public static readonly Aow.Rtl.AnsiString HillNameRStr = (AnsiString)"Hill";

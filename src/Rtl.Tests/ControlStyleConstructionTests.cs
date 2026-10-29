@@ -27,8 +27,8 @@ public sealed class ControlStyleConstructionTests
         if (kind == 2)
         {
             // The pad has the inherited ID 81, so isolate its class entry in this test engine.
-            engine.UnregisterEClasses([TEObject.Meta.Of<TEControlStyleObject>()]);
-            engine.RegisterEClasses([meta]);
+            engine.UnregisterEClasses([EClass.Of<TEControlStyleObject>()]);
+            engine.RegisterEClasses([EClass.Of(type)]);
         }
         var direct = kind switch
         {
@@ -104,7 +104,9 @@ public sealed class ControlStyleConstructionTests
     [Fact]
     public void ConvertedAndLegacyChainsRunTheOwnerBodyOnce()
     {
-        EObjectCreation.Register(typeof(Converted), new TEControlStyleObject.Meta(), static owner => new Converted(owner), 12);
+        EClass.Register(typeof(Converted), TEControlStyleObject.ClassID, static owner => new Converted(owner), 12);
+        MetaRegistry.Register(typeof(Converted), new TEControlStyleObject.Meta(), 12);
+        EClass.Register(typeof(Legacy), TEObject.ClassID, static owner => EClass.Initialize(new Legacy(), owner), 8);
         MetaRegistry.Register(typeof(Legacy), new TEObject.Meta(), static () => new Legacy(), 8);
         Assert.Equal(0, new Legacy().Calls);
         foreach (bool owned in new[] { false, true })

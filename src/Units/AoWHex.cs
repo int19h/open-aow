@@ -53,7 +53,7 @@ namespace Aow.Units.AoWHex
 
             if (bool__1)
             {
-                var call__3 = FResource.ClassType.ClassID();
+                var call__3 = FResource.EClass.ClassID;
                 var call__4 = Aow.Units.AoWE.AoWE.AoWHSSet.HexagonControl.GetRndResource(Msg.TerrainType, call__3);
                 R = call__4;
                 if (R != null)
@@ -308,6 +308,9 @@ namespace Aow.Units.AoWHex
 //     +$19 FAnimationIndex, +$1A..$1F FShoreTerrain[1..6]. }
     public partial class TAoWWaterHexagon : Aow.Units.IsoHex.TLowerIsometricHexagon
     {
+        // AoWHex.pas:275
+        public new const int ClassID = 132925;
+
         public sbyte FAnimationFrame;
         public byte FAnimationIndex;
         public Aow.Units.FixedArray_byte_6 FShoreTerrain;
@@ -341,29 +344,10 @@ namespace Aow.Units.AoWHex
         public new partial class Meta : Aow.Units.IsoHex.TLowerIsometricHexagon.Meta
         {
             // AoWHex.pas:275
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132925;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWHex.TAoWWaterHexagon.ClassID;
 
             // AoWHex.pas:48
-            public new Aow.Units.AoWHex.TAoWWaterHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWHex.TAoWWaterHexagon o = (Aow.Units.AoWHex.TAoWWaterHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWHex.TAoWWaterHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWHex.TAoWWaterHexagon)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWHex.TAoWWaterHexagon => (Meta)MetaRegistry.Of(typeof(T));
@@ -373,6 +357,9 @@ namespace Aow.Units.AoWHex
     // { TAoWWaterHexagonResource (instance size 56, VMT 5579A7A0) }
     public partial class TAoWWaterHexagonResource : Aow.Units.IsoHex.TLowerIsometricHexagonResource
     {
+        // AoWHex.pas:452
+        public new const int ClassID = 132926;
+
         // AoWHex.pas:446
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -408,12 +395,7 @@ namespace Aow.Units.AoWHex
         public new partial class Meta : Aow.Units.IsoHex.TLowerIsometricHexagonResource.Meta
         {
             // AoWHex.pas:452
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132926;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWHex.TAoWWaterHexagonResource.ClassID;
 
             // AoWHex.pas:455
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -426,21 +408,7 @@ namespace Aow.Units.AoWHex
             }
 
             // AoWHex.pas:58
-            public new Aow.Units.AoWHex.TAoWWaterHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWHex.TAoWWaterHexagonResource o = (Aow.Units.AoWHex.TAoWWaterHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWHex.TAoWWaterHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWHex.TAoWWaterHexagonResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWHex.TAoWWaterHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -508,10 +476,10 @@ namespace Aow.Units.AoWHex
         // AoWHex.pas:461
         public static void RegisterAoWHexagon(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWHex.TAoWHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWHex.TAoWHexagonResource>()]);
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWHex.TAoWBorderHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.BorderHx.TBorderHexagonResource>()]);
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWHex.TAoWWaterHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWHex.TAoWWaterHexagonResource>()]);
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoHex.TUpperIsometricHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoHex.TUpperIsometricHexagonResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWHex.TAoWHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWHex.TAoWHexagonResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWHex.TAoWBorderHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.BorderHx.TBorderHexagonResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWHex.TAoWWaterHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWHex.TAoWWaterHexagonResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TUpperIsometricHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TUpperIsometricHexagonResource>()]);
         }
 
         public static Aow.Units.FixedArray_byte_3 SideHN = Aow.Units.FixedArray_byte_3.From([6, 1, 2]);

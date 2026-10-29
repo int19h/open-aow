@@ -39,6 +39,9 @@ namespace Aow.Units.FireNode
     // { TFireNode (instance size 76, VMT 557BF624) }
     public partial class TFireNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        // FireNode.pas:36
+        public new const int ClassID = 132062;
+
         // FireNode.pas:39
         public override Aow.Units.AoWE.TMagicSphere GetMagicSphere()
         {
@@ -50,37 +53,21 @@ namespace Aow.Units.FireNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
         {
             // FireNode.pas:36
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132062;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FireNode.TFireNode.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FireNode.TFireNode => (Meta)MetaRegistry.Of(typeof(T));
             // PrdPlace.pas:51
-            public new Aow.Units.FireNode.TFireNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FireNode.TFireNode o = (Aow.Units.FireNode.TFireNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FireNode.TFireNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FireNode.TFireNode)base.Create(AOwner);
         }
     }
 
     // { TFireNodeResource (instance size 120, VMT 557BF8D4) }
     public partial class TFireNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
+        // FireNode.pas:53
+        public new const int ClassID = 132063;
+
         // FireNode.pas:42
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -118,12 +105,7 @@ namespace Aow.Units.FireNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // FireNode.pas:53
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132063;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FireNode.TFireNodeResource.ClassID;
 
             // FireNode.pas:50
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -134,21 +116,7 @@ namespace Aow.Units.FireNode
             }
 
             // FireNode.pas:26
-            public new Aow.Units.FireNode.TFireNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FireNode.TFireNodeResource o = (Aow.Units.FireNode.TFireNodeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FireNode.TFireNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FireNode.TFireNodeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FireNode.TFireNodeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -160,7 +128,7 @@ namespace Aow.Units.FireNode
         // FireNode.pas:59
         public static void RegisterFireNode(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FireNode.TFireNode>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FireNode.TFireNodeResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.FireNode.TFireNode>(), Aow.Units.Engine.EClass.Of<Aow.Units.FireNode.TFireNodeResource>()]);
         }
 
         public static void Initialize()

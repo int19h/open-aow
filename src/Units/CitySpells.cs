@@ -60,6 +60,9 @@ namespace Aow.Units.CitySpells
 //     $20 packed target coordinates; $24 target owner. }
     public partial class TCityTargetSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        // CitySpells.pas:170
+        public new const int ClassID = 135949;
+
         public Aow.Units.HSEngine.TXYL FTargetLocation;
         // { $20 }
         public sbyte FTargetPlayer;
@@ -133,31 +136,12 @@ namespace Aow.Units.CitySpells
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // CitySpells.pas:170
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135949;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CitySpells.TCityTargetSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CitySpells.TCityTargetSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TCityTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CitySpells.TCityTargetSpellTE o = (Aow.Units.CitySpells.TCityTargetSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CitySpells.TCityTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TCityTargetSpellTE)base.Create(AOwner);
         }
     }
 
@@ -481,6 +465,9 @@ namespace Aow.Units.CitySpells
     // { TTownGateTE (instance size 48, VMT 557AF604): $28 army ID; $2C destination coordinates. }
     public partial class TTownGateTE : Aow.Units.CitySpells.TCityTargetSpellTE
     {
+        // CitySpells.pas:397
+        public new const int ClassID = 135950;
+
         public Aow.Units.AoWE.TArmyID FArmyID;
         // { $28 }
         public Aow.Units.HSEngine.TXYL FTeleportLocation;
@@ -546,31 +533,12 @@ namespace Aow.Units.CitySpells
         public new partial class Meta : Aow.Units.CitySpells.TCityTargetSpellTE.Meta
         {
             // CitySpells.pas:397
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135950;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CitySpells.TTownGateTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CitySpells.TTownGateTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TTownGateTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CitySpells.TTownGateTE o = (Aow.Units.CitySpells.TTownGateTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CitySpells.TTownGateTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TTownGateTE)base.Create(AOwner);
         }
     }
 
@@ -864,6 +832,9 @@ namespace Aow.Units.CitySpells
     // { TCityEnchantmentSpellTE (instance size 40, VMT 557AF800) }
     public partial class TCityEnchantmentSpellTE : Aow.Units.CitySpells.TCityTargetSpellTE
     {
+        // CitySpells.pas:551
+        public new const int ClassID = 131821;
+
         // NetworkE.pas:230
         public static new Aow.Units.CitySpells.TCityEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -884,31 +855,12 @@ namespace Aow.Units.CitySpells
         public new partial class Meta : Aow.Units.CitySpells.TCityTargetSpellTE.Meta
         {
             // CitySpells.pas:551
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131821;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CitySpells.TCityEnchantmentSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CitySpells.TCityEnchantmentSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TCityEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CitySpells.TCityEnchantmentSpellTE o = (Aow.Units.CitySpells.TCityEnchantmentSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CitySpells.TCityEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TCityEnchantmentSpellTE)base.Create(AOwner);
         }
     }
 
@@ -1685,7 +1637,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:988
         public static void RegisterCitySpells(Aow.Units.AoWE.TAoWEngine A1)
         {
-            A1.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TTownGateTE>()]);
+            A1.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TTownGateTE>()]);
             var spellControl = A1.FGameSet.FSpellControl;
             var call__185 = Aow.Units.CitySpells.TAnarchy.Create(null);
             spellControl.RegisterSpell(call__185);
@@ -1708,7 +1660,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:1004
         public static void UnregisterCitySpells(Aow.Units.AoWE.TAoWEngine A1)
         {
-            A1.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TTownGateTE>()]);
+            A1.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TTownGateTE>()]);
             var spellControl = A1.FGameSet.FSpellControl;
             spellControl.UnregisterSpellID(72);
             // { Original leaves Town Quake ($47) registered. }

@@ -54,6 +54,9 @@ namespace Aow.Units.AoWSetup
     // { TSetupPackage (instance size 24, VMT 557DE814) }
     public partial class TSetupPackage : Aow.Units.Engine.TEObject
     {
+        // AoWSetup.pas:254
+        public new const int ClassID = 131681;
+
         public int FMessageID;
         // { +$08 }
         public int FParam2;
@@ -93,12 +96,7 @@ namespace Aow.Units.AoWSetup
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWSetup.pas:254
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131681;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWSetup.TSetupPackage.ClassID;
 
             // AoWSetup.pas:40
             public new Aow.Units.AoWSetup.TSetupPackage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TSetupPackage)base.Create(AOwner);
@@ -122,6 +120,9 @@ namespace Aow.Units.AoWSetup
     // { TRemotePlayer (instance size 24, VMT 557DE92C) }
     public partial class TRemotePlayer : Aow.Units.Engine.TEObject
     {
+        // AoWSetup.pas:266
+        public new const int ClassID = 131682;
+
         public TRemotePlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public Aow.Rtl.AnsiString FName;
@@ -149,12 +150,7 @@ namespace Aow.Units.AoWSetup
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWSetup.pas:266
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131682;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWSetup.TRemotePlayer.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWSetup.TRemotePlayer => (Meta)MetaRegistry.Of(typeof(T));
@@ -201,6 +197,9 @@ namespace Aow.Units.AoWSetup
     // { TPlayerSetupSettings (instance size 40, VMT 557DEB70); $08/$10 behaviors, $18 race, $19 status, $1C leader, $20 player, $21 behavior, $24 email. }
     public partial class TPlayerSetupSettings : Aow.Units.Engine.TEObject
     {
+        // AoWSetup.pas:312
+        public new const int ClassID = 131683;
+
         public Aow.Units.AoWSetup.TSetupPlayerBehavior FBehavior;
         // { +$08 }
         public Aow.Units.AoWSetup.TSetupPlayerBehavior FOriginalBehavior;
@@ -253,12 +252,7 @@ namespace Aow.Units.AoWSetup
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWSetup.pas:312
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131683;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWSetup.TPlayerSetupSettings.ClassID;
 
             // AoWSetup.pas:76
             public new Aow.Units.AoWSetup.TPlayerSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TPlayerSetupSettings)base.Create(AOwner);
@@ -271,6 +265,9 @@ namespace Aow.Units.AoWSetup
     // { TSetupSettings (instance size 68, VMT 557DEC54); $18/$1C CRCs, $20 day, $24 play mode, $28 victory, $29 independent AI, $2C seed, $30/$34 limits, $38 players, $3C connection, $3D tactical combat, $40 email game name. }
     public partial class TSetupSettings : Aow.Units.Engine.TENode
     {
+        // AoWSetup.pas:356
+        public new const int ClassID = 131680;
+
         public int FHostRemoteID;
         public Aow.Rtl.AnsiString FFileName;
         // { +$10 }
@@ -451,12 +448,7 @@ namespace Aow.Units.AoWSetup
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // AoWSetup.pas:356
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131680;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWSetup.TSetupSettings.ClassID;
 
             // AoWSetup.pas:107
             public new Aow.Units.AoWSetup.TSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TSetupSettings)base.Create(AOwner);
@@ -2720,7 +2712,7 @@ namespace Aow.Units.AoWSetup
         // AoWSetup.pas:1334
         public static void RegisterSetupClasses(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWSetup.TSetupSettings>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWSetup.TPlayerSetupSettings>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWSetup.TSetupPackage>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWSetup.TRemotePlayer>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWSetup.TSetupSettings>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWSetup.TPlayerSetupSettings>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWSetup.TSetupPackage>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWSetup.TRemotePlayer>()]);
         }
 
         // AoWSetup.pas:1339

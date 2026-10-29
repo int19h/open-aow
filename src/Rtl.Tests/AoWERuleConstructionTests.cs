@@ -84,6 +84,7 @@ public sealed partial class AoWERuleConstructionTests
             for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name))
                 {
+                    if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
                     if (field.Name == "FOwner") { fields[key] = child is null ? null : "$owner"; continue; }
@@ -134,7 +135,7 @@ public sealed partial class AoWERuleConstructionTests
                 engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
                 try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID())]); }
                 catch (Aow.Rtl.Exception) { }
-                engine.RegisterEClasses([meta]);
+                engine.RegisterEClasses([EClass.Of(type)]);
                 return engine.CreateEObject(meta.ClassID(), owner);
             }
             finally { engine.Destroy(); }

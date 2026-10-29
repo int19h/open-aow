@@ -39,6 +39,9 @@ namespace Aow.Units.WizardsTower
     // { TWizardsTower: size $38, VMT 557D5508; $30 generate, $31 spheres, $33 level, $34 spell ID. }
     public partial class TWizardsTower : Aow.Units.AoWE.TStructure
     {
+        // WizardsTower.pas:84
+        public new const int ClassID = 133278;
+
         public bool FGenerateSpell;
         // { $30 }
         public TSet<Aow.Units.AoWE.TMagicSphere> FMagicSpheres;
@@ -433,29 +436,10 @@ namespace Aow.Units.WizardsTower
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // WizardsTower.pas:84
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133278;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.WizardsTower.TWizardsTower.ClassID;
 
             // WizardsTower.pas:24
-            public new Aow.Units.WizardsTower.TWizardsTower Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.WizardsTower.TWizardsTower o = (Aow.Units.WizardsTower.TWizardsTower)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.WizardsTower.TWizardsTower Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WizardsTower.TWizardsTower)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.WizardsTower.TWizardsTower => (Meta)MetaRegistry.Of(typeof(T));
@@ -465,6 +449,9 @@ namespace Aow.Units.WizardsTower
     // { TWizardsTowerResource: size $64, VMT 557D5774; no additional fields. }
     public partial class TWizardsTowerResource : Aow.Units.AoWE.TStructureResource
     {
+        // WizardsTower.pas:263
+        public new const int ClassID = 133279;
+
         // WizardsTower.pas:266
         public override int ResourceUserClassID()
         {
@@ -476,12 +463,7 @@ namespace Aow.Units.WizardsTower
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // WizardsTower.pas:263
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133279;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.WizardsTower.TWizardsTowerResource.ClassID;
 
             // WizardsTower.pas:260
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -496,21 +478,7 @@ namespace Aow.Units.WizardsTower
             public static new Meta Of<T>()
                 where T : Aow.Units.WizardsTower.TWizardsTowerResource => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:200
-            public new Aow.Units.WizardsTower.TWizardsTowerResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.WizardsTower.TWizardsTowerResource o = (Aow.Units.WizardsTower.TWizardsTowerResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.WizardsTower.TWizardsTowerResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WizardsTower.TWizardsTowerResource)base.Create(AOwner);
         }
     }
 
@@ -554,7 +522,7 @@ namespace Aow.Units.WizardsTower
         // WizardsTower.pas:269
         public static void RegisterWizardsTower(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.WizardsTower.TWizardsTower>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.WizardsTower.TWizardsTowerResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.WizardsTower.TWizardsTower>(), Aow.Units.Engine.EClass.Of<Aow.Units.WizardsTower.TWizardsTowerResource>()]);
         }
 
         public static TSet<Aow.Units.AoWE.TMagicSphere> AllMagicSpheres = TSet<Aow.Units.AoWE.TMagicSphere>.FromMask(255UL);

@@ -38,6 +38,9 @@ namespace Aow.Units.CombatSpells
 //     $18 spell ID, $1C casting mana; source and target IDs inherited at $0D/$0E. }
     public partial class TCombatSpellCA : Aow.Units.AoWE.TDamageCA
     {
+        // CombatSpells.pas:447
+        public new const int ClassID = 131778;
+
         public TCombatSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public int FSpellID;
@@ -126,12 +129,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
             // CombatSpells.pas:447
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131778;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TCombatSpellCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TCombatSpellCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -815,6 +813,9 @@ namespace Aow.Units.CombatSpells
     // { TTurnUndeadSpellCA (instance size 32, VMT 557F41D0) }
     public partial class TTurnUndeadSpellCA : Aow.Units.CombatSpells.TCombatSpellCA
     {
+        // CombatSpells.pas:861
+        public new const int ClassID = 131788;
+
         public TTurnUndeadSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:867
@@ -848,12 +849,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.CombatSpells.TCombatSpellCA.Meta
         {
             // CombatSpells.pas:861
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131788;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TTurnUndeadSpellCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TTurnUndeadSpellCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -970,6 +966,9 @@ namespace Aow.Units.CombatSpells
     // { TFastCombatHighPrayerCA (instance size 32, VMT 557F43DC) }
     public partial class TFastCombatHighPrayerCA : Aow.Units.CombatSpells.TMultiTargetCombatSpellCA
     {
+        // CombatSpells.pas:937
+        public new const int ClassID = 131783;
+
         public TFastCombatHighPrayerCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:943
@@ -1024,12 +1023,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:937
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131783;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TFastCombatHighPrayerCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TFastCombatHighPrayerCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -1041,6 +1035,9 @@ namespace Aow.Units.CombatSpells
     // { TTacticalCombatHighPrayerCA (instance size 28, VMT 557F44D0) }
     public partial class TTacticalCombatHighPrayerCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
+        // CombatSpells.pas:976
+        public new const int ClassID = 131786;
+
         public TTacticalCombatHighPrayerCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:982
@@ -1063,12 +1060,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:976
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131786;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TTacticalCombatHighPrayerCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TTacticalCombatHighPrayerCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -1301,6 +1293,9 @@ namespace Aow.Units.CombatSpells
     // { TMindDecayCA (instance size 28, VMT 557F4908) }
     public partial class TMindDecayCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
+        // CombatSpells.pas:1162
+        public new const int ClassID = 131787;
+
         public TMindDecayCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:1168
@@ -1349,12 +1344,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:1162
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131787;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TMindDecayCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TMindDecayCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -1480,6 +1470,9 @@ namespace Aow.Units.CombatSpells
     // { TSlowCA (instance size 28, VMT 557F4D2C) }
     public partial class TSlowCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
+        // CombatSpells.pas:1257
+        public new const int ClassID = 131792;
+
         public TSlowCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:1263
@@ -1511,12 +1504,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:1257
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131792;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TSlowCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TSlowCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -1586,6 +1574,9 @@ namespace Aow.Units.CombatSpells
     // { TEntangleSpellCA (instance size 28, VMT 557F4F08) }
     public partial class TEntangleSpellCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
+        // CombatSpells.pas:1328
+        public new const int ClassID = 131784;
+
         public TEntangleSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:1334
@@ -1616,12 +1607,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:1328
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131784;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TEntangleSpellCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TEntangleSpellCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -2088,6 +2074,9 @@ namespace Aow.Units.CombatSpells
     // { TFastCombatTerrorCA (instance size 32, VMT 557F5FF4) }
     public partial class TFastCombatTerrorCA : Aow.Units.CombatSpells.TMultiTargetCombatSpellCA
     {
+        // CombatSpells.pas:1666
+        public new const int ClassID = 131777;
+
         public TFastCombatTerrorCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:1672
@@ -2176,12 +2165,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:1666
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131777;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TFastCombatTerrorCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TFastCombatTerrorCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -2194,6 +2178,9 @@ namespace Aow.Units.CombatSpells
 //     $0C source ID, $0D target ID, $10 casting mana, $14 success. }
     public partial class TTacticalCombatTerrorCA : Aow.Units.AoWE.TCombatAction
     {
+        // CombatSpells.pas:1707
+        public new const int ClassID = 131785;
+
         public TTacticalCombatTerrorCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public byte FSourceID;
@@ -2287,12 +2274,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:1707
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131785;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TTacticalCombatTerrorCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TTacticalCombatTerrorCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -2591,6 +2573,9 @@ namespace Aow.Units.CombatSpells
     // { TRecallSpiritCA (instance size 28, VMT 557F662C): inherited $0C source ID, $0D target ID, $10 mana, $14 success, $18 spell ID. }
     public partial class TRecallSpiritCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
+        // CombatSpells.pas:1950
+        public new const int ClassID = 131781;
+
         public TRecallSpiritCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:1953
@@ -2623,12 +2608,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:1950
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131781;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TRecallSpiritCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TRecallSpiritCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -2699,6 +2679,9 @@ namespace Aow.Units.CombatSpells
     // { TAnimateDeadCA (instance size 28, VMT 557F6828): inherited $0C source ID, $0D target ID, $10 mana, $14 success, $18 spell ID. }
     public partial class TAnimateDeadCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
+        // CombatSpells.pas:2021
+        public new const int ClassID = 131782;
+
         public TAnimateDeadCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // CombatSpells.pas:2024
@@ -2731,12 +2714,7 @@ namespace Aow.Units.CombatSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // CombatSpells.pas:2021
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131782;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatSpells.TAnimateDeadCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatSpells.TAnimateDeadCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -2811,7 +2789,7 @@ namespace Aow.Units.CombatSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TCombatSpellCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TFastCombatTerrorCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TTacticalCombatTerrorCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TRecallSpiritCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TAnimateDeadCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TFastCombatHighPrayerCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TTacticalCombatHighPrayerCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TEntangleSpellCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TMindDecayCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TTurnUndeadSpellCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TSlowCA>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TCombatSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TFastCombatTerrorCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTacticalCombatTerrorCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TRecallSpiritCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TAnimateDeadCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TFastCombatHighPrayerCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTacticalCombatHighPrayerCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TEntangleSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TMindDecayCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTurnUndeadSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TSlowCA>()]);
             var call__292 = Aow.Units.CombatSpells.TSolarFlare.Create(null);
             Control.RegisterSpell(call__292);
             var call__293 = Aow.Units.CombatSpells.TTurnUndead.Create(null);
@@ -2879,7 +2857,7 @@ namespace Aow.Units.CombatSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
-            Engine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TCombatSpellCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TFastCombatTerrorCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TTacticalCombatTerrorCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TRecallSpiritCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TAnimateDeadCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TFastCombatHighPrayerCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TTacticalCombatHighPrayerCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TEntangleSpellCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TMindDecayCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TTurnUndeadSpellCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatSpells.TSlowCA>()]);
+            Engine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TCombatSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TFastCombatTerrorCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTacticalCombatTerrorCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TRecallSpiritCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TAnimateDeadCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TFastCombatHighPrayerCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTacticalCombatHighPrayerCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TEntangleSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TMindDecayCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTurnUndeadSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TSlowCA>()]);
             Control.UnregisterSpellID(100);
             Control.UnregisterSpellID(101);
             Control.UnregisterSpellID(102);

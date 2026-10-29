@@ -42,6 +42,9 @@ namespace Aow.Units.PowerNode
     // { TPowerNode: size $44; $3C FState, $40 FPowerSource. }
     public partial class TPowerNode : Aow.Units.AoWE.TPlayerStructure
     {
+        // PowerNode.pas:64
+        public new const int ClassID = 131482;
+
         public TSet<Aow.Units.PowerNode.TPowerNodeStateElement> FState;
         public Aow.Units.FixedArray_byte_3 FReserved3D;
         public Aow.Units.AoWE.TPlayerStructurePowerSource FPowerSource;
@@ -264,29 +267,10 @@ namespace Aow.Units.PowerNode
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
             // PowerNode.pas:64
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131482;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PowerNode.TPowerNode.ClassID;
 
             // PowerNode.pas:25
-            public new Aow.Units.PowerNode.TPowerNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PowerNode.TPowerNode o = (Aow.Units.PowerNode.TPowerNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PowerNode.TPowerNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PowerNode.TPowerNode)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PowerNode.TPowerNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -296,6 +280,9 @@ namespace Aow.Units.PowerNode
     // { TPowerNodeResource (instance size 116, VMT 557D027C) }
     public partial class TPowerNodeResource : Aow.Units.AoWE.TPlayerStructureResource
     {
+        // PowerNode.pas:166
+        public new const int ClassID = 131483;
+
         // PowerNode.pas:152
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -336,12 +323,7 @@ namespace Aow.Units.PowerNode
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // PowerNode.pas:166
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131483;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PowerNode.TPowerNodeResource.ClassID;
 
             // PowerNode.pas:163
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -352,21 +334,7 @@ namespace Aow.Units.PowerNode
             }
 
             // PowerNode.pas:41
-            public new Aow.Units.PowerNode.TPowerNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PowerNode.TPowerNodeResource o = (Aow.Units.PowerNode.TPowerNodeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PowerNode.TPowerNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PowerNode.TPowerNodeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PowerNode.TPowerNodeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -378,7 +346,7 @@ namespace Aow.Units.PowerNode
         // PowerNode.pas:172
         public static void RegisterPowerNode(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PowerNode.TPowerNode>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PowerNode.TPowerNodeResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.PowerNode.TPowerNode>(), Aow.Units.Engine.EClass.Of<Aow.Units.PowerNode.TPowerNodeResource>()]);
         }
 
         public static void Initialize()

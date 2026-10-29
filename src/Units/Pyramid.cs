@@ -39,40 +39,27 @@ namespace Aow.Units.Pyramid
     // { TPyramid (instance size 64, no added fields, VMT 557C6D20) }
     public partial class TPyramid : Aow.Units.ItemExpS.TItemExplorationSite
     {
+        // Pyramid.pas:34
+        public new const int ClassID = 131982;
+
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSite.Meta
         {
             // Pyramid.pas:34
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131982;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Pyramid.TPyramid.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Pyramid.TPyramid => (Meta)MetaRegistry.Of(typeof(T));
             // ItemExpS.pas:32
-            public new Aow.Units.Pyramid.TPyramid Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Pyramid.TPyramid o = (Aow.Units.Pyramid.TPyramid)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Pyramid.TPyramid Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Pyramid.TPyramid)base.Create(AOwner);
         }
     }
 
     // { TPyramidResource (instance size 104, no added fields, VMT 557C6F98) }
     public partial class TPyramidResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
+        // Pyramid.pas:40
+        public new const int ClassID = 131983;
+
         // Pyramid.pas:43
         public override int ResourceUserClassID()
         {
@@ -84,12 +71,7 @@ namespace Aow.Units.Pyramid
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
         {
             // Pyramid.pas:40
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131983;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Pyramid.TPyramidResource.ClassID;
 
             // Pyramid.pas:37
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -102,21 +84,7 @@ namespace Aow.Units.Pyramid
             public static new Meta Of<T>()
                 where T : Aow.Units.Pyramid.TPyramidResource => (Meta)MetaRegistry.Of(typeof(T));
             // ExploreS.pas:61
-            public new Aow.Units.Pyramid.TPyramidResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Pyramid.TPyramidResource o = (Aow.Units.Pyramid.TPyramidResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Pyramid.TPyramidResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Pyramid.TPyramidResource)base.Create(AOwner);
         }
     }
 
@@ -125,7 +93,7 @@ namespace Aow.Units.Pyramid
         // Pyramid.pas:46
         public static void RegisterPyramid(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Pyramid.TPyramid>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Pyramid.TPyramidResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Pyramid.TPyramid>(), Aow.Units.Engine.EClass.Of<Aow.Units.Pyramid.TPyramidResource>()]);
         }
 
         public static void Initialize()

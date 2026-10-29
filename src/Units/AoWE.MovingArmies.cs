@@ -9,7 +9,7 @@ public partial class TMoveArmyTE
         for (int i = field.Count - 1; i >= 0; i--)
         {
             var sprite = field.HSList[i];
-            if (sprite.ClassType.ClassID() == 0x20217 && sprite.Owner == field)
+            if (sprite.EClass.ClassID == 0x20217 && sprite.Owner == field)
             {
                 var army = (TArmyHS)sprite;
                 if (!army.FArmy.FMode.Contains(TArmyModeElement.amMoving)) return army;

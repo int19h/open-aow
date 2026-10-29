@@ -38,6 +38,9 @@ namespace Aow.Units.UnitSpells
 //     $14 spell ID, $18 mana cost charged after execution. }
     public partial class TDispelMagicSpellCA : Aow.Units.AoWE.TDispelMagicCA
     {
+        // UnitSpells.pas:975
+        public new const int ClassID = 131793;
+
         public TDispelMagicSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public int FSpellID;
@@ -74,12 +77,7 @@ namespace Aow.Units.UnitSpells
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // UnitSpells.pas:975
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131793;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.UnitSpells.TDispelMagicSpellCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.UnitSpells.TDispelMagicSpellCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -1683,7 +1681,7 @@ namespace Aow.Units.UnitSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnitSpells.TDispelMagicSpellCA>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.UnitSpells.TDispelMagicSpellCA>()]);
             var call__156 = Aow.Units.UnitSpells.TDispelMagic.Create(null);
             Control.RegisterSpell(call__156);
             var call__157 = Aow.Units.UnitSpells.THaste.Create(null);
@@ -1745,7 +1743,7 @@ namespace Aow.Units.UnitSpells
             Control.UnregisterSpellID(56);
             Control.UnregisterSpellID(59);
             Control.UnregisterSpellID(77);
-            Engine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnitSpells.TDispelMagicSpellCA>()]);
+            Engine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.UnitSpells.TDispelMagicSpellCA>()]);
         }
 
         public static void Initialize()

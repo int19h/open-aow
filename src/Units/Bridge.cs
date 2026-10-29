@@ -24,6 +24,9 @@ namespace Aow.Units.Bridge
 //     road, 2 the shore the bridge reaches) }
     public partial class TBridge : Aow.Units.HSEngine.TAbstractRoad
     {
+        // Bridge.pas:48
+        public new const int ClassID = 131444;
+
         internal ushort FTransitions;
         // Bridge.pas:43
         // { TBridge }
@@ -312,29 +315,10 @@ namespace Aow.Units.Bridge
         public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
         {
             // Bridge.pas:48
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131444;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Bridge.TBridge.ClassID;
 
             // Bridge.pas:18
-            public new Aow.Units.Bridge.TBridge Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Bridge.TBridge o = (Aow.Units.Bridge.TBridge)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Bridge.TBridge Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Bridge.TBridge)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Bridge.TBridge => (Meta)MetaRegistry.Of(typeof(T));
@@ -344,6 +328,9 @@ namespace Aow.Units.Bridge
     // { Bridge.TBridgeResource (instance size 52) }
     public partial class TBridgeResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
+        // Bridge.pas:205
+        public new const int ClassID = 131445;
+
         // Bridge.pas:189
         // { TBridgeResource }
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
@@ -508,29 +495,10 @@ namespace Aow.Units.Bridge
             }
 
             // Bridge.pas:205
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131445;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Bridge.TBridgeResource.ClassID;
 
             // Bridge.pas:28
-            public new Aow.Units.Bridge.TBridgeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Bridge.TBridgeResource o = (Aow.Units.Bridge.TBridgeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Bridge.TBridgeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Bridge.TBridgeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Bridge.TBridgeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -542,7 +510,7 @@ namespace Aow.Units.Bridge
         // Bridge.pas:264
         public static void RegisterBridge(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Bridge.TBridge>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Bridge.TBridgeResource>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Bridge.TBridge>(), Aow.Units.Engine.EClass.Of<Aow.Units.Bridge.TBridgeResource>()]);
         }
     }
 }

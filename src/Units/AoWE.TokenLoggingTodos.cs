@@ -49,7 +49,7 @@ public partial class TAoWHSMap
 
     public void OnExecuteTokenEvent(TTokenEvent token)
     {
-        if (token.ClassType.ClassID() != 0x554) SetModified();
+        if (token.EClass.ClassID != 0x554) SetModified();
         if (FTokenEventLogging && FTokenManager.TokenExecuter.ExecuteCount == 0)
             WriteTokenLog(Aow.Rtl.TObject.ClassNameOf(token.GetType()) + " (P:" + Aow.Rtl.Rtl.IntToStr(FTokenManager.TokenExecuter.ActiveTCIndex) +
                 "/T:" + Aow.Rtl.Rtl.IntToStr(token.TokenCounter) + "/S:" + Aow.Rtl.Rtl.IntToStr(FDefendersSeed) +

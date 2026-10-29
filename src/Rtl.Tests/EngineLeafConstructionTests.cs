@@ -62,7 +62,7 @@ public sealed class EngineLeafConstructionTests
             2 => typeof(TEUser), _ => typeof(TPlugInControl)
         };
         var meta = (TEObject.Meta)MetaRegistry.Of(type);
-        engine.RegisterEClasses([meta]);
+        engine.RegisterEClasses([EClass.Of(type)]);
         TEObject direct = kind switch
         {
             0 => new TEControlStyleSortNode(argument), 1 => new TETimerNode(argument),
@@ -177,9 +177,13 @@ public sealed class EngineLeafConstructionTests
     [Fact]
     public void BridgesKeepOneOwnerBodyAndSortResetOnConvertedAndLegacyChains()
     {
-        EObjectCreation.Register(typeof(ConvertedNode), new TEObject.Meta(), static owner => new ConvertedNode(owner), 8);
-        EObjectCreation.Register(typeof(ConvertedSort), new TESortNode.Meta(), static owner => new ConvertedSort(owner), 24);
+        EClass.Register(typeof(ConvertedNode), TEObject.ClassID, static owner => new ConvertedNode(owner), 8);
+        MetaRegistry.Register(typeof(ConvertedNode), new TEObject.Meta(), 8);
+        EClass.Register(typeof(ConvertedSort), TESortNode.ClassID, static owner => new ConvertedSort(owner), 24);
+        MetaRegistry.Register(typeof(ConvertedSort), new TESortNode.Meta(), 24);
+        EClass.Register(typeof(LegacyNode), TEObject.ClassID, static owner => EClass.Initialize(new LegacyNode(), owner), 8);
         MetaRegistry.Register(typeof(LegacyNode), new TEObject.Meta(), static () => new LegacyNode(), 8);
+        EClass.Register(typeof(LegacySort), TESortNode.ClassID, static owner => EClass.Initialize(new LegacySort(), owner), 24);
         MetaRegistry.Register(typeof(LegacySort), new TESortNode.Meta(), static () => new LegacySort(), 24);
         foreach (bool owned in new[] { false, true })
         {

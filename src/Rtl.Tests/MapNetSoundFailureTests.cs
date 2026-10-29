@@ -115,8 +115,10 @@ public sealed class MapNetSoundFailureTests
 
     static MapNetSoundFailureTests()
     {
-        EObjectCreation.Register(typeof(FailingLevel), new TMapLevel.Meta(), static owner => FailingLevel.Create(owner), 124);
-        EObjectCreation.Register(typeof(FailingPublishedLevel), new TMapLevel.Meta(), static owner => FailingPublishedLevel.Create(owner), 124);
+        EClass.Register(typeof(FailingLevel), TMapLevel.ClassID, static owner => FailingLevel.Create(owner), 124);
+        MetaRegistry.Register(typeof(FailingLevel), new TMapLevel.Meta(), 124);
+        EClass.Register(typeof(FailingPublishedLevel), TMapLevel.ClassID, static owner => FailingPublishedLevel.Create(owner), 124);
+        MetaRegistry.Register(typeof(FailingPublishedLevel), new TMapLevel.Meta(), 124);
         MetaRegistry.Register(typeof(FailingSample), new Aow.Units.Sound.TSample.Meta(FailingSample.Create), 24);
     }
 
@@ -136,7 +138,7 @@ public sealed class MapNetSoundFailureTests
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
         var engine = TEngine.Create(null!);
         engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
-        engine.RegisterEClasses([TMapLevel.Meta.Of<FailingPublishedLevel>()]);
+        engine.RegisterEClasses([EClass.Of<FailingPublishedLevel>()]);
         var map = new THSMap(null!);
         var container = new Container(map) { FEngine = engine };
         try

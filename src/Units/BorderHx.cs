@@ -22,6 +22,9 @@ namespace Aow.Units.BorderHx
     // { BorderHx.TBorderHexagon (instance size 16) }
     public partial class TBorderHexagon : Aow.Units.HSEngine.TAbstractBorderHexagon
     {
+        // BorderHx.pas:59
+        public new const int ClassID = 132439;
+
         // BorderHx.pas:39
         // { TBorderHexagon }
         public override void SetOwner(Aow.Units.Engine.TECustomNode AOwner)
@@ -99,37 +102,20 @@ namespace Aow.Units.BorderHx
         public new partial class Meta : Aow.Units.HSEngine.TAbstractBorderHexagon.Meta
         {
             // BorderHx.pas:59
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132439;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.BorderHx.TBorderHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BorderHx.TBorderHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.BorderHx.TBorderHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BorderHx.TBorderHexagon o = (Aow.Units.BorderHx.TBorderHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BorderHx.TBorderHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BorderHx.TBorderHexagon)base.Create(AOwner);
         }
     }
 
     // { BorderHx.TBorderHexagonResource (instance size 52) }
     public partial class TBorderHexagonResource : Aow.Units.HSEngine.TAbstractBorderHexagonResource
     {
+        public new const int ClassID = 132440;
+
         // BorderHx.pas:112
         public override int ResourceUserClassID()
         {
@@ -142,12 +128,7 @@ namespace Aow.Units.BorderHx
         {
             // BorderHx.pas:102
             // { TBorderHexagonResource }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132440;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.BorderHx.TBorderHexagonResource.ClassID;
 
             // BorderHx.pas:107
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -160,21 +141,7 @@ namespace Aow.Units.BorderHx
             public static new Meta Of<T>()
                 where T : Aow.Units.BorderHx.TBorderHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1223
-            public new Aow.Units.BorderHx.TBorderHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BorderHx.TBorderHexagonResource o = (Aow.Units.BorderHx.TBorderHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BorderHx.TBorderHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BorderHx.TBorderHexagonResource)base.Create(AOwner);
         }
     }
 
@@ -183,7 +150,7 @@ namespace Aow.Units.BorderHx
         // BorderHx.pas:117
         public static void RegisterBorderHexagon(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.BorderHx.TBorderHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.BorderHx.TBorderHexagonResource>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.BorderHx.TBorderHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.BorderHx.TBorderHexagonResource>()]);
         }
     }
 }

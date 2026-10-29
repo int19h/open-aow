@@ -650,6 +650,9 @@ namespace Aow.Units.GlobalSpells
     // { TWarpPartyTE (instance size 40, VMT 557E94F4): $20 army ID, $24 packed destination. }
     public partial class TWarpPartyTE : Aow.Units.AoWE.TSpellTE
     {
+        // GlobalSpells.pas:564
+        public new const int ClassID = 135948;
+
         public Aow.Units.AoWE.TArmyID FArmyID;
         // { $20 }
         public Aow.Units.HSEngine.TXYL FWarpLocation;
@@ -827,29 +830,10 @@ namespace Aow.Units.GlobalSpells
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // GlobalSpells.pas:564
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135948;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalSpells.TWarpPartyTE.ClassID;
 
             // GlobalSpells.pas:92
-            public new Aow.Units.GlobalSpells.TWarpPartyTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalSpells.TWarpPartyTE o = (Aow.Units.GlobalSpells.TWarpPartyTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalSpells.TWarpPartyTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalSpells.TWarpPartyTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalSpells.TWarpPartyTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -1690,6 +1674,9 @@ namespace Aow.Units.GlobalSpells
     // { TDisjunctionTE (instance size 40, VMT 557E9A24): $20 dispel chance, $24 enchantment ID. }
     public partial class TDisjunctionTE : Aow.Units.AoWE.TSpellTE
     {
+        // GlobalSpells.pas:745
+        public new const int ClassID = 135961;
+
         public int FDispelChance;
         // { $20 }
         public int FEnchantmentID;
@@ -1805,31 +1792,12 @@ namespace Aow.Units.GlobalSpells
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // GlobalSpells.pas:745
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135961;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalSpells.TDisjunctionTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalSpells.TDisjunctionTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalSpells.TDisjunctionTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalSpells.TDisjunctionTE o = (Aow.Units.GlobalSpells.TDisjunctionTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalSpells.TDisjunctionTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalSpells.TDisjunctionTE)base.Create(AOwner);
         }
     }
 
@@ -2383,7 +2351,7 @@ namespace Aow.Units.GlobalSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
             var call__313 = Aow.Units.GlobalSpells.TConcealArea.Create(null);
             Control.RegisterSpell(call__313);
             var call__314 = Aow.Units.GlobalSpells.TBirdsView.Create(null);
@@ -2407,7 +2375,7 @@ namespace Aow.Units.GlobalSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
-            Engine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
+            Engine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
             Control.UnregisterSpellID(1);
             Control.UnregisterSpellID(2);
             Control.UnregisterSpellID(34);

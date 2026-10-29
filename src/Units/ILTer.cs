@@ -23,6 +23,9 @@ namespace Aow.Units.ILTer
     // { ILTer.TILTerrainMO (instance size 28): +$14 FImageIndex, +$18 FTerrainType }
     public partial class TILTerrainMO : Aow.Units.HSEngine.TMultiHexMO
     {
+        // ILTer.pas:79
+        public new const int ClassID = 131462;
+
         protected internal int FImageIndex;
         protected internal sbyte FTerrainType;
         // ILTer.pas:73
@@ -351,29 +354,10 @@ namespace Aow.Units.ILTer
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
             // ILTer.pas:79
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131462;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ILTer.TILTerrainMO.ClassID;
 
             // ILTer.pas:20
-            public new Aow.Units.ILTer.TILTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ILTer.TILTerrainMO o = (Aow.Units.ILTer.TILTerrainMO)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ILTer.TILTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ILTer.TILTerrainMO)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ILTer.TILTerrainMO => (Meta)MetaRegistry.Of(typeof(T));
@@ -383,6 +367,9 @@ namespace Aow.Units.ILTer
     // { ILTer.TILTerrainMOR (instance size 68) }
     public partial class TILTerrainMOR : Aow.Units.HSEngine.TMultiHexMOR
     {
+        // ILTer.pas:269
+        public new const int ClassID = 131463;
+
         // ILTer.pas:279
         public override void SetCellImage(Aow.Units.ImageLib.TLibraryImage Value)
         {
@@ -399,12 +386,7 @@ namespace Aow.Units.ILTer
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // ILTer.pas:269
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131463;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ILTer.TILTerrainMOR.ClassID;
 
             // ILTer.pas:264
             // { TILTerrainMOR }
@@ -418,27 +400,15 @@ namespace Aow.Units.ILTer
             public static new Meta Of<T>()
                 where T : Aow.Units.ILTer.TILTerrainMOR => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.ILTer.TILTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ILTer.TILTerrainMOR o = (Aow.Units.ILTer.TILTerrainMOR)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ILTer.TILTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ILTer.TILTerrainMOR)base.Create(AOwner);
         }
     }
 
     // { ILTer.TFixedILTerrainMO (instance size 28) }
     public partial class TFixedILTerrainMO : Aow.Units.ILTer.TILTerrainMO
     {
+        public new const int ClassID = 131464;
+
         // ILTer.pas:295
         public override bool CanChangeTerrain(in Aow.Units.HSEngine.THSSenderInfo Info)
         {
@@ -521,37 +491,21 @@ namespace Aow.Units.ILTer
         {
             // ILTer.pas:285
             // { TFixedILTerrainMO }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131464;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ILTer.TFixedILTerrainMO.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ILTer.TFixedILTerrainMO => (Meta)MetaRegistry.Of(typeof(T));
             // ILTer.pas:20
-            public new Aow.Units.ILTer.TFixedILTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ILTer.TFixedILTerrainMO o = (Aow.Units.ILTer.TFixedILTerrainMO)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ILTer.TFixedILTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ILTer.TFixedILTerrainMO)base.Create(AOwner);
         }
     }
 
     // { ILTer.TFixedILTerrainMOR (instance size 68) }
     public partial class TFixedILTerrainMOR : Aow.Units.ILTer.TILTerrainMOR
     {
+        // ILTer.pas:339
+        public new const int ClassID = 131465;
+
         // ILTer.pas:344
         public override int ResourceUserClassID()
         {
@@ -563,12 +517,7 @@ namespace Aow.Units.ILTer
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // ILTer.pas:339
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131465;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ILTer.TFixedILTerrainMOR.ClassID;
 
             // ILTer.pas:334
             // { TFixedILTerrainMOR }
@@ -582,21 +531,7 @@ namespace Aow.Units.ILTer
             public static new Meta Of<T>()
                 where T : Aow.Units.ILTer.TFixedILTerrainMOR => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.ILTer.TFixedILTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ILTer.TFixedILTerrainMOR o = (Aow.Units.ILTer.TFixedILTerrainMOR)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ILTer.TFixedILTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ILTer.TFixedILTerrainMOR)base.Create(AOwner);
         }
     }
 
@@ -605,8 +540,8 @@ namespace Aow.Units.ILTer
         // ILTer.pas:349
         public static void RegisterILTerrain(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ILTer.TILTerrainMO>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ILTer.TILTerrainMOR>()]);
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ILTer.TFixedILTerrainMO>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ILTer.TFixedILTerrainMOR>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.ILTer.TILTerrainMO>(), Aow.Units.Engine.EClass.Of<Aow.Units.ILTer.TILTerrainMOR>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.ILTer.TFixedILTerrainMO>(), Aow.Units.Engine.EClass.Of<Aow.Units.ILTer.TFixedILTerrainMOR>()]);
         }
     }
 }
