@@ -117,6 +117,9 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             OnThread();
             if (value == Fullscreen) return;
             Check(SDL_SetWindowFullscreen(window, value));
+            // Wayland applies the state at the next configure. Wait for it so the first frame is not
+            // presented in the old state. X11 reports a failed sync here, so only Wayland waits.
+            if (SDL_GetCurrentVideoDriver() == "wayland") Check(SDL_SyncWindow(window));
             if (!value) Check(SDL_SetWindowSize(window, width * windowedScale, height * windowedScale));
         }
     }

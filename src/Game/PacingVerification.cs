@@ -15,10 +15,8 @@ internal static class PacingVerification
         var clock = new SdlClock();
         var savedClock = Aow.Rtl.Rtl.Clock;
         Aow.Rtl.Rtl.Clock = clock;
-        var display = new TimedDisplay();
-        display.Create__init(null!);
-        var controller = new TSdlDC(host);
-        controller.Create__init(null!);
+        var display = TimedDisplay.Create();
+        var controller = TSdlDC.Create(host);
         var times = new List<double>(306);
         const int warmupFrames = 150;
         long previous = 0;
@@ -74,6 +72,9 @@ internal static class PacingVerification
 
     private sealed class TimedDisplay : TDisplay
     {
+        private TimedDisplay(ConstructionContext context) : base(context, null!) { }
+        internal static TimedDisplay Create() => ConstructionContext.Create(static context => new TimedDisplay(context));
+
         public void SetUpdate(TUpdateFrameEvent action) => OnUpdateFrame = action;
     }
 

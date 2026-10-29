@@ -20,12 +20,11 @@ namespace Aow.Units.AoWTitleScene
             ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
             LayoutOnCreate = Layout_TitleSceneCreate_0;
             LayoutOnDestroy = Layout_TitleSceneDestroy_1;
-            TitleSceneIL = new Aow.Units.ImageLib.TImageLibrary(this)
-            {
-                Name = "TitleSceneIL",
-                LoadOnDemand = true,
-                FileName = "Int\\Scenes\\Title.ILB"
-            };
+            var created__TitleSceneIL = Aow.Units.ImageLib.TImageLibrary.CreateForLayout(this);
+            created__TitleSceneIL.Name = "TitleSceneIL";
+            created__TitleSceneIL.LoadOnDemand = true;
+            created__TitleSceneIL.FileName = "Int\\Scenes\\Title.ILB";
+            TitleSceneIL = created__TitleSceneIL;
             LayoutSession.EndRead(TitleSceneIL);
             Window = new Aow.Units.AowUserWindow.TAoWUserWindow(this)
             {
