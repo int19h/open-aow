@@ -2674,7 +2674,7 @@ namespace Aow.Units.GFXE
         public Aow.Rtl.TRect Rect;
         // GFXE.pas:2432
         // { TRectangle }
-        public void Create__init_TRectangle(int ALeft, int ATop, int ARight, int ABottom)
+        public TRectangle(int ALeft, int ATop, int ARight, int ABottom)
         {
             Rect.Left = ALeft;
             Rect.Top = ATop;
@@ -2683,43 +2683,9 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:2440
-        public void CreateRect__init_TRectangle(in Aow.Rtl.TRect R)
+        public TRectangle(in Aow.Rtl.TRect R)
         {
             Rect = R;
-        }
-
-        // GFXE.pas:657
-        public static Aow.Units.GFXE.TRectangle Create(int ALeft, int ATop, int ARight, int ABottom)
-        {
-            Aow.Units.GFXE.TRectangle o = new Aow.Units.GFXE.TRectangle();
-            try
-            {
-                o.Create__init_TRectangle(ALeft, ATop, ARight, ABottom);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
-        // GFXE.pas:658
-        public static Aow.Units.GFXE.TRectangle CreateRect(in Aow.Rtl.TRect R)
-        {
-            Aow.Units.GFXE.TRectangle o = new Aow.Units.GFXE.TRectangle();
-            try
-            {
-                o.CreateRect__init_TRectangle(R);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
     }
 
@@ -2757,12 +2723,6 @@ namespace Aow.Units.GFXE
         }
 
         public RectanglesAccessor Rectangles => new RectanglesAccessor(this);
-
-        // System.pas:111
-        public static Aow.Units.GFXE.TRectangleList Create()
-        {
-            return new Aow.Units.GFXE.TRectangleList();
-        }
     }
 
     public delegate void TOnDrawRectEvent(Aow.Rtl.TObject Sender, in Aow.Rtl.TRect R);
@@ -4198,7 +4158,7 @@ namespace Aow.Units.GFXE
 
                         if (Ok)
                         {
-                            R = Aow.Units.GFXE.TRectangle.Create(X + 1, Y + 1, X + W, Y + H);
+                            R = new Aow.Units.GFXE.TRectangle(X + 1, Y + 1, X + W, Y + H);
                         }
                     }
                 }
@@ -4207,7 +4167,7 @@ namespace Aow.Units.GFXE
                 return Result;
             }
 
-            List = Aow.Units.GFXE.TRectangleList.Create();
+            List = new Aow.Units.GFXE.TRectangleList();
             {
                 int first__110 = (int)0;
                 int end__105 = (int)(SD.Height - 1);
