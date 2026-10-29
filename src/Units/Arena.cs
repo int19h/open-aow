@@ -58,7 +58,7 @@ namespace Aow.Units.Arena
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1 = Aow.Units.Engine.TIntegerList.Create();
+            var call__1 = new Aow.Units.Engine.TIntegerList();
             FUnitIDs = call__1;
         }
 
@@ -522,7 +522,7 @@ namespace Aow.Units.Arena
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__36 = Aow.Units.Engine.TIntegerList.Create();
+            var call__36 = new Aow.Units.Engine.TIntegerList();
             FUnitIDs = call__36;
         }
 
@@ -564,7 +564,7 @@ namespace Aow.Units.Arena
             bool Result = default;
             Aow.Units.Engine.TIntegerList Units = default;
             int I = default;
-            Units = Aow.Units.Engine.TIntegerList.Create();
+            Units = new Aow.Units.Engine.TIntegerList();
             {
                 I = 0;
                 int end__39 = FUnitIDs.Count - 1;
@@ -590,7 +590,7 @@ namespace Aow.Units.Arena
             bool Result = default;
             Aow.Units.Engine.TIntegerList Units = default;
             int I = default;
-            Units = Aow.Units.Engine.TIntegerList.Create();
+            Units = new Aow.Units.Engine.TIntegerList();
             {
                 I = 0;
                 int end__42 = FUnitIDs.Count - 1;

@@ -1,3 +1,5 @@
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Aow.Rtl.Tests")]
+
 namespace Aow.Units.Engine;
 
 // The registered metaclass holds creation beside its represented type and class metadata.

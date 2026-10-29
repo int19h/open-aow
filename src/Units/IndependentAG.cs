@@ -796,7 +796,7 @@ namespace Aow.Units.IndependentAG
             }
 
             PreviousHeading = Group.FPreviousHeading;
-            Choices = Aow.Units.Engine.TByteList.Create();
+            Choices = new Aow.Units.Engine.TByteList();
             {
                 I = 0;
                 byte end__48 = 6;

@@ -373,7 +373,7 @@ namespace Aow.Units.AoWResultsWin
             Aow.Units.Engine.TIntegerList Values = default;
             Aow.Units.AoWE.TTurnInfo Info = default;
             int I = default;
-            Values = Aow.Units.Engine.TIntegerList.Create();
+            Values = new Aow.Units.Engine.TIntegerList();
             var call__32 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__32.FStatistics.FTurnInfo;
             {
@@ -399,7 +399,7 @@ namespace Aow.Units.AoWResultsWin
             Aow.Units.Engine.TIntegerList Values = default;
             Aow.Units.AoWE.TTurnInfo Info = default;
             int I = default;
-            Values = Aow.Units.Engine.TIntegerList.Create();
+            Values = new Aow.Units.Engine.TIntegerList();
             var call__37 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__37.FStatistics.FTurnInfo;
             {
@@ -425,7 +425,7 @@ namespace Aow.Units.AoWResultsWin
             Aow.Units.Engine.TIntegerList Values = default;
             Aow.Units.AoWE.TTurnInfo Info = default;
             int I = default;
-            Values = Aow.Units.Engine.TIntegerList.Create();
+            Values = new Aow.Units.Engine.TIntegerList();
             var call__42 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__42.FStatistics.FTurnInfo;
             {
@@ -451,7 +451,7 @@ namespace Aow.Units.AoWResultsWin
             Aow.Units.Engine.TIntegerList Values = default;
             Aow.Units.AoWE.TTurnInfo Info = default;
             int I = default;
-            Values = Aow.Units.Engine.TIntegerList.Create();
+            Values = new Aow.Units.Engine.TIntegerList();
             var call__47 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__47.FStatistics.FTurnInfo;
             {
@@ -477,7 +477,7 @@ namespace Aow.Units.AoWResultsWin
             Aow.Units.Engine.TIntegerList Values = default;
             Aow.Units.AoWE.TTurnInfo Info = default;
             int I = default;
-            Values = Aow.Units.Engine.TIntegerList.Create();
+            Values = new Aow.Units.Engine.TIntegerList();
             var call__52 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__52.FStatistics.FTurnInfo;
             {
@@ -503,7 +503,7 @@ namespace Aow.Units.AoWResultsWin
             Aow.Units.Engine.TIntegerList Values = default;
             Aow.Units.AoWE.TTurnInfo Info = default;
             int I = default;
-            Values = Aow.Units.Engine.TIntegerList.Create();
+            Values = new Aow.Units.Engine.TIntegerList();
             var call__57 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__57.FStatistics.FTurnInfo;
             {
@@ -528,7 +528,7 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:270
         public void ResultsWinCreate()
         {
-            var call__63 = Aow.Units.Engine.TByteList.Create();
+            var call__63 = new Aow.Units.Engine.TByteList();
             FPlayers = call__63;
             var call__64 = new Aow.Rtl.TList();
             FControls = call__64;

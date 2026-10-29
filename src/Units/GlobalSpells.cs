@@ -60,7 +60,7 @@ namespace Aow.Units.GlobalSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1 = Aow.Units.Engine.TIntegerList.Create();
+            var call__1 = new Aow.Units.Engine.TIntegerList();
             FHexagons = call__1;
         }
 
@@ -428,7 +428,7 @@ namespace Aow.Units.GlobalSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__40 = Aow.Units.Engine.TIntegerList.Create();
+            var call__40 = new Aow.Units.Engine.TIntegerList();
             FHexagons = call__40;
         }
 

@@ -927,7 +927,7 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:221
         public void ProductionScreenCreate()
         {
-            var call__114 = Aow.Units.Engine.TIntegerList.Create();
+            var call__114 = new Aow.Units.Engine.TIntegerList();
             FImages = call__114;
         }
 

@@ -303,7 +303,7 @@ namespace Aow.Units.CombatSpells
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__16 = Aow.Units.Engine.TByteList.Create();
+            var call__16 = new Aow.Units.Engine.TByteList();
             FTargetIDs = call__16;
         }
 

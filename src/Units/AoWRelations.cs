@@ -1010,9 +1010,9 @@ namespace Aow.Units.AoWRelations
         {
             var call__130 = Aow.Units.AoWE.TDiplomaticActionList.Create(null);
             FActions = call__130;
-            var call__131 = Aow.Units.Engine.TIntegerList.Create();
+            var call__131 = new Aow.Units.Engine.TIntegerList();
             FRaces = call__131;
-            var call__132 = Aow.Units.Engine.TIntegerList.Create();
+            var call__132 = new Aow.Units.Engine.TIntegerList();
             FPlayers = call__132;
             var call__133 = new Aow.Rtl.TList();
             FControls = call__133;

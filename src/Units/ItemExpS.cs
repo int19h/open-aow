@@ -302,7 +302,7 @@ namespace Aow.Units.ItemExpS
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__24 = Aow.Units.Engine.TIntegerList.Create();
+            var call__24 = new Aow.Units.Engine.TIntegerList();
             FItemIDs = call__24;
             var call__25 = new Aow.Rtl.TStringList();
             FMessages = call__25;
