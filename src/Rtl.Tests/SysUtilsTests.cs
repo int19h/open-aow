@@ -49,7 +49,7 @@ public sealed class SysUtilsTests
             Assert.Equal(AnsiString.FromBytes((byte)lower), AnsiLowerCase(value));
             Assert.Equal(AnsiString.FromBytes((byte)upper), AnsiUpperCase(value));
         }
-        Assert.Equal(default, AnsiUpperCase(default)); Assert.Equal(default, AnsiLowerCase(default));
+        Assert.Equal(default, AnsiUpperCase(default(AnsiString))); Assert.Equal(default, AnsiLowerCase(default(AnsiString)));
         Assert.Equal(128, CompareStr("\xff", "\x7f"));
         Assert.Equal(-2, CompareStr("a", "abc"));
         Assert.Equal(-1, CompareStr("a\0b", "a\0c"));
@@ -57,18 +57,18 @@ public sealed class SysUtilsTests
         Assert.Equal(128, CompareText("\xff", "\x7f"));
         Assert.Equal(0, AnsiCompareStr("\xad", "\0"));
         Assert.True(AnsiCompareStr("A", "a") < 0);
-        Assert.Equal(0, AnsiCompareText("\xc0\x8a\x8c\x9f", "\xe0\x9a\x9c\xff"));
+        Assert.Equal(0, AnsiCompareText((AnsiString)"\xc0\x8a\x8c\x9f", "\xe0\x9a\x9c\xff"));
         Assert.True(AnsiCompareText("ab", "ABC") < 0);
         Assert.Equal((AnsiString)"a \0", TrimLeft("\t a \0"));
         Assert.Equal((AnsiString)"\0 a", TrimRight("\0 a\t\0"));
-        Assert.Equal(default, TrimLeft(" \t")); Assert.Equal(default, TrimRight(" \t"));
+        Assert.Equal(default, TrimLeft((AnsiString)" \t")); Assert.Equal(default, TrimRight((AnsiString)" \t"));
     }
 
     [Fact]
     public void FormatCoversAllTaggedKindsAndSourceParserEdges()
     {
         // SYSUTILS.PAS:3498 FormatBuf, checked with DCC32 shim-edges.pas.
-        foreach (string text in new[] { "%", "%3", "%-", "%.", "%0:", "%*", "%.*" }) Assert.Equal(default, Format(text));
+        foreach (string text in new[] { "%", "%3", "%-", "%.", "%0:", "%*", "%.*" }) Assert.Equal(default, Format((AnsiString)text));
         Assert.Equal((AnsiString)"abc", Format("abc%"));
         Assert.Equal((AnsiString)"7", Format("%.16d", 7));
         Assert.Equal((AnsiString)"000000000000007", Format("%.15d", 7));
