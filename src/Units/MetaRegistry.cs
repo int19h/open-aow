@@ -385,7 +385,7 @@ namespace Aow.Units
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAIMoveExecuterMoveQueue), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.TAIMoveExecuterMoveQueue(owner), 12);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAIMoveExecuterUnitList), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.TAIMoveExecuterUnitList(owner), 12);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAIPlayerActionList), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.TAIPlayerActionList(owner), 12);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TAbstractUnit), new Aow.Units.Engine.TEObject.Meta(), () => new Aow.Units.AoWE.TAbstractUnit(), 60);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAbstractUnit), new Aow.Units.Engine.TEObject.Meta(), static owner => new Aow.Units.AoWE.TAbstractUnit(owner), 60);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAdjacentArmyList), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.TAdjacentArmyList(owner), 12);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAoWCampaignScenarioList), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.TAoWCampaignScenarioList(owner), 12);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TAoWMapField), new Aow.Units.AoWE.TAoWMapField.Meta(), () => new Aow.Units.AoWE.TAoWMapField(), 28);
@@ -653,7 +653,7 @@ namespace Aow.Units
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAIMoveExecuterMove), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.TAIMoveExecuterMove(owner), 32);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAIRecruitmentGroupList), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.TAIRecruitmentGroupList(owner), 12);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TAbstractAoWHSMap), new Aow.Units.HSEngine.THSMap.Meta(), () => new Aow.Units.AoWE.TAbstractAoWHSMap(), 216);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TAdjustableUnit), new Aow.Units.Engine.TEObject.Meta(), () => new Aow.Units.AoWE.TAdjustableUnit(), 72);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TAdjustableUnit), new Aow.Units.Engine.TEObject.Meta(), static owner => new Aow.Units.AoWE.TAdjustableUnit(owner), 72);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TArmy), new Aow.Units.AoWE.TArmy.Meta(), static owner => new Aow.Units.AoWE.TArmy(owner), 44);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TArmyCombatMoveTE), new Aow.Units.AoWE.TArmyCombatMoveTE.Meta(), () => new Aow.Units.AoWE.TArmyCombatMoveTE(), 60);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TArmyCombineMoveTE), new Aow.Units.AoWE.TArmyCombineMoveTE.Meta(), () => new Aow.Units.AoWE.TArmyCombineMoveTE(), 56);
@@ -674,7 +674,7 @@ namespace Aow.Units
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TEntangleAbility), new Aow.Units.AoWE.TAbility.Meta(), static owner => Aow.Units.AoWE.TEntangleAbility.Create(owner), 40);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TGlobalEnchantmentEventLog), new Aow.Units.AoWE.TGlobalEnchantmentEventLog.Meta(), () => new Aow.Units.AoWE.TGlobalEnchantmentEventLog(), 36);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.THealingAbility), new Aow.Units.AoWE.THealingAbility.Meta(), static owner => Aow.Units.AoWE.THealingAbility.Create(owner), 40);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.THero), new Aow.Units.AoWE.THero.Meta(), () => new Aow.Units.AoWE.THero(), 156);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.THero), new Aow.Units.AoWE.THero.Meta(), static owner => new Aow.Units.AoWE.THero(owner), 156);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.THeroInventory), new Aow.Units.Engine.TEChangeNotifyNode.Meta(), static owner => new Aow.Units.AoWE.THeroInventory(owner), 24);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.THeroItems), new Aow.Units.Engine.TEChangeNotifyNode.Meta(), static owner => new Aow.Units.AoWE.THeroItems(owner), 24);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.THeroList), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.THeroList(owner), 12);
@@ -698,10 +698,10 @@ namespace Aow.Units
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TTransportAbility), new Aow.Units.AoWE.TMultiLevelAbility.Meta(), static owner => Aow.Units.AoWE.TTransportAbility.Create(owner), 48);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TTurnUndeadAbility), new Aow.Units.AoWE.TTurnUndeadAbility.Meta(), static owner => Aow.Units.AoWE.TTurnUndeadAbility.Create(owner), 40);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TTurnUndeadCA), new Aow.Units.AoWE.TTurnUndeadCA.Meta(), static owner => new Aow.Units.AoWE.TTurnUndeadCA(owner), 24);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TUnit), new Aow.Units.AoWE.TUnit.Meta(), () => new Aow.Units.AoWE.TUnit(), 72);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TUnit), new Aow.Units.AoWE.TUnit.Meta(), static owner => new Aow.Units.AoWE.TUnit(owner), 72);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TUnitUserList), new Aow.Units.Engine.TEChangeNotifyNode.Meta(), static owner => new Aow.Units.AoWE.TUnitUserList(owner), 16);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TWallCrushingAbility), new Aow.Units.AoWE.TAbility.Meta(), static owner => Aow.Units.AoWE.TWallCrushingAbility.Create(owner), 40);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TWallUnit), new Aow.Units.Engine.TEObject.Meta(), () => new Aow.Units.AoWE.TWallUnit(), 64);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TWallUnit), new Aow.Units.Engine.TEObject.Meta(), static owner => new Aow.Units.AoWE.TWallUnit(owner), 64);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TWebAbility), new Aow.Units.AoWE.TAbility.Meta(), static owner => Aow.Units.AoWE.TWebAbility.Create(owner), 40);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWTC.TAoWCombatMapField), new Aow.Units.AoWTC.TAoWCombatMapField.Meta(), () => new Aow.Units.AoWTC.TAoWCombatMapField(), 28);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWTC.TAoWCombatMapLevel), new Aow.Units.AoWTC.TAoWCombatMapLevel.Meta(), () => new Aow.Units.AoWTC.TAoWCombatMapLevel(), 128);
@@ -829,11 +829,11 @@ namespace Aow.Units
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TFire), new Aow.Units.AoWE.TFire.Meta(), () => new Aow.Units.AoWE.TFire(), 44);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TFireResource), new Aow.Units.AoWE.TFireResource.Meta(), () => new Aow.Units.AoWE.TFireResource(), 72);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TFlameThrowingAbility), new Aow.Units.AoWE.TAbility.Meta(), static owner => Aow.Units.AoWE.TFlameThrowingAbility.Create(owner), 48);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.THeroCastingViewP4), new Aow.Units.AoWE.THero.Meta(), () => new Aow.Units.AoWE.THeroCastingViewP4(), 156);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.THeroCastingViewP4), new Aow.Units.AoWE.THero.Meta(), static owner => new Aow.Units.AoWE.THeroCastingViewP4(owner), 156);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.THeroLibrary), new Aow.Units.Engine.TENode.Meta(), static owner => new Aow.Units.AoWE.THeroLibrary(owner), 20);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.THeroResourceList), new Aow.Units.Engine.TEResourceList.Meta(), static owner => new Aow.Units.AoWE.THeroResourceList(owner), 20);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TItemGFXList), new Aow.Units.Engine.TEResourceList.Meta(), static owner => new Aow.Units.AoWE.TItemGFXList(owner), 20);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TLeader), new Aow.Units.AoWE.TLeader.Meta(), () => new Aow.Units.AoWE.TLeader(), 164);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TLeader), new Aow.Units.AoWE.TLeader.Meta(), static owner => new Aow.Units.AoWE.TLeader(owner), 164);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TPossessedAbility), new Aow.Units.AoWE.TPossessedAbility.Meta(), static owner => Aow.Units.AoWE.TPossessedAbility.Create(owner), 40);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TRaceResourceList), new Aow.Units.Engine.TEResourceList.Meta(), static owner => new Aow.Units.AoWE.TRaceResourceList(owner), 20);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.AoWE.TSeduceAbility), new Aow.Units.AoWE.TCommandAbility.Meta(), static owner => Aow.Units.AoWE.TSeduceAbility.Create(owner), 44);

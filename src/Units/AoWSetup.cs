@@ -322,7 +322,7 @@ namespace Aow.Units.AoWSetup
             FStatus = TSet<Aow.Units.AoWSetup.TPlayerSetupStatusElement>.Of();
             FBehavior = Aow.Units.AoWSetup.AoWSetup.DefaultBehavior;
             FOriginalBehavior = Aow.Units.AoWSetup.AoWSetup.DefaultOriginalBehavior;
-            var call__1 = Aow.Units.AoWE.TLeader.Create(null);
+            var call__1 = new Aow.Units.AoWE.TLeader(null);
             FLeader = call__1;
         }
 
