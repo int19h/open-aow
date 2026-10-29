@@ -3893,7 +3893,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TExternalPowerSource Source = default;
             base.Create__init(AOwner);
-            var call__314 = Aow.Units.Engine.TIntegerList.Create();
+            var call__314 = new Aow.Units.Engine.TIntegerList();
             FSpells = call__314;
             var call__315 = new Aow.Units.Engine.TEventList();
             FChangedEvents = call__315;
@@ -4201,7 +4201,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TPlayerMagicEventLog Log = default;
             if (((Aow.Units.AoWE.AoWE.AoWHSMap.FDay == 1) && (FPlayer.FPlayerIndex != 0)) && ((Aow.Units.AoWE.AoWE.AoWHSMap.FGameType != Aow.Units.AoWE.TGameType.gtCampaign) || (FSpells.Count == 0)))
             {
-                Candidates = Aow.Units.Engine.TIntegerList.Create();
+                Candidates = new Aow.Units.Engine.TIntegerList();
                 {
                     int first__356 = (int)((Aow.Units.AoWE.TSpellType)0);
                     int end__345 = (int)((Aow.Units.AoWE.TSpellType)2);
@@ -6043,9 +6043,9 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__477 = Aow.Units.Engine.TIntegerList.Create();
+            var call__477 = new Aow.Units.Engine.TIntegerList();
             FPlayerRelations = call__477;
-            var call__478 = Aow.Units.Engine.TByteList.Create();
+            var call__478 = new Aow.Units.Engine.TByteList();
             FDefaultRelations = call__478;
             FRace = unchecked((sbyte)-1);
             FEnabled = false;
@@ -6537,7 +6537,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:46
-        public static new Aow.Units.AoWE.TDiplomaticRelationList Create()
+        public static Aow.Units.AoWE.TDiplomaticRelationList Create()
         {
             Aow.Units.AoWE.TDiplomaticRelationList o = new Aow.Units.AoWE.TDiplomaticRelationList();
             try
@@ -6767,7 +6767,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__528 = Aow.Units.Engine.TByteList.Create();
+            var call__528 = new Aow.Units.Engine.TByteList();
             FRelations = call__528;
             var call__529 = Aow.Units.Engine.TENode.Create(null);
             FHistory = call__529;
@@ -6938,7 +6938,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__544 = Aow.Units.Engine.TIntegerList.Create();
+            var call__544 = new Aow.Units.Engine.TIntegerList();
             FItems = call__544;
             var call__545 = Aow.Units.AoWE.TLeader.Create(null);
             FOriginalLeader = call__545;
@@ -7800,10 +7800,10 @@ namespace Aow.Units.AoWE
             FLeaderSetup = call__579;
             FStatus = Aow.Units.AoWE.TPlayerStatus.psIdle;
             FGameOverStatus = Aow.Units.AoWE.TGameOverStatus.goNone;
-            var call__580 = Aow.Units.Engine.TIntegerList.Create();
+            var call__580 = new Aow.Units.Engine.TIntegerList();
             FFirstDaySeen = call__580;
             FFirstDaySeen.Default = -1;
-            var call__581 = Aow.Units.Engine.TIntegerList.Create();
+            var call__581 = new Aow.Units.Engine.TIntegerList();
             FLastDaySeen = call__581;
             FLastDaySeen.Default = -1;
             var call__582 = Aow.Units.AoWE.TPlayerStructureList.Create(null);
@@ -9706,13 +9706,13 @@ namespace Aow.Units.AoWE
             base.Create__init(AOwner);
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
             SetNumberOfPlayers(2);
-            var call__802 = Aow.Units.Engine.TByteList.Create();
+            var call__802 = new Aow.Units.Engine.TByteList();
             F_PlayerList_14 = Aow.Rtl.Rtl.ObjectToInt(call__802);
-            var call__803 = Aow.Units.Engine.TByteList.Create();
+            var call__803 = new Aow.Units.Engine.TByteList();
             FLocalHumanPlayers = call__803;
-            var call__804 = Aow.Units.Engine.TByteList.Create();
+            var call__804 = new Aow.Units.Engine.TByteList();
             FActivePlayers = call__804;
-            var call__805 = Aow.Units.Engine.TByteList.Create();
+            var call__805 = new Aow.Units.Engine.TByteList();
             FLocalPlayers = call__805;
         }
 
@@ -10128,8 +10128,8 @@ namespace Aow.Units.AoWE
             int I = default;
             int Index = default;
             int DefaultRace = default;
-            Available = Aow.Units.Engine.TIntegerList.Create();
-            Invalid = Aow.Units.Engine.TIntegerList.Create();
+            Available = new Aow.Units.Engine.TIntegerList();
+            Invalid = new Aow.Units.Engine.TIntegerList();
             {
                 I = 0;
                 int end__856 = Races.Count - 1;
@@ -16399,7 +16399,7 @@ namespace Aow.Units.AoWE
         public void Create__init_TSelectedArmy()
         {
             base.Create__init_TMoveSelector();
-            var call__1486 = Aow.Units.Engine.TIntegerList.Create();
+            var call__1486 = new Aow.Units.Engine.TIntegerList();
             FSelectedUnitGFX = call__1486;
         }
 
@@ -16534,7 +16534,7 @@ namespace Aow.Units.AoWE
             int I = default;
             int Index = default;
             Aow.Units.Engine.TIntegerList List = default;
-            List = Aow.Units.Engine.TIntegerList.Create();
+            List = new Aow.Units.Engine.TIntegerList();
             if (GetArmyHS() != null)
             {
                 {
@@ -18889,7 +18889,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1684 = Aow.Units.Engine.TIntegerList.Create();
+            var call__1684 = new Aow.Units.Engine.TIntegerList();
             FShownMessages = call__1684;
         }
 
@@ -19612,7 +19612,7 @@ namespace Aow.Units.AoWE
             var call__1730 = Aow.Units.AoWE.TTutorialControl.Create(null);
             FTutorialControl = call__1730;
             FTurnOrderMode = Aow.Units.AoWE.TTurnOrderMode.toFixed;
-            var call__1731 = Aow.Units.Engine.TByteList.Create();
+            var call__1731 = new Aow.Units.Engine.TByteList();
             FTurnOrder = call__1731;
             FDay = 0;
             FGameStatus = Aow.Units.AoWE.TGameStatus.gsIdle;
@@ -21680,7 +21680,7 @@ namespace Aow.Units.AoWE
             int I = default;
             int Index = default;
             Aow.Units.Engine.TByteList List = default;
-            List = Aow.Units.Engine.TByteList.Create();
+            List = new Aow.Units.Engine.TByteList();
             {
                 I = 1;
                 int end__1953 = FPlayers.Count - 1;
@@ -24391,7 +24391,7 @@ namespace Aow.Units.AoWE
                 if (call__2079)
                 {
                     Previous = null;
-                    IDs = Aow.Units.Engine.TIntegerList.Create();
+                    IDs = new Aow.Units.Engine.TIntegerList();
                     Stream.rwStreamProc(49, IDs.LoadFromStream, IDs.SaveToStream);
                     {
                         I = 0;
@@ -24422,7 +24422,7 @@ namespace Aow.Units.AoWE
                 {
                     if (FAbilityData != null)
                     {
-                        IDs = Aow.Units.Engine.TIntegerList.Create();
+                        IDs = new Aow.Units.Engine.TIntegerList();
                         Data = FAbilityData;
                         while (Data != null)
                         {
@@ -33386,7 +33386,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_05.inc:364
-        public static new Aow.Units.AoWE.TUnitIndexList Create()
+        public static Aow.Units.AoWE.TUnitIndexList Create()
         {
             Aow.Units.AoWE.TUnitIndexList o = new Aow.Units.AoWE.TUnitIndexList();
             try
@@ -35576,7 +35576,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__2826 = Aow.Units.Engine.TIntegerList.Create();
+            var call__2826 = new Aow.Units.Engine.TIntegerList();
             FUnitIDs = call__2826;
             var call__2827 = new Aow.Rtl.TStringList();
             FJoinMessage = call__2827;
@@ -39499,7 +39499,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__3175 = Aow.Units.Engine.TByteList.Create();
+            var call__3175 = new Aow.Units.Engine.TByteList();
             FSpheres = call__3175;
             FSpherePicksMax = 5;
         }
@@ -41399,7 +41399,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__3242 = Aow.Units.Engine.TIntegerList.Create();
+            var call__3242 = new Aow.Units.Engine.TIntegerList();
             FUnitIDs = call__3242;
         }
 
@@ -47230,9 +47230,9 @@ namespace Aow.Units.AoWE
             FArmyMessages = call__3692;
             var call__3693 = Aow.Units.AoWE.TArmyView.Create(null);
             FArmyView = call__3693;
-            var call__3694 = Aow.Units.Engine.TByteList.Create();
+            var call__3694 = new Aow.Units.Engine.TByteList();
             FDamageValues = call__3694;
-            var call__3695 = Aow.Units.Engine.TByteList.Create();
+            var call__3695 = new Aow.Units.Engine.TByteList();
             FDamageTypes = call__3695;
         }
 
@@ -52770,7 +52770,7 @@ namespace Aow.Units.AoWE
             int Result = default;
             Aow.Units.Engine.TIntegerList CRCs = default;
             Aow.Rtl.AnsiString Path = default;
-            CRCs = Aow.Units.Engine.TIntegerList.Create();
+            CRCs = new Aow.Units.Engine.TIntegerList();
             var call__4190 = Aow.Rtl.Rtl.ExtractFilePath(Aow.Units.AoWE.AoWE.AoWEngine.HSSFileName);
             Path = call__4190;
             // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
@@ -60781,11 +60781,11 @@ namespace Aow.Units.AoWE
             FParties = call__4611;
             var call__4612 = Aow.Units.Engine.TENode.Create(null);
             F_CombatData_34 = Aow.Rtl.Rtl.ObjectToInt(call__4612);
-            var call__4613 = Aow.Units.Engine.TByteList.Create();
+            var call__4613 = new Aow.Units.Engine.TByteList();
             F_CombatData_2C = Aow.Rtl.Rtl.ObjectToInt(call__4613);
-            var call__4614 = Aow.Units.Engine.TByteList.Create();
+            var call__4614 = new Aow.Units.Engine.TByteList();
             FTurnOrder = call__4614;
-            var call__4615 = Aow.Units.Engine.TByteList.Create();
+            var call__4615 = new Aow.Units.Engine.TByteList();
             F_CombatData_28 = Aow.Rtl.Rtl.ObjectToInt(call__4615);
         }
 
@@ -63509,11 +63509,11 @@ namespace Aow.Units.AoWE
 
             if (!bool__4835)
             {
-                IdealPeace = Aow.Units.Engine.TByteList.Create();
-                IdealWar = Aow.Units.Engine.TByteList.Create();
-                Peace = Aow.Units.Engine.TByteList.Create();
-                War = Aow.Units.Engine.TByteList.Create();
-                Unknown = Aow.Units.Engine.TByteList.Create();
+                IdealPeace = new Aow.Units.Engine.TByteList();
+                IdealWar = new Aow.Units.Engine.TByteList();
+                Peace = new Aow.Units.Engine.TByteList();
+                War = new Aow.Units.Engine.TByteList();
+                Unknown = new Aow.Units.Engine.TByteList();
                 ListPeaceWarUnknownPlayers(Peace, War, Unknown);
                 ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
                 War.Remove(unchecked((byte)Player));
@@ -63613,11 +63613,11 @@ namespace Aow.Units.AoWE
 
             if (!bool__4848)
             {
-                IdealPeace = Aow.Units.Engine.TByteList.Create();
-                IdealWar = Aow.Units.Engine.TByteList.Create();
-                Peace = Aow.Units.Engine.TByteList.Create();
-                War = Aow.Units.Engine.TByteList.Create();
-                Unknown = Aow.Units.Engine.TByteList.Create();
+                IdealPeace = new Aow.Units.Engine.TByteList();
+                IdealWar = new Aow.Units.Engine.TByteList();
+                Peace = new Aow.Units.Engine.TByteList();
+                War = new Aow.Units.Engine.TByteList();
+                Unknown = new Aow.Units.Engine.TByteList();
                 ListPeaceWarUnknownPlayers(Peace, War, Unknown);
                 ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
                 Peace.Remove(unchecked((byte)Player));
@@ -63789,7 +63789,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__4867 = Aow.Units.Engine.TByteList.Create();
+            var call__4867 = new Aow.Units.Engine.TByteList();
             FPlayers = call__4867;
             FPlayer = unchecked((sbyte)-1);
             FProcessTimeMode = Aow.Units.AoWE.TProcessTimeMode.ptmStatic;
@@ -65098,7 +65098,7 @@ namespace Aow.Units.AoWE
             var call__4940 = FBufferedTargets.Count;
             if (call__4940 != 0)
             {
-                Gaps = Aow.Units.Engine.TIntegerList.Create();
+                Gaps = new Aow.Units.Engine.TIntegerList();
                 var call__4941 = FBufferedTargets.GetTarget(0);
                 Target = call__4941;
                 FTransporter.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
@@ -68902,7 +68902,7 @@ namespace Aow.Units.AoWE
             FUnits = call__5344;
             var call__5345 = Aow.Units.AoWE.TAIMoveExecuterMoveQueue.Create(null);
             FMoves = call__5345;
-            var call__5346 = Aow.Units.Engine.TIntegerList.Create();
+            var call__5346 = new Aow.Units.Engine.TIntegerList();
             FControlQueue = call__5346;
             Clear();
         }
@@ -69115,7 +69115,7 @@ namespace Aow.Units.AoWE
             int J = default;
             Aow.Units.AoWE.TAIMoveExecuterUnit UnitEntry = default;
             Aow.Units.AoWE.TAIMoveExecuterArmy Army = default;
-            Used = Aow.Units.Engine.TIntegerList.Create();
+            Used = new Aow.Units.Engine.TIntegerList();
             Armies = Aow.Units.AoWE.TAIMoveExecuterArmyList.Create(null);
             {
                 I = 0;
@@ -72219,7 +72219,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__5601 = Aow.Units.Engine.TIntegerList.Create();
+            var call__5601 = new Aow.Units.Engine.TIntegerList();
             FStructureIDs = call__5601;
         }
 
@@ -79486,7 +79486,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__6198 = Aow.Units.Engine.TIntegerList.Create();
+            var call__6198 = new Aow.Units.Engine.TIntegerList();
             FTargetUnitIDs = call__6198;
         }
 
@@ -80697,7 +80697,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__6259 = Aow.Units.Engine.TIntegerList.Create();
+            var call__6259 = new Aow.Units.Engine.TIntegerList();
             FUnitIDs = call__6259;
         }
 
@@ -85686,7 +85686,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__6733 = Aow.Units.Engine.TIntegerList.Create();
+            var call__6733 = new Aow.Units.Engine.TIntegerList();
             FLevelCosts = call__6733;
             FMaxLevel = 4;
         }
@@ -91330,7 +91330,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__7334 = Aow.Units.Engine.TByteList.Create();
+            var call__7334 = new Aow.Units.Engine.TByteList();
             FCommandedUnits = call__7334;
         }
 
@@ -93609,7 +93609,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__7564 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7564 = new Aow.Units.Engine.TIntegerList();
             FEnchantmentIDs = call__7564;
         }
 
@@ -97040,7 +97040,7 @@ namespace Aow.Units.AoWE
             Aow.Units.Engine.TIntegerList Candidates = default;
             int I = default;
             Aow.Units.AoWE.TSpell Spell = default;
-            Candidates = Aow.Units.Engine.TIntegerList.Create();
+            Candidates = new Aow.Units.Engine.TIntegerList();
             {
                 I = this.FRegisteredSpells.Count - 1;
                 byte end__7801 = 0;
@@ -97756,7 +97756,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__7833 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7833 = new Aow.Units.Engine.TIntegerList();
             FTargetUnitIDs = call__7833;
             var call__7834 = Aow.Units.AoWE.TUnitUserList.Create(null);
             FTargetUnits = call__7834;
@@ -98779,11 +98779,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__7924 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7924 = new Aow.Units.Engine.TIntegerList();
             FCastingHeroes = call__7924;
-            var call__7925 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7925 = new Aow.Units.Engine.TIntegerList();
             FIdleHeroes = call__7925;
-            var call__7926 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7926 = new Aow.Units.Engine.TIntegerList();
             FPendingHeroes = call__7926;
             var call__7927 = Aow.Units.AoWE.TAICastSpellActionList.Create(null);
             FCastSpellActions = call__7927;
@@ -99264,16 +99264,16 @@ namespace Aow.Units.AoWE
             FItems = call__7961;
             var call__7962 = Aow.Units.AoWE.TUnitList.Create(null);
             FUnits = call__7962;
-            var call__7963 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7963 = new Aow.Units.Engine.TIntegerList();
             FSpells = call__7963;
             FResearchPercentage = 50;
-            var call__7964 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7964 = new Aow.Units.Engine.TIntegerList();
             FSelectedHeroes = call__7964;
-            var call__7965 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7965 = new Aow.Units.Engine.TIntegerList();
             FSelectedItems = call__7965;
-            var call__7966 = Aow.Units.Engine.TIntegerList.Create();
+            var call__7966 = new Aow.Units.Engine.TIntegerList();
             FSelectedUnits = call__7966;
-            var call__7967 = Aow.Units.Engine.TByteList.Create();
+            var call__7967 = new Aow.Units.Engine.TByteList();
             FSelectedSpheres = call__7967;
         }
 
@@ -100406,9 +100406,9 @@ namespace Aow.Units.AoWE
             FTransferSettings = call__8110;
             var call__8111 = Aow.Units.AoWE.TAoWCampaignScenarioList.Create(null);
             FScenarios = call__8111;
-            var call__8112 = Aow.Units.Engine.TIntegerList.Create();
+            var call__8112 = new Aow.Units.Engine.TIntegerList();
             FCompletedScenarios = call__8112;
-            var call__8113 = Aow.Units.Engine.TByteList.Create();
+            var call__8113 = new Aow.Units.Engine.TByteList();
             FRaceHistory = call__8113;
             FCurrentScenarioID = -1;
             FNextScenarioID = -1;
@@ -101327,11 +101327,11 @@ namespace Aow.Units.AoWE
             {
                 var call__8256 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                 Relation = call__8256;
-                IdealPeace = Aow.Units.Engine.TByteList.Create();
-                IdealWar = Aow.Units.Engine.TByteList.Create();
-                Peace = Aow.Units.Engine.TByteList.Create();
-                War = Aow.Units.Engine.TByteList.Create();
-                Unknown = Aow.Units.Engine.TByteList.Create();
+                IdealPeace = new Aow.Units.Engine.TByteList();
+                IdealWar = new Aow.Units.Engine.TByteList();
+                Peace = new Aow.Units.Engine.TByteList();
+                War = new Aow.Units.Engine.TByteList();
+                Unknown = new Aow.Units.Engine.TByteList();
                 var call__8257 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
                 call__8257.FAIControl.ListPeaceWarUnknownPlayers(Peace, War, Unknown);
                 var call__8258 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
@@ -102982,11 +102982,11 @@ namespace Aow.Units.AoWE
             Result = false;
             Action = null;
             Source = unchecked((sbyte)FControl.FPlayer.FPlayerIndex);
-            IdealPeace = Aow.Units.Engine.TByteList.Create();
-            IdealWar = Aow.Units.Engine.TByteList.Create();
-            Peace = Aow.Units.Engine.TByteList.Create();
-            War = Aow.Units.Engine.TByteList.Create();
-            Unknown = Aow.Units.Engine.TByteList.Create();
+            IdealPeace = new Aow.Units.Engine.TByteList();
+            IdealWar = new Aow.Units.Engine.TByteList();
+            Peace = new Aow.Units.Engine.TByteList();
+            War = new Aow.Units.Engine.TByteList();
+            Unknown = new Aow.Units.Engine.TByteList();
             FControl.ListPeaceWarUnknownPlayers(Peace, War, Unknown);
             FControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
             var call__8457 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)unchecked((byte)Source))), unchecked((sbyte)unchecked((byte)Player)));
@@ -103186,8 +103186,8 @@ namespace Aow.Units.AoWE
             int Player = default;
             int I = default;
             Aow.Rtl.AnsiString S = default;
-            IdealPeace = Aow.Units.Engine.TByteList.Create();
-            IdealWar = Aow.Units.Engine.TByteList.Create();
+            IdealPeace = new Aow.Units.Engine.TByteList();
+            IdealWar = new Aow.Units.Engine.TByteList();
             FControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
             Player = FControl.FPlayer.FPlayerIndex;
             var call__8490 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);

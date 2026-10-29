@@ -1228,7 +1228,7 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:292
         public void CityScreenCreate()
         {
-            var call__166 = Aow.Units.Engine.TIntegerList.Create();
+            var call__166 = new Aow.Units.Engine.TIntegerList();
             FImages = call__166;
         }
 

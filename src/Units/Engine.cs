@@ -553,12 +553,6 @@ namespace Aow.Units.Engine
         public Aow.Rtl.AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
         public int[] List { get => FList; }
 
-        // System.pas:111
-        public static Aow.Units.Engine.TIntegerList Create()
-        {
-            return new Aow.Units.Engine.TIntegerList();
-        }
-
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // Engine.pas:3310
@@ -1089,12 +1083,6 @@ namespace Aow.Units.Engine
 
         public Aow.Rtl.AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
         public byte[] List { get => FList; }
-
-        // System.pas:111
-        public static Aow.Units.Engine.TByteList Create()
-        {
-            return new Aow.Units.Engine.TByteList();
-        }
 
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
@@ -6022,6 +6010,15 @@ namespace Aow.Units.Engine
 //     integers are persisted (ids 1..3) }
     public partial class TEResource : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TEResource.Meta.NewInstance and legacy descendant factories.
+        public TEResource() { }
+
+        // No own constructor body. Both semantic routes share TEObject.InitializeOwner.
+        protected TEResource(TECustomNode AOwner) : base(AOwner) { }
+
+        private protected TEResource(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner) { }
+
         internal Aow.Units.Engine.TECustomNode FResourceList;
         internal int FResourceID;
         internal int FEditID;
@@ -6127,20 +6124,7 @@ namespace Aow.Units.Engine
                 where T : Aow.Units.Engine.TEResource => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
             public new Aow.Units.Engine.TEResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEResource o = (Aow.Units.Engine.TEResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TEResource)base.Create(AOwner);
         }
 
         public new Meta ClassType => (Meta)base.ClassType;
@@ -6354,7 +6338,7 @@ namespace Aow.Units.Engine
             ;
             var call__174 = new Aow.Rtl.TList();
             FEngines = call__174;
-            var call__175 = Aow.Units.Engine.TIntegerList.Create();
+            var call__175 = new Aow.Units.Engine.TIntegerList();
             FCounts = call__175;
             Aow.Units.Engine.Engine.RegisterPlugIn(this);
             FRefCount = 1;
@@ -6767,12 +6751,33 @@ namespace Aow.Units.Engine
     // { Engine.TENode (instance size 12): +8 FChildren }
     public partial class TENode : Aow.Units.Engine.TECustomNode
     {
+        // Raw allocation for TENode.Meta.NewInstance and legacy descendant factories.
+        public TENode() { }
+
+        // Engine.pas:2807
+        protected TENode(TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeChildren();
+        }
+
+        private protected TENode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner)
+        {
+            InitializeChildren();
+        }
+
         public Aow.Units.Engine.TEObjectList FChildren;
         // Engine.pas:2807
         // { TENode }
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeChildren();
+        }
+
+        // Engine.pas:2807
+        private void InitializeChildren()
+        {
             var call__200 = new Aow.Units.Engine.TEObjectList();
             FChildren = call__200;
         }
@@ -7192,20 +7197,7 @@ namespace Aow.Units.Engine
 
             // Engine.pas:631
             public new Aow.Units.Engine.TENode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TENode o = (Aow.Units.Engine.TENode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TENode)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TENode => (Meta)MetaRegistry.Of(typeof(T));
@@ -7478,6 +7470,21 @@ namespace Aow.Units.Engine
     // { Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, +$C FUpdateCount; Changed on child changes. }
     public partial class TEChangeNotifyNode : Aow.Units.Engine.TECustomNode
     {
+        // Raw allocation for TEChangeNotifyNode.Meta.NewInstance and legacy descendant factories.
+        public TEChangeNotifyNode() { }
+
+        // Engine.pas:7205
+        protected TEChangeNotifyNode(TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeNotifyChildren();
+        }
+
+        private protected TEChangeNotifyNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner)
+        {
+            InitializeNotifyChildren();
+        }
+
         public Aow.Units.Engine.TEObjectList FChildren;
         internal int FUpdateCount;
         // Engine.pas:7205
@@ -7485,6 +7492,12 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeNotifyChildren();
+        }
+
+        // Engine.pas:7205
+        private void InitializeNotifyChildren()
+        {
             var call__244 = new Aow.Units.Engine.TEObjectList();
             FChildren = call__244;
             FUpdateCount = 0;
@@ -8603,20 +8616,7 @@ namespace Aow.Units.Engine
 
             // Engine.pas:680
             public new Aow.Units.Engine.TEChangeNotifyNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEChangeNotifyNode o = (Aow.Units.Engine.TEChangeNotifyNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TEChangeNotifyNode)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEChangeNotifyNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -8626,12 +8626,33 @@ namespace Aow.Units.Engine
     // { Engine.TEChangeNotifyEventList (instance size 20): +$10 FEvents, notified by Changed }
     public partial class TEChangeNotifyEventList : Aow.Units.Engine.TEChangeNotifyNode
     {
+        // Raw allocation for TEChangeNotifyEventList.Meta.NewInstance and legacy descendant factories.
+        public TEChangeNotifyEventList() { }
+
+        // Engine.pas:8125
+        protected TEChangeNotifyEventList(TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeEvents();
+        }
+
+        private protected TEChangeNotifyEventList(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner)
+        {
+            InitializeEvents();
+        }
+
         internal Aow.Units.Engine.TEventList FEvents;
         // Engine.pas:8125
         // { TEChangeNotifyEventList }
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeEvents();
+        }
+
+        // Engine.pas:8125
+        private void InitializeEvents()
+        {
             var call__274 = new Aow.Units.Engine.TEventList();
             FEvents = call__274;
         }
@@ -8681,6 +8702,15 @@ namespace Aow.Units.Engine
 //     Edit reports a cancel at once. }
     public partial class TEObjectEditor : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TEObjectEditor.Meta.NewInstance and legacy descendant factories.
+        public TEObjectEditor() { }
+
+        // No own constructor body. Both semantic routes share TEObject.InitializeOwner.
+        protected TEObjectEditor(TECustomNode AOwner) : base(AOwner) { }
+
+        private protected TEObjectEditor(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner) { }
+
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:3036
@@ -8702,20 +8732,7 @@ namespace Aow.Units.Engine
                 where T : Aow.Units.Engine.TEObjectEditor => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
             public new Aow.Units.Engine.TEObjectEditor Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEObjectEditor o = (Aow.Units.Engine.TEObjectEditor)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TEObjectEditor)base.Create(AOwner);
         }
 
         public new Meta ClassType => (Meta)base.ClassType;
@@ -9323,12 +9340,33 @@ namespace Aow.Units.Engine
     // { Engine.TEControlStyleNode (instance size 16): +$C FControlStyle }
     public partial class TEControlStyleNode : Aow.Units.Engine.TENode
     {
+        // Raw allocation for TEControlStyleNode.Meta.NewInstance and legacy descendant factories.
+        public TEControlStyleNode() { }
+
+        // Engine.pas:8193
+        protected TEControlStyleNode(TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeNodeStyle();
+        }
+
+        private protected TEControlStyleNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner)
+        {
+            InitializeNodeStyle();
+        }
+
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:8193
         // { TEControlStyleNode }
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeNodeStyle();
+        }
+
+        // Engine.pas:8193
+        private void InitializeNodeStyle()
+        {
             FControlStyle = base.GetControlStyle();
         }
 
@@ -9382,20 +9420,7 @@ namespace Aow.Units.Engine
 
             // Engine.pas:841
             public new Aow.Units.Engine.TEControlStyleNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEControlStyleNode o = (Aow.Units.Engine.TEControlStyleNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TEControlStyleNode)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEControlStyleNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -9406,6 +9431,21 @@ namespace Aow.Units.Engine
 //     its engine: message $20000008 (TEngine.ActivateEObject) carries the engine in the message. }
     public partial class TECustomOwner : Aow.Units.Engine.TENode
     {
+        // Raw allocation for TECustomOwner.Meta.NewInstance and legacy descendant factories.
+        public TECustomOwner() { }
+
+        // Engine.pas:8250
+        protected TECustomOwner(TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeCustomOwner(AOwner);
+        }
+
+        private protected TECustomOwner(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner)
+        {
+            InitializeCustomOwner(AOwner);
+        }
+
         internal Aow.Units.Engine.TEngine FEngine;
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:8250
@@ -9413,6 +9453,12 @@ namespace Aow.Units.Engine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeCustomOwner(AOwner);
+        }
+
+        // Engine.pas:8250
+        private void InitializeCustomOwner(TECustomNode AOwner)
+        {
             FOwner = AOwner;
             FControlStyle = base.GetControlStyle();
         }
@@ -9492,20 +9538,7 @@ namespace Aow.Units.Engine
 
             // Engine.pas:855
             public new Aow.Units.Engine.TECustomOwner Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TECustomOwner o = (Aow.Units.Engine.TECustomOwner)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TECustomOwner)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TECustomOwner => (Meta)MetaRegistry.Of(typeof(T));
@@ -9785,6 +9818,12 @@ namespace Aow.Units.Engine
             InitializeSortItems();
         }
 
+        private protected TESortNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner)
+        {
+            InitializeSortItems();
+        }
+
         protected internal bool FSorted;
         protected internal int FCount;
         protected internal int FCapacity;
@@ -10001,6 +10040,15 @@ namespace Aow.Units.Engine
     // { Engine.TEInverseSortNode: the same, sorted the other way }
     public partial class TEInverseSortNode : Aow.Units.Engine.TESortNode
     {
+        // Raw allocation for TEInverseSortNode.Meta.NewInstance and legacy descendant factories.
+        public TEInverseSortNode() { }
+
+        // No own constructor body. Both semantic routes share TESortNode.InitializeSortItems.
+        protected TEInverseSortNode(TECustomNode AOwner) : base(AOwner) { }
+
+        private protected TEInverseSortNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner) { }
+
         // Engine.pas:1635
         public override int AddSortChild(Aow.Units.Engine.TEObject Child, int SortValue)
         {
@@ -10065,20 +10113,7 @@ namespace Aow.Units.Engine
                 where T : Aow.Units.Engine.TEInverseSortNode => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:922
             public new Aow.Units.Engine.TEInverseSortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEInverseSortNode o = (Aow.Units.Engine.TEInverseSortNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TEInverseSortNode)base.Create(AOwner);
         }
     }
 
@@ -10125,12 +10160,33 @@ namespace Aow.Units.Engine
     // { Engine.TEControlStyleInverseSortNode (instance size 28): +$18 FControlStyle }
     public partial class TEControlStyleInverseSortNode : Aow.Units.Engine.TEInverseSortNode
     {
+        // Raw allocation for TEControlStyleInverseSortNode.Meta.NewInstance and legacy descendant factories.
+        public TEControlStyleInverseSortNode() { }
+
+        // Engine.pas:1689
+        protected TEControlStyleInverseSortNode(TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeInverseStyle();
+        }
+
+        private protected TEControlStyleInverseSortNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner)
+        {
+            InitializeInverseStyle();
+        }
+
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:1689
         // { TEControlStyleInverseSortNode }
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeInverseStyle();
+        }
+
+        // Engine.pas:1689
+        private void InitializeInverseStyle()
+        {
             FControlStyle = base.GetControlStyle();
         }
 
@@ -10177,20 +10233,7 @@ namespace Aow.Units.Engine
 
             // Engine.pas:963
             public new Aow.Units.Engine.TEControlStyleInverseSortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEControlStyleInverseSortNode o = (Aow.Units.Engine.TEControlStyleInverseSortNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TEControlStyleInverseSortNode)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEControlStyleInverseSortNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -10201,6 +10244,15 @@ namespace Aow.Units.Engine
 //     elsewhere (AddRef on AddChild, Release on removal) }
     public partial class TEReferenceNode : Aow.Units.Engine.TENode
     {
+        // Raw allocation for TEReferenceNode.Meta.NewInstance and legacy descendant factories.
+        public TEReferenceNode() { }
+
+        // No own constructor body. Both semantic routes share TENode.InitializeChildren.
+        protected TEReferenceNode(TECustomNode AOwner) : base(AOwner) { }
+
+        private protected TEReferenceNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner) { }
+
         // Engine.pas:8144
         // { TEReferenceNode }
         public override void Clear()
@@ -11581,6 +11633,15 @@ namespace Aow.Units.Engine
     // { Engine.TEResourceList (instance size 20): resources with unique ids }
     public partial class TEResourceList : Aow.Units.Engine.TECustomOwner
     {
+        // Raw allocation for TEResourceList.Meta.NewInstance and legacy descendant factories.
+        public TEResourceList() { }
+
+        // No own constructor body. Both semantic routes share TECustomOwner.InitializeCustomOwner.
+        protected TEResourceList(TECustomNode AOwner) : base(AOwner) { }
+
+        private protected TEResourceList(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+            : base(context, AOwner) { }
+
         // Engine.pas:8573
         protected internal Aow.Units.Engine.TEResource GetResource(int Index)
         {
@@ -11686,20 +11747,7 @@ namespace Aow.Units.Engine
                 where T : Aow.Units.Engine.TEResourceList => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:855
             public new Aow.Units.Engine.TEResourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEResourceList o = (Aow.Units.Engine.TEResourceList)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (TEResourceList)base.Create(AOwner);
         }
     }
 

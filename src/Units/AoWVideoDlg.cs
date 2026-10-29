@@ -454,7 +454,7 @@ namespace Aow.Units.AoWVideoDlg
                 }
             }
 
-            var call__16 = Aow.Units.Engine.TIntegerList.Create();
+            var call__16 = new Aow.Units.Engine.TIntegerList();
             FPaths = call__16;
             FPaths.Default = -1;
         }
