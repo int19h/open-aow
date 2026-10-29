@@ -76,8 +76,8 @@ internal static class LocalizationFrameChecks
         if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
         if (language == 1)
         {
-            var left = TDIB16Surface.Create(120, 40, Aow.Units.GFXE.GFXE.pfRGB555);
-            var right = TDIB16Surface.Create(120, 40, Aow.Units.GFXE.GFXE.pfRGB555);
+            var left = new TDIB16Surface(120, 40, Aow.Units.GFXE.GFXE.pfRGB555);
+            var right = new TDIB16Surface(120, 40, Aow.Units.GFXE.GFXE.pfRGB555);
             try
             {
                 left.Cls(0);

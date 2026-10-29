@@ -2055,6 +2055,14 @@ namespace Aow.Units.GFXE
 //     +$20 FX, +$24 FY (origin of the captured rectangle), +$28 FPalette. }
     public partial class TDataSurface : Aow.Units.GFXE.TSurface
     {
+        public static TDataSurface Create(int width, int height, int format, TGFXEPalette palette) =>
+            ConstructionContext.Create((width, height, format, palette), static (context, args) =>
+                new TDataSurface(context, args.width, args.height, args.format, args.palette));
+
+        public static TDataSurface CreateFromSurface(TSurface surface, Ptr<TRect> rect) =>
+            ConstructionContext.Create((surface, rect), static (context, args) =>
+                new TDataSurface(context, args.surface, args.rect));
+
         internal int FWidth;
         internal int FHeight;
         internal Ptr<byte> FMem;
@@ -2067,9 +2075,9 @@ namespace Aow.Units.GFXE
         internal Aow.Units.GFXE.TGFXEPalette FPalette;
         // GFXE.pas:12387
         // { TDataSurface }
-        public void Create__init_TDataSurface(int AWidth, int AHeight, int APixelFormatID, Aow.Units.GFXE.TGFXEPalette APalette)
+        private protected TDataSurface(ConstructionContext context, int AWidth, int AHeight, int APixelFormatID, Aow.Units.GFXE.TGFXEPalette APalette)
         {
-            ;
+            context.Capture(this);
             FBitCount = unchecked((byte)(APixelFormatID & 255));
             FPixelFormatID = APixelFormatID;
             SetPalette(APalette);
@@ -2077,9 +2085,9 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:12396
-        public void CreateFromSurface__init_TDataSurface(Aow.Units.GFXE.TSurface Surface, Ptr<Aow.Rtl.TRect> R)
+        private protected TDataSurface(ConstructionContext context, Aow.Units.GFXE.TSurface Surface, Ptr<Aow.Rtl.TRect> R)
         {
-            ;
+            context.Capture(this);
             CaptureSurface(Surface, R);
         }
 
@@ -2219,39 +2227,6 @@ namespace Aow.Units.GFXE
         public int Pitch { get => FPitch; }
         public Aow.Units.GFXE.TGFXEPalette Palette { get => FPalette; set => SetPalette(value); }
 
-        // GFXE.pas:435
-        public static Aow.Units.GFXE.TDataSurface Create(int AWidth, int AHeight, int APixelFormatID, Aow.Units.GFXE.TGFXEPalette APalette)
-        {
-            Aow.Units.GFXE.TDataSurface o = new Aow.Units.GFXE.TDataSurface();
-            try
-            {
-                o.Create__init_TDataSurface(AWidth, AHeight, APixelFormatID, APalette);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
-        // GFXE.pas:436
-        public static Aow.Units.GFXE.TDataSurface CreateFromSurface(Aow.Units.GFXE.TSurface Surface, Ptr<Aow.Rtl.TRect> R)
-        {
-            Aow.Units.GFXE.TDataSurface o = new Aow.Units.GFXE.TDataSurface();
-            try
-            {
-                o.CreateFromSurface__init_TDataSurface(Surface, R);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TDIBSurface (instance size 1100): a DIB section of any format (8, 16 or 24 bit). +4
@@ -2356,22 +2331,6 @@ namespace Aow.Units.GFXE
 
         public Aow.Units.GFXE.TGFXEPalette Palette { get => FPalette; set => SetPalette(value); }
 
-        // GFXE.pas:501
-        public static Aow.Units.GFXE.TDIB08Surface Create(int AWidth, int AHeight, Aow.Units.GFXE.TGFXEPalette APalette)
-        {
-            Aow.Units.GFXE.TDIB08Surface o = new Aow.Units.GFXE.TDIB08Surface();
-            try
-            {
-                o.Create__init_TDIB08Surface(AWidth, AHeight, APalette);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TDIB16Surface (instance size 80): a 16 bit DIB section (555 or 565). +4 FHandle, +8
@@ -2412,22 +2371,6 @@ namespace Aow.Units.GFXE
 
         public new int PixelFormatID { get => FPixelFormatID; set => SetPixelFormatID(value); }
 
-        // GFXE.pas:531
-        public static Aow.Units.GFXE.TDIB16Surface Create(int AWidth, int AHeight, int APixelFormatID)
-        {
-            Aow.Units.GFXE.TDIB16Surface o = new Aow.Units.GFXE.TDIB16Surface();
-            try
-            {
-                o.Create__init_TDIB16Surface(AWidth, AHeight, APixelFormatID);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TDIB24Surface (instance size 64): a 24 bit DIB section. +4 FHandle, +8 FWidth, +$C
@@ -2465,22 +2408,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:557
-        public static Aow.Units.GFXE.TDIB24Surface Create(int AWidth, int AHeight)
-        {
-            Aow.Units.GFXE.TDIB24Surface o = new Aow.Units.GFXE.TDIB24Surface();
-            try
-            {
-                o.Create__init_TDIB24Surface(AWidth, AHeight);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TDIB32Surface (instance size 64): a 32 bit bitmap in memory (bottom-up). +4 FWidth, +8
@@ -2509,34 +2436,20 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        // GFXE.pas:582
-        public static Aow.Units.GFXE.TDIB32Surface Create(int AWidth, int AHeight)
-        {
-            Aow.Units.GFXE.TDIB32Surface o = new Aow.Units.GFXE.TDIB32Surface();
-            try
-            {
-                o.Create__init_TDIB32Surface(AWidth, AHeight);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TGDISurface (instance size 8): a window drawn through GDI. +4 FHandle. Two more
 //     virtuals: GetHandle, SetHandle. }
     public partial class TGDISurface : Aow.Units.GFXE.TSurface
     {
+        // Raw base for the retained TDisplayGDISurface stub, which skips handle initialization.
+        protected TGDISurface() { }
+
         internal int FHandle;
         // GFXE.pas:12293
         // { TGDISurface }
-        public void Create__init_TGDISurface(int AHandle)
+        public TGDISurface(int AHandle)
         {
-            ;
             FHandle = AHandle;
         }
 
@@ -2599,22 +2512,6 @@ namespace Aow.Units.GFXE
 
         public int Handle { get => GetHandle(); set => SetHandle(value); }
 
-        // GFXE.pas:600
-        public static Aow.Units.GFXE.TGDISurface Create(int AHandle)
-        {
-            Aow.Units.GFXE.TGDISurface o = new Aow.Units.GFXE.TGDISurface();
-            try
-            {
-                o.Create__init_TGDISurface(AHandle);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TDDrawSurface (instance size 100): a DirectDraw surface. +4 FOnSurfaceLost, +$C
@@ -2898,9 +2795,8 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:12611
         // { TDisplayModeList }
-        public void Create__init_TDisplayModeList()
+        public TDisplayModeList()
         {
-            ;
             var call__54 = new Aow.Rtl.TList();
             FList = call__54;
         }
@@ -2949,22 +2845,6 @@ namespace Aow.Units.GFXE
         public ItemsAccessor Items => new ItemsAccessor(this);
         public int Count { get => GetCount(); }
 
-        // GFXE.pas:726
-        public static Aow.Units.GFXE.TDisplayModeList Create()
-        {
-            Aow.Units.GFXE.TDisplayModeList o = new Aow.Units.GFXE.TDisplayModeList();
-            try
-            {
-                o.Create__init_TDisplayModeList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TBlendTable (instance size 12): +4 FBits, +8 FTable. VMT: Copy, Assign. }
@@ -3002,9 +2882,8 @@ namespace Aow.Units.GFXE
         public new Aow.Units.FixedArray_byte_32[] Table = new Aow.Units.FixedArray_byte_32[32];
         // GFXE.pas:9609
         // { TBlendTable5Bit }
-        public void Create__init_TBlendTable5Bit()
+        public TBlendTable5Bit()
         {
-            ;
             Initialize(5, Ptr<Aow.Units.FixedArray_byte_32>.To(Table, 0).Reinterpret<byte>().Box());
         }
 
@@ -3012,27 +2891,11 @@ namespace Aow.Units.GFXE
         public override Aow.Units.GFXE.TBlendTable Copy()
         {
             Aow.Units.GFXE.TBlendTable Result = default;
-            Result = Aow.Units.GFXE.TBlendTable5Bit.Create();
+            Result = new Aow.Units.GFXE.TBlendTable5Bit();
             Result.Assign(this);
             return Result;
         }
 
-        // GFXE.pas:752
-        public static Aow.Units.GFXE.TBlendTable5Bit Create()
-        {
-            Aow.Units.GFXE.TBlendTable5Bit o = new Aow.Units.GFXE.TBlendTable5Bit();
-            try
-            {
-                o.Create__init_TBlendTable5Bit();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TBlendTableList (instance size 8): +4 FList. }
@@ -3057,9 +2920,8 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:9629
         // { TBlendTableList }
-        public void Create__init_TBlendTableList()
+        public TBlendTableList()
         {
-            ;
             var call__56 = new Aow.Rtl.TList();
             FList = call__56;
         }
@@ -3104,22 +2966,6 @@ namespace Aow.Units.GFXE
 
         public TablesAccessor Tables => new TablesAccessor(this);
 
-        // GFXE.pas:764
-        public static Aow.Units.GFXE.TBlendTableList Create()
-        {
-            Aow.Units.GFXE.TBlendTableList o = new Aow.Units.GFXE.TBlendTableList();
-            try
-            {
-                o.Create__init_TBlendTableList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate void TGenerateBlendTableProc(Aow.Units.GFXE.TBlendTable Table, float Value);
@@ -3140,10 +2986,9 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:9674
         // { TLookupBlendTableCollection100 }
-        public void Create__init_TLookupBlendTableCollection100()
+        public TLookupBlendTableCollection100()
         {
-            ;
-            var call__57 = Aow.Units.GFXE.TBlendTableList.Create();
+            var call__57 = new Aow.Units.GFXE.TBlendTableList();
             FTables = call__57;
         }
 
@@ -3181,7 +3026,7 @@ namespace Aow.Units.GFXE
                         switch (Bits)
                         {
                             case 5:
-                                T = Aow.Units.GFXE.TBlendTable5Bit.Create();
+                                T = new Aow.Units.GFXE.TBlendTable5Bit();
                                 break;
                             default:
                                 T = null;
@@ -3237,22 +3082,6 @@ namespace Aow.Units.GFXE
 
         public LookupTablesAccessor LookupTables => new LookupTablesAccessor(this);
 
-        // GFXE.pas:783
-        public static Aow.Units.GFXE.TLookupBlendTableCollection100 Create()
-        {
-            Aow.Units.GFXE.TLookupBlendTableCollection100 o = new Aow.Units.GFXE.TLookupBlendTableCollection100();
-            try
-            {
-                o.Create__init_TLookupBlendTableCollection100();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate void TBltRectProc(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height);
@@ -5707,15 +5536,15 @@ namespace Aow.Units.GFXE
         {
             var call__165 = Aow.Rtl.Rtl.QueryPerformanceFrequency(ref Aow.Units.GFXE.GFXE.PerformanceFrequency);
             Aow.Units.GFXE.GFXE.PerformanceCounterAvailable = call__165;
-            var call__166 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            var call__166 = new Aow.Units.GFXE.TLookupBlendTableCollection100();
             Aow.Units.GFXE.GFXE.AlphaBlendTable = call__166;
-            var call__167 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            var call__167 = new Aow.Units.GFXE.TLookupBlendTableCollection100();
             Aow.Units.GFXE.GFXE.IntensityBlendTable = call__167;
-            var call__168 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            var call__168 = new Aow.Units.GFXE.TLookupBlendTableCollection100();
             Aow.Units.GFXE.GFXE.BrightenBlendTable = call__168;
-            var call__169 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            var call__169 = new Aow.Units.GFXE.TLookupBlendTableCollection100();
             Aow.Units.GFXE.GFXE.ShadowBlendTable = call__169;
-            var call__170 = Aow.Units.GFXE.TLookupBlendTableCollection100.Create();
+            var call__170 = new Aow.Units.GFXE.TLookupBlendTableCollection100();
             Aow.Units.GFXE.GFXE.LinearAlphaBlendTable = call__170;
             Aow.Units.GFXE.GFXE.InitBlendTables(5, 31);
             Aow.Units.GFXE.GFXE.FDirectDrawActivated = false;

@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Aow.Rtl.Tests")]
+[assembly: InternalsVisibleTo("Aow.Game")]
 
 namespace Aow.Rtl;
 

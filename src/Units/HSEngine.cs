@@ -4533,7 +4533,7 @@ namespace Aow.Units.HSEngine
                     {
                         if (FImageSequenceList == null)
                         {
-                            var call__189 = Aow.Units.ImageLib.TImageSequenceList.Create(null, FImageLibrary);
+                            var call__189 = new Aow.Units.ImageLib.TImageSequenceList(null, FImageLibrary);
                             FImageSequenceList = call__189;
                         }
                     }

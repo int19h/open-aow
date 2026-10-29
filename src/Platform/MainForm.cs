@@ -39,13 +39,11 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         this.host = host;
         Layouts = layouts;
         GameHost.MainForm = this;
-        Display = new TDisplay();
-        Display.Create__init(null);
+        Display = TDisplay.Create(null);
         Display.Host = host;
         Display.EventSink = this;
         Display.Terminated = () => IsClosed;
-        WinDC = new TSdlDC(host);
-        WinDC.Create__init(null);
+        WinDC = TSdlDC.Create(host);
     }
 
     public static TMainForm Create(IDisplayHost host, string argument = "", bool mute = true, bool audioOutput = false)

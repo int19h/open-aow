@@ -428,12 +428,11 @@ namespace Aow.Units.aowIntGfxMod
                 FileName = "INT\\Scenes\\CTrans.ILB"
             };
             LayoutSession.EndRead(CampaignTrans);
-            ScanObj = new Aow.Units.ImageLib.TImageLibrary(this)
-            {
-                Name = "ScanObj",
-                LoadOnDemand = true,
-                FileName = "Int\\ScanObj.ilb"
-            };
+            var created__ScanObj = Aow.Units.ImageLib.TImageLibrary.CreateForLayout(this);
+            created__ScanObj.Name = "ScanObj";
+            created__ScanObj.LoadOnDemand = true;
+            created__ScanObj.FileName = "Int\\ScanObj.ilb";
+            ScanObj = created__ScanObj;
             LayoutSession.EndRead(ScanObj);
             PlyrIcns = new Aow.Units.AOWInterfaceImgLib.TInterfaceIL(this)
             {
