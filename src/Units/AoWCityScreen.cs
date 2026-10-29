@@ -1171,7 +1171,7 @@ namespace Aow.Units.AoWCityScreen
                 }
             }
 
-            Generator = Aow.Units.AoWTC.TRndTacHsm.Create();
+            Generator = new Aow.Units.AoWTC.TRndTacHsm();
             var call__151 = FCity.GetLhx();
             var call__152 = FCity.GetYhx();
             var call__153 = FCity.GetXhx();

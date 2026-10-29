@@ -51,9 +51,8 @@ namespace Aow.Units.SmokeCloud
     {
         public Aow.Units.SmokeCloud.TSmokeCloud FCloud;
         // SmokeCloud.pas:91
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TSmokeCloudEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FEnchantmentMode = TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement>.FromMask((TSet<Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement>.FromMask((ulong)FEnchantmentMode.Mask) - TSet<Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement>.Of(Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement.ce0, Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement.ce1)).Mask);
             FDispelMana = 25;
         }
@@ -88,23 +87,6 @@ namespace Aow.Units.SmokeCloud
             return Result;
         }
 
-        // SmokeCloud.pas:21
-        public static new Aow.Units.SmokeCloud.TSmokeCloudEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.SmokeCloud.TSmokeCloudEnchantment o = new Aow.Units.SmokeCloud.TSmokeCloudEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // SmokeCloud.pas:99
@@ -116,21 +98,7 @@ namespace Aow.Units.SmokeCloud
             }
 
             // SmokeCloud.pas:21
-            public new Aow.Units.SmokeCloud.TSmokeCloudEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.SmokeCloud.TSmokeCloudEnchantment o = (Aow.Units.SmokeCloud.TSmokeCloudEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.SmokeCloud.TSmokeCloudEnchantment Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SmokeCloud.TSmokeCloudEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.SmokeCloud.TSmokeCloudEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -171,7 +139,7 @@ namespace Aow.Units.SmokeCloud
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__6 = Aow.Units.SmokeCloud.TSmokeCloudEnchantment.Create(null);
+            var call__6 = new Aow.Units.SmokeCloud.TSmokeCloudEnchantment(null);
             FEnchantment = call__6;
             FEnchantment.FCloud = this;
             FVisibleForSeatedPlayer = false;

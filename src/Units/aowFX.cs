@@ -20,20 +20,18 @@ namespace Aow.Units.aowFX
         public int X;
         public int Y;
         public int Z;
-        // System.pas:111
-        public static Aow.Units.aowFX.TXYZ Create()
-        {
-            return new Aow.Units.aowFX.TXYZ();
-        }
     }
 
     // { aowFX.TXYZList (instance size 8): +4 FList, the owned points. }
     public partial class TXYZList : Aow.Rtl.TObject
     {
+        // AoWE.cs retains this caller until its separate constructor pass.
+        public static TXYZList Create() => new TXYZList();
+
         internal Aow.Rtl.TList FList;
         // aowFX.pas:93
         // { TXYZList }
-        public void Create__init_TXYZList()
+        public TXYZList()
         {
             var call__1 = new Aow.Rtl.TList();
             FList = call__1;
@@ -117,22 +115,6 @@ namespace Aow.Units.aowFX
 
         public Aow.Units.aowFX.TXYZ this[int Index] { get => GetXYZ(Index); }
 
-        // aowFX.pas:41
-        public static Aow.Units.aowFX.TXYZList Create()
-        {
-            Aow.Units.aowFX.TXYZList o = new Aow.Units.aowFX.TXYZList();
-            try
-            {
-                o.Create__init_TXYZList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { aowFX.TfxParticleObject (instance size 44): no method of the package touches its fields, so
@@ -262,7 +244,7 @@ namespace Aow.Units.aowFX
                 int end__12 = Steps - 1;
                 for (; I <= end__12; I += 1)
                 {
-                    XYZ = Aow.Units.aowFX.TXYZ.Create();
+                    XYZ = new Aow.Units.aowFX.TXYZ();
                     List.Add(XYZ);
                     XYZ.X = X1 + (((X2 - X1) * I) / (Steps - 1));
                     XYZ.Y = Y1 + (((Y2 - Y1) * I) / (Steps - 1));
@@ -293,7 +275,7 @@ namespace Aow.Units.aowFX
                         break;
                 }
 
-                XYZ = Aow.Units.aowFX.TXYZ.Create();
+                XYZ = new Aow.Units.aowFX.TXYZ();
                 var call__13 = System.Math.Sin(Rad);
                 XYZ.X = Aow.Rtl.Rtl.Round(((double)call__13) * R) + X;
                 var call__14 = System.Math.Cos(Rad);
@@ -396,7 +378,7 @@ namespace Aow.Units.aowFX
             {
                 while (((double)Z) >= 0)
                 {
-                    XYZ = Aow.Units.aowFX.TXYZ.Create();
+                    XYZ = new Aow.Units.aowFX.TXYZ();
                     XYZ.X = Aow.Rtl.Rtl.Round(FX);
                     XYZ.Y = Aow.Rtl.Rtl.Round(FY);
                     XYZ.Z = Aow.Rtl.Rtl.Round(Z);
@@ -428,7 +410,7 @@ namespace Aow.Units.aowFX
 
             while (I <= Steps)
             {
-                XYZ = Aow.Units.aowFX.TXYZ.Create();
+                XYZ = new Aow.Units.aowFX.TXYZ();
                 List.Add(XYZ);
                 XYZ.X = X1 + (((X2 - X1) * I) / Steps);
                 XYZ.Y = Y1 + (((Y2 - Y1) * I) / Steps);

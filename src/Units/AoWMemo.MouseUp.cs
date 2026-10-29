@@ -17,7 +17,7 @@ public partial class TAOWMemo
         {
             FItems.Add("");
             FLines.Add("");
-            FColorList.Add(TColorChange.Create());
+            FColorList.Add(new TColorChange());
         }
         if (x > FAOWWindow.FWinLeft + FWinLeft - 1 && x < FAOWWindow.FWinLeft + FWinLeft + FWinWidth &&
             y > FAOWWindow.FWinTop + FWinTop - 1 && y < FAOWWindow.FWinTop + FWinTop + FWinHeight)

@@ -104,6 +104,8 @@ namespace Aow.Units.UnitIDlg
 
     public partial class TUnitView : Aow.Units.AoWE.TAbilityOwner
     {
+        public TUnitView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // UnitIDlg.pas:54
         public virtual void Slot9C()
         {

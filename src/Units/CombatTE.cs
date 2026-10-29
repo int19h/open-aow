@@ -1456,7 +1456,7 @@ namespace Aow.Units.CombatTE
                                     var call__174 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.AddEffect(FEffectType);
                                     FEffect = call__174;
                                     FEffect.FAbilityIndex = FAbilityID;
-                                    Point = Aow.Units.aowFX.TXYZ.Create();
+                                    Point = new Aow.Units.aowFX.TXYZ();
                                     var call__175 = FPreviousUnit.FUnitHS.Yhx;
                                     var call__176 = FPreviousUnit.FUnitHS.Xhx;
                                     Aow.Units.HSEngine.HSEngine.HXtoHP(call__176, call__175, ref Point.X, ref Point.Y);
@@ -1485,7 +1485,7 @@ namespace Aow.Units.CombatTE
                                             var call__180 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.AddEffect(FEffectType);
                                             FEffect = call__180;
                                             FEffect.FAbilityIndex = FAbilityID;
-                                            Point = Aow.Units.aowFX.TXYZ.Create();
+                                            Point = new Aow.Units.aowFX.TXYZ();
                                             var call__181 = FPath[1];
                                             var call__182 = FPath[1];
                                             Aow.Units.HSEngine.HSEngine.HXtoHP(call__182.X, call__181.Y, ref Point.X, ref Point.Y);
@@ -3268,7 +3268,7 @@ namespace Aow.Units.CombatTE
                             break;
                     }
 
-                    Point = Aow.Units.aowFX.TXYZ.Create();
+                    Point = new Aow.Units.aowFX.TXYZ();
                     Point.X = X2 + 16;
                     Point.Y = Y2 + 16;
                     Effect.FPath.Add(Point);
@@ -3284,7 +3284,7 @@ namespace Aow.Units.CombatTE
                     break;
                 case Aow.Units.AoWTC.TfxType.fxWinds:
                     Aow.Units.HSEngine.HSEngine.HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
-                    Point = Aow.Units.aowFX.TXYZ.Create();
+                    Point = new Aow.Units.aowFX.TXYZ();
                     Point.X = X2 + 16;
                     Point.Y = Y2 + 16;
                     Effect.FPath.Add(Point);
@@ -3397,7 +3397,7 @@ namespace Aow.Units.CombatTE
                     byte end__509 = 29;
                     for (; I <= end__509; I += 1)
                     {
-                        var call__510 = Aow.Units.aowFX.TXYZ.Create();
+                        var call__510 = new Aow.Units.aowFX.TXYZ();
                         Effect.FPath.Add(call__510);
                         var call__511 = Effect.FPath[0];
                         var call__512 = Aow.Rtl.Rtl.Random(30);
@@ -3461,7 +3461,7 @@ namespace Aow.Units.CombatTE
                     Aow.Units.aowFX.aowFX.MakeArcPathXY(unchecked((short)call__556.X), unchecked((short)(call__552.Y - call__554.Z)), unchecked((short)(DX + 16)), unchecked((short)(DY + 16)), unchecked((short)(((System.Math.Abs((call__546.Y - call__548.Z) - DY) + System.Math.Abs(call__550.X - DX)) / 50) + 4)), 100, ref Effect.FPath);
                     break;
                 case Aow.Units.AoWTC.TfxType.fxScreenNESW:
-                    Point = Aow.Units.aowFX.TXYZ.Create();
+                    Point = new Aow.Units.aowFX.TXYZ();
                     if (Aow.Rtl.Rtl.Random(100) < 50)
                     {
                         Point.X = 0;
@@ -3581,7 +3581,7 @@ namespace Aow.Units.CombatTE
                             int end__584 = K;
                             for (; J <= end__584; J += 1)
                             {
-                                Point = Aow.Units.aowFX.TXYZ.Create();
+                                Point = new Aow.Units.aowFX.TXYZ();
                                 var call__585 = Effect.FPath[J];
                                 Point.X = call__585.X;
                                 var call__586 = Effect.FPath[J];
@@ -3598,7 +3598,7 @@ namespace Aow.Units.CombatTE
                     var call__589 = Effect.FPath.Count;
                     var call__590 = Effect.FPath[call__589 - 1];
                     Aow.Units.aowFX.aowFX.MakeLinePath(call__590.X, call__588.Y, X2 + 16, Y2, 15, ref Effect.FPath);
-                    Path = Aow.Units.aowFX.TXYZList.Create();
+                    Path = new Aow.Units.aowFX.TXYZList();
                     var call__591 = Aow.Rtl.Rtl.Random(360);
                     var call__592 = Effect.FPath.Count;
                     var call__593 = Effect.FPath[call__592 - 1];
@@ -3639,7 +3639,7 @@ namespace Aow.Units.CombatTE
                             int end__610 = K;
                             for (; J <= end__610; J += 1)
                             {
-                                Point = Aow.Units.aowFX.TXYZ.Create();
+                                Point = new Aow.Units.aowFX.TXYZ();
                                 var call__611 = Path[J];
                                 Point.X = call__611.X;
                                 var call__612 = Path[J];
@@ -3684,7 +3684,7 @@ namespace Aow.Units.CombatTE
                         Aow.Units.AoWTC.AoWTC.AoWCombatMap.CenterViewTo(FTargetX, FTargetY, 0);
                     }
 
-                    Point = Aow.Units.aowFX.TXYZ.Create();
+                    Point = new Aow.Units.aowFX.TXYZ();
                     Point.X = X2;
                     Point.Y = Y2;
                     Effect.FPath.Add(Point);
@@ -3708,7 +3708,7 @@ namespace Aow.Units.CombatTE
                             int end__627 = K;
                             for (; J <= end__627; J += 1)
                             {
-                                Point = Aow.Units.aowFX.TXYZ.Create();
+                                Point = new Aow.Units.aowFX.TXYZ();
                                 var call__628 = Effect.FPath[J];
                                 Point.X = call__628.X;
                                 var call__629 = Effect.FPath[J];
@@ -3931,7 +3931,7 @@ namespace Aow.Units.CombatTE
                                     if (!(call__672 < call__673))
                                         break;
                                     {
-                                        Point = Aow.Units.aowFX.TXYZ.Create();
+                                        Point = new Aow.Units.aowFX.TXYZ();
                                         Point.X = X1 + 16;
                                         Point.Y = Y1;
                                         ExtraEffect.FPath.Add(Point);
@@ -4282,7 +4282,7 @@ namespace Aow.Units.CombatTE
             Aow.Units.aowFX.TXYZ Point = default;
             var call__685 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.AddEffect(Aow.Units.AoWTC.TfxType.fxBlood);
             Effect = call__685;
-            Point = Aow.Units.aowFX.TXYZ.Create();
+            Point = new Aow.Units.aowFX.TXYZ();
             Effect.FPath.Add(Point);
             switch (Damage)
             {

@@ -33,7 +33,7 @@ public partial class TRaidAGC
                 else Done();
                 break;
             case 2:
-                var raze = TAIGroupRazeControl.Create(null!);
+                var raze = new TAIGroupRazeControl(null!);
                 raze.Setup(this);
                 // 557D9AB4 loads the set byte 04 from 557D9ADC in the original.
                 raze.FMode = TSet<TAIGroupRazeControlModeElement>.Of(TAIGroupRazeControlModeElement.rcmAlways);

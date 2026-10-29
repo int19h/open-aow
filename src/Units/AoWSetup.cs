@@ -86,26 +86,8 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:242
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TSetupPackage(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
-        }
-
-        // AoWSetup.pas:40
-        public static new Aow.Units.AoWSetup.TSetupPackage Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWSetup.TSetupPackage o = new Aow.Units.AoWSetup.TSetupPackage();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -119,21 +101,7 @@ namespace Aow.Units.AoWSetup
             }
 
             // AoWSetup.pas:40
-            public new Aow.Units.AoWSetup.TSetupPackage Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWSetup.TSetupPackage o = (Aow.Units.AoWSetup.TSetupPackage)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWSetup.TSetupPackage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TSetupPackage)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWSetup.TSetupPackage => (Meta)MetaRegistry.Of(typeof(T));
@@ -154,6 +122,8 @@ namespace Aow.Units.AoWSetup
     // { TRemotePlayer (instance size 24, VMT 557DE92C) }
     public partial class TRemotePlayer : Aow.Units.Engine.TEObject
     {
+        public TRemotePlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public Aow.Rtl.AnsiString FName;
         // { +$08 }
         public int FRemoteID;
@@ -176,23 +146,6 @@ namespace Aow.Units.AoWSetup
             Stream.rwInteger(ref FVersion, 24);
         }
 
-        // Engine.pas:524
-        public static new Aow.Units.AoWSetup.TRemotePlayer Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWSetup.TRemotePlayer o = new Aow.Units.AoWSetup.TRemotePlayer();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWSetup.pas:266
@@ -206,27 +159,15 @@ namespace Aow.Units.AoWSetup
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWSetup.TRemotePlayer => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWSetup.TRemotePlayer Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWSetup.TRemotePlayer o = (Aow.Units.AoWSetup.TRemotePlayer)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWSetup.TRemotePlayer Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TRemotePlayer)base.Create(AOwner);
         }
     }
 
     // { TRemotePlayerList (instance size 12, VMT 557DEA00) }
     public partial class TRemotePlayerList : Aow.Units.Engine.TENode
     {
+        public TRemotePlayerList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // AoWSetup.pas:279
         public Aow.Units.AoWSetup.TRemotePlayer GetPlayers(int Index)
         {
@@ -255,22 +196,6 @@ namespace Aow.Units.AoWSetup
             return Result;
         }
 
-        // Engine.pas:631
-        public static new Aow.Units.AoWSetup.TRemotePlayerList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWSetup.TRemotePlayerList o = new Aow.Units.AoWSetup.TRemotePlayerList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TPlayerSetupSettings (instance size 40, VMT 557DEB70); $08/$10 behaviors, $18 race, $19 status, $1C leader, $20 player, $21 behavior, $24 email. }
@@ -316,31 +241,13 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:296
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TPlayerSetupSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FStatus = TSet<Aow.Units.AoWSetup.TPlayerSetupStatusElement>.Of();
             FBehavior = Aow.Units.AoWSetup.AoWSetup.DefaultBehavior;
             FOriginalBehavior = Aow.Units.AoWSetup.AoWSetup.DefaultOriginalBehavior;
             var call__1 = Aow.Units.AoWE.TLeader.Create(null);
             FLeader = call__1;
-        }
-
-        // AoWSetup.pas:76
-        public static new Aow.Units.AoWSetup.TPlayerSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWSetup.TPlayerSetupSettings o = new Aow.Units.AoWSetup.TPlayerSetupSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -354,21 +261,7 @@ namespace Aow.Units.AoWSetup
             }
 
             // AoWSetup.pas:76
-            public new Aow.Units.AoWSetup.TPlayerSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWSetup.TPlayerSetupSettings o = (Aow.Units.AoWSetup.TPlayerSetupSettings)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWSetup.TPlayerSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TPlayerSetupSettings)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWSetup.TPlayerSetupSettings => (Meta)MetaRegistry.Of(typeof(T));
@@ -455,10 +348,9 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:327
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TSetupSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
-            var call__2 = Aow.Units.AoWSetup.TRemotePlayerList.Create(null);
+            var call__2 = new Aow.Units.AoWSetup.TRemotePlayerList(null);
             FRemotePlayers = call__2;
             Reset();
         }
@@ -556,23 +448,6 @@ namespace Aow.Units.AoWSetup
             return Result;
         }
 
-        // AoWSetup.pas:107
-        public static new Aow.Units.AoWSetup.TSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWSetup.TSetupSettings o = new Aow.Units.AoWSetup.TSetupSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // AoWSetup.pas:356
@@ -584,21 +459,7 @@ namespace Aow.Units.AoWSetup
             }
 
             // AoWSetup.pas:107
-            public new Aow.Units.AoWSetup.TSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWSetup.TSetupSettings o = (Aow.Units.AoWSetup.TSetupSettings)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWSetup.TSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TSetupSettings)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWSetup.TSetupSettings => (Meta)MetaRegistry.Of(typeof(T));
@@ -608,25 +469,13 @@ namespace Aow.Units.AoWSetup
     // { TCustomizeLeaderControl (instance size 48, VMT 557DED7C) }
     public partial class TCustomizeLeaderControl : Aow.Units.AoWE.TLeaderSetupControl
     {
+        public TCustomizeLeaderControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWSetup.TSetupControl FSetupControl;
         // { +$28 }
         public int FPlayerIndex;
         // intf_P1_03.inc:99
-        public static new Aow.Units.AoWSetup.TCustomizeLeaderControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWSetup.TCustomizeLeaderControl o = new Aow.Units.AoWSetup.TCustomizeLeaderControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TSetupControl (instance size 160, VMT 557DF040) }
@@ -685,9 +534,9 @@ namespace Aow.Units.AoWSetup
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             base.Create__init(AOwner);
-            var call__3 = Aow.Units.AoWSetup.TSetupSettings.Create(null);
+            var call__3 = new Aow.Units.AoWSetup.TSetupSettings(null);
             FSettings = call__3;
-            var call__4 = Aow.Units.AoWSetup.TRemotePlayer.Create(null);
+            var call__4 = new Aow.Units.AoWSetup.TRemotePlayer(null);
             FRemotePlayer = call__4;
             FRemotePlayer.FRemoteID = 0;
             FRemotePlayer.FPreferredRace = 255;
@@ -729,7 +578,7 @@ namespace Aow.Units.AoWSetup
             Aow.Units.AoWSetup.TSetupPackage Package = default;
             if (GetRemote())
             {
-                Package = Aow.Units.AoWSetup.TSetupPackage.Create(null);
+                Package = new Aow.Units.AoWSetup.TSetupPackage(null);
                 Package.FMessageID = MessageID;
                 if (Obj != null)
                 {
@@ -750,7 +599,7 @@ namespace Aow.Units.AoWSetup
             Aow.Units.AoWSetup.TSetupPackage Package = default;
             if (GetRemote())
             {
-                Package = Aow.Units.AoWSetup.TSetupPackage.Create(null);
+                Package = new Aow.Units.AoWSetup.TSetupPackage(null);
                 Package.FMessageID = MessageID;
                 if (Obj != null)
                 {
@@ -1399,7 +1248,7 @@ namespace Aow.Units.AoWSetup
 
             if (Found)
             {
-                CLC = Aow.Units.AoWSetup.TCustomizeLeaderControl.Create(null);
+                CLC = new Aow.Units.AoWSetup.TCustomizeLeaderControl(null);
                 CLC.FSetupControl = this;
                 CLC.FPlayerIndex = I;
                 var call__79 = FSettings.GetSettings(I);
@@ -2630,7 +2479,7 @@ namespace Aow.Units.AoWSetup
                         var player = Preview.FPlayers.GetPlayers(I);
                         if (player.FStatus != Aow.Units.AoWE.TPlayerStatus.psTerminated)
                         {
-                            var call__252 = Aow.Units.AoWSetup.TPlayerSetupSettings.Create(this.FSettings);
+                            var call__252 = new Aow.Units.AoWSetup.TPlayerSetupSettings(this.FSettings);
                             Settings = call__252;
                             Settings.FPlayerID = unchecked((byte)I);
                             Settings.FRace = unchecked((sbyte)player.FPlayerRace);

@@ -79,7 +79,7 @@ namespace Aow.Units.AoWBookWindow
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             base.Create__init(AOwner);
-            var call__1 = Aow.Units.PageTurnCtrl.TPageTurnControl.Create();
+            var call__1 = new Aow.Units.PageTurnCtrl.TPageTurnControl();
             FPageTurn = call__1;
         }
 

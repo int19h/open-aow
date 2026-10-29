@@ -69,7 +69,7 @@ namespace Aow.Units.PageTurnCtrl
         public int FPosition;
         // PageTurnCtrl.pas:51
         // { +$8B0 }
-        public void Create__init_TPageTurnControl()
+        public TPageTurnControl()
         {
             ;
             FScale = (float)0.5;
@@ -562,22 +562,6 @@ namespace Aow.Units.PageTurnCtrl
             }
         }
 
-        // PageTurnCtrl.pas:36
-        public static Aow.Units.PageTurnCtrl.TPageTurnControl Create()
-        {
-            Aow.Units.PageTurnCtrl.TPageTurnControl o = new Aow.Units.PageTurnCtrl.TPageTurnControl();
-            try
-            {
-                o.Create__init_TPageTurnControl();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TPageTurnMode : byte

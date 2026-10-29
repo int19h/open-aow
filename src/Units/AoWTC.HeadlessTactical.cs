@@ -45,7 +45,7 @@ public partial class TTacticalCombat
                     else
                     {
                         Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.HoldTC = true;
-                        Generator = Aow.Units.AoWTC.TRndTacHsm.Create();
+                        Generator = new Aow.Units.AoWTC.TRndTacHsm();
                         Generator.RandomMap(this, FCombatData.FX, FCombatData.FY, FCombatData.FL);
                         Generator.Free();
                         bool bool__1134 = Aow.Units.AoWE.AoWE.AoWHSMap.FStartingGame;

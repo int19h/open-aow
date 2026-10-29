@@ -285,6 +285,8 @@ namespace Aow.Units.Tower
     // { TTowerConstructionControl (instance size 8, VMT 557C352C) }
     public partial class TTowerConstructionControl : Aow.Units.AoWE.TStructureConstructionControl
     {
+        public TTowerConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // Tower.pas:139
         public override void GetInfo(Aow.Units.AoWE.TAbstractUnit AUnit, ref Aow.Rtl.AnsiString Text, ref int Gold, ref int Days)
         {
@@ -334,23 +336,6 @@ namespace Aow.Units.Tower
             return Result;
         }
 
-        // Engine.pas:524
-        public static new Aow.Units.Tower.TTowerConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Tower.TTowerConstructionControl o = new Aow.Units.Tower.TTowerConstructionControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
         {
             // Tower.pas:130
@@ -364,21 +349,7 @@ namespace Aow.Units.Tower
             public static new Meta Of<T>()
                 where T : Aow.Units.Tower.TTowerConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.Tower.TTowerConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Tower.TTowerConstructionControl o = (Aow.Units.Tower.TTowerConstructionControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Tower.TTowerConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Tower.TTowerConstructionControl)base.Create(AOwner);
         }
     }
 
@@ -389,7 +360,7 @@ namespace Aow.Units.Tower
         public static void RegisterTower(Aow.Units.Engine.TEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Tower.TTower>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Tower.TTowerResource>()]);
-            var call__26 = Aow.Units.Tower.TTowerConstructionControl.Create(null);
+            var call__26 = new Aow.Units.Tower.TTowerConstructionControl(null);
             var call__27 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(125);
             ((Aow.Units.AoWE.TConstructAbility)call__27).RegisterConstructionControl(call__26);
         }

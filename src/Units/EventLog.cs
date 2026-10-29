@@ -626,7 +626,7 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:277
-        public void Create__init_TExecuteEventLogCallBackList()
+        public TExecuteEventLogCallBackList()
         {
             ;
             var call__13 = new System.Collections.Generic.List<TExecuteEventLogInfo>();
@@ -670,26 +670,15 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:133
-        public static Aow.Units.EventLog.TExecuteEventLogCallBackList Create()
-        {
-            Aow.Units.EventLog.TExecuteEventLogCallBackList o = new Aow.Units.EventLog.TExecuteEventLogCallBackList();
-            try
-            {
-                o.Create__init_TExecuteEventLogCallBackList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        // AoWE.cs retains this caller until its separate constructor pass.
+        public static Aow.Units.EventLog.TExecuteEventLogCallBackList Create() => new TExecuteEventLogCallBackList();
     }
 
     // { TEventLogList: size $18; $0C update count, $10 changed callback. VMT 557FC2B0. }
     public partial class TEventLogList : Aow.Units.Engine.TENode
     {
+        public TEventLogList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public int FUpdateCount;
         // { $0C }
         public Aow.Rtl.TNotifyEvent FOnChanged;
@@ -841,26 +830,16 @@ namespace Aow.Units.EventLog
         }
 
         // Engine.pas:631
-        public static new Aow.Units.EventLog.TEventLogList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TEventLogList o = new Aow.Units.EventLog.TEventLogList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        // AoWE.cs retains this caller until its separate constructor pass.
+        public static new Aow.Units.EventLog.TEventLogList Create(Aow.Units.Engine.TECustomNode AOwner) => new TEventLogList(AOwner);
     }
 
     // { TEventLogbook: size $14; $08 events, $0C player, $10 next ID. VMT 557FC3B0. }
     public partial class TEventLogbook : Aow.Units.Engine.TEObject
     {
+        // AoWE.cs retains this caller until its separate constructor pass.
+        public static new TEventLogbook Create(Aow.Units.Engine.TECustomNode AOwner) => new TEventLogbook(AOwner);
+
         public Aow.Units.EventLog.TEventLogList FEvents;
         // { $08 }
         public sbyte FPlayer;
@@ -884,10 +863,9 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:526
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TEventLogbook(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
-            var call__17 = Aow.Units.EventLog.TEventLogList.Create(null);
+            var call__17 = new Aow.Units.EventLog.TEventLogList(null);
             FEvents = call__17;
         }
 
@@ -1051,23 +1029,6 @@ namespace Aow.Units.EventLog
             FEvents.RemoveChild(Event);
         }
 
-        // EventLog.pas:169
-        public static new Aow.Units.EventLog.TEventLogbook Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TEventLogbook o = new Aow.Units.EventLog.TEventLogbook();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:532
@@ -1079,21 +1040,7 @@ namespace Aow.Units.EventLog
             }
 
             // EventLog.pas:169
-            public new Aow.Units.EventLog.TEventLogbook Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.EventLog.TEventLogbook o = (Aow.Units.EventLog.TEventLogbook)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.EventLog.TEventLogbook Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TEventLogbook)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EventLog.TEventLogbook => (Meta)MetaRegistry.Of(typeof(T));
