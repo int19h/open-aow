@@ -262,12 +262,12 @@ public sealed class ControlStyleConstructionTests
         using var stream = new TruncatedStream();
         try
         {
-            var writer = TEWriteStorageStream.Create(stream, engine, false);
+            var writer = new TEWriteStorageStream(stream, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
             writer.Destroy();
             stream.Size--;
             stream.Position = 0;
-            var reader = TEReadStorageStream.Create(stream, engine, false);
+            var reader = new TEReadStorageStream(stream, engine, false);
             AnsiString message = default;
             reader.OnError = (TEStorageStream _, AnsiString text, ref bool proceed) =>
             {
