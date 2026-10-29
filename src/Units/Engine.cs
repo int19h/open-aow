@@ -5418,7 +5418,7 @@ namespace Aow.Units.Engine
         public void WriteEObject(Aow.Rtl.TStream Stream, Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TProgressEvent AProgress)
         {
             Aow.Units.Engine.TEStorageStream S = default;
-            S = Aow.Units.Engine.TEWriteStorageStream.Create(Stream, this, false);
+            S = new Aow.Units.Engine.TEWriteStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
             {
@@ -5434,7 +5434,7 @@ namespace Aow.Units.Engine
         public void ReadEObject(Aow.Rtl.TStream Stream, Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TProgressEvent AProgress)
         {
             Aow.Units.Engine.TEStorageStream S = default;
-            S = Aow.Units.Engine.TEReadStorageStream.Create(Stream, this, false);
+            S = new Aow.Units.Engine.TEReadStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
             {
@@ -5450,7 +5450,7 @@ namespace Aow.Units.Engine
         public void WritePreviewEObject(Aow.Rtl.TStream Stream, Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TProgressEvent AProgress)
         {
             Aow.Units.Engine.TEStorageStream S = default;
-            S = Aow.Units.Engine.TEWriteStorageStream.Create(Stream, this, true);
+            S = new Aow.Units.Engine.TEWriteStorageStream(Stream, this, true);
             S.OnProgress = AProgress;
             try
             {
@@ -5466,7 +5466,7 @@ namespace Aow.Units.Engine
         public void ReadPreviewEObject(Aow.Rtl.TStream Stream, Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TProgressEvent AProgress)
         {
             Aow.Units.Engine.TEStorageStream S = default;
-            S = Aow.Units.Engine.TEReadStorageStream.Create(Stream, this, true);
+            S = new Aow.Units.Engine.TEReadStorageStream(Stream, this, true);
             S.OnProgress = AProgress;
             try
             {
@@ -5482,7 +5482,7 @@ namespace Aow.Units.Engine
         public void StoreEObject(Aow.Rtl.TStream Stream, Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TProgressEvent AProgress)
         {
             Aow.Units.Engine.TEStorageStream S = default;
-            S = Aow.Units.Engine.TEWriteStorageStream.Create(Stream, this, false);
+            S = new Aow.Units.Engine.TEWriteStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
             {
@@ -5499,7 +5499,7 @@ namespace Aow.Units.Engine
         {
             Aow.Units.Engine.TEObject Result = default;
             Aow.Units.Engine.TEStorageStream S = default;
-            S = Aow.Units.Engine.TEReadStorageStream.Create(Stream, this, false);
+            S = new Aow.Units.Engine.TEReadStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
             {
@@ -5692,7 +5692,7 @@ namespace Aow.Units.Engine
             F = new Aow.Rtl.TFileStream(FileName, 0 | 32);
             try
             {
-                S = Aow.Units.Engine.TEReadTextStorageStream.Create(F, this, 0);
+                S = new Aow.Units.Engine.TEReadTextStorageStream(F, this, 0);
                 try
                 {
                     S.rwEObject(Obj, 0);
@@ -5716,7 +5716,7 @@ namespace Aow.Units.Engine
             F = new Aow.Rtl.TFileStream(FileName, 65535);
             try
             {
-                S = Aow.Units.Engine.TEWriteTextStorageStream.Create(F, this);
+                S = new Aow.Units.Engine.TEWriteTextStorageStream(F, this);
                 try
                 {
                     S.rwEObject(Obj, 0);
@@ -5794,6 +5794,9 @@ namespace Aow.Units.Engine
 //     nothing here; the subclasses read, write, compare or translate. }
     public partial class TEStorageStream : Aow.Rtl.TObject
     {
+        // Raw base chain for TDebugWriteStream, which skips semantic initialization.
+        protected TEStorageStream() { }
+
         internal Aow.Units.Engine.TEngine FEngine;
         internal Aow.Rtl.TStream FStream;
         internal bool FErrorHandled;
@@ -5910,9 +5913,8 @@ namespace Aow.Units.Engine
 
         // Engine.pas:9489
         // { TEStorageStream }
-        public void Create__init_TEStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
+        public TEStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
         {
-            ;
             FEngine = AEngine;
             FStream = AStream;
             FErrorHandled = false;
@@ -5933,22 +5935,6 @@ namespace Aow.Units.Engine
         public Aow.Units.Engine.TStorageStreamError OnError { get => FOnError; set => FOnError = value; }
         public Aow.Units.Engine.TProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
 
-        // Engine.pas:1204
-        public static Aow.Units.Engine.TEStorageStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
-        {
-            Aow.Units.Engine.TEStorageStream o = new Aow.Units.Engine.TEStorageStream();
-            try
-            {
-                o.Create__init_TEStorageStream(AStream, AEngine);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Engine.TEObjectEditorList (instance size 16) }
@@ -12015,9 +12001,9 @@ namespace Aow.Units.Engine
 
         // Engine.pas:10611
         // { TEReadTextStorageStream }
-        public void Create__init_TEReadTextStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, int ASize)
+        public TEReadTextStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, int ASize)
+            : base(AStream, AEngine)
         {
-            base.Create__init_TEStorageStream(AStream, AEngine);
             FPath = (AnsiString)"";
             if (ASize <= 0)
             {
@@ -12212,22 +12198,6 @@ namespace Aow.Units.Engine
             }
         }
 
-        // Engine.pas:1307
-        public static Aow.Units.Engine.TEReadTextStorageStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, int ASize)
-        {
-            Aow.Units.Engine.TEReadTextStorageStream o = new Aow.Units.Engine.TEReadTextStorageStream();
-            try
-            {
-                o.Create__init_TEReadTextStorageStream(AStream, AEngine, ASize);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Engine.TEWriteTextStorageStream (instance size 44): +$24 FPath, +$28 FBuffer. Each object's
@@ -12263,9 +12233,9 @@ namespace Aow.Units.Engine
 
         // Engine.pas:10335
         // { TEWriteTextStorageStream }
-        public void Create__init_TEWriteTextStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
+        public TEWriteTextStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
+            : base(AStream, AEngine)
         {
-            base.Create__init_TEStorageStream(AStream, AEngine);
             FPath = (AnsiString)"";
             var call__356 = new Aow.Units.Engine.TEBufferStream();
             FBuffer = call__356;
@@ -12479,22 +12449,6 @@ namespace Aow.Units.Engine
             }
         }
 
-        // Engine.pas:1327
-        public static new Aow.Units.Engine.TEWriteTextStorageStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
-        {
-            Aow.Units.Engine.TEWriteTextStorageStream o = new Aow.Units.Engine.TEWriteTextStorageStream();
-            try
-            {
-                o.Create__init_TEWriteTextStorageStream(AStream, AEngine);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Engine.TEReadStorageStream (instance size 44): +$24 FPartial, +$28 FDataBase. The constructor
@@ -12506,9 +12460,9 @@ namespace Aow.Units.Engine
         internal int FDataBase;
         // Engine.pas:9968
         // { TEReadStorageStream }
-        public void Create__init_TEReadStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
+        public TEReadStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
+            : base(AStream, AEngine)
         {
-            base.Create__init_TEStorageStream(AStream, AEngine);
             var call__371 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__371;
             FPropertyTable.LoadFromStream(AStream);
@@ -13077,22 +13031,6 @@ namespace Aow.Units.Engine
 
         public int DataBase { get => FDataBase; }
 
-        // Engine.pas:1221
-        public static Aow.Units.Engine.TEReadStorageStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
-        {
-            Aow.Units.Engine.TEReadStorageStream o = new Aow.Units.Engine.TEReadStorageStream();
-            try
-            {
-                o.Create__init_TEReadStorageStream(AStream, AEngine, APartial);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Engine.TEWriteStorageStream (instance size 44): +$24 FPartial, +$28 FBuffer. Values go into the
@@ -13100,6 +13038,9 @@ namespace Aow.Units.Engine
 //     appended to the outer one as [table][data]. The destructor writes the root table and buffer. }
     public partial class TEWriteStorageStream : Aow.Units.Engine.TEStorageStream
     {
+        // Raw base for TDebugWriteStream, whose initializer borrows its supplied buffer.
+        protected TEWriteStorageStream() { }
+
         internal bool FPartial;
         internal Aow.Units.Engine.TEBufferStream FBuffer;
         // Engine.pas:9592
@@ -13110,9 +13051,9 @@ namespace Aow.Units.Engine
 
         // Engine.pas:9565
         // { TEWriteStorageStream }
-        public void Create__init_TEWriteStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
+        public TEWriteStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
+            : base(AStream, AEngine)
         {
-            base.Create__init_TEStorageStream(AStream, AEngine);
             FEngine = AEngine;
             FStream = AStream;
             var call__419 = new Aow.Units.Engine.TEBufferStream();
@@ -13658,22 +13599,6 @@ namespace Aow.Units.Engine
             }
         }
 
-        // Engine.pas:1256
-        public static Aow.Units.Engine.TEWriteStorageStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
-        {
-            Aow.Units.Engine.TEWriteStorageStream o = new Aow.Units.Engine.TEWriteStorageStream();
-            try
-            {
-                o.Create__init_TEWriteStorageStream(AStream, AEngine, APartial);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Engine.TDebugWriteStream (instance size 44): a write storage stream that writes every
@@ -13857,7 +13782,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1285
-        public static new Aow.Units.Engine.TDebugWriteStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
+        public static Aow.Units.Engine.TDebugWriteStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
         {
             Aow.Units.Engine.TDebugWriteStream o = new Aow.Units.Engine.TDebugWriteStream();
             try
@@ -13880,9 +13805,9 @@ namespace Aow.Units.Engine
     {
         // Engine.pas:10825
         // { TTranslateStorageStream }
-        public void Create__init_TTranslateStorageStream(Aow.Units.Engine.TEngine AEngine)
+        public TTranslateStorageStream(Aow.Units.Engine.TEngine AEngine)
+            : base(null, AEngine)
         {
-            base.Create__init_TEStorageStream(null, AEngine);
             var call__467 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__467;
         }
@@ -14009,28 +13934,15 @@ namespace Aow.Units.Engine
         {
         }
 
-        // Engine.pas:1343
-        public static Aow.Units.Engine.TTranslateStorageStream Create(Aow.Units.Engine.TEngine AEngine)
-        {
-            Aow.Units.Engine.TTranslateStorageStream o = new Aow.Units.Engine.TTranslateStorageStream();
-            try
-            {
-                o.Create__init_TTranslateStorageStream(AEngine);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Engine.TSetupCompareStorageStream (instance size 44): a read stream that announces a
 //     comparison to come (smSetupCompare) }
     public partial class TSetupCompareStorageStream : Aow.Units.Engine.TEReadStorageStream
     {
+        public TSetupCompareStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
+            : base(AStream, AEngine, APartial) { }
+
         // Engine.pas:10911
         // { TSetupCompareStorageStream }
         public override TSet<Aow.Units.Engine.TStorageModeElement> StorageMode()
@@ -14060,10 +13972,8 @@ namespace Aow.Units.Engine
 
         // Engine.pas:10918
         // { TCompareStorageStream }
-        public void Create__init_TCompareStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
-        {
-            base.Create__init_TEReadStorageStream(AStream, AEngine, false);
-        }
+        public TCompareStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
+            : base(AStream, AEngine, false) { }
 
         // Engine.pas:10923
         public override void Destroy()
@@ -14367,22 +14277,6 @@ namespace Aow.Units.Engine
             }
         }
 
-        // Engine.pas:1371
-        public static new Aow.Units.Engine.TCompareStorageStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
-        {
-            Aow.Units.Engine.TCompareStorageStream o = new Aow.Units.Engine.TCompareStorageStream();
-            try
-            {
-                o.Create__init_TCompareStorageStream(AStream, AEngine);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate int TStringsSortCompare(Aow.Rtl.AnsiString S1, Aow.Rtl.AnsiString S2, Aow.Rtl.TObject O1, Aow.Rtl.TObject O2);

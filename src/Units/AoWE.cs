@@ -103501,7 +103501,7 @@ namespace Aow.Units.AoWE
         public void TranslateEObject(Aow.Units.Engine.TEObject Obj, Aow.Rtl.TIvDictionary Dictionary)
         {
             Aow.Units.AoWE.TTranslateTextStream Stream = default;
-            Stream = Aow.Units.AoWE.TTranslateTextStream.Create(this);
+            Stream = new Aow.Units.AoWE.TTranslateTextStream(this);
             Stream.FDictionary = Dictionary;
             try
             {
@@ -103565,7 +103565,7 @@ namespace Aow.Units.AoWE
             FileStream = new Aow.Rtl.TFileStream(FileName, 65535);
             try
             {
-                Stream = Aow.Units.AoWE.TExportTextStream.Create(FileStream, this);
+                Stream = new Aow.Units.AoWE.TExportTextStream(FileStream, this);
                 try
                 {
                     Stream.rwEObject(Obj, 0);
@@ -104323,21 +104323,8 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:1327
-        public static new Aow.Units.AoWE.TExportTextStream Create(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
-        {
-            Aow.Units.AoWE.TExportTextStream o = new Aow.Units.AoWE.TExportTextStream();
-            try
-            {
-                o.Create__init_TEWriteTextStorageStream(AStream, AEngine);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public TExportTextStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
+            : base(AStream, AEngine) { }
     }
 
     // { TTranslateTextStream (instance size 40, VMT 55724960) }
@@ -104415,21 +104402,8 @@ namespace Aow.Units.AoWE
         }
 
         // Engine.pas:1343
-        public static new Aow.Units.AoWE.TTranslateTextStream Create(Aow.Units.Engine.TEngine AEngine)
-        {
-            Aow.Units.AoWE.TTranslateTextStream o = new Aow.Units.AoWE.TTranslateTextStream();
-            try
-            {
-                o.Create__init_TTranslateStorageStream(AEngine);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public TTranslateTextStream(Aow.Units.Engine.TEngine AEngine)
+            : base(AEngine) { }
     }
 
     // { Interface declaration run owned by P4. }
