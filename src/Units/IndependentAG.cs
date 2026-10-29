@@ -1069,20 +1069,15 @@ namespace Aow.Units.IndependentAG
 
     public partial class TRegistrator : Aow.Rtl.TObject
     {
-        public new partial class Meta : Aow.Rtl.TObject.Meta
+        // IndependentAG.pas:136
+        public static void MapLoaded(Aow.Rtl.TObject Sender)
         {
-            // IndependentAG.pas:136
-            public void MapLoaded(Aow.Rtl.TObject Sender)
+            if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
-                {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TGuardAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TGuardAreaAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TPatrolAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TRefugeAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TRaidAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TScoutAG>()]);
-                }
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TGuardAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TGuardAreaAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TPatrolAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TRefugeAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TRaidAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TScoutAG>()]);
             }
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.IndependentAG.TRegistrator => (Meta)MetaRegistry.Of(typeof(T));
         }
+
     }
 
     public static partial class IndependentAG
@@ -1113,7 +1108,7 @@ namespace Aow.Units.IndependentAG
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
                 Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TGuardAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TGuardAreaAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TPatrolAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TRefugeAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TRaidAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TScoutAG>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.IndependentAG.TRegistrator.Meta.Of<Aow.Units.IndependentAG.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.IndependentAG.TRegistrator.MapLoaded);
             }
         }
 
@@ -1121,7 +1116,7 @@ namespace Aow.Units.IndependentAG
         {
             if (Aow.Units.AoWE.AoWE.AoWEngine != null)
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.IndependentAG.TRegistrator.Meta.Of<Aow.Units.IndependentAG.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.IndependentAG.TRegistrator.MapLoaded);
             }
         }
     }

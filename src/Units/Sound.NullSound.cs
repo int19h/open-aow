@@ -2,7 +2,7 @@ using Aow.Rtl;
 
 namespace Aow.Units.Sound;
 
-public sealed class NullSoundSystem : TSoundSystem
+public sealed class NullSoundSystem : TSoundSystem, ISoundSystemClass
 {
     private TSoundSettings settings;
     private int musicVolume, sfxVolume;
@@ -11,18 +11,14 @@ public sealed class NullSoundSystem : TSoundSystem
 
     public static void Install()
     {
-        MetaRegistry.Register(typeof(NullSoundSystem), new NullMeta(), () => new NullSoundSystem(), 12);
-        MetaRegistry.Register(typeof(NullSample), new TSample.Meta(NullSample.Create), 24);
-        Sound.RegisterSoundSystem((TSoundSystem.Meta)MetaRegistry.Of(typeof(NullSoundSystem)));
+        Sound.RegisterSoundSystem(SoundSystemClass.Of<NullSoundSystem>());
         Sound.InitializeSoundSystem("Galaxy", default);
     }
 
-    private sealed class NullMeta : TSoundSystem.Meta
-    {
-        protected internal override AnsiString GetName() => "Galaxy";
-    }
-    protected internal override TSample.Meta SampleClass() => (TSample.Meta)MetaRegistry.Of(typeof(NullSample));
-    protected internal override TSampleData.Meta SampleDataClass() => TSampleData.Meta.Of<TSampleData>();
+    public static AnsiString Name => "Galaxy";
+    public static SampleClass Samples { get; } = new(NullSample.Create);
+    protected internal override SampleClass SampleClass() => Samples;
+    protected internal override SampleDataClass SampleDataClass() => TSampleData.Descriptor;
     protected internal override bool Activate(in TSoundSettings value) { settings = value; FStatus = TSet<TSoundSystemStatusElement>.Of(TSoundSystemStatusElement.ssActivated); return true; }
     protected internal override bool Deactivate() { FStatus = default; return true; }
     protected internal override void Process()

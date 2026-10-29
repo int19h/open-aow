@@ -64122,19 +64122,6 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        // intf_P5_06.inc:369
-
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // intf_P5_06.inc:369
-            public new TAIMoveExecuterControl Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                return (TAIMoveExecuterControl)base.Create(AOwner);
-            }
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWE.TAIMoveExecuterControl => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { $64 }
@@ -66129,12 +66116,12 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:5997
-        public void ActivateMEC(Aow.Units.AoWE.TAIMoveExecuterControl.Meta ControlClass)
+        public void ActivateMEC(Func<Aow.Units.AoWE.TAIMoveExecuterControl> createControl)
         {
             DeactivateMEC();
-            if (ControlClass != null)
+            if (createControl != null)
             {
-                var call__5348 = ControlClass.Create(null);
+                var call__5348 = createControl();
                 FControl = call__5348;
                 FControl.Activate(this);
             }
@@ -66564,13 +66551,13 @@ namespace Aow.Units.AoWE
                     switch (call__5400)
                     {
                         case 0:
-                            ActivateMEC(Aow.Units.AoWE.TAIMoveExecuterControl.Meta.Of<Aow.Units.AoWE.TDefaultMEC>());
+                            ActivateMEC(static () => new Aow.Units.AoWE.TDefaultMEC(null));
                             break;
                         case 2:
-                            ActivateMEC(Aow.Units.AoWE.TAIMoveExecuterControl.Meta.Of<Aow.Units.AoWE.TAdjacentMEC>());
+                            ActivateMEC(static () => new Aow.Units.AoWE.TAdjacentMEC(null));
                             break;
                         case 1:
-                            ActivateMEC(Aow.Units.AoWE.TAIMoveExecuterControl.Meta.Of<Aow.Units.AoWE.TTransportMEC>());
+                            ActivateMEC(static () => new Aow.Units.AoWE.TTransportMEC(null));
                             break;
                     }
 

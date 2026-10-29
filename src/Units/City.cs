@@ -5859,20 +5859,15 @@ namespace Aow.Units.City
     // { TRegistrator (instance size 4, VMT 557AF144): no added fields. }
     public partial class TRegistrator : Aow.Rtl.TObject
     {
-        public new partial class Meta : Aow.Rtl.TObject.Meta
+        // City.pas:3306
+        public static void MapLoaded(Aow.Rtl.TObject Sender)
         {
-            // City.pas:3306
-            public void MapLoaded(Aow.Rtl.TObject Sender)
+            if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
-                {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.City.TCityAIPA>()]);
-                }
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.City.TCityAIPA>()]);
             }
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TRegistrator => (Meta)MetaRegistry.Of(typeof(T));
         }
+
     }
 
     public enum TCivilStatus : byte
@@ -6194,7 +6189,7 @@ namespace Aow.Units.City
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
                 Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.City.TCityEnchantment>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TCity>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TCityResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TCityRebellionEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TAICityUpgradeBudget>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TAICityResearchBudget>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TAICityFortifyBudget>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TCityProductionEventLog>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.City.TRegistrator.Meta.Of<Aow.Units.City.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.City.TRegistrator.MapLoaded);
             }
         }
 
@@ -6202,7 +6197,7 @@ namespace Aow.Units.City
         {
             if (Aow.Units.AoWE.AoWE.AoWEngine != null)
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.City.TRegistrator.Meta.Of<Aow.Units.City.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.City.TRegistrator.MapLoaded);
             }
         }
     }
