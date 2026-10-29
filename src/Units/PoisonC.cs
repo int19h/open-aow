@@ -354,7 +354,7 @@ namespace Aow.Units.PoisonC
                 if (FDrifting)
                 {
                     Direction = 0;
-                    Directions = Aow.Units.Engine.TByteList.Create();
+                    Directions = new Aow.Units.Engine.TByteList();
                     Valid = false;
                     Directions.Add(unchecked((byte)FDirection));
                     if (FDirection != 1)

@@ -1247,7 +1247,7 @@ namespace Aow.Units.GlobalTargetSpells
             var call__89 = Aow.Units.GlobalTargetSpells.TWatcherEnchantment.Create(null);
             FEnchantment = call__89;
             FEnchantment.FWatcher = this;
-            var call__90 = Aow.Units.Engine.TIntegerList.Create();
+            var call__90 = new Aow.Units.Engine.TIntegerList();
             FUnexplored = call__90;
             FVisibleForSeatedPlayer = false;
             FAnimationFrame = -1;

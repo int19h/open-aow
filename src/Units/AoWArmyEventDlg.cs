@@ -239,7 +239,7 @@ namespace Aow.Units.AoWArmyEventDlg
         // AoWArmyEventDlg.pas:171
         public void ArmyEventDlgCreate()
         {
-            var call__47 = Aow.Units.Engine.TByteList.Create();
+            var call__47 = new Aow.Units.Engine.TByteList();
             FUnits = call__47;
         }
 

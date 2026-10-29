@@ -72,7 +72,7 @@ namespace Aow.Units.ItemCtrl
             DefaultRowHeight = 46;
             GrowDirection = Aow.Units.ImageLib.TILGrowDirection.ilVertical;
             ScrollBars = Aow.Rtl.TScrollStyle.ssVertical;
-            var call__2 = Aow.Units.Engine.TIntegerList.Create();
+            var call__2 = new Aow.Units.Engine.TIntegerList();
             FIndices = call__2;
             FSort = 0;
         }

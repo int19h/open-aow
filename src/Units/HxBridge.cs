@@ -56,9 +56,9 @@ namespace Aow.Units.HxBridge
         {
             base.Create__init(AOwner);
             FDirection = unchecked((sbyte)-1);
-            var call__1 = Aow.Units.Engine.TByteList.Create();
+            var call__1 = new Aow.Units.Engine.TByteList();
             FSideA = call__1;
-            var call__2 = Aow.Units.Engine.TByteList.Create();
+            var call__2 = new Aow.Units.Engine.TByteList();
             FSideB = call__2;
         }
 

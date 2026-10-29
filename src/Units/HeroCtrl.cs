@@ -70,7 +70,7 @@ namespace Aow.Units.HeroCtrl
             DefaultRowHeight = 46;
             GrowDirection = Aow.Units.ImageLib.TILGrowDirection.ilVertical;
             ScrollBars = Aow.Rtl.TScrollStyle.ssVertical;
-            var call__1 = Aow.Units.Engine.TIntegerList.Create();
+            var call__1 = new Aow.Units.Engine.TIntegerList();
             FIndices = call__1;
             var call__2 = new Aow.Rtl.TMemoryStream();
             FStream = call__2;
