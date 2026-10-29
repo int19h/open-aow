@@ -112,17 +112,14 @@ namespace Aow.Units.ILTer
             int Yhp = default;
             // { Tried index shift/addition and receiver/Self casts; argument load order still differs. }
             Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            if (this.FResource.ImageSequenceList == null)
             {
-                var w__10 = FResource;
-                if (w__10.ImageSequenceList == null)
-                {
-                    var call__11 = w__10.ImageLibrary[FImageIndex];
-                    call__11.Show((Xhp - XhpSurf) + ((Aow.Units.HSEngine.TMultiHexMOR)this.FResource).dXImage, (Yhp - YhpSurf) + ((Aow.Units.HSEngine.TMultiHexMOR)this.FResource).dYImage, SurfaceDesc);
-                }
-                else
-                {
-                    w__10.ShowComplexImage(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc, FImageIndex, unchecked((uint)(Xhp + Yhp)));
-                }
+                var call__11 = this.FResource.ImageLibrary[FImageIndex];
+                call__11.Show((Xhp - XhpSurf) + ((Aow.Units.HSEngine.TMultiHexMOR)this.FResource).dXImage, (Yhp - YhpSurf) + ((Aow.Units.HSEngine.TMultiHexMOR)this.FResource).dYImage, SurfaceDesc);
+            }
+            else
+            {
+                this.FResource.ShowComplexImage(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc, FImageIndex, unchecked((uint)(Xhp + Yhp)));
             }
         }
 

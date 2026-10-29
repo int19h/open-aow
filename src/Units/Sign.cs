@@ -69,12 +69,7 @@ namespace Aow.Units.Sign
         }
 
         // Sign.pas:102
-        public override sbyte GetOverlay(int Index)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetOverlay(int Index) => -1;
 
         // Sign.pas:119
         public override void Select()
@@ -107,7 +102,7 @@ namespace Aow.Units.Sign
         {
             bool Result = default;
             Aow.Units.AoWE.TArmyHS ArmyHS = default;
-            var call__4 = Aow.Units.Sign.Sign.SignArmyHS((Aow.Units.AoWE.TAoWMapField)Owner);
+            var call__4 = ((Aow.Units.AoWE.TAoWMapField)Owner).GetArmyHS();
             ArmyHS = call__4;
             Result = (ArmyHS != null) && (unchecked((byte)ArmyHS.FArmy.FPlayer) == unchecked((byte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
             return Result;
@@ -118,8 +113,8 @@ namespace Aow.Units.Sign
         {
             bool Result = default;
             Aow.Units.Sign.TUpdateSignTE Event = default;
-            var call__5 = Aow.Units.Sign.Sign.SignPlayer(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Player);
-            var call__6 = Aow.Units.Sign.Sign.SignPlayerBusy(call__5);
+            var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            var call__6 = call__5.GetBusy();
             bool bool__7 = !call__6;
             if (bool__7)
             {
@@ -311,7 +306,7 @@ namespace Aow.Units.Sign
             {
                 Aow.Rtl.AnsiString Result = default;
                 var call__19 = Aow.Units.AoWE.AoWE.SignRStr;
-                var call__20 = Aow.Units.Sign.Sign.TranslateSignName(call__19);
+                var call__20 = Aow.Units.AoWE.AoWE.TranslateRStr(call__19);
                 Result = call__20;
                 return Result;
             }
@@ -464,39 +459,6 @@ namespace Aow.Units.Sign
         public static void RegisterSign(Aow.Units.Engine.TEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sign.TSign>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sign.TSignResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sign.TUpdateSignTE>()]);
-        }
-
-        // Sign.pas:76
-        // { needs: draft AoWE result signatures; adapters preserve the proven register ABI. }
-        public static Aow.Units.AoWE.TArmyHS SignArmyHS(Aow.Units.AoWE.TAoWMapField Field)
-        {
-            Aow.Units.AoWE.TArmyHS Result = default;
-            Result = Field.GetArmyHS();
-            return Result;
-        }
-
-        // Sign.pas:78
-        public static Aow.Units.AoWE.TPlayer SignPlayer(Aow.Units.AoWE.TPlayerList List, int Index)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = List.GetPlayers(Index);
-            return Result;
-        }
-
-        // Sign.pas:80
-        public static bool SignPlayerBusy(Aow.Units.AoWE.TPlayer Player)
-        {
-            bool Result = default;
-            Result = Player.GetBusy();
-            return Result;
-        }
-
-        // Sign.pas:82
-        public static Aow.Rtl.AnsiString TranslateSignName(Aow.Rtl.AnsiString S)
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(S);
-            return Result;
         }
 
         public static void Initialize()

@@ -290,35 +290,33 @@ namespace Aow.Units.SummonSpells
         {
             bool Result = default;
             Aow.Rtl.AnsiString Reason = default;
+            var hero = (Aow.Units.AoWE.THero)A1;
+            var call__31 = hero.CanCastSpell(FSpellID, ref Reason);
+            if (call__31)
             {
-                var w__30 = (Aow.Units.AoWE.THero)A1;
-                var call__31 = w__30.CanCastSpell(FSpellID, ref Reason);
-                if (call__31)
+                var call__32 = GetAIUpkeepPriority();
+                AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, call__32);
+                var call__33 = hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
+                if (call__33)
                 {
-                    var call__32 = GetAIUpkeepPriority();
-                    AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, call__32);
-                    var call__33 = w__30.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
-                    if (call__33)
-                    {
-                        Result = this.Activate(A1);
-                    }
-                    else
-                    {
-                        if (w__30.FCastingSpellID != FSpellID)
-                        {
-                            w__30.ExecuteStartCasting(FSpellID);
-                            Result = true;
-                        }
-                        else
-                        {
-                            Result = true;
-                        }
-                    }
+                    Result = this.Activate(A1);
                 }
                 else
                 {
-                    Result = false;
+                    if (hero.FCastingSpellID != FSpellID)
+                    {
+                        hero.ExecuteStartCasting(FSpellID);
+                        Result = true;
+                    }
+                    else
+                    {
+                        Result = true;
+                    }
                 }
+            }
+            else
+            {
+                Result = false;
             }
 
             return Result;

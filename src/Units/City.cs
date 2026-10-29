@@ -1235,16 +1235,14 @@ namespace Aow.Units.City
             {
                 if ((((Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting) || !FFogged) || !((Aow.Units.AoWE.TAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap).FFogEnabled) && (FFlagID != 63)) && (((Aow.Units.City.TCityResource)FResource).FClaimed || ((FFlagID & 32) == 0)))
                 {
+                    var cityResource = (Aow.Units.City.TCityResource)FResource;
+                    if (cityResource.FFlagType <= 1)
                     {
-                        var w__206 = (Aow.Units.City.TCityResource)FResource;
-                        if (w__206.FFlagType <= 1)
-                        {
-                            Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowFlag(w__206.FFlagX + XhpSurf, w__206.FFlagY + YhpSurf, w__206.Engine.HSMap.Frame + X, unchecked((byte)this.FFlagID), SurfaceDesc);
-                        }
-                        else
-                        {
-                            Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowStructureFlag(w__206.FFlagX + XhpSurf, w__206.FFlagY + YhpSurf, w__206.Engine.HSMap.Frame + X, unchecked((byte)this.FFlagID), SurfaceDesc);
-                        }
+                        Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowFlag(cityResource.FFlagX + XhpSurf, cityResource.FFlagY + YhpSurf, cityResource.Engine.HSMap.Frame + X, unchecked((byte)this.FFlagID), SurfaceDesc);
+                    }
+                    else
+                    {
+                        Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowStructureFlag(cityResource.FFlagX + XhpSurf, cityResource.FFlagY + YhpSurf, cityResource.Engine.HSMap.Frame + X, unchecked((byte)this.FFlagID), SurfaceDesc);
                     }
                 }
             }
@@ -2234,11 +2232,9 @@ namespace Aow.Units.City
             // { Unmatched: tried Pointer identity assignment to Combat; explicit combat local; zero-shift combat identity assignment (5 variants total). }
             if ((Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crVictory) || (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crNoDefenders))
             {
-                {
-                    var w__301 = Combat.FCombatData;
-                    var call__302 = w__301.FPlayers.GetPlayers(unchecked((sbyte)w__301.FAttackerPlayer));
-                    SetPlayer(unchecked((sbyte)call__302.FPlayer));
-                }
+                var combatData = Combat.FCombatData;
+                var call__302 = combatData.FPlayers.GetPlayers(unchecked((sbyte)combatData.FAttackerPlayer));
+                SetPlayer(unchecked((sbyte)call__302.FPlayer));
 
                 UpdatePlayer();
             }
@@ -3070,31 +3066,29 @@ namespace Aow.Units.City
             Aow.Units.HSEngine.TMapLevel MapLevel = default;
             Aow.Units.HSEngine.THNWalkData Walk = default;
             Aow.Units.AoWE.TArmyHS Army = default;
+            ref var walk = ref Walk;
+            Result = 0;
+            Count = GetTerrainCount();
+            MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            var call__437 = GetYhx();
+            var call__438 = GetXhx();
+            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, call__438, call__437, 0);
+            while (walk.HN < Count)
             {
-                ref var w__436 = ref Walk;
-                Result = 0;
-                Count = GetTerrainCount();
-                MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-                var call__437 = GetYhx();
-                var call__438 = GetXhx();
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, call__438, call__437, 0);
-                while (w__436.HN < Count)
+                var call__439 = FResource.TerrainList.GetTerrain(walk.HN);
+                if (((((call__439 >= 0) && (walk.X >= 0)) && (walk.Y >= 0)) && (walk.X < MapLevel.Width)) && (walk.Y < MapLevel.Height))
                 {
-                    var call__439 = FResource.TerrainList.GetTerrain(w__436.HN);
-                    if (((((call__439 >= 0) && (w__436.X >= 0)) && (w__436.Y >= 0)) && (w__436.X < MapLevel.Width)) && (w__436.Y < MapLevel.Height))
+                    var call__440 = MapLevel.GetField(walk.X, walk.Y);
+                    var call__441 = call__440.FindOwnedChild(131607);
+                    Army = (Aow.Units.AoWE.TArmyHS)call__441;
+                    if (Army != null)
                     {
-                        var call__440 = MapLevel.GetField(w__436.X, w__436.Y);
-                        var call__441 = call__440.FindOwnedChild(131607);
-                        Army = (Aow.Units.AoWE.TArmyHS)call__441;
-                        if (Army != null)
-                        {
-                            var call__442 = Army.FArmy.ObtainValue(255);
-                            Result += call__442;
-                        }
+                        var call__442 = Army.FArmy.ObtainValue(255);
+                        Result += call__442;
                     }
-
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
                 }
+
+                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
             }
 
             return Result;
@@ -5921,13 +5915,11 @@ namespace Aow.Units.City
                     if (Structure is Aow.Units.City.TCity)
                     {
                         City = (Aow.Units.City.TCity)Structure;
+                        var city = (Aow.Units.City.TCity)Structure;
+                        var call__745 = city.GetSize();
+                        if (call__745 > city.FUpgradeLevel)
                         {
-                            var w__744 = (Aow.Units.City.TCity)Structure;
-                            var call__745 = w__744.GetSize();
-                            if (call__745 > w__744.FUpgradeLevel)
-                            {
-                                Count += 1;
-                            }
+                            Count += 1;
                         }
                     }
                 }
@@ -6381,58 +6373,54 @@ namespace Aow.Units.City
             int Result = default;
             int Value1 = default;
             int Value2 = default;
+            var unitProduction = (Aow.Units.AoWE.TUnitProduction)Item1;
+            var call__768 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
+            if (call__768 != null)
             {
-                var w__767 = (Aow.Units.AoWE.TUnitProduction)Item1;
-                var call__768 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__767.FUnitIndex);
-                if (call__768 != null)
+                var call__769 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
+                Value1 = call__769.FLevel * 2;
+                if (Aow.Units.City.City.SortingCity.FRace != -1)
                 {
-                    var call__769 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__767.FUnitIndex);
-                    Value1 = call__769.FLevel * 2;
-                    if (Aow.Units.City.City.SortingCity.FRace != -1)
+                    var call__770 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
+                    if (call__770.FSpecialUnitIndexes.Count > 3)
                     {
-                        var call__770 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
-                        if (call__770.FSpecialUnitIndexes.Count > 3)
+                        var call__771 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
+                        var call__772 = call__771.FSpecialUnitIndexes[3];
+                        if (call__772 == unitProduction.FUnitIndex)
                         {
-                            var call__771 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
-                            var call__772 = call__771.FSpecialUnitIndexes[3];
-                            if (call__772 == w__767.FUnitIndex)
-                            {
-                                Value1 += 1;
-                            }
+                            Value1 += 1;
                         }
                     }
-                }
-                else
-                {
-                    Value1 = 0;
                 }
             }
-
+            else
             {
-                var w__773 = (Aow.Units.AoWE.TUnitProduction)Item2;
-                var call__774 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__773.FUnitIndex);
-                if (call__774 != null)
+                Value1 = 0;
+            }
+
+            var unitProduction2 = (Aow.Units.AoWE.TUnitProduction)Item2;
+            var call__774 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(unitProduction2.FUnitIndex);
+            if (call__774 != null)
+            {
+                var call__775 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(unitProduction2.FUnitIndex);
+                Value2 = call__775.FLevel * 2;
+                if (Aow.Units.City.City.SortingCity.FRace != -1)
                 {
-                    var call__775 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__773.FUnitIndex);
-                    Value2 = call__775.FLevel * 2;
-                    if (Aow.Units.City.City.SortingCity.FRace != -1)
+                    var call__776 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
+                    if (call__776.FSpecialUnitIndexes.Count > 3)
                     {
-                        var call__776 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
-                        if (call__776.FSpecialUnitIndexes.Count > 3)
+                        var call__777 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
+                        var call__778 = call__777.FSpecialUnitIndexes[3];
+                        if (call__778 == unitProduction2.FUnitIndex)
                         {
-                            var call__777 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Aow.Units.City.City.SortingCity.FRace);
-                            var call__778 = call__777.FSpecialUnitIndexes[3];
-                            if (call__778 == w__773.FUnitIndex)
-                            {
-                                Value2 += 1;
-                            }
+                            Value2 += 1;
                         }
                     }
                 }
-                else
-                {
-                    Value2 = 0;
-                }
+            }
+            else
+            {
+                Value2 = 0;
             }
 
             Result = Value1 - Value2;

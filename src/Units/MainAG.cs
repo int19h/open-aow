@@ -1010,12 +1010,10 @@ namespace Aow.Units.MainAG
                 byte end__91 = 0;
                 for (; I >= end__91; I -= 1)
                 {
+                    var mapField = (Aow.Units.AoWE.TAoWMapField)Settings.FProcessedMapFields[I];
+                    if ((mapField.FFieldFlags & 67108864) != 0)
                     {
-                        var w__92 = (Aow.Units.AoWE.TAoWMapField)Settings.FProcessedMapFields[I];
-                        if ((w__92.FFieldFlags & 67108864) != 0)
-                        {
-                            w__92.SendMapFieldMsg(ref Msg);
-                        }
+                        mapField.SendMapFieldMsg(ref Msg);
                     }
                 }
             }

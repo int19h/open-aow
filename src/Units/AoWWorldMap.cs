@@ -400,11 +400,9 @@ namespace Aow.Units.AoWWorldMap
 
                             BookStart.Visible = !Next.Visible;
                             Cancel.Visible = false;
-                            {
-                                var w__79 = BookWin;
-                                w__79.FHidden = true;
-                                w__79.Visible = true;
-                            }
+                            var aoWBookWindow = BookWin;
+                            aoWBookWindow.FHidden = true;
+                            aoWBookWindow.Visible = true;
 
                             SetBtn.Visible = false;
                             ShowBtn.Visible = false;
@@ -460,15 +458,14 @@ namespace Aow.Units.AoWWorldMap
                         }
 
                     {
-                        var w__97 = PPawn;
-                        if (w__97.WinTop > EPawn.WinTop)
+                        if (this.PPawn.WinTop > EPawn.WinTop)
                         {
-                            w__97.Priority = 10;
+                            this.PPawn.Priority = 10;
                             EPawn.Priority = 5;
                         }
                         else
                         {
-                            w__97.Priority = 5;
+                            this.PPawn.Priority = 5;
                             EPawn.Priority = 10;
                         }
                     }
@@ -818,11 +815,9 @@ namespace Aow.Units.AoWWorldMap
 
             BookStart.Visible = bool__235;
             Cancel.Visible = WorldPnl.Visible;
-            {
-                var w__237 = BookWin;
-                w__237.FHidden = true;
-                w__237.Visible = true;
-            }
+            var aoWBookWindow = BookWin;
+            aoWBookWindow.FHidden = true;
+            aoWBookWindow.Visible = true;
 
             if (BookWin.FBackSurface != null)
             {
@@ -870,28 +865,26 @@ namespace Aow.Units.AoWWorldMap
             Aow.Units.AoWE.TLeader Leader = default;
             int I = default;
             Control = (Aow.Units.AoWE.TLeaderSetupControl)Sender;
+            var leaderSetupControl = (Aow.Units.AoWE.TLeaderSetupControl)Sender;
+            if (leaderSetupControl.FStatus == Aow.Units.AoWE.TLeaderSetupStatus.lssDone)
             {
-                var w__242 = (Aow.Units.AoWE.TLeaderSetupControl)Sender;
-                if (w__242.FStatus == Aow.Units.AoWE.TLeaderSetupStatus.lssDone)
+                var call__243 = leaderSetupControl.FOriginalLeader.Copy(Aow.Units.AoWE.AoWE.AoWEngine);
+                Leader = (Aow.Units.AoWE.TLeader)call__243;
                 {
-                    var call__243 = w__242.FOriginalLeader.Copy(Aow.Units.AoWE.AoWE.AoWEngine);
-                    Leader = (Aow.Units.AoWE.TLeader)call__243;
+                    I = GetCampaign().FTransferSettings.FLeader.GetSphereCount();
+                    int end__244 = Leader.GetSphereCount() - 1;
+                    for (; I <= end__244; I += 1)
                     {
-                        I = GetCampaign().FTransferSettings.FLeader.GetSphereCount();
-                        int end__244 = Leader.GetSphereCount() - 1;
-                        for (; I <= end__244; I += 1)
-                        {
-                            var call__245 = Leader.GetSpheres(I);
-                            var call__246 = GetCampaign();
-                            call__246.FTransferSettings.FSelectedSpheres.Add(unchecked((byte)((int)call__245)));
-                        }
+                        var call__245 = Leader.GetSpheres(I);
+                        var call__246 = GetCampaign();
+                        call__246.FTransferSettings.FSelectedSpheres.Add(unchecked((byte)((int)call__245)));
                     }
-
-                    WorldPnl.Visible = true;
-                    var call__247 = GetCampaign();
-                    call__247.FState += 1;
-                    UpdateCampaignState();
                 }
+
+                WorldPnl.Visible = true;
+                var call__247 = GetCampaign();
+                call__247.FState += 1;
+                UpdateCampaignState();
             }
         }
 
@@ -979,19 +972,14 @@ namespace Aow.Units.AoWWorldMap
         {
             Back.CaptureInput = false;
             Next.CaptureInput = false;
-            {
-                var w__267 = BookStart;
-                w__267.CaptureInput = false;
-                w__267.Visible = false;
-            }
+            var button = BookStart;
+            button.CaptureInput = false;
+            button.Visible = false;
 
+            this.BookWin.FDrawn = false;
+            if (this.BookWin.FBackSurface != null)
             {
-                var w__268 = BookWin;
-                w__268.FDrawn = false;
-                if (w__268.FBackSurface != null)
-                {
-                    w__268.FBackSurface.Cls(w__268.FMaskColor);
-                }
+                this.BookWin.FBackSurface.Cls(this.BookWin.FMaskColor);
             }
 
             Aow.Units.Sound.Sound.PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
@@ -1066,18 +1054,15 @@ namespace Aow.Units.AoWWorldMap
                         var call__289 = GetCampaign();
                         var call__290 = Aow.Units.E2CampaignSupport.E2CampaignSupport.GetCampaignScenario(call__289, call__288.FCurrentScenarioID);
                         PPawn.WinTop = ((((call__284.FMapY - call__287.FMapY) * (20 - FPawnTicks)) / 19) + call__290.FMapY) - 65;
+                        if (this.PPawn.WinTop > EPawn.WinTop)
                         {
-                            var w__291 = PPawn;
-                            if (w__291.WinTop > EPawn.WinTop)
-                            {
-                                w__291.Priority = 10;
-                                EPawn.Priority = 5;
-                            }
-                            else
-                            {
-                                w__291.Priority = 5;
-                                EPawn.Priority = 10;
-                            }
+                            this.PPawn.Priority = 10;
+                            EPawn.Priority = 5;
+                        }
+                        else
+                        {
+                            this.PPawn.Priority = 5;
+                            EPawn.Priority = 10;
                         }
                     }
                     else
@@ -1095,10 +1080,7 @@ namespace Aow.Units.AoWWorldMap
                             var call__297 = GetCampaign();
                             var call__298 = Aow.Units.E2CampaignSupport.E2CampaignSupport.GetCampaignScenario(call__297, call__296.FNextScenarioID);
                             DescLbl.Text = call__298.FDescription;
-                            {
-                                var w__299 = DescLbl;
-                                w__299.WinTop = 460 - w__299.WinHeight;
-                            }
+                            this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
 
                             FDescriptionHandled = true;
                         }
@@ -1143,18 +1125,15 @@ namespace Aow.Units.AoWWorldMap
                             var call__323 = GetCampaign();
                             var call__324 = Aow.Units.E2CampaignSupport.E2CampaignSupport.GetCampaignScenario(call__323, StartIndex);
                             EPawn.WinTop = ((((call__320.FMapY - call__322.FMapY) * (20 - FPawnTicks)) / 19) + call__324.FMapY) - 65;
+                            if (this.PPawn.WinTop > EPawn.WinTop)
                             {
-                                var w__325 = PPawn;
-                                if (w__325.WinTop > EPawn.WinTop)
-                                {
-                                    w__325.Priority = 10;
-                                    EPawn.Priority = 5;
-                                }
-                                else
-                                {
-                                    w__325.Priority = 5;
-                                    EPawn.Priority = 10;
-                                }
+                                this.PPawn.Priority = 10;
+                                EPawn.Priority = 5;
+                            }
+                            else
+                            {
+                                this.PPawn.Priority = 5;
+                                EPawn.Priority = 10;
                             }
                         }
                     }
@@ -1292,10 +1271,7 @@ namespace Aow.Units.AoWWorldMap
             if ((DescLbl.Text != Description) && (Description != ((AnsiString)"")))
             {
                 DescLbl.Text = Description;
-                {
-                    var w__340 = DescLbl;
-                    w__340.WinTop = 460 - w__340.WinHeight;
-                }
+                this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
             }
 
             FDescriptionHandled = true;
@@ -1323,10 +1299,7 @@ namespace Aow.Units.AoWWorldMap
                     var call__350 = GetCampaign();
                     var call__351 = Aow.Units.E2CampaignSupport.E2CampaignSupport.GetCampaignScenario(call__350, Index);
                     DescLbl.Text = call__351.FPathDescription;
-                    {
-                        var w__352 = DescLbl;
-                        w__352.WinTop = 460 - w__352.WinHeight;
-                    }
+                    this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
                 }
             }
 
@@ -1354,10 +1327,7 @@ namespace Aow.Units.AoWWorldMap
                     var call__362 = GetCampaign();
                     var call__363 = Aow.Units.E2CampaignSupport.E2CampaignSupport.GetCampaignScenario(call__362, Index);
                     DescLbl.Text = call__363.FPathDescription;
-                    {
-                        var w__364 = DescLbl;
-                        w__364.WinTop = 460 - w__364.WinHeight;
-                    }
+                    this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
                 }
             }
 
@@ -1385,10 +1355,7 @@ namespace Aow.Units.AoWWorldMap
                     var call__374 = GetCampaign();
                     var call__375 = Aow.Units.E2CampaignSupport.E2CampaignSupport.GetCampaignScenario(call__374, Index);
                     DescLbl.Text = call__375.FPathDescription;
-                    {
-                        var w__376 = DescLbl;
-                        w__376.WinTop = 460 - w__376.WinHeight;
-                    }
+                    this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
                 }
             }
 
@@ -1403,12 +1370,9 @@ namespace Aow.Units.AoWWorldMap
                 var call__377 = GetCampaign();
                 if (call__377.FState == 1)
                 {
+                    if (this.DescLbl.Text != ((AnsiString)""))
                     {
-                        var w__378 = DescLbl;
-                        if (w__378.Text != ((AnsiString)""))
-                        {
-                            w__378.Text = (AnsiString)"";
-                        }
+                        this.DescLbl.Text = (AnsiString)"";
                     }
                 }
             }

@@ -109,7 +109,7 @@ namespace Aow.Units.HeroGrid
             if (Index < FIndices.Count)
             {
                 var call__3 = FIndices[Index];
-                var call__4 = Aow.Units.HeroGrid.HeroGrid.HeroAt(FHeroes, call__3);
+                var call__4 = FHeroes.GetHero(call__3);
                 Result = call__4;
             }
             else
@@ -285,100 +285,20 @@ namespace Aow.Units.HeroGrid
         }
 
         public static readonly Aow.Rtl.AnsiString GridUsedRStr = (AnsiString)"Used";
-        // HeroGrid.pas:79
-        // { needs: typed results for the existing draft methods. These tail jumps keep their ABI. }
-        public static Aow.Units.AoWE.THero HeroAt(Aow.Units.AoWE.THeroList List, int Index)
-        {
-            Aow.Units.AoWE.THero Result = default;
-            Result = List.GetHero(Index);
-            return Result;
-        }
-
-        // HeroGrid.pas:81
-        public static Aow.Units.AoWE.THero ControlHeroAt(Aow.Units.AoWE.THeroControl Control, int Index)
-        {
-            Aow.Units.AoWE.THero Result = default;
-            Result = Control.GetHero(Index);
-            return Result;
-        }
-
-        // HeroGrid.pas:83
-        public static int HeroCount(Aow.Units.AoWE.THeroControl Control)
-        {
-            int Result = default;
-            Result = Control.GetCount();
-            return Result;
-        }
-
-        // HeroGrid.pas:85
-        public static int HeroIndexOf(Aow.Units.AoWE.THeroControl Control, Aow.Units.AoWE.THero Hero)
-        {
-            int Result = default;
-            Result = Control.IndexOf(Hero);
-            return Result;
-        }
-
-        // HeroGrid.pas:87
-        public static sbyte HeroLevel(Aow.Units.AoWE.THero Hero)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Hero.GetLevel());
-            return Result;
-        }
-
-        // HeroGrid.pas:89
-        public static Aow.Units.AoWE.TItem ItemAt(Aow.Units.AoWE.TItemList List, int Index)
-        {
-            Aow.Units.AoWE.TItem Result = default;
-            Result = List.GetItem(Index);
-            return Result;
-        }
-
-        // HeroGrid.pas:91
-        public static Aow.Units.AoWE.TItem ControlItemAt(Aow.Units.AoWE.TItemControl Control, int Index)
-        {
-            Aow.Units.AoWE.TItem Result = default;
-            Result = Control.GetItem(Index);
-            return Result;
-        }
-
-        // HeroGrid.pas:93
-        public static int ItemCount(Aow.Units.AoWE.TItemControl Control)
-        {
-            int Result = default;
-            Result = Control.GetCount();
-            return Result;
-        }
-
-        // HeroGrid.pas:95
-        public static Aow.Units.AoWE.TPlayer PlayerAt(Aow.Units.AoWE.TPlayerList List, int Index)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = List.GetPlayers(Index);
-            return Result;
-        }
-
-        // HeroGrid.pas:97
-        public static int RaceToPlayer(Aow.Units.AoWE.TPlayerList List, byte Race)
-        {
-            int Result = default;
-            Result = List.RaceToPlayer(unchecked((sbyte)Race));
-            return Result;
-        }
 
         public static Aow.Units.AoWE.THeroList SortHeroList;
         // HeroGrid.pas:102
         public static int HeroGridCompareName(int A, int B)
         {
             int Result = default;
-            var call__7 = Aow.Units.HeroGrid.HeroGrid.HeroAt(Aow.Units.HeroGrid.HeroGrid.SortHeroList, B);
-            var call__8 = Aow.Units.HeroGrid.HeroGrid.HeroAt(Aow.Units.HeroGrid.HeroGrid.SortHeroList, A);
+            var call__7 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(B);
+            var call__8 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(A);
             Result = Aow.Rtl.Rtl.CompareText(call__8.FHeroName, call__7.FHeroName);
             // { Original uses object addresses to break ties. }
             if (Result == 0)
             {
-                var call__9 = Aow.Units.HeroGrid.HeroGrid.HeroAt(Aow.Units.HeroGrid.HeroGrid.SortHeroList, A);
-                var call__10 = Aow.Units.HeroGrid.HeroGrid.HeroAt(Aow.Units.HeroGrid.HeroGrid.SortHeroList, B);
+                var call__9 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(A);
+                var call__10 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(B);
                 Result = Aow.Rtl.Rtl.ObjectToInt(call__9) - Aow.Rtl.Rtl.ObjectToInt(call__10);
             }
 
@@ -389,15 +309,15 @@ namespace Aow.Units.HeroGrid
         public static int HeroGridCompareLevel(int A, int B)
         {
             int Result = default;
-            var call__11 = Aow.Units.HeroGrid.HeroGrid.HeroAt(Aow.Units.HeroGrid.HeroGrid.SortHeroList, A);
-            var call__12 = Aow.Units.HeroGrid.HeroGrid.HeroLevel(call__11);
-            var call__13 = Aow.Units.HeroGrid.HeroGrid.HeroAt(Aow.Units.HeroGrid.HeroGrid.SortHeroList, B);
-            var call__14 = Aow.Units.HeroGrid.HeroGrid.HeroLevel(call__13);
+            var call__11 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(A);
+            var call__12 = unchecked((sbyte)call__11.GetLevel());
+            var call__13 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(B);
+            var call__14 = unchecked((sbyte)call__13.GetLevel());
             Result = call__12 - call__14;
             if (Result == 0)
             {
-                var call__15 = Aow.Units.HeroGrid.HeroGrid.HeroAt(Aow.Units.HeroGrid.HeroGrid.SortHeroList, A);
-                var call__16 = Aow.Units.HeroGrid.HeroGrid.HeroAt(Aow.Units.HeroGrid.HeroGrid.SortHeroList, B);
+                var call__15 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(A);
+                var call__16 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(B);
                 Result = Aow.Rtl.Rtl.ObjectToInt(call__15) - Aow.Rtl.Rtl.ObjectToInt(call__16);
             }
 

@@ -440,26 +440,22 @@ namespace Aow.Units.AoWWinMan
         public void RegisterDialog(Aow.Units.AoWWindow.TAOWWindow Window)
         {
             // { Tried direct initial map alignment receiver; no exact match. }
+            var window = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
+            if ((window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth) && (Window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth))
             {
-                var w__36 = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
-                if ((w__36.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth) && (Window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth))
+                var window2 = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
+                window2.Alignment.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight + Window.WinHeight;
+                window2.FAligned = false;
+                if (window2.Visible)
                 {
-                    {
-                        var w__37 = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
-                        w__37.Alignment.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight + Window.WinHeight;
-                        w__37.FAligned = false;
-                        if (w__37.Visible)
-                        {
-                            Window.Alignment.RightOffset = w__37.Alignment.RightOffset;
-                        }
-                        else
-                        {
-                            Window.Alignment.RightOffset = 0;
-                        }
-                    }
-
-                    Window.FAligned = false;
+                    Window.Alignment.RightOffset = window2.Alignment.RightOffset;
                 }
+                else
+                {
+                    Window.Alignment.RightOffset = 0;
+                }
+
+                Window.FAligned = false;
             }
         }
 
@@ -468,19 +464,15 @@ namespace Aow.Units.AoWWinMan
         public void UnregisterDialog(Aow.Units.AoWWindow.TAOWWindow Window)
         {
             // { Tried direct initial map alignment receiver; no exact match. }
+            var window = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
+            if (((((window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth) && (Window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth)) && (((Window == Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin) || !Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible) || (Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth))) && (((Window == Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg) || !Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Visible) || (Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth))) && (((Window == Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg) || !Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible) || (Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth)))
             {
-                var w__38 = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
-                if (((((w__38.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth) && (Window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth)) && (((Window == Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin) || !Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible) || (Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth))) && (((Window == Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg) || !Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Visible) || (Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth))) && (((Window == Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg) || !Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible) || (Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth)))
-                {
-                    {
-                        var w__39 = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
-                        w__39.Alignment.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight;
-                        w__39.FAligned = false;
-                        Window.Alignment.RightOffset = w__39.Alignment.RightOffset;
-                    }
+                var window2 = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
+                window2.Alignment.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight;
+                window2.FAligned = false;
+                Window.Alignment.RightOffset = window2.Alignment.RightOffset;
 
-                    Window.FAligned = false;
-                }
+                Window.FAligned = false;
             }
         }
 
@@ -685,181 +677,135 @@ namespace Aow.Units.AoWWinMan
         public void ResetLayout()
         {
             // { Tried addressable Self; no exact match. }
+            var window = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow;
+            var alignment = window.Alignment;
+            alignment.TopOffset = 0;
+            alignment.RightOffset = 0;
+
+            if (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight > 700)
             {
-                var w__54 = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow;
-                {
-                    var w__55 = w__54.Alignment;
-                    w__55.TopOffset = 0;
-                    w__55.RightOffset = 0;
-                }
-
-                if (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight > 700)
-                {
-                    w__54.WinHeight = (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight) / 3;
-                }
-                else
-                {
-                    w__54.WinHeight = (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight) / 2;
-                }
-
-                w__54.WinWidth = (w__54.WinHeight * 200) / 216;
-                if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
-                {
-                    w__54.Visible = (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null) && Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
-                }
+                window.WinHeight = (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight) / 3;
+            }
+            else
+            {
+                window.WinHeight = (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight) / 2;
             }
 
+            window.WinWidth = (window.WinHeight * 200) / 216;
+            if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
             {
-                var w__56 = Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin;
-                {
-                    var w__57 = w__56.Alignment;
-                    w__57.BottomOffset = 0;
-                    w__57.RightOffset = 0;
-                }
-
-                w__56.WinWidth = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                w__56.WinHeight = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-                if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
-                {
-                    w__56.Visible = (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null) && Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
-                }
+                window.Visible = (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null) && Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
             }
 
-            {
-                var w__58 = Aow.Units.AOWControlWin.AOWControlWin.ControlWin.ControlWindow;
-                {
-                    var w__59 = w__58.Alignment;
-                    w__59.TopOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-                    w__59.RightOffset = 0;
-                }
+            var window2 = Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin;
+            var alignment2 = window2.Alignment;
+            alignment2.BottomOffset = 0;
+            alignment2.RightOffset = 0;
 
-                w__58.WinWidth = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                w__58.WinHeight = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-                w__58.Visible = false;
+            window2.WinWidth = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
+            window2.WinHeight = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
+            if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
+            {
+                window2.Visible = (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap == null) && Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
             }
 
-            {
-                var w__60 = Aow.Units.AoWInfoWin.AoWInfoWin.IWindow.InfoWin;
-                {
-                    var w__61 = w__60.Alignment;
-                    w__61.TopOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-                    w__61.RightOffset = 0;
-                }
+            var window3 = Aow.Units.AOWControlWin.AOWControlWin.ControlWin.ControlWindow;
+            var alignment3 = window3.Alignment;
+            alignment3.TopOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
+            alignment3.RightOffset = 0;
 
-                w__60.WinWidth = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                w__60.WinHeight = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-                w__60.Visible = false;
+            window3.WinWidth = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
+            window3.WinHeight = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
+            window3.Visible = false;
+
+            var window4 = Aow.Units.AoWInfoWin.AoWInfoWin.IWindow.InfoWin;
+            var alignment4 = window4.Alignment;
+            alignment4.TopOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
+            alignment4.RightOffset = 0;
+
+            window4.WinWidth = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
+            window4.WinHeight = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
+            window4.Visible = false;
+
+            var window5 = Aow.Units.AoWWorldMap.AoWWorldMap.TargetSelectionDlg.Dlg;
+            var alignment5 = window5.Alignment;
+            alignment5.TopOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
+            alignment5.RightOffset = 0;
+
+            window5.WinWidth = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
+            window5.WinHeight = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
+
+            var window6 = Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg;
+            var alignment6 = window6.Alignment;
+            alignment6.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight;
+            alignment6.LeftOffset = 0;
+            alignment6.RightOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
+            alignment6.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            alignment6.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+
+            window6.WinWidth = window6.MinWidth;
+            window6.WinHeight = window6.MinHeight;
+            window6.Visible = false;
+
+            var window7 = Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg;
+            var alignment7 = window7.Alignment;
+            alignment7.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight;
+            alignment7.LeftOffset = 0;
+            alignment7.RightOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
+            alignment7.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            alignment7.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+
+            window7.WinWidth = window7.MinWidth;
+            window7.WinHeight = window7.MinHeight;
+            window7.Visible = false;
+
+            var window8 = Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin;
+            var alignment8 = window8.Alignment;
+            alignment8.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            alignment8.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+
+            window8.WinWidth = window8.MinWidth;
+            window8.WinHeight = window8.MinHeight;
+            window8.Visible = false;
+
+            var window9 = Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin;
+            var alignment9 = window9.Alignment;
+            alignment9.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight;
+            alignment9.LeftOffset = 0;
+            alignment9.RightOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
+            alignment9.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            alignment9.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+
+            window9.WinWidth = window9.MinWidth;
+            window9.WinHeight = window9.MinHeight;
+            window9.Visible = false;
+
+            var window10 = Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin;
+            var alignment10 = window10.Alignment;
+            alignment10.TopOffset = 0;
+            alignment10.RightOffset = 0;
+
+            window10.WinHeight = ((Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight) * 170) / 432;
+            window10.WinWidth = (window10.WinHeight * 150) / 170;
+            if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
+            {
+                window10.Visible = (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null) && Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
             }
 
-            {
-                var w__62 = Aow.Units.AoWWorldMap.AoWWorldMap.TargetSelectionDlg.Dlg;
-                {
-                    var w__63 = w__62.Alignment;
-                    w__63.TopOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-                    w__63.RightOffset = 0;
-                }
+            var window11 = Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin;
+            var alignment11 = window11.Alignment;
+            alignment11.BottomOffset = 0;
+            alignment11.RightOffset = 0;
 
-                w__62.WinWidth = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                w__62.WinHeight = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-            }
+            window11.WinHeight = (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight) - Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin.WinHeight;
+            window11.WinWidth = Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin.WinWidth;
+            window11.Visible = false;
 
-            {
-                var w__64 = Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg;
-                {
-                    var w__65 = w__64.Alignment;
-                    w__65.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight;
-                    w__65.LeftOffset = 0;
-                    w__65.RightOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                    w__65.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-                    w__65.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
-                }
-
-                w__64.WinWidth = w__64.MinWidth;
-                w__64.WinHeight = w__64.MinHeight;
-                w__64.Visible = false;
-            }
-
-            {
-                var w__66 = Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg;
-                {
-                    var w__67 = w__66.Alignment;
-                    w__67.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight;
-                    w__67.LeftOffset = 0;
-                    w__67.RightOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                    w__67.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-                    w__67.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
-                }
-
-                w__66.WinWidth = w__66.MinWidth;
-                w__66.WinHeight = w__66.MinHeight;
-                w__66.Visible = false;
-            }
-
-            {
-                var w__68 = Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin;
-                {
-                    var w__69 = w__68.Alignment;
-                    w__69.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-                    w__69.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
-                }
-
-                w__68.WinWidth = w__68.MinWidth;
-                w__68.WinHeight = w__68.MinHeight;
-                w__68.Visible = false;
-            }
-
-            {
-                var w__70 = Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin;
-                {
-                    var w__71 = w__70.Alignment;
-                    w__71.BottomOffset = Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight;
-                    w__71.LeftOffset = 0;
-                    w__71.RightOffset = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                    w__71.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-                    w__71.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
-                }
-
-                w__70.WinWidth = w__70.MinWidth;
-                w__70.WinHeight = w__70.MinHeight;
-                w__70.Visible = false;
-            }
-
-            {
-                var w__72 = Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin;
-                {
-                    var w__73 = w__72.Alignment;
-                    w__73.TopOffset = 0;
-                    w__73.RightOffset = 0;
-                }
-
-                w__72.WinHeight = ((Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight) * 170) / 432;
-                w__72.WinWidth = (w__72.WinHeight * 150) / 170;
-                if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
-                {
-                    w__72.Visible = (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null) && Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
-                }
-            }
-
-            {
-                var w__74 = Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin;
-                {
-                    var w__75 = w__74.Alignment;
-                    w__75.BottomOffset = 0;
-                    w__75.RightOffset = 0;
-                }
-
-                w__74.WinHeight = (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow.WinHeight) - Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin.WinHeight;
-                w__74.WinWidth = Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin.WinWidth;
-                w__74.Visible = false;
-            }
-
-            {
-                var w__76 = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment;
-                w__76.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-                w__76.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-                w__76.TopOffset = 0;
-                w__76.LeftOffset = 0;
-            }
+            var alignment12 = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Alignment;
+            alignment12.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            alignment12.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            alignment12.TopOffset = 0;
+            alignment12.LeftOffset = 0;
 
             Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldAlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
             Aow.Units.AOWMWindow.AOWMWindow.MWindow.FWorldAlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;

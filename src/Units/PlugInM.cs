@@ -100,31 +100,29 @@ namespace Aow.Units.PlugInM
 
             ExecutePlugInSearch(FPlugInDirectory);
             FPlugInsLoaded = false;
+            var stringList = FPlugIns;
             {
-                var w__6 = FPlugIns;
+                I = 0;
+                int end__7 = stringList.Count - 1;
+                for (; I <= end__7; I += 1)
                 {
-                    I = 0;
-                    int end__7 = w__6.Count - 1;
-                    for (; I <= end__7; I += 1)
+                    try
                     {
-                        try
+                        if (FOnLoadPlugIn != null)
                         {
-                            if (FOnLoadPlugIn != null)
-                            {
-                                var call__9 = w__6[I];
-                                FOnLoadPlugIn(this, call__9);
-                            }
+                            var call__9 = stringList[I];
+                            FOnLoadPlugIn(this, call__9);
+                        }
 
-                            /* TODO(T-5.4) Native Delphi packages have no managed loader */
-                            throw new System.NotImplementedException();
-                            FPlugInsLoaded = true;
-                        }
-                        catch (System.Exception)
-                        {
-                            var call__8 = w__6[I];
-                            Aow.Rtl.Rtl.ShowMessage(((AnsiString)"Unable to load PlugIn: ") + call__8);
-                            w__6.Objects[I] = null;
-                        }
+                        /* TODO(T-5.4) Native Delphi packages have no managed loader */
+                        throw new System.NotImplementedException();
+                        FPlugInsLoaded = true;
+                    }
+                    catch (System.Exception)
+                    {
+                        var call__8 = stringList[I];
+                        Aow.Rtl.Rtl.ShowMessage(((AnsiString)"Unable to load PlugIn: ") + call__8);
+                        stringList.Objects[I] = null;
                     }
                 }
             }
@@ -135,31 +133,28 @@ namespace Aow.Units.PlugInM
         {
             int I = default;
             {
-                var w__12 = FPlugIns;
+                I = this.FPlugIns.Count - 1;
+                byte end__13 = 0;
+                for (; I >= end__13; I -= 1)
                 {
-                    I = w__12.Count - 1;
-                    byte end__13 = 0;
-                    for (; I >= end__13; I -= 1)
+                    try
                     {
-                        try
+                        var call__15 = this.FPlugIns.Objects[I];
+                        if (call__15 != null)
                         {
-                            var call__15 = w__12.Objects[I];
-                            if (call__15 != null)
-                            {
-                                /* TODO(T-5.4) Native Delphi packages have no managed loader */
-                                throw new System.NotImplementedException();
-                                w__12.Objects[I] = null;
-                            }
+                            /* TODO(T-5.4) Native Delphi packages have no managed loader */
+                            throw new System.NotImplementedException();
+                            this.FPlugIns.Objects[I] = null;
                         }
-                        catch (System.Exception)
-                        {
-                            var call__14 = w__12[I];
-                            Aow.Rtl.Rtl.ShowMessage(((AnsiString)"Could not release PlugIn: ") + call__14);
-                            w__12.Objects[I] = null;
-                        }
-
-                        w__12.Delete(I);
                     }
+                    catch (System.Exception)
+                    {
+                        var call__14 = this.FPlugIns[I];
+                        Aow.Rtl.Rtl.ShowMessage(((AnsiString)"Could not release PlugIn: ") + call__14);
+                        this.FPlugIns.Objects[I] = null;
+                    }
+
+                    this.FPlugIns.Delete(I);
                 }
             }
         }

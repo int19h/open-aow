@@ -92,11 +92,8 @@ namespace Aow.Units.AoWTCScanner
         // { draft }
         public void TCScannerWinDrag()
         {
-            {
-                var w__1 = TCScannerWin;
-                w__1.Alignment.RightOffset = (w__1.WinManager.WinWidth - w__1.WinLeft) - w__1.WinWidth;
-                w__1.Alignment.TopOffset = w__1.WinTop;
-            }
+            this.TCScannerWin.Alignment.RightOffset = (this.TCScannerWin.WinManager.WinWidth - this.TCScannerWin.WinLeft) - this.TCScannerWin.WinWidth;
+            this.TCScannerWin.Alignment.TopOffset = this.TCScannerWin.WinTop;
         }
 
         // AoWTCScanner.pas:60

@@ -296,13 +296,11 @@ namespace Aow.Units.AoWSMTPDlg
                 }
                 else
                 {
+                    var panel = FailedPnl;
+                    if (!panel.Visible)
                     {
-                        var w__3 = FailedPnl;
-                        if (!w__3.Visible)
-                        {
-                            w__3.Visible = true;
-                            SendPnl.Visible = false;
-                        }
+                        panel.Visible = true;
+                        SendPnl.Visible = false;
                     }
                 }
             }

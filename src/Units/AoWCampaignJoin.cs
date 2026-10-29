@@ -131,21 +131,19 @@ namespace Aow.Units.AoWCampaignJoin
         public void LeaderCustomized(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWE.TLeader Leader = default;
+            var leaderSetupControl = (Aow.Units.AoWE.TLeaderSetupControl)Sender;
+            if (leaderSetupControl.FStatus == Aow.Units.AoWE.TLeaderSetupStatus.lssDone)
             {
-                var w__1 = (Aow.Units.AoWE.TLeaderSetupControl)Sender;
-                if (w__1.FStatus == Aow.Units.AoWE.TLeaderSetupStatus.lssDone)
-                {
-                    var call__2 = w__1.FOriginalLeader.Copy(Aow.Units.AoWE.AoWE.AoWEngine);
-                    Leader = (Aow.Units.AoWE.TLeader)call__2;
-                    var call__3 = Aow.Units.AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign();
-                    call__3.FTransferSettings.SetLeader(Leader);
-                    Leader.Release();
-                    FinishSelection();
-                }
-                else
-                {
-                    ShowLeaderChoices();
-                }
+                var call__2 = leaderSetupControl.FOriginalLeader.Copy(Aow.Units.AoWE.AoWE.AoWEngine);
+                Leader = (Aow.Units.AoWE.TLeader)call__2;
+                var call__3 = Aow.Units.AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign();
+                call__3.FTransferSettings.SetLeader(Leader);
+                Leader.Release();
+                FinishSelection();
+            }
+            else
+            {
+                ShowLeaderChoices();
             }
         }
 

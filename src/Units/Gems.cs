@@ -166,10 +166,8 @@ namespace Aow.Units.Gems
                     Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\EVENTS\\GOLD.WAV");
                 }
 
-                {
-                    var w__10 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
-                    w__10.SetGems(w__10.FGems + FAmount);
-                }
+                var player = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+                player.SetGems(player.FGems + FAmount);
 
                 Event = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
                 Event.FPlayer = unchecked((sbyte)ArmyHS.FArmy.FPlayer);

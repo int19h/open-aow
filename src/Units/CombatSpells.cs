@@ -194,15 +194,12 @@ namespace Aow.Units.CombatSpells
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
             Aow.Units.AoWE.TCombatObject Source = default;
+            if ((FManaCost != 0) && A1.FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cExecuting))
             {
-                var w__8 = A1;
-                if ((FManaCost != 0) && w__8.FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cExecuting))
-                {
-                    var call__9 = w__8.FCombatData.FindID(FSourceID);
-                    Source = call__9;
-                    var call__10 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    call__10.CombatCastingDone(Source, FManaCost);
-                }
+                var call__9 = A1.FCombatData.FindID(FSourceID);
+                Source = call__9;
+                var call__10 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                call__10.CombatCastingDone(Source, FManaCost);
             }
         }
 
@@ -314,15 +311,12 @@ namespace Aow.Units.CombatSpells
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
             Aow.Units.AoWE.TCombatObject Source = default;
+            if ((FManaCost != 0) && A1.FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cExecuting))
             {
-                var w__17 = A1;
-                if ((FManaCost != 0) && w__17.FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cExecuting))
-                {
-                    var call__18 = w__17.FCombatData.FindID(FSourceID);
-                    Source = call__18;
-                    var call__19 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    call__19.CombatCastingDone(Source, FManaCost);
-                }
+                var call__18 = A1.FCombatData.FindID(FSourceID);
+                Source = call__18;
+                var call__19 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                call__19.CombatCastingDone(Source, FManaCost);
             }
         }
 
@@ -729,113 +723,110 @@ namespace Aow.Units.CombatSpells
             Aow.Units.AoWE.TFastCombat Combat = default;
             int Damage = default;
             int Defense = default;
+            if (((A3 == Aow.Units.AoWE.TWallSituation.wsNone) || (FCombatInfo.Range == -1)) || (FCombatInfo.Range >= 8))
             {
-                var w__73 = A2;
-                if (((A3 == Aow.Units.AoWE.TWallSituation.wsNone) || (FCombatInfo.Range == -1)) || (FCombatInfo.Range >= 8))
+                Protection = A2.GetProtectionTypes();
+                Immunity = A2.GetImmunityTypes();
+                DamageTypes = FCombatInfo.DamageTypes;
+                Damage = FCombatInfo.Damage;
+                Defense = A2.GetDefense();
+                if ((A3 == Aow.Units.AoWE.TWallSituation.wsTarget) && ((TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtMagic, Aow.Units.AoWE.TDamageType.dtDeath, Aow.Units.AoWE.TDamageType.dtHoly) & FCombatInfo.DamageTypes) == TSet<Aow.Units.AoWE.TDamageType>.Of()))
                 {
-                    Protection = w__73.GetProtectionTypes();
-                    Immunity = w__73.GetImmunityTypes();
-                    DamageTypes = FCombatInfo.DamageTypes;
-                    Damage = FCombatInfo.Damage;
-                    Defense = w__73.GetDefense();
-                    if ((A3 == Aow.Units.AoWE.TWallSituation.wsTarget) && ((TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtMagic, Aow.Units.AoWE.TDamageType.dtDeath, Aow.Units.AoWE.TDamageType.dtHoly) & FCombatInfo.DamageTypes) == TSet<Aow.Units.AoWE.TDamageType>.Of()))
-                    {
-                        Defense += 2;
-                    }
+                    Defense += 2;
+                }
 
-                    A4.DamageTypes = DamageTypes;
-                    var call__74 = w__73.GetHitPoints();
-                    var call__75 = w__73.GetResistance();
-                    var call__76 = Aow.Units.AoWE.AoWE.StatisticsToLimitedDV(FCombatInfo.Attack, Damage, DamageTypes, call__74, Defense, call__75, Immunity, Protection);
-                    A4.SourceDamage = call__76 * FCombatInfo.RepeatCount;
-                    if (FCombatInfo.Radius > 1)
-                    {
-                        A4.SourceDamage = (int)(((uint)(A4.SourceDamage * FCombatInfo.Radius)) >> 1);
-                    }
+                A4.DamageTypes = DamageTypes;
+                var call__74 = A2.GetHitPoints();
+                var call__75 = A2.GetResistance();
+                var call__76 = Aow.Units.AoWE.AoWE.StatisticsToLimitedDV(FCombatInfo.Attack, Damage, DamageTypes, call__74, Defense, call__75, Immunity, Protection);
+                A4.SourceDamage = call__76 * FCombatInfo.RepeatCount;
+                if (FCombatInfo.Radius > 1)
+                {
+                    A4.SourceDamage = (int)(((uint)(A4.SourceDamage * FCombatInfo.Radius)) >> 1);
+                }
 
-                    var call__77 = Aow.Units.AoWE.AoWE.StatisticsToMaxDamage(Damage, DamageTypes, Protection, Immunity);
-                    A4.SourceCost = call__77 * FCombatInfo.RepeatCount;
-                    A4.TargetDamage = 0;
-                    A4.TargetCost = 0;
-                    if ((A4.SourceDamage != 0) && (FCombatInfo.Radius > 1))
+                var call__77 = Aow.Units.AoWE.AoWE.StatisticsToMaxDamage(Damage, DamageTypes, Protection, Immunity);
+                A4.SourceCost = call__77 * FCombatInfo.RepeatCount;
+                A4.TargetDamage = 0;
+                A4.TargetCost = 0;
+                if ((A4.SourceDamage != 0) && (FCombatInfo.Radius > 1))
+                {
+                    Combat = (Aow.Units.AoWE.TFastCombat)A1.FCombat;
+                    Count = 0;
+                    Distance = Combat.GetRoundDistance();
+                    if (FCombatInfo.Range == -1)
                     {
-                        Combat = (Aow.Units.AoWE.TFastCombat)A1.FCombat;
-                        Count = 0;
-                        Distance = Combat.GetRoundDistance();
-                        if (FCombatInfo.Range == -1)
+                        Distance += 8;
+                    }
+                    else
+                    {
+                        if (FCombatInfo.Range >= 12)
                         {
-                            Distance += 8;
+                            Distance += 4;
                         }
                         else
                         {
-                            if (FCombatInfo.Range >= 12)
+                            if (FCombatInfo.Range >= 8)
                             {
-                                Distance += 4;
+                                Distance += 2;
                             }
-                            else
-                            {
-                                if (FCombatInfo.Range >= 8)
-                                {
-                                    Distance += 2;
-                                }
-                            }
-                        }
-
-                        {
-                            I = Combat.FSides[(int)w__73.GetSide()].GetCount() - 1;
-                            byte end__78 = 0;
-                            for (; I >= end__78; I -= 1)
-                            {
-                                var call__79 = w__73.GetSide();
-                                var call__80 = Combat.FSides[(int)call__79].GetObjects(I);
-                                Other = call__80;
-                                bool bool__81 = (A2 != Other);
-                                if (bool__81)
-                                {
-                                    var call__82 = Other.GetEnabled();
-                                    bool__81 = call__82;
-                                }
-
-                                bool bool__83 = bool__81 && (((int)(((uint)Other.FPosition) >> 4)) == ((int)(((uint)w__73.FPosition) >> 4)));
-                                if (bool__83)
-                                {
-                                    var call__84 = Other.fcRoundDistance();
-                                    bool__83 = (call__84 <= Distance);
-                                }
-
-                                bool bool__85 = bool__83;
-                                if (bool__85)
-                                {
-                                    var call__86 = Other.GetImmunityTypes();
-                                    bool__85 = ((DamageTypes - call__86) != TSet<Aow.Units.AoWE.TDamageType>.Of());
-                                }
-
-                                if (bool__85)
-                                {
-                                    Count += 1;
-                                }
-                            }
-                        }
-
-                        if (Count != 0)
-                        {
-                            if (FCombatInfo.Radius < Count)
-                            {
-                                Count = FCombatInfo.Radius;
-                            }
-
-                            A4.SourceDamage += Aow.Rtl.Rtl.Round(((double)(A4.SourceDamage * Count)) * 0.5);
                         }
                     }
+
+                    {
+                        I = Combat.FSides[(int)A2.GetSide()].GetCount() - 1;
+                        byte end__78 = 0;
+                        for (; I >= end__78; I -= 1)
+                        {
+                            var call__79 = A2.GetSide();
+                            var call__80 = Combat.FSides[(int)call__79].GetObjects(I);
+                            Other = call__80;
+                            bool bool__81 = (A2 != Other);
+                            if (bool__81)
+                            {
+                                var call__82 = Other.GetEnabled();
+                                bool__81 = call__82;
+                            }
+
+                            bool bool__83 = bool__81 && (((int)(((uint)Other.FPosition) >> 4)) == ((int)(((uint)A2.FPosition) >> 4)));
+                            if (bool__83)
+                            {
+                                var call__84 = Other.fcRoundDistance();
+                                bool__83 = (call__84 <= Distance);
+                            }
+
+                            bool bool__85 = bool__83;
+                            if (bool__85)
+                            {
+                                var call__86 = Other.GetImmunityTypes();
+                                bool__85 = ((DamageTypes - call__86) != TSet<Aow.Units.AoWE.TDamageType>.Of());
+                            }
+
+                            if (bool__85)
+                            {
+                                Count += 1;
+                            }
+                        }
+                    }
+
+                    if (Count != 0)
+                    {
+                        if (FCombatInfo.Radius < Count)
+                        {
+                            Count = FCombatInfo.Radius;
+                        }
+
+                        A4.SourceDamage += Aow.Rtl.Rtl.Round(((double)(A4.SourceDamage * Count)) * 0.5);
+                    }
                 }
-                else
-                {
-                    A4.SourceDamage = 0;
-                    A4.SourceCost = 0;
-                    A4.TargetDamage = 0;
-                    A4.TargetCost = 0;
-                    A4.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
-                }
+            }
+            else
+            {
+                A4.SourceDamage = 0;
+                A4.SourceCost = 0;
+                A4.TargetDamage = 0;
+                A4.TargetCost = 0;
+                A4.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
             }
         }
 
@@ -868,14 +859,12 @@ namespace Aow.Units.CombatSpells
             var call__87 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SolarFlareRStr);
             FSpellName = call__87;
             FSpellID = 100;
-            {
-                ref var w__88 = ref FCombatInfo;
-                w__88.Attack = 8;
-                w__88.Damage = 4;
-                w__88.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly);
-                w__88.RepeatCount = 1;
-                w__88.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 8;
+            spellCombatInfo.Damage = 4;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:134
@@ -986,14 +975,12 @@ namespace Aow.Units.CombatSpells
             FSpellName = call__93;
             FSpellID = 101;
             FDamageMode = 1;
-            {
-                ref var w__94 = ref FCombatInfo;
-                w__94.Attack = 6;
-                w__94.Damage = 5;
-                w__94.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly);
-                w__94.RepeatCount = 1;
-                w__94.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:905
@@ -1129,11 +1116,9 @@ namespace Aow.Units.CombatSpells
             Aow.Units.AoWE.TCombatObject Target = default;
             FSpellID = 102;
             FSourceID = unchecked((byte)A1.FID);
-            {
-                var w__112 = A1.FCombat;
-                var call__113 = A1.GetSide();
-                Side = w__112.FSides[(int)call__113];
-            }
+            var combat = A1.FCombat;
+            var call__113 = A1.GetSide();
+            Side = combat.FSides[(int)call__113];
 
             {
                 I = Side.GetCount() - 1;
@@ -1275,15 +1260,13 @@ namespace Aow.Units.CombatSpells
             var call__118 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HighPrayerRStr);
             FSpellName = call__118;
             FSpellID = 102;
-            {
-                ref var w__119 = ref FCombatInfo;
-                w__119.Attack = 6;
-                w__119.Damage = 0;
-                w__119.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
-                w__119.RepeatCount = 1;
-                w__119.Range = unchecked((sbyte)-1);
-                w__119.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttFriend);
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 0;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = unchecked((sbyte)-1);
+            spellCombatInfo.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttFriend);
         }
 
         // CombatSpells.pas:1013
@@ -1469,14 +1452,12 @@ namespace Aow.Units.CombatSpells
             var call__132 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeathRayRStr);
             FSpellName = call__132;
             FSpellID = 103;
-            {
-                ref var w__133 = ref FCombatInfo;
-                w__133.Attack = 8;
-                w__133.Damage = 4;
-                w__133.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
-                w__133.RepeatCount = 1;
-                w__133.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 8;
+            spellCombatInfo.Damage = 4;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:184
@@ -1508,14 +1489,12 @@ namespace Aow.Units.CombatSpells
             var call__134 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DiseaseCloudRStr);
             FSpellName = call__134;
             FSpellID = 104;
-            {
-                ref var w__135 = ref FCombatInfo;
-                w__135.Attack = 6;
-                w__135.Damage = 3;
-                w__135.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
-                w__135.RepeatCount = 1;
-                w__135.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 3;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:191
@@ -1640,15 +1619,13 @@ namespace Aow.Units.CombatSpells
             var call__145 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MindDecayRStr);
             FSpellName = call__145;
             FSpellID = 106;
-            {
-                ref var w__146 = ref FCombatInfo;
-                w__146.Attack = 5;
-                w__146.Damage = 0;
-                w__146.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtNone);
-                w__146.RepeatCount = 1;
-                w__146.Range = 12;
-                w__146.Radius = 3;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 5;
+            spellCombatInfo.Damage = 0;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtNone);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
+            spellCombatInfo.Radius = 3;
         }
 
         // CombatSpells.pas:1207
@@ -1726,15 +1703,13 @@ namespace Aow.Units.CombatSpells
             var call__155 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ChainLightningRStr);
             FSpellName = call__155;
             FSpellID = 107;
-            {
-                ref var w__156 = ref FCombatInfo;
-                w__156.Attack = 6;
-                w__156.Damage = 4;
-                w__156.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtLightning);
-                w__156.RepeatCount = 1;
-                w__156.Range = 12;
-                w__156.Radius = 3;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 4;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtLightning);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
+            spellCombatInfo.Radius = 3;
         }
 
         // CombatSpells.pas:213
@@ -1766,14 +1741,12 @@ namespace Aow.Units.CombatSpells
             var call__157 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ColdBreathRStr);
             FSpellName = call__157;
             FSpellID = 108;
-            {
-                ref var w__158 = ref FCombatInfo;
-                w__158.Attack = 6;
-                w__158.Damage = 5;
-                w__158.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtCold);
-                w__158.RepeatCount = 1;
-                w__158.Range = 4;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtCold);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 4;
         }
 
         // CombatSpells.pas:220
@@ -1881,14 +1854,12 @@ namespace Aow.Units.CombatSpells
             var call__164 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SlowRStr);
             FSpellName = call__164;
             FSpellID = 110;
-            {
-                ref var w__165 = ref FCombatInfo;
-                w__165.Attack = 9;
-                w__165.Damage = 0;
-                w__165.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtNone);
-                w__165.RepeatCount = 1;
-                w__165.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 9;
+            spellCombatInfo.Damage = 0;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtNone);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:1313
@@ -1919,14 +1890,12 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1300
         public override void GetCombatDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, ref Aow.Units.AoWE.TAbilityDamageValues A3)
         {
-            {
-                ref var w__168 = ref A3;
-                w__168.SourceDamage = 0;
-                w__168.SourceCost = 0;
-                w__168.TargetDamage = 0;
-                w__168.TargetCost = 0;
-                w__168.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
-            }
+            ref var abilityDamageValues = ref A3;
+            abilityDamageValues.SourceDamage = 0;
+            abilityDamageValues.SourceCost = 0;
+            abilityDamageValues.TargetDamage = 0;
+            abilityDamageValues.TargetCost = 0;
+            abilityDamageValues.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
         }
 
         // CombatSpells.pas:234
@@ -2033,14 +2002,12 @@ namespace Aow.Units.CombatSpells
             var call__173 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EntangleRStr);
             FSpellName = call__173;
             FSpellID = 111;
-            {
-                ref var w__174 = ref FCombatInfo;
-                w__174.Attack = 7;
-                w__174.Damage = 0;
-                w__174.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtNone);
-                w__174.RepeatCount = 1;
-                w__174.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 7;
+            spellCombatInfo.Damage = 0;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtNone);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:1368
@@ -2138,15 +2105,13 @@ namespace Aow.Units.CombatSpells
             // { Original leaves this spell name untranslated. }
             FSpellName = Aow.Units.AoWE.AoWE.TremorsRStr;
             FSpellID = 112;
-            {
-                ref var w__187 = ref FCombatInfo;
-                w__187.Attack = 6;
-                w__187.Damage = 5;
-                w__187.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical, Aow.Units.AoWE.TDamageType.dtWall);
-                w__187.RepeatCount = 1;
-                w__187.Range = unchecked((sbyte)-1);
-                w__187.Radius = 5;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical, Aow.Units.AoWE.TDamageType.dtWall);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = unchecked((sbyte)-1);
+            spellCombatInfo.Radius = 5;
         }
 
         // CombatSpells.pas:259
@@ -2178,15 +2143,13 @@ namespace Aow.Units.CombatSpells
             var call__188 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CallFlamesRStr);
             FSpellName = call__188;
             FSpellID = 113;
-            {
-                ref var w__189 = ref FCombatInfo;
-                w__189.Attack = 9;
-                w__189.Damage = 3;
-                w__189.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
-                w__189.RepeatCount = 1;
-                w__189.Range = 8;
-                w__189.Radius = 1;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 9;
+            spellCombatInfo.Damage = 3;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 8;
+            spellCombatInfo.Radius = 1;
         }
 
         // CombatSpells.pas:266
@@ -2218,15 +2181,13 @@ namespace Aow.Units.CombatSpells
             var call__190 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireBreathRStr);
             FSpellName = call__190;
             FSpellID = 114;
-            {
-                ref var w__191 = ref FCombatInfo;
-                w__191.Attack = 6;
-                w__191.Damage = 5;
-                w__191.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
-                w__191.RepeatCount = 1;
-                w__191.Range = 4;
-                w__191.Radius = 3;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 4;
+            spellCombatInfo.Radius = 3;
         }
 
         // CombatSpells.pas:273
@@ -2258,15 +2219,13 @@ namespace Aow.Units.CombatSpells
             var call__192 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SwarmRStr);
             FSpellName = call__192;
             FSpellID = 115;
-            {
-                ref var w__193 = ref FCombatInfo;
-                w__193.Attack = 6;
-                w__193.Damage = 2;
-                w__193.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
-                w__193.RepeatCount = 1;
-                w__193.Range = 12;
-                w__193.Radius = 5;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 2;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
+            spellCombatInfo.Radius = 5;
         }
 
         // CombatSpells.pas:280
@@ -2298,15 +2257,13 @@ namespace Aow.Units.CombatSpells
             var call__194 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GreatHailRStr);
             FSpellName = call__194;
             FSpellID = 116;
-            {
-                ref var w__195 = ref FCombatInfo;
-                w__195.Attack = 5;
-                w__195.Damage = 5;
-                w__195.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical, Aow.Units.AoWE.TDamageType.dtWall);
-                w__195.RepeatCount = 3;
-                w__195.Range = 12;
-                w__195.Radius = 2;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 5;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical, Aow.Units.AoWE.TDamageType.dtWall);
+            spellCombatInfo.RepeatCount = 3;
+            spellCombatInfo.Range = 12;
+            spellCombatInfo.Radius = 2;
         }
 
         // CombatSpells.pas:287
@@ -2338,14 +2295,12 @@ namespace Aow.Units.CombatSpells
             var call__196 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireBallRStr);
             FSpellName = call__196;
             FSpellID = 117;
-            {
-                ref var w__197 = ref FCombatInfo;
-                w__197.Attack = 8;
-                w__197.Damage = 6;
-                w__197.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire, Aow.Units.AoWE.TDamageType.dtWall);
-                w__197.RepeatCount = 1;
-                w__197.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 8;
+            spellCombatInfo.Damage = 6;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire, Aow.Units.AoWE.TDamageType.dtWall);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:294
@@ -2377,15 +2332,13 @@ namespace Aow.Units.CombatSpells
             var call__198 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GeyserRStr);
             FSpellName = call__198;
             FSpellID = 118;
-            {
-                ref var w__199 = ref FCombatInfo;
-                w__199.Attack = 9;
-                w__199.Damage = 5;
-                w__199.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
-                w__199.RepeatCount = 1;
-                w__199.Range = 12;
-                w__199.Radius = 1;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 9;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
+            spellCombatInfo.Radius = 1;
         }
 
         // CombatSpells.pas:1522
@@ -2451,14 +2404,12 @@ namespace Aow.Units.CombatSpells
             var call__204 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.IceShardsRStr);
             FSpellName = call__204;
             FSpellID = 119;
-            {
-                ref var w__205 = ref FCombatInfo;
-                w__205.Attack = 6;
-                w__205.Damage = 4;
-                w__205.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
-                w__205.RepeatCount = 3;
-                w__205.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 4;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
+            spellCombatInfo.RepeatCount = 3;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:309
@@ -2490,15 +2441,13 @@ namespace Aow.Units.CombatSpells
             var call__206 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FrostBeamsRStr);
             FSpellName = call__206;
             FSpellID = 120;
-            {
-                ref var w__207 = ref FCombatInfo;
-                w__207.Attack = 9;
-                w__207.Damage = 3;
-                w__207.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtCold);
-                w__207.RepeatCount = 1;
-                w__207.Range = 12;
-                w__207.Radius = 3;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 9;
+            spellCombatInfo.Damage = 3;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtCold);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
+            spellCombatInfo.Radius = 3;
         }
 
         // CombatSpells.pas:316
@@ -2531,14 +2480,12 @@ namespace Aow.Units.CombatSpells
             FSpellName = call__208;
             FSpellID = 121;
             FDamageMode = 1;
-            {
-                ref var w__209 = ref FCombatInfo;
-                w__209.Attack = 7;
-                w__209.Damage = 5;
-                w__209.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
-                w__209.RepeatCount = 1;
-                w__209.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 7;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:323
@@ -2570,14 +2517,12 @@ namespace Aow.Units.CombatSpells
             var call__210 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FlamingArrowRStr);
             FSpellName = call__210;
             FSpellID = 123;
-            {
-                ref var w__211 = ref FCombatInfo;
-                w__211.Attack = 8;
-                w__211.Damage = 4;
-                w__211.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire, Aow.Units.AoWE.TDamageType.dtPhysical);
-                w__211.RepeatCount = 1;
-                w__211.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 8;
+            spellCombatInfo.Damage = 4;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire, Aow.Units.AoWE.TDamageType.dtPhysical);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:330
@@ -2609,14 +2554,12 @@ namespace Aow.Units.CombatSpells
             var call__212 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StoningRStr);
             FSpellName = call__212;
             FSpellID = 122;
-            {
-                ref var w__213 = ref FCombatInfo;
-                w__213.Attack = 5;
-                w__213.Damage = 2;
-                w__213.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
-                w__213.RepeatCount = 6;
-                w__213.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 5;
+            spellCombatInfo.Damage = 2;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
+            spellCombatInfo.RepeatCount = 6;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:337
@@ -2648,14 +2591,12 @@ namespace Aow.Units.CombatSpells
             var call__214 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.OozeRStr);
             FSpellName = call__214;
             FSpellID = 124;
-            {
-                ref var w__215 = ref FCombatInfo;
-                w__215.Attack = 0;
-                w__215.Damage = 0;
-                w__215.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
-                w__215.RepeatCount = 0;
-                w__215.Range = 8;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 0;
+            spellCombatInfo.Damage = 0;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
+            spellCombatInfo.RepeatCount = 0;
+            spellCombatInfo.Range = 8;
         }
 
         // CombatSpells.pas:1635
@@ -2703,15 +2644,13 @@ namespace Aow.Units.CombatSpells
             var call__218 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SacredWrathRStr);
             FSpellName = call__218;
             FSpellID = 125;
-            {
-                ref var w__219 = ref FCombatInfo;
-                w__219.Attack = 6;
-                w__219.Damage = 5;
-                w__219.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly);
-                w__219.RepeatCount = 1;
-                w__219.Range = 8;
-                w__219.Radius = 3;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 8;
+            spellCombatInfo.Radius = 3;
         }
 
         // CombatSpells.pas:352
@@ -2763,11 +2702,9 @@ namespace Aow.Units.CombatSpells
             Aow.Units.AoWE.TCombatObject Target = default;
             FSpellID = 105;
             FSourceID = unchecked((byte)A1.FID);
-            {
-                var w__224 = A1.FCombat;
-                var call__225 = A1.GetOpponentSide();
-                Side = w__224.FSides[(int)call__225];
-            }
+            var combat = A1.FCombat;
+            var call__225 = A1.GetOpponentSide();
+            Side = combat.FSides[(int)call__225];
 
             {
                 I = Side.GetCount() - 1;
@@ -3017,14 +2954,12 @@ namespace Aow.Units.CombatSpells
             var call__251 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TerrorRStr);
             FSpellName = call__251;
             FSpellID = 105;
-            {
-                ref var w__252 = ref FCombatInfo;
-                w__252.Attack = 6;
-                w__252.Damage = 0;
-                w__252.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
-                w__252.RepeatCount = 1;
-                w__252.Range = unchecked((sbyte)-1);
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 6;
+            spellCombatInfo.Damage = 0;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = unchecked((sbyte)-1);
         }
 
         // CombatSpells.pas:1775
@@ -3222,14 +3157,12 @@ namespace Aow.Units.CombatSpells
             var call__272 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WindsOfFuryRStr);
             FSpellName = call__272;
             FSpellID = 126;
-            {
-                ref var w__273 = ref FCombatInfo;
-                w__273.Attack = 8;
-                w__273.Damage = 5;
-                w__273.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
-                w__273.RepeatCount = 1;
-                w__273.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 8;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:1904
@@ -3294,14 +3227,12 @@ namespace Aow.Units.CombatSpells
             var call__278 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ShockwaveRStr);
             FSpellName = call__278;
             FSpellID = 127;
-            {
-                ref var w__279 = ref FCombatInfo;
-                w__279.Attack = 8;
-                w__279.Damage = 5;
-                w__279.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical, Aow.Units.AoWE.TDamageType.dtWall);
-                w__279.RepeatCount = 1;
-                w__279.Range = 12;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 8;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical, Aow.Units.AoWE.TDamageType.dtWall);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:402
@@ -3332,15 +3263,13 @@ namespace Aow.Units.CombatSpells
             var call__280 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SacrificialFlameRStr);
             FSpellName = call__280;
             FSpellID = 128;
-            {
-                ref var w__281 = ref FCombatInfo;
-                w__281.Attack = 8;
-                w__281.Damage = 5;
-                w__281.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
-                w__281.RepeatCount = 1;
-                w__281.Range = 12;
-                w__281.Radius = 3;
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 8;
+            spellCombatInfo.Damage = 5;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = 12;
+            spellCombatInfo.Radius = 3;
         }
 
         // CombatSpells.pas:408
@@ -3448,14 +3377,12 @@ namespace Aow.Units.CombatSpells
             var call__285 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RecallSpiritRStr);
             FSpellName = call__285;
             FSpellID = 129;
-            {
-                ref var w__286 = ref FCombatInfo;
-                w__286.Attack = 0;
-                w__286.Damage = 0;
-                w__286.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
-                w__286.RepeatCount = 1;
-                w__286.Range = unchecked((sbyte)-1);
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 0;
+            spellCombatInfo.Damage = 0;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = unchecked((sbyte)-1);
         }
 
         // CombatSpells.pas:2008
@@ -3601,14 +3528,12 @@ namespace Aow.Units.CombatSpells
             var call__290 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateDeadRStr);
             FSpellName = call__290;
             FSpellID = 130;
-            {
-                ref var w__291 = ref FCombatInfo;
-                w__291.Attack = 0;
-                w__291.Damage = 0;
-                w__291.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
-                w__291.RepeatCount = 1;
-                w__291.Range = unchecked((sbyte)-1);
-            }
+            ref var spellCombatInfo = ref FCombatInfo;
+            spellCombatInfo.Attack = 0;
+            spellCombatInfo.Damage = 0;
+            spellCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
+            spellCombatInfo.RepeatCount = 1;
+            spellCombatInfo.Range = unchecked((sbyte)-1);
         }
 
         // CombatSpells.pas:2079

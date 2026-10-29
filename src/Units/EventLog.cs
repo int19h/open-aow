@@ -984,18 +984,15 @@ namespace Aow.Units.EventLog
         public int FindFirstLog(int Player, int Day)
         {
             int Result = default;
+            Result = 0;
+            while ((Result != this.FEvents.FChildren.Count) && ((((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player) || (((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day)))
             {
-                var w__24 = FEvents;
-                Result = 0;
-                while ((Result != w__24.FChildren.Count) && ((((Aow.Units.EventLog.TEventLog)w__24.FChildren.List[Result]).FPlayer != Player) || (((Aow.Units.EventLog.TEventLog)w__24.FChildren.List[Result]).FDay != Day)))
-                {
-                    Result += 1;
-                }
+                Result += 1;
+            }
 
-                if (Result == w__24.FChildren.Count)
-                {
-                    Result = -1;
-                }
+            if (Result == this.FEvents.FChildren.Count)
+            {
+                Result = -1;
             }
 
             return Result;
@@ -1005,35 +1002,32 @@ namespace Aow.Units.EventLog
         public int FindFirstLogEx(int AClassID, int Player, int Day)
         {
             int Result = default;
+            Result = 0;
+            while (true)
             {
-                var w__25 = FEvents;
-                Result = 0;
-                while (true)
+                bool bool__26 = (Result != this.FEvents.FChildren.Count);
+                if (bool__26)
                 {
-                    bool bool__26 = (Result != w__25.FChildren.Count);
-                    if (bool__26)
+                    bool bool__27 = (((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player) || (((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day);
+                    if (!bool__27)
                     {
-                        bool bool__27 = (((Aow.Units.EventLog.TEventLog)w__25.FChildren.List[Result]).FPlayer != Player) || (((Aow.Units.EventLog.TEventLog)w__25.FChildren.List[Result]).FDay != Day);
-                        if (!bool__27)
-                        {
-                            var call__28 = ((Aow.Units.EventLog.TEventLog)w__25.FChildren.List[Result]).ClassType.ClassID();
-                            bool__27 = (call__28 != AClassID);
-                        }
-
-                        bool__26 = bool__27;
+                        var call__28 = ((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).ClassType.ClassID();
+                        bool__27 = (call__28 != AClassID);
                     }
 
-                    if (!bool__26)
-                        break;
-                    {
-                        Result += 1;
-                    }
+                    bool__26 = bool__27;
                 }
 
-                if (Result == w__25.FChildren.Count)
+                if (!bool__26)
+                    break;
                 {
-                    Result = -1;
+                    Result += 1;
                 }
+            }
+
+            if (Result == this.FEvents.FChildren.Count)
+            {
+                Result = -1;
             }
 
             return Result;

@@ -309,16 +309,14 @@ namespace Aow.Units.AoWTabPanel
                     int end__34 = FPanels.Count - 1;
                     for (; I <= end__34; I += 1)
                     {
+                        var component = (Aow.Units.AoWComp.TAoWComponent)FPanels[I];
+                        if (component.FOwnerItem == this.FSelected)
                         {
-                            var w__35 = (Aow.Units.AoWComp.TAoWComponent)FPanels[I];
-                            if (w__35.FOwnerItem == this.FSelected)
-                            {
-                                w__35.SetVisible(true);
-                            }
-                            else
-                            {
-                                w__35.SetVisible(false);
-                            }
+                            component.SetVisible(true);
+                        }
+                        else
+                        {
+                            component.SetVisible(false);
                         }
                     }
                 }

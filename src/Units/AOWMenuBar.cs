@@ -253,12 +253,10 @@ namespace Aow.Units.AOWMenuBar
                                 int end__30 = FMenus.Count - 1;
                                 for (; I <= end__30; I += 1)
                                 {
+                                    var component = (Aow.Units.AoWComp.TAoWComponent)FMenus[I];
+                                    if (component.FOwnerItem == this.FSelected)
                                     {
-                                        var w__31 = (Aow.Units.AoWComp.TAoWComponent)FMenus[I];
-                                        if (w__31.FOwnerItem == this.FSelected)
-                                        {
-                                            w__31.SetVisible(true);
-                                        }
+                                        component.SetVisible(true);
                                     }
                                 }
                             }

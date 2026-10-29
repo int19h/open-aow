@@ -8664,13 +8664,11 @@ namespace Aow.Units.ImageLib
         {
             if (Source is Aow.Units.ImageLib.TFrameTableList)
             {
-                {
-                    var w__221 = (Aow.Units.ImageLib.TFrameTableList)Source;
-                    this.SetCapacity(w__221.FCount);
-                    this.FCount = w__221.FCount;
-                    Ptr<int>.Copy(w__221.FList, this.FList, this.FCount);
-                    this.FDefaultValue = w__221.FDefaultValue;
-                }
+                var frameTableList = (Aow.Units.ImageLib.TFrameTableList)Source;
+                this.SetCapacity(frameTableList.FCount);
+                this.FCount = frameTableList.FCount;
+                Ptr<int>.Copy(frameTableList.FList, this.FList, this.FCount);
+                this.FDefaultValue = frameTableList.FDefaultValue;
             }
             else
             {

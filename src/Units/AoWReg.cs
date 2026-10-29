@@ -916,12 +916,7 @@ namespace Aow.Units.AoWReg
         }
 
         // AoWReg.pas:824
-        public static bool AoWCDInserted()
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public static bool AoWCDInserted() => true;
 
         // AoWReg.pas:894
         // { The shipped GOG binary patches the drive scan to True followed by 54 NOPs. }

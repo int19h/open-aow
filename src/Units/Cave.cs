@@ -406,7 +406,7 @@ namespace Aow.Units.Cave
             var call__32 = GetXhx();
             var call__33 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(call__32, call__31, L);
             Field = call__33;
-            var call__34 = Aow.Units.Cave.Cave.CaveArmyMovePoints(Army, unchecked((byte)Selection), unchecked((sbyte)Field.TerrainType), unchecked((sbyte)Field.OverlayType));
+            var call__34 = unchecked((sbyte)Army.MoveOnMovePoints(unchecked((byte)unchecked((byte)Selection)), unchecked((sbyte)unchecked((sbyte)Field.TerrainType)), unchecked((sbyte)unchecked((sbyte)Field.OverlayType))));
             Result = unchecked((sbyte)call__34);
             return Result;
         }
@@ -438,8 +438,8 @@ namespace Aow.Units.Cave
                 int end__38 = Units.Count - 1;
                 for (; I <= end__38; I += 1)
                 {
-                    AUnit = Aow.Units.Cave.Cave.CaveUnit(Units, I);
-                    var call__39 = Aow.Units.Cave.Cave.CaveUnitCost(AUnit, unchecked((sbyte)Field.TerrainType), unchecked((sbyte)Field.OverlayType));
+                    AUnit = Units.GetUnit(I);
+                    var call__39 = AUnit.MovePointCost(unchecked((sbyte)unchecked((sbyte)Field.TerrainType)), unchecked((sbyte)unchecked((sbyte)Field.OverlayType)));
                     var call__40 = AUnit.GetMovePoints();
                     if (call__39 <= call__40)
                     {
@@ -620,12 +620,12 @@ namespace Aow.Units.Cave
                 var call__75 = Owner.FindOwnedChild(131607);
                 ArmyHS = (Aow.Units.AoWE.TArmyHS)call__75;
                 var call__76 = CanEnterSelection((Aow.Units.AoWE.TUnitList)ArmyHS.FArmy);
-                var call__77 = Aow.Units.Cave.Cave.CaveValidateSelection(ArmyHS.FArmy, 255);
+                var call__77 = unchecked((byte)ArmyHS.FArmy.ValidateSelection(unchecked((byte)(byte)(255))));
                 if (call__76 != call__77)
                 {
                     Log = Aow.Units.Cave.TEnterCaveEventLog.Create(null);
                     Log.FCave = this;
-                    var call__78 = Aow.Units.Cave.Cave.TranslateCaveName(Aow.Units.AoWE.AoWE.SplitOnEnterCaveWarningRStr);
+                    var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SplitOnEnterCaveWarningRStr);
                     Log.FMessage.Text = call__78;
                     Log.FButtons = Aow.Units.EventLog.TMessageEventLogButtons.mebYesNo;
                     Log.Execute(true, Aow.Units.EventLog.TExecuteTrigger.etUser, null);
@@ -744,7 +744,7 @@ namespace Aow.Units.Cave
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.Cave.Cave.TranslateCaveName(Aow.Units.AoWE.AoWE.CaveRStr);
+                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CaveRStr);
                 return Result;
             }
 
@@ -784,12 +784,7 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:448
-        public override bool No()
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool No() => true;
 
         // EventLog.pas:110
         public static new Aow.Units.Cave.TEnterCaveEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -863,95 +858,6 @@ namespace Aow.Units.Cave
         // { Original AoWE resource initialization table $55798BC0..$557990E4. }
         public static Aow.Rtl.AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
         public static readonly Aow.Rtl.AnsiString CaveNoWarRStr = (AnsiString)"Not at war with the %s";
-        // Cave.pas:95
-        // { original RT_STRING $FCD6 }
-        // { needs: draft AoWE result declarations; retain their proven register ABI. }
-        public static Aow.Rtl.AnsiString TranslateCaveName(Aow.Rtl.AnsiString S)
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(S);
-            return Result;
-        }
-
-        // Cave.pas:97
-        public static sbyte CaveFieldPlayer(Aow.Units.AoWE.TAoWMapField Field)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Field.GetPlayer());
-            return Result;
-        }
-
-        // Cave.pas:99
-        public static byte CaveMoveAction(Aow.Units.AoWE.TAoWMapField Field, byte Player)
-        {
-            byte Result = default;
-            Result = unchecked((byte)Field.GetMoveAction(unchecked((sbyte)Player)));
-            return Result;
-        }
-
-        // Cave.pas:101
-        public static Aow.Units.AoWE.TPlayer CavePlayer(Aow.Units.AoWE.TPlayerList List, int Player)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = List.GetPlayers(Player);
-            return Result;
-        }
-
-        // Cave.pas:103
-        public static bool CavePlayerBusy(Aow.Units.AoWE.TPlayer Player)
-        {
-            bool Result = default;
-            Result = Player.GetBusy();
-            return Result;
-        }
-
-        // Cave.pas:105
-        public static byte CaveRelation(Aow.Units.AoWE.TPlayerList List, sbyte PlayerA, sbyte PlayerB)
-        {
-            byte Result = default;
-            Result = unchecked((byte)List.GetDiplomaticRelation(unchecked((sbyte)PlayerA), unchecked((sbyte)PlayerB)));
-            return Result;
-        }
-
-        // Cave.pas:114
-        public static Aow.Units.AoWE.TAbstractUnit CaveUnit(Aow.Units.AoWE.TUnitList Units, int Index)
-        {
-            Aow.Units.AoWE.TAbstractUnit Result = default;
-            Result = Units.GetUnit(Index);
-            return Result;
-        }
-
-        // Cave.pas:116
-        public static int CaveUnitCost(Aow.Units.AoWE.TAbstractUnit AUnit, sbyte Terrain, sbyte Overlay)
-        {
-            int Result = default;
-            Result = AUnit.MovePointCost(unchecked((sbyte)Terrain), unchecked((sbyte)Overlay));
-            return Result;
-        }
-
-        // Cave.pas:118
-        public static sbyte CaveArmyMovePoints(Aow.Units.AoWE.TArmy Army, byte Selection, sbyte Terrain, sbyte Overlay)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Army.MoveOnMovePoints(unchecked((byte)Selection), unchecked((sbyte)Terrain), unchecked((sbyte)Overlay)));
-            return Result;
-        }
-
-        // Cave.pas:122
-        public static byte CaveValidateSelection(Aow.Units.AoWE.TArmy Army, byte Selection)
-        {
-            byte Result = default;
-            Result = unchecked((byte)Army.ValidateSelection(unchecked((byte)Selection)));
-            return Result;
-        }
-
-        // Cave.pas:124
-        public static byte CaveVisibility(Aow.Units.AoWE.TArmy Army)
-        {
-            byte Result = default;
-            Result = unchecked((byte)Army.VisibilityRange());
-            return Result;
-        }
 
         public static void Initialize()
         {

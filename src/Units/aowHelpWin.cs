@@ -180,13 +180,10 @@ namespace Aow.Units.aowHelpWin
         // { draft }
         public void HelpWinResize()
         {
-            {
-                var w__7 = HelpWin;
-                w__7.Alignment.LeftOffset = w__7.WinLeft;
-                w__7.Alignment.TopOffset = w__7.WinTop;
-                w__7.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-                w__7.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-            }
+            this.HelpWin.Alignment.LeftOffset = this.HelpWin.WinLeft;
+            this.HelpWin.Alignment.TopOffset = this.HelpWin.WinTop;
+            this.HelpWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            this.HelpWin.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
         }
     }
 

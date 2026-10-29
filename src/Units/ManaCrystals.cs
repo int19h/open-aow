@@ -126,22 +126,22 @@ namespace Aow.Units.ManaCrystals
         {
             if (FSize == 4)
             {
-                var call__2 = Aow.Units.ManaCrystals.ManaCrystals.CrystalRandom(Aow.Units.AoWE.AoWE.AoWHSMap, 3);
+                var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
                 FSize = unchecked((byte)(call__2 + 1));
             }
 
             switch (FSize)
             {
                 case 1:
-                    var call__3 = Aow.Units.ManaCrystals.ManaCrystals.CrystalRandom(Aow.Units.AoWE.AoWE.AoWHSMap, 25);
+                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(25);
                     FAmount = call__3 + 25;
                     break;
                 case 2:
-                    var call__4 = Aow.Units.ManaCrystals.ManaCrystals.CrystalRandom(Aow.Units.AoWE.AoWE.AoWHSMap, 25);
+                    var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(25);
                     FAmount = call__4 + 50;
                     break;
                 case 3:
-                    var call__5 = Aow.Units.ManaCrystals.ManaCrystals.CrystalRandom(Aow.Units.AoWE.AoWE.AoWHSMap, 50);
+                    var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(50);
                     FAmount = call__5 + 100;
                     break;
             }
@@ -191,21 +191,19 @@ namespace Aow.Units.ManaCrystals
                 Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\EVENTS\\MANA.WAV");
             }
 
-            {
-                var w__11 = Aow.Units.ManaCrystals.ManaCrystals.CrystalPlayer(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, ArmyHS.FArmy.FPlayer);
-                w__11.FMagicControl.SetMana(w__11.FMagicControl.FMana + FAmount);
-            }
+            var player = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(ArmyHS.FArmy.FPlayer));
+            player.FMagicControl.SetMana(player.FMagicControl.FMana + FAmount);
 
             Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
             Log.FPlayer = unchecked((sbyte)unchecked((byte)ArmyHS.FArmy.FPlayer));
-            var call__12 = Aow.Units.ManaCrystals.ManaCrystals.TranslateCrystalName(Aow.Units.AoWE.AoWE.ManaCrystalsFoundRStr);
+            var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaCrystalsFoundRStr);
             var call__13 = Aow.Rtl.Rtl.Format(call__12, [Aow.Rtl.Rtl.IntToStr(FAmount)]);
             Log.FText = call__13;
             var call__14 = GetLhx();
             var call__15 = GetYhx();
             var call__16 = GetXhx();
             Log.SetLocation(unchecked((sbyte)call__16), unchecked((sbyte)call__15), unchecked((sbyte)call__14));
-            var call__17 = Aow.Units.ManaCrystals.ManaCrystals.CrystalPlayer(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, ArmyHS.FArmy.FPlayer);
+            var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(ArmyHS.FArmy.FPlayer));
             call__17.FEventLogbook.AddEvent(Log);
             Log.Release();
             Destroy();
@@ -285,7 +283,7 @@ namespace Aow.Units.ManaCrystals
             public override Aow.Rtl.AnsiString ResourceEditName()
             {
                 Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.ManaCrystals.ManaCrystals.TranslateCrystalName(Aow.Units.AoWE.AoWE.ManaCrystalsRStr);
+                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaCrystalsRStr);
                 return Result;
             }
 
@@ -339,31 +337,6 @@ namespace Aow.Units.ManaCrystals
         public static void RegisterManaCrystals(Aow.Units.Engine.TEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ManaCrystals.TManaCrystals>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ManaCrystals.TManaCrystalsResource>()]);
-        }
-
-        // ManaCrystals.pas:65
-        // { needs: the draft methods return integers and objects, and Watching returns Boolean. }
-        public static int CrystalRandom(Aow.Units.AoWE.TAoWHSMap Map, int Range)
-        {
-            int Result = default;
-            Result = Map.Random(Range);
-            return Result;
-        }
-
-        // ManaCrystals.pas:67
-        public static Aow.Units.AoWE.TPlayer CrystalPlayer(Aow.Units.AoWE.TPlayerList List, int Player)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = List.GetPlayers(Player);
-            return Result;
-        }
-
-        // ManaCrystals.pas:69
-        public static Aow.Rtl.AnsiString TranslateCrystalName(Aow.Rtl.AnsiString S)
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(S);
-            return Result;
         }
 
         public static void Initialize()

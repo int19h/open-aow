@@ -78,10 +78,7 @@ namespace Aow.Units.AOWMWindow
         public bool InsideMap(int X, int Y)
         {
             bool Result = default;
-            {
-                var w__1 = MapWindow;
-                Result = (((X > (w__1.WinLeft + 12)) && (X < ((w__1.WinLeft + w__1.WinWidth) - 12))) && (Y > (w__1.WinTop + 12))) && (Y < ((w__1.WinTop + w__1.WinHeight) - 12));
-            }
+            Result = (((X > (this.MapWindow.WinLeft + 12)) && (X < ((this.MapWindow.WinLeft + this.MapWindow.WinWidth) - 12))) && (Y > (this.MapWindow.WinTop + 12))) && (Y < ((this.MapWindow.WinTop + this.MapWindow.WinHeight) - 12));
 
             return Result;
         }
@@ -111,10 +108,8 @@ namespace Aow.Units.AOWMWindow
             if (InsideMap(X, Y))
             {
                 X = (X - 12) - MapWindow.WinLeft;
-                {
-                    var w__2 = MapWindow;
-                    Aow.Units.AoWE.AoWE.AoWHSMap.Mouse.Up(Button, Shift, X, (Y - 12) - w__2.WinTop);
-                }
+                var window = MapWindow;
+                Aow.Units.AoWE.AoWE.AoWHSMap.Mouse.Up(Button, Shift, X, (Y - 12) - window.WinTop);
             }
             else
             {
@@ -126,13 +121,11 @@ namespace Aow.Units.AOWMWindow
         public void MapWindowMouseMove(Aow.Units.AoWComp.TAoWComponent Sender, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             // { Tried coordinate identity assignments; no exact match. }
+            var window = MapWindow;
+            if ((((X > (window.WinLeft + 11)) && (X < ((MapWindow.WinLeft + window.WinWidth) - 11))) && (Y > (window.WinTop + 11))) && (Y < ((window.WinTop + window.WinHeight) - 11)))
             {
-                var w__3 = MapWindow;
-                if ((((X > (w__3.WinLeft + 11)) && (X < ((MapWindow.WinLeft + w__3.WinWidth) - 11))) && (Y > (w__3.WinTop + 11))) && (Y < ((w__3.WinTop + w__3.WinHeight) - 11)))
-                {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.Mouse.Move(Shift, (X - 12) - MapWindow.WinLeft, (Y - 12) - w__3.WinTop);
-                    MapWindow.Cursor = 9999;
-                }
+                Aow.Units.AoWE.AoWE.AoWHSMap.Mouse.Move(Shift, (X - 12) - MapWindow.WinLeft, (Y - 12) - window.WinTop);
+                MapWindow.Cursor = 9999;
             }
         }
 
@@ -157,12 +150,10 @@ namespace Aow.Units.AOWMWindow
                 var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL);
                 if (call__4 != Aow.Units.AoWSWindow.AoWSWindow.SWindow.Scanner.FLevel)
                 {
-                    {
-                        var w__5 = Aow.Units.AoWSWindow.AoWSWindow.SWindow.Scanner;
-                        w__5.FUpdateStep = -1;
-                        var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL);
-                        w__5.SetLevel(call__6);
-                    }
+                    var scanner2 = Aow.Units.AoWSWindow.AoWSWindow.SWindow.Scanner;
+                    scanner2.FUpdateStep = -1;
+                    var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL);
+                    scanner2.SetLevel(call__6);
 
                     Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerTab.SetIndex(MapViewer.SceneL);
                 }
@@ -170,30 +161,23 @@ namespace Aow.Units.AOWMWindow
 
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
             {
-                {
-                    var w__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap.Mouse;
-                    w__7.Move(TSet<Aow.Rtl.TShiftState>.Of(), w__7.X, w__7.Y);
-                }
+                var hsMapMouse = Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap.Mouse;
+                hsMapMouse.Move(TSet<Aow.Rtl.TShiftState>.Of(), hsMapMouse.X, hsMapMouse.Y);
             }
             else
             {
-                {
-                    var w__8 = Aow.Units.AoWE.AoWE.AoWHSMap.Mouse;
-                    w__8.Move(TSet<Aow.Rtl.TShiftState>.Of(), w__8.X, w__8.Y);
-                }
+                var hsMapMouse2 = Aow.Units.AoWE.AoWE.AoWHSMap.Mouse;
+                hsMapMouse2.Move(TSet<Aow.Rtl.TShiftState>.Of(), hsMapMouse2.X, hsMapMouse2.Y);
             }
         }
 
         // AOWMWindow.pas:122
         public void MapWindowResize()
         {
-            {
-                var w__9 = MapWindow;
-                w__9.Alignment.LeftOffset = w__9.WinLeft;
-                w__9.Alignment.TopOffset = w__9.WinTop;
-                w__9.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-                w__9.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            }
+            this.MapWindow.Alignment.LeftOffset = this.MapWindow.WinLeft;
+            this.MapWindow.Alignment.TopOffset = this.MapWindow.WinTop;
+            this.MapWindow.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            this.MapWindow.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
 
             MapViewer.SceneWidth = MapWindow.WinWidth - 24;
             MapViewer.SceneHeight = MapWindow.WinHeight - 24;

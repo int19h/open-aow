@@ -124,31 +124,28 @@ namespace Aow.Units.E1GameFlow
         public static void HideGameWindows(Aow.Units.AoWWinMan.TGeneral Controller)
         {
             int I = default;
+            if (!Controller.FWindowsHidden)
             {
-                var w__1 = Controller;
-                if (!w__1.FWindowsHidden)
+                Controller.FWindowsHidden = true;
+                Controller.FInfoVisible = Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible;
+                Controller.FRealmVisible = Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible;
+                Controller.FMagicVisible = Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Visible;
+                Controller.FUnitVisible = Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible;
+                Controller.FTargetVisible = Aow.Units.AoWWorldMap.AoWWorldMap.TargetSelectionDlg.Dlg.Visible;
+                Controller.FScannerVisible = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible;
+                Controller.FControlVisible = Aow.Units.AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
+                Controller.FChatVisible = Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible;
+                Controller.FMapVisible = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
                 {
-                    w__1.FWindowsHidden = true;
-                    w__1.FInfoVisible = Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible;
-                    w__1.FRealmVisible = Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible;
-                    w__1.FMagicVisible = Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Visible;
-                    w__1.FUnitVisible = Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible;
-                    w__1.FTargetVisible = Aow.Units.AoWWorldMap.AoWWorldMap.TargetSelectionDlg.Dlg.Visible;
-                    w__1.FScannerVisible = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible;
-                    w__1.FControlVisible = Aow.Units.AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
-                    w__1.FChatVisible = Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible;
-                    w__1.FMapVisible = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
+                    I = 0;
+                    int end__2 = Aow.Units.AoWWinMan.AoWWinMan.General.Manager.FChildren.Count - 1;
+                    for (; I <= end__2; I += 1)
                     {
-                        I = 0;
-                        int end__2 = Aow.Units.AoWWinMan.AoWWinMan.General.Manager.FChildren.Count - 1;
-                        for (; I <= end__2; I += 1)
+                        var call__3 = Aow.Units.AoWWinMan.AoWWinMan.General.Manager.FChildren[I];
+                        if (call__3 != Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow)
                         {
-                            var call__3 = Aow.Units.AoWWinMan.AoWWinMan.General.Manager.FChildren[I];
-                            if (call__3 != Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TaskWindow)
-                            {
-                                var call__4 = Aow.Units.AoWWinMan.AoWWinMan.General.Manager.FChildren[I];
-                                ((Aow.Units.AoWWindow.TAOWWindow)call__4).Visible = false;
-                            }
+                            var call__4 = Aow.Units.AoWWinMan.AoWWinMan.General.Manager.FChildren[I];
+                            ((Aow.Units.AoWWindow.TAOWWindow)call__4).Visible = false;
                         }
                     }
                 }
@@ -158,21 +155,18 @@ namespace Aow.Units.E1GameFlow
         // E1GameFlow.pas:66
         public static void RestoreGameWindows(Aow.Units.AoWWinMan.TGeneral Controller)
         {
+            if (Controller.FWindowsHidden)
             {
-                var w__5 = Controller;
-                if (w__5.FWindowsHidden)
-                {
-                    w__5.FWindowsHidden = false;
-                    Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible = w__5.FInfoVisible;
-                    Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible = w__5.FRealmVisible;
-                    Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Visible = w__5.FMagicVisible;
-                    Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible = w__5.FScannerVisible;
-                    Aow.Units.AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = w__5.FControlVisible;
-                    Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible = w__5.FMapVisible;
-                    Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = w__5.FUnitVisible;
-                    Aow.Units.AoWWorldMap.AoWWorldMap.TargetSelectionDlg.Dlg.Visible = w__5.FTargetVisible;
-                    Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible = w__5.FChatVisible;
-                }
+                Controller.FWindowsHidden = false;
+                Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible = Controller.FInfoVisible;
+                Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible = Controller.FRealmVisible;
+                Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Visible = Controller.FMagicVisible;
+                Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible = Controller.FScannerVisible;
+                Aow.Units.AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = Controller.FControlVisible;
+                Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible = Controller.FMapVisible;
+                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = Controller.FUnitVisible;
+                Aow.Units.AoWWorldMap.AoWWorldMap.TargetSelectionDlg.Dlg.Visible = Controller.FTargetVisible;
+                Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible = Controller.FChatVisible;
             }
         }
 

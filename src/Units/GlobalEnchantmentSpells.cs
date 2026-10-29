@@ -189,24 +189,22 @@ namespace Aow.Units.GlobalEnchantmentSpells
             {
                 var call__7 = AIUpkeepPriority();
                 AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, call__7);
+                var hero = (Aow.Units.AoWE.THero)A1;
+                var call__9 = hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
+                if (call__9)
                 {
-                    var w__8 = (Aow.Units.AoWE.THero)A1;
-                    var call__9 = w__8.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
-                    if (call__9)
+                    Result = this.Activate(A1);
+                }
+                else
+                {
+                    if (hero.FCastingSpellID != FSpellID)
                     {
-                        Result = this.Activate(A1);
+                        hero.ExecuteStartCasting(FSpellID);
+                        Result = true;
                     }
                     else
                     {
-                        if (w__8.FCastingSpellID != FSpellID)
-                        {
-                            w__8.ExecuteStartCasting(FSpellID);
-                            Result = true;
-                        }
-                        else
-                        {
-                            Result = true;
-                        }
+                        Result = true;
                     }
                 }
             }
@@ -2259,10 +2257,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msDeath);
             var call__135 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
             APlayer = call__135;
-            {
-                var w__136 = APlayer.FMagicControl;
-                w__136.SetActiveEnchantments(w__136.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery));
-            }
+            var playerMagicControl = APlayer.FMagicControl;
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery));
 
             {
                 I = APlayer.FArmies.Count - 1;
@@ -2667,14 +2663,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.GlobalEnchantmentSpells.GlobalEnchantmentSpells.NotifySpellSphere(unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.TMagicSphere.msDeath);
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-            {
-                var w__168 = Aow.Units.Animation.TAnimation.Create(null);
-                w__168.FAnimationLevel = 28;
-                w__168.FOnShow = ShowAnimation;
-                w__168.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
-                w__168.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
-                w__168.Activate();
-            }
+            var animation = Aow.Units.Animation.TAnimation.Create(null);
+            animation.FAnimationLevel = 28;
+            animation.FOnShow = ShowAnimation;
+            animation.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
+            animation.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
+            animation.Activate();
 
             FCastSounds.Play(0);
             CastingDone(A2, A1.FEventMana);
@@ -2807,10 +2801,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Deactivate(unchecked((byte)Player));
             var call__175 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
             APlayer = call__175;
-            {
-                var w__176 = APlayer.FMagicControl;
-                w__176.SetActiveEnchantments(w__176.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery));
-            }
+            var playerMagicControl = APlayer.FMagicControl;
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery));
 
             {
                 I = APlayer.FArmies.Count - 1;
@@ -2870,10 +2862,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msWater);
             var call__186 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
             APlayer = call__186;
-            {
-                var w__187 = APlayer.FMagicControl;
-                w__187.SetActiveEnchantments(w__187.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery));
-            }
+            var playerMagicControl = APlayer.FMagicControl;
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery));
 
             {
                 I = APlayer.FArmies.Count - 1;
@@ -3036,14 +3026,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 A2.GetLocation(ref X, ref Y, ref L);
                 Aow.Units.GlobalEnchantmentSpells.GlobalEnchantmentSpells.NotifySpellSphere(unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.TMagicSphere.msFire);
                 Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-                {
-                    var w__204 = Aow.Units.Animation.TAnimation.Create(null);
-                    w__204.FAnimationLevel = 27;
-                    w__204.FOnShow = ShowAnimation;
-                    w__204.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
-                    w__204.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
-                    w__204.Activate();
-                }
+                var animation = Aow.Units.Animation.TAnimation.Create(null);
+                animation.FAnimationLevel = 27;
+                animation.FOnShow = ShowAnimation;
+                animation.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
+                animation.FTag = (Aow.Units.AoWE.AoWE.AoWHSMap.ViewWidth & 65535) | (Aow.Units.AoWE.AoWE.AoWHSMap.ViewHeight << 16);
+                animation.Activate();
 
                 FCastSounds.Play(0);
                 CastingDone(A2, A1.FEventMana);
@@ -3120,10 +3108,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.Deactivate(unchecked((byte)Player));
             var call__207 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
             APlayer = call__207;
-            {
-                var w__208 = APlayer.FMagicControl;
-                w__208.SetActiveEnchantments(w__208.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery));
-            }
+            var playerMagicControl = APlayer.FMagicControl;
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments - TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery));
 
             {
                 I = APlayer.FArmies.Count - 1;
@@ -3182,10 +3168,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Units.AoWE.TMagicSphere.msAir);
             var call__217 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
             APlayer = call__217;
-            {
-                var w__218 = APlayer.FMagicControl;
-                w__218.SetActiveEnchantments(w__218.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery));
-            }
+            var playerMagicControl = APlayer.FMagicControl;
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + TSet<Aow.Units.AoWE.TPlayerEnchantmentType>.Of(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery));
 
             {
                 I = APlayer.FArmies.Count - 1;

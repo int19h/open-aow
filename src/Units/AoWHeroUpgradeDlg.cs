@@ -534,11 +534,9 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             Aow.Rtl.TRect R = default;
             if (ValidateHero())
             {
-                {
-                    var w__40 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                    var call__41 = Aow.Rtl.Rtl.Rect((TopPnl.WinLeft + w__40.WinLeft) + 2, TopPnl.WinTop + w__40.WinTop, ((TopPnl.WinLeft + w__40.WinLeft) + w__40.WinWidth) - 2, ((TopPnl.WinTop + w__40.WinTop) + w__40.WinHeight) - 2);
-                    R = call__41;
-                }
+                var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+                var call__41 = Aow.Rtl.Rtl.Rect((TopPnl.WinLeft + image.WinLeft) + 2, TopPnl.WinTop + image.WinTop, ((TopPnl.WinLeft + image.WinLeft) + image.WinWidth) - 2, ((TopPnl.WinTop + image.WinTop) + image.WinHeight) - 2);
+                R = call__41;
 
                 var call__42 = FHero.GetFace();
                 call__42.ShowStretched(R, SurfDesc);

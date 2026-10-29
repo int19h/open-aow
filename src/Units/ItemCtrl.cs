@@ -168,7 +168,7 @@ namespace Aow.Units.ItemCtrl
             if ((Map != null) && (Index < FIndices.Count))
             {
                 var call__3 = FIndices[Index];
-                var call__4 = Aow.Units.ItemCtrl.ItemCtrl.ControlItemAt(Map.FItemControl, call__3);
+                var call__4 = Map.FItemControl.GetItem(call__3);
                 Result = call__4;
             }
             else
@@ -310,93 +310,13 @@ namespace Aow.Units.ItemCtrl
         }
 
         public static readonly Aow.Rtl.AnsiString GridUsedRStr = (AnsiString)"Used";
-        // ItemCtrl.pas:91
-        // { needs: typed results for the existing draft methods. These tail jumps keep their ABI. }
-        public static Aow.Units.AoWE.THero HeroAt(Aow.Units.AoWE.THeroList List, int Index)
-        {
-            Aow.Units.AoWE.THero Result = default;
-            Result = List.GetHero(Index);
-            return Result;
-        }
-
-        // ItemCtrl.pas:93
-        public static Aow.Units.AoWE.THero ControlHeroAt(Aow.Units.AoWE.THeroControl Control, int Index)
-        {
-            Aow.Units.AoWE.THero Result = default;
-            Result = Control.GetHero(Index);
-            return Result;
-        }
-
-        // ItemCtrl.pas:95
-        public static int HeroCount(Aow.Units.AoWE.THeroControl Control)
-        {
-            int Result = default;
-            Result = Control.GetCount();
-            return Result;
-        }
-
-        // ItemCtrl.pas:97
-        public static int HeroIndexOf(Aow.Units.AoWE.THeroControl Control, Aow.Units.AoWE.THero Hero)
-        {
-            int Result = default;
-            Result = Control.IndexOf(Hero);
-            return Result;
-        }
-
-        // ItemCtrl.pas:99
-        public static sbyte HeroLevel(Aow.Units.AoWE.THero Hero)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Hero.GetLevel());
-            return Result;
-        }
-
-        // ItemCtrl.pas:101
-        public static Aow.Units.AoWE.TItem ItemAt(Aow.Units.AoWE.TItemList List, int Index)
-        {
-            Aow.Units.AoWE.TItem Result = default;
-            Result = List.GetItem(Index);
-            return Result;
-        }
-
-        // ItemCtrl.pas:103
-        public static Aow.Units.AoWE.TItem ControlItemAt(Aow.Units.AoWE.TItemControl Control, int Index)
-        {
-            Aow.Units.AoWE.TItem Result = default;
-            Result = Control.GetItem(Index);
-            return Result;
-        }
-
-        // ItemCtrl.pas:105
-        public static int ItemCount(Aow.Units.AoWE.TItemControl Control)
-        {
-            int Result = default;
-            Result = Control.GetCount();
-            return Result;
-        }
-
-        // ItemCtrl.pas:107
-        public static Aow.Units.AoWE.TPlayer PlayerAt(Aow.Units.AoWE.TPlayerList List, int Index)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = List.GetPlayers(Index);
-            return Result;
-        }
-
-        // ItemCtrl.pas:109
-        public static int RaceToPlayer(Aow.Units.AoWE.TPlayerList List, byte Race)
-        {
-            int Result = default;
-            Result = List.RaceToPlayer(unchecked((sbyte)Race));
-            return Result;
-        }
 
         // ItemCtrl.pas:112
         public static int ItemControlCompareName(int A, int B)
         {
             int Result = default;
-            var call__5 = Aow.Units.ItemCtrl.ItemCtrl.ControlItemAt(Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl, B);
-            var call__6 = Aow.Units.ItemCtrl.ItemCtrl.ControlItemAt(Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl, A);
+            var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.GetItem(B);
+            var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.GetItem(A);
             Result = Aow.Rtl.Rtl.CompareText(call__6.FOwnerName, call__5.FOwnerName);
             return Result;
         }
@@ -405,8 +325,8 @@ namespace Aow.Units.ItemCtrl
         public static int ItemControlCompareType(int A, int B)
         {
             int Result = default;
-            var call__7 = Aow.Units.ItemCtrl.ItemCtrl.ControlItemAt(Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl, A);
-            var call__8 = Aow.Units.ItemCtrl.ItemCtrl.ControlItemAt(Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl, B);
+            var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.GetItem(A);
+            var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.GetItem(B);
             Result = call__7.FItemType - call__8.FItemType;
             return Result;
         }

@@ -205,52 +205,50 @@ namespace Aow.Units.HolyG
             Log.FArmyIcon = 2;
             Log.FPlayer = unchecked((sbyte)Army.FArmy.FPlayer);
             Log.FArmyView.Setup(Army.FArmy, 255);
+            var army = Army.FArmy;
             {
-                var w__13 = Army.FArmy;
+                I = 0;
+                int end__14 = army.Count - 1;
+                for (; I <= end__14; I += 1)
                 {
-                    I = 0;
-                    int end__14 = w__13.Count - 1;
-                    for (; I <= end__14; I += 1)
+                    AUnit = army.GetUnit(I);
+                    var call__15 = AUnit.GetAlignment();
+                    bool bool__16 = (call__15 != Aow.Units.AoWE.TAlignment.alNone);
+                    if (bool__16)
                     {
-                        AUnit = w__13.GetUnit(I);
-                        var call__15 = AUnit.GetAlignment();
-                        bool bool__16 = (call__15 != Aow.Units.AoWE.TAlignment.alNone);
-                        if (bool__16)
+                        var call__17 = AUnit.GetAlignment();
+                        bool__16 = Aow.Units.AoWE.AoWE.alsPureEvil.Contains(call__17);
+                    }
+
+                    bool bool__18 = bool__16;
+                    if (bool__18)
+                    {
+                        var call__19 = AUnit.GetAbilityEnabled(1);
+                        bool__18 = !call__19;
+                    }
+
+                    if (bool__18)
+                    {
+                        Damage = AUnit.ExecuteDamageRole(3, 4, TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly));
+                        if (Damage > AUnit.GetHitPoints())
                         {
-                            var call__17 = AUnit.GetAlignment();
-                            bool__16 = Aow.Units.AoWE.AoWE.alsPureEvil.Contains(call__17);
+                            Damage = AUnit.GetHitPoints();
                         }
 
-                        bool bool__18 = bool__16;
-                        if (bool__18)
+                        if (Damage != 0)
                         {
-                            var call__19 = AUnit.GetAbilityEnabled(1);
-                            bool__18 = !call__19;
+                            var call__20 = AUnit.GetHitPoints();
+                            AUnit.SetHitPoints(unchecked((sbyte)(call__20 - Damage)));
+                            Damaged += 1;
                         }
 
-                        if (bool__18)
-                        {
-                            Damage = AUnit.ExecuteDamageRole(3, 4, TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly));
-                            if (Damage > AUnit.GetHitPoints())
-                            {
-                                Damage = AUnit.GetHitPoints();
-                            }
-
-                            if (Damage != 0)
-                            {
-                                var call__20 = AUnit.GetHitPoints();
-                                AUnit.SetHitPoints(unchecked((sbyte)(call__20 - Damage)));
-                                Damaged += 1;
-                            }
-
-                            Log.FDamageValues.Add(unchecked((byte)Damage));
-                            Log.FDamageTypes.Add(unchecked((byte)((int)Aow.Units.AoWE.TDamageType.dtHoly)));
-                        }
-                        else
-                        {
-                            Log.FDamageValues.Add(0);
-                            Log.FDamageTypes.Add(unchecked((byte)((int)Aow.Units.AoWE.TDamageType.dtNone)));
-                        }
+                        Log.FDamageValues.Add(unchecked((byte)Damage));
+                        Log.FDamageTypes.Add(unchecked((byte)((int)Aow.Units.AoWE.TDamageType.dtHoly)));
+                    }
+                    else
+                    {
+                        Log.FDamageValues.Add(0);
+                        Log.FDamageTypes.Add(unchecked((byte)((int)Aow.Units.AoWE.TDamageType.dtNone)));
                     }
                 }
             }

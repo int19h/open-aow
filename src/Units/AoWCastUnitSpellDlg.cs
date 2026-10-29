@@ -171,10 +171,8 @@ namespace Aow.Units.AoWCastUnitSpellDlg
                 Alignment = call__4;
                 if (((int)Alignment) < Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                 {
-                    {
-                        var w__5 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[unchecked((int)Alignment)];
-                        w__5.ShowClipped((X + 25) - (w__5.Width / 2), (Y + 30) - (w__5.Height / 2), Surface);
-                    }
+                    var image = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[unchecked((int)Alignment)];
+                    image.ShowClipped((X + 25) - (image.Width / 2), (Y + 30) - (image.Height / 2), Surface);
                 }
 
                 Info = default;
@@ -184,10 +182,8 @@ namespace Aow.Units.AoWCastUnitSpellDlg
                 call__6.ShowEx(X - 8, Y - 4, Surface, Info);
                 if ((((int)(((uint)FCaster.FValidSelection) >> Index)) & 1) == 0)
                 {
-                    {
-                        var w__7 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
-                        w__7.ShowClipped((X + 25) - (w__7.Width / 2), (Y + 30) - (w__7.Height / 2), Surface);
-                    }
+                    var image2 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
+                    image2.ShowClipped((X + 25) - (image2.Width / 2), (Y + 30) - (image2.Height / 2), Surface);
                 }
 
                 Surface.ClipRect = OldClip;
@@ -231,13 +227,10 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             {
                 if (U.GetFace() != null)
                 {
-                    {
-                        var w__10 = FaceFrame;
-                        R.Left = w__10.WinLeft + TopPnl.WinLeft;
-                        R.Right = R.Left + w__10.WinWidth;
-                        R.Top = w__10.WinTop + TopPnl.WinTop;
-                        R.Bottom = R.Top + w__10.WinHeight;
-                    }
+                    R.Left = this.FaceFrame.WinLeft + TopPnl.WinLeft;
+                    R.Right = R.Left + this.FaceFrame.WinWidth;
+                    R.Top = this.FaceFrame.WinTop + TopPnl.WinTop;
+                    R.Bottom = R.Top + this.FaceFrame.WinHeight;
 
                     var call__11 = U.GetFace();
                     call__11.ShowStretched(R, Surface);
@@ -262,13 +255,10 @@ namespace Aow.Units.AoWCastUnitSpellDlg
                 Spell = call__12;
                 if (Spell != null)
                 {
-                    {
-                        var w__13 = SpellFr;
-                        R.Left = w__13.WinLeft + TopPnl.WinLeft;
-                        R.Right = R.Left + w__13.WinWidth;
-                        R.Top = w__13.WinTop + TopPnl.WinTop;
-                        R.Bottom = R.Top + w__13.WinHeight;
-                    }
+                    R.Left = this.SpellFr.WinLeft + TopPnl.WinLeft;
+                    R.Right = R.Left + this.SpellFr.WinWidth;
+                    R.Top = this.SpellFr.WinTop + TopPnl.WinTop;
+                    R.Bottom = R.Top + this.SpellFr.WinHeight;
 
                     var call__14 = Spell.FCastImages.GetImageSequence(10);
                     if (call__14 != null)

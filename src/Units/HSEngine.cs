@@ -91,9 +91,9 @@ namespace Aow.Units.HSEngine
     public delegate bool TWalkAroundRouteCallBack(int X, int Y, ref bool Cancel);
     // { HSEngine.TMapField (instance size 24): +8 FHSList, +$C FCapacity, +$D FCount, +$E
 //     FStaticCount, +$F FStatus, +$10 FXhx, +$11 FYhx, +$12 FLhx, +$13 FReserved, +$14 FTerrainType,
-//     +$15 FOverlayType. A hexagon field of a map level. The fields of a level sit in one block that
-//     TMapLevel.CreateMapFieldList allocates: NewInstance takes the address from MapFieldMemory and
-//     FreeInstance frees nothing. The sprites are sorted by their show priority; the first
+//     +$15 FOverlayType. A hexagon field of a map level. The original pooled all fields of a level
+//     in one block and freed it with the level. The port allocates each field through the base allocator.
+//     The sprites are sorted by their show priority. The first
 //     FStaticCount (priority shr 26 <= 15) are the static ones. }
     public partial class TMapField : Aow.Units.Engine.TECustomNode
     {
@@ -622,13 +622,6 @@ namespace Aow.Units.HSEngine
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
-            // HSEngine.pas:1913
-            public override Aow.Rtl.TObject NewInstance()
-            {
-                Aow.Rtl.TObject Result = default;
-                Result = base.NewInstance();
-                return Result;
-            }
 
             // HSEngine.pas:1933
             public override int ClassID()
@@ -948,12 +941,10 @@ namespace Aow.Units.HSEngine
         public override int RemoveChild(Aow.Units.Engine.TEObject Child)
         {
             int Result = default;
+            var hexagonSprite = (Aow.Units.HSEngine.THexagonSprite)Child;
+            if (hexagonSprite.GetVisible())
             {
-                var w__27 = (Aow.Units.HSEngine.THexagonSprite)Child;
-                if (w__27.GetVisible())
-                {
-                    w__27.SetVisible(false);
-                }
+                hexagonSprite.SetVisible(false);
             }
 
             Result = base.RemoveChild(Child);
@@ -1828,10 +1819,7 @@ namespace Aow.Units.HSEngine
             int Result = default;
             int X = default;
             int Y = default;
-            {
-                var w__86 = FMapContainer;
-                Aow.Units.HSEngine.HSEngine.HXtoHP(w__86.FWidth - 1, w__86.FHeight - 1, ref X, ref Y);
-            }
+            Aow.Units.HSEngine.HSEngine.HXtoHP(this.FMapContainer.FWidth - 1, this.FMapContainer.FHeight - 1, ref X, ref Y);
 
             X += 40;
             Result = X;
@@ -1844,16 +1832,13 @@ namespace Aow.Units.HSEngine
             int Result = default;
             int Y = default;
             int X = default;
+            if (this.FMapContainer.FHeight > 1)
             {
-                var w__87 = FMapContainer;
-                if (w__87.FHeight > 1)
-                {
-                    Aow.Units.HSEngine.HSEngine.HXtoHP(1, w__87.FHeight - 1, ref X, ref Y);
-                }
-                else
-                {
-                    Aow.Units.HSEngine.HSEngine.HXtoHP(0, w__87.FHeight - 1, ref X, ref Y);
-                }
+                Aow.Units.HSEngine.HSEngine.HXtoHP(1, this.FMapContainer.FHeight - 1, ref X, ref Y);
+            }
+            else
+            {
+                Aow.Units.HSEngine.HSEngine.HXtoHP(0, this.FMapContainer.FHeight - 1, ref X, ref Y);
             }
 
             Y += 32;
@@ -4133,18 +4118,14 @@ namespace Aow.Units.HSEngine
 
             if (GetLevel() <= 15)
             {
-                {
-                    var w__164 = (Aow.Units.HSEngine.TMapField)Owner;
-                    ((Aow.Units.HSEngine.TMapLevel)w__164.Owner).FMap.InvalidateStaticScene(w__164.FXhx, w__164.FYhx, w__164.FLhx);
-                }
+                var mapField = (Aow.Units.HSEngine.TMapField)Owner;
+                ((Aow.Units.HSEngine.TMapLevel)mapField.Owner).FMap.InvalidateStaticScene(mapField.FXhx, mapField.FYhx, mapField.FLhx);
             }
 
             if (!GetEditMode())
             {
-                {
-                    var w__165 = (Aow.Units.HSEngine.TMapField)Owner;
-                    ((Aow.Units.HSEngine.TMapLevel)w__165.Owner).FMap.TerrainChangedRad(unchecked((sbyte)w__165.FXhx), unchecked((sbyte)w__165.FYhx), unchecked((sbyte)w__165.FLhx), 0);
-                }
+                var mapField2 = (Aow.Units.HSEngine.TMapField)Owner;
+                ((Aow.Units.HSEngine.TMapLevel)mapField2.Owner).FMap.TerrainChangedRad(unchecked((sbyte)mapField2.FXhx), unchecked((sbyte)mapField2.FYhx), unchecked((sbyte)mapField2.FLhx), 0);
             }
 
             Result = true;
@@ -6441,23 +6422,20 @@ namespace Aow.Units.HSEngine
         {
             if (FHSMap != null)
             {
+                if (Value < 16)
                 {
-                    var w__257 = FHSMap;
-                    if (Value < 16)
-                    {
-                        Value = 16;
-                    }
+                    Value = 16;
+                }
 
-                    var call__258 = w__257.GetMaxXhp();
-                    if (call__258 < ((FSceneWidth + Value) + 16))
-                    {
-                        var call__259 = w__257.GetMaxXhp();
-                        this.FSceneX = (call__259 - FSceneWidth) - 16;
-                    }
-                    else
-                    {
-                        this.FSceneX = Value;
-                    }
+                var call__258 = this.FHSMap.GetMaxXhp();
+                if (call__258 < ((FSceneWidth + Value) + 16))
+                {
+                    var call__259 = this.FHSMap.GetMaxXhp();
+                    this.FSceneX = (call__259 - FSceneWidth) - 16;
+                }
+                else
+                {
+                    this.FSceneX = Value;
                 }
             }
         }
@@ -6467,23 +6445,20 @@ namespace Aow.Units.HSEngine
         {
             if (FHSMap != null)
             {
+                if (Value < 16)
                 {
-                    var w__260 = FHSMap;
-                    if (Value < 16)
-                    {
-                        Value = 16;
-                    }
+                    Value = 16;
+                }
 
-                    var call__261 = w__260.GetMaxYhp();
-                    if ((call__261 - 16) < (FSceneHeight + Value))
-                    {
-                        var call__262 = w__260.GetMaxYhp();
-                        this.FSceneY = (call__262 - FSceneHeight) - 16;
-                    }
-                    else
-                    {
-                        this.FSceneY = Value;
-                    }
+                var call__261 = this.FHSMap.GetMaxYhp();
+                if ((call__261 - 16) < (FSceneHeight + Value))
+                {
+                    var call__262 = this.FHSMap.GetMaxYhp();
+                    this.FSceneY = (call__262 - FSceneHeight) - 16;
+                }
+                else
+                {
+                    this.FSceneY = Value;
                 }
             }
         }
@@ -9275,13 +9250,11 @@ namespace Aow.Units.HSEngine
         {
             if (Source is Aow.Units.HSEngine.TXYLList)
             {
-                {
-                    var w__410 = (Aow.Units.HSEngine.TXYLList)Source;
-                    this.FCount = w__410.FCount;
-                    this.SetCapacity(w__410.FCapacity);
-                    Array.Copy(w__410.FList, 0, this.FList, 0, this.FCount);
-                    this.FDefault = w__410.FDefault;
-                }
+                var xylList = (Aow.Units.HSEngine.TXYLList)Source;
+                this.FCount = xylList.FCount;
+                this.SetCapacity(xylList.FCapacity);
+                Array.Copy(xylList.FList, 0, this.FList, 0, this.FCount);
+                this.FDefault = xylList.FDefault;
             }
             else
             {
@@ -10574,9 +10547,6 @@ namespace Aow.Units.HSEngine
             while (!(I >= R));
         }
 
-        // { the address of the next TMapField instance (TMapField.NewInstance; TMapLevel.CreateMapFieldList
-//     steps it through the level's block) }
-        public static object MapFieldMemory;
         // { copies of a field's sprite list: SendMsg and Loaded call methods that may remove sprites }
         public static Aow.Units.FixedArray_Aow_Units_HSEngine_THexagonSprite_256 SendMsgList;
         public static Aow.Units.FixedArray_Aow_Units_HSEngine_THexagonSprite_256 LoadedList;

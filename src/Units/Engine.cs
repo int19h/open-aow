@@ -221,13 +221,11 @@ namespace Aow.Units.Engine
         {
             if (Source is Aow.Units.Engine.TIntegerList)
             {
-                {
-                    var w__2 = (Aow.Units.Engine.TIntegerList)Source;
-                    this.FCount = w__2.FCount;
-                    this.SetCapacity(w__2.FCount);
-                    Array.Copy(w__2.FList, 0, this.FList, 0, this.FCount);
-                    this.FDefault = w__2.FDefault;
-                }
+                var integerList = (Aow.Units.Engine.TIntegerList)Source;
+                this.FCount = integerList.FCount;
+                this.SetCapacity(integerList.FCount);
+                Array.Copy(integerList.FList, 0, this.FList, 0, this.FCount);
+                this.FDefault = integerList.FDefault;
             }
             else
             {
@@ -749,13 +747,11 @@ namespace Aow.Units.Engine
         {
             if (Source is Aow.Units.Engine.TByteList)
             {
-                {
-                    var w__9 = (Aow.Units.Engine.TByteList)Source;
-                    this.FCount = w__9.FCount;
-                    this.SetCapacity(w__9.FCount);
-                    Array.Copy(w__9.FList, 0, this.FList, 0, this.FCount * 1);
-                    this.FDefault = unchecked((byte)w__9.FDefault);
-                }
+                var byteList = (Aow.Units.Engine.TByteList)Source;
+                this.FCount = byteList.FCount;
+                this.SetCapacity(byteList.FCount);
+                Array.Copy(byteList.FList, 0, this.FList, 0, this.FCount * 1);
+                this.FDefault = unchecked((byte)byteList.FDefault);
             }
             else
             {
@@ -1225,13 +1221,11 @@ namespace Aow.Units.Engine
         {
             if (Source is Aow.Units.Engine.TShortIntList)
             {
-                {
-                    var w__15 = (Aow.Units.Engine.TShortIntList)Source;
-                    this.FCount = w__15.FCount;
-                    this.SetCapacity(w__15.FCount);
-                    Array.Copy(w__15.FList, 0, this.FList, 0, this.FCount * 1);
-                    this.FDefault = unchecked((sbyte)w__15.FDefault);
-                }
+                var shortIntList = (Aow.Units.Engine.TShortIntList)Source;
+                this.FCount = shortIntList.FCount;
+                this.SetCapacity(shortIntList.FCount);
+                Array.Copy(shortIntList.FList, 0, this.FList, 0, this.FCount * 1);
+                this.FDefault = unchecked((sbyte)shortIntList.FDefault);
             }
             else
             {
@@ -1700,13 +1694,11 @@ namespace Aow.Units.Engine
         {
             if (Source is Aow.Units.Engine.TWordList)
             {
-                {
-                    var w__21 = (Aow.Units.Engine.TWordList)Source;
-                    this.FCount = w__21.FCount;
-                    this.SetCapacity(w__21.FCount);
-                    Array.Copy(w__21.FList, 0, this.FList, 0, this.FCount);
-                    this.FDefault = unchecked((ushort)w__21.FDefault);
-                }
+                var wordList = (Aow.Units.Engine.TWordList)Source;
+                this.FCount = wordList.FCount;
+                this.SetCapacity(wordList.FCount);
+                Array.Copy(wordList.FList, 0, this.FList, 0, this.FCount);
+                this.FDefault = unchecked((ushort)wordList.FDefault);
             }
             else
             {
@@ -2255,13 +2247,11 @@ namespace Aow.Units.Engine
         {
             if (Source is Aow.Units.Engine.TBitList)
             {
-                {
-                    var w__33 = (Aow.Units.Engine.TBitList)Source;
-                    this.FCount = w__33.FCount;
-                    this.SetCapacity(w__33.FCount);
-                    Aow.Rtl.Rtl.Move(w__33.FList.Span.Slice(0, ((int)(((uint)(this.FCount + 31)) >> 5)) * 4), this.FList.Span.Slice(0, ((int)(((uint)(this.FCount + 31)) >> 5)) * 4), ((int)(((uint)(this.FCount + 31)) >> 5)) * 4);
-                    this.FDefault = w__33.FDefault;
-                }
+                var bitList = (Aow.Units.Engine.TBitList)Source;
+                this.FCount = bitList.FCount;
+                this.SetCapacity(bitList.FCount);
+                Aow.Rtl.Rtl.Move(bitList.FList.Span.Slice(0, ((int)(((uint)(this.FCount + 31)) >> 5)) * 4), this.FList.Span.Slice(0, ((int)(((uint)(this.FCount + 31)) >> 5)) * 4), ((int)(((uint)(this.FCount + 31)) >> 5)) * 4);
+                this.FDefault = bitList.FDefault;
             }
             else
             {
@@ -2662,13 +2652,11 @@ namespace Aow.Units.Engine
         {
             if (Source is Aow.Units.Engine.TEventList)
             {
-                {
-                    var w__46 = (Aow.Units.Engine.TEventList)Source;
-                    this.FCount = w__46.FCount;
-                    this.SetCapacity(w__46.FCount);
-                    Array.Copy(w__46.FList, 0, this.FList, 0, this.FCount);
-                    this.FDefault = w__46.FDefault;
-                }
+                var eventList = (Aow.Units.Engine.TEventList)Source;
+                this.FCount = eventList.FCount;
+                this.SetCapacity(eventList.FCount);
+                Array.Copy(eventList.FList, 0, this.FList, 0, this.FCount);
+                this.FDefault = eventList.FDefault;
             }
             else
             {
@@ -3033,13 +3021,11 @@ namespace Aow.Units.Engine
         {
             if (Source is Aow.Units.Engine.TDoubleItemList)
             {
-                {
-                    var w__51 = (Aow.Units.Engine.TDoubleItemList)Source;
-                    this.FCount = w__51.FCount;
-                    this.SetCapacity(w__51.FCount);
-                    Array.Copy(w__51.FList, 0, this.FList, 0, this.FCount);
-                    this.FDefault = w__51.FDefault;
-                }
+                var doubleItemList = (Aow.Units.Engine.TDoubleItemList)Source;
+                this.FCount = doubleItemList.FCount;
+                this.SetCapacity(doubleItemList.FCount);
+                Array.Copy(doubleItemList.FList, 0, this.FList, 0, this.FCount);
+                this.FDefault = doubleItemList.FDefault;
             }
             else
             {
@@ -3639,13 +3625,11 @@ namespace Aow.Units.Engine
         {
             if (Source is Aow.Units.Engine.TQuadItemList)
             {
-                {
-                    var w__58 = (Aow.Units.Engine.TQuadItemList)Source;
-                    this.FCount = w__58.FCount;
-                    this.SetCapacity(w__58.FCount);
-                    Array.Copy(w__58.FList, 0, this.FList, 0, this.FCount);
-                    this.FDefault = w__58.FDefault;
-                }
+                var quadItemList = (Aow.Units.Engine.TQuadItemList)Source;
+                this.FCount = quadItemList.FCount;
+                this.SetCapacity(quadItemList.FCount);
+                Array.Copy(quadItemList.FList, 0, this.FList, 0, this.FCount);
+                this.FDefault = quadItemList.FDefault;
             }
             else
             {
@@ -4227,12 +4211,10 @@ namespace Aow.Units.Engine
                 Array.Resize(ref FStack, FStackCapacity);
             }
 
-            {
-                ref var w__62 = ref FStack[FStackCount];
-                w__62.First = FFirst;
-                w__62.NextIndex = FNextIndex;
-                w__62.MaxID = FMaxID;
-            }
+            ref var propertySettings = ref FStack[FStackCount];
+            propertySettings.First = FFirst;
+            propertySettings.NextIndex = FNextIndex;
+            propertySettings.MaxID = FMaxID;
 
             FStackCount += 1;
             FNextIndex = FCount;
@@ -4245,12 +4227,10 @@ namespace Aow.Units.Engine
         {
             FStackCount -= 1;
             FCount = FFirst;
-            {
-                ref var w__63 = ref FStack[FStackCount];
-                FFirst = w__63.First;
-                FNextIndex = w__63.NextIndex;
-                FMaxID = w__63.MaxID;
-            }
+            ref var propertySettings = ref FStack[FStackCount];
+            FFirst = propertySettings.First;
+            FNextIndex = propertySettings.NextIndex;
+            FMaxID = propertySettings.MaxID;
         }
 
         // Engine.pas:2361
@@ -6967,52 +6947,26 @@ namespace Aow.Units.Engine
         public override void SendMsg(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
             int I = default;
+            var children = FChildren;
+            if (GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
             {
-                var w__208 = FChildren;
-                if (GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
+                if ((Msg.MsgID & 268435456) != 0)
                 {
-                    if ((Msg.MsgID & 268435456) != 0)
+                    if ((Msg.MsgID & 536870912) == 0)
                     {
-                        if ((Msg.MsgID & 536870912) == 0)
                         {
+                            I = children.Count - 1;
+                            byte end__209 = 0;
+                            for (; I >= end__209; I -= 1)
                             {
-                                I = w__208.Count - 1;
-                                byte end__209 = 0;
-                                for (; I >= end__209; I -= 1)
+                                if (children.List[I] != null)
                                 {
-                                    if (w__208.List[I] != null)
+                                    var node = (Aow.Units.Engine.TEObject)children.List[I];
+                                    var call__211 = node.GetLastMsg();
+                                    if (call__211 != Msg.Seq)
                                     {
-                                        {
-                                            var w__210 = (Aow.Units.Engine.TEObject)w__208.List[I];
-                                            var call__211 = w__210.GetLastMsg();
-                                            if (call__211 != Msg.Seq)
-                                            {
-                                                w__210.SetLastMsg(Msg.Seq);
-                                                w__210.MsgProc(ref Msg, this);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            {
-                                I = w__208.Count - 1;
-                                byte end__212 = 0;
-                                for (; I >= end__212; I -= 1)
-                                {
-                                    if (w__208.List[I] != null)
-                                    {
-                                        {
-                                            var w__213 = (Aow.Units.Engine.TEObject)w__208[I];
-                                            var call__214 = w__213.GetLastMsg();
-                                            if ((call__214 != Msg.Seq) && (w__213.Owner == this))
-                                            {
-                                                w__213.SetLastMsg(Msg.Seq);
-                                                w__213.MsgProc(ref Msg, this);
-                                            }
-                                        }
+                                        node.SetLastMsg(Msg.Seq);
+                                        node.MsgProc(ref Msg, this);
                                     }
                                 }
                             }
@@ -7020,39 +6974,19 @@ namespace Aow.Units.Engine
                     }
                     else
                     {
-                        if ((Msg.MsgID & 536870912) == 0)
                         {
+                            I = children.Count - 1;
+                            byte end__212 = 0;
+                            for (; I >= end__212; I -= 1)
                             {
-                                I = w__208.Count - 1;
-                                byte end__215 = 0;
-                                for (; I >= end__215; I -= 1)
+                                if (children.List[I] != null)
                                 {
-                                    if (w__208.List[I] != null)
+                                    var node2 = (Aow.Units.Engine.TEObject)children[I];
+                                    var call__214 = node2.GetLastMsg();
+                                    if ((call__214 != Msg.Seq) && (node2.Owner == this))
                                     {
-                                        {
-                                            var w__216 = (Aow.Units.Engine.TEObject)w__208.List[I];
-                                            w__216.MsgProc(ref Msg, this);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            {
-                                I = w__208.Count - 1;
-                                byte end__217 = 0;
-                                for (; I >= end__217; I -= 1)
-                                {
-                                    if (w__208.List[I] != null)
-                                    {
-                                        {
-                                            var w__218 = (Aow.Units.Engine.TEObject)w__208[I];
-                                            if (w__218.Owner == this)
-                                            {
-                                                w__218.MsgProc(ref Msg, this);
-                                            }
-                                        }
+                                        node2.SetLastMsg(Msg.Seq);
+                                        node2.MsgProc(ref Msg, this);
                                     }
                                 }
                             }
@@ -7061,77 +6995,105 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    if ((Msg.MsgID & 268435456) != 0)
+                    if ((Msg.MsgID & 536870912) == 0)
                     {
-                        if ((Msg.MsgID & 536870912) == 0)
                         {
+                            I = children.Count - 1;
+                            byte end__215 = 0;
+                            for (; I >= end__215; I -= 1)
                             {
-                                I = w__208.Count - 1;
-                                byte end__219 = 0;
-                                for (; I >= end__219; I -= 1)
+                                if (children.List[I] != null)
                                 {
-                                    {
-                                        var w__220 = (Aow.Units.Engine.TEObject)w__208.List[I];
-                                        var call__221 = w__220.GetLastMsg();
-                                        if (call__221 != Msg.Seq)
-                                        {
-                                            w__220.SetLastMsg(Msg.Seq);
-                                            w__220.MsgProc(ref Msg, this);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            {
-                                I = w__208.Count - 1;
-                                byte end__222 = 0;
-                                for (; I >= end__222; I -= 1)
-                                {
-                                    {
-                                        var w__223 = (Aow.Units.Engine.TEObject)w__208[I];
-                                        var call__224 = w__223.GetLastMsg();
-                                        if ((call__224 != Msg.Seq) && (w__223.Owner == this))
-                                        {
-                                            w__223.SetLastMsg(Msg.Seq);
-                                            w__223.MsgProc(ref Msg, this);
-                                        }
-                                    }
+                                    var node3 = (Aow.Units.Engine.TEObject)children.List[I];
+                                    node3.MsgProc(ref Msg, this);
                                 }
                             }
                         }
                     }
                     else
                     {
-                        if ((Msg.MsgID & 536870912) == 0)
                         {
+                            I = children.Count - 1;
+                            byte end__217 = 0;
+                            for (; I >= end__217; I -= 1)
                             {
-                                I = w__208.Count - 1;
-                                byte end__225 = 0;
-                                for (; I >= end__225; I -= 1)
+                                if (children.List[I] != null)
                                 {
+                                    var node4 = (Aow.Units.Engine.TEObject)children[I];
+                                    if (node4.Owner == this)
                                     {
-                                        var w__226 = (Aow.Units.Engine.TEObject)w__208.List[I];
-                                        w__226.MsgProc(ref Msg, this);
+                                        node4.MsgProc(ref Msg, this);
                                     }
                                 }
                             }
                         }
-                        else
+                    }
+                }
+            }
+            else
+            {
+                if ((Msg.MsgID & 268435456) != 0)
+                {
+                    if ((Msg.MsgID & 536870912) == 0)
+                    {
                         {
+                            I = children.Count - 1;
+                            byte end__219 = 0;
+                            for (; I >= end__219; I -= 1)
                             {
-                                I = w__208.Count - 1;
-                                byte end__227 = 0;
-                                for (; I >= end__227; I -= 1)
+                                var node5 = (Aow.Units.Engine.TEObject)children.List[I];
+                                var call__221 = node5.GetLastMsg();
+                                if (call__221 != Msg.Seq)
                                 {
-                                    {
-                                        var w__228 = (Aow.Units.Engine.TEObject)w__208[I];
-                                        if (w__228.Owner == this)
-                                        {
-                                            w__228.MsgProc(ref Msg, this);
-                                        }
-                                    }
+                                    node5.SetLastMsg(Msg.Seq);
+                                    node5.MsgProc(ref Msg, this);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        {
+                            I = children.Count - 1;
+                            byte end__222 = 0;
+                            for (; I >= end__222; I -= 1)
+                            {
+                                var node6 = (Aow.Units.Engine.TEObject)children[I];
+                                var call__224 = node6.GetLastMsg();
+                                if ((call__224 != Msg.Seq) && (node6.Owner == this))
+                                {
+                                    node6.SetLastMsg(Msg.Seq);
+                                    node6.MsgProc(ref Msg, this);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if ((Msg.MsgID & 536870912) == 0)
+                    {
+                        {
+                            I = children.Count - 1;
+                            byte end__225 = 0;
+                            for (; I >= end__225; I -= 1)
+                            {
+                                var node7 = (Aow.Units.Engine.TEObject)children.List[I];
+                                node7.MsgProc(ref Msg, this);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        {
+                            I = children.Count - 1;
+                            byte end__227 = 0;
+                            for (; I >= end__227; I -= 1)
+                            {
+                                var node8 = (Aow.Units.Engine.TEObject)children[I];
+                                if (node8.Owner == this)
+                                {
+                                    node8.MsgProc(ref Msg, this);
                                 }
                             }
                         }
@@ -8452,52 +8414,26 @@ namespace Aow.Units.Engine
         public override void SendMsg(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
             int I = default;
+            var children = FChildren;
+            if (GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
             {
-                var w__250 = FChildren;
-                if (GetControlStyle().Contains(Aow.Units.Engine.Engine.csKeepIndex))
+                if ((Msg.MsgID & 268435456) != 0)
                 {
-                    if ((Msg.MsgID & 268435456) != 0)
+                    if ((Msg.MsgID & 536870912) == 0)
                     {
-                        if ((Msg.MsgID & 536870912) == 0)
                         {
+                            I = children.Count - 1;
+                            byte end__251 = 0;
+                            for (; I >= end__251; I -= 1)
                             {
-                                I = w__250.Count - 1;
-                                byte end__251 = 0;
-                                for (; I >= end__251; I -= 1)
+                                if (children.List[I] != null)
                                 {
-                                    if (w__250.List[I] != null)
+                                    var node = (Aow.Units.Engine.TEObject)children.List[I];
+                                    var call__253 = node.GetLastMsg();
+                                    if (call__253 != Msg.Seq)
                                     {
-                                        {
-                                            var w__252 = (Aow.Units.Engine.TEObject)w__250.List[I];
-                                            var call__253 = w__252.GetLastMsg();
-                                            if (call__253 != Msg.Seq)
-                                            {
-                                                w__252.SetLastMsg(Msg.Seq);
-                                                w__252.MsgProc(ref Msg, this);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            {
-                                I = w__250.Count - 1;
-                                byte end__254 = 0;
-                                for (; I >= end__254; I -= 1)
-                                {
-                                    if (w__250.List[I] != null)
-                                    {
-                                        {
-                                            var w__255 = (Aow.Units.Engine.TEObject)w__250[I];
-                                            var call__256 = w__255.GetLastMsg();
-                                            if ((call__256 != Msg.Seq) && (w__255.Owner == this))
-                                            {
-                                                w__255.SetLastMsg(Msg.Seq);
-                                                w__255.MsgProc(ref Msg, this);
-                                            }
-                                        }
+                                        node.SetLastMsg(Msg.Seq);
+                                        node.MsgProc(ref Msg, this);
                                     }
                                 }
                             }
@@ -8505,39 +8441,19 @@ namespace Aow.Units.Engine
                     }
                     else
                     {
-                        if ((Msg.MsgID & 536870912) == 0)
                         {
+                            I = children.Count - 1;
+                            byte end__254 = 0;
+                            for (; I >= end__254; I -= 1)
                             {
-                                I = w__250.Count - 1;
-                                byte end__257 = 0;
-                                for (; I >= end__257; I -= 1)
+                                if (children.List[I] != null)
                                 {
-                                    if (w__250.List[I] != null)
+                                    var node2 = (Aow.Units.Engine.TEObject)children[I];
+                                    var call__256 = node2.GetLastMsg();
+                                    if ((call__256 != Msg.Seq) && (node2.Owner == this))
                                     {
-                                        {
-                                            var w__258 = (Aow.Units.Engine.TEObject)w__250.List[I];
-                                            w__258.MsgProc(ref Msg, this);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            {
-                                I = w__250.Count - 1;
-                                byte end__259 = 0;
-                                for (; I >= end__259; I -= 1)
-                                {
-                                    if (w__250.List[I] != null)
-                                    {
-                                        {
-                                            var w__260 = (Aow.Units.Engine.TEObject)w__250[I];
-                                            if (w__260.Owner == this)
-                                            {
-                                                w__260.MsgProc(ref Msg, this);
-                                            }
-                                        }
+                                        node2.SetLastMsg(Msg.Seq);
+                                        node2.MsgProc(ref Msg, this);
                                     }
                                 }
                             }
@@ -8546,77 +8462,105 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    if ((Msg.MsgID & 268435456) != 0)
+                    if ((Msg.MsgID & 536870912) == 0)
                     {
-                        if ((Msg.MsgID & 536870912) == 0)
                         {
+                            I = children.Count - 1;
+                            byte end__257 = 0;
+                            for (; I >= end__257; I -= 1)
                             {
-                                I = w__250.Count - 1;
-                                byte end__261 = 0;
-                                for (; I >= end__261; I -= 1)
+                                if (children.List[I] != null)
                                 {
-                                    {
-                                        var w__262 = (Aow.Units.Engine.TEObject)w__250.List[I];
-                                        var call__263 = w__262.GetLastMsg();
-                                        if (call__263 != Msg.Seq)
-                                        {
-                                            w__262.SetLastMsg(Msg.Seq);
-                                            w__262.MsgProc(ref Msg, this);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            {
-                                I = w__250.Count - 1;
-                                byte end__264 = 0;
-                                for (; I >= end__264; I -= 1)
-                                {
-                                    {
-                                        var w__265 = (Aow.Units.Engine.TEObject)w__250[I];
-                                        var call__266 = w__265.GetLastMsg();
-                                        if ((call__266 != Msg.Seq) && (w__265.Owner == this))
-                                        {
-                                            w__265.SetLastMsg(Msg.Seq);
-                                            w__265.MsgProc(ref Msg, this);
-                                        }
-                                    }
+                                    var node3 = (Aow.Units.Engine.TEObject)children.List[I];
+                                    node3.MsgProc(ref Msg, this);
                                 }
                             }
                         }
                     }
                     else
                     {
-                        if ((Msg.MsgID & 536870912) == 0)
                         {
+                            I = children.Count - 1;
+                            byte end__259 = 0;
+                            for (; I >= end__259; I -= 1)
                             {
-                                I = w__250.Count - 1;
-                                byte end__267 = 0;
-                                for (; I >= end__267; I -= 1)
+                                if (children.List[I] != null)
                                 {
+                                    var node4 = (Aow.Units.Engine.TEObject)children[I];
+                                    if (node4.Owner == this)
                                     {
-                                        var w__268 = (Aow.Units.Engine.TEObject)w__250.List[I];
-                                        w__268.MsgProc(ref Msg, this);
+                                        node4.MsgProc(ref Msg, this);
                                     }
                                 }
                             }
                         }
-                        else
+                    }
+                }
+            }
+            else
+            {
+                if ((Msg.MsgID & 268435456) != 0)
+                {
+                    if ((Msg.MsgID & 536870912) == 0)
+                    {
                         {
+                            I = children.Count - 1;
+                            byte end__261 = 0;
+                            for (; I >= end__261; I -= 1)
                             {
-                                I = w__250.Count - 1;
-                                byte end__269 = 0;
-                                for (; I >= end__269; I -= 1)
+                                var node5 = (Aow.Units.Engine.TEObject)children.List[I];
+                                var call__263 = node5.GetLastMsg();
+                                if (call__263 != Msg.Seq)
                                 {
-                                    {
-                                        var w__270 = (Aow.Units.Engine.TEObject)w__250[I];
-                                        if (w__270.Owner == this)
-                                        {
-                                            w__270.MsgProc(ref Msg, this);
-                                        }
-                                    }
+                                    node5.SetLastMsg(Msg.Seq);
+                                    node5.MsgProc(ref Msg, this);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        {
+                            I = children.Count - 1;
+                            byte end__264 = 0;
+                            for (; I >= end__264; I -= 1)
+                            {
+                                var node6 = (Aow.Units.Engine.TEObject)children[I];
+                                var call__266 = node6.GetLastMsg();
+                                if ((call__266 != Msg.Seq) && (node6.Owner == this))
+                                {
+                                    node6.SetLastMsg(Msg.Seq);
+                                    node6.MsgProc(ref Msg, this);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if ((Msg.MsgID & 536870912) == 0)
+                    {
+                        {
+                            I = children.Count - 1;
+                            byte end__267 = 0;
+                            for (; I >= end__267; I -= 1)
+                            {
+                                var node7 = (Aow.Units.Engine.TEObject)children.List[I];
+                                node7.MsgProc(ref Msg, this);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        {
+                            I = children.Count - 1;
+                            byte end__269 = 0;
+                            for (; I >= end__269; I -= 1)
+                            {
+                                var node8 = (Aow.Units.Engine.TEObject)children[I];
+                                if (node8.Owner == this)
+                                {
+                                    node8.MsgProc(ref Msg, this);
                                 }
                             }
                         }
@@ -11838,24 +11782,21 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEResource Result = default;
             int I = default;
             bool Found = default;
+            Found = false;
+            I = 0;
+            while (!Found && (I != this.FChildren.Count))
             {
-                var w__315 = FChildren;
-                Found = false;
-                I = 0;
-                while (!Found && (I != w__315.Count))
-                {
-                    Found = (w__315.List[I] != null) && (ID == ((Aow.Units.Engine.TEResource)w__315.List[I]).FResourceID);
-                    I += 1;
-                }
+                Found = (this.FChildren.List[I] != null) && (ID == ((Aow.Units.Engine.TEResource)this.FChildren.List[I]).FResourceID);
+                I += 1;
+            }
 
-                if (Found)
-                {
-                    Result = (Aow.Units.Engine.TEResource)w__315.List[I - 1];
-                }
-                else
-                {
-                    Result = null;
-                }
+            if (Found)
+            {
+                Result = (Aow.Units.Engine.TEResource)this.FChildren.List[I - 1];
+            }
+            else
+            {
+                Result = null;
             }
 
             return Result;
@@ -11872,10 +11813,8 @@ namespace Aow.Units.Engine
             {
                 var call__316 = GetResource(Index);
                 ID = call__316.FResourceID;
-                {
-                    var w__317 = GetResource(Index);
-                    w__317.FResourceID = w__317.FResourceID ^ 65535;
-                }
+                var resource = GetResource(Index);
+                resource.FResourceID = resource.FResourceID ^ 65535;
 
                 if (FindResource(ID) != null)
                 {

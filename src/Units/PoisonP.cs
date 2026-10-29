@@ -547,66 +547,64 @@ namespace Aow.Units.PoisonP
             Aow.Units.PoisonP.TPoisonPlant Plant = default;
             Aow.Units.Animation.TImageSequenceAnimation Animation = default;
             Aow.Units.Animation.TTwinkleAnimation Twinkle = default;
+            ref var walk = ref Walk;
+            var call__49 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[FLocation.L];
+            Level = call__49;
+            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
+            var call__50 = Aow.Units.AoWE.AoWE.AoWHSSet.MapObjectResourceList.FindChild(131999);
+            Resource = (Aow.Units.PoisonP.TPoisonPlantResource)call__50;
+            while (walk.Radius <= 1)
             {
-                ref var w__48 = ref Walk;
-                var call__49 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[FLocation.L];
-                Level = call__49;
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-                var call__50 = Aow.Units.AoWE.AoWE.AoWHSSet.MapObjectResourceList.FindChild(131999);
-                Resource = (Aow.Units.PoisonP.TPoisonPlantResource)call__50;
-                while (w__48.Radius <= 1)
+                if ((((walk.X >= 0) && (walk.Y >= 0)) && (walk.X < Level.Width)) && (walk.Y < Level.Height))
                 {
-                    if ((((w__48.X >= 0) && (w__48.Y >= 0)) && (w__48.X < Level.Width)) && (w__48.Y < Level.Height))
+                    var call__51 = Level.GetField(walk.X, walk.Y);
+                    MapF = (Aow.Units.AoWE.TAoWMapField)call__51;
+                    var call__52 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(12);
+                    var call__53 = ((Aow.Units.GlobalTargetSpells.TGlobalTargetSpell)call__52).ValidTargetMapF(MapF);
+                    bool bool__54 = call__53;
+                    if (bool__54)
                     {
-                        var call__51 = Level.GetField(w__48.X, w__48.Y);
-                        MapF = (Aow.Units.AoWE.TAoWMapField)call__51;
-                        var call__52 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(12);
-                        var call__53 = ((Aow.Units.GlobalTargetSpells.TGlobalTargetSpell)call__52).ValidTargetMapF(MapF);
-                        bool bool__54 = call__53;
-                        if (bool__54)
-                        {
-                            var call__55 = MapF.GetArmyHS();
-                            bool__54 = (call__55 == null);
-                        }
-
-                        if (bool__54)
-                        {
-                            MapF.RestoreTerrain();
-                            Plant = (Aow.Units.PoisonP.TPoisonPlant)Resource.CreateResourceUser();
-                            var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(11);
-                            Plant.FDaysRemaining = unchecked((sbyte)(3 + ((call__56 - 5) / 5)));
-                            Plant.FCasterPlayer = unchecked((sbyte)Source.FPlayer);
-                            Plant.FOriginalOverlay = unchecked((sbyte)MapF.OverlayType);
-                            Aow.Units.AoWE.AoWE.AoWHSMap.ClearTerrain(w__48.X, w__48.Y, FLocation.L, 0, -1);
-                            var call__57 = Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Plant, w__48.X, w__48.Y, FLocation.L);
-                            if (call__57)
-                            {
-                                Plant.FPlantStatus = TSet<Aow.Units.PoisonP.TPoisonPlantStatusElement>.Of(Aow.Units.PoisonP.TPoisonPlantStatusElement.ppsSummoning);
-                                Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
-                                var call__58 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(12);
-                                var call__59 = call__58.FCastImages.ImageSequences[0];
-                                Animation.SetImageSequence(call__59);
-                                Animation.FOnShow = Plant.ShowSummonAnimation;
-                                Animation.FOnNewFrame = Plant.NewFrameSummonAnimation;
-                                var call__60 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(15);
-                                Animation.FFrameCounter = -call__60;
-                                Animation.FAnimationLevel = 27;
-                                Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, w__48.X, w__48.Y, FLocation.L);
-                                Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
-                                var call__61 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(2);
-                                var call__62 = call__61.FCastImages.ImageSequences[0];
-                                Twinkle.Setup(call__62, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(), 2, 6, System.Math.Abs(Animation.FFrameCounter + 5), System.Math.Abs(Animation.FFrameCounter + 5) / 2);
-                                Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Twinkle, w__48.X, w__48.Y, FLocation.L);
-                            }
-                            else
-                            {
-                                Plant.Free();
-                            }
-                        }
+                        var call__55 = MapF.GetArmyHS();
+                        bool__54 = (call__55 == null);
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    if (bool__54)
+                    {
+                        MapF.RestoreTerrain();
+                        Plant = (Aow.Units.PoisonP.TPoisonPlant)Resource.CreateResourceUser();
+                        var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(11);
+                        Plant.FDaysRemaining = unchecked((sbyte)(3 + ((call__56 - 5) / 5)));
+                        Plant.FCasterPlayer = unchecked((sbyte)Source.FPlayer);
+                        Plant.FOriginalOverlay = unchecked((sbyte)MapF.OverlayType);
+                        Aow.Units.AoWE.AoWE.AoWHSMap.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
+                        var call__57 = Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Plant, walk.X, walk.Y, FLocation.L);
+                        if (call__57)
+                        {
+                            Plant.FPlantStatus = TSet<Aow.Units.PoisonP.TPoisonPlantStatusElement>.Of(Aow.Units.PoisonP.TPoisonPlantStatusElement.ppsSummoning);
+                            Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            var call__58 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(12);
+                            var call__59 = call__58.FCastImages.ImageSequences[0];
+                            Animation.SetImageSequence(call__59);
+                            Animation.FOnShow = Plant.ShowSummonAnimation;
+                            Animation.FOnNewFrame = Plant.NewFrameSummonAnimation;
+                            var call__60 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(15);
+                            Animation.FFrameCounter = -call__60;
+                            Animation.FAnimationLevel = 27;
+                            Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, walk.X, walk.Y, FLocation.L);
+                            Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+                            var call__61 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(2);
+                            var call__62 = call__61.FCastImages.ImageSequences[0];
+                            Twinkle.Setup(call__62, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(), 2, 6, System.Math.Abs(Animation.FFrameCounter + 5), System.Math.Abs(Animation.FFrameCounter + 5) / 2);
+                            Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Twinkle, walk.X, walk.Y, FLocation.L);
+                        }
+                        else
+                        {
+                            Plant.Free();
+                        }
+                    }
                 }
+
+                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
             }
         }
 

@@ -240,11 +240,8 @@ namespace Aow.Units.AoWPInfoWin
         // AoWPInfoWin.pas:100
         public void PInfoWinResize()
         {
-            {
-                var w__33 = PInfoWin;
-                w__33.Alignment.RightOffset = (w__33.WinManager.WinWidth - w__33.WinLeft) - w__33.WinWidth;
-                w__33.Alignment.BottomOffset = (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - w__33.WinTop) - w__33.WinHeight;
-            }
+            this.PInfoWin.Alignment.RightOffset = (this.PInfoWin.WinManager.WinWidth - this.PInfoWin.WinLeft) - this.PInfoWin.WinWidth;
+            this.PInfoWin.Alignment.BottomOffset = (Aow.Units.AoWWinMan.AoWWinMan.General.Manager.WinHeight - this.PInfoWin.WinTop) - this.PInfoWin.WinHeight;
         }
 
         // AoWPInfoWin.pas:109

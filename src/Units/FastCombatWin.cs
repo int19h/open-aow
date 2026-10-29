@@ -393,27 +393,25 @@ namespace Aow.Units.FastCombatWin
                 call__17.Show(X + 372, Y + 342, Surface);
             }
 
+            var combatData = FViewer.FCombat.FCombatData;
+            if (combatData.FWallType != 0)
             {
-                var w__18 = FViewer.FCombat.FCombatData;
-                if (w__18.FWallType != 0)
+                Wall = combatData.FWall;
+                if (Wall != null)
                 {
-                    Wall = w__18.FWall;
-                    if (Wall != null)
+                    if (HasWall(0, 4))
                     {
-                        if (HasWall(0, 4))
-                        {
-                            var call__19 = Wall.GetHits();
-                            var call__20 = Wall.GetHitPoints();
-                            var call__21 = Aow.Units.AoWE.AoWE.HitPointsToHitPcnt(unchecked((sbyte)call__20), unchecked((sbyte)call__19));
-                            Aow.Units.AoWE.AoWE.ShowHitPcnt(X + 250, (Y + 332) - 45, Surface, call__21);
-                        }
-                        else
-                        {
-                            var call__22 = Wall.GetHits();
-                            var call__23 = Wall.GetHitPoints();
-                            var call__24 = Aow.Units.AoWE.AoWE.HitPointsToHitPcnt(unchecked((sbyte)call__23), unchecked((sbyte)call__22));
-                            Aow.Units.AoWE.AoWE.ShowHitPcnt(X + 250, (Y + 218) - 45, Surface, call__24);
-                        }
+                        var call__19 = Wall.GetHits();
+                        var call__20 = Wall.GetHitPoints();
+                        var call__21 = Aow.Units.AoWE.AoWE.HitPointsToHitPcnt(unchecked((sbyte)call__20), unchecked((sbyte)call__19));
+                        Aow.Units.AoWE.AoWE.ShowHitPcnt(X + 250, (Y + 332) - 45, Surface, call__21);
+                    }
+                    else
+                    {
+                        var call__22 = Wall.GetHits();
+                        var call__23 = Wall.GetHitPoints();
+                        var call__24 = Aow.Units.AoWE.AoWE.HitPointsToHitPcnt(unchecked((sbyte)call__23), unchecked((sbyte)call__22));
+                        Aow.Units.AoWE.AoWE.ShowHitPcnt(X + 250, (Y + 218) - 45, Surface, call__24);
                     }
                 }
             }
@@ -661,10 +659,9 @@ namespace Aow.Units.FastCombatWin
                         }
 
                     {
-                        var w__41 = GlowImage;
-                        if (Image != w__41.CurrentImage)
+                        if (Image != this.GlowImage.CurrentImage)
                         {
-                            w__41.CurrentImage = Image + 20;
+                            this.GlowImage.CurrentImage = Image + 20;
                         }
                     }
 
@@ -691,9 +688,8 @@ namespace Aow.Units.FastCombatWin
                         }
 
                     {
-                        var w__42 = FViewer;
-                        var call__43 = w__42.GetEndPosition();
-                        if (w__42.FPosition >= call__43)
+                        var call__43 = this.FViewer.GetEndPosition();
+                        if (this.FViewer.FPosition >= call__43)
                         {
                             SetPhase(2);
                         }
@@ -708,10 +704,9 @@ namespace Aow.Units.FastCombatWin
                         }
 
                     {
-                        var w__44 = GlowImage;
-                        if (Image != w__44.CurrentImage)
+                        if (Image != this.GlowImage.CurrentImage)
                         {
-                            w__44.CurrentImage = Image + 20;
+                            this.GlowImage.CurrentImage = Image + 20;
                         }
                     }
 
@@ -875,17 +870,14 @@ namespace Aow.Units.FastCombatWin
         // FastCombatWin.pas:124
         public static void ShowCombatEvent(Aow.Units.FastCombatWin.TFastCombatWindow Dialog, Aow.Units.AoWE.TCombatEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
-            {
-                var w__50 = Dialog;
-                Aow.Rtl.Rtl.Assert(w__50.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\FastCombatWin.pas", 159);
-                Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
-                w__50.FEvent = Event;
-                w__50.FEvent.AddRef();
-                w__50.FDone = Done;
-                w__50.FLogbook = Event.FLogbook;
-                Aow.Units.FastCombatWin.FastCombatWin.InitializeCombatDialog(Dialog, w__50.FLogbook);
-                w__50.FCWin.Visible = true;
-            }
+            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\FastCombatWin.pas", 159);
+            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
+            Dialog.FEvent = Event;
+            Dialog.FEvent.AddRef();
+            Dialog.FDone = Done;
+            Dialog.FLogbook = Event.FLogbook;
+            Aow.Units.FastCombatWin.FastCombatWin.InitializeCombatDialog(Dialog, Dialog.FLogbook);
+            Dialog.FCWin.Visible = true;
         }
 
         // FastCombatWin.pas:169
@@ -898,122 +890,119 @@ namespace Aow.Units.FastCombatWin
             Aow.Units.AoWE.TCombatParty Party = default;
             Aow.Units.AoWImage.TAOWImage Image = default;
             int I = default;
+            Dialog.FViewer.Initialize(Logbook);
+            Combat = Dialog.FViewer.FCombat;
+            Dialog.FAnimationFrame = 0;
             {
-                var w__51 = Dialog;
-                w__51.FViewer.Initialize(Logbook);
-                Combat = w__51.FViewer.FCombat;
-                w__51.FAnimationFrame = 0;
+                I = 0;
+                byte end__52 = 7;
+                for (; I <= end__52; I += 1)
                 {
-                    I = 0;
-                    byte end__52 = 7;
-                    for (; I <= end__52; I += 1)
+                    switch (I)
                     {
-                        switch (I)
-                        {
-                            case 0:
-                                Image = w__51.Party1Bg;
-                                break;
-                            case 1:
-                                Image = w__51.Party2Bg;
-                                break;
-                            case 2:
-                                Image = w__51.Party3Bg;
-                                break;
-                            case 3:
-                                Image = w__51.Party4Bg;
-                                break;
-                            case 4:
-                                Image = w__51.Party5Bg;
-                                break;
-                            case 5:
-                                Image = w__51.Party6Bg;
-                                break;
-                            case 6:
-                                Image = w__51.Party7Bg;
-                                break;
-                            case 7:
-                                // { Original reuses the second background for the eighth party. }
-                                Image = w__51.Party2Bg;
-                                break;
-                            default:
-                                Image = null;
-                                break;
-                        }
+                        case 0:
+                            Image = Dialog.Party1Bg;
+                            break;
+                        case 1:
+                            Image = Dialog.Party2Bg;
+                            break;
+                        case 2:
+                            Image = Dialog.Party3Bg;
+                            break;
+                        case 3:
+                            Image = Dialog.Party4Bg;
+                            break;
+                        case 4:
+                            Image = Dialog.Party5Bg;
+                            break;
+                        case 5:
+                            Image = Dialog.Party6Bg;
+                            break;
+                        case 6:
+                            Image = Dialog.Party7Bg;
+                            break;
+                        case 7:
+                            // { Original reuses the second background for the eighth party. }
+                            Image = Dialog.Party2Bg;
+                            break;
+                        default:
+                            Image = null;
+                            break;
+                    }
 
-                        var call__53 = Combat.FCombatData.FParties.GetParty(unchecked((byte)I));
-                        Party = call__53;
-                        if (Party != null)
+                    var call__53 = Combat.FCombatData.FParties.GetParty(unchecked((byte)I));
+                    Party = call__53;
+                    if (Party != null)
+                    {
+                        var call__54 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Party.FPlayerIndex));
+                        PlayerIndex = unchecked((sbyte)call__54.FPlayer);
+                        if (PlayerIndex != 0)
                         {
-                            var call__54 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Party.FPlayerIndex));
-                            PlayerIndex = unchecked((sbyte)call__54.FPlayer);
-                            if (PlayerIndex != 0)
-                            {
-                                var call__55 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(PlayerIndex);
-                                PartyRace = call__55.FPlayerRace;
-                            }
-                            else
-                            {
-                                PartyRace = 12;
-                            }
-
-                            Image.CurrentImage = PartyRace + 21;
-                            Image.Visible = true;
+                            var call__55 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(PlayerIndex);
+                            PartyRace = call__55.FPlayerRace;
                         }
                         else
                         {
-                            if (I != 7)
-                            {
-                                Image.Visible = false;
-                            }
+                            PartyRace = 12;
                         }
 
-                        // { Original refreshes both side labels inside the party loop. }
-                        var call__56 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FAttackerPlayer));
-                        if (call__56.FPlayer == 0)
+                        Image.CurrentImage = PartyRace + 21;
+                        Image.Visible = true;
+                    }
+                    else
+                    {
+                        if (I != 7)
                         {
-                            var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.IndependentsRStr);
-                            w__51.LSideLbl.Text = call__57;
-                        }
-                        else
-                        {
-                            var call__58 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FAttackerPlayer));
-                            var call__59 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__58.FPlayer);
-                            RaceIndex = call__59.FPlayerRace;
-                            var call__60 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(RaceIndex);
-                            w__51.LSideLbl.Text = call__60.FRaceName;
-                        }
-
-                        var call__61 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FDefenderPlayer));
-                        if (call__61.FPlayer == 0)
-                        {
-                            var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.IndependentsRStr);
-                            w__51.RSideLbl.Text = call__62;
-                        }
-                        else
-                        {
-                            var call__63 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FDefenderPlayer));
-                            var call__64 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__63.FPlayer);
-                            RaceIndex = call__64.FPlayerRace;
-                            var call__65 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(RaceIndex);
-                            w__51.RSideLbl.Text = call__65.FRaceName;
+                            Image.Visible = false;
                         }
                     }
-                }
 
-                w__51.FViewer.Play();
-                w__51.FCWin.FDrawn = false;
-                var call__66 = w__51.FViewer.GetEndPosition();
-                w__51.SequencePositionSld.Max = call__66;
-                w__51.SequenceSpeedSld.Position = 20 - w__51.FViewer.FDelay;
-                var call__67 = w__51.FViewer.GetEndPosition();
-                if (call__67 != -1)
-                {
-                    w__51.SetPhase(0);
+                    // { Original refreshes both side labels inside the party loop. }
+                    var call__56 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FAttackerPlayer));
+                    if (call__56.FPlayer == 0)
+                    {
+                        var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.IndependentsRStr);
+                        Dialog.LSideLbl.Text = call__57;
+                    }
+                    else
+                    {
+                        var call__58 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FAttackerPlayer));
+                        var call__59 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__58.FPlayer);
+                        RaceIndex = call__59.FPlayerRace;
+                        var call__60 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(RaceIndex);
+                        Dialog.LSideLbl.Text = call__60.FRaceName;
+                    }
+
+                    var call__61 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FDefenderPlayer));
+                    if (call__61.FPlayer == 0)
+                    {
+                        var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.IndependentsRStr);
+                        Dialog.RSideLbl.Text = call__62;
+                    }
+                    else
+                    {
+                        var call__63 = Combat.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)Combat.FCombatData.FDefenderPlayer));
+                        var call__64 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__63.FPlayer);
+                        RaceIndex = call__64.FPlayerRace;
+                        var call__65 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(RaceIndex);
+                        Dialog.RSideLbl.Text = call__65.FRaceName;
+                    }
                 }
-                else
-                {
-                    w__51.SetPhase(3);
-                }
+            }
+
+            Dialog.FViewer.Play();
+            Dialog.FCWin.FDrawn = false;
+            var call__66 = Dialog.FViewer.GetEndPosition();
+            Dialog.SequencePositionSld.Max = call__66;
+            Dialog.SequenceSpeedSld.Position = 20 - Dialog.FViewer.FDelay;
+            var call__67 = Dialog.FViewer.GetEndPosition();
+            if (call__67 != -1)
+            {
+                Dialog.SetPhase(0);
+            }
+            else
+            {
+                Dialog.SetPhase(3);
             }
         }
     }

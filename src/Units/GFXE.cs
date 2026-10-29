@@ -1332,10 +1332,8 @@ namespace Aow.Units.GFXE
                                 byte end__1 = 255;
                                 for (; I <= end__1; I += 1)
                                 {
-                                    {
-                                        ref var w__2 = ref Entries[I];
-                                        w__2.W = unchecked((ushort)((((w__2.R & 248) << 8) + ((w__2.G & 252) << 3)) + ((int)(((uint)w__2.B) >> 3))));
-                                    }
+                                    ref var paletteEntry = ref Entries[I];
+                                    paletteEntry.W = unchecked((ushort)((((paletteEntry.R & 248) << 8) + ((paletteEntry.G & 252) << 3)) + ((int)(((uint)paletteEntry.B) >> 3))));
                                 }
                             }
 
@@ -1346,10 +1344,8 @@ namespace Aow.Units.GFXE
                                 byte end__3 = 255;
                                 for (; I <= end__3; I += 1)
                                 {
-                                    {
-                                        ref var w__4 = ref Entries[I];
-                                        w__4.W = unchecked((ushort)((((w__4.R & 248) << 7) + ((w__4.G & 248) << 2)) + ((int)(((uint)w__4.B) >> 3))));
-                                    }
+                                    ref var paletteEntry2 = ref Entries[I];
+                                    paletteEntry2.W = unchecked((ushort)((((paletteEntry2.R & 248) << 7) + ((paletteEntry2.G & 248) << 2)) + ((int)(((uint)paletteEntry2.B) >> 3))));
                                 }
                             }
 
@@ -1372,10 +1368,8 @@ namespace Aow.Units.GFXE
                                 byte end__5 = 255;
                                 for (; I <= end__5; I += 1)
                                 {
-                                    {
-                                        ref var w__6 = ref Entries[I];
-                                        w__6.W = unchecked((ushort)((((w__6.B & 248) << 8) + ((w__6.G & 252) << 3)) + ((int)(((uint)w__6.R) >> 3))));
-                                    }
+                                    ref var paletteEntry3 = ref Entries[I];
+                                    paletteEntry3.W = unchecked((ushort)((((paletteEntry3.B & 248) << 8) + ((paletteEntry3.G & 252) << 3)) + ((int)(((uint)paletteEntry3.R) >> 3))));
                                 }
                             }
 
@@ -1386,10 +1380,8 @@ namespace Aow.Units.GFXE
                                 byte end__7 = 255;
                                 for (; I <= end__7; I += 1)
                                 {
-                                    {
-                                        ref var w__8 = ref Entries[I];
-                                        w__8.W = unchecked((ushort)((((w__8.B & 248) << 7) + ((w__8.G & 248) << 2)) + ((int)(((uint)w__8.R) >> 3))));
-                                    }
+                                    ref var paletteEntry4 = ref Entries[I];
+                                    paletteEntry4.W = unchecked((ushort)((((paletteEntry4.B & 248) << 7) + ((paletteEntry4.G & 248) << 2)) + ((int)(((uint)paletteEntry4.R) >> 3))));
                                 }
                             }
 

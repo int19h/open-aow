@@ -300,20 +300,18 @@ namespace Aow.Units.PoisonC
             Msg.MsgID = 4432;
             Msg.Param[0] = (int)Aow.Units.AoWE.TStormType.stPestilence;
             Msg.Param[2] = FPlayer;
+            ref var walk = ref Walk;
+            while (FResource.TerrainList.Count > walk.HN)
             {
-                ref var w__21 = ref Walk;
-                while (FResource.TerrainList.Count > w__21.HN)
+                var call__22 = FResource.TerrainList.GetTerrain(walk.HN);
+                if (((((call__22 >= -1) && (walk.X >= 0)) && (walk.Y >= 0)) && (walk.X < Level.Width)) && (Level.Height > walk.Y))
                 {
-                    var call__22 = FResource.TerrainList.GetTerrain(w__21.HN);
-                    if (((((call__22 >= -1) && (w__21.X >= 0)) && (w__21.Y >= 0)) && (w__21.X < Level.Width)) && (Level.Height > w__21.Y))
-                    {
-                        Msg.Param[1] = w__21.Radius;
-                        var call__23 = Level.GetField(w__21.X, w__21.Y);
-                        call__23.SendMapFieldMsg(ref Msg);
-                    }
-
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    Msg.Param[1] = walk.Radius;
+                    var call__23 = Level.GetField(walk.X, walk.Y);
+                    call__23.SendMapFieldMsg(ref Msg);
                 }
+
+                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
             }
         }
 

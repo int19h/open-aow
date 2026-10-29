@@ -203,59 +203,57 @@ namespace Aow.Units.UnHolyG
             var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnholyGroundDamageRStr);
             Log.FArmyMessages.Add(call__12);
             Log.FArmyIcon = 2;
+            var army = Army.FArmy;
             {
-                var w__13 = Army.FArmy;
+                I = 0;
+                int end__14 = army.Count - 1;
+                for (; I <= end__14; I += 1)
                 {
-                    I = 0;
-                    int end__14 = w__13.Count - 1;
-                    for (; I <= end__14; I += 1)
+                    AUnit = army.GetUnit(I);
+                    var call__15 = AUnit.GetAlignment();
+                    bool bool__16 = (call__15 != Aow.Units.AoWE.TAlignment.alNone);
+                    if (bool__16)
                     {
-                        AUnit = w__13.GetUnit(I);
-                        var call__15 = AUnit.GetAlignment();
-                        bool bool__16 = (call__15 != Aow.Units.AoWE.TAlignment.alNone);
-                        if (bool__16)
+                        var call__17 = AUnit.GetAlignment();
+                        bool__16 = Aow.Units.AoWE.AoWE.alsPureGood.Contains(call__17);
+                    }
+
+                    bool bool__18 = bool__16;
+                    if (bool__18)
+                    {
+                        var call__19 = AUnit.GetAbilityEnabled(1);
+                        bool__18 = !call__19;
+                    }
+
+                    if (bool__18)
+                    {
+                        Damage = AUnit.ExecuteDamageRole(4, 3, TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath));
+                        if (Damage > AUnit.GetHitPoints())
                         {
-                            var call__17 = AUnit.GetAlignment();
-                            bool__16 = Aow.Units.AoWE.AoWE.alsPureGood.Contains(call__17);
+                            Damage = AUnit.GetHitPoints();
                         }
 
-                        bool bool__18 = bool__16;
-                        if (bool__18)
+                        if (Damage != 0)
                         {
-                            var call__19 = AUnit.GetAbilityEnabled(1);
-                            bool__18 = !call__19;
+                            var call__20 = AUnit.GetHitPoints();
+                            AUnit.SetHitPoints(unchecked((sbyte)(call__20 - Damage)));
+                            Damaged += 1;
                         }
 
-                        if (bool__18)
-                        {
-                            Damage = AUnit.ExecuteDamageRole(4, 3, TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath));
-                            if (Damage > AUnit.GetHitPoints())
-                            {
-                                Damage = AUnit.GetHitPoints();
-                            }
-
-                            if (Damage != 0)
-                            {
-                                var call__20 = AUnit.GetHitPoints();
-                                AUnit.SetHitPoints(unchecked((sbyte)(call__20 - Damage)));
-                                Damaged += 1;
-                            }
-
-                            Log.FDamageValues.Add(unchecked((byte)Damage));
-                            Log.FDamageTypes.Add(unchecked((byte)((int)Aow.Units.AoWE.TDamageType.dtDeath)));
-                        }
-                        else
-                        {
-                            Log.FDamageValues.Add(0);
-                            Log.FDamageTypes.Add(unchecked((byte)((int)Aow.Units.AoWE.TDamageType.dtDeath)));
-                        }
+                        Log.FDamageValues.Add(unchecked((byte)Damage));
+                        Log.FDamageTypes.Add(unchecked((byte)((int)Aow.Units.AoWE.TDamageType.dtDeath)));
+                    }
+                    else
+                    {
+                        Log.FDamageValues.Add(0);
+                        Log.FDamageTypes.Add(unchecked((byte)((int)Aow.Units.AoWE.TDamageType.dtDeath)));
                     }
                 }
-
-                Log.FPlayer = unchecked((sbyte)w__13.FPlayer);
-                var call__21 = w__13.GetArmyHS();
-                Log.FArmyView.Setup(call__21.FArmy, 255);
             }
+
+            Log.FPlayer = unchecked((sbyte)army.FPlayer);
+            var call__21 = army.GetArmyHS();
+            Log.FArmyView.Setup(call__21.FArmy, 255);
 
             Log.ValidateGameOver();
             if (Damaged != 0)
@@ -509,61 +507,59 @@ namespace Aow.Units.UnHolyG
             Aow.Units.AoWE.TAoWMapField MapF = default;
             Aow.Units.UnHolyG.TUnHolyGround Ground = default;
             Aow.Units.Animation.TImageSequenceAnimation Anim = default;
+            var walk = Walk;
+            var call__53 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[FLocation.L];
+            Level = call__53;
+            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
+            var call__54 = Aow.Units.AoWE.AoWE.AoWHSSet.MapObjectResourceList.FindChild(131986);
+            Resource = (Aow.Units.UnHolyG.TUnHolyGroundResource)call__54;
+            while (walk.Radius <= 1)
             {
-                var w__52 = Walk;
-                var call__53 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[FLocation.L];
-                Level = call__53;
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-                var call__54 = Aow.Units.AoWE.AoWE.AoWHSSet.MapObjectResourceList.FindChild(131986);
-                Resource = (Aow.Units.UnHolyG.TUnHolyGroundResource)call__54;
-                while (w__52.Radius <= 1)
+                if ((((walk.X >= 0) && (walk.Y >= 0)) && (walk.X < Level.Width)) && (walk.Y < Level.Height))
                 {
-                    if ((((w__52.X >= 0) && (w__52.Y >= 0)) && (w__52.X < Level.Width)) && (w__52.Y < Level.Height))
+                    var call__55 = Level.GetField(walk.X, walk.Y);
+                    MapF = (Aow.Units.AoWE.TAoWMapField)call__55;
+                    var call__56 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
+                    var call__57 = ((Aow.Units.GlobalTargetSpells.TGlobalTargetSpell)call__56).ValidTargetMapF(MapF);
+                    bool bool__58 = call__57;
+                    if (bool__58)
                     {
-                        var call__55 = Level.GetField(w__52.X, w__52.Y);
-                        MapF = (Aow.Units.AoWE.TAoWMapField)call__55;
-                        var call__56 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
-                        var call__57 = ((Aow.Units.GlobalTargetSpells.TGlobalTargetSpell)call__56).ValidTargetMapF(MapF);
-                        bool bool__58 = call__57;
-                        if (bool__58)
-                        {
-                            var call__59 = MapF.GetArmyHS();
-                            bool__58 = (call__59 == null);
-                        }
-
-                        if (bool__58)
-                        {
-                            MapF.RestoreTerrain();
-                            Ground = (Aow.Units.UnHolyG.TUnHolyGround)Resource.CreateResourceUser();
-                            var call__60 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(11);
-                            Ground.FDuration = unchecked((sbyte)(3 + ((call__60 - 5) / 5)));
-                            Ground.FPlayer = unchecked((sbyte)Source.FPlayer);
-                            Ground.FOriginalOverlay = unchecked((sbyte)MapF.OverlayType);
-                            Aow.Units.AoWE.AoWE.AoWHSMap.ClearTerrain(w__52.X, w__52.Y, FLocation.L, 0, -1);
-                            var call__61 = Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Ground, w__52.X, w__52.Y, FLocation.L);
-                            if (call__61)
-                            {
-                                Ground.FMode = TSet<Aow.Units.UnHolyG.AnonymousEnum_hgSummoning>.Of(Aow.Units.UnHolyG.AnonymousEnum_hgSummoning.hgSummoning);
-                                Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
-                                var call__62 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
-                                var call__63 = call__62.FCastImages.ImageSequences[0];
-                                Anim.SetImageSequence(call__63);
-                                Anim.FOnShow = Ground.ShowSummonAnimation;
-                                Anim.FOnNewFrame = Ground.NewFrameSummonAnimation;
-                                var call__64 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(15);
-                                Anim.FFrameCounter = -call__64;
-                                Anim.FTag = Source.FPlayer;
-                                Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Anim, w__52.X, w__52.Y, FLocation.L);
-                            }
-                            else
-                            {
-                                Ground.Free();
-                            }
-                        }
+                        var call__59 = MapF.GetArmyHS();
+                        bool__58 = (call__59 == null);
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    if (bool__58)
+                    {
+                        MapF.RestoreTerrain();
+                        Ground = (Aow.Units.UnHolyG.TUnHolyGround)Resource.CreateResourceUser();
+                        var call__60 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(11);
+                        Ground.FDuration = unchecked((sbyte)(3 + ((call__60 - 5) / 5)));
+                        Ground.FPlayer = unchecked((sbyte)Source.FPlayer);
+                        Ground.FOriginalOverlay = unchecked((sbyte)MapF.OverlayType);
+                        Aow.Units.AoWE.AoWE.AoWHSMap.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
+                        var call__61 = Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Ground, walk.X, walk.Y, FLocation.L);
+                        if (call__61)
+                        {
+                            Ground.FMode = TSet<Aow.Units.UnHolyG.AnonymousEnum_hgSummoning>.Of(Aow.Units.UnHolyG.AnonymousEnum_hgSummoning.hgSummoning);
+                            Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            var call__62 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
+                            var call__63 = call__62.FCastImages.ImageSequences[0];
+                            Anim.SetImageSequence(call__63);
+                            Anim.FOnShow = Ground.ShowSummonAnimation;
+                            Anim.FOnNewFrame = Ground.NewFrameSummonAnimation;
+                            var call__64 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(15);
+                            Anim.FFrameCounter = -call__64;
+                            Anim.FTag = Source.FPlayer;
+                            Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Anim, walk.X, walk.Y, FLocation.L);
+                        }
+                        else
+                        {
+                            Ground.Free();
+                        }
+                    }
                 }
+
+                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
             }
         }
 

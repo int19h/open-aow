@@ -129,10 +129,8 @@ namespace Aow.Units.AoWCityRebelDlg
         {
             // { Tried with/local receiver; explicit location receiver; no exact match. }
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            {
-                var w__1 = FEvent;
-                Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(w__1.FXhx, w__1.FYhx, w__1.FLhx);
-            }
+            var cityRebellionEventLog = FEvent;
+            Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
         }
 
         // AoWCityRebelDlg.pas:72

@@ -116,24 +116,6 @@ namespace Aow.Units.AlgnmBox
         }
 
         public static Aow.Rtl.AnsiString NoneRStr = (AnsiString)"None";
-        // AlgnmBox.pas:40
-        // { needs: missing AoWE.NoneRStr }
-        // { needs: AlsToInt(TAlignments): Integer and IntToAls(Integer): TAlignments.
-//   Tail jumps preserve the proven original ABI without changing implementation headers. }
-        public static int AlignmentSetToInt(TSet<Aow.Units.AoWE.TAlignment> Value)
-        {
-            int Result = default;
-            Result = Aow.Units.AoWE.AoWE.AlsToInt(Value);
-            return Result;
-        }
-
-        // AlgnmBox.pas:42
-        public static TSet<Aow.Units.AoWE.TAlignment> AlignmentIntToSet(int Value)
-        {
-            TSet<Aow.Units.AoWE.TAlignment> Result = default;
-            Result = Aow.Units.AoWE.AoWE.IntToAls(Value);
-            return Result;
-        }
 
         public static void Initialize()
         {

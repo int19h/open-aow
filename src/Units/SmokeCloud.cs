@@ -74,17 +74,15 @@ namespace Aow.Units.SmokeCloud
             bool Result = default;
             Aow.Units.HSEngine.THNWalkData Walk = default;
             Result = FPlayerIndex == Player;
+            ref var walk = ref Walk;
+            var call__3 = FCloud.Yhx;
+            var call__4 = FCloud.Xhx;
+            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, call__4, call__3, 0);
+            while (!Result && (walk.Radius <= 3))
             {
-                ref var w__2 = ref Walk;
-                var call__3 = FCloud.Yhx;
-                var call__4 = FCloud.Xhx;
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, call__4, call__3, 0);
-                while (!Result && (w__2.Radius <= 3))
-                {
-                    var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(w__2.X, w__2.Y, FCloud.Lhx, unchecked((sbyte)Player));
-                    Result = call__5;
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
-                }
+                var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, unchecked((sbyte)Player));
+                Result = call__5;
+                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
             }
 
             return Result;
@@ -277,12 +275,10 @@ namespace Aow.Units.SmokeCloud
                 FDirection = unchecked((byte)(call__8 + 1));
             }
 
+            var smokeCloudEnchantment = FEnchantment;
+            if ((smokeCloudEnchantment.FPlayerIndex > 0) && !smokeCloudEnchantment.FEnchantmentStatus.Contains(Aow.Units.AoWE.TGlobalEnchantmentStatusElement.getActivated))
             {
-                var w__9 = FEnchantment;
-                if ((w__9.FPlayerIndex > 0) && !w__9.FEnchantmentStatus.Contains(Aow.Units.AoWE.TGlobalEnchantmentStatusElement.getActivated))
-                {
-                    w__9.Activate(unchecked((sbyte)w__9.FPlayerIndex));
-                }
+                smokeCloudEnchantment.Activate(unchecked((sbyte)smokeCloudEnchantment.FPlayerIndex));
             }
 
             var call__10 = Yhx;

@@ -170,12 +170,9 @@ namespace Aow.Units.AoWCityJoinDlg
             var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
             var call__4 = call__3.GetFace();
             Face = call__4;
+            if (Face != null)
             {
-                var w__5 = Face;
-                if (Face != null)
-                {
-                    w__5.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, Surface);
-                }
+                Face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, Surface);
             }
         }
 

@@ -382,40 +382,38 @@ namespace Aow.Units.ExploreS
 
             if (bool__34)
             {
+                var playerList = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers;
+                if ((playerList.FLocalPlayers.Count == 1) || Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType)
                 {
-                    var w__36 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers;
-                    if ((w__36.FLocalPlayers.Count == 1) || Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType)
+                    Request = Aow.Units.AoWE.TCombatTypeRequestEventLog.Create(null);
+                    var call__37 = GetLhx();
+                    var call__38 = GetYhx();
+                    var call__39 = GetXhx();
+                    Request.SetCenterLocation(unchecked((byte)call__39), unchecked((byte)call__38), call__37);
+                    Request.FPlayer = unchecked((sbyte)ArmyHS.FArmy.FPlayer);
+                    Request.FDefenderPlayer = 0;
+                    Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
+                    Request.Release();
+                    Result = true;
+                }
+                else
+                {
+                    var call__40 = playerList.GetPlayers(ArmyHS.FArmy.FPlayer);
+                    var call__41 = call__40.GetBusy();
+                    if (!call__41)
                     {
-                        Request = Aow.Units.AoWE.TCombatTypeRequestEventLog.Create(null);
-                        var call__37 = GetLhx();
-                        var call__38 = GetYhx();
-                        var call__39 = GetXhx();
-                        Request.SetCenterLocation(unchecked((byte)call__39), unchecked((byte)call__38), call__37);
-                        Request.FPlayer = unchecked((sbyte)ArmyHS.FArmy.FPlayer);
-                        Request.FDefenderPlayer = 0;
-                        Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
-                        Request.Release();
+                        TE = CreateTE();
+                        SetupTE(TE);
+                        TE.FAction = 0;
+                        TE.FParam = 1;
+                        var call__42 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer);
+                        call__42.AddEvent(TE);
+                        TE.Release();
                         Result = true;
                     }
                     else
                     {
-                        var call__40 = w__36.GetPlayers(ArmyHS.FArmy.FPlayer);
-                        var call__41 = call__40.GetBusy();
-                        if (!call__41)
-                        {
-                            TE = CreateTE();
-                            SetupTE(TE);
-                            TE.FAction = 0;
-                            TE.FParam = 1;
-                            var call__42 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer);
-                            call__42.AddEvent(TE);
-                            TE.Release();
-                            Result = true;
-                        }
-                        else
-                        {
-                            Result = false;
-                        }
+                        Result = false;
                     }
                 }
             }
@@ -466,18 +464,16 @@ namespace Aow.Units.ExploreS
         public void RequestCombatTypeCallBack(Aow.Units.EventLog.TEventLog A1)
         {
             Aow.Units.AoWE.TStructureTE TE = default;
+            var combatTypeRequestEventLog = (Aow.Units.AoWE.TCombatTypeRequestEventLog)A1;
+            if (combatTypeRequestEventLog.FCombatType != Aow.Units.AoWE.TCombatType.ctNone)
             {
-                var w__44 = (Aow.Units.AoWE.TCombatTypeRequestEventLog)A1;
-                if (w__44.FCombatType != Aow.Units.AoWE.TCombatType.ctNone)
-                {
-                    TE = CreateTE();
-                    SetupTE(TE);
-                    TE.FAction = 0;
-                    TE.FParam = (int)w__44.FCombatType;
-                    var call__45 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer);
-                    call__45.AddEvent(TE);
-                    TE.Release();
-                }
+                TE = CreateTE();
+                SetupTE(TE);
+                TE.FAction = 0;
+                TE.FParam = (int)combatTypeRequestEventLog.FCombatType;
+                var call__45 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer);
+                call__45.AddEvent(TE);
+                TE.Release();
             }
         }
 

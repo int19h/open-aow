@@ -217,7 +217,7 @@ namespace Aow.Units.Teleport
             {
                 var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
                 Field = (Aow.Units.AoWE.TAoWMapField)call__17;
-                var call__18 = Aow.Units.Teleport.Teleport.TeleportValidTerrain(ArmyHS.FArmy, unchecked((sbyte)Field.TerrainType), unchecked((sbyte)Field.OverlayType));
+                var call__18 = ArmyHS.FArmy.ValidTerrain(unchecked((sbyte)unchecked((sbyte)Field.TerrainType)), unchecked((sbyte)unchecked((sbyte)Field.OverlayType)));
                 if (call__18)
                 {
                     OtherArmy = Field.GetArmyHS();
@@ -225,7 +225,7 @@ namespace Aow.Units.Teleport
                     bool bool__19 = (OtherArmy != null) && (unchecked((byte)ArmyHS.FArmy.FPlayer) == unchecked((byte)OtherArmy.FArmy.FPlayer));
                     if (bool__19)
                     {
-                        var call__20 = Aow.Units.Teleport.Teleport.TeleportCanAdd(OtherArmy.FArmy, (Aow.Units.AoWE.TUnitList)ArmyHS.FArmy);
+                        var call__20 = ((byte)OtherArmy.FArmy.CanAddUnits(((Aow.Units.AoWE.TUnitList)ArmyHS.FArmy))) != 0;
                         bool__19 = call__20;
                     }
 
@@ -546,31 +546,6 @@ namespace Aow.Units.Teleport
         public static readonly Aow.Rtl.AnsiString TeleportNoWarRStr = (AnsiString)"Not at war with the %s";
         // { original RT_STRING $FCD6 }
         public static readonly Aow.Rtl.AnsiString TeleportWarningRStr = (AnsiString)"Warning";
-        // Teleport.pas:90
-        // { original RT_STRING $FEB4 }
-        // { needs: draft AoWE result declarations; retain their proven register ABI. }
-        public static bool TeleportValidTerrain(Aow.Units.AoWE.TArmy Army, sbyte Terrain, sbyte Overlay)
-        {
-            bool Result = default;
-            Result = Army.ValidTerrain(unchecked((sbyte)Terrain), unchecked((sbyte)Overlay));
-            return Result;
-        }
-
-        // Teleport.pas:92
-        public static bool TeleportCanAdd(Aow.Units.AoWE.TArmy Army, Aow.Units.AoWE.TUnitList Units)
-        {
-            bool Result = default;
-            Result = ((byte)Army.CanAddUnits(Units)) != 0;
-            return Result;
-        }
-
-        // Teleport.pas:94
-        public static byte TeleportMoveAction(Aow.Units.AoWE.TAoWMapField Field, byte Player)
-        {
-            byte Result = default;
-            Result = unchecked((byte)Field.GetMoveAction(unchecked((sbyte)Player)));
-            return Result;
-        }
 
         public static void Initialize()
         {

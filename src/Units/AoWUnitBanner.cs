@@ -135,11 +135,8 @@ namespace Aow.Units.AoWUnitBanner
                 }
 
                 AbLB.Selected = -1;
-                {
-                    var w__16 = AbLB;
-                    w__16.F188 = -1;
-                    w__16.ListOffset = 0;
-                }
+                this.AbLB.F188 = -1;
+                this.AbLB.ListOffset = 0;
             }
         }
 

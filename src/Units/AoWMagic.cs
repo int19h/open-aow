@@ -493,12 +493,10 @@ namespace Aow.Units.AoWMagic
                     var call__24 = Spell.FCastImages.GetImageSequence(10);
                     if (call__24 != null)
                     {
-                        {
-                            var w__25 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                            X = w__25.FAOWWindow.WinLeft;
-                            Y = w__25.FAOWWindow.WinTop + w__25.WinTop;
-                            Spell.FCastImages.Show(10, w__25.WinLeft + X, Y, 0, Surface);
-                        }
+                        var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+                        X = image.FAOWWindow.WinLeft;
+                        Y = image.FAOWWindow.WinTop + image.WinTop;
+                        Spell.FCastImages.Show(10, image.WinLeft + X, Y, 0, Surface);
                     }
                 }
             }
@@ -701,13 +699,10 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:434
         public void DlgResize()
         {
-            {
-                var w__31 = Dlg;
-                w__31.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-                w__31.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-                w__31.Alignment.LeftOffset = w__31.WinLeft;
-                w__31.Alignment.TopOffset = w__31.WinTop;
-            }
+            this.Dlg.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            this.Dlg.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            this.Dlg.Alignment.LeftOffset = this.Dlg.WinLeft;
+            this.Dlg.Alignment.TopOffset = this.Dlg.WinTop;
         }
 
         // AoWMagic.pas:447

@@ -92,11 +92,9 @@ namespace Aow.Units.HxBridge
             int Result = default;
             int Xhp = default;
             int Yhp = default;
-            {
-                var w__3 = (Aow.Units.HSEngine.TMapField)Owner;
-                Xhp = (w__3.Xhx * 32) + 8;
-                Yhp = ((w__3.Xhx & 1) * 16) + (w__3.Yhx * 32);
-            }
+            var mapField = (Aow.Units.HSEngine.TMapField)Owner;
+            Xhp = (mapField.Xhx * 32) + 8;
+            Yhp = ((mapField.Xhx & 1) * 16) + (mapField.Yhx * 32);
 
             Result = (1744830464 + (Yhp << 13)) + (Xhp + 8);
             return Result;

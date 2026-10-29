@@ -4488,30 +4488,28 @@ namespace Aow.Units.CombatTE
                     int end__710 = Moves.Count - 1;
                     for (; K <= end__710; K += 1)
                     {
+                        var moveSettings = Moves.GetMoveSettings(K);
+                        if (moveSettings.FMovePos < (moveSettings.FPath.Count - 1))
                         {
-                            var w__711 = Moves.GetMoveSettings(K);
-                            if (w__711.FMovePos < (w__711.FPath.Count - 1))
+                            Path.Clear();
                             {
-                                Path.Clear();
+                                L = moveSettings.FMovePos;
+                                int end__712 = moveSettings.FPath.Count - 1;
+                                for (; L <= end__712; L += 1)
                                 {
-                                    L = w__711.FMovePos;
-                                    int end__712 = w__711.FPath.Count - 1;
-                                    for (; L <= end__712; L += 1)
-                                    {
-                                        var call__713 = w__711.FPath[L];
-                                        Path.Add(call__713);
-                                    }
+                                    var call__713 = moveSettings.FPath[L];
+                                    Path.Add(call__713);
                                 }
-
-                                MoveEvent = Aow.Units.CombatTE.TCombatMoveTE.Create(null);
-                                var call__714 = MoveEvent.Setup(((Aow.Units.AoWTC.TTacticalCombatUnitHS)w__711.FMoveObject).FUnit, Path);
-                                if (call__714)
-                                {
-                                    Multi.FEvents.Add(MoveEvent);
-                                }
-
-                                MoveEvent.Release();
                             }
+
+                            MoveEvent = Aow.Units.CombatTE.TCombatMoveTE.Create(null);
+                            var call__714 = MoveEvent.Setup(((Aow.Units.AoWTC.TTacticalCombatUnitHS)moveSettings.FMoveObject).FUnit, Path);
+                            if (call__714)
+                            {
+                                Multi.FEvents.Add(MoveEvent);
+                            }
+
+                            MoveEvent.Release();
                         }
                     }
                 }
@@ -4537,10 +4535,8 @@ namespace Aow.Units.CombatTE
                     int end__719 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.FMoveSettingsList.Count - 1;
                     for (; K <= end__719; K += 1)
                     {
-                        {
-                            var w__720 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(K);
-                            w__720.FPath.Clear();
-                        }
+                        var moveSettings2 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(K);
+                        moveSettings2.FPath.Clear();
                     }
                 }
             }

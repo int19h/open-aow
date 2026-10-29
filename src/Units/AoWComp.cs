@@ -222,64 +222,58 @@ namespace Aow.Units.AoWComp
             int I = default;
             if ((FAOWOwner != null) && ((FAlignment.FAlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awNone) || (FAlignment.FAlignHeight != Aow.Units.AoWComp.TAOWAlignHeight.ahNone)))
             {
+                switch (this.FAlignment.FAlignWidth)
                 {
-                    var w__14 = FAlignment;
-                    switch (w__14.FAlignWidth)
-                    {
-                        case Aow.Units.AoWComp.TAOWAlignWidth.awLeft:
-                            FWinLeft = ((FAOWOwner.FWinWidth * w__14.FLeftOffPercent) / 100) + w__14.FLeftOffset;
-                            if (FAlignment.FWidthPercent > 0)
-                            {
-                                FWinWidth = (FAOWOwner.FWinWidth * FAlignment.FWidthPercent) / 100;
-                            }
+                    case Aow.Units.AoWComp.TAOWAlignWidth.awLeft:
+                        FWinLeft = ((FAOWOwner.FWinWidth * this.FAlignment.FLeftOffPercent) / 100) + this.FAlignment.FLeftOffset;
+                        if (FAlignment.FWidthPercent > 0)
+                        {
+                            FWinWidth = (FAOWOwner.FWinWidth * FAlignment.FWidthPercent) / 100;
+                        }
 
-                            break;
-                        case Aow.Units.AoWComp.TAOWAlignWidth.awRight:
-                            if (w__14.FWidthPercent > 0)
-                            {
-                                FWinWidth = (FAOWOwner.FWinWidth * w__14.FWidthPercent) / 100;
-                            }
+                        break;
+                    case Aow.Units.AoWComp.TAOWAlignWidth.awRight:
+                        if (this.FAlignment.FWidthPercent > 0)
+                        {
+                            FWinWidth = (FAOWOwner.FWinWidth * this.FAlignment.FWidthPercent) / 100;
+                        }
 
-                            FWinLeft = ((FAOWOwner.FWinWidth - FAlignment.FRightOffset) - FWinWidth) - ((FAOWOwner.FWinWidth * FAlignment.FRightOffPercent) / 100);
-                            break;
-                        case Aow.Units.AoWComp.TAOWAlignWidth.awBoth:
-                            FWinLeft = ((FAOWOwner.FWinWidth * w__14.FLeftOffPercent) / 100) + w__14.FLeftOffset;
-                            FWinWidth = ((FAOWOwner.FWinWidth - FWinLeft) - FAlignment.FRightOffset) - ((FAOWOwner.FWinWidth * FAlignment.FRightOffPercent) / 100);
-                            break;
-                        case Aow.Units.AoWComp.TAOWAlignWidth.awCenter:
-                            FWinLeft = (FAOWOwner.FWinWidth / 2) - (FWinWidth / 2);
-                            break;
-                    }
+                        FWinLeft = ((FAOWOwner.FWinWidth - FAlignment.FRightOffset) - FWinWidth) - ((FAOWOwner.FWinWidth * FAlignment.FRightOffPercent) / 100);
+                        break;
+                    case Aow.Units.AoWComp.TAOWAlignWidth.awBoth:
+                        FWinLeft = ((FAOWOwner.FWinWidth * this.FAlignment.FLeftOffPercent) / 100) + this.FAlignment.FLeftOffset;
+                        FWinWidth = ((FAOWOwner.FWinWidth - FWinLeft) - FAlignment.FRightOffset) - ((FAOWOwner.FWinWidth * FAlignment.FRightOffPercent) / 100);
+                        break;
+                    case Aow.Units.AoWComp.TAOWAlignWidth.awCenter:
+                        FWinLeft = (FAOWOwner.FWinWidth / 2) - (FWinWidth / 2);
+                        break;
                 }
 
+                switch (this.FAlignment.FAlignHeight)
                 {
-                    var w__15 = FAlignment;
-                    switch (w__15.FAlignHeight)
-                    {
-                        case Aow.Units.AoWComp.TAOWAlignHeight.ahTop:
-                            FWinTop = ((FAOWOwner.FWinHeight * w__15.FTopOffPercent) / 100) + w__15.FTopOffset;
-                            if (FAlignment.FHeightPercent > 0)
-                            {
-                                FWinHeight = (FAOWOwner.FWinHeight * FAlignment.FHeightPercent) / 100;
-                            }
+                    case Aow.Units.AoWComp.TAOWAlignHeight.ahTop:
+                        FWinTop = ((FAOWOwner.FWinHeight * this.FAlignment.FTopOffPercent) / 100) + this.FAlignment.FTopOffset;
+                        if (FAlignment.FHeightPercent > 0)
+                        {
+                            FWinHeight = (FAOWOwner.FWinHeight * FAlignment.FHeightPercent) / 100;
+                        }
 
-                            break;
-                        case Aow.Units.AoWComp.TAOWAlignHeight.ahBottom:
-                            if (w__15.FHeightPercent > 0)
-                            {
-                                FWinHeight = (FAOWOwner.FWinHeight * w__15.FHeightPercent) / 100;
-                            }
+                        break;
+                    case Aow.Units.AoWComp.TAOWAlignHeight.ahBottom:
+                        if (this.FAlignment.FHeightPercent > 0)
+                        {
+                            FWinHeight = (FAOWOwner.FWinHeight * this.FAlignment.FHeightPercent) / 100;
+                        }
 
-                            FWinTop = ((FAOWOwner.FWinHeight - FAlignment.FBottomOffset) - FWinHeight) - ((FAOWOwner.FWinHeight * FAlignment.FBottomOffPercent) / 100);
-                            break;
-                        case Aow.Units.AoWComp.TAOWAlignHeight.ahBoth:
-                            FWinTop = ((FAOWOwner.FWinHeight * w__15.FTopOffPercent) / 100) + w__15.FTopOffset;
-                            FWinHeight = ((FAOWOwner.FWinHeight - FWinTop) - FAlignment.FBottomOffset) - ((FAOWOwner.FWinHeight * FAlignment.FBottomOffPercent) / 100);
-                            break;
-                        case Aow.Units.AoWComp.TAOWAlignHeight.ahCenter:
-                            FWinTop = (FAOWOwner.FWinHeight / 2) - (FWinHeight / 2);
-                            break;
-                    }
+                        FWinTop = ((FAOWOwner.FWinHeight - FAlignment.FBottomOffset) - FWinHeight) - ((FAOWOwner.FWinHeight * FAlignment.FBottomOffPercent) / 100);
+                        break;
+                    case Aow.Units.AoWComp.TAOWAlignHeight.ahBoth:
+                        FWinTop = ((FAOWOwner.FWinHeight * this.FAlignment.FTopOffPercent) / 100) + this.FAlignment.FTopOffset;
+                        FWinHeight = ((FAOWOwner.FWinHeight - FWinTop) - FAlignment.FBottomOffset) - ((FAOWOwner.FWinHeight * FAlignment.FBottomOffPercent) / 100);
+                        break;
+                    case Aow.Units.AoWComp.TAOWAlignHeight.ahCenter:
+                        FWinTop = (FAOWOwner.FWinHeight / 2) - (FWinHeight / 2);
+                        break;
                 }
             }
 

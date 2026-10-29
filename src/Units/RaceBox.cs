@@ -152,39 +152,6 @@ namespace Aow.Units.RaceBox
             Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoW", [typeof(Aow.Units.RaceBox.TRaceBox)]);
         }
 
-        // RaceBox.pas:44
-        // { needs: the draft lookup procedures return objects; preserve their original register ABI. }
-        public static Aow.Units.AoWE.TRace GetRace(Aow.Units.AoWE.TRaceList List, int Index)
-        {
-            Aow.Units.AoWE.TRace Result = default;
-            Result = List.GetRace(Index);
-            return Result;
-        }
-
-        // RaceBox.pas:46
-        public static Aow.Units.AoWE.TRaceResource GetRaceResource(Aow.Units.AoWE.TRaceResourceList List, int Index)
-        {
-            Aow.Units.AoWE.TRaceResource Result = default;
-            Result = List.GetRaceResource(Index);
-            return Result;
-        }
-
-        // RaceBox.pas:48
-        public static Aow.Units.AoWE.TPlayer GetPlayers(Aow.Units.AoWE.TPlayerList List, int Index)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = List.GetPlayers(Index);
-            return Result;
-        }
-
-        // RaceBox.pas:50
-        public static byte GetNumberOfPlayers(Aow.Units.AoWE.TPlayerList List)
-        {
-            byte Result = default;
-            Result = unchecked((byte)List.GetNumberOfPlayers());
-            return Result;
-        }
-
         public static void Initialize()
         {
         }

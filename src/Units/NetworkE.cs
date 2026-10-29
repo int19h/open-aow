@@ -747,11 +747,9 @@ namespace Aow.Units.NetworkE
         public bool Local()
         {
             bool Result = default;
-            {
-                var w__43 = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-                var call__44 = w__43.GetPlayers(FPlayer);
-                Result = call__44.FConnectionMode == Aow.Units.NetworkE.TConnectionMode.cmLocal;
-            }
+            var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
+            var call__44 = playerCommunicationControl.GetPlayers(FPlayer);
+            Result = call__44.FConnectionMode == Aow.Units.NetworkE.TConnectionMode.cmLocal;
 
             return Result;
         }
@@ -760,11 +758,9 @@ namespace Aow.Units.NetworkE
         public bool Global()
         {
             bool Result = default;
-            {
-                var w__45 = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-                var call__46 = w__45.GetPlayers(FPlayer);
-                Result = call__46.FConnectionMode == Aow.Units.NetworkE.TConnectionMode.cmGlobal;
-            }
+            var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
+            var call__46 = playerCommunicationControl.GetPlayers(FPlayer);
+            Result = call__46.FConnectionMode == Aow.Units.NetworkE.TConnectionMode.cmGlobal;
 
             return Result;
         }
@@ -773,11 +769,9 @@ namespace Aow.Units.NetworkE
         public bool Remote()
         {
             bool Result = default;
-            {
-                var w__47 = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-                var call__48 = w__47.GetPlayers(FPlayer);
-                Result = call__48.FConnectionMode == Aow.Units.NetworkE.TConnectionMode.cmRemote;
-            }
+            var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
+            var call__48 = playerCommunicationControl.GetPlayers(FPlayer);
+            Result = call__48.FConnectionMode == Aow.Units.NetworkE.TConnectionMode.cmRemote;
 
             return Result;
         }

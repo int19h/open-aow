@@ -1153,37 +1153,34 @@ namespace Aow.Units.AoWRelations
             Aow.Rtl.TRect R = default;
             Aow.Units.AoWComp.TAoWComponent Component = default;
             Component = Sender;
+            if (Component.Tag < FPlayers.Count)
             {
-                var w__139 = Component;
-                if (w__139.Tag < FPlayers.Count)
+                var call__140 = FPlayers[Component.Tag];
+                Player = unchecked((sbyte)call__140);
+                var call__141 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__142 = call__141.GetFirstDaySeen(unchecked((sbyte)Player));
+                if (call__142 == -1)
                 {
-                    var call__140 = FPlayers[w__139.Tag];
-                    Player = unchecked((sbyte)call__140);
-                    var call__141 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                    var call__142 = call__141.GetFirstDaySeen(unchecked((sbyte)Player));
-                    if (call__142 == -1)
-                    {
-                        var call__143 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[28];
-                        call__143.ShowClipped(w__139.WinLeft, w__139.WinTop, Surface);
-                    }
-                    else
-                    {
-                        var call__144 = Aow.Rtl.Rtl.Rect(w__139.WinLeft + 1, w__139.WinTop + 1, (w__139.WinLeft + w__139.WinWidth) - 1, (w__139.WinTop + w__139.WinHeight) - 1);
-                        R = call__144;
-                        var call__145 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                        var call__146 = call__145.GetFace();
-                        if (call__146 != null)
-                        {
-                            var call__147 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                            var call__148 = call__147.GetFace();
-                            call__148.ShowStretched(R, Surface);
-                        }
-                    }
-
-                    var call__149 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                    var call__150 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[call__149.FPlayerRace + 16];
-                    call__150.ShowClipped(w__139.WinLeft, w__139.WinTop, Surface);
+                    var call__143 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[28];
+                    call__143.ShowClipped(Component.WinLeft, Component.WinTop, Surface);
                 }
+                else
+                {
+                    var call__144 = Aow.Rtl.Rtl.Rect(Component.WinLeft + 1, Component.WinTop + 1, (Component.WinLeft + Component.WinWidth) - 1, (Component.WinTop + Component.WinHeight) - 1);
+                    R = call__144;
+                    var call__145 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                    var call__146 = call__145.GetFace();
+                    if (call__146 != null)
+                    {
+                        var call__147 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                        var call__148 = call__147.GetFace();
+                        call__148.ShowStretched(R, Surface);
+                    }
+                }
+
+                var call__149 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__150 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[call__149.FPlayerRace + 16];
+                call__150.ShowClipped(Component.WinLeft, Component.WinTop, Surface);
             }
         }
 
@@ -1196,33 +1193,30 @@ namespace Aow.Units.AoWRelations
             Aow.Units.AoWE.TDiplomaticAction Action = default;
             int Modifier = default;
             Control = (Aow.Units.AoWComp.TAoWComponent)Sender;
+            if ((Control.Tag - 20) < FRaces.Count)
             {
-                var w__151 = Control;
-                if ((w__151.Tag - 20) < FRaces.Count)
+                var call__152 = FRaces[Control.Tag - 20];
+                Race = unchecked((sbyte)call__152);
+                var call__153 = Aow.Rtl.Rtl.Rect(Control.WinLeft + 1, Control.WinTop + 1, (Control.WinLeft + Control.WinWidth) - 1, (Control.WinTop + Control.WinHeight) - 1);
+                R = call__153;
+                var call__154 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Race);
+                var call__155 = call__154.GetFace();
+                call__155.ShowStretched(R, Surface);
+                Action = FAction;
+                if (((Action == null) && RNewActionPnl.Visible) && (ActionsLB.Selected != -1))
                 {
-                    var call__152 = FRaces[w__151.Tag - 20];
-                    Race = unchecked((sbyte)call__152);
-                    var call__153 = Aow.Rtl.Rtl.Rect(w__151.WinLeft + 1, w__151.WinTop + 1, (w__151.WinLeft + w__151.WinWidth) - 1, (w__151.WinTop + w__151.WinHeight) - 1);
-                    R = call__153;
-                    var call__154 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(Race);
-                    var call__155 = call__154.GetFace();
-                    call__155.ShowStretched(R, Surface);
-                    Action = FAction;
-                    if (((Action == null) && RNewActionPnl.Visible) && (ActionsLB.Selected != -1))
-                    {
-                        var call__156 = ActionsLB.Items.Objects[ActionsLB.Selected];
-                        Action = (Aow.Units.AoWE.TDiplomaticAction)call__156;
-                    }
+                    var call__156 = ActionsLB.Items.Objects[ActionsLB.Selected];
+                    Action = (Aow.Units.AoWE.TDiplomaticAction)call__156;
+                }
 
-                    if (Action != null)
+                if (Action != null)
+                {
+                    var call__157 = Action.GetRelationModifier(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer), unchecked((sbyte)Race));
+                    Modifier = call__157;
+                    if (Modifier != 0)
                     {
-                        var call__157 = Action.GetRelationModifier(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer), unchecked((sbyte)Race));
-                        Modifier = call__157;
-                        if (Modifier != 0)
-                        {
-                            Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10.Color = 16777215;
-                            Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10.SetTextCentered(R.Left + ((R.Right - R.Left) / 2), R.Top + 50, Aow.Rtl.Rtl.IntToStr(Modifier), Surface);
-                        }
+                        Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10.Color = 16777215;
+                        Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10.SetTextCentered(R.Left + ((R.Right - R.Left) / 2), R.Top + 50, Aow.Rtl.Rtl.IntToStr(Modifier), Surface);
                     }
                 }
             }
@@ -1234,54 +1228,52 @@ namespace Aow.Units.AoWRelations
             int Player = default;
             Aow.Units.AoWE.TDiplomaticRelation Relation = default;
             int Image = default;
+            var component = (Aow.Units.AoWComp.TAoWComponent)Sender;
+            if ((FPlayers.Count > component.Tag) && (component.Tag != FSelectedIndex))
             {
-                var w__158 = (Aow.Units.AoWComp.TAoWComponent)Sender;
-                if ((FPlayers.Count > w__158.Tag) && (w__158.Tag != FSelectedIndex))
+                var call__159 = FPlayers[component.Tag];
+                Player = call__159;
+                if (FSelectedPlayer != -1)
                 {
-                    var call__159 = FPlayers[w__158.Tag];
-                    Player = call__159;
-                    if (FSelectedPlayer != -1)
+                    var call__160 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                    var call__161 = call__160.GetFirstDaySeen(unchecked((sbyte)FSelectedPlayer));
+                    if (call__161 != -1)
                     {
-                        var call__160 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                        var call__161 = call__160.GetFirstDaySeen(unchecked((sbyte)FSelectedPlayer));
-                        if (call__161 != -1)
+                        var call__162 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                        var call__163 = call__162.GetFirstDaySeen(unchecked((sbyte)Player));
+                        if (call__163 != -1)
                         {
-                            var call__162 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                            var call__163 = call__162.GetFirstDaySeen(unchecked((sbyte)Player));
-                            if (call__163 != -1)
+                            var call__164 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSelectedPlayer);
+                            var call__165 = call__164.GetFirstDaySeen(unchecked((sbyte)Player));
+                            if (call__165 != -1)
                             {
-                                var call__164 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSelectedPlayer);
-                                var call__165 = call__164.GetFirstDaySeen(unchecked((sbyte)Player));
-                                if (call__165 != -1)
+                                var call__166 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)FSelectedPlayer), unchecked((sbyte)Player));
+                                Relation = call__166;
+                                if (Relation != Aow.Units.AoWE.TDiplomaticRelation.drUnknown)
                                 {
-                                    var call__166 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)FSelectedPlayer), unchecked((sbyte)Player));
-                                    Relation = call__166;
-                                    if (Relation != Aow.Units.AoWE.TDiplomaticRelation.drUnknown)
-                                    {
-                                        Image = ((int)Relation) + 8;
-                                    }
-                                    else
-                                    {
-                                        Image = 50;
-                                    }
-
-                                    var call__167 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[Image];
-                                    call__167.Show(w__158.WinLeft, w__158.WinTop + 8, Surface);
+                                    Image = ((int)Relation) + 8;
                                 }
+                                else
+                                {
+                                    Image = 50;
+                                }
+
+                                var call__167 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[Image];
+                                call__167.Show(component.WinLeft, component.WinTop + 8, Surface);
                             }
                         }
                     }
-                    else
+                }
+                else
+                {
+                    var call__168 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                    var call__169 = call__168.GetFirstDaySeen(unchecked((sbyte)Player));
+                    if (call__169 != -1)
                     {
-                        var call__168 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                        var call__169 = call__168.GetFirstDaySeen(unchecked((sbyte)Player));
-                        if (call__169 != -1)
-                        {
-                            var call__170 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FSelectedRace);
-                            var call__171 = call__170.GetPlayerRelation(unchecked((sbyte)Player));
-                            var call__172 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[((int)call__171) + 11];
-                            call__172.ShowClipped(w__158.WinLeft, w__158.WinTop + 8, Surface);
-                        }
+                        var call__170 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FSelectedRace);
+                        var call__171 = call__170.GetPlayerRelation(unchecked((sbyte)Player));
+                        var call__172 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[((int)call__171) + 11];
+                        call__172.ShowClipped(component.WinLeft, component.WinTop + 8, Surface);
                     }
                 }
             }
@@ -1293,21 +1285,18 @@ namespace Aow.Units.AoWRelations
             int RaceIndex = default;
             Aow.Units.AoWComp.TAoWComponent S = default;
             S = Sender;
+            if ((FSelectedPlayer != -1) && ((S.Tag - 20) < FRaces.Count))
             {
-                var w__173 = S;
-                if ((FSelectedPlayer != -1) && ((w__173.Tag - 20) < FRaces.Count))
+                var call__174 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__175 = call__174.GetFirstDaySeen(unchecked((sbyte)FSelectedPlayer));
+                if (call__175 != -1)
                 {
-                    var call__174 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                    var call__175 = call__174.GetFirstDaySeen(unchecked((sbyte)FSelectedPlayer));
-                    if (call__175 != -1)
-                    {
-                        var call__176 = FRaces[w__173.Tag - 20];
-                        RaceIndex = call__176;
-                        var call__177 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(RaceIndex);
-                        var call__178 = call__177.GetPlayerRelation(unchecked((sbyte)FSelectedPlayer));
-                        var call__179 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[((int)call__178) + 11];
-                        call__179.ShowClipped(w__173.WinLeft, w__173.WinTop + 15, Surface);
-                    }
+                    var call__176 = FRaces[S.Tag - 20];
+                    RaceIndex = call__176;
+                    var call__177 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(RaceIndex);
+                    var call__178 = call__177.GetPlayerRelation(unchecked((sbyte)FSelectedPlayer));
+                    var call__179 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[((int)call__178) + 11];
+                    call__179.ShowClipped(S.WinLeft, S.WinTop + 15, Surface);
                 }
             }
         }

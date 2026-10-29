@@ -1091,24 +1091,22 @@ namespace Aow.Units.CitySpells
             if (bool__112)
             {
                 AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, FAIBudget);
+                var hero = (Aow.Units.AoWE.THero)A1;
+                var call__115 = hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
+                if (call__115)
                 {
-                    var w__114 = (Aow.Units.AoWE.THero)A1;
-                    var call__115 = w__114.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
-                    if (call__115)
+                    Result = TargetSelected(A1, X, Y, L);
+                }
+                else
+                {
+                    if (hero.FCastingSpellID != FSpellID)
                     {
-                        Result = TargetSelected(A1, X, Y, L);
+                        hero.ExecuteStartCasting(FSpellID);
+                        Result = true;
                     }
                     else
                     {
-                        if (w__114.FCastingSpellID != FSpellID)
-                        {
-                            w__114.ExecuteStartCasting(FSpellID);
-                            Result = true;
-                        }
-                        else
-                        {
-                            Result = true;
-                        }
+                        Result = true;
                     }
                 }
             }
@@ -1664,14 +1662,12 @@ namespace Aow.Units.CitySpells
         public void ShowAnimation(Aow.Units.Animation.TAnimation Animation, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
         {
             // { Unmatched: tried direct sequence receiver and uncast inherited frame field; stage sequence before reading frame counter; stage frame counter before sequence call (5 variants total). }
+            var imageSequenceAnimation = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
+            var call__155 = imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter);
+            if ((call__155 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
             {
-                var w__154 = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
-                var call__155 = w__154.FImageSequence.GetUnloopedFrameIndex(w__154.FFrameCounter);
-                if ((call__155 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
-                {
-                    var call__156 = Aow.Rtl.Rtl.Random(2);
-                    Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[call__156]);
-                }
+                var call__156 = Aow.Rtl.Rtl.Random(2);
+                Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[call__156]);
             }
         }
 
@@ -1806,14 +1802,12 @@ namespace Aow.Units.CitySpells
         public void ShowAnimation(Aow.Units.Animation.TAnimation Animation, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
         {
             // { Unmatched: tried direct sequence receiver and uncast inherited frame field; stage sequence before reading frame counter; stage frame counter before sequence call (5 variants total). }
+            var imageSequenceAnimation = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
+            var call__182 = imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter);
+            if ((call__182 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
             {
-                var w__181 = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
-                var call__182 = w__181.FImageSequence.GetUnloopedFrameIndex(w__181.FFrameCounter);
-                if ((call__182 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
-                {
-                    var call__183 = Aow.Rtl.Rtl.Random(2);
-                    Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[call__183]);
-                }
+                var call__183 = Aow.Rtl.Rtl.Random(2);
+                Aow.Units.Sound.Sound.PlaySample(Aow.Units.AoWE.AoWE.ExplosionSFX[call__183]);
             }
         }
 
@@ -1842,42 +1836,38 @@ namespace Aow.Units.CitySpells
         public static void RegisterCitySpells(Aow.Units.AoWE.TAoWEngine A1)
         {
             A1.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TTownGateTE>()]);
-            {
-                var w__184 = A1.FGameSet.FSpellControl;
-                var call__185 = Aow.Units.CitySpells.TAnarchy.Create(null);
-                w__184.RegisterSpell(call__185);
-                var call__186 = Aow.Units.CitySpells.TTownQuake.Create(null);
-                w__184.RegisterSpell(call__186);
-                var call__187 = Aow.Units.CitySpells.TTownGate.Create(null);
-                w__184.RegisterSpell(call__187);
-                var call__188 = Aow.Units.CitySpells.TFountainOfLife.Create(null);
-                w__184.RegisterSpell(call__188);
-                var call__189 = Aow.Units.CitySpells.TGoldRush.Create(null);
-                w__184.RegisterSpell(call__189);
-                var call__190 = Aow.Units.CitySpells.TAntiMagicShell.Create(null);
-                w__184.RegisterSpell(call__190);
-                var call__191 = Aow.Units.CitySpells.TWarmonger.Create(null);
-                w__184.RegisterSpell(call__191);
-                var call__192 = Aow.Units.CitySpells.TAnimateRuins.Create(null);
-                w__184.RegisterSpell(call__192);
-            }
+            var spellControl = A1.FGameSet.FSpellControl;
+            var call__185 = Aow.Units.CitySpells.TAnarchy.Create(null);
+            spellControl.RegisterSpell(call__185);
+            var call__186 = Aow.Units.CitySpells.TTownQuake.Create(null);
+            spellControl.RegisterSpell(call__186);
+            var call__187 = Aow.Units.CitySpells.TTownGate.Create(null);
+            spellControl.RegisterSpell(call__187);
+            var call__188 = Aow.Units.CitySpells.TFountainOfLife.Create(null);
+            spellControl.RegisterSpell(call__188);
+            var call__189 = Aow.Units.CitySpells.TGoldRush.Create(null);
+            spellControl.RegisterSpell(call__189);
+            var call__190 = Aow.Units.CitySpells.TAntiMagicShell.Create(null);
+            spellControl.RegisterSpell(call__190);
+            var call__191 = Aow.Units.CitySpells.TWarmonger.Create(null);
+            spellControl.RegisterSpell(call__191);
+            var call__192 = Aow.Units.CitySpells.TAnimateRuins.Create(null);
+            spellControl.RegisterSpell(call__192);
         }
 
         // CitySpells.pas:1004
         public static void UnregisterCitySpells(Aow.Units.AoWE.TAoWEngine A1)
         {
             A1.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TTownGateTE>()]);
-            {
-                var w__193 = A1.FGameSet.FSpellControl;
-                w__193.UnregisterSpellID(72);
-                // { Original leaves Town Quake ($47) registered. }
-                w__193.UnregisterSpellID(38);
-                w__193.UnregisterSpellID(52);
-                w__193.UnregisterSpellID(53);
-                w__193.UnregisterSpellID(54);
-                w__193.UnregisterSpellID(58);
-                w__193.UnregisterSpellID(76);
-            }
+            var spellControl = A1.FGameSet.FSpellControl;
+            spellControl.UnregisterSpellID(72);
+            // { Original leaves Town Quake ($47) registered. }
+            spellControl.UnregisterSpellID(38);
+            spellControl.UnregisterSpellID(52);
+            spellControl.UnregisterSpellID(53);
+            spellControl.UnregisterSpellID(54);
+            spellControl.UnregisterSpellID(58);
+            spellControl.UnregisterSpellID(76);
         }
 
         public static void Initialize()

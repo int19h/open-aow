@@ -318,10 +318,8 @@ namespace Aow.Units.AoWUnitSelDlg
         // AoWUnitSelDlg.pas:146
         public void U1PreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
         {
-            {
-                var w__12 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                DrawUnit(Sender.Tag, UnitPnl.WinLeft + w__12.WinLeft, UnitPnl.WinTop + w__12.WinTop, ref SD);
-            }
+            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            DrawUnit(Sender.Tag, UnitPnl.WinLeft + image.WinLeft, UnitPnl.WinTop + image.WinTop, ref SD);
         }
 
         // AoWUnitSelDlg.pas:151
@@ -335,13 +333,10 @@ namespace Aow.Units.AoWUnitSelDlg
                 U = call__13;
                 if (U != null)
                 {
-                    {
-                        var w__14 = SourceFace;
-                        R.Left = w__14.WinLeft + SourcePnl.WinLeft;
-                        R.Right = w__14.WinWidth + R.Left;
-                        R.Top = w__14.WinTop + SourcePnl.WinTop;
-                        R.Bottom = w__14.WinHeight + R.Top;
-                    }
+                    R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;
+                    R.Right = this.SourceFace.WinWidth + R.Left;
+                    R.Top = this.SourceFace.WinTop + SourcePnl.WinTop;
+                    R.Bottom = this.SourceFace.WinHeight + R.Top;
 
                     if (U.GetFace() != null)
                     {

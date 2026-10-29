@@ -1279,11 +1279,9 @@ namespace Aow.Units.AoWE
         // Structur.PAS:20
         public void Add(int UnitIndex, bool Researched)
         {
-            {
-                var w__105 = Aow.Units.AoWE.TUnitProduction.Create(this);
-                w__105.FUnitIndex = UnitIndex;
-                w__105.FResearched = Researched;
-            }
+            var unitProduction = Aow.Units.AoWE.TUnitProduction.Create(this);
+            unitProduction.FUnitIndex = UnitIndex;
+            unitProduction.FResearched = Researched;
         }
 
         // Structur.PAS:29
@@ -1817,16 +1815,13 @@ namespace Aow.Units.AoWE
             int Result = default;
             if (FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
             {
+                if (this.FSettings.FTurnsTotal != 0)
                 {
-                    var w__117 = FSettings;
-                    if (w__117.FTurnsTotal != 0)
-                    {
-                        Result = Aow.Rtl.Rtl.Round(((double)(w__117.FTurnsLeft * w__117.FGold)) / w__117.FTurnsTotal);
-                    }
-                    else
-                    {
-                        Result = 0;
-                    }
+                    Result = Aow.Rtl.Rtl.Round(((double)(this.FSettings.FTurnsLeft * this.FSettings.FGold)) / this.FSettings.FTurnsTotal);
+                }
+                else
+                {
+                    Result = 0;
                 }
             }
             else
@@ -1843,16 +1838,13 @@ namespace Aow.Units.AoWE
             int Result = default;
             if (FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
             {
+                if (this.FSettings.FTurnsTotal != 0)
                 {
-                    var w__118 = FSettings;
-                    if (w__118.FTurnsTotal != 0)
-                    {
-                        Result = Aow.Rtl.Rtl.Round(((double)(w__118.FTurnsLeft * w__118.FMana)) / w__118.FTurnsTotal);
-                    }
-                    else
-                    {
-                        Result = 0;
-                    }
+                    Result = Aow.Rtl.Rtl.Round(((double)(this.FSettings.FTurnsLeft * this.FSettings.FMana)) / this.FSettings.FTurnsTotal);
+                }
+                else
+                {
+                    Result = 0;
                 }
             }
             else
@@ -1967,9 +1959,9 @@ namespace Aow.Units.AoWE
                         FSettings.FPlayer = unchecked((sbyte)call__132);
                         FSettings.FTurnsLeft = unchecked((sbyte)FSettings.FTurnsTotal);
                     {
-                        var w__133 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSettings.FPlayer);
-                        w__133.SetGems(w__133.FGems - this.FSettings.FGold);
-                        w__133.FMagicControl.SetMana(w__133.FMagicControl.FMana - this.FSettings.FMana);
+                        var player = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSettings.FPlayer);
+                        player.SetGems(player.FGems - this.FSettings.FGold);
+                        player.FMagicControl.SetMana(player.FMagicControl.FMana - this.FSettings.FMana);
                     }
 
                         FStatus = Aow.Units.AoWE.TProductionControlStatus.pcsProducing;
@@ -1991,9 +1983,9 @@ namespace Aow.Units.AoWE
                         FSettings.FPlayer = unchecked((sbyte)call__136);
                         FSettings.FTurnsLeft = unchecked((sbyte)FSettings.FTurnsTotal);
                     {
-                        var w__137 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSettings.FPlayer);
-                        w__137.SetGems(w__137.FGems - this.FSettings.FGold);
-                        w__137.FMagicControl.SetMana(w__137.FMagicControl.FMana - this.FSettings.FMana);
+                        var player2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSettings.FPlayer);
+                        player2.SetGems(player2.FGems - this.FSettings.FGold);
+                        player2.FMagicControl.SetMana(player2.FMagicControl.FMana - this.FSettings.FMana);
                     }
 
                         FStatus = Aow.Units.AoWE.TProductionControlStatus.pcsProducing;
@@ -3703,12 +3695,7 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1786
-        public virtual int Power()
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual int Power() => 0;
 
         // Spells.PAS:1790
         public virtual void GetLocation(ref sbyte A1, ref sbyte A2, ref sbyte A3)
@@ -3748,7 +3735,7 @@ namespace Aow.Units.AoWE
         public override Aow.Rtl.AnsiString Name()
         {
             Aow.Rtl.AnsiString Result = default;
-            Aow.Units.AoWE.AoWE.P4TranslateInto(Aow.Units.AoWE.AoWE.P4ExternalPowerRStr, ref Result);
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P4ExternalPowerRStr);
             return Result;
         }
 
@@ -6694,11 +6681,9 @@ namespace Aow.Units.AoWE
         // Player.PAS:69
         public void Add(Aow.Units.AoWE.TDiplomaticRelation Relation, int Day)
         {
-            {
-                var w__527 = Aow.Units.AoWE.TDiplomaticRelationHistoryItem.Create(this);
-                w__527.FDay = Day;
-                w__527.FRelation = Relation;
-            }
+            var diplomaticRelationHistoryItem = Aow.Units.AoWE.TDiplomaticRelationHistoryItem.Create(this);
+            diplomaticRelationHistoryItem.FDay = Day;
+            diplomaticRelationHistoryItem.FRelation = Relation;
         }
 
         // Engine.pas:631
@@ -12131,11 +12116,9 @@ namespace Aow.Units.AoWE
         {
             if ((Aow.Units.AoWE.AoWE.AoWHSMap != null) && (Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager != null))
             {
-                {
-                    var w__962 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter;
-                    w__962.OnGetSyncValue = null;
-                    w__962.OnSyncError = null;
-                }
+                var tokenExecuter = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter;
+                tokenExecuter.OnGetSyncValue = null;
+                tokenExecuter.OnSyncError = null;
             }
 
             FDisconnectedPlayers.Free();
@@ -12370,11 +12353,9 @@ namespace Aow.Units.AoWE
                     throw Aow.Rtl.Exception.Create((AnsiString)"Please setup DirectPlayPCC");
                 }
 
-                {
-                    var w__989 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter;
-                    w__989.OnGetSyncValue = this.GetSyncValue;
-                    w__989.OnSyncError = OutOfSync;
-                }
+                var tokenExecuter = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter;
+                tokenExecuter.OnGetSyncValue = this.GetSyncValue;
+                tokenExecuter.OnSyncError = OutOfSync;
             }
             else
             {
@@ -12951,16 +12932,14 @@ namespace Aow.Units.AoWE
                 }
                 else
                 {
+                    var aoWEngine = Aow.Units.AoWE.AoWE.AoWEngine;
+                    if (aoWEngine.FCampaign != null)
                     {
-                        var w__1052 = Aow.Units.AoWE.AoWE.AoWEngine;
-                        if (w__1052.FCampaign != null)
-                        {
-                            w__1052.SaveCampaign(w__1052.FCampaign.FFileName);
-                        }
-                        else
-                        {
-                            w__1052.SaveHSM(Aow.Units.AoWE.AoWE.AoWHSMap.FileName, null);
-                        }
+                        aoWEngine.SaveCampaign(aoWEngine.FCampaign.FFileName);
+                    }
+                    else
+                    {
+                        aoWEngine.SaveHSM(Aow.Units.AoWE.AoWE.AoWHSMap.FileName, null);
                     }
 
                     Aow.Units.AoWE.AoWE.AoWHSMap.ExecuteExitGame();
@@ -15095,16 +15074,14 @@ namespace Aow.Units.AoWE
                 byte end__1254 = 0;
                 for (; I >= end__1254; I -= 1)
                 {
+                    var moveSettings = (Aow.Units.AoWE.TMoveSettings)FChildren.List[I];
+                    if (!moveSettings.FValid)
                     {
-                        var w__1255 = (Aow.Units.AoWE.TMoveSettings)FChildren.List[I];
-                        if (!w__1255.FValid)
+                        Priority = moveSettings.GetMovePrio();
+                        if (Priority <= MinPriority)
                         {
-                            Priority = w__1255.GetMovePrio();
-                            if (Priority <= MinPriority)
-                            {
-                                Result = I;
-                                MinPriority = Priority;
-                            }
+                            Result = I;
+                            MinPriority = Priority;
                         }
                     }
                 }
@@ -15259,14 +15236,12 @@ namespace Aow.Units.AoWE
             }
             else
             {
+                var hsMapMouse = FMap.Mouse;
+                if ((Capture == this) && (hsMapMouse.Button == Aow.Rtl.TMouseButton.mbLeft))
                 {
-                    var w__1273 = FMap.Mouse;
-                    if ((Capture == this) && (w__1273.Button == Aow.Rtl.TMouseButton.mbLeft))
-                    {
-                        var call__1274 = FMap.Mouse.Yhx;
-                        var call__1275 = w__1273.Xhx;
-                        SelectPath(unchecked((sbyte)call__1275), unchecked((sbyte)call__1274), unchecked((sbyte)FMap.ViewL));
-                    }
+                    var call__1274 = FMap.Mouse.Yhx;
+                    var call__1275 = hsMapMouse.Xhx;
+                    SelectPath(unchecked((sbyte)call__1275), unchecked((sbyte)call__1274), unchecked((sbyte)FMap.ViewL));
                 }
             }
         }
@@ -15306,45 +15281,43 @@ namespace Aow.Units.AoWE
             // { Tried Self identity, Pointer identity, typed with; typed settings receiver at each path access; still differs. }
             if ((FCurrentMove != -1) && (X != -1))
             {
+                var moveSettings = FMoveSettingsList.GetMoveSettings(FCurrentMove);
+                bool bool__1277 = (moveSettings.FPath.Count != 0);
+                if (bool__1277)
                 {
-                    var w__1276 = FMoveSettingsList.GetMoveSettings(FCurrentMove);
-                    bool bool__1277 = (w__1276.FPath.Count != 0);
-                    if (bool__1277)
-                    {
-                        var call__1278 = w__1276.FPath[0];
-                        bool__1277 = (call__1278.X == X);
-                    }
+                    var call__1278 = moveSettings.FPath[0];
+                    bool__1277 = (call__1278.X == X);
+                }
 
-                    bool bool__1279 = bool__1277;
-                    if (bool__1279)
-                    {
-                        var call__1280 = w__1276.FPath[0];
-                        bool__1279 = (call__1280.Y == Y);
-                    }
+                bool bool__1279 = bool__1277;
+                if (bool__1279)
+                {
+                    var call__1280 = moveSettings.FPath[0];
+                    bool__1279 = (call__1280.Y == Y);
+                }
 
-                    bool bool__1281 = bool__1279;
-                    if (bool__1281)
-                    {
-                        var call__1282 = w__1276.FPath[0];
-                        bool__1281 = (call__1282.L == L);
-                    }
+                bool bool__1281 = bool__1279;
+                if (bool__1281)
+                {
+                    var call__1282 = moveSettings.FPath[0];
+                    bool__1281 = (call__1282.L == L);
+                }
 
-                    if (bool__1281)
+                if (bool__1281)
+                {
+                    ExecuteMove();
+                }
+                else
+                {
+                    var call__1283 = FMap.MapContainer.GetField(X, Y, L);
+                    var call__1284 = ValidateSelection((Aow.Units.AoWE.TAoWMapField)call__1283);
+                    if (call__1284)
                     {
-                        ExecuteMove();
+                        CalculateMovePath(FCurrentMove, unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
                     }
                     else
                     {
-                        var call__1283 = FMap.MapContainer.GetField(X, Y, L);
-                        var call__1284 = ValidateSelection((Aow.Units.AoWE.TAoWMapField)call__1283);
-                        if (call__1284)
-                        {
-                            CalculateMovePath(FCurrentMove, unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
-                        }
-                        else
-                        {
-                            w__1276.FPath.Clear();
-                        }
+                        moveSettings.FPath.Clear();
                     }
                 }
             }
@@ -15441,11 +15414,8 @@ namespace Aow.Units.AoWE
 
             if (bool__1285)
             {
-                {
-                    var w__1287 = FMap;
-                    MaxX = (w__1287.ViewXhx + w__1287.ViewWidthHX) - 1;
-                    MaxY = (w__1287.ViewYhx + w__1287.ViewHeightHX) - 1;
-                }
+                MaxX = (this.FMap.ViewXhx + this.FMap.ViewWidthHX) - 1;
+                MaxY = (this.FMap.ViewYhx + this.FMap.ViewHeightHX) - 1;
 
                 {
                     I = 0;
@@ -16159,31 +16129,28 @@ namespace Aow.Units.AoWE
                         I -= 1;
                         var call__1428 = FMoveSettingsList.GetMoveSettings(I);
                         Settings = call__1428;
+                        bool bool__1430 = (Settings.FPath.Count != 0);
+                        if (bool__1430)
                         {
-                            var w__1429 = Settings;
-                            bool bool__1430 = (w__1429.FPath.Count != 0);
-                            if (bool__1430)
-                            {
-                                var call__1431 = w__1429.FPath[0];
-                                bool__1430 = (call__1431.X == X);
-                            }
-
-                            bool bool__1432 = bool__1430;
-                            if (bool__1432)
-                            {
-                                var call__1433 = w__1429.FPath[0];
-                                bool__1432 = (call__1433.Y == Y);
-                            }
-
-                            bool bool__1434 = bool__1432;
-                            if (bool__1434)
-                            {
-                                var call__1435 = w__1429.FPath[0];
-                                bool__1434 = (call__1435.L == L);
-                            }
-
-                            Valid = bool__1434;
+                            var call__1431 = Settings.FPath[0];
+                            bool__1430 = (call__1431.X == X);
                         }
+
+                        bool bool__1432 = bool__1430;
+                        if (bool__1432)
+                        {
+                            var call__1433 = Settings.FPath[0];
+                            bool__1432 = (call__1433.Y == Y);
+                        }
+
+                        bool bool__1434 = bool__1432;
+                        if (bool__1434)
+                        {
+                            var call__1435 = Settings.FPath[0];
+                            bool__1434 = (call__1435.L == L);
+                        }
+
+                        Valid = bool__1434;
                     }
 
                     if (!Valid)
@@ -16277,88 +16244,52 @@ namespace Aow.Units.AoWE
             var call__1446 = FMoveSettingsList.Count;
             if (call__1446 == 1)
             {
+                var moveSettings = FMoveSettingsList.GetMoveSettings(FCurrentMove);
+                bool bool__1448 = (moveSettings.FPath.Count > 1);
+                if (bool__1448)
                 {
-                    var w__1447 = FMoveSettingsList.GetMoveSettings(FCurrentMove);
-                    bool bool__1448 = (w__1447.FPath.Count > 1);
-                    if (bool__1448)
+                    var call__1449 = GetArmyHS();
+                    bool__1448 = (call__1449 != null);
+                }
+
+                if (bool__1448)
+                {
+                    ArmyHS = GetArmyHS();
+                    var call__1450 = moveSettings.FPath[0];
+                    var call__1451 = moveSettings.FPath[0];
+                    var call__1452 = moveSettings.FPath[0];
+                    var call__1453 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(call__1452.X, call__1451.Y, call__1450.L);
+                    Field = (Aow.Units.AoWE.TAoWMapField)call__1453;
+                    var call__1454 = Field.GetMoveAction(unchecked((sbyte)ArmyHS.FArmy.FPlayer));
+                    bool bool__1455 = (call__1454 != Aow.Units.AoWE.TMoveAction.maAttack);
+                    if (!bool__1455)
                     {
-                        var call__1449 = GetArmyHS();
-                        bool__1448 = (call__1449 != null);
+                        var call__1456 = Field.GetPlayer();
+                        bool__1455 = (call__1456 <= 0);
                     }
 
-                    if (bool__1448)
+                    bool bool__1457 = bool__1455;
+                    if (!bool__1457)
                     {
-                        ArmyHS = GetArmyHS();
-                        var call__1450 = w__1447.FPath[0];
-                        var call__1451 = w__1447.FPath[0];
-                        var call__1452 = w__1447.FPath[0];
-                        var call__1453 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(call__1452.X, call__1451.Y, call__1450.L);
-                        Field = (Aow.Units.AoWE.TAoWMapField)call__1453;
-                        var call__1454 = Field.GetMoveAction(unchecked((sbyte)ArmyHS.FArmy.FPlayer));
-                        bool bool__1455 = (call__1454 != Aow.Units.AoWE.TMoveAction.maAttack);
-                        if (!bool__1455)
-                        {
-                            var call__1456 = Field.GetPlayer();
-                            bool__1455 = (call__1456 <= 0);
-                        }
+                        var call__1458 = Field.GetPlayer();
+                        var call__1459 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)ArmyHS.FArmy.FPlayer), unchecked((sbyte)call__1458));
+                        bool__1457 = TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drWar, Aow.Units.AoWE.TDiplomaticRelation.drUnknown).Contains(call__1459);
+                    }
 
-                        bool bool__1457 = bool__1455;
-                        if (!bool__1457)
+                    if (bool__1457)
+                    {
+                        if (FMode == Aow.Units.AoWE.TSelectedArmyMode.samBuildRoads)
                         {
-                            var call__1458 = Field.GetPlayer();
-                            var call__1459 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)ArmyHS.FArmy.FPlayer), unchecked((sbyte)call__1458));
-                            bool__1457 = TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drWar, Aow.Units.AoWE.TDiplomaticRelation.drUnknown).Contains(call__1459);
-                        }
-
-                        if (bool__1457)
-                        {
-                            if (FMode == Aow.Units.AoWE.TSelectedArmyMode.samBuildRoads)
+                            var call__1460 = Aow.Units.AoWE.AoWE.RoadConstructionCost(unchecked((sbyte)ArmyHS.FArmy.FPlayer), moveSettings.FPath, moveSettings.FMovePoints);
+                            Cost = call__1460;
+                            var call__1461 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+                            if (Cost <= call__1461.FGems)
                             {
-                                var call__1460 = Aow.Units.AoWE.AoWE.RoadConstructionCost(unchecked((sbyte)ArmyHS.FArmy.FPlayer), w__1447.FPath, w__1447.FMovePoints);
-                                Cost = call__1460;
-                                var call__1461 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
-                                if (Cost <= call__1461.FGems)
+                                var call__1462 = GetSelection();
+                                var call__1463 = Aow.Units.AoWE.AoWE.MoveArmyEx(ArmyHS, unchecked((byte)call__1462), moveSettings.FPath, TSet<Aow.Units.AoWE.TArmyMoveModeElement>.Of(Aow.Units.AoWE.TArmyMoveModeElement.mmSelectEndLocation, Aow.Units.AoWE.TArmyMoveModeElement.mmBuildRoads), false);
+                                if (call__1463)
                                 {
-                                    var call__1462 = GetSelection();
-                                    var call__1463 = Aow.Units.AoWE.AoWE.MoveArmyEx(ArmyHS, unchecked((byte)call__1462), w__1447.FPath, TSet<Aow.Units.AoWE.TArmyMoveModeElement>.Of(Aow.Units.AoWE.TArmyMoveModeElement.mmSelectEndLocation, Aow.Units.AoWE.TArmyMoveModeElement.mmBuildRoads), false);
-                                    if (call__1463)
-                                    {
-                                        w__1447.FPath.Clear();
-                                        if (Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
-                                        {
-                                            Aow.Units.AoWE.AoWE.AoWHSMap.Selection.UnselectLocation();
-                                        }
-
-                                        DeactivateMoveSelection();
-                                    }
-                                }
-                                else
-                                {
-                                    var call__1464 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NotEnoughGoldRStr);
-                                    Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(call__1464);
-                                }
-                            }
-                            else
-                            {
-                                var call__1465 = w__1447.FPath[0];
-                                var call__1466 = w__1447.FPath[0];
-                                var call__1467 = w__1447.FPath[0];
-                                ArmyHS.FArmy.SetDestinationPos(unchecked((sbyte)call__1467.X), unchecked((sbyte)call__1466.Y), unchecked((sbyte)call__1465.L));
-                                var call__1468 = GetSelection();
-                                var call__1469 = Aow.Units.AoWE.AoWE.MoveArmy(ArmyHS, unchecked((byte)call__1468), w__1447.FPath);
-                                if (call__1469)
-                                {
-                                    var call__1470 = ArmyHS.FArmy.MovePoints(255);
-                                    var call__1471 = w__1447.FPath.MovePointsToPos(call__1470);
-                                    if (call__1471 > 0)
-                                    {
-                                        {
-                                            var w__1472 = ArmyHS.FArmy;
-                                            w__1472.FUserMode = w__1472.FUserMode + TSet<Aow.Units.AoWE.TArmyUserModeElement>.Of(Aow.Units.AoWE.TArmyUserModeElement.aumTurnDone);
-                                        }
-                                    }
-
-                                    w__1447.FPath.Clear();
+                                    moveSettings.FPath.Clear();
                                     if (Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
                                     {
                                         Aow.Units.AoWE.AoWE.AoWHSMap.Selection.UnselectLocation();
@@ -16367,18 +16298,50 @@ namespace Aow.Units.AoWE
                                     DeactivateMoveSelection();
                                 }
                             }
+                            else
+                            {
+                                var call__1464 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NotEnoughGoldRStr);
+                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(call__1464);
+                            }
                         }
                         else
                         {
-                            if ((((Field.FFieldFlags >> 16) & 255) != 0) || !Aow.Units.AoWE.AoWE.AoWHSMap.FFogEnabled)
+                            var call__1465 = moveSettings.FPath[0];
+                            var call__1466 = moveSettings.FPath[0];
+                            var call__1467 = moveSettings.FPath[0];
+                            ArmyHS.FArmy.SetDestinationPos(unchecked((sbyte)call__1467.X), unchecked((sbyte)call__1466.Y), unchecked((sbyte)call__1465.L));
+                            var call__1468 = GetSelection();
+                            var call__1469 = Aow.Units.AoWE.AoWE.MoveArmy(ArmyHS, unchecked((byte)call__1468), moveSettings.FPath);
+                            if (call__1469)
                             {
-                                var call__1473 = Field.GetPlayer();
-                                var call__1474 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1473);
-                                var call__1475 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[call__1474.FPlayerRace]);
-                                var call__1476 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ArmyNotAtWarRStr);
-                                var call__1477 = Aow.Units.AoWE.AoWE.Format(call__1476, [call__1475]);
-                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__1477);
+                                var call__1470 = ArmyHS.FArmy.MovePoints(255);
+                                var call__1471 = moveSettings.FPath.MovePointsToPos(call__1470);
+                                if (call__1471 > 0)
+                                {
+                                    var army = ArmyHS.FArmy;
+                                    army.FUserMode = army.FUserMode + TSet<Aow.Units.AoWE.TArmyUserModeElement>.Of(Aow.Units.AoWE.TArmyUserModeElement.aumTurnDone);
+                                }
+
+                                moveSettings.FPath.Clear();
+                                if (Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+                                {
+                                    Aow.Units.AoWE.AoWE.AoWHSMap.Selection.UnselectLocation();
+                                }
+
+                                DeactivateMoveSelection();
                             }
+                        }
+                    }
+                    else
+                    {
+                        if ((((Field.FFieldFlags >> 16) & 255) != 0) || !Aow.Units.AoWE.AoWE.AoWHSMap.FFogEnabled)
+                        {
+                            var call__1473 = Field.GetPlayer();
+                            var call__1474 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__1473);
+                            var call__1475 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[call__1474.FPlayerRace]);
+                            var call__1476 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ArmyNotAtWarRStr);
+                            var call__1477 = Aow.Units.AoWE.AoWE.Format(call__1476, [call__1475]);
+                            Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__1477);
                         }
                     }
                 }
@@ -16400,14 +16363,12 @@ namespace Aow.Units.AoWE
                         int end__1481 = FMoveSettingsList.Count - 1;
                         for (; I <= end__1481; I += 1)
                         {
-                            {
-                                var w__1482 = FMoveSettingsList.GetMoveSettings(I);
-                                var call__1483 = w__1482.FPath[0];
-                                var call__1484 = w__1482.FPath[0];
-                                var call__1485 = w__1482.FPath[0];
-                                ((Aow.Units.AoWE.TArmyHS)w__1482.FMoveObject).FArmy.SetDestinationPos(unchecked((sbyte)call__1485.X), unchecked((sbyte)call__1484.Y), unchecked((sbyte)call__1483.L));
-                                w__1482.FPath.Clear();
-                            }
+                            var moveSettings2 = FMoveSettingsList.GetMoveSettings(I);
+                            var call__1483 = moveSettings2.FPath[0];
+                            var call__1484 = moveSettings2.FPath[0];
+                            var call__1485 = moveSettings2.FPath[0];
+                            ((Aow.Units.AoWE.TArmyHS)moveSettings2.FMoveObject).FArmy.SetDestinationPos(unchecked((sbyte)call__1485.X), unchecked((sbyte)call__1484.Y), unchecked((sbyte)call__1483.L));
+                            moveSettings2.FPath.Clear();
                         }
                     }
 
@@ -16790,18 +16751,16 @@ namespace Aow.Units.AoWE
                         {
                             if ((ArmyHS.FArmy.FDestinationX != -1) && (ArmyHS.FArmy.FDestinationX != 0))
                             {
+                                var army = ArmyHS.FArmy;
+                                var call__1542 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(army.FDestinationX, army.FDestinationY, army.FDestinationL);
+                                Field = call__1542;
+                                if (this.ValidateSelection((Aow.Units.AoWE.TAoWMapField)Field))
                                 {
-                                    var w__1541 = ArmyHS.FArmy;
-                                    var call__1542 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(w__1541.FDestinationX, w__1541.FDestinationY, w__1541.FDestinationL);
-                                    Field = call__1542;
-                                    if (this.ValidateSelection((Aow.Units.AoWE.TAoWMapField)Field))
-                                    {
-                                        CalculateMovePath(I, unchecked((sbyte)w__1541.FDestinationX), unchecked((sbyte)w__1541.FDestinationY), unchecked((sbyte)w__1541.FDestinationL));
-                                    }
-                                    else
-                                    {
-                                        ArmyHS.FArmy.ResetDestinationPos();
-                                    }
+                                    CalculateMovePath(I, unchecked((sbyte)army.FDestinationX), unchecked((sbyte)army.FDestinationY), unchecked((sbyte)army.FDestinationL));
+                                }
+                                else
+                                {
+                                    ArmyHS.FArmy.ResetDestinationPos();
                                 }
                             }
                             else
@@ -16809,10 +16768,8 @@ namespace Aow.Units.AoWE
                                 var call__1543 = FMoveSettingsList.GetMoveSettings(I);
                                 if (call__1543.FPath.Count != 0)
                                 {
-                                    {
-                                        var w__1544 = FMoveSettingsList.GetMoveSettings(I).FPath[0];
-                                        CalculateMovePath(I, unchecked((sbyte)w__1544.X), unchecked((sbyte)w__1544.Y), unchecked((sbyte)w__1544.L));
-                                    }
+                                    var location = FMoveSettingsList.GetMoveSettings(I).FPath[0];
+                                    CalculateMovePath(I, unchecked((sbyte)location.X), unchecked((sbyte)location.Y), unchecked((sbyte)location.L));
                                 }
                             }
                         }
@@ -16971,16 +16928,14 @@ namespace Aow.Units.AoWE
             // { Tried explicit global receiver; differs. }
             if (GetArmyHS() != null)
             {
-                {
-                    var w__1565 = Aow.Units.AoWE.AoWE.AoWHSMap;
-                    var call__1566 = GetArmyHS();
-                    var call__1567 = call__1566.GetLhx();
-                    var call__1568 = GetArmyHS();
-                    var call__1569 = call__1568.GetYhx();
-                    var call__1570 = GetArmyHS();
-                    var call__1571 = call__1570.GetXhx();
-                    w__1565.CenterViewTo(call__1571, call__1569, call__1567);
-                }
+                var aoWHSMap = Aow.Units.AoWE.AoWE.AoWHSMap;
+                var call__1566 = GetArmyHS();
+                var call__1567 = call__1566.GetLhx();
+                var call__1568 = GetArmyHS();
+                var call__1569 = call__1568.GetYhx();
+                var call__1570 = GetArmyHS();
+                var call__1571 = call__1570.GetXhx();
+                aoWHSMap.CenterViewTo(call__1571, call__1569, call__1567);
             }
         }
 
@@ -23552,12 +23507,7 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1230
-        public virtual int GetAbilityID()
-        {
-            int Result = default;
-            Result = -1;
-            return Result;
-        }
+        public virtual int GetAbilityID() => -1;
     }
 
     // { TActivateAbilityInfo (instance size 28, VMT 5570F120) }
@@ -23679,18 +23629,11 @@ namespace Aow.Units.AoWE
 
         // Ability.PAS:1477
         // { +04C draft }
-        public virtual void GetHidden()
-        {
-        }
+        public virtual bool GetHidden() => false;
 
         // Ability.PAS:1563
         // { +050 draft }
-        public virtual Aow.Units.AoWE.TAbilityType GetAbilityType()
-        {
-            Aow.Units.AoWE.TAbilityType Result = default;
-            Result = (Aow.Units.AoWE.TAbilityType)0;
-            return Result;
-        }
+        public virtual Aow.Units.AoWE.TAbilityType GetAbilityType() => (Aow.Units.AoWE.TAbilityType)0;
 
         // Ability.PAS:1449
         public virtual Aow.Rtl.AnsiString GetName(Aow.Units.AoWE.TAbilityOwner A1)
@@ -23701,90 +23644,40 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1453
-        public virtual sbyte GetAttack(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual sbyte GetAttack(Aow.Units.AoWE.TAbilityOwner A1) => 0;
 
         // Ability.PAS:1457
-        public virtual sbyte GetDefense(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual sbyte GetDefense(Aow.Units.AoWE.TAbilityOwner A1) => 0;
 
         // Ability.PAS:1462
-        public virtual sbyte GetResistance(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual sbyte GetResistance(Aow.Units.AoWE.TAbilityOwner A1) => 0;
 
         // Ability.PAS:1467
         // { +064 }
-        public virtual sbyte GetDamage(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual sbyte GetDamage(Aow.Units.AoWE.TAbilityOwner A1) => 0;
 
         // Ability.PAS:1472
         // { +068 }
-        public virtual TSet<Aow.Units.AoWE.TMoveType> GetMoveTypes(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            TSet<Aow.Units.AoWE.TMoveType> Result = default;
-            Result = Aow.Units.AoWE.AoWE.P1EmptyMoveTypes;
-            return Result;
-        }
+        public virtual TSet<Aow.Units.AoWE.TMoveType> GetMoveTypes(Aow.Units.AoWE.TAbilityOwner A1) => Aow.Units.AoWE.AoWE.P1EmptyMoveTypes;
 
         // Ability.PAS:1482
         // { +06C }
-        public virtual int GetLevel(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual int GetLevel(Aow.Units.AoWE.TAbilityOwner A1) => 0;
 
         // Ability.PAS:1550
         // { +074 }
-        public virtual TSet<Aow.Units.AoWE.TDamageType> GetImmunityTypes(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            TSet<Aow.Units.AoWE.TDamageType> Result = default;
-            Result = Aow.Units.AoWE.AoWE.P1EmptyDamageTypes;
-            return Result;
-        }
+        public virtual TSet<Aow.Units.AoWE.TDamageType> GetImmunityTypes(Aow.Units.AoWE.TAbilityOwner A1) => Aow.Units.AoWE.AoWE.P1EmptyDamageTypes;
 
         // Ability.PAS:1555
         // { +078 }
-        public virtual TSet<Aow.Units.AoWE.TDamageType> GetProtectionTypes(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            TSet<Aow.Units.AoWE.TDamageType> Result = default;
-            Result = Aow.Units.AoWE.AoWE.P1EmptyDamageTypes;
-            return Result;
-        }
+        public virtual TSet<Aow.Units.AoWE.TDamageType> GetProtectionTypes(Aow.Units.AoWE.TAbilityOwner A1) => Aow.Units.AoWE.AoWE.P1EmptyDamageTypes;
 
         // Ability.PAS:1268
         // { +080 }
-        public virtual Aow.Units.AoWE.TCombatMode GetCombatMode(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            Aow.Units.AoWE.TCombatMode Result = default;
-            Result = (Aow.Units.AoWE.TCombatMode)0;
-            return Result;
-        }
+        public virtual Aow.Units.AoWE.TCombatMode GetCombatMode(Aow.Units.AoWE.TAbilityOwner A1) => (Aow.Units.AoWE.TCombatMode)0;
 
         // Ability.PAS:1341
-        public virtual TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> GetWallCombatFeatures(Aow.Units.AoWE.TAbilityOwner A1)
-        {
-            TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> Result = default;
-            Result = Aow.Units.AoWE.AoWE.P1EmptyWallFeatures;
-            return Result;
-        }
+        public virtual TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> GetWallCombatFeatures(Aow.Units.AoWE.TAbilityOwner A1) => Aow.Units.AoWE.AoWE.P1EmptyWallFeatures;
 
         // Ability.PAS:1256
         // { +088 }
@@ -23796,21 +23689,11 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1420
-        public virtual int GetInherentLevel(Aow.Units.AoWE.TAbilityOwner Owner)
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual int GetInherentLevel(Aow.Units.AoWE.TAbilityOwner Owner) => 0;
 
         // Ability.PAS:1264
         // { $094; AoW 0044719D }
-        public virtual TSet<Aow.Units.AoWE.TAbilityControlTypeElement> GetControlType(Aow.Units.AoWE.TAbilityOwner Owner)
-        {
-            TSet<Aow.Units.AoWE.TAbilityControlTypeElement> Result = default;
-            Result = Aow.Units.AoWE.AoWE.P1EmptyControlType;
-            return Result;
-        }
+        public virtual TSet<Aow.Units.AoWE.TAbilityControlTypeElement> GetControlType(Aow.Units.AoWE.TAbilityOwner Owner) => Aow.Units.AoWE.AoWE.P1EmptyControlType;
 
         // Ability.PAS:1298
         // { Original leaves Reserved untouched. }
@@ -23856,12 +23739,7 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1574
-        public virtual bool fcExecuteCombatCommand(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TFastCombatCommand A2)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool fcExecuteCombatCommand(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TFastCombatCommand A2) => false;
 
         // Ability.PAS:1582
         public virtual void NewDay(Aow.Units.AoWE.TAbilityOwner A1)
@@ -23981,23 +23859,16 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1272
-        public virtual int GetDamageValue(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAbstractUnit A2)
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual int GetDamageValue(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAbstractUnit A2) => 0;
 
         // Ability.PAS:1276
         public virtual void GetDamageValueEx(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAbstractUnit A2, Aow.Units.AoWE.TWallSituation A3, ref Aow.Units.AoWE.TAbilityDamageValues A4)
         {
-            {
-                ref var w__2041 = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP1DamageValues>(ref A4);
-                w__2041.Damage = 0;
-                w__2041.Experience = 0;
-                w__2041.CounterDamage = 0;
-                w__2041.CounterExperience = 0;
-            }
+            ref var p1DamageValues = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP1DamageValues>(ref A4);
+            p1DamageValues.Damage = 0;
+            p1DamageValues.Experience = 0;
+            p1DamageValues.CounterDamage = 0;
+            p1DamageValues.CounterExperience = 0;
         }
 
         // Ability.PAS:1487
@@ -24011,13 +23882,11 @@ namespace Aow.Units.AoWE
         // { Original leaves Reserved untouched. }
         public virtual void fcGetDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, Aow.Units.AoWE.TWallSituation A3, ref Aow.Units.AoWE.TAbilityDamageValues A4)
         {
-            {
-                ref var w__2042 = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP1DamageValues>(ref A4);
-                w__2042.Damage = 0;
-                w__2042.Experience = 0;
-                w__2042.CounterDamage = 0;
-                w__2042.CounterExperience = 0;
-            }
+            ref var p1DamageValues = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP1DamageValues>(ref A4);
+            p1DamageValues.Damage = 0;
+            p1DamageValues.Experience = 0;
+            p1DamageValues.CounterDamage = 0;
+            p1DamageValues.CounterExperience = 0;
         }
 
         // Ability.PAS:1313
@@ -24177,13 +24046,11 @@ namespace Aow.Units.AoWE
         // { +100 }
         public virtual void GetCombatInfo(Aow.Units.AoWE.TAbilityOwner A1, ref Aow.Units.AoWE.TAbilityCombatInfo A2)
         {
-            {
-                ref var w__2056 = ref A2;
-                w__2056.Attack = unchecked((sbyte)-1);
-                w__2056.Damage = unchecked((sbyte)-1);
-                w__2056.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
-                w__2056.RepeatCount = unchecked((sbyte)-1);
-            }
+            ref var abilityCombatInfo = ref A2;
+            abilityCombatInfo.Attack = unchecked((sbyte)-1);
+            abilityCombatInfo.Damage = unchecked((sbyte)-1);
+            abilityCombatInfo.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
+            abilityCombatInfo.RepeatCount = unchecked((sbyte)-1);
         }
 
         // Ability.PAS:1252
@@ -24220,12 +24087,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Ability.PAS:1445
-            public virtual Aow.Units.Engine.TEObject.Meta AbilityDataClass()
-            {
-                Aow.Units.Engine.TEObject.Meta Result = default;
-                Result = default;
-                return Result;
-            }
+            public virtual Aow.Units.Engine.TEObject.Meta AbilityDataClass() => default;
 
             // intf_P1_06.inc:37
             public new Aow.Units.AoWE.TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -25612,19 +25474,16 @@ namespace Aow.Units.AoWE
             ID = Ability.FAbilityID;
             if (ID != -1)
             {
+                bool bool__2205 = (ID < this.FAbilities.Count);
+                if (bool__2205)
                 {
-                    var w__2204 = FAbilities;
-                    bool bool__2205 = (ID < w__2204.Count);
-                    if (bool__2205)
-                    {
-                        var call__2206 = w__2204[ID];
-                        bool__2205 = (call__2206 != null);
-                    }
+                    var call__2206 = this.FAbilities[ID];
+                    bool__2205 = (call__2206 != null);
+                }
 
-                    if (bool__2205)
-                    {
-                        throw Aow.Rtl.Exception.Create((((AnsiString)"Ability already registered (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
-                    }
+                if (bool__2205)
+                {
+                    throw Aow.Rtl.Exception.Create((((AnsiString)"Ability already registered (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
                 }
 
                 while (ID >= FAbilities.Count)
@@ -25702,19 +25561,16 @@ namespace Aow.Units.AoWE
             int I = default;
             Text.Clear();
             {
-                var w__2214 = FAbilities;
+                I = 0;
+                int end__2215 = this.FAbilities.Count - 1;
+                for (; I <= end__2215; I += 1)
                 {
-                    I = 0;
-                    int end__2215 = w__2214.Count - 1;
-                    for (; I <= end__2215; I += 1)
+                    if (this.FAbilities.List[I] != null)
                     {
-                        if (w__2214.List[I] != null)
+                        if (((((Aow.Units.AoWE.TAbility)this.FAbilities.List[I]).FSelectionTypes & Types) != TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of()) || ((Types == TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of().WithRange((Aow.Units.AoWE.TAbilitySelectionType)0, (Aow.Units.AoWE.TAbilitySelectionType)9)) && (((Aow.Units.AoWE.TAbility)this.FAbilities.List[I]).FSelectionTypes == TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of())))
                         {
-                            if (((((Aow.Units.AoWE.TAbility)w__2214.List[I]).FSelectionTypes & Types) != TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of()) || ((Types == TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of().WithRange((Aow.Units.AoWE.TAbilitySelectionType)0, (Aow.Units.AoWE.TAbilitySelectionType)9)) && (((Aow.Units.AoWE.TAbility)w__2214.List[I]).FSelectionTypes == TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of())))
-                            {
-                                var call__2216 = ((Aow.Units.AoWE.TAbility)w__2214.List[I]).GetName(null);
-                                Text.AddObject(call__2216, Aow.Rtl.Rtl.IntToObject((int)I));
-                            }
+                            var call__2216 = ((Aow.Units.AoWE.TAbility)this.FAbilities.List[I]).GetName(null);
+                            Text.AddObject(call__2216, Aow.Rtl.Rtl.IntToObject((int)I));
                         }
                     }
                 }
@@ -27038,21 +26894,19 @@ namespace Aow.Units.AoWE
         public override int AddChild(Aow.Units.Engine.TEObject Child)
         {
             int Result = default;
+            var item2 = (Aow.Units.AoWE.TItem)Child;
+            // { Original checks the world item ID, not the library ID. }
+            bool bool__2268 = (item2.FLibraryID <= 0);
+            if (!bool__2268)
             {
-                var w__2267 = (Aow.Units.AoWE.TItem)Child;
-                // { Original checks the world item ID, not the library ID. }
-                bool bool__2268 = (w__2267.FLibraryID <= 0);
-                if (!bool__2268)
-                {
-                    var call__2269 = FindItem(w__2267.FLibraryID);
-                    bool__2268 = (call__2269 != null);
-                }
+                var call__2269 = FindItem(item2.FLibraryID);
+                bool__2268 = (call__2269 != null);
+            }
 
-                if (bool__2268)
-                {
-                    var call__2270 = CreateUniqueLibraryID();
-                    w__2267.FLibraryID = call__2270;
-                }
+            if (bool__2268)
+            {
+                var call__2270 = CreateUniqueLibraryID();
+                item2.FLibraryID = call__2270;
             }
 
             Result = base.AddChild(Child);
@@ -28597,7 +28451,7 @@ namespace Aow.Units.AoWE
             {
                 // { needs: P1 TAoWHSMap.UnitDestroyed(AUnit: TAbstractUnit),
 //       EDX is Self at 5577EB8B; keep the argument live across the draft call. }
-                Aow.Units.AoWE.AoWE.P2NotifyUnitDestroyed(Aow.Units.AoWE.AoWE.AoWHSMap, this);
+                Aow.Units.AoWE.AoWE.AoWHSMap.UnitDestroyed(this);
             }
 
             base.Destroy();
@@ -28744,17 +28598,12 @@ namespace Aow.Units.AoWE
             Aow.Rtl.AnsiString Result = default;
             // { needs: draft ancestor GetOwnerName is a string result; current A1 is its
 //     hidden result pointer, proved by EDX at 5577F6A2 and 5577F6C2. }
-            Aow.Units.AoWE.AoWE.P2TranslateRStr(Aow.Units.AoWE.AoWE.P2InherentRStr, ref Result);
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P2InherentRStr);
             return Result;
         }
 
         // Unit.PAS:171
-        public override TSet<Aow.Units.AoWE.TAbilitySelectionType> GetAbilitySelectionTypes()
-        {
-            TSet<Aow.Units.AoWE.TAbilitySelectionType> Result = default;
-            Result = Aow.Units.AoWE.AoWE.TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes;
-            return Result;
-        }
+        public override TSet<Aow.Units.AoWE.TAbilitySelectionType> GetAbilitySelectionTypes() => Aow.Units.AoWE.AoWE.TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes;
 
         // Unit.PAS:1411
         public override void Changed()
@@ -28767,7 +28616,7 @@ namespace Aow.Units.AoWE
                 UpdateEnchanted();
                 if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
                 {
-                    Aow.Units.AoWE.AoWE.P2UnitChanged(Aow.Units.AoWE.AoWE.AoWHSMap, this);
+                    Aow.Units.AoWE.AoWE.AoWHSMap.UnitChanged(this);
                 }
             }
 
@@ -28851,7 +28700,7 @@ namespace Aow.Units.AoWE
             bool Result = default;
             if (this.GetAbSet(AbilityID))
             {
-                var call__2343 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, AbilityID);
+                var call__2343 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID);
                 var call__2344 = call__2343.GetInherent(this);
                 Result = call__2344;
                 return Result;
@@ -28868,7 +28717,7 @@ namespace Aow.Units.AoWE
             int Result = default;
             if (this.GetAbSet(AbilityID))
             {
-                var call__2345 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, AbilityID);
+                var call__2345 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID);
                 var call__2346 = call__2345.GetInherentLevel(this);
                 Result = call__2346;
                 return Result;
@@ -28977,7 +28826,7 @@ namespace Aow.Units.AoWE
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetImmunityTypes()
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
-            Result = Aow.Units.AoWE.AoWE.P2AbImmunity(this) + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall);
+            Result = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbImmunityTypesAll() + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall);
             return Result;
         }
 
@@ -28986,7 +28835,7 @@ namespace Aow.Units.AoWE
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetProtectionTypes()
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
-            Result = Aow.Units.AoWE.AoWE.P2AbProtection(this);
+            Result = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbProtectionTypesAll();
             return Result;
         }
 
@@ -29250,31 +29099,31 @@ namespace Aow.Units.AoWE
         {
             if ((Player == FPlayer) && (FPlayer > 0))
             {
-                var call__2367 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                var call__2367 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                 if (call__2367.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petFireMastery))
                 {
                     SetFireMasteryProtection();
                 }
 
-                var call__2368 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                var call__2368 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                 if (call__2368.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petEarthMastery))
                 {
                     SetEarthMasteryStoneSkin();
                 }
 
-                var call__2369 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                var call__2369 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                 if (call__2369.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery))
                 {
                     SetLifeMasteryBlessing();
                 }
 
-                var call__2370 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                var call__2370 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                 if ((((byte)call__2370.FMagicControl.FEnemyEnchantments.Image) & 16) != 0)
                 {
                     ExecuteLifeMasteryFearRole();
                 }
 
-                var call__2371 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                var call__2371 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                 if ((((byte)call__2371.FMagicControl.FEnemyEnchantments.Image) & 32) != 0)
                 {
                     ExecuteDeathMasteryCurseRole();
@@ -29287,7 +29136,7 @@ namespace Aow.Units.AoWE
         public virtual int GetAbilityLevel(int AbilityID)
         {
             int Result = default;
-            var call__2372 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, AbilityID);
+            var call__2372 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID);
             var call__2373 = call__2372.GetLevel(this);
             Result = call__2373;
             return Result;
@@ -29300,7 +29149,7 @@ namespace Aow.Units.AoWE
             bool Result = default;
             if (GetAbilitySet(AbilityID))
             {
-                var call__2374 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, AbilityID);
+                var call__2374 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID);
                 var call__2375 = call__2374.GetEnabled(this);
                 Result = call__2375;
                 return Result;
@@ -29315,7 +29164,7 @@ namespace Aow.Units.AoWE
         public virtual Aow.Rtl.AnsiString GetAbilityName(int AbilityID)
         {
             Aow.Rtl.AnsiString Result = default;
-            var call__2376 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, AbilityID);
+            var call__2376 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID);
             var call__2377 = call__2376.GetName(this);
             Result = call__2377;
             return Result;
@@ -29412,7 +29261,7 @@ namespace Aow.Units.AoWE
             else
             {
                 var call__2378 = GetAlignment();
-                var call__2379 = Aow.Units.AoWE.AoWE.P2AlignmentToIR(call__2378);
+                var call__2379 = unchecked((sbyte)Aow.Units.AoWE.AoWE.AlignmentToIR(call__2378));
                 Result = unchecked((sbyte)call__2379);
             }
 
@@ -29530,7 +29379,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.RegisterUnit(this);
             if ((FGroupID != 0) && (FPlayer >= 0))
             {
-                var call__2383 = Aow.Units.AoWE.AoWE.P2FindGroup((Aow.Units.AoWE.TAIGroupList)Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager, FGroupID);
+                var call__2383 = ((Aow.Units.AoWE.TAIGroupList)Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager).FindID(FGroupID);
                 Group = call__2383;
                 if (Group != null)
                 {
@@ -29590,7 +29439,7 @@ namespace Aow.Units.AoWE
             bool bool__2385 = !Aow.Units.AoWE.AoWE.AoWHSMap.FUnlimitedMoves;
             if (!bool__2385)
             {
-                var call__2386 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                var call__2386 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                 bool__2385 = (call__2386.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman);
             }
 
@@ -29687,14 +29536,14 @@ namespace Aow.Units.AoWE
             {
                 if (GetRace() == -1)
                 {
-                    var call__2393 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Player);
-                    var call__2394 = Aow.Units.AoWE.AoWE.P2GetRaceResource(Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources, call__2393.FPlayerRace);
-                    var call__2395 = Aow.Units.AoWE.AoWE.P2GetRaceAlignment(call__2394);
+                    var call__2393 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Player));
+                    var call__2394 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource((int)(call__2393.FPlayerRace));
+                    var call__2395 = call__2394.GetAlignment();
                     Alignment = call__2395;
                     if (GetAlignment() != Aow.Units.AoWE.TAlignment.alNone)
                     {
                         var call__2396 = GetAlignment();
-                        var call__2397 = Aow.Units.AoWE.AoWE.P2AlignmentDiplomaticRelation(call__2396, Alignment);
+                        var call__2397 = Aow.Units.AoWE.AoWE.dAlignmentToDiplomaticRelation(call__2396, Alignment);
                         Relation = call__2397;
                         if ((Relation == Aow.Units.AoWE.TDiplomaticRelation.drUnknown) && (this is Aow.Units.AoWE.TUnit))
                         {
@@ -29704,13 +29553,13 @@ namespace Aow.Units.AoWE
                             while (!Result && (I != 0))
                             {
                                 I -= 1;
-                                var call__2399 = Aow.Units.AoWE.AoWE.P2GetRace(Aow.Units.AoWE.AoWE.AoWHSMap.FRaces, I);
-                                var call__2400 = Aow.Units.AoWE.AoWE.P2RacePlayerRelation(call__2399, unchecked((sbyte)Player));
+                                var call__2399 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(I);
+                                var call__2400 = call__2399.GetPlayerRelation(unchecked((sbyte)unchecked((sbyte)Player)));
                                 bool bool__2401 = (call__2400 >= Aow.Units.AoWE.TStatus.sPolite);
                                 if (bool__2401)
                                 {
                                     var call__2402 = ((Aow.Units.AoWE.TUnit)this).FUnitResource.UnitResourceIndex();
-                                    var call__2403 = Aow.Units.AoWE.AoWE.P2GetRaceResource(Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources, I);
+                                    var call__2403 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(I);
                                     var call__2404 = ((Aow.Units.Engine.TIntegerList)call__2403.FUnitIndexes).IndexOf(call__2402);
                                     bool__2401 = (call__2404 != -1);
                                 }
@@ -29731,8 +29580,8 @@ namespace Aow.Units.AoWE
                 else
                 {
                     var call__2405 = GetRace();
-                    var call__2406 = Aow.Units.AoWE.AoWE.P2GetRace(Aow.Units.AoWE.AoWE.AoWHSMap.FRaces, call__2405);
-                    var call__2407 = Aow.Units.AoWE.AoWE.P2RacePlayerRelation(call__2406, unchecked((sbyte)Player));
+                    var call__2406 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace((int)(call__2405));
+                    var call__2407 = call__2406.GetPlayerRelation(unchecked((sbyte)unchecked((sbyte)Player)));
                     Result = call__2407 >= Aow.Units.AoWE.TStatus.sPolite;
                 }
 
@@ -29746,7 +29595,7 @@ namespace Aow.Units.AoWE
                 bool bool__2410 = bool__2408;
                 if (bool__2410)
                 {
-                    var call__2411 = Aow.Units.AoWE.AoWE.P2HuntingPlayer((Aow.Units.AoWE.THuntAG)FGroup, unchecked((sbyte)Player));
+                    var call__2411 = ((Aow.Units.AoWE.THuntAG)FGroup).HuntingPlayer(unchecked((sbyte)unchecked((sbyte)Player)));
                     bool__2410 = call__2411;
                 }
 
@@ -29794,8 +29643,8 @@ namespace Aow.Units.AoWE
                 if (GetRace() != -1)
                 {
                     var call__2412 = GetRace();
-                    var call__2413 = Aow.Units.AoWE.AoWE.P2GetRace(Aow.Units.AoWE.AoWE.AoWHSMap.FRaces, call__2412);
-                    var call__2414 = Aow.Units.AoWE.AoWE.P2RacePlayerRelation(call__2413, unchecked((sbyte)Player));
+                    var call__2413 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace((int)(call__2412));
+                    var call__2414 = call__2413.GetPlayerRelation(unchecked((sbyte)unchecked((sbyte)Player)));
                     Result = call__2414 >= Aow.Units.AoWE.TStatus.sPolite;
                 }
                 else
@@ -29803,9 +29652,9 @@ namespace Aow.Units.AoWE
                     Group = FGroup;
                     if ((Group != null) && (((Aow.Units.AoWE.TAIGroup)((System.Object)Group)).ClassType.Behavior() == Aow.Units.AoWE.TGroupBehavior.gbRefuge))
                     {
-                        var call__2415 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Player);
-                        var call__2416 = Aow.Units.AoWE.AoWE.P2GetRaceResource(Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources, call__2415.FPlayerRace);
-                        var call__2417 = Aow.Units.AoWE.AoWE.P2GetRaceAlignment(call__2416);
+                        var call__2415 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Player));
+                        var call__2416 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource((int)(call__2415.FPlayerRace));
+                        var call__2417 = call__2416.GetAlignment();
                         Alignment = call__2417;
                         var call__2418 = GetAlignment();
                         bool bool__2419 = (call__2418 != Aow.Units.AoWE.TAlignment.alNone);
@@ -29819,7 +29668,7 @@ namespace Aow.Units.AoWE
                         if (bool__2421)
                         {
                             var call__2422 = GetAlignment();
-                            var call__2423 = Aow.Units.AoWE.AoWE.P2AlignmentDiplomaticRelation(call__2422, Alignment);
+                            var call__2423 = Aow.Units.AoWE.AoWE.dAlignmentToDiplomaticRelation(call__2422, Alignment);
                             bool__2421 = (call__2423 != Aow.Units.AoWE.TDiplomaticRelation.drPeace);
                         }
 
@@ -29860,12 +29709,12 @@ namespace Aow.Units.AoWE
                     {
                         if (Count == 0)
                         {
-                            var call__2424 = Aow.Units.AoWE.AoWE.P2Translate(Aow.Units.AoWE.AoWE.P2RefugeJoinRStr);
+                            var call__2424 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P2RefugeJoinRStr);
                             Messages.Text = call__2424;
                         }
                         else
                         {
-                            var call__2425 = Aow.Units.AoWE.AoWE.P2Translate(Aow.Units.AoWE.AoWE.P2RefugeesJoinRStr);
+                            var call__2425 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P2RefugeesJoinRStr);
                             Messages.Text = call__2425;
                         }
                     }
@@ -29873,14 +29722,14 @@ namespace Aow.Units.AoWE
                     {
                         if (Count == 0)
                         {
-                            var call__2426 = Aow.Units.AoWE.AoWE.P2Translate(Aow.Units.AoWE.AoWE.P2BribeUnitJoinRStr);
-                            var call__2427 = Aow.Units.AoWE.AoWE.P2Format(call__2426, [Aow.Rtl.Rtl.IntToStr(Amount)]);
+                            var call__2426 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P2BribeUnitJoinRStr);
+                            var call__2427 = Aow.Units.AoWE.AoWE.Format(call__2426, [Aow.Rtl.Rtl.IntToStr(Amount)]);
                             Messages.Text = call__2427;
                         }
                         else
                         {
-                            var call__2428 = Aow.Units.AoWE.AoWE.P2Translate(Aow.Units.AoWE.AoWE.P2BribeUnitsJoinRStr);
-                            var call__2429 = Aow.Units.AoWE.AoWE.P2Format(call__2428, [Aow.Rtl.Rtl.IntToStr(Amount)]);
+                            var call__2428 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P2BribeUnitsJoinRStr);
+                            var call__2429 = Aow.Units.AoWE.AoWE.Format(call__2428, [Aow.Rtl.Rtl.IntToStr(Amount)]);
                             Messages.Text = call__2429;
                         }
                     }
@@ -29947,7 +29796,7 @@ namespace Aow.Units.AoWE
             var call__2431 = GetResistance();
             var call__2432 = GetImmunityTypes();
             var call__2433 = GetProtectionTypes();
-            var call__2434 = Aow.Units.AoWE.AoWE.P2StatisticsToDV(Attack, Damage, DamageTypes, call__2430, call__2431, call__2432, call__2433);
+            var call__2434 = Aow.Units.AoWE.AoWE.StatisticsToDV((int)(Attack), (int)(Damage), DamageTypes, (int)(call__2430), (int)(call__2431), call__2432, call__2433);
             DamageValue = call__2434;
             if (MaxDamage < DamageValue)
             {
@@ -29996,22 +29845,22 @@ namespace Aow.Units.AoWE
             {
                 if ((Race != -1) && !GetAbilityEnabled(107))
                 {
-                    var call__2435 = Aow.Units.AoWE.AoWE.P2GetRace(Aow.Units.AoWE.AoWE.AoWHSMap.FRaces, Race);
-                    var call__2436 = Aow.Units.AoWE.AoWE.P2GetPlayerRelationValue(call__2435, unchecked((sbyte)Player));
+                    var call__2435 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace((int)(Race));
+                    var call__2436 = call__2435.GetPlayerRelationValue(unchecked((sbyte)unchecked((sbyte)Player)));
                     Result = call__2436;
                 }
                 else
                 {
-                    var call__2437 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Player);
-                    var call__2438 = Aow.Units.AoWE.AoWE.P2GetRaceResource(Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources, call__2437.FPlayerRace);
-                    var call__2439 = Aow.Units.AoWE.AoWE.P2GetRaceAlignment(call__2438);
+                    var call__2437 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Player));
+                    var call__2438 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource((int)(call__2437.FPlayerRace));
+                    var call__2439 = call__2438.GetAlignment();
                     var call__2440 = GetAlignment();
                     Result = Aow.Units.AoWE.AoWE.P2AlignmentToStatusValue[(int)call__2440][(int)call__2439];
                 }
             }
             else
             {
-                var call__2441 = Aow.Units.AoWE.AoWE.P2IRtoAlignment(unchecked((sbyte)IndependentRelation));
+                var call__2441 = Aow.Units.AoWE.AoWE.IRtoAlignment(unchecked((sbyte)unchecked((sbyte)IndependentRelation)));
                 var call__2442 = GetAlignment();
                 Result = Aow.Units.AoWE.AoWE.P2AlignmentToStatusValue[(int)call__2442][(int)call__2441];
             }
@@ -30024,7 +29873,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TStatus Result = default;
             var call__2443 = GetRelationValue(unchecked((sbyte)Player), unchecked((sbyte)IndependentRelation));
-            var call__2444 = Aow.Units.AoWE.AoWE.P2StatusValueToStatus(call__2443);
+            var call__2444 = Aow.Units.AoWE.AoWE.StatusValueToStatus(call__2443);
             Result = call__2444;
             return Result;
         }
@@ -30040,15 +29889,15 @@ namespace Aow.Units.AoWE
             OtherRace = unchecked((sbyte)AUnit.GetRace());
             if ((Race != -1) && (OtherRace != -1))
             {
-                var call__2445 = Aow.Units.AoWE.AoWE.P2GetRace(Aow.Units.AoWE.AoWE.AoWHSMap.FRaces, Race);
-                var call__2446 = Aow.Units.AoWE.AoWE.P2RaceRelation(call__2445, unchecked((sbyte)OtherRace));
+                var call__2445 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace((int)(Race));
+                var call__2446 = call__2445.GetRelation(unchecked((sbyte)unchecked((sbyte)OtherRace)));
                 Result = call__2446;
             }
             else
             {
                 var call__2447 = AUnit.GetAlignment();
                 var call__2448 = GetAlignment();
-                var call__2449 = Aow.Units.AoWE.AoWE.P2AlignmentRelation(call__2448, call__2447);
+                var call__2449 = Aow.Units.AoWE.AoWE.dAlignmentToStatus(call__2448, call__2447);
                 Result = call__2449;
             }
 
@@ -30086,7 +29935,7 @@ namespace Aow.Units.AoWE
 
                 if (bool__2455)
                 {
-                    var call__2457 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Player);
+                    var call__2457 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
                     Value += call__2457.FMoraleValue;
                 }
 
@@ -30135,7 +29984,7 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TMorale GetMorale()
         {
             Aow.Units.AoWE.TMorale Result = default;
-            var call__2459 = Aow.Units.AoWE.AoWE.P2MoraleValueToMorale(FMoraleValue);
+            var call__2459 = Aow.Units.AoWE.AoWE.MoraleValueToMorale((int)(FMoraleValue));
             Result = call__2459;
             return Result;
         }
@@ -30152,7 +30001,7 @@ namespace Aow.Units.AoWE
             while (!Enchanted && (I != 0))
             {
                 I -= 1;
-                var call__2460 = Aow.Units.AoWE.AoWE.P2TypeAbility(List, I);
+                var call__2460 = List.GetAbility(I);
                 var call__2461 = GetAbilityEnabled(call__2460.FAbilityID);
                 Enchanted = call__2461;
             }
@@ -30181,7 +30030,7 @@ namespace Aow.Units.AoWE
                 byte end__2462 = 0;
                 for (; I >= end__2462; I -= 1)
                 {
-                    Ability = Aow.Units.AoWE.AoWE.P2TypeAbility(List, I);
+                    Ability = List.GetAbility(I);
                     bool bool__2463 = (Ability is Aow.Units.AoWE.TUnitEnchantmentAbility);
                     if (bool__2463)
                     {
@@ -30224,7 +30073,7 @@ namespace Aow.Units.AoWE
                 byte end__2465 = 0;
                 for (; I >= end__2465; I -= 1)
                 {
-                    Ability = Aow.Units.AoWE.AoWE.P2TypeAbility(List, I);
+                    Ability = List.GetAbility(I);
                     bool bool__2466 = (Ability is Aow.Units.AoWE.TUnitEnchantmentAbility);
                     if (bool__2466)
                     {
@@ -30234,11 +30083,11 @@ namespace Aow.Units.AoWE
 
                     if (bool__2466)
                     {
-                        var call__2468 = Aow.Units.AoWE.AoWE.P2AbilityData(this, Ability.FAbilityID);
+                        var call__2468 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(Ability.FAbilityID);
                         Data = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2468;
                         if (Data.FEnchantment.FSource > -1)
                         {
-                            var call__2469 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Data.FEnchantment.FSource);
+                            var call__2469 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Data.FEnchantment.FSource));
                             call__2469.FMagicControl.RegisterEnchantment(Data.FEnchantment);
                         }
                     }
@@ -30260,7 +30109,7 @@ namespace Aow.Units.AoWE
                 byte end__2470 = 0;
                 for (; I >= end__2470; I -= 1)
                 {
-                    Ability = Aow.Units.AoWE.AoWE.P2TypeAbility(List, I);
+                    Ability = List.GetAbility(I);
                     bool bool__2471 = (Ability is Aow.Units.AoWE.TUnitEnchantmentAbility);
                     if (bool__2471)
                     {
@@ -30270,11 +30119,11 @@ namespace Aow.Units.AoWE
 
                     if (bool__2471)
                     {
-                        var call__2473 = Aow.Units.AoWE.AoWE.P2AbilityData(this, Ability.FAbilityID);
+                        var call__2473 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(Ability.FAbilityID);
                         Data = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2473;
                         if (Data.FEnchantment.FSource > -1)
                         {
-                            var call__2474 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Data.FEnchantment.FSource);
+                            var call__2474 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Data.FEnchantment.FSource));
                             call__2474.FMagicControl.UnregisterEnchantment(Data.FEnchantment);
                         }
                     }
@@ -30289,7 +30138,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TUnitEnchantment Result = default;
             Aow.Units.AoWE.TAbility Ability = default;
             Aow.Units.AoWE.TUnitEnchantmentAbilityData Data = default;
-            var call__2475 = Aow.Units.AoWE.AoWE.P2ControlAbility(Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl, AbilityID);
+            var call__2475 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID);
             Ability = call__2475;
             bool bool__2476 = (Ability is Aow.Units.AoWE.TUnitEnchantmentAbility);
             if (bool__2476)
@@ -30300,7 +30149,7 @@ namespace Aow.Units.AoWE
 
             if (bool__2476)
             {
-                var call__2478 = Aow.Units.AoWE.AoWE.P2AbilityData(this, Ability.FAbilityID);
+                var call__2478 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(Ability.FAbilityID);
                 Data = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2478;
                 if (Data != null)
                 {
@@ -30333,7 +30182,7 @@ namespace Aow.Units.AoWE
             while (!Result && (I != 0))
             {
                 I -= 1;
-                var call__2479 = Aow.Units.AoWE.AoWE.P2TypeAbility(List, I);
+                var call__2479 = List.GetAbility(I);
                 var call__2480 = AbilityToEnchantment(call__2479.FAbilityID);
                 Enchantment = call__2480;
                 if ((Enchantment == null) || (Player == Enchantment.FSource))
@@ -30361,7 +30210,7 @@ namespace Aow.Units.AoWE
                 byte end__2481 = 0;
                 for (; I >= end__2481; I -= 1)
                 {
-                    var call__2482 = Aow.Units.AoWE.AoWE.P2TypeAbility(Abilities, I);
+                    var call__2482 = Abilities.GetAbility(I);
                     var call__2483 = AbilityToEnchantment(call__2482.FAbilityID);
                     Enchantment = call__2483;
                     if (Enchantment != null)
@@ -30507,7 +30356,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TEnchantment Enchantment = default;
             if (GetAbilityEnabled(155))
             {
-                var call__2492 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 155);
+                var call__2492 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(155);
                 Enchantment = (Aow.Units.AoWE.TEnchantment)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2492).FEnchantment;
                 if (Enchantment != null)
                 {
@@ -30567,11 +30416,11 @@ namespace Aow.Units.AoWE
                 Moves = Moves - TSet<Aow.Units.AoWE.TMoveType>.Of(Aow.Units.AoWE.TMoveType.mtTunneling);
             }
 
-            var call__2495 = Aow.Units.AoWE.AoWE.P2MoveTypesToInt(Moves);
+            var call__2495 = Aow.Units.AoWE.AoWE.MoveTypesToInt(Moves);
             Table = Aow.Units.AoWE.AoWE.MovePointTables[call__2495];
             if (FPlayer > 0)
             {
-                var call__2496 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                var call__2496 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                 if (call__2496.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petEnchantedRoads))
                 {
                     {
@@ -30604,9 +30453,9 @@ namespace Aow.Units.AoWE
 
                 if (bool__2501)
                 {
-                    var call__2503 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                    var call__2503 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                     Faster = call__2503.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petAirMastery);
-                    var call__2504 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                    var call__2504 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                     Slower = (((byte)call__2504.FMagicControl.FEnemyEnchantments.Image) & 4) != 0;
                     if (Faster && !Slower)
                     {
@@ -30720,7 +30569,7 @@ namespace Aow.Units.AoWE
             // { Original retrieves the movement set twice and retains the first dead store. }
             Moves = GetMoveTypes();
             var call__2513 = GetMoveTypes();
-            var call__2514 = Aow.Units.AoWE.AoWE.P2MoveTypesToInt(call__2513);
+            var call__2514 = Aow.Units.AoWE.AoWE.MoveTypesToInt(call__2513);
             Cost = unchecked((sbyte)Aow.Units.AoWE.AoWE.MovePointTables[call__2514][TerrainType][OverlayType - -1]);
             if ((Cost == -1) || (Cost > GetMoves()))
             {
@@ -30762,22 +30611,22 @@ namespace Aow.Units.AoWE
                                 bool bool__2517 = (Player != FPlayer);
                                 if (bool__2517)
                                 {
-                                    var call__2518 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
-                                    var call__2519 = Aow.Units.AoWE.AoWE.P2DiplomaticRelation(call__2518.FDiplomaticRelations, Player);
+                                    var call__2518 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
+                                    var call__2519 = call__2518.FDiplomaticRelations.GetDiplomaticRelation(unchecked((sbyte)Player));
                                     bool__2517 = (call__2519 == Aow.Units.AoWE.TDiplomaticRelation.drWar);
                                 }
 
                                 bool bool__2520 = bool__2517;
                                 if (bool__2520)
                                 {
-                                    var call__2521 = Aow.Units.AoWE.AoWE.P2Explored(Field, Player);
+                                    var call__2521 = Field.GetExplored(Player);
                                     bool__2520 = call__2521;
                                 }
 
                                 bool bool__2522 = bool__2520;
                                 if (bool__2522)
                                 {
-                                    var call__2523 = Aow.Units.AoWE.AoWE.P2VisibleForPlayer(Aow.Units.AoWE.AoWE.AoWHSMap, Walk.X, Walk.Y, MapField.Lhx, Player);
+                                    var call__2523 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(Walk.X, Walk.Y, (int)(MapField.Lhx), unchecked((sbyte)Player));
                                     bool__2522 = !call__2523;
                                 }
 
@@ -30987,7 +30836,7 @@ namespace Aow.Units.AoWE
                     Terrain = unchecked((sbyte)Field.TerrainType);
                     Overlay = unchecked((sbyte)Field.OverlayType);
                     Moves = Moves - TSet<Aow.Units.AoWE.TMoveType>.Of(Aow.Units.AoWE.TMoveType.mtFlying);
-                    var call__2534 = Aow.Units.AoWE.AoWE.P2MoveTypesToInt(Moves);
+                    var call__2534 = Aow.Units.AoWE.AoWE.MoveTypesToInt(Moves);
                     DoubleDamage = Aow.Units.AoWE.AoWE.MovePointTables[call__2534][Terrain][Overlay - -1] == 0;
                 }
             }
@@ -31071,7 +30920,7 @@ namespace Aow.Units.AoWE
         {
             if (GetAbilityEnabled(153))
             {
-                var call__2537 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 153);
+                var call__2537 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(153);
                 if (((Aow.Units.AoWE.TEnchantment)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2537).FEnchantment).FSource == -2)
                 {
                     RemoveAbility(153);
@@ -31096,12 +30945,12 @@ namespace Aow.Units.AoWE
             {
                 if (this.ExpandAbility(153))
                 {
-                    var call__2541 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 153);
+                    var call__2541 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(153);
                     Enchantment = (Aow.Units.AoWE.TP2EnchantmentCalls)((System.Object)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2541).FEnchantment);
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 153)).FEnchantment.SetUpkeep(0);
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 153)).FEnchantment.SetSource(unchecked((sbyte)-2));
-                    var call__2542 = Aow.Units.AoWE.AoWE.P2Spell(Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl, 17);
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 153)).FEnchantment.FDispelResistance = unchecked((sbyte)((Aow.Units.AoWE.TUnitSpell)((System.Object)call__2542)).FUnitDispelResistance);
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(153)).FEnchantment.SetUpkeep(0);
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(153)).FEnchantment.SetSource(unchecked((sbyte)-2));
+                    var call__2542 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(17);
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(153)).FEnchantment.FDispelResistance = unchecked((sbyte)((Aow.Units.AoWE.TUnitSpell)((System.Object)call__2542)).FUnitDispelResistance);
                 }
             }
         }
@@ -31112,7 +30961,7 @@ namespace Aow.Units.AoWE
         {
             if (GetAbilityEnabled(167))
             {
-                var call__2543 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 167);
+                var call__2543 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(167);
                 if (((Aow.Units.AoWE.TEnchantment)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2543).FEnchantment).FSource == -2)
                 {
                     RemoveAbility(167);
@@ -31137,11 +30986,11 @@ namespace Aow.Units.AoWE
             {
                 if (this.ExpandAbility(167))
                 {
-                    var call__2547 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 167);
+                    var call__2547 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(167);
                     Enchantment = (Aow.Units.AoWE.TP2EnchantmentCalls)((System.Object)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2547).FEnchantment);
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 167)).FEnchantment.SetUpkeep(0);
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 167)).FEnchantment.SetSource(unchecked((sbyte)-2));
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 167)).FEnchantment.FDispelResistance = 7;
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(167)).FEnchantment.SetUpkeep(0);
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(167)).FEnchantment.SetSource(unchecked((sbyte)-2));
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(167)).FEnchantment.FDispelResistance = 7;
                 }
             }
         }
@@ -31152,7 +31001,7 @@ namespace Aow.Units.AoWE
         {
             if (GetAbilityEnabled(158))
             {
-                var call__2548 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 158);
+                var call__2548 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(158);
                 if (((Aow.Units.AoWE.TEnchantment)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2548).FEnchantment).FSource == -2)
                 {
                     RemoveAbility(158);
@@ -31169,12 +31018,12 @@ namespace Aow.Units.AoWE
             {
                 if (this.ExpandAbility(158))
                 {
-                    var call__2549 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 158);
+                    var call__2549 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(158);
                     Enchantment = (Aow.Units.AoWE.TP2EnchantmentCalls)((System.Object)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2549).FEnchantment);
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 158)).FEnchantment.SetUpkeep(0);
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 158)).FEnchantment.SetSource(unchecked((sbyte)-2));
-                    var call__2550 = Aow.Units.AoWE.AoWE.P2Spell(Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl, 56);
-                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 158)).FEnchantment.FDispelResistance = unchecked((sbyte)((Aow.Units.AoWE.TUnitSpell)((System.Object)call__2550)).FUnitDispelResistance);
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(158)).FEnchantment.SetUpkeep(0);
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(158)).FEnchantment.SetSource(unchecked((sbyte)-2));
+                    var call__2550 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(56);
+                    ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(158)).FEnchantment.FDispelResistance = unchecked((sbyte)((Aow.Units.AoWE.TUnitSpell)((System.Object)call__2550)).FUnitDispelResistance);
                 }
             }
         }
@@ -31210,7 +31059,7 @@ namespace Aow.Units.AoWE
             if (bool__2558)
             {
                 var call__2559 = GetResistance();
-                var call__2560 = Aow.Units.AoWE.AoWE.P2HitRole(4 - call__2559);
+                var call__2560 = Aow.Units.AoWE.AoWE.HitRole((4 - call__2559));
                 bool__2558 = call__2560;
             }
 
@@ -31218,7 +31067,7 @@ namespace Aow.Units.AoWE
             {
                 if (this.ExpandAbility(53))
                 {
-                    Data = (Aow.Units.AoWE.TDurationAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 53);
+                    Data = (Aow.Units.AoWE.TDurationAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(53);
                     Data.FSource = 1;
                     Data.FDuration = 0;
                 }
@@ -31233,13 +31082,13 @@ namespace Aow.Units.AoWE
             Player = unchecked((sbyte)FPlayer);
             if (Player > 0)
             {
-                var call__2561 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Player);
+                var call__2561 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Player));
                 if (!call__2561.FMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TPlayerEnchantmentType.petLifeMastery))
                 {
                     ResetLifeMasteryBlessing();
                 }
 
-                var call__2562 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                var call__2562 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                 if ((((byte)call__2562.FMagicControl.FEnemyEnchantments.Image) & 16) == 0)
                 {
                     ResetLifeMasteryFear();
@@ -31264,7 +31113,7 @@ namespace Aow.Units.AoWE
             if (bool__2566)
             {
                 var call__2567 = GetResistance();
-                var call__2568 = Aow.Units.AoWE.AoWE.P2HitRole(6 - call__2567);
+                var call__2568 = Aow.Units.AoWE.AoWE.HitRole((6 - call__2567));
                 bool__2566 = call__2568;
             }
 
@@ -31272,7 +31121,7 @@ namespace Aow.Units.AoWE
             {
                 if (this.ExpandAbility(93))
                 {
-                    Data = (Aow.Units.AoWE.TDurationAbilityData)Aow.Units.AoWE.AoWE.P2AbilityData(this, 93);
+                    Data = (Aow.Units.AoWE.TDurationAbilityData)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(93);
                     Data.FSource = 1;
                 }
             }
@@ -31286,12 +31135,12 @@ namespace Aow.Units.AoWE
             Player = unchecked((sbyte)FPlayer);
             if (Player > 0)
             {
-                var call__2569 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Player);
+                var call__2569 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Player));
                 if ((((byte)call__2569.FMagicControl.FEnemyEnchantments.Image) & 32) == 0)
                 {
                     if (GetAbilityEnabled(93))
                     {
-                        var call__2570 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 93);
+                        var call__2570 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(93);
                         if (((Aow.Units.AoWE.TDurationAbilityData)call__2570).FSource == 1)
                         {
                             RemoveAbility(93);
@@ -31334,7 +31183,7 @@ namespace Aow.Units.AoWE
                 bool bool__2574 = (Lhx == 0) && (FPlayer > 0);
                 if (bool__2574)
                 {
-                    var call__2575 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
+                    var call__2575 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
                     bool__2574 = ((((byte)call__2575.FMagicControl.FEnemyEnchantments.Image) & 8) != 0);
                 }
 
@@ -31374,7 +31223,7 @@ namespace Aow.Units.AoWE
             {
                 var call__2576 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
                 Field = (Aow.Units.AoWE.TAoWMapField)call__2576;
-                FieldPlayer = unchecked((sbyte)Aow.Units.AoWE.AoWE.P2FieldPlayer(Field));
+                FieldPlayer = unchecked((sbyte)unchecked((sbyte)Field.GetPlayer()));
                 if (((Mode.Contains(Aow.Units.AoWE.TUnitPlaceModeElement.pmNeglectEmptyPlayerLocation) || (FieldPlayer == Player)) || (FieldPlayer == -1)) || (Player == -1))
                 {
                     var call__2577 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(X, Y, L);
@@ -31543,7 +31392,7 @@ namespace Aow.Units.AoWE
             if (Active != TSet<Aow.Units.AoWE.TDamageType>.Of())
             {
                 DC = Attack - GetDefense();
-                Result = Aow.Units.AoWE.AoWE.P2DamageRole(Damage, DC);
+                Result = Aow.Units.AoWE.AoWE.ExecuteDamageRole(Damage, DC);
                 if ((Active - GetProtectionTypes()) == TSet<Aow.Units.AoWE.TDamageType>.Of())
                 {
                     Result = (Result + 1) / 2;
@@ -31565,7 +31414,7 @@ namespace Aow.Units.AoWE
                 }
 
                 var call__2591 = GetResistance();
-                var call__2592 = Aow.Units.AoWE.AoWE.P2HitRole(Attack - call__2591);
+                var call__2592 = Aow.Units.AoWE.AoWE.HitRole((Attack - call__2591));
                 Result = call__2592;
             }
             else
@@ -31601,7 +31450,7 @@ namespace Aow.Units.AoWE
                         EffectiveResistance = GetResistance();
                     }
 
-                    if (Aow.Units.AoWE.AoWE.P2HitRole(4 - EffectiveResistance))
+                    if (Aow.Units.AoWE.AoWE.HitRole((4 - EffectiveResistance)))
                     {
                         Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
                     }
@@ -31632,7 +31481,7 @@ namespace Aow.Units.AoWE
                         EffectiveResistance = GetResistance();
                     }
 
-                    if (Aow.Units.AoWE.AoWE.P2HitRole(6 - EffectiveResistance))
+                    if (Aow.Units.AoWE.AoWE.HitRole((6 - EffectiveResistance)))
                     {
                         Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtLightning);
                     }
@@ -31649,7 +31498,7 @@ namespace Aow.Units.AoWE
                         EffectiveResistance = GetResistance();
                     }
 
-                    if (Aow.Units.AoWE.AoWE.P2HitRole(3 - EffectiveResistance))
+                    if (Aow.Units.AoWE.AoWE.HitRole((3 - EffectiveResistance)))
                     {
                         Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPoison);
                     }
@@ -31666,7 +31515,7 @@ namespace Aow.Units.AoWE
                         EffectiveResistance = GetResistance();
                     }
 
-                    if (Aow.Units.AoWE.AoWE.P2HitRole(4 - EffectiveResistance))
+                    if (Aow.Units.AoWE.AoWE.HitRole((4 - EffectiveResistance)))
                     {
                         Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
                     }
@@ -31683,7 +31532,7 @@ namespace Aow.Units.AoWE
                         EffectiveResistance = GetResistance();
                     }
 
-                    var call__2597 = Aow.Units.AoWE.AoWE.P2HitRole(3 - EffectiveResistance);
+                    var call__2597 = Aow.Units.AoWE.AoWE.HitRole((3 - EffectiveResistance));
                     bool bool__2598 = call__2597;
                     if (bool__2598)
                     {
@@ -31708,7 +31557,7 @@ namespace Aow.Units.AoWE
                         EffectiveResistance = GetResistance();
                     }
 
-                    if (Aow.Units.AoWE.AoWE.P2HitRole(2 - EffectiveResistance))
+                    if (Aow.Units.AoWE.AoWE.HitRole((2 - EffectiveResistance)))
                     {
                         Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtCold);
                     }
@@ -31788,8 +31637,8 @@ namespace Aow.Units.AoWE
             bool bool__2601 = call__2600;
             if (bool__2601)
             {
-                var call__2602 = Aow.Units.AoWE.AoWE.P2GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, FPlayer);
-                var call__2603 = Aow.Units.AoWE.AoWE.P2PlayerBusy(call__2602);
+                var call__2602 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(FPlayer));
+                var call__2603 = call__2602.GetBusy();
                 bool__2601 = !call__2603;
             }
 
@@ -32385,13 +32234,13 @@ namespace Aow.Units.AoWE
         public override void Changed()
         {
             base.Changed();
-            var call__2628 = Aow.Units.AoWE.AoWE.P2AbAttack(this);
+            var call__2628 = unchecked((sbyte)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbAttackAll());
             FAbAttack = unchecked((sbyte)call__2628);
-            var call__2629 = Aow.Units.AoWE.AoWE.P2AbDefense(this);
+            var call__2629 = unchecked((sbyte)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbDefenseAll());
             FAbDefense = unchecked((sbyte)call__2629);
-            var call__2630 = Aow.Units.AoWE.AoWE.P2AbResistance(this);
+            var call__2630 = unchecked((sbyte)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbResistanceAll());
             FAbResistance = unchecked((sbyte)call__2630);
-            var call__2631 = Aow.Units.AoWE.AoWE.P2AbDamage(this);
+            var call__2631 = unchecked((sbyte)((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbDamageAll());
             FAbDamage = unchecked((sbyte)call__2631);
         }
 
@@ -32603,12 +32452,12 @@ namespace Aow.Units.AoWE
                 return Result;
             }
 
-            var call__2644 = Aow.Units.AoWE.AoWE.P2AbilityData(this, 126);
+            var call__2644 = ((Aow.Units.AoWE.TAbilityOwner)(this)).GetAbilityData(126);
             FaceIndex = ((Aow.Units.AoWE.TCosmeticSurgeryEnchantment)((System.Object)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__2644).FEnchantment)).FFaceIndex;
-            var call__2645 = Aow.Units.AoWE.AoWE.P2FaceResource(Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources, FaceIndex);
+            var call__2645 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.GetFaceResource(FaceIndex);
             if (call__2645 != null)
             {
-                var call__2646 = Aow.Units.AoWE.AoWE.P2FaceResource(Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources, FaceIndex);
+                var call__2646 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.GetFaceResource(FaceIndex);
                 var call__2647 = call__2646.GetCellImage();
                 Result = call__2647;
             }
@@ -33049,17 +32898,15 @@ namespace Aow.Units.AoWE
         public override int AddChild(Aow.Units.Engine.TEObject Child)
         {
             int Result = default;
+            var unit = (Aow.Units.AoWE.TAbstractUnit)Child;
+            if (this.CanAddUnit((Aow.Units.AoWE.TAbstractUnit)Child))
             {
-                var w__2668 = (Aow.Units.AoWE.TAbstractUnit)Child;
-                if (this.CanAddUnit((Aow.Units.AoWE.TAbstractUnit)Child))
-                {
-                    w__2668.AddRef();
-                    Result = base.AddChild(Child);
-                }
-                else
-                {
-                    Result = -1;
-                }
+                unit.AddRef();
+                Result = base.AddChild(Child);
+            }
+            else
+            {
+                Result = -1;
             }
 
             return Result;
@@ -34258,12 +34105,7 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:656
-        public virtual bool CanSelectUnit(Aow.Units.AoWE.TUnit A1)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public virtual bool CanSelectUnit(Aow.Units.AoWE.TUnit A1) => true;
 
         // Ability.PAS:662
         // { needs: function CanSelectUnit(Unit: TUnit): Boolean; unmarked P4 overrides. }
@@ -35551,11 +35393,9 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.THero Hero = default;
             Aow.Units.AoWE.TAbstractUnit UnitItem = default;
             bool ExecuteNow = default;
-            {
-                var w__2814 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl;
-                var call__2815 = w__2814.FindUnit(FUnitID);
-                UnitItem = call__2815;
-            }
+            var unitControl = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl;
+            var call__2815 = unitControl.FindUnit(FUnitID);
+            UnitItem = call__2815;
 
             Hero = (Aow.Units.AoWE.THero)UnitItem;
             if ((Hero != null) && (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Hero.FPlayer))
@@ -35895,11 +35735,9 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.THero Hero = default;
             Aow.Units.AoWE.TAbstractUnit UnitItem = default;
             bool ExecuteNow = default;
-            {
-                var w__2842 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl;
-                var call__2843 = w__2842.FindUnit(FFirstUnitID);
-                UnitItem = call__2843;
-            }
+            var unitControl = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl;
+            var call__2843 = unitControl.FindUnit(FFirstUnitID);
+            UnitItem = call__2843;
 
             Hero = (Aow.Units.AoWE.THero)UnitItem;
             bool bool__2844 = (Hero != null) && (Hero.FPlayer == 0);
@@ -37979,11 +37817,8 @@ namespace Aow.Units.AoWE
         {
             sbyte Result = default;
             // { Tried cast Self at field read; Self copy through untyped local; still differs. }
-            {
-                var w__3004 = this;
-                var call__3005 = w__3004.ExperienceToLevel(w__3004.FExperience);
-                Result = unchecked((sbyte)call__3005);
-            }
+            var call__3005 = this.ExperienceToLevel(this.FExperience);
+            Result = unchecked((sbyte)call__3005);
 
             return Result;
         }
@@ -40657,21 +40492,19 @@ namespace Aow.Units.AoWE
         public override int AddChild(Aow.Units.Engine.TEObject Child)
         {
             int Result = default;
+            var hero = (Aow.Units.AoWE.THero)Child;
+            // { Original checks unit IDs rather than library IDs for a collision. }
+            bool bool__3215 = (hero.FLibraryID == 0);
+            if (!bool__3215)
             {
-                var w__3214 = (Aow.Units.AoWE.THero)Child;
-                // { Original checks unit IDs rather than library IDs for a collision. }
-                bool bool__3215 = (w__3214.FLibraryID == 0);
-                if (!bool__3215)
-                {
-                    var call__3216 = FindHero(w__3214.FLibraryID);
-                    bool__3215 = (call__3216 != null);
-                }
+                var call__3216 = FindHero(hero.FLibraryID);
+                bool__3215 = (call__3216 != null);
+            }
 
-                if (bool__3215)
-                {
-                    var call__3217 = CreateUniqueLibraryID();
-                    w__3214.FLibraryID = call__3217;
-                }
+            if (bool__3215)
+            {
+                var call__3217 = CreateUniqueLibraryID();
+                hero.FLibraryID = call__3217;
             }
 
             FChildren.Add(Child);
@@ -41874,16 +41707,12 @@ namespace Aow.Units.AoWE
         {
             int Result = default;
             BeginUpdate();
-            {
-                var w__3253 = (Aow.Units.AoWE.TAbstractUnit)Child;
-                w__3253.AddRef();
-            }
+            var unit = (Aow.Units.AoWE.TAbstractUnit)Child;
+            unit.AddRef();
 
             Result = base.RemoveChild(Child);
-            {
-                var w__3254 = (Aow.Units.AoWE.TAbstractUnit)Child;
-                w__3254.Release();
-            }
+            var unit2 = (Aow.Units.AoWE.TAbstractUnit)Child;
+            unit2.Release();
 
             EndUpdate();
             return Result;
@@ -46365,10 +46194,8 @@ namespace Aow.Units.AoWE
             if (Result)
             {
                 FArmy.BeginUpdate();
-                {
-                    var w__3615 = (Aow.Units.HSEngine.TMapField)Owner;
-                    FArmy.SetXYL(unchecked((sbyte)w__3615.Xhx), unchecked((sbyte)w__3615.Yhx), unchecked((sbyte)w__3615.Lhx));
-                }
+                var mapField = (Aow.Units.HSEngine.TMapField)Owner;
+                FArmy.SetXYL(unchecked((sbyte)mapField.Xhx), unchecked((sbyte)mapField.Yhx), unchecked((sbyte)mapField.Lhx));
 
                 FArmy.UpdateUnfog();
                 FArmy.UpdateExploration();
@@ -49367,16 +49194,14 @@ namespace Aow.Units.AoWE
             if (Collection != -1)
             {
                 Indexes = Aow.Units.AoWE.TUnitIndexList.Create();
+                var unitIndexListCollection = ((Aow.Units.AoWE.TStructureResource)FResource).FDefenders;
                 {
-                    var w__3821 = ((Aow.Units.AoWE.TStructureResource)FResource).FDefenders;
+                    I = unitIndexListCollection.GetCollectionCount(Collection) - 1;
+                    byte end__3822 = 0;
+                    for (; I >= end__3822; I -= 1)
                     {
-                        I = w__3821.GetCollectionCount(Collection) - 1;
-                        byte end__3822 = 0;
-                        for (; I >= end__3822; I -= 1)
-                        {
-                            var call__3823 = w__3821.GetU(Collection, I);
-                            Indexes.Add(call__3823);
-                        }
+                        var call__3823 = unitIndexListCollection.GetU(Collection, I);
+                        Indexes.Add(call__3823);
                     }
                 }
 
@@ -50801,16 +50626,14 @@ namespace Aow.Units.AoWE
             YhpSurf = Yhp - YhpSurf;
             if ((FFlagID != 63) && (!Aow.Units.AoWE.AoWE.AoWHSMap.FFogEnabled || !FFogged))
             {
+                var playerStructureResource = (Aow.Units.AoWE.TPlayerStructureResource)FResource;
+                if (playerStructureResource.FFlagType <= 1)
                 {
-                    var w__3939 = (Aow.Units.AoWE.TPlayerStructureResource)FResource;
-                    if (w__3939.FFlagType <= 1)
-                    {
-                        Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowFlag(w__3939.FFlagX + XhpSurf, w__3939.FFlagY + YhpSurf, w__3939.Engine.HSMap.Frame + Xhp, unchecked((byte)FFlagID), SurfaceDesc);
-                    }
-                    else
-                    {
-                        w__3939.FFlagControl.ShowStructureFlag(w__3939.FFlagX + XhpSurf, w__3939.FFlagY + YhpSurf, w__3939.Engine.HSMap.Frame + Xhp, unchecked((byte)FFlagID), SurfaceDesc);
-                    }
+                    Aow.Units.AoWE.AoWE.AoWHSSet.FFlagControl.ShowFlag(playerStructureResource.FFlagX + XhpSurf, playerStructureResource.FFlagY + YhpSurf, playerStructureResource.Engine.HSMap.Frame + Xhp, unchecked((byte)FFlagID), SurfaceDesc);
+                }
+                else
+                {
+                    playerStructureResource.FFlagControl.ShowStructureFlag(playerStructureResource.FFlagX + XhpSurf, playerStructureResource.FFlagY + YhpSurf, playerStructureResource.Engine.HSMap.Frame + Xhp, unchecked((byte)FFlagID), SurfaceDesc);
                 }
             }
 
@@ -52485,12 +52308,10 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            {
-                var w__4094 = (Aow.Units.AoWE.TAoWHSSet)AOwner;
-                var call__4095 = w__4094.ImageLibraryManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"Flags.ILB");
-                FFlags = call__4095;
-                this.FRaceResources = w__4094.FRaceResources;
-            }
+            var gameSet = (Aow.Units.AoWE.TAoWHSSet)AOwner;
+            var call__4095 = gameSet.ImageLibraryManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"Flags.ILB");
+            FFlags = call__4095;
+            this.FRaceResources = gameSet.FRaceResources;
 
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csFixedChild));
         }
@@ -53754,11 +53575,8 @@ namespace Aow.Units.AoWE
             MapField = (Aow.Units.HSEngine.TMapField)Owner;
             if (MapField != null)
             {
-                {
-                    var w__4244 = MapField;
-                    base.RemoveFromMap();
-                    w__4244.UpdateMapField();
-                }
+                base.RemoveFromMap();
+                MapField.UpdateMapField();
             }
         }
 
@@ -55569,11 +55387,9 @@ namespace Aow.Units.AoWE
             AddUnits(A1.FArmy);
             var call__4344 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(A4);
             Level = call__4344;
-            {
-                var w__4345 = A1.FArmy;
-                Player = unchecked((byte)w__4345.FPlayer);
-                Relation = unchecked((byte)w__4345.FIndependentRelation);
-            }
+            var army = A1.FArmy;
+            Player = unchecked((byte)army.FPlayer);
+            Relation = unchecked((byte)army.FIndependentRelation);
 
             var call__4346 = Level.GetField(A2, A3);
             var call__4347 = ((Aow.Units.AoWE.TAoWMapField)call__4346).GetPlayer();
@@ -59975,12 +59791,9 @@ namespace Aow.Units.AoWE
                 Target.ExecuteDamageEffects(TSet<Aow.Units.AoWE.TDamageType>.Of((Aow.Units.AoWE.TDamageType)FDamageType));
                 if (Target.FStatus.Contains(Aow.Units.AoWE.TCombatObjectStatusElement.csDestroyed))
                 {
-                    {
-                        var w__4588 = Source;
-                        var call__4589 = w__4588.GetExperience();
-                        var call__4590 = Target.GetLevel();
-                        w__4588.SetExperience(call__4589 + call__4590);
-                    }
+                    var call__4589 = Source.GetExperience();
+                    var call__4590 = Target.GetLevel();
+                    Source.SetExperience(call__4589 + call__4590);
                 }
             }
         }
@@ -60236,10 +60049,8 @@ namespace Aow.Units.AoWE
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
             int I = default;
-            {
-                var w__4598 = A1.FCombatData;
-                w__4598.FRound += 1;
-            }
+            var combatData = A1.FCombatData;
+            combatData.FRound += 1;
 
             {
                 I = A1.FCombatData.GetCount() - 1;
@@ -62742,12 +62553,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:18
-        public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
-        {
-            bool Result = default;
-            Result = base.Execute(Mode, Trigger, Done);
-            return Result;
-        }
+        public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done) => base.Execute(Mode, Trigger, Done);
 
         // Combat2.pas:10
         public void SetTokenEvent(Aow.Units.NetworkE.TTokenEvent A1)
@@ -63201,24 +63007,22 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
             Aow.Units.AoWE.TUnitUserList Group = default;
             Result = 0;
+            var player = FPlayer;
             {
-                var w__4779 = FPlayer;
+                I = 0;
+                int end__4780 = player.FArmies.Count - 1;
+                for (; I <= end__4780; I += 1)
                 {
-                    I = 0;
-                    int end__4780 = w__4779.FArmies.Count - 1;
-                    for (; I <= end__4780; I += 1)
+                    var call__4781 = player.FArmies.GetArmy(I);
+                    var call__4782 = call__4781.Transporter(255);
+                    AUnit = call__4782;
+                    if (AUnit != null)
                     {
-                        var call__4781 = w__4779.FArmies.GetArmy(I);
-                        var call__4782 = call__4781.Transporter(255);
-                        AUnit = call__4782;
-                        if (AUnit != null)
+                        Group = AUnit.FGroup;
+                        if ((Group == null) || (Group.ClassType.ClassID() == 136295))
                         {
-                            Group = AUnit.FGroup;
-                            if ((Group == null) || (Group.ClassType.ClassID() == 136295))
-                            {
-                                Units.AddUnit(AUnit);
-                                Result += 1;
-                            }
+                            Units.AddUnit(AUnit);
+                            Result += 1;
                         }
                     }
                 }
@@ -64750,10 +64554,8 @@ namespace Aow.Units.AoWE
                             FPathSettings.FMovePointTable = FTransportMovePointTable;
                             FSettings.FTransporter.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
                             FPathSettings.SetSourcePos(Location.X, Location.Y, Location.L);
-                            {
-                                ref var w__4914 = ref FSettings.FTransportSource;
-                                FPathSettings.SetDestinationPos(w__4914.X, w__4914.Y, w__4914.L);
-                            }
+                            ref var location = ref FSettings.FTransportSource;
+                            FPathSettings.SetDestinationPos(location.X, location.Y, location.L);
 
                             var call__4915 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIExecuter.GetProcessTimeLeft();
                             if (call__4915 > 1)
@@ -64791,10 +64593,8 @@ namespace Aow.Units.AoWE
                         if (FMultipleTransportGaps)
                         {
                             // { Original repeats the first gap source before continuing. }
-                            {
-                                ref var w__4918 = ref FSettings.FTransportSource;
-                                FPathSettings.SetDestinationPos(w__4918.X, w__4918.Y, w__4918.L);
-                            }
+                            ref var location2 = ref FSettings.FTransportSource;
+                            FPathSettings.SetDestinationPos(location2.X, location2.Y, location2.L);
 
                             FMultipleTransportGaps = false;
                             var call__4919 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIExecuter.GetProcessTimeLeft();
@@ -64825,10 +64625,8 @@ namespace Aow.Units.AoWE
                         FSettings.FMovePoints += Points;
                         if (FMultipleTransportGaps)
                         {
-                            {
-                                ref var w__4921 = ref FSettings.FTransportDestination;
-                                FPathSettings.SetDestinationPos(w__4921.X, w__4921.Y, w__4921.L);
-                            }
+                            ref var location3 = ref FSettings.FTransportDestination;
+                            FPathSettings.SetDestinationPos(location3.X, location3.Y, location3.L);
 
                             FMultipleTransportGaps = false;
                             FState = 2;
@@ -64888,10 +64686,7 @@ namespace Aow.Units.AoWE
             Initialize(Settings);
             FStatus = Aow.Units.AoWE.TAIMoveControlStatus.amsProcessing;
             FPathSettings.Reset();
-            {
-                var w__4925 = FSettings;
-                FPathSettings.SetSourcePos(w__4925.FSourceX, w__4925.FSourceY, w__4925.FSourceL);
-            }
+            FPathSettings.SetSourcePos(this.FSettings.FSourceX, this.FSettings.FSourceY, this.FSettings.FSourceL);
 
             FPathSettings.FPlayer = unchecked((sbyte)FSettings.FPlayer);
             FPathSettings.SetDestinationPos(FSettings.FDestinationX, FSettings.FDestinationY, FSettings.FDestinationL);
@@ -65336,12 +65131,9 @@ namespace Aow.Units.AoWE
                 if (call__4942 != 0)
                 {
                     FSettings.Reset();
-                    {
-                        var w__4943 = FSettings;
-                        w__4943.FPlayer = unchecked((sbyte)FTargetInfo.Player);
-                        w__4943.FMode = w__4943.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmLogProcessedMapFields, Aow.Units.AoWE.TMoveModeElement.mmAI);
-                        w__4943.SetSourcePos(Location.X, Location.Y, Location.L);
-                    }
+                    this.FSettings.FPlayer = unchecked((sbyte)FTargetInfo.Player);
+                    this.FSettings.FMode = this.FSettings.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmLogProcessedMapFields, Aow.Units.AoWE.TMoveModeElement.mmAI);
+                    this.FSettings.SetSourcePos(Location.X, Location.Y, Location.L);
 
                     FSettings.FMovePointsMax = FMovePointsMax;
                     FSettings.FMovePointTable = FTransportMovePointTable;
@@ -65404,12 +65196,9 @@ namespace Aow.Units.AoWE
                     {
                         FBufferedTargets.Clear();
                         FSettings.Reset();
-                        {
-                            var w__4952 = FSettings;
-                            w__4952.FPlayer = unchecked((sbyte)FTargetInfo.Player);
-                            w__4952.FMode = w__4952.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmLogProcessedMapFields, Aow.Units.AoWE.TMoveModeElement.mmAI);
-                            w__4952.SetSourcePos(FSourceLocation.X, FSourceLocation.Y, FSourceLocation.L);
-                        }
+                        this.FSettings.FPlayer = unchecked((sbyte)FTargetInfo.Player);
+                        this.FSettings.FMode = this.FSettings.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmLogProcessedMapFields, Aow.Units.AoWE.TMoveModeElement.mmAI);
+                        this.FSettings.SetSourcePos(FSourceLocation.X, FSourceLocation.Y, FSourceLocation.L);
 
                         FSettings.FMovePointsMax = FMovePointsMax;
                         FSettings.FMovePointTable = FMovePointTable;
@@ -65521,12 +65310,9 @@ namespace Aow.Units.AoWE
                     {
                         FBufferedTargets.Clear();
                         FSettings.Reset();
-                        {
-                            var w__4963 = FSettings;
-                            w__4963.FPlayer = unchecked((sbyte)FTargetInfo.Player);
-                            w__4963.FMode = w__4963.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmLogProcessedMapFields, Aow.Units.AoWE.TMoveModeElement.mmAI, Aow.Units.AoWE.TMoveModeElement.mmAvoidArmies);
-                            w__4963.SetSourcePos(FSourceLocation.X, FSourceLocation.Y, FSourceLocation.L);
-                        }
+                        this.FSettings.FPlayer = unchecked((sbyte)FTargetInfo.Player);
+                        this.FSettings.FMode = this.FSettings.FMode + TSet<Aow.Units.AoWE.TMoveModeElement>.Of(Aow.Units.AoWE.TMoveModeElement.mmLogProcessedMapFields, Aow.Units.AoWE.TMoveModeElement.mmAI, Aow.Units.AoWE.TMoveModeElement.mmAvoidArmies);
+                        this.FSettings.SetSourcePos(FSourceLocation.X, FSourceLocation.Y, FSourceLocation.L);
 
                         FSettings.FMovePointsMax = FMovePointsMin;
                         FSettings.FMovePointTable = FMovePointTable;
@@ -68116,11 +67902,9 @@ namespace Aow.Units.AoWE
             Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Location) = CalculateMeetingPoint();
             if (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Location) == 16777215)
             {
-                {
-                    ref var w__5202 = ref FExecuter.FDestination;
-                    var call__5203 = Aow.Units.HSEngine.HSEngine.PackXYL(unchecked((sbyte)w__5202.X), unchecked((sbyte)w__5202.Y), unchecked((sbyte)w__5202.L));
-                    Location = call__5203;
-                }
+                ref var location = ref FExecuter.FDestination;
+                var call__5203 = Aow.Units.HSEngine.HSEngine.PackXYL(unchecked((sbyte)location.X), unchecked((sbyte)location.Y), unchecked((sbyte)location.L));
+                Location = call__5203;
             }
 
             var call__5204 = FExecuter.CreateArmies(TSet<Aow.Units.AoWE.TAIMoveExecuterUnitStatus>.Of(Aow.Units.AoWE.TAIMoveExecuterUnitStatus.esReady));
@@ -68266,12 +68050,10 @@ namespace Aow.Units.AoWE
                     Index = Armies.IndexOfTransportStatus(Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsArriving);
                     if (Index != -1)
                     {
-                        {
-                            ref var w__5220 = ref Armies.GetArmies(Index).FArrivalPoint;
-                            var call__5221 = Armies.GetArmies(Index);
-                            var call__5222 = CreateMove(call__5221, 255, unchecked((sbyte)w__5220.X), unchecked((sbyte)w__5220.Y), unchecked((sbyte)w__5220.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
-                            Move = call__5222;
-                        }
+                        ref var location = ref Armies.GetArmies(Index).FArrivalPoint;
+                        var call__5221 = Armies.GetArmies(Index);
+                        var call__5222 = CreateMove(call__5221, 255, unchecked((sbyte)location.X), unchecked((sbyte)location.Y), unchecked((sbyte)location.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
+                        Move = call__5222;
 
                         var call__5223 = Armies.GetArmies(Index);
                         call__5223.SetTransportStatus(255, Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsDone);
@@ -68386,24 +68168,20 @@ namespace Aow.Units.AoWE
                         var call__5243 = Transporters.Count;
                         if (I != call__5243)
                         {
-                            {
-                                var w__5244 = Transporters.GetArmies(I);
-                                var call__5245 = Transporters.GetArmies(I);
-                                var call__5246 = Transporters.GetArmies(I);
-                                var call__5247 = Transporters.GetArmies(I);
-                                var call__5248 = Armies.GetArmies(Index);
-                                var call__5249 = CreateMove(call__5248, 255, unchecked((sbyte)call__5247.FLocation.X), unchecked((sbyte)call__5245.FLocation.Y), unchecked((sbyte)call__5246.FLocation.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
-                                Move = call__5249;
-                            }
+                            var aiMoveExecuterArmy = Transporters.GetArmies(I);
+                            var call__5245 = Transporters.GetArmies(I);
+                            var call__5246 = Transporters.GetArmies(I);
+                            var call__5247 = Transporters.GetArmies(I);
+                            var call__5248 = Armies.GetArmies(Index);
+                            var call__5249 = CreateMove(call__5248, 255, unchecked((sbyte)call__5247.FLocation.X), unchecked((sbyte)call__5245.FLocation.Y), unchecked((sbyte)call__5246.FLocation.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
+                            Move = call__5249;
                         }
                         else
                         {
-                            {
-                                ref var w__5250 = ref Armies.GetArmies(Index).FArrivalPoint;
-                                var call__5251 = Armies.GetArmies(Index);
-                                var call__5252 = CreateMove(call__5251, 255, unchecked((sbyte)w__5250.X), unchecked((sbyte)w__5250.Y), unchecked((sbyte)w__5250.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
-                                Move = call__5252;
-                            }
+                            ref var location2 = ref Armies.GetArmies(Index).FArrivalPoint;
+                            var call__5251 = Armies.GetArmies(Index);
+                            var call__5252 = CreateMove(call__5251, 255, unchecked((sbyte)location2.X), unchecked((sbyte)location2.Y), unchecked((sbyte)location2.L), TSet<Aow.Units.AoWE.TCreateMoveModeElement>.Of());
+                            Move = call__5252;
                         }
 
                         if (Move == null)
@@ -68433,11 +68211,9 @@ namespace Aow.Units.AoWE
                         Index = Armies.IndexOfTransportStatus(Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsTransporting);
                         if (Index != -1)
                         {
-                            {
-                                ref var w__5256 = ref Armies.GetArmies(Index).FTransportDestination;
-                                var call__5257 = CreateTransporterMove(unchecked((sbyte)w__5256.X), unchecked((sbyte)w__5256.Y), unchecked((sbyte)w__5256.L), true);
-                                Move = call__5257;
-                            }
+                            ref var location3 = ref Armies.GetArmies(Index).FTransportDestination;
+                            var call__5257 = CreateTransporterMove(unchecked((sbyte)location3.X), unchecked((sbyte)location3.Y), unchecked((sbyte)location3.L), true);
+                            Move = call__5257;
 
                             if (Move == null)
                             {
@@ -68508,16 +68284,14 @@ namespace Aow.Units.AoWE
                         Index = Armies.IndexOfTransportStatus(Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsBoarding);
                         if (Index != -1)
                         {
+                            var aiMoveExecuterArmy2 = Armies.GetArmies(Index);
+                            if (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FExecuter.FTransporter.FLocation) != Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref aiMoveExecuterArmy2.FTransportSource))
                             {
-                                var w__5268 = Armies.GetArmies(Index);
-                                if (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FExecuter.FTransporter.FLocation) != Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref w__5268.FTransportSource))
+                                var call__5269 = CreateTransporterMove(unchecked((sbyte)aiMoveExecuterArmy2.FTransportSource.X), unchecked((sbyte)aiMoveExecuterArmy2.FTransportSource.Y), unchecked((sbyte)aiMoveExecuterArmy2.FTransportSource.L), true);
+                                Move = call__5269;
+                                if (Move == null)
                                 {
-                                    var call__5269 = CreateTransporterMove(unchecked((sbyte)w__5268.FTransportSource.X), unchecked((sbyte)w__5268.FTransportSource.Y), unchecked((sbyte)w__5268.FTransportSource.L), true);
-                                    Move = call__5269;
-                                    if (Move == null)
-                                    {
-                                        FExecuter.FTransporter.FStatus = Aow.Units.AoWE.TAIMoveExecuterUnitStatus.esDone;
-                                    }
+                                    FExecuter.FTransporter.FStatus = Aow.Units.AoWE.TAIMoveExecuterUnitStatus.esDone;
                                 }
                             }
                         }
@@ -68640,12 +68414,10 @@ namespace Aow.Units.AoWE
                 }
             }
 
-            {
-                var w__5283 = FExecuter.FTransporter;
-                var call__5284 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(w__5283.FLocation.X, w__5283.FLocation.Y, w__5283.FLocation.L);
-                var call__5285 = ((Aow.Units.AoWE.TAoWMapField)call__5284).GetArmyHS();
-                ArmyHS = call__5285;
-            }
+            var aiMoveExecuterUnit = FExecuter.FTransporter;
+            var call__5284 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(aiMoveExecuterUnit.FLocation.X, aiMoveExecuterUnit.FLocation.Y, aiMoveExecuterUnit.FLocation.L);
+            var call__5285 = ((Aow.Units.AoWE.TAoWMapField)call__5284).GetArmyHS();
+            ArmyHS = call__5285;
 
             Settings = Aow.Units.AoWE.TMoveControlSettings.Create(null);
             Settings.SetupArmy(ArmyHS, 255);
@@ -69003,79 +68775,77 @@ namespace Aow.Units.AoWE
             {
                 if (FMoveControl.FSettings.FBoardingPoint.X != -1)
                 {
+                    var aiMoveControlSettings = FMoveControl.FSettings;
+                    var call__5326 = aiMoveControlSettings.FTransportPath.IndexOfXYL(unchecked((sbyte)aiMoveControlSettings.FBoardingPoint.X), unchecked((sbyte)aiMoveControlSettings.FBoardingPoint.Y), unchecked((sbyte)aiMoveControlSettings.FBoardingPoint.L));
+                    Index = call__5326;
+                    while (true)
                     {
-                        var w__5325 = FMoveControl.FSettings;
-                        var call__5326 = w__5325.FTransportPath.IndexOfXYL(unchecked((sbyte)w__5325.FBoardingPoint.X), unchecked((sbyte)w__5325.FBoardingPoint.Y), unchecked((sbyte)w__5325.FBoardingPoint.L));
-                        Index = call__5326;
-                        while (true)
+                        bool bool__5327 = (Index != (aiMoveControlSettings.FTransportPath.Count - 1));
+                        if (bool__5327)
                         {
-                            bool bool__5327 = (Index != (w__5325.FTransportPath.Count - 1));
-                            if (bool__5327)
-                            {
-                                var call__5328 = w__5325.FTransportPath[Index];
-                                var call__5329 = w__5325.FTransportPath[Index];
-                                var call__5330 = w__5325.FTransportPath[Index];
-                                var call__5331 = CanMoveTo(Army, 255, unchecked((sbyte)call__5330.X), unchecked((sbyte)call__5328.Y), unchecked((sbyte)call__5329.L));
-                                bool__5327 = (call__5331 != 255);
-                            }
-
-                            if (!bool__5327)
-                                break;
-                            {
-                                Index += 1;
-                            }
+                            var call__5328 = aiMoveControlSettings.FTransportPath[Index];
+                            var call__5329 = aiMoveControlSettings.FTransportPath[Index];
+                            var call__5330 = aiMoveControlSettings.FTransportPath[Index];
+                            var call__5331 = CanMoveTo(Army, 255, unchecked((sbyte)call__5330.X), unchecked((sbyte)call__5328.Y), unchecked((sbyte)call__5329.L));
+                            bool__5327 = (call__5331 != 255);
                         }
 
-                        var call__5332 = w__5325.FTransportPath[Index];
-                        w__5325.FBoardingPoint = call__5332;
-                        var call__5333 = w__5325.FTransportPath.IndexOfXYL(unchecked((sbyte)w__5325.FArrivalPoint.X), unchecked((sbyte)w__5325.FArrivalPoint.Y), unchecked((sbyte)w__5325.FArrivalPoint.L));
-                        Index = call__5333;
-                        while (true)
+                        if (!bool__5327)
+                            break;
                         {
-                            bool bool__5334 = (Index != 0);
-                            if (bool__5334)
-                            {
-                                var call__5335 = w__5325.FTransportPath[Index];
-                                var call__5336 = w__5325.FTransportPath[Index];
-                                var call__5337 = w__5325.FTransportPath[Index];
-                                var call__5338 = CanMoveTo(Army, 255, unchecked((sbyte)call__5337.X), unchecked((sbyte)call__5335.Y), unchecked((sbyte)call__5336.L));
-                                bool__5334 = (call__5338 != 255);
-                            }
+                            Index += 1;
+                        }
+                    }
 
-                            if (!bool__5334)
-                                break;
-                            {
-                                Index -= 1;
-                            }
+                    var call__5332 = aiMoveControlSettings.FTransportPath[Index];
+                    aiMoveControlSettings.FBoardingPoint = call__5332;
+                    var call__5333 = aiMoveControlSettings.FTransportPath.IndexOfXYL(unchecked((sbyte)aiMoveControlSettings.FArrivalPoint.X), unchecked((sbyte)aiMoveControlSettings.FArrivalPoint.Y), unchecked((sbyte)aiMoveControlSettings.FArrivalPoint.L));
+                    Index = call__5333;
+                    while (true)
+                    {
+                        bool bool__5334 = (Index != 0);
+                        if (bool__5334)
+                        {
+                            var call__5335 = aiMoveControlSettings.FTransportPath[Index];
+                            var call__5336 = aiMoveControlSettings.FTransportPath[Index];
+                            var call__5337 = aiMoveControlSettings.FTransportPath[Index];
+                            var call__5338 = CanMoveTo(Army, 255, unchecked((sbyte)call__5337.X), unchecked((sbyte)call__5335.Y), unchecked((sbyte)call__5336.L));
+                            bool__5334 = (call__5338 != 255);
                         }
 
-                        var call__5339 = w__5325.FTransportPath[Index];
-                        w__5325.FArrivalPoint = call__5339;
+                        if (!bool__5334)
+                            break;
                         {
-                            I = 0;
-                            int end__5340 = Army.Count - 1;
-                            for (; I <= end__5340; I += 1)
-                            {
-                                UnitEntry = Army.GetUnits(I);
-                                var call__5341 = Army.GetUnits(I);
-                                if (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref call__5341.FLocation) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FExecuter.FTransporter.FLocation))
-                                {
-                                    UnitEntry.FTransportStatus = Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsTransporting;
-                                }
-                                else
-                                {
-                                    UnitEntry.FTransportStatus = Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsBoarding;
-                                }
+                            Index -= 1;
+                        }
+                    }
 
-                                UnitEntry.FBoardingPoint = FMoveControl.FSettings.FBoardingPoint;
-                                UnitEntry.FBoardingPoint.Flag = 0;
-                                UnitEntry.FArrivalPoint = FMoveControl.FSettings.FArrivalPoint;
-                                UnitEntry.FArrivalPoint.Flag = 0;
-                                UnitEntry.FTransportSource = FMoveControl.FSettings.FTransportSource;
-                                UnitEntry.FTransportSource.Flag = 0;
-                                UnitEntry.FTransportDestination = FMoveControl.FSettings.FTransportDestination;
-                                UnitEntry.FTransportDestination.Flag = 0;
+                    var call__5339 = aiMoveControlSettings.FTransportPath[Index];
+                    aiMoveControlSettings.FArrivalPoint = call__5339;
+                    {
+                        I = 0;
+                        int end__5340 = Army.Count - 1;
+                        for (; I <= end__5340; I += 1)
+                        {
+                            UnitEntry = Army.GetUnits(I);
+                            var call__5341 = Army.GetUnits(I);
+                            if (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref call__5341.FLocation) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FExecuter.FTransporter.FLocation))
+                            {
+                                UnitEntry.FTransportStatus = Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsTransporting;
                             }
+                            else
+                            {
+                                UnitEntry.FTransportStatus = Aow.Units.AoWE.TAIMoveExecuterTransportStatus.mtsBoarding;
+                            }
+
+                            UnitEntry.FBoardingPoint = FMoveControl.FSettings.FBoardingPoint;
+                            UnitEntry.FBoardingPoint.Flag = 0;
+                            UnitEntry.FArrivalPoint = FMoveControl.FSettings.FArrivalPoint;
+                            UnitEntry.FArrivalPoint.Flag = 0;
+                            UnitEntry.FTransportSource = FMoveControl.FSettings.FTransportSource;
+                            UnitEntry.FTransportSource.Flag = 0;
+                            UnitEntry.FTransportDestination = FMoveControl.FSettings.FTransportDestination;
+                            UnitEntry.FTransportDestination.Flag = 0;
                         }
                     }
                 }
@@ -69713,12 +69483,9 @@ namespace Aow.Units.AoWE
                 Capacity = 1;
             }
 
-            {
-                var w__5402 = FTransporter;
-                var call__5403 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(w__5402.FLocation.X, w__5402.FLocation.Y, w__5402.FLocation.L);
-                var call__5404 = ((Aow.Units.AoWE.TAoWMapField)call__5403).GetArmyHS();
-                Army = call__5404;
-            }
+            var call__5403 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(this.FTransporter.FLocation.X, this.FTransporter.FLocation.Y, this.FTransporter.FLocation.L);
+            var call__5404 = ((Aow.Units.AoWE.TAoWMapField)call__5403).GetArmyHS();
+            Army = call__5404;
 
             I = 0;
             while (true)
@@ -70215,17 +69982,15 @@ namespace Aow.Units.AoWE
             bool Result = default;
             int I = default;
             Result = base.Activate();
+            var player = FControl.FPlayer;
             {
-                var w__5431 = FControl.FPlayer;
+                I = player.FAIGroups.Count - 1;
+                byte end__5432 = 0;
+                for (; I >= end__5432; I -= 1)
                 {
-                    I = w__5431.FAIGroups.Count - 1;
-                    byte end__5432 = 0;
-                    for (; I >= end__5432; I -= 1)
-                    {
-                        var call__5433 = w__5431.FAIGroups.GetGroups(I);
-                        var call__5434 = w__5431.FAIGroups.GetGroups(I);
-                        call__5434.FStatus = call__5433.FStatus - TSet<Aow.Units.AoWE.TAIGroupStatusElement>.Of(Aow.Units.AoWE.TAIGroupStatusElement.agsDone);
-                    }
+                    var call__5433 = player.FAIGroups.GetGroups(I);
+                    var call__5434 = player.FAIGroups.GetGroups(I);
+                    call__5434.FStatus = call__5433.FStatus - TSet<Aow.Units.AoWE.TAIGroupStatusElement>.Of(Aow.Units.AoWE.TAIGroupStatusElement.agsDone);
                 }
             }
 
@@ -70891,29 +70656,26 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TProductionControl Control = default;
             int I = default;
+            FProductionManaUpkeep = 0;
+            FProductionGoldUpkeep = 0;
             {
-                var w__5460 = FPlayer;
-                FProductionManaUpkeep = 0;
-                FProductionGoldUpkeep = 0;
+                I = this.FPlayer.FProductionControls.Count - 1;
+                byte end__5461 = 0;
+                for (; I >= end__5461; I -= 1)
                 {
-                    I = w__5460.FProductionControls.Count - 1;
-                    byte end__5461 = 0;
-                    for (; I >= end__5461; I -= 1)
+                    var call__5462 = this.FPlayer.FProductionControls.GetPC(I);
+                    Control = call__5462;
+                    bool bool__5463 = (Control.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing);
+                    if (bool__5463)
                     {
-                        var call__5462 = w__5460.FProductionControls.GetPC(I);
-                        Control = call__5462;
-                        bool bool__5463 = (Control.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing);
-                        if (bool__5463)
-                        {
-                            var call__5464 = Control.FQueue.GetItem(0);
-                            bool__5463 = (call__5464.FProductionID == 1);
-                        }
+                        var call__5464 = Control.FQueue.GetItem(0);
+                        bool__5463 = (call__5464.FProductionID == 1);
+                    }
 
-                        if (bool__5463 && (Control.FSettings.FUnit != null))
-                        {
-                            FProductionGoldUpkeep += Control.FSettings.FGoldUpkeep;
-                            FProductionManaUpkeep += Control.FSettings.FManaUpkeep;
-                        }
+                    if (bool__5463 && (Control.FSettings.FUnit != null))
+                    {
+                        FProductionGoldUpkeep += Control.FSettings.FGoldUpkeep;
+                        FProductionManaUpkeep += Control.FSettings.FManaUpkeep;
                     }
                 }
             }
@@ -70924,18 +70686,15 @@ namespace Aow.Units.AoWE
         {
             int Result = default;
             int I = default;
+            Result = 0;
             {
-                var w__5465 = FPlayer;
-                Result = 0;
+                I = this.FPlayer.FAIGroups.Count - 1;
+                byte end__5466 = 0;
+                for (; I >= end__5466; I -= 1)
                 {
-                    I = w__5465.FAIGroups.Count - 1;
-                    byte end__5466 = 0;
-                    for (; I >= end__5466; I -= 1)
-                    {
-                        var call__5467 = w__5465.FAIGroups.GetGroups(I);
-                        var call__5468 = call__5467.GetGoldBudget();
-                        Result += call__5468;
-                    }
+                    var call__5467 = this.FPlayer.FAIGroups.GetGroups(I);
+                    var call__5468 = call__5467.GetGoldBudget();
+                    Result += call__5468;
                 }
             }
 
@@ -70947,18 +70706,15 @@ namespace Aow.Units.AoWE
         {
             int Result = default;
             int I = default;
+            Result = 0;
             {
-                var w__5469 = FPlayer;
-                Result = 0;
+                I = this.FPlayer.FAIGroups.Count - 1;
+                byte end__5470 = 0;
+                for (; I >= end__5470; I -= 1)
                 {
-                    I = w__5469.FAIGroups.Count - 1;
-                    byte end__5470 = 0;
-                    for (; I >= end__5470; I -= 1)
-                    {
-                        var call__5471 = w__5469.FAIGroups.GetGroups(I);
-                        var call__5472 = call__5471.GetManaBudget();
-                        Result += call__5472;
-                    }
+                    var call__5471 = this.FPlayer.FAIGroups.GetGroups(I);
+                    var call__5472 = call__5471.GetManaBudget();
+                    Result += call__5472;
                 }
             }
 
@@ -71026,13 +70782,11 @@ namespace Aow.Units.AoWE
                     M = 0;
                 }
 
-                {
-                    var w__5480 = FBudgets.GetBudgets(I);
-                    w__5480.FGold += G;
-                    w__5480.FMana += M;
-                    w__5480.FDayGold -= G;
-                    w__5480.FDayMana -= M;
-                }
+                var aiBudget = FBudgets.GetBudgets(I);
+                aiBudget.FGold += G;
+                aiBudget.FMana += M;
+                aiBudget.FDayGold -= G;
+                aiBudget.FDayMana -= M;
 
                 GoldLeft -= G;
                 ManaLeft -= M;
@@ -71101,11 +70855,9 @@ namespace Aow.Units.AoWE
                     M = 0;
                 }
 
-                {
-                    var w__5488 = FBudgets.GetBudgets(I);
-                    w__5488.FGold -= G;
-                    w__5488.FMana -= M;
-                }
+                var aiBudget = FBudgets.GetBudgets(I);
+                aiBudget.FGold -= G;
+                aiBudget.FMana -= M;
 
                 GoldLeft -= G;
                 ManaLeft -= M;
@@ -71664,8 +71416,8 @@ namespace Aow.Units.AoWE
             {
                 case 0:
                 {
-                    var w__5506 = FControl.FPlayer;
-                    if (w__5506.FPlayerIndex != 0)
+                    var player = FControl.FPlayer;
+                    if (player.FPlayerIndex != 0)
                     {
                         var call__5507 = FindAvailableTransporter();
                         bool bool__5508 = (call__5507 == null);
@@ -71677,12 +71429,12 @@ namespace Aow.Units.AoWE
 
                         if (bool__5508 && (Aow.Units.AoWE.AoWE.AoWHSMap.FDay > 5))
                         {
-                            var call__5510 = w__5506.FAIBudget.FBudgets.FindChild(131742);
+                            var call__5510 = player.FAIBudget.FBudgets.FindChild(131742);
                             Budget = (Aow.Units.AoWE.TAIBudget)call__5510;
                             if (Budget == null)
                             {
                                 Budget = Aow.Units.AoWE.TAITransporterBudget.Create(null);
-                                Budget.SetOwner(w__5506.FAIBudget.FBudgets);
+                                Budget.SetOwner(player.FAIBudget.FBudgets);
                             }
 
                             if (Budget.FRequiredGold < 100)
@@ -71693,27 +71445,27 @@ namespace Aow.Units.AoWE
                             ProduceTransporter(Budget);
                             if (!TransporterProductionControlExists())
                             {
-                                w__5506.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
+                                player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
                                 Budget.FGold = 0;
                                 Budget.FMana = 0;
                                 Budget.FRequiredGold = 0;
                             }
                         }
 
-                        FGoldUpkeep = w__5506.FAIBudget.FGoldUpkeep - Aow.Rtl.Rtl.Round(((double)w__5506.FIncome) * 0.1);
+                        FGoldUpkeep = player.FAIBudget.FGoldUpkeep - Aow.Rtl.Rtl.Round(((double)player.FIncome) * 0.1);
                         if (FGoldUpkeep < 0)
                         {
                             FGoldUpkeep = 0;
                         }
 
-                        var call__5511 = w__5506.FMagicControl.GetManaIncome();
-                        FManaUpkeep = w__5506.FAIBudget.FManaUpkeep - Aow.Rtl.Rtl.Round(((double)call__5511) * 0.1);
+                        var call__5511 = player.FMagicControl.GetManaIncome();
+                        FManaUpkeep = player.FAIBudget.FManaUpkeep - Aow.Rtl.Rtl.Round(((double)call__5511) * 0.1);
                         if (FManaUpkeep < 0)
                         {
                             FManaUpkeep = 0;
                         }
 
-                        if (((w__5506.FPlayerIndex != 0) && ((w__5506.FAIBudget.FGold > 25) || (w__5506.FAIBudget.FMana > 25))) && ((FGoldUpkeep > 0) || (FManaUpkeep > 0)))
+                        if (((player.FPlayerIndex != 0) && ((player.FAIBudget.FGold > 25) || (player.FAIBudget.FMana > 25))) && ((FGoldUpkeep > 0) || (FManaUpkeep > 0)))
                         {
                             FProductionIndex = -1;
                             FState += 1;
@@ -71735,24 +71487,21 @@ namespace Aow.Units.AoWE
                     {
                         FProductionIndex += 1;
                         Controls = FControl.FPlayer.FProductionControls;
+                        if (FProductionIndex < Controls.Count)
                         {
-                            var w__5512 = Controls;
-                            if (FProductionIndex < w__5512.Count)
+                            var call__5513 = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TProductionControlList>((int)(Aow.Rtl.Rtl.ObjectToInt(Controls) << 0)).GetPC(FProductionIndex);
+                            UpdateProductions(call__5513);
+                        }
+                        else
+                        {
+                            FProductions.Sort(Aow.Units.AoWE.AoWE.CompareAutoProductions);
+                            if (FProductions.Count != 0)
                             {
-                                var call__5513 = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TProductionControlList>((int)(Aow.Rtl.Rtl.ObjectToInt(Controls) << 0)).GetPC(FProductionIndex);
-                                UpdateProductions(call__5513);
+                                FState += 1;
                             }
                             else
                             {
-                                FProductions.Sort(Aow.Units.AoWE.AoWE.CompareAutoProductions);
-                                if (FProductions.Count != 0)
-                                {
-                                    FState += 1;
-                                }
-                                else
-                                {
-                                    FState = -1;
-                                }
+                                FState = -1;
                             }
                         }
                     }
@@ -72183,21 +71932,19 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TAbstractUnit Result = default;
             int I = default;
+            var player = FControl.FPlayer;
+            Result = null;
+            var call__5577 = player.FArmies.Count;
+            I = call__5577;
+            while ((I != 0) && (Result == null))
             {
-                var w__5576 = FControl.FPlayer;
-                Result = null;
-                var call__5577 = w__5576.FArmies.Count;
-                I = call__5577;
-                while ((I != 0) && (Result == null))
+                I -= 1;
+                var call__5578 = player.FArmies.GetArmy(I);
+                var call__5579 = call__5578.Transporter(255);
+                Result = call__5579;
+                if ((Result != null) && (Result.FGroupID != 0))
                 {
-                    I -= 1;
-                    var call__5578 = w__5576.FArmies.GetArmy(I);
-                    var call__5579 = call__5578.Transporter(255);
-                    Result = call__5579;
-                    if ((Result != null) && (Result.FGroupID != 0))
-                    {
-                        Result = null;
-                    }
+                    Result = null;
                 }
             }
 
@@ -72213,35 +71960,33 @@ namespace Aow.Units.AoWE
             int J = default;
             Aow.Units.AoWE.TProductionControl Control = default;
             // { locals follow the original stack order }
+            var player = FControl.FPlayer;
+            Result = false;
+            I = player.FProductionControls.Count;
+            while ((I != 0) && !Result)
             {
-                var w__5580 = FControl.FPlayer;
-                Result = false;
-                I = w__5580.FProductionControls.Count;
-                while ((I != 0) && !Result)
+                I -= 1;
+                var call__5581 = player.FProductionControls.GetPC(I);
+                Control = call__5581;
                 {
-                    I -= 1;
-                    var call__5581 = w__5580.FProductionControls.GetPC(I);
-                    Control = call__5581;
+                    J = 0;
+                    int end__5582 = Control.FUnitProductions.Count - 1;
+                    for (; J <= end__5582; J += 1)
                     {
-                        J = 0;
-                        int end__5582 = Control.FUnitProductions.Count - 1;
-                        for (; J <= end__5582; J += 1)
+                        var call__5583 = Control.FUnitProductions.GetItem(J);
+                        bool bool__5584 = (call__5583.FUnitIndex != -1);
+                        if (bool__5584)
                         {
-                            var call__5583 = Control.FUnitProductions.GetItem(J);
-                            bool bool__5584 = (call__5583.FUnitIndex != -1);
-                            if (bool__5584)
-                            {
-                                var call__5585 = Control.FUnitProductions.GetItem(J);
-                                bool__5584 = call__5585.FResearched;
-                            }
+                            var call__5585 = Control.FUnitProductions.GetItem(J);
+                            bool__5584 = call__5585.FResearched;
+                        }
 
-                            if (bool__5584)
-                            {
-                                var call__5586 = Control.FUnitProductions.GetItem(J);
-                                var call__5587 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__5586.FUnitIndex);
-                                Resource = call__5587;
-                                Result = Result || (Resource.GetTransportCapacity() != 0);
-                            }
+                        if (bool__5584)
+                        {
+                            var call__5586 = Control.FUnitProductions.GetItem(J);
+                            var call__5587 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__5586.FUnitIndex);
+                            Resource = call__5587;
+                            Result = Result || (Resource.GetTransportCapacity() != 0);
                         }
                     }
                 }
@@ -72256,23 +72001,21 @@ namespace Aow.Units.AoWE
             bool Result = default;
             int I = default;
             Aow.Units.AoWE.TProductionControl Control = default;
+            var player = FControl.FPlayer;
+            Result = false;
+            I = player.FProductionControls.Count;
+            while ((I != 0) && !Result)
             {
-                var w__5588 = FControl.FPlayer;
-                Result = false;
-                I = w__5588.FProductionControls.Count;
-                while ((I != 0) && !Result)
+                I -= 1;
+                var call__5589 = player.FProductionControls.GetPC(I);
+                Control = call__5589;
+                if (Control.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
                 {
-                    I -= 1;
-                    var call__5589 = w__5588.FProductionControls.GetPC(I);
-                    Control = call__5589;
-                    if (Control.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
+                    var call__5590 = Control.FQueue.GetItem(0);
+                    if (call__5590.FProductionID == 1)
                     {
-                        var call__5590 = Control.FQueue.GetItem(0);
-                        if (call__5590.FProductionID == 1)
-                        {
-                            var call__5591 = Control.FSettings.FUnit.GetTransportCapacity();
-                            Result = call__5591 != 0;
-                        }
+                        var call__5591 = Control.FSettings.FUnit.GetTransportCapacity();
+                        Result = call__5591 != 0;
                     }
                 }
             }
@@ -72287,27 +72030,25 @@ namespace Aow.Units.AoWE
             int I = default;
             Aow.Units.AoWE.TProductionControl Control = default;
             Aow.Units.AoWE.TUnitResource Resource = default;
+            var player = FControl.FPlayer;
+            Result = false;
+            I = player.FProductionControls.Count;
+            while ((I != 0) && !Result)
             {
-                var w__5592 = FControl.FPlayer;
-                Result = false;
-                I = w__5592.FProductionControls.Count;
-                while ((I != 0) && !Result)
+                I -= 1;
+                var call__5593 = player.FProductionControls.GetPC(I);
+                Control = call__5593;
+                if (Control.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
                 {
-                    I -= 1;
-                    var call__5593 = w__5592.FProductionControls.GetPC(I);
-                    Control = call__5593;
-                    if (Control.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
+                    var call__5594 = Control.FQueue.GetItem(0);
+                    if (call__5594.FProductionID == 2)
                     {
-                        var call__5594 = Control.FQueue.GetItem(0);
-                        if (call__5594.FProductionID == 2)
+                        var call__5595 = Control.FUnitProductions.GetItem(Control.FSettings.FUnitProductionIndex);
+                        var call__5596 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__5595.FUnitIndex);
+                        Resource = call__5596;
+                        if (Resource != null)
                         {
-                            var call__5595 = Control.FUnitProductions.GetItem(Control.FSettings.FUnitProductionIndex);
-                            var call__5596 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__5595.FUnitIndex);
-                            Resource = call__5596;
-                            if (Resource != null)
-                            {
-                                Result = Resource.GetTransportCapacity() != 0;
-                            }
+                            Result = Resource.GetTransportCapacity() != 0;
                         }
                     }
                 }
@@ -72777,11 +72518,9 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:15
         public void Add(Aow.Units.AoWE.TProductionControl Control, Aow.Units.AoWE.TAbstractUnit AUnit)
         {
-            {
-                var w__5613 = Aow.Units.AoWE.TAIGroupProduction.Create(this);
-                w__5613.FControl = Control;
-                w__5613.FUnit = AUnit;
-            }
+            var aiGroupProduction = Aow.Units.AoWE.TAIGroupProduction.Create(this);
+            aiGroupProduction.FControl = Control;
+            aiGroupProduction.FUnit = AUnit;
         }
 
         // AIGroup.pas:24
@@ -72806,11 +72545,9 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:37
         public void ChangeGroup(int Index, Aow.Units.AoWE.TAIGroup Group)
         {
-            {
-                var w__5616 = GetProductions(Index);
-                w__5616.FControl.FSettings.FGroupID = Group.FGroupID;
-                w__5616.SetOwner(Group.FProductions);
-            }
+            var aiGroupProduction = GetProductions(Index);
+            aiGroupProduction.FControl.FSettings.FGroupID = Group.FGroupID;
+            aiGroupProduction.SetOwner(Group.FProductions);
         }
 
         // AIGroup.pas:46
@@ -75245,13 +74982,10 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:1236
         public void DeactivatePlugin()
         {
+            if (this.FPlugin != null)
             {
-                var w__5760 = this;
-                if (w__5760.FPlugin != null)
-                {
-                    w__5760.FPlugin.Release();
-                    w__5760.FPlugin = null;
-                }
+                this.FPlugin.Release();
+                this.FPlugin = null;
             }
         }
 
@@ -75525,12 +75259,9 @@ namespace Aow.Units.AoWE
         public virtual void Reset()
         {
             FSelector.Reset();
-            {
-                var w__5776 = FSelector;
-                w__5776.FOnTargetFound = TargetFoundEvent;
-                w__5776.FMovePointsMax = 200;
-                w__5776.FMovePointsMin = 150;
-            }
+            this.FSelector.FOnTargetFound = TargetFoundEvent;
+            this.FSelector.FMovePointsMax = 200;
+            this.FSelector.FMovePointsMin = 150;
 
             FDamageTypes = Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall);
             FRange = 9;
@@ -75983,8 +75714,8 @@ namespace Aow.Units.AoWE
             {
                 case 0:
                 {
-                    var w__5832 = FGroupControl;
-                    FSelector.Execute(w__5832.FGroup, unchecked((sbyte)w__5832.FLocation.X), unchecked((sbyte)w__5832.FLocation.Y), unchecked((sbyte)w__5832.FLocation.L), null);
+                    var aiGroupControl = FGroupControl;
+                    FSelector.Execute(aiGroupControl.FGroup, unchecked((sbyte)aiGroupControl.FLocation.X), unchecked((sbyte)aiGroupControl.FLocation.Y), unchecked((sbyte)aiGroupControl.FLocation.L), null);
                 }
 
                     var call__5833 = FSelector.FDefenders.Count;
@@ -75995,8 +75726,8 @@ namespace Aow.Units.AoWE
                             case Aow.Units.AoWE.TGroupDefendMode.gdmSplit:
                                 Units = Aow.Units.AoWE.TUnitUserList.Create(null);
                             {
-                                var w__5834 = FGroupControl;
-                                FSelector.GetDefenders(unchecked((sbyte)w__5834.FGroup.FPlayer), unchecked((sbyte)w__5834.FLocation.X), unchecked((sbyte)w__5834.FLocation.Y), unchecked((sbyte)w__5834.FLocation.L), Units);
+                                var aiGroupControl2 = FGroupControl;
+                                FSelector.GetDefenders(unchecked((sbyte)aiGroupControl2.FGroup.FPlayer), unchecked((sbyte)aiGroupControl2.FLocation.X), unchecked((sbyte)aiGroupControl2.FLocation.Y), unchecked((sbyte)aiGroupControl2.FLocation.L), Units);
                             }
 
                                 Index = Units.IndexOfBehavior(Aow.Units.AoWE.TGroupBehavior.gbPassive);
@@ -77005,22 +76736,16 @@ namespace Aow.Units.AoWE
                     var call__5918 = Group.FGroup.GetStrengthMax(Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
                     Strength1 = call__5918;
                     Group1 = Group.FGroup;
-                    {
-                        var w__5919 = Group1;
-                        var call__5920 = Aow.Units.AoWE.AoWE.GetBattleFieldStrengthAdvantage(Location, unchecked((sbyte)w__5919.FPlayer), unchecked((sbyte)w__5919.FIndependentRelation), Group1, 1, 10, Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
-                        Advantage1 = -call__5920;
-                    }
+                    var call__5920 = Aow.Units.AoWE.AoWE.GetBattleFieldStrengthAdvantage(Location, unchecked((sbyte)Group1.FPlayer), unchecked((sbyte)Group1.FIndependentRelation), Group1, 1, 10, Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
+                    Advantage1 = -call__5920;
 
                     var call__5921 = FControl.FGroup.GetLoc();
                     Location = call__5921;
                     var call__5922 = FControl.FGroup.GetStrengthMax(Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
                     Strength2 = call__5922;
                     Group2 = FControl.FGroup;
-                    {
-                        var w__5923 = Group2;
-                        var call__5924 = Aow.Units.AoWE.AoWE.GetBattleFieldStrengthAdvantage(Location, unchecked((sbyte)w__5923.FPlayer), unchecked((sbyte)w__5923.FIndependentRelation), Group2, 1, 10, Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
-                        Advantage2 = -call__5924;
-                    }
+                    var call__5924 = Aow.Units.AoWE.AoWE.GetBattleFieldStrengthAdvantage(Location, unchecked((sbyte)Group2.FPlayer), unchecked((sbyte)Group2.FIndependentRelation), Group2, 1, 10, Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
+                    Advantage2 = -call__5924;
 
                     if (Strength1 < Strength2)
                     {
@@ -78910,12 +78635,10 @@ namespace Aow.Units.AoWE
                             }
                             else
                             {
+                                var group = FGroupControl.FGroup;
+                                if (group.FTransporter != null)
                                 {
-                                    var w__6114 = FGroupControl.FGroup;
-                                    if (w__6114.FTransporter != null)
-                                    {
-                                        w__6114.DeleteUnit(w__6114.FTransporter);
-                                    }
+                                    group.DeleteUnit(group.FTransporter);
                                 }
                             }
 
@@ -79055,12 +78778,10 @@ namespace Aow.Units.AoWE
                             var call__6135 = ValidMultiTarget(FSpareUnits, FNextTarget, Required, Optional);
                             if (call__6135)
                             {
-                                {
-                                    var w__6136 = FGroupControl.FGroup;
-                                    var call__6137 = w__6136.ClassType.Behavior();
-                                    var call__6138 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.CreateGroup(unchecked((sbyte)w__6136.FPlayer), unchecked((sbyte)w__6136.FIndependentRelation), call__6137);
-                                    Group = call__6138;
-                                }
+                                var group2 = FGroupControl.FGroup;
+                                var call__6137 = group2.ClassType.Behavior();
+                                var call__6138 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.CreateGroup(unchecked((sbyte)group2.FPlayer), unchecked((sbyte)group2.FIndependentRelation), call__6137);
+                                Group = call__6138;
 
                                 Group.AddUnits(Required);
                                 Group.SetupTarget(FNextTarget, Aow.Units.AoWE.TAIGroupTargetStatus.gtsExecute, 0);
@@ -79244,23 +78965,20 @@ namespace Aow.Units.AoWE
             FCurrentPathStrengthFactor = (float)0.8;
             FAllowTransport = false;
             FTargetLimit = 100;
-            {
-                var w__6153 = FPrioritySettings;
-                w__6153.FTargetFactor = 1;
-                w__6153.FImmediateBonus = 500;
-                w__6153.FSetupBonus = 25;
-                w__6153.FExecuteBonus = 75;
-                w__6153.FTransportPenalty = -100;
-                w__6153.FPartialRecruitmentPenalty = 0;
-                w__6153.FCompleteRecruitmentPenalty = -50;
-                w__6153.FCompleteCooperationPenalty = -25;
-                w__6153.FPartialCooperationPenalty = -50;
-                w__6153.FMoveDayPenalty = -25;
-                w__6153.FProductionDayPenalty = -25;
-                w__6153.FPartialProductionPenalty = -10;
-                w__6153.FFarOverlapPenalty = -199;
-                w__6153.FNearOverlapPenalty = -50;
-            }
+            this.FPrioritySettings.FTargetFactor = 1;
+            this.FPrioritySettings.FImmediateBonus = 500;
+            this.FPrioritySettings.FSetupBonus = 25;
+            this.FPrioritySettings.FExecuteBonus = 75;
+            this.FPrioritySettings.FTransportPenalty = -100;
+            this.FPrioritySettings.FPartialRecruitmentPenalty = 0;
+            this.FPrioritySettings.FCompleteRecruitmentPenalty = -50;
+            this.FPrioritySettings.FCompleteCooperationPenalty = -25;
+            this.FPrioritySettings.FPartialCooperationPenalty = -50;
+            this.FPrioritySettings.FMoveDayPenalty = -25;
+            this.FPrioritySettings.FProductionDayPenalty = -25;
+            this.FPrioritySettings.FPartialProductionPenalty = -10;
+            this.FPrioritySettings.FFarOverlapPenalty = -199;
+            this.FPrioritySettings.FNearOverlapPenalty = -50;
         }
 
         // AIGroup.pas:3173
@@ -79379,23 +79097,21 @@ namespace Aow.Units.AoWE
             int Days = default;
             if (Target.FData.TargetType != Aow.Units.AoWE.TAITargetType.attNegotiate)
             {
+                var group = FGroupControl.FGroup;
+                bool bool__6157 = ((Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref group.FTargetXYL) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Target.FLocation)) && (group.FTargetType == Aow.Units.AoWE.TAIGroupTargetStatus.gtsExecute));
+                if (!bool__6157)
                 {
-                    var w__6156 = FGroupControl.FGroup;
-                    bool bool__6157 = ((Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref w__6156.FTargetXYL) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Target.FLocation)) && (w__6156.FTargetType == Aow.Units.AoWE.TAIGroupTargetStatus.gtsExecute));
-                    if (!bool__6157)
-                    {
-                        var call__6158 = w__6156.GetMovesMin();
-                        bool__6157 = (call__6158 >= Target.FMovePoints);
-                    }
+                    var call__6158 = group.GetMovesMin();
+                    bool__6157 = (call__6158 >= Target.FMovePoints);
+                }
 
-                    if (bool__6157)
-                    {
-                        Result = FNearSuperiority;
-                    }
-                    else
-                    {
-                        Result = FSuperiority;
-                    }
+                if (bool__6157)
+                {
+                    Result = FNearSuperiority;
+                }
+                else
+                {
+                    Result = FSuperiority;
                 }
 
                 var call__6159 = FGroupControl.FGroup.GetMovesMin();
@@ -79484,16 +79200,14 @@ namespace Aow.Units.AoWE
                 Result = 0;
             }
 
+            var group = FGroupControl.FGroup;
+            if ((Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref group.FTargetXYL) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Target.FLocation)) && (group.FTargetType == Aow.Units.AoWE.TAIGroupTargetStatus.gtsExecute))
             {
-                var w__6164 = FGroupControl.FGroup;
-                if ((Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref w__6164.FTargetXYL) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Target.FLocation)) && (w__6164.FTargetType == Aow.Units.AoWE.TAIGroupTargetStatus.gtsExecute))
-                {
-                    PathStrength = Aow.Rtl.Rtl.Round(((double)Target.FPathStrength) * FCurrentPathStrengthFactor);
-                }
-                else
-                {
-                    PathStrength = Aow.Rtl.Rtl.Round(((double)Target.FPathStrength) * FPathStrengthFactor);
-                }
+                PathStrength = Aow.Rtl.Rtl.Round(((double)Target.FPathStrength) * FCurrentPathStrengthFactor);
+            }
+            else
+            {
+                PathStrength = Aow.Rtl.Rtl.Round(((double)Target.FPathStrength) * FPathStrengthFactor);
             }
 
             if (Result < PathStrength)
@@ -81160,13 +80874,11 @@ namespace Aow.Units.AoWE
                 }
             }
 
-            {
-                var w__6288 = FArmyHS.FArmy;
-                w__6288.FMode = w__6288.FMode.With(Aow.Units.AoWE.TArmyModeElement.amMoving);
-                w__6288.FDestinationX = unchecked((sbyte)this.FDestinationX);
-                w__6288.FDestinationY = unchecked((sbyte)this.FDestinationY);
-                w__6288.FDestinationL = unchecked((sbyte)this.FDestinationL);
-            }
+            var army = FArmyHS.FArmy;
+            army.FMode = army.FMode.With(Aow.Units.AoWE.TArmyModeElement.amMoving);
+            army.FDestinationX = unchecked((sbyte)this.FDestinationX);
+            army.FDestinationY = unchecked((sbyte)this.FDestinationY);
+            army.FDestinationL = unchecked((sbyte)this.FDestinationL);
         }
 
         // MoveT.PAS:2221
@@ -83170,7 +82882,7 @@ namespace Aow.Units.AoWE
                     var call__6526 = FArmyHS.Xhx;
                     Path.AddXYL(unchecked((sbyte)call__6526), unchecked((sbyte)call__6525), unchecked((sbyte)FArmyHS.Lhx));
                     Path.List[0].Flag = unchecked((sbyte)unchecked((sbyte)FMovePoints));
-                    var call__6527 = Aow.Units.AoWE.AoWE.P5CreateArmyMoveTE(FArmyHS, unchecked((byte)FSelection), Path, 3, TSet<Aow.Units.AoWE.TArmyMoveModeElement>.Of(Aow.Units.AoWE.TArmyMoveModeElement.mmSelectEndLocation));
+                    var call__6527 = Aow.Units.AoWE.AoWE.CreateArmyMoveTE(FArmyHS, unchecked((byte)unchecked((byte)FSelection)), Path, (Aow.Units.AoWE.TMoveAction)(byte)(3), TSet<Aow.Units.AoWE.TArmyMoveModeElement>.Of(Aow.Units.AoWE.TArmyMoveModeElement.mmSelectEndLocation));
                     Move = call__6527;
                     Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.InsertExecuteEvent(Move);
                     // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
@@ -83194,7 +82906,7 @@ namespace Aow.Units.AoWE
                 var call__6529 = FArmyHS.Xhx;
                 Path.AddXYL(unchecked((sbyte)call__6529), unchecked((sbyte)call__6528), unchecked((sbyte)FArmyHS.Lhx));
                 Path.List[0].Flag = unchecked((sbyte)unchecked((sbyte)FMovePoints));
-                var call__6530 = Aow.Units.AoWE.AoWE.P5CreateArmyMoveTE(FArmyHS, unchecked((byte)FSelection), Path, 1, TSet<Aow.Units.AoWE.TArmyMoveModeElement>.Of(Aow.Units.AoWE.TArmyMoveModeElement.mmSelectEndLocation));
+                var call__6530 = Aow.Units.AoWE.AoWE.CreateArmyMoveTE(FArmyHS, unchecked((byte)unchecked((byte)FSelection)), Path, (Aow.Units.AoWE.TMoveAction)(byte)(1), TSet<Aow.Units.AoWE.TArmyMoveModeElement>.Of(Aow.Units.AoWE.TArmyMoveModeElement.mmSelectEndLocation));
                 Move = call__6530;
                 Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.InsertExecuteEvent(Move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
@@ -84210,11 +83922,9 @@ namespace Aow.Units.AoWE
             Aow.Units.EventLog.TMessageEventLog Log = default;
             var call__6606 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
             call__6606.FPlayerType = Aow.Units.AoWE.TPlayerType.ptCPU3;
-            {
-                var w__6607 = (Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC;
-                w__6607.SetConnectionMode(FPlayer, Aow.Units.NetworkE.TConnectionMode.cmGlobal);
-                w__6607.SetSystemID(FPlayer, 0);
-            }
+            var remotePCC = (Aow.Units.NetworkE.TRemotePCC)Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC;
+            remotePCC.SetConnectionMode(FPlayer, Aow.Units.NetworkE.TConnectionMode.cmGlobal);
+            remotePCC.SetSystemID(FPlayer, 0);
 
             var call__6608 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
             if (!call__6608.FSingleProcessCycle)
@@ -84894,10 +84604,8 @@ namespace Aow.Units.AoWE
             AUnit = FUnit;
             if ((AUnit is Aow.Units.AoWE.THero) && FCombat.FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cExecuting))
             {
-                {
-                    var w__6658 = FCombat.FCombatData;
-                    ((Aow.Units.AoWE.THero)AUnit).DropItemsOnMap(Aow.Units.AoWE.AoWE.AoWHSMap, unchecked((sbyte)w__6658.FX), unchecked((sbyte)w__6658.FY), unchecked((sbyte)w__6658.FL));
-                }
+                var combatData = FCombat.FCombatData;
+                ((Aow.Units.AoWE.THero)AUnit).DropItemsOnMap(Aow.Units.AoWE.AoWE.AoWHSMap, unchecked((sbyte)combatData.FX), unchecked((sbyte)combatData.FY), unchecked((sbyte)combatData.FL));
             }
 
             base.KillUnit();
@@ -85152,13 +84860,10 @@ namespace Aow.Units.AoWE
             int Result = default;
             int Distance = default;
             Distance = (FCombatData.FRound - 1) * 2;
+            var call__6671 = this.FCombatData.FPlayers.GetPlayers(unchecked((sbyte)this.FCombatData.FCurrentPlayer));
+            if (call__6671.FSideIndex == 0)
             {
-                var w__6670 = FCombatData;
-                var call__6671 = w__6670.FPlayers.GetPlayers(unchecked((sbyte)w__6670.FCurrentPlayer));
-                if (call__6671.FSideIndex == 0)
-                {
-                    Distance += 1;
-                }
+                Distance += 1;
             }
 
             Result = Distance;
@@ -86040,12 +85745,7 @@ namespace Aow.Units.AoWE
         {
             // AoWAb.PAS:317
             // { branch past the missing-data exit and nil-owner zero result }
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
-            {
-                Aow.Units.Engine.TEObject.Meta Result = default;
-                Result = Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
-                return Result;
-            }
+            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass() => Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
 
             // intf_P4_02.inc:72
             public new Aow.Units.AoWE.TMultiLevelAbility Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -87143,15 +86843,9 @@ namespace Aow.Units.AoWE
                 if (bool__6849)
                 {
                     MoveCA = Aow.Units.AoWE.TMoveWallCA.Create(null);
-                    {
-                        var w__6851 = MoveCA;
-                        w__6851.F_MoveWallCA_0C = unchecked((byte)A1.FID);
-                    }
+                    MoveCA.F_MoveWallCA_0C = unchecked((byte)A1.FID);
 
-                    {
-                        var w__6852 = MoveCA;
-                        w__6852.F_MoveWallCA_0D = 0;
-                    }
+                    MoveCA.F_MoveWallCA_0D = 0;
 
                     A1.FCombat.ExecuteCombatAction(MoveCA);
                     MoveCA.Release();
@@ -87259,18 +86953,16 @@ namespace Aow.Units.AoWE
             if (A1 != null)
             {
                 Repeats = 2;
+                var unit = (Aow.Units.AoWE.TAbstractUnit)A1;
+                Attack = unit.GetAttack();
+                Damage = unit.GetDamage();
+                if (unit.GetAbilityEnabled(115))
                 {
-                    var w__6864 = (Aow.Units.AoWE.TAbstractUnit)A1;
-                    Attack = w__6864.GetAttack();
-                    Damage = w__6864.GetDamage();
-                    if (w__6864.GetAbilityEnabled(115))
-                    {
-                        Repeats += 1;
-                    }
-
-                    A2 = Aow.Units.AoWE.AoWE.P3LimitedDamage(Attack, Damage, Repeats);
-                    A3 = GetDamageTypes((Aow.Units.AoWE.TAbstractUnit)A1);
+                    Repeats += 1;
                 }
+
+                A2 = Aow.Units.AoWE.AoWE.P3LimitedDamage(Attack, Damage, Repeats);
+                A3 = GetDamageTypes((Aow.Units.AoWE.TAbstractUnit)A1);
             }
             else
             {
@@ -87323,13 +87015,11 @@ namespace Aow.Units.AoWE
         {
             if (A1 is Aow.Units.AoWE.TAbstractUnit)
             {
-                {
-                    var w__6872 = (Aow.Units.AoWE.TAbstractUnit)A1;
-                    var call__6873 = w__6872.GetAttack();
-                    A2.Attack = unchecked((sbyte)call__6873);
-                    var call__6874 = w__6872.GetDamage();
-                    A2.Damage = unchecked((sbyte)call__6874);
-                }
+                var unit = (Aow.Units.AoWE.TAbstractUnit)A1;
+                var call__6873 = unit.GetAttack();
+                A2.Attack = unchecked((sbyte)call__6873);
+                var call__6874 = unit.GetDamage();
+                A2.Damage = unchecked((sbyte)call__6874);
 
                 var call__6875 = GetDamageTypes(A1);
                 A2.DamageTypes = call__6875;
@@ -87420,72 +87110,66 @@ namespace Aow.Units.AoWE
             if ((A1 is Aow.Units.AoWE.TAbstractUnit) && ((Aow.Units.AoWE.TAbstractUnit)A1).GetAbilityEnabled(21))
             {
                 Result = TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPhysical);
+                var unit = (Aow.Units.AoWE.TAbstractUnit)A1;
+                var call__6889 = unit.GetAbilityEnabled(14);
+                bool bool__6890 = call__6889;
+                if (!bool__6890)
                 {
-                    var w__6888 = (Aow.Units.AoWE.TAbstractUnit)A1;
-                    var call__6889 = w__6888.GetAbilityEnabled(14);
-                    bool bool__6890 = call__6889;
-                    if (!bool__6890)
-                    {
-                        var call__6891 = w__6888.GetAbilityEnabled(163);
-                        bool__6890 = call__6891;
-                    }
-
-                    if (bool__6890)
-                    {
-                        Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
-                    }
-
-                    if (w__6888.GetAbilityEnabled(15))
-                    {
-                        Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtCold);
-                    }
-
-                    if (w__6888.GetAbilityEnabled(16))
-                    {
-                        Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtLightning);
-                    }
-
-                    if (w__6888.GetAbilityEnabled(17))
-                    {
-                        Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPoison);
-                    }
+                    var call__6891 = unit.GetAbilityEnabled(163);
+                    bool__6890 = call__6891;
                 }
 
+                if (bool__6890)
                 {
-                    var w__6892 = (Aow.Units.AoWE.TAbstractUnit)A1;
-                    var call__6893 = w__6892.GetAbilityEnabled(18);
-                    bool bool__6894 = call__6893;
-                    if (!bool__6894)
-                    {
-                        var call__6895 = w__6892.GetAbilityEnabled(169);
-                        bool__6894 = call__6895;
-                    }
-
-                    if (bool__6894)
-                    {
-                        Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
-                    }
-
-                    if (w__6892.GetAbilityEnabled(19))
-                    {
-                        Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly);
-                    }
+                    Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtFire);
                 }
 
+                if (unit.GetAbilityEnabled(15))
                 {
-                    var w__6896 = (Aow.Units.AoWE.TAbstractUnit)A1;
-                    var call__6897 = w__6896.GetAbilityEnabled(20);
-                    bool bool__6898 = call__6897;
-                    if (!bool__6898)
-                    {
-                        var call__6899 = w__6896.GetAbilityEnabled(154);
-                        bool__6898 = call__6899;
-                    }
+                    Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtCold);
+                }
 
-                    if (bool__6898)
-                    {
-                        Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtMagic);
-                    }
+                if (unit.GetAbilityEnabled(16))
+                {
+                    Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtLightning);
+                }
+
+                if (unit.GetAbilityEnabled(17))
+                {
+                    Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtPoison);
+                }
+
+                var unit2 = (Aow.Units.AoWE.TAbstractUnit)A1;
+                var call__6893 = unit2.GetAbilityEnabled(18);
+                bool bool__6894 = call__6893;
+                if (!bool__6894)
+                {
+                    var call__6895 = unit2.GetAbilityEnabled(169);
+                    bool__6894 = call__6895;
+                }
+
+                if (bool__6894)
+                {
+                    Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtDeath);
+                }
+
+                if (unit2.GetAbilityEnabled(19))
+                {
+                    Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtHoly);
+                }
+
+                var unit3 = (Aow.Units.AoWE.TAbstractUnit)A1;
+                var call__6897 = unit3.GetAbilityEnabled(20);
+                bool bool__6898 = call__6897;
+                if (!bool__6898)
+                {
+                    var call__6899 = unit3.GetAbilityEnabled(154);
+                    bool__6898 = call__6899;
+                }
+
+                if (bool__6898)
+                {
+                    Result = Result + TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtMagic);
                 }
             }
             else
@@ -89192,28 +88876,26 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TUnit NewUnit = default;
             Aow.Units.AoWE.TPossessedAbilityData Data = default;
+            var combatUnit = (Aow.Units.AoWE.TCombatUnit)A1;
+            combatUnit.SetStatus(combatUnit.FStatus - TSet<Aow.Units.AoWE.TCombatObjectStatusElement>.Of(Aow.Units.AoWE.TCombatObjectStatusElement.csDestroyed));
+            NewUnit = Aow.Units.AoWE.TUnit.Create(null);
+            var call__7093 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(152);
+            NewUnit.SetUnitResource(call__7093);
+            var call__7094 = combatUnit.FUnit.GetAbilityData(107);
+            Data = (Aow.Units.AoWE.TPossessedAbilityData)call__7094;
+            if (Data != null)
             {
-                var w__7092 = (Aow.Units.AoWE.TCombatUnit)A1;
-                w__7092.SetStatus(w__7092.FStatus - TSet<Aow.Units.AoWE.TCombatObjectStatusElement>.Of(Aow.Units.AoWE.TCombatObjectStatusElement.csDestroyed));
-                NewUnit = Aow.Units.AoWE.TUnit.Create(null);
-                var call__7093 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(152);
-                NewUnit.SetUnitResource(call__7093);
-                var call__7094 = w__7092.FUnit.GetAbilityData(107);
-                Data = (Aow.Units.AoWE.TPossessedAbilityData)call__7094;
-                if (Data != null)
-                {
-                    NewUnit.SetExperience(Data.FSourceExperience);
-                }
-
-                if (w__7092.FUnit.FUnitStatus.Contains(Aow.Units.AoWE.TUnitStatusElement.usMoving))
-                {
-                    NewUnit.FUnitStatus = TSet<Aow.Units.AoWE.TUnitStatusElement>.Of(Aow.Units.AoWE.TUnitStatusElement.usMoving) + NewUnit.FUnitStatus;
-                }
-
-                w__7092.FUnit.Killed();
-                w__7092.SetUnit(NewUnit);
-                NewUnit.Release();
+                NewUnit.SetExperience(Data.FSourceExperience);
             }
+
+            if (combatUnit.FUnit.FUnitStatus.Contains(Aow.Units.AoWE.TUnitStatusElement.usMoving))
+            {
+                NewUnit.FUnitStatus = TSet<Aow.Units.AoWE.TUnitStatusElement>.Of(Aow.Units.AoWE.TUnitStatusElement.usMoving) + NewUnit.FUnitStatus;
+            }
+
+            combatUnit.FUnit.Killed();
+            combatUnit.SetUnit(NewUnit);
+            NewUnit.Release();
         }
 
         // intf_P4_02.inc:288
@@ -90315,11 +89997,8 @@ namespace Aow.Units.AoWE
                 {
                     var call__7196 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(34);
                     call__7196.Expand(Target.FUnit);
-                    {
-                        var w__7197 = Target;
-                        var call__7198 = w__7197.FUnit.GetAbilityData(34);
-                        Data = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__7198;
-                    }
+                    var call__7198 = Target.FUnit.GetAbilityData(34);
+                    Data = (Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__7198;
 
                     if (Data != null)
                     {
@@ -91156,11 +90835,9 @@ namespace Aow.Units.AoWE
             int Damage = default;
             if (A1 != null)
             {
-                {
-                    var w__7283 = (Aow.Units.AoWE.TAbstractUnit)A1;
-                    Attack = w__7283.GetAttack();
-                    Damage = w__7283.GetDamage();
-                }
+                var unit = (Aow.Units.AoWE.TAbstractUnit)A1;
+                Attack = unit.GetAttack();
+                Damage = unit.GetDamage();
 
                 A2 = Aow.Units.AoWE.AoWE.P3LimitedDamage(Attack, Damage, 1) * 3;
                 var call__7284 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(21);
@@ -92364,25 +92041,23 @@ namespace Aow.Units.AoWE
             Result = base.CanTouch(A1, A2);
             if (Result)
             {
+                var combatUnit = (Aow.Units.AoWE.TCombatUnit)A2;
+                var call__7394 = combatUnit.FUnit.GetUnitType();
+                bool bool__7395 = (call__7394 == Aow.Units.AoWE.TUnitType.utHumanoid);
+                if (bool__7395)
                 {
-                    var w__7393 = (Aow.Units.AoWE.TCombatUnit)A2;
-                    var call__7394 = w__7393.FUnit.GetUnitType();
-                    bool bool__7395 = (call__7394 == Aow.Units.AoWE.TUnitType.utHumanoid);
-                    if (bool__7395)
-                    {
-                        var call__7396 = w__7393.FUnit.GetRace();
-                        bool__7395 = (unchecked((ushort)call__7396) != 11);
-                    }
-
-                    bool bool__7397 = bool__7395;
-                    if (bool__7397)
-                    {
-                        var call__7398 = w__7393.FUnit.GetAbilityEnabled(129);
-                        bool__7397 = !call__7398;
-                    }
-
-                    Result = bool__7397;
+                    var call__7396 = combatUnit.FUnit.GetRace();
+                    bool__7395 = (unchecked((ushort)call__7396) != 11);
                 }
+
+                bool bool__7397 = bool__7395;
+                if (bool__7397)
+                {
+                    var call__7398 = combatUnit.FUnit.GetAbilityEnabled(129);
+                    bool__7397 = !call__7398;
+                }
+
+                Result = bool__7397;
             }
 
             return Result;
@@ -92494,18 +92169,16 @@ namespace Aow.Units.AoWE
             Result = base.CanTouch(A1, A2);
             if (Result)
             {
+                var combatUnit = (Aow.Units.AoWE.TCombatUnit)A2;
+                var call__7407 = combatUnit.FUnit.GetGender();
+                bool bool__7408 = (call__7407 == Aow.Units.AoWE.TUnitGender.ugMale);
+                if (bool__7408)
                 {
-                    var w__7406 = (Aow.Units.AoWE.TCombatUnit)A2;
-                    var call__7407 = w__7406.FUnit.GetGender();
-                    bool bool__7408 = (call__7407 == Aow.Units.AoWE.TUnitGender.ugMale);
-                    if (bool__7408)
-                    {
-                        var call__7409 = w__7406.FUnit.GetUnitType();
-                        bool__7408 = (call__7409 == Aow.Units.AoWE.TUnitType.utHumanoid);
-                    }
-
-                    Result = bool__7408;
+                    var call__7409 = combatUnit.FUnit.GetUnitType();
+                    bool__7408 = (call__7409 == Aow.Units.AoWE.TUnitType.utHumanoid);
                 }
+
+                Result = bool__7408;
             }
 
             return Result;
@@ -93981,12 +93654,10 @@ namespace Aow.Units.AoWE
             if ((Source is Aow.Units.AoWE.TCombatUnit) && (Target is Aow.Units.AoWE.TCombatUnit))
             {
                 Enchantments = Aow.Units.AoWE.TEnchantmentList.Create(null);
-                {
-                    var w__7567 = (Aow.Units.AoWE.TCombatUnit)Target;
-                    w__7567.FUnit.ListEnchantments(Enchantments);
-                    var call__7568 = w__7567.FUnit.GetAbilityEnabled(155);
-                    WasSummoned = call__7568;
-                }
+                var combatUnit = (Aow.Units.AoWE.TCombatUnit)Target;
+                combatUnit.FUnit.ListEnchantments(Enchantments);
+                var call__7568 = combatUnit.FUnit.GetAbilityEnabled(155);
+                WasSummoned = call__7568;
 
                 {
                     I = FEnchantmentIDs.Count - 1;
@@ -96919,12 +96590,7 @@ namespace Aow.Units.AoWE
 
         // Spells.PAS:312
         // { +04C }
-        public virtual bool ExecuteTE(Aow.Units.AoWE.TSpellTE A1, Aow.Units.AoWE.TAbstractUnit A2, int A3)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool ExecuteTE(Aow.Units.AoWE.TSpellTE A1, Aow.Units.AoWE.TAbstractUnit A2, int A3) => false;
 
         // Spells.PAS:413
         // { +058 }
@@ -96934,21 +96600,11 @@ namespace Aow.Units.AoWE
 
         // Spells.PAS:415
         // { +05C }
-        public virtual bool AIExecuteCastSpellAction(Aow.Units.AoWE.TAbstractUnit A1)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool AIExecuteCastSpellAction(Aow.Units.AoWE.TAbstractUnit A1) => false;
 
         // Spells.PAS:27
         // { +060 }
-        public virtual bool GetEnabled()
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public virtual bool GetEnabled() => true;
 
         // Spells.PAS:43
         // { +064 }
@@ -97066,51 +96722,31 @@ namespace Aow.Units.AoWE
 
         // Spells.PAS:158
         // { $074 }
-        public virtual Aow.Units.AoWE.TCombatAction CreateCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, bool A3)
-        {
-            Aow.Units.AoWE.TCombatAction Result = default;
-            Result = default;
-            return Result;
-        }
+        public virtual Aow.Units.AoWE.TCombatAction CreateCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, bool A3) => default;
 
         // Spells.PAS:178
         // { +07C }
-        public virtual int GetCombatDamageValue(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual int GetCombatDamageValue(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2) => 0;
 
         // Spells.PAS:182
         // { +080 }
         public virtual void GetCombatDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, ref Aow.Units.AoWE.TAbilityDamageValues A3)
         {
-            {
-                ref var w__7774 = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP4DamageValue>(ref A3);
-                w__7774.V0 = 0;
-                w__7774.V1 = 0;
-                w__7774.V2 = 0;
-                w__7774.V3 = 0;
-                w__7774.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
-            }
+            ref var p4DamageValue = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP4DamageValue>(ref A3);
+            p4DamageValue.V0 = 0;
+            p4DamageValue.V1 = 0;
+            p4DamageValue.V2 = 0;
+            p4DamageValue.V3 = 0;
+            p4DamageValue.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
         }
 
         // Spells.PAS:326
         // { +084 }
-        public virtual void tcGetDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, ref Aow.Units.AoWE.TAbilityDamageValues A3)
-        {
-            this.GetCombatDamageValueEx(A1, A2, ref A3);
-        }
+        public virtual void tcGetDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, ref Aow.Units.AoWE.TAbilityDamageValues A3) => this.GetCombatDamageValueEx(A1, A2, ref A3);
 
         // Spells.PAS:339
         // { +088 draft }
-        public virtual int tcGetDamageValue(Aow.Units.AoWE.TCombatObject Source, Aow.Units.AoWE.TCombatObject Target)
-        {
-            int Result = default;
-            Result = this.GetCombatDamageValue(Source, Target);
-            return Result;
-        }
+        public virtual int tcGetDamageValue(Aow.Units.AoWE.TCombatObject Source, Aow.Units.AoWE.TCombatObject Target) => this.GetCombatDamageValue(Source, Target);
 
         // Spells.PAS:320
         // { +08C; 00418831 }
@@ -97120,12 +96756,7 @@ namespace Aow.Units.AoWE
 
         // Spells.PAS:322
         // { +090 }
-        public virtual bool fcExecuteCombatCommand(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TFastCombatCommand A2)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool fcExecuteCombatCommand(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TFastCombatCommand A2) => false;
 
         // Spells.PAS:316
         // { +094 }
@@ -97149,14 +96780,12 @@ namespace Aow.Units.AoWE
         {
             if ((Source is Aow.Units.AoWE.TCombatUnit) && ((Aow.Rtl.TObject)((Aow.Units.AoWE.TCombatUnit)Source).FUnit is Aow.Units.AoWE.THero))
             {
+                var combatUnit = (Aow.Units.AoWE.TCombatUnit)Source;
+                ((Aow.Units.AoWE.THero)combatUnit.FUnit).CastingDone(FSpellID, Mana);
+                combatUnit.UpdateWallCombatFeatures();
+                if ((Aow.Rtl.TObject)Source.FCombat is Aow.Units.AoWE.TFastCombat)
                 {
-                    var w__7775 = (Aow.Units.AoWE.TCombatUnit)Source;
-                    ((Aow.Units.AoWE.THero)w__7775.FUnit).CastingDone(FSpellID, Mana);
-                    w__7775.UpdateWallCombatFeatures();
-                    if ((Aow.Rtl.TObject)Source.FCombat is Aow.Units.AoWE.TFastCombat)
-                    {
-                        ((Aow.Units.AoWE.TFastCombatUnit)Source).UpdateWallSiegeObjectRegistration();
-                    }
+                    ((Aow.Units.AoWE.TFastCombatUnit)Source).UpdateWallSiegeObjectRegistration();
                 }
             }
         }
@@ -97177,13 +96806,13 @@ namespace Aow.Units.AoWE
                 }
             }
 
-            var call__7778 = Aow.Units.AoWE.AoWE.P4GetPlayer(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Source.FPlayer);
+            var call__7778 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Source.FPlayer));
             Manager = call__7778.FAIBudget;
-            var call__7779 = Aow.Units.AoWE.AoWE.P4GetPlayer(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Source.FPlayer);
+            var call__7779 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Source.FPlayer));
             var call__7780 = call__7779.FMagicControl.GetCheatEnabled();
             if (!call__7780)
             {
-                var call__7781 = Aow.Units.AoWE.AoWE.P4RequestBudget(Manager, 0, Budget, 0, Mana, Aow.Rtl.Rtl.ObjectToInt(Manager.FDefaultBudget), 1);
+                var call__7781 = Manager.RequestBudgetExpenseEx(0, Budget, 0, Mana, Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAIBudget>(Aow.Rtl.Rtl.ObjectToInt(Manager.FDefaultBudget)), ((byte)1) != 0);
                 Result = call__7781;
             }
             else
@@ -97201,13 +96830,13 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TAIBudgetManager Manager = default;
             if (AIRequestCastSpellExpense(Source, Budget, Mana, Upkeep))
             {
-                var call__7782 = Aow.Units.AoWE.AoWE.P4GetPlayer(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Source.FPlayer);
+                var call__7782 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Source.FPlayer));
                 Manager = call__7782.FAIBudget;
-                var call__7783 = Aow.Units.AoWE.AoWE.P4GetPlayer(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Source.FPlayer);
+                var call__7783 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Source.FPlayer));
                 var call__7784 = call__7783.FMagicControl.GetCheatEnabled();
                 if (!call__7784)
                 {
-                    var call__7785 = Aow.Units.AoWE.AoWE.P4BudgetMade(Manager, 0, Budget, 0, Mana, Aow.Rtl.Rtl.ObjectToInt(Manager.FDefaultBudget), 2);
+                    var call__7785 = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAIBudget>(Aow.Rtl.Rtl.ObjectToInt(Manager.FDefaultBudget)), (Aow.Units.AoWE.TBudgetExpenseMode)2);
                     Result = call__7785;
                 }
                 else
@@ -97417,16 +97046,13 @@ namespace Aow.Units.AoWE
             int I = default;
             SpellStrings.Clear();
             {
-                var w__7798 = FRegisteredSpells;
+                I = 0;
+                int end__7799 = this.FRegisteredSpells.Count - 1;
+                for (; I <= end__7799; I += 1)
                 {
-                    I = 0;
-                    int end__7799 = w__7798.Count - 1;
-                    for (; I <= end__7799; I += 1)
+                    if ((this.FRegisteredSpells.List[I] != null) && Spheres.Contains(((Aow.Units.AoWE.TSpell)this.FRegisteredSpells.List[I]).FMagicSphere))
                     {
-                        if ((w__7798.List[I] != null) && Spheres.Contains(((Aow.Units.AoWE.TSpell)w__7798.List[I]).FMagicSphere))
-                        {
-                            SpellStrings.AddObject(((Aow.Units.AoWE.TSpell)w__7798.List[I]).FSpellName, Aow.Rtl.Rtl.IntToObject((int)I));
-                        }
+                        SpellStrings.AddObject(((Aow.Units.AoWE.TSpell)this.FRegisteredSpells.List[I]).FSpellName, Aow.Rtl.Rtl.IntToObject((int)I));
                     }
                 }
             }
@@ -97441,24 +97067,21 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TSpell Spell = default;
             Candidates = Aow.Units.Engine.TIntegerList.Create();
             {
-                var w__7800 = FRegisteredSpells;
+                I = this.FRegisteredSpells.Count - 1;
+                byte end__7801 = 0;
+                for (; I >= end__7801; I -= 1)
                 {
-                    I = w__7800.Count - 1;
-                    byte end__7801 = 0;
-                    for (; I >= end__7801; I -= 1)
+                    Spell = (Aow.Units.AoWE.TSpell)this.FRegisteredSpells.List[I];
+                    if ((((Spell != null) && Spheres.Contains(Spell.FMagicSphere)) && (Spell.FSpellLevel >= MinLevel)) && (Spell.FSpellLevel <= MaxLevel))
                     {
-                        Spell = (Aow.Units.AoWE.TSpell)w__7800.List[I];
-                        if ((((Spell != null) && Spheres.Contains(Spell.FMagicSphere)) && (Spell.FSpellLevel >= MinLevel)) && (Spell.FSpellLevel <= MaxLevel))
-                        {
-                            Candidates.Add(I);
-                        }
+                        Candidates.Add(I);
                     }
                 }
             }
 
             if (Candidates.Count != 0)
             {
-                var call__7802 = Aow.Units.AoWE.AoWE.P4MapRandom(Aow.Units.AoWE.AoWE.AoWHSMap, Candidates.Count);
+                var call__7802 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Candidates.Count);
                 var call__7803 = Candidates[call__7802];
                 Result = call__7803;
             }
@@ -97704,12 +97327,7 @@ namespace Aow.Units.AoWE
 
         // Spells.PAS:789
         // { +04C }
-        public virtual bool Cast()
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public virtual bool Cast() => true;
 
         // intf_P4_02.inc:998
         public static new Aow.Units.AoWE.TSpellCaster Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -98950,11 +98568,9 @@ namespace Aow.Units.AoWE
         // { 5577AF58 }
         public void ResetTargetSelection()
         {
-            {
-                var w__7903 = Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection;
-                w__7903.FOnChange.Remove(OnTargetSelectionChange);
-                w__7903.Deactivate();
-            }
+            var targetSelectionControl = Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection;
+            targetSelectionControl.FOnChange.Remove(OnTargetSelectionChange);
+            targetSelectionControl.Deactivate();
         }
 
         // Spells.PAS:1318
@@ -101290,7 +100906,7 @@ namespace Aow.Units.AoWE
                 bool bool__8166 = (FActionType == Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace);
                 if (bool__8166)
                 {
-                    var call__8167 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                    var call__8167 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                     bool__8166 = (call__8167 != Aow.Units.AoWE.TDiplomaticRelation.drPeace);
                 }
 
@@ -101301,7 +100917,7 @@ namespace Aow.Units.AoWE
                     bool bool__8169 = (FActionType == Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY);
                     if (bool__8169)
                     {
-                        var call__8170 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                        var call__8170 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                         bool__8169 = (call__8170 != Aow.Units.AoWE.TDiplomaticRelation.drAlliance);
                     }
 
@@ -101315,7 +100931,7 @@ namespace Aow.Units.AoWE
                     bool bool__8172 = (FActionType == Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY);
                     if (bool__8172)
                     {
-                        var call__8173 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                        var call__8173 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                         bool__8172 = (call__8173 != Aow.Units.AoWE.TDiplomaticRelation.drWar);
                     }
 
@@ -101329,7 +100945,7 @@ namespace Aow.Units.AoWE
                     bool bool__8175 = (FActionType == Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance);
                     if (bool__8175)
                     {
-                        var call__8176 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                        var call__8176 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                         bool__8175 = (call__8176 != Aow.Units.AoWE.TDiplomaticRelation.drAlliance);
                     }
 
@@ -101379,7 +100995,7 @@ namespace Aow.Units.AoWE
                     case >= Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace and <= Aow.Units.AoWE.TDiplomaticActionType.daMakeTribute:
                     case >= Aow.Units.AoWE.TDiplomaticActionType.daSendMessageAsY and <= Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
                         var call__8188 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
-                        Aow.Units.AoWE.AoWE.P5PlayerSeen(call__8188, unchecked((byte)FSource));
+                        call__8188.PlayerSeen(unchecked((sbyte)unchecked((byte)FSource)));
                         if (FSource == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
                         {
                             var call__8189 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5MessageSentRStr);
@@ -101418,7 +101034,7 @@ namespace Aow.Units.AoWE
                     }
 
                         Aow.Units.AoWE.AoWE.AoWHSMap.UnlockRelationsChanged();
-                        Aow.Units.AoWE.AoWE.P5SetDiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget), Aow.Units.AoWE.TDiplomaticRelation.drPeace);
+                        Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.SetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)), Aow.Units.AoWE.TDiplomaticRelation.drPeace);
                         if (FSource == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
                         {
                             var call__8200 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5AllianceBrokenRStr);
@@ -101456,8 +101072,8 @@ namespace Aow.Units.AoWE
 
                         Aow.Units.AoWE.AoWE.AoWHSMap.UnlockRelationsChanged();
                         var call__8210 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
-                        Aow.Units.AoWE.AoWE.P5PlayerSeen(call__8210, unchecked((byte)FSource));
-                        Aow.Units.AoWE.AoWE.P5SetDiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget), Aow.Units.AoWE.TDiplomaticRelation.drWar);
+                        call__8210.PlayerSeen(unchecked((sbyte)unchecked((byte)FSource)));
+                        Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.SetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)), Aow.Units.AoWE.TDiplomaticRelation.drWar);
                         if (FSource == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
                         {
                             var call__8211 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5WarDeclaredRStr);
@@ -101517,7 +101133,7 @@ namespace Aow.Units.AoWE
             switch (FActionType)
             {
                 case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
-                    Aow.Units.AoWE.AoWE.P5SetDiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget), Aow.Units.AoWE.TDiplomaticRelation.drPeace);
+                    Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.SetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)), Aow.Units.AoWE.TDiplomaticRelation.drPeace);
                     Log = CreateEventLog();
                     Aow.Units.AoWE.AoWE.BroadcastDiplomaticEvent(Log, unchecked((sbyte)-1));
                     if (FSource == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
@@ -101536,7 +101152,7 @@ namespace Aow.Units.AoWE
 
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance:
-                    Aow.Units.AoWE.AoWE.P5SetDiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget), Aow.Units.AoWE.TDiplomaticRelation.drAlliance);
+                    Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.SetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)), Aow.Units.AoWE.TDiplomaticRelation.drAlliance);
                     Log = CreateEventLog();
                     Aow.Units.AoWE.AoWE.BroadcastDiplomaticEvent(Log, unchecked((sbyte)-1));
                     if (FSource == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
@@ -101555,12 +101171,12 @@ namespace Aow.Units.AoWE
 
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
-                    var call__8229 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                    var call__8229 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                     if (call__8229 != Aow.Units.AoWE.TDiplomaticRelation.drWar)
                     {
                         var call__8230 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer);
-                        Aow.Units.AoWE.AoWE.P5PlayerSeen(call__8230, unchecked((byte)FTarget));
-                        Aow.Units.AoWE.AoWE.P5SetDiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer), Aow.Units.AoWE.TDiplomaticRelation.drWar);
+                        call__8230.PlayerSeen(unchecked((sbyte)unchecked((byte)FTarget)));
+                        Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.SetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)), Aow.Units.AoWE.TDiplomaticRelation.drWar);
                         var call__8231 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
                         var call__8232 = call__8231.CreateDiplomaticAction(Aow.Units.AoWE.TDiplomaticActionType.daDeclareWar, unchecked((sbyte)FOtherPlayer), unchecked((sbyte)-1));
                         Action = call__8232;
@@ -101604,10 +101220,10 @@ namespace Aow.Units.AoWE
 
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY:
-                    var call__8239 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                    var call__8239 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                     if (call__8239 == Aow.Units.AoWE.TDiplomaticRelation.drAlliance)
                     {
-                        Aow.Units.AoWE.AoWE.P5SetDiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer), Aow.Units.AoWE.TDiplomaticRelation.drPeace);
+                        Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.SetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)), Aow.Units.AoWE.TDiplomaticRelation.drPeace);
                         var call__8240 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
                         var call__8241 = call__8240.CreateDiplomaticAction(Aow.Units.AoWE.TDiplomaticActionType.daBreakAlliance, unchecked((sbyte)FOtherPlayer), unchecked((sbyte)-1));
                         Action = call__8241;
@@ -101648,7 +101264,7 @@ namespace Aow.Units.AoWE
             switch (FActionType)
             {
                 case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
-                    var call__8245 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                    var call__8245 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                     if (call__8245 != Aow.Units.AoWE.TDiplomaticRelation.drPeace)
                     {
                         FReaction = Aow.Units.AoWE.TDiplomaticActionReaction.darReject;
@@ -101660,7 +101276,7 @@ namespace Aow.Units.AoWE
 
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance:
-                    var call__8246 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                    var call__8246 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                     if (call__8246 != Aow.Units.AoWE.TDiplomaticRelation.drAlliance)
                     {
                         FReaction = Aow.Units.AoWE.TDiplomaticActionReaction.darReject;
@@ -101672,7 +101288,7 @@ namespace Aow.Units.AoWE
 
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
-                    var call__8247 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                    var call__8247 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                     if (call__8247 != Aow.Units.AoWE.TDiplomaticRelation.drWar)
                     {
                         FReaction = Aow.Units.AoWE.TDiplomaticActionReaction.darReject;
@@ -101684,7 +101300,7 @@ namespace Aow.Units.AoWE
 
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY:
-                    var call__8248 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                    var call__8248 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                     if (call__8248 == Aow.Units.AoWE.TDiplomaticRelation.drAlliance)
                     {
                         FReaction = Aow.Units.AoWE.TDiplomaticActionReaction.darReject;
@@ -101734,7 +101350,7 @@ namespace Aow.Units.AoWE
             Reaction = FReaction;
             if (Reaction == Aow.Units.AoWE.TDiplomaticActionReaction.darNone)
             {
-                var call__8256 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                var call__8256 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                 Relation = call__8256;
                 IdealPeace = Aow.Units.Engine.TByteList.Create();
                 IdealWar = Aow.Units.Engine.TByteList.Create();
@@ -101771,8 +101387,8 @@ namespace Aow.Units.AoWE
                             var call__8265 = call__8264.FAIControl.CanOfferPeace(unchecked((byte)FSource));
                             if (call__8265)
                             {
-                                var call__8266 = Aow.Units.AoWE.AoWE.P5RelationCount(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drPeace, Aow.Units.AoWE.TDiplomaticRelation.drAlliance));
-                                var call__8267 = Aow.Units.AoWE.AoWE.P5RelationCount(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drWar));
+                                var call__8266 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelationCount(unchecked((sbyte)unchecked((byte)FSource)), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drPeace, Aow.Units.AoWE.TDiplomaticRelation.drAlliance));
+                                var call__8267 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelationCount(unchecked((sbyte)unchecked((byte)FSource)), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drWar));
                                 if ((call__8266 + 1) < call__8267)
                                 {
                                     var call__8268 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
@@ -101843,7 +101459,7 @@ namespace Aow.Units.AoWE
 
                         break;
                     case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
-                        var call__8275 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                        var call__8275 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                         if (call__8275 == Aow.Units.AoWE.TDiplomaticRelation.drWar)
                         {
                             Accept(ref ErrorText);
@@ -101906,7 +101522,7 @@ namespace Aow.Units.AoWE
 
                         break;
                     case Aow.Units.AoWE.TDiplomaticActionType.daBreakAllianceWithY:
-                        var call__8283 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                        var call__8283 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                         if (call__8283 != Aow.Units.AoWE.TDiplomaticRelation.drAlliance)
                         {
                             Accept(ref ErrorText);
@@ -101935,7 +101551,7 @@ namespace Aow.Units.AoWE
                     switch (FActionType)
                     {
                         case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
-                            var call__8284 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                            var call__8284 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                             if (!TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drPeace, Aow.Units.AoWE.TDiplomaticRelation.drWar).Contains(call__8284))
                             {
                                 var call__8285 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSource);
@@ -102137,21 +101753,21 @@ namespace Aow.Units.AoWE
                     var call__8304 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer);
                     var call__8305 = call__8304.GetName();
                     var call__8306 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5SuggestAllianceBreakWithYRStr);
-                    var call__8307 = Aow.Units.AoWE.AoWE.P5Format(call__8306, [call__8305]);
+                    var call__8307 = Aow.Units.AoWE.AoWE.Format(call__8306, [call__8305]);
                     Result = call__8307;
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daDeclareWarToY:
                     var call__8308 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer);
                     var call__8309 = call__8308.GetName();
                     var call__8310 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5SuggestWarWithYRStr);
-                    var call__8311 = Aow.Units.AoWE.AoWE.P5Format(call__8310, [call__8309]);
+                    var call__8311 = Aow.Units.AoWE.AoWE.Format(call__8310, [call__8309]);
                     Result = call__8311;
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daSendMessageAsY:
                     var call__8312 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer);
                     var call__8313 = call__8312.GetName();
                     var call__8314 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5SendMessageAsXRStr);
-                    var call__8315 = Aow.Units.AoWE.AoWE.P5Format(call__8314, [call__8313]);
+                    var call__8315 = Aow.Units.AoWE.AoWE.Format(call__8314, [call__8313]);
                     Result = call__8315;
                     break;
                 default:
@@ -102174,7 +101790,7 @@ namespace Aow.Units.AoWE
                     bool bool__8316 = (Player == FSource);
                     if (bool__8316)
                     {
-                        var call__8317 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                        var call__8317 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                         bool__8316 = (call__8317 == Aow.Units.AoWE.TDiplomaticRelation.drAlliance);
                     }
 
@@ -102199,7 +101815,7 @@ namespace Aow.Units.AoWE
                     bool bool__8322 = (Player == FTarget);
                     if (bool__8322)
                     {
-                        var call__8323 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                        var call__8323 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                         bool__8322 = (call__8323 == Aow.Units.AoWE.TDiplomaticRelation.drAlliance);
                     }
 
@@ -102224,13 +101840,13 @@ namespace Aow.Units.AoWE
                     bool bool__8328 = (Player == FSource);
                     if (bool__8328)
                     {
-                        var call__8329 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                        var call__8329 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                         bool__8328 = (call__8329 != Aow.Units.AoWE.TDiplomaticRelation.drWar);
                     }
 
                     if (bool__8328)
                     {
-                        var call__8330 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                        var call__8330 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                         if (call__8330 == Aow.Units.AoWE.TDiplomaticRelation.drAlliance)
                         {
                             Modifier = -60;
@@ -102258,7 +101874,7 @@ namespace Aow.Units.AoWE
                         bool bool__8335 = (Player == FTarget);
                         if (bool__8335)
                         {
-                            var call__8336 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                            var call__8336 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                             bool__8335 = (call__8336 != Aow.Units.AoWE.TDiplomaticRelation.drWar);
                         }
 
@@ -102280,13 +101896,13 @@ namespace Aow.Units.AoWE
                     bool bool__8339 = (Player == FTarget);
                     if (bool__8339)
                     {
-                        var call__8340 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                        var call__8340 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                         bool__8339 = (call__8340 != Aow.Units.AoWE.TDiplomaticRelation.drWar);
                     }
 
                     if (bool__8339)
                     {
-                        var call__8341 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FTarget), unchecked((byte)FOtherPlayer));
+                        var call__8341 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FTarget)), unchecked((sbyte)unchecked((byte)FOtherPlayer)));
                         if (call__8341 == Aow.Units.AoWE.TDiplomaticRelation.drAlliance)
                         {
                             Modifier = -60;
@@ -102312,10 +101928,10 @@ namespace Aow.Units.AoWE
 
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daProposeAlliance:
-                    var call__8346 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                    var call__8346 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                     if (call__8346 != Aow.Units.AoWE.TDiplomaticRelation.drAlliance)
                     {
-                        var call__8347 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                        var call__8347 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                         if (call__8347 == Aow.Units.AoWE.TDiplomaticRelation.drWar)
                         {
                             Modifier = 30;
@@ -102362,7 +101978,7 @@ namespace Aow.Units.AoWE
 
                     break;
                 case Aow.Units.AoWE.TDiplomaticActionType.daOfferPeace:
-                    var call__8356 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)FSource), unchecked((byte)FTarget));
+                    var call__8356 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)FSource)), unchecked((sbyte)unchecked((byte)FTarget)));
                     if (call__8356 != Aow.Units.AoWE.TDiplomaticRelation.drPeace)
                     {
                         if (Player == FSource)
@@ -102716,7 +102332,7 @@ namespace Aow.Units.AoWE
                     {
                         var call__8372 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5AllianceProposalRStr);
                         var call__8373 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XRejectedRStr);
-                        var call__8374 = Aow.Units.AoWE.AoWE.P5Format(call__8373, [call__8372]);
+                        var call__8374 = Aow.Units.AoWE.AoWE.Format(call__8373, [call__8372]);
                         Result = call__8374;
                     }
                     else
@@ -102727,7 +102343,7 @@ namespace Aow.Units.AoWE
                             {
                                 var call__8375 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5AllianceProposalRStr);
                                 var call__8376 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XAcceptedRStr);
-                                var call__8377 = Aow.Units.AoWE.AoWE.P5Format(call__8376, [call__8375]);
+                                var call__8377 = Aow.Units.AoWE.AoWE.Format(call__8376, [call__8375]);
                                 Result = call__8377;
                             }
                             else
@@ -102741,7 +102357,7 @@ namespace Aow.Units.AoWE
                             {
                                 var call__8378 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5AllianceProposalRStr);
                                 var call__8379 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XIgnoredRStr);
-                                var call__8380 = Aow.Units.AoWE.AoWE.P5Format(call__8379, [call__8378]);
+                                var call__8380 = Aow.Units.AoWE.AoWE.Format(call__8379, [call__8378]);
                                 Result = call__8380;
                             }
                         }
@@ -102759,7 +102375,7 @@ namespace Aow.Units.AoWE
                         {
                             var call__8381 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5PeaceOfferRStr);
                             var call__8382 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XRejectedRStr);
-                            var call__8383 = Aow.Units.AoWE.AoWE.P5Format(call__8382, [call__8381]);
+                            var call__8383 = Aow.Units.AoWE.AoWE.Format(call__8382, [call__8381]);
                             Result = call__8383;
                         }
                         else
@@ -102770,7 +102386,7 @@ namespace Aow.Units.AoWE
                                 {
                                     var call__8384 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5PeaceOfferRStr);
                                     var call__8385 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XAcceptedRStr);
-                                    var call__8386 = Aow.Units.AoWE.AoWE.P5Format(call__8385, [call__8384]);
+                                    var call__8386 = Aow.Units.AoWE.AoWE.Format(call__8385, [call__8384]);
                                     Result = call__8386;
                                 }
                                 else
@@ -102784,7 +102400,7 @@ namespace Aow.Units.AoWE
                                 {
                                     var call__8387 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5PeaceOfferRStr);
                                     var call__8388 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XIgnoredRStr);
-                                    var call__8389 = Aow.Units.AoWE.AoWE.P5Format(call__8388, [call__8387]);
+                                    var call__8389 = Aow.Units.AoWE.AoWE.Format(call__8388, [call__8387]);
                                     Result = call__8389;
                                 }
                             }
@@ -102803,7 +102419,7 @@ namespace Aow.Units.AoWE
                         {
                             var call__8390 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5TributeRStr);
                             var call__8391 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XRejectedRStr);
-                            var call__8392 = Aow.Units.AoWE.AoWE.P5Format(call__8391, [call__8390]);
+                            var call__8392 = Aow.Units.AoWE.AoWE.Format(call__8391, [call__8390]);
                             Result = call__8392;
                         }
                         else
@@ -102812,7 +102428,7 @@ namespace Aow.Units.AoWE
                             {
                                 var call__8393 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5TributeRStr);
                                 var call__8394 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XAcceptedRStr);
-                                var call__8395 = Aow.Units.AoWE.AoWE.P5Format(call__8394, [call__8393]);
+                                var call__8395 = Aow.Units.AoWE.AoWE.Format(call__8394, [call__8393]);
                                 Result = call__8395;
                             }
                             else
@@ -102821,7 +102437,7 @@ namespace Aow.Units.AoWE
                                 {
                                     var call__8396 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5TributeRStr);
                                     var call__8397 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XIgnoredRStr);
-                                    var call__8398 = Aow.Units.AoWE.AoWE.P5Format(call__8397, [call__8396]);
+                                    var call__8398 = Aow.Units.AoWE.AoWE.Format(call__8397, [call__8396]);
                                     Result = call__8398;
                                 }
                             }
@@ -102840,7 +102456,7 @@ namespace Aow.Units.AoWE
                         {
                             var call__8399 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5DeclareWarRStr);
                             var call__8400 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XRejectedRStr);
-                            var call__8401 = Aow.Units.AoWE.AoWE.P5Format(call__8400, [call__8399]);
+                            var call__8401 = Aow.Units.AoWE.AoWE.Format(call__8400, [call__8399]);
                             Result = call__8401;
                         }
                         else
@@ -102849,7 +102465,7 @@ namespace Aow.Units.AoWE
                             {
                                 var call__8402 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5DeclareWarRStr);
                                 var call__8403 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XAcceptedRStr);
-                                var call__8404 = Aow.Units.AoWE.AoWE.P5Format(call__8403, [call__8402]);
+                                var call__8404 = Aow.Units.AoWE.AoWE.Format(call__8403, [call__8402]);
                                 Result = call__8404;
                             }
                             else
@@ -102858,7 +102474,7 @@ namespace Aow.Units.AoWE
                                 {
                                     var call__8405 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5DeclareWarRStr);
                                     var call__8406 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XIgnoredRStr);
-                                    var call__8407 = Aow.Units.AoWE.AoWE.P5Format(call__8406, [call__8405]);
+                                    var call__8407 = Aow.Units.AoWE.AoWE.Format(call__8406, [call__8405]);
                                     Result = call__8407;
                                 }
                             }
@@ -102877,7 +102493,7 @@ namespace Aow.Units.AoWE
                         {
                             var call__8408 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5BreakAllianceRStr);
                             var call__8409 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XRejectedRStr);
-                            var call__8410 = Aow.Units.AoWE.AoWE.P5Format(call__8409, [call__8408]);
+                            var call__8410 = Aow.Units.AoWE.AoWE.Format(call__8409, [call__8408]);
                             Result = call__8410;
                         }
                         else
@@ -102886,7 +102502,7 @@ namespace Aow.Units.AoWE
                             {
                                 var call__8411 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5BreakAllianceRStr);
                                 var call__8412 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XAcceptedRStr);
-                                var call__8413 = Aow.Units.AoWE.AoWE.P5Format(call__8412, [call__8411]);
+                                var call__8413 = Aow.Units.AoWE.AoWE.Format(call__8412, [call__8411]);
                                 Result = call__8413;
                             }
                             else
@@ -102895,7 +102511,7 @@ namespace Aow.Units.AoWE
                                 {
                                     var call__8414 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5BreakAllianceRStr);
                                     var call__8415 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P5XIgnoredRStr);
-                                    var call__8416 = Aow.Units.AoWE.AoWE.P5Format(call__8415, [call__8414]);
+                                    var call__8416 = Aow.Units.AoWE.AoWE.Format(call__8415, [call__8414]);
                                     Result = call__8416;
                                 }
                             }
@@ -103315,7 +102931,7 @@ namespace Aow.Units.AoWE
                             bool bool__8449 = (FNextPlayer < call__8448);
                             if (bool__8449)
                             {
-                                var call__8450 = Aow.Units.AoWE.AoWE.P5FirstDaySeen(FControl.FPlayer, unchecked((byte)unchecked((byte)FNextPlayer)));
+                                var call__8450 = FControl.FPlayer.GetFirstDaySeen(unchecked((sbyte)unchecked((byte)unchecked((byte)FNextPlayer))));
                                 bool__8449 = ((call__8450 == -1) || (FControl.FPlayer.FPlayerIndex == FNextPlayer));
                             }
 
@@ -103398,7 +103014,7 @@ namespace Aow.Units.AoWE
             Unknown = Aow.Units.Engine.TByteList.Create();
             FControl.ListPeaceWarUnknownPlayers(Peace, War, Unknown);
             FControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
-            var call__8457 = Aow.Units.AoWE.AoWE.P5DiplomaticRelation(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)unchecked((byte)Source)), unchecked((byte)Player));
+            var call__8457 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)unchecked((byte)unchecked((byte)Source))), unchecked((sbyte)unchecked((byte)Player)));
             switch (call__8457)
             {
                 case Aow.Units.AoWE.TDiplomaticRelation.drUnknown:
@@ -103513,9 +103129,9 @@ namespace Aow.Units.AoWE
                                     if ((Action == null) || ((Aow.Units.AoWE.AoWE.AoWHSMap.FDay - Action.FDay) > 12))
                                     {
                                         Score = -I;
-                                        var call__8479 = Aow.Units.AoWE.AoWE.P5RelationCount(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)unchecked((byte)Candidate)), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drPeace));
+                                        var call__8479 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelationCount(unchecked((sbyte)unchecked((byte)unchecked((byte)Candidate))), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drPeace));
                                         Score -= call__8479 * 5;
-                                        var call__8480 = Aow.Units.AoWE.AoWE.P5RelationCount(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)unchecked((byte)Candidate)), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drAlliance));
+                                        var call__8480 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelationCount(unchecked((sbyte)unchecked((byte)unchecked((byte)Candidate))), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drAlliance));
                                         Score -= call__8480 * 10;
                                         Candidates.AddAB(Candidate, Score);
                                     }
@@ -103542,9 +103158,9 @@ namespace Aow.Units.AoWE
                                         if ((Action == null) || ((Aow.Units.AoWE.AoWE.AoWHSMap.FDay - Action.FDay) > 12))
                                         {
                                             Score = J;
-                                            var call__8485 = Aow.Units.AoWE.AoWE.P5RelationCount(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)unchecked((byte)Candidate)), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drPeace));
+                                            var call__8485 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelationCount(unchecked((sbyte)unchecked((byte)unchecked((byte)Candidate))), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drPeace));
                                             Score -= call__8485 * 5;
-                                            var call__8486 = Aow.Units.AoWE.AoWE.P5RelationCount(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, unchecked((byte)unchecked((byte)Candidate)), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drAlliance));
+                                            var call__8486 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelationCount(unchecked((sbyte)unchecked((byte)unchecked((byte)Candidate))), TSet<Aow.Units.AoWE.TDiplomaticRelation>.Of(Aow.Units.AoWE.TDiplomaticRelation.drAlliance));
                                             Score -= call__8486 * 10;
                                             Candidates.AddAB(Candidate, Score);
                                         }
@@ -108107,14 +107723,7 @@ namespace Aow.Units.AoWE
 
     public partial class TUnitControlCallViewP4 : Aow.Units.AoWE.TUnitControl
     {
-        // Spells.PAS:521
-        // { These adapters retain byte coordinates while the P1 interface has Integer drafts. }
-        public Aow.Units.AoWE.TAbstractUnit FindUnitResult(int ID)
-        {
-            Aow.Units.AoWE.TAbstractUnit Result = default;
-            Result = base.FindUnit(ID);
-            return Result;
-        }
+
     }
 
     // { P1's unmarked $FC field is still Integer. This local view changes no layout. }
@@ -108150,13 +107759,7 @@ namespace Aow.Units.AoWE
 
     public partial class THeroCastingViewP4 : Aow.Units.AoWE.THero
     {
-        // Spells.PAS:210
-        public int SpellMana(Aow.Units.AoWE.TSpell Spell)
-        {
-            int Result = default;
-            Result = base.CastingMana(Spell);
-            return Result;
-        }
+
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 20)]
@@ -112589,7 +112192,7 @@ namespace Aow.Units.AoWE
             else
             {
                 var call__8936 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                var call__8937 = Aow.Units.AoWE.AoWE.P5PlayerLocal(call__8936);
+                var call__8937 = call__8936.GetLocal();
                 if (call__8937)
                 {
                     Log = Aow.Units.AoWE.TNegotiateRequestEventLog.Create(null);
@@ -112648,12 +112251,12 @@ namespace Aow.Units.AoWE
                         if (!bool__8945)
                         {
                             var call__8946 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                            var call__8947 = Aow.Units.AoWE.AoWE.P5FirstDaySeen(call__8946, unchecked((byte)Log.FAction.FSource));
+                            var call__8947 = call__8946.GetFirstDaySeen(unchecked((sbyte)unchecked((byte)Log.FAction.FSource)));
                             bool bool__8948 = (call__8947 != -1);
                             if (bool__8948)
                             {
                                 var call__8949 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                                var call__8950 = Aow.Units.AoWE.AoWE.P5FirstDaySeen(call__8949, unchecked((byte)Log.FAction.FTarget));
+                                var call__8950 = call__8949.GetFirstDaySeen(unchecked((sbyte)unchecked((byte)Log.FAction.FTarget)));
                                 bool__8948 = (call__8950 != -1);
                             }
 
@@ -113049,83 +112652,6 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        // Diplomacy.pas:185
-        // { needs: P2 TArmyID.RetrieveArmy(var Army: TArmyHS; var Selection: Byte):
-//   Boolean, proved by 5572C3DF..5572C3F1 and 5578B894..5578B930. }
-        // { needs: P1 TAoWMapField.GetPlayer: Shortint (5572C419..5572C421). }
-        // { needs: P1 CreateArmyMoveTE(Army: TArmyHS; Selection: Byte; Path: TMovepath;
-//   MoveType: Byte; Mode: TArmyMoveMode): TMoveArmyTE.
-//   5572C53A..5572C54A pushes MoveType before Mode; 5574A1B3 reads MoveType. }
-        public static Aow.Units.AoWE.TMoveArmyTE P5CreateArmyMoveTE(Aow.Units.AoWE.TArmyHS Army, byte Selection, Aow.Units.AoWE.TMovepath Path, byte MoveType, TSet<Aow.Units.AoWE.TArmyMoveModeElement> Mode)
-        {
-            Aow.Units.AoWE.TMoveArmyTE Result = default;
-            Result = Aow.Units.AoWE.AoWE.CreateArmyMoveTE(Army, unchecked((byte)Selection), Path, (Aow.Units.AoWE.TMoveAction)MoveType, Mode);
-            return Result;
-        }
-
-        // Diplomacy.pas:388
-        // { needs: EventLog.TEventLog.Execute returns Boolean; A2 is a Boolean in CL.
-//     Shared map's current-player byte is $A5 (5572C8FC..5572C90B). }
-        // { needs: P2 TArmy.CreateID(Selection: Byte): TArmyID (5572C98A..5572C995). }
-        // { needs: P1 TPlayer.GetLocal: Boolean (5572CA17..5572CA23). }
-        public static bool P5PlayerLocal(Aow.Units.AoWE.TPlayer Player)
-        {
-            bool Result = default;
-            Result = Player.GetLocal();
-            return Result;
-        }
-
-        // Diplomacy.pas:452
-        public static int P5FirstDaySeen(Aow.Units.AoWE.TPlayer Player, byte Other)
-        {
-            int Result = default;
-            Result = Player.GetFirstDaySeen(unchecked((sbyte)Other));
-            return Result;
-        }
-
-        // Diplomacy.pas:499
-        public static Aow.Rtl.AnsiString P5Format(Aow.Rtl.AnsiString S, params TVarRec[] Args)
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.Format(S, Args);
-            return Result;
-        }
-
-        // Diplomacy.pas:522
-        public static Aow.Units.AoWE.TDiplomaticRelation P5DiplomaticRelation(Aow.Units.AoWE.TPlayerList Players, byte Source, byte Target)
-        {
-            Aow.Units.AoWE.TDiplomaticRelation Result = default;
-            Result = Players.GetDiplomaticRelation(unchecked((sbyte)Source), unchecked((sbyte)Target));
-            return Result;
-        }
-
-        // Diplomacy.pas:716
-        public static int P5RelationCount(Aow.Units.AoWE.TPlayerList Players, byte Player, TSet<Aow.Units.AoWE.TDiplomaticRelation> Relations)
-        {
-            int Result = default;
-            Result = Players.GetDiplomaticRelationCount(unchecked((sbyte)Player), Relations);
-            return Result;
-        }
-
-        // Diplomacy.pas:809
-        // { needs: remaining P1 draft return types/parameters; typed tail adapters retain the register ABI. }
-        public static void P5PlayerSeen(Aow.Units.AoWE.TPlayer Player, byte Other)
-        {
-            Player.PlayerSeen(unchecked((sbyte)Other));
-        }
-
-        // Diplomacy.pas:814
-        public static void P5DefaultDiplomaticMessage(byte Source, byte Target, byte Other, Aow.Units.AoWE.TDiplomaticActionType Action, Aow.Units.AoWE.TDiplomaticActionReaction Reaction, Aow.Rtl.TStrings Text)
-        {
-            Aow.Units.AoWE.AoWE.RetrieveDefaultDiplomaticActionMessage(unchecked((sbyte)Source), unchecked((sbyte)Target), unchecked((sbyte)Other), Action, Reaction, Text);
-        }
-
-        // Diplomacy.pas:820
-        public static void P5SetDiplomaticRelation(Aow.Units.AoWE.TPlayerList Players, byte Source, byte Target, Aow.Units.AoWE.TDiplomaticRelation Relation)
-        {
-            Players.SetDiplomaticRelation(unchecked((sbyte)Source), unchecked((sbyte)Target), Relation);
-        }
-
         // Diplomacy.pas:2060
         public static int CompareCampaignTransfer(in Aow.Units.Engine.TQuadInteger Item1, in Aow.Units.Engine.TQuadInteger Item2)
         {
@@ -113423,18 +112949,16 @@ namespace Aow.Units.AoWE
             int Result = default;
             int Level1 = default;
             int Level2 = default;
+            var unitProduction = (Aow.Units.AoWE.TUnitProduction)Item1;
+            var call__8988 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
+            if (call__8988 != null)
             {
-                var w__8987 = (Aow.Units.AoWE.TUnitProduction)Item1;
-                var call__8988 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__8987.FUnitIndex);
-                if (call__8988 != null)
-                {
-                    var call__8989 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(w__8987.FUnitIndex);
-                    Level1 = call__8989.FLevel * 2;
-                }
-                else
-                {
-                    Level1 = 0;
-                }
+                var call__8989 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
+                Level1 = call__8989.FLevel * 2;
+            }
+            else
+            {
+                Level1 = 0;
             }
 
             var call__8990 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(((Aow.Units.AoWE.TUnitProduction)Item2).FUnitIndex);
@@ -113598,38 +113122,6 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        // Spells.PAS:360
-        public static Aow.Units.AoWE.TPlayer P4GetPlayer(Aow.Units.AoWE.TPlayerList Players, int PlayerIndex)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = Players.GetPlayers(PlayerIndex);
-            return Result;
-        }
-
-        // Spells.PAS:365
-        public static bool P4RequestBudget(Aow.Units.AoWE.TAIBudgetManager Manager, int A1, int A2, int A3, int A4, int A5, int A6)
-        {
-            bool Result = default;
-            Result = Manager.RequestBudgetExpenseEx(A1, A2, A3, A4, Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAIBudget>(A5), ((byte)A6) != 0);
-            return Result;
-        }
-
-        // Spells.PAS:390
-        public static bool P4BudgetMade(Aow.Units.AoWE.TAIBudgetManager Manager, int A1, int A2, int A3, int A4, int A5, int A6)
-        {
-            bool Result = default;
-            Result = Manager.BudgetExpenseMadeEx(A1, A2, A3, A4, Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TAIBudget>(A5), (Aow.Units.AoWE.TBudgetExpenseMode)A6);
-            return Result;
-        }
-
-        // Spells.PAS:669
-        public static int P4MapRandom(Aow.Units.AoWE.TAoWHSMap Map, int Range)
-        {
-            int Result = default;
-            Result = Map.Random(Range);
-            return Result;
-        }
-
         // Spells.PAS:728
         public static int P4CompareSpellNames(object Item1, object Item2)
         {
@@ -113664,432 +113156,41 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        // Spells.PAS:1830
-        public static void P4TranslateInto(Aow.Rtl.AnsiString S, ref Aow.Rtl.AnsiString Dest)
-        {
-            Dest = Aow.Units.AoWE.AoWE.TranslateRStr(S);
-        }
-
-        // Unit.PAS:104
-        // { needs: TAoWHSMap.UnitDestroyed(AUnit: TAbstractUnit); forward both registers
-//   to the existing draft method until P1 corrects its declaration. }
-        public static void P2NotifyUnitDestroyed(Aow.Units.AoWE.TAoWHSMap Map, Aow.Units.AoWE.TAbstractUnit AUnit)
-        {
-            Map.UnitDestroyed(AUnit);
-        }
-
-        // Unit.PAS:144
-        // { needs: P1 StatisticsToDV(Attack, Damage: Integer; DamageTypes: TDamageTypes;
-//   Defense, Resistance: Integer; ImmunityTypes, ProtectionTypes: TDamageTypes): Integer.
-//   The call at 5577EC46 passes CX as a set, four stack arguments, and returns EAX. }
-        public static int P2StatisticsToDV(int Attack, int Damage, TSet<Aow.Units.AoWE.TDamageType> DamageTypes, int Defense, int Resistance, TSet<Aow.Units.AoWE.TDamageType> ImmunityTypes, TSet<Aow.Units.AoWE.TDamageType> ProtectionTypes)
-        {
-            int Result = default;
-            Result = Aow.Units.AoWE.AoWE.StatisticsToDV(Attack, Damage, DamageTypes, Defense, Resistance, ImmunityTypes, ProtectionTypes);
-            return Result;
-        }
-
-        // Unit.PAS:207
-        // { needs: P1 result/argument declarations used by GetRelationValue,
-//   evidenced by 5577EE1A..5577EE64 and 5577EEA1..5577EEAE.
-//   These tail calls preserve the original register ABI while the drafts are assembled. }
-        public static Aow.Units.AoWE.TRace P2GetRace(Aow.Units.AoWE.TRaceList List, int Index)
-        {
-            Aow.Units.AoWE.TRace Result = default;
-            Result = List.GetRace(Index);
-            return Result;
-        }
-
-        // Unit.PAS:211
-        public static int P2GetPlayerRelationValue(Aow.Units.AoWE.TRace Race, sbyte Player)
-        {
-            int Result = default;
-            Result = Race.GetPlayerRelationValue(unchecked((sbyte)Player));
-            return Result;
-        }
-
-        // Unit.PAS:215
-        public static Aow.Units.AoWE.TPlayer P2GetPlayers(Aow.Units.AoWE.TPlayerList List, int Index)
-        {
-            Aow.Units.AoWE.TPlayer Result = default;
-            Result = List.GetPlayers(Index);
-            return Result;
-        }
-
-        // Unit.PAS:219
-        public static Aow.Units.AoWE.TRaceResource P2GetRaceResource(Aow.Units.AoWE.TRaceResourceList List, int Index)
-        {
-            Aow.Units.AoWE.TRaceResource Result = default;
-            Result = List.GetRaceResource(Index);
-            return Result;
-        }
-
-        // Unit.PAS:223
-        public static Aow.Units.AoWE.TAlignment P2GetRaceAlignment(Aow.Units.AoWE.TRaceResource Race)
-        {
-            Aow.Units.AoWE.TAlignment Result = default;
-            Result = Race.GetAlignment();
-            return Result;
-        }
-
-        // Unit.PAS:227
-        public static Aow.Units.AoWE.TAlignment P2IRtoAlignment(sbyte Relation)
-        {
-            Aow.Units.AoWE.TAlignment Result = default;
-            Result = Aow.Units.AoWE.AoWE.IRtoAlignment(unchecked((sbyte)Relation));
-            return Result;
-        }
-
-        // Unit.PAS:252
-        // { needs: P1 StatusValueToStatus(Value: Integer): TStatus; 5577EECE returns AL. }
-        public static Aow.Units.AoWE.TStatus P2StatusValueToStatus(int Value)
-        {
-            Aow.Units.AoWE.TStatus Result = default;
-            Result = Aow.Units.AoWE.AoWE.StatusValueToStatus(Value);
-            return Result;
-        }
-
-        // Unit.PAS:295
-        // { needs: draft P1 TRace.GetRelation(Race: Shortint): TStatus,
-//   call 5577F02E takes DL and returns AL. }
-        public static Aow.Units.AoWE.TStatus P2RaceRelation(Aow.Units.AoWE.TRace Race, sbyte OtherRace)
-        {
-            Aow.Units.AoWE.TStatus Result = default;
-            Result = Race.GetRelation(unchecked((sbyte)OtherRace));
-            return Result;
-        }
-
-        // Unit.PAS:299
-        // { needs: draft P1 dAlignmentToStatus(A, B: TAlignment): TStatus;
-//   call 5577F04B uses AL/DL and returns AL. }
-        public static Aow.Units.AoWE.TStatus P2AlignmentRelation(Aow.Units.AoWE.TAlignment A, Aow.Units.AoWE.TAlignment B)
-        {
-            Aow.Units.AoWE.TStatus Result = default;
-            Result = Aow.Units.AoWE.AoWE.dAlignmentToStatus(A, B);
-            return Result;
-        }
-
-        // Unit.PAS:340
-        // { needs: draft P1 MoraleValueToMorale(Value: Integer): TMorale;
-//   5577F178 sign extends the morale byte into EAX before the call. }
-        public static Aow.Units.AoWE.TMorale P2MoraleValueToMorale(int Value)
-        {
-            Aow.Units.AoWE.TMorale Result = default;
-            Result = Aow.Units.AoWE.AoWE.MoraleValueToMorale(Value);
-            return Result;
-        }
-
-        // Unit.PAS:356
-        // { needs: draft P1 TAbilityTypeList.GetAbility(Index: Integer): TAbility;
-//   5577F1AB returns a pointer whose +0C ability ID is read at 5577F1B0. }
-        public static Aow.Units.AoWE.TAbility P2TypeAbility(Aow.Units.AoWE.TAbilityTypeList List, int Index)
-        {
-            Aow.Units.AoWE.TAbility Result = default;
-            Result = List.GetAbility(Index);
-            return Result;
-        }
-
-        // Unit.PAS:401
-        // { needs: draft P1 TAbilityOwner.GetAbilityData(ID: Integer): TAbilityData;
-//   calls 5577F2EB/5577F3F1 return a pointer with enchantment at +10. }
-        public static Aow.Units.AoWE.TAbilityData P2AbilityData(Aow.Units.AoWE.TAbilityOwner AOwner, int ID)
-        {
-            Aow.Units.AoWE.TAbilityData Result = default;
-            Result = AOwner.GetAbilityData(ID);
-            return Result;
-        }
-
-        // Unit.PAS:447
-        // { needs: draft P1 TAbilityControl.GetAbility(ID: Integer): TAbility;
-//   5577F3C3 returns the class-tested pointer. }
-        public static Aow.Units.AoWE.TAbility P2ControlAbility(Aow.Units.AoWE.TAbilityControl Control, int ID)
-        {
-            Aow.Units.AoWE.TAbility Result = default;
-            Result = Control.GetAbility(ID);
-            return Result;
-        }
-
-        // Unit.PAS:511
-        public static sbyte P2AlignmentToIR(Aow.Units.AoWE.TAlignment Alignment)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Aow.Units.AoWE.AoWE.AlignmentToIR(Alignment));
-            return Result;
-        }
-
-        // Unit.PAS:588
-        public static void P2TranslateRStr(Aow.Rtl.AnsiString Text, ref Aow.Rtl.AnsiString Dest)
-        {
-            Dest = Aow.Units.AoWE.AoWE.TranslateRStr(Text);
-        }
-
-        // Unit.PAS:625
-        public static Aow.Units.AoWE.TP2AbilityCalls P2VMTAbility(Aow.Units.AoWE.TAbilityTypeList List, int Index)
-        {
-            Aow.Units.AoWE.TP2AbilityCalls Result = default;
-            Result = (Aow.Units.AoWE.TP2AbilityCalls)((System.Object)List.GetAbility(Index));
-            return Result;
-        }
-
-        // Unit.PAS:759
-        // { needs: draft P5 TAIGroupList.FindID(ID: Integer): TAIGroup;
-//   5577FBD9..5577FBE6 passes saved group ID in EDX and uses returned object. }
-        public static Aow.Units.AoWE.TAIGroup P2FindGroup(Aow.Units.AoWE.TAIGroupList List, int ID)
-        {
-            Aow.Units.AoWE.TAIGroup Result = default;
-            Result = List.FindID(ID);
-            return Result;
-        }
-
-        // Unit.PAS:850
-        public static TSet<Aow.Units.AoWE.TDamageType> P2AbImmunity(Aow.Units.AoWE.TAbilityOwner AOwner)
-        {
-            TSet<Aow.Units.AoWE.TDamageType> Result = default;
-            Result = AOwner.GetAbImmunityTypesAll();
-            return Result;
-        }
-
-        // Unit.PAS:856
-        public static TSet<Aow.Units.AoWE.TDamageType> P2AbProtection(Aow.Units.AoWE.TAbilityOwner AOwner)
-        {
-            TSet<Aow.Units.AoWE.TDamageType> Result = default;
-            Result = AOwner.GetAbProtectionTypesAll();
-            return Result;
-        }
-
-        // Unit.PAS:920
-        public static int P2MoveTypesToInt(TSet<Aow.Units.AoWE.TMoveType> MoveTypes)
-        {
-            int Result = default;
-            Result = Aow.Units.AoWE.AoWE.MoveTypesToInt(MoveTypes);
-            return Result;
-        }
-
-        // Unit.PAS:1005
-        // { needs: draft P1 return types; call sites 5578011B/5578012A/55780149. }
-        public static Aow.Units.AoWE.TDiplomaticRelation P2DiplomaticRelation(Aow.Units.AoWE.TPlayerDiplomaticRelations Relations, int Player)
-        {
-            Aow.Units.AoWE.TDiplomaticRelation Result = default;
-            Result = Relations.GetDiplomaticRelation(unchecked((sbyte)Player));
-            return Result;
-        }
-
-        // Unit.PAS:1007
-        public static bool P2Explored(Aow.Units.AoWE.TAoWMapField MapField, int Player)
-        {
-            bool Result = default;
-            Result = MapField.GetExplored(Player);
-            return Result;
-        }
-
-        // Unit.PAS:1009
-        public static bool P2VisibleForPlayer(Aow.Units.AoWE.TAoWHSMap Map, int X, int Y, int L, int Player)
-        {
-            bool Result = default;
-            Result = Map.VisibleForPlayer(X, Y, L, unchecked((sbyte)Player));
-            return Result;
-        }
-
-        // Unit.PAS:1132
-        public static bool P2ConcealmentActive(Aow.Units.AoWE.TAoWMapField Field)
-        {
-            bool Result = default;
-            Result = Field.GetConcealmentActive();
-            return Result;
-        }
-
-        // Unit.PAS:1244
-        public static Aow.Units.AoWE.TSpell P2Spell(Aow.Units.AoWE.TSpellControl Control, int ID)
-        {
-            Aow.Units.AoWE.TSpell Result = default;
-            Result = Control.GetSpell(ID);
-            return Result;
-        }
-
-        // Unit.PAS:1303
-        public static bool P2HitRole(int Value)
-        {
-            bool Result = default;
-            Result = Aow.Units.AoWE.AoWE.HitRole(Value);
-            return Result;
-        }
-
-        // Unit.PAS:1409
-        public static void P2UnitChanged(Aow.Units.AoWE.TAoWHSMap Map, Aow.Units.AoWE.TAbstractUnit AUnit)
-        {
-            Map.UnitChanged(AUnit);
-        }
-
-        // Unit.PAS:1426
-        public static sbyte P2FieldPlayer(Aow.Units.AoWE.TAoWMapField Field)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Field.GetPlayer());
-            return Result;
-        }
-
-        // Unit.PAS:1515
-        public static byte P2HitPercent(sbyte HitPoints, sbyte Hits)
-        {
-            byte Result = default;
-            Result = unchecked((byte)Aow.Units.AoWE.AoWE.HitPointsToHitPcnt(unchecked((sbyte)HitPoints), unchecked((sbyte)Hits)));
-            return Result;
-        }
-
-        // Unit.PAS:1517
-        public static void P2ShowHitPercent(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD, byte Percent)
-        {
-            Aow.Units.AoWE.AoWE.ShowHitPcnt(X, Y, SD, Percent);
-        }
-
-        // Unit.PAS:1621
-        public static int P2DamageRole(int Damage, int DC)
-        {
-            int Result = default;
-            Result = Aow.Units.AoWE.AoWE.ExecuteDamageRole(Damage, DC);
-            return Result;
-        }
-
-        // Unit.PAS:1786
-        // { needs: P1 draft TRace.GetPlayerRelation(Player: Shortint): TStatus,
-//   DL argument and AL comparison at 55782276. }
-        public static Aow.Units.AoWE.TStatus P2RacePlayerRelation(Aow.Units.AoWE.TRace Race, sbyte Player)
-        {
-            Aow.Units.AoWE.TStatus Result = default;
-            Result = Race.GetPlayerRelation(unchecked((sbyte)Player));
-            return Result;
-        }
-
-        // Unit.PAS:1790
-        // { needs: P1 draft dAlignmentToDiplomaticRelation(A, B: TAlignment):
-//   TDiplomaticRelation, AL/DL at 5578222D. }
-        public static Aow.Units.AoWE.TDiplomaticRelation P2AlignmentDiplomaticRelation(Aow.Units.AoWE.TAlignment A, Aow.Units.AoWE.TAlignment B)
-        {
-            Aow.Units.AoWE.TDiplomaticRelation Result = default;
-            Result = Aow.Units.AoWE.AoWE.dAlignmentToDiplomaticRelation(A, B);
-            return Result;
-        }
-
-        // Unit.PAS:1794
-        // { needs: P5 draft THuntAG.HuntingPlayer(Player: Shortint): Boolean,
-//   DL argument and AL test at 5578230B. }
-        public static bool P2HuntingPlayer(Aow.Units.AoWE.THuntAG Group, sbyte Player)
-        {
-            bool Result = default;
-            Result = Group.HuntingPlayer(unchecked((sbyte)Player));
-            return Result;
-        }
-
-        // Unit.PAS:1866
-        public static Aow.Rtl.AnsiString P2Translate(Aow.Rtl.AnsiString Text)
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Text);
-            return Result;
-        }
-
-        // Unit.PAS:1870
-        // { needs: P1 draft Format(const Text: string; const Args: array of const):
-//   string, open-array call and hidden result at 55782521. }
-        public static Aow.Rtl.AnsiString P2Format(Aow.Rtl.AnsiString Text, params TVarRec[] Args)
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.Format(Text, Args);
-            return Result;
-        }
-
-        // Unit.PAS:1897
-        // { needs: P1 draft TPlayer.GetBusy: Boolean, AL test at 5578263D. }
-        public static bool P2PlayerBusy(Aow.Units.AoWE.TPlayer Player)
-        {
-            bool Result = default;
-            Result = Player.GetBusy();
-            return Result;
-        }
-
-        // Unit.PAS:1970
-        // { needs: P1 draft TFaceResourceList.GetFaceResource(Index: Integer):
-//   TFaceResource, pointer test at 5578288D. }
-        public static Aow.Units.AoWE.TFaceResource P2FaceResource(Aow.Units.AoWE.TFaceResourceList List, int Index)
-        {
-            Aow.Units.AoWE.TFaceResource Result = default;
-            Result = List.GetFaceResource(Index);
-            return Result;
-        }
-
-        // Unit.PAS:2059
-        // { needs: P1 draft ability totals return Shortint, read into AL at
-//   55782B3E, 55782B48, 55782B52 and 55782B5C. }
-        public static sbyte P2AbAttack(Aow.Units.AoWE.TAbilityOwner Owner)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Owner.GetAbAttackAll());
-            return Result;
-        }
-
-        // Unit.PAS:2061
-        public static sbyte P2AbDefense(Aow.Units.AoWE.TAbilityOwner Owner)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Owner.GetAbDefenseAll());
-            return Result;
-        }
-
-        // Unit.PAS:2063
-        public static sbyte P2AbResistance(Aow.Units.AoWE.TAbilityOwner Owner)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Owner.GetAbResistanceAll());
-            return Result;
-        }
-
-        // Unit.PAS:2065
-        public static sbyte P2AbDamage(Aow.Units.AoWE.TAbilityOwner Owner)
-        {
-            sbyte Result = default;
-            Result = unchecked((sbyte)Owner.GetAbDamageAll());
-            return Result;
-        }
-
         // Unit.PAS:2301
         public static int P2CompareUnits(object Item1, object Item2)
         {
             int Result = default;
             int S1 = default;
             int S2 = default;
+            var unit = (Aow.Units.AoWE.TAbstractUnit)Item1;
+            S1 = unit.GetUnitLevel();
+            if (unit.GetTransporter())
             {
-                var w__9011 = (Aow.Units.AoWE.TAbstractUnit)Item1;
-                S1 = w__9011.GetUnitLevel();
-                if (w__9011.GetTransporter())
-                {
-                    S1 += 500;
-                }
+                S1 += 500;
+            }
 
-                if ((Aow.Units.AoWE.TAbstractUnit)Item1 is Aow.Units.AoWE.THero)
+            if ((Aow.Units.AoWE.TAbstractUnit)Item1 is Aow.Units.AoWE.THero)
+            {
+                S1 += 50;
+                if ((Aow.Units.AoWE.TAbstractUnit)Item1 is Aow.Units.AoWE.TLeader)
                 {
-                    S1 += 50;
-                    if ((Aow.Units.AoWE.TAbstractUnit)Item1 is Aow.Units.AoWE.TLeader)
-                    {
-                        S1 += 100;
-                    }
+                    S1 += 100;
                 }
             }
 
+            var unit2 = (Aow.Units.AoWE.TAbstractUnit)Item2;
+            S2 = unit2.GetUnitLevel();
+            if (unit2.GetTransporter())
             {
-                var w__9012 = (Aow.Units.AoWE.TAbstractUnit)Item2;
-                S2 = w__9012.GetUnitLevel();
-                if (w__9012.GetTransporter())
-                {
-                    S2 += 500;
-                }
+                S2 += 500;
+            }
 
-                if ((Aow.Units.AoWE.TAbstractUnit)Item2 is Aow.Units.AoWE.THero)
+            if ((Aow.Units.AoWE.TAbstractUnit)Item2 is Aow.Units.AoWE.THero)
+            {
+                S2 += 50;
+                if ((Aow.Units.AoWE.TAbstractUnit)Item2 is Aow.Units.AoWE.TLeader)
                 {
-                    S2 += 50;
-                    if ((Aow.Units.AoWE.TAbstractUnit)Item2 is Aow.Units.AoWE.TLeader)
-                    {
-                        S2 += 100;
-                    }
+                    S2 += 100;
                 }
             }
 
@@ -114144,55 +113245,49 @@ namespace Aow.Units.AoWE
         // UnitRes.PAS:140
         public static void UnregisterEnhancementAbilities(Aow.Units.AoWE.TAbilityControl Control)
         {
-            {
-                var w__9017 = Control;
-                w__9017.UnregisterAbilityID(120);
-                w__9017.UnregisterAbilityID(121);
-                w__9017.UnregisterAbilityID(122);
-                w__9017.UnregisterAbilityID(123);
-                w__9017.UnregisterAbilityID(124);
-                w__9017.UnregisterAbilityID(86);
-                w__9017.UnregisterAbilityID(87);
-                w__9017.UnregisterAbilityID(88);
-                w__9017.UnregisterAbilityID(89);
-                w__9017.UnregisterAbilityID(90);
-                w__9017.UnregisterAbilityID(24);
-                w__9017.UnregisterAbilityID(25);
-                w__9017.UnregisterAbilityID(30);
-                w__9017.UnregisterAbilityID(31);
-                w__9017.UnregisterAbilityID(44);
-                w__9017.UnregisterAbilityID(45);
-                w__9017.UnregisterAbilityID(55);
-                w__9017.UnregisterAbilityID(57);
-                w__9017.UnregisterAbilityID(58);
-                w__9017.UnregisterAbilityID(61);
-                // { $5576F82C }
-                w__9017.UnregisterAbilityID(62);
-            }
+            Control.UnregisterAbilityID(120);
+            Control.UnregisterAbilityID(121);
+            Control.UnregisterAbilityID(122);
+            Control.UnregisterAbilityID(123);
+            Control.UnregisterAbilityID(124);
+            Control.UnregisterAbilityID(86);
+            Control.UnregisterAbilityID(87);
+            Control.UnregisterAbilityID(88);
+            Control.UnregisterAbilityID(89);
+            Control.UnregisterAbilityID(90);
+            Control.UnregisterAbilityID(24);
+            Control.UnregisterAbilityID(25);
+            Control.UnregisterAbilityID(30);
+            Control.UnregisterAbilityID(31);
+            Control.UnregisterAbilityID(44);
+            Control.UnregisterAbilityID(45);
+            Control.UnregisterAbilityID(55);
+            Control.UnregisterAbilityID(57);
+            Control.UnregisterAbilityID(58);
+            Control.UnregisterAbilityID(61);
+            // { $5576F82C }
+            Control.UnregisterAbilityID(62);
         }
 
         // UnitRes.PAS:155
         public static void UnregisterTouchAbilities(Aow.Units.AoWE.TAbilityControl Control)
         {
-            {
-                var w__9018 = Control;
-                w__9018.UnregisterAbilityID(21);
-                w__9018.UnregisterAbilityID(118);
-                w__9018.UnregisterAbilityID(111);
-                w__9018.UnregisterAbilityID(112);
-                w__9018.UnregisterAbilityID(113);
-                w__9018.UnregisterAbilityID(115);
-                w__9018.UnregisterAbilityID(116);
-                w__9018.UnregisterAbilityID(119);
-                w__9018.UnregisterAbilityID(14);
-                w__9018.UnregisterAbilityID(15);
-                w__9018.UnregisterAbilityID(16);
-                w__9018.UnregisterAbilityID(17);
-                w__9018.UnregisterAbilityID(18);
-                w__9018.UnregisterAbilityID(19);
-                // { $55767600 }
-                w__9018.UnregisterAbilityID(20);
-            }
+            Control.UnregisterAbilityID(21);
+            Control.UnregisterAbilityID(118);
+            Control.UnregisterAbilityID(111);
+            Control.UnregisterAbilityID(112);
+            Control.UnregisterAbilityID(113);
+            Control.UnregisterAbilityID(115);
+            Control.UnregisterAbilityID(116);
+            Control.UnregisterAbilityID(119);
+            Control.UnregisterAbilityID(14);
+            Control.UnregisterAbilityID(15);
+            Control.UnregisterAbilityID(16);
+            Control.UnregisterAbilityID(17);
+            Control.UnregisterAbilityID(18);
+            Control.UnregisterAbilityID(19);
+            // { $55767600 }
+            Control.UnregisterAbilityID(20);
         }
 
         // UnitRes.PAS:187
@@ -114210,46 +113305,43 @@ namespace Aow.Units.AoWE
         // UnitRes.PAS:204
         public static void UnregisterCoreAbilities(Aow.Units.AoWE.TAbilityControl Control)
         {
-            {
-                var w__9019 = Control;
-                Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCosmeticSurgeryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TLeadershipAbilityData>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDurationAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TMultiLevelAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TRangedAttackCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSelfDestructCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TStrikeCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityCA>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityTE>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandedAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityData>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPossessCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TWebCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TEntangleCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TInvokeDeathCA>()]);
-                w__9019.UnregisterAbilityID(86);
-                w__9019.UnregisterAbilityID(87);
-                w__9019.UnregisterAbilityID(88);
-                w__9019.UnregisterAbilityID(89);
-                w__9019.UnregisterAbilityID(90);
-                w__9019.UnregisterAbilityID(114);
-                w__9019.UnregisterAbilityID(40);
-                w__9019.UnregisterAbilityID(27);
-                w__9019.UnregisterAbilityID(65);
-                w__9019.UnregisterAbilityID(148);
-                w__9019.UnregisterAbilityID(149);
-                w__9019.UnregisterAbilityID(28);
-                w__9019.UnregisterAbilityID(150);
-                w__9019.UnregisterAbilityID(29);
-                w__9019.UnregisterAbilityID(48);
-                w__9019.UnregisterAbilityID(22);
-                w__9019.UnregisterAbilityID(47);
-                w__9019.UnregisterAbilityID(46);
-                w__9019.UnregisterAbilityID(52);
-                w__9019.UnregisterAbilityID(38);
-                w__9019.UnregisterAbilityID(35);
-                w__9019.UnregisterAbilityID(146);
-                w__9019.UnregisterAbilityID(147);
-                w__9019.UnregisterAbilityID(125);
-                w__9019.UnregisterAbilityID(60);
-                w__9019.UnregisterAbilityID(117);
-                w__9019.UnregisterAbilityID(50);
-                w__9019.UnregisterAbilityID(106);
-                w__9019.UnregisterAbilityID(107);
-                Aow.Units.AoWE.AoWE.UnregisterEnhancementAbilities(Control);
-                // { $557717A4 }
-                Aow.Units.AoWE.AoWE.UnregisterTouchAbilities(Control);
-            }
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCosmeticSurgeryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TLeadershipAbilityData>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDurationAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TMultiLevelAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TRangedAttackCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSelfDestructCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TStrikeCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityCA>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityTE>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandedAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityData>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPossessCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TWebCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TEntangleCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TInvokeDeathCA>()]);
+            Control.UnregisterAbilityID(86);
+            Control.UnregisterAbilityID(87);
+            Control.UnregisterAbilityID(88);
+            Control.UnregisterAbilityID(89);
+            Control.UnregisterAbilityID(90);
+            Control.UnregisterAbilityID(114);
+            Control.UnregisterAbilityID(40);
+            Control.UnregisterAbilityID(27);
+            Control.UnregisterAbilityID(65);
+            Control.UnregisterAbilityID(148);
+            Control.UnregisterAbilityID(149);
+            Control.UnregisterAbilityID(28);
+            Control.UnregisterAbilityID(150);
+            Control.UnregisterAbilityID(29);
+            Control.UnregisterAbilityID(48);
+            Control.UnregisterAbilityID(22);
+            Control.UnregisterAbilityID(47);
+            Control.UnregisterAbilityID(46);
+            Control.UnregisterAbilityID(52);
+            Control.UnregisterAbilityID(38);
+            Control.UnregisterAbilityID(35);
+            Control.UnregisterAbilityID(146);
+            Control.UnregisterAbilityID(147);
+            Control.UnregisterAbilityID(125);
+            Control.UnregisterAbilityID(60);
+            Control.UnregisterAbilityID(117);
+            Control.UnregisterAbilityID(50);
+            Control.UnregisterAbilityID(106);
+            Control.UnregisterAbilityID(107);
+            Aow.Units.AoWE.AoWE.UnregisterEnhancementAbilities(Control);
+            // { $557717A4 }
+            Aow.Units.AoWE.AoWE.UnregisterTouchAbilities(Control);
         }
 
         // UnitRes.PAS:254

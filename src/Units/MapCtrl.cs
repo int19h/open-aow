@@ -152,7 +152,7 @@ namespace Aow.Units.MapCtrl
         {
             base.Create__init(AOwner);
             // { needs: ValidateAoWEngine returns Boolean; its implementation declaration is still a procedure. }
-            if (Aow.Units.MapCtrl.MapCtrl.ValidateEngineABI())
+            if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
                 Aow.Units.AoWE.AoWE.AoWEngine.FOnHSMLoaded.Add(ActivateHSM);
                 Aow.Units.AoWE.AoWE.AoWEngine.FOnHSMClose.Add(DeactivateHSM);
@@ -206,15 +206,15 @@ namespace Aow.Units.MapCtrl
                 int end__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
                 for (; I <= end__1; I += 1)
                 {
-                    var call__2 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__2 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__2)).FGemsChangedEvents.Add(GemsChanged);
-                    var call__3 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__3 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__3)).FIncomeChangedEvents.Add(IncomeChanged);
-                    var call__4 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__4 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__4)).FUpkeepChangedEvents.Add(UpkeepChanged);
-                    var call__5 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__5 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__5)).FLogbookChangedEvents.Add(LogbookChanged);
-                    var call__6 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__6 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__6)).FMagicControl.FChangedEvents.Add(PlayerMagicChanged);
                 }
             }
@@ -263,15 +263,15 @@ namespace Aow.Units.MapCtrl
                 int end__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
                 for (; I <= end__7; I += 1)
                 {
-                    var call__8 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__8 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__8)).FGemsChangedEvents.Remove(GemsChanged);
-                    var call__9 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__9 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__9)).FIncomeChangedEvents.Remove(IncomeChanged);
-                    var call__10 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__10 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__10)).FUpkeepChangedEvents.Remove(UpkeepChanged);
-                    var call__11 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__11 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__11)).FLogbookChangedEvents.Remove(LogbookChanged);
-                    var call__12 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, I);
+                    var call__12 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
                     ((Aow.Units.AoWE.TPlayer)((System.Object)call__12)).FMagicControl.FChangedEvents.Remove(PlayerMagicChanged);
                 }
             }
@@ -387,7 +387,7 @@ namespace Aow.Units.MapCtrl
                 bool bool__15 = (FOnSelectArmy != null) && (Selection.EventHS is Aow.Units.AoWE.TArmyHS);
                 if (bool__15)
                 {
-                    var call__16 = Aow.Units.MapCtrl.MapCtrl.GetArmyHSABI(Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy);
+                    var call__16 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetArmyHS();
                     bool__15 = (call__16 != null);
                 }
 
@@ -495,7 +495,7 @@ namespace Aow.Units.MapCtrl
             {
                 if (FOnEndTurn != null)
                 {
-                    var call__17 = Aow.Units.MapCtrl.MapCtrl.GetPlayersABI(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers, Aow.Rtl.Rtl.ObjectToInt(Player));
+                    var call__17 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Rtl.Rtl.ObjectToInt(Player)));
                     FOnEndTurn(unchecked((sbyte)Aow.Rtl.Rtl.ObjectToInt(Player)), !((Aow.Units.AoWE.TPlayer)((System.Object)call__17)).FSingleProcessCycle);
                 }
             }
@@ -1199,31 +1199,6 @@ namespace Aow.Units.MapCtrl
         public static void Register()
         {
             Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoW", [typeof(Aow.Units.MapCtrl.TAoWMapControl)]);
-        }
-
-        // MapCtrl.pas:167
-        // { needs: callable result declarations for the existing draft routines. }
-        public static Aow.Rtl.TObject GetPlayersABI(Aow.Units.AoWE.TPlayerList List, int Index)
-        {
-            Aow.Rtl.TObject Result = default;
-            Result = List.GetPlayers(Index);
-            return Result;
-        }
-
-        // MapCtrl.pas:169
-        public static Aow.Units.AoWE.TArmyHS GetArmyHSABI(Aow.Units.AoWE.TSelectedArmy Selection)
-        {
-            Aow.Units.AoWE.TArmyHS Result = default;
-            Result = Selection.GetArmyHS();
-            return Result;
-        }
-
-        // MapCtrl.pas:171
-        public static bool ValidateEngineABI()
-        {
-            bool Result = default;
-            Result = Aow.Units.AoWE.AoWE.ValidateAoWEngine();
-            return Result;
         }
 
         public static void Initialize()

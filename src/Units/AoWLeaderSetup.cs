@@ -1085,11 +1085,9 @@ namespace Aow.Units.AoWLeaderSetup
                 Index = call__78;
             }
 
-            {
-                var w__79 = (Aow.Units.AoWImage.TAOWImage)Sender;
-                var call__80 = Aow.Rtl.Rtl.Rect((Phase1Pnl.WinLeft + w__79.WinLeft) + 2, Phase1Pnl.WinTop + w__79.WinTop, ((Phase1Pnl.WinLeft + w__79.WinLeft) + w__79.WinWidth) - 2, ((Phase1Pnl.WinTop + w__79.WinTop) + w__79.WinHeight) - 2);
-                R = call__80;
-            }
+            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            var call__80 = Aow.Rtl.Rtl.Rect((Phase1Pnl.WinLeft + image.WinLeft) + 2, Phase1Pnl.WinTop + image.WinTop, ((Phase1Pnl.WinLeft + image.WinLeft) + image.WinWidth) - 2, ((Phase1Pnl.WinTop + image.WinTop) + image.WinHeight) - 2);
+            R = call__80;
 
             var call__81 = Setup.FOriginalLeader.GetFace();
             if (call__81 != null)
@@ -1227,11 +1225,9 @@ namespace Aow.Units.AoWLeaderSetup
             Setup = FSetup;
             if (FPhase > 1)
             {
-                {
-                    var w__88 = (Aow.Units.AoWFrame.TAoWFrame)Sender;
-                    var call__89 = Aow.Rtl.Rtl.Rect((LMainPnl.WinLeft + w__88.WinLeft) + 2, LMainPnl.WinTop + w__88.WinTop, ((LMainPnl.WinLeft + w__88.WinLeft) + w__88.WinWidth) - 2, ((LMainPnl.WinTop + w__88.WinTop) + w__88.WinHeight) - 2);
-                    R = call__89;
-                }
+                var frame = (Aow.Units.AoWFrame.TAoWFrame)Sender;
+                var call__89 = Aow.Rtl.Rtl.Rect((LMainPnl.WinLeft + frame.WinLeft) + 2, LMainPnl.WinTop + frame.WinTop, ((LMainPnl.WinLeft + frame.WinLeft) + frame.WinWidth) - 2, ((LMainPnl.WinTop + frame.WinTop) + frame.WinHeight) - 2);
+                R = call__89;
 
                 var call__90 = Setup.FOriginalLeader.GetFace();
                 if (call__90 != null)
@@ -1390,23 +1386,23 @@ namespace Aow.Units.AoWLeaderSetup
             {
                 case 1:
                 {
-                    var w__92 = FLeader;
-                    w__92.SetNickname((AnsiString)"");
-                    w__92.FHeroName = (AnsiString)"";
+                    var leader = FLeader;
+                    leader.SetNickname((AnsiString)"");
+                    leader.FHeroName = (AnsiString)"";
                     UpdateLeader();
                 }
 
                     break;
                 case 2:
                 {
-                    var w__93 = FLeader;
-                    w__93.AssignAb(w__93.FHeroResource.FAbilities);
-                    w__93.SetUnitAttack(0);
-                    w__93.SetUnitDefense(0);
-                    w__93.SetUnitDamage(0);
-                    w__93.SetUnitHits(0);
-                    w__93.SetUnitMoves(0);
-                    w__93.SetUnitResistance(0);
+                    var leader2 = FLeader;
+                    leader2.AssignAb(leader2.FHeroResource.FAbilities);
+                    leader2.SetUnitAttack(0);
+                    leader2.SetUnitDefense(0);
+                    leader2.SetUnitDamage(0);
+                    leader2.SetUnitHits(0);
+                    leader2.SetUnitMoves(0);
+                    leader2.SetUnitResistance(0);
                     UpdateLeader();
                 }
 
@@ -1428,40 +1424,40 @@ namespace Aow.Units.AoWLeaderSetup
             {
                 case 1:
                 {
-                    var w__94 = FLeader;
+                    var leader = FLeader;
                     var call__95 = FSetup.FLeader.GetNickname();
-                    w__94.SetNickname(call__95);
-                    w__94.FHeroName = FSetup.FLeader.FHeroName;
-                    w__94.SetFaceIndex(FSetup.FLeader.FFaceIndex);
+                    leader.SetNickname(call__95);
+                    leader.FHeroName = FSetup.FLeader.FHeroName;
+                    leader.SetFaceIndex(FSetup.FLeader.FFaceIndex);
                     UpdateLeader();
                 }
 
                     break;
                 case 2:
                 {
-                    var w__96 = FLeader;
-                    w__96.AssignAb(FSetup.FLeader);
-                    w__96.SetUnitAttack(unchecked((sbyte)FSetup.FLeader.FUnitAttack));
-                    w__96.SetUnitDefense(unchecked((sbyte)FSetup.FLeader.FUnitDefense));
-                    w__96.SetUnitDamage(unchecked((sbyte)FSetup.FLeader.FUnitDamage));
-                    w__96.SetUnitHits(unchecked((sbyte)FSetup.FLeader.FUnitHits));
-                    w__96.SetUnitMoves(unchecked((sbyte)FSetup.FLeader.FUnitMoves));
-                    w__96.SetUnitResistance(unchecked((sbyte)FSetup.FLeader.FUnitResistance));
+                    var leader2 = FLeader;
+                    leader2.AssignAb(FSetup.FLeader);
+                    leader2.SetUnitAttack(unchecked((sbyte)FSetup.FLeader.FUnitAttack));
+                    leader2.SetUnitDefense(unchecked((sbyte)FSetup.FLeader.FUnitDefense));
+                    leader2.SetUnitDamage(unchecked((sbyte)FSetup.FLeader.FUnitDamage));
+                    leader2.SetUnitHits(unchecked((sbyte)FSetup.FLeader.FUnitHits));
+                    leader2.SetUnitMoves(unchecked((sbyte)FSetup.FLeader.FUnitMoves));
+                    leader2.SetUnitResistance(unchecked((sbyte)FSetup.FLeader.FUnitResistance));
                     UpdateLeader();
                 }
 
                     break;
                 case 3:
                 {
-                    var w__97 = FLeader;
-                    w__97.ClearSpheres();
+                    var leader3 = FLeader;
+                    leader3.ClearSpheres();
                     {
                         I = 0;
                         int end__98 = FSetup.FLeader.GetSphereCount() - 1;
                         for (; I <= end__98; I += 1)
                         {
                             var call__99 = FSetup.FLeader.GetSpheres(I);
-                            w__97.AddSphere(call__99);
+                            leader3.AddSphere(call__99);
                         }
                     }
 
