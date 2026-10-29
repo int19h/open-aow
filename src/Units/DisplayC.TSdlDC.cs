@@ -6,8 +6,19 @@ using static Aow.Units.DisplayC.TDisplayCtrlStatusElement;
 
 namespace Aow.Units.DisplayC;
 
+// The primary constructor captures host before the retained owner initializer runs.
+// A base-first semantic route leaves host unset during the owner's insertion callback.
 public sealed class TSdlDC(IDisplayHost host) : TDisplayCtrl
 {
+    public static TSdlDC Create(IDisplayHost host, TComponent owner = null) =>
+        ConstructionContext.Create((host, owner), static (context, args) =>
+        {
+            var value = new TSdlDC(args.host);
+            context.Capture(value);
+            value.Create__init(args.owner);
+            return value;
+        });
+
     private readonly TSurface[] surfaces = new TSurface[3];
     private readonly Ptr<TRect> primaryRegion = Ptr<TRect>.Alloc(1);
     public override void SetPrimarySurfaceRgn(in TRect region) { FPrimarySurfaceRgn = region; primaryRegion.Value = region; }
@@ -24,7 +35,7 @@ public sealed class TSdlDC(IDisplayHost host) : TDisplayCtrl
         {
             for (int i = 1; i <= (int)display.FBufferingScheme; i++)
             {
-                surfaces[i] = TDIB16Surface.Create(display.FBackSurfaceWidth, display.FBackSurfaceHeight, GFXE.GFXE.pfRGB555);
+                surfaces[i] = new TDIB16Surface(display.FBackSurfaceWidth, display.FBackSurfaceHeight, GFXE.GFXE.pfRGB555);
                 surfaces[i].Cls(display.Color);
             }
             return 0;

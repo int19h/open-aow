@@ -263,7 +263,7 @@ namespace Aow.Units.ImageLib
             Aow.Rtl.TStream Stream = default;
             if (!FDataLoaded)
             {
-                var call__2 = Aow.Units.ImageLib.TFastLoadFileStream.Create(FOwner.FLoadedFileName);
+                var call__2 = new Aow.Units.ImageLib.TFastLoadFileStream(FOwner.FLoadedFileName);
                 Stream = call__2;
                 try
                 {
@@ -363,9 +363,8 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:1596
         // { TLibraryImage }
-        public virtual void Create__init(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TLibraryImage(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
         {
-            ;
             FDataPosition = -1;
             FReloadingEnabled = false;
             FLoadMode = Aow.Units.ImageLib.TLoadMode.lmLoadOnDemand;
@@ -717,23 +716,6 @@ namespace Aow.Units.ImageLib
         public Aow.Units.GFXE.TGFXEPalette RemapPalette { get => GetRemapPalette(); }
         public bool Transparent { get => GetTransparent(); }
 
-        // ImageLib.pas:271
-        public static Aow.Units.ImageLib.TLibraryImage Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-        {
-            Aow.Units.ImageLib.TLibraryImage o = new Aow.Units.ImageLib.TLibraryImage();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // ImageLib.pas:1898
@@ -839,21 +821,9 @@ namespace Aow.Units.ImageLib
             }
 
             // ImageLib.pas:271
-            public Aow.Units.ImageLib.TLibraryImage Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TLibraryImage o = (Aow.Units.ImageLib.TLibraryImage)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
+            internal Func<TCustomImageLibrary, TLibraryImage> CompletedCreation;
 
-                return o;
-            }
+            public Aow.Units.ImageLib.TLibraryImage Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => CompletedCreation(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TLibraryImage => (Meta)MetaRegistry.Of(typeof(T));
@@ -872,9 +842,8 @@ namespace Aow.Units.ImageLib
         internal int FRefCount;
         // ImageLib.pas:7084
         // { TLibraryImagePalette }
-        public void Create__init_TLibraryImagePalette()
+        public TLibraryImagePalette()
         {
-            ;
             var call__16 = Aow.Units.GFXE.TGFXEPalette.Create();
             FPalette = call__16;
         }
@@ -959,22 +928,6 @@ namespace Aow.Units.ImageLib
         public Aow.Units.GFXE.TGFXEPalette Palette { get => FPalette; }
         public int RefCount { get => FRefCount; }
 
-        // ImageLib.pas:57
-        public static Aow.Units.ImageLib.TLibraryImagePalette Create()
-        {
-            Aow.Units.ImageLib.TLibraryImagePalette o = new Aow.Units.ImageLib.TLibraryImagePalette();
-            try
-            {
-                o.Create__init_TLibraryImagePalette();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public partial class TPaletteManager : Aow.Rtl.TObject
@@ -1014,9 +967,8 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:6971
         // { TPaletteManager }
-        public void Create__init_TPaletteManager()
+        public TPaletteManager()
         {
-            ;
             var call__22 = new Aow.Rtl.TList();
             FPalettes = call__22;
         }
@@ -1042,7 +994,7 @@ namespace Aow.Units.ImageLib
                 int end__23 = N - 1;
                 for (; I <= end__23; I += 1)
                 {
-                    P = Aow.Units.ImageLib.TLibraryImagePalette.Create();
+                    P = new Aow.Units.ImageLib.TLibraryImagePalette();
                     P.LoadFromStream(Stream);
                     FPalettes.Add(P);
                     P.FIndex = I;
@@ -1109,7 +1061,7 @@ namespace Aow.Units.ImageLib
 
             if (!Found)
             {
-                P = Aow.Units.ImageLib.TLibraryImagePalette.Create();
+                P = new Aow.Units.ImageLib.TLibraryImagePalette();
                 P.FPalette.Assign(Palette);
                 P.FIndex = FPalettes.Count;
                 P.FRefCount = 1;
@@ -1151,22 +1103,6 @@ namespace Aow.Units.ImageLib
 
         public PalettesAccessor Palettes => new PalettesAccessor(this);
 
-        // ImageLib.pas:36
-        public static Aow.Units.ImageLib.TPaletteManager Create()
-        {
-            Aow.Units.ImageLib.TPaletteManager o = new Aow.Units.ImageLib.TPaletteManager();
-            try
-            {
-                o.Create__init_TPaletteManager();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public struct TImageItem
@@ -1182,6 +1118,10 @@ namespace Aow.Units.ImageLib
 //     data starts in the file), +$40 FCapacity, +$44 FCount, +$48 FImages, +$4C FPaletteManager. }
     public partial class TCustomImageLibrary : Aow.Rtl.TComponent
     {
+        public static TCustomImageLibrary Create(Aow.Rtl.TComponent AOwner) =>
+            ConstructionContext.Create(AOwner, static (context, owner) => new TCustomImageLibrary(context, owner));
+
+
         internal TSet<Aow.Units.ImageLib.TImageLibraryStatusElement> FStatus;
         internal Aow.Rtl.TNotifyEvent FOnChange;
         internal byte FChangeLock;
@@ -1362,10 +1302,25 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:9669
         // { TCustomImageLibrary }
+        // Raw construction serves THSLibrary and TInterfaceIL legacy factories and layout constructors.
+        protected TCustomImageLibrary() { }
+
+        private protected TCustomImageLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner)
+        {
+            context.Capture(this);
+            InitializeComponentOwner(AOwner);
+            InitializeLibrary();
+        }
+
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             base.Create__init(AOwner);
-            var call__40 = Aow.Units.ImageLib.TPaletteManager.Create();
+            InitializeLibrary();
+        }
+
+        private void InitializeLibrary()
+        {
+            var call__40 = new Aow.Units.ImageLib.TPaletteManager();
             FPaletteManager = call__40;
             FLoadOnDemand = true;
             FFileName = (AnsiString)"";
@@ -1599,7 +1554,7 @@ namespace Aow.Units.ImageLib
         public virtual void LoadFromFile(Aow.Rtl.AnsiString AFileName)
         {
             Aow.Rtl.TStream Stream = default;
-            Stream = Aow.Units.ImageLib.TFastLoadFileStream.Create(AFileName);
+            Stream = new Aow.Units.ImageLib.TFastLoadFileStream(AFileName);
             try
             {
                 FChangeLock = (byte)(((int)FChangeLock) + 1);
@@ -2278,7 +2233,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (SubIndex != 0)
                     {
-                        Node = Aow.Units.ImageLib.TImageNode.Create(this);
+                        Node = new Aow.Units.ImageLib.TImageNode(this);
                         Node.Add(Old);
                         Node.Add(Image);
                         FImages[Index].Image = Node;
@@ -2420,7 +2375,7 @@ namespace Aow.Units.ImageLib
                 }
                 else
                 {
-                    Node = Aow.Units.ImageLib.TImageNode.Create(this);
+                    Node = new Aow.Units.ImageLib.TImageNode(this);
                     Node.Add(Old);
                     FImages[Index].Image = Node;
                     Node.Insert(SubIndex, Image);
@@ -2450,7 +2405,7 @@ namespace Aow.Units.ImageLib
                 }
                 else
                 {
-                    Node = Aow.Units.ImageLib.TImageNode.Create(this);
+                    Node = new Aow.Units.ImageLib.TImageNode(this);
                     Node.Add(Old);
                     FImages[Index].Image = Node;
                     Image.SetOwner(this);
@@ -2503,43 +2458,17 @@ namespace Aow.Units.ImageLib
         public Aow.Rtl.TNotifyEvent OnChange { get => FOnChange; set => FOnChange = value; }
         public Aow.Rtl.AnsiString FileName { get => FFileName; set => SetFileName(value); }
 
-        // ImageLib.pas:111
-        public static Aow.Units.ImageLib.TCustomImageLibrary Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ImageLib.TCustomImageLibrary o = new Aow.Units.ImageLib.TCustomImageLibrary();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { ImageLib.TImageLibrary (instance size 80): the image library component }
     public partial class TImageLibrary : Aow.Units.ImageLib.TCustomImageLibrary
     {
-        // ImageLib.pas:111
-        public static new Aow.Units.ImageLib.TImageLibrary Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ImageLib.TImageLibrary o = new Aow.Units.ImageLib.TImageLibrary();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
+        private protected TImageLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
 
-            return o;
-        }
+        public static new TImageLibrary Create(Aow.Rtl.TComponent AOwner) =>
+            ConstructionContext.Create(AOwner, static (context, owner) => new TImageLibrary(context, owner));
+
+
     }
 
     public enum TLoadMode : byte
@@ -2717,9 +2646,8 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:1286
         // { TImageNode }
-        public override void Create__init(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TImageNode(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FFileName = (AnsiString)"(multi images)";
         }
 
@@ -3154,23 +3082,6 @@ namespace Aow.Units.ImageLib
 
         public Aow.Units.ImageLib.TLibraryImage this[int Index] { get => GetImage(Index); }
 
-        // ImageLib.pas:334
-        public static new Aow.Units.ImageLib.TImageNode Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-        {
-            Aow.Units.ImageLib.TImageNode o = new Aow.Units.ImageLib.TImageNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
         {
             // ImageLib.pas:1298
@@ -3190,21 +3101,7 @@ namespace Aow.Units.ImageLib
             }
 
             // ImageLib.pas:334
-            public new Aow.Units.ImageLib.TImageNode Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TImageNode o = (Aow.Units.ImageLib.TImageNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TImageNode Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TImageNode)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TImageNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -3219,6 +3116,8 @@ namespace Aow.Units.ImageLib
 //     UnregisterPalette (make a private copy again). }
     public partial class TImage08 : Aow.Units.ImageLib.TLibraryImage
     {
+        public TImage08(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+
         internal bool FOwnPalette;
         internal Aow.Units.ImageLib.TLibraryImagePalette FImagePalette;
         internal Aow.Units.GFXE.TGFXEPalette FRemapPalette;
@@ -3240,7 +3139,7 @@ namespace Aow.Units.ImageLib
             Stream.Read(Aow.Rtl.Bytes.Of(ref FOwnPalette, 1));
             if (FOwnPalette)
             {
-                var call__87 = Aow.Units.ImageLib.TLibraryImagePalette.Create();
+                var call__87 = new Aow.Units.ImageLib.TLibraryImagePalette();
                 FImagePalette = call__87;
                 FImagePalette.LoadFromStream(Stream);
             }
@@ -3290,7 +3189,7 @@ namespace Aow.Units.ImageLib
             Aow.Units.ImageLib.TLibraryImagePalette P = default;
             if (!FOwnPalette && (FImagePalette != null))
             {
-                P = Aow.Units.ImageLib.TLibraryImagePalette.Create();
+                P = new Aow.Units.ImageLib.TLibraryImagePalette();
                 P.Assign(FImagePalette);
                 FOwner.FPaletteManager.UnregisterPalette(FImagePalette.FIndex);
                 FImagePalette = P;
@@ -3305,7 +3204,7 @@ namespace Aow.Units.ImageLib
             UnregisterPalette();
             if (FImagePalette == null)
             {
-                var call__90 = Aow.Units.ImageLib.TLibraryImagePalette.Create();
+                var call__90 = new Aow.Units.ImageLib.TLibraryImagePalette();
                 FImagePalette = call__90;
             }
 
@@ -3368,6 +3267,8 @@ namespace Aow.Units.ImageLib
 //     block), +$54 FBits (FBuffer aligned to 8 bytes). }
     public partial class TPicture08 : Aow.Units.ImageLib.TImage08
     {
+        public TPicture08(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+
         internal int FPitch;
         internal Ptr<byte> FBuffer;
         internal object FBits;
@@ -3572,21 +3473,7 @@ namespace Aow.Units.ImageLib
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TPicture08 => (Meta)MetaRegistry.Of(typeof(T));
             // ImageLib.pas:271
-            public new Aow.Units.ImageLib.TPicture08 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TPicture08 o = (Aow.Units.ImageLib.TPicture08)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TPicture08 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TPicture08)base.Create(AOwner);
         }
     }
 
@@ -3598,6 +3485,8 @@ namespace Aow.Units.ImageLib
 //     rectangle). }
     public partial class TRLESprite08 : Aow.Units.ImageLib.TImage08
     {
+        public TRLESprite08(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+
         internal int FTransparentColor;
         internal int FReserved;
         internal Ptr<byte> FData;
@@ -3994,21 +3883,7 @@ namespace Aow.Units.ImageLib
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TRLESprite08 => (Meta)MetaRegistry.Of(typeof(T));
             // ImageLib.pas:271
-            public new Aow.Units.ImageLib.TRLESprite08 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TRLESprite08 o = (Aow.Units.ImageLib.TRLESprite08)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TRLESprite08 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TRLESprite08)base.Create(AOwner);
         }
     }
 
@@ -4021,9 +3896,8 @@ namespace Aow.Units.ImageLib
         internal int FStoredPixelFormatID;
         // ImageLib.pas:2098
         // { TImage16 }
-        public override void Create__init(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TImage16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
 
         // ImageLib.pas:2103
@@ -4062,22 +3936,6 @@ namespace Aow.Units.ImageLib
             throw new System.NotImplementedException();
         }
 
-        // ImageLib.pas:464
-        public static new Aow.Units.ImageLib.TImage16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-        {
-            Aow.Units.ImageLib.TImage16 o = new Aow.Units.ImageLib.TImage16();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { ImageLib.TPicture16 (instance size 84, ClassID $10): an opaque 16 bit picture. +$48 FPitch
@@ -4085,6 +3943,8 @@ namespace Aow.Units.ImageLib
 //     memory), +$50 FData (FBuffer aligned to 8 bytes). }
     public partial class TPicture16 : Aow.Units.ImageLib.TImage16
     {
+        public TPicture16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+
         internal int FPitch;
         internal Ptr<byte> FBuffer;
         internal object FData;
@@ -4769,21 +4629,7 @@ namespace Aow.Units.ImageLib
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TPicture16 => (Meta)MetaRegistry.Of(typeof(T));
             // ImageLib.pas:464
-            public new Aow.Units.ImageLib.TPicture16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TPicture16 o = (Aow.Units.ImageLib.TPicture16)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TPicture16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TPicture16)base.Create(AOwner);
         }
     }
 
@@ -4793,9 +4639,8 @@ namespace Aow.Units.ImageLib
     {
         // ImageLib.pas:2845
         // { TTransparentPicture16 }
-        public override void Create__init(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TTransparentPicture16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FShowInfo.ShowMode = Aow.Units.ImageLib.TShowMode.smTransparent;
         }
 
@@ -4805,23 +4650,6 @@ namespace Aow.Units.ImageLib
             bool Result = default;
             Result = false;
             return Result;
-        }
-
-        // ImageLib.pas:509
-        public static new Aow.Units.ImageLib.TTransparentPicture16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-        {
-            Aow.Units.ImageLib.TTransparentPicture16 o = new Aow.Units.ImageLib.TTransparentPicture16();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.ImageLib.TPicture16.Meta
@@ -4843,21 +4671,7 @@ namespace Aow.Units.ImageLib
             }
 
             // ImageLib.pas:509
-            public new Aow.Units.ImageLib.TTransparentPicture16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TTransparentPicture16 o = (Aow.Units.ImageLib.TTransparentPicture16)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TTransparentPicture16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TTransparentPicture16)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TTransparentPicture16 => (Meta)MetaRegistry.Of(typeof(T));
@@ -4900,9 +4714,8 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:4247
         // { TSprite16 }
-        public override void Create__init(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TSprite16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
 
         // ImageLib.pas:4262
@@ -5429,23 +5242,6 @@ namespace Aow.Units.ImageLib
             return Result;
         }
 
-        // ImageLib.pas:533
-        public static new Aow.Units.ImageLib.TSprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-        {
-            Aow.Units.ImageLib.TSprite16 o = new Aow.Units.ImageLib.TSprite16();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
         {
             // ImageLib.pas:4252
@@ -5465,21 +5261,7 @@ namespace Aow.Units.ImageLib
             }
 
             // ImageLib.pas:533
-            public new Aow.Units.ImageLib.TSprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TSprite16 o = (Aow.Units.ImageLib.TSprite16)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TSprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TSprite16)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TSprite16 => (Meta)MetaRegistry.Of(typeof(T));
@@ -5502,9 +5284,8 @@ namespace Aow.Units.ImageLib
         internal int FSpriteHeight;
         // ImageLib.pas:2881
         // { TRLESprite16 }
-        public override void Create__init(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TRLESprite16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
 
         // ImageLib.pas:2896
@@ -5948,23 +5729,6 @@ namespace Aow.Units.ImageLib
             return Result;
         }
 
-        // ImageLib.pas:572
-        public static new Aow.Units.ImageLib.TRLESprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-        {
-            Aow.Units.ImageLib.TRLESprite16 o = new Aow.Units.ImageLib.TRLESprite16();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
         {
             // ImageLib.pas:2886
@@ -5984,21 +5748,7 @@ namespace Aow.Units.ImageLib
             }
 
             // ImageLib.pas:572
-            public new Aow.Units.ImageLib.TRLESprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TRLESprite16 o = (Aow.Units.ImageLib.TRLESprite16)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TRLESprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TRLESprite16)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TRLESprite16 => (Meta)MetaRegistry.Of(typeof(T));
@@ -6011,9 +5761,8 @@ namespace Aow.Units.ImageLib
     {
         // ImageLib.pas:3592
         // { TTransparentRLESprite16 }
-        public override void Create__init(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TTransparentRLESprite16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FShowInfo.ShowMode = Aow.Units.ImageLib.TShowMode.smTransparent;
         }
 
@@ -6023,23 +5772,6 @@ namespace Aow.Units.ImageLib
             bool Result = default;
             Result = false;
             return Result;
-        }
-
-        // ImageLib.pas:599
-        public static new Aow.Units.ImageLib.TTransparentRLESprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-        {
-            Aow.Units.ImageLib.TTransparentRLESprite16 o = new Aow.Units.ImageLib.TTransparentRLESprite16();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.ImageLib.TRLESprite16.Meta
@@ -6061,21 +5793,7 @@ namespace Aow.Units.ImageLib
             }
 
             // ImageLib.pas:599
-            public new Aow.Units.ImageLib.TTransparentRLESprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TTransparentRLESprite16 o = (Aow.Units.ImageLib.TTransparentRLESprite16)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TTransparentRLESprite16 Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TTransparentRLESprite16)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TTransparentRLESprite16 => (Meta)MetaRegistry.Of(typeof(T));
@@ -6123,6 +5841,8 @@ namespace Aow.Units.ImageLib
 //     FMaskHeight (the rectangle of the mask in the data rectangle). }
     public partial class TBitMask : Aow.Units.ImageLib.TLibraryImage
     {
+        public TBitMask(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+
         internal int FPitch;
         internal Ptr<byte> FMaskData;
         internal int FMaskLeft;
@@ -6395,21 +6115,7 @@ namespace Aow.Units.ImageLib
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TBitMask => (Meta)MetaRegistry.Of(typeof(T));
             // ImageLib.pas:271
-            public new Aow.Units.ImageLib.TBitMask Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TBitMask o = (Aow.Units.ImageLib.TBitMask)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TBitMask Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TBitMask)base.Create(AOwner);
         }
     }
 
@@ -6419,9 +6125,8 @@ namespace Aow.Units.ImageLib
     {
         // ImageLib.pas:5100
         // { TShadow }
-        public override void Create__init(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TShadow(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
 
         // ImageLib.pas:5106
@@ -6474,23 +6179,6 @@ namespace Aow.Units.ImageLib
             }
         }
 
-        // ImageLib.pas:653
-        public static new Aow.Units.ImageLib.TShadow Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-        {
-            Aow.Units.ImageLib.TShadow o = new Aow.Units.ImageLib.TShadow();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.ImageLib.TBitMask.Meta
         {
             // ImageLib.pas:5112
@@ -6510,21 +6198,7 @@ namespace Aow.Units.ImageLib
             }
 
             // ImageLib.pas:653
-            public new Aow.Units.ImageLib.TShadow Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
-            {
-                Aow.Units.ImageLib.TShadow o = (Aow.Units.ImageLib.TShadow)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ImageLib.TShadow Create(Aow.Units.ImageLib.TCustomImageLibrary AOwner) => (TShadow)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TShadow => (Meta)MetaRegistry.Of(typeof(T));
@@ -6538,6 +6212,10 @@ namespace Aow.Units.ImageLib
 //     for none). A character without an image is 5 pixels wide. }
     public partial class TImageLibraryFont : Aow.Units.ImageLib.TCustomImageLibrary
     {
+        public static new TImageLibraryFont Create(Aow.Rtl.TComponent AOwner) =>
+            ConstructionContext.Create(AOwner, static (context, owner) => new TImageLibraryFont(context, owner));
+
+
         internal int FCharacterDistance;
         internal int FHeight;
         internal Aow.Rtl.TEditCharCase FCharCase;
@@ -6561,9 +6239,8 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:6258
         // { TImageLibraryFont }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        private protected TImageLibraryFont(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FCharacterDistance = 2;
             FFontColorPaletteIndex = -1;
             FCharCase = Aow.Rtl.TEditCharCase.ecNormal;
@@ -6776,22 +6453,6 @@ namespace Aow.Units.ImageLib
         [Published]
         public int FontColorPaletteIndex { get => FFontColorPaletteIndex; set => SetFontColorPaletteIndex(value); }
 
-        // ImageLib.pas:681
-        public static new Aow.Units.ImageLib.TImageLibraryFont Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ImageLib.TImageLibraryFont o = new Aow.Units.ImageLib.TImageLibraryFont();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Splits Text into lines no wider than MaxWidth pixels in Font, at spaces and line breaks, and
@@ -7272,17 +6933,22 @@ namespace Aow.Units.ImageLib
 //     FOwnedList. }
     public partial class TImageLibraryManager : Aow.Rtl.TComponent
     {
+        public static TImageLibraryManager Create(Aow.Rtl.TComponent AOwner) =>
+            ConstructionContext.Create(AOwner, static (context, owner) => new TImageLibraryManager(context, owner));
+
+
         internal Aow.Rtl.AnsiString FSearchPath;
         internal Aow.Units.ImageLib.TILManagerList FDiskList;
         internal Aow.Units.ImageLib.TILManagerList FOwnedList;
         // ImageLib.pas:8260
         // { TImageLibraryManager }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        private protected TImageLibraryManager(ConstructionContext context, Aow.Rtl.TComponent AOwner)
         {
-            base.Create__init(AOwner);
-            var call__184 = Aow.Units.ImageLib.TILManagerList.Create(this);
+            context.Capture(this);
+            InitializeComponentOwner(AOwner);
+            var call__184 = new Aow.Units.ImageLib.TILManagerList(this);
             FDiskList = call__184;
-            var call__185 = Aow.Units.ImageLib.TILManagerList.Create(this);
+            var call__185 = new Aow.Units.ImageLib.TILManagerList(this);
             FOwnedList = call__185;
         }
 
@@ -7448,22 +7114,6 @@ namespace Aow.Units.ImageLib
         [Published]
         public Aow.Rtl.AnsiString SearchPath { get => FSearchPath; set => FSearchPath = value; }
 
-        // ImageLib.pas:953
-        public static Aow.Units.ImageLib.TImageLibraryManager Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ImageLib.TImageLibraryManager o = new Aow.Units.ImageLib.TImageLibraryManager();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { ImageLib.TILManagerObject (instance size 12): an entry of a TILManagerList. +4 FRefCount
@@ -7491,9 +7141,8 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TImageLibraryManager FOwner;
         // ImageLib.pas:8093
         // { TILManagerList }
-        public void Create__init_TILManagerList(Aow.Units.ImageLib.TImageLibraryManager AOwner)
+        public TILManagerList(Aow.Units.ImageLib.TImageLibraryManager AOwner)
         {
-            ;
             FOwner = AOwner;
             var call__192 = Aow.Units.HashTabU.TStringHashTable256.Create();
             FHashTable = call__192;
@@ -7715,22 +7364,6 @@ namespace Aow.Units.ImageLib
             }
         }
 
-        // ImageLib.pas:930
-        public static Aow.Units.ImageLib.TILManagerList Create(Aow.Units.ImageLib.TImageLibraryManager AOwner)
-        {
-            Aow.Units.ImageLib.TILManagerList o = new Aow.Units.ImageLib.TILManagerList();
-            try
-            {
-                o.Create__init_TILManagerList(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { ImageLib.TILManagerComboBox (instance size 388): a combo box with the library names of a
@@ -7938,11 +7571,10 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
         // ImageLib.pas:8903
         // { TImageSequenceList }
-        public void Create__init_TImageSequenceList(Aow.Units.ImageLib.TImageLibraryManager AILManager, Aow.Units.ImageLib.TCustomImageLibrary AImageLibrary)
+        public TImageSequenceList(Aow.Units.ImageLib.TImageLibraryManager AILManager, Aow.Units.ImageLib.TCustomImageLibrary AImageLibrary)
         {
             FILManager = AILManager;
             FImageLibrary = AImageLibrary;
-            ;
         }
 
         // ImageLib.pas:8911
@@ -8051,7 +7683,7 @@ namespace Aow.Units.ImageLib
                     Stream.Read(Aow.Rtl.Bytes.Of(ref IsNil, 1));
                     if (!IsNil)
                     {
-                        Sequence = Aow.Units.ImageLib.TImageSequence.Create(this);
+                        Sequence = new Aow.Units.ImageLib.TImageSequence(this);
                         Sequence.LoadFromStream(Stream);
                         base.Add(Sequence);
                     }
@@ -8539,22 +8171,6 @@ namespace Aow.Units.ImageLib
         public Aow.Units.ImageLib.TImageLibraryManager ILManager { get => FILManager; }
         public Aow.Units.ImageLib.TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
 
-        // ImageLib.pas:1093
-        public static Aow.Units.ImageLib.TImageSequenceList Create(Aow.Units.ImageLib.TImageLibraryManager AILManager, Aow.Units.ImageLib.TCustomImageLibrary AImageLibrary)
-        {
-            Aow.Units.ImageLib.TImageSequenceList o = new Aow.Units.ImageLib.TImageSequenceList();
-            try
-            {
-                o.Create__init_TImageSequenceList(AILManager, AImageLibrary);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public partial class TFrameTableList : Aow.Rtl.TPersistent
@@ -9044,10 +8660,9 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:8553
         // { TImageSequence }
-        public void Create__init_TImageSequence(Aow.Units.ImageLib.TImageSequenceList AOwner)
+        public TImageSequence(Aow.Units.ImageLib.TImageSequenceList AOwner)
         {
             FOwner = AOwner;
-            ;
         }
 
         // ImageLib.pas:8559
@@ -9071,7 +8686,7 @@ namespace Aow.Units.ImageLib
             Stream = new Aow.Rtl.TMemoryStream();
             try
             {
-                Result = Aow.Units.ImageLib.TImageSequence.Create(AOwner);
+                Result = new Aow.Units.ImageLib.TImageSequence(AOwner);
                 SaveToStream(Stream);
                 Stream.Position = 0;
                 Result.LoadFromStream(Stream);
@@ -9481,7 +9096,7 @@ namespace Aow.Units.ImageLib
             Stream.Read(Aow.Rtl.Bytes.Of(ref HasNext, 1));
             if (HasNext)
             {
-                var call__243 = Aow.Units.ImageLib.TImageSequence.Create(FOwner);
+                var call__243 = new Aow.Units.ImageLib.TImageSequence(FOwner);
                 FNext = call__243;
                 FNext.LoadFromStream(Stream);
             }
@@ -9515,22 +9130,6 @@ namespace Aow.Units.ImageLib
         public int dXshift { get => FdXshift; set => FdXshift = value; }
         public int dYshift { get => FdYshift; set => FdYshift = value; }
 
-        // ImageLib.pas:1053
-        public static Aow.Units.ImageLib.TImageSequence Create(Aow.Units.ImageLib.TImageSequenceList AOwner)
-        {
-            Aow.Units.ImageLib.TImageSequence o = new Aow.Units.ImageLib.TImageSequence();
-            try
-            {
-                o.Create__init_TImageSequence(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate int TFrameTableSortCompare(int Item1, int Item2);
@@ -9538,22 +9137,6 @@ namespace Aow.Units.ImageLib
 //     stream opened with FILE_FLAG_SEQUENTIAL_SCAN. Destroy does not call the inherited destructor. }
     public partial class TFastLoadFileStream : Aow.Rtl.THandleStream
     {
-        // ImageLib.pas:1214
-        public static Aow.Units.ImageLib.TFastLoadFileStream Create(Aow.Rtl.AnsiString FileName)
-        {
-            Aow.Units.ImageLib.TFastLoadFileStream o = new Aow.Units.ImageLib.TFastLoadFileStream();
-            try
-            {
-                o.Create__init_TFastLoadFileStream(FileName);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { The header of an .ILB file (24 bytes). Up to version 3 the images follow it; from version 4
@@ -9625,7 +9208,7 @@ namespace Aow.Units.ImageLib
             Aow.Units.GFXE.TSurfaceDesc SD = default;
             Aow.Units.GFXE.TDIB16Surface Surface = default;
             int Index = default;
-            var call__244 = Aow.Units.GFXE.TDIB16Surface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565);
+            var call__244 = new Aow.Units.GFXE.TDIB16Surface(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565);
             Surface = call__244;
             Surface.Cls(BkColor);
             Surface.Lock(ref SD);

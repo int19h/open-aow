@@ -174,7 +174,7 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:195
         public void VideoDlgWindowCreate()
         {
-            var call__7 = Aow.Units.GFXE.TDisplayModeList.Create();
+            var call__7 = new Aow.Units.GFXE.TDisplayModeList();
             FDisplayModes = call__7;
             Aow.Units.GFXE.GFXE.ListDisplayModes(FDisplayModes, 0, 0, 16);
         }
