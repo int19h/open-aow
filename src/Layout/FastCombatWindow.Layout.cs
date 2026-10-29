@@ -1509,12 +1509,11 @@ namespace Aow.Units.FastCombatWin
                 ILIndexTab = 28
             };
             LayoutSession.EndRead(SequenceSpeedSld);
-            GlowAnimation = new Aow.Units.ImageLib.TImageLibrary(this)
-            {
-                Name = "GlowAnimation",
-                LoadOnDemand = true,
-                FileName = "Int\\FCWin.ILB"
-            };
+            var created__GlowAnimation = Aow.Units.ImageLib.TImageLibrary.CreateForLayout(this);
+            created__GlowAnimation.Name = "GlowAnimation";
+            created__GlowAnimation.LoadOnDemand = true;
+            created__GlowAnimation.FileName = "Int\\FCWin.ILB";
+            GlowAnimation = created__GlowAnimation;
             LayoutSession.EndRead(GlowAnimation);
             GlowImage = new Aow.Units.AoWImage.TAOWImage(this)
             {

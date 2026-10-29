@@ -22380,7 +22380,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1995 = Aow.Units.ImageLib.TImageSequenceList.Create(null, null);
+            var call__1995 = new Aow.Units.ImageLib.TImageSequenceList(null, null);
             FSequences = call__1995;
             FRefCount = 0;
             var call__1996 = new Aow.Units.Sound.TSFXLibrary(null);
@@ -23610,7 +23610,7 @@ namespace Aow.Units.AoWE
             FDescription = call__2033;
             var call__2034 = new Aow.Units.Sound.TSFXLibrary(null);
             FSFXLibrary = call__2034;
-            var call__2035 = Aow.Units.ImageLib.TImageSequenceList.Create(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
+            var call__2035 = new Aow.Units.ImageLib.TImageSequenceList(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
             FImageSequences = call__2035;
         }
 
@@ -49907,7 +49907,7 @@ namespace Aow.Units.AoWE
             {
                 Width = R.Right - R.Left;
                 Height = R.Bottom - R.Top;
-                Surface = Aow.Units.GFXE.TDIB16Surface.Create(Width, Height, Aow.Units.GFXE.GFXE.pfRGB565);
+                Surface = new Aow.Units.GFXE.TDIB16Surface(Width, Height, Aow.Units.GFXE.GFXE.pfRGB565);
                 try
                 {
                     BorderRect = Aow.Rtl.Rtl.Rect(0, 0, Width, Height);
@@ -52611,7 +52611,7 @@ namespace Aow.Units.AoWE
             FCombatRoads.MOClass = typeof(Aow.Units.HSEngine.TAbstractRoad);
             ImageLibraryManager.ExecutePathSearch(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"IMAGES"));
             SFXManager.ExecutePathSearch(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"SFX"));
-            var call__4139 = Aow.Units.ImageLib.TImageSequenceList.Create(ImageLibraryManager, null);
+            var call__4139 = new Aow.Units.ImageLib.TImageSequenceList(ImageLibraryManager, null);
             FImageSequences = call__4139;
             var call__4140 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WaterRStr);
             TerrainTypes.Add(call__4140);
@@ -96515,7 +96515,7 @@ namespace Aow.Units.AoWE
             FSpellText = call__7763;
             var call__7764 = new Aow.Units.Sound.TSFXLibrary(null);
             FCastSounds = call__7764;
-            var call__7765 = Aow.Units.ImageLib.TImageSequenceList.Create(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
+            var call__7765 = new Aow.Units.ImageLib.TImageSequenceList(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
             FCastImages = call__7765;
             FResearchCost = 1;
             FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal);

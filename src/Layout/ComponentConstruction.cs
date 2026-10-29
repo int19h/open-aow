@@ -2516,14 +2516,14 @@ namespace Aow.Units.ImageLib
 {
     public partial class TImageLibrary : ILayoutComponent
     {
-        public TImageLibrary()
-        {
-        }
+        // Raw construction serves THSLibrary and TInterfaceIL legacy descendants.
+        protected TImageLibrary() { }
 
-        public TImageLibrary(TComponent owner)
+        public static TImageLibrary CreateForLayout(TComponent owner)
         {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
+            var value = Create(owner);
+            value.ComponentState = value.ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
+            return value;
         }
 
         void ILayoutComponent.EndRead()
@@ -2537,14 +2537,11 @@ namespace Aow.Units.ImageLib
 {
     public partial class TImageLibraryFont : ILayoutComponent
     {
-        public TImageLibraryFont()
+        public static TImageLibraryFont CreateForLayout(TComponent owner)
         {
-        }
-
-        public TImageLibraryFont(TComponent owner)
-        {
-            Create__init(owner);
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
+            var value = Create(owner);
+            value.ComponentState = value.ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
+            return value;
         }
 
         void ILayoutComponent.EndRead()

@@ -35,7 +35,8 @@ public class TComponent : TPersistent
     // CLASSES.PAS TComponent.Create.
     public TComponent() { }
     public TComponent(TComponent? owner) => Create__init(owner);
-    public virtual void Create__init(TComponent? owner) => owner?.InsertComponent(this);
+    public virtual void Create__init(TComponent? owner) => InitializeComponentOwner(owner);
+    protected void InitializeComponentOwner(TComponent? owner) => owner?.InsertComponent(this);
     public new Meta ClassType => (Meta)base.ClassType;
     public TComponent? Owner { get; private set; }
     public int Tag { get; set; }
