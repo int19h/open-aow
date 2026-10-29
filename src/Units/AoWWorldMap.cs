@@ -1590,11 +1590,6 @@ namespace Aow.Units.AoWWorldMap
     public partial class TFileTime : Aow.Rtl.TObject
     {
         public double FTime;
-        // System.pas:111
-        public static Aow.Units.AoWWorldMap.TFileTime Create()
-        {
-            return new Aow.Units.AoWWorldMap.TFileTime();
-        }
     }
 
     public static partial class AoWWorldMap

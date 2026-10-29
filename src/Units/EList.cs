@@ -8,18 +8,11 @@ using System.Runtime.CompilerServices;
 
 namespace Aow.Units.EList
 {
-    // { EList.TListObject (instance size 4): no fields. Create is virtual so that
-//     TObjectList.LoadFromStream can construct items from a class reference; the stream methods are
-//     empty here and overridden by the items. }
+    // { EList.TListObject (instance size 4): no fields. TObjectList.LoadFromStream constructs
+//     items through its metaclass factory. The stream methods are empty here and overridden
+//     by the items. }
     public partial class TListObject : Aow.Rtl.TObject
     {
-        // EList.pas:45
-        // { TListObject }
-        public virtual void Create__init()
-        {
-            ;
-        }
-
         // EList.pas:50
         public virtual void SaveToStream(Aow.Rtl.TStream Stream)
         {
@@ -30,41 +23,10 @@ namespace Aow.Units.EList
         {
         }
 
-        // EList.pas:22
-        public static Aow.Units.EList.TListObject Create()
-        {
-            Aow.Units.EList.TListObject o = new Aow.Units.EList.TListObject();
-            try
-            {
-                o.Create__init();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
             // EList.pas:22
-            public Aow.Units.EList.TListObject Create()
-            {
-                Aow.Units.EList.TListObject o = (Aow.Units.EList.TListObject)NewInstance();
-                try
-                {
-                    o.Create__init();
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public Aow.Units.EList.TListObject Create() => (Aow.Units.EList.TListObject)NewInstance();
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EList.TListObject => (Meta)MetaRegistry.Of(typeof(T));

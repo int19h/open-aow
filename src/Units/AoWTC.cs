@@ -120,11 +120,6 @@ namespace Aow.Units.AoWTC
     {
         public int Ability;
         public int Spell;
-        // System.pas:111
-        public static Aow.Units.AoWTC.TTCAbility Create()
-        {
-            return new Aow.Units.AoWTC.TTCAbility();
-        }
     }
 
     // { $04, $08 }
@@ -134,11 +129,6 @@ namespace Aow.Units.AoWTC
         public int PathIndex;
         // { $04 }
         public int Chance;
-        // System.pas:111
-        public static Aow.Units.AoWTC.TROb Create()
-        {
-            return new Aow.Units.AoWTC.TROb();
-        }
     }
 
     // { $08 }
@@ -203,11 +193,6 @@ namespace Aow.Units.AoWTC
         public ushort X;
         // { $1C }
         public ushort Y;
-        // System.pas:111
-        public static Aow.Units.AoWTC.TaiMove Create()
-        {
-            return new Aow.Units.AoWTC.TaiMove();
-        }
     }
 
     // { $1E }
@@ -271,7 +256,7 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:752
-        public void Create__init_TCAI()
+        public TCAI()
         {
             ;
             var call__3 = new Aow.Rtl.TList();
@@ -309,7 +294,7 @@ namespace Aow.Units.AoWTC
         public void CreateMove(Aow.Units.AoWTC.TaiMoveType MoveType, int X, int Y, int Value, int Ability, int Spell, Aow.Units.AoWTC.TTacticalCombatUnit U, Aow.Units.AoWE.TCombatObject Target)
         {
             Aow.Units.AoWTC.TaiMove M = default;
-            M = Aow.Units.AoWTC.TaiMove.Create();
+            M = new Aow.Units.AoWTC.TaiMove();
             M.UnitHS = U.FUnitHS;
             M.Target = Target;
             M.MoveType = MoveType;
@@ -1201,7 +1186,7 @@ namespace Aow.Units.AoWTC
                 case Aow.Units.AoWTC.TfxType.fxCometBall:
                 case Aow.Units.AoWTC.TfxType.fxRay:
                 case Aow.Units.AoWTC.TfxType.fxAltArrow:
-                    Path = Aow.Units.aowFX.TXYZList.Create();
+                    Path = new Aow.Units.aowFX.TXYZList();
                     Obstacles = new Aow.Rtl.TList();
                     if (FX == Aow.Units.AoWTC.TfxType.fxBreath)
                     {
@@ -3174,7 +3159,7 @@ namespace Aow.Units.AoWTC
                                                                     call__557.GetCombatInfo(U.FUnit, ref SpellInfo);
                                                                     if (SpellInfo.TargetTypes.Contains(Aow.Units.AoWE.TCombatTargetTypeElement.cttEnemy))
                                                                     {
-                                                                        var call__558 = Aow.Units.AoWTC.TTCAbility.Create();
+                                                                        var call__558 = new Aow.Units.AoWTC.TTCAbility();
                                                                         Abilities.Add(call__558);
                                                                         var call__559 = Abilities[Abilities.Count - 1];
                                                                         ((Aow.Units.AoWTC.TTCAbility)call__559).Ability = J;
@@ -3193,7 +3178,7 @@ namespace Aow.Units.AoWTC
                                                             call__561.GetCombatInfo(U.FUnit, ref AIInfo);
                                                             if ((((byte)AIInfo.TargetTypes.Image) & 2) != 0)
                                                             {
-                                                                var call__562 = Aow.Units.AoWTC.TTCAbility.Create();
+                                                                var call__562 = new Aow.Units.AoWTC.TTCAbility();
                                                                 Abilities.Add(call__562);
                                                                 var call__563 = Abilities[Abilities.Count - 1];
                                                                 ((Aow.Units.AoWTC.TTCAbility)call__563).Ability = J;
@@ -3210,7 +3195,7 @@ namespace Aow.Units.AoWTC
                                         Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Error during Eval Enemies", Aow.Rtl.Rtl.NullTerminatedText(((AnsiString)"Error - TCAI ") + call__548), (int)0);
                                     }
 
-                                    Settings = Aow.Units.AoWTC.TCombatMoveControlSettings.Create(null);
+                                    Settings = new Aow.Units.AoWTC.TCombatMoveControlSettings(null);
                                     if (U.FMovePoints > 0)
                                     {
                                         var call__564 = U.FUnitHS.GetYhx();
@@ -3302,7 +3287,7 @@ namespace Aow.Units.AoWTC
                                                                     call__586.GetCombatInfo(U.FUnit, ref SpellInfo);
                                                                     if (SpellInfo.TargetTypes.Contains(Aow.Units.AoWE.TCombatTargetTypeElement.cttFriend))
                                                                     {
-                                                                        var call__587 = Aow.Units.AoWTC.TTCAbility.Create();
+                                                                        var call__587 = new Aow.Units.AoWTC.TTCAbility();
                                                                         Abilities.Add(call__587);
                                                                         var call__588 = Abilities[Abilities.Count - 1];
                                                                         ((Aow.Units.AoWTC.TTCAbility)call__588).Ability = J;
@@ -3321,7 +3306,7 @@ namespace Aow.Units.AoWTC
                                                             call__590.GetCombatInfo(U.FUnit, ref AIInfo);
                                                             if ((((byte)AIInfo.TargetTypes.Image) & 1) != 0)
                                                             {
-                                                                var call__591 = Aow.Units.AoWTC.TTCAbility.Create();
+                                                                var call__591 = new Aow.Units.AoWTC.TTCAbility();
                                                                 Abilities.Add(call__591);
                                                                 var call__592 = Abilities[Abilities.Count - 1];
                                                                 ((Aow.Units.AoWTC.TTCAbility)call__592).Ability = J;
@@ -3508,7 +3493,7 @@ namespace Aow.Units.AoWTC
                                                                     if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtWall))
                                                                     {
                                                                         FFlee = false;
-                                                                        var call__619 = Aow.Units.AoWTC.TTCAbility.Create();
+                                                                        var call__619 = new Aow.Units.AoWTC.TTCAbility();
                                                                         Abilities.Add(call__619);
                                                                         var call__620 = Abilities[Abilities.Count - 1];
                                                                         ((Aow.Units.AoWTC.TTCAbility)call__620).Ability = J;
@@ -3529,7 +3514,7 @@ namespace Aow.Units.AoWTC
                                                         if (AIInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtWall))
                                                         {
                                                             FFlee = false;
-                                                            var call__623 = Aow.Units.AoWTC.TTCAbility.Create();
+                                                            var call__623 = new Aow.Units.AoWTC.TTCAbility();
                                                             Abilities.Add(call__623);
                                                             var call__624 = Abilities[Abilities.Count - 1];
                                                             ((Aow.Units.AoWTC.TTCAbility)call__624).Ability = J;
@@ -3542,7 +3527,7 @@ namespace Aow.Units.AoWTC
 
                                     if (Abilities.Count > 0)
                                     {
-                                        Settings = Aow.Units.AoWTC.TCombatMoveControlSettings.Create(null);
+                                        Settings = new Aow.Units.AoWTC.TCombatMoveControlSettings(null);
                                         if (U.FMovePoints > 0)
                                         {
                                             var call__625 = U.FUnitHS.GetYhx();
@@ -3788,7 +3773,7 @@ namespace Aow.Units.AoWTC
 
                                         if (K > Value)
                                         {
-                                            Settings = Aow.Units.AoWTC.TCombatMoveControlSettings.Create(null);
+                                            Settings = new Aow.Units.AoWTC.TCombatMoveControlSettings(null);
                                             // { Original uses X for both coordinates. }
                                             var call__670 = U.FUnitHS.GetXhx();
                                             var call__671 = U.FUnitHS.GetXhx();
@@ -3957,7 +3942,7 @@ namespace Aow.Units.AoWTC
                                             Move.UnitHS.FUnit.FMovePoints = FMinMoves;
                                         }
 
-                                        Settings = Aow.Units.AoWTC.TCombatMoveControlSettings.Create(null);
+                                        Settings = new Aow.Units.AoWTC.TCombatMoveControlSettings(null);
                                         var call__703 = tacticalCombatUnitHS.GetLhx();
                                         var call__704 = tacticalCombatUnitHS.GetYhx();
                                         var call__705 = tacticalCombatUnitHS.GetXhx();
@@ -4102,7 +4087,7 @@ namespace Aow.Units.AoWTC
 
                                         break;
                                     case Aow.Units.AoWTC.TaiMoveType.aiMelee:
-                                        Settings = Aow.Units.AoWTC.TCombatMoveControlSettings.Create(null);
+                                        Settings = new Aow.Units.AoWTC.TCombatMoveControlSettings(null);
                                         var call__733 = Move.UnitHS.GetYhx();
                                         var call__734 = Move.UnitHS.GetXhx();
                                         Settings.SetSourcePos(call__734, call__733, 0);
@@ -4142,7 +4127,7 @@ namespace Aow.Units.AoWTC
                                     case Aow.Units.AoWTC.TaiMoveType.aiTouch:
                                         var call__741 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Move.Ability);
                                         call__741.GetCombatInfo(Move.UnitHS.FUnit.FUnit, ref AIInfo);
-                                        Settings = Aow.Units.AoWTC.TCombatMoveControlSettings.Create(null);
+                                        Settings = new Aow.Units.AoWTC.TCombatMoveControlSettings(null);
                                         var call__742 = Move.UnitHS.GetYhx();
                                         var call__743 = Move.UnitHS.GetXhx();
                                         Settings.SetSourcePos(call__743, call__742, 0);
@@ -4236,22 +4221,6 @@ namespace Aow.Units.AoWTC
             }
         }
 
-        // AoWTC.pas:114
-        public static Aow.Units.AoWTC.TCAI Create()
-        {
-            Aow.Units.AoWTC.TCAI o = new Aow.Units.AoWTC.TCAI();
-            try
-            {
-                o.Create__init_TCAI();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TAoWCombatMapField (instance size 28, VMT 00411C8C)
@@ -4709,7 +4678,7 @@ namespace Aow.Units.AoWTC
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__824 = Aow.Units.aowFX.TXYZList.Create();
+            var call__824 = new Aow.Units.aowFX.TXYZList();
             FPath = call__824;
             FFrame = -1;
         }
@@ -4767,7 +4736,7 @@ namespace Aow.Units.AoWTC
                         Effect = call__826;
                         Effect.FAbilityIndex = FAbilityIndex;
                         Effect.FSpellIndex = FSpellIndex;
-                        var call__827 = Aow.Units.aowFX.TXYZ.Create();
+                        var call__827 = new Aow.Units.aowFX.TXYZ();
                         Effect.FPath.Add(call__827);
                         J = Aow.Rtl.Rtl.Random(70) + 10;
                         var call__828 = System.Math.PI;
@@ -4830,7 +4799,7 @@ namespace Aow.Units.AoWTC
 
                 if (Effect != null)
                 {
-                    var call__854 = Aow.Units.aowFX.TXYZ.Create();
+                    var call__854 = new Aow.Units.aowFX.TXYZ();
                     Effect.FPath.Add(call__854);
                     var call__855 = FPath[FFrame];
                     var call__856 = Effect.FPath[0];
@@ -5014,7 +4983,7 @@ namespace Aow.Units.AoWTC
                                 Effect = call__884;
                                 Effect.FAbilityIndex = FAbilityIndex;
                                 Effect.FSpellIndex = FSpellIndex;
-                                var call__885 = Aow.Units.aowFX.TXYZ.Create();
+                                var call__885 = new Aow.Units.aowFX.TXYZ();
                                 Effect.FPath.Add(call__885);
                                 var call__886 = FPath[FFrame];
                                 var call__887 = Effect.FPath[0];
@@ -6082,7 +6051,7 @@ namespace Aow.Units.AoWTC
 
                             break;
                         case Aow.Units.AoWTC.TfxType.fxChain:
-                            NewPath = Aow.Units.aowFX.TXYZList.Create();
+                            NewPath = new Aow.Units.aowFX.TXYZList();
                             I = 0;
                             J = 0;
                             K = 0;
@@ -6415,7 +6384,7 @@ namespace Aow.Units.AoWTC
                             switch (FFrame)
                             {
                                 case 0:
-                                    var call__1238 = Aow.Units.aowFX.TXYZ.Create();
+                                    var call__1238 = new Aow.Units.aowFX.TXYZ();
                                     FPath.Add(call__1238);
                                     var call__1239 = FPath[0];
                                     call__1239.X = Aow.Units.AoWTC.AoWTC.AoWCombatMap.ViewXhp;
@@ -6591,7 +6560,7 @@ namespace Aow.Units.AoWTC
                                             var call__1281 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
                                             var call__1282 = ((Aow.Units.AoWTC.TTacticalCombatUnit)call__1281).FUnitHS.GetXhx();
                                             Aow.Units.HSEngine.HSEngine.HXtoHP(call__1282, call__1280, ref J, ref K);
-                                            var call__1283 = Aow.Units.aowFX.TXYZ.Create();
+                                            var call__1283 = new Aow.Units.aowFX.TXYZ();
                                             Effect.FPath.Add(call__1283);
                                             var call__1284 = Effect.FPath[0];
                                             call__1284.X = J + 16;
@@ -7630,9 +7599,8 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:4936
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TUnitPositionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1386 = new Aow.Units.HSEngine.TXYLList();
             FPositions = call__1386;
             var call__1387 = Aow.Units.HSEngine.HSEngine.PackXYL(unchecked((sbyte)-1), unchecked((sbyte)-1), unchecked((sbyte)-1));
@@ -7755,46 +7723,18 @@ namespace Aow.Units.AoWTC
             return Result;
         }
 
-        // AoWTC.pas:289
-        public static new Aow.Units.AoWTC.TUnitPositionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TUnitPositionControl o = new Aow.Units.AoWTC.TUnitPositionControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TCombatMoveControlSettings (instance size 432, VMT 004129E8): $1AC FMoveFlags. }
     public partial class TCombatMoveControlSettings : Aow.Units.AoWE.TMoveControlSettings
     {
+        public TCombatMoveControlSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public TSet<Aow.Units.AoWTC.TCombatMoveModeElement> FMoveFlags;
         // { $1AC }
         public Aow.Units.FixedArray_byte_3 F_CombatMoveControlSettings_1AD;
         // intf_P5_01.inc:63
-        public static new Aow.Units.AoWTC.TCombatMoveControlSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TCombatMoveControlSettings o = new Aow.Units.AoWTC.TCombatMoveControlSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCombatMoveControl (instance size 488, VMT 00412AC4) }
@@ -7835,6 +7775,8 @@ namespace Aow.Units.AoWTC
 //     $5C FMovePoints; $60 FUnitHS; $64 FPositionIndex; $65 FPositionGroup; $66 FCanFlee; $67 FDeathMethod. }
     public partial class TTacticalCombatUnit : Aow.Units.AoWE.TCombatUnit
     {
+        public TTacticalCombatUnit(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public int FMovePoints;
         // { $5C }
         public Aow.Units.AoWTC.TTacticalCombatUnitHS FUnitHS;
@@ -7986,7 +7928,7 @@ namespace Aow.Units.AoWTC
                                 var call__1422 = FUnitHS.GetYhx();
                                 var call__1423 = FUnitHS.GetXhx();
                                 Aow.Units.HSEngine.HSEngine.HXtoHP(call__1423, call__1422, ref X, ref Y);
-                                var call__1424 = Aow.Units.aowFX.TXYZ.Create();
+                                var call__1424 = new Aow.Units.aowFX.TXYZ();
                                 Effect.FPath.Add(call__1424);
                                 var call__1425 = Effect.FPath[0];
                                 call__1425.X = X + 16;
@@ -8155,21 +8097,7 @@ namespace Aow.Units.AoWTC
         }
 
         // intf_P3_01.inc:244
-        public static new Aow.Units.AoWTC.TTacticalCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TTacticalCombatUnit o = new Aow.Units.AoWTC.TTacticalCombatUnit();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TTacticalCombatUnitHS (instance size 72, VMT 00412D08): $1C FUnit;
@@ -9057,7 +8985,7 @@ namespace Aow.Units.AoWTC
                     var call__1591 = FUnit.GetAbilityEnabled(I);
                     if (call__1591)
                     {
-                        Ability = Aow.Units.AoWTC.TTCAbility.Create();
+                        Ability = new Aow.Units.AoWTC.TTCAbility();
                         Ability.Ability = I;
                         var call__1592 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
                         var call__1593 = call__1592.GetControlType(FUnit.FUnit);
@@ -10086,7 +10014,7 @@ namespace Aow.Units.AoWTC
         public override Aow.Units.AoWE.TMoveControlSettings CreateMCS()
         {
             Aow.Units.AoWE.TMoveControlSettings Result = default;
-            Result = Aow.Units.AoWTC.TCombatMoveControlSettings.Create(null);
+            Result = new Aow.Units.AoWTC.TCombatMoveControlSettings(null);
             return Result;
         }
 
@@ -10193,7 +10121,7 @@ namespace Aow.Units.AoWTC
         public void Create__init_TCombatUnitSelectionControl()
         {
             base.Create__init_TMoveSelector();
-            var call__1834 = Aow.Units.aowFX.TXYZList.Create();
+            var call__1834 = new Aow.Units.aowFX.TXYZList();
             FRangedPath = call__1834;
             var call__1835 = new Aow.Rtl.TList();
             FObstacles = call__1835;
@@ -11164,6 +11092,8 @@ namespace Aow.Units.AoWTC
 //     $0C FAuto; $0D FEndTurn; $0E FIndex; $10 FLastX; $14 FLastY; $18 FLastUnit. }
     public partial class TTacticalCombatPlayer : Aow.Units.AoWE.TCombatPlayer
     {
+        public TTacticalCombatPlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public bool FAuto;
         // { $0C }
         public bool FEndTurn;
@@ -11185,22 +11115,6 @@ namespace Aow.Units.AoWTC
             }
         }
 
-        // Engine.pas:524
-        public static new Aow.Units.AoWTC.TTacticalCombatPlayer Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TTacticalCombatPlayer o = new Aow.Units.AoWTC.TTacticalCombatPlayer();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TTacticalCombatPlayerList (instance size 8, VMT 0041304C)
@@ -11235,11 +11149,6 @@ namespace Aow.Units.AoWTC
             return Result;
         }
 
-        // System.pas:111
-        public static Aow.Units.AoWTC.TTacticalCombatPlayerList Create()
-        {
-            return new Aow.Units.AoWTC.TTacticalCombatPlayerList();
-        }
     }
 
     // { conflict: function GetPlayers(Player: Shortint): TTacticalCombatPlayer; }
@@ -11366,7 +11275,7 @@ namespace Aow.Units.AoWTC
             int I = default;
             Aow.Units.AoWTC.AoWTC.AoWCombatMap = this;
             base.Create__init(AOwner);
-            var call__2058 = Aow.Units.AoWTC.TUnitPositionControl.Create(null);
+            var call__2058 = new Aow.Units.AoWTC.TUnitPositionControl(null);
             FUnitPositions = call__2058;
             var call__2059 = new Aow.Units.Engine.TEventList();
             FChangeTurnEvents = call__2059;
@@ -11384,7 +11293,7 @@ namespace Aow.Units.AoWTC
             FMouseOverTargetEvents = call__2065;
             var call__2066 = new Aow.Units.Engine.TEventList();
             FUnitChangedEvents = call__2066;
-            var call__2067 = Aow.Units.AoWTC.TTacticalCombatPlayerList.Create();
+            var call__2067 = new Aow.Units.AoWTC.TTacticalCombatPlayerList();
             FPlayers = call__2067;
             var call__2068 = Aow.Units.AoWTC.TCombatUnitSelectionControl.Create();
             FUnitSelection = call__2068;
@@ -11395,7 +11304,7 @@ namespace Aow.Units.AoWTC
             FWalls = call__2070;
             var call__2071 = new Aow.Rtl.TList();
             FFleeLocations = call__2071;
-            var call__2072 = Aow.Units.AoWTC.TCAI.Create();
+            var call__2072 = new Aow.Units.AoWTC.TCAI();
             FAI = call__2072;
             Mouse.SetCapture(this);
             Mouse.OnMove.Add(MouseMoveEvent);
@@ -12311,6 +12220,8 @@ namespace Aow.Units.AoWTC
 //     Inherited combat layout; $4C FHostPlayer. }
     public partial class TTacticalCombat : Aow.Units.AoWE.TCombat
     {
+        public TTacticalCombat(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public sbyte FHostPlayer;
         // { $4C }
         public Aow.Units.FixedArray_byte_3 F_TacticalCombat_4D;
@@ -12318,7 +12229,7 @@ namespace Aow.Units.AoWTC
         public override Aow.Units.AoWE.TCombatUnit CreateCombatUnit()
         {
             Aow.Units.AoWE.TCombatUnit Result = default;
-            Result = Aow.Units.AoWTC.TTacticalCombatUnit.Create(null);
+            Result = new Aow.Units.AoWTC.TTacticalCombatUnit(null);
             return Result;
         }
 
@@ -12326,7 +12237,7 @@ namespace Aow.Units.AoWTC
         public override Aow.Units.AoWE.TCombatPlayer CreateCombatPlayer()
         {
             Aow.Units.AoWE.TCombatPlayer Result = default;
-            Result = Aow.Units.AoWTC.TTacticalCombatPlayer.Create(null);
+            Result = new Aow.Units.AoWTC.TTacticalCombatPlayer(null);
             return Result;
         }
 
@@ -12479,21 +12390,7 @@ namespace Aow.Units.AoWTC
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TTacticalCombat => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P3_02.inc:318
-            public new Aow.Units.AoWTC.TTacticalCombat Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TTacticalCombat o = (Aow.Units.AoWTC.TTacticalCombat)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TTacticalCombat Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TTacticalCombat)base.Create(AOwner);
         }
     }
 
@@ -12539,7 +12436,7 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:4137
-        public void Create__init_TRndTacHsm()
+        public TRndTacHsm()
         {
             int I = default;
             int J = default;
@@ -14275,22 +14172,6 @@ namespace Aow.Units.AoWTC
             FTagWeights[181] = 600;
         }
 
-        // AoWTC.pas:544
-        public static Aow.Units.AoWTC.TRndTacHsm Create()
-        {
-            Aow.Units.AoWTC.TRndTacHsm o = new Aow.Units.AoWTC.TRndTacHsm();
-            try
-            {
-                o.Create__init_TRndTacHsm();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TFireStart : byte
@@ -14461,7 +14342,7 @@ namespace Aow.Units.AoWTC
                 case 30:
                 case 31:
                 case >= 86 and <= 90:
-                    var call__2381 = Aow.Units.aowFX.TXYZ.Create();
+                    var call__2381 = new Aow.Units.aowFX.TXYZ();
                     Path.Add(call__2381);
                     Aow.Units.HSEngine.HSEngine.HXtoHP(X2, Y2, ref X, ref Y);
                     var call__2382 = Path[0];
@@ -14505,7 +14386,7 @@ namespace Aow.Units.AoWTC
                                 case Aow.Units.AoWTC.TfxType.fxShockWave:
                                 case Aow.Units.AoWTC.TfxType.fxSacFlame:
                                 case Aow.Units.AoWTC.TfxType.fxWinds:
-                                    var call__2384 = Aow.Units.aowFX.TXYZ.Create();
+                                    var call__2384 = new Aow.Units.aowFX.TXYZ();
                                     Path.Add(call__2384);
                                     Aow.Units.HSEngine.HSEngine.HXtoHP(X2, Y2, ref X, ref Y);
                                     var call__2385 = Path[0];
@@ -14570,7 +14451,7 @@ namespace Aow.Units.AoWTC
 
             while (I <= Steps)
             {
-                Point = Aow.Units.aowFX.TXYZ.Create();
+                Point = new Aow.Units.aowFX.TXYZ();
                 Path.Add(Point);
                 Point.X = (((LastX - X) * I) / Steps) + X;
                 Point.Y = (((LastY - Y) * I) / Steps) + Y;
@@ -14780,7 +14661,7 @@ namespace Aow.Units.AoWTC
                             {
                                 if ((X != LastX) || (Y != LastY))
                                 {
-                                    Obstacle = Aow.Units.AoWTC.TROb.Create();
+                                    Obstacle = new Aow.Units.AoWTC.TROb();
                                     Obstacle.PathIndex = I;
                                     Obstacles.Add(Obstacle);
                                     LastX = X;

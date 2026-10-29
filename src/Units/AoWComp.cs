@@ -126,7 +126,7 @@ namespace Aow.Units.AoWComp
             base.Create__init(AOwner);
             FVisible = true;
             FFirstDraw = true;
-            var call__1 = Aow.Units.AoWComp.TAOWAlignment.Create();
+            var call__1 = new Aow.Units.AoWComp.TAOWAlignment();
             FAlignment = call__1;
             var call__2 = new Aow.Rtl.TList();
             FChildren = call__2;
@@ -517,7 +517,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__30 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__30 = new Aow.Units.AoWComp.TaowRect();
                                                 FBltList.Add(call__30);
                                             }
 
@@ -542,7 +542,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__33 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__33 = new Aow.Units.AoWComp.TaowRect();
                                                 FBltList.Add(call__33);
                                             }
 
@@ -560,7 +560,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__36 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__36 = new Aow.Units.AoWComp.TaowRect();
                                                 FBltList.Add(call__36);
                                             }
 
@@ -592,7 +592,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__39 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__39 = new Aow.Units.AoWComp.TaowRect();
                                                 FBltList.Add(call__39);
                                             }
 
@@ -610,7 +610,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__42 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__42 = new Aow.Units.AoWComp.TaowRect();
                                                 FBltList.Add(call__42);
                                             }
 
@@ -635,7 +635,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FBltCount == FBltList.Count)
                                             {
-                                                var call__45 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__45 = new Aow.Units.AoWComp.TaowRect();
                                                 FBltList.Add(call__45);
                                             }
 
@@ -675,7 +675,7 @@ namespace Aow.Units.AoWComp
                 {
                     if (FBltCount == FBltList.Count)
                     {
-                        var call__49 = Aow.Units.AoWComp.TaowRect.Create();
+                        var call__49 = new Aow.Units.AoWComp.TaowRect();
                         FBltList.Add(call__49);
                     }
 
@@ -748,7 +748,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__52 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__52 = new Aow.Units.AoWComp.TaowRect();
                                                 FDrawList.Add(call__52);
                                             }
 
@@ -773,7 +773,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__55 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__55 = new Aow.Units.AoWComp.TaowRect();
                                                 FDrawList.Add(call__55);
                                             }
 
@@ -791,7 +791,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__58 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__58 = new Aow.Units.AoWComp.TaowRect();
                                                 FDrawList.Add(call__58);
                                             }
 
@@ -823,7 +823,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__61 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__61 = new Aow.Units.AoWComp.TaowRect();
                                                 FDrawList.Add(call__61);
                                             }
 
@@ -841,7 +841,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__64 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__64 = new Aow.Units.AoWComp.TaowRect();
                                                 FDrawList.Add(call__64);
                                             }
 
@@ -866,7 +866,7 @@ namespace Aow.Units.AoWComp
                                         {
                                             if (FDrawCount == FDrawList.Count)
                                             {
-                                                var call__67 = Aow.Units.AoWComp.TaowRect.Create();
+                                                var call__67 = new Aow.Units.AoWComp.TaowRect();
                                                 FDrawList.Add(call__67);
                                             }
 
@@ -906,7 +906,7 @@ namespace Aow.Units.AoWComp
                 {
                     if (FDrawCount == FDrawList.Count)
                     {
-                        var call__71 = Aow.Units.AoWComp.TaowRect.Create();
+                        var call__71 = new Aow.Units.AoWComp.TaowRect();
                         FDrawList.Add(call__71);
                     }
 
@@ -1229,11 +1229,6 @@ namespace Aow.Units.AoWComp
         [Published]
         public int BottomOffset { get => FBottomOffset; set => FBottomOffset = value; }
 
-        // System.pas:111
-        public static Aow.Units.AoWComp.TAOWAlignment Create()
-        {
-            return new Aow.Units.AoWComp.TAOWAlignment();
-        }
     }
 
     // { AoWComp.TaowRect (instance size 24): one entry of the dirty rectangle lists. +4 R, +$14 Owner
@@ -1242,11 +1237,6 @@ namespace Aow.Units.AoWComp
     {
         public Aow.Rtl.TRect R;
         public Aow.Units.AoWComp.TAoWComponent Owner;
-        // System.pas:111
-        public static Aow.Units.AoWComp.TaowRect Create()
-        {
-            return new Aow.Units.AoWComp.TaowRect();
-        }
     }
 
     public static partial class AoWComp

@@ -165,6 +165,8 @@ namespace Aow.Units.Shipyard
     // { TShipyardConstructionControl (instance size 8, no added fields, VMT 557C750C) }
     public partial class TShipyardConstructionControl : Aow.Units.AoWE.TStructureConstructionControl
     {
+        public TShipyardConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // Shipyard.pas:93
         public override void GetInfo(Aow.Units.AoWE.TAbstractUnit AUnit, ref Aow.Rtl.AnsiString Text, ref int Gold, ref int Days)
         {
@@ -235,23 +237,6 @@ namespace Aow.Units.Shipyard
             return Result;
         }
 
-        // Engine.pas:524
-        public static new Aow.Units.Shipyard.TShipyardConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Shipyard.TShipyardConstructionControl o = new Aow.Units.Shipyard.TShipyardConstructionControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
         {
             // Shipyard.pas:78
@@ -265,21 +250,7 @@ namespace Aow.Units.Shipyard
             public static new Meta Of<T>()
                 where T : Aow.Units.Shipyard.TShipyardConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.Shipyard.TShipyardConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Shipyard.TShipyardConstructionControl o = (Aow.Units.Shipyard.TShipyardConstructionControl)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Shipyard.TShipyardConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Shipyard.TShipyardConstructionControl)base.Create(AOwner);
         }
     }
 
@@ -291,7 +262,7 @@ namespace Aow.Units.Shipyard
         {
             // { conflict: procedure RegisterShipyard; }
             AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Shipyard.TShipyard>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Shipyard.TShipyardResource>()]);
-            var call__8 = Aow.Units.Shipyard.TShipyardConstructionControl.Create(null);
+            var call__8 = new Aow.Units.Shipyard.TShipyardConstructionControl(null);
             var call__9 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(125);
             ((Aow.Units.AoWE.TConstructAbility)call__9).RegisterConstructionControl(call__8);
         }

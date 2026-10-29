@@ -40,28 +40,10 @@ namespace Aow.Units.IndependentAG
     public partial class TGuardAG : Aow.Units.AoWE.TAIGroup
     {
         // IndependentAG.pas:137
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TGuardAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
-        }
-
-        // IndependentAG.pas:29
-        public static new Aow.Units.IndependentAG.TGuardAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.IndependentAG.TGuardAG o = new Aow.Units.IndependentAG.TGuardAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -91,21 +73,7 @@ namespace Aow.Units.IndependentAG
             }
 
             // IndependentAG.pas:29
-            public new Aow.Units.IndependentAG.TGuardAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IndependentAG.TGuardAG o = (Aow.Units.IndependentAG.TGuardAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IndependentAG.TGuardAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TGuardAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IndependentAG.TGuardAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -115,6 +83,8 @@ namespace Aow.Units.IndependentAG
     // { TGuardAGC (instance size 368, VMT 557D7FB0) }
     public partial class TGuardAGC : Aow.Units.AoWE.TAIGroupControl
     {
+        public TGuardAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
     }
 
     // { TGuardAreaAG (instance size 84, VMT 557D80A8): $50 guard location. }
@@ -130,29 +100,11 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:153
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TGuardAreaAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FGuardLocation.XYL = 16777215;
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
-        }
-
-        // IndependentAG.pas:45
-        public static new Aow.Units.IndependentAG.TGuardAreaAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.IndependentAG.TGuardAreaAG o = new Aow.Units.IndependentAG.TGuardAreaAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -182,21 +134,7 @@ namespace Aow.Units.IndependentAG
             }
 
             // IndependentAG.pas:45
-            public new Aow.Units.IndependentAG.TGuardAreaAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IndependentAG.TGuardAreaAG o = (Aow.Units.IndependentAG.TGuardAreaAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IndependentAG.TGuardAreaAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TGuardAreaAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IndependentAG.TGuardAreaAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -206,6 +144,8 @@ namespace Aow.Units.IndependentAG
     // { TGuardAreaAGC (instance size 368, VMT 557D8204) }
     public partial class TGuardAreaAGC : Aow.Units.AoWE.TAIGroupControl
     {
+        public TGuardAreaAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // IndependentAG.pas:189
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)
         {
@@ -407,31 +347,13 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:285
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TPatrolAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
             FPatrolFrom.XYL = 16777215;
             FPatrolTo.XYL = 16777215;
             FPreviousHeading = 0;
-        }
-
-        // IndependentAG.pas:69
-        public static new Aow.Units.IndependentAG.TPatrolAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.IndependentAG.TPatrolAG o = new Aow.Units.IndependentAG.TPatrolAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -461,21 +383,7 @@ namespace Aow.Units.IndependentAG
             }
 
             // IndependentAG.pas:69
-            public new Aow.Units.IndependentAG.TPatrolAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IndependentAG.TPatrolAG o = (Aow.Units.IndependentAG.TPatrolAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IndependentAG.TPatrolAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TPatrolAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IndependentAG.TPatrolAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -485,6 +393,8 @@ namespace Aow.Units.IndependentAG
     // { TPatrolAGC (instance size 368, VMT 557D845C) }
     public partial class TPatrolAGC : Aow.Units.AoWE.TAIGroupControl
     {
+        public TPatrolAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // IndependentAG.pas:415
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)
         {
@@ -878,28 +788,10 @@ namespace Aow.Units.IndependentAG
     public partial class TRefugeAG : Aow.Units.AoWE.TAIGroup
     {
         // IndependentAG.pas:544
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TRefugeAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
-        }
-
-        // IndependentAG.pas:87
-        public static new Aow.Units.IndependentAG.TRefugeAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.IndependentAG.TRefugeAG o = new Aow.Units.IndependentAG.TRefugeAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -929,21 +821,7 @@ namespace Aow.Units.IndependentAG
             }
 
             // IndependentAG.pas:87
-            public new Aow.Units.IndependentAG.TRefugeAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IndependentAG.TRefugeAG o = (Aow.Units.IndependentAG.TRefugeAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IndependentAG.TRefugeAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TRefugeAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IndependentAG.TRefugeAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -953,34 +831,18 @@ namespace Aow.Units.IndependentAG
     // { TRefugeAGC (instance size 368, VMT 557D86AC) }
     public partial class TRefugeAGC : Aow.Units.AoWE.TAIGroupControl
     {
+        public TRefugeAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
     }
 
     // { TRaidAG (instance size 80, VMT 557D87A4) }
     public partial class TRaidAG : Aow.Units.AoWE.TAIGroup
     {
         // IndependentAG.pas:560
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TRaidAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
-        }
-
-        // IndependentAG.pas:101
-        public static new Aow.Units.IndependentAG.TRaidAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.IndependentAG.TRaidAG o = new Aow.Units.IndependentAG.TRaidAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -1010,21 +872,7 @@ namespace Aow.Units.IndependentAG
             }
 
             // IndependentAG.pas:101
-            public new Aow.Units.IndependentAG.TRaidAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IndependentAG.TRaidAG o = (Aow.Units.IndependentAG.TRaidAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IndependentAG.TRaidAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TRaidAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IndependentAG.TRaidAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -1034,6 +882,8 @@ namespace Aow.Units.IndependentAG
     // { TRaidAGC (instance size 368, VMT 557D88F4) }
     public partial class TRaidAGC : Aow.Units.AoWE.TAIGroupControl
     {
+        public TRaidAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // IndependentAG.pas:589
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)
         {
@@ -1079,28 +929,10 @@ namespace Aow.Units.IndependentAG
     public partial class TScoutAG : Aow.Units.AoWE.TAIGroup
     {
         // IndependentAG.pas:643
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TScoutAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
-        }
-
-        // IndependentAG.pas:118
-        public static new Aow.Units.IndependentAG.TScoutAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.IndependentAG.TScoutAG o = new Aow.Units.IndependentAG.TScoutAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -1130,21 +962,7 @@ namespace Aow.Units.IndependentAG
             }
 
             // IndependentAG.pas:118
-            public new Aow.Units.IndependentAG.TScoutAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IndependentAG.TScoutAG o = (Aow.Units.IndependentAG.TScoutAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IndependentAG.TScoutAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TScoutAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IndependentAG.TScoutAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -1154,6 +972,8 @@ namespace Aow.Units.IndependentAG
     // { TScoutAGC (instance size 368, VMT 557D8B3C) }
     public partial class TScoutAGC : Aow.Units.AoWE.TAIGroupControl
     {
+        public TScoutAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // IndependentAG.pas:671
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)
         {
@@ -1245,7 +1065,7 @@ namespace Aow.Units.IndependentAG
 
                     break;
                 case 2:
-                    Wander = Aow.Units.AGCPlugins.TAIGroupWanderControl.Create(null);
+                    Wander = new Aow.Units.AGCPlugins.TAIGroupWanderControl(null);
                     Wander.Setup(this);
                     Wander.FMovePointsMax = 125;
                     ActivatePlugin(Wander);

@@ -41,6 +41,8 @@ namespace Aow.Units.ItemExpS
     // { TExplorationSiteItemList (instance size 24, VMT 557C2298) }
     public partial class TExplorationSiteItemList : Aow.Units.AoWE.TItemList
     {
+        public TExplorationSiteItemList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // ItemExpS.pas:83
         public override void Destroy()
         {
@@ -48,21 +50,7 @@ namespace Aow.Units.ItemExpS
         }
 
         // intf_P2_04.inc:118
-        public static new Aow.Units.ItemExpS.TExplorationSiteItemList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ItemExpS.TExplorationSiteItemList o = new Aow.Units.ItemExpS.TExplorationSiteItemList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TItemExplorationSite (instance size 64, VMT 557C23BC): $38 FItemCount, $3C FItems. }
@@ -93,7 +81,7 @@ namespace Aow.Units.ItemExpS
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1 = Aow.Units.ItemExpS.TExplorationSiteItemList.Create(null);
+            var call__1 = new Aow.Units.ItemExpS.TExplorationSiteItemList(null);
             FItems = call__1;
             FItemCount = 2;
         }

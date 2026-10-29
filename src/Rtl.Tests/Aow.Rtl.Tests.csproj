@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="UnitConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.UnitConstructionBaseline.json" />
+    <EmbeddedResource Include="RemainingConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.RemainingConstructionBaseline.json" />
     <EmbeddedResource Include="AoWERuleConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.AoWERuleConstructionBaseline.json" />
     <EmbeddedResource Include="AoWERuleFailureBaseline.json" LogicalName="Aow.Rtl.Tests.AoWERuleFailureBaseline.json" />
     <EmbeddedResource Include="SpellConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.SpellConstructionBaseline.json" />

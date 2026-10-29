@@ -42,6 +42,8 @@ namespace Aow.Units.Dungeon
     // { TPrisonersArmy (instance size 44, VMT 557C53F4) }
     public partial class TPrisonersArmy : Aow.Units.AoWE.TArmy
     {
+        public TPrisonersArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // Dungeon.pas:89
         public override bool CanAddUnit(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
@@ -66,21 +68,7 @@ namespace Aow.Units.Dungeon
         }
 
         // intf_P2_07.inc:445
-        public static new Aow.Units.Dungeon.TPrisonersArmy Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Dungeon.TPrisonersArmy o = new Aow.Units.Dungeon.TPrisonersArmy();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TDungeon (instance size 64, VMT 557C557C): $38 FPrisoners, $3C FPrisonersMode. }
@@ -111,7 +99,7 @@ namespace Aow.Units.Dungeon
         {
             base.Create__init(AOwner);
             FPrisonersMode = Aow.Units.Dungeon.TPrisonersMode.pmNormal;
-            var call__5 = Aow.Units.Dungeon.TPrisonersArmy.Create(null);
+            var call__5 = new Aow.Units.Dungeon.TPrisonersArmy(null);
             FPrisoners = call__5;
         }
 

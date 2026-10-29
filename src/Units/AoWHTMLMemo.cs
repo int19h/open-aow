@@ -61,11 +61,6 @@ namespace Aow.Units.AoWHTMLMemo
         public int FPos;
         public int FLine;
         public int FSpacing;
-        // System.pas:111
-        public static Aow.Units.AoWHTMLMemo.TChangeInfo Create()
-        {
-            return new Aow.Units.AoWHTMLMemo.TChangeInfo();
-        }
     }
 
     // { AoWHTMLMemo.TaowHTMLMemo (instance size 548). Fields: +$1EC F1EC (a list that is created and
@@ -230,7 +225,7 @@ namespace Aow.Units.AoWHTMLMemo
             void NewChange()
             {
                 Aow.Units.AoWHTMLMemo.TChangeInfo N = default;
-                N = Aow.Units.AoWHTMLMemo.TChangeInfo.Create();
+                N = new Aow.Units.AoWHTMLMemo.TChangeInfo();
                 N.FHeight = CI.FHeight;
                 N.FColor = CI.FColor;
                 N.FFont = CI.FFont;
@@ -348,7 +343,7 @@ namespace Aow.Units.AoWHTMLMemo
                 }
 
                 FChanges.Clear();
-                CI = Aow.Units.AoWHTMLMemo.TChangeInfo.Create();
+                CI = new Aow.Units.AoWHTMLMemo.TChangeInfo();
                 CI.FHeight = 10;
                 CI.FColor = 16777215;
                 CI.FFont = (AnsiString)"";

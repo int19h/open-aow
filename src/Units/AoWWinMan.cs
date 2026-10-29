@@ -537,7 +537,7 @@ namespace Aow.Units.AoWWinMan
                     var call__47 = FSelectedUnit.GetAbilityEnabled(I);
                     if (call__47)
                     {
-                        A = Aow.Units.AoWTC.TTCAbility.Create();
+                        A = new Aow.Units.AoWTC.TTCAbility();
                         A.Ability = I;
                         bool bool__48 = (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
                         if (bool__48)

@@ -7144,7 +7144,7 @@ namespace Aow.Units.ImageLib
         public TILManagerList(Aow.Units.ImageLib.TImageLibraryManager AOwner)
         {
             FOwner = AOwner;
-            var call__192 = Aow.Units.HashTabU.TStringHashTable256.Create();
+            var call__192 = new Aow.Units.HashTabU.TStringHashTable256();
             FHashTable = call__192;
         }
 

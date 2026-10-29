@@ -230,6 +230,8 @@ namespace Aow.Units.ItemGrid
 
     public partial class TItemListView : Aow.Units.Engine.TEChangeNotifyNode
     {
+        public TItemListView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // ItemGrid.pas:57
         public virtual Aow.Units.AoWE.TItem GetItem(int Index)
         {

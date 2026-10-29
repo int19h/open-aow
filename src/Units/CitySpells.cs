@@ -941,7 +941,7 @@ namespace Aow.Units.CitySpells
             Aow.Units.City.TCity TargetCity = default;
             Aow.Units.City.TCityEnchantment Enchantment = default;
             TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
-            Enchantment = Aow.Units.City.TCityEnchantment.Create(null);
+            Enchantment = new Aow.Units.City.TCityEnchantment(null);
             Enchantment.FEnchantmentID = FEnchantmentID;
             Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
             var call__93 = ((Aow.Units.HSEngine.TMapField)TargetCity.Owner).GetXYL();

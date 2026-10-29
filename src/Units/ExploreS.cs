@@ -40,6 +40,8 @@ namespace Aow.Units.ExploreS
     // { TDefendersArmy (instance size 44, VMT 557C12B4): no additional fields. }
     public partial class TDefendersArmy : Aow.Units.AoWE.TArmy
     {
+        public TDefendersArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // ExploreS.pas:71
         public override bool CanAddUnit(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
@@ -64,21 +66,7 @@ namespace Aow.Units.ExploreS
         }
 
         // intf_P2_07.inc:445
-        public static new Aow.Units.ExploreS.TDefendersArmy Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ExploreS.TDefendersArmy o = new Aow.Units.ExploreS.TDefendersArmy();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TExplorationSite (instance size 56, VMT 557C1440):
@@ -108,7 +96,7 @@ namespace Aow.Units.ExploreS
         {
             base.Create__init(AOwner);
             FDefendersMode = Aow.Units.ExploreS.TDefendersMode.dmNormal;
-            var call__5 = Aow.Units.ExploreS.TDefendersArmy.Create(null);
+            var call__5 = new Aow.Units.ExploreS.TDefendersArmy(null);
             FDefenders = call__5;
         }
 

@@ -133,11 +133,6 @@ namespace Aow.Units.HashTabU
             return Result;
         }
 
-        // System.pas:111
-        public static Aow.Units.HashTabU.TIntegerHashList Create()
-        {
-            return new Aow.Units.HashTabU.TIntegerHashList();
-        }
     }
 
     // { HashTabU.TIntegerHashTable (instance size 4): the abstract table interface }
@@ -174,7 +169,7 @@ namespace Aow.Units.HashTabU
         internal Aow.Units.FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 FLists;
         // HashTabU.pas:186
         // { TIntegerHashTable256 }
-        public void Create__init_TIntegerHashTable256()
+        public TIntegerHashTable256()
         {
             int I = default;
             ;
@@ -183,7 +178,7 @@ namespace Aow.Units.HashTabU
                 byte end__2 = 255;
                 for (; I <= end__2; I += 1)
                 {
-                    var call__3 = Aow.Units.HashTabU.TIntegerHashList.Create();
+                    var call__3 = new Aow.Units.HashTabU.TIntegerHashList();
                     FLists[I] = call__3;
                 }
             }
@@ -240,22 +235,6 @@ namespace Aow.Units.HashTabU
             return Result;
         }
 
-        // HashTabU.pas:58
-        public static Aow.Units.HashTabU.TIntegerHashTable256 Create()
-        {
-            Aow.Units.HashTabU.TIntegerHashTable256 o = new Aow.Units.HashTabU.TIntegerHashTable256();
-            try
-            {
-                o.Create__init_TIntegerHashTable256();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public struct TStringHashItem
@@ -343,11 +322,6 @@ namespace Aow.Units.HashTabU
             }
         }
 
-        // System.pas:111
-        public static Aow.Units.HashTabU.TStringHashList Create()
-        {
-            return new Aow.Units.HashTabU.TStringHashList();
-        }
     }
 
     // { HashTabU.TStringHashTable (instance size 4): the abstract table interface }
@@ -385,7 +359,7 @@ namespace Aow.Units.HashTabU
         internal Aow.Units.FixedArray_Aow_Units_HashTabU_TStringHashList_256 FLists;
         // HashTabU.pas:281
         // { TStringHashTable256 }
-        public void Create__init_TStringHashTable256()
+        public TStringHashTable256()
         {
             int I = default;
             ;
@@ -394,7 +368,7 @@ namespace Aow.Units.HashTabU
                 byte end__8 = 255;
                 for (; I <= end__8; I += 1)
                 {
-                    var call__9 = Aow.Units.HashTabU.TStringHashList.Create();
+                    var call__9 = new Aow.Units.HashTabU.TStringHashList();
                     FLists[I] = call__9;
                 }
             }
@@ -493,22 +467,6 @@ namespace Aow.Units.HashTabU
             return Result;
         }
 
-        // HashTabU.pas:96
-        public static Aow.Units.HashTabU.TStringHashTable256 Create()
-        {
-            Aow.Units.HashTabU.TStringHashTable256 o = new Aow.Units.HashTabU.TStringHashTable256();
-            try
-            {
-                o.Create__init_TStringHashTable256();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class HashTabU
