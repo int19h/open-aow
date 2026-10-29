@@ -58,7 +58,7 @@ internal static class FrameFixtureChecks
             controller.HideTransientWindows();
             Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
 
-            var players = new TPlayerList { FChildren = Aow.Units.Engine.TEObjectList.Create() };
+            var players = new TPlayerList { FChildren = new Aow.Units.Engine.TEObjectList() };
             players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });
             players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psTerminated });
             players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });

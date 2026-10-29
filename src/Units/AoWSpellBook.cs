@@ -1278,7 +1278,7 @@ namespace Aow.Units.AoWSpellBook
             FSpells = call__148;
             Defaults.A = 2;
             Defaults.B = 0;
-            var call__149 = Aow.Units.Engine.TDoubleItemList.Create();
+            var call__149 = new Aow.Units.Engine.TDoubleItemList();
             FPlayerPages = call__149;
             FPlayerPages.Default = Defaults;
         }

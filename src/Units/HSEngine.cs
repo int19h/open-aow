@@ -1137,17 +1137,17 @@ namespace Aow.Units.HSEngine
             var call__38 = Aow.Units.HSEngine.TVisibilityList.Create(this);
             FDynamicFixedVisibleHS = call__38;
             FDynamicFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__39 = Aow.Units.Engine.TETimerNode.Create(this);
+            var call__39 = new Aow.Units.Engine.TETimerNode(this);
             FTimer = call__39;
-            var call__40 = Aow.Units.Engine.TEventList.Create();
+            var call__40 = new Aow.Units.Engine.TEventList();
             FHSChangedEvents = call__40;
-            var call__41 = Aow.Units.Engine.TEventList.Create();
+            var call__41 = new Aow.Units.Engine.TEventList();
             FTerrainChangedEvents = call__41;
-            var call__42 = Aow.Units.Engine.TEventList.Create();
+            var call__42 = new Aow.Units.Engine.TEventList();
             FViewPortChangedEvents = call__42;
-            var call__43 = Aow.Units.Engine.TEventList.Create();
+            var call__43 = new Aow.Units.Engine.TEventList();
             FNewFrameEvents = call__43;
-            var call__44 = Aow.Units.Engine.TEventList.Create();
+            var call__44 = new Aow.Units.Engine.TEventList();
             FDestroyEvents = call__44;
         }
 
@@ -1392,7 +1392,7 @@ namespace Aow.Units.HSEngine
             Aow.Rtl.TRect R = default;
             Aow.Units.HSEngine.TMapLevel MapLevel = default;
             LockTerrainChangedEvent();
-            List = Aow.Units.Engine.TShortIntList.Create();
+            List = new Aow.Units.Engine.TShortIntList();
             var call__52 = FMapContainer.GetMapLevel(L);
             MapLevel = call__52;
             Count = 0;
@@ -1496,9 +1496,9 @@ namespace Aow.Units.HSEngine
             if (ChangeTerrainProc != null)
             {
                 LockTerrainChangedEvent();
-                OrgList = Aow.Units.Engine.TShortIntList.Create();
-                NewList = Aow.Units.Engine.TShortIntList.Create();
-                Changed = Aow.Units.Engine.TBitList.Create();
+                OrgList = new Aow.Units.Engine.TShortIntList();
+                NewList = new Aow.Units.Engine.TShortIntList();
+                Changed = new Aow.Units.Engine.TBitList();
                 var call__59 = FMapContainer.GetMapLevel(L);
                 MapLevel = call__59;
                 Count = 0;
@@ -2192,13 +2192,13 @@ namespace Aow.Units.HSEngine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__97 = Aow.Units.Engine.TEventList.Create();
+            var call__97 = new Aow.Units.Engine.TEventList();
             FOnHSMLoaded = call__97;
-            var call__98 = Aow.Units.Engine.TEventList.Create();
+            var call__98 = new Aow.Units.Engine.TEventList();
             FOnHSMClose = call__98;
-            var call__99 = Aow.Units.Engine.TEventList.Create();
+            var call__99 = new Aow.Units.Engine.TEventList();
             FOnHSSLoaded = call__99;
-            var call__100 = Aow.Units.Engine.TEventList.Create();
+            var call__100 = new Aow.Units.Engine.TEventList();
             FOnHSSClose = call__100;
             RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMapContainer>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMapLevel>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.THSMap>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.THSSet>()]);
             RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMapObjectResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.HSEngine.TMultiHexMOR>()]);
@@ -5279,7 +5279,7 @@ namespace Aow.Units.HSEngine
             int Xhx = default;
             int Yhx = default;
             Aow.Units.HSEngine.THNWalkData Walk = default;
-            Result = Aow.Units.Engine.TWordList.Create();
+            Result = new Aow.Units.Engine.TWordList();
             {
                 I = 0;
                 int end__215 = FCount - 1;
@@ -5650,9 +5650,9 @@ namespace Aow.Units.HSEngine
             base.Create__init(AOwner);
             var call__220 = new Aow.Rtl.TList();
             FLocationHS = call__220;
-            var call__221 = Aow.Units.Engine.TEventList.Create();
+            var call__221 = new Aow.Units.Engine.TEventList();
             FOnSelect = call__221;
-            var call__222 = Aow.Units.Engine.TEventList.Create();
+            var call__222 = new Aow.Units.Engine.TEventList();
             FOnDeselect = call__222;
         }
 
@@ -5847,15 +5847,15 @@ namespace Aow.Units.HSEngine
         public void Create__init_THSMapMouse()
         {
             ;
-            var call__227 = Aow.Units.Engine.TEventList.Create();
+            var call__227 = new Aow.Units.Engine.TEventList();
             FOnUp = call__227;
-            var call__228 = Aow.Units.Engine.TEventList.Create();
+            var call__228 = new Aow.Units.Engine.TEventList();
             FOnDown = call__228;
-            var call__229 = Aow.Units.Engine.TEventList.Create();
+            var call__229 = new Aow.Units.Engine.TEventList();
             FOnMove = call__229;
-            var call__230 = Aow.Units.Engine.TEventList.Create();
+            var call__230 = new Aow.Units.Engine.TEventList();
             FOnDblClick = call__230;
-            var call__231 = Aow.Units.Engine.TEventList.Create();
+            var call__231 = new Aow.Units.Engine.TEventList();
             FOnCaptureChanged = call__231;
             Reset();
         }
@@ -7014,7 +7014,7 @@ namespace Aow.Units.HSEngine
             base.Create__init(AOwner);
             var call__290 = GetControlStyle();
             SetControlStyle(call__290 + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csReserved2));
-            var call__291 = Aow.Units.Engine.TPlugInControl.Create(null);
+            var call__291 = new Aow.Units.Engine.TPlugInControl(null);
             FPlugInControl = call__291;
             var call__292 = new Aow.Rtl.TStringList();
             FTerrainTypes = call__292;

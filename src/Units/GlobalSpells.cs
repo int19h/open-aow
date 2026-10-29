@@ -1694,7 +1694,7 @@ namespace Aow.Units.GlobalSpells
             int I = default;
             Aow.Units.Engine.TDoubleItemList Heroes = default;
             int Index = default;
-            Heroes = Aow.Units.Engine.TDoubleItemList.Create();
+            Heroes = new Aow.Units.Engine.TDoubleItemList();
             {
                 I = Aow.Units.AoWE.AoWE.AoWHSMap.FHeroControl.GetCount() - 1;
                 byte end__223 = 0;

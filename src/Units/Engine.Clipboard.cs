@@ -16,7 +16,7 @@ public partial class TECopyComponent : TComponent
     public override void Create__init(TComponent? owner)
     {
         base.Create__init(owner);
-        objects = TEObjectList.Create();
+        objects = new TEObjectList();
     }
     public static TECopyComponent Create(TComponent? owner)
     {

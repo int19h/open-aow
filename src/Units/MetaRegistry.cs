@@ -115,10 +115,10 @@ namespace Aow.Units
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TECustomNode), new Aow.Units.Engine.TEObject.Meta(), () => new Aow.Units.Engine.TECustomNode(), 8);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEObjectEditor), new Aow.Units.Engine.TEObjectEditor.Meta(), () => new Aow.Units.Engine.TEObjectEditor(), 8);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEResource), new Aow.Units.Engine.TEResource.Meta(), () => new Aow.Units.Engine.TEResource(), 24);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEUser), new Aow.Units.Engine.TEObject.Meta(), () => new Aow.Units.Engine.TEUser(), 12);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.Engine.TEUser), new Aow.Units.Engine.TEObject.Meta(), static owner => new Aow.Units.Engine.TEUser(owner), 12);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEventList), new Aow.Units.Engine.TEventList.Meta(), () => new Aow.Units.Engine.TEventList(), 24);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TIntegerList), new Aow.Units.Engine.TIntegerList.Meta(), () => new Aow.Units.Engine.TIntegerList(), 20);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TPlugInControl), new Aow.Units.Engine.TEObject.Meta(), () => new Aow.Units.Engine.TPlugInControl(), 16);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.Engine.TPlugInControl), new Aow.Units.Engine.TEObject.Meta(), static owner => new Aow.Units.Engine.TPlugInControl(owner), 16);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TQuadItemList), new Aow.Units.Engine.TQuadItemList.Meta(), () => new Aow.Units.Engine.TQuadItemList(), 32);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TShortIntList), new Aow.Units.Engine.TShortIntList.Meta(), () => new Aow.Units.Engine.TShortIntList(), 20);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TWordList), new Aow.Units.Engine.TWordList.Meta(), () => new Aow.Units.Engine.TWordList(), 20);
@@ -299,7 +299,7 @@ namespace Aow.Units
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TENode), new Aow.Units.Engine.TENode.Meta(), () => new Aow.Units.Engine.TENode(), 12);
             Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.Engine.TEResourceEditSettings), new Aow.Units.Engine.TEResourceEditSettings.Meta(), static owner => new Aow.Units.Engine.TEResourceEditSettings(owner), 16);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TESortNode), new Aow.Units.Engine.TESortNode.Meta(), () => new Aow.Units.Engine.TESortNode(), 24);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TETimerNode), new Aow.Units.Engine.TETimerNode.Meta(), () => new Aow.Units.Engine.TETimerNode(), 56);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.Engine.TETimerNode), new Aow.Units.Engine.TETimerNode.Meta(), static owner => new Aow.Units.Engine.TETimerNode(owner), 56);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.EventLog.TEndTurnEventLog), new Aow.Units.EventLog.TEndTurnEventLog.Meta(), () => new Aow.Units.EventLog.TEndTurnEventLog(), 24);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.EventLog.TGameOverEventLog), new Aow.Units.EventLog.TGameOverEventLog.Meta(), () => new Aow.Units.EventLog.TGameOverEventLog(), 32);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.EventLog.THelpMessageEventLog), new Aow.Units.Engine.TEObject.Meta(), () => new Aow.Units.EventLog.THelpMessageEventLog(), 36);
@@ -524,7 +524,7 @@ namespace Aow.Units
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Dungeon.TPrisonersJoinEventLog), new Aow.Units.Engine.TEObject.Meta(), () => new Aow.Units.Dungeon.TPrisonersJoinEventLog(), 64);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEChangeNotifyEventList), new Aow.Units.Engine.TEChangeNotifyNode.Meta(), () => new Aow.Units.Engine.TEChangeNotifyEventList(), 20);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEControlStyleNode), new Aow.Units.Engine.TEControlStyleNode.Meta(), () => new Aow.Units.Engine.TEControlStyleNode(), 16);
-            Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEControlStyleSortNode), new Aow.Units.Engine.TEControlStyleSortNode.Meta(), () => new Aow.Units.Engine.TEControlStyleSortNode(), 28);
+            Aow.Units.Engine.EObjectCreation.Register(typeof(Aow.Units.Engine.TEControlStyleSortNode), new Aow.Units.Engine.TEControlStyleSortNode.Meta(), static owner => new Aow.Units.Engine.TEControlStyleSortNode(owner), 28);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TECustomOwner), new Aow.Units.Engine.TECustomOwner.Meta(), () => new Aow.Units.Engine.TECustomOwner(), 20);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEInverseSortNode), new Aow.Units.Engine.TEInverseSortNode.Meta(), () => new Aow.Units.Engine.TEInverseSortNode(), 24);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.Engine.TEReferenceNode), new Aow.Units.Engine.TENode.Meta(), () => new Aow.Units.Engine.TEReferenceNode(), 12);

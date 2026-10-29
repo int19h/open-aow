@@ -555,7 +555,7 @@ namespace Aow.Units.AGCPlugins
                     break;
                 case 1:
                     Settings = FMoveSettings;
-                    Fields = Aow.Units.Engine.TDoubleItemList.Create();
+                    Fields = new Aow.Units.Engine.TDoubleItemList();
                     if (Settings.FProcessedMapFields.Count > 40)
                     {
                         {
