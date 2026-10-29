@@ -1603,7 +1603,7 @@ namespace Aow.Units.AoWSetup
             Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType = (Aow.Units.AoWE.TPlayerConnectionType)FSettings.FConnectionType;
             if (GetRemote())
             {
-                RemotePCC = Aow.Units.NetworkE.TRemotePCC.Create();
+                RemotePCC = new Aow.Units.NetworkE.TRemotePCC();
                 var call__109 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount();
                 RemotePCC.Setup(call__109, FRemotePlayer.FRemoteID);
                 RemotePCC.SetConnectionMode(0, Aow.Units.NetworkE.TConnectionMode.cmGlobal);
@@ -1649,7 +1649,7 @@ namespace Aow.Units.AoWSetup
             }
             else
             {
-                LocalPCC = Aow.Units.NetworkE.TLocalPCC.Create();
+                LocalPCC = new Aow.Units.NetworkE.TLocalPCC();
                 var call__119 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount();
                 LocalPCC.Setup(call__119);
                 LocalPCC.SetConnectionMode(0, Aow.Units.NetworkE.TConnectionMode.cmGlobal);

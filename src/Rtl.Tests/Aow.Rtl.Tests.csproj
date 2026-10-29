@@ -13,6 +13,7 @@
     </PackageReference>
     <ProjectReference Include="../Rtl/Aow.Rtl.csproj" />
     <ProjectReference Include="../Units/Aow.Units.csproj" />
+    <ProjectReference Include="../Platform/Aow.Platform.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>

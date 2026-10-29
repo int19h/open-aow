@@ -8,7 +8,7 @@ public partial class THSMap
     public bool CanChangeTerrain(TMapObject sender, int x, int y, int level, TTerrainList terrain)
     {
         bool result = true;
-        var saved = TTerrainList.Create();
+        var saved = new TTerrainList();
         saved.SetCount(terrain.FCount);
         var mapLevel = FMapContainer.GetMapLevel(level);
         THNWalkData walk = default;

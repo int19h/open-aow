@@ -97,6 +97,23 @@ namespace Aow.Units.HSEngine
 //     FStaticCount (priority shr 26 <= 15) are the static ones. }
     public partial class TMapField : Aow.Units.Engine.TECustomNode
     {
+        // HSEngine.pas:1898
+        private void InitializeMapField(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            FTerrainType = unchecked((sbyte)-1);
+            FOverlayType = unchecked((sbyte)-1);
+            FStatus = TSet<Aow.Units.HSEngine.TMapFieldStatusElement>.Of();
+            Resize(3);
+        }
+
+        // Raw allocation for TAoWMapField.
+        protected TMapField() { }
+
+        public TMapField(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeMapField(AOwner);
+        }
+
         internal Aow.Units.HSEngine.THexagonSprite[] FHSList = [];
         internal byte FCapacity;
         internal byte FCount;
@@ -227,10 +244,7 @@ namespace Aow.Units.HSEngine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            FTerrainType = unchecked((sbyte)-1);
-            FOverlayType = unchecked((sbyte)-1);
-            FStatus = TSet<Aow.Units.HSEngine.TMapFieldStatusElement>.Of();
-            Resize(3);
+            InitializeMapField(AOwner);
         }
 
         // HSEngine.pas:1943
@@ -603,23 +617,6 @@ namespace Aow.Units.HSEngine
 
         public HNAccessor HN => new HNAccessor(this);
 
-        // HSEngine.pas:219
-        public static new Aow.Units.HSEngine.TMapField Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TMapField o = new Aow.Units.HSEngine.TMapField();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
 
@@ -632,21 +629,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:219
-            public new Aow.Units.HSEngine.TMapField Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TMapField o = (Aow.Units.HSEngine.TMapField)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TMapField Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapField)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TMapField => (Meta)MetaRegistry.Of(typeof(T));
@@ -716,9 +699,8 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3162
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TMapContainer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
 
         // HSEngine.pas:3241
@@ -878,23 +860,6 @@ namespace Aow.Units.HSEngine
 
         public MapLevelsAccessor MapLevels => new MapLevelsAccessor(this);
 
-        // HSEngine.pas:354
-        public static new Aow.Units.HSEngine.TMapContainer Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TMapContainer o = new Aow.Units.HSEngine.TMapContainer();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // HSEngine.pas:3208
@@ -906,21 +871,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:354
-            public new Aow.Units.HSEngine.TMapContainer Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TMapContainer o = (Aow.Units.HSEngine.TMapContainer)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TMapContainer Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapContainer)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TMapContainer => (Meta)MetaRegistry.Of(typeof(T));
@@ -931,6 +882,8 @@ namespace Aow.Units.HSEngine
 //     scene (THSMap); a sprite removed from it is made invisible. }
     public partial class TVisibilityList : Aow.Units.Engine.TEControlStyleInverseSortNode
     {
+        public TVisibilityList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // HSEngine.pas:3871
         public override void QuickClear()
         {
@@ -958,22 +911,6 @@ namespace Aow.Units.HSEngine
             Resize(FCapacity + 500);
         }
 
-        // Engine.pas:963
-        public static new Aow.Units.HSEngine.TVisibilityList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TVisibilityList o = new Aow.Units.HSEngine.TVisibilityList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { HSEngine.THSMap (instance size 164): the map. +$C FMouse, +$10 FMapContainer, +$14 FEngine,
@@ -990,6 +927,49 @@ namespace Aow.Units.HSEngine
 //     FVersion is a guessed name: nothing but ReadWrite touches it. }
     public partial class THSMap : Aow.Units.Engine.TENode
     {
+        // HSMAP.PAS:14
+        private void InitializeHSMap(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            var call__33 = CreateMouse();
+            FMouse = call__33;
+            FMouse.FHSMap = this;
+            var call__34 = new Aow.Units.HSEngine.THexagonSpriteSelection(this);
+            FSelection = call__34;
+            FSelection.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__35 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FStaticVisibleHS = call__35;
+            FStaticVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__36 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FDynamicVisibleHS = call__36;
+            FDynamicVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__37 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FStaticFixedVisibleHS = call__37;
+            FStaticFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__38 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FDynamicFixedVisibleHS = call__38;
+            FDynamicFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__39 = new Aow.Units.Engine.TETimerNode(this);
+            FTimer = call__39;
+            var call__40 = new Aow.Units.Engine.TEventList();
+            FHSChangedEvents = call__40;
+            var call__41 = new Aow.Units.Engine.TEventList();
+            FTerrainChangedEvents = call__41;
+            var call__42 = new Aow.Units.Engine.TEventList();
+            FViewPortChangedEvents = call__42;
+            var call__43 = new Aow.Units.Engine.TEventList();
+            FNewFrameEvents = call__43;
+            var call__44 = new Aow.Units.Engine.TEventList();
+            FDestroyEvents = call__44;
+        }
+
+        // Raw allocation for TAbstractAoWHSMap and the ordered TAoWCombatMap chain.
+        protected THSMap() { }
+
+        public THSMap(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeHSMap(AOwner);
+        }
+
         internal Aow.Units.HSEngine.THSMapMouse FMouse;
         internal Aow.Units.HSEngine.TMapContainer FMapContainer;
         internal Aow.Units.HSEngine.THSEngine FEngine;
@@ -1119,36 +1099,7 @@ namespace Aow.Units.HSEngine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__33 = CreateMouse();
-            FMouse = call__33;
-            FMouse.FHSMap = this;
-            var call__34 = Aow.Units.HSEngine.THexagonSpriteSelection.Create(this);
-            FSelection = call__34;
-            FSelection.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__35 = Aow.Units.HSEngine.TVisibilityList.Create(this);
-            FStaticVisibleHS = call__35;
-            FStaticVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__36 = Aow.Units.HSEngine.TVisibilityList.Create(this);
-            FDynamicVisibleHS = call__36;
-            FDynamicVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__37 = Aow.Units.HSEngine.TVisibilityList.Create(this);
-            FStaticFixedVisibleHS = call__37;
-            FStaticFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__38 = Aow.Units.HSEngine.TVisibilityList.Create(this);
-            FDynamicFixedVisibleHS = call__38;
-            FDynamicFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__39 = new Aow.Units.Engine.TETimerNode(this);
-            FTimer = call__39;
-            var call__40 = new Aow.Units.Engine.TEventList();
-            FHSChangedEvents = call__40;
-            var call__41 = new Aow.Units.Engine.TEventList();
-            FTerrainChangedEvents = call__41;
-            var call__42 = new Aow.Units.Engine.TEventList();
-            FViewPortChangedEvents = call__42;
-            var call__43 = new Aow.Units.Engine.TEventList();
-            FNewFrameEvents = call__43;
-            var call__44 = new Aow.Units.Engine.TEventList();
-            FDestroyEvents = call__44;
+            InitializeHSMap(AOwner);
         }
 
         // HSMAP.PAS:81
@@ -1181,7 +1132,7 @@ namespace Aow.Units.HSEngine
         public virtual Aow.Units.HSEngine.THSMapMouse CreateMouse()
         {
             Aow.Units.HSEngine.THSMapMouse Result = default;
-            Result = Aow.Units.HSEngine.THSMapMouse.Create();
+            Result = new Aow.Units.HSEngine.THSMapMouse();
             return Result;
         }
 
@@ -2106,23 +2057,6 @@ namespace Aow.Units.HSEngine
         public int MaxXhp { get => GetMaxXhp(); }
         public int MaxYhp { get => GetMaxYhp(); }
 
-        // HSEngine.pas:562
-        public static new Aow.Units.HSEngine.THSMap Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.THSMap o = new Aow.Units.HSEngine.THSMap();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // HSMAP.PAS:66
@@ -2134,21 +2068,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:562
-            public new Aow.Units.HSEngine.THSMap Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.THSMap o = (Aow.Units.HSEngine.THSMap)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.THSMap Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THSMap)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.THSMap => (Meta)MetaRegistry.Of(typeof(T));
@@ -2212,7 +2132,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:5019
         public virtual void CreateHSSet()
         {
-            var call__102 = Aow.Units.HSEngine.THSSet.Create(this);
+            var call__102 = new Aow.Units.HSEngine.THSSet(this);
             FHSSet = call__102;
         }
 
@@ -2842,6 +2762,10 @@ namespace Aow.Units.HSEngine
 //     the TMapField the sprite stands on (for the multi-hex sprites the field of the base hexagon). }
     public partial class THexagonSprite : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for the legacy sprite factories and IsoHex Attach protocol.
+        public THexagonSprite() { }
+        public THexagonSprite(TECustomNode owner) : base(owner) { }
+
         // HXSPRITE.PAS:6
         // { HXSPRITE.PAS: THexagonSprite, THPBasedHS, TSingleHS, TFixedVisibleHS, TCustomFixedVisibleHS
 //   (include file of HSEngine.pas; the original Asserts name D:\GEngine\HSENGINE\inc\HXSPRITE.PAS) }
@@ -3870,21 +3794,7 @@ namespace Aow.Units.HSEngine
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.THexagonSprite => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.HSEngine.THexagonSprite Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.THexagonSprite o = (Aow.Units.HSEngine.THexagonSprite)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.THexagonSprite Create(TECustomNode owner) => (Aow.Units.HSEngine.THexagonSprite)base.Create(owner);
         }
 
         public new Meta ClassType => (Meta)base.ClassType;
@@ -3895,6 +3805,11 @@ namespace Aow.Units.HSEngine
 //     FStatus. }
     public partial class TMapObject : Aow.Units.HSEngine.THexagonSprite
     {
+        public TMapObject(TECustomNode owner) : base(owner) { }
+
+        // Raw allocation for TMultiHexMO and TCenterViewLocation.
+        public TMapObject() { }
+
         protected internal Aow.Units.HSEngine.TMapObjectResource FResource;
         protected internal TSet<Aow.Units.HSEngine.TMapObjectStatusElement> FStatus;
         // MAPOBJ.PAS:88
@@ -4453,21 +4368,7 @@ namespace Aow.Units.HSEngine
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TMapObject => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.HSEngine.TMapObject Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TMapObject o = (Aow.Units.HSEngine.TMapObject)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TMapObject Create(TECustomNode owner) => (Aow.Units.HSEngine.TMapObject)base.Create(owner);
         }
     }
 
@@ -4477,6 +4378,24 @@ namespace Aow.Units.HSEngine
 //     FLevel (id 5), +$30 FName (id 6). }
     public partial class TMapObjectResource : Aow.Units.Engine.TEResource
     {
+        // MAPOBJ.PAS:383
+        private void InitializeMapObjectResource(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            var call__190 = new Aow.Units.HSEngine.TTerrainList();
+            FTerrainList = call__190;
+            var call__191 = Aow.Units.ImageLib.TImageLibrary.Create(null);
+            FImageLibrary = call__191;
+            SetLevel(26);
+        }
+
+        // Raw allocation for TCenterViewLocationResource and the other legacy resource factories.
+        protected TMapObjectResource() { }
+
+        public TMapObjectResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeMapObjectResource(AOwner);
+        }
+
         protected internal Aow.Units.HSEngine.THSEngine FEngine;
         protected internal int FShowPriorityOffset;
         protected internal Aow.Units.ImageLib.TImageLibrary FImageLibrary;
@@ -4561,11 +4480,7 @@ namespace Aow.Units.HSEngine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__190 = Aow.Units.HSEngine.TTerrainList.Create();
-            FTerrainList = call__190;
-            var call__191 = Aow.Units.ImageLib.TImageLibrary.Create(null);
-            FImageLibrary = call__191;
-            SetLevel(26);
+            InitializeMapObjectResource(AOwner);
         }
 
         // MAPOBJ.PAS:620
@@ -4831,23 +4746,6 @@ namespace Aow.Units.HSEngine
         public byte Level { get => FLevel; set => SetLevel(value); }
         public Aow.Rtl.AnsiString Name { get => FName; set => FName = value; }
 
-        // HSEngine.pas:1124
-        public static new Aow.Units.HSEngine.TMapObjectResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TMapObjectResource o = new Aow.Units.HSEngine.TMapObjectResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
             // MAPOBJ.PAS:410
@@ -4867,21 +4765,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:1124
-            public new Aow.Units.HSEngine.TMapObjectResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TMapObjectResource o = (Aow.Units.HSEngine.TMapObjectResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TMapObjectResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapObjectResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TMapObjectResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -4891,6 +4775,8 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TMapObjectResourceList (instance size 20) }
     public partial class TMapObjectResourceList : Aow.Units.Engine.TEResourceList
     {
+        public TMapObjectResourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // MAPOBJ.PAS:641
         // { TMapObjectResourceList }
         public Aow.Units.HSEngine.TMapObjectResource GetMOR(int Index)
@@ -4946,22 +4832,6 @@ namespace Aow.Units.HSEngine
 
         public MORsAccessor MORs => new MORsAccessor(this);
 
-        // Engine.pas:855
-        public static new Aow.Units.HSEngine.TMapObjectResourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TMapObjectResourceList o = new Aow.Units.HSEngine.TMapObjectResourceList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { A map location: hexagon column X, row Y, map level L and a flag byte (LocationsConnected
@@ -5020,6 +4890,29 @@ namespace Aow.Units.HSEngine
     // { TNewHSMapSettings (instance size 32): the parameters of a new map (THSMap.CreateNewMap) }
     public partial class TNewHSMapSettings : Aow.Rtl.TObject
     {
+        // HSEngine.pas:2802
+        private void InitializeNewHSMapSettings()
+        {
+            Width = 64;
+            Height = 64;
+            Levels = 1;
+            HSSFileName = (AnsiString)"";
+            // { THSMap.ClassID }
+            HSMapClassID = 66048;
+            // { TMapContainer.ClassID }
+            MapContainerClassID = 65795;
+            // { TMapLevel.ClassID }
+            MapLevelClassID = 65794;
+        }
+
+        // Raw allocation for TAoWNewHSMapSettings and TAoWNewCombatMapSettings.
+        protected TNewHSMapSettings(bool raw) { }
+
+        public TNewHSMapSettings()
+        {
+            InitializeNewHSMapSettings();
+        }
+
         public int Width;
         // { +04 }
         public int Height;
@@ -5038,35 +4931,9 @@ namespace Aow.Units.HSEngine
         // { +1C }
         public void Create__init_TNewHSMapSettings()
         {
-            ;
-            Width = 64;
-            Height = 64;
-            Levels = 1;
-            HSSFileName = (AnsiString)"";
-            // { THSMap.ClassID }
-            HSMapClassID = 66048;
-            // { TMapContainer.ClassID }
-            MapContainerClassID = 65795;
-            // { TMapLevel.ClassID }
-            MapLevelClassID = 65794;
+            InitializeNewHSMapSettings();
         }
 
-        // HSEngine.pas:99
-        public static Aow.Units.HSEngine.TNewHSMapSettings Create()
-        {
-            Aow.Units.HSEngine.TNewHSMapSettings o = new Aow.Units.HSEngine.TNewHSMapSettings();
-            try
-            {
-                o.Create__init_TNewHSMapSettings();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TTerrainList (instance size 12): terrain and overlay types by hexagon number, two bytes per
@@ -5399,11 +5266,6 @@ namespace Aow.Units.HSEngine
 
         public UsedAccessor Used => new UsedAccessor(this);
 
-        // System.pas:111
-        public static Aow.Units.HSEngine.TTerrainList Create()
-        {
-            return new Aow.Units.HSEngine.TTerrainList();
-        }
     }
 
     // { The records a map field passes by reference to the methods of its sprites. }
@@ -5465,6 +5327,23 @@ namespace Aow.Units.HSEngine
     // Field size and neighbour offsets keep the recovered layout values.
     public partial class TMapLevel : Aow.Units.Engine.TECustomNode
     {
+        // HSEngine.pas:2815
+        private void InitializeMapLevel(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            FMapFieldCID = 65793;
+        }
+
+        // Raw allocation for TAoWMapLevel.
+        protected TMapLevel() { }
+
+        protected TMapLevel(ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeMapLevel(AOwner);
+        }
+
+        public static new TMapLevel Create(TECustomNode owner) =>
+            ConstructionContext.Create(owner, static (context, value) => new TMapLevel(context, value));
+
         protected internal int FLhx;
         protected internal int FWidth;
         protected internal int FHeight;
@@ -5490,7 +5369,7 @@ namespace Aow.Units.HSEngine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            FMapFieldCID = 65793;
+            InitializeMapLevel(AOwner);
         }
 
         // HSEngine.pas:2913
@@ -5584,23 +5463,6 @@ namespace Aow.Units.HSEngine
 
         public FieldAccessor Field => new FieldAccessor(this);
 
-        // HSEngine.pas:312
-        public static new Aow.Units.HSEngine.TMapLevel Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TMapLevel o = new Aow.Units.HSEngine.TMapLevel();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // HSEngine.pas:2837
@@ -5612,21 +5474,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:312
-            public new Aow.Units.HSEngine.TMapLevel Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TMapLevel o = (Aow.Units.HSEngine.TMapLevel)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TMapLevel Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapLevel)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TMapLevel => (Meta)MetaRegistry.Of(typeof(T));
@@ -5645,9 +5493,8 @@ namespace Aow.Units.HSEngine
         internal Aow.Units.HSEngine.THexagonSprite FEventHS;
         // HSEngine.pas:3681
         // { THexagonSpriteSelection }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public THexagonSpriteSelection(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__220 = new Aow.Rtl.TList();
             FLocationHS = call__220;
             var call__221 = new Aow.Units.Engine.TEventList();
@@ -5801,22 +5648,6 @@ namespace Aow.Units.HSEngine
         public Aow.Units.Engine.TEventList OnDeselect { get => FOnDeselect; }
         public Aow.Units.HSEngine.THexagonSprite EventHS { get => FEventHS; }
 
-        // HSEngine.pas:395
-        public static new Aow.Units.HSEngine.THexagonSpriteSelection Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.THexagonSpriteSelection o = new Aow.Units.HSEngine.THexagonSpriteSelection();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { HSEngine.THSMapMouse (instance size 60): the mouse of a map. +4 FHSMap, +8 FX, +$C FY (the
@@ -5826,6 +5657,30 @@ namespace Aow.Units.HSEngine
 //     FIgnoreDown, +$39 FShift, +$3A FCursorVisible (+$34 and +$3A are used by the game only). }
     public partial class THSMapMouse : Aow.Rtl.TObject
     {
+        // HSEngine.pas:3475
+        private void InitializeHSMapMouse()
+        {
+            var call__227 = new Aow.Units.Engine.TEventList();
+            FOnUp = call__227;
+            var call__228 = new Aow.Units.Engine.TEventList();
+            FOnDown = call__228;
+            var call__229 = new Aow.Units.Engine.TEventList();
+            FOnMove = call__229;
+            var call__230 = new Aow.Units.Engine.TEventList();
+            FOnDblClick = call__230;
+            var call__231 = new Aow.Units.Engine.TEventList();
+            FOnCaptureChanged = call__231;
+            Reset();
+        }
+
+        // Raw allocation for TAbstractAoWHSMapMouse.
+        protected THSMapMouse(bool raw) { }
+
+        public THSMapMouse()
+        {
+            InitializeHSMapMouse();
+        }
+
         internal Aow.Units.HSEngine.THSMap FHSMap;
         internal int FX;
         internal int FY;
@@ -5846,18 +5701,7 @@ namespace Aow.Units.HSEngine
         // { THSMapMouse }
         public void Create__init_THSMapMouse()
         {
-            ;
-            var call__227 = new Aow.Units.Engine.TEventList();
-            FOnUp = call__227;
-            var call__228 = new Aow.Units.Engine.TEventList();
-            FOnDown = call__228;
-            var call__229 = new Aow.Units.Engine.TEventList();
-            FOnMove = call__229;
-            var call__230 = new Aow.Units.Engine.TEventList();
-            FOnDblClick = call__230;
-            var call__231 = new Aow.Units.Engine.TEventList();
-            FOnCaptureChanged = call__231;
-            Reset();
+            InitializeHSMapMouse();
         }
 
         // HSEngine.pas:3486
@@ -6173,22 +6017,6 @@ namespace Aow.Units.HSEngine
         public bool IgnoreDown { get => FIgnoreDown; set => FIgnoreDown = value; }
         public bool CursorVisible { get => FCursorVisible; set => FCursorVisible = value; }
 
-        // HSEngine.pas:444
-        public static Aow.Units.HSEngine.THSMapMouse Create()
-        {
-            Aow.Units.HSEngine.THSMapMouse o = new Aow.Units.HSEngine.THSMapMouse();
-            try
-            {
-                o.Create__init_THSMapMouse();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate void TCenterViewEvent(int Xhx, int Yhx, int Lhx);
@@ -6650,9 +6478,8 @@ namespace Aow.Units.HSEngine
 
         // HSEngine.pas:4489
         // { TMORTerrainControl }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TMORTerrainControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__268 = new Aow.Rtl.TList();
             FResources = call__268;
             FMOClass = typeof(Aow.Units.HSEngine.TMapObject);
@@ -6879,64 +6706,20 @@ namespace Aow.Units.HSEngine
         public Aow.Rtl.TList Resources { get => FResources; }
         public System.Type MOClass { get => FMOClass; set => FMOClass = value; }
 
-        // HSEngine.pas:707
-        public static new Aow.Units.HSEngine.TMORTerrainControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TMORTerrainControl o = new Aow.Units.HSEngine.TMORTerrainControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { HSEngine.THexagonControl (instance size 24): the hexagon resources of a set }
     public partial class THexagonControl : Aow.Units.HSEngine.TMORTerrainControl
     {
-        // HSEngine.pas:707
-        public static new Aow.Units.HSEngine.THexagonControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.THexagonControl o = new Aow.Units.HSEngine.THexagonControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
+        public THexagonControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
-            return o;
-        }
     }
 
     // { HSEngine.TRoadControl (instance size 24): the road resources of a set }
     public partial class TRoadControl : Aow.Units.HSEngine.TMORTerrainControl
     {
-        // HSEngine.pas:707
-        public static new Aow.Units.HSEngine.TRoadControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TRoadControl o = new Aow.Units.HSEngine.TRoadControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
+        public TRoadControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
-            return o;
-        }
     }
 
     // { HSEngine.THSSet (instance size 72): +$14 FStatus, +$18 FHexagonControl, +$1C FRoadControl,
@@ -6948,6 +6731,45 @@ namespace Aow.Units.HSEngine
 //     lists are filled by the game (TAoWHSSet.Create) and not stored. }
     public partial class THSSet : Aow.Units.Engine.TECustomOwner
     {
+        // HSEngine.pas:3348
+        private void InitializeHSSet(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            var call__290 = GetControlStyle();
+            SetControlStyle(call__290 + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csReserved2));
+            var call__291 = new Aow.Units.Engine.TPlugInControl(null);
+            FPlugInControl = call__291;
+            var call__292 = new Aow.Rtl.TStringList();
+            FTerrainTypes = call__292;
+            var call__293 = new Aow.Rtl.TStringList();
+            FOverlayTypes = call__293;
+            var call__294 = new Aow.Rtl.TStringList();
+            FDecorationTypes = call__294;
+            var call__295 = new Aow.Units.HSEngine.THexagonControl(this);
+            FHexagonControl = call__295;
+            FHexagonControl.MOClass = typeof(Aow.Units.HSEngine.TAbstractHexagon);
+            var call__296 = new Aow.Units.HSEngine.TRoadControl(this);
+            FRoadControl = call__296;
+            FRoadControl.MOClass = typeof(Aow.Units.HSEngine.TAbstractRoad);
+            var call__297 = new Aow.Units.HSEngine.TMapObjectResourceList(this);
+            FMapObjectResourceList = call__297;
+            FMapObjectResourceList.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
+            var call__298 = new Aow.Units.Engine.TEResourceEditSettings(this);
+            FResourceEditSettings = call__298;
+            FResourceEditSettings.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
+            var call__299 = Aow.Units.ImageLib.TImageLibraryManager.Create(null);
+            FImageLibraryManager = call__299;
+            var call__300 = new Aow.Units.Sound.TSFXManager(null);
+            FSFXManager = call__300;
+        }
+
+        // Raw allocation for TAoWHSSet.
+        protected THSSet() { }
+
+        public THSSet(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeHSSet(AOwner);
+        }
+
         internal TSet<Aow.Units.HSEngine.THSSetStatusElement> FStatus;
         internal Aow.Units.HSEngine.THexagonControl FHexagonControl;
         internal Aow.Units.HSEngine.TRoadControl FRoadControl;
@@ -7012,32 +6834,7 @@ namespace Aow.Units.HSEngine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__290 = GetControlStyle();
-            SetControlStyle(call__290 + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csReserved2));
-            var call__291 = new Aow.Units.Engine.TPlugInControl(null);
-            FPlugInControl = call__291;
-            var call__292 = new Aow.Rtl.TStringList();
-            FTerrainTypes = call__292;
-            var call__293 = new Aow.Rtl.TStringList();
-            FOverlayTypes = call__293;
-            var call__294 = new Aow.Rtl.TStringList();
-            FDecorationTypes = call__294;
-            var call__295 = Aow.Units.HSEngine.THexagonControl.Create(this);
-            FHexagonControl = call__295;
-            FHexagonControl.MOClass = typeof(Aow.Units.HSEngine.TAbstractHexagon);
-            var call__296 = Aow.Units.HSEngine.TRoadControl.Create(this);
-            FRoadControl = call__296;
-            FRoadControl.MOClass = typeof(Aow.Units.HSEngine.TAbstractRoad);
-            var call__297 = Aow.Units.HSEngine.TMapObjectResourceList.Create(this);
-            FMapObjectResourceList = call__297;
-            FMapObjectResourceList.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
-            var call__298 = new Aow.Units.Engine.TEResourceEditSettings(this);
-            FResourceEditSettings = call__298;
-            FResourceEditSettings.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
-            var call__299 = Aow.Units.ImageLib.TImageLibraryManager.Create(null);
-            FImageLibraryManager = call__299;
-            var call__300 = Aow.Units.Sound.TSFXManager.Create(null);
-            FSFXManager = call__300;
+            InitializeHSSet(AOwner);
         }
 
         // HSEngine.pas:3405
@@ -7133,23 +6930,6 @@ namespace Aow.Units.HSEngine
         public Aow.Rtl.TStringList OverlayTypes { get => FOverlayTypes; }
         public Aow.Rtl.TStringList DecorationTypes { get => FDecorationTypes; }
 
-        // HSEngine.pas:757
-        public static new Aow.Units.HSEngine.THSSet Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.THSSet o = new Aow.Units.HSEngine.THSSet();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TECustomOwner.Meta
         {
             // HSEngine.pas:3394
@@ -7161,21 +6941,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:757
-            public new Aow.Units.HSEngine.THSSet Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.THSSet o = (Aow.Units.HSEngine.THSSet)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.THSSet Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THSSet)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.THSSet => (Meta)MetaRegistry.Of(typeof(T));
@@ -7461,6 +7227,10 @@ namespace Aow.Units.HSEngine
 //     (not on a field). +8 FStatus: bit 1 visible. }
     public partial class TFixedVisibleHS : Aow.Units.HSEngine.THexagonSprite
     {
+        // Raw allocation for the TFixedVisibleHS metaclass entry.
+        public TFixedVisibleHS() { }
+        protected TFixedVisibleHS(TECustomNode owner) : base(owner) { }
+
         internal byte FStatus;
         // HXSPRITE.PAS:770
         // { TFixedVisibleHS }
@@ -7518,6 +7288,8 @@ namespace Aow.Units.HSEngine
 //     it). TAbstractAoWHSMap (AoWEPACK) creates two and sets OnShow and ShowPriority. }
     public partial class TCustomFixedVisibleHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
+        public TCustomFixedVisibleHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         internal int FShowPriority;
         internal Aow.Units.HSEngine.TOnShowHSEvent FOnShow;
         // HXSPRITE.PAS:800
@@ -7541,22 +7313,6 @@ namespace Aow.Units.HSEngine
         public new int ShowPriority { get => GetShowPriority(); set => FShowPriority = value; }
         public Aow.Units.HSEngine.TOnShowHSEvent OnShow { get => FOnShow; set => FOnShow = value; }
 
-        // Engine.pas:524
-        public static new Aow.Units.HSEngine.TCustomFixedVisibleHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TCustomFixedVisibleHS o = new Aow.Units.HSEngine.TCustomFixedVisibleHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { HSEngine.TLibraryImageHS (instance size 32): an image of an image library shown at a pixel
@@ -7586,9 +7342,8 @@ namespace Aow.Units.HSEngine
         // { LibImgHS.PAS: TLibraryImageHS (include file of HSEngine.pas; the original Asserts name
 //   D:\GEngine\HSENGINE\inc\LibImgHS.PAS) }
         // { TLibraryImageHS }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TLibraryImageHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FStatus = TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsMapIsOwner);
             SetLevel(26);
         }
@@ -7858,23 +7613,6 @@ namespace Aow.Units.HSEngine
         public bool DestroyOnShow { get => GetDestroyOnShow(); set => SetDestroyOnShow(value); }
         public new byte Level { get => GetLevel(); set => SetLevel(value); }
 
-        // HSEngine.pas:996
-        public static new Aow.Units.HSEngine.TLibraryImageHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TLibraryImageHS o = new Aow.Units.HSEngine.TLibraryImageHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // LibImgHS.PAS:13
@@ -7886,21 +7624,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:996
-            public new Aow.Units.HSEngine.TLibraryImageHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TLibraryImageHS o = (Aow.Units.HSEngine.TLibraryImageHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TLibraryImageHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TLibraryImageHS)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TLibraryImageHS => (Meta)MetaRegistry.Of(typeof(T));
@@ -7912,6 +7636,22 @@ namespace Aow.Units.HSEngine
 //     5 FYhp, 6 FLhx (rwByte). }
     public partial class THPBasedHS : Aow.Units.HSEngine.THexagonSprite
     {
+        // HXSPRITE.PAS:599
+        private void InitializeHPBasedHS(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            FXhp = -2147483648;
+            FYhp = -2147483648;
+            FLhx = unchecked((sbyte)-1);
+        }
+
+        // Raw allocation for TLibraryHS.
+        protected THPBasedHS() { }
+
+        public THPBasedHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeHPBasedHS(AOwner);
+        }
+
         protected internal bool FVisible;
         protected internal int FXhp;
         protected internal int FYhp;
@@ -7930,9 +7670,7 @@ namespace Aow.Units.HSEngine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            FXhp = -2147483648;
-            FYhp = -2147483648;
-            FLhx = unchecked((sbyte)-1);
+            InitializeHPBasedHS(AOwner);
         }
 
         // HXSPRITE.PAS:612
@@ -7960,23 +7698,6 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        // HSEngine.pas:1034
-        public static new Aow.Units.HSEngine.THPBasedHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.THPBasedHS o = new Aow.Units.HSEngine.THPBasedHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // HXSPRITE.PAS:607
@@ -7988,21 +7709,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:1034
-            public new Aow.Units.HSEngine.THPBasedHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.THPBasedHS o = (Aow.Units.HSEngine.THPBasedHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.THPBasedHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THPBasedHS)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.THPBasedHS => (Meta)MetaRegistry.Of(typeof(T));
@@ -8558,6 +8265,21 @@ namespace Aow.Units.HSEngine
 //     priority offset) }
     public partial class TMultiHexMOR : Aow.Units.HSEngine.TMapObjectResource
     {
+        // MAPOBJ.PAS:1232
+        private void InitializeMultiHexMOR(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            SetdXmainP(16);
+            SetdYmainP(32);
+        }
+
+        // Raw allocation for TTerrainMOR and TILTerrainMOR.
+        protected TMultiHexMOR() { }
+
+        public TMultiHexMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeMultiHexMOR(AOwner);
+        }
+
         protected internal int FdXImage;
         protected internal int FdYImage;
         protected internal int FdXmainP;
@@ -8577,8 +8299,7 @@ namespace Aow.Units.HSEngine
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            SetdXmainP(16);
-            SetdYmainP(32);
+            InitializeMultiHexMOR(AOwner);
         }
 
         // MAPOBJ.PAS:1244
@@ -8600,23 +8321,6 @@ namespace Aow.Units.HSEngine
         public int dXmainP { get => FdXmainP; set => SetdXmainP(value); }
         public int dYmainP { get => FdYmainP; set => SetdYmainP(value); }
 
-        // HSEngine.pas:1194
-        public static new Aow.Units.HSEngine.TMultiHexMOR Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TMultiHexMOR o = new Aow.Units.HSEngine.TMultiHexMOR();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // MAPOBJ.PAS:1239
@@ -8628,21 +8332,7 @@ namespace Aow.Units.HSEngine
             }
 
             // HSEngine.pas:1194
-            public new Aow.Units.HSEngine.TMultiHexMOR Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TMultiHexMOR o = (Aow.Units.HSEngine.TMultiHexMOR)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TMultiHexMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMultiHexMOR)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TMultiHexMOR => (Meta)MetaRegistry.Of(typeof(T));
@@ -8652,6 +8342,11 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractHexagon (instance size 16): the base of the terrain hexagons }
     public partial class TAbstractHexagon : Aow.Units.HSEngine.TMapObject
     {
+        public TAbstractHexagon(TECustomNode owner) : base(owner) { }
+
+        // Raw allocation for TIsometricHexagon and TCombatHexagon.
+        public TAbstractHexagon() { }
+
         // MAPOBJ.PAS:682
         public override byte GetLevel()
         {
@@ -8824,21 +8519,7 @@ namespace Aow.Units.HSEngine
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TAbstractHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.HSEngine.TAbstractHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TAbstractHexagon o = (Aow.Units.HSEngine.TAbstractHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TAbstractHexagon Create(TECustomNode owner) => (Aow.Units.HSEngine.TAbstractHexagon)base.Create(owner);
         }
     }
 
@@ -8846,11 +8527,25 @@ namespace Aow.Units.HSEngine
     public partial class TAbstractHexagonResource : Aow.Units.HSEngine.TMapObjectResource
     {
         // MAPOBJ.PAS:770
+        private void InitializeAbstractHexagonResource(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            SetLevel(0);
+        }
+
+        // Raw allocation for TIsometricHexagonResource.
+        protected TAbstractHexagonResource() { }
+
+        public TAbstractHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeAbstractHexagonResource(AOwner);
+        }
+
+        // MAPOBJ.PAS:770
         // { TAbstractHexagonResource }
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            SetLevel(0);
+            InitializeAbstractHexagonResource(AOwner);
         }
 
         // MAPOBJ.PAS:781
@@ -8875,27 +8570,16 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        // HSEngine.pas:1223
-        public static new Aow.Units.HSEngine.TAbstractHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.TAbstractHexagonResource o = new Aow.Units.HSEngine.TAbstractHexagonResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { HSEngine.TAbstractBorderHexagon (instance size 16) }
     public partial class TAbstractBorderHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
+        public TAbstractBorderHexagon(TECustomNode owner) : base(owner) { }
+
+        // Raw allocation for TBorderHexagon.
+        public TAbstractBorderHexagon() { }
+
         public new partial class Meta : Aow.Units.HSEngine.TAbstractHexagon.Meta
         {
             // MAPOBJ.PAS:791
@@ -8910,21 +8594,7 @@ namespace Aow.Units.HSEngine
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TAbstractBorderHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.HSEngine.TAbstractBorderHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TAbstractBorderHexagon o = (Aow.Units.HSEngine.TAbstractBorderHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TAbstractBorderHexagon Create(TECustomNode owner) => (Aow.Units.HSEngine.TAbstractBorderHexagon)base.Create(owner);
         }
     }
 
@@ -8936,6 +8606,11 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractRoad (instance size 16): the base of roads and bridges }
     public partial class TAbstractRoad : Aow.Units.HSEngine.TMapObject
     {
+        public TAbstractRoad(TECustomNode owner) : base(owner) { }
+
+        // Raw allocation for TRoad and TBridge.
+        public TAbstractRoad() { }
+
         // MAPOBJ.PAS:803
         public override byte GetLevel()
         {
@@ -9057,21 +8732,7 @@ namespace Aow.Units.HSEngine
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TAbstractRoad => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.HSEngine.TAbstractRoad Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.HSEngine.TAbstractRoad o = (Aow.Units.HSEngine.TAbstractRoad)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.HSEngine.TAbstractRoad Create(TECustomNode owner) => (Aow.Units.HSEngine.TAbstractRoad)base.Create(owner);
         }
     }
 
@@ -9230,9 +8891,8 @@ namespace Aow.Units.HSEngine
 
         // HSEngine.pas:1578
         // { TXYLList }
-        public void Create__init_TXYLList()
+        public TXYLList()
         {
-            ;
             FDefault.X = unchecked((sbyte)-1);
             FDefault.Y = unchecked((sbyte)-1);
             FDefault.L = unchecked((sbyte)-1);
@@ -9588,23 +9248,6 @@ namespace Aow.Units.HSEngine
         public Aow.Units.HSEngine.TXYL this[int Index] { get => Get(Index); set => Put(Index, value); }
 
         public Aow.Units.HSEngine.TXYL[] List { get => FList; }
-
-        // HSEngine.pas:1279
-        public static Aow.Units.HSEngine.TXYLList Create()
-        {
-            Aow.Units.HSEngine.TXYLList o = new Aow.Units.HSEngine.TXYLList();
-            try
-            {
-                o.Create__init_TXYLList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
@@ -10414,7 +10057,7 @@ namespace Aow.Units.HSEngine
                 }
             }
 
-            Locations = Aow.Units.HSEngine.TXYLList.Create();
+            Locations = new Aow.Units.HSEngine.TXYLList();
             {
                 I = 0;
                 int end__420 = List.Count - 1;

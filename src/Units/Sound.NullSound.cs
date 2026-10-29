@@ -12,7 +12,7 @@ public sealed class NullSoundSystem : TSoundSystem
     public static void Install()
     {
         MetaRegistry.Register(typeof(NullSoundSystem), new NullMeta(), () => new NullSoundSystem(), 12);
-        MetaRegistry.Register(typeof(NullSample), new TSample.Meta(), () => new NullSample(), 24);
+        MetaRegistry.Register(typeof(NullSample), new TSample.Meta(NullSample.Create), 24);
         Sound.RegisterSoundSystem((TSoundSystem.Meta)MetaRegistry.Of(typeof(NullSoundSystem)));
         Sound.InitializeSoundSystem("Galaxy", default);
     }
@@ -52,6 +52,9 @@ public sealed class NullSoundSystem : TSoundSystem
 
 internal sealed class NullSample : TSample
 {
+    private NullSample(ConstructionContext context, TSampleData data) : base(context, data) { }
+    public static new NullSample Create(TSampleData data) =>
+        ConstructionContext.Create(data, static (context, value) => new NullSample(context, value));
     private int volume;
     private bool looped;
     private TSamplePanning panning;
