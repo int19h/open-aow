@@ -26,8 +26,8 @@ public class TSdlSoundSystem : TSoundSystem
         {
             MetaRegistry.Register(typeof(TSdlSoundSystem), new SdlMeta(), () => new TSdlSoundSystem(), 12);
             MetaRegistry.Register(typeof(GalaxyAlias), new GalaxyMeta(), () => new GalaxyAlias(), 12);
-            MetaRegistry.Register(typeof(SdlSampleData), new TSampleData.Meta(), () => new SdlSampleData(), 12);
-            MetaRegistry.Register(typeof(SdlSample), new TSample.Meta(), () => new SdlSample(active!.Mixer), 24);
+            MetaRegistry.Register(typeof(SdlSampleData), new TSampleData.Meta(SdlSampleData.Create, SdlSampleData.CreateEx), 12);
+            MetaRegistry.Register(typeof(SdlSample), new TSample.Meta(static data => SdlSample.Create(active!.Mixer, data)), 24);
             registered = true;
         }
         if (SoundApi.SoundSystems.Find("SDL") is null) SoundApi.RegisterSoundSystem(TSoundSystem.Meta.Of<TSdlSoundSystem>());
@@ -180,21 +180,27 @@ public class TSdlSoundSystem : TSoundSystem
 internal sealed class SdlSampleData : TSampleData
 {
     public WaveData Wave { get; private set; } = new(44100, 1, []);
-    public override void Create__init(AnsiString name)
+    public static new SdlSampleData Create(AnsiString name) =>
+        ConstructionContext.Create(name, static (context, value) => new SdlSampleData(context, value));
+    public static new SdlSampleData CreateEx(in TWaveFormatEx format, object data, int size) =>
+        ConstructionContext.Create((format, data, size), static (context, value) =>
+            new SdlSampleData(context, value.format, value.data, value.size));
+
+    private SdlSampleData(ConstructionContext context, AnsiString name) : base(context, name)
     {
-        base.Create__init(name);
         using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name).ToString(), 0);
         Wave = WaveData.Read(stream);
     }
-    public override void CreateEx__init(in TWaveFormatEx format, object data, int size)
+    private SdlSampleData(ConstructionContext context, in TWaveFormatEx format, object data, int size) : base(context, format, data, size)
     {
-        base.CreateEx__init(format, data, size);
         Wave = WaveData.Decode(format, Aow.Rtl.Rtl.BufferBytes(data)[..size]);
     }
 }
 
-internal sealed class SdlSample(AudioMixer mixer) : TSample
+internal sealed class SdlSample(ConstructionContext context, AudioMixer mixer, TSampleData data) : TSample(context, data)
 {
+    public static SdlSample Create(AudioMixer mixer, TSampleData data) =>
+        ConstructionContext.Create((mixer, data), static (context, value) => new SdlSample(context, value.mixer, value.data));
     private AudioMixer.Voice? voice;
     private int volume = -1;
     private bool loop;

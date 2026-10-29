@@ -23,9 +23,8 @@ namespace Aow.Units.NetworkE
         internal Aow.Units.Engine.TEventList FOnProcess;
         // NetworkE.pas:605
         // { TPlayerCommunicator }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TPlayerCommunicator(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FReceivedPackage = null;
             var call__1 = new Aow.Units.Engine.TEventList();
             FOnReceive = call__1;
@@ -154,28 +153,27 @@ namespace Aow.Units.NetworkE
         public Aow.Units.NetworkE.TPlayerCommunicationControl PCC { get => FPCC; }
         public Aow.Units.Engine.TEventList OnProcess { get => FOnProcess; }
 
-        // NetworkE.pas:148
-        public static new Aow.Units.NetworkE.TPlayerCommunicator Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TPlayerCommunicator o = new Aow.Units.NetworkE.TPlayerCommunicator();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TTokenEvent (instance size 16): +8 FRefCount, +$C FTokenCounter (stored with id 10;
 //     -1 until the executer numbers the event). The base of the game's token events. }
     public partial class TTokenEvent : Aow.Units.Engine.TEObject
     {
+        // NetworkE.pas:943
+        private void InitializeTokenEvent(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            FRefCount = 1;
+            FTokenCounter = -1;
+        }
+
+        // Raw allocation for TAnimationTE and the legacy gameplay token factories.
+        protected TTokenEvent() { }
+
+        public TTokenEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeTokenEvent(AOwner);
+        }
+
         internal int FRefCount;
         internal int FTokenCounter;
         // NetworkE.pas:969
@@ -190,8 +188,7 @@ namespace Aow.Units.NetworkE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            FRefCount = 1;
-            FTokenCounter = -1;
+            InitializeTokenEvent(AOwner);
         }
 
         // NetworkE.pas:955
@@ -227,23 +224,6 @@ namespace Aow.Units.NetworkE
 
         public int TokenCounter { get => FTokenCounter; set => FTokenCounter = value; }
 
-        // NetworkE.pas:230
-        public static new Aow.Units.NetworkE.TTokenEvent Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TTokenEvent o = new Aow.Units.NetworkE.TTokenEvent();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // NetworkE.pas:950
@@ -255,21 +235,7 @@ namespace Aow.Units.NetworkE
             }
 
             // NetworkE.pas:230
-            public new Aow.Units.NetworkE.TTokenEvent Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.NetworkE.TTokenEvent o = (Aow.Units.NetworkE.TTokenEvent)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.NetworkE.TTokenEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenEvent)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.NetworkE.TTokenEvent => (Meta)MetaRegistry.Of(typeof(T));
@@ -290,9 +256,8 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:982
         // { TTokenEventList }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TTokenEventList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__9 = Aow.Units.Engine.TEReferenceNode.Create(null);
             FList = call__9;
         }
@@ -432,23 +397,6 @@ namespace Aow.Units.NetworkE
 
         public Aow.Units.NetworkE.TTokenEvent this[int Index] { get => GetEvent(Index); }
 
-        // NetworkE.pas:257
-        public static new Aow.Units.NetworkE.TTokenEventList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TTokenEventList o = new Aow.Units.NetworkE.TTokenEventList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // NetworkE.pas:995
@@ -460,21 +408,7 @@ namespace Aow.Units.NetworkE
             }
 
             // NetworkE.pas:257
-            public new Aow.Units.NetworkE.TTokenEventList Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.NetworkE.TTokenEventList o = (Aow.Units.NetworkE.TTokenEventList)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.NetworkE.TTokenEventList Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenEventList)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.NetworkE.TTokenEventList => (Meta)MetaRegistry.Of(typeof(T));
@@ -562,14 +496,14 @@ namespace Aow.Units.NetworkE
                     {
                         if (Executer.FOnSyncError != null)
                         {
-                            TE = Aow.Units.NetworkE.TSyncTE.Create(null);
+                            TE = new Aow.Units.NetworkE.TSyncTE(null);
                             var call__27 = Executer.GetSyncValue();
                             ((Aow.Units.NetworkE.TSyncTE)TE).FSyncValue = call__27;
                             FEvents.Insert(0, TE);
                             TE.Release();
                         }
 
-                        TE = Aow.Units.NetworkE.TPassTokenTE.Create(null);
+                        TE = new Aow.Units.NetworkE.TPassTokenTE(null);
                         FEvents.Add(TE);
                         TE.Release();
                     }
@@ -661,10 +595,9 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:1169
         // { TTokenControl }
-        public virtual void Create__init(Aow.Units.NetworkE.TTokenManager AManager, int APlayer)
+        public TTokenControl(Aow.Units.NetworkE.TTokenManager AManager, int APlayer)
         {
-            ;
-            var call__38 = Aow.Units.NetworkE.TTokenEventList.Create(null);
+            var call__38 = new Aow.Units.NetworkE.TTokenEventList(null);
             FEvents = call__38;
             FTokenManager = AManager;
             FPlayer = APlayer;
@@ -834,22 +767,6 @@ namespace Aow.Units.NetworkE
         public bool Active { get => FActive; set => FActive = value; }
         public int Count { get => GetCount(); }
 
-        // NetworkE.pas:303
-        public static Aow.Units.NetworkE.TTokenControl Create(Aow.Units.NetworkE.TTokenManager AManager, int APlayer)
-        {
-            Aow.Units.NetworkE.TTokenControl o = new Aow.Units.NetworkE.TTokenControl();
-            try
-            {
-                o.Create__init(AManager, APlayer);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TTokenExecuter (instance size 92): +4 FActiveTC, +8 FPrefetchTC, +$C FActiveTCIndex,
@@ -905,11 +822,10 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:1350
         // { TTokenExecuter }
-        public void Create__init_TTokenExecuter(Aow.Units.NetworkE.TTokenManager AManager)
+        public TTokenExecuter(Aow.Units.NetworkE.TTokenManager AManager)
         {
-            ;
             FTokenManager = AManager;
-            var call__55 = Aow.Units.NetworkE.TTokenEventList.Create(null);
+            var call__55 = new Aow.Units.NetworkE.TTokenEventList(null);
             FEvents = call__55;
             var call__56 = new Aow.Rtl.TList();
             FTCList = call__56;
@@ -917,7 +833,7 @@ namespace Aow.Units.NetworkE
             FOnEventsExecuted = call__57;
             var call__58 = new Aow.Units.Engine.TEventList();
             FOnActivateTC = call__58;
-            var call__59 = Aow.Units.NetworkE.TTokenEventList.Create(null);
+            var call__59 = new Aow.Units.NetworkE.TTokenEventList(null);
             FSystemEvents = call__59;
         }
 
@@ -1277,28 +1193,32 @@ namespace Aow.Units.NetworkE
         public Aow.Units.NetworkE.TGetSyncValueEvent OnGetSyncValue { get => FOnGetSyncValue; set => FOnGetSyncValue = value; }
         public Aow.Units.NetworkE.TTokenEventEvent OnExecuteTokenEvent { get => FOnExecuteTokenEvent; set => FOnExecuteTokenEvent = value; }
 
-        // NetworkE.pas:349
-        public static Aow.Units.NetworkE.TTokenExecuter Create(Aow.Units.NetworkE.TTokenManager AManager)
-        {
-            Aow.Units.NetworkE.TTokenExecuter o = new Aow.Units.NetworkE.TTokenExecuter();
-            try
-            {
-                o.Create__init_TTokenExecuter(AManager);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TTokenManager (instance size 28): +4 FTokenExecuter, +8 FTokenPackageDistributer, +$C
 //     FOwner, +$10 FTokenControls (one per player, nil for a free slot), +$14 FOnMessage. }
     public partial class TTokenManager : Aow.Rtl.TObject
     {
+        // NetworkE.pas:1606
+        private void InitializeTokenManager(Aow.Rtl.TObject AOwner)
+        {
+            FOwner = AOwner;
+            var call__102 = new Aow.Rtl.TList();
+            FTokenControls = call__102;
+            var call__103 = CreateTokenExecuter();
+            FTokenExecuter = call__103;
+            var call__104 = CreateTokenPackageDistributer();
+            FTokenPackageDistributer = call__104;
+        }
+
+        // Raw allocation for TAoWTokenManager.
+        protected TTokenManager() { }
+
+        public TTokenManager(Aow.Rtl.TObject AOwner)
+        {
+            InitializeTokenManager(AOwner);
+        }
+
         internal Aow.Units.NetworkE.TTokenExecuter FTokenExecuter;
         internal Aow.Units.NetworkE.TTokenPackageDistributer FTokenPackageDistributer;
         internal Aow.Rtl.TObject FOwner;
@@ -1308,7 +1228,7 @@ namespace Aow.Units.NetworkE
         public virtual Aow.Units.NetworkE.TTokenExecuter CreateTokenExecuter()
         {
             Aow.Units.NetworkE.TTokenExecuter Result = default;
-            Result = Aow.Units.NetworkE.TTokenExecuter.Create(this);
+            Result = new Aow.Units.NetworkE.TTokenExecuter(this);
             return Result;
         }
 
@@ -1316,7 +1236,7 @@ namespace Aow.Units.NetworkE
         public virtual Aow.Units.NetworkE.TTokenPackageDistributer CreateTokenPackageDistributer()
         {
             Aow.Units.NetworkE.TTokenPackageDistributer Result = default;
-            Result = Aow.Units.NetworkE.TTokenPackageDistributer.Create(this);
+            Result = new Aow.Units.NetworkE.TTokenPackageDistributer(this);
             return Result;
         }
 
@@ -1324,7 +1244,7 @@ namespace Aow.Units.NetworkE
         public virtual Aow.Units.NetworkE.TTokenControl CreateTokenControl(int APlayer)
         {
             Aow.Units.NetworkE.TTokenControl Result = default;
-            Result = Aow.Units.NetworkE.TTokenControl.Create(this, APlayer);
+            Result = new Aow.Units.NetworkE.TTokenControl(this, APlayer);
             return Result;
         }
 
@@ -1468,13 +1388,7 @@ namespace Aow.Units.NetworkE
         // { The original does not call the inherited constructor. }
         public void Create__init_TTokenManager(Aow.Rtl.TObject AOwner)
         {
-            FOwner = AOwner;
-            var call__102 = new Aow.Rtl.TList();
-            FTokenControls = call__102;
-            var call__103 = CreateTokenExecuter();
-            FTokenExecuter = call__103;
-            var call__104 = CreateTokenPackageDistributer();
-            FTokenPackageDistributer = call__104;
+            InitializeTokenManager(AOwner);
         }
 
         // NetworkE.pas:1614
@@ -1534,22 +1448,6 @@ namespace Aow.Units.NetworkE
         public TokenControlsAccessor TokenControls => new TokenControlsAccessor(this);
         public Aow.Units.NetworkE.TNetworkMessageEvent OnMessage { get => FOnMessage; set => FOnMessage = value; }
 
-        // NetworkE.pas:405
-        public static Aow.Units.NetworkE.TTokenManager Create(Aow.Rtl.TObject AOwner)
-        {
-            Aow.Units.NetworkE.TTokenManager o = new Aow.Units.NetworkE.TTokenManager();
-            try
-            {
-                o.Create__init_TTokenManager(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TConnectionMode : byte
@@ -1608,9 +1506,8 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:566
         // { TDataPackage }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TDataPackage(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FRefCount = 1;
         }
 
@@ -1648,22 +1545,6 @@ namespace Aow.Units.NetworkE
         public int Sender { get => FSender; set => FSender = value; }
         public int Receiver { get => FReceiver; set => FReceiver = value; }
 
-        // NetworkE.pas:78
-        public static new Aow.Units.NetworkE.TDataPackage Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TDataPackage o = new Aow.Units.NetworkE.TDataPackage();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TPlayerCommunicationSettings (instance size 16): +8 FConnectionMode (stored with id 5),
@@ -1682,37 +1563,22 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:446
         // { TPlayerCommunicationSettings }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TPlayerCommunicationSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FConnectionMode = Aow.Units.NetworkE.TConnectionMode.cmLocal;
         }
 
         public Aow.Units.NetworkE.TConnectionMode ConnectionMode { get => FConnectionMode; set => FConnectionMode = value; }
         public int SystemID { get => FSystemID; set => FSystemID = value; }
 
-        // NetworkE.pas:94
-        public static new Aow.Units.NetworkE.TPlayerCommunicationSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TPlayerCommunicationSettings o = new Aow.Units.NetworkE.TPlayerCommunicationSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TPlayerCommunicationSettingsList (instance size 12): the node that owns the players'
 //     settings }
     public partial class TPlayerCommunicationSettingsList : Aow.Units.Engine.TENode
     {
+        public TPlayerCommunicationSettingsList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // NetworkE.pas:461
         // { TPlayerCommunicationSettingsList }
         public Aow.Units.NetworkE.TPlayerCommunicationSettings GetPlayers(int Index)
@@ -1729,22 +1595,6 @@ namespace Aow.Units.NetworkE
 
         public PlayersAccessor Players => new PlayersAccessor(this);
 
-        // Engine.pas:631
-        public static new Aow.Units.NetworkE.TPlayerCommunicationSettingsList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TPlayerCommunicationSettingsList o = new Aow.Units.NetworkE.TPlayerCommunicationSettingsList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TPlayerCommunicationControl (instance size 16): +4 FRefCount, +8 FPlayerCommunicator,
@@ -1783,7 +1633,7 @@ namespace Aow.Units.NetworkE
         public virtual Aow.Units.NetworkE.TPlayerCommunicationSettings CreatePCS()
         {
             Aow.Units.NetworkE.TPlayerCommunicationSettings Result = default;
-            Result = Aow.Units.NetworkE.TPlayerCommunicationSettings.Create(null);
+            Result = new Aow.Units.NetworkE.TPlayerCommunicationSettings(null);
             return Result;
         }
 
@@ -1813,11 +1663,10 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:468
         // { TPlayerCommunicationControl }
-        public void Create__init_TPlayerCommunicationControl()
+        public TPlayerCommunicationControl()
         {
-            ;
             FRefCount = 1;
-            var call__106 = Aow.Units.NetworkE.TPlayerCommunicationSettingsList.Create(null);
+            var call__106 = new Aow.Units.NetworkE.TPlayerCommunicationSettingsList(null);
             FPCSList = call__106;
         }
 
@@ -1927,22 +1776,6 @@ namespace Aow.Units.NetworkE
         public Aow.Units.NetworkE.TPlayerCommunicator PlayerCommunicator { get => FPlayerCommunicator; }
         public Aow.Units.NetworkE.TPlayerCommunicationSettingsList PCSList { get => FPCSList; }
 
-        // NetworkE.pas:122
-        public static Aow.Units.NetworkE.TPlayerCommunicationControl Create()
-        {
-            Aow.Units.NetworkE.TPlayerCommunicationControl o = new Aow.Units.NetworkE.TPlayerCommunicationControl();
-            try
-            {
-                o.Create__init_TPlayerCommunicationControl();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TPackageDataList (instance size 8): +4 FList, the memory streams of the packages that
@@ -1952,9 +1785,8 @@ namespace Aow.Units.NetworkE
         internal Aow.Rtl.TList FList;
         // NetworkE.pas:870
         // { TPackageDataList }
-        public void Create__init_TPackageDataList()
+        public TPackageDataList()
         {
-            ;
             var call__114 = new Aow.Rtl.TList();
             FList = call__114;
         }
@@ -2045,22 +1877,6 @@ namespace Aow.Units.NetworkE
 
         public PackageDataAccessor PackageData => new PackageDataAccessor(this);
 
-        // NetworkE.pas:167
-        public static Aow.Units.NetworkE.TPackageDataList Create()
-        {
-            Aow.Units.NetworkE.TPackageDataList o = new Aow.Units.NetworkE.TPackageDataList();
-            try
-            {
-                o.Create__init_TPackageDataList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TRemotePCC (instance size 32): +$10 FLocalSystemID, +$14 FPackageDataList, +$18
@@ -2185,10 +2001,9 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:759
         // { TRemotePCC }
-        public void Create__init_TRemotePCC()
+        public TRemotePCC() : base()
         {
-            base.Create__init_TPlayerCommunicationControl();
-            var call__130 = Aow.Units.NetworkE.TPackageDataList.Create();
+            var call__130 = new Aow.Units.NetworkE.TPackageDataList();
             FPackageDataList = call__130;
         }
 
@@ -2251,22 +2066,6 @@ namespace Aow.Units.NetworkE
 
         public Aow.Units.NetworkE.TSendDataEvent OnSendData { get => FOnSendData; set => FOnSendData = value; }
 
-        // NetworkE.pas:194
-        public static new Aow.Units.NetworkE.TRemotePCC Create()
-        {
-            Aow.Units.NetworkE.TRemotePCC o = new Aow.Units.NetworkE.TRemotePCC();
-            try
-            {
-                o.Create__init_TRemotePCC();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TLocalPCC (instance size 20): +$10 FPackageDataList. The control of a game on one
@@ -2325,10 +2124,9 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:697
         // { TLocalPCC }
-        public void Create__init_TLocalPCC()
+        public TLocalPCC() : base()
         {
-            base.Create__init_TPlayerCommunicationControl();
-            var call__139 = Aow.Units.NetworkE.TPackageDataList.Create();
+            var call__139 = new Aow.Units.NetworkE.TPackageDataList();
             FPackageDataList = call__139;
         }
 
@@ -2369,22 +2167,6 @@ namespace Aow.Units.NetworkE
             call__143.FConnectionMode = Mode;
         }
 
-        // NetworkE.pas:215
-        public static new Aow.Units.NetworkE.TLocalPCC Create()
-        {
-            Aow.Units.NetworkE.TLocalPCC o = new Aow.Units.NetworkE.TLocalPCC();
-            try
-            {
-                o.Create__init_TLocalPCC();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TTokenPackage (instance size 24): +$14 FTokenEvents (stored with id 5) }
@@ -2400,10 +2182,9 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:1088
         // { TTokenPackage }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TTokenPackage(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
-            var call__144 = Aow.Units.NetworkE.TTokenEventList.Create(null);
+            var call__144 = new Aow.Units.NetworkE.TTokenEventList(null);
             FTokenEvents = call__144;
         }
 
@@ -2416,23 +2197,6 @@ namespace Aow.Units.NetworkE
 
         public Aow.Units.NetworkE.TTokenEventList TokenEvents { get => FTokenEvents; }
 
-        // NetworkE.pas:244
-        public static new Aow.Units.NetworkE.TTokenPackage Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TTokenPackage o = new Aow.Units.NetworkE.TTokenPackage();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // NetworkE.pas:1100
@@ -2444,21 +2208,7 @@ namespace Aow.Units.NetworkE
             }
 
             // NetworkE.pas:244
-            public new Aow.Units.NetworkE.TTokenPackage Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.NetworkE.TTokenPackage o = (Aow.Units.NetworkE.TTokenPackage)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.NetworkE.TTokenPackage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenPackage)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.NetworkE.TTokenPackage => (Meta)MetaRegistry.Of(typeof(T));
@@ -2520,9 +2270,8 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:1113
         // { TTokenPackageDistributer }
-        public virtual void Create__init(Aow.Units.NetworkE.TTokenManager AManager)
+        public TTokenPackageDistributer(Aow.Units.NetworkE.TTokenManager AManager)
         {
-            ;
             FTokenManager = AManager;
         }
 
@@ -2530,7 +2279,7 @@ namespace Aow.Units.NetworkE
         public virtual void SendTokenEvents(int APlayer, int AReceiver, Aow.Units.NetworkE.TTokenEventList Events)
         {
             Aow.Units.NetworkE.TTokenPackage TP = default;
-            TP = Aow.Units.NetworkE.TTokenPackage.Create(null);
+            TP = new Aow.Units.NetworkE.TTokenPackage(null);
             TP.FTokenEvents.Assign(Events, null);
             FPC.SendDataPackage(TP, APlayer, AReceiver);
             TP.Release();
@@ -2562,44 +2311,13 @@ namespace Aow.Units.NetworkE
 
         public Aow.Units.NetworkE.TPlayerCommunicator PC { get => FPC; set => SetPC(value); }
 
-        // NetworkE.pas:284
-        public static Aow.Units.NetworkE.TTokenPackageDistributer Create(Aow.Units.NetworkE.TTokenManager AManager)
-        {
-            Aow.Units.NetworkE.TTokenPackageDistributer o = new Aow.Units.NetworkE.TTokenPackageDistributer();
-            try
-            {
-                o.Create__init(AManager);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { NetworkE.TPassTokenTE (instance size 16): ends the turn of the token control that prefetched
 //     it }
     public partial class TPassTokenTE : Aow.Units.NetworkE.TTokenEvent
     {
-        // NetworkE.pas:230
-        public static new Aow.Units.NetworkE.TPassTokenTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TPassTokenTE o = new Aow.Units.NetworkE.TPassTokenTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public TPassTokenTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
@@ -2615,21 +2333,7 @@ namespace Aow.Units.NetworkE
             public static new Meta Of<T>()
                 where T : Aow.Units.NetworkE.TPassTokenTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.NetworkE.TPassTokenTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.NetworkE.TPassTokenTE o = (Aow.Units.NetworkE.TPassTokenTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.NetworkE.TPassTokenTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TPassTokenTE)base.Create(AOwner);
         }
     }
 
@@ -2637,6 +2341,8 @@ namespace Aow.Units.NetworkE
 //     system that sent it; another value on execution triggers OnSyncError }
     public partial class TSyncTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public TSyncTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         internal int FSyncValue;
         // NetworkE.pas:1738
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
@@ -2661,23 +2367,6 @@ namespace Aow.Units.NetworkE
 
         public int SyncValue { get => FSyncValue; set => FSyncValue = value; }
 
-        // NetworkE.pas:230
-        public static new Aow.Units.NetworkE.TSyncTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.NetworkE.TSyncTE o = new Aow.Units.NetworkE.TSyncTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // NetworkE.pas:1733
@@ -2692,21 +2381,7 @@ namespace Aow.Units.NetworkE
             public static new Meta Of<T>()
                 where T : Aow.Units.NetworkE.TSyncTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.NetworkE.TSyncTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.NetworkE.TSyncTE o = (Aow.Units.NetworkE.TSyncTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.NetworkE.TSyncTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TSyncTE)base.Create(AOwner);
         }
     }
 

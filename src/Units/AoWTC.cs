@@ -146,6 +146,9 @@ namespace Aow.Units.AoWTC
 //     Inherited $04 Width; $08 Height; $0C Levels; $10 HSSFileName; $14 HSMapClassID; $1C MapLevelClassID. }
     public partial class TAoWNewCombatMapSettings : Aow.Units.HSEngine.TNewHSMapSettings
     {
+        // Legacy factory runs the split base body after raw allocation.
+        public TAoWNewCombatMapSettings() : base(true) { }
+
         // AoWTC.pas:2147
         public void Create__init_TAoWNewCombatMapSettings()
         {
@@ -159,7 +162,7 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:70
-        public static new Aow.Units.AoWTC.TAoWNewCombatMapSettings Create()
+        public static Aow.Units.AoWTC.TAoWNewCombatMapSettings Create()
         {
             Aow.Units.AoWTC.TAoWNewCombatMapSettings o = new Aow.Units.AoWTC.TAoWNewCombatMapSettings();
             try
@@ -1344,9 +1347,9 @@ namespace Aow.Units.AoWTC
             Aow.Units.CityWall.TCityWall CityWall = default;
             bool Adjacent = default;
             Aow.Units.AoWE.TAbilityDamageValues Values = default;
-            Path = Aow.Units.AoWE.TMovepath.Create();
-            BasePath = Aow.Units.AoWE.TMovepath.Create();
-            DetourPath = Aow.Units.AoWE.TMovepath.Create();
+            Path = new Aow.Units.AoWE.TMovepath();
+            BasePath = new Aow.Units.AoWE.TMovepath();
+            DetourPath = new Aow.Units.AoWE.TMovepath();
             TerrainValue = 0;
             OriginalX = X;
             OriginalY = Y;
@@ -7630,7 +7633,7 @@ namespace Aow.Units.AoWTC
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__1386 = Aow.Units.HSEngine.TXYLList.Create();
+            var call__1386 = new Aow.Units.HSEngine.TXYLList();
             FPositions = call__1386;
             var call__1387 = Aow.Units.HSEngine.HSEngine.PackXYL(unchecked((sbyte)-1), unchecked((sbyte)-1), unchecked((sbyte)-1));
             FPositions.Default = call__1387;

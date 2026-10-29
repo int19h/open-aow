@@ -8384,7 +8384,7 @@ namespace Aow.Units.AoWE
 
             if (Heroes.Count != 0)
             {
-                Locations = Aow.Units.HSEngine.TXYLList.Create();
+                Locations = new Aow.Units.HSEngine.TXYLList();
                 {
                     I = FStructures.Count - 1;
                     byte end__683 = 0;
@@ -9964,6 +9964,9 @@ namespace Aow.Units.AoWE
     // { TAoWNewHSMapSettings: size $20; inherited $14 map and $1C level class IDs. VMT 5570C6E0. }
     public partial class TAoWNewHSMapSettings : Aow.Units.HSEngine.TNewHSMapSettings
     {
+        // Legacy factory runs the split base body after raw allocation.
+        public TAoWNewHSMapSettings() : base(true) { }
+
         // AoWHSMap.PAS:921
         public void Create__init_TAoWNewHSMapSettings()
         {
@@ -9973,7 +9976,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_03.inc:346
-        public static new Aow.Units.AoWE.TAoWNewHSMapSettings Create()
+        public static Aow.Units.AoWE.TAoWNewHSMapSettings Create()
         {
             Aow.Units.AoWE.TAoWNewHSMapSettings o = new Aow.Units.AoWE.TAoWNewHSMapSettings();
             try
@@ -10458,7 +10461,7 @@ namespace Aow.Units.AoWE
             FRefCount = 1;
             var call__880 = new Aow.Rtl.TList();
             FProcessedMapFields = call__880;
-            var call__881 = Aow.Units.AoWE.TMovepath.Create();
+            var call__881 = new Aow.Units.AoWE.TMovepath();
             FPath = call__881;
             var call__882 = new Aow.Units.AoWE.TSubMoveList(null);
             FSubMoves = call__882;
@@ -10884,11 +10887,11 @@ namespace Aow.Units.AoWE
         private void InitializeConstruction(Aow.Units.HSEngine.THSMap AOwner)
         {
             FMap = AOwner;
-            var call__897 = Aow.Units.HSEngine.TXYLList.Create();
+            var call__897 = new Aow.Units.HSEngine.TXYLList();
             FGapStarts = call__897;
-            var call__898 = Aow.Units.HSEngine.TXYLList.Create();
+            var call__898 = new Aow.Units.HSEngine.TXYLList();
             FGapEnds = call__898;
-            var call__899 = Aow.Units.HSEngine.TXYLList.Create();
+            var call__899 = new Aow.Units.HSEngine.TXYLList();
             FDirectRoute = call__899;
         }
 
@@ -11550,7 +11553,7 @@ namespace Aow.Units.AoWE
     public partial class TAoWTokenManager : Aow.Units.NetworkE.TTokenManager
     {
         // NetworkE.pas:405
-        public static new Aow.Units.AoWE.TAoWTokenManager Create(Aow.Rtl.TObject AOwner)
+        public static Aow.Units.AoWE.TAoWTokenManager Create(Aow.Rtl.TObject AOwner)
         {
             Aow.Units.AoWE.TAoWTokenManager o = new Aow.Units.AoWE.TAoWTokenManager();
             try
@@ -11953,7 +11956,7 @@ namespace Aow.Units.AoWE
             {
                 if ((Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting) || TSet<Aow.Units.AoWE.TPlayerConnectionType>.Of(Aow.Units.AoWE.TPlayerConnectionType.pcLocal, Aow.Units.AoWE.TPlayerConnectionType.pcEmail).Contains(Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType)) && (Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC == null))
                 {
-                    PCC = Aow.Units.NetworkE.TLocalPCC.Create();
+                    PCC = new Aow.Units.NetworkE.TLocalPCC();
                     var call__990 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count;
                     PCC.Setup(call__990);
                     {
@@ -14415,21 +14418,7 @@ namespace Aow.Units.AoWE
         }
 
         // HSEngine.pas:1279
-        public static new Aow.Units.AoWE.TMovepath Create()
-        {
-            Aow.Units.AoWE.TMovepath o = new Aow.Units.AoWE.TMovepath();
-            try
-            {
-                o.Create__init_TXYLList();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMoveSettings (instance size 44): $08 FPath, $0C FPathMovePoints,
@@ -14442,7 +14431,7 @@ namespace Aow.Units.AoWE
 //   $14 available points, $1C priority, $20 selection, $24 position, $28 valid. }
         public TMoveSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            var call__1253 = Aow.Units.AoWE.TMovepath.Create();
+            var call__1253 = new Aow.Units.AoWE.TMovepath();
             FPath = call__1253;
             FPriority = 1;
         }
@@ -17085,6 +17074,9 @@ namespace Aow.Units.AoWE
     // { TAbstractAoWHSMapMouse: size $50; $3C selection rectangle, $4C events. VMT 5570E22C. }
     public partial class TAbstractAoWHSMapMouse : Aow.Units.HSEngine.THSMapMouse
     {
+        // Legacy factory runs the split base body after raw allocation.
+        public TAbstractAoWHSMapMouse() : base(true) { }
+
         public Aow.Rtl.TRect FSelectionRectangle;
         // { $3C..$48; 55792672 }
         public Aow.Units.Engine.TEventList FRectangleSelectEvents;
@@ -17261,7 +17253,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_05.inc:68
-        public static new Aow.Units.AoWE.TAbstractAoWHSMapMouse Create()
+        public static Aow.Units.AoWE.TAbstractAoWHSMapMouse Create()
         {
             Aow.Units.AoWE.TAbstractAoWHSMapMouse o = new Aow.Units.AoWE.TAbstractAoWHSMapMouse();
             try
@@ -17509,10 +17501,10 @@ namespace Aow.Units.AoWE
             FMapChangedEvents = call__1638;
             var call__1639 = new Aow.Units.Engine.TEventList();
             FScannerIconsChangedEvents = call__1639;
-            var call__1640 = Aow.Units.HSEngine.TCustomFixedVisibleHS.Create(null);
+            var call__1640 = new Aow.Units.HSEngine.TCustomFixedVisibleHS(null);
             FBackHexagonSelector = call__1640;
             FBackHexagonSelector.OnShow = ShowBackHexagonSelector;
-            var call__1641 = Aow.Units.HSEngine.TCustomFixedVisibleHS.Create(null);
+            var call__1641 = new Aow.Units.HSEngine.TCustomFixedVisibleHS(null);
             FFrontHexagonSelector = call__1641;
             FFrontHexagonSelector.OnShow = ShowFrontHexagonSelector;
             FHexagonSelectorVisible = false;
@@ -18949,7 +18941,7 @@ namespace Aow.Units.AoWE
             FTokenManager.TokenExecuter.OnActivateTC.Add(TokenControlActivatedEvent);
             FTokenManager.TokenExecuter.OnExecuteTokenEvent = OnExecuteTokenEvent;
             FTokenManager.OnMessage = OnTokenManagerMessage;
-            var call__1714 = Aow.Units.NetworkE.TPlayerCommunicator.Create(null);
+            var call__1714 = new Aow.Units.NetworkE.TPlayerCommunicator(null);
             FPlayerCommunicator = call__1714;
             FPlayerCommunicator.Engine = Aow.Units.AoWE.AoWE.AoWEngine;
             FConnectionType = Aow.Units.AoWE.TPlayerConnectionType.pcLocal;
@@ -19061,7 +19053,7 @@ namespace Aow.Units.AoWE
             FOnActivateAbility = call__1754;
             var call__1755 = Aow.Units.AoWE.TStartupSongList.Create(null);
             FStartupSongs = call__1755;
-            var call__1756 = Aow.Units.Sound.TSonglist.Create(null);
+            var call__1756 = new Aow.Units.Sound.TSonglist(null);
             FGameSongs = call__1756;
             var call__1757 = new Aow.Units.Engine.TEventList();
             FPlayerTerminatedEvents = call__1757;
@@ -21723,15 +21715,15 @@ namespace Aow.Units.AoWE
             var call__1995 = new Aow.Units.ImageLib.TImageSequenceList(null, null);
             FSequences = call__1995;
             FRefCount = 0;
-            var call__1996 = Aow.Units.Sound.TSFXLibrary.Create(null);
+            var call__1996 = new Aow.Units.Sound.TSFXLibrary(null);
             FSFXLibraries[0] = call__1996;
-            var call__1997 = Aow.Units.Sound.TSFXLibrary.Create(null);
+            var call__1997 = new Aow.Units.Sound.TSFXLibrary(null);
             FSFXLibraries[1] = call__1997;
-            var call__1998 = Aow.Units.Sound.TSFXLibrary.Create(null);
+            var call__1998 = new Aow.Units.Sound.TSFXLibrary(null);
             FSFXLibraries[2] = call__1998;
-            var call__1999 = Aow.Units.Sound.TSFXLibrary.Create(null);
+            var call__1999 = new Aow.Units.Sound.TSFXLibrary(null);
             FSFXLibraries[3] = call__1999;
-            var call__2000 = Aow.Units.Sound.TSFXLibrary.Create(null);
+            var call__2000 = new Aow.Units.Sound.TSFXLibrary(null);
             FSFXLibraries[4] = call__2000;
         }
 
@@ -22971,7 +22963,7 @@ namespace Aow.Units.AoWE
         {
             var call__2033 = new Aow.Rtl.TStringList();
             FDescription = call__2033;
-            var call__2034 = Aow.Units.Sound.TSFXLibrary.Create(null);
+            var call__2034 = new Aow.Units.Sound.TSFXLibrary(null);
             FSFXLibrary = call__2034;
             var call__2035 = new Aow.Units.ImageLib.TImageSequenceList(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
             FImageSequences = call__2035;
@@ -44231,7 +44223,7 @@ namespace Aow.Units.AoWE
                         Log.Release();
                         if (ValidateSelection(255) != Selection)
                         {
-                            Locations = Aow.Units.HSEngine.TXYLList.Create();
+                            Locations = new Aow.Units.HSEngine.TXYLList();
                             if (Offer.FArmyHS != null)
                             {
                                 var call__3556 = Offer.FArmyHS.GetYhx();
@@ -51362,13 +51354,13 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.Engine.TBitList Enabled = default;
             base.Create__init(AOwner);
-            var call__4136 = Aow.Units.HSEngine.TMapObjectResourceList.Create(this);
+            var call__4136 = new Aow.Units.HSEngine.TMapObjectResourceList(this);
             FCombatResources = call__4136;
             FCombatResources.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild));
-            var call__4137 = Aow.Units.HSEngine.THexagonControl.Create(this);
+            var call__4137 = new Aow.Units.HSEngine.THexagonControl(this);
             FCombatHexagons = call__4137;
             FCombatHexagons.MOClass = typeof(Aow.Units.HSEngine.TAbstractHexagon);
-            var call__4138 = Aow.Units.HSEngine.TRoadControl.Create(this);
+            var call__4138 = new Aow.Units.HSEngine.TRoadControl(this);
             FCombatRoads = call__4138;
             FCombatRoads.MOClass = typeof(Aow.Units.HSEngine.TAbstractRoad);
             ImageLibraryManager.ExecutePathSearch(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"IMAGES"));
@@ -62292,7 +62284,7 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:3841
         public TAIMoveControlSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            var call__4889 = Aow.Units.AoWE.TMovepath.Create();
+            var call__4889 = new Aow.Units.AoWE.TMovepath();
             FTransportPath = call__4889;
             FRefCount = 1;
             Clear();
@@ -63359,7 +63351,7 @@ namespace Aow.Units.AoWE
                                 Target.FData = Data;
                                 if (FMode.Contains(Aow.Units.AoWE.TAIMoveTargetSelectorModeElement.tsmCreateMovepaths))
                                 {
-                                    var call__4961 = Aow.Units.AoWE.TMovepath.Create();
+                                    var call__4961 = new Aow.Units.AoWE.TMovepath();
                                     Target.FMovepath = call__4961;
                                     Aow.Units.AoWE.AoWE.AoWHSMap.FMoveControl.Activate(FSettings);
                                     Aow.Units.AoWE.AoWE.AoWHSMap.FMoveControl.CalculatePathEx(Target.FMovepath, unchecked((sbyte)Field.Xhx), unchecked((sbyte)Field.Yhx), unchecked((sbyte)Field.Lhx));
@@ -63495,7 +63487,7 @@ namespace Aow.Units.AoWE
                                 Target.FMovePoints = call__4974;
                                 Target.FTransporterID = FTransporter.FUnitID;
                                 Target.FData = Data;
-                                var call__4975 = Aow.Units.AoWE.TMovepath.Create();
+                                var call__4975 = new Aow.Units.AoWE.TMovepath();
                                 Target.FMovepath = call__4975;
                                 Aow.Units.AoWE.AoWE.AoWHSMap.FMoveControl.Activate(FSettings);
                                 Aow.Units.AoWE.AoWE.AoWHSMap.FMoveControl.CalculatePathEx(Target.FMovepath, unchecked((sbyte)Field.Xhx), unchecked((sbyte)Field.Yhx), unchecked((sbyte)Field.Lhx));
@@ -64254,7 +64246,7 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:4440
         public TAIMoveExecuterMove(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            var call__5017 = Aow.Units.AoWE.TMovepath.Create();
+            var call__5017 = new Aow.Units.AoWE.TMovepath();
             FPath = call__5017;
         }
 
@@ -65074,7 +65066,7 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:5045
         public TAdjacentArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            var call__5101 = Aow.Units.AoWE.TMovepath.Create();
+            var call__5101 = new Aow.Units.AoWE.TMovepath();
             FPath = call__5101;
         }
 
@@ -65198,7 +65190,7 @@ namespace Aow.Units.AoWE
             bool Result = default;
             int I = default;
             Aow.Units.HSEngine.TXYLList Locations = default;
-            Locations = Aow.Units.HSEngine.TXYLList.Create();
+            Locations = new Aow.Units.HSEngine.TXYLList();
             {
                 I = 0;
                 int end__5107 = Count - 1;
@@ -70669,7 +70661,7 @@ namespace Aow.Units.AoWE
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            Locations = Aow.Units.HSEngine.TXYLList.Create();
+            Locations = new Aow.Units.HSEngine.TXYLList();
             {
                 I = Count - 1;
                 byte end__5637 = 0;
@@ -77497,7 +77489,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__6223 = Aow.Units.AoWE.TMovepath.Create();
+            var call__6223 = new Aow.Units.AoWE.TMovepath();
             FPath = call__6223;
             FMoveIndex = 0;
             FStatus = Aow.Units.AoWE.TMoveStatus.msIdle;
@@ -77766,7 +77758,7 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__6246 = Aow.Units.NetworkE.TTokenEventList.Create(null);
+            var call__6246 = new Aow.Units.NetworkE.TTokenEventList(null);
             FEvents = call__6246;
             FSimultaneous = true;
         }
@@ -80129,7 +80121,7 @@ namespace Aow.Units.AoWE
 
                 if ((FArmyHS != null) && FMode.Contains(Aow.Units.AoWE.TNegotiateModeElement.nmMoveOnAccept))
                 {
-                    Path = Aow.Units.AoWE.TMovepath.Create();
+                    Path = new Aow.Units.AoWE.TMovepath();
                     Path.AddXYL(unchecked((sbyte)unchecked((sbyte)FX)), unchecked((sbyte)unchecked((sbyte)FY)), unchecked((sbyte)unchecked((sbyte)FL)));
                     var call__6525 = FArmyHS.Yhx;
                     var call__6526 = FArmyHS.Xhx;
@@ -80153,7 +80145,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TMoveArmyTE Move = default;
             if (((FOffer == Aow.Units.AoWE.TNegotiateOffer.noForceOffer) && (FArmyHS != null)) && FMode.Contains(Aow.Units.AoWE.TNegotiateModeElement.nmAttackOnReject))
             {
-                Path = Aow.Units.AoWE.TMovepath.Create();
+                Path = new Aow.Units.AoWE.TMovepath();
                 Path.AddXYL(unchecked((sbyte)unchecked((sbyte)FX)), unchecked((sbyte)unchecked((sbyte)FY)), unchecked((sbyte)unchecked((sbyte)FL)));
                 var call__6528 = FArmyHS.Yhx;
                 var call__6529 = FArmyHS.Xhx;
@@ -92753,7 +92745,7 @@ namespace Aow.Units.AoWE
         {
             var call__7763 = new Aow.Rtl.TStringList();
             FSpellText = call__7763;
-            var call__7764 = Aow.Units.Sound.TSFXLibrary.Create(null);
+            var call__7764 = new Aow.Units.Sound.TSFXLibrary(null);
             FCastSounds = call__7764;
             var call__7765 = new Aow.Units.ImageLib.TImageSequenceList(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
             FCastImages = call__7765;
@@ -104590,7 +104582,7 @@ namespace Aow.Units.AoWE
 
             if (bool__8654)
             {
-                Path = Aow.Units.AoWE.TMovepath.Create();
+                Path = new Aow.Units.AoWE.TMovepath();
                 Multi = Aow.Units.AoWE.TMultiMoveTE.Create(null);
                 Multi.FSimultaneous = false;
                 Moves.CalculateMovePositions(Aow.Units.AoWE.AoWE.ValidateMultiArmyMove);

@@ -4407,7 +4407,7 @@ namespace Aow.Units.CombatTE
 
                 if (Index < (Path.Count - 1))
                 {
-                    NewPath = Aow.Units.AoWE.TMovepath.Create();
+                    NewPath = new Aow.Units.AoWE.TMovepath();
                     {
                         I = Index;
                         int end__697 = Path.Count - 1;
@@ -4458,7 +4458,7 @@ namespace Aow.Units.CombatTE
 
             if (bool__702)
             {
-                Path = Aow.Units.AoWE.TMovepath.Create();
+                Path = new Aow.Units.AoWE.TMovepath();
                 Multi = Aow.Units.AoWE.TMultiMoveTE.Create(null);
                 Multi.FSimultaneous = false;
                 Moves.CalculateMovePositions(Aow.Units.CombatTE.CombatTE.ValidateTCMovePosition);
