@@ -139,9 +139,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public int FAIBasePriority;
         // GlobalEnchantmentSpells.pas:413
         // { $34 }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TGlobalEnchantmentSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAIBasePriority = -1;
         }
 
@@ -328,31 +327,16 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:57
         public static new Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell o = new Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TGlobalEnchantmentSpell(context, owner));
     }
 
     // { TEnchantedRoadsEnchantment (instance size 36, VMT 557EDB5C) }
     public partial class TEnchantedRoadsEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:527
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TEnchantedRoadsEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__21 = Aow.Units.AoWE.AoWE.EnchantedRoadsRStr;
             var call__22 = Aow.Units.AoWE.AoWE.TranslateRStr(call__21);
             FName = call__22;
@@ -417,22 +401,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:72
         public static new Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEnchantedRoadsEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -444,22 +414,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:72
             public new Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -470,9 +426,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TEnchantedRoads : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:571
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TEnchantedRoads(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__33 = Aow.Units.AoWE.AoWE.EnchantedRoadsRStr;
             var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(call__33);
             FSpellName = call__34;
@@ -521,31 +476,16 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:83
         public static new Aow.Units.GlobalEnchantmentSpells.TEnchantedRoads Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TEnchantedRoads o = new Aow.Units.GlobalEnchantmentSpells.TEnchantedRoads();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEnchantedRoads(context, owner));
     }
 
     // { TAirMasteryEnchantment (instance size 36, VMT 557EDDBC) }
     public partial class TAirMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:641
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TAirMasteryEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__37 = Aow.Units.AoWE.AoWE.AirMasteryRStr;
             var call__38 = Aow.Units.AoWE.AoWE.TranslateRStr(call__37);
             FName = call__38;
@@ -611,22 +551,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:92
         public static new Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAirMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -638,22 +564,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:92
             public new Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -664,9 +576,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TAirMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:688
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TAirMastery(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__48 = Aow.Units.AoWE.AoWE.AirMasteryRStr;
             var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(call__48);
             FSpellName = call__49;
@@ -762,31 +673,16 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        // GlobalEnchantmentSpells.pas:103
         public static new Aow.Units.GlobalEnchantmentSpells.TAirMastery Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TAirMastery o = new Aow.Units.GlobalEnchantmentSpells.TAirMastery();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAirMastery(context, owner));
     }
 
     // { TWaterMasteryEnchantment (instance size 36, VMT 557EE00C) }
     public partial class TWaterMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:752
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWaterMasteryEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__54 = Aow.Units.AoWE.AoWE.WaterMasteryRStr;
             var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(call__54);
             FName = call__55;
@@ -854,22 +750,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:112
         public static new Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWaterMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -881,22 +763,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:112
             public new Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -907,9 +775,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TWaterMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:806
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWaterMastery(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__65 = Aow.Units.AoWE.AoWE.WaterMasteryRStr;
             var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(call__65);
             FSpellName = call__66;
@@ -949,22 +816,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:123
         public static new Aow.Units.GlobalEnchantmentSpells.TWaterMastery Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TWaterMastery o = new Aow.Units.GlobalEnchantmentSpells.TWaterMastery();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWaterMastery(context, owner));
     }
 
     // { THatredEnchantment (instance size 40, VMT 557EE268): $24 FDaysActive. }
@@ -980,9 +833,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:833
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THatredEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__67 = Aow.Units.AoWE.AoWE.HatredRStr;
             var call__68 = Aow.Units.AoWE.AoWE.TranslateRStr(call__67);
             FName = call__68;
@@ -1046,22 +898,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        // GlobalEnchantmentSpells.pas:133
         public static new Aow.Units.GlobalEnchantmentSpells.THatredEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.THatredEnchantment o = new Aow.Units.GlobalEnchantmentSpells.THatredEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THatredEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -1073,22 +911,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:133
             public new Aow.Units.GlobalEnchantmentSpells.THatredEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.THatredEnchantment o = (Aow.Units.GlobalEnchantmentSpells.THatredEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.THatredEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.THatredEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -1099,9 +923,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class THatred : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:889
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THatred(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__69 = Aow.Units.AoWE.AoWE.HatredRStr;
             var call__70 = Aow.Units.AoWE.AoWE.TranslateRStr(call__69);
             FSpellName = call__70;
@@ -1137,22 +960,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:145
         public static new Aow.Units.GlobalEnchantmentSpells.THatred Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.THatred o = new Aow.Units.GlobalEnchantmentSpells.THatred();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THatred(context, owner));
     }
 
     // { THarmonyEnchantment (instance size 40, VMT 557EE4A8): $24 FDaysActive. }
@@ -1168,9 +977,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:913
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THarmonyEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__71 = Aow.Units.AoWE.AoWE.HarmonyRStr;
             var call__72 = Aow.Units.AoWE.AoWE.TranslateRStr(call__71);
             FName = call__72;
@@ -1234,22 +1042,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        // GlobalEnchantmentSpells.pas:155
         public static new Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment o = new Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THarmonyEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -1261,22 +1055,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:155
             public new Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment o = (Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -1287,9 +1067,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class THarmony : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:969
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THarmony(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__73 = Aow.Units.AoWE.AoWE.HarmonyRStr;
             var call__74 = Aow.Units.AoWE.AoWE.TranslateRStr(call__73);
             FSpellName = call__74;
@@ -1325,31 +1104,16 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:167
         public static new Aow.Units.GlobalEnchantmentSpells.THarmony Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.THarmony o = new Aow.Units.GlobalEnchantmentSpells.THarmony();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THarmony(context, owner));
     }
 
     // { TPowerLeakEnchantment (instance size 36, VMT 557EE6F0) }
     public partial class TPowerLeakEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:993
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TPowerLeakEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__75 = Aow.Units.AoWE.AoWE.PowerLeakRStr;
             var call__76 = Aow.Units.AoWE.AoWE.TranslateRStr(call__75);
             FName = call__76;
@@ -1405,22 +1169,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:175
         public static new Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPowerLeakEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -1432,22 +1182,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:175
             public new Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -1458,9 +1194,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TPowerLeak : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1036
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TPowerLeak(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             var call__81 = Aow.Units.AoWE.AoWE.PowerLeakRStr;
             var call__82 = Aow.Units.AoWE.AoWE.TranslateRStr(call__81);
@@ -1503,22 +1238,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:185
         public static new Aow.Units.GlobalEnchantmentSpells.TPowerLeak Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TPowerLeak o = new Aow.Units.GlobalEnchantmentSpells.TPowerLeak();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPowerLeak(context, owner));
     }
 
     // { TFloodControl (instance size 20, VMT 557EE93C): $08 FWidth, $0C FHeight, $10 FOriginalTerrain. }
@@ -1559,9 +1280,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:1066
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TFloodControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FOriginalTerrain = [];
         }
 
@@ -1795,22 +1515,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.AoWE.AoWE.AoWHSMap.InvalidateMap();
         }
 
-        // GlobalEnchantmentSpells.pas:201
-        public static new Aow.Units.GlobalEnchantmentSpells.TFloodControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TFloodControl o = new Aow.Units.GlobalEnchantmentSpells.TFloodControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TFloodEnchantment (instance size 48, VMT 557EEA10): $24 FRemoved, $25 FRestoreDays, $26 FDispelPlayer, $28 FTurnsActive, $2C FFloodControl. }
@@ -1847,14 +1551,13 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:1224
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFloodEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__109 = Aow.Units.AoWE.AoWE.FloodRStr;
             var call__110 = Aow.Units.AoWE.AoWE.TranslateRStr(call__109);
             FName = call__110;
             FEnchantmentType = Aow.Units.AoWE.TGlobalEnchantmentType.getFlood;
-            var call__111 = Aow.Units.GlobalEnchantmentSpells.TFloodControl.Create(null);
+            var call__111 = new Aow.Units.GlobalEnchantmentSpells.TFloodControl(null);
             FFloodControl = call__111;
             FDispelMana = 100;
             FRestoreDays = unchecked((sbyte)-1);
@@ -2064,22 +1767,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        // GlobalEnchantmentSpells.pas:218
         public static new Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFloodEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -2091,22 +1780,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:218
             public new Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -2117,9 +1792,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TFlood : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1356
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFlood(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__122 = Aow.Units.AoWE.AoWE.FloodRStr;
             var call__123 = Aow.Units.AoWE.AoWE.TranslateRStr(call__122);
             FSpellName = call__123;
@@ -2165,22 +1839,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
         }
 
-        // GlobalEnchantmentSpells.pas:234
         public static new Aow.Units.GlobalEnchantmentSpells.TFlood Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TFlood o = new Aow.Units.GlobalEnchantmentSpells.TFlood();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFlood(context, owner));
     }
 
     // { draft }
@@ -2188,9 +1848,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TLifeMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1387
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TLifeMasteryEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__126 = Aow.Units.AoWE.AoWE.LifeMasteryRStr;
             var call__127 = Aow.Units.AoWE.AoWE.TranslateRStr(call__126);
             FName = call__127;
@@ -2282,22 +1941,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:243
         public static new Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLifeMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -2309,22 +1954,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:243
             public new Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -2335,9 +1966,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TLifeMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1441
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TLifeMastery(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             var call__141 = Aow.Units.AoWE.AoWE.LifeMasteryRStr;
             var call__142 = Aow.Units.AoWE.AoWE.TranslateRStr(call__141);
@@ -2382,31 +2012,16 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:254
         public static new Aow.Units.GlobalEnchantmentSpells.TLifeMastery Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TLifeMastery o = new Aow.Units.GlobalEnchantmentSpells.TLifeMastery();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLifeMastery(context, owner));
     }
 
     // { TDeathMasteryEnchantment (instance size 36, VMT 557EEEA4) }
     public partial class TDeathMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1475
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDeathMasteryEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__145 = Aow.Units.AoWE.AoWE.DeathMasteryRStr;
             var call__146 = Aow.Units.AoWE.AoWE.TranslateRStr(call__145);
             FName = call__146;
@@ -2583,22 +2198,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Array.Resize(ref Flags, 0);
         }
 
-        // GlobalEnchantmentSpells.pas:262
         public static new Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDeathMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -2610,22 +2211,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:262
             public new Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -2636,9 +2223,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TDeathMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1577
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDeathMastery(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             var call__166 = Aow.Units.AoWE.AoWE.DeathMasteryRStr;
             var call__167 = Aow.Units.AoWE.AoWE.TranslateRStr(call__166);
@@ -2734,31 +2320,16 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        // GlobalEnchantmentSpells.pas:275
         public static new Aow.Units.GlobalEnchantmentSpells.TDeathMastery Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TDeathMastery o = new Aow.Units.GlobalEnchantmentSpells.TDeathMastery();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDeathMastery(context, owner));
     }
 
     // { TFireMasteryEnchantment (instance size 36, VMT 557EF100) }
     public partial class TFireMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1639
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFireMasteryEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__172 = Aow.Units.AoWE.AoWE.FireMasteryRStr;
             var call__173 = Aow.Units.AoWE.AoWE.TranslateRStr(call__172);
             FName = call__173;
@@ -2946,22 +2517,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        // GlobalEnchantmentSpells.pas:284
         public static new Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -2973,22 +2530,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:284
             public new Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -2999,9 +2542,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TFireMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1733
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFireMastery(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
             var call__202 = Aow.Units.AoWE.AoWE.FireMasteryRStr;
             var call__203 = Aow.Units.AoWE.AoWE.TranslateRStr(call__202);
@@ -3058,31 +2600,16 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:297
         public static new Aow.Units.GlobalEnchantmentSpells.TFireMastery Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TFireMastery o = new Aow.Units.GlobalEnchantmentSpells.TFireMastery();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireMastery(context, owner));
     }
 
     // { TEarthMasteryEnchantment (instance size 36, VMT 557EF358) }
     public partial class TEarthMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1820
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TEarthMasteryEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__205 = Aow.Units.AoWE.AoWE.EarthMasteryRStr;
             var call__206 = Aow.Units.AoWE.AoWE.TranslateRStr(call__205);
             FName = call__206;
@@ -3193,22 +2720,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:306
         public static new Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEarthMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -3220,22 +2733,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:306
             public new Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -3246,9 +2745,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TEarthMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1877
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TEarthMastery(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__223 = Aow.Units.AoWE.AoWE.EarthMasteryRStr;
             var call__224 = Aow.Units.AoWE.AoWE.TranslateRStr(call__223);
             FSpellName = call__224;
@@ -3339,31 +2837,16 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        // GlobalEnchantmentSpells.pas:317
         public static new Aow.Units.GlobalEnchantmentSpells.TEarthMastery Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TEarthMastery o = new Aow.Units.GlobalEnchantmentSpells.TEarthMastery();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEarthMastery(context, owner));
     }
 
     // { TSpellWardEnchantment (instance size 36, VMT 557EF5B4) }
     public partial class TSpellWardEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1935
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TSpellWardEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__229 = Aow.Units.AoWE.AoWE.SpellWardRStr;
             var call__230 = Aow.Units.AoWE.AoWE.TranslateRStr(call__229);
             FName = call__230;
@@ -3379,22 +2862,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:326
         public static new Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment o = new Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSpellWardEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -3406,22 +2875,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 return Result;
             }
 
-            // GlobalEnchantmentSpells.pas:326
             public new Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment o = (Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -3432,9 +2887,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     public partial class TSpellWard : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1949
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TSpellWard(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__231 = Aow.Units.AoWE.AoWE.SpellWardRStr;
             var call__232 = Aow.Units.AoWE.AoWE.TranslateRStr(call__231);
             FSpellName = call__232;
@@ -3470,22 +2924,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        // GlobalEnchantmentSpells.pas:334
         public static new Aow.Units.GlobalEnchantmentSpells.TSpellWard Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TSpellWard o = new Aow.Units.GlobalEnchantmentSpells.TSpellWard();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSpellWard(context, owner));
     }
 
     public static partial class GlobalEnchantmentSpells

@@ -38,6 +38,8 @@ namespace Aow.Units.UnitSpells
 //     $14 spell ID, $18 mana cost charged after execution. }
     public partial class TDispelMagicSpellCA : Aow.Units.AoWE.TDispelMagicCA
     {
+        public TDispelMagicSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public int FSpellID;
         // { $14 }
         public int FManaCost;
@@ -68,22 +70,6 @@ namespace Aow.Units.UnitSpells
             }
         }
 
-        // intf_P4_02.inc:660
-        public static new Aow.Units.UnitSpells.TDispelMagicSpellCA Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TDispelMagicSpellCA o = new Aow.Units.UnitSpells.TDispelMagicSpellCA();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -97,22 +83,8 @@ namespace Aow.Units.UnitSpells
 
             public static new Meta Of<T>()
                 where T : Aow.Units.UnitSpells.TDispelMagicSpellCA => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P4_02.inc:660
             public new Aow.Units.UnitSpells.TDispelMagicSpellCA Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.UnitSpells.TDispelMagicSpellCA o = (Aow.Units.UnitSpells.TDispelMagicSpellCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.UnitSpells.TDispelMagicSpellCA)base.Create(AOwner);
         }
     }
 
@@ -121,9 +93,8 @@ namespace Aow.Units.UnitSpells
     public partial class TDispelMagic : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:1000
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDispelMagic(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__4 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DispelMagicRStr);
             FSpellName = call__4;
             FSpellID = 8;
@@ -140,7 +111,7 @@ namespace Aow.Units.UnitSpells
         {
             Aow.Units.AoWE.TCombatAction Result = default;
             Aow.Units.UnitSpells.TDispelMagicSpellCA Action = default;
-            Action = Aow.Units.UnitSpells.TDispelMagicSpellCA.Create(null);
+            Action = new Aow.Units.UnitSpells.TDispelMagicSpellCA(null);
             Action.FSpellID = FSpellID;
             Action.FSourceID = unchecked((byte)A1.FID);
             Action.FTargetID = unchecked((byte)A2.FID);
@@ -254,31 +225,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:50
         public static new Aow.Units.UnitSpells.TDispelMagic Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TDispelMagic o = new Aow.Units.UnitSpells.TDispelMagic();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDispelMagic(context, owner));
     }
 
     // { THaste (instance size 68, VMT 557E5534) }
     public partial class THaste : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:215
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THaste(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
             var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HasteRStr);
             FSpellName = call__17;
@@ -329,31 +285,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:62
         public static new Aow.Units.UnitSpells.THaste Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.THaste o = new Aow.Units.UnitSpells.THaste();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THaste(context, owner));
     }
 
     // { TStoneSkin (instance size 68, VMT 557E5664) }
     public partial class TStoneSkin : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:256
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TStoneSkin(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StoneSkinRStr);
             FSpellName = call__19;
             FSpellID = 17;
@@ -403,31 +344,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:70
         public static new Aow.Units.UnitSpells.TStoneSkin Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TStoneSkin o = new Aow.Units.UnitSpells.TStoneSkin();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TStoneSkin(context, owner));
     }
 
     // { TEnchantWeapon (instance size 68, VMT 557E579C) }
     public partial class TEnchantWeapon : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:296
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TEnchantWeapon(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantWeaponRStr);
             FSpellName = call__21;
             FSpellID = 16;
@@ -491,31 +417,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:78
         public static new Aow.Units.UnitSpells.TEnchantWeapon Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TEnchantWeapon o = new Aow.Units.UnitSpells.TEnchantWeapon();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEnchantWeapon(context, owner));
     }
 
     // { TFreeMovement (instance size 68, VMT 557E58DC) }
     public partial class TFreeMovement : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:386
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFreeMovement(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__27 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FreeMovementRStr);
             FSpellName = call__27;
             FSpellID = 32;
@@ -591,31 +502,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:86
         public static new Aow.Units.UnitSpells.TFreeMovement Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TFreeMovement o = new Aow.Units.UnitSpells.TFreeMovement();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFreeMovement(context, owner));
     }
 
     // { TFury (instance size 68, VMT 557E5A1C) }
     public partial class TFury : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:336
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFury(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__37 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FuryRStr);
             FSpellName = call__37;
             FSpellID = 33;
@@ -691,31 +587,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:94
         public static new Aow.Units.UnitSpells.TFury Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TFury o = new Aow.Units.UnitSpells.TFury();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFury(context, owner));
     }
 
     // { TRemedy (instance size 68, VMT 557E5B4C) }
     public partial class TRemedy : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:424
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TRemedy(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RemedyRStr);
             FSpellName = call__43;
             FSpellID = 35;
@@ -815,31 +696,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:103
         public static new Aow.Units.UnitSpells.TRemedy Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TRemedy o = new Aow.Units.UnitSpells.TRemedy();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TRemedy(context, owner));
     }
 
     // { THealingWater (instance size 68, VMT 557E5C7C) }
     public partial class THealingWater : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:467
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THealingWater(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__59 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HealingWaterRStr);
             FSpellName = call__59;
             FSpellID = 55;
@@ -893,31 +759,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:111
         public static new Aow.Units.UnitSpells.THealingWater Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.THealingWater o = new Aow.Units.UnitSpells.THealingWater();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THealingWater(context, owner));
     }
 
     // { THolyChampion (instance size 68, VMT 557E5DBC) }
     public partial class THolyChampion : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:497
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected THolyChampion(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyChampionRStr);
             FSpellName = call__66;
             FSpellID = 36;
@@ -987,31 +838,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:119
         public static new Aow.Units.UnitSpells.THolyChampion Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.THolyChampion o = new Aow.Units.UnitSpells.THolyChampion();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THolyChampion(context, owner));
     }
 
     // { TUnholyChampion (instance size 68, VMT 557E5EFC) }
     public partial class TUnholyChampion : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:537
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TUnholyChampion(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__75 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnholyChampionRStr);
             FSpellName = call__75;
             FSpellID = 37;
@@ -1081,31 +917,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:127
         public static new Aow.Units.UnitSpells.TUnholyChampion Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TUnholyChampion o = new Aow.Units.UnitSpells.TUnholyChampion();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnholyChampion(context, owner));
     }
 
     // { TConcealment (instance size 68, VMT 557E603C) }
     public partial class TConcealment : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:577
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TConcealment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__84 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ConcealmentRStr);
             FSpellName = call__84;
             FSpellID = 39;
@@ -1174,31 +995,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:135
         public static new Aow.Units.UnitSpells.TConcealment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TConcealment o = new Aow.Units.UnitSpells.TConcealment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TConcealment(context, owner));
     }
 
     // { TFireAura (instance size 68, VMT 557E617C) }
     public partial class TFireAura : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:616
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFireAura(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__92 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireAuraRStr);
             FSpellName = call__92;
             FSpellID = 40;
@@ -1285,31 +1091,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:143
         public static new Aow.Units.UnitSpells.TFireAura Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TFireAura o = new Aow.Units.UnitSpells.TFireAura();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireAura(context, owner));
     }
 
     // { TWaterWalking (instance size 68, VMT 557E62B4) }
     public partial class TWaterWalking : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:662
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWaterWalking(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__103 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WaterWalkingRStr);
             FSpellName = call__103;
             FSpellID = 42;
@@ -1392,31 +1183,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:152
         public static new Aow.Units.UnitSpells.TWaterWalking Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TWaterWalking o = new Aow.Units.UnitSpells.TWaterWalking();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWaterWalking(context, owner));
     }
 
     // { TWindWalking (instance size 68, VMT 557E63F4) }
     public partial class TWindWalking : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:702
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWindWalking(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__115 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WindWalkingRStr);
             FSpellName = call__115;
             FSpellID = 43;
@@ -1485,31 +1261,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:160
         public static new Aow.Units.UnitSpells.TWindWalking Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TWindWalking o = new Aow.Units.UnitSpells.TWindWalking();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWindWalking(context, owner));
     }
 
     // { TLiquidForm (instance size 68, VMT 557E6534) }
     public partial class TLiquidForm : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:741
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TLiquidForm(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__123 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LiquidFormRStr);
             FSpellName = call__123;
             FSpellID = 49;
@@ -1612,31 +1373,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:168
         public static new Aow.Units.UnitSpells.TLiquidForm Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TLiquidForm o = new Aow.Units.UnitSpells.TLiquidForm();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLiquidForm(context, owner));
     }
 
     // { TBless (instance size 68, VMT 557E666C) }
     public partial class TBless : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:790
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TBless(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__138 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BlessRStr);
             FSpellName = call__138;
             FSpellID = 56;
@@ -1686,31 +1432,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:177
         public static new Aow.Units.UnitSpells.TBless Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TBless o = new Aow.Units.UnitSpells.TBless();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TBless(context, owner));
     }
 
     // { TDarkGift (instance size 68, VMT 557E679C) }
     public partial class TDarkGift : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:830
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TDarkGift(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__140 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DarkGiftRStr);
             FSpellName = call__140;
             FSpellID = 77;
@@ -1760,28 +1491,16 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:185
         public static new Aow.Units.UnitSpells.TDarkGift Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TDarkGift o = new Aow.Units.UnitSpells.TDarkGift();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDarkGift(context, owner));
     }
 
     // { TCosmeticSurgerySpellCaster (instance size 28, VMT 557E68D4):
 //     $14 replacement face index, $18 target unit ID. }
     public partial class TCosmeticSurgerySpellCaster : Aow.Units.AoWE.TSpellCaster
     {
+        public TCosmeticSurgerySpellCaster(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public int FFaceIndex;
         // { $14 }
         public int FTargetUnitID;
@@ -1844,31 +1563,14 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // intf_P4_02.inc:998
-        public static new Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster o = new Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TCosmeticSurgery (instance size 68, VMT 557E69BC) }
     public partial class TCosmeticSurgery : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:901
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCosmeticSurgery(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__152 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeformFaceRStr);
             FSpellName = call__152;
             FSpellID = 59;
@@ -1906,7 +1608,7 @@ namespace Aow.Units.UnitSpells
             Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster Caster = default;
             if (Targets.GetCount() == 1)
             {
-                Caster = Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster.Create(null);
+                Caster = new Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster(null);
                 Caster.FCasterSourceID = Source.FUnitID;
                 Caster.FCasterSpellID = FSpellID;
                 var call__153 = Targets.GetUnit(0);
@@ -1970,22 +1672,8 @@ namespace Aow.Units.UnitSpells
             return Result;
         }
 
-        // UnitSpells.pas:203
         public static new Aow.Units.UnitSpells.TCosmeticSurgery Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnitSpells.TCosmeticSurgery o = new Aow.Units.UnitSpells.TCosmeticSurgery();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCosmeticSurgery(context, owner));
     }
 
     public static partial class UnitSpells

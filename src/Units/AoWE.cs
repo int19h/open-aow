@@ -4908,6 +4908,16 @@ namespace Aow.Units.AoWE
 //     $10 status, $11 mode, $14 dispel mana, $18 type, $19 player, $1C name, $20 upkeep) }
     public partial class TGlobalEnchantment : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TGlobalEnchantment.Create and legacy metaclass allocation.
+        public TGlobalEnchantment() { }
+
+        protected TGlobalEnchantment(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TGlobalEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FEnchantmentID;
         // { $08 }
         public int FRefCount;
@@ -4945,6 +4955,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FRefCount = 1;
             FEnchantmentMode = TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement>.Of(Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemTrueGlobal, Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemOwned);
         }
@@ -23575,6 +23590,16 @@ namespace Aow.Units.AoWE
 //     Procedure return-ABI adapters preserve unmarked overrides in other packages. }
     public partial class TAbility : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TAbility.Create and legacy metaclass allocation.
+        public TAbility() { }
+
+        protected TAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Rtl.AnsiString FAbilityName;
         // { $08 }
         public int FAbilityID;
@@ -23614,6 +23639,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__2033 = new Aow.Rtl.TStringList();
             FDescription = call__2033;
             var call__2034 = Aow.Units.Sound.TSFXLibrary.Create(null);
@@ -24089,22 +24119,8 @@ namespace Aow.Units.AoWE
             // Ability.PAS:1445
             public virtual Aow.Units.Engine.TEObject.Meta AbilityDataClass() => default;
 
-            // intf_P1_06.inc:37
             public new Aow.Units.AoWE.TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TAbility o = (Aow.Units.AoWE.TAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TAbility)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAbility => (Meta)MetaRegistry.Of(typeof(T));
@@ -59300,11 +59316,24 @@ namespace Aow.Units.AoWE
     // { TCombatAction: instance size $0C, VMT 557160B4; $08 FRefCount. }
     public partial class TCombatAction : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TCombatAction.Create and legacy metaclass allocation.
+        public TCombatAction() { }
+
+        protected TCombatAction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FRefCount;
         // Combat2.pas:698
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FRefCount = 1;
         }
 
@@ -59398,6 +59427,13 @@ namespace Aow.Units.AoWE
 //     $0C FMode; $0D FSourceID; $0E FTargetID. }
     public partial class TSingleTargetCA : Aow.Units.AoWE.TCombatAction
     {
+        // Raw allocation for TDamageCA.Create and legacy metaclass allocation.
+        public TSingleTargetCA() { }
+
+        protected TSingleTargetCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public TSet<Aow.Units.AoWE.TSingleTargetModeElement> FMode;
         public byte FSourceID;
         public byte FTargetID;
@@ -59498,6 +59534,13 @@ namespace Aow.Units.AoWE
 //     The two damage sets are deliberately unaligned packed fields. }
     public partial class TDamageCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        // Raw allocation for TDamageCA.Create and legacy metaclass allocation.
+        public TDamageCA() { }
+
+        protected TDamageCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         public byte FDamage;
         // { $10 }
         public Aow.Units.AoWE.TP3PackedDamageTypes FDamageTypes;
@@ -59716,22 +59759,8 @@ namespace Aow.Units.AoWE
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDamageCA => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P3_02.inc:38
             public new Aow.Units.AoWE.TDamageCA Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TDamageCA o = (Aow.Units.AoWE.TDamageCA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TDamageCA)base.Create(AOwner);
         }
     }
 
@@ -85241,6 +85270,15 @@ namespace Aow.Units.AoWE
     // { TAdjustableAbility (instance size 40, VMT 5571D930; $24 ability type) }
     public partial class TAdjustableAbility : Aow.Units.AoWE.TAbility
     {
+        // Raw allocation for TEnhancementAbility.Create and legacy metaclass allocation.
+        public TAdjustableAbility() { }
+
+        protected TAdjustableAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TAdjustableAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+        }
+
         public Aow.Units.AoWE.TAbilityType FAbilityType;
         // { $24 }
         public Aow.Units.FixedArray_byte_3 FAbilityTypePadding;
@@ -85257,10 +85295,25 @@ namespace Aow.Units.AoWE
     // { TEnhancementAbility (instance size 40, VMT 5571DABC) }
     public partial class TEnhancementAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for TEnhancementAbility.Create and legacy metaclass allocation.
+        public TEnhancementAbility() { }
+
+        protected TEnhancementAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TEnhancementAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         // AoWAb.PAS:922
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit);
         }
@@ -85361,12 +85414,27 @@ namespace Aow.Units.AoWE
     // { TDurationAbility (instance size 44, VMT 5571DD68; $28 duration mode) }
     public partial class TDurationAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for TDurationAbility.Create and legacy metaclass allocation.
+        public TDurationAbility() { }
+
+        protected TDurationAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TDurationAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Units.AoWE.TDurationMode FDurationMode;
         public Aow.Units.FixedArray_byte_3 FDurationPadding;
         // AoWAb.PAS:25
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
         }
 
         // AoWAb.PAS:96
@@ -85577,22 +85645,8 @@ namespace Aow.Units.AoWE
                 return Result;
             }
 
-            // intf_P4_02.inc:42
             public new Aow.Units.AoWE.TDurationAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TDurationAbility o = (Aow.Units.AoWE.TDurationAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TDurationAbility)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDurationAbility => (Meta)MetaRegistry.Of(typeof(T));
@@ -85672,6 +85726,16 @@ namespace Aow.Units.AoWE
     // { TMultiLevelAbility (instance size 48, VMT 5571DFD0; $28 max level, $2C level costs) }
     public partial class TMultiLevelAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for TMultiLevelAbility.Create and legacy metaclass allocation.
+        public TMultiLevelAbility() { }
+
+        protected TMultiLevelAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TMultiLevelAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FMaxLevel;
         public Aow.Units.Engine.TIntegerList FLevelCosts;
         // AoWAb.PAS:255
@@ -85686,6 +85750,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__6733 = new Aow.Units.Engine.TIntegerList();
             FLevelCosts = call__6733;
             FMaxLevel = 4;
@@ -85722,22 +85791,8 @@ namespace Aow.Units.AoWE
             // { branch past the missing-data exit and nil-owner zero result }
             public override Aow.Units.Engine.TEObject.Meta AbilityDataClass() => Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
 
-            // intf_P4_02.inc:72
             public new Aow.Units.AoWE.TMultiLevelAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TMultiLevelAbility o = (Aow.Units.AoWE.TMultiLevelAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TMultiLevelAbility)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TMultiLevelAbility => (Meta)MetaRegistry.Of(typeof(T));
@@ -93589,6 +93644,14 @@ namespace Aow.Units.AoWE
     // { TDispelMagicCA (instance size 20, VMT 55721958; $10 dispelled enchantment IDs) }
     public partial class TDispelMagicCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        // Raw allocation for TDispelMagicCA.Create and legacy metaclass allocation.
+        public TDispelMagicCA() { }
+
+        protected TDispelMagicCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Units.Engine.TIntegerList FEnchantmentIDs;
         // AoWAb.PAS:3941
         // { $10 }
@@ -93609,6 +93672,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__7564 = new Aow.Units.Engine.TIntegerList();
             FEnchantmentIDs = call__7564;
         }
@@ -95352,10 +95420,25 @@ namespace Aow.Units.AoWE
     // { TUnitEnchantmentAbility (instance size 40, VMT 55722364) }
     public partial class TUnitEnchantmentAbility : Aow.Units.AoWE.TAdjustableAbility
     {
+        // Raw allocation for TUnitEnchantmentAbility.Create and legacy metaclass allocation.
+        public TUnitEnchantmentAbility() { }
+
+        protected TUnitEnchantmentAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TUnitEnchantmentAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         // AoWAb.PAS:601
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnchantment;
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of();
         }
@@ -95663,22 +95746,8 @@ namespace Aow.Units.AoWE
                 return Result;
             }
 
-            // intf_P4_02.inc:798
             public new Aow.Units.AoWE.TUnitEnchantmentAbility Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TUnitEnchantmentAbility o = (Aow.Units.AoWE.TUnitEnchantmentAbility)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+                => (Aow.Units.AoWE.TUnitEnchantmentAbility)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnitEnchantmentAbility => (Meta)MetaRegistry.Of(typeof(T));
@@ -96466,6 +96535,16 @@ namespace Aow.Units.AoWE
 //     $24 text, $28 sounds, $2C images; $18/$1C/$30 remain unresolved Integers) }
     public partial class TSpell : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TSpell.Create and legacy metaclass allocation.
+        public TSpell() { }
+
+        protected TSpell(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public Aow.Rtl.AnsiString FSpellName;
         // { $08 }
         public TSet<Aow.Units.AoWE.TSpellControlTypeElement> FSpellControlTypes;
@@ -96519,6 +96598,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             var call__7763 = new Aow.Rtl.TStringList();
             FSpellText = call__7763;
             var call__7764 = Aow.Units.Sound.TSFXLibrary.Create(null);
@@ -97263,6 +97347,14 @@ namespace Aow.Units.AoWE
     // { TSpellCaster (instance size 20, VMT 5572308C; $08 spell ID, $0C source ID, $10 refcount) }
     public partial class TSpellCaster : Aow.Units.Engine.TEObject
     {
+        // Raw allocation for TSpellCaster.Create and legacy metaclass allocation.
+        public TSpellCaster() { }
+
+        protected TSpellCaster(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public int FCasterSpellID;
         public int FCasterSourceID;
         public int FCasterRefCount;
@@ -97270,6 +97362,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FCasterRefCount = 1;
         }
 
@@ -98024,6 +98121,16 @@ namespace Aow.Units.AoWE
 //     $34 multiple targets, $38 range, $3C dispel resistance, $40 AI value) }
     public partial class TUnitSpell : Aow.Units.AoWE.TSpell
     {
+        // Raw allocation for TUnitSpell.Create and legacy metaclass allocation.
+        public TUnitSpell() { }
+
+        protected TUnitSpell(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TUnitSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeConstruction();
+        }
+
         public bool FAllowMultipleTargets;
         // { $34 }
         public Aow.Units.FixedArray_byte_3 F_UnitSpell_35;
@@ -98038,6 +98145,11 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeConstruction();
+        }
+
+        private void InitializeConstruction()
+        {
             FAIValue = -1;
             FSpellType = Aow.Units.AoWE.TSpellType.stUnit;
             FAllowMultipleTargets = true;

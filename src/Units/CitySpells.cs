@@ -171,9 +171,8 @@ namespace Aow.Units.CitySpells
         // { $38 }
         public Aow.Units.FixedArray_byte_3 F_CityTargetSpell_39;
         // CitySpells.pas:209
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCityTargetSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
         }
 
@@ -475,22 +474,8 @@ namespace Aow.Units.CitySpells
             }
         }
 
-        // CitySpells.pas:50
         public static new Aow.Units.CitySpells.TCityTargetSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TCityTargetSpell o = new Aow.Units.CitySpells.TCityTargetSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCityTargetSpell(context, owner));
     }
 
     // { TTownGateTE (instance size 48, VMT 557AF604): $28 army ID; $2C destination coordinates. }
@@ -593,9 +578,8 @@ namespace Aow.Units.CitySpells
     public partial class TTownGate : Aow.Units.CitySpells.TCityTargetSpell
     {
         // CitySpells.pas:421
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TTownGate(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownGateRStr);
             FSpellName = call__51;
             FSpellID = 38;
@@ -873,22 +857,8 @@ namespace Aow.Units.CitySpells
             return Result;
         }
 
-        // CitySpells.pas:76
         public static new Aow.Units.CitySpells.TTownGate Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TTownGate o = new Aow.Units.CitySpells.TTownGate();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTownGate(context, owner));
     }
 
     // { TCityEnchantmentSpellTE (instance size 40, VMT 557AF800) }
@@ -959,9 +929,8 @@ namespace Aow.Units.CitySpells
         // { $4C }
         public Aow.Units.FixedArray_byte_3 F_CityEnchantmentSpell_4D;
         // CitySpells.pas:554
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TCityEnchantmentSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FAIPriority = -1;
         }
 
@@ -1147,31 +1116,16 @@ namespace Aow.Units.CitySpells
             return Result;
         }
 
-        // CitySpells.pas:102
         public static new Aow.Units.CitySpells.TCityEnchantmentSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TCityEnchantmentSpell o = new Aow.Units.CitySpells.TCityEnchantmentSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCityEnchantmentSpell(context, owner));
     }
 
     // { TFountainOfLife (instance size 80, VMT 557AFA9C) }
     public partial class TFountainOfLife : Aow.Units.CitySpells.TCityEnchantmentSpell
     {
         // CitySpells.pas:649
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TFountainOfLife(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__116 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FountainOfLifeRStr);
             FSpellName = call__116;
             FSpellID = 52;
@@ -1256,31 +1210,16 @@ namespace Aow.Units.CitySpells
             }
         }
 
-        // CitySpells.pas:114
         public static new Aow.Units.CitySpells.TFountainOfLife Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TFountainOfLife o = new Aow.Units.CitySpells.TFountainOfLife();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFountainOfLife(context, owner));
     }
 
     // { TGoldRush (instance size 80, VMT 557AFBD0) }
     public partial class TGoldRush : Aow.Units.CitySpells.TCityEnchantmentSpell
     {
         // CitySpells.pas:710
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TGoldRush(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__121 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GoldRushRStr);
             FSpellName = call__121;
             FSpellID = 53;
@@ -1296,31 +1235,16 @@ namespace Aow.Units.CitySpells
             FEnchantmentSpellID = 25;
         }
 
-        // CitySpells.pas:122
         public static new Aow.Units.CitySpells.TGoldRush Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TGoldRush o = new Aow.Units.CitySpells.TGoldRush();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TGoldRush(context, owner));
     }
 
     // { TAntiMagicShell (instance size 80, VMT 557AFCFC) }
     public partial class TAntiMagicShell : Aow.Units.CitySpells.TCityEnchantmentSpell
     {
         // CitySpells.pas:727
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TAntiMagicShell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__122 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AntiMagicShellRStr);
             FSpellName = call__122;
             FSpellID = 54;
@@ -1356,31 +1280,16 @@ namespace Aow.Units.CitySpells
             }
         }
 
-        // CitySpells.pas:128
         public static new Aow.Units.CitySpells.TAntiMagicShell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TAntiMagicShell o = new Aow.Units.CitySpells.TAntiMagicShell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAntiMagicShell(context, owner));
     }
 
     // { TWarmonger (instance size 80, VMT 557AFE30) }
     public partial class TWarmonger : Aow.Units.CitySpells.TCityEnchantmentSpell
     {
         // CitySpells.pas:751
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TWarmonger(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__129 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WarmongerRStr);
             FSpellName = call__129;
             FSpellID = 58;
@@ -1392,31 +1301,16 @@ namespace Aow.Units.CitySpells
             FEnchantmentSpellID = 50;
         }
 
-        // CitySpells.pas:135
         public static new Aow.Units.CitySpells.TWarmonger Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TWarmonger o = new Aow.Units.CitySpells.TWarmonger();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWarmonger(context, owner));
     }
 
     // { TTownQuake (instance size 60, VMT 557AFF5C) }
     public partial class TTownQuake : Aow.Units.CitySpells.TCityTargetSpell
     {
         // CitySpells.pas:764
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TTownQuake(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__130 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownQuakeRStr);
             FSpellName = call__130;
             FSpellID = 71;
@@ -1549,31 +1443,16 @@ namespace Aow.Units.CitySpells
             Army.FArmy.EndUpdate();
         }
 
-        // CitySpells.pas:141
         public static new Aow.Units.CitySpells.TTownQuake Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TTownQuake o = new Aow.Units.CitySpells.TTownQuake();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTownQuake(context, owner));
     }
 
     // { TAnarchy (instance size 60, VMT 557B0088) }
     public partial class TAnarchy : Aow.Units.CitySpells.TCityTargetSpell
     {
         // CitySpells.pas:849
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TAnarchy(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__142 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnarchyRStr);
             FSpellName = call__142;
             FSpellID = 72;
@@ -1671,31 +1550,16 @@ namespace Aow.Units.CitySpells
             }
         }
 
-        // CitySpells.pas:150
         public static new Aow.Units.CitySpells.TAnarchy Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TAnarchy o = new Aow.Units.CitySpells.TAnarchy();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAnarchy(context, owner));
     }
 
     // { TAnimateRuins (instance size 60, VMT 557B01B4) }
     public partial class TAnimateRuins : Aow.Units.CitySpells.TCityTargetSpell
     {
         // CitySpells.pas:915
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TAnimateRuins(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__157 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateRuinsRStr);
             FSpellName = call__157;
             FSpellID = 76;
@@ -1811,22 +1675,8 @@ namespace Aow.Units.CitySpells
             }
         }
 
-        // CitySpells.pas:159
         public static new Aow.Units.CitySpells.TAnimateRuins Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TAnimateRuins o = new Aow.Units.CitySpells.TAnimateRuins();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAnimateRuins(context, owner));
     }
 
     public static partial class CitySpells
