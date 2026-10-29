@@ -12,6 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <ProjectReference Include="../Rtl/Aow.Rtl.csproj" />
+    <ProjectReference Include="../Units/Aow.Units.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>

@@ -7031,7 +7031,7 @@ namespace Aow.Units.HSEngine
             var call__297 = Aow.Units.HSEngine.TMapObjectResourceList.Create(this);
             FMapObjectResourceList = call__297;
             FMapObjectResourceList.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
-            var call__298 = Aow.Units.Engine.TEResourceEditSettings.Create(this);
+            var call__298 = new Aow.Units.Engine.TEResourceEditSettings(this);
             FResourceEditSettings = call__298;
             FResourceEditSettings.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
             var call__299 = Aow.Units.ImageLib.TImageLibraryManager.Create(null);

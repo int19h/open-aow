@@ -4367,6 +4367,17 @@ namespace Aow.Units.Engine
     // { Engine.TEObject (instance size 8): +4 FOwner. }
     public partial class TEObject : Aow.Rtl.TObject
     {
+        // Raw allocation for legacy descendant factories and Meta.NewInstance consumers.
+        public TEObject() { }
+
+        protected TEObject(TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TEObject(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+        {
+            context?.Capture(this);
+            InitializeOwner(AOwner);
+        }
+
         protected internal Aow.Units.Engine.TECustomNode FOwner;
         // Engine.pas:2487
         internal Aow.Rtl.AnsiString GetEObjectPath()
@@ -4462,7 +4473,11 @@ namespace Aow.Units.Engine
         // { TEObject }
         public virtual void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
-            ;
+            InitializeOwner(AOwner);
+        }
+
+        private void InitializeOwner(TECustomNode AOwner)
+        {
             SetOwner(AOwner);
         }
 
@@ -4656,6 +4671,8 @@ namespace Aow.Units.Engine
 
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
+            internal Func<TECustomNode, TEObject> CompletedCreation;
+
             // Engine.pas:2461
             public virtual int ClassID()
             {
@@ -4667,6 +4684,8 @@ namespace Aow.Units.Engine
             // Engine.pas:524
             public Aow.Units.Engine.TEObject Create(Aow.Units.Engine.TECustomNode AOwner)
             {
+                if (CompletedCreation is { } create)
+                    return create(AOwner);
                 Aow.Units.Engine.TEObject o = (Aow.Units.Engine.TEObject)NewInstance();
                 try
                 {
@@ -9352,12 +9371,17 @@ namespace Aow.Units.Engine
     // { Engine.TEControlStyleObject (instance size 12): +8 FControlStyle }
     public partial class TEControlStyleObject : Aow.Units.Engine.TEObject
     {
+        // Raw base route for TFlagControl in private tests/probes/remaining-todos/Program.cs.
+        protected TEControlStyleObject() { }
+
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:8222
         // { TEControlStyleObject }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TEControlStyleObject(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        // Engine.pas:8222
+        private protected TEControlStyleObject(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FControlStyle = base.GetControlStyle();
         }
 
@@ -9381,23 +9405,6 @@ namespace Aow.Units.Engine
             Aow.Rtl.Rtl.RwSet(ref FControlStyle, 1, 1, Stream.rwData, 0);
         }
 
-        // Engine.pas:829
-        public static new Aow.Units.Engine.TEControlStyleObject Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEControlStyleObject o = new Aow.Units.Engine.TEControlStyleObject();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:8228
@@ -9406,23 +9413,6 @@ namespace Aow.Units.Engine
                 int Result = default;
                 Result = 81;
                 return Result;
-            }
-
-            // Engine.pas:829
-            public new Aow.Units.Engine.TEControlStyleObject Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEControlStyleObject o = (Aow.Units.Engine.TEControlStyleObject)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
             }
 
             public static new Meta Of<T>()
@@ -9789,9 +9779,8 @@ namespace Aow.Units.Engine
 
         // Engine.pas:8650
         // { TEResourceEditSettings }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TEResourceEditSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__305 = new Aow.Rtl.TStringList();
             FEditors = call__305;
         }
@@ -9870,23 +9859,6 @@ namespace Aow.Units.Engine
 
         public Aow.Rtl.TStringList Editors { get => FEditors; }
 
-        // Engine.pas:891
-        public static new Aow.Units.Engine.TEResourceEditSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEResourceEditSettings o = new Aow.Units.Engine.TEResourceEditSettings();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEControlStyleObject.Meta
         {
             // Engine.pas:8662
@@ -9895,23 +9867,6 @@ namespace Aow.Units.Engine
                 int Result = default;
                 Result = 1026;
                 return Result;
-            }
-
-            // Engine.pas:891
-            public new Aow.Units.Engine.TEResourceEditSettings Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEResourceEditSettings o = (Aow.Units.Engine.TEResourceEditSettings)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
             }
 
             public static new Meta Of<T>()
