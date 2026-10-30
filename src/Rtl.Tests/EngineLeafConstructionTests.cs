@@ -165,6 +165,11 @@ public sealed class EngineLeafConstructionTests
 
     private sealed class LegacySort : TESortNode
     {
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FItems = [];
+        }
         internal int OwnerCalls;
         public override void SetOwner(TECustomNode owner)
         {

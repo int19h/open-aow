@@ -63,6 +63,7 @@ namespace Aow.Units.HeroCtrl
         }
 
         // HeroCtrl.pas:122
+        // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             base.Create__init(AOwner);

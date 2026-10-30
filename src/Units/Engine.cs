@@ -4640,7 +4640,7 @@ namespace Aow.Units.Engine
 
         // This bridge has no own body. Both routes share TEObject.InitializeOwner.
         // Engine.pas:2430
-        protected TECustomNode(TECustomNode AOwner) : base(AOwner) { }
+        public TECustomNode(TECustomNode AOwner) : base(AOwner) { }
 
         private protected TECustomNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
             : base(context, AOwner) { }
@@ -5969,7 +5969,7 @@ namespace Aow.Units.Engine
         public TEResource() { }
 
         // No own constructor body. Both semantic routes share TEObject.InitializeOwner.
-        protected TEResource(TECustomNode AOwner) : base(AOwner) { }
+        public TEResource(TECustomNode AOwner) : base(AOwner) { }
 
         private protected TEResource(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
             : base(context, AOwner) { }
@@ -6283,7 +6283,7 @@ namespace Aow.Units.Engine
         internal Aow.Units.Engine.TIntegerList FCounts;
         // Engine.pas:9144
         // { TPlugIn }
-        public void Create__init_TPlugIn()
+        public TPlugIn()
         {
             ;
             var call__174 = new Aow.Rtl.TList();
@@ -6398,21 +6398,7 @@ namespace Aow.Units.Engine
         public int RefCount { get => FRefCount; }
 
         // Engine.pas:550
-        public static Aow.Units.Engine.TPlugIn Create()
-        {
-            Aow.Units.Engine.TPlugIn o = new Aow.Units.Engine.TPlugIn();
-            try
-            {
-                o.Create__init_TPlugIn();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public partial class EPlugInMissing : Aow.Rtl.Exception
@@ -6708,7 +6694,7 @@ namespace Aow.Units.Engine
         public TENode() { }
 
         // Engine.pas:2807
-        protected TENode(TECustomNode AOwner) : base(AOwner)
+        public TENode(TECustomNode AOwner) : base(AOwner)
         {
             InitializeChildren();
         }
@@ -6722,6 +6708,7 @@ namespace Aow.Units.Engine
         public Aow.Units.Engine.TEObjectList FChildren;
         // Engine.pas:2807
         // { TENode }
+        // Retained: TEngine and THSMap still call the legacy node body in 9.3b-18 and 9.3b-19.
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
@@ -7423,7 +7410,7 @@ namespace Aow.Units.Engine
         public TEChangeNotifyNode() { }
 
         // Engine.pas:7205
-        protected TEChangeNotifyNode(TECustomNode AOwner) : base(AOwner)
+        public TEChangeNotifyNode(TECustomNode AOwner) : base(AOwner)
         {
             InitializeNotifyChildren();
         }
@@ -7438,11 +7425,7 @@ namespace Aow.Units.Engine
         internal int FUpdateCount;
         // Engine.pas:7205
         // { TEChangeNotifyNode }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeNotifyChildren();
-        }
+
 
         // Engine.pas:7205
         private void InitializeNotifyChildren()
@@ -8537,21 +8520,7 @@ namespace Aow.Units.Engine
         public int UpdateCount { get => FUpdateCount; }
 
         // Engine.pas:680
-        public static new Aow.Units.Engine.TEChangeNotifyNode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEChangeNotifyNode o = new Aow.Units.Engine.TEChangeNotifyNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -8574,7 +8543,7 @@ namespace Aow.Units.Engine
         public TEChangeNotifyEventList() { }
 
         // Engine.pas:8125
-        protected TEChangeNotifyEventList(TECustomNode AOwner) : base(AOwner)
+        public TEChangeNotifyEventList(TECustomNode AOwner) : base(AOwner)
         {
             InitializeEvents();
         }
@@ -8588,11 +8557,7 @@ namespace Aow.Units.Engine
         internal Aow.Units.Engine.TEventList FEvents;
         // Engine.pas:8125
         // { TEChangeNotifyEventList }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeEvents();
-        }
+
 
         // Engine.pas:8125
         private void InitializeEvents()
@@ -8617,21 +8582,7 @@ namespace Aow.Units.Engine
         public Aow.Units.Engine.TEventList Events { get => FEvents; }
 
         // Engine.pas:708
-        public static new Aow.Units.Engine.TEChangeNotifyEventList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEChangeNotifyEventList o = new Aow.Units.Engine.TEChangeNotifyEventList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public enum TEditResult : byte
@@ -8650,7 +8601,7 @@ namespace Aow.Units.Engine
         public TEObjectEditor() { }
 
         // No own constructor body. Both semantic routes share TEObject.InitializeOwner.
-        protected TEObjectEditor(TECustomNode AOwner) : base(AOwner) { }
+        public TEObjectEditor(TECustomNode AOwner) : base(AOwner) { }
 
         private protected TEObjectEditor(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
             : base(context, AOwner) { }
@@ -8846,7 +8797,7 @@ namespace Aow.Units.Engine
     {
         internal Aow.Units.FixedArray_Aow_Units_Engine_TIntegerHashList_256 FLists;
         // HashTab.PAS:83
-        public void Create__init_TIntegerHashTable256()
+        public TIntegerHashTable256()
         {
             int I = default;
             ;
@@ -8960,21 +8911,8 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:782
-        public static Aow.Units.Engine.TIntegerHashTable256 Create()
-        {
-            Aow.Units.Engine.TIntegerHashTable256 o = new Aow.Units.Engine.TIntegerHashTable256();
-            try
-            {
-                o.Create__init_TIntegerHashTable256();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        // Forwarding entry for TEngine.
+        public static Aow.Units.Engine.TIntegerHashTable256 Create() => new TIntegerHashTable256();
     }
 
     // { Engine.TStringHashList (instance size 16): THashList items whose key dword is a string }
@@ -9098,7 +9036,7 @@ namespace Aow.Units.Engine
     {
         internal Aow.Units.FixedArray_Aow_Units_Engine_TStringHashList_256 FLists;
         // HashTab.PAS:199
-        public void Create__init_TStringHashTable256()
+        public TStringHashTable256()
         {
             int I = default;
             ;
@@ -9207,21 +9145,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:816
-        public static Aow.Units.Engine.TStringHashTable256 Create()
-        {
-            Aow.Units.Engine.TStringHashTable256 o = new Aow.Units.Engine.TStringHashTable256();
-            try
-            {
-                o.Create__init_TStringHashTable256();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Engine.TEControlStyleObject (instance size 12): +8 FControlStyle }
@@ -9284,7 +9208,7 @@ namespace Aow.Units.Engine
         public TEControlStyleNode() { }
 
         // Engine.pas:8193
-        protected TEControlStyleNode(TECustomNode AOwner) : base(AOwner)
+        public TEControlStyleNode(TECustomNode AOwner) : base(AOwner)
         {
             InitializeNodeStyle();
         }
@@ -9298,11 +9222,7 @@ namespace Aow.Units.Engine
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:8193
         // { TEControlStyleNode }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeNodeStyle();
-        }
+
 
         // Engine.pas:8193
         private void InitializeNodeStyle()
@@ -9332,21 +9252,8 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:841
-        public static new Aow.Units.Engine.TEControlStyleNode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEControlStyleNode o = new Aow.Units.Engine.TEControlStyleNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        // Forwarding entry for TEngine.
+        public static new Aow.Units.Engine.TEControlStyleNode Create(Aow.Units.Engine.TECustomNode AOwner) => new TEControlStyleNode(AOwner);
 
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
@@ -9373,7 +9280,7 @@ namespace Aow.Units.Engine
         public TECustomOwner() { }
 
         // Engine.pas:8250
-        protected TECustomOwner(TECustomNode AOwner) : base(AOwner)
+        public TECustomOwner(TECustomNode AOwner) : base(AOwner)
         {
             InitializeCustomOwner(AOwner);
         }
@@ -9388,6 +9295,7 @@ namespace Aow.Units.Engine
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:8250
         // { TECustomOwner }
+        // Retained: THSSet and TAoWHSSet still call the legacy owner body during engine startup in 9.3b-19.
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
@@ -9747,7 +9655,7 @@ namespace Aow.Units.Engine
         public TESortNode() { }
 
         // Engine.pas:1466
-        protected TESortNode(TECustomNode AOwner) : base(AOwner)
+        public TESortNode(TECustomNode AOwner) : base(AOwner)
         {
             InitializeSortItems();
         }
@@ -9790,11 +9698,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1466
         // { strings }
         // { TESortNode }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeSortItems();
-        }
+
 
         // Engine.pas:1466
         private void InitializeSortItems()
@@ -9937,21 +9841,7 @@ namespace Aow.Units.Engine
         public bool Sorted { get => FSorted; }
 
         // Engine.pas:922
-        public static new Aow.Units.Engine.TESortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TESortNode o = new Aow.Units.Engine.TESortNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
@@ -9975,7 +9865,7 @@ namespace Aow.Units.Engine
         public TEInverseSortNode() { }
 
         // No own constructor body. Both semantic routes share TESortNode.InitializeSortItems.
-        protected TEInverseSortNode(TECustomNode AOwner) : base(AOwner) { }
+        public TEInverseSortNode(TECustomNode AOwner) : base(AOwner) { }
 
         private protected TEInverseSortNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
             : base(context, AOwner) { }
@@ -10091,7 +9981,7 @@ namespace Aow.Units.Engine
         public TEControlStyleInverseSortNode() { }
 
         // Engine.pas:1689
-        protected TEControlStyleInverseSortNode(TECustomNode AOwner) : base(AOwner)
+        public TEControlStyleInverseSortNode(TECustomNode AOwner) : base(AOwner)
         {
             InitializeInverseStyle();
         }
@@ -10105,11 +9995,7 @@ namespace Aow.Units.Engine
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:1689
         // { TEControlStyleInverseSortNode }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeInverseStyle();
-        }
+
 
         // Engine.pas:1689
         private void InitializeInverseStyle()
@@ -10132,21 +10018,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:963
-        public static new Aow.Units.Engine.TEControlStyleInverseSortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEControlStyleInverseSortNode o = new Aow.Units.Engine.TEControlStyleInverseSortNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Engine.TEInverseSortNode.Meta
         {
@@ -10170,7 +10042,7 @@ namespace Aow.Units.Engine
         public TEReferenceNode() { }
 
         // No own constructor body. Both semantic routes share TENode.InitializeChildren.
-        protected TEReferenceNode(TECustomNode AOwner) : base(AOwner) { }
+        public TEReferenceNode(TECustomNode AOwner) : base(AOwner) { }
 
         private protected TEReferenceNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
             : base(context, AOwner) { }
@@ -10280,21 +10152,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:631
-        public static new Aow.Units.Engine.TEReferenceNode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEReferenceNode o = new Aow.Units.Engine.TEReferenceNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { Engine.TEUser (instance size 12): +8 FNode, the node the user is connected to }
@@ -11561,7 +11419,7 @@ namespace Aow.Units.Engine
         public TEResourceList() { }
 
         // No own constructor body. Both semantic routes share TECustomOwner.InitializeCustomOwner.
-        protected TEResourceList(TECustomNode AOwner) : base(AOwner) { }
+        public TEResourceList(TECustomNode AOwner) : base(AOwner) { }
 
         private protected TEResourceList(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
             : base(context, AOwner) { }
@@ -13540,6 +13398,7 @@ namespace Aow.Units.Engine
     {
         // Engine.pas:10489
         // { TDebugWriteStream }
+        // Retained: The debug writer uses the supplied stream as FBuffer and skips the normal writer buffer allocation. Retire with a replacement-base storage protocol.
         public void Create__init_TDebugWriteStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
         {
             FEngine = AEngine;

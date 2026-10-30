@@ -829,7 +829,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
                 var call__49 = call__48.GetBusy();
                 if (!call__49)
                 {
-                    Event = Aow.Units.AoWE.THeroUpgradeTE.Create(null);
+                    Event = new Aow.Units.AoWE.THeroUpgradeTE(null);
                     Event.Setup(FHero);
                     Event.FAttack = unchecked((sbyte)(FEditedHero.FUnitAttack - FHero.FUnitAttack));
                     Event.FDefense = unchecked((sbyte)(FEditedHero.FUnitDefense - FHero.FUnitDefense));

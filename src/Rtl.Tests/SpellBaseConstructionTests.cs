@@ -144,7 +144,13 @@ public sealed partial class SpellConstructionTests
         before = new TObject().InstanceId;
         var legacy = (TEObject)Activator.CreateInstance(type)!;
         Assert.Equal(0, ((IOwnerProbe)legacy).OwnerCalls);
-        legacy.Create__init(owner);
+        // Replay the retired split route inside the fixture.
+        legacy.SetOwner(owner);
+        var chain = new Stack<Type>();
+        for (Type? current = type.BaseType; current is not null && current != typeof(TEObject); current = current.BaseType)
+            chain.Push(current);
+        foreach (Type current in chain)
+            current.GetMethod("InitializeConstruction", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.DeclaredOnly)?.Invoke(legacy, []);
         Assert.Equal(children + 2, new TObject().InstanceId - before);
         try
         {

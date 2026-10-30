@@ -188,11 +188,7 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:943
         // { TTokenEvent }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeTokenEvent(AOwner);
-        }
+
 
         // NetworkE.pas:955
         public override int AddRef()
@@ -259,7 +255,7 @@ namespace Aow.Units.NetworkE
         // { TTokenEventList }
         public TTokenEventList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            var call__9 = Aow.Units.Engine.TEReferenceNode.Create(null);
+            var call__9 = new Aow.Units.Engine.TEReferenceNode(null);
             FList = call__9;
         }
 
@@ -1382,10 +1378,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1606
         // { TTokenManager }
         // { The original does not call the inherited constructor. }
-        public void Create__init_TTokenManager(Aow.Rtl.TObject AOwner)
-        {
-            InitializeTokenManager(AOwner);
-        }
+
 
         // NetworkE.pas:1614
         public override void Destroy()
@@ -1476,6 +1469,8 @@ namespace Aow.Units.NetworkE
 //     typecast of a field or parameter compiles to no code) }
     public partial class TENodeView : Aow.Units.Engine.TECustomNode
     {
+        public TENodeView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public Aow.Units.Engine.TEObjectList FChildren;
     }
 
@@ -2382,7 +2377,7 @@ namespace Aow.Units.NetworkE
 //   DCC32 generates for every method with the code in the game's module. Declarations follow the
 //   original instance layouts and VMT orders (data/classes.json); the field names are made up, the
 //   module has no RTTI for them. Network.dpl was compiled with the default switches.
-// 
+//
 //   A data package travels as a stored TEObject: TPlayerCommunicator.SendDataPackage stores it in a
 //   memory stream with TEngine.StoreEObject and hands the stream to the active player communication
 //   control (TLocalPCC queues it for itself, TRemotePCC sends it through OnSendData to every other

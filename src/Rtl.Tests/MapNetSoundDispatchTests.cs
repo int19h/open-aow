@@ -17,6 +17,11 @@ public sealed class MapNetSoundDispatchTests
 
     private sealed class LegacyField : TMapField
     {
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            typeof(TMapField).GetMethod("InitializeMapField", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.Invoke(this, [owner]);
+        }
         internal int OwnerCalls;
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
