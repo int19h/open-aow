@@ -52,9 +52,8 @@ namespace Aow.Units.AOWGauge
         public int FILIndexTSelected;
         // AOWGauge.pas:69
         // { TAoWGauge }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAoWGauge(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FMax = 1;
         }
 
@@ -371,23 +370,6 @@ namespace Aow.Units.AOWGauge
 
         [Published]
         public int ILIndexTSelected { get => FILIndexTSelected; set => SetILTsIndex(value); }
-
-        // AOWGauge.pas:34
-        public static new Aow.Units.AOWGauge.TAoWGauge Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AOWGauge.TAoWGauge o = new Aow.Units.AOWGauge.TAoWGauge();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AOWGauge

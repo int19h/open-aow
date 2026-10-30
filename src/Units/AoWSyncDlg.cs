@@ -57,6 +57,8 @@ namespace Aow.Units.AoWSyncDlg
     // { TSynchronizeDlg (instance size 128, VMT 00413334) }
     public partial class TSynchronizeDlg : Aow.Rtl.TDataModule
     {
+        public TSynchronizeDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltB;

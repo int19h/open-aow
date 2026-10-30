@@ -121,9 +121,8 @@ namespace Aow.Units.AoWComp
         public bool FDoubleBuffered;
         public bool FSurfaceValid;
         // AoWComp.pas:222
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAoWComponent(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FVisible = true;
             FFirstDraw = true;
             var call__1 = new Aow.Units.AoWComp.TAOWAlignment();
@@ -1151,23 +1150,6 @@ namespace Aow.Units.AoWComp
 
         [Published]
         public Aow.Units.AoWComp.TAoWOnDebugEvent OnDebugMessage { get => FOnDebugMessage; set => FOnDebugMessage = value; }
-
-        // AoWComp.pas:142
-        public static Aow.Units.AoWComp.TAoWComponent Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWComp.TAoWComponent o = new Aow.Units.AoWComp.TAoWComponent();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate void TAoWOnDrawEvent(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SurfDesc);

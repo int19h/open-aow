@@ -523,9 +523,8 @@ namespace Aow.Units.AoWSetup
 
         // AoWSetup.pas:436
         // { needs: TLeaderSetupControl.Done returns Boolean (557DF7EA); its draft is a procedure. }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TSetupControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__3 = new Aow.Units.AoWSetup.TSetupSettings(null);
             FSettings = call__3;
             var call__4 = new Aow.Units.AoWSetup.TRemotePlayer(null);
@@ -2647,23 +2646,6 @@ namespace Aow.Units.AoWSetup
 
         [Published]
         public Aow.Units.AoWSetup.TSetupControlEvent OnSendingMaps { get => FOnSendingMaps; set => FOnSendingMaps = value; }
-
-        // AoWSetup.pas:146
-        public static Aow.Units.AoWSetup.TSetupControl Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWSetup.TSetupControl o = new Aow.Units.AoWSetup.TSetupControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TSetupPhase : byte

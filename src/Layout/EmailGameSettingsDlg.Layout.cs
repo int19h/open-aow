@@ -132,7 +132,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             CancelBut.WinWidth = 110;
             CancelBut.OnClick = Layout_CancelButClick_2;
             session.EndRead(CancelBut);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -282,7 +282,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             AoWFrame1.ILIndexLine = 55;
             AoWFrame1.ILIndexTexture = 0;
             session.EndRead(AoWFrame1);
-            LocalEmailAddressEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            LocalEmailAddressEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(LocalEmailAddressEdit);
             LocalEmailAddressEdit.Name = "LocalEmailAddressEdit";
             LocalEmailAddressEdit.OnUpdate = Layout_LocalEmailAddressEditUpdate_3;
@@ -337,7 +337,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             PlayerEMailAddressesLbl.Text = "Player Email Addresses";
             PlayerEMailAddressesLbl.TextColor = 16777215;
             session.EndRead(PlayerEMailAddressesLbl);
-            EmailAddressEdit1 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            EmailAddressEdit1 = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(EmailAddressEdit1);
             EmailAddressEdit1.Name = "EmailAddressEdit1";
             EmailAddressEdit1.Priority = 0;
@@ -369,7 +369,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             EmailAddressEdit1.ILIndex = 15;
             EmailAddressEdit1.PassWordChar = (byte)0;
             session.EndRead(EmailAddressEdit1);
-            PlayerPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PlayerPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PlayerPnl);
             PlayerPnl.Name = "PlayerPnl";
             PlayerPnl.Priority = 1;
@@ -499,7 +499,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             PlayerLbl3.Masked = true;
             PlayerLbl3.TextColor = 9415072;
             session.EndRead(PlayerLbl3);
-            EmailAddressEdit2 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            EmailAddressEdit2 = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(EmailAddressEdit2);
             EmailAddressEdit2.Name = "EmailAddressEdit2";
             EmailAddressEdit2.Tag = 1;
@@ -532,7 +532,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             EmailAddressEdit2.ILIndex = 15;
             EmailAddressEdit2.PassWordChar = (byte)0;
             session.EndRead(EmailAddressEdit2);
-            EmailAddressEdit3 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            EmailAddressEdit3 = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(EmailAddressEdit3);
             EmailAddressEdit3.Name = "EmailAddressEdit3";
             EmailAddressEdit3.Tag = 2;
@@ -587,7 +587,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             PlayerLbl4.Masked = true;
             PlayerLbl4.TextColor = 9415072;
             session.EndRead(PlayerLbl4);
-            EmailAddressEdit4 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            EmailAddressEdit4 = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(EmailAddressEdit4);
             EmailAddressEdit4.Name = "EmailAddressEdit4";
             EmailAddressEdit4.Tag = 3;
@@ -643,7 +643,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             EmailGameNameLbl.Text = "Email Game Name";
             EmailGameNameLbl.TextColor = 16777215;
             session.EndRead(EmailGameNameLbl);
-            EmailGameNameEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            EmailGameNameEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(EmailGameNameEdit);
             EmailGameNameEdit.Name = "EmailGameNameEdit";
             EmailGameNameEdit.Priority = 0;
@@ -705,7 +705,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             SettingsBtn.WinWidth = 135;
             SettingsBtn.OnClick = Layout_SettingsBtnClick_5;
             session.EndRead(SettingsBtn);
-            Player1Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Player1Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Player1Pnl);
             Player1Pnl.Name = "Player1Pnl";
             Player1Pnl.Priority = 100;
@@ -733,7 +733,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             Player1Pnl.MinWidth = 0;
             Player1Pnl.MinHeight = 0;
             session.EndRead(Player1Pnl);
-            PowePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PowePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PowePnl);
             PowePnl.Name = "PowePnl";
             PowePnl.Priority = 1;
@@ -760,7 +760,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             PowePnl.MinWidth = 0;
             PowePnl.MinHeight = 0;
             session.EndRead(PowePnl);
-            Player2Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Player2Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Player2Pnl);
             Player2Pnl.Name = "Player2Pnl";
             Player2Pnl.Tag = 1;
@@ -789,7 +789,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             Player2Pnl.MinWidth = 0;
             Player2Pnl.MinHeight = 0;
             session.EndRead(Player2Pnl);
-            Player3Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Player3Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Player3Pnl);
             Player3Pnl.Name = "Player3Pnl";
             Player3Pnl.Tag = 2;
@@ -818,7 +818,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             Player3Pnl.MinWidth = 0;
             Player3Pnl.MinHeight = 0;
             session.EndRead(Player3Pnl);
-            Player4Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Player4Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Player4Pnl);
             Player4Pnl.Name = "Player4Pnl";
             Player4Pnl.Tag = 3;
@@ -869,7 +869,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             PlayerLbl5.Masked = true;
             PlayerLbl5.TextColor = 9415072;
             session.EndRead(PlayerLbl5);
-            EmailAddressEdit5 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            EmailAddressEdit5 = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(EmailAddressEdit5);
             EmailAddressEdit5.Name = "EmailAddressEdit5";
             EmailAddressEdit5.Tag = 4;
@@ -924,7 +924,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             PlayerLbl6.Masked = true;
             PlayerLbl6.TextColor = 9415072;
             session.EndRead(PlayerLbl6);
-            EmailAddressEdit6 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            EmailAddressEdit6 = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(EmailAddressEdit6);
             EmailAddressEdit6.Name = "EmailAddressEdit6";
             EmailAddressEdit6.Tag = 5;
@@ -957,7 +957,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             EmailAddressEdit6.ILIndex = 15;
             EmailAddressEdit6.PassWordChar = (byte)0;
             session.EndRead(EmailAddressEdit6);
-            Player5Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Player5Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Player5Pnl);
             Player5Pnl.Name = "Player5Pnl";
             Player5Pnl.Tag = 4;
@@ -986,7 +986,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             Player5Pnl.MinWidth = 0;
             Player5Pnl.MinHeight = 0;
             session.EndRead(Player5Pnl);
-            Player6Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Player6Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Player6Pnl);
             Player6Pnl.Name = "Player6Pnl";
             Player6Pnl.Tag = 5;
@@ -1015,7 +1015,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             Player6Pnl.MinWidth = 0;
             Player6Pnl.MinHeight = 0;
             session.EndRead(Player6Pnl);
-            NamePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NamePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NamePnl);
             NamePnl.Name = "NamePnl";
             NamePnl.Priority = 1;
@@ -1042,7 +1042,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             NamePnl.MinWidth = 0;
             NamePnl.MinHeight = 0;
             session.EndRead(NamePnl);
-            LocalPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LocalPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LocalPnl);
             LocalPnl.Name = "LocalPnl";
             LocalPnl.Priority = 1;

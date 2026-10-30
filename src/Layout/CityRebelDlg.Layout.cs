@@ -17,7 +17,7 @@ namespace Aow.Units.AoWCityRebelDlg
         {
             session.Begin(this);
             Name = "CityRebelDlg";
-            RebelWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            RebelWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(RebelWin);
             RebelWin.Name = "RebelWin";
             RebelWin.OnKeyDown = RebelWinKeyDown;

@@ -39,7 +39,7 @@ namespace Aow.Units.AoWItemBanner
             ItemNameLbl.Masked = false;
             ItemNameLbl.TextColor = 1321830;
             session.EndRead(ItemNameLbl);
-            IBannerPopup = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            IBannerPopup = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(IBannerPopup);
             IBannerPopup.Name = "IBannerPopup";
             IBannerPopup.OnMouseDown = Layout_IBannerPopupMouseDown_0;
@@ -304,7 +304,7 @@ namespace Aow.Units.AoWItemBanner
             DrawBox.WinWidth = 41;
             DrawBox.WinHeight = 42;
             session.EndRead(DrawBox);
-            AbLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            AbLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(AbLB);
             AbLB.Name = "AbLB";
             AbLB.Priority = 0;

@@ -191,7 +191,7 @@ namespace Aow.Units.AoWWizardsTowerDlg
             BuyBtn.WinWidth = 120;
             BuyBtn.OnClick = Layout_BuyBtnClick_1;
             session.EndRead(BuyBtn);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -236,7 +236,7 @@ namespace Aow.Units.AoWWizardsTowerDlg
             Dlg.WinHeight = 325;
             Dlg.Dockable = false;
             session.EndRead(Dlg);
-            ResearchPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ResearchPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ResearchPnl);
             ResearchPnl.Name = "ResearchPnl";
             ResearchPnl.Priority = 100;
@@ -361,7 +361,7 @@ namespace Aow.Units.AoWWizardsTowerDlg
             SpellCost.Text = "############";
             SpellCost.TextColor = 12632256;
             session.EndRead(SpellCost);
-            ResearchMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ResearchMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ResearchMemo);
             ResearchMemo.Name = "ResearchMemo";
             ResearchMemo.Priority = 0;
@@ -441,7 +441,7 @@ namespace Aow.Units.AoWWizardsTowerDlg
             OfferText.Text = "the wizards offer:";
             OfferText.TextColor = 5908276;
             session.EndRead(OfferText);
-            PicPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PicPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PicPnl);
             PicPnl.Name = "PicPnl";
             PicPnl.Priority = 0;

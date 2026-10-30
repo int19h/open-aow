@@ -76,9 +76,8 @@ namespace Aow.Units.AoWBookWindow
         }
 
         // AoWBookWindow.pas:44
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAoWBookWindow(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Units.PageTurnCtrl.TPageTurnControl();
             FPageTurn = call__1;
         }
@@ -204,23 +203,6 @@ namespace Aow.Units.AoWBookWindow
 
         [Published]
         public Aow.Rtl.TNotifyEvent OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
-
-        // AoWBookWindow.pas:27
-        public static new Aow.Units.AoWBookWindow.TAoWBookWindow Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWBookWindow.TAoWBookWindow o = new Aow.Units.AoWBookWindow.TAoWBookWindow();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWBookWindow

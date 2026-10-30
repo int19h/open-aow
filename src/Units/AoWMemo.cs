@@ -91,9 +91,8 @@ namespace Aow.Units.AoWMemo
         public Aow.Rtl.TStringList FLines;
         // AoWMemo.pas:126
         // { TAOWMemo }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWMemo(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FLines = call__1;
             var call__2 = new Aow.Rtl.TStringList();
@@ -1179,23 +1178,6 @@ namespace Aow.Units.AoWMemo
 
         [Published]
         public Aow.Units.AoWComp.TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
-
-        // AoWMemo.pas:73
-        public static new Aow.Units.AoWMemo.TAOWMemo Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWMemo.TAOWMemo o = new Aow.Units.AoWMemo.TAOWMemo();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWMemo

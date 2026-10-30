@@ -46,6 +46,8 @@ namespace Aow.Units.AoWFrame
 //     VMT (new): SetILFrame, SetILTexture, SetILLine }
     public partial class TAoWFrame : Aow.Units.AoWControl.TAOWControl
     {
+        public TAoWFrame(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWFrame.TFrameType FFrameType;
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILFrame;
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILTexture;

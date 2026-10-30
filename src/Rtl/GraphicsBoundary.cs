@@ -146,7 +146,12 @@ public partial class TIvDictionary : TComponent
 }
 public class TIvBinaryDictionary : TIvDictionary { }
 public class Text : TObject { }
-public class TDataModule : TComponent { }
+public class TDataModule : TComponent
+{
+    // Raw construction serves the RTL-only layout-session fixtures.
+    public TDataModule() { }
+    public TDataModule(TComponent? owner) : base(owner) { }
+}
 public class TMainForm : TForm { }
 public class TVideoPlayer : TComponent { }
 public class TGDPlay : TComponent

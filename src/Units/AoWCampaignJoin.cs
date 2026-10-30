@@ -59,6 +59,8 @@ namespace Aow.Units.AoWCampaignJoin
     // { TCampaignJoinDlg (instance size $80, VMT 00418020): $68 stage, $6C faction, $70 leader, $74 scroll delay, $78 scroll position, $7C text. }
     public partial class TCampaignJoinDlg : Aow.Rtl.TDataModule
     {
+        public TCampaignJoinDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWPanel.TAOWPanel CharGenPnl;
         // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel LeaderTypePnl;

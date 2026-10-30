@@ -17,7 +17,7 @@ namespace Aow.Units.AOWTitleWindow
         {
             session.Begin(this);
             Name = "TitleWindow";
-            TitleWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            TitleWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(TitleWin);
             TitleWin.Name = "TitleWin";
             TitleWin.Visible = false;
@@ -61,7 +61,7 @@ namespace Aow.Units.AOWTitleWindow
             TitleWin.WinHeight = 480;
             TitleWin.Dockable = false;
             session.EndRead(TitleWin);
-            TitlePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TitlePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TitlePnl);
             TitlePnl.Name = "TitlePnl";
             TitlePnl.Visible = false;
@@ -90,7 +90,7 @@ namespace Aow.Units.AOWTitleWindow
             TitlePnl.MinWidth = 640;
             TitlePnl.MinHeight = 480;
             session.EndRead(TitlePnl);
-            SplashPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SplashPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SplashPnl);
             SplashPnl.Name = "SplashPnl";
             SplashPnl.OnMouseDown = SplashPnlMouseDown;

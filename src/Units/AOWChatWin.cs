@@ -67,6 +67,8 @@ namespace Aow.Units.AOWChatWin
     // { TChatWindow: size $74; $70 pending scroll to the newest message. VMT 00412D5C. }
     public partial class TChatWindow : Aow.Rtl.TDataModule
     {
+        public TChatWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow ChatWin;
         // { +0044 }
         public Aow.Units.AoWMemo.TAOWMemo ChatMemo;

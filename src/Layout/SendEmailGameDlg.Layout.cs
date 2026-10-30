@@ -17,7 +17,7 @@ namespace Aow.Units.AoWSendEmailGameDlg
         {
             session.Begin(this);
             Name = "SendEmailGameDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -223,7 +223,7 @@ namespace Aow.Units.AoWSendEmailGameDlg
             AOWImage2.Animate = false;
             AOWImage2.AnimFrameDelay = 0;
             session.EndRead(AOWImage2);
-            OKCancelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            OKCancelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(OKCancelPnl);
             OKCancelPnl.Name = "OKCancelPnl";
             OKCancelPnl.Priority = 99999;
@@ -316,7 +316,7 @@ namespace Aow.Units.AoWSendEmailGameDlg
             ExitBtn.WinWidth = 120;
             ExitBtn.OnClick = Layout_ExitBtnClick_2;
             session.EndRead(ExitBtn);
-            EmailAddressEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            EmailAddressEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(EmailAddressEdit);
             EmailAddressEdit.Name = "EmailAddressEdit";
             EmailAddressEdit.Tag = 1;
@@ -543,7 +543,7 @@ namespace Aow.Units.AoWSendEmailGameDlg
             TitleIcon.Animate = false;
             TitleIcon.AnimFrameDelay = 0;
             session.EndRead(TitleIcon);
-            ModePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ModePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ModePnl);
             ModePnl.Name = "ModePnl";
             ModePnl.Priority = 3000;
@@ -570,7 +570,7 @@ namespace Aow.Units.AoWSendEmailGameDlg
             ModePnl.MinWidth = 0;
             ModePnl.MinHeight = 0;
             session.EndRead(ModePnl);
-            ModePnlin = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ModePnlin = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ModePnlin);
             ModePnlin.Name = "ModePnlin";
             ModePnlin.Priority = 3000;
@@ -597,7 +597,7 @@ namespace Aow.Units.AoWSendEmailGameDlg
             ModePnlin.MinWidth = 0;
             ModePnlin.MinHeight = 0;
             session.EndRead(ModePnlin);
-            EditPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            EditPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(EditPnl);
             EditPnl.Name = "EditPnl";
             EditPnl.Priority = 100;

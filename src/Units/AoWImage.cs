@@ -37,6 +37,8 @@ namespace Aow.Units.AoWImage
 //     FAnimEnd, +$12C FImageLib }
     public partial class TAOWImage : Aow.Units.AoWControl.TAOWControl
     {
+        public TAOWImage(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public bool FAnimate;
         public int FAnimFrameDelay;
         public int FFrameCount;

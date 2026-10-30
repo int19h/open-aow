@@ -17,7 +17,7 @@ namespace Aow.Units.AoWCityJoinDlg
         {
             session.Begin(this);
             Name = "CityJoinDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -170,7 +170,7 @@ namespace Aow.Units.AoWCityJoinDlg
             BCeltL.ILIndexLine = 55;
             BCeltL.ILIndexTexture = 0;
             session.EndRead(BCeltL);
-            Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(Memo);
             Memo.Name = "Memo";
             Memo.Priority = 0;
@@ -371,7 +371,7 @@ namespace Aow.Units.AoWCityJoinDlg
             WhatLbl.Text = "What do you do?";
             WhatLbl.TextColor = 7921903;
             session.EndRead(WhatLbl);
-            CityPicLine = Aow.Units.AoWArnoLine.TAoWArnoLine.Create(this);
+            CityPicLine = new Aow.Units.AoWArnoLine.TAoWArnoLine(this);
             session.BeginRead(CityPicLine);
             CityPicLine.Name = "CityPicLine";
             CityPicLine.Priority = 0;

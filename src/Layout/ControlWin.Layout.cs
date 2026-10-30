@@ -17,7 +17,7 @@ namespace Aow.Units.AOWControlWin
         {
             session.Begin(this);
             Name = "ControlWin";
-            ControlWindow = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            ControlWindow = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(ControlWindow);
             ControlWindow.Name = "ControlWindow";
             ControlWindow.Visible = false;
@@ -757,7 +757,7 @@ namespace Aow.Units.AOWControlWin
             MoveIcon.Animate = false;
             MoveIcon.AnimFrameDelay = 0;
             session.EndRead(MoveIcon);
-            PartyT1Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PartyT1Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PartyT1Pnl);
             PartyT1Pnl.Name = "PartyT1Pnl";
             PartyT1Pnl.Priority = 0;
@@ -784,7 +784,7 @@ namespace Aow.Units.AOWControlWin
             PartyT1Pnl.MinWidth = 0;
             PartyT1Pnl.MinHeight = 0;
             session.EndRead(PartyT1Pnl);
-            PartyBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PartyBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PartyBPnl);
             PartyBPnl.Name = "PartyBPnl";
             PartyBPnl.Priority = 0;
@@ -811,7 +811,7 @@ namespace Aow.Units.AOWControlWin
             PartyBPnl.MinWidth = 0;
             PartyBPnl.MinHeight = 0;
             session.EndRead(PartyBPnl);
-            PartyT2Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PartyT2Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PartyT2Pnl);
             PartyT2Pnl.Name = "PartyT2Pnl";
             PartyT2Pnl.Priority = 0;
@@ -838,7 +838,7 @@ namespace Aow.Units.AOWControlWin
             PartyT2Pnl.MinWidth = 0;
             PartyT2Pnl.MinHeight = 0;
             session.EndRead(PartyT2Pnl);
-            PartyT3Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PartyT3Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PartyT3Pnl);
             PartyT3Pnl.Name = "PartyT3Pnl";
             PartyT3Pnl.Priority = 0;
@@ -865,7 +865,7 @@ namespace Aow.Units.AOWControlWin
             PartyT3Pnl.MinWidth = 0;
             PartyT3Pnl.MinHeight = 0;
             session.EndRead(PartyT3Pnl);
-            PartyT4Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PartyT4Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PartyT4Pnl);
             PartyT4Pnl.Name = "PartyT4Pnl";
             PartyT4Pnl.Priority = 0;
@@ -892,7 +892,7 @@ namespace Aow.Units.AOWControlWin
             PartyT4Pnl.MinWidth = 0;
             PartyT4Pnl.MinHeight = 0;
             session.EndRead(PartyT4Pnl);
-            Unit1Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit1Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit1Gge);
             Unit1Gge.Name = "Unit1Gge";
             Unit1Gge.Priority = 5;
@@ -921,7 +921,7 @@ namespace Aow.Units.AOWControlWin
             Unit1Gge.ILIndexTNormal = 4;
             Unit1Gge.ILIndexTSelected = 5;
             session.EndRead(Unit1Gge);
-            Unit2Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit2Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit2Gge);
             Unit2Gge.Name = "Unit2Gge";
             Unit2Gge.Priority = 5;
@@ -950,7 +950,7 @@ namespace Aow.Units.AOWControlWin
             Unit2Gge.ILIndexTNormal = 4;
             Unit2Gge.ILIndexTSelected = 5;
             session.EndRead(Unit2Gge);
-            Unit3Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit3Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit3Gge);
             Unit3Gge.Name = "Unit3Gge";
             Unit3Gge.Priority = 5;
@@ -979,7 +979,7 @@ namespace Aow.Units.AOWControlWin
             Unit3Gge.ILIndexTNormal = 4;
             Unit3Gge.ILIndexTSelected = 5;
             session.EndRead(Unit3Gge);
-            Unit4Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit4Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit4Gge);
             Unit4Gge.Name = "Unit4Gge";
             Unit4Gge.Priority = 5;
@@ -1008,7 +1008,7 @@ namespace Aow.Units.AOWControlWin
             Unit4Gge.ILIndexTNormal = 4;
             Unit4Gge.ILIndexTSelected = 5;
             session.EndRead(Unit4Gge);
-            Unit5Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit5Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit5Gge);
             Unit5Gge.Name = "Unit5Gge";
             Unit5Gge.Priority = 5;
@@ -1037,7 +1037,7 @@ namespace Aow.Units.AOWControlWin
             Unit5Gge.ILIndexTNormal = 4;
             Unit5Gge.ILIndexTSelected = 5;
             session.EndRead(Unit5Gge);
-            Unit6Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit6Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit6Gge);
             Unit6Gge.Name = "Unit6Gge";
             Unit6Gge.Priority = 5;
@@ -1066,7 +1066,7 @@ namespace Aow.Units.AOWControlWin
             Unit6Gge.ILIndexTNormal = 4;
             Unit6Gge.ILIndexTSelected = 5;
             session.EndRead(Unit6Gge);
-            Unit7Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit7Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit7Gge);
             Unit7Gge.Name = "Unit7Gge";
             Unit7Gge.Priority = 5;
@@ -1095,7 +1095,7 @@ namespace Aow.Units.AOWControlWin
             Unit7Gge.ILIndexTNormal = 4;
             Unit7Gge.ILIndexTSelected = 5;
             session.EndRead(Unit7Gge);
-            Unit8Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit8Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit8Gge);
             Unit8Gge.Name = "Unit8Gge";
             Unit8Gge.Priority = 5;
@@ -1852,7 +1852,7 @@ namespace Aow.Units.AOWControlWin
             Emp8Chk.ILIndexLine = 9;
             Emp8Chk.ILIndexTexture = 0;
             session.EndRead(Emp8Chk);
-            PartyIPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PartyIPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PartyIPnl);
             PartyIPnl.Name = "PartyIPnl";
             PartyIPnl.Priority = 0;
@@ -2074,7 +2074,7 @@ namespace Aow.Units.AOWControlWin
             PNext.WinWidth = 29;
             PNext.OnClick = Layout_PNextClick_7;
             session.EndRead(PNext);
-            PControlPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PControlPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PControlPnl);
             PControlPnl.Name = "PControlPnl";
             PControlPnl.Priority = 0;
@@ -2165,7 +2165,7 @@ namespace Aow.Units.AOWControlWin
             AoWFrame2.ILIndexLine = 9;
             AoWFrame2.ILIndexTexture = 0;
             session.EndRead(AoWFrame2);
-            PartyB2Pbl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PartyB2Pbl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PartyB2Pbl);
             PartyB2Pbl.Name = "PartyB2Pbl";
             PartyB2Pbl.Priority = 0;

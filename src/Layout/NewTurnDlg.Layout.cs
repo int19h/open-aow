@@ -17,7 +17,7 @@ namespace Aow.Units.AoWNewTurnDialog
         {
             session.Begin(this);
             Name = "NewTurnDlg";
-            NewTDlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            NewTDlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(NewTDlg);
             NewTDlg.Name = "NewTDlg";
             NewTDlg.OnMouseDown = NewTDlgMouseDown;

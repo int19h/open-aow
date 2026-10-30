@@ -195,7 +195,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             LItem1.RadioIndex = 0;
             LItem1.OnDoubleClick = AddBtnClick;
             session.EndRead(LItem1);
-            LItemPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LItemPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LItemPnl);
             LItemPnl.Name = "LItemPnl";
             LItemPnl.Priority = 10;
@@ -365,7 +365,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             LUnit1.RadioIndex = 0;
             LUnit1.OnDoubleClick = AddBtnClick;
             session.EndRead(LUnit1);
-            LUnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LUnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LUnitPnl);
             LUnitPnl.Name = "LUnitPnl";
             LUnitPnl.Priority = 10;
@@ -523,7 +523,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Available.Text = "Available";
             Available.TextColor = 12632256;
             session.EndRead(Available);
-            TransBookWin = Aow.Units.AoWBookWindow.TAoWBookWindow.Create(this);
+            TransBookWin = new Aow.Units.AoWBookWindow.TAoWBookWindow(this);
             session.BeginRead(TransBookWin);
             TransBookWin.Name = "TransBookWin";
             TransBookWin.Visible = false;
@@ -626,7 +626,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Cancel.WinWidth = 39;
             Cancel.OnClick = Layout_CancelClick_0;
             session.EndRead(Cancel);
-            PnlL = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PnlL = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PnlL);
             PnlL.Name = "PnlL";
             PnlL.Priority = 10;
@@ -676,7 +676,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             Title.Text = "Transfer Resources";
             Title.TextColor = 1055529;
             session.EndRead(Title);
-            PnlR = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PnlR = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PnlR);
             PnlR.Name = "PnlR";
             PnlR.Priority = 10;
@@ -941,7 +941,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             LHeroImgL.Animate = false;
             LHeroImgL.AnimFrameDelay = 0;
             session.EndRead(LHeroImgL);
-            LHeroPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LHeroPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LHeroPnl);
             LHeroPnl.Name = "LHeroPnl";
             LHeroPnl.Priority = 10;
@@ -1291,7 +1291,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             RItem1.RadioIndex = 0;
             RItem1.OnDoubleClick = RemoveBtnClick;
             session.EndRead(RItem1);
-            RItemPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RItemPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RItemPnl);
             RItemPnl.Name = "RItemPnl";
             RItemPnl.Priority = 10;
@@ -1461,7 +1461,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             RUnit1.RadioIndex = 0;
             RUnit1.OnDoubleClick = RemoveBtnClick;
             session.EndRead(RUnit1);
-            RUnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RUnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RUnitPnl);
             RUnitPnl.Name = "RUnitPnl";
             RUnitPnl.Priority = 10;
@@ -1625,7 +1625,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             RHeroImgL.Animate = false;
             RHeroImgL.AnimFrameDelay = 0;
             session.EndRead(RHeroImgL);
-            RHeroPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RHeroPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RHeroPnl);
             RHeroPnl.Name = "RHeroPnl";
             RHeroPnl.Priority = 10;
@@ -2419,7 +2419,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
             CostImg.Animate = false;
             CostImg.AnimFrameDelay = 0;
             session.EndRead(CostImg);
-            CostPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CostPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CostPnl);
             CostPnl.Name = "CostPnl";
             CostPnl.Visible = false;

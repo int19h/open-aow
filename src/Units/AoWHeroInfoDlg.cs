@@ -70,6 +70,8 @@ namespace Aow.Units.AoWHeroInfoDlg
 //     (instance size 156, VMT 00447CEC) }
     public partial class THeroInfoDlg : Aow.Rtl.TDataModule
     {
+        public THeroInfoDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
         // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame U1;

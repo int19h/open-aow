@@ -48,9 +48,8 @@ namespace Aow.Units.AOWToolTip
         public Aow.Rtl.TStringList FLines;
         // AOWToolTip.pas:62
         // { TAOWToolTip }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWToolTip(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FLines = call__1;
             var call__2 = new Aow.Rtl.TStringList();
@@ -453,23 +452,6 @@ namespace Aow.Units.AOWToolTip
 
         [Published]
         public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
-
-        // AOWToolTip.pas:31
-        public static new Aow.Units.AOWToolTip.TAOWToolTip Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AOWToolTip.TAOWToolTip o = new Aow.Units.AOWToolTip.TAOWToolTip();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AOWToolTip

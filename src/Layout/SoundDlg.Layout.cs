@@ -19,7 +19,7 @@ namespace Aow.Units.AoWSoundDlg
             Name = "SoundDlg";
             LayoutOnCreate = Layout_SoundDlgWindowCreate_0;
             LayoutOnDestroy = Layout_SoundDlgWindowDestroy_1;
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -172,7 +172,7 @@ namespace Aow.Units.AoWSoundDlg
             Title.Text = "Audio Settings";
             Title.TextColor = 0;
             session.EndRead(Title);
-            SongLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            SongLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(SongLB);
             SongLB.Name = "SongLB";
             SongLB.Priority = 0;
@@ -264,7 +264,7 @@ namespace Aow.Units.AoWSoundDlg
             Close.WinWidth = 15;
             Close.OnClick = Layout_CloseClick_2;
             session.EndRead(Close);
-            PlayListPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PlayListPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PlayListPnl);
             PlayListPnl.Name = "PlayListPnl";
             PlayListPnl.Priority = 0;
@@ -291,7 +291,7 @@ namespace Aow.Units.AoWSoundDlg
             PlayListPnl.MinWidth = 0;
             PlayListPnl.MinHeight = 0;
             session.EndRead(PlayListPnl);
-            SoundTab = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            SoundTab = new Aow.Units.AoWTabPanel.TAOWTabPanel(this);
             session.BeginRead(SoundTab);
             SoundTab.Name = "SoundTab";
             SoundTab.Priority = 1000;
@@ -326,7 +326,7 @@ namespace Aow.Units.AoWSoundDlg
             SoundTab.ILIndexUp = 70;
             SoundTab.BorderHeightSelected = 7;
             session.EndRead(SoundTab);
-            PlayLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            PlayLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(PlayLB);
             PlayLB.Name = "PlayLB";
             PlayLB.Priority = 0;
@@ -595,7 +595,7 @@ namespace Aow.Units.AoWSoundDlg
             SFXVolLbl.Text = "SFX Volume:";
             SFXVolLbl.TextColor = 0;
             session.EndRead(SFXVolLbl);
-            MainPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MainPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MainPnl);
             MainPnl.Name = "MainPnl";
             MainPnl.Priority = 0;
@@ -645,7 +645,7 @@ namespace Aow.Units.AoWSoundDlg
             SoundLbl.Text = "Sound Quality:";
             SoundLbl.TextColor = 0;
             session.EndRead(SoundLbl);
-            SettingsPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SettingsPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SettingsPnl);
             SettingsPnl.Name = "SettingsPnl";
             SettingsPnl.Visible = false;
@@ -696,7 +696,7 @@ namespace Aow.Units.AoWSoundDlg
             SFXLbl.Text = "Active Sounds:";
             SFXLbl.TextColor = 0;
             session.EndRead(SFXLbl);
-            SQPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SQPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SQPnl);
             SQPnl.Name = "SQPnl";
             SQPnl.Priority = 0;
@@ -975,7 +975,7 @@ namespace Aow.Units.AoWSoundDlg
             SQLBL4.Text = "High";
             SQLBL4.TextColor = 9415072;
             session.EndRead(SQLBL4);
-            SFXPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SFXPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SFXPnl);
             SFXPnl.Name = "SFXPnl";
             SFXPnl.Priority = 0;
@@ -1486,7 +1486,7 @@ namespace Aow.Units.AoWSoundDlg
             UseDirectSoundLbl.Text = "Use Direct Sound";
             UseDirectSoundLbl.TextColor = 9415072;
             session.EndRead(UseDirectSoundLbl);
-            FolderPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            FolderPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(FolderPnl);
             FolderPnl.Name = "FolderPnl";
             FolderPnl.Priority = 0;
@@ -1513,7 +1513,7 @@ namespace Aow.Units.AoWSoundDlg
             FolderPnl.MinWidth = 0;
             FolderPnl.MinHeight = 0;
             session.EndRead(FolderPnl);
-            PlayPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PlayPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PlayPnl);
             PlayPnl.Name = "PlayPnl";
             PlayPnl.Priority = 0;

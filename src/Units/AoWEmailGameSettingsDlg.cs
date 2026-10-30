@@ -68,6 +68,8 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
 //     $E0 editable email address list; $E4 setup control. }
     public partial class TEmailGameSettingsDlg : Aow.Rtl.TDataModule
     {
+        public TEmailGameSettingsDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWButton.TAOWButton OKBtn;
         // { +0044 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;

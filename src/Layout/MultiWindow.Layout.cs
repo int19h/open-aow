@@ -17,7 +17,7 @@ namespace Aow.Units.AOWMultiWin
         {
             session.Begin(this);
             Name = "MultiWindow";
-            JoinPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            JoinPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(JoinPnl);
             JoinPnl.Name = "JoinPnl";
             JoinPnl.Visible = false;
@@ -45,7 +45,7 @@ namespace Aow.Units.AOWMultiWin
             JoinPnl.MinWidth = 0;
             JoinPnl.MinHeight = 0;
             session.EndRead(JoinPnl);
-            GamesLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            GamesLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(GamesLB);
             GamesLB.Name = "GamesLB";
             GamesLB.Priority = 200;
@@ -152,7 +152,7 @@ namespace Aow.Units.AOWMultiWin
             JoinBtn.WinWidth = 158;
             JoinBtn.OnClick = Layout_JoinBtnClick_1;
             session.EndRead(JoinBtn);
-            MultiPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MultiPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MultiPnl);
             MultiPnl.Name = "MultiPnl";
             MultiPnl.OnUpdate = Layout_MultiWinUpdate_2;
@@ -212,7 +212,7 @@ namespace Aow.Units.AOWMultiWin
             BackBtn.WinWidth = 158;
             BackBtn.OnClick = Layout_BackBtnClick_3;
             session.EndRead(BackBtn);
-            GamePanel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            GamePanel = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(GamePanel);
             GamePanel.Name = "GamePanel";
             GamePanel.Priority = 100;
@@ -379,7 +379,7 @@ namespace Aow.Units.AOWMultiWin
             EmailBtn.WinWidth = 158;
             EmailBtn.OnClick = Layout_EmailBtnClick_7;
             session.EndRead(EmailBtn);
-            TCPPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TCPPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TCPPnl);
             TCPPnl.Name = "TCPPnl";
             TCPPnl.Visible = false;
@@ -604,7 +604,7 @@ namespace Aow.Units.AOWMultiWin
             GameLbl.Text = "Game Type";
             GameLbl.TextColor = 8472387;
             session.EndRead(GameLbl);
-            TCPName = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            TCPName = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(TCPName);
             TCPName.Name = "TCPName";
             TCPName.Priority = 0;
@@ -637,7 +637,7 @@ namespace Aow.Units.AOWMultiWin
             TCPName.ILIndex = 29;
             TCPName.PassWordChar = (byte)0;
             session.EndRead(TCPName);
-            IPEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            IPEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(IPEdit);
             IPEdit.Name = "IPEdit";
             IPEdit.Priority = 0;
@@ -672,7 +672,7 @@ namespace Aow.Units.AOWMultiWin
             IPEdit.ILIndex = 29;
             IPEdit.PassWordChar = (byte)0;
             session.EndRead(IPEdit);
-            LanPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LanPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LanPnl);
             LanPnl.Name = "LanPnl";
             LanPnl.Visible = false;
@@ -758,7 +758,7 @@ namespace Aow.Units.AOWMultiWin
             JoinLbl.Text = "Available Games";
             JoinLbl.TextColor = 8472387;
             session.EndRead(JoinLbl);
-            BottomPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            BottomPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(BottomPnl);
             BottomPnl.Name = "BottomPnl";
             BottomPnl.Priority = 1000;
@@ -816,7 +816,7 @@ namespace Aow.Units.AOWMultiWin
             BackButn.WinWidth = 158;
             BackButn.OnClick = Layout_CloseBtnClick_12;
             session.EndRead(BackButn);
-            MsgPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MsgPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MsgPnl);
             MsgPnl.Name = "MsgPnl";
             MsgPnl.Visible = false;
@@ -875,7 +875,7 @@ namespace Aow.Units.AOWMultiWin
             CancelOKBut.WinWidth = 158;
             CancelOKBut.OnClick = Layout_CancelOKButClick_13;
             session.EndRead(CancelOKBut);
-            MessageMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            MessageMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(MessageMemo);
             MessageMemo.Name = "MessageMemo";
             MessageMemo.Priority = 0;
@@ -990,7 +990,7 @@ namespace Aow.Units.AOWMultiWin
             LANLbl.Text = "IPX LAN Game";
             LANLbl.TextColor = 8472387;
             session.EndRead(LANLbl);
-            IPXName = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            IPXName = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(IPXName);
             IPXName.Name = "IPXName";
             IPXName.Priority = 0;
@@ -1058,7 +1058,7 @@ namespace Aow.Units.AOWMultiWin
             LANHost.WinWidth = 158;
             LANHost.OnClick = LANHostClick;
             session.EndRead(LANHost);
-            PBEMPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PBEMPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PBEMPnl);
             PBEMPnl.Name = "PBEMPnl";
             PBEMPnl.Visible = false;

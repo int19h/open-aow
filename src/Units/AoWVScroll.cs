@@ -87,9 +87,8 @@ namespace Aow.Units.AoWVScroll
         public int FILIndexTab;
         // AoWVScroll.pas:130
         // { TAOWScrollBar }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWScrollBar(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FSmallChange = 1;
             FLargeChange = 1;
             FMax = 1;
@@ -534,29 +533,14 @@ namespace Aow.Units.AoWVScroll
 
         [Published]
         public int ILIndexTab { get => FILIndexTab; set => SetILTIndex(value); }
-
-        // AoWVScroll.pas:66
-        public static new Aow.Units.AoWVScroll.TAOWScrollBar Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWVScroll.TAOWScrollBar o = new Aow.Units.AoWVScroll.TAOWScrollBar();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { AoWVScroll.TAOWVScrollBar (instance size 380): the vertical scroll bar, the decrement button
 //     at the top and the increment button at the bottom }
     public partial class TAOWVScrollBar : Aow.Units.AoWVScroll.TAOWScrollBar
     {
+        public TAOWVScrollBar(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         // AoWVScroll.pas:408
         // { TAOWVScrollBar }
         // { SetSize takes the width from the images and sizes the track and the tab: the tab of a line is

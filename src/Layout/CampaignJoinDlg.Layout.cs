@@ -19,7 +19,7 @@ namespace Aow.Units.AoWCampaignJoin
             Name = "CampaignJoinDlg";
             LayoutOnCreate = Layout_CampaignJoinDlgCreate_0;
             LayoutOnDestroy = Layout_CampaignJoinDlgDestroy_1;
-            CharGenPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CharGenPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CharGenPnl);
             CharGenPnl.Name = "CharGenPnl";
             CharGenPnl.OnMouseDown = CharGenPnlMouseDown;
@@ -48,7 +48,7 @@ namespace Aow.Units.AoWCampaignJoin
             CharGenPnl.MinWidth = 640;
             CharGenPnl.MinHeight = 480;
             session.EndRead(CharGenPnl);
-            LeaderTypePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LeaderTypePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LeaderTypePnl);
             LeaderTypePnl.Name = "LeaderTypePnl";
             LeaderTypePnl.Visible = false;
@@ -138,7 +138,7 @@ namespace Aow.Units.AoWCampaignJoin
             DefaultBtn.WinWidth = 150;
             DefaultBtn.OnClick = Layout_DefaultBtnClick_3;
             session.EndRead(DefaultBtn);
-            LeaderTypeMsg = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            LeaderTypeMsg = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(LeaderTypeMsg);
             LeaderTypeMsg.Name = "LeaderTypeMsg";
             LeaderTypeMsg.Priority = 0;
@@ -176,7 +176,7 @@ namespace Aow.Units.AoWCampaignJoin
             LeaderTypeMsg.ColorChangeChar = (byte)0;
             LeaderTypeMsg.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(LeaderTypeMsg);
-            DefaultFacePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DefaultFacePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DefaultFacePnl);
             DefaultFacePnl.Name = "DefaultFacePnl";
             DefaultFacePnl.OnMouseDown = Layout_DefaultFacePnlMouseDown_4;
@@ -205,7 +205,7 @@ namespace Aow.Units.AoWCampaignJoin
             DefaultFacePnl.MinWidth = 0;
             DefaultFacePnl.MinHeight = 0;
             session.EndRead(DefaultFacePnl);
-            CustomFacePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CustomFacePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CustomFacePnl);
             CustomFacePnl.Name = "CustomFacePnl";
             CustomFacePnl.Priority = 0;

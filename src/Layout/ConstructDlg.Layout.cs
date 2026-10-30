@@ -191,7 +191,7 @@ namespace Aow.Units.AoWConstructDlg
             ConstructBtn.WinWidth = 130;
             ConstructBtn.OnClick = ConstructBtnClick;
             session.EndRead(ConstructBtn);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -236,7 +236,7 @@ namespace Aow.Units.AoWConstructDlg
             Dlg.WinHeight = 208;
             Dlg.Dockable = false;
             session.EndRead(Dlg);
-            ConstructPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ConstructPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ConstructPnl);
             ConstructPnl.Name = "ConstructPnl";
             ConstructPnl.Priority = 0;
@@ -263,7 +263,7 @@ namespace Aow.Units.AoWConstructDlg
             ConstructPnl.MinWidth = 0;
             ConstructPnl.MinHeight = 0;
             session.EndRead(ConstructPnl);
-            ConstructionList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            ConstructionList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(ConstructionList);
             ConstructionList.Name = "ConstructionList";
             ConstructionList.Priority = 60;
@@ -360,7 +360,7 @@ namespace Aow.Units.AoWConstructDlg
             SortConstructionCostBtn.WinWidth = 48;
             SortConstructionCostBtn.OnClick = Layout_SortConstructionCostBtnClick_4;
             session.EndRead(SortConstructionCostBtn);
-            ConstructionCostList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            ConstructionCostList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(ConstructionCostList);
             ConstructionCostList.Name = "ConstructionCostList";
             ConstructionCostList.Priority = 40;
@@ -395,7 +395,7 @@ namespace Aow.Units.AoWConstructDlg
             ConstructionCostList.ItemHeight = 17;
             ConstructionCostList.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(ConstructionCostList);
-            ConstructionTurnsList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            ConstructionTurnsList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(ConstructionTurnsList);
             ConstructionTurnsList.Name = "ConstructionTurnsList";
             ConstructionTurnsList.Priority = 30;

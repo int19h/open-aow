@@ -43,15 +43,15 @@ internal static class FrameFixtureChecks
         var oldSettings = Aow.Rtl.Rtl.Settings;
         try
         {
-            var mapWindow = new TAOWWindow { FVisible = true, FModal = true };
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow = new() { MapWindow = mapWindow };
-            var menu = new TStartMenu { FVisible = true, FModal = false };
-            var hidden = new TAOWWindow { FVisible = false, FModal = true };
-            var manager = new TAOWWinManager { FChildren = new TList() };
+            var mapWindow = new TAOWWindow(null) { FVisible = true, FModal = true };
+            Aow.Units.AOWMWindow.AOWMWindow.MWindow = new(null) { MapWindow = mapWindow };
+            var menu = new TStartMenu(null) { FVisible = true, FModal = false };
+            var hidden = new TAOWWindow(null) { FVisible = false, FModal = true };
+            var manager = new TAOWWinManager(null) { FChildren = new TList() };
             manager.FChildren.Add(mapWindow);
             manager.FChildren.Add(menu);
             manager.FChildren.Add(hidden);
-            var controller = new TGeneral { Manager = manager };
+            var controller = new TGeneral(null) { Manager = manager };
             Check(!Aow.Units.E2GameFlow.E2GameFlow.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
             menu.FModal = true;
             Check(Aow.Units.E2GameFlow.E2GameFlow.HasModalWindow(controller), "modal sibling menu blocks input");
@@ -63,10 +63,10 @@ internal static class FrameFixtureChecks
             players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psTerminated });
             players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });
             GameState.AoWHSMap = new() { FPlayers = players };
-            var bar = new Aow.Units.AoWTBWindow.TTBWindow
+            var bar = new Aow.Units.AoWTBWindow.TTBWindow(null)
             {
-                PInd = new() { FAlignment = new(), FAligned = true },
-                TBMessEdit = new() { FAlignment = new(), FAligned = true }
+                PInd = new(null) { FAligned = true },
+                TBMessEdit = new(null) { FAligned = true }
             };
             bar.TBMessEdit.Alignment.LeftOffset = 48;
             bar.UpdatePlayerIndicator();
@@ -82,7 +82,7 @@ internal static class FrameFixtureChecks
             GameState.AoWEngine = new() { FRegistry = new() };
             GameState.AoWEngine.FRegistry.SetMovementSpeed(Aow.Units.AoWReg.TMovementSpeed.mmsNormal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
-            var world = new Aow.Units.AOWMWindow.TMWindow { MapWindow = mapWindow };
+            var world = new Aow.Units.AOWMWindow.TMWindow(null) { MapWindow = mapWindow };
             world.MapWindowUpdate();
             Check(GameState.AoWHSMap.FFPS == 9, "captured FPS reaches the strategic movement input");
             var army = new MovementArmy { FMoveStep = -1, FUnitGFXResource = new() { F_UnitGFXResource_30 = 2 } };

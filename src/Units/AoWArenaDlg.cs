@@ -70,6 +70,8 @@ namespace Aow.Units.AoWArenaDlg
 //     $A8 arena event; $AC completion callback. }
     public partial class TArenaDlg : Aow.Rtl.TDataModule
     {
+        public TArenaDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWButton.TAOWButton SelectBtn;
         // { +0044 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;

@@ -18,7 +18,7 @@ namespace Aow.Units.AoWUnitWindow
             session.Begin(this);
             Name = "UnitWindow";
             LayoutOnCreate = UnitWindowCreate;
-            UnitWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            UnitWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(UnitWin);
             UnitWin.Name = "UnitWin";
             UnitWin.OnMouseDown = UnitWinMouseDown;
@@ -98,7 +98,7 @@ namespace Aow.Units.AoWUnitWindow
             UnitFrameLeft.Animate = false;
             UnitFrameLeft.AnimFrameDelay = 0;
             session.EndRead(UnitFrameLeft);
-            UnitTab = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            UnitTab = new Aow.Units.AoWTabPanel.TAOWTabPanel(this);
             session.BeginRead(UnitTab);
             UnitTab.Name = "UnitTab";
             UnitTab.Priority = 3000;
@@ -307,7 +307,7 @@ namespace Aow.Units.AoWUnitWindow
             CeltLineR.Animate = false;
             CeltLineR.AnimFrameDelay = 0;
             session.EndRead(CeltLineR);
-            T2Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            T2Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(T2Memo);
             T2Memo.Name = "T2Memo";
             T2Memo.Priority = 200;
@@ -399,7 +399,7 @@ namespace Aow.Units.AoWUnitWindow
             Mana.Masked = true;
             Mana.TextColor = 16777215;
             session.EndRead(Mana);
-            T1AbilityLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T1AbilityLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T1AbilityLB);
             T1AbilityLB.Name = "T1AbilityLB";
             T1AbilityLB.OnMouseDown = T1AbilityLBMouseDown;
@@ -584,7 +584,7 @@ namespace Aow.Units.AoWUnitWindow
             T1UseMsg.Text = "Can only be used in Combat!";
             T1UseMsg.TextColor = 13165253;
             session.EndRead(T1UseMsg);
-            T1Panel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T1Panel = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T1Panel);
             T1Panel.Name = "T1Panel";
             T1Panel.Priority = 900;
@@ -611,7 +611,7 @@ namespace Aow.Units.AoWUnitWindow
             T1Panel.MinWidth = 0;
             T1Panel.MinHeight = 0;
             session.EndRead(T1Panel);
-            T2Panel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2Panel = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2Panel);
             T2Panel.Name = "T2Panel";
             T2Panel.Visible = false;
@@ -639,7 +639,7 @@ namespace Aow.Units.AoWUnitWindow
             T2Panel.MinWidth = 0;
             T2Panel.MinHeight = 0;
             session.EndRead(T2Panel);
-            T1TypeLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T1TypeLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T1TypeLB);
             T1TypeLB.Name = "T1TypeLB";
             T1TypeLB.OnMouseDown = T1AbilityLBMouseDown;
@@ -676,7 +676,7 @@ namespace Aow.Units.AoWUnitWindow
             T1TypeLB.ItemHeight = 17;
             T1TypeLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(T1TypeLB);
-            T1SrcLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T1SrcLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T1SrcLB);
             T1SrcLB.Name = "T1SrcLB";
             T1SrcLB.OnMouseDown = T1AbilityLBMouseDown;
@@ -713,7 +713,7 @@ namespace Aow.Units.AoWUnitWindow
             T1SrcLB.ItemHeight = 17;
             T1SrcLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(T1SrcLB);
-            T1ListPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T1ListPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T1ListPnl);
             T1ListPnl.Name = "T1ListPnl";
             T1ListPnl.Priority = 100;
@@ -815,7 +815,7 @@ namespace Aow.Units.AoWUnitWindow
             T2SBar.ILIndexBack = 101;
             T2SBar.ILIndexTab = 98;
             session.EndRead(T2SBar);
-            T2Text = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2Text = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2Text);
             T2Text.Name = "T2Text";
             T2Text.Priority = 100;
@@ -842,7 +842,7 @@ namespace Aow.Units.AoWUnitWindow
             T2Text.MinWidth = 0;
             T2Text.MinHeight = 0;
             session.EndRead(T2Text);
-            T2Leader = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2Leader = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2Leader);
             T2Leader.Name = "T2Leader";
             T2Leader.Priority = 1000;
@@ -898,7 +898,7 @@ namespace Aow.Units.AoWUnitWindow
             Sel4.TextSelColor = 0;
             Sel4.WinWidth = 52;
             session.EndRead(Sel4);
-            SelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SelPnl);
             SelPnl.Name = "SelPnl";
             SelPnl.Priority = 10;
@@ -1149,7 +1149,7 @@ namespace Aow.Units.AoWUnitWindow
             AAlignmentLbl.Masked = true;
             AAlignmentLbl.TextColor = 9415072;
             session.EndRead(AAlignmentLbl);
-            T2Alignnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2Alignnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2Alignnl);
             T2Alignnl.Name = "T2Alignnl";
             T2Alignnl.Priority = 10;
@@ -1253,7 +1253,7 @@ namespace Aow.Units.AoWUnitWindow
             TypeV.Masked = true;
             TypeV.TextColor = 9415072;
             session.EndRead(TypeV);
-            T2TypePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2TypePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2TypePnl);
             T2TypePnl.Name = "T2TypePnl";
             T2TypePnl.Priority = 10;
@@ -1357,7 +1357,7 @@ namespace Aow.Units.AoWUnitWindow
             SphereLbl.Text = "Leader's magic spheres";
             SphereLbl.TextColor = 9415072;
             session.EndRead(SphereLbl);
-            T3Panel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T3Panel = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T3Panel);
             T3Panel.Name = "T3Panel";
             T3Panel.Visible = false;
@@ -2262,7 +2262,7 @@ namespace Aow.Units.AoWUnitWindow
             DisbandBtn.WinWidth = 119;
             DisbandBtn.OnClick = Layout_DisbandBtnClick_4;
             session.EndRead(DisbandBtn);
-            ItemUsePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ItemUsePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ItemUsePnl);
             ItemUsePnl.Name = "ItemUsePnl";
             ItemUsePnl.Visible = false;
@@ -2352,7 +2352,7 @@ namespace Aow.Units.AoWUnitWindow
             ItemPic.Animate = false;
             ItemPic.AnimFrameDelay = 0;
             session.EndRead(ItemPic);
-            UnitMainPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitMainPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitMainPnl);
             UnitMainPnl.Name = "UnitMainPnl";
             UnitMainPnl.Priority = 0;
@@ -2777,7 +2777,7 @@ namespace Aow.Units.AoWUnitWindow
             UHits.Masked = true;
             UHits.TextColor = 16777215;
             session.EndRead(UHits);
-            UStatPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UStatPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UStatPnl);
             UStatPnl.Name = "UStatPnl";
             UStatPnl.Priority = 0;
@@ -2804,7 +2804,7 @@ namespace Aow.Units.AoWUnitWindow
             UStatPnl.MinWidth = 0;
             UStatPnl.MinHeight = 0;
             session.EndRead(UStatPnl);
-            UStatP1 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UStatP1 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UStatP1);
             UStatP1.Name = "UStatP1";
             UStatP1.Priority = 0;
@@ -2831,7 +2831,7 @@ namespace Aow.Units.AoWUnitWindow
             UStatP1.MinWidth = 0;
             UStatP1.MinHeight = 0;
             session.EndRead(UStatP1);
-            UStatP2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UStatP2 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UStatP2);
             UStatP2.Name = "UStatP2";
             UStatP2.Priority = 0;
@@ -2858,7 +2858,7 @@ namespace Aow.Units.AoWUnitWindow
             UStatP2.MinWidth = 0;
             UStatP2.MinHeight = 0;
             session.EndRead(UStatP2);
-            UnitFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitFr);
             UnitFr.Name = "UnitFr";
             UnitFr.Priority = 0;
@@ -3021,7 +3021,7 @@ namespace Aow.Units.AoWUnitWindow
             FrRSh.Animate = false;
             FrRSh.AnimFrameDelay = 0;
             session.EndRead(FrRSh);
-            RightFramePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RightFramePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RightFramePnl);
             RightFramePnl.Name = "RightFramePnl";
             RightFramePnl.Priority = 0;
@@ -3307,7 +3307,7 @@ namespace Aow.Units.AoWUnitWindow
             RelationV.Masked = true;
             RelationV.TextColor = 9415072;
             session.EndRead(RelationV);
-            T2RelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2RelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2RelPnl);
             T2RelPnl.Name = "T2RelPnl";
             T2RelPnl.Priority = 10;

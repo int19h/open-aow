@@ -67,6 +67,8 @@ namespace Aow.Units.AoWSpellBook
     // { TSpellBook (instance size $248, VMT 0042DDA8): $220 mode, $221 page kind, $222 spell type, $224 spells, $228 page, $22C hero, $230 activation, $234 researched spell, $238 callback, $240 event, $244 saved player pages. }
     public partial class TSpellBook : Aow.Rtl.TDataModule
     {
+        public TSpellBook(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWLabel.TAOWLabel LeftHeader;
         // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel LeftSpellPage;

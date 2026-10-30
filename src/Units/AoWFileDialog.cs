@@ -77,6 +77,8 @@ namespace Aow.Units.AoWFileDialog
     // { TFileDlgWindow (size $14C, VMT 0041EB60): $134 directory, $138 last filename, $13C save event, $140 done callback, $148 dialog mode. }
     public partial class TFileDlgWindow : Aow.Rtl.TDataModule
     {
+        public TFileDlgWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow FileDialog;
         // { +0044 }
         public Aow.Units.AoWButton.TAOWButton CancelBut;

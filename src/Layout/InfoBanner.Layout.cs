@@ -40,7 +40,7 @@ namespace Aow.Units.AoWInfoBanner
             HeaderLbl.Text = "######";
             HeaderLbl.TextColor = 1321830;
             session.EndRead(HeaderLbl);
-            InfoMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            InfoMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(InfoMemo);
             InfoMemo.Name = "InfoMemo";
             InfoMemo.Priority = 0;
@@ -78,7 +78,7 @@ namespace Aow.Units.AoWInfoBanner
             InfoMemo.ColorChangeChar = (byte)0;
             InfoMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(InfoMemo);
-            BannerPopup = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            BannerPopup = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(BannerPopup);
             BannerPopup.Name = "BannerPopup";
             BannerPopup.OnMouseDown = BannerPopupMouseDown;

@@ -339,7 +339,7 @@ namespace Aow.Units.AoWUnitBanner
             Hits.Masked = true;
             Hits.TextColor = 1321830;
             session.EndRead(Hits);
-            BannerPopup = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            BannerPopup = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(BannerPopup);
             BannerPopup.Name = "BannerPopup";
             BannerPopup.OnMouseDown = Layout_BannerPopupMouseDown_0;
@@ -380,7 +380,7 @@ namespace Aow.Units.AoWUnitBanner
             BannerPopup.SubMenuShowDelay = 0;
             BannerPopup.WinHeight = 184;
             session.EndRead(BannerPopup);
-            AbLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            AbLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(AbLB);
             AbLB.Name = "AbLB";
             AbLB.OnMouseDown = AbLBMouseDown;

@@ -60,6 +60,8 @@ namespace Aow.Units.aowHelpWin
 //     (instance size 136, VMT 004043F0) }
     public partial class THelpWindow : Aow.Rtl.TDataModule
     {
+        public THelpWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow HelpWin;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel Title;

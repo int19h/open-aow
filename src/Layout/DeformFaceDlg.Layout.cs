@@ -17,7 +17,7 @@ namespace Aow.Units.AoWDeformFaceDlg
         {
             session.Begin(this);
             Name = "DeformFaceDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;

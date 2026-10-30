@@ -59,9 +59,8 @@ namespace Aow.Units.AoWEdit
         public int FCursorPos;
         // AoWEdit.pas:79
         // { TAOWEdit }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWEdit(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FCursorChar = 124;
             FCursorShown = true;
             FEditable = true;
@@ -478,23 +477,6 @@ namespace Aow.Units.AoWEdit
 
         [Published]
         public byte PassWordChar { get => FPassWordChar; set => FPassWordChar = value; }
-
-        // AoWEdit.pas:41
-        public static new Aow.Units.AoWEdit.TAOWEdit Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWEdit.TAOWEdit o = new Aow.Units.AoWEdit.TAOWEdit();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWEdit

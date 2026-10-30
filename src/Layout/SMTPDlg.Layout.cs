@@ -17,7 +17,7 @@ namespace Aow.Units.AoWSMTPDlg
         {
             session.Begin(this);
             Name = "SMTPDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnUpdate = Layout_DlgUpdate_0;
@@ -255,7 +255,7 @@ namespace Aow.Units.AoWSMTPDlg
             SendingGameLbl.Text = "Sending email game...";
             SendingGameLbl.TextColor = 0;
             session.EndRead(SendingGameLbl);
-            ProgressBar = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            ProgressBar = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(ProgressBar);
             ProgressBar.Name = "ProgressBar";
             ProgressBar.OnUpdate = Layout_ProgressBarUpdate_3;
@@ -308,7 +308,7 @@ namespace Aow.Units.AoWSMTPDlg
             RecipientLbl.Text = "Recipient:";
             RecipientLbl.TextColor = 0;
             session.EndRead(RecipientLbl);
-            SendPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SendPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SendPnl);
             SendPnl.Name = "SendPnl";
             SendPnl.Visible = false;
@@ -336,7 +336,7 @@ namespace Aow.Units.AoWSMTPDlg
             SendPnl.MinWidth = 0;
             SendPnl.MinHeight = 0;
             session.EndRead(SendPnl);
-            FailedPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            FailedPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(FailedPnl);
             FailedPnl.Name = "FailedPnl";
             FailedPnl.Priority = 100;
@@ -363,7 +363,7 @@ namespace Aow.Units.AoWSMTPDlg
             FailedPnl.MinWidth = 0;
             FailedPnl.MinHeight = 0;
             session.EndRead(FailedPnl);
-            FailedMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            FailedMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(FailedMemo);
             FailedMemo.Name = "FailedMemo";
             FailedMemo.Priority = 0;

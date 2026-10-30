@@ -70,6 +70,8 @@ namespace Aow.Units.AOWControlWin
 //     $44..174 published controls; $178 inverted army selection mask. }
     public partial class TControlWin : Aow.Rtl.TDataModule
     {
+        public TControlWin(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow ControlWindow;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel CWTitle;

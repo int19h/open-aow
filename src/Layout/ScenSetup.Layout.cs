@@ -17,7 +17,7 @@ namespace Aow.Units.AoWScenSetup
         {
             session.Begin(this);
             Name = "ScenSetup";
-            ChatMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ChatMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ChatMemo);
             ChatMemo.Name = "ChatMemo";
             ChatMemo.Priority = 2;
@@ -51,7 +51,7 @@ namespace Aow.Units.AoWScenSetup
             ChatMemo.ColorChangeChar = (byte)0;
             ChatMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(ChatMemo);
-            ChatPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ChatPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ChatPnl);
             ChatPnl.Name = "ChatPnl";
             ChatPnl.Priority = 1;
@@ -116,7 +116,7 @@ namespace Aow.Units.AoWScenSetup
             ChatSB.ILIndexBack = 63;
             ChatSB.ILIndexTab = 60;
             session.EndRead(ChatSB);
-            ChatEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            ChatEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(ChatEdit);
             ChatEdit.Name = "ChatEdit";
             ChatEdit.Priority = 0;
@@ -148,7 +148,7 @@ namespace Aow.Units.AoWScenSetup
             ChatEdit.OnReturn = Layout_ChatEditReturn_1;
             ChatEdit.PassWordChar = (byte)0;
             session.EndRead(ChatEdit);
-            SidesPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SidesPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SidesPnl);
             SidesPnl.Name = "SidesPnl";
             SidesPnl.Priority = 10;
@@ -175,7 +175,7 @@ namespace Aow.Units.AoWScenSetup
             SidesPnl.MinWidth = 0;
             SidesPnl.MinHeight = 0;
             session.EndRead(SidesPnl);
-            SettingsPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SettingsPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SettingsPnl);
             SettingsPnl.Name = "SettingsPnl";
             SettingsPnl.Priority = 1;
@@ -202,7 +202,7 @@ namespace Aow.Units.AoWScenSetup
             SettingsPnl.MinWidth = 0;
             SettingsPnl.MinHeight = 0;
             session.EndRead(SettingsPnl);
-            PlayerList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            PlayerList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(PlayerList);
             PlayerList.Name = "PlayerList";
             PlayerList.Priority = 0;
@@ -276,7 +276,7 @@ namespace Aow.Units.AoWScenSetup
             EjectBtn.WinWidth = 70;
             EjectBtn.OnClick = Layout_EjectBtnClick_2;
             session.EndRead(EjectBtn);
-            R1Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R1Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R1Pnl);
             R1Pnl.Name = "R1Pnl";
             R1Pnl.Priority = 0;
@@ -304,7 +304,7 @@ namespace Aow.Units.AoWScenSetup
             R1Pnl.MinWidth = 0;
             R1Pnl.MinHeight = 0;
             session.EndRead(R1Pnl);
-            R5Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R5Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R5Pnl);
             R5Pnl.Name = "R5Pnl";
             R5Pnl.Tag = 4;
@@ -333,7 +333,7 @@ namespace Aow.Units.AoWScenSetup
             R5Pnl.MinWidth = 0;
             R5Pnl.MinHeight = 0;
             session.EndRead(R5Pnl);
-            R9Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R9Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R9Pnl);
             R9Pnl.Name = "R9Pnl";
             R9Pnl.Tag = 8;
@@ -362,7 +362,7 @@ namespace Aow.Units.AoWScenSetup
             R9Pnl.MinWidth = 0;
             R9Pnl.MinHeight = 0;
             session.EndRead(R9Pnl);
-            R2Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R2Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R2Pnl);
             R2Pnl.Name = "R2Pnl";
             R2Pnl.Tag = 1;
@@ -391,7 +391,7 @@ namespace Aow.Units.AoWScenSetup
             R2Pnl.MinWidth = 0;
             R2Pnl.MinHeight = 0;
             session.EndRead(R2Pnl);
-            R6Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R6Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R6Pnl);
             R6Pnl.Name = "R6Pnl";
             R6Pnl.Tag = 5;
@@ -420,7 +420,7 @@ namespace Aow.Units.AoWScenSetup
             R6Pnl.MinWidth = 0;
             R6Pnl.MinHeight = 0;
             session.EndRead(R6Pnl);
-            R10Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R10Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R10Pnl);
             R10Pnl.Name = "R10Pnl";
             R10Pnl.Tag = 9;
@@ -449,7 +449,7 @@ namespace Aow.Units.AoWScenSetup
             R10Pnl.MinWidth = 0;
             R10Pnl.MinHeight = 0;
             session.EndRead(R10Pnl);
-            R3Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R3Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R3Pnl);
             R3Pnl.Name = "R3Pnl";
             R3Pnl.Tag = 2;
@@ -478,7 +478,7 @@ namespace Aow.Units.AoWScenSetup
             R3Pnl.MinWidth = 0;
             R3Pnl.MinHeight = 0;
             session.EndRead(R3Pnl);
-            R7Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R7Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R7Pnl);
             R7Pnl.Name = "R7Pnl";
             R7Pnl.Tag = 6;
@@ -507,7 +507,7 @@ namespace Aow.Units.AoWScenSetup
             R7Pnl.MinWidth = 0;
             R7Pnl.MinHeight = 0;
             session.EndRead(R7Pnl);
-            R11Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R11Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R11Pnl);
             R11Pnl.Name = "R11Pnl";
             R11Pnl.Tag = 10;
@@ -536,7 +536,7 @@ namespace Aow.Units.AoWScenSetup
             R11Pnl.MinWidth = 0;
             R11Pnl.MinHeight = 0;
             session.EndRead(R11Pnl);
-            R4Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R4Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R4Pnl);
             R4Pnl.Name = "R4Pnl";
             R4Pnl.Tag = 3;
@@ -565,7 +565,7 @@ namespace Aow.Units.AoWScenSetup
             R4Pnl.MinWidth = 0;
             R4Pnl.MinHeight = 0;
             session.EndRead(R4Pnl);
-            R8Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R8Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R8Pnl);
             R8Pnl.Name = "R8Pnl";
             R8Pnl.Tag = 7;
@@ -594,7 +594,7 @@ namespace Aow.Units.AoWScenSetup
             R8Pnl.MinWidth = 0;
             R8Pnl.MinHeight = 0;
             session.EndRead(R8Pnl);
-            R12Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R12Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R12Pnl);
             R12Pnl.Name = "R12Pnl";
             R12Pnl.Tag = 11;
@@ -751,7 +751,7 @@ namespace Aow.Units.AoWScenSetup
             MiscLbl.Text = "Miscellaneous";
             MiscLbl.TextColor = 12632256;
             session.EndRead(MiscLbl);
-            ScenSetupPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ScenSetupPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ScenSetupPnl);
             ScenSetupPnl.Name = "ScenSetupPnl";
             ScenSetupPnl.OnUpdate = Layout_ScenSetupPnlUpdate_5;
@@ -831,7 +831,7 @@ namespace Aow.Units.AoWScenSetup
             R1Lbl.Text = "Humans";
             R1Lbl.TextColor = 14316400;
             session.EndRead(R1Lbl);
-            R1PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R1PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R1PlayerCB);
             R1PlayerCB.Name = "R1PlayerCB";
             R1PlayerCB.Priority = 170;
@@ -868,7 +868,7 @@ namespace Aow.Units.AoWScenSetup
             R1PlayerCB.ILTsIndex = 16;
             R1PlayerCB.ItemHeight = 15;
             session.EndRead(R1PlayerCB);
-            R1CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R1CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R1CenterPnl);
             R1CenterPnl.Name = "R1CenterPnl";
             R1CenterPnl.Priority = 10;
@@ -1158,7 +1158,7 @@ namespace Aow.Units.AoWScenSetup
             TurnsVal.Text = "#######";
             TurnsVal.TextColor = 8421504;
             session.EndRead(TurnsVal);
-            R1BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R1BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R1BehaviorCB);
             R1BehaviorCB.Name = "R1BehaviorCB";
             R1BehaviorCB.Priority = 160;
@@ -1269,7 +1269,7 @@ namespace Aow.Units.AoWScenSetup
             R1PlayerSB.ILIndexBack = 63;
             R1PlayerSB.ILIndexTab = 60;
             session.EndRead(R1PlayerSB);
-            PlayModeCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            PlayModeCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(PlayModeCB);
             PlayModeCB.Name = "PlayModeCB";
             PlayModeCB.Priority = 500;
@@ -1365,7 +1365,7 @@ namespace Aow.Units.AoWScenSetup
             R1InfoLbl.Masked = true;
             R1InfoLbl.TextColor = 14316400;
             session.EndRead(R1InfoLbl);
-            R3CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R3CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R3CenterPnl);
             R3CenterPnl.Name = "R3CenterPnl";
             R3CenterPnl.Priority = 10;
@@ -1415,7 +1415,7 @@ namespace Aow.Units.AoWScenSetup
             R3Lbl.Text = "Lizard Men";
             R3Lbl.TextColor = 9347661;
             session.EndRead(R3Lbl);
-            R3BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R3BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R3BehaviorCB);
             R3BehaviorCB.Name = "R3BehaviorCB";
             R3BehaviorCB.Tag = 2;
@@ -1540,7 +1540,7 @@ namespace Aow.Units.AoWScenSetup
             R3PlayerLbl.Masked = true;
             R3PlayerLbl.TextColor = 9347661;
             session.EndRead(R3PlayerLbl);
-            R3PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R3PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R3PlayerCB);
             R3PlayerCB.Name = "R3PlayerCB";
             R3PlayerCB.Tag = 2;
@@ -1637,7 +1637,7 @@ namespace Aow.Units.AoWScenSetup
             R3InfoLbl.Masked = true;
             R3InfoLbl.TextColor = 9347661;
             session.EndRead(R3InfoLbl);
-            R2CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R2CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R2CenterPnl);
             R2CenterPnl.Name = "R2CenterPnl";
             R2CenterPnl.Priority = 10;
@@ -1687,7 +1687,7 @@ namespace Aow.Units.AoWScenSetup
             R2Lbl.Text = "Azracs";
             R2Lbl.TextColor = 7845352;
             session.EndRead(R2Lbl);
-            R2BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R2BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R2BehaviorCB);
             R2BehaviorCB.Name = "R2BehaviorCB";
             R2BehaviorCB.Tag = 1;
@@ -1812,7 +1812,7 @@ namespace Aow.Units.AoWScenSetup
             R2InfoLbl.Masked = true;
             R2InfoLbl.TextColor = 7845352;
             session.EndRead(R2InfoLbl);
-            R2PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R2PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R2PlayerCB);
             R2PlayerCB.Name = "R2PlayerCB";
             R2PlayerCB.Tag = 1;
@@ -1953,7 +1953,7 @@ namespace Aow.Units.AoWScenSetup
             R4PlayerLbl.Masked = true;
             R4PlayerLbl.TextColor = 15188376;
             session.EndRead(R4PlayerLbl);
-            R4CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R4CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R4CenterPnl);
             R4CenterPnl.Name = "R4CenterPnl";
             R4CenterPnl.Priority = 10;
@@ -2040,7 +2040,7 @@ namespace Aow.Units.AoWScenSetup
             R4BehaviorSB.ILIndexBack = 63;
             R4BehaviorSB.ILIndexTab = 60;
             session.EndRead(R4BehaviorSB);
-            R4PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R4PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R4PlayerCB);
             R4PlayerCB.Name = "R4PlayerCB";
             R4PlayerCB.Tag = 3;
@@ -2194,7 +2194,7 @@ namespace Aow.Units.AoWScenSetup
             R5Lbl.Text = "Elves";
             R5Lbl.TextColor = 4830826;
             session.EndRead(R5Lbl);
-            R5PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R5PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R5PlayerCB);
             R5PlayerCB.Name = "R5PlayerCB";
             R5PlayerCB.Tag = 4;
@@ -2232,7 +2232,7 @@ namespace Aow.Units.AoWScenSetup
             R5PlayerCB.ILTsIndex = 16;
             R5PlayerCB.ItemHeight = 13;
             session.EndRead(R5PlayerCB);
-            R5CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R5CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R5CenterPnl);
             R5CenterPnl.Name = "R5CenterPnl";
             R5CenterPnl.Priority = 10;
@@ -2259,7 +2259,7 @@ namespace Aow.Units.AoWScenSetup
             R5CenterPnl.MinWidth = 0;
             R5CenterPnl.MinHeight = 0;
             session.EndRead(R5CenterPnl);
-            R5BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R5BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R5BehaviorCB);
             R5BehaviorCB.Name = "R5BehaviorCB";
             R5BehaviorCB.Tag = 4;
@@ -2415,7 +2415,7 @@ namespace Aow.Units.AoWScenSetup
             R5PlayerLbl.Masked = true;
             R5PlayerLbl.TextColor = 4830826;
             session.EndRead(R5PlayerLbl);
-            R6CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R6CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R6CenterPnl);
             R6CenterPnl.Name = "R6CenterPnl";
             R6CenterPnl.Priority = 10;
@@ -2465,7 +2465,7 @@ namespace Aow.Units.AoWScenSetup
             R6Lbl.Text = "Halflings";
             R6Lbl.TextColor = 7464174;
             session.EndRead(R6Lbl);
-            R6BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R6BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R6BehaviorCB);
             R6BehaviorCB.Name = "R6BehaviorCB";
             R6BehaviorCB.Tag = 5;
@@ -2590,7 +2590,7 @@ namespace Aow.Units.AoWScenSetup
             R6PlayerLbl.Masked = true;
             R6PlayerLbl.TextColor = 7464174;
             session.EndRead(R6PlayerLbl);
-            R6PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R6PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R6PlayerCB);
             R6PlayerCB.Name = "R6PlayerCB";
             R6PlayerCB.Tag = 5;
@@ -2687,7 +2687,7 @@ namespace Aow.Units.AoWScenSetup
             R6InfoLbl.Masked = true;
             R6InfoLbl.TextColor = 7464174;
             session.EndRead(R6InfoLbl);
-            R7CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R7CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R7CenterPnl);
             R7CenterPnl.Name = "R7CenterPnl";
             R7CenterPnl.Priority = 10;
@@ -2737,7 +2737,7 @@ namespace Aow.Units.AoWScenSetup
             R7Lbl.Text = "Dwarves";
             R7Lbl.TextColor = 9351120;
             session.EndRead(R7Lbl);
-            R7BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R7BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R7BehaviorCB);
             R7BehaviorCB.Name = "R7BehaviorCB";
             R7BehaviorCB.Tag = 6;
@@ -2862,7 +2862,7 @@ namespace Aow.Units.AoWScenSetup
             R7PlayerLbl.Masked = true;
             R7PlayerLbl.TextColor = 9351120;
             session.EndRead(R7PlayerLbl);
-            R7PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R7PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R7PlayerCB);
             R7PlayerCB.Name = "R7PlayerCB";
             R7PlayerCB.Tag = 6;
@@ -3003,7 +3003,7 @@ namespace Aow.Units.AoWScenSetup
             R8PlayerLbl.Masked = true;
             R8PlayerLbl.TextColor = 14346733;
             session.EndRead(R8PlayerLbl);
-            R8CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R8CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R8CenterPnl);
             R8CenterPnl.Name = "R8CenterPnl";
             R8CenterPnl.Priority = 10;
@@ -3053,7 +3053,7 @@ namespace Aow.Units.AoWScenSetup
             R8Lbl.Text = "High Men";
             R8Lbl.TextColor = 14346733;
             session.EndRead(R8Lbl);
-            R8BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R8BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R8BehaviorCB);
             R8BehaviorCB.Name = "R8BehaviorCB";
             R8BehaviorCB.Tag = 7;
@@ -3128,7 +3128,7 @@ namespace Aow.Units.AoWScenSetup
             R8BehaviorSB.ILIndexBack = 63;
             R8BehaviorSB.ILIndexTab = 60;
             session.EndRead(R8BehaviorSB);
-            R8PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R8PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R8PlayerCB);
             R8PlayerCB.Name = "R8PlayerCB";
             R8PlayerCB.Tag = 7;
@@ -3282,7 +3282,7 @@ namespace Aow.Units.AoWScenSetup
             R9Lbl.Text = "Dark Elves";
             R9Lbl.TextColor = 12215222;
             session.EndRead(R9Lbl);
-            R9PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R9PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R9PlayerCB);
             R9PlayerCB.Name = "R9PlayerCB";
             R9PlayerCB.Tag = 8;
@@ -3320,7 +3320,7 @@ namespace Aow.Units.AoWScenSetup
             R9PlayerCB.ILTsIndex = 16;
             R9PlayerCB.ItemHeight = 13;
             session.EndRead(R9PlayerCB);
-            R9CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R9CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R9CenterPnl);
             R9CenterPnl.Name = "R9CenterPnl";
             R9CenterPnl.Priority = 10;
@@ -3347,7 +3347,7 @@ namespace Aow.Units.AoWScenSetup
             R9CenterPnl.MinWidth = 0;
             R9CenterPnl.MinHeight = 0;
             session.EndRead(R9CenterPnl);
-            R9BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R9BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R9BehaviorCB);
             R9BehaviorCB.Name = "R9BehaviorCB";
             R9BehaviorCB.Tag = 8;
@@ -3503,7 +3503,7 @@ namespace Aow.Units.AoWScenSetup
             R9PlayerLbl.Masked = true;
             R9PlayerLbl.TextColor = 12215222;
             session.EndRead(R9PlayerLbl);
-            R10CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R10CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R10CenterPnl);
             R10CenterPnl.Name = "R10CenterPnl";
             R10CenterPnl.Priority = 10;
@@ -3553,7 +3553,7 @@ namespace Aow.Units.AoWScenSetup
             R10Lbl.Text = "Orcs";
             R10Lbl.TextColor = 4408305;
             session.EndRead(R10Lbl);
-            R10BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R10BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R10BehaviorCB);
             R10BehaviorCB.Name = "R10BehaviorCB";
             R10BehaviorCB.Tag = 9;
@@ -3678,7 +3678,7 @@ namespace Aow.Units.AoWScenSetup
             R10PlayerLbl.Masked = true;
             R10PlayerLbl.TextColor = 4408305;
             session.EndRead(R10PlayerLbl);
-            R10PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R10PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R10PlayerCB);
             R10PlayerCB.Name = "R10PlayerCB";
             R10PlayerCB.Tag = 9;
@@ -3775,7 +3775,7 @@ namespace Aow.Units.AoWScenSetup
             R10InfoLbl.Masked = true;
             R10InfoLbl.TextColor = 4408305;
             session.EndRead(R10InfoLbl);
-            R11CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R11CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R11CenterPnl);
             R11CenterPnl.Name = "R11CenterPnl";
             R11CenterPnl.Priority = 10;
@@ -3825,7 +3825,7 @@ namespace Aow.Units.AoWScenSetup
             R11Lbl.Text = "Goblins";
             R11Lbl.TextColor = 5731259;
             session.EndRead(R11Lbl);
-            R11BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R11BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R11BehaviorCB);
             R11BehaviorCB.Name = "R11BehaviorCB";
             R11BehaviorCB.Tag = 10;
@@ -3950,7 +3950,7 @@ namespace Aow.Units.AoWScenSetup
             R11PlayerLbl.Masked = true;
             R11PlayerLbl.TextColor = 5731259;
             session.EndRead(R11PlayerLbl);
-            R11PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R11PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R11PlayerCB);
             R11PlayerCB.Name = "R11PlayerCB";
             R11PlayerCB.Tag = 10;
@@ -4091,7 +4091,7 @@ namespace Aow.Units.AoWScenSetup
             R12PlayerLbl.Masked = true;
             R12PlayerLbl.TextColor = 7765394;
             session.EndRead(R12PlayerLbl);
-            R12CenterPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R12CenterPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R12CenterPnl);
             R12CenterPnl.Name = "R12CenterPnl";
             R12CenterPnl.Priority = 10;
@@ -4141,7 +4141,7 @@ namespace Aow.Units.AoWScenSetup
             R12Lbl.Text = "The Undead";
             R12Lbl.TextColor = 7765394;
             session.EndRead(R12Lbl);
-            R12BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R12BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R12BehaviorCB);
             R12BehaviorCB.Name = "R12BehaviorCB";
             R12BehaviorCB.Tag = 11;
@@ -4216,7 +4216,7 @@ namespace Aow.Units.AoWScenSetup
             R12BehaviorSB.ILIndexBack = 63;
             R12BehaviorSB.ILIndexTab = 60;
             session.EndRead(R12BehaviorSB);
-            R12PlayerCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R12PlayerCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R12PlayerCB);
             R12PlayerCB.Name = "R12PlayerCB";
             R12PlayerCB.Tag = 11;
@@ -4319,7 +4319,7 @@ namespace Aow.Units.AoWScenSetup
             R12PlayerIcon.Animate = false;
             R12PlayerIcon.AnimFrameDelay = 0;
             session.EndRead(R12PlayerIcon);
-            PreferredRaceCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            PreferredRaceCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(PreferredRaceCB);
             PreferredRaceCB.Name = "PreferredRaceCB";
             PreferredRaceCB.Priority = 99990;
@@ -4511,7 +4511,7 @@ namespace Aow.Units.AoWScenSetup
             CustomizeLeadersLbl.Text = "Customize leaders";
             CustomizeLeadersLbl.TextColor = 8421504;
             session.EndRead(CustomizeLeadersLbl);
-            R4BehaviorCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            R4BehaviorCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(R4BehaviorCB);
             R4BehaviorCB.Name = "R4BehaviorCB";
             R4BehaviorCB.Tag = 3;
@@ -4549,7 +4549,7 @@ namespace Aow.Units.AoWScenSetup
             R4BehaviorCB.ILTsIndex = 16;
             R4BehaviorCB.ItemHeight = 13;
             session.EndRead(R4BehaviorCB);
-            R1FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R1FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R1FogPnl);
             R1FogPnl.Name = "R1FogPnl";
             R1FogPnl.Priority = 175;
@@ -4598,7 +4598,7 @@ namespace Aow.Units.AoWScenSetup
             R1PlayerLbl.Masked = true;
             R1PlayerLbl.TextColor = 14316400;
             session.EndRead(R1PlayerLbl);
-            R2FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R2FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R2FogPnl);
             R2FogPnl.Name = "R2FogPnl";
             R2FogPnl.Priority = 155;
@@ -4625,7 +4625,7 @@ namespace Aow.Units.AoWScenSetup
             R2FogPnl.MinWidth = 0;
             R2FogPnl.MinHeight = 0;
             session.EndRead(R2FogPnl);
-            R3FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R3FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R3FogPnl);
             R3FogPnl.Name = "R3FogPnl";
             R3FogPnl.Priority = 135;
@@ -4652,7 +4652,7 @@ namespace Aow.Units.AoWScenSetup
             R3FogPnl.MinWidth = 0;
             R3FogPnl.MinHeight = 0;
             session.EndRead(R3FogPnl);
-            R4FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R4FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R4FogPnl);
             R4FogPnl.Name = "R4FogPnl";
             R4FogPnl.Priority = 115;
@@ -4679,7 +4679,7 @@ namespace Aow.Units.AoWScenSetup
             R4FogPnl.MinWidth = 0;
             R4FogPnl.MinHeight = 0;
             session.EndRead(R4FogPnl);
-            R8FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R8FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R8FogPnl);
             R8FogPnl.Name = "R8FogPnl";
             R8FogPnl.Priority = 115;
@@ -4706,7 +4706,7 @@ namespace Aow.Units.AoWScenSetup
             R8FogPnl.MinWidth = 0;
             R8FogPnl.MinHeight = 0;
             session.EndRead(R8FogPnl);
-            R7FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R7FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R7FogPnl);
             R7FogPnl.Name = "R7FogPnl";
             R7FogPnl.Priority = 135;
@@ -4733,7 +4733,7 @@ namespace Aow.Units.AoWScenSetup
             R7FogPnl.MinWidth = 0;
             R7FogPnl.MinHeight = 0;
             session.EndRead(R7FogPnl);
-            R6FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R6FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R6FogPnl);
             R6FogPnl.Name = "R6FogPnl";
             R6FogPnl.Priority = 155;
@@ -4760,7 +4760,7 @@ namespace Aow.Units.AoWScenSetup
             R6FogPnl.MinWidth = 0;
             R6FogPnl.MinHeight = 0;
             session.EndRead(R6FogPnl);
-            R5FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R5FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R5FogPnl);
             R5FogPnl.Name = "R5FogPnl";
             R5FogPnl.Priority = 175;
@@ -4787,7 +4787,7 @@ namespace Aow.Units.AoWScenSetup
             R5FogPnl.MinWidth = 0;
             R5FogPnl.MinHeight = 0;
             session.EndRead(R5FogPnl);
-            R12FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R12FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R12FogPnl);
             R12FogPnl.Name = "R12FogPnl";
             R12FogPnl.Priority = 115;
@@ -4814,7 +4814,7 @@ namespace Aow.Units.AoWScenSetup
             R12FogPnl.MinWidth = 0;
             R12FogPnl.MinHeight = 0;
             session.EndRead(R12FogPnl);
-            R11FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R11FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R11FogPnl);
             R11FogPnl.Name = "R11FogPnl";
             R11FogPnl.Priority = 135;
@@ -4841,7 +4841,7 @@ namespace Aow.Units.AoWScenSetup
             R11FogPnl.MinWidth = 0;
             R11FogPnl.MinHeight = 0;
             session.EndRead(R11FogPnl);
-            R10FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R10FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R10FogPnl);
             R10FogPnl.Name = "R10FogPnl";
             R10FogPnl.Priority = 155;
@@ -4868,7 +4868,7 @@ namespace Aow.Units.AoWScenSetup
             R10FogPnl.MinWidth = 0;
             R10FogPnl.MinHeight = 0;
             session.EndRead(R10FogPnl);
-            R9FogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            R9FogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(R9FogPnl);
             R9FogPnl.Name = "R9FogPnl";
             R9FogPnl.Priority = 175;
@@ -4955,7 +4955,7 @@ namespace Aow.Units.AoWScenSetup
             PlayerListSort.TextSelColor = 16777215;
             PlayerListSort.WinWidth = 71;
             session.EndRead(PlayerListSort);
-            ConnectionPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ConnectionPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ConnectionPnl);
             ConnectionPnl.Name = "ConnectionPnl";
             ConnectionPnl.Priority = 1;
@@ -4982,7 +4982,7 @@ namespace Aow.Units.AoWScenSetup
             ConnectionPnl.MinWidth = 0;
             ConnectionPnl.MinHeight = 0;
             session.EndRead(ConnectionPnl);
-            PreferredRaceList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            PreferredRaceList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(PreferredRaceList);
             PreferredRaceList.Name = "PreferredRaceList";
             PreferredRaceList.Priority = 2;
@@ -5050,7 +5050,7 @@ namespace Aow.Units.AoWScenSetup
             AOWButton1.TextSelColor = 16777215;
             AOWButton1.WinWidth = 26;
             session.EndRead(AOWButton1);
-            PingList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            PingList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(PingList);
             PingList.Name = "PingList";
             PingList.Priority = 999;
@@ -5123,7 +5123,7 @@ namespace Aow.Units.AoWScenSetup
             PlayerListSB.ILIndexBack = 63;
             PlayerListSB.ILIndexTab = 60;
             session.EndRead(PlayerListSB);
-            SettingsFogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SettingsFogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SettingsFogPnl);
             SettingsFogPnl.Name = "SettingsFogPnl";
             SettingsFogPnl.Priority = 10010;
@@ -5336,7 +5336,7 @@ namespace Aow.Units.AoWScenSetup
             MakeHostBtn.WinWidth = 70;
             MakeHostBtn.OnClick = Layout_MakeHostBtnClick_11;
             session.EndRead(MakeHostBtn);
-            RestartSettingsFogPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RestartSettingsFogPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RestartSettingsFogPnl);
             RestartSettingsFogPnl.Name = "RestartSettingsFogPnl";
             RestartSettingsFogPnl.Visible = false;
@@ -5564,7 +5564,7 @@ namespace Aow.Units.AoWScenSetup
             AOWVScrollBar1.ILIndexBack = 63;
             AOWVScrollBar1.ILIndexTab = 60;
             session.EndRead(AOWVScrollBar1);
-            TacticalCombatCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            TacticalCombatCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(TacticalCombatCB);
             TacticalCombatCB.Name = "TacticalCombatCB";
             TacticalCombatCB.Priority = 10000;

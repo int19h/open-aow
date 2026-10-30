@@ -17,7 +17,7 @@ namespace Aow.Units.AoWTargetSelection
         {
             session.Begin(this);
             Name = "TargetSelectionDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -203,7 +203,7 @@ namespace Aow.Units.AoWTargetSelection
             MainBtn.WinWidth = 110;
             MainBtn.OnClick = Layout_MainBtnClick_1;
             session.EndRead(MainBtn);
-            DefaultMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            DefaultMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(DefaultMemo);
             DefaultMemo.Name = "DefaultMemo";
             DefaultMemo.Priority = 0;
@@ -241,7 +241,7 @@ namespace Aow.Units.AoWTargetSelection
             DefaultMemo.ColorChangeChar = (byte)0;
             DefaultMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(DefaultMemo);
-            DefaultPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DefaultPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DefaultPnl);
             DefaultPnl.Name = "DefaultPnl";
             DefaultPnl.Priority = 15;
@@ -291,7 +291,7 @@ namespace Aow.Units.AoWTargetSelection
             HeaderLbl.Text = "########";
             HeaderLbl.TextColor = 16777215;
             session.EndRead(HeaderLbl);
-            HeaderPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            HeaderPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(HeaderPnl);
             HeaderPnl.Name = "HeaderPnl";
             HeaderPnl.Priority = 400;
@@ -318,7 +318,7 @@ namespace Aow.Units.AoWTargetSelection
             HeaderPnl.MinWidth = 0;
             HeaderPnl.MinHeight = 0;
             session.EndRead(HeaderPnl);
-            BorderImage = Aow.Units.AoWArnoLine.TAoWArnoLine.Create(this);
+            BorderImage = new Aow.Units.AoWArnoLine.TAoWArnoLine(this);
             session.BeginRead(BorderImage);
             BorderImage.Name = "BorderImage";
             BorderImage.Priority = 0;
@@ -340,7 +340,7 @@ namespace Aow.Units.AoWTargetSelection
             BorderImage.Masked = false;
             BorderImage.WinHeight = 139;
             session.EndRead(BorderImage);
-            SpellPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SpellPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SpellPnl);
             SpellPnl.Name = "SpellPnl";
             SpellPnl.Visible = false;
@@ -368,7 +368,7 @@ namespace Aow.Units.AoWTargetSelection
             SpellPnl.MinWidth = 0;
             SpellPnl.MinHeight = 0;
             session.EndRead(SpellPnl);
-            SpellMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            SpellMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(SpellMemo);
             SpellMemo.Name = "SpellMemo";
             SpellMemo.Priority = 0;

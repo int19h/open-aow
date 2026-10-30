@@ -45,9 +45,8 @@ namespace Aow.Units.AoWPanel
         public Aow.Units.AoWBaseWin.TAOWBaseWindow FAOWWindow;
         // AoWPanel.pas:63
         // { TAOWPanel }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWPanel(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FCaptureInput = true;
         }
 
@@ -899,23 +898,6 @@ namespace Aow.Units.AoWPanel
 
         [Published]
         public int MinHeight { get => FMinHeight; set => FMinHeight = value; }
-
-        // AoWPanel.pas:27
-        public static new Aow.Units.AoWPanel.TAOWPanel Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWPanel.TAOWPanel o = new Aow.Units.AoWPanel.TAOWPanel();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWPanel

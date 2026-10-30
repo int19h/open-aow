@@ -55,6 +55,8 @@ namespace Aow.Units.AoWMsgReceiveDlg
     // { TMsgReceiveDlg (instance size $70, VMT 00438EC4): $64 done callback, $6C retained event. }
     public partial class TMsgReceiveDlg : Aow.Rtl.TDataModule
     {
+        public TMsgReceiveDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow MsgReceiveWin;
         // { +0044 }
         public Aow.Units.AoWMemo.TAOWMemo MessageMemo;

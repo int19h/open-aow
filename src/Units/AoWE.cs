@@ -98581,6 +98581,11 @@ namespace Aow.Units.AoWE
     // { TAgeOfWondersEngine (instance size $40, VMT 55724618): $3C FGameEngine. }
     public partial class TAgeOfWondersEngine : Aow.Units.HSEngine.THexagonSpriteEngine
     {
+        public static new TAgeOfWondersEngine Create(Aow.Rtl.TComponent AOwner) =>
+            ConstructionContext.Create(AOwner, static (context, owner) => new TAgeOfWondersEngine(context, owner));
+
+        private protected TAgeOfWondersEngine(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
+
         public Aow.Units.HSEngine.THSEngine FGameEngine;
         // Army.PAS:6104
         // { $3C }

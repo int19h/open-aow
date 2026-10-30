@@ -17,7 +17,7 @@ namespace Aow.Units.AoWSyncDlg
         {
             session.Begin(this);
             Name = "SynchronizeDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -341,7 +341,7 @@ namespace Aow.Units.AoWSyncDlg
             TCeltLineR.Animate = false;
             TCeltLineR.AnimFrameDelay = 0;
             session.EndRead(TCeltLineR);
-            NewTPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NewTPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NewTPnl);
             NewTPnl.Name = "NewTPnl";
             NewTPnl.Priority = 0;

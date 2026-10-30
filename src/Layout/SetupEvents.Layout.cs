@@ -40,7 +40,7 @@ namespace Aow.Units.aowSetupEvents
             created__DPlay.UseSetupDialogs = false;
             created__DPlay.FilePacketSize = 1000;
             session.EndRead(created__DPlay);
-            SetupControl = Aow.Units.AoWSetup.TSetupControl.Create(this);
+            SetupControl = new Aow.Units.AoWSetup.TSetupControl(this);
             session.BeginRead(SetupControl);
             SetupControl.Name = "SetupControl";
             SetupControl.OnSendMap = SetupControlSendMap;

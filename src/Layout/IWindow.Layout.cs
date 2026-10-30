@@ -17,7 +17,7 @@ namespace Aow.Units.AoWInfoWin
         {
             session.Begin(this);
             Name = "IWindow";
-            InfoWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            InfoWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(InfoWin);
             InfoWin.Name = "InfoWin";
             InfoWin.Visible = false;
@@ -239,7 +239,7 @@ namespace Aow.Units.AoWInfoWin
             CeltFrame.ILIndexLine = 0;
             CeltFrame.ILIndexTexture = 0;
             session.EndRead(CeltFrame);
-            StructLine = Aow.Units.AoWArnoLine.TAoWArnoLine.Create(this);
+            StructLine = new Aow.Units.AoWArnoLine.TAoWArnoLine(this);
             session.BeginRead(StructLine);
             StructLine.Name = "StructLine";
             StructLine.Priority = 0;
@@ -284,7 +284,7 @@ namespace Aow.Units.AoWInfoWin
             StructNameLbl.Text = "#####";
             StructNameLbl.TextColor = 16777215;
             session.EndRead(StructNameLbl);
-            ProductionPlacePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ProductionPlacePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ProductionPlacePnl);
             ProductionPlacePnl.Name = "ProductionPlacePnl";
             ProductionPlacePnl.Visible = false;
@@ -312,7 +312,7 @@ namespace Aow.Units.AoWInfoWin
             ProductionPlacePnl.MinWidth = 0;
             ProductionPlacePnl.MinHeight = 0;
             session.EndRead(ProductionPlacePnl);
-            NamePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NamePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NamePnl);
             NamePnl.Name = "NamePnl";
             NamePnl.Priority = 400;
@@ -339,7 +339,7 @@ namespace Aow.Units.AoWInfoWin
             NamePnl.MinWidth = 0;
             NamePnl.MinHeight = 0;
             session.EndRead(NamePnl);
-            ActiveActionMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ActiveActionMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ActiveActionMemo);
             ActiveActionMemo.Name = "ActiveActionMemo";
             ActiveActionMemo.Priority = 0;
@@ -373,7 +373,7 @@ namespace Aow.Units.AoWInfoWin
             ActiveActionMemo.ColorChangeChar = (byte)0;
             ActiveActionMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(ActiveActionMemo);
-            SignPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SignPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SignPnl);
             SignPnl.Name = "SignPnl";
             SignPnl.Visible = false;
@@ -401,7 +401,7 @@ namespace Aow.Units.AoWInfoWin
             SignPnl.MinWidth = 0;
             SignPnl.MinHeight = 0;
             session.EndRead(SignPnl);
-            SignText = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            SignText = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(SignText);
             SignText.Name = "SignText";
             SignText.Priority = 500;
@@ -660,7 +660,7 @@ namespace Aow.Units.AoWInfoWin
             SignTextSB.ILIndexBack = 7;
             SignTextSB.ILIndexTab = 4;
             session.EndRead(SignTextSB);
-            CityPanel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CityPanel = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CityPanel);
             CityPanel.Name = "CityPanel";
             CityPanel.Visible = false;
@@ -711,7 +711,7 @@ namespace Aow.Units.AoWInfoWin
             CityRaceLbl.Text = "######";
             CityRaceLbl.TextColor = 0;
             session.EndRead(CityRaceLbl);
-            CityBorderPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CityBorderPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CityBorderPnl);
             CityBorderPnl.Name = "CityBorderPnl";
             CityBorderPnl.Visible = false;
@@ -768,7 +768,7 @@ namespace Aow.Units.AoWInfoWin
             ProdOrb.Animate = false;
             ProdOrb.AnimFrameDelay = 0;
             session.EndRead(ProdOrb);
-            SingleButPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SingleButPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SingleButPnl);
             SingleButPnl.Name = "SingleButPnl";
             SingleButPnl.Visible = false;
@@ -796,7 +796,7 @@ namespace Aow.Units.AoWInfoWin
             SingleButPnl.MinWidth = 0;
             SingleButPnl.MinHeight = 0;
             session.EndRead(SingleButPnl);
-            SBmemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            SBmemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(SBmemo);
             SBmemo.Name = "SBmemo";
             SBmemo.Priority = 0;
@@ -830,7 +830,7 @@ namespace Aow.Units.AoWInfoWin
             SBmemo.ColorChangeChar = (byte)0;
             SBmemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(SBmemo);
-            AltarPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            AltarPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(AltarPnl);
             AltarPnl.Name = "AltarPnl";
             AltarPnl.Visible = false;
@@ -858,7 +858,7 @@ namespace Aow.Units.AoWInfoWin
             AltarPnl.MinWidth = 0;
             AltarPnl.MinHeight = 0;
             session.EndRead(AltarPnl);
-            Bar = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Bar = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Bar);
             Bar.Name = "Bar";
             Bar.Priority = 0;
@@ -1063,7 +1063,7 @@ namespace Aow.Units.AoWInfoWin
             LShield.Animate = false;
             LShield.AnimFrameDelay = 0;
             session.EndRead(LShield);
-            NotYoursPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NotYoursPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NotYoursPnl);
             NotYoursPnl.Name = "NotYoursPnl";
             NotYoursPnl.Priority = 15;
@@ -1090,7 +1090,7 @@ namespace Aow.Units.AoWInfoWin
             NotYoursPnl.MinWidth = 0;
             NotYoursPnl.MinHeight = 0;
             session.EndRead(NotYoursPnl);
-            NotYoursMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            NotYoursMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(NotYoursMemo);
             NotYoursMemo.Name = "NotYoursMemo";
             NotYoursMemo.Priority = 100;
@@ -1216,7 +1216,7 @@ namespace Aow.Units.AoWInfoWin
             orLbl.Text = "or";
             orLbl.TextColor = 7921903;
             session.EndRead(orLbl);
-            AltarInfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            AltarInfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(AltarInfoPnl);
             AltarInfoPnl.Name = "AltarInfoPnl";
             AltarInfoPnl.Priority = 100;
@@ -1305,7 +1305,7 @@ namespace Aow.Units.AoWInfoWin
             Center.WinWidth = 15;
             Center.OnClick = Layout_CenterClick_4;
             session.EndRead(Center);
-            ConstructionPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ConstructionPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ConstructionPnl);
             ConstructionPnl.Name = "ConstructionPnl";
             ConstructionPnl.Visible = false;
@@ -1333,7 +1333,7 @@ namespace Aow.Units.AoWInfoWin
             ConstructionPnl.MinWidth = 0;
             ConstructionPnl.MinHeight = 0;
             session.EndRead(ConstructionPnl);
-            ConstructionMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ConstructionMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ConstructionMemo);
             ConstructionMemo.Name = "ConstructionMemo";
             ConstructionMemo.Priority = 0;
@@ -1413,7 +1413,7 @@ namespace Aow.Units.AoWInfoWin
             ConstructionDaysLeftLbl.Text = "######";
             ConstructionDaysLeftLbl.TextColor = 16777215;
             session.EndRead(ConstructionDaysLeftLbl);
-            RazePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RazePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RazePnl);
             RazePnl.Name = "RazePnl";
             RazePnl.Priority = 2000;
@@ -1669,7 +1669,7 @@ namespace Aow.Units.AoWInfoWin
             CityLevelLbl.Text = "##";
             CityLevelLbl.TextColor = 16777215;
             session.EndRead(CityLevelLbl);
-            InfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            InfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(InfoPnl);
             InfoPnl.Name = "InfoPnl";
             InfoPnl.Priority = 100;
@@ -1696,7 +1696,7 @@ namespace Aow.Units.AoWInfoWin
             InfoPnl.MinWidth = 0;
             InfoPnl.MinHeight = 0;
             session.EndRead(InfoPnl);
-            ProductionPlaceInfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ProductionPlaceInfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ProductionPlaceInfoPnl);
             ProductionPlaceInfoPnl.Name = "ProductionPlaceInfoPnl";
             ProductionPlaceInfoPnl.Priority = 100;
@@ -1782,7 +1782,7 @@ namespace Aow.Units.AoWInfoWin
             IncomeValueLbl.Text = "20";
             IncomeValueLbl.TextColor = 16777215;
             session.EndRead(IncomeValueLbl);
-            ActiveCityActionMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ActiveCityActionMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ActiveCityActionMemo);
             ActiveCityActionMemo.Name = "ActiveCityActionMemo";
             ActiveCityActionMemo.Priority = 0;
@@ -1940,7 +1940,7 @@ namespace Aow.Units.AoWInfoWin
             CurrentActivityWarningLbl.Text = "not enough gold";
             CurrentActivityWarningLbl.TextColor = 128;
             session.EndRead(CurrentActivityWarningLbl);
-            IncomePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            IncomePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(IncomePnl);
             IncomePnl.Name = "IncomePnl";
             IncomePnl.Visible = false;
@@ -1968,7 +1968,7 @@ namespace Aow.Units.AoWInfoWin
             IncomePnl.MinWidth = 0;
             IncomePnl.MinHeight = 0;
             session.EndRead(IncomePnl);
-            IncomInfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            IncomInfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(IncomInfoPnl);
             IncomInfoPnl.Name = "IncomInfoPnl";
             IncomInfoPnl.Priority = 100;
@@ -2081,7 +2081,7 @@ namespace Aow.Units.AoWInfoWin
             IncomeTextLbl.Text = "Income:";
             IncomeTextLbl.TextColor = 7921903;
             session.EndRead(IncomeTextLbl);
-            IncomeMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            IncomeMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(IncomeMemo);
             IncomeMemo.Name = "IncomeMemo";
             IncomeMemo.Priority = 0;
@@ -2115,7 +2115,7 @@ namespace Aow.Units.AoWInfoWin
             IncomeMemo.ColorChangeChar = (byte)0;
             IncomeMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(IncomeMemo);
-            ItemPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ItemPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ItemPnl);
             ItemPnl.Name = "ItemPnl";
             ItemPnl.Visible = false;
@@ -2170,7 +2170,7 @@ namespace Aow.Units.AoWInfoWin
             ItemsInBagLbl.Text = "Items in bag:";
             ItemsInBagLbl.TextColor = 7921903;
             session.EndRead(ItemsInBagLbl);
-            ItembagLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            ItembagLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(ItembagLB);
             ItembagLB.Name = "ItembagLB";
             ItembagLB.Priority = 10;
@@ -2252,7 +2252,7 @@ namespace Aow.Units.AoWInfoWin
             ItembagSB.ILIndexBack = 101;
             ItembagSB.ILIndexTab = 98;
             session.EndRead(ItembagSB);
-            ItemBagMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ItemBagMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ItemBagMemo);
             ItemBagMemo.Name = "ItemBagMemo";
             ItemBagMemo.Priority = 0;
@@ -2363,7 +2363,7 @@ namespace Aow.Units.AoWInfoWin
             NotYoursMemoSB.ILIndexBack = 101;
             NotYoursMemoSB.ILIndexTab = 98;
             session.EndRead(NotYoursMemoSB);
-            ExplorationSitePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ExplorationSitePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ExplorationSitePnl);
             ExplorationSitePnl.Name = "ExplorationSitePnl";
             ExplorationSitePnl.Visible = false;
@@ -2391,7 +2391,7 @@ namespace Aow.Units.AoWInfoWin
             ExplorationSitePnl.MinWidth = 0;
             ExplorationSitePnl.MinHeight = 0;
             session.EndRead(ExplorationSitePnl);
-            ESMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ESMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ESMemo);
             ESMemo.Name = "ESMemo";
             ESMemo.Priority = 0;

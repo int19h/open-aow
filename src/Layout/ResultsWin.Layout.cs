@@ -520,7 +520,7 @@ namespace Aow.Units.AoWResultsWin
             TurnLbl.Text = "Turns";
             TurnLbl.TextColor = 0;
             session.EndRead(TurnLbl);
-            ResNames = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ResNames = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ResNames);
             ResNames.Name = "ResNames";
             ResNames.Visible = false;
@@ -555,7 +555,7 @@ namespace Aow.Units.AoWResultsWin
             ResNames.ColorChangeChar = (byte)0;
             ResNames.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(ResNames);
-            ResValues = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ResValues = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ResValues);
             ResValues.Name = "ResValues";
             ResValues.Visible = false;
@@ -763,7 +763,7 @@ namespace Aow.Units.AoWResultsWin
             ContinueBtn.WinWidth = 119;
             ContinueBtn.OnClick = Layout_ContinueBtnClick_3;
             session.EndRead(ContinueBtn);
-            ResultsPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ResultsPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ResultsPnl);
             ResultsPnl.Name = "ResultsPnl";
             ResultsPnl.OnUpdate = Layout_ResultsPnlUpdate_4;
@@ -829,7 +829,7 @@ namespace Aow.Units.AoWResultsWin
             StrengthCB.OnChange = Layout_AgendaChange_6;
             StrengthCB.RadioIndex = 1;
             session.EndRead(StrengthCB);
-            AgendaPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            AgendaPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(AgendaPnl);
             AgendaPnl.Name = "AgendaPnl";
             AgendaPnl.Priority = 100;

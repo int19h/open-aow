@@ -30,6 +30,8 @@ namespace Aow.Units.AoWBaseWin
 //     VMT (new): SetILFrame, SetILTexture }
     public partial class TAOWBaseWindow : Aow.Units.AoWWinControl.TAOWWindowControl
     {
+        public TAOWBaseWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Rtl.TObject FBuffer;
         public bool FFreeSurfaceOnHide;
         public Aow.Units.AOWWinManager.TAOWWinManager FWinManager;
