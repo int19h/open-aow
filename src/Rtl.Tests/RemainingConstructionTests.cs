@@ -277,7 +277,7 @@ public sealed class RemainingConstructionTests
     [Fact]
     public void ListObjectMetaclassCreatesTheExactType()
     {
-        var value = Aow.Units.EList.TListObject.Meta.Of<Aow.Units.EList.TListObject>().Create();
+        var value = new Aow.Units.EList.TListObject();
         Assert.IsType<Aow.Units.EList.TListObject>(value);
         Assert.Equal(Snapshot(new Aow.Units.EList.TListObject()), Snapshot(value));
         value.Destroy();

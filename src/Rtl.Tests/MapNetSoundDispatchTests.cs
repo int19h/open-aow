@@ -162,7 +162,7 @@ public sealed class MapNetSoundDispatchTests
     public void SoundDataRoutesKeepTypeCacheAndReferenceCounts(bool memory)
     {
         using var state = new SoundState();
-        var meta = TSampleData.Meta.Of<TSampleData>();
+        var meta = TSampleData.Descriptor;
         var direct = memory ? TSampleData.CreateEx(Format, new byte[] { 128 }, 1) : TSampleData.Create("direct");
         var dynamic = memory ? meta.CreateEx(Format, new byte[] { 128 }, 1) : meta.Create("dynamic");
         foreach (var value in new[] { direct, dynamic })
@@ -174,7 +174,7 @@ public sealed class MapNetSoundDispatchTests
         }
         Assert.Equal(memory ? 0 : 2, SoundApi.SampleDataList.Count);
         var sample = Sample.Create(direct);
-        var dynamicSample = Sample.Meta.Of<Sample>().Create(dynamic);
+        var dynamicSample = Sample.Descriptor.Create(dynamic);
         Assert.IsType<Sample>(sample);
         Assert.IsType<Sample>(dynamicSample);
         Assert.Equal(2, direct.RefCount);
@@ -192,6 +192,28 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(0, SoundApi.SampleDataList.Count);
     }
 
+    [Fact]
+    public void SoundAliasesKeepDistinctDescriptorsOverOneRuntimeType()
+    {
+        using var state = new SoundState();
+        var sdl = SoundApi.SoundSystems.Find("SDL");
+        var galaxy = SoundApi.SoundSystems.Find("Galaxy");
+        Assert.NotSame(sdl, galaxy);
+        Assert.Equal(typeof(TSdlSoundSystem), sdl.Type);
+        Assert.Equal(sdl.Type, galaxy.Type);
+        Assert.Equal("SDL", sdl.Name.ToString());
+        Assert.Equal("Galaxy", galaxy.Name.ToString());
+        Assert.Same(sdl, SoundSystemClass.Of<TSdlSoundSystem>());
+        Assert.Same(sdl, SoundApi.SoundSystems.Find("sdl"));
+        Assert.Same(galaxy, SoundApi.SoundSystems.Find("GALAXY"));
+        TSdlSoundSystem.Install(mute: true, audioOutput: false);
+        Assert.Equal(2, SoundApi.SoundSystems.Count);
+        Assert.Same(sdl, SoundApi.SoundSystems.Find("SDL"));
+        Assert.Same(galaxy, SoundApi.SoundSystems.Find("Galaxy"));
+        var error = Assert.Throws<Aow.Rtl.Exception>(() => SoundApi.RegisterSoundSystem(sdl));
+        Assert.Equal("Sound System with name: SDL already registered", error.Message.ToString());
+    }
+
     [Theory]
     [InlineData("SDL")]
     [InlineData("Galaxy")]
@@ -200,17 +222,17 @@ public sealed class MapNetSoundDispatchTests
         using var state = new SoundState();
         var meta = SoundApi.SoundSystems.Find(name);
         var system = meta.Create();
-        Assert.Equal(name == "SDL" ? "TSdlSoundSystem" : "GalaxyAlias", system.GetType().Name);
+        Assert.IsType<TSdlSoundSystem>(system);
         Assert.Equal(1, system.FRefCount);
         system.Destroy();
         Assert.True(SoundApi.InitializeSoundSystem(name,
             new TSoundSettings { SampleRate = 8000, SampleVoices = 1, SFXEnabled = true }));
-        var sampleDataMeta = (TSampleData.Meta)MetaRegistry.Of(typeof(TSdlSoundSystem).Assembly.GetType("Aow.Platform.SdlSampleData")!);
+        var sampleDataMeta = TSdlSoundSystem.SampleData;
         var data = sampleDataMeta.CreateEx(Format, new byte[] { 128 }, 1);
         Assert.Equal("SdlSampleData", data.GetType().Name);
         Assert.Equal(1, data.RefCount);
         Assert.Equal(0, SoundApi.SampleDataList.Count);
-        var sampleMeta = (Sample.Meta)MetaRegistry.Of(typeof(TSdlSoundSystem).Assembly.GetType("Aow.Platform.SdlSample")!);
+        var sampleMeta = TSdlSoundSystem.Samples;
         var sample = sampleMeta.Create(data);
         Assert.Equal("SdlSample", sample.GetType().Name);
         Assert.Equal(-1, sample.Volume);
@@ -229,7 +251,7 @@ public sealed class MapNetSoundDispatchTests
     public void InvalidMemoryWaveLeavesBothListsUnchanged()
     {
         using var state = new SoundState();
-        var meta = (TSampleData.Meta)MetaRegistry.Of(typeof(TSdlSoundSystem).Assembly.GetType("Aow.Platform.SdlSampleData")!);
+        var meta = TSdlSoundSystem.SampleData;
         Assert.Throws<InvalidDataException>(() => meta.CreateEx(default, new byte[1], 1));
         Assert.Equal(0, SoundApi.SampleList.Count);
         Assert.Equal(0, SoundApi.SampleDataList.Count);
@@ -241,11 +263,11 @@ public sealed class MapNetSoundDispatchTests
         using var state = new SoundState();
         SoundApi.SoundSystems.Clear();
         NullSoundSystem.Install();
-        var system = TSoundSystem.Meta.Of<NullSoundSystem>().Create();
+        var system = SoundSystemClass.Of<NullSoundSystem>().Create();
         Assert.IsType<NullSoundSystem>(system);
         Assert.Equal(1, system.FRefCount);
         var data = TSampleData.Create("silent");
-        var sample = ((Sample.Meta)MetaRegistry.Of(typeof(NullSoundSystem).Assembly.GetType("Aow.Units.Sound.NullSample")!)).Create(data);
+        var sample = NullSoundSystem.Samples.Create(data);
         Assert.Equal("NullSample", sample.GetType().Name);
         Assert.Equal(2, data.RefCount);
         Assert.False(sample.Playing);

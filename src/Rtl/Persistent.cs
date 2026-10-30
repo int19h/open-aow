@@ -136,16 +136,6 @@ public class TComponent : TPersistent
     public virtual TComponent? GetParentComponent() => null;
     public virtual bool HasParent() => false;
     public virtual void SetChildOrder(TComponent child, int order) { }
-    public new class Meta : TObject.Meta
-    {
-        public TComponent Create(TComponent? owner)
-        {
-            var instance = (TComponent)NewInstance();
-            try { instance.Create__init(owner); } catch { instance.Destroy(); throw; }
-            return instance;
-        }
-        public static new Meta Of<T>() where T : TComponent => (Meta)MetaRegistry.Of(typeof(T));
-    }
 }
 
 [AttributeUsage(AttributeTargets.Property)]

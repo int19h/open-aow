@@ -119,7 +119,6 @@ public sealed class MapNetSoundFailureTests
         MetaRegistry.Register(typeof(FailingLevel), new TMapLevel.Meta(), 124);
         EClass.Register(typeof(FailingPublishedLevel), TMapLevel.ClassID, static owner => FailingPublishedLevel.Create(owner), 124);
         MetaRegistry.Register(typeof(FailingPublishedLevel), new TMapLevel.Meta(), 124);
-        MetaRegistry.Register(typeof(FailingSample), new Aow.Units.Sound.TSample.Meta(FailingSample.Create), 24);
     }
 
     [Fact]
@@ -162,7 +161,7 @@ public sealed class MapNetSoundFailureTests
         {
             var data = TSampleData.Create("reference");
             Assert.Equal(1, data.RefCount);
-            Assert.Throws<InvalidDataException>(() => Aow.Units.Sound.TSample.Meta.Of<FailingSample>().Create(data));
+            Assert.Throws<InvalidDataException>(() => new SampleClass(FailingSample.Create).Create(data));
             Assert.Empty(SoundApi.SampleList.List.Take(SoundApi.SampleList.Count));
             Assert.Equal(1, data.RefCount);
             Assert.Same(data, SoundApi.SampleDataList.Find("reference"));
@@ -194,7 +193,7 @@ public sealed class MapNetSoundFailureTests
         try
         {
             TSdlSoundSystem.Install(mute: true, audioOutput: false);
-            var meta = (TSampleData.Meta)MetaRegistry.Of(typeof(TSdlSoundSystem).Assembly.GetType("Aow.Platform.SdlSampleData")!);
+            var meta = TSdlSoundSystem.SampleData;
             TSampleData? previous = null;
             for (int i = 0; i < 2; i++)
             {

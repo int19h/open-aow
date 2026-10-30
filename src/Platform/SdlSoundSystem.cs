@@ -4,10 +4,9 @@ using SoundApi = Aow.Units.Sound.Sound;
 
 namespace Aow.Platform;
 
-public class TSdlSoundSystem : TSoundSystem
+public class TSdlSoundSystem : TSoundSystem, ISoundSystemClass
 {
     private static bool muted = true, useOutput;
-    private static bool registered;
     private static TSdlSoundSystem? active;
     private TSoundSettings settings;
     private SdlAudioOutput? output;
@@ -22,22 +21,18 @@ public class TSdlSoundSystem : TSoundSystem
     {
         muted = mute || Environment.GetEnvironmentVariable("AOW_MUTE") == "1";
         useOutput = audioOutput;
-        if (!registered)
-        {
-            MetaRegistry.Register(typeof(TSdlSoundSystem), new SdlMeta(), () => new TSdlSoundSystem(), 12);
-            MetaRegistry.Register(typeof(GalaxyAlias), new GalaxyMeta(), () => new GalaxyAlias(), 12);
-            MetaRegistry.Register(typeof(SdlSampleData), new TSampleData.Meta(SdlSampleData.Create, SdlSampleData.CreateEx), 12);
-            MetaRegistry.Register(typeof(SdlSample), new TSample.Meta(static data => SdlSample.Create(active!.Mixer, data)), 24);
-            registered = true;
-        }
-        if (SoundApi.SoundSystems.Find("SDL") is null) SoundApi.RegisterSoundSystem(TSoundSystem.Meta.Of<TSdlSoundSystem>());
-        if (SoundApi.SoundSystems.Find("Galaxy") is null) SoundApi.RegisterSoundSystem(TSoundSystem.Meta.Of<GalaxyAlias>());
+        if (SoundApi.SoundSystems.Find("SDL") is null) SoundApi.RegisterSoundSystem(SoundSystemClass.Of<TSdlSoundSystem>());
+        if (SoundApi.SoundSystems.Find("Galaxy") is null) SoundApi.RegisterSoundSystem(Aliases.Galaxy);
     }
-    private sealed class SdlMeta : TSoundSystem.Meta { protected internal override AnsiString GetName() => "SDL"; }
-    private sealed class GalaxyMeta : TSoundSystem.Meta { protected internal override AnsiString GetName() => "Galaxy"; }
-    private sealed class GalaxyAlias : TSdlSoundSystem { }
-    protected internal override TSample.Meta SampleClass() => TSample.Meta.Of<SdlSample>();
-    protected internal override TSampleData.Meta SampleDataClass() => TSampleData.Meta.Of<SdlSampleData>();
+    public static AnsiString Name => "SDL";
+    private static class Aliases
+    {
+        internal static readonly SoundSystemClass Galaxy = SoundSystemClass.Of<TSdlSoundSystem>().Alias("Galaxy");
+    }
+    public static SampleClass Samples { get; } = new(static data => SdlSample.Create(active!.Mixer, data));
+    public static SampleDataClass SampleData { get; } = new(SdlSampleData.Create, SdlSampleData.CreateEx);
+    protected internal override SampleClass SampleClass() => Samples;
+    protected internal override SampleDataClass SampleDataClass() => SampleData;
     protected internal override bool Activate(in TSoundSettings value)
     {
         active = this;

@@ -1174,20 +1174,15 @@ namespace Aow.Units.BehaviorAG
 
     public partial class TRegistrator : Aow.Rtl.TObject
     {
-        public new partial class Meta : Aow.Rtl.TObject.Meta
+        // BehaviorAG.pas:136
+        public static void MapLoaded(Aow.Rtl.TObject Sender)
         {
-            // BehaviorAG.pas:136
-            public void MapLoaded(Aow.Rtl.TObject Sender)
+            if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
-                {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TDefenderAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TAggressorAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TExpanderAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TScorcherAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TNormalAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TSkirmishAG>()]);
-                }
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TDefenderAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TAggressorAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TExpanderAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TScorcherAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TNormalAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TSkirmishAG>()]);
             }
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BehaviorAG.TRegistrator => (Meta)MetaRegistry.Of(typeof(T));
         }
+
     }
 
     public static partial class BehaviorAG
@@ -1197,7 +1192,7 @@ namespace Aow.Units.BehaviorAG
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
                 Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TDefenderAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TAggressorAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TExpanderAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TScorcherAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TNormalAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TSkirmishAG>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.BehaviorAG.TRegistrator.Meta.Of<Aow.Units.BehaviorAG.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.BehaviorAG.TRegistrator.MapLoaded);
             }
         }
 
@@ -1205,7 +1200,7 @@ namespace Aow.Units.BehaviorAG
         {
             if (Aow.Units.AoWE.AoWE.AoWEngine != null)
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.BehaviorAG.TRegistrator.Meta.Of<Aow.Units.BehaviorAG.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.BehaviorAG.TRegistrator.MapLoaded);
             }
         }
     }
