@@ -359,7 +359,7 @@ namespace Aow.Units.Altar
                 var call__48 = CreateStorm();
                 FStorm = call__48;
                 FStorm.UpdateTargetSelection(Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection);
-                var call__49 = FStorm.ClassType.Name();
+                var call__49 = FStorm.Name();
                 var call__50 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelectTargetLocationForXOnMapRStr);
                 var call__51 = Aow.Rtl.Rtl.Format(call__50, [call__49]);
                 Selection.FText.Text = call__51;
@@ -489,18 +489,18 @@ namespace Aow.Units.Altar
         // Altar.pas:49
 
 
+        // Altar.pas:304
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // Altar.pas:307
             public override int ClassID() => Aow.Units.Altar.TAltarResource.ClassID;
-
-            // Altar.pas:304
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"";
-                return Result;
-            }
 
             // Altar.pas:49
             public new Aow.Units.Altar.TAltarResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Altar.TAltarResource)base.Create(AOwner);

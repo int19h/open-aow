@@ -78,18 +78,18 @@ namespace Aow.Units.WorkShop
             return Result;
         }
 
+        // WorkShop.pas:42
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Workshop";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
         {
             // WorkShop.pas:39
             public override int ClassID() => Aow.Units.WorkShop.TWorkshopResource.ClassID;
-
-            // WorkShop.pas:42
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Workshop";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.WorkShop.TWorkshopResource => (Meta)MetaRegistry.Of(typeof(T));

@@ -347,18 +347,18 @@ namespace Aow.Units.CombatObstacle
             return Result;
         }
 
+        // CombatObstacle.pas:242
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = ((AnsiString)"Combat ") + Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ObstacleRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // CombatObstacle.pas:239
             public override int ClassID() => Aow.Units.CombatObstacle.TCombatObstacleResource.ClassID;
-
-            // CombatObstacle.pas:242
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = ((AnsiString)"Combat ") + Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ObstacleRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatObstacle.TCombatObstacleResource => (Meta)MetaRegistry.Of(typeof(T));

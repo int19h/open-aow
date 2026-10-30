@@ -375,20 +375,20 @@ namespace Aow.Units.AoWHex
         // AoWHex.pas:58
 
 
+        // AoWHex.pas:455
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__22 = Aow.Units.AoWE.AoWE.WaterHexagonRStr;
+            var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(call__22);
+            Result = call__23;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.IsoHex.TLowerIsometricHexagonResource.Meta
         {
             // AoWHex.pas:452
             public override int ClassID() => Aow.Units.AoWHex.TAoWWaterHexagonResource.ClassID;
-
-            // AoWHex.pas:455
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__22 = Aow.Units.AoWE.AoWE.WaterHexagonRStr;
-                var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(call__22);
-                Result = call__23;
-                return Result;
-            }
 
             // AoWHex.pas:58
             public new Aow.Units.AoWHex.TAoWWaterHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWHex.TAoWWaterHexagonResource)base.Create(AOwner);

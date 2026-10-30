@@ -410,18 +410,18 @@ namespace Aow.Units.Arena
         // Arena.pas:45
 
 
+        // Arena.pas:250
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ArenaRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Arena.pas:253
             public override int ClassID() => Aow.Units.Arena.TArenaResource.ClassID;
-
-            // Arena.pas:250
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ArenaRStr);
-                return Result;
-            }
 
             // Arena.pas:45
             public new Aow.Units.Arena.TArenaResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Arena.TArenaResource)base.Create(AOwner);

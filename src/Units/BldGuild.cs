@@ -86,18 +86,18 @@ namespace Aow.Units.BldGuild
         // BldGuild.pas:26
 
 
+        // BldGuild.pas:50
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BuildersGuildRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // BldGuild.pas:53
             public override int ClassID() => Aow.Units.BldGuild.TBuildersGuildResource.ClassID;
-
-            // BldGuild.pas:50
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BuildersGuildRStr);
-                return Result;
-            }
 
             // BldGuild.pas:26
             public new Aow.Units.BldGuild.TBuildersGuildResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BldGuild.TBuildersGuildResource)base.Create(AOwner);

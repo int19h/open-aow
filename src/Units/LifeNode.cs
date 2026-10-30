@@ -93,18 +93,18 @@ namespace Aow.Units.LifeNode
         // LifeNode.pas:27
 
 
+        // LifeNode.pas:52
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LifeNodeRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // LifeNode.pas:55
             public override int ClassID() => Aow.Units.LifeNode.TLifeNodeResource.ClassID;
-
-            // LifeNode.pas:52
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LifeNodeRStr);
-                return Result;
-            }
 
             // LifeNode.pas:27
             public new Aow.Units.LifeNode.TLifeNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.LifeNode.TLifeNodeResource)base.Create(AOwner);

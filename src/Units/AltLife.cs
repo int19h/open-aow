@@ -91,18 +91,18 @@ namespace Aow.Units.AltLife
         // AltLife.pas:26
 
 
+        // AltLife.pas:49
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfLifeRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltLife.pas:52
             public override int ClassID() => Aow.Units.AltLife.TAltarOfLifeResource.ClassID;
-
-            // AltLife.pas:49
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfLifeRStr);
-                return Result;
-            }
 
             // AltLife.pas:26
             public new Aow.Units.AltLife.TAltarOfLifeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltLife.TAltarOfLifeResource)base.Create(AOwner);

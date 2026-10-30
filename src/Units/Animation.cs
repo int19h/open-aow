@@ -114,7 +114,7 @@ namespace Aow.Units.Animation
         public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
         {
             TSet<Aow.Units.Engine.TEControlStyleElement> Result = default;
-            if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amSaveable))
+            if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amSaveable))
             {
                 Result = TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad);
             }
@@ -241,7 +241,7 @@ namespace Aow.Units.Animation
             if (!FState.Contains(Aow.Units.Animation.TAnimationStateElement.asPlaced))
             {
                 Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref X, ref Y);
-                if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap))
+                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap))
                 {
                     PlaceOnMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
@@ -262,7 +262,7 @@ namespace Aow.Units.Animation
             if (FState.Contains(Aow.Units.Animation.TAnimationStateElement.asPlaced))
             {
                 Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref X, ref Y);
-                if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap))
+                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap))
                 {
                     RemoveFromMapEx(X + FDimensions.Left, Y + FDimensions.Top, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
@@ -319,17 +319,17 @@ namespace Aow.Units.Animation
         {
             base.Activate();
             FState = FState + TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asActivated);
-            if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame))
+            if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame))
             {
                 FAnimationMap.NewFrameEvents.Add(NewFrameEvent);
             }
 
-            if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible))
+            if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible))
             {
                 FAnimationMap.DynamicFixedVisibleHS.AddChild(this);
             }
 
-            if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy))
+            if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy))
             {
                 FAnimationMap.DestroyEvents.Add(DestroyEvent);
             }
@@ -342,18 +342,18 @@ namespace Aow.Units.Animation
             if (FState.Contains(Aow.Units.Animation.TAnimationStateElement.asActivated))
             {
                 FState = FState - TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asActivated);
-                if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible))
+                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible))
                 {
                     FAnimationMap.DynamicFixedVisibleHS.RemoveChild(this);
                     FAnimationMap.DynamicVisibleHS.RemoveChild(this);
                 }
 
-                if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame))
+                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame))
                 {
                     FAnimationMap.NewFrameEvents.Remove(NewFrameEvent);
                 }
 
-                if (ClassType.AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy))
+                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy))
                 {
                     FAnimationMap.DestroyEvents.Remove(DestroyEvent);
                 }
@@ -505,18 +505,18 @@ namespace Aow.Units.Animation
         // Animation.pas:43
 
 
+        // Animation.pas:159
+        public virtual TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
+        {
+            TSet<Aow.Units.Animation.TAnimationControlModeElement> Result = default;
+            Result = TSet<Aow.Units.Animation.TAnimationControlModeElement>.Of(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame, Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible, Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // Animation.pas:143
             public override int ClassID() => Aow.Units.Animation.TAnimation.ClassID;
-
-            // Animation.pas:159
-            public virtual TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
-            {
-                TSet<Aow.Units.Animation.TAnimationControlModeElement> Result = default;
-                Result = TSet<Aow.Units.Animation.TAnimationControlModeElement>.Of(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame, Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible, Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy);
-                return Result;
-            }
 
             // Animation.pas:43
             public new Aow.Units.Animation.TAnimation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Animation.TAnimation)base.Create(AOwner);

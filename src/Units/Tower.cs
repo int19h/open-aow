@@ -217,20 +217,20 @@ namespace Aow.Units.Tower
         // Tower.pas:35
 
 
+        // Tower.pas:121
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__13 = Aow.Units.AoWE.AoWE.TowerRStr;
+            var call__14 = Aow.Units.AoWE.AoWE.TranslateRStr(call__13);
+            Result = call__14;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // Tower.pas:124
             public override int ClassID() => Aow.Units.Tower.TTowerResource.ClassID;
-
-            // Tower.pas:121
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__13 = Aow.Units.AoWE.AoWE.TowerRStr;
-                var call__14 = Aow.Units.AoWE.AoWE.TranslateRStr(call__13);
-                Result = call__14;
-                return Result;
-            }
 
             // Tower.pas:35
             public new Aow.Units.Tower.TTowerResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Tower.TTowerResource)base.Create(AOwner);
@@ -294,16 +294,16 @@ namespace Aow.Units.Tower
             return Result;
         }
 
+        // Tower.pas:130
+        public override int ID()
+        {
+            int Result = default;
+            Result = 3;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
         {
-            // Tower.pas:130
-            public override int ID()
-            {
-                int Result = default;
-                Result = 3;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Tower.TTowerConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524

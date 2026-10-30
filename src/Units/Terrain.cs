@@ -62,18 +62,18 @@ namespace Aow.Units.Terrain
         // Terrain.pas:42
 
 
+        // Terrain.pas:317
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.HSEngine.HSEngine.TerrainStr;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // Terrain.pas:327
             public override int ClassID() => Aow.Units.Terrain.TTerrainMOR.ClassID;
-
-            // Terrain.pas:317
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.HSEngine.HSEngine.TerrainStr;
-                return Result;
-            }
 
             // Terrain.pas:42
             public new Aow.Units.Terrain.TTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Terrain.TTerrainMOR)base.Create(AOwner);

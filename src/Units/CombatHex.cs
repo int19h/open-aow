@@ -393,19 +393,19 @@ namespace Aow.Units.CombatHex
             return Result;
         }
 
+        // CombatHex.pas:188
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Hexagon";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // CombatHex.pas:185
             // { $34 }
             public override int ClassID() => Aow.Units.CombatHex.TCombatHexagonResource.ClassID;
-
-            // CombatHex.pas:188
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Hexagon";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatHex.TCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -468,18 +468,18 @@ namespace Aow.Units.CombatHex
             return Result;
         }
 
+        // CombatHex.pas:225
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Water/Ice hex";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWHex.TAoWWaterHexagonResource.Meta
         {
             // CombatHex.pas:222
             public override int ClassID() => Aow.Units.CombatHex.TWaterCombatHexagonResource.ClassID;
-
-            // CombatHex.pas:225
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Water/Ice hex";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatHex.TWaterCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));

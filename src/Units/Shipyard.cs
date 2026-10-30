@@ -99,18 +99,18 @@ namespace Aow.Units.Shipyard
         // Shipyard.pas:29
 
 
+        // Shipyard.pas:69
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ShipyardRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // Shipyard.pas:72
             public override int ClassID() => Aow.Units.Shipyard.TShipyardResource.ClassID;
-
-            // Shipyard.pas:69
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ShipyardRStr);
-                return Result;
-            }
 
             // Shipyard.pas:29
             public new Aow.Units.Shipyard.TShipyardResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Shipyard.TShipyardResource)base.Create(AOwner);
@@ -195,16 +195,16 @@ namespace Aow.Units.Shipyard
             return Result;
         }
 
+        // Shipyard.pas:78
+        public override int ID()
+        {
+            int Result = default;
+            Result = 4;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
         {
-            // Shipyard.pas:78
-            public override int ID()
-            {
-                int Result = default;
-                Result = 4;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Shipyard.TShipyardConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524

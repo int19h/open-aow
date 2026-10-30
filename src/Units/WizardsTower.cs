@@ -450,20 +450,20 @@ namespace Aow.Units.WizardsTower
             return Result;
         }
 
+        // WizardsTower.pas:260
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__57 = Aow.Units.AoWE.AoWE.WizardsTowerRStr;
+            var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(call__57);
+            Result = call__58;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // WizardsTower.pas:263
             public override int ClassID() => Aow.Units.WizardsTower.TWizardsTowerResource.ClassID;
-
-            // WizardsTower.pas:260
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__57 = Aow.Units.AoWE.AoWE.WizardsTowerRStr;
-                var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(call__57);
-                Result = call__58;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.WizardsTower.TWizardsTowerResource => (Meta)MetaRegistry.Of(typeof(T));

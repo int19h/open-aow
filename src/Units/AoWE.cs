@@ -16087,7 +16087,7 @@ namespace Aow.Units.AoWE
                     Group = call__1552.FGroup;
                     if (Group != null)
                     {
-                        var call__1553 = Group.ClassType.Behavior();
+                        var call__1553 = Group.GroupClass.Behavior;
                         Text = (((((((((((((Text + Aow.Units.AoWE.AoWE.TGroupBehaviorStr[(int)call__1553]) + ((AnsiString)"(GID:")) + Aow.Rtl.Rtl.IntToStr(Group.FGroupID)) + ((AnsiString)"/Target:")) + Aow.Rtl.Rtl.IntToStr(Group.FTargetXYL.X)) + AnsiString.FromBytes(44)) + Aow.Rtl.Rtl.IntToStr(Group.FTargetXYL.Y)) + AnsiString.FromBytes(44)) + Aow.Rtl.Rtl.IntToStr(Group.FTargetXYL.L)) + ((AnsiString)"/Budget:")) + Aow.Rtl.Rtl.IntToStr(Group.FGoldBudget)) + ((AnsiString)"/MP:")) + Aow.Rtl.Rtl.IntToStr(Group.FTargetMovePoints)) + AnsiString.FromBytes(41);
                         if (Group.FTargetType == Aow.Units.AoWE.TAIGroupTargetStatus.gtsSetup)
                         {
@@ -18801,9 +18801,9 @@ namespace Aow.Units.AoWE
             FAIGroupManager = call__1716;
             var call__1717 = new Aow.Units.AoWE.TAIPlayerActionManager(null);
             FAIPlayerActionManager = call__1717;
-            FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TEndTurnAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TGroupControlAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TGroupControlLoopAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TInitializeAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TBudgetManagerAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TAutoProduceAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TDiplomacyAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TProcessEventlogAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TResearchSpellAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TCastSpellAIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TStructurePhase1AIPA>(), Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.AoWE.TStructurePhase2AIPA>()]);
+            FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TEndTurnAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TGroupControlAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TGroupControlLoopAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TInitializeAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TBudgetManagerAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TAutoProduceAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TDiplomacyAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TProcessEventlogAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TResearchSpellAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TCastSpellAIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TStructurePhase1AIPA>(), Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.AoWE.TStructurePhase2AIPA>()]);
             FTokenManager.TokenExecuter.OnEventsExecuted.Add(FAIExecuter.TokenControlDoneEvent);
-            FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.AoWE.THuntAG>()]);
+            FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.AoWE.THuntAG>()]);
             FPlayMode = Aow.Units.AoWE.TPlayMode.pmNone;
             var call__1718 = new Aow.Units.AoWE.TAoWHSMapKeyboard(null);
             FKeyboard = call__1718;
@@ -21850,21 +21850,16 @@ namespace Aow.Units.AoWE
     }
 
     // { TAoWMapObjectEditor (instance size 8, VMT 5570EC78) }
-    public partial class TAoWMapObjectEditor : Aow.Units.Engine.TEObjectEditor
+    public partial class TAoWMapObjectEditor : Aow.Units.Engine.TEObjectEditor, Aow.Units.Engine.IEObjectEditorClass
     {
         public TAoWMapObjectEditor(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
+        // Army.PAS:5753
+        public static new int EditorClassID => 65878;
+
         public new partial class Meta : Aow.Units.Engine.TEObjectEditor.Meta
         {
-            // Army.PAS:5753
-            public override int EditorClassID()
-            {
-                int Result = default;
-                Result = 65878;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAoWMapObjectEditor => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -23231,11 +23226,11 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAbility(context, owner));
         }
 
+        // Ability.PAS:1445
+        public virtual Aow.Units.Engine.EClass AbilityDataClass() => default;
+
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
-            // Ability.PAS:1445
-            public virtual Aow.Units.Engine.EClass AbilityDataClass() => default;
-
             public new Aow.Units.AoWE.TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
                 => (Aow.Units.AoWE.TAbility)base.Create(AOwner);
 
@@ -28456,7 +28451,7 @@ namespace Aow.Units.AoWE
             bool bool__2391 = (FGroup == null);
             if (!bool__2391)
             {
-                var call__2392 = FGroup.ClassType.Behavior();
+                var call__2392 = FGroup.GroupClass.Behavior;
                 bool__2391 = !TSet<Aow.Units.AoWE.TGroupBehavior>.Of(Aow.Units.AoWE.TGroupBehavior.gbGuard, Aow.Units.AoWE.TGroupBehavior.gbGuardArea).Contains(call__2392);
             }
 
@@ -28516,7 +28511,7 @@ namespace Aow.Units.AoWE
                 bool bool__2408 = Result && (FGroup != null);
                 if (bool__2408)
                 {
-                    var call__2409 = FGroup.ClassType.Behavior();
+                    var call__2409 = FGroup.GroupClass.Behavior;
                     bool__2408 = (call__2409 == Aow.Units.AoWE.TGroupBehavior.gbHunt);
                 }
 
@@ -28547,7 +28542,7 @@ namespace Aow.Units.AoWE
             int Result = default;
             Aow.Units.AoWE.TUnitUserList Group = default;
             Group = FGroup;
-            if ((Group != null) && (((Aow.Units.AoWE.TAIGroup)((System.Object)Group)).ClassType.Behavior() == Aow.Units.AoWE.TGroupBehavior.gbRefuge))
+            if ((Group != null) && (((Aow.Units.AoWE.TAIGroup)((System.Object)Group)).GroupClass.Behavior == Aow.Units.AoWE.TGroupBehavior.gbRefuge))
             {
                 Result = 0;
             }
@@ -28578,7 +28573,7 @@ namespace Aow.Units.AoWE
                 else
                 {
                     Group = FGroup;
-                    if ((Group != null) && (((Aow.Units.AoWE.TAIGroup)((System.Object)Group)).ClassType.Behavior() == Aow.Units.AoWE.TGroupBehavior.gbRefuge))
+                    if ((Group != null) && (((Aow.Units.AoWE.TAIGroup)((System.Object)Group)).GroupClass.Behavior == Aow.Units.AoWE.TGroupBehavior.gbRefuge))
                     {
                         var call__2415 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(Player));
                         var call__2416 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource((int)(call__2415.FPlayerRace));
@@ -28633,7 +28628,7 @@ namespace Aow.Units.AoWE
             {
                 case Aow.Units.AoWE.TJoinMode.jmDefault:
                     Group = FGroup;
-                    if (((Group != null) && (((Aow.Units.AoWE.TAIGroup)((System.Object)Group)).ClassType.Behavior() == Aow.Units.AoWE.TGroupBehavior.gbRefuge)) && (Amount == 0))
+                    if (((Group != null) && (((Aow.Units.AoWE.TAIGroup)((System.Object)Group)).GroupClass.Behavior == Aow.Units.AoWE.TGroupBehavior.gbRefuge)) && (Amount == 0))
                     {
                         if (Count == 0)
                         {
@@ -30720,16 +30715,16 @@ namespace Aow.Units.AoWE
             }
         }
 
+        // UnitRes.PAS:62
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Unit";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
-            // UnitRes.PAS:62
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Unit";
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAbstractUnitResource => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -31919,7 +31914,7 @@ namespace Aow.Units.AoWE
             {
                 Result -= 1;
                 Group = ((Aow.Units.AoWE.TAbstractUnit)FChildren.List[Result]).FGroup;
-                if ((Group != null) && (Group.ClassType.Behavior() == Behavior))
+                if ((Group != null) && (Group.GroupClass.Behavior == Behavior))
                 {
                     return Result;
                 }
@@ -35920,7 +35915,7 @@ namespace Aow.Units.AoWE
                     bool bool__2950 = (FGroup == null);
                     if (!bool__2950)
                     {
-                        var call__2951 = FGroup.ClassType.Behavior();
+                        var call__2951 = FGroup.GroupClass.Behavior;
                         bool__2950 = (call__2951 != Aow.Units.AoWE.TGroupBehavior.gbRefuge);
                     }
 
@@ -35988,7 +35983,7 @@ namespace Aow.Units.AoWE
                         bool bool__2965 = (FGroup == null);
                         if (!bool__2965)
                         {
-                            var call__2966 = FGroup.ClassType.Behavior();
+                            var call__2966 = FGroup.GroupClass.Behavior;
                             bool__2965 = (call__2966 != Aow.Units.AoWE.TGroupBehavior.gbRefuge);
                         }
 
@@ -40423,7 +40418,7 @@ namespace Aow.Units.AoWE
                     AUnit = (Aow.Units.AoWE.TAbstractUnit)FChildren.List[I];
                     if (AUnit.FGroup != null)
                     {
-                        var call__3280 = AUnit.FGroup.ClassType.Behavior();
+                        var call__3280 = AUnit.FGroup.GroupClass.Behavior;
                         Behavior = call__3280;
                     }
                     else
@@ -40447,14 +40442,14 @@ namespace Aow.Units.AoWE
                             bool bool__3284 = (AUnit.FGroup != null);
                             if (bool__3284)
                             {
-                                var call__3285 = AUnit.FGroup.ClassType.Behavior();
+                                var call__3285 = AUnit.FGroup.GroupClass.Behavior;
                                 bool__3284 = (call__3285 != Aow.Units.AoWE.TGroupBehavior.gbPassive);
                             }
 
                             bool bool__3286 = bool__3284;
                             if (bool__3286)
                             {
-                                var call__3287 = AUnit.FGroup.ClassType.Behavior();
+                                var call__3287 = AUnit.FGroup.GroupClass.Behavior;
                                 bool__3286 = (call__3287 != Aow.Units.AoWE.TGroupBehavior.gbGuard);
                             }
 
@@ -40630,7 +40625,7 @@ namespace Aow.Units.AoWE
             Group = GetGroup(unchecked((byte)Selection));
             if (Group != null)
             {
-                Result = Group.ClassType.Behavior();
+                Result = Group.GroupClass.Behavior;
             }
             else
             {
@@ -43957,7 +43952,7 @@ namespace Aow.Units.AoWE
                             bool bool__3576 = (AUnit.FGroup != null);
                             if (bool__3576)
                             {
-                                var call__3577 = AUnit.FGroup.ClassType.Behavior();
+                                var call__3577 = AUnit.FGroup.GroupClass.Behavior;
                                 bool__3576 = (call__3577 != Aow.Units.AoWE.TGroupBehavior.gbPassive);
                             }
 
@@ -46231,18 +46226,18 @@ namespace Aow.Units.AoWE
 
         // intf_P1_09.inc:24
 
+        // PlayerC.PAS:1815
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Race";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
             // PlayerC.PAS:1812
             public override int ClassID() => Aow.Units.AoWE.TRaceResource.ClassID;
-
-            // PlayerC.PAS:1815
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Race";
-                return Result;
-            }
 
             // intf_P1_09.inc:24
             public new TRaceResource Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -48540,18 +48535,18 @@ namespace Aow.Units.AoWE
         // intf_P1_09.inc:200
 
 
+        // Structur.PAS:1914
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMOR.Meta
         {
             // Structur.PAS:1911
             public override int ClassID() => Aow.Units.AoWE.TStructureResource.ClassID;
-
-            // Structur.PAS:1914
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"";
-                return Result;
-            }
 
             // intf_P1_09.inc:200
             public new Aow.Units.AoWE.TStructureResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TStructureResource)base.Create(AOwner);
@@ -51897,18 +51892,18 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
+        // Structur.PAS:3692
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // Structur.PAS:3697
             public override int ClassID() => Aow.Units.AoWE.TFireResource.ClassID;
-
-            // Structur.PAS:3692
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TFireResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -60019,7 +60014,7 @@ namespace Aow.Units.AoWE
     // { Interface declaration run owned by P5. }
     // { TAIPlayerAction (instance size $14, VMT 55717458).
 //     $08 process cycles, $0C player control, $10 phase. }
-    public partial class TAIPlayerAction : Aow.Units.Engine.TEObject
+    public partial class TAIPlayerAction : Aow.Units.Engine.TEObject, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Raw allocation for TCityAIPA legacy factories.
         protected TAIPlayerAction() { }
@@ -60041,7 +60036,7 @@ namespace Aow.Units.AoWE
             bool Result = default;
             FControl = Control;
             FPhase = Phase;
-            Result = ClassType.SupportedPhases().Contains(Phase);
+            Result = ActionClass.SupportedPhases.Contains(Phase);
             return Result;
         }
 
@@ -60071,25 +60066,15 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        // Engine.pas:524
+        // intf_P5_06.inc:10
+        public static int Priority => throw EAbstractError.Create("Abstract Error");
+
+        // AI.pas:1
+        // { $4C }
+        public static TSet<Aow.Units.AoWE.TAIPlayerProcessPhase> SupportedPhases => TSet<Aow.Units.AoWE.TAIPlayerProcessPhase>.Of(Aow.Units.AoWE.TAIPlayerProcessPhase.appMain);
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
-            // intf_P5_06.inc:10
-            public virtual int Priority()
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
-
-            // AI.pas:1
-            // { $4C }
-            public virtual TSet<Aow.Units.AoWE.TAIPlayerProcessPhase> SupportedPhases()
-            {
-                TSet<Aow.Units.AoWE.TAIPlayerProcessPhase> Result = default;
-                Result = TSet<Aow.Units.AoWE.TAIPlayerProcessPhase>.Of(Aow.Units.AoWE.TAIPlayerProcessPhase.appMain);
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAIPlayerAction => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -60157,15 +60142,15 @@ namespace Aow.Units.AoWE
         }
 
         // AI.pas:53
-        public Aow.Units.AoWE.TAIPlayerAction.Meta GetRegisteredClasses(int Index)
+        public Aow.Units.AoWE.AIPlayerActionClass GetRegisteredClasses(int Index)
         {
-            Aow.Units.AoWE.TAIPlayerAction.Meta Result = default;
-            Result = (Aow.Units.AoWE.TAIPlayerAction.Meta)FRegisteredClasses.List[Index];
+            Aow.Units.AoWE.AIPlayerActionClass Result = default;
+            Result = (Aow.Units.AoWE.AIPlayerActionClass)FRegisteredClasses.List[Index];
             return Result;
         }
 
         // AI.pas:63
-        public void RegisterClasses(ReadOnlySpan<Aow.Units.AoWE.TAIPlayerAction.Meta> Classes)
+        public void RegisterClasses(ReadOnlySpan<Aow.Units.AoWE.AIPlayerActionClass> Classes)
         {
             int I = default;
             {
@@ -60187,7 +60172,7 @@ namespace Aow.Units.AoWE
         }
 
         // AI.pas:76
-        public void UnRegisterClasses(ReadOnlySpan<Aow.Units.AoWE.TAIPlayerAction.Meta> Classes)
+        public void UnRegisterClasses(ReadOnlySpan<Aow.Units.AoWE.AIPlayerActionClass> Classes)
         {
             int I = default;
             {
@@ -60408,7 +60393,7 @@ namespace Aow.Units.AoWE
         public void SetupProcessPhase(Aow.Units.AoWE.TAIPlayerProcessPhase Phase)
         {
             int I = default;
-            Aow.Units.AoWE.TAIPlayerAction.Meta ActionClass = default;
+            Aow.Units.AoWE.AIPlayerActionClass ActionClass = default;
             Aow.Units.AoWE.TAIPlayerAction Action = default;
             FActions.Clear();
             {
@@ -60418,7 +60403,7 @@ namespace Aow.Units.AoWE
                 {
                     var call__4785 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIPlayerActionManager.GetRegisteredClasses(I);
                     ActionClass = call__4785;
-                    if (ActionClass.SupportedPhases().Contains(Phase))
+                    if (ActionClass.SupportedPhases.Contains(Phase))
                     {
                         Action = ActionClass.Create(null);
                         if (Action.Setup(this, Phase))
@@ -66768,7 +66753,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TEndTurnAIPA (instance size 20, VMT 55718EDC) }
-    public partial class TEndTurnAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TEndTurnAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         public TEndTurnAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -66803,16 +66788,11 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
+        // AI.pas:1029
+        public static new int Priority => 10;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // AI.pas:1029
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 10;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TEndTurnAIPA => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -66824,7 +66804,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TInitializeAIPA (instance size 20, VMT 55718FB4) }
-    public partial class TInitializeAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TInitializeAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         public TInitializeAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -66843,16 +66823,11 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
+        // AI.pas:1014
+        public static new int Priority => 1000;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // AI.pas:1014
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 1000;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TInitializeAIPA => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -66864,7 +66839,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TGroupControlAIPA (instance size $1C). $14 group cycles, $18 group control. }
-    public partial class TGroupControlAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TGroupControlAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:1049
         public TGroupControlAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -66990,16 +66965,11 @@ namespace Aow.Units.AoWE
 
         // intf_P5_06.inc:504
 
+        // AI.pas:1060
+        public static new int Priority => 20;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // AI.pas:1060
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 20;
-                return Result;
-            }
-
             // intf_P5_06.inc:504
             public new TGroupControlAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -67012,7 +66982,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TGroupControlLoopAIPA (instance size $1C). $14 group cycles, $18 group control. }
-    public partial class TGroupControlLoopAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TGroupControlLoopAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:1119
         public TGroupControlLoopAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -67159,24 +67129,14 @@ namespace Aow.Units.AoWE
 
         // intf_P5_06.inc:517
 
+        // AI.pas:1130
+        public static new int Priority => 20;
+
+        // AI.pas:1133
+        public static new TSet<Aow.Units.AoWE.TAIPlayerProcessPhase> SupportedPhases => TSet<Aow.Units.AoWE.TAIPlayerProcessPhase>.Of(Aow.Units.AoWE.TAIPlayerProcessPhase.appLoop);
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // AI.pas:1130
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 20;
-                return Result;
-            }
-
-            // AI.pas:1133
-            public override TSet<Aow.Units.AoWE.TAIPlayerProcessPhase> SupportedPhases()
-            {
-                TSet<Aow.Units.AoWE.TAIPlayerProcessPhase> Result = default;
-                Result = TSet<Aow.Units.AoWE.TAIPlayerProcessPhase>.Of(Aow.Units.AoWE.TAIPlayerProcessPhase.appLoop);
-                return Result;
-            }
-
             // intf_P5_06.inc:517
             public new TGroupControlLoopAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -68241,7 +68201,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TBudgetManagerAIPA (instance size $14, VMT 557196F0). No new fields. }
-    public partial class TBudgetManagerAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TBudgetManagerAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:2201
         public TBudgetManagerAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -68264,16 +68224,11 @@ namespace Aow.Units.AoWE
 
         // intf_P5_06.inc:627
 
+        // AI.pas:2207
+        public static new int Priority => 25;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // AI.pas:2207
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 25;
-                return Result;
-            }
-
             // intf_P5_06.inc:627
             public new TBudgetManagerAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -68287,7 +68242,7 @@ namespace Aow.Units.AoWE
 
     // { TAutoProduceAIPA (instance size $28, VMT 557197D4).
 //     $14 production index, $18 state, $1C gold upkeep, $20 mana upkeep, $24 productions. }
-    public partial class TAutoProduceAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TAutoProduceAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:1202
         public TAutoProduceAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -68968,16 +68923,11 @@ namespace Aow.Units.AoWE
 
         // intf_P5_06.inc:642
 
+        // AI.pas:1214
+        public static new int Priority => 12;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // AI.pas:1214
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 12;
-                return Result;
-            }
-
             // intf_P5_06.inc:642
             public new TAutoProduceAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -68990,7 +68940,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TProcessEventlogAIPA (instance size $18, VMT 557198B4). $14 log index. }
-    public partial class TProcessEventlogAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TProcessEventlogAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:1610
         public TProcessEventlogAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -69059,16 +69009,11 @@ namespace Aow.Units.AoWE
 
         // intf_P5_06.inc:662
 
+        // AI.pas:1621
+        public static new int Priority => 999;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // AI.pas:1621
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 999;
-                return Result;
-            }
-
             // intf_P5_06.inc:662
             public new TProcessEventlogAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -69182,7 +69127,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TStructurePhase1AIPA (instance size 28, VMT 55719A78) }
-    public partial class TStructurePhase1AIPA : Aow.Units.AoWE.TStructureAIPA
+    public partial class TStructurePhase1AIPA : Aow.Units.AoWE.TStructureAIPA, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Structur.PAS:3361
         // { TStructurePhase1AIPA (instance size 28; inherited $14 phase). }
@@ -69193,16 +69138,11 @@ namespace Aow.Units.AoWE
 
         // intf_P1_12.inc:16
 
+        // Structur.PAS:3367
+        public static new int Priority => 21;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // Structur.PAS:3367
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 21;
-                return Result;
-            }
-
             // intf_P1_12.inc:16
             public new TStructurePhase1AIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -69215,7 +69155,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TStructurePhase2AIPA (instance size 28, VMT 55719B60) }
-    public partial class TStructurePhase2AIPA : Aow.Units.AoWE.TStructureAIPA
+    public partial class TStructurePhase2AIPA : Aow.Units.AoWE.TStructureAIPA, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Structur.PAS:3373
         // { TStructurePhase2AIPA (instance size 28): inherited $14 FPhase. }
@@ -69226,16 +69166,11 @@ namespace Aow.Units.AoWE
 
         // intf_P1_12.inc:23
 
+        // Structur.PAS:3379
+        public static new int Priority => 15;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // Structur.PAS:3379
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 15;
-                return Result;
-            }
-
             // intf_P1_12.inc:23
             public new TStructurePhase2AIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -69352,7 +69287,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    public partial class TAIGroup : Aow.Units.AoWE.TUnitUserList
+    public partial class TAIGroup : Aow.Units.AoWE.TUnitUserList, Aow.Units.AoWE.IAIGroupClass
     {
         // AIGroup.pas:101
         public new const int ClassID = 136272;
@@ -69756,9 +69691,9 @@ namespace Aow.Units.AoWE
         public virtual Aow.Units.AoWE.TAIGroupControl CreateGroupControl()
         {
             Aow.Units.AoWE.TAIGroupControl Result = default;
-            var call__5629 = ClassType.GroupControlClass();
+            var call__5629 = GroupControlClass();
             var call__5630 = call__5629.Create(null);
-            Result = call__5630;
+            Result = (Aow.Units.AoWE.TAIGroupControl)call__5630;
             Result.FGroup = this;
             AddRef();
             return Result;
@@ -69795,8 +69730,8 @@ namespace Aow.Units.AoWE
         public virtual bool CooperateWithGroup(Aow.Units.AoWE.TAIGroup Group, Aow.Units.AoWE.TAIGroupControlTarget Target)
         {
             bool Result = default;
-            var call__5634 = Group.ClassType.Behavior();
-            var call__5635 = ClassType.Behavior();
+            var call__5634 = Group.GroupClass.Behavior;
+            var call__5635 = GroupClass.Behavior;
             Result = call__5634 == call__5635;
             return Result;
         }
@@ -70195,28 +70130,23 @@ namespace Aow.Units.AoWE
 
         // intf_P5_07.inc:54
 
+        // AIGroup.pas:123
+        // { $C0 }
+        public virtual Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAIGroupControl>();
+            return Result;
+        }
+
+        // AIGroup.pas:121
+        // { $CC }
+        public static Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbNone;
+
         public new partial class Meta : Aow.Units.Engine.TEChangeNotifyNode.Meta
         {
             // AIGroup.pas:101
             public override int ClassID() => Aow.Units.AoWE.TAIGroup.ClassID;
-
-            // AIGroup.pas:123
-            // { $C0 }
-            public virtual Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.AoWE.TAIGroupControl>();
-                return Result;
-            }
-
-            // AIGroup.pas:121
-            // { $CC }
-            public virtual Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbNone;
-                return Result;
-            }
 
             // intf_P5_07.inc:54
             public new TAIGroup Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -70261,7 +70191,7 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:583
-        public void RegisterAIGroupClasses(ReadOnlySpan<Aow.Units.AoWE.TAIGroup.Meta> Classes)
+        public void RegisterAIGroupClasses(ReadOnlySpan<Aow.Units.AoWE.AIGroupClass> Classes)
         {
             int I = default;
             {
@@ -70279,7 +70209,7 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:592
-        public void UnregisterAIGroupClasses(ReadOnlySpan<Aow.Units.AoWE.TAIGroup.Meta> Classes)
+        public void UnregisterAIGroupClasses(ReadOnlySpan<Aow.Units.AoWE.AIGroupClass> Classes)
         {
             int I = default;
             {
@@ -70304,14 +70234,14 @@ namespace Aow.Units.AoWE
             {
                 I -= 1;
                 var call__5674 = FRegisteredClasses[I];
-                var call__5675 = ((Aow.Units.AoWE.TAIGroup.Meta)call__5674).Behavior();
+                var call__5675 = ((Aow.Units.AoWE.AIGroupClass)call__5674).Behavior;
                 Found = Behavior == call__5675;
             }
 
             if (Found)
             {
                 var call__5676 = FRegisteredClasses[I];
-                var call__5677 = ((Aow.Units.AoWE.TAIGroup.Meta)call__5676).Create(this);
+                var call__5677 = ((Aow.Units.AoWE.AIGroupClass)call__5676).Create(this);
                 Result = call__5677;
                 var call__5678 = CreateUniqueID();
                 Result.FGroupID = call__5678;
@@ -71313,7 +71243,7 @@ namespace Aow.Units.AoWE
 
                 if (Found)
                 {
-                    var call__5712 = FGroup.ClassType.Behavior();
+                    var call__5712 = FGroup.GroupClass.Behavior;
                     var call__5713 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.CreateGroup(unchecked((sbyte)FGroup.FPlayer), unchecked((sbyte)FGroup.FIndependentRelation), call__5712);
                     Group = call__5713;
                     Group.FStatus = Group.FStatus + TSet<Aow.Units.AoWE.TAIGroupStatusElement>.Of(Aow.Units.AoWE.TAIGroupStatusElement.agsSplit);
@@ -75279,7 +75209,7 @@ namespace Aow.Units.AoWE
                             if (call__6135)
                             {
                                 var group2 = FGroupControl.FGroup;
-                                var call__6137 = group2.ClassType.Behavior();
+                                var call__6137 = group2.GroupClass.Behavior;
                                 var call__6138 = Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.CreateGroup(unchecked((sbyte)group2.FPlayer), unchecked((sbyte)group2.FIndependentRelation), call__6137);
                                 Group = call__6138;
 
@@ -75975,7 +75905,7 @@ namespace Aow.Units.AoWE
 
     // { THuntAG (instance size 84, VMT 5571B8D0) }
     // { THuntAG (instance size $54). $50 hunted unit IDs. }
-    public partial class THuntAG : Aow.Units.AoWE.TAIGroup
+    public partial class THuntAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // AIGroup.pas:1442
         public new const int ClassID = 136288;
@@ -76025,26 +75955,21 @@ namespace Aow.Units.AoWE
 
         // intf_P5_07.inc:660
 
+        // AIGroup.pas:1452
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THuntAGC>();
+            return Result;
+        }
+
+        // AIGroup.pas:1447
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbHunt;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // AIGroup.pas:1442
             public override int ClassID() => Aow.Units.AoWE.THuntAG.ClassID;
-
-            // AIGroup.pas:1452
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.AoWE.THuntAGC>();
-                return Result;
-            }
-
-            // AIGroup.pas:1447
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbHunt;
-                return Result;
-            }
 
             // intf_P5_07.inc:660
             public new THuntAG Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -81663,16 +81588,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDurationAbility(context, owner));
         }
 
+        // AoWAb.PAS:30
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDurationAbilityData>();
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:30
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDurationAbilityData>();
-                return Result;
-            }
-
             public new Aow.Units.AoWE.TDurationAbility Create(Aow.Units.Engine.TECustomNode AOwner)
                 => (Aow.Units.AoWE.TDurationAbility)base.Create(AOwner);
 
@@ -81777,12 +81702,12 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TMultiLevelAbility(context, owner));
         }
 
+        // AoWAb.PAS:317
+        // { branch past the missing-data exit and nil-owner zero result }
+        public override Aow.Units.Engine.EClass AbilityDataClass() => Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:317
-            // { branch past the missing-data exit and nil-owner zero result }
-            public override Aow.Units.Engine.EClass AbilityDataClass() => Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
-
             public new Aow.Units.AoWE.TMultiLevelAbility Create(Aow.Units.Engine.TECustomNode AOwner)
                 => (Aow.Units.AoWE.TMultiLevelAbility)base.Create(AOwner);
 
@@ -84705,16 +84630,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPossessedAbility(context, owner));
         }
 
+        // AoWAb.PAS:2592
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.AoWE.AoWE.P4PossessedDataClass;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:2592
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.AoWE.AoWE.P4PossessedDataClass;
-                return Result;
-            }
-
             // intf_P4_02.inc:288
             public new TPossessedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -86234,16 +86159,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTurnUndeadAbility(context, owner));
         }
 
+        // AoWAb.PAS:3164
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:3164
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
-                return Result;
-            }
-
             // intf_P4_02.inc:391
             public new TTurnUndeadAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -86730,16 +86655,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCommandedAbility(context, owner));
         }
 
+        // AoWAb.PAS:5019
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.AoWE.AoWE.P4CommandedDataClass;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:5019
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.AoWE.AoWE.P4CommandedDataClass;
-                return Result;
-            }
-
             // intf_P4_02.inc:446
             public new TCommandedAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -87267,7 +87192,7 @@ namespace Aow.Units.AoWE
             Uncommand(Target);
             // { Inline the returned class receiver. }
             var call__7374 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(FCommandedAbilityID);
-            var call__7375 = call__7374.ClassType.AbilityDataClass();
+            var call__7375 = call__7374.AbilityDataClass();
             var call__7376 = call__7375.Create(null);
             TargetData = (Aow.Units.AoWE.TCommandedAbilityData)call__7376;
             TargetData.FAbilityID = FCommandedAbilityID;
@@ -87382,16 +87307,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCommandAbility(context, owner));
         }
 
+        // AoWAb.PAS:5093
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.AoWE.AoWE.P4CommandDataClass;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:5093
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.AoWE.AoWE.P4CommandDataClass;
-                return Result;
-            }
-
             // intf_P4_02.inc:486
             public new TCommandAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -88857,16 +88782,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THealingAbility(context, owner));
         }
 
+        // AoWAb.PAS:3659
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.AoWE.AoWE.P4HealingDataClass;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:3659
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.AoWE.AoWE.P4HealingDataClass;
-                return Result;
-            }
-
             // intf_P4_02.inc:632
             public new THealingAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -89883,16 +89808,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDispelMagicAbility(context, owner));
         }
 
+        // AoWAb.PAS:4092
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.AoWE.AoWE.P4DispelMagicDataClass;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:4092
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.AoWE.AoWE.P4DispelMagicDataClass;
-                return Result;
-            }
-
             // intf_P4_02.inc:710
             public new TDispelMagicAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -90144,16 +90069,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLeadershipAbility(context, owner));
         }
 
+        // AoWAb.PAS:973
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TLeadershipAbilityData>();
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TMultiLevelAbility.Meta
         {
-            // AoWAb.PAS:973
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TLeadershipAbilityData>();
-                return Result;
-            }
-
             // intf_P4_02.inc:751
             public new TLeadershipAbility Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -90740,16 +90665,16 @@ namespace Aow.Units.AoWE
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnitEnchantmentAbility(context, owner));
         }
 
+        // AoWAb.PAS:658
+        public override Aow.Units.Engine.EClass AbilityDataClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>();
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
-            // AoWAb.PAS:658
-            public override Aow.Units.Engine.EClass AbilityDataClass()
-            {
-                Aow.Units.Engine.EClass Result = default;
-                Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>();
-                return Result;
-            }
-
             public new Aow.Units.AoWE.TUnitEnchantmentAbility Create(Aow.Units.Engine.TECustomNode AOwner)
                 => (Aow.Units.AoWE.TUnitEnchantmentAbility)base.Create(AOwner);
 
@@ -90806,17 +90731,17 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
+        // AoWAb.PAS:5517
+        // { +054 }
+        public virtual int ID()
+        {
+            int Result = default;
+            Result = 0;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
-            // AoWAb.PAS:5517
-            // { +054 }
-            public virtual int ID()
-            {
-                int Result = default;
-                Result = 0;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -90856,7 +90781,7 @@ namespace Aow.Units.AoWE
             {
                 I -= 1;
                 // { Read the list again after the virtual ID call. }
-                var call__7700 = ((Aow.Units.AoWE.TConstructionControl)FChildren.List[I]).ClassType.ID();
+                var call__7700 = ((Aow.Units.AoWE.TConstructionControl)FChildren.List[I]).ID();
                 if (call__7700 == ID)
                 {
                     Result = (Aow.Units.AoWE.TConstructionControl)FChildren.List[I];
@@ -90927,7 +90852,7 @@ namespace Aow.Units.AoWE
         {
             int ControlID = default;
             // { Pass the control ID directly without retaining a local. }
-            var call__7705 = Control.ClassType.ID();
+            var call__7705 = Control.ID();
             var call__7706 = FConstructionControls.FindID(call__7705);
             if (call__7706 != null)
             {
@@ -93466,7 +93391,7 @@ namespace Aow.Units.AoWE
 
     // { 5577B014 }
     // { TResearchSpellAIPA (instance size 20, VMT 557236C4) }
-    public partial class TResearchSpellAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TResearchSpellAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         public TResearchSpellAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -93523,17 +93448,12 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
+        // Spells.PAS:1502
+        // { TResearchSpellAIPA: instance size 20; inherited $0C player control. }
+        public static new int Priority => 22;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // Spells.PAS:1502
-            // { TResearchSpellAIPA: instance size 20; inherited $0C player control. }
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 22;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TResearchSpellAIPA => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -93587,7 +93507,7 @@ namespace Aow.Units.AoWE
 
     // { 5577B8EC }
     // { TCastSpellAIPA (instance size 40, VMT 55723984) }
-    public partial class TCastSpellAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TCastSpellAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Spells.PAS:1543
         // { TCastSpellAIPA: instance size 40; $14 state, $18 casting heroes,
@@ -93907,16 +93827,11 @@ namespace Aow.Units.AoWE
 
         // intf_P4_02.inc:1147
 
+        // Spells.PAS:1559
+        public static new int Priority => 23;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // Spells.PAS:1559
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 23;
-                return Result;
-            }
-
             // intf_P4_02.inc:1147
             public new TCastSpellAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -97537,7 +97452,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TDiplomacyAIPA (instance size 24, VMT 55724318) }
-    public partial class TDiplomacyAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TDiplomacyAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Diplomacy.pas:1540
         public TDiplomacyAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -97916,16 +97831,11 @@ namespace Aow.Units.AoWE
 
         // intf_P5_08.inc:209
 
+        // Diplomacy.pas:1546
+        public static new int Priority => 14;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // Diplomacy.pas:1546
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 14;
-                return Result;
-            }
-
             // intf_P5_08.inc:209
             public new TDiplomacyAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -98082,7 +97992,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.AoWE.TMPDID = call__8514;
             var call__8515 = RegisterDebugID((AnsiString)"MAGIC");
             Aow.Units.AoWE.AoWE.MAGICDID = call__8515;
-            Editors.RegisterClass(Aow.Units.Engine.TEObjectEditor.Meta.Of<Aow.Units.AoWE.TAoWMapObjectEditor>());
+            Editors.RegisterClass(Aow.Units.Engine.EditorClass.Of<Aow.Units.AoWE.TAoWMapObjectEditor>());
             Aow.Units.Engine.Engine.LoadExternalPlugIns(StartupDirectory + ((AnsiString)"PLUGINS"));
             FEmailGames.Load();
         }
@@ -98660,7 +98570,7 @@ namespace Aow.Units.AoWE
                 Event = Aow.Units.AoWE.TConstructStructureTE.Create(null);
                 Event.FUnitID = AUnit.FUnitID;
                 Event.FPlayer = unchecked((sbyte)AUnit.FPlayer);
-                var call__8538 = ClassType.ID();
+                var call__8538 = ID();
                 Event.FControlID = call__8538;
                 var call__8539 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(AUnit.FPlayer);
                 call__8539.AddEvent(Event);
@@ -99137,16 +99047,16 @@ namespace Aow.Units.AoWE
 
         // Engine.pas:524
 
+        // AoWAb.PAS:5400
+        public override int ID()
+        {
+            int Result = default;
+            Result = 1;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
         {
-            // AoWAb.PAS:5400
-            public override int ID()
-            {
-                int Result = default;
-                Result = 1;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TRebuildConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -99223,16 +99133,16 @@ namespace Aow.Units.AoWE
 
         // intf_P4_03.inc:16
 
+        // AoWAb.PAS:5454
+        public override int ID()
+        {
+            int Result = default;
+            Result = 2;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
         {
-            // AoWAb.PAS:5454
-            public override int ID()
-            {
-                int Result = default;
-                Result = 2;
-                return Result;
-            }
-
             // intf_P4_03.inc:16
             public new TBuildRoadsControl Create(Aow.Units.Engine.TECustomNode AOwner)
             {
@@ -101692,13 +101602,14 @@ namespace Aow.Units.AoWE
             throw EAbstractError.Create("Abstract Error");
         }
 
+        // Combat.pas:407
+        public virtual Aow.Units.AoWE.TGroupBehavior GroupBehavior()
+        {
+            throw EAbstractError.Create("Abstract Error");
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Combat.pas:407
-            public virtual Aow.Units.AoWE.TGroupBehavior GroupBehavior()
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
         }
 
         public new Meta ClassType => (Meta)base.ClassType;
@@ -102209,13 +102120,14 @@ namespace Aow.Units.AoWE
             throw EAbstractError.Create("Abstract Error");
         }
 
+        // Combat.pas:529
+        public virtual byte Behavior()
+        {
+            throw EAbstractError.Create("Abstract Error");
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Combat.pas:529
-            public virtual byte Behavior()
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
         }
 
         public new Meta ClassType => (Meta)base.ClassType;
@@ -107207,8 +107119,8 @@ namespace Aow.Units.AoWE
         public static int CompareAIPlayerActionClasses(object Item1, object Item2)
         {
             int Result = default;
-            var call__8953 = ((Aow.Units.AoWE.TAIPlayerAction.Meta)Item2).Priority();
-            var call__8954 = ((Aow.Units.AoWE.TAIPlayerAction.Meta)Item1).Priority();
+            var call__8953 = ((Aow.Units.AoWE.AIPlayerActionClass)Item2).Priority;
+            var call__8954 = ((Aow.Units.AoWE.AIPlayerActionClass)Item1).Priority;
             Result = call__8953 - call__8954;
             return Result;
         }

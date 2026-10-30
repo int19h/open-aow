@@ -163,18 +163,18 @@ namespace Aow.Units.CenterViewLoc
         // CenterViewLoc.pas:34
 
 
+        // CenterViewLoc.pas:99
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Center View Location";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // CenterViewLoc.pas:91
             public override int ClassID() => Aow.Units.CenterViewLoc.TCenterViewLocationResource.ClassID;
-
-            // CenterViewLoc.pas:99
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Center View Location";
-                return Result;
-            }
 
             // CenterViewLoc.pas:34
             public new Aow.Units.CenterViewLoc.TCenterViewLocationResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CenterViewLoc.TCenterViewLocationResource)base.Create(AOwner);

@@ -91,18 +91,18 @@ namespace Aow.Units.AltLight
         // AltLight.pas:26
 
 
+        // AltLight.pas:49
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfLightningRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltLight.pas:52
             public override int ClassID() => Aow.Units.AltLight.TAltarOfLightningResource.ClassID;
-
-            // AltLight.pas:49
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfLightningRStr);
-                return Result;
-            }
 
             // AltLight.pas:26
             public new Aow.Units.AltLight.TAltarOfLightningResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltLight.TAltarOfLightningResource)base.Create(AOwner);

@@ -310,18 +310,18 @@ namespace Aow.Units.FlagEvents
             return Result;
         }
 
+        // FlagEvents.pas:223
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FlagMessageEventRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // FlagEvents.pas:218
             public override int ClassID() => Aow.Units.FlagEvents.TFlagMessageEventResource.ClassID;
-
-            // FlagEvents.pas:223
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FlagMessageEventRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FlagEvents.TFlagMessageEventResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -411,18 +411,18 @@ namespace Aow.Units.FlagEvents
             return Result;
         }
 
+        // FlagEvents.pas:274
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TutorialMessageEventRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // FlagEvents.pas:269
             public override int ClassID() => Aow.Units.FlagEvents.TTutorialMessageEventResource.ClassID;
-
-            // FlagEvents.pas:274
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TutorialMessageEventRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FlagEvents.TTutorialMessageEventResource => (Meta)MetaRegistry.Of(typeof(T));

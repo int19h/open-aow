@@ -91,18 +91,18 @@ namespace Aow.Units.AltPest
         // AltPest.pas:26
 
 
+        // AltPest.pas:49
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfPestilenceRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltPest.pas:52
             public override int ClassID() => Aow.Units.AltPest.TAltarOfPestilenceResource.ClassID;
-
-            // AltPest.pas:49
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfPestilenceRStr);
-                return Result;
-            }
 
             // AltPest.pas:26
             public new Aow.Units.AltPest.TAltarOfPestilenceResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltPest.TAltarOfPestilenceResource)base.Create(AOwner);

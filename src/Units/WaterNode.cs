@@ -93,18 +93,18 @@ namespace Aow.Units.WaterNode
         // WaterNode.pas:27
 
 
+        // WaterNode.pas:52
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WaterNodeRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // WaterNode.pas:55
             public override int ClassID() => Aow.Units.WaterNode.TWaterNodeResource.ClassID;
-
-            // WaterNode.pas:52
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WaterNodeRStr);
-                return Result;
-            }
 
             // WaterNode.pas:27
             public new Aow.Units.WaterNode.TWaterNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WaterNode.TWaterNodeResource)base.Create(AOwner);

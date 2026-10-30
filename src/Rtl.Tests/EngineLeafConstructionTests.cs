@@ -283,6 +283,9 @@ public sealed class EngineLeafConstructionTests
                 case TWordList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
+                case TEObjectEditorList editors:
+                    Assert.Equal(0, editors.Count);
+                    break;
                 case TList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity);
                     break;

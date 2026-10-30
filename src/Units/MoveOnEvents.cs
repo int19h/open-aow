@@ -242,16 +242,16 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:48
 
 
+        // MoveOnEvents.pas:272
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"MoveOnEvent";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
-            // MoveOnEvents.pas:272
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"MoveOnEvent";
-                return Result;
-            }
-
             // MoveOnEvents.pas:48
             public new Aow.Units.MoveOnEvents.TMoveOnEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MoveOnEvents.TMoveOnEventResource)base.Create(AOwner);
 
@@ -326,19 +326,19 @@ namespace Aow.Units.MoveOnEvents
             return Result;
         }
 
+        // MoveOnEvents.pas:295
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ChangeSongEventRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.MoveOnEvents.TMoveOnEventResource.Meta
         {
             // MoveOnEvents.pas:301
             public override int ClassID() => Aow.Units.MoveOnEvents.TChangeSongMoveOnEventResource.ClassID;
-
-            // MoveOnEvents.pas:295
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ChangeSongEventRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MoveOnEvents.TChangeSongMoveOnEventResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -408,19 +408,19 @@ namespace Aow.Units.MoveOnEvents
             return Result;
         }
 
+        // MoveOnEvents.pas:322
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PlaySampleEventRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.MoveOnEvents.TMoveOnEventResource.Meta
         {
             // MoveOnEvents.pas:328
             public override int ClassID() => Aow.Units.MoveOnEvents.TPlaySampleMoveOnEventResource.ClassID;
-
-            // MoveOnEvents.pas:322
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PlaySampleEventRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MoveOnEvents.TPlaySampleMoveOnEventResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -509,19 +509,19 @@ namespace Aow.Units.MoveOnEvents
             return Result;
         }
 
+        // MoveOnEvents.pas:369
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ShowMessageEventRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.MoveOnEvents.TMoveOnEventResource.Meta
         {
             // MoveOnEvents.pas:375
             public override int ClassID() => Aow.Units.MoveOnEvents.TShowMessageMoveOnEventResource.ClassID;
-
-            // MoveOnEvents.pas:369
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ShowMessageEventRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MoveOnEvents.TShowMessageMoveOnEventResource => (Meta)MetaRegistry.Of(typeof(T));

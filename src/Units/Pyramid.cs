@@ -74,18 +74,18 @@ namespace Aow.Units.Pyramid
             return Result;
         }
 
+        // Pyramid.pas:37
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PyramidRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
         {
             // Pyramid.pas:40
             public override int ClassID() => Aow.Units.Pyramid.TPyramidResource.ClassID;
-
-            // Pyramid.pas:37
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PyramidRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Pyramid.TPyramidResource => (Meta)MetaRegistry.Of(typeof(T));

@@ -79,20 +79,20 @@ namespace Aow.Units.Hill
             return Result;
         }
 
+        // Hill.pas:45
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__1 = Aow.Units.AoWE.AoWE.HillRStr;
+            var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
+            Result = call__2;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Terrain.TTerrainMOR.Meta
         {
             // Hill.pas:42
             public override int ClassID() => Aow.Units.Hill.THillMOR.ClassID;
-
-            // Hill.pas:45
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__1 = Aow.Units.AoWE.AoWE.HillRStr;
-                var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
-                Result = call__2;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Hill.THillMOR => (Meta)MetaRegistry.Of(typeof(T));

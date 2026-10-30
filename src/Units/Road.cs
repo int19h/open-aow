@@ -238,9 +238,9 @@ namespace Aow.Units.Road
         }
 
         // Road.pas:171
-        public override Aow.Units.Engine.TEObjectEditor.Meta Editor()
+        public override Aow.Units.Engine.EditorClass Editor()
         {
-            Aow.Units.Engine.TEObjectEditor.Meta Result = default;
+            Aow.Units.Engine.EditorClass Result = default;
             var call__12 = FEngine.Editors.FindEditor(131429);
             Result = call__12;
             if (Result == null)
@@ -251,16 +251,16 @@ namespace Aow.Units.Road
             return Result;
         }
 
+        // Road.pas:131
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Road";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
-            // Road.pas:131
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Road";
-                return Result;
-            }
-
             // Road.pas:136
             public override int ClassID() => Aow.Units.Road.TRoadResource.ClassID;
 

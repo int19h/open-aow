@@ -51,7 +51,7 @@ namespace Aow.Units.BehaviorAG
             bool Result = default;
             // { conflict: function TAbstractBehaviorAG.CooperateWithGroup(Group: TAIGroup): Boolean; }
             Result = base.CooperateWithGroup(Group, Target);
-            Result = Result || (Group.ClassType.Behavior() == Aow.Units.AoWE.TGroupBehavior.gbFortify);
+            Result = Result || (Group.GroupClass.Behavior == Aow.Units.AoWE.TGroupBehavior.gbFortify);
             return Result;
         }
     }
@@ -78,7 +78,7 @@ namespace Aow.Units.BehaviorAG
     }
 
     // { TSkirmishAG (instance size 80, VMT 557DC53C) }
-    public partial class TSkirmishAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
+    public partial class TSkirmishAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:729
         public new const int ClassID = 136294;
@@ -90,26 +90,21 @@ namespace Aow.Units.BehaviorAG
             FRecruitmentPriority = 12;
         }
 
+        // BehaviorAG.pas:735
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TSkirmishAGC>();
+            return Result;
+        }
+
+        // BehaviorAG.pas:732
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbSkirmish;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // BehaviorAG.pas:729
             public override int ClassID() => Aow.Units.BehaviorAG.TSkirmishAG.ClassID;
-
-            // BehaviorAG.pas:735
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.BehaviorAG.TSkirmishAGC>();
-                return Result;
-            }
-
-            // BehaviorAG.pas:732
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbSkirmish;
-                return Result;
-            }
 
             // BehaviorAG.pas:45
             public new Aow.Units.BehaviorAG.TSkirmishAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TSkirmishAG)base.Create(AOwner);
@@ -215,7 +210,7 @@ namespace Aow.Units.BehaviorAG
     }
 
     // { TNormalAG (instance size 80, VMT 557DC78C) }
-    public partial class TNormalAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
+    public partial class TNormalAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:163
         public new const int ClassID = 136292;
@@ -227,26 +222,21 @@ namespace Aow.Units.BehaviorAG
             FRecruitmentPriority = 10;
         }
 
+        // BehaviorAG.pas:169
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TNormalAGC>();
+            return Result;
+        }
+
+        // BehaviorAG.pas:166
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbNormal;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // BehaviorAG.pas:163
             public override int ClassID() => Aow.Units.BehaviorAG.TNormalAG.ClassID;
-
-            // BehaviorAG.pas:169
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.BehaviorAG.TNormalAGC>();
-                return Result;
-            }
-
-            // BehaviorAG.pas:166
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbNormal;
-                return Result;
-            }
 
             // BehaviorAG.pas:60
             public new Aow.Units.BehaviorAG.TNormalAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TNormalAG)base.Create(AOwner);
@@ -413,7 +403,7 @@ namespace Aow.Units.BehaviorAG
     }
 
     // { TDefenderAG (instance size 80, VMT 557DC9D4) }
-    public partial class TDefenderAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
+    public partial class TDefenderAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:277
         public new const int ClassID = 136278;
@@ -425,26 +415,21 @@ namespace Aow.Units.BehaviorAG
             FRecruitmentPriority = 10;
         }
 
+        // BehaviorAG.pas:283
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TDefenderAGC>();
+            return Result;
+        }
+
+        // BehaviorAG.pas:280
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbDefensive;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // BehaviorAG.pas:277
             public override int ClassID() => Aow.Units.BehaviorAG.TDefenderAG.ClassID;
-
-            // BehaviorAG.pas:283
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.BehaviorAG.TDefenderAGC>();
-                return Result;
-            }
-
-            // BehaviorAG.pas:280
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbDefensive;
-                return Result;
-            }
 
             // BehaviorAG.pas:75
             public new Aow.Units.BehaviorAG.TDefenderAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TDefenderAG)base.Create(AOwner);
@@ -603,7 +588,7 @@ namespace Aow.Units.BehaviorAG
     }
 
     // { TAggressorAG (instance size 80, VMT 557DCC24) }
-    public partial class TAggressorAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
+    public partial class TAggressorAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:390
         public new const int ClassID = 136279;
@@ -615,26 +600,21 @@ namespace Aow.Units.BehaviorAG
             FRecruitmentPriority = 10;
         }
 
+        // BehaviorAG.pas:396
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TAggressorAGC>();
+            return Result;
+        }
+
+        // BehaviorAG.pas:393
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbAggressive;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // BehaviorAG.pas:390
             public override int ClassID() => Aow.Units.BehaviorAG.TAggressorAG.ClassID;
-
-            // BehaviorAG.pas:396
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.BehaviorAG.TAggressorAGC>();
-                return Result;
-            }
-
-            // BehaviorAG.pas:393
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbAggressive;
-                return Result;
-            }
 
             // BehaviorAG.pas:90
             public new Aow.Units.BehaviorAG.TAggressorAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TAggressorAG)base.Create(AOwner);
@@ -792,7 +772,7 @@ namespace Aow.Units.BehaviorAG
     }
 
     // { TExpanderAG (instance size 80, VMT 557DCE7C) }
-    public partial class TExpanderAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
+    public partial class TExpanderAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:502
         public new const int ClassID = 136290;
@@ -804,26 +784,21 @@ namespace Aow.Units.BehaviorAG
             FRecruitmentPriority = 10;
         }
 
+        // BehaviorAG.pas:508
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TExpanderAGC>();
+            return Result;
+        }
+
+        // BehaviorAG.pas:505
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbExpand;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // BehaviorAG.pas:502
             public override int ClassID() => Aow.Units.BehaviorAG.TExpanderAG.ClassID;
-
-            // BehaviorAG.pas:508
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.BehaviorAG.TExpanderAGC>();
-                return Result;
-            }
-
-            // BehaviorAG.pas:505
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbExpand;
-                return Result;
-            }
 
             // BehaviorAG.pas:105
             public new Aow.Units.BehaviorAG.TExpanderAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TExpanderAG)base.Create(AOwner);
@@ -983,7 +958,7 @@ namespace Aow.Units.BehaviorAG
     }
 
     // { TScorcherAG (instance size 80, VMT 557DD0CC) }
-    public partial class TScorcherAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
+    public partial class TScorcherAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:616
         public new const int ClassID = 136291;
@@ -995,26 +970,21 @@ namespace Aow.Units.BehaviorAG
             FRecruitmentPriority = 10;
         }
 
+        // BehaviorAG.pas:622
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.BehaviorAG.TScorcherAGC>();
+            return Result;
+        }
+
+        // BehaviorAG.pas:619
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbScorch;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // BehaviorAG.pas:616
             public override int ClassID() => Aow.Units.BehaviorAG.TScorcherAG.ClassID;
-
-            // BehaviorAG.pas:622
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.BehaviorAG.TScorcherAGC>();
-                return Result;
-            }
-
-            // BehaviorAG.pas:619
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbScorch;
-                return Result;
-            }
 
             // BehaviorAG.pas:120
             public new Aow.Units.BehaviorAG.TScorcherAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TScorcherAG)base.Create(AOwner);
@@ -1179,7 +1149,7 @@ namespace Aow.Units.BehaviorAG
         {
             if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TDefenderAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TAggressorAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TExpanderAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TScorcherAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TNormalAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.BehaviorAG.TSkirmishAG>()]);
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.BehaviorAG.TDefenderAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.BehaviorAG.TAggressorAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.BehaviorAG.TExpanderAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.BehaviorAG.TScorcherAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.BehaviorAG.TNormalAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.BehaviorAG.TSkirmishAG>()]);
             }
         }
 

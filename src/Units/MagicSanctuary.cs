@@ -209,20 +209,20 @@ namespace Aow.Units.MagicSanctuary
         // MagicSanctuary.pas:43
 
 
+        // MagicSanctuary.pas:157
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__6 = Aow.Units.AoWE.AoWE.MagicSanctuaryRStr;
+            var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(call__6);
+            Result = call__7;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // MagicSanctuary.pas:160
             public override int ClassID() => Aow.Units.MagicSanctuary.TMagicSanctuaryResource.ClassID;
-
-            // MagicSanctuary.pas:157
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__6 = Aow.Units.AoWE.AoWE.MagicSanctuaryRStr;
-                var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(call__6);
-                Result = call__7;
-                return Result;
-            }
 
             // MagicSanctuary.pas:43
             public new Aow.Units.MagicSanctuary.TMagicSanctuaryResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MagicSanctuary.TMagicSanctuaryResource)base.Create(AOwner);

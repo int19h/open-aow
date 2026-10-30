@@ -252,20 +252,20 @@ namespace Aow.Units.Sign
         // Sign.pas:37
 
 
+        // Sign.pas:162
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__19 = Aow.Units.AoWE.AoWE.SignRStr;
+            var call__20 = Aow.Units.AoWE.AoWE.TranslateRStr(call__19);
+            Result = call__20;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Sign.pas:159
             public override int ClassID() => Aow.Units.Sign.TSignResource.ClassID;
-
-            // Sign.pas:162
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__19 = Aow.Units.AoWE.AoWE.SignRStr;
-                var call__20 = Aow.Units.AoWE.AoWE.TranslateRStr(call__19);
-                Result = call__20;
-                return Result;
-            }
 
             // Sign.pas:37
             public new Aow.Units.Sign.TSignResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sign.TSignResource)base.Create(AOwner);

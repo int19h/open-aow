@@ -4781,20 +4781,20 @@ namespace Aow.Units.City
         // City.pas:262
 
 
+        // City.pas:2633
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__665 = Aow.Units.AoWE.AoWE.CityRStr;
+            var call__666 = Aow.Units.AoWE.AoWE.TranslateRStr(call__665);
+            Result = call__666;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructureResource.Meta
         {
             // City.pas:2628
             public override int ClassID() => Aow.Units.City.TCityResource.ClassID;
-
-            // City.pas:2633
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__665 = Aow.Units.AoWE.AoWE.CityRStr;
-                var call__666 = Aow.Units.AoWE.AoWE.TranslateRStr(call__665);
-                Result = call__666;
-                return Result;
-            }
 
             // City.pas:262
             public new Aow.Units.City.TCityResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityResource)base.Create(AOwner);
@@ -4983,7 +4983,7 @@ namespace Aow.Units.City
 
     // { TCityAIPA (instance size 48, VMT 557A7B54): $14 FCityCount,
 //     $18..$24 FProductionLevelCounts, $28 FMaxProductionLevel, $2C FProductionRatio. }
-    public partial class TCityAIPA : Aow.Units.AoWE.TAIPlayerAction
+    public partial class TCityAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         public TCityAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
@@ -5742,17 +5742,12 @@ namespace Aow.Units.City
             }
         }
 
+        // City.pas:2790
+        // { $2C }
+        public static new int Priority => 13;
+
         public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
         {
-            // City.pas:2790
-            // { $2C }
-            public override int Priority()
-            {
-                int Result = default;
-                Result = 13;
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TCityAIPA => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
@@ -5832,7 +5827,7 @@ namespace Aow.Units.City
         {
             if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.City.TCityAIPA>()]);
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.AIPlayerActionClass.Of<Aow.Units.City.TCityAIPA>()]);
             }
         }
 

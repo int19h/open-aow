@@ -246,18 +246,18 @@ namespace Aow.Units.ManaCrystals
             return Result;
         }
 
+        // ManaCrystals.pas:165
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaCrystalsRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // ManaCrystals.pas:168
             public override int ClassID() => Aow.Units.ManaCrystals.TManaCrystalsResource.ClassID;
-
-            // ManaCrystals.pas:165
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaCrystalsRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ManaCrystals.TManaCrystalsResource => (Meta)MetaRegistry.Of(typeof(T));

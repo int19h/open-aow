@@ -35,12 +35,7 @@ public partial class TIsometricHexagon
         }
         if (water || FOpenSides != 0)
         {
-            if (FDynamic == null)
-            {
-                var dynamic = new TDynamicIsometricHexagon();
-                dynamic.Attach(this);
-                FDynamic = dynamic;
-            }
+            if (FDynamic == null) FDynamic = new TDynamicIsometricHexagon(this);
         }
         else if (FDynamic != null)
         {
@@ -66,9 +61,10 @@ public partial class TDynamicIsometricHexagon
 {
     private TIsometricHexagon hexagon;
     private TMapField Field => (TMapField)hexagon.Owner;
-    internal void Attach(TIsometricHexagon owner)
+    // IsoHex.pas:109. The TEObject body runs with a null owner (the hexagon owns the sprite directly,
+    // not as a child), then the sprite is attached and the field of the hexagon shows it.
+    public TDynamicIsometricHexagon(TIsometricHexagon owner) : base((TECustomNode)null)
     {
-        base.Create__init(null);
         hexagon = owner;
         Field.AddHS(this, 0);
     }

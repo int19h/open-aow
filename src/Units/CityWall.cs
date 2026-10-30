@@ -589,18 +589,18 @@ namespace Aow.Units.CityWall
             return Result;
         }
 
+        // CityWall.pas:375
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat City Wall";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.CombatILTer.TCombatILTerrainResource.Meta
         {
             // CityWall.pas:366
             public override int ClassID() => Aow.Units.CityWall.TCityWallResource.ClassID;
-
-            // CityWall.pas:375
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat City Wall";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CityWall.TCityWallResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -831,18 +831,18 @@ namespace Aow.Units.CityWall
             return Result;
         }
 
+        // CityWall.pas:454
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat City Door";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.CityWall.TCityWallResource.Meta
         {
             // CityWall.pas:451
             public override int ClassID() => Aow.Units.CityWall.TCityWallDoorResource.ClassID;
-
-            // CityWall.pas:454
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat City Door";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CityWall.TCityWallDoorResource => (Meta)MetaRegistry.Of(typeof(T));

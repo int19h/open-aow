@@ -92,18 +92,18 @@ namespace Aow.Units.FireNode
         // FireNode.pas:26
 
 
+        // FireNode.pas:50
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireNodeRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // FireNode.pas:53
             public override int ClassID() => Aow.Units.FireNode.TFireNodeResource.ClassID;
-
-            // FireNode.pas:50
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireNodeRStr);
-                return Result;
-            }
 
             // FireNode.pas:26
             public new Aow.Units.FireNode.TFireNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FireNode.TFireNodeResource)base.Create(AOwner);

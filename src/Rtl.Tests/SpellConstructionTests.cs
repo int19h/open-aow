@@ -67,7 +67,7 @@ public sealed partial class SpellConstructionTests
         for (Type? current = type; current is not null && current != typeof(TObject); current = current.BaseType)
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
-                if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
+                if (field.Name is "eclass" or "actionClass" or "groupClass") continue; // the descriptor caches are not constructor state
                 object? fieldValue = field.GetValue(value);
                 fields[current.Name + "." + field.Name] = field.Name == "FOwner"
                     ? fieldValue is null ? null : "$owner"

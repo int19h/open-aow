@@ -1369,9 +1369,9 @@ namespace Aow.Units.PrdPlace
 
 
         // PrdPlace.pas:724
-        public override Aow.Units.Engine.TEObjectEditor.Meta Editor()
+        public override Aow.Units.Engine.EditorClass Editor()
         {
-            Aow.Units.Engine.TEObjectEditor.Meta Result = default;
+            Aow.Units.Engine.EditorClass Result = default;
             var call__163 = Engine.Editors.FindEditor(132027);
             Result = call__163;
             if (Result == null)
@@ -1393,18 +1393,18 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:100
 
 
+        // PrdPlace.pas:715
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // PrdPlace.pas:718
             public override int ClassID() => Aow.Units.PrdPlace.TProductionPlaceResource.ClassID;
-
-            // PrdPlace.pas:715
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"";
-                return Result;
-            }
 
             // PrdPlace.pas:100
             public new Aow.Units.PrdPlace.TProductionPlaceResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PrdPlace.TProductionPlaceResource)base.Create(AOwner);

@@ -39,7 +39,7 @@ using static Aow.Units.AoWE.AoWE;
 namespace Aow.Units.MainAG
 {
     // { TPassiveAG (instance size 80, VMT 557D9ED8) }
-    public partial class TPassiveAG : Aow.Units.AoWE.TAIGroup
+    public partial class TPassiveAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // MainAG.pas:129
         public new const int ClassID = 136280;
@@ -110,26 +110,21 @@ namespace Aow.Units.MainAG
             return Result;
         }
 
+        // MainAG.pas:135
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.MainAG.TPassiveAGC>();
+            return Result;
+        }
+
+        // MainAG.pas:132
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbPassive;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // MainAG.pas:129
             public override int ClassID() => Aow.Units.MainAG.TPassiveAG.ClassID;
-
-            // MainAG.pas:135
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.MainAG.TPassiveAGC>();
-                return Result;
-            }
-
-            // MainAG.pas:132
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbPassive;
-                return Result;
-            }
 
             // MainAG.pas:26
             public new Aow.Units.MainAG.TPassiveAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainAG.TPassiveAG)base.Create(AOwner);
@@ -253,7 +248,7 @@ namespace Aow.Units.MainAG
     }
 
     // { TFortifyAG (instance size 80, VMT 557DA118) }
-    public partial class TFortifyAG : Aow.Units.AoWE.TAIGroup
+    public partial class TFortifyAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // MainAG.pas:247
         public new const int ClassID = 136281;
@@ -265,26 +260,21 @@ namespace Aow.Units.MainAG
             FRecruitmentPriority = 0;
         }
 
+        // MainAG.pas:253
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.MainAG.TFortifyAGC>();
+            return Result;
+        }
+
+        // MainAG.pas:250
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbFortify;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // MainAG.pas:247
             public override int ClassID() => Aow.Units.MainAG.TFortifyAG.ClassID;
-
-            // MainAG.pas:253
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.MainAG.TFortifyAGC>();
-                return Result;
-            }
-
-            // MainAG.pas:250
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbFortify;
-                return Result;
-            }
 
             // MainAG.pas:44
             public new Aow.Units.MainAG.TFortifyAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainAG.TFortifyAG)base.Create(AOwner);
@@ -1096,7 +1086,7 @@ namespace Aow.Units.MainAG
     }
 
     // { TSuicidalAG (instance size 80, VMT 557DA358) }
-    public partial class TSuicidalAG : Aow.Units.AoWE.TAIGroup
+    public partial class TSuicidalAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // MainAG.pas:729
         public new const int ClassID = 136276;
@@ -1108,26 +1098,21 @@ namespace Aow.Units.MainAG
             FRecruitmentPriority = 2;
         }
 
+        // MainAG.pas:735
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.MainAG.TSuicidalAGC>();
+            return Result;
+        }
+
+        // MainAG.pas:732
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbSuicidal;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // MainAG.pas:729
             public override int ClassID() => Aow.Units.MainAG.TSuicidalAG.ClassID;
-
-            // MainAG.pas:735
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.MainAG.TSuicidalAGC>();
-                return Result;
-            }
-
-            // MainAG.pas:732
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbSuicidal;
-                return Result;
-            }
 
             // MainAG.pas:73
             public new Aow.Units.MainAG.TSuicidalAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainAG.TSuicidalAG)base.Create(AOwner);
@@ -1219,7 +1204,7 @@ namespace Aow.Units.MainAG
     }
 
     // { TTransportAG (instance size 80, VMT 557DA5A0) }
-    public partial class TTransportAG : Aow.Units.AoWE.TAIGroup
+    public partial class TTransportAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // MainAG.pas:801
         public new const int ClassID = 136295;
@@ -1237,26 +1222,21 @@ namespace Aow.Units.MainAG
             FRecruitmentPriority = 20;
         }
 
+        // MainAG.pas:807
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.MainAG.TTransportAGC>();
+            return Result;
+        }
+
+        // MainAG.pas:804
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbTransport;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // MainAG.pas:801
             public override int ClassID() => Aow.Units.MainAG.TTransportAG.ClassID;
-
-            // MainAG.pas:807
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.MainAG.TTransportAGC>();
-                return Result;
-            }
-
-            // MainAG.pas:804
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbTransport;
-                return Result;
-            }
 
             // MainAG.pas:91
             public new Aow.Units.MainAG.TTransportAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainAG.TTransportAG)base.Create(AOwner);
@@ -1402,7 +1382,7 @@ namespace Aow.Units.MainAG
         {
             if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TPassiveAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TSuicidalAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TFortifyAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TTransportAG>()]);
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.MainAG.TPassiveAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.MainAG.TSuicidalAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.MainAG.TFortifyAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.MainAG.TTransportAG>()]);
             }
         }
 

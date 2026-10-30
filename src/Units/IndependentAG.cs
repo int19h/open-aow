@@ -37,7 +37,7 @@ using static Aow.Units.AGCPlugins.AGCPlugins;
 namespace Aow.Units.IndependentAG
 {
     // { TGuardAG (instance size 80, VMT 557D7E5C) }
-    public partial class TGuardAG : Aow.Units.AoWE.TAIGroup
+    public partial class TGuardAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:144
         public new const int ClassID = 136275;
@@ -49,26 +49,21 @@ namespace Aow.Units.IndependentAG
             FRecruitmentPriority = 2;
         }
 
+        // IndependentAG.pas:150
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TGuardAGC>();
+            return Result;
+        }
+
+        // IndependentAG.pas:147
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbGuard;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:144
             public override int ClassID() => Aow.Units.IndependentAG.TGuardAG.ClassID;
-
-            // IndependentAG.pas:150
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.IndependentAG.TGuardAGC>();
-                return Result;
-            }
-
-            // IndependentAG.pas:147
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbGuard;
-                return Result;
-            }
 
             // IndependentAG.pas:29
             public new Aow.Units.IndependentAG.TGuardAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TGuardAG)base.Create(AOwner);
@@ -86,7 +81,7 @@ namespace Aow.Units.IndependentAG
     }
 
     // { TGuardAreaAG (instance size 84, VMT 557D80A8): $50 guard location. }
-    public partial class TGuardAreaAG : Aow.Units.AoWE.TAIGroup
+    public partial class TGuardAreaAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:161
         public new const int ClassID = 136273;
@@ -108,26 +103,21 @@ namespace Aow.Units.IndependentAG
             FRecruitmentPriority = 2;
         }
 
+        // IndependentAG.pas:167
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TGuardAreaAGC>();
+            return Result;
+        }
+
+        // IndependentAG.pas:164
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbGuardArea;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:161
             public override int ClassID() => Aow.Units.IndependentAG.TGuardAreaAG.ClassID;
-
-            // IndependentAG.pas:167
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.IndependentAG.TGuardAreaAGC>();
-                return Result;
-            }
-
-            // IndependentAG.pas:164
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbGuardArea;
-                return Result;
-            }
 
             // IndependentAG.pas:45
             public new Aow.Units.IndependentAG.TGuardAreaAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TGuardAreaAG)base.Create(AOwner);
@@ -321,7 +311,7 @@ namespace Aow.Units.IndependentAG
     }
 
     // { TPatrolAG (instance size 96, VMT 557D8304): $50 from, $54 to, $58 previous heading, $5C strength. }
-    public partial class TPatrolAG : Aow.Units.AoWE.TAIGroup
+    public partial class TPatrolAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:295
         public new const int ClassID = 136274;
@@ -355,26 +345,21 @@ namespace Aow.Units.IndependentAG
             FPreviousHeading = 0;
         }
 
+        // IndependentAG.pas:301
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TPatrolAGC>();
+            return Result;
+        }
+
+        // IndependentAG.pas:298
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbPatrol;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:295
             public override int ClassID() => Aow.Units.IndependentAG.TPatrolAG.ClassID;
-
-            // IndependentAG.pas:301
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.IndependentAG.TPatrolAGC>();
-                return Result;
-            }
-
-            // IndependentAG.pas:298
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbPatrol;
-                return Result;
-            }
 
             // IndependentAG.pas:69
             public new Aow.Units.IndependentAG.TPatrolAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TPatrolAG)base.Create(AOwner);
@@ -779,7 +764,7 @@ namespace Aow.Units.IndependentAG
     }
 
     // { TRefugeAG (instance size 80, VMT 557D8554) }
-    public partial class TRefugeAG : Aow.Units.AoWE.TAIGroup
+    public partial class TRefugeAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:551
         public new const int ClassID = 136289;
@@ -791,26 +776,21 @@ namespace Aow.Units.IndependentAG
             FRecruitmentPriority = 2;
         }
 
+        // IndependentAG.pas:557
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TRefugeAGC>();
+            return Result;
+        }
+
+        // IndependentAG.pas:554
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbRefuge;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:551
             public override int ClassID() => Aow.Units.IndependentAG.TRefugeAG.ClassID;
-
-            // IndependentAG.pas:557
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.IndependentAG.TRefugeAGC>();
-                return Result;
-            }
-
-            // IndependentAG.pas:554
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbRefuge;
-                return Result;
-            }
 
             // IndependentAG.pas:87
             public new Aow.Units.IndependentAG.TRefugeAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TRefugeAG)base.Create(AOwner);
@@ -828,7 +808,7 @@ namespace Aow.Units.IndependentAG
     }
 
     // { TRaidAG (instance size 80, VMT 557D87A4) }
-    public partial class TRaidAG : Aow.Units.AoWE.TAIGroup
+    public partial class TRaidAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:567
         public new const int ClassID = 136293;
@@ -840,26 +820,21 @@ namespace Aow.Units.IndependentAG
             FRecruitmentPriority = 2;
         }
 
+        // IndependentAG.pas:573
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TRaidAGC>();
+            return Result;
+        }
+
+        // IndependentAG.pas:570
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbRaid;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:567
             public override int ClassID() => Aow.Units.IndependentAG.TRaidAG.ClassID;
-
-            // IndependentAG.pas:573
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.IndependentAG.TRaidAGC>();
-                return Result;
-            }
-
-            // IndependentAG.pas:570
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbRaid;
-                return Result;
-            }
 
             // IndependentAG.pas:101
             public new Aow.Units.IndependentAG.TRaidAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TRaidAG)base.Create(AOwner);
@@ -916,7 +891,7 @@ namespace Aow.Units.IndependentAG
     }
 
     // { TScoutAG (instance size 80, VMT 557D89E8) }
-    public partial class TScoutAG : Aow.Units.AoWE.TAIGroup
+    public partial class TScoutAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:650
         public new const int ClassID = 136277;
@@ -928,26 +903,21 @@ namespace Aow.Units.IndependentAG
             FRecruitmentPriority = 10;
         }
 
+        // IndependentAG.pas:656
+        public override Aow.Units.Engine.EClass GroupControlClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TScoutAGC>();
+            return Result;
+        }
+
+        // IndependentAG.pas:653
+        public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbScout;
+
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:650
             public override int ClassID() => Aow.Units.IndependentAG.TScoutAG.ClassID;
-
-            // IndependentAG.pas:656
-            public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
-            {
-                Aow.Units.AoWE.TAIGroupControl.Meta Result = default;
-                Result = Aow.Units.AoWE.TAIGroupControl.Meta.Of<Aow.Units.IndependentAG.TScoutAGC>();
-                return Result;
-            }
-
-            // IndependentAG.pas:653
-            public override Aow.Units.AoWE.TGroupBehavior Behavior()
-            {
-                Aow.Units.AoWE.TGroupBehavior Result = default;
-                Result = Aow.Units.AoWE.TGroupBehavior.gbScout;
-                return Result;
-            }
 
             // IndependentAG.pas:118
             public new Aow.Units.IndependentAG.TScoutAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IndependentAG.TScoutAG)base.Create(AOwner);
@@ -1074,7 +1044,7 @@ namespace Aow.Units.IndependentAG
         {
             if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TGuardAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TGuardAreaAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TPatrolAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TRefugeAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TRaidAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.IndependentAG.TScoutAG>()]);
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.IndependentAG.TGuardAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.IndependentAG.TGuardAreaAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.IndependentAG.TPatrolAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.IndependentAG.TRefugeAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.IndependentAG.TRaidAG>(), Aow.Units.AoWE.AIGroupClass.Of<Aow.Units.IndependentAG.TScoutAG>()]);
             }
         }
 

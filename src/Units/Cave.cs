@@ -691,18 +691,18 @@ namespace Aow.Units.Cave
         // Cave.pas:49
 
 
+        // Cave.pas:433
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CaveRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Cave.pas:436
             public override int ClassID() => Aow.Units.Cave.TCaveResource.ClassID;
-
-            // Cave.pas:433
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CaveRStr);
-                return Result;
-            }
 
             // Cave.pas:49
             public new Aow.Units.Cave.TCaveResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Cave.TCaveResource)base.Create(AOwner);

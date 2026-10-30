@@ -416,20 +416,20 @@ namespace Aow.Units.Teleport
         // Teleport.pas:45
 
 
+        // Teleport.pas:302
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__45 = Aow.Units.AoWE.AoWE.TeleportRStr;
+            var call__46 = Aow.Units.AoWE.AoWE.TranslateRStr(call__45);
+            Result = call__46;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Teleport.pas:299
             public override int ClassID() => Aow.Units.Teleport.TTeleportResource.ClassID;
-
-            // Teleport.pas:302
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__45 = Aow.Units.AoWE.AoWE.TeleportRStr;
-                var call__46 = Aow.Units.AoWE.AoWE.TranslateRStr(call__45);
-                Result = call__46;
-                return Result;
-            }
 
             // Teleport.pas:45
             public new Aow.Units.Teleport.TTeleportResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Teleport.TTeleportResource)base.Create(AOwner);

@@ -301,18 +301,18 @@ namespace Aow.Units.Mine
         // Mine.pas:41
 
 
+        // Mine.pas:197
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MineRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // Mine.pas:200
             public override int ClassID() => Aow.Units.Mine.TMineResource.ClassID;
-
-            // Mine.pas:197
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MineRStr);
-                return Result;
-            }
 
             // Mine.pas:41
             public new Aow.Units.Mine.TMineResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mine.TMineResource)base.Create(AOwner);
