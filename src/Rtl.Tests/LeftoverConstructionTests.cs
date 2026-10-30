@@ -86,6 +86,12 @@ public sealed class LeftoverConstructionTests
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name))
                 {
                     if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
+                    // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
+                    if (item is AIPlayerActionClass actionClass && field.Name == "priority")
+                    {
+                        fields[current.Name + ".<Priority>k__BackingField"] = actionClass.Priority;
+                        continue;
+                    }
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
                     if (field.Name == "FOwner") { fields[key] = child is null ? null : "$owner"; continue; }

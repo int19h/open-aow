@@ -4,6 +4,8 @@ using Aow.Units.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class StorageStreamConstructionTests
 {
     private static T Field<T>(object value, string name) => (T)value.GetType()
@@ -115,7 +117,11 @@ public sealed class StorageStreamConstructionTests
             }
             if (stream is TTranslateTextStream translator) Assert.Null(translator.FDictionary);
         }
-        finally { stream.Destroy(); }
+        finally
+        {
+            stream.Destroy();
+            engine.Destroy();
+        }
         Assert.True(memory.Size >= 2);
         memory.Position = 0;
         Assert.Equal(1, memory.Write([0x33]));
