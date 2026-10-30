@@ -208,22 +208,11 @@ namespace Aow.Units.FlagEvents
     // { TFlagMessageEventLog (instance size 36, VMT 557D0AE4): no additional fields. }
     public partial class TFlagMessageEventLog : Aow.Units.EventLog.THelpMessageEventLog
     {
-        // EventLog.pas:125
-        public static new Aow.Units.FlagEvents.TFlagMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.FlagEvents.TFlagMessageEventLog o = new Aow.Units.FlagEvents.TFlagMessageEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
+        private TFlagMessageEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner) { }
 
-            return o;
-        }
+        public static new TFlagMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFlagMessageEventLog(context, owner));
+
     }
 
     // { TFlagMessageEvent (instance size 32, VMT 557D0BE8): +$18 FHelpFileName, +$1C FMessage. }

@@ -312,7 +312,7 @@ namespace Aow.Units.WizardsTower
             var call__42 = CanEnter(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
             if (call__42)
             {
-                Log = Aow.Units.WizardsTower.TEnterWizardsTowerEventLog.Create(null);
+                Log = new Aow.Units.WizardsTower.TEnterWizardsTowerEventLog(null);
                 Log.FTower = this;
                 Log.Execute(true, Aow.Units.EventLog.TExecuteTrigger.etUser, null);
                 Log.Release();
@@ -475,6 +475,9 @@ namespace Aow.Units.WizardsTower
     // { TEnterWizardsTowerEventLog: size $1C, VMT 557D587C; $18 tower. }
     public partial class TEnterWizardsTowerEventLog : Aow.Units.EventLog.TEventLog
     {
+        // WizardsTower.pas:70
+        public TEnterWizardsTowerEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public Aow.Units.WizardsTower.TWizardsTower FTower;
         // WizardsTower.pas:73
         // { $18 }
@@ -483,28 +486,6 @@ namespace Aow.Units.WizardsTower
             base.Destroy();
         }
 
-        // WizardsTower.pas:70
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
-
-        // WizardsTower.pas:53
-        public static new Aow.Units.WizardsTower.TEnterWizardsTowerEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.WizardsTower.TEnterWizardsTowerEventLog o = new Aow.Units.WizardsTower.TEnterWizardsTowerEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class WizardsTower

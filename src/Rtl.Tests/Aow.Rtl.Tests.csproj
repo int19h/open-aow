@@ -5,6 +5,9 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CombatUnitSelectionConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.CombatUnitSelectionConstructionBaseline.json" />
+    <EmbeddedResource Include="ArmySpriteConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.ArmySpriteConstructionBaseline.json" />
+    <EmbeddedResource Include="EventLogConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.EventLogConstructionBaseline.json" />
     <EmbeddedResource Include="LeftoverConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.LeftoverConstructionBaseline.json" />
     <EmbeddedResource Include="UiConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.UiConstructionBaseline.json" />
     <EmbeddedResource Include="UiConstructionFailureBaseline.json" LogicalName="Aow.Rtl.Tests.UiConstructionFailureBaseline.json" />

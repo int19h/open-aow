@@ -8960,8 +8960,19 @@ namespace Aow.Units.AoWTC
 //     $1C FTargetImages; $20 FRangedPathHS; $24 FTargetX; $28 FTargetY; $2C FCursorImage; $2E FCursorFrame; $34 FRangedPath; $38 FObstacles. }
     public partial class TCombatUnitSelectionControl : Aow.Units.AoWE.TMoveSelector
     {
-        // Its guarded legacy factory invokes the inherited body after raw allocation.
-        public TCombatUnitSelectionControl() : base(default(Aow.Units.AoWE.RawAoWERuleConstruction)) { }
+        // AoWTC.pas:2723
+        public TCombatUnitSelectionControl() : base()
+        {
+            var call__1834 = new Aow.Units.aowFX.TXYZList();
+            FRangedPath = call__1834;
+            var call__1835 = new Aow.Rtl.TList();
+            FObstacles = call__1835;
+            var call__1836 = new Aow.Units.AoWTC.TRangedPathHS(null);
+            FRangedPathHS = call__1836;
+            FRangedPathHS.Activate();
+            var call__1837 = Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"TargHex.ILB");
+            FTargetImages = call__1837;
+        }
 
         public TSet<Aow.Units.AoWTC.AnonymousEnum_piMove> FPathInvalid;
         // { $18 }
@@ -9876,21 +9887,6 @@ namespace Aow.Units.AoWTC
                     }
                 }
             }
-        }
-
-        // AoWTC.pas:2723
-        public void Create__init_TCombatUnitSelectionControl()
-        {
-            base.Create__init_TMoveSelector();
-            var call__1834 = new Aow.Units.aowFX.TXYZList();
-            FRangedPath = call__1834;
-            var call__1835 = new Aow.Rtl.TList();
-            FObstacles = call__1835;
-            var call__1836 = new Aow.Units.AoWTC.TRangedPathHS(null);
-            FRangedPathHS = call__1836;
-            FRangedPathHS.Activate();
-            var call__1837 = Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"TargHex.ILB");
-            FTargetImages = call__1837;
         }
 
         // AoWTC.pas:2747
@@ -10831,22 +10827,6 @@ namespace Aow.Units.AoWTC
             }
         }
 
-        // AoWTC.pas:398
-        public static Aow.Units.AoWTC.TCombatUnitSelectionControl Create()
-        {
-            Aow.Units.AoWTC.TCombatUnitSelectionControl o = new Aow.Units.AoWTC.TCombatUnitSelectionControl();
-            try
-            {
-                o.Create__init_TCombatUnitSelectionControl();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TTacticalCombatPlayer (instance size 28, VMT 00412F78)
@@ -11051,7 +11031,7 @@ namespace Aow.Units.AoWTC
             FUnitChangedEvents = call__2066;
             var call__2067 = new Aow.Units.AoWTC.TTacticalCombatPlayerList();
             FPlayers = call__2067;
-            var call__2068 = Aow.Units.AoWTC.TCombatUnitSelectionControl.Create();
+            var call__2068 = new Aow.Units.AoWTC.TCombatUnitSelectionControl();
             FUnitSelection = call__2068;
             ((Aow.Units.AoWTC.TAoWCombatMapMouse)Mouse).FRectangleSelectEvents.Add(FUnitSelection.RectangleSelectEvent);
             var call__2069 = new Aow.Rtl.TList();

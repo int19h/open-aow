@@ -466,7 +466,7 @@ namespace Aow.Units.MoveOnEvents
             Aow.Units.EventLog.TShowMessageEventLog Log = default;
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Player)
             {
-                Log = Aow.Units.EventLog.TShowMessageEventLog.Create(null);
+                Log = new Aow.Units.EventLog.TShowMessageEventLog(null);
                 var call__7 = FMessage.Text;
                 Log.FMessage.Text = call__7;
                 Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, null);

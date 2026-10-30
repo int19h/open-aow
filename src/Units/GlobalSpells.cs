@@ -247,7 +247,7 @@ namespace Aow.Units.GlobalSpells
                                     MapF.SetExplored(Player, false);
                                     if (Log == null)
                                     {
-                                        Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                                        Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
                                         Log.FXhx = unchecked((sbyte)Walk.X);
                                         Log.FYhx = unchecked((sbyte)Walk.Y);
                                         Log.FLhx = unchecked((sbyte)Layer);
@@ -271,7 +271,7 @@ namespace Aow.Units.GlobalSpells
                         var call__23 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(X, Y, Layer, unchecked((sbyte)Player));
                         if (call__23)
                         {
-                            Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                            Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
                             Log.FXhx = unchecked((sbyte)X);
                             Log.FYhx = unchecked((sbyte)Y);
                             Log.FLhx = unchecked((sbyte)Layer);
@@ -1097,7 +1097,7 @@ namespace Aow.Units.GlobalSpells
                     Hero = call__129;
                     Hero.Resurrect();
                     Army = Hero.Place(X, Y, Layer, 0, TSet<Aow.Units.AoWE.TUnitPlaceModeElement>.Of(Aow.Units.AoWE.TUnitPlaceModeElement.pmScanArea, Aow.Units.AoWE.TUnitPlaceModeElement.pmCreateNewArmy));
-                    Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                    Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
                     Log.FPlayer = unchecked((sbyte)A2.FPlayer);
                     var call__130 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XResurrectedRStr);
                     var call__131 = Aow.Rtl.Rtl.Format(call__130, [Hero.FHeroName]);
@@ -1114,14 +1114,14 @@ namespace Aow.Units.GlobalSpells
                     var call__138 = Hero.OfferToJoin(unchecked((sbyte)A2.FPlayer));
                     if (call__138)
                     {
-                        EmergeLog = Aow.Units.AoWE.THeroEmergeEventLog.Create(null);
+                        EmergeLog = new Aow.Units.AoWE.THeroEmergeEventLog(null);
                         EmergeLog.Setup(Hero, unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.THeroJoinMode.hjmResurrected);
                         EmergeLog.Execute(true, Aow.Units.EventLog.TExecuteTrigger.etEvent, null);
                         EmergeLog.Release();
                     }
                     else
                     {
-                        InfoLog = Aow.Units.AoWE.TArmyInfoEventLog.Create(null);
+                        InfoLog = new Aow.Units.AoWE.TArmyInfoEventLog(null);
                         var call__139 = Army.FArmy.IndexOf(Hero);
                         InfoLog.FArmyView.Setup(Army.FArmy, unchecked((byte)(1 << call__139)));
                         InfoLog.FSelection = 255;
@@ -1276,7 +1276,7 @@ namespace Aow.Units.GlobalSpells
                     Hero = call__161;
                     Hero.Animate();
                     Army = Hero.Place(X, Y, Layer, 0, TSet<Aow.Units.AoWE.TUnitPlaceModeElement>.Of(Aow.Units.AoWE.TUnitPlaceModeElement.pmScanArea, Aow.Units.AoWE.TUnitPlaceModeElement.pmCreateNewArmy));
-                    Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                    Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
                     Log.FPlayer = unchecked((sbyte)A2.FPlayer);
                     var call__162 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XAnimatedRStr);
                     var call__163 = Aow.Rtl.Rtl.Format(call__162, [Hero.FHeroName]);
@@ -1293,14 +1293,14 @@ namespace Aow.Units.GlobalSpells
                     var call__170 = Hero.OfferToJoin(unchecked((sbyte)A2.FPlayer));
                     if (call__170)
                     {
-                        EmergeLog = Aow.Units.AoWE.THeroEmergeEventLog.Create(null);
+                        EmergeLog = new Aow.Units.AoWE.THeroEmergeEventLog(null);
                         EmergeLog.Setup(Hero, unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.THeroJoinMode.hjmResurrected);
                         EmergeLog.Execute(true, Aow.Units.EventLog.TExecuteTrigger.etEvent, null);
                         EmergeLog.Release();
                     }
                     else
                     {
-                        InfoLog = Aow.Units.AoWE.TArmyInfoEventLog.Create(null);
+                        InfoLog = new Aow.Units.AoWE.TArmyInfoEventLog(null);
                         var call__171 = Army.FArmy.IndexOf(Hero);
                         InfoLog.FArmyView.Setup(Army.FArmy, unchecked((byte)(1 << call__171)));
                         InfoLog.FSelection = 255;

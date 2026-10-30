@@ -173,7 +173,7 @@ namespace Aow.Units.Gems
                 var player = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
                 player.SetGems(player.FGems + FAmount);
 
-                Event = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                Event = new Aow.Units.EventLog.TLocationTextEventLog(null);
                 Event.FPlayer = unchecked((sbyte)ArmyHS.FArmy.FPlayer);
                 var call__11 = Aow.Units.AoWE.AoWE.GoldFoundRStr;
                 var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(call__11);

@@ -203,7 +203,7 @@ namespace Aow.Units.UnHolyG
             Damaged = 0;
             var call__10 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
             Aow.Rtl.Rtl.RandSeed = call__10;
-            Log = Aow.Units.AoWE.TArmyEventLog.Create(null);
+            Log = new Aow.Units.AoWE.TArmyEventLog(null);
             var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnholyGroundDamageRStr);
             Log.FArmyText = call__11;
             var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnholyGroundDamageRStr);

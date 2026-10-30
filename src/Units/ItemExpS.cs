@@ -140,7 +140,7 @@ namespace Aow.Units.ItemExpS
             {
                 var call__3 = Owner.FindOwnedChild(131607);
                 Army = (Aow.Units.AoWE.TArmyHS)call__3;
-                Log = Aow.Units.ItemExpS.TItemExplorationSiteEventLog.Create(null);
+                Log = new Aow.Units.ItemExpS.TItemExplorationSiteEventLog(null);
                 Log.FPlayer = unchecked((sbyte)Army.FArmy.FPlayer);
                 var call__4 = Aow.Units.AoWE.AoWE.ItemsFoundRStr;
                 var call__5 = Aow.Units.AoWE.AoWE.TranslateRStr(call__4);
@@ -232,6 +232,15 @@ namespace Aow.Units.ItemExpS
 //     $18 FItemIDs, $1C FMessages, $20 FTitle, $24 FLocation. }
     public partial class TItemExplorationSiteEventLog : Aow.Units.EventLog.TEventLog
     {
+        // ItemExpS.pas:187
+        public TItemExplorationSiteEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__24 = new Aow.Units.Engine.TIntegerList();
+            FItemIDs = call__24;
+            var call__25 = new Aow.Rtl.TStringList();
+            FMessages = call__25;
+        }
+
         // ItemExpS.pas:201
         public new const int ClassID = 132085;
 
@@ -258,33 +267,6 @@ namespace Aow.Units.ItemExpS
             Stream.rwStreamProc(20, FItemIDs.LoadFromStream, FItemIDs.SaveToStream);
             Stream.rwStrings(FMessages, 21);
             Stream.rwString(ref FTitle, 22);
-        }
-
-        // ItemExpS.pas:187
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__24 = new Aow.Units.Engine.TIntegerList();
-            FItemIDs = call__24;
-            var call__25 = new Aow.Rtl.TStringList();
-            FMessages = call__25;
-        }
-
-        // ItemExpS.pas:53
-        public static new Aow.Units.ItemExpS.TItemExplorationSiteEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ItemExpS.TItemExplorationSiteEventLog o = new Aow.Units.ItemExpS.TItemExplorationSiteEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta

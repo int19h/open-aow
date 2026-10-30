@@ -46,11 +46,22 @@ namespace Aow.Units.EventLog
 //     $14 reference count. VMT 557FC1C8. }
     public partial class TEventLog : Aow.Units.Engine.TEObject
     {
-        public int FDay;
+        // EventLog.pas:323
+        public TEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRefCount = 1;
+        }
+
+        private protected TEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            FRefCount = 1;
+        }
+
+        public int FDay = Aow.Units.AoWE.AoWE.AoWHSMap is { } map ? map.FDay : 0;
         // { $08 }
         public int FID;
         // { $0C }
-        public sbyte FPlayer;
+        public sbyte FPlayer = Aow.Units.AoWE.AoWE.AoWHSMap is { } map ? unchecked((sbyte)map.FCurrentPlayer) : (sbyte)0;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_EventLog_11;
         public int FRefCount;
@@ -77,19 +88,6 @@ namespace Aow.Units.EventLog
             Stream.rwInteger(ref FDay, 10);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 11);
             Stream.rwInteger(ref FID, 12);
-        }
-
-        // EventLog.pas:323
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
-            {
-                FDay = Aow.Units.AoWE.AoWE.AoWHSMap.FDay;
-                FPlayer = unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FCurrentPlayer);
-            }
-
-            base.Create__init(AOwner);
-            FRefCount = 1;
         }
 
         // EventLog.pas:345
@@ -281,27 +279,13 @@ namespace Aow.Units.EventLog
             Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
         }
 
-        // EventLog.pas:56
-        public static new Aow.Units.EventLog.TEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TEventLog o = new Aow.Units.EventLog.TEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TTextEventLog: size $1C; $18 text. VMT 557FC564. }
     public partial class TTextEventLog : Aow.Units.EventLog.TEventLog
     {
+        public TTextEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // EventLog.pas:713
         public new const int ClassID = 131809;
 
@@ -345,6 +329,14 @@ namespace Aow.Units.EventLog
     // { TLocationTextEventLog: size $20; $1C/$1D/$1E location. VMT 557FC664. }
     public partial class TLocationTextEventLog : Aow.Units.EventLog.TTextEventLog
     {
+        // EventLog.pas:725
+        public TLocationTextEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FXhx = unchecked((sbyte)-1);
+            FYhx = unchecked((sbyte)-1);
+            FLhx = unchecked((sbyte)-1);
+        }
+
         // EventLog.pas:728
         public new const int ClassID = 131816;
 
@@ -362,15 +354,6 @@ namespace Aow.Units.EventLog
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 20);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FYhx), 21);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLhx), 22);
-        }
-
-        // EventLog.pas:725
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FXhx = unchecked((sbyte)-1);
-            FYhx = unchecked((sbyte)-1);
-            FLhx = unchecked((sbyte)-1);
         }
 
         // EventLog.pas:740
@@ -403,23 +386,6 @@ namespace Aow.Units.EventLog
             FLhx = unchecked((sbyte)L);
         }
 
-        // EventLog.pas:91
-        public static new Aow.Units.EventLog.TLocationTextEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TLocationTextEventLog o = new Aow.Units.EventLog.TLocationTextEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.EventLog.TTextEventLog.Meta
         {
             // EventLog.pas:728
@@ -436,6 +402,21 @@ namespace Aow.Units.EventLog
     // { TMessageEventLog: size $28; $18 title, $20 message, $24 layout, $25 buttons, $26 pressed button. VMT 557FCD24. }
     public partial class TMessageEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:824
+        private protected TMessageEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            var call__9 = new Aow.Rtl.TStringList();
+            FMessage = call__9;
+            var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MessageRStr);
+            FTitle = call__10;
+            FButtons = Aow.Units.EventLog.TMessageEventLogButtons.mebOk;
+            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebNone;
+            FLayout = Aow.Units.EventLog.TMessageEventLogLayout.melNormal;
+        }
+
+        public static new TMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TMessageEventLog(context, owner));
+
         public Aow.Rtl.AnsiString FTitle;
         // { $18 }
         public Aow.Rtl.AnsiString FHeader;
@@ -464,19 +445,6 @@ namespace Aow.Units.EventLog
             Stream.rwData(Aow.Rtl.Bytes.Of(ref FLayout, 1), 1, 31);
             Stream.rwData(Aow.Rtl.Bytes.Of(ref FButtons, 1), 1, 32);
             Stream.rwString(ref FTitle, 33);
-        }
-
-        // EventLog.pas:824
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__9 = new Aow.Rtl.TStringList();
-            FMessage = call__9;
-            var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MessageRStr);
-            FTitle = call__10;
-            FButtons = Aow.Units.EventLog.TMessageEventLogButtons.mebOk;
-            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebNone;
-            FLayout = Aow.Units.EventLog.TMessageEventLogLayout.melNormal;
         }
 
         // EventLog.pas:842
@@ -517,27 +485,24 @@ namespace Aow.Units.EventLog
             return Result;
         }
 
-        // EventLog.pas:110
-        public static new Aow.Units.EventLog.TMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TMessageEventLog o = new Aow.Units.EventLog.TMessageEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { THelpMessageEventLog: size $24; $18 message, $1C help title, $20 mode. VMT 557FCE44. }
     public partial class THelpMessageEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:860
+        private protected THelpMessageEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            var call__11 = new Aow.Rtl.TStringList();
+            FMessage = call__11;
+            var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HelpRStr);
+            FHelpFileName = call__12;
+            FMode = 0;
+        }
+
+        public static new THelpMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THelpMessageEventLog(context, owner));
+
         public Aow.Rtl.TStringList FMessage;
         // { $18 }
         public Aow.Rtl.AnsiString FHelpFileName;
@@ -552,33 +517,6 @@ namespace Aow.Units.EventLog
             base.Destroy();
         }
 
-        // EventLog.pas:860
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__11 = new Aow.Rtl.TStringList();
-            FMessage = call__11;
-            var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HelpRStr);
-            FHelpFileName = call__12;
-            FMode = 0;
-        }
-
-        // EventLog.pas:125
-        public static new Aow.Units.EventLog.THelpMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.THelpMessageEventLog o = new Aow.Units.EventLog.THelpMessageEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TExecuteEventLogCallBackList: size $08; $04 list of $10-byte callback records. VMT 557FC130. }
@@ -638,8 +576,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:133
-        // AoWE.cs retains this caller until its separate constructor pass.
-        public static Aow.Units.EventLog.TExecuteEventLogCallBackList Create() => new TExecuteEventLogCallBackList();
     }
 
     // { TEventLogList: size $18; $0C update count, $10 changed callback. VMT 557FC2B0. }
@@ -798,8 +734,6 @@ namespace Aow.Units.EventLog
         }
 
         // Engine.pas:631
-        // AoWE.cs retains this caller until its separate constructor pass.
-        public static new Aow.Units.EventLog.TEventLogList Create(Aow.Units.Engine.TECustomNode AOwner) => new TEventLogList(AOwner);
     }
 
     // { TEventLogbook: size $14; $08 events, $0C player, $10 next ID. VMT 557FC3B0. }
@@ -808,8 +742,6 @@ namespace Aow.Units.EventLog
         // EventLog.pas:532
         public new const int ClassID = 131808;
 
-        // AoWE.cs retains this caller until its separate constructor pass.
-        public static new TEventLogbook Create(Aow.Units.Engine.TECustomNode AOwner) => new TEventLogbook(AOwner);
 
         public Aow.Units.EventLog.TEventLogList FEvents;
         // { $08 }
@@ -1016,30 +948,18 @@ namespace Aow.Units.EventLog
     // { TUserEventLog (instance size 32, VMT 557FC474) }
     public partial class TUserEventLog : Aow.Units.EventLog.TEventLog
     {
+        public TUserEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public Aow.Rtl.TObject FData;
         public Aow.Units.FixedArray_byte_4 FReserved1C;
-        // EventLog.pas:56
-        public static new Aow.Units.EventLog.TUserEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TUserEventLog o = new Aow.Units.EventLog.TUserEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { $18; 55749C0D }
     // { TEndTurnEventLog: size $18; no additional fields. VMT 557FC764. }
     public partial class TEndTurnEventLog : Aow.Units.EventLog.TEventLog
     {
+        public TEndTurnEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // EventLog.pas:753
         public new const int ClassID = 131811;
 
@@ -1059,23 +979,6 @@ namespace Aow.Units.EventLog
             return Result;
         }
 
-        // EventLog.pas:56
-        public static new Aow.Units.EventLog.TEndTurnEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TEndTurnEventLog o = new Aow.Units.EventLog.TEndTurnEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:753
@@ -1091,6 +994,13 @@ namespace Aow.Units.EventLog
     // { TShowMessageEventLog: size $1C; $18 message. VMT 557FC85C. }
     public partial class TShowMessageEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:759
+        public TShowMessageEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__31 = new Aow.Rtl.TStringList();
+            FMessage = call__31;
+        }
+
         // EventLog.pas:765
         public new const int ClassID = 131830;
 
@@ -1110,31 +1020,6 @@ namespace Aow.Units.EventLog
             Stream.rwStrings(FMessage, 20);
         }
 
-        // EventLog.pas:759
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__31 = new Aow.Rtl.TStringList();
-            FMessage = call__31;
-        }
-
-        // EventLog.pas:206
-        public static new Aow.Units.EventLog.TShowMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TShowMessageEventLog o = new Aow.Units.EventLog.TShowMessageEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:765
@@ -1151,6 +1036,13 @@ namespace Aow.Units.EventLog
     // { TGameOverEventLog: size $20; $18 message, inherited $10 player. VMT 557FC95C. }
     public partial class TGameOverEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:771
+        public TGameOverEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__32 = new Aow.Rtl.TStringList();
+            FMessage = call__32;
+        }
+
         // EventLog.pas:777
         public new const int ClassID = 131812;
 
@@ -1171,14 +1063,6 @@ namespace Aow.Units.EventLog
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 20);
-        }
-
-        // EventLog.pas:771
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__32 = new Aow.Rtl.TStringList();
-            FMessage = call__32;
         }
 
         // EventLog.pas:783
@@ -1248,23 +1132,6 @@ namespace Aow.Units.EventLog
             Aow.Units.AoWE.AoWE.AoWHSMap.GameOverEventHandled(unchecked((sbyte)FPlayer));
         }
 
-        // EventLog.pas:218
-        public static new Aow.Units.EventLog.TGameOverEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TGameOverEventLog o = new Aow.Units.EventLog.TGameOverEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:777
@@ -1281,6 +1148,8 @@ namespace Aow.Units.EventLog
     // { TNewDayEventLog: size $1C; inherited $18 text. VMT 557FCA54. }
     public partial class TNewDayEventLog : Aow.Units.EventLog.TTextEventLog
     {
+        public TNewDayEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // EventLog.pas:809
         public new const int ClassID = 131813;
 
@@ -1301,23 +1170,6 @@ namespace Aow.Units.EventLog
             }
         }
 
-        // EventLog.pas:56
-        public static new Aow.Units.EventLog.TNewDayEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TNewDayEventLog o = new Aow.Units.EventLog.TNewDayEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.EventLog.TTextEventLog.Meta
         {
             // EventLog.pas:809
@@ -1333,6 +1185,8 @@ namespace Aow.Units.EventLog
     // { TShowBookEventLog: size $18; no additional fields. VMT 557FCB48. }
     public partial class TShowBookEventLog : Aow.Units.EventLog.TEventLog
     {
+        public TShowBookEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // EventLog.pas:818
         public new const int ClassID = 131818;
 
@@ -1342,23 +1196,6 @@ namespace Aow.Units.EventLog
             bool Result = default;
             Result = false;
             return Result;
-        }
-
-        // EventLog.pas:56
-        public static new Aow.Units.EventLog.TShowBookEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TShowBookEventLog o = new Aow.Units.EventLog.TShowBookEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -1377,34 +1214,32 @@ namespace Aow.Units.EventLog
     public partial class TTutorialMessageEventLog : Aow.Units.EventLog.THelpMessageEventLog
     {
         // EventLog.pas:871
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private TTutorialMessageEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__42 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TutorialRStr);
             FHelpFileName = call__42;
         }
 
-        // EventLog.pas:243
-        public static new Aow.Units.EventLog.TTutorialMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TTutorialMessageEventLog o = new Aow.Units.EventLog.TTutorialMessageEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
+        public static new TTutorialMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTutorialMessageEventLog(context, owner));
 
-            return o;
-        }
     }
 
     // { TSaveGameEventLog: size $2C; $1C directory, $20 default name, $24 file name, $28 title. VMT 557FD0A4. }
     public partial class TSaveGameEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:874
+        // { $28 }
+        private TSaveGameEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SaveRStr);
+            FTitle = call__43;
+            FMode = TSet<Aow.Units.EventLog.TSaveGameEventLogModeElement>.Of();
+        }
+
+        public static new TSaveGameEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSaveGameEventLog(context, owner));
+
         public TSet<Aow.Units.EventLog.TSaveGameEventLogModeElement> FMode;
         // { $18 }
         public Aow.Units.FixedArray_byte_3 FReserved19;
@@ -1415,37 +1250,26 @@ namespace Aow.Units.EventLog
         public Aow.Rtl.AnsiString FFileName;
         // { $24 }
         public Aow.Rtl.AnsiString FTitle;
-        // EventLog.pas:874
-        // { $28 }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SaveRStr);
-            FTitle = call__43;
-            FMode = TSet<Aow.Units.EventLog.TSaveGameEventLogModeElement>.Of();
-        }
 
-        // EventLog.pas:255
-        public static new Aow.Units.EventLog.TSaveGameEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TSaveGameEventLog o = new Aow.Units.EventLog.TSaveGameEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TPasswordEventLog: size $28; $18 password, $1C title, $20 prompt, $24 button. VMT 557FD1C4. }
     public partial class TPasswordEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:877
+        private TPasswordEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            FPassword = (AnsiString)"";
+            var call__44 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnterPasswordRStr);
+            FPrompt = call__44;
+            var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PasswordVerificationRStr);
+            FTitle = call__45;
+            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebNone;
+        }
+
+        public static new TPasswordEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPasswordEventLog(context, owner));
+
         public Aow.Rtl.AnsiString FPassword;
         // { $18; 557563E0 }
         public Aow.Rtl.AnsiString FTitle;
@@ -1455,34 +1279,7 @@ namespace Aow.Units.EventLog
         public Aow.Units.EventLog.TPressedEventLogButton FPressedButton;
         // { $24; 557563EA }
         public Aow.Units.FixedArray_byte_3 F_PasswordEventLog_25;
-        // EventLog.pas:877
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FPassword = (AnsiString)"";
-            var call__44 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnterPasswordRStr);
-            FPrompt = call__44;
-            var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PasswordVerificationRStr);
-            FTitle = call__45;
-            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebNone;
-        }
 
-        // EventLog.pas:266
-        public static new Aow.Units.EventLog.TPasswordEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EventLog.TPasswordEventLog o = new Aow.Units.EventLog.TPasswordEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate void TExecuteDoneEvent(Aow.Units.EventLog.TEventLog Log);

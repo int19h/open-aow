@@ -1731,7 +1731,7 @@ namespace Aow.Units.GlobalTargetSpells
 
                     if (Selection != 0)
                     {
-                        Log = Aow.Units.AoWE.TArmyEventLog.Create(null);
+                        Log = new Aow.Units.AoWE.TArmyEventLog(null);
                         Log.FPlayer = unchecked((sbyte)A1.FPlayer);
                         var call__169 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TornadoRStr);
                         var call__170 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XCastRStr);
@@ -2190,7 +2190,7 @@ namespace Aow.Units.GlobalTargetSpells
 
                 if (bool__230)
                 {
-                    Log = Aow.Units.AoWE.TArmyEventLog.Create(null);
+                    Log = new Aow.Units.AoWE.TArmyEventLog(null);
                     var call__232 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.VortexDamageRStr);
                     Log.FArmyText = call__232;
                     Log.FPlayer = unchecked((sbyte)A1.FPlayer);

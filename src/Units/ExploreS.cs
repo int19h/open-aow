@@ -290,7 +290,7 @@ namespace Aow.Units.ExploreS
                         Combat.Finalize();
                         var call__24 = GetName();
                         Combat.FLogbook.FFinalData.FHeader = (call__24 + AnsiString.FromBytes(32)) + Combat.FLogbook.FFinalData.FHeader;
-                        Event = Aow.Units.AoWE.TCombatEventLog.Create(null);
+                        Event = new Aow.Units.AoWE.TCombatEventLog(null);
                         Event.SetCombatLogbook(Combat.FLogbook);
                         var call__25 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
                         call__25.FEventLogbook.AddEvent(Event);
@@ -324,7 +324,7 @@ namespace Aow.Units.ExploreS
                             Combat.Finalize();
                             var call__29 = GetName();
                             Combat.FLogbook.FFinalData.FHeader = (call__29 + AnsiString.FromBytes(32)) + Combat.FLogbook.FFinalData.FHeader;
-                            Event = Aow.Units.AoWE.TCombatEventLog.Create(null);
+                            Event = new Aow.Units.AoWE.TCombatEventLog(null);
                             Event.SetCombatLogbook(Combat.FLogbook);
                             var call__30 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
                             call__30.FEventLogbook.AddEvent(Event);
@@ -377,7 +377,7 @@ namespace Aow.Units.ExploreS
                 var playerList = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers;
                 if ((playerList.FLocalPlayers.Count == 1) || Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType)
                 {
-                    Request = Aow.Units.AoWE.TCombatTypeRequestEventLog.Create(null);
+                    Request = new Aow.Units.AoWE.TCombatTypeRequestEventLog(null);
                     var call__37 = GetLhx();
                     var call__38 = GetYhx();
                     var call__39 = GetXhx();
