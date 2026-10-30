@@ -15,7 +15,7 @@ public partial class TAoWHSMap
         try
         {
             if (tokenLog is null) return;
-            tokenLog.Write(((AnsiString)(text + "\r\n")).Span);
+            tokenLog.Write(Aow.Rtl.Rtl.StringBytes(text + "\r\n"));
             if (flush) tokenLog.Flush();
         }
         catch (IOException) { }

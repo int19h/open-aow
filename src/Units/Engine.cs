@@ -11148,7 +11148,6 @@ namespace Aow.Units.Engine
         // Engine.pas:10632
         internal void ReadStreamText()
         {
-            Aow.Rtl.AnsiString Buffer = default;
             Aow.Rtl.AnsiString Line = default;
             Aow.Rtl.TStringList Text = default;
             int P = 0;
@@ -11159,10 +11158,11 @@ namespace Aow.Units.Engine
             Text.BeginUpdate();
             try
             {
-                Buffer = default(AnsiString).Resized(FSize);
-                Aow.Rtl.Rtl.ReadString(FStream, ref Buffer, 0, FSize, false);
+                if (FSize < 0) throw new ERangeError("Negative string length");
+                byte[] buffer = new byte[FSize];
+                FStream.Read(buffer);
                 Text.Clear();
-                ReadOnlySpan<byte> text = Buffer.Span;
+                ReadOnlySpan<byte> text = buffer;
                 if (!text.IsEmpty)
                 {
                     while ((P < text.Length ? text[P] : (byte)0) != 0)
@@ -14095,8 +14095,13 @@ namespace Aow.Units.Engine
         {
             int Len = default;
             Stream.Read(Aow.Rtl.Bytes.Of(ref Len, 4));
-            S = S.Resized(Len);
-            Aow.Rtl.Rtl.ReadString(Stream, ref S, 1 - 1, Len, false);
+            if (Len < 0) throw new ERangeError("Negative string length");
+            byte[] buffer = new byte[Len];
+            Aow.Rtl.Rtl.StringBytes(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
+            // A failed read leaves the resized value in the destination.
+            S = AnsiString.FromBytes(buffer);
+            Stream.Read(buffer);
+            S = AnsiString.FromBytes(buffer);
         }
 
         // Engine.pas:2185
@@ -14104,7 +14109,7 @@ namespace Aow.Units.Engine
         {
             ReadOnlySpan<byte> P = default;
             int Len = default;
-            P = Strings.Text.Span;
+            P = Aow.Rtl.Rtl.StringBytes(Strings.Text);
             Len = CStringLength(P);
             Stream.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
             Stream.WriteBuffer(P[..Len]);
@@ -14115,14 +14120,14 @@ namespace Aow.Units.Engine
         public static void StringsFromStream(Aow.Rtl.TStrings Strings, Aow.Rtl.TStream Stream)
         {
             int Len = default;
-            Aow.Rtl.AnsiString S = default;
             Strings.BeginUpdate();
             try
             {
                 Stream.Read(Aow.Rtl.Bytes.Of(ref Len, 4));
-                S = default(AnsiString).Resized(Len);
-                Aow.Rtl.Rtl.ReadString(Stream, ref S, 0, Len, false);
-                Strings.Text = S;
+                if (Len < 0) throw new ERangeError("Negative string length");
+                byte[] buffer = new byte[Len];
+                Stream.Read(buffer);
+                Strings.Text = AnsiString.FromBytes(buffer);
             }
             finally
             {
@@ -14396,8 +14401,13 @@ namespace Aow.Units.Engine
                 Len = B;
             }
 
-            S = S.Resized(Len);
-            Aow.Rtl.Rtl.ReadString(Stream, ref S, 1 - 1, Len, false);
+            if (Len < 0) throw new ERangeError("Negative string length");
+            byte[] buffer = new byte[Len];
+            Aow.Rtl.Rtl.StringBytes(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
+            // A failed read leaves the resized value in the destination.
+            S = AnsiString.FromBytes(buffer);
+            Stream.Read(buffer);
+            S = AnsiString.FromBytes(buffer);
         }
 
         // Engine.pas:2213
@@ -14407,7 +14417,7 @@ namespace Aow.Units.Engine
             int Len = default;
             int I = default;
             int Obj = default;
-            P = Strings.Text.Span;
+            P = Aow.Rtl.Rtl.StringBytes(Strings.Text);
             Len = CStringLength(P);
             Stream.Write(Aow.Rtl.Bytes.Of(ref Len, 4));
             Stream.WriteBuffer(P[..Len]);
@@ -14430,14 +14440,14 @@ namespace Aow.Units.Engine
             int Len = default;
             int I = default;
             int Obj = default;
-            Aow.Rtl.AnsiString S = default;
             Strings.BeginUpdate();
             try
             {
                 Stream.Read(Aow.Rtl.Bytes.Of(ref Len, 4));
-                S = default(AnsiString).Resized(Len);
-                Aow.Rtl.Rtl.ReadString(Stream, ref S, 0, Len, false);
-                Strings.Text = S;
+                if (Len < 0) throw new ERangeError("Negative string length");
+                byte[] buffer = new byte[Len];
+                Stream.Read(buffer);
+                Strings.Text = AnsiString.FromBytes(buffer);
                 {
                     I = 0;
                     int end__542 = Strings.Count - 1;
