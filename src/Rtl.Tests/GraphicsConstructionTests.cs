@@ -20,19 +20,19 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Images()
     {
-        yield return new object[] { typeof(LibraryImage), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<LibraryImage>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new LibraryImage(owner)) };
-        yield return new object[] { typeof(TImageNode), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TImageNode>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TImageNode(owner)) };
-        yield return new object[] { typeof(TImage08), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TImage08>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TImage08(owner)) };
-        yield return new object[] { typeof(TPicture08), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TPicture08>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TPicture08(owner)) };
-        yield return new object[] { typeof(TRLESprite08), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TRLESprite08>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TRLESprite08(owner)) };
-        yield return new object[] { typeof(TImage16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TImage16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TImage16(owner)) };
-        yield return new object[] { typeof(TPicture16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TPicture16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TPicture16(owner)) };
-        yield return new object[] { typeof(TTransparentPicture16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TTransparentPicture16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TTransparentPicture16(owner)) };
-        yield return new object[] { typeof(TSprite16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TSprite16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TSprite16(owner)) };
-        yield return new object[] { typeof(TRLESprite16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TRLESprite16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TRLESprite16(owner)) };
-        yield return new object[] { typeof(TTransparentRLESprite16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TTransparentRLESprite16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TTransparentRLESprite16(owner)) };
-        yield return new object[] { typeof(TBitMask), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TBitMask>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TBitMask(owner)) };
-        yield return new object[] { typeof(TShadow), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImage.Meta.Of<TShadow>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TShadow(owner)) };
+        yield return new object[] { typeof(LibraryImage), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<LibraryImage>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new LibraryImage(owner)) };
+        yield return new object[] { typeof(TImageNode), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TImageNode>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TImageNode(owner)) };
+        yield return new object[] { typeof(TImage08), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TImage08>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TImage08(owner)) };
+        yield return new object[] { typeof(TPicture08), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TPicture08>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TPicture08(owner)) };
+        yield return new object[] { typeof(TRLESprite08), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TRLESprite08>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TRLESprite08(owner)) };
+        yield return new object[] { typeof(TImage16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TImage16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TImage16(owner)) };
+        yield return new object[] { typeof(TPicture16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TPicture16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TPicture16(owner)) };
+        yield return new object[] { typeof(TTransparentPicture16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TTransparentPicture16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TTransparentPicture16(owner)) };
+        yield return new object[] { typeof(TSprite16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TSprite16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TSprite16(owner)) };
+        yield return new object[] { typeof(TRLESprite16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TRLESprite16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TRLESprite16(owner)) };
+        yield return new object[] { typeof(TTransparentRLESprite16), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TTransparentRLESprite16>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TTransparentRLESprite16(owner)) };
+        yield return new object[] { typeof(TBitMask), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TBitMask>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TBitMask(owner)) };
+        yield return new object[] { typeof(TShadow), (Func<TCustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TShadow>().Create(owner)), (Func<TCustomImageLibrary, LibraryImage>)(owner => new TShadow(owner)) };
 
     }
 
@@ -43,12 +43,14 @@ public sealed class GraphicsConstructionTests
         var owner = TImageLibrary.Create(null!);
         try
         {
-            Assert.Throws<InvalidOperationException>(() => MetaRegistry.Of(type).NewInstance());
+            var descriptor = LibraryImageClass.Of(type);
+            Assert.Equal(type, descriptor.Type);
             foreach (var construct in new[] { direct, create })
             foreach (var suppliedOwner in new TCustomImageLibrary[] { null!, owner })
             {
                 var image = construct(suppliedOwner);
                 Assert.Equal(type, image.GetType());
+                Assert.Same(descriptor, image.ImageClass);
                 Assert.Same(suppliedOwner, image.Owner);
                 Assert.Equal(-1, image.DataPosition);
                 Assert.False(image.ReloadingEnabled);
@@ -384,7 +386,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void VirtualOwnerCallSeesBaseDefaultsBeforeDerivedBody()
     {
-        LibraryImageCreation.Register(typeof(ObservedImage), new LibraryImage.Meta(), static owner => new ObservedImage(owner), 64);
+        LibraryImageClass.Of<ObservedImage>();
         var image = new ObservedImage(null!);
         Assert.Equal(0, image.SeenDerivedValue);
         Assert.Equal(-1, image.SeenPosition);
@@ -392,8 +394,9 @@ public sealed class GraphicsConstructionTests
         image.Destroy();
     }
 
-    private sealed class ObservedImage : LibraryImage
+    private sealed class ObservedImage : LibraryImage, ILibraryImageClass
     {
+        static LibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new ObservedImage(owner);
         public int DerivedValue;
         public int SeenDerivedValue;
         public int SeenPosition;
