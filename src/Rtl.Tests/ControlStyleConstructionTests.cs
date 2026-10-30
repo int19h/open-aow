@@ -124,32 +124,118 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class FlagFixture : IDisposable
     {
-        internal readonly FlagOwner Owner = new();
+        internal readonly FlagOwner Owner;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TILManagerObject Entry;
         private readonly TAoWHSSet previous = Game.AoWHSSet;
+        private readonly IFileSystem previousFiles = Rtl.Files;
+        private readonly AnsiString previousStartup = EngineFixture.Engine.StartupDirectory;
+        private readonly AnsiString previousSoundPath = Aow.Units.Sound.Sound.BaseSoundEnginePath;
+        private readonly AnsiString previousImagePath = Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath;
+        private readonly AnsiString previousExe = Rtl.Application.ExeName;
+        private readonly string root;
+        private readonly bool ownsRoot;
+        internal readonly FlagFiles Files;
 
         internal FlagFixture(bool loaded, string? directory = null)
         {
-            Field(typeof(THSSet), "FImageLibraryManager").SetValue(Owner, Manager);
-            Field(typeof(TImageLibraryManager), "FSearchPath").SetValue(Manager, (AnsiString)"9.3b-2-missing/");
-            var disk = (TILManagerList)Field(typeof(TImageLibraryManager), "FDiskList").GetValue(Manager)!;
-            if (directory is null) Entry = disk.AddILFile("Flags.ILB");
-            else
+            ownsRoot = directory is null;
+            root = directory ?? Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(root);
+            Directory.CreateDirectory(Path.Combine(root, "IMAGES"));
+            Directory.CreateDirectory(Path.Combine(root, "SFX"));
+            Files = new FlagFiles(root);
+            Rtl.Files = Files;
+            EngineFixture.Engine.SetStartupDirectory(root + Path.DirectorySeparatorChar);
+            Aow.Units.Sound.Sound.BaseSoundEnginePath = root + Path.DirectorySeparatorChar;
+            Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath = root + Path.DirectorySeparatorChar;
+            Rtl.Application.ExeName = Path.Combine(root, "fixture.exe");
+            try
             {
-                Manager.ExecutePathSearch(directory);
-                Entry = Assert.IsType<TILManagerObject>(disk.Objects[0]);
+                Owner = new FlagOwner();
+                Field(typeof(THSSet), "FImageLibraryManager").SetValue(Owner, Manager);
+                Field(typeof(TImageLibraryManager), "FSearchPath").SetValue(Manager, (AnsiString)"9.3b-2-missing/");
+                var disk = (TILManagerList)Field(typeof(TImageLibraryManager), "FDiskList").GetValue(Manager)!;
+                if (directory is null) Entry = disk.AddILFile("Flags.ILB");
+                else
+                {
+                    Manager.ExecutePathSearch(directory);
+                    Entry = Assert.IsType<TILManagerObject>(disk.Objects[0]);
+                }
+                if (loaded)
+                    Field(typeof(TILManagerObject), "FImageLibrary").SetValue(Entry, new TImageLibrary(null!));
+                Game.AoWHSSet = Owner;
+                Owner.Members.Clear();
             }
-            if (loaded)
-                Field(typeof(TILManagerObject), "FImageLibrary").SetValue(Entry, new TImageLibrary(null!));
-            Game.AoWHSSet = Owner;
-            Owner.Members.Clear();
+            catch
+            {
+                RestoreFiles();
+                throw;
+            }
         }
 
         public void Dispose()
         {
             try { foreach (var child in Owner.Members.ToArray()) child.Destroy(); }
-            finally { Game.AoWHSSet = previous; Manager.Destroy(); }
+            finally
+            {
+                Game.AoWHSSet = previous;
+                try { Manager.Destroy(); }
+                finally { RestoreFiles(); }
+            }
+        }
+
+        private void RestoreFiles()
+        {
+            EngineFixture.Engine.SetStartupDirectory(previousStartup);
+            Aow.Units.Sound.Sound.BaseSoundEnginePath = previousSoundPath;
+            Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath = previousImagePath;
+            Rtl.Application.ExeName = previousExe;
+            Rtl.Files = previousFiles;
+            if (ownsRoot) Directory.Delete(root, recursive: true);
+        }
+    }
+
+    private sealed class FlagFiles : IFileSystem
+    {
+        private readonly string root;
+        private readonly SystemIoFileSystem files = new();
+        internal readonly List<string> OpenedPaths = [];
+        internal readonly List<string> EnumeratedDirectories = [];
+        internal FlagFiles(string root)
+        {
+            this.root = Path.GetFullPath(root);
+            Assert.True(files.SetCurrentDirectory(this.root));
+        }
+        private string Checked(string path)
+        {
+            string full = files.ExpandPath(path);
+            Assert.True(full.Equals(root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Flag fixture escaped temporary root: " + full);
+            return full;
+        }
+        public string CurrentDirectory => files.CurrentDirectory;
+        public bool SetCurrentDirectory(string path) => files.SetCurrentDirectory(Checked(path));
+        public string ExpandPath(string path) => Checked(path);
+        public Stream Open(string path, int mode)
+        {
+            string full = Checked(path);
+            OpenedPaths.Add(full);
+            return files.Open(full, mode);
+        }
+        public bool FileExists(string path) => files.FileExists(Checked(path));
+        public bool DirectoryExists(string path) => files.DirectoryExists(Checked(path));
+        public bool DeleteFile(string path) => files.DeleteFile(Checked(path));
+        public bool RenameFile(string source, string target) => files.RenameFile(Checked(source), Checked(target));
+        public bool CreateDirectory(string path) => files.CreateDirectory(Checked(path));
+        public bool RemoveDirectory(string path) => files.RemoveDirectory(Checked(path));
+        public int GetAttributes(string path) => files.GetAttributes(Checked(path));
+        public int SetAttributes(string path, int attributes) => files.SetAttributes(Checked(path), attributes);
+        public DateTime? LastWriteTime(string path) => files.LastWriteTime(Checked(path));
+        public IEnumerable<RtlFileEntry> Enumerate(string directory)
+        {
+            string full = Checked(directory);
+            EnumeratedDirectories.Add(full);
+            return files.Enumerate(full).ToArray();
         }
     }
 
@@ -190,21 +276,40 @@ public sealed class ControlStyleConstructionTests
         Assert.NotNull(fixture.Entry.ImageLibrary);
     }
 
-    [Fact]
-    public void CorruptFlagFileDiscoveredByImageSearchRestoresPublication()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void CorruptFlagFileDiscoveredByImageSearchRestoresPublication(bool imageClassesInitialized)
     {
         string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
+        var previousClasses = Aow.Units.ImageLib.ImageLib.LibraryImageClasses;
+        var classes = imageClassesInitialized ? new TList() : null;
         Directory.CreateDirectory(directory);
         try
         {
-            File.WriteAllBytes(Path.Combine(directory, "FLAGS.ILB"), [1, 2, 3]);
+            // The version-4 index is truncated, so ReadBuffer fails before any image-class lookup.
+            TILBHeader header = new() { ID = "ILB", Version = 4, HeaderSize = 24, IndexEnd = 28, Size = 28 };
+            string path = Path.Combine(directory, "FLAGS.ILB");
+            File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
+            Aow.Units.ImageLib.ImageLib.LibraryImageClasses = classes!;
             using var fixture = new FlagFixture(loaded: false, directory);
+            var library = new TImageLibrary(null!);
+            try { Assert.Throws<EReadError>(() => library.LoadFromFile(path)); }
+            finally { library.Destroy(); }
+            fixture.Files.OpenedPaths.Clear();
             var error = Assert.Throws<Aow.Rtl.Exception>(() => TFlagControl.Create(fixture.Owner));
             Assert.Contains("Error loading:", error.Message.ToString(), StringComparison.Ordinal);
+            Assert.Equal(path.ToUpperInvariant(), Assert.Single(fixture.Files.OpenedPaths).ToUpperInvariant());
+            Assert.Contains(fixture.Files.EnumeratedDirectories, entry => entry.Equals(directory, StringComparison.OrdinalIgnoreCase));
             Assert.Equal(0, fixture.Entry.RefCount);
             Assert.Empty(fixture.Owner.Members);
         }
-        finally { Directory.Delete(directory, recursive: true); }
+        finally
+        {
+            Aow.Units.ImageLib.ImageLib.LibraryImageClasses = previousClasses;
+            classes?.Destroy();
+            Directory.Delete(directory, recursive: true);
+        }
     }
 
     private sealed class Owner : TECustomNode
