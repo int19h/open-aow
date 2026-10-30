@@ -35,7 +35,7 @@ public partial class TRaidAGC
             case 2:
                 var raze = new TAIGroupRazeControl(null!);
                 raze.Setup(this);
-                // 557D9AB4 loads the set byte 04 from 557D9ADC in the original.
+                // loads the set byte 04 from in the original
                 raze.FMode = TSet<TAIGroupRazeControlModeElement>.Of(TAIGroupRazeControlModeElement.rcmAlways);
                 ActivatePlugin(raze);
                 raze.Release();

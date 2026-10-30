@@ -34,8 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.UnitSpells
 {
-    // { TDispelMagicSpellCA (instance size 28, VMT 557E530C):
-//     $14 spell ID, $18 mana cost charged after execution. }
+    // spell ID, mana cost charged after execution
     public partial class TDispelMagicSpellCA : Aow.Units.AoWE.TDispelMagicCA
     {
         // UnitSpells.pas:975
@@ -45,10 +44,8 @@ namespace Aow.Units.UnitSpells
         { }
 
         public int FSpellID;
-        // { $14 }
         public int FManaCost;
         // UnitSpells.pas:980
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -77,8 +74,7 @@ namespace Aow.Units.UnitSpells
 
     }
 
-    // { TDispelMagic (instance size 68, VMT 557E53F4): inherited $34 multiple targets,
-//     $38 target range, $3C dispel resistance, $40 AI value. }
+    // inherited multiple targets, target range, dispel resistance, AI value
     public partial class TDispelMagic : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:1000
@@ -118,8 +114,6 @@ namespace Aow.Units.UnitSpells
         // UnitSpells.pas:1074
         public override void GetCombatInfo(Aow.Units.AoWE.TAbstractUnit Source, ref Aow.Units.AoWE.TSpellCombatInfo Info)
         {
-            // { Tried receiver/source identity copies and explicit inherited calls; still differs. }
-            // { conflict: procedure TDispelMagic.GetCombatInfo(Source: TCombatObject; var Info: TSpellCombatInfo); }
             base.GetCombatInfo(Source, ref Info);
             Info.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttFriend, Aow.Units.AoWE.TCombatTargetTypeElement.cttEnemy);
         }
@@ -215,7 +209,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { THaste (instance size 68, VMT 557E5534) }
     public partial class THaste : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:215
@@ -272,7 +265,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TStoneSkin (instance size 68, VMT 557E5664) }
     public partial class TStoneSkin : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:256
@@ -328,7 +320,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TEnchantWeapon (instance size 68, VMT 557E579C) }
     public partial class TEnchantWeapon : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:296
@@ -398,7 +389,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TFreeMovement (instance size 68, VMT 557E58DC) }
     public partial class TFreeMovement : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:386
@@ -480,7 +470,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TFury (instance size 68, VMT 557E5A1C) }
     public partial class TFury : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:336
@@ -562,7 +551,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TRemedy (instance size 68, VMT 557E5B4C) }
     public partial class TRemedy : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:424
@@ -668,7 +656,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { THealingWater (instance size 68, VMT 557E5C7C) }
     public partial class THealingWater : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:467
@@ -728,7 +715,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { THolyChampion (instance size 68, VMT 557E5DBC) }
     public partial class THolyChampion : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:497
@@ -804,7 +790,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TUnholyChampion (instance size 68, VMT 557E5EFC) }
     public partial class TUnholyChampion : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:537
@@ -880,7 +865,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TConcealment (instance size 68, VMT 557E603C) }
     public partial class TConcealment : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:577
@@ -955,7 +939,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TFireAura (instance size 68, VMT 557E617C) }
     public partial class TFireAura : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:616
@@ -1048,7 +1031,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TWaterWalking (instance size 68, VMT 557E62B4) }
     public partial class TWaterWalking : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:662
@@ -1137,7 +1119,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TWindWalking (instance size 68, VMT 557E63F4) }
     public partial class TWindWalking : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:702
@@ -1212,7 +1193,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TLiquidForm (instance size 68, VMT 557E6534) }
     public partial class TLiquidForm : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:741
@@ -1321,7 +1301,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TBless (instance size 68, VMT 557E666C) }
     public partial class TBless : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:790
@@ -1377,7 +1356,6 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TDarkGift (instance size 68, VMT 557E679C) }
     public partial class TDarkGift : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:830
@@ -1433,18 +1411,15 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    // { TCosmeticSurgerySpellCaster (instance size 28, VMT 557E68D4):
-//     $14 replacement face index, $18 target unit ID. }
+    // replacement face index, target unit ID
     public partial class TCosmeticSurgerySpellCaster : Aow.Units.AoWE.TSpellCaster
     {
         public TCosmeticSurgerySpellCaster(TECustomNode owner) : base(owner)
         { }
 
         public int FFaceIndex;
-        // { $14 }
         public int FTargetUnitID;
         // UnitSpells.pas:870
-        // { $18 }
         public override bool CanCast(ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
@@ -1504,7 +1479,6 @@ namespace Aow.Units.UnitSpells
 
     }
 
-    // { TCosmeticSurgery (instance size 68, VMT 557E69BC) }
     public partial class TCosmeticSurgery : Aow.Units.AoWE.TUnitSpell
     {
         // UnitSpells.pas:901
@@ -1525,7 +1499,6 @@ namespace Aow.Units.UnitSpells
         // UnitSpells.pas:968
         public override void GetCombatInfo(Aow.Units.AoWE.TAbstractUnit Source, ref Aow.Units.AoWE.TSpellCombatInfo Info)
         {
-            // { Tried receiver/source identity copies and explicit inherited calls; still differs. }
             // { The original saves Self and Source as well as Info; this compiler saves only Info. }
             base.GetCombatInfo(Source, ref Info);
             Info.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttEnemy);

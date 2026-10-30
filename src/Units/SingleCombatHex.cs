@@ -40,7 +40,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.SingleCombatHex
 {
-    // { TSingleCombatHexagon (instance size 16, VMT 00434E38) }
     public partial class TSingleCombatHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
         public TSingleCombatHexagon(TECustomNode owner) : base(owner)
@@ -74,7 +73,6 @@ namespace Aow.Units.SingleCombatHex
 
     }
 
-    // { TSingleCombatHexagonResource (instance size 52, VMT 00434FE8) }
     public partial class TSingleCombatHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
         public TSingleCombatHexagonResource(TECustomNode owner) : base(owner)

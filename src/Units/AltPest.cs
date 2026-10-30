@@ -38,7 +38,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AltPest
 {
-    // { TAltarOfPestilence (instance size 68, no added fields, VMT 557D255C) }
     public partial class TAltarOfPestilence : Aow.Units.Altar.TAltar
     {
         public TAltarOfPestilence(TECustomNode owner) : base(owner)
@@ -57,7 +56,6 @@ namespace Aow.Units.AltPest
 
     }
 
-    // { TAltarOfPestilenceResource (instance size 116, no added fields, VMT 557D281C) }
     public partial class TAltarOfPestilenceResource : Aow.Units.Altar.TAltarResource
     {
         public TAltarOfPestilenceResource(TECustomNode owner) : base(owner)

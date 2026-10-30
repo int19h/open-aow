@@ -37,7 +37,7 @@ using static Aow.Units.AoWE.AoWE;
 namespace Aow.Units.Gems
 {
     // { ot=1 }
-    // { TGems (instance size 36, VMT 557C4D54): $1C FAmount, $20 FGenerateMode. }
+    // FAmount, FGenerateMode
     public partial class TGems : Aow.Units.ILTer.TILTerrainMO
     {
         public TGems(TECustomNode owner) : base(owner)
@@ -51,7 +51,6 @@ namespace Aow.Units.Gems
 
         public int FAmount;
         public Aow.Units.Gems.TGemsGenerateMode FGenerateMode;
-        public Aow.Units.FixedArray_byte_3 F_Gems_21;
         // Gems.pas:56
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -76,7 +75,6 @@ namespace Aow.Units.Gems
         // Gems.pas:119
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
         {
-            // { Unmatched: tried record cast of dereferenced AI info pointer; zero-shift AI info address; untyped pointer var argument rejected by compiler; restored. }
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4354)
             {
@@ -195,7 +193,6 @@ namespace Aow.Units.Gems
 
     }
 
-    // { TGemsResource (instance size 68, VMT 557C4EF0): no additional fields. }
     public partial class TGemsResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TGemsResource(TECustomNode owner) : base(owner)

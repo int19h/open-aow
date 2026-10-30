@@ -74,145 +74,79 @@ using static Aow.Units.E2Globals.E2Globals;
 
 namespace Aow.Units.AoWMagic
 {
-    // { TMagicWin: size $14C; $140 enchantment sort, $144 global sort, $148 power sort. VMT 0042C190. }
+    // enchantment sort, global sort, power sort
     public partial class TMagicWin : Aow.Rtl.TDataModule
     {
         public TMagicWin(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel OWTitle;
-        // { +0048 }
         public Aow.Units.AoWImage.TAOWImage OWTitleIc;
-        // { +004C }
         public Aow.Units.AoWTabPanel.TAOWTabPanel HeaderTab;
-        // { +0050 }
         public Aow.Units.AoWFrame.TAoWFrame OWRPillar;
-        // { +0054 }
         public Aow.Units.AoWFrame.TAoWFrame OWLPillar;
-        // { +0058 }
         public Aow.Units.AoWPanel.TAOWPanel T1Pnl;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel ResearchPoints;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel ResLbl;
-        // { +0064 }
         public Aow.Units.AoWPanel.TAOWPanel T2Pnl;
-        // { +0068 }
         public Aow.Units.AoWPanel.TAOWPanel T2LBPnl;
-        // { +006C }
         public Aow.Units.AoWListBox.TAOWListBox EnchantmentList;
-        // { +0070 }
         public Aow.Units.AoWButton.TAOWButton EnchantmentSortBtn;
-        // { +0074 }
         public Aow.Units.AoWListBox.TAOWListBox UpkeepList;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton UpkeepSortBtn;
-        // { +007C }
         public Aow.Units.AoWListBox.TAOWListBox BindingList;
-        // { +0080 }
         public Aow.Units.AoWButton.TAOWButton BindingSortBtn;
-        // { +0084 }
         public Aow.Units.AoWPanel.TAOWPanel ResPnl;
-        // { +0088 }
         public Aow.Units.AoWLabel.TAOWLabel NetMana;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel NetMamaLbl;
-        // { +0090 }
         public Aow.Units.AoWPanel.TAOWPanel NetManaPnl;
-        // { +0094 }
         public Aow.Units.AoWPanel.TAOWPanel T3Pnl;
-        // { +0098 }
         public Aow.Units.AoWPanel.TAOWPanel T3LBPnl;
-        // { +009C }
         public Aow.Units.AoWListBox.TAOWListBox GlobalEnchantmentList;
-        // { +00A0 }
         public Aow.Units.AoWButton.TAOWButton GlobalEnchantmentSortBtn;
-        // { +00A4 }
         public Aow.Units.AoWListBox.TAOWListBox GlobalUpkeepList;
-        // { +00A8 }
         public Aow.Units.AoWButton.TAOWButton GlobalUpkeepSortBtn;
-        // { +00AC }
         public Aow.Units.AoWListBox.TAOWListBox GlobalNameList;
-        // { +00B0 }
         public Aow.Units.AoWButton.TAOWButton GlobalNameSortBtn;
-        // { +00B4 }
         public Aow.Units.AoWPanel.TAOWPanel RightPnl;
-        // { +00B8 }
         public Aow.Units.AoWLabel.TAOWLabel SpellName;
-        // { +00BC }
         public Aow.Units.AoWButton.TAOWButton GlobalDispelBtn;
-        // { +00C0 }
         public Aow.Units.AoWButton.TAOWButton DispelBtn;
-        // { +00C4 }
         public Aow.Units.AoWButton.TAOWButton ResearchBtn;
-        // { +00C8 }
         public Aow.Units.AoWLabel.TAOWLabel ResearchTurnsLeft;
-        // { +00CC }
         public Aow.Units.AoWLabel.TAOWLabel SpellClass;
-        // { +00D0 }
         public Aow.Units.AoWPanel.TAOWPanel SpellPnl;
-        // { +00D4 }
         public Aow.Units.AoWLabel.TAOWLabel SpellCost;
-        // { +00D8 }
         public Aow.Units.AoWImage.TAOWImage SpellIcn;
-        // { +00DC }
         public Aow.Units.AoWButton.TAOWButton Minimize;
-        // { +00E0 }
         public Aow.Units.AoWButton.TAOWButton ChangePowerBut;
-        // { +00E4 }
         public Aow.Units.AoWLabel.TAOWLabel Power;
-        // { +00E8 }
         public Aow.Units.AoWLabel.TAOWLabel PowerLbl;
-        // { +00EC }
         public Aow.Units.AoWPanel.TAOWPanel PowePnl;
-        // { +00F0 }
         public Aow.Units.AoWPanel.TAOWPanel LeftPnl;
-        // { +00F4 }
         public Aow.Units.AoWPanel.TAOWPanel NonePnl;
-        // { +00F8 }
         public Aow.Units.AoWLabel.TAOWLabel NoneMsg;
-        // { +00FC }
         public Aow.Units.AoWPanel.TAOWPanel T4Pnl;
-        // { +0100 }
         public Aow.Units.AoWPanel.TAOWPanel T4LBPnl;
-        // { +0104 }
         public Aow.Units.AoWListBox.TAOWListBox PowerValueList;
-        // { +0108 }
         public Aow.Units.AoWButton.TAOWButton PowerValueSortBtn;
-        // { +010C }
         public Aow.Units.AoWListBox.TAOWListBox PowerSourceList;
-        // { +0110 }
         public Aow.Units.AoWButton.TAOWButton PowerSourceSortBtn;
-        // { +0114 }
         public Aow.Units.AoWPanel.TAOWPanel T2BottonPnl;
-        // { +0118 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar EnchantmentSB;
-        // { +011C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar GlobalEnchantmentSB;
-        // { +0120 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar PowerSB;
-        // { +0124 }
         public Aow.Units.AoWPanel.TAOWPanel T3BottomPnl;
-        // { +0128 }
         public Aow.Units.AoWPanel.TAOWPanel LeftFr;
-        // { +012C }
         public Aow.Units.AoWPanel.TAOWPanel T2ButtonPnl;
-        // { +0130 }
         public Aow.Units.AoWPanel.TAOWPanel T3ButtonPnl;
-        // { +0134 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0138 }
         public Aow.Units.AoWButton.TAOWButton Help;
-        // { +013C }
         public int FEnchantmentSort;
-        // { $140 }
         public int FGlobalEnchantmentSort;
-        // { $144 }
         public int FPowerSort;
         // AoWMagic.pas:133
-        // { $148 }
         public void SelectEnchantment(int Index)
         {
             var call__1 = EnchantmentList.Items.Count;
@@ -525,7 +459,6 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:323
         public void PowerValueListMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            // { Tried count-first comparison distinct first selection cast; no exact match. }
             if (Button == Aow.Rtl.TMouseButton.mbRight)
             {
                 if (PowerSourceList.Selected >= 0)

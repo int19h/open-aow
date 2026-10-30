@@ -74,144 +74,80 @@ using static Aow.Units.E1Globals.E1Globals;
 
 namespace Aow.Units.AoWFileDialog
 {
-    // { TFileDlgWindow (size $14C, VMT 0041EB60): $134 directory, $138 last filename, $13C save event, $140 done callback, $148 dialog mode. }
+    // directory, last filename, save event, done callback, dialog mode
     public partial class TFileDlgWindow : Aow.Rtl.TDataModule
     {
         public TFileDlgWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow FileDialog;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton CancelBut;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton Openbut;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0054 }
         public Aow.Units.AoWListBox.TAOWListBox FileLB;
-        // { +0058 }
         public Aow.Units.AoWEdit.TAOWEdit FileName;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel ScenLbl;
-        // { +0060 }
         public Aow.Units.AoWComboBox.TAOWComboBox DriveCmb;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel DriveL;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +006C }
         public Aow.Units.AoWButton.TAOWButton UpDirBtn;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel PathL;
-        // { +0074 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0078 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar DriveSB;
-        // { +007C }
         public Aow.Units.AoWImage.TAOWImage CeltM;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage LPlayersI;
-        // { +0084 }
         public Aow.Units.AoWPanel.TAOWPanel LSavedInfo;
-        // { +0088 }
         public Aow.Units.AoWImage.TAOWImage LSizeI;
-        // { +008C }
         public Aow.Units.AoWImage.TAOWImage LTownsI;
-        // { +0090 }
         public Aow.Units.AoWImage.TAOWImage LTurnsI;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel LPlayers;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel LSize;
-        // { +009C }
         public Aow.Units.AoWLabel.TAOWLabel LTowns;
-        // { +00A0 }
         public Aow.Units.AoWLabel.TAOWLabel LTurns;
-        // { +00A4 }
         public Aow.Units.AoWImage.TAOWImage CeltL;
-        // { +00A8 }
         public Aow.Units.AoWImage.TAOWImage CeltR;
-        // { +00AC }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +00B0 }
         public Aow.Units.AoWImage.TAOWImage TCelt;
-        // { +00B4 }
         public Aow.Units.AoWImage.TAOWImage SPlayersI;
-        // { +00B8 }
         public Aow.Units.AoWPanel.TAOWPanel NewInfo;
-        // { +00BC }
         public Aow.Units.AoWImage.TAOWImage SSizeI;
-        // { +00C0 }
         public Aow.Units.AoWImage.TAOWImage STownsI;
-        // { +00C4 }
         public Aow.Units.AoWLabel.TAOWLabel SPlayers;
-        // { +00C8 }
         public Aow.Units.AoWLabel.TAOWLabel SSize;
-        // { +00CC }
         public Aow.Units.AoWLabel.TAOWLabel STowns;
-        // { +00D0 }
         public Aow.Units.AoWPanel.TAOWPanel NewPnl;
-        // { +00D4 }
         public Aow.Units.AoWListBox.TAOWListBox SaveLB;
-        // { +00D8 }
         public Aow.Units.AoWEdit.TAOWEdit SFileName;
-        // { +00DC }
         public Aow.Units.AoWLabel.TAOWLabel SavedInfo;
-        // { +00E0 }
         public Aow.Units.AoWPanel.TAOWPanel SavePnl;
-        // { +00E4 }
         public Aow.Units.AoWListBox.TAOWListBox DateLB;
-        // { +00E8 }
         public Aow.Units.AoWButton.TAOWButton SaveBtn;
-        // { +00EC }
         public Aow.Units.AoWButton.TAOWButton DateBtn;
-        // { +00F0 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar NSBar;
-        // { +00F4 }
         public Aow.Units.AoWPanel.TAOWPanel DriveFr;
-        // { +00F8 }
         public Aow.Units.AoWPanel.TAOWPanel TopPnl;
-        // { +00FC }
         public Aow.Units.AoWPanel.TAOWPanel PathFr;
-        // { +0100 }
         public Aow.Units.AoWEdit.TAOWEdit PathEdit;
-        // { +0104 }
         public Aow.Units.AoWPanel.TAOWPanel NewLBFr;
-        // { +0108 }
         public Aow.Units.AoWPanel.TAOWPanel NewInfo1;
-        // { +010C }
         public Aow.Units.AoWPanel.TAOWPanel NewInfo2;
-        // { +0110 }
         public Aow.Units.AoWPanel.TAOWPanel NewInfo3;
-        // { +0114 }
         public Aow.Units.AoWPanel.TAOWPanel SaveLBFr;
-        // { +0118 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar SSBar;
-        // { +011C }
         public Aow.Units.AoWPanel.TAOWPanel SavedInfo1;
-        // { +0120 }
         public Aow.Units.AoWPanel.TAOWPanel SavedInfo2;
-        // { +0124 }
         public Aow.Units.AoWPanel.TAOWPanel SavedInfo3;
-        // { +0128 }
         public Aow.Units.AoWPanel.TAOWPanel SavedInfo4;
-        // { +012C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0130 }
         public Aow.Rtl.AnsiString FDirectory;
-        // { $134 }
         public Aow.Rtl.AnsiString FLastFileName;
-        // { $138 }
         public Aow.Units.EventLog.TSaveGameEventLog FSaveEvent;
-        // { $13C }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $140 }
-        // { $144 is the data pointer of FDone. }
+        // is the data pointer of FDone
         public int FMode;
         // AoWFileDialog.pas:175
-        // { $148; 0 load, 1 save, 2 select map }
+        // 0 load, 1 save, 2 select map
         public void FinishDialog()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;
@@ -596,7 +532,6 @@ namespace Aow.Units.AoWFileDialog
         }
 
         // AoWFileDialog.pas:394
-        // { draft }
         public void UpDirBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);

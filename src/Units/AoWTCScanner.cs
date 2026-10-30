@@ -56,28 +56,19 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWTCScanner
 {
-    // { TTCScanner (instance size 96, VMT 00450958) }
     public partial class TTCScanner : Aow.Rtl.TDataModule
     {
         public TTCScanner(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow TCScannerWin;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame ScannerFr;
-        // { +0048 }
         public Aow.Units.Scanner.TScanner Scanner;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage STitleIcon;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel STitleLabel;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton SMinIcon;
-        // { +0058 }
         public Aow.Rtl.TIvTranslator Translator;
         // AoWTCScanner.pas:38
-        // { draft }
-        // { +005C }
         public void ScannerChangeTileBox()
         {
             Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
@@ -92,7 +83,6 @@ namespace Aow.Units.AoWTCScanner
         }
 
         // AoWTCScanner.pas:51
-        // { draft }
         public void TCScannerWinDrag()
         {
             this.TCScannerWin.Alignment.RightOffset = (this.TCScannerWin.WinManager.WinWidth - this.TCScannerWin.WinLeft) - this.TCScannerWin.WinWidth;
@@ -100,7 +90,6 @@ namespace Aow.Units.AoWTCScanner
         }
 
         // AoWTCScanner.pas:60
-        // { draft }
         public void SMinIconClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);

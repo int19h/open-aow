@@ -34,7 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Pad
 {
-    // { TPad (instance size 32, VMT 557FE6C8): $1C FPadActive. }
+    // FPadActive
     public partial class TPad : Aow.Units.ILTer.TFixedILTerrainMO
     {
         public TPad(TECustomNode owner) : base(owner)
@@ -46,8 +46,6 @@ namespace Aow.Units.Pad
         public new const int ClassID = 131334;
 
         public bool FPadActive;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 FReserved1D;
         // Pad.pas:46
 
 
@@ -80,7 +78,7 @@ namespace Aow.Units.Pad
 
     }
 
-    // { TPadResource (instance size 72, VMT 557FE864): $44 FPadSize. }
+    // FPadSize
     public partial class TPadResource : Aow.Units.ILTer.TFixedILTerrainMOR
     {
         public TPadResource(TECustomNode owner) : base(owner)
@@ -92,8 +90,6 @@ namespace Aow.Units.Pad
         public new const int ClassID = 131335;
 
         public byte FPadSize;
-        // { $44 }
-        public Aow.Units.FixedArray_byte_3 FReserved45;
         // Pad.pas:69
         public override void Destroy()
         {

@@ -30,14 +30,13 @@ namespace Aow.Units.AoWHScroll
 {
     // { The AoWHScroll unit of aowInt.dpl: TAOWHScrollBar, the horizontal scroll bar (TAOWScrollBar of
 //   AoWVScroll with the decrement button at the left and the increment button at the right). }
-    // { AoWHScroll.TAOWHScrollBar (instance size 380): no fields of its own }
+    // no fields of its own
     public partial class TAOWHScrollBar : Aow.Units.AoWVScroll.TAOWScrollBar
     {
         public TAOWHScrollBar(TComponent owner) : base(owner)
         { }
 
         // AoWHScroll.pas:31
-        // { TAOWHScrollBar }
         // { SetSize: as TAOWVScrollBar.SetSize across; the track length is not kept above zero here }
         public override void SetSize()
         {

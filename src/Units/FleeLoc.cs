@@ -44,7 +44,6 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.FleeLoc
 {
-    // { TFleeLocation (instance size 28, VMT 00430EB4) }
     public partial class TFleeLocation : Aow.Units.HSEngine.TMapObject
     {
         public TFleeLocation(TECustomNode owner) : base(owner)
@@ -55,13 +54,9 @@ namespace Aow.Units.FleeLoc
         public new const int ClassID = 2229544;
 
         public bool FHighlighted;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_FleeLocation_11;
         public int FAlpha;
-        // { $14 }
         public int FAlphaStep;
         // FleeLoc.pas:71
-        // { $18 }
 
 
         // FleeLoc.pas:82
@@ -234,7 +229,6 @@ namespace Aow.Units.FleeLoc
 
     }
 
-    // { TFleeLocationResource (instance size 52, VMT 00431048) }
     public partial class TFleeLocationResource : Aow.Units.HSEngine.TMapObjectResource
     {
         public TFleeLocationResource(TECustomNode owner) : base(owner)
@@ -261,7 +255,6 @@ namespace Aow.Units.FleeLoc
 
     }
 
-    // { TMovementHS (instance size 16, VMT 00431140) }
     public partial class TMovementHS : Aow.Units.HSEngine.TSingleHS
     {
         public TMovementHS(TECustomNode owner) : base(owner)
@@ -271,8 +264,6 @@ namespace Aow.Units.FleeLoc
         public new const int ClassID = 2228490;
 
         public bool FEnabled;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_MovementHS_0D;
         // FleeLoc.pas:175
         public override int GetShowPriority()
         {

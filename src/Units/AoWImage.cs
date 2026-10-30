@@ -32,9 +32,8 @@ namespace Aow.Units.AoWImage
 //   library as a texture filling its rectangle, or plays the images AnimStart..AnimEnd as an
 //   animation, one image every AnimFrameDelay updates. Its mouse events get coordinates relative
 //   to the control. }
-    // { AoWImage.TAOWImage (instance size 304). Fields: +$114 FAnimate, +$118 FAnimFrameDelay, +$11C
-//     FFrameCount (updates left until the next image), +$120 FAnimStart, +$124 FCurrentImage, +$128
-//     FAnimEnd, +$12C FImageLib }
+    // Fields: FAnimate, FAnimFrameDelay, FFrameCount (updates left until the next image),
+    // FAnimStart, FCurrentImage, FAnimEnd, FImageLib
     public partial class TAOWImage : Aow.Units.AoWControl.TAOWControl
     {
         public TAOWImage(TComponent owner) : base(owner)

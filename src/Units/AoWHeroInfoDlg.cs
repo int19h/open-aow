@@ -66,56 +66,33 @@ using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
 
 namespace Aow.Units.AoWHeroInfoDlg
 {
-    // { THeroInfoDlg: done callback $8C, army event $94, unit-details flag $98.
-//     (instance size 156, VMT 00447CEC) }
+    // done callback, army event, unit-details flag
     public partial class THeroInfoDlg : Aow.Rtl.TDataModule
     {
         public THeroInfoDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame U1;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame U2;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame U4;
-        // { +0050 }
         public Aow.Units.AoWFrame.TAoWFrame U5;
-        // { +0054 }
         public Aow.Units.AoWFrame.TAoWFrame U3;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame U6;
-        // { +005C }
         public Aow.Units.AoWFrame.TAoWFrame U7;
-        // { +0060 }
         public Aow.Units.AoWFrame.TAoWFrame U8;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton CloseBtn;
-        // { +0068 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +006C }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel HeroName;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel HeroLevel;
-        // { +0078 }
         public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel DetailsLbl;
-        // { +0080 }
         public Aow.Units.AoWMemo.TAOWMemo Message;
-        // { +0084 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0088 }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $8C }
         public Aow.Units.AoWE.TArmyInfoEventLog FArmyInfo;
-        // { $94 }
         public bool FDetailsOpen;
-        // { $98 }
-        public Aow.Units.FixedArray_byte_3 F_HeroInfoDlg_99;
         // AoWHeroInfoDlg.pas:99
         public void FinishDialog()
         {
@@ -190,7 +167,6 @@ namespace Aow.Units.AoWHeroInfoDlg
         }
 
         // AoWHeroInfoDlg.pas:152
-        // { draft }
         public void FaceFramePreDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Rtl.TRect R = default;
@@ -272,7 +248,6 @@ namespace Aow.Units.AoWHeroInfoDlg
         }
 
         // AoWHeroInfoDlg.pas:208
-        // { draft }
         public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if ((Key == 27) || (Key == 32))
@@ -288,7 +263,7 @@ namespace Aow.Units.AoWHeroInfoDlg
         public static void ShowHeroInfo(Aow.Units.AoWHeroInfoDlg.THeroInfoDlg Dialog, Aow.Units.AoWE.TArmyInfoEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
             Aow.Units.AoWE.THero Hero = default;
-            Aow.Rtl.Rtl.Assert(Dialog.FArmyInfo == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWHeroInfoDlg.pas", 80);
+            Aow.Rtl.Rtl.Assert(Dialog.FArmyInfo == null, (AnsiString)"", "AoWHeroInfoDlg.pas", 80);
             Dialog.FDone = Done;
             Dialog.FArmyInfo = Event;
             Dialog.FArmyInfo.AddRef();

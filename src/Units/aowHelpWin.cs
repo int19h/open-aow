@@ -56,47 +56,29 @@ using static Aow.Units.AoWWindow.AoWWindow;
 
 namespace Aow.Units.aowHelpWin
 {
-    // { THelpWindow: done callback $7C, help event $84.
-//     (instance size 136, VMT 004043F0) }
+    // done callback, help event
     public partial class THelpWindow : Aow.Rtl.TDataModule
     {
         public THelpWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow HelpWin;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton CloseBtn;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage BBarEnd;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage BBarBegin;
-        // { +0058 }
         public Aow.Units.AoWButton.TAOWButton BCloseBut;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage CeltLineR;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage BBar;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage CeltLineL;
-        // { +0068 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar HelpSB;
-        // { +006C }
         public Aow.Units.AoWMemo.TAOWMemo HeaderMemo;
-        // { +0070 }
         public Aow.Units.AoWMemo.TAOWMemo HelpMemo;
-        // { +0074 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0078 }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $7C }
         public Aow.Units.EventLog.THelpMessageEventLog FHelpEvent;
         // aowHelpWin.pas:53
-        // { 0040471C }
-        // { $84 }
         public void FinishDialog()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;
@@ -173,14 +155,12 @@ namespace Aow.Units.aowHelpWin
         }
 
         // aowHelpWin.pas:105
-        // { draft }
         public void HelpWinHide()
         {
             FinishDialog();
         }
 
         // aowHelpWin.pas:110
-        // { draft }
         public void HelpWinResize()
         {
             this.HelpWin.Alignment.LeftOffset = this.HelpWin.WinLeft;
@@ -192,7 +172,6 @@ namespace Aow.Units.aowHelpWin
 
     public static partial class aowHelpWin
     {
-        // { draft }
         public static Aow.Units.aowHelpWin.THelpWindow HelpWindow;
         // aowHelpWin.pas:82
         public static void ShowHelp(int HelpID)

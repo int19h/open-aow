@@ -33,10 +33,8 @@ namespace Aow.Units.AoWPanel
 //   passes input on, it moves itself by the window's position and restores its own position
 //   afterwards. A panel can belong to a tab of a TAOWTabPanel (TabPanel and OwnerItem): it is then
 //   visible only while its tab is selected. }
-    // { AoWPanel.TAOWPanel (instance size 508). Fields: +$1EC FOrgLeft, +$1F0 FOrgTop (the panel's
-//     own position, saved while it is moved by the window's position), +$1F4 FTabPanel, +$1F8
-//     FAOWWindow.
-//     VMT (new): SetTabPanel }
+    // Fields: FOrgLeft, FOrgTop (the panel's own position, saved while it is moved by the window's
+    // position), FTabPanel, FAOWWindow
     public partial class TAOWPanel : Aow.Units.AoWBaseWin.TAOWBaseWindow
     {
         public int FOrgLeft;
@@ -44,7 +42,6 @@ namespace Aow.Units.AoWPanel
         public Aow.Units.AoWTabPanel.TAOWTabPanel FTabPanel;
         public Aow.Units.AoWBaseWin.TAOWBaseWindow FAOWWindow;
         // AoWPanel.pas:63
-        // { TAOWPanel }
         public TAOWPanel(TComponent owner) : base(owner)
         {
             FCaptureInput = true;
@@ -247,7 +244,6 @@ namespace Aow.Units.AoWPanel
         {
             int I = default;
             Aow.Rtl.TRect R = default;
-            // { Tried Self/field casts, receiver scope and receiver/local staging; Self/temporary registers still differ. }
             if (FVisible)
             {
                 FOrgLeft = FWinLeft;
@@ -338,7 +334,6 @@ namespace Aow.Units.AoWPanel
             int I = default;
             Aow.Units.AoWComp.TAoWComponent C = default;
             Aow.Rtl.TRect R = default;
-            // { Tried Self identity, receiver scope and local/field staging; register/stack allocation still differs. }
             if ((FValid && FVisible) && (FWindowType != Aow.Units.AoWWinControl.TWindowType.winBlank))
             {
                 AddDrawRect(ref ARect, Sender);
@@ -394,7 +389,6 @@ namespace Aow.Units.AoWPanel
         // AoWPanel.pas:82
         public override void AddBltRect(ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
         {
-            // { Tried owner with/cast and receiver scope; extra receiver/rectangle saves remain. }
             FAOWOwner.AddBltRect(ref ARect, this);
         }
 
@@ -424,7 +418,6 @@ namespace Aow.Units.AoWPanel
 //   set instead of cleared) }
         public override void SetVisible(bool Value)
         {
-            // { Tried Self identity and typed/untyped receiver scopes; Self register still differs. }
             if (Value != FVisible)
             {
                 FVisible = Value;
@@ -483,7 +476,6 @@ namespace Aow.Units.AoWPanel
             Aow.Units.AoWComp.TaowRect D = default;
             void DrawBack()
             {
-                // { Tried Self identity, receiver scope and direct record copy; parent-frame/REP registers still differ. }
                 if (FWindowType != Aow.Units.AoWWinControl.TWindowType.winBlank)
                 {
                     switch (FWindowType)

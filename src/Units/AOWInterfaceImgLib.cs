@@ -17,14 +17,13 @@ namespace Aow.Units.AOWInterfaceImgLib
 //   frame, a texture tile, a single image or a horizontal or vertical line of images into a
 //   rectangle given as (Left, Top, Width, Height) in a TRect, clipped to the surface's clip rectangle,
 //   which they narrow while drawing and restore. }
-    // { AOWInterfaceImgLib.TInterfaceIL (instance size 80): no fields or virtual methods of its own }
+    // no fields or virtual methods of its own
     public partial class TInterfaceIL : Aow.Units.ImageLib.TImageLibrary
     {
         public TInterfaceIL(TComponent owner) : base(owner)
         { }
 
         // AOWInterfaceImgLib.pas:34
-        // { TInterfaceIL }
         // { CheckIL returns Self when the library holds the Count images from Index on, else nil after a
 //   message box that names the library and the component (Sender) that needs them }
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL CheckIL(int Index, int Count, Aow.Rtl.TComponent Sender)

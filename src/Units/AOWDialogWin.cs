@@ -64,66 +64,37 @@ using static Aow.Units.E1Globals.E1Globals;
 
 namespace Aow.Units.AOWDialogWin
 {
-    // { TDWin (instance size 176, VMT 00450334) }
     public partial class TDWin : Aow.Rtl.TDataModule
     {
         public TDWin(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dialog;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel DTitle;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel DMessage;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton DButton;
-        // { +0050 }
         public Aow.Units.AoWWindow.TAOWWindow DebugWin;
-        // { +0054 }
         public Aow.Units.AoWLabel.TAOWLabel DebugDTitle;
-        // { +0058 }
         public Aow.Units.AoWButton.TAOWButton DebugDOkBtn;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel FrameLbl;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel DebugDfrTitle;
-        // { +0064 }
         public Aow.Units.AoWMemo.TAOWMemo DebugMemo;
-        // { +0068 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar DMemoScroll;
-        // { +006C }
         public Aow.Units.AoWPanel.TAOWPanel okPnl;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel yesPnl;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton yesBtn;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton noBtn;
-        // { +007C }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0080 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0088 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +008C }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +0090 }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +0094 }
         public Aow.Units.AoWFrame.TAoWFrame SignBLine;
-        // { +0098 }
         public Aow.Units.AoWImage.TAOWImage SIcon;
-        // { +009C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +00A0 }
         public byte FAction;
-        // { $A4; 004506E7 }
-        public Aow.Units.FixedArray_byte_8 F_DWin_A5;
         public bool FSkipCombatChoice;
-        // { $AD; 00439AEC }
-        public Aow.Units.FixedArray_byte_2 F_DWin_AE;
         // AOWDialogWin.pas:121
         public void Confirm(Aow.Rtl.AnsiString Title, Aow.Rtl.AnsiString Text, byte Action)
         {
@@ -164,7 +135,6 @@ namespace Aow.Units.AOWDialogWin
         }
 
         // AOWDialogWin.pas:73
-        // { draft }
         public void yesBtnClick(Aow.Rtl.TObject Sender)
         {
             Aow.Rtl.AnsiString Reason = default;

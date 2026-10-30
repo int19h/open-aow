@@ -36,40 +36,33 @@ using static Aow.Units.UnitIDlg.UnitIDlg;
 
 namespace Aow.Units.UnitIGrd
 {
-    // { TUnitIndexGrid (instance size 488, VMT 557FF7A8): $1DC FUnitIndexList,
-//     $1E0 FSelectionControl, $1E4 FShowUnitLevel, $1E5 FDoubleUnitsEnabled, $1E6 FSorted. }
+    // FUnitIndexList, FSelectionControl, FShowUnitLevel, FDoubleUnitsEnabled, FSorted
     public partial class TUnitIndexGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public Aow.Units.AoWE.TUnitIndexList FUnitIndexList;
-        // { $1DC }
         public Aow.Units.AoWE.TUnitSelectionControl FSelectionControl;
-        // { $1E0 }
         public bool FShowUnitLevel;
-        // { $1E4 }
         public bool FDoubleUnitsEnabled;
-        // { $1E5 }
         public bool FSorted;
-        // { $1E6 }
-        public byte FReserved1E7;
         // UnitIGrd.pas:51
         // Retained: The Graphics.Color implementation is absent. Preserve the throw before semantic base initialization.
         public TUnitIndexGrid(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary Graphics.Color */
+            /* TODO: Implement Graphics.Color in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitIGrd.pas:89
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Graphics.Handle */
+            /* TODO: Implement Graphics.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitIGrd.pas:64
         public void SetShowUnitLevel(bool Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -85,7 +78,7 @@ namespace Aow.Units.UnitIGrd
         // UnitIGrd.pas:75
         public void SetUnitIndexList(Aow.Units.AoWE.TUnitIndexList Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -99,14 +92,14 @@ namespace Aow.Units.UnitIGrd
         // UnitIGrd.pas:133
         public void AddUnit()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitIGrd.pas:147
         public void DeleteUnit()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -154,11 +147,10 @@ namespace Aow.Units.UnitIGrd
         // UnitIGrd.pas:178
         protected internal override void DblClick()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.DblClick */
+            /* TODO: Implement Controls.DblClick in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
-        // { $55801194 }
         [Published]
         public bool ShowUnitLevel { get => FShowUnitLevel; set => SetShowUnitLevel(value); }
 

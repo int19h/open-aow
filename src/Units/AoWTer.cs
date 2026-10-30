@@ -34,7 +34,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AoWTer
 {
-    // { TAoWTerrain (instance size 20, VMT 5579BA1C) }
     public partial class TAoWTerrain : Aow.Units.Terrain.TTerrainMO
     {
         public TAoWTerrain(TECustomNode owner) : base(owner)
@@ -118,7 +117,7 @@ namespace Aow.Units.AoWTer
         }
     }
 
-    // { TAoWTerrainResource (instance size 76, VMT 5579BBC0): +$48 FMapFieldResponse (stream id 20). }
+    // FMapFieldResponse (stream id 20)
     public partial class TAoWTerrainResource : Aow.Units.Terrain.TTerrainMOR
     {
         public TAoWTerrainResource(TECustomNode owner) : base(owner)

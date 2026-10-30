@@ -34,7 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Sign
 {
-    // { TSign (instance size 56, VMT 557A4098): +$30 FText, +$34 FTextSeen. }
+    // FText, FTextSeen
     public partial class TSign : Aow.Units.AoWE.TStructure
     {
         public TSign(TECustomNode owner) : base(owner)
@@ -154,7 +154,6 @@ namespace Aow.Units.Sign
 
     }
 
-    // { TSignResource (instance size 100, VMT 557A42EC) }
     public partial class TSignResource : Aow.Units.AoWE.TStructureResource
     {
         public TSignResource(TECustomNode owner) : base(owner)
@@ -253,7 +252,7 @@ namespace Aow.Units.Sign
 
     }
 
-    // { TUpdateSignTE (instance size 24, VMT 557A43DC): +$10 FText, +$14 FXhx, +$15 FYhx, +$16 FLhx. }
+    // FText, FXhx, FYhx, FLhx
     public partial class TUpdateSignTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TUpdateSignTE(TECustomNode owner) : base(owner)
@@ -269,7 +268,6 @@ namespace Aow.Units.Sign
         public sbyte FXhx;
         public sbyte FYhx;
         public sbyte FLhx;
-        public Aow.Units.FixedArray_byte_1 F_UpdateSignTE_17;
         // Sign.pas:199
         public override void Destroy()
         {

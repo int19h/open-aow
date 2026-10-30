@@ -46,7 +46,6 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CombatFire
 {
-    // { TCombatFire (instance size 28, VMT 00406B24) }
     public partial class TCombatFire : Aow.Units.HSEngine.TSingleHS
     {
         public TCombatFire(TECustomNode owner) : base(owner)
@@ -57,14 +56,9 @@ namespace Aow.Units.CombatFire
         public new const int ClassID = 2229578;
 
         public int FXShift;
-        // { $0C }
         public int FYShift;
-        // { $10 }
         public int FPlayer;
-        // { $14 }
         public bool FFirstTurn;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_CombatFire_19;
         // CombatFire.pas:65
         public override void Destroy()
         {
@@ -216,7 +210,6 @@ namespace Aow.Units.CombatFire
 
     }
 
-    // { TCombatFireResource (instance size 68, VMT 00406CA8) }
     public partial class TCombatFireResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TCombatFireResource(TECustomNode owner) : base(owner)

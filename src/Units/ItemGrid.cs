@@ -34,29 +34,20 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.ItemGrid
 {
-    // { TItemGrid (instance size 496, VMT 55802170); $1E0 indices, $1E4 items, $1E8 stream, $1ED show availability, $1EE sort. }
+    // indices, items, stream, show availability, sort
     public partial class TItemGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public Aow.Units.FixedArray_byte_4 FDisplayOptions;
-        // { +$1DC }
         public Aow.Units.Engine.TIntegerList FIndices;
-        // { +$1E0 }
         public Aow.Units.AoWE.TItemList FItems;
-        // { +$1E4 }
         public Aow.Rtl.TMemoryStream FStream;
-        // { +$1E8 }
         public bool FEditable;
-        // { $1EC; AoWEd 00420664 }
         public bool FShowAvailability;
-        // { $1ED }
         public byte FSort;
-        // { +$1EE }
-        public byte FReserved1EF;
         // ItemGrid.pas:120
-        // { AoWEd 004164F4, 0041638B }
         public override void Destroy()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Destroy */
+            /* TODO: Implement Grids.Destroy in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -64,14 +55,14 @@ namespace Aow.Units.ItemGrid
         // Retained: The Controls.ControlStyle implementation is absent. Preserve the throw before semantic base initialization.
         public TItemGrid(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.ControlStyle */
+            /* TODO: Implement Controls.ControlStyle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ItemGrid.pas:190
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Canvas */
+            /* TODO: Implement Controls.Canvas in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -134,7 +125,7 @@ namespace Aow.Units.ItemGrid
         // ItemGrid.pas:155
         public void UpdateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -155,7 +146,7 @@ namespace Aow.Units.ItemGrid
         // ItemGrid.pas:241
         public void EditItemDone(Aow.Units.Engine.TEditResult ResultCode, Aow.Units.Engine.TEObject Obj)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -172,7 +163,6 @@ namespace Aow.Units.ItemGrid
         }
 
         // ItemGrid.pas:265
-        // { draft }
         public void AddItem(Aow.Units.AoWE.TItem Item)
         {
             if (Item != null)
@@ -200,11 +190,10 @@ namespace Aow.Units.ItemGrid
         // ItemGrid.pas:278
         public void DeleteItem()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Bottom */
+            /* TODO: Implement Grids.Bottom in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
-        // { draft }
         [Published]
         public bool ShowAvailability { get => FShowAvailability; set => FShowAvailability = value; }
 

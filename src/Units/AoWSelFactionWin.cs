@@ -60,48 +60,29 @@ using static Aow.Units.E2GameFlow.E2GameFlow;
 
 namespace Aow.Units.AoWSelFactionWin
 {
-    // { TSelFactionWin (instance size 144, VMT 00418940) }
     public partial class TSelFactionWin : Aow.Rtl.TDataModule
     {
         public TSelFactionWin(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWPanel.TAOWPanel FactionPnl;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TopLbl;
-        // { +0048 }
         public Aow.Units.AoWPanel.TAOWPanel LightPnl;
-        // { +004C }
         public Aow.Units.AoWMemo.TAOWMemo LText;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton LStart;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton LBack;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage LSphere;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel DarkPnl;
-        // { +0060 }
         public Aow.Units.AoWButton.TAOWButton DStart;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton DBack;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel LName;
-        // { +006C }
         public Aow.Units.AoWMemo.TAOWMemo DText;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel DName;
-        // { +0074 }
         public Aow.Units.AoWImage.TAOWImage DSphere;
-        // { +0078 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +007C }
         public int FFade;
-        // { $80 }
         public int FFadeImage;
-        // { $84 }
         public int FFadeDirection;
-        // { $88 }
         public Aow.Units.FixedArray_byte_4 F_SelFactionWin_8C;
         // AoWSelFactionWin.pas:63
         public void CloseSelection()

@@ -38,7 +38,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AltIce
 {
-    // { TAltarOfIce (instance size 68, no added fields, VMT 557CFAF0) }
     public partial class TAltarOfIce : Aow.Units.Altar.TAltar
     {
         public TAltarOfIce(TECustomNode owner) : base(owner)
@@ -57,7 +56,6 @@ namespace Aow.Units.AltIce
 
     }
 
-    // { TAltarOfIceResource (instance size 116, no added fields, VMT 557CFDA0) }
     public partial class TAltarOfIceResource : Aow.Units.Altar.TAltarResource
     {
         public TAltarOfIceResource(TECustomNode owner) : base(owner)

@@ -53,7 +53,7 @@ namespace Aow.Units.AoWE
             int DX = default;
             int DY = default;
             float Progress = default;
-            Aow.Rtl.Rtl.Assert(FDirection < FUnitGFXResource.FSequences.Count, (AnsiString)"Invalid Unit Index", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\UnitHS.PAS", 853);
+            Aow.Rtl.Rtl.Assert(FDirection < FUnitGFXResource.FSequences.Count, (AnsiString)"Invalid Unit Index", "UnitHS.PAS", 853);
             Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
@@ -75,7 +75,7 @@ namespace Aow.Units.AoWE
                     {
                         var call__2063 = Sequence.GetFrameIndex(Aow.Units.AoWE.AoWE.AoWHSMap.Frame, Aow.Units.AoWE.FrameFixtureInputs.AnimationOffset(this));
                         Index = call__2063;
-                        // { $30 sound timing gate }
+                        // sound timing gate
                         if (Sequence.SpeedCount == Sequence.SequenceSpeed)
                         {
                             FUnitGFXResource.FSFXLibraries[1].Play(Index % 100);
@@ -380,7 +380,7 @@ namespace Aow.Units.AoWE
             {
                 if (FDirection >= FUnitGFXResource.FSequences.Count)
                 {
-                    /* TODO(T-8.2) Inline assembly needs a mapped rule or override */
+                    /* TODO: Implement the inline assembly operation. */
                     throw new System.NotImplementedException();
                 }
 

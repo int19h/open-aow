@@ -44,7 +44,7 @@ using static Aow.Units.AOWMenuBar.AOWMenuBar;
 
 namespace Aow.Units.StartMenu
 {
-    // { TStartMenu: instance size $258; $254 whole-menu image library. }
+    // whole-menu image library
     public partial class TStartMenu : Aow.Units.AOWMenu.TAOWMenu
     {
         public TStartMenu(TComponent owner) : base(owner)
@@ -52,7 +52,6 @@ namespace Aow.Units.StartMenu
 
         public Aow.Units.ImageLib.TImageLibrary FILWholeMenu;
         // StartMenu.pas:30
-        // { $254 }
         public override void SetSize()
         {
             Aow.Units.AOWWinManager.TAOWWinManager M = default;
@@ -72,7 +71,6 @@ namespace Aow.Units.StartMenu
         {
             Aow.Units.AOWWinManager.TAOWWinManager M = default;
             Aow.Units.AOWMenuBar.TAOWMenuBar B = default;
-            // { Match trials (4): named temporaries, with scopes, Pointer casts, zero-shift scheduling, identity assignments; still differs. }
             if (Value != FVisible)
             {
                 FVisible = Value;

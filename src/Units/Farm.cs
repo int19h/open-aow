@@ -42,7 +42,7 @@ namespace Aow.Units.Farm
     }
 
     // { ot=1 }
-    // { TFarm (instance size 72, VMT 557B281C): $44 FMode. }
+    // FMode
     public partial class TFarm : Aow.Units.Crops.TPlayerCropStructure
     {
         public TFarm(TECustomNode owner) : base(owner)
@@ -52,8 +52,6 @@ namespace Aow.Units.Farm
         public new const int ClassID = 131950;
 
         public TSet<Aow.Units.Farm.TFarmModeElement> FMode;
-        // { $44 }
-        public Aow.Units.FixedArray_byte_3 F_Farm_45;
         // Farm.pas:81
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -229,7 +227,6 @@ namespace Aow.Units.Farm
 
     }
 
-    // { TFarmResource (instance size 120, VMT 557B2AC4) }
     public partial class TFarmResource : Aow.Units.Crops.TPlayerCropStructureResource
     {
         public TFarmResource(TECustomNode owner) : base(owner)

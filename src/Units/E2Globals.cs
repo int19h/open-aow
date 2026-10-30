@@ -61,7 +61,6 @@ namespace Aow.Units.E2Globals
         public static Aow.Units.AOWDialogWin.TDWin DialogWin;
         public static Aow.Units.AoWCampaignSettings.TCampaignSettingsDlg CampaignSettingsDlg;
         public static Aow.Units.AoWProgressDialog.TProgressDialog ProgressDialog;
-        // { $45B2B4 }
         public static readonly Aow.Rtl.AnsiString LoadingRStr = (AnsiString)"Loading";
         public static readonly Aow.Rtl.AnsiString FileNotFoundRStr = (AnsiString)"File not found";
         public static readonly Aow.Rtl.AnsiString WarningRStr = (AnsiString)"Warning";

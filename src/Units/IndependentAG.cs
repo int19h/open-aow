@@ -36,7 +36,6 @@ using static Aow.Units.AGCPlugins.AGCPlugins;
 
 namespace Aow.Units.IndependentAG
 {
-    // { TGuardAG (instance size 80, VMT 557D7E5C) }
     public partial class TGuardAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:144
@@ -62,7 +61,6 @@ namespace Aow.Units.IndependentAG
 
     }
 
-    // { TGuardAGC (instance size 368, VMT 557D7FB0) }
     public partial class TGuardAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TGuardAGC(TECustomNode owner) : base(owner)
@@ -70,7 +68,7 @@ namespace Aow.Units.IndependentAG
 
     }
 
-    // { TGuardAreaAG (instance size 84, VMT 557D80A8): $50 guard location. }
+    // guard location
     public partial class TGuardAreaAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:161
@@ -78,7 +76,6 @@ namespace Aow.Units.IndependentAG
 
         public Aow.Units.HSEngine.TXYL FGuardLocation;
         // IndependentAG.pas:170
-        // { $50 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -106,7 +103,6 @@ namespace Aow.Units.IndependentAG
 
     }
 
-    // { TGuardAreaAGC (instance size 368, VMT 557D8204) }
     public partial class TGuardAreaAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TGuardAreaAGC(TECustomNode owner) : base(owner)
@@ -290,22 +286,17 @@ namespace Aow.Units.IndependentAG
         }
     }
 
-    // { TPatrolAG (instance size 96, VMT 557D8304): $50 from, $54 to, $58 previous heading, $5C strength. }
+    // from, to, previous heading, strength
     public partial class TPatrolAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:295
         public new const int ClassID = 136274;
 
         public Aow.Units.HSEngine.TXYL FPatrolFrom;
-        // { $50 }
         public Aow.Units.HSEngine.TXYL FPatrolTo;
-        // { $54 }
         public sbyte FPreviousHeading;
-        // { $58 }
-        public Aow.Units.FixedArray_byte_3 F_PatrolAG_59;
         public int FPatrolStrength;
         // IndependentAG.pas:304
-        // { $5C }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -338,7 +329,6 @@ namespace Aow.Units.IndependentAG
 
     }
 
-    // { TPatrolAGC (instance size 368, VMT 557D845C) }
     public partial class TPatrolAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TPatrolAGC(TECustomNode owner) : base(owner)
@@ -733,7 +723,6 @@ namespace Aow.Units.IndependentAG
         }
     }
 
-    // { TRefugeAG (instance size 80, VMT 557D8554) }
     public partial class TRefugeAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:551
@@ -759,7 +748,6 @@ namespace Aow.Units.IndependentAG
 
     }
 
-    // { TRefugeAGC (instance size 368, VMT 557D86AC) }
     public partial class TRefugeAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TRefugeAGC(TECustomNode owner) : base(owner)
@@ -767,7 +755,6 @@ namespace Aow.Units.IndependentAG
 
     }
 
-    // { TRaidAG (instance size 80, VMT 557D87A4) }
     public partial class TRaidAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:567
@@ -793,7 +780,6 @@ namespace Aow.Units.IndependentAG
 
     }
 
-    // { TRaidAGC (instance size 368, VMT 557D88F4) }
     public partial class TRaidAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TRaidAGC(TECustomNode owner) : base(owner)
@@ -840,7 +826,6 @@ namespace Aow.Units.IndependentAG
         }
     }
 
-    // { TScoutAG (instance size 80, VMT 557D89E8) }
     public partial class TScoutAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // IndependentAG.pas:650
@@ -866,7 +851,6 @@ namespace Aow.Units.IndependentAG
 
     }
 
-    // { TScoutAGC (instance size 368, VMT 557D8B3C) }
     public partial class TScoutAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TScoutAGC(TECustomNode owner) : base(owner)

@@ -56,51 +56,32 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWDeformFaceDlg
 {
-    // { TDeformFaceDlg: size $90; $8C cosmetic-surgery caster. VMT 00445340. }
+    // cosmetic-surgery caster
     public partial class TDeformFaceDlg : Aow.Rtl.TDataModule
     {
         public TDeformFaceDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame FaceFrame;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton CastBtn;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel SelectNewFaceLbl;
-        // { +005C }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0060 }
         public Aow.Units.AoWFrame.TAoWFrame LeftFace;
-        // { +0064 }
         public Aow.Units.AoWFrame.TAoWFrame RightFace;
-        // { +0068 }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +006C }
         public Aow.Units.AoWImage.TAOWImage CeltM;
-        // { +0070 }
         public Aow.Units.AoWImage.TAOWImage CeltL;
-        // { +0074 }
         public Aow.Units.AoWImage.TAOWImage CeltR;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton PrevFaceBtn;
-        // { +007C }
         public Aow.Units.AoWButton.TAOWButton NextFaceBtn;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel UnitNameLbl;
-        // { +0084 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0088 }
         public Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster FCaster;
         // AoWDeformFaceDlg.pas:127
-        // { $8C }
         public void Execute(Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster Caster)
         {
             Aow.Units.AoWE.TAbstractUnit U = default;

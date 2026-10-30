@@ -54,22 +54,17 @@ using static Aow.Units.AoWComp.AoWComp;
 
 namespace Aow.Units.AoWIntroScene
 {
-    // { TIntroScene: size $5C; $4C sound buffer, $50 buffer size, $54 DirectSound, $58 stream position. VMT 00451F68. }
+    // sound buffer, buffer size, DirectSound, stream position
     public partial class TIntroScene : Aow.Rtl.TDataModule
     {
         public TIntroScene(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AowUserWindow.TAoWUserWindow Window;
-        // { +0044 }
         public Aow.Rtl.TVideoPlayer VideoPlayer;
-        // { +0048 }
         public Aow.Units.E2DirectSound.IDirectSoundBuffer FSoundBuffer;
-        // { $4C }
         public int FBufferSize;
-        // { $50 }
         public Aow.Units.E2DirectSound.IDirectSound FDirectSound;
-        // { $54 }
         public int FStreamPosition;
         // AoWIntroScene.pas:173
         public void Finish()

@@ -47,8 +47,7 @@ namespace Aow.Units.GlobalTargetSpells
         wsActive = 0
     }
 
-    // { TGlobalTargetSpellTE (instance size 36, VMT 5579CBAC).
-//     $20 FLocation: packed X/Y/layer coordinates; $23 reserved. }
+    // FLocation: packed X/Y/layer coordinates
     public partial class TGlobalTargetSpellTE : Aow.Units.AoWE.TSpellTE
     {
         public TGlobalTargetSpellTE(TECustomNode owner) : base(owner)
@@ -59,7 +58,7 @@ namespace Aow.Units.GlobalTargetSpells
 
         public Aow.Units.HSEngine.TXYL FLocation;
         // GlobalTargetSpells.pas:406
-        // { $20; packed coordinates, 557C493C }
+        // packed coordinates
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -78,15 +77,11 @@ namespace Aow.Units.GlobalTargetSpells
         public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte Layer)
         {
             Aow.Units.Animation.TImageSequenceAnimation Animation = default;
-            // { needs: TSpellControl.GetSpell(ID: Integer): TSpell; original calls at
-//     $5579E2CE, $5579E301, $5579E344 consume EAX as the returned spell.
-//     TSpell.$28 is TSFXLibrary; TSpell.$2C is TImageSequenceList. }
             var call__1 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
             var call__2 = call__1.FCastImages.ImageSequences[0];
             if (call__2 != null)
             {
                 Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
-                // { needs: TImageSequenceAnimation.SetImageSequence(Value: TImageSequence). }
                 var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                 var call__4 = call__3.FCastImages.ImageSequences[0];
                 Animation.SetImageSequence(call__4);
@@ -102,21 +97,17 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { TGlobalTargetSpell (instance size 60, VMT 5579CC9C).
-//     $34 FCasterID, $38 FCasterPlayer, $39 FAboveGroundOnly, $3A padding.
-//     needs: CanActivate/Activate and the target predicates return Boolean.
-//     Procedure declarations retained for shared TSpell and P7 overrides.
-//     ShowTargetSelection variants: reordered locals, split/inline radius,
-//     target with-scope, and inline map-field lookup. SetupTargetSelection
-//     variants: explicit class local, repeated casts, class with-scope,
-//     record fields, record with-scope and reversed coordinate local order. }
+    // FCasterID, FCasterPlayer, FAboveGroundOnly CanActivate/Activate and the target predicates
+    // return Boolean. Procedure declarations retained for shared TSpell and P7 overrides.
+    // ShowTargetSelection variants: reordered locals, split/inline radius, target with-scope, and
+    // inline map-field lookup. SetupTargetSelection variants: explicit class local, repeated casts,
+    // class with-scope, record fields, record with-scope and reversed coordinate local order
     public partial class TGlobalTargetSpell : Aow.Units.AoWE.TSpell
     {
 
         public int FCasterID;
         public sbyte FCasterPlayer;
         public bool FAboveGroundOnly;
-        public Aow.Units.FixedArray_byte_2 F_GlobalTargetSpell_3A;
         // GlobalTargetSpells.pas:439
         public TGlobalTargetSpell(TECustomNode owner) : base(owner)
         {
@@ -199,7 +190,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:521
-        // { +0A0 }
         public virtual void SetupTargetSelection(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TTargetSelectionControl A2)
         {
             sbyte UnitX = default;
@@ -235,11 +225,9 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:544
-        // { +0A4 }
         public virtual bool TargetSelected(Aow.Units.AoWE.TAbstractUnit A1, int A2, int A3, int A4) => false;
 
         // GlobalTargetSpells.pas:487
-        // { +0A8  }
         public virtual bool ValidTargetSelection(Aow.Units.AoWE.TTargetSelectionControl A1)
         {
             bool Result = default;
@@ -248,8 +236,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:475
-        // { needs: Boolean result, retained in AL for the existing procedure ABI. }
-        // { +0AC; 557A1808 }
         public virtual bool ValidTargetSelectionMapF(Aow.Units.HSEngine.TMapField A1)
         {
             bool Result = default;
@@ -262,7 +248,7 @@ namespace Aow.Units.GlobalTargetSpells
 
             if (bool__23)
             {
-                // { needs: Boolean function declaration; preserve result for callers. }
+                // Preserve the result for callers.
                 Result = false;
                 return Result;
             }
@@ -272,12 +258,9 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:469
-        // { +0B0  }
         public virtual bool ValidTargetMapF(Aow.Units.HSEngine.TMapField A1) => true;
     }
 
-    // { +0B4  }
-    // { TFreezeWaterTE (instance size 36, VMT 5579CDE0) }
     public partial class TFreezeWaterTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public TFreezeWaterTE(TECustomNode owner) : base(owner)
@@ -302,7 +285,7 @@ namespace Aow.Units.GlobalTargetSpells
                 Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Twinkle, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).X, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Y, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Layer);
             }
 
-            // { needs: TAbstractAoWHSMap.$A4 contains the seated player at byte $A5. }
+            // Use the map's seated player.
             bool bool__28 = (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == A1.FPlayer);
             if (!bool__28)
             {
@@ -319,7 +302,7 @@ namespace Aow.Units.GlobalTargetSpells
             Aow.Units.AoWE.AoWE.AoWHSMap.ChangeTerrainEx(null, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).X, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Y, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, TerrainChanged);
             var call__31 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
             call__31.CastingDone(A1, FEventMana);
-            // { needs: TSpellTE.Process returns a result in EAX (zero for this event). }
+            // The original event result is zero.
             Result = false;
             return Result;
         }
@@ -381,11 +364,9 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { TFreezeWater (instance size 60, VMT 5579CEC0) }
     public partial class TFreezeWater : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:710
-        // { needs: TArmyHS.VisibleForSeatedPlayer: Boolean; $5579EC2B tests AL. }
         public TFreezeWater(TECustomNode owner) : base(owner)
         {
             var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FreezeWaterRStr);
@@ -431,7 +412,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { TFireBarrierTE (instance size 36, VMT 5579CFFC) }
     public partial class TFireBarrierTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public TFireBarrierTE(TECustomNode owner) : base(owner)
@@ -503,8 +483,6 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { draft }
-    // { TFireBarrier (instance size 60, VMT 5579D0DC) }
     public partial class TFireBarrier : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:882
@@ -599,7 +577,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { TLevelTerrainTE (instance size 36, VMT 5579D218) }
     public partial class TLevelTerrainTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public TLevelTerrainTE(TECustomNode owner) : base(owner)
@@ -665,8 +642,6 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { draft }
-    // { TLevelTerrain (instance size 60, VMT 5579D2F8) }
     public partial class TLevelTerrain : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:978
@@ -761,7 +736,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { TRejuvenateTE (instance size 36, VMT 5579D434) }
     public partial class TRejuvenateTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public TRejuvenateTE(TECustomNode owner) : base(owner)
@@ -787,7 +761,7 @@ namespace Aow.Units.GlobalTargetSpells
                 Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Twinkle, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).X, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Y, Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Layer);
             }
 
-            // { needs: TAbstractAoWHSMap.$A4 contains the seated player at byte $A5. }
+            // Use the map's seated player.
             bool bool__78 = (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == A1.FPlayer);
             if (!bool__78)
             {
@@ -805,7 +779,7 @@ namespace Aow.Units.GlobalTargetSpells
             var call__81 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
             var call__82 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
             call__82.CastingDone(A1, call__81.FBaseManaCost);
-            // { needs: TSpellTE.Process returns a result in EAX (zero for this event). }
+            // The original event result is zero.
             Result = false;
             return Result;
         }
@@ -824,7 +798,6 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { TRejuvenate (instance size 60, VMT 5579D514) }
     public partial class TRejuvenate : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:1074
@@ -891,7 +864,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { TWatcherEnchantment (instance size 40, VMT 5579D648): $24 FWatcher. }
+    // FWatcher
     public partial class TWatcherEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         public Aow.Units.GlobalTargetSpells.TWatcherHS FWatcher;
@@ -913,9 +886,7 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { TWatcherHS (instance size 32, VMT 5579D7A0): $0C state, $0D unfog
-//     radius, $10 enchantment, $14 animation frame, $18 unexplored HNs,
-//     $1C visibility flag; $0E/$1D padding. }
+    // state, unfog radius, enchantment, animation frame, unexplored HNs, visibility flag
     public partial class TWatcherHS : Aow.Units.HSEngine.TSingleHS
     {
         // GlobalTargetSpells.pas:1220
@@ -923,12 +894,10 @@ namespace Aow.Units.GlobalTargetSpells
 
         public byte FWatcherState;
         public byte FUnfogRadius;
-        public Aow.Units.FixedArray_byte_2 FReserved0E;
         public Aow.Units.GlobalTargetSpells.TWatcherEnchantment FEnchantment;
         public int FAnimationFrame;
         public Aow.Units.Engine.TIntegerList FUnexplored;
         public bool FVisibleForSeatedPlayer;
-        public Aow.Units.FixedArray_byte_3 FReserved1D;
         // GlobalTargetSpells.pas:1213
         public override void Destroy()
         {
@@ -1024,8 +993,8 @@ namespace Aow.Units.GlobalTargetSpells
                 if (FAnimationFrame != -1)
                 {
                     FAnimationFrame += 1;
-                    // { Original reads the shared AoWEngine animation detail at byte $6D.
-//         The map engine is not the global read by this routine. }
+                    // The original reads the shared AoWEngine animation detail. The map engine is
+                    // not the global read by this routine.
                     if ((Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail == 2) && (Aow.Units.AoWE.AoWE.AoWHSMap.ViewL == Lhx))
                     {
                         Intensity = 100 - FAnimationFrame;
@@ -1252,7 +1221,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1305
-        // { draft }
         public void UpdateExploration()
         {
             int I = default;
@@ -1286,7 +1254,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1321
-        // { draft }
         public void UpdateUnfog()
         {
             int Radius = default;
@@ -1341,7 +1308,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1376
-        // { draft }
         public int VisibilityRange()
         {
             int Result = default;
@@ -1386,8 +1352,6 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { draft }
-    // { TWatcherTE (instance size 36, VMT 5579D92C) }
     public partial class TWatcherTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public TWatcherTE(TECustomNode owner) : base(owner)
@@ -1425,11 +1389,9 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { TWatcher (instance size 60, VMT 5579DA04) }
     public partial class TWatcher : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:1498
-        // { needs: TPlayer.GetBusy: Boolean, tested at $557A0266. }
         public TWatcher(TECustomNode owner) : base(owner)
         {
             var call__150 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WatcherRStr);
@@ -1460,7 +1422,7 @@ namespace Aow.Units.GlobalTargetSpells
                 Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
                 var call__153 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__153.AddEvent(Event);
-                // { Original queues through AddEvent, VMT +$10. }
+                // Original queues through AddEvent
                 Event.Release();
                 Result = true;
             }
@@ -1473,8 +1435,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { TTornadoTE (instance size 48, VMT 5579DB38): $24 angle,
-//     $28 animation, $2C selected army identity. }
+    // angle, animation, selected army identity
     public partial class TTornadoTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         // GlobalTargetSpells.pas:1559
@@ -1491,7 +1452,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1593
-        // { needs: Boolean result on the shared TSpellTE.Validate virtual. }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -1839,7 +1799,6 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { TTornado (instance size 60, VMT 5579DC10) }
     public partial class TTornado : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:1798
@@ -1884,7 +1843,7 @@ namespace Aow.Units.GlobalTargetSpells
 
                 var call__210 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__210.AddEvent(Event);
-                // { Original queues through AddEvent, VMT +$10. }
+                // Original queues through AddEvent
                 Event.Release();
                 Result = true;
             }
@@ -1993,8 +1952,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { TVortexTE (instance size 48, VMT 5579DD44): $24 angle,
-//     $28 animation, $2C selected army identity. }
+    // angle, animation, selected army identity
     public partial class TVortexTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         // GlobalTargetSpells.pas:1905
@@ -2011,7 +1969,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1939
-        // { needs: Boolean result on the shared TSpellTE.Validate virtual. }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -2233,7 +2190,6 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { TVortex (instance size 60, VMT 5579DE1C) }
     public partial class TVortex : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:2069
@@ -2279,7 +2235,7 @@ namespace Aow.Units.GlobalTargetSpells
 
                 var call__249 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__249.AddEvent(Event);
-                // { Original queues through AddEvent, VMT +$10. }
+                // Original queues through AddEvent
                 Event.Release();
                 Result = true;
             }
@@ -2329,7 +2285,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { THealingShowersTE (instance size 40, VMT 5579DF48): $24 animation. }
+    // animation
     public partial class THealingShowersTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public THealingShowersTE(TECustomNode owner) : base(owner)
@@ -2582,7 +2538,6 @@ namespace Aow.Units.GlobalTargetSpells
 
     }
 
-    // { THealingShowers (instance size 60, VMT 5579E030) }
     public partial class THealingShowers : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:2277
@@ -2646,12 +2601,9 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { TSmokeCloudSpell (instance size 60, VMT 5579E16C) }
     public partial class TSmokeCloudSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         // GlobalTargetSpells.pas:2325
-        // { needs: TFireControl.PlaceFire(X,Y,Layer:Integer; Create:Boolean): TFire,
-//   result consumed at $5579EDC3; GetSource returns TAbstractUnit at $5579EDE2. }
         public TSmokeCloudSpell(TECustomNode owner) : base(owner)
         {
             var call__291 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SmokeCloudRStr);
@@ -2663,8 +2615,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:2373
-        // { needs: TFireControl.PlaceFire(X,Y,Layer:Integer; Create:Boolean): TFire,
-//   result consumed at $5579EDC3; GetSource returns TAbstractUnit at $5579EDE2. }
         public override bool ExecuteTE(Aow.Units.AoWE.TSpellTE A1, Aow.Units.AoWE.TAbstractUnit A2, int A3)
         {
             bool Result = default;
@@ -2760,9 +2710,6 @@ namespace Aow.Units.GlobalTargetSpells
         }
     }
 
-    // { draft }
-    // { needs: corrected result/callback signatures on TGlobalTargetSpell and
-//     its P7 descendants. This call-only view uses the original VMT slots. }
     public partial class TGlobalTargetSpellCalls : Aow.Units.AoWE.TSpell
     {
         public TGlobalTargetSpellCalls(TECustomNode owner) : base(owner)
@@ -2817,24 +2764,17 @@ namespace Aow.Units.GlobalTargetSpells
         public Aow.Rtl.AnsiString Name;
     }
 
-    // { needs: typed TTargetSelectionControl fields. This view preserves all offsets;
-//     $04 library, $0D mode, $10 show callback, $20 distance, $24/$28/$2C center,
-//     $34 change events, $38 change, $39/$3A/$3B location, $3C text,
-//     $40/$44 captions, $50/$54/$58 preview images. }
     public partial class TTargetSelectionView : Aow.Rtl.TObject
     {
         public Aow.Units.ImageLib.TCustomImageLibrary ImageLibrary;
-        public int Reserved08;
         public byte Status;
         public TSet<Aow.Units.AoWE.TTargetSelectionModeElement> Mode;
-        public ushort Padding0E;
         public Aow.Units.AoWE.TShowTargetSelectionEvent OnShow;
         public Aow.Units.AoWE.TValidateTargetEvent OnValidate;
         public int Distance;
         public int CenterX;
         public int CenterY;
         public int CenterLayer;
-        public int Reserved30;
         public Aow.Units.Engine.TEventList Changes;
         public Aow.Units.AoWE.TTargetSelectionChange Change;
         public sbyte X;
@@ -2843,8 +2783,6 @@ namespace Aow.Units.GlobalTargetSpells
         public Aow.Rtl.TStrings Text;
         public Aow.Rtl.AnsiString Caption;
         public Aow.Rtl.AnsiString CancelCaption;
-        public int Reserved48;
-        public int Reserved4C;
         public Aow.Units.ImageLib.TLibraryImage Preview;
         public Aow.Units.ImageLib.TLibraryImage ValidPreview;
         public Aow.Units.ImageLib.TLibraryImage InvalidPreview;
@@ -2890,7 +2828,7 @@ namespace Aow.Units.GlobalTargetSpells
     }
 
     // { Typed call-only methods retain original argument evaluation order without
-//     altering the foreign draft headers or their implementation signatures. }
+// altering the foreign headers or their implementation signatures. }
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct TSpellLocation
     {
@@ -2913,8 +2851,6 @@ namespace Aow.Units.GlobalTargetSpells
         public int Flags;
     }
 
-    // { needs: the shared army and spell-event drafts do not declare results or
-//   var parameters. These typed entry shims preserve their original register ABI. }
     [StructLayout(LayoutKind.Explicit, Size = 257)]
     public struct TSpellMoveTable
     {
@@ -3004,13 +2940,9 @@ namespace Aow.Units.GlobalTargetSpells
 
         // { Import cells bind to the shared globals; distinct references preserve the original reloads. }
         public static System.Type SpellStructureClass = typeof(Aow.Units.AoWE.TStructure);
-        // { needs: AoWE.CancelRStr, referenced at $5579E664; absent from draft. }
         public static readonly Aow.Rtl.AnsiString SpellCancelRStr = (AnsiString)"Cancel";
 
         // GlobalTargetSpells.pas:552
-        // { needs: Boolean result; stack arguments require the normal EBP frame. }
-        // { needs: Boolean results on the shared TSpell virtuals. Helpers keep managed
-//   string finalization before returning AL; the public methods tail-call them. }
         public static bool GlobalTargetCanActivate(Aow.Units.GlobalTargetSpells.TGlobalTargetSpell Spell, int Caster, ref Aow.Rtl.AnsiString MessageText)
         {
             bool Result = default;

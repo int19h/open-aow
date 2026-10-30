@@ -115,25 +115,20 @@ namespace Aow.Units.AoWTC
     }
 
     // { ot=1 }
-    // { TTCAbility (instance size 12, VMT 00411A60) }
     public partial class TTCAbility : Aow.Rtl.TObject
     {
         public int Ability;
         public int Spell;
     }
 
-    // { $04, $08 }
-    // { TROb (instance size 12, VMT 00411AD0): $04 PathIndex; $08 Chance. }
+    // PathIndex. Chance
     public partial class TROb : Aow.Rtl.TObject
     {
         public int PathIndex;
-        // { $04 }
         public int Chance;
     }
 
-    // { $08 }
-    // { TAoWNewCombatMapSettings (instance size 32, VMT 00411B34)
-//     Inherited $04 Width; $08 Height; $0C Levels; $10 HSSFileName; $14 HSMapClassID; $1C MapLevelClassID. }
+    // Inherited Width. Height. Levels. HSSFileName. HSMapClassID. MapLevelClassID
     public partial class TAoWNewCombatMapSettings : Aow.Units.HSEngine.TNewHSMapSettings
     {
         public TAoWNewCombatMapSettings() : base()
@@ -154,70 +149,39 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TaiMove (instance size 32, VMT 00411BC0)
-//     $04 MoveType; $06 Ability; $08 Spell; $0C Value; $10 GroupValue;
-//     $14 UnitHS; $18 Target; $1C X; $1E Y. }
+    // MoveType. Ability. Spell. Value. GroupValue. UnitHS. Target. X. Y
     public partial class TaiMove : Aow.Rtl.TObject
     {
         public Aow.Units.AoWTC.TaiMoveType MoveType;
-        // { $04 }
-        public byte F_aiMove_05;
         public short Ability;
-        // { $06 }
         public short Spell;
-        // { $08 }
-        public Aow.Units.FixedArray_byte_2 F_aiMove_0A;
         public int Value;
-        // { $0C }
         public int GroupValue;
-        // { $10 }
         public Aow.Units.AoWTC.TTacticalCombatUnitHS UnitHS;
-        // { $14 }
         public Aow.Units.AoWE.TCombatObject Target;
-        // { $18 }
         public ushort X;
-        // { $1C }
         public ushort Y;
     }
 
-    // { $1E }
-    // { TCAI (instance size 56, VMT 00411C28)
-//     $04 FSide; $08 Units; $0C Allies; $10 Enemies; $14 Moves; $18 Walls;
-//     $1C CurrentMove; $20 FUnitIndex; $24 FUnitLimit; $28 FMinMoves; $2C FHeroMoves; $30 FNormalUnits; $34 FIgnoreWalls; $35 FFlee; $36 Status. }
+    // FSide. Units. Allies. Enemies. Moves. Walls. CurrentMove. FUnitIndex. FUnitLimit. FMinMoves.
+    // FHeroMoves. FNormalUnits. FIgnoreWalls. FFlee. Status
     public partial class TCAI : Aow.Rtl.TObject
     {
         public Aow.Units.AoWE.TCombatSideIndex FSide;
-        // { $04 }
-        public Aow.Units.FixedArray_byte_3 F_CAI_05;
         public Aow.Rtl.TList Units;
-        // { $08 }
         public Aow.Rtl.TList Allies;
-        // { $0C }
         public Aow.Rtl.TList Enemies;
-        // { $10 }
         public Aow.Rtl.TList Moves;
-        // { $14 }
         public Aow.Rtl.TList Walls;
-        // { $18 }
         public int CurrentMove;
-        // { $1C }
         public int FUnitIndex;
-        // { $20 }
         public int FUnitLimit;
-        // { $24 }
         public int FMinMoves;
-        // { $28 }
         public int FHeroMoves;
-        // { $2C }
         public int FNormalUnits;
-        // { $30 }
         public bool FIgnoreWalls;
-        // { $34 }
         public bool FFlee;
-        // { $35 }
         public Aow.Units.AoWTC.TaiStatus Status;
-        // { $36 }
-        public Aow.Units.FixedArray_byte_1 F_CAI_37;
         // AoWTC.pas:762
         public override void Destroy()
         {
@@ -4208,8 +4172,7 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TAoWCombatMapField (instance size 28, VMT 00411C8C)
-//     Inherited world-map field layout; no additional fields. }
+    // Inherited world-map field layout
     public partial class TAoWCombatMapField : Aow.Units.AoWE.TAoWMapField
     {
         public TAoWCombatMapField(TECustomNode owner) : base(owner)
@@ -4233,8 +4196,7 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TAoWCombatMapLevel (instance size 128, VMT 00411D98)
-//     Inherited world-map level layout; no additional fields. }
+    // Inherited world-map level layout
     public partial class TAoWCombatMapLevel : Aow.Units.AoWE.TAoWMapLevel
     {
         public TAoWCombatMapLevel(TECustomNode owner) : base(owner)
@@ -4254,7 +4216,7 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TRangedPathHS (instance size 32, VMT 00411EA8): $0C FMiscImages; $10 FTargetImages; $14 FFrame; $16 FFrameCount; $18 FSelection; $1C FRange. }
+    // FMiscImages. FTargetImages. FFrame. FFrameCount. FSelection. FRange
     public partial class TRangedPathHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
         public TRangedPathHS(TECustomNode owner) : base(owner)
@@ -4264,15 +4226,11 @@ namespace Aow.Units.AoWTC
         public new const int ClassID = 2228485;
 
         public Aow.Units.ImageLib.TCustomImageLibrary FMiscImages;
-        // { $0C }
         public Aow.Units.ImageLib.TCustomImageLibrary FTargetImages;
-        // { $10 }
         public ushort FFrame;
         public ushort FFrameCount;
         public Aow.Units.AoWTC.TCombatUnitSelectionControl FSelection;
-        // { $18 }
         public ushort FRange;
-        public Aow.Units.FixedArray_byte_2 F_RangedPathHS_1E;
         // AoWTC.pas:4849
         public override int GetShowPriority()
         {
@@ -4533,9 +4491,8 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TfxHS (instance size 56, VMT 00412028)
-//     $0C FDone; $0D FCancelled; $10 FFrame; $14 FAbilityIndex; $18 FSpellIndex;
-//     $1C FPath; $20 FVariant; $24 FTargetX; $28 FTargetY; $2C FTarget; $34 FEffectType. }
+    // FDone. FCancelled. FFrame. FAbilityIndex. FSpellIndex. FPath. FVariant. FTargetX. FTargetY.
+    // FTarget. FEffectType
     public partial class TfxHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
 
@@ -4550,36 +4507,17 @@ namespace Aow.Units.AoWTC
         public new const int ClassID = 2228486;
 
         public bool FDone;
-        // { $0C }
         public bool FCancelled;
-        // { $0D }
-        // { conflict: FHit: Boolean; }
-        public Aow.Units.FixedArray_byte_2 F_fxHS_0E;
         public int FFrame;
-        // { $10 }
         public int FAbilityIndex;
-        // { $14 }
-        // { conflict: FAbilityID: Integer; }
         public int FSpellIndex;
-        // { $18 }
-        // { conflict: FSpellID: Integer; }
         public Aow.Units.aowFX.TXYZList FPath;
-        // { $1C }
         public int FVariant;
-        // { $20 }
-        // { conflict: FDirection: Integer; }
         public int FTargetX;
-        // { $24 }
         public int FTargetY;
-        // { $28 }
         public Aow.Units.AoWE.TCombatObject FTarget;
-        // { $2C }
-        // { conflict: FTarget: TTacticalCombatUnit; }
         public Aow.Units.AoWE.TCombatAction FCombatAction;
-        // { $30; $40c44b }
         public Aow.Units.AoWTC.TfxType FEffectType;
-        // { $34 }
-        public Aow.Units.FixedArray_byte_3 F_fxHS_35;
         // AoWTC.pas:5221
         public override void Destroy()
         {
@@ -6644,7 +6582,6 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TCItemHS (instance size 20, VMT 00412198) }
     public partial class TCItemHS : Aow.Units.AoWE.TItemHS
     {
 
@@ -6700,8 +6637,7 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TUnitPositionHS (instance size 28, VMT 00412314)
-//     $0C FPosition; $0D FIndex; $10 FImageIndex; $14 FImages; $18 FDirection. }
+    // FPosition. FIndex. FImageIndex. FImages. FDirection
     public partial class TUnitPositionHS : Aow.Units.HSEngine.TSingleHS
     {
         public TUnitPositionHS(TECustomNode owner) : base(owner)
@@ -6715,17 +6651,10 @@ namespace Aow.Units.AoWTC
         public new const int ClassID = 2228483;
 
         public sbyte FPosition;
-        // { $0C }
         public sbyte FIndex;
-        // { $0D }
-        public Aow.Units.FixedArray_byte_2 F_UnitPositionHS_0E;
         public int FImageIndex;
-        // { $10 }
         public Aow.Units.ImageLib.TCustomImageLibrary FImages;
-        // { $14 }
         public byte FDirection;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_UnitPositionHS_19;
         // AoWTC.pas:5060
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -6846,8 +6775,7 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TCBloodHS (instance size 28, VMT 0041249C)
-//     $10 FFrame; $14 FOffsetX; $18 FOffsetY. }
+    // FFrame. FOffsetX. FOffsetY
     public partial class TCBloodHS : Aow.Units.HSEngine.TSingleHS
     {
         public TCBloodHS(TECustomNode owner) : base(owner)
@@ -6855,11 +6783,8 @@ namespace Aow.Units.AoWTC
 
         public new const int ClassID = 2228487;
 
-        public Aow.Units.FixedArray_byte_4 F_CBloodHS_0C;
         public int FFrame;
-        // { $10 }
         public int FOffsetX;
-        // { $14 }
         public int FOffsetY;
         // AoWTC.pas:6393
         public override byte GetLevel()
@@ -6913,8 +6838,7 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TCCorpseHS (instance size 44, VMT 0041261C)
-//     $0C FUnit; $10 FUnitGFX; $18 FFrame; $1C FOffsetX; $20 FOffsetY; $24 FSequenceIndex; $28 FSequenceFrame. }
+    // FUnit. FUnitGFX. FFrame. FOffsetX. FOffsetY. FSequenceIndex. FSequenceFrame
     public partial class TCCorpseHS : Aow.Units.HSEngine.TSingleHS
     {
         public TCCorpseHS(TECustomNode owner) : base(owner)
@@ -6923,18 +6847,11 @@ namespace Aow.Units.AoWTC
         public new const int ClassID = 2228488;
 
         public Aow.Units.AoWTC.TTacticalCombatUnit FUnit;
-        // { $0C }
         public Aow.Units.AoWE.TUnitGFXResource FUnitGFX;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_4 F_CCorpseHS_14;
         public int FFrame;
-        // { $18 }
         public int FOffsetX;
-        // { $1C }
         public int FOffsetY;
-        // { $20 }
         public int FSequenceIndex;
-        // { $24 }
         public int FSequenceFrame;
         // AoWTC.pas:4007
         public override byte GetLevel()
@@ -7189,8 +7106,7 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TCOozeHS (instance size 12, VMT 0041279C)
-//     Inherited single-hexagon sprite layout; no additional fields. }
+    // Inherited single-hexagon sprite layout
     public partial class TCOozeHS : Aow.Units.HSEngine.TSingleHS
     {
         public TCOozeHS(TECustomNode owner) : base(owner)
@@ -7282,13 +7198,11 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TUnitPositionControl (instance size 12, VMT 00412918)
-//     $08 FPositions: packed XYL entries, eight per army position. }
+    // FPositions: packed XYL entries, eight per army position
     public partial class TUnitPositionControl : Aow.Units.Engine.TEObject
     {
         public Aow.Units.HSEngine.TXYLList FPositions;
         // AoWTC.pas:4943
-        // { $08 }
         public override void Destroy()
         {
             FPositions.Free();
@@ -7423,20 +7337,17 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TCombatMoveControlSettings (instance size 432, VMT 004129E8): $1AC FMoveFlags. }
+    // FMoveFlags
     public partial class TCombatMoveControlSettings : Aow.Units.AoWE.TMoveControlSettings
     {
         public TCombatMoveControlSettings(TECustomNode owner) : base(owner)
         { }
 
         public TSet<Aow.Units.AoWTC.TCombatMoveModeElement> FMoveFlags;
-        // { $1AC }
-        public Aow.Units.FixedArray_byte_3 F_CombatMoveControlSettings_1AD;
         // intf_P5_01.inc:63
 
     }
 
-    // { TCombatMoveControl (instance size 488, VMT 00412AC4) }
     public partial class TCombatMoveControl : Aow.Units.AoWE.TMoveControl
     {
 
@@ -7444,10 +7355,7 @@ namespace Aow.Units.AoWTC
         { }
 
         public Aow.Units.AoWTC.TTacticalCombatUnitHS FUnitHS;
-        // { $1E0 }
         public TSet<Aow.Units.AoWTC.TCombatMoveModeElement> FMoveFlags;
-        // { $1E4; $405884 }
-        public Aow.Units.FixedArray_byte_3 F_CombatMoveControl_1E5;
         // AoWTC.pas:2716
         public override void ProcessMove(Aow.Units.AoWE.TMoveControlSettings A1)
         {
@@ -7460,27 +7368,19 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TTacticalCombatUnit (instance size 104, VMT 00412B4C)
-//     $5C FMovePoints; $60 FUnitHS; $64 FPositionIndex; $65 FPositionGroup; $66 FCanFlee; $67 FDeathMethod. }
+    // FMovePoints. FUnitHS. FPositionIndex. FPositionGroup. FCanFlee. FDeathMethod
     public partial class TTacticalCombatUnit : Aow.Units.AoWE.TCombatUnit
     {
         public TTacticalCombatUnit(TECustomNode owner) : base(owner)
         { }
 
         public int FMovePoints;
-        // { $5C }
         public Aow.Units.AoWTC.TTacticalCombatUnitHS FUnitHS;
-        // { $60 }
         public byte FPositionIndex;
-        // { $64 }
         public byte FPositionGroup;
-        // { $65 }
         public bool FCanFlee;
-        // { $66 }
         public Aow.Units.AoWTC.TTCDeathMethod FDeathMethod;
         // AoWTC.pas:2626
-        // { $67 }
-        // { conflict: FUsedAbility: Boolean; }
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
@@ -7790,9 +7690,8 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TTacticalCombatUnitHS (instance size 72, VMT 00412D08): $1C FUnit;
-//     $20 FMoveIndicator; $22 FIndicatorStep; $24 FAction; $25 FActionDone; $26 FActionFrame; $2C FOffsetX; $30 FOffsetY; $34 FSelectedAbility;
-//     $38 FSelectedSpell; $3C FCombatAbilityCount; $40 FAbilities; $44 FBusy. }
+    // FUnit. FMoveIndicator. FIndicatorStep. FAction. FActionDone. FActionFrame. FOffsetX.
+    // FOffsetY. FSelectedAbility. FSelectedSpell. FCombatAbilityCount. FAbilities. FBusy
     public partial class TTacticalCombatUnitHS : Aow.Units.AoWE.TUnitHS
     {
         public TTacticalCombatUnitHS(TECustomNode owner) : base(owner)
@@ -7802,34 +7701,18 @@ namespace Aow.Units.AoWTC
         public new const int ClassID = 2228484;
 
         public Aow.Units.AoWTC.TTacticalCombatUnit FUnit;
-        // { $1C }
-        // { conflict: FCombatUnit: TTacticalCombatUnit; }
         public short FMoveIndicator;
-        // { $20 }
         public short FIndicatorStep;
-        // { $22 }
         public Aow.Units.AoWTC.TTCAction FAction;
-        // { $24 }
         public bool FActionDone;
-        // { $25 }
         public short FActionFrame;
-        // { $26 }
-        public Aow.Units.FixedArray_byte_4 F_TacticalCombatUnitHS_28;
         public int FOffsetX;
-        // { $2C }
         public int FOffsetY;
-        // { $30 }
         public int FSelectedAbility;
-        // { $34 }
         public int FSelectedSpell;
-        // { $38 }
         public int FCombatAbilityCount;
-        // { $3C }
         public Aow.Rtl.TList FAbilities;
-        // { $40 }
         public bool FBusy;
-        // { $44 }
-        public Aow.Units.FixedArray_byte_3 F_TacticalCombatUnitHS_45;
         // AoWTC.pas:3566
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
@@ -8848,8 +8731,8 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TCombatUnitSelectionControl (instance size 60, VMT 00412EB4): $18 FPathInvalid;
-//     $1C FTargetImages; $20 FRangedPathHS; $24 FTargetX; $28 FTargetY; $2C FCursorImage; $2E FCursorFrame; $34 FRangedPath; $38 FObstacles. }
+    // FPathInvalid. FTargetImages. FRangedPathHS. FTargetX. FTargetY. FCursorImage. FCursorFrame.
+    // FRangedPath. FObstacles
     public partial class TCombatUnitSelectionControl : Aow.Units.AoWE.TMoveSelector
     {
         // AoWTC.pas:2723
@@ -8867,25 +8750,16 @@ namespace Aow.Units.AoWTC
         }
 
         public TSet<Aow.Units.AoWTC.AnonymousEnum_piMove> FPathInvalid;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_CombatUnitSelectionControl_19;
         public Aow.Units.ImageLib.TCustomImageLibrary FTargetImages;
-        // { $1C }
         public Aow.Units.AoWTC.TRangedPathHS FRangedPathHS;
-        // { $20 }
         public int FTargetX;
-        // { $24 }
         public int FTargetY;
-        // { $28 }
         public ushort FCursorImage;
         public ushort FCursorFrame;
         public Aow.Units.HSEngine.THexagonSprite FMouseOverTarget;
-        // { $30; $436B53 }
         public Aow.Units.aowFX.TXYZList FRangedPath;
-        // { $34 }
         public Aow.Rtl.TList FObstacles;
         // AoWTC.pas:2733
-        // { $38 }
         public override void Destroy()
         {
             int I = default;
@@ -8916,7 +8790,6 @@ namespace Aow.Units.AoWTC
             TSet<Aow.Units.AoWE.TCombatTargetTypeElement> Targets = default;
             Aow.Units.AoWE.TSpellCombatInfo SpellInfo = default;
             Aow.Units.AoWE.TAbilityCombatInfo AbilityInfo = default;
-            // { Match trials (8): addressable/absolute locals, record storage, declaration/operand order, with scopes, Pointer casts, zero-shift scheduling, O+; still differs. }
             if (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentCombatPlayer)
             {
                 var call__1624 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentCombatPlayer));
@@ -10721,25 +10594,19 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TTacticalCombatPlayer (instance size 28, VMT 00412F78)
-//     $0C FAuto; $0D FEndTurn; $0E FIndex; $10 FLastX; $14 FLastY; $18 FLastUnit. }
+    // FAuto. FEndTurn. FIndex. FLastX. FLastY. FLastUnit
     public partial class TTacticalCombatPlayer : Aow.Units.AoWE.TCombatPlayer
     {
         public TTacticalCombatPlayer(TECustomNode owner) : base(owner)
         { }
 
         public bool FAuto;
-        // { $0C }
         public bool FEndTurn;
-        // { $0D }
         public sbyte FIndex;
-        // { $0E }
-        public byte FReserved0F;
         public int FLastX;
         public int FLastY;
         public Aow.Units.AoWTC.TTacticalCombatUnit FLastUnit;
         // AoWTC.pas:6419
-        // { $10, $14, $18 }
         public void SetAuto(bool Value)
         {
             FAuto = Value;
@@ -10751,13 +10618,11 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TTacticalCombatPlayerList (instance size 8, VMT 0041304C)
-//     $04 FPlayers. }
+    // FPlayers
     public partial class TTacticalCombatPlayerList : Aow.Rtl.TObject
     {
         public Aow.Units.AoWE.TCombatPlayerList FPlayers;
         // AoWTC.pas:6426
-        // { $04 }
         public int GetCount()
         {
             int Result = default;
@@ -10785,8 +10650,6 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { conflict: function GetPlayers(Player: Shortint): TTacticalCombatPlayer; }
-    // { TAoWCombatMapMouse (instance size 80, VMT 004130DC) }
     public partial class TAoWCombatMapMouse : Aow.Units.AoWE.TAbstractAoWHSMapMouse
     {
 
@@ -10797,73 +10660,40 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TAoWCombatMap (instance size 312, VMT 00413184)
-//     $E0 FPlayers; $E4 FCombat; $E8 FUnitPositions; $EC FSeatedCombatPlayer;
-//     $ED FCurrentCombatPlayer; $F0..$F8 turn/player events; $FC FMoveControl;
-//     $100 FUnitSelection; $104..$114 selection/unit events; $118 FAI; $11C FEffects;
-//     $120 FWalls; $124 FFleeLocations; $128 FEndTurnPending; $129 FPlaySounds;
-//     $12A FPositionStatus; $134 FRound. }
+    // FPlayers. FCombat. FUnitPositions. FSeatedCombatPlayer. FCurrentCombatPlayer. turn/player
+    // events. FMoveControl. FUnitSelection. selection/unit events. FAI. FEffects. FWalls.
+    // FFleeLocations. FEndTurnPending. FPlaySounds. FPositionStatus. FRound
     public partial class TAoWCombatMap : Aow.Units.AoWE.TAbstractAoWCombatMap
     {
         // AoWTC.pas:2183
         public new const int ClassID = 2228480;
 
         public Aow.Units.AoWTC.TTacticalCombatPlayerList FPlayers;
-        // { $E0 }
         public Aow.Units.AoWTC.TTacticalCombat FCombat;
-        // { $E4 }
         public Aow.Units.AoWTC.TUnitPositionControl FUnitPositions;
-        // { $E8 }
         public sbyte FSeatedCombatPlayer;
-        // { $EC }
-        // { conflict: FSeatedCombatPlayer: Byte; }
         public sbyte FCurrentCombatPlayer;
-        // { $ED }
-        // { conflict: FCurrentCombatPlayer: Shortint; }
-        public Aow.Units.FixedArray_byte_2 F_AoWCombatMap_EE;
         public Aow.Units.Engine.TEventList FChangeTurnEvents;
-        // { $F0 }
-        // { conflict: FTurnChangedEvents: TEventList; }
         public Aow.Units.Engine.TEventList FPlayerChangedEvents;
-        // { $F4 }
         public Aow.Units.Engine.TEventList FSeatedPlayerChangedEvents;
-        // { $F8 }
         public Aow.Units.AoWTC.TCombatMoveControl FMoveControl;
-        // { $FC }
         public Aow.Units.AoWTC.TCombatUnitSelectionControl FUnitSelection;
-        // { $100 }
         public Aow.Units.Engine.TEventList FSelectEvents;
-        // { $104 }
-        // { conflict: FDeactivateMapEvents: TEventList; }
         public Aow.Units.Engine.TEventList FDeselectEvents;
-        // { $108 }
-        // { conflict: FActivateMapEvents: TEventList; }
         public Aow.Units.HSEngine.TMapObject FCenterViewLocation;
-        // { $10C; $435a3e }
         public Aow.Units.Engine.TEventList FMouseOverTargetEvents;
-        // { $110; CMapCtrl 004364E4 }
-        // { conflict: FUnitChangedEvents: TEventList; }
+        // CMapCtrl
         public Aow.Units.Engine.TEventList FUnitChangedEvents;
-        // { $114; CMapCtrl 004364FF }
-        // { conflict: FMouseOverTargetEvents: TEventList; }
+        // CMapCtrl
         public Aow.Units.AoWTC.TCAI FAI;
-        // { $118 }
         public Aow.Rtl.TList FEffects;
-        // { $11C }
         public Aow.Rtl.TList FWalls;
-        // { $120; $405741 }
         public Aow.Rtl.TList FFleeLocations;
-        // { $124 }
         public bool FEndTurnPending;
-        // { $128 }
         public bool FPlaySounds;
-        // { $129; $405B38 }
         public Aow.Units.FixedArray_byte_8 FPositionStatus;
-        // { $12A }
-        public Aow.Units.FixedArray_byte_2 F_AoWCombatMap_132;
         public int FRound;
         // AoWTC.pas:2213
-        // { $134 }
         public override void Destroy()
         {
             while (FEffects.Count > 0)
@@ -11652,7 +11482,6 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:2475
-        // { conflict: function AddEffect(Effect: Byte): TfxHS; }
         public void UpdateCursor()
         {
             bool bool__2181 = (FSeatedPlayer == -1);
@@ -11799,8 +11628,7 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TTacticalCombat (instance size 80, VMT 00413314)
-//     Inherited combat layout; $4C FHostPlayer. }
+    // Inherited combat layout. FHostPlayer
     public partial class TTacticalCombat : Aow.Units.AoWE.TCombat
     {
         // AoWTC.pas:5081
@@ -11810,8 +11638,6 @@ namespace Aow.Units.AoWTC
         { }
 
         public sbyte FHostPlayer;
-        // { $4C }
-        public Aow.Units.FixedArray_byte_3 F_TacticalCombat_4D;
         // AoWTC.pas:5086
         public override Aow.Units.AoWE.TCombatUnit CreateCombatUnit()
         {
@@ -11966,32 +11792,22 @@ namespace Aow.Units.AoWTC
 
     }
 
-    // { TRndTacHsm (instance size 3708, VMT 0041340C)
-//     $04 FItems; $08 FRandomTerrain; $0C neighbor weights; $5C terrain weights;
-//     $520 terrain-tag weights; $9F0 terrain samples; $9F7 tag samples; $A00 resource lists; $E78 FHomePosition. }
+    // FItems. FRandomTerrain. neighbor weights. terrain weights. terrain-tag weights. terrain
+    // samples. tag samples. resource lists. FHomePosition
     public partial class TRndTacHsm : Aow.Rtl.TObject
     {
         public Aow.Units.AoWE.TItemList FItems;
-        // { $04; 00426CD4 calls GetItem at VMT $8C. }
+        // calls GetItem
         public bool FRandomTerrain;
-        // { $08 }
-        public Aow.Units.FixedArray_byte_3 F_RndTacHsm_09;
         public Aow.Units.FixedArray_int_20 FNeighborWeights;
-        // { $0C }
         public Aow.Units.FixedArray_int_305 FTerrainWeights;
-        // { $5C }
         public Aow.Units.FixedArray_int_308 FTagWeights;
-        // { $520 }
         public Aow.Units.FixedArray_sbyte_7 FTerrain;
-        // { $9F0 }
         public Aow.Units.FixedArray_sbyte_7 FTags;
-        // { $9F7 }
-        public Aow.Units.FixedArray_byte_2 F_RndTacHsm_9FE;
         public Aow.Units.FixedArray_Aow_Rtl_TList_286 FResources;
-        // { $A00; original allocates one extra list }
+        // original allocates one extra list
         public int FHomePosition;
         // AoWTC.pas:4149
-        // { $E78 }
         public override void Destroy()
         {
             int I = default;
@@ -14267,8 +14083,6 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:6591
-        // { conflict: procedure MakeRangedPath(Side: TCombatSideIndex; Height, Step, Arc: Smallint; X1, Y1, X2, Y2: Smallint; Ignore: TMapObject; Mode: Boolean; Z: Smallint; var Path: TXYZList; var Obstacles: TList); }
-        // { conflict: procedure MakeRangedPath(Side: TCombatSideIndex; Height, Step, Arc: Smallint; X1, Y1, X2, Y2: Smallint; OffsetX, OffsetY: Smallint; Mode: Boolean; var Path: TXYZList; var Obstacles: TList); }
         public static void RegisterAoWTCClasses(Aow.Units.Engine.TEngine AEngine)
         {
             Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWTC.TAoWCombatMap>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWTC.TAoWCombatMapLevel>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWTC.TUnitPositionHS>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWTC.TTacticalCombat>()]);
@@ -14395,18 +14209,13 @@ namespace Aow.Units.AoWTC
             return Result;
         }
 
-        // { conflict: function GetRangedDirIndex(A1: Integer; A2: Integer): Integer; }
         public static Aow.Units.AoWTC.TAoWCombatMap AoWCombatMap;
         public static int CombatXLoc;
         public static int CombatYLoc;
         public static int CombatLLoc;
-        // { $46C058..$46C064 }
         public static Aow.Units.FixedArray_int_2 TCAttack;
         public static Aow.Units.FixedArray_int_2 TCDamage;
-        // { conflict: const TCAttack: array[0..1] of Integer = (6, 10); }
-        // { conflict: const TCDamage: array[0..1] of Integer = (6, 1); }
         public static Aow.Units.FixedArray_int_18 raDir = Aow.Units.FixedArray_int_18.From([0, 0, 0, 1, 0, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0]);
-        // { conflict: raDir: array[0..16] of Integer = (0, 0, 0, 1, 0, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0); }
         public static Aow.Units.FixedArray_Aow_Units_AoWTC_TfxType_170 AbilTypes = Aow.Units.FixedArray_Aow_Units_AoWTC_TfxType_170.From([Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxArrow, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxRock, Aow.Units.AoWTC.TfxType.fxRock, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxBreath, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxRock, Aow.Units.AoWTC.TfxType.fxRock, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxRay, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxArrow, Aow.Units.AoWTC.TfxType.fxArrow, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxArrow, Aow.Units.AoWTC.TfxType.fxComet, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxBreath, Aow.Units.AoWTC.TfxType.fxBreath, Aow.Units.AoWTC.TfxType.fxBreath, Aow.Units.AoWTC.TfxType.fxBreath, Aow.Units.AoWTC.TfxType.fxBreath, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxComet, Aow.Units.AoWTC.TfxType.fxComet, Aow.Units.AoWTC.TfxType.fxComet, Aow.Units.AoWTC.TfxType.fxComet, Aow.Units.AoWTC.TfxType.fxComet, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxTouch, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone]);
         public static Aow.Units.FixedArray_Aow_Units_AoWTC_TfxType_131 SpellTypes = Aow.Units.FixedArray_Aow_Units_AoWTC_TfxType_131.From([Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxCometBall, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxHighPrayer, Aow.Units.AoWTC.TfxType.fxRay, Aow.Units.AoWTC.TfxType.fxCloud, Aow.Units.AoWTC.TfxType.fxScreenNESW, Aow.Units.AoWTC.TfxType.fxMindDecay, Aow.Units.AoWTC.TfxType.fxChain, Aow.Units.AoWTC.TfxType.fxBreath, Aow.Units.AoWTC.TfxType.fxNone, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxTremors, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxBreath, Aow.Units.AoWTC.TfxType.fxScreenSwarm, Aow.Units.AoWTC.TfxType.fxScreenNS, Aow.Units.AoWTC.TfxType.fxRock, Aow.Units.AoWTC.TfxType.fxGeyser, Aow.Units.AoWTC.TfxType.fxAltArrow, Aow.Units.AoWTC.TfxType.fxFrostBeam, Aow.Units.AoWTC.TfxType.fxEffect, Aow.Units.AoWTC.TfxType.fxRock, Aow.Units.AoWTC.TfxType.fxCometBall, Aow.Units.AoWTC.TfxType.fxScreenNS, Aow.Units.AoWTC.TfxType.fxSacredWrath, Aow.Units.AoWTC.TfxType.fxWinds, Aow.Units.AoWTC.TfxType.fxShockWave, Aow.Units.AoWTC.TfxType.fxSacFlame, Aow.Units.AoWTC.TfxType.fxResurrect, Aow.Units.AoWTC.TfxType.fxResurrect]);
         public static Aow.Units.FixedArray_int_72 BreathHN = Aow.Units.FixedArray_int_72.From([1, 18, 7, 8, 36, 19, 20, 59, 60, 37, 38, 39, 2, 8, 9, 10, 21, 22, 23, 39, 40, 41, 42, 43, 3, 10, 11, 12, 24, 25, 26, 43, 44, 45, 46, 47, 4, 12, 13, 14, 27, 28, 29, 47, 48, 49, 50, 51, 5, 14, 15, 16, 30, 31, 32, 51, 52, 53, 54, 55, 6, 16, 17, 18, 33, 34, 35, 55, 56, 57, 58, 59]);

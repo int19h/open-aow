@@ -38,15 +38,13 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Storms
 {
-    // { TStorm (instance size 64, VMT 557CB0BC): $3C player, $3D padding. }
+    // player
     public partial class TStorm : Aow.Units.Animation.TAnimation
     {
         public TStorm(TECustomNode owner) : base(owner)
         {}
 
         public sbyte FPlayer;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_3 FReserved3D;
         // Storms.pas:34
         public virtual void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref Aow.Units.AoWE.TStormDamageInfo Info)
         {
@@ -54,7 +52,6 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:236
-        // { +124 }
         public virtual void UpdateTargetSelection(Aow.Units.AoWE.TTargetSelectionControl Selection)
         {
             Selection.FOnShow = ShowTargetSelection;
@@ -143,7 +140,6 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:39
-        // { +134 }
         public virtual Aow.Rtl.AnsiString Name()
         {
             throw EAbstractError.Create("Abstract Error");
@@ -152,7 +148,7 @@ namespace Aow.Units.Storms
 
     }
 
-    // { TBlastStorm (instance size 68, VMT 557CB260): $40 storm image library. }
+    // storm image library
     public partial class TBlastStorm : Aow.Units.Storms.TStorm
     {
         public TBlastStorm(TECustomNode owner) : base(owner)
@@ -160,7 +156,6 @@ namespace Aow.Units.Storms
 
         public Aow.Units.ImageLib.TCustomImageLibrary FStormImages;
         // Storms.pas:338
-        // { $40 }
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
         {
             int X = default;
@@ -314,13 +309,11 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:308
-        // { +13C }
         public virtual void StormTerrainChanged(Aow.Units.HSEngine.TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
         {
         }
 
         // Storms.pas:294
-        // { +140 }
         public virtual Aow.Rtl.AnsiString StormFileName()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -329,7 +322,6 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:299
-        // { +144 }
         public virtual Aow.Units.AoWE.TStormType StormType()
         {
             Aow.Units.AoWE.TStormType Result = default;
@@ -338,8 +330,6 @@ namespace Aow.Units.Storms
         }
     }
 
-    // { +148 }
-    // { TIceStorm (instance size 68, VMT 557CB41C) }
     public partial class TIceStorm : Aow.Units.Storms.TBlastStorm
     {
         public TIceStorm(TECustomNode owner) : base(owner)
@@ -427,7 +417,6 @@ namespace Aow.Units.Storms
 
     }
 
-    // { TDeathStorm (instance size 68, VMT 557CB5D8) }
     public partial class TDeathStorm : Aow.Units.Storms.TBlastStorm
     {
         public TDeathStorm(TECustomNode owner) : base(owner)
@@ -474,7 +463,6 @@ namespace Aow.Units.Storms
 
     }
 
-    // { TDivineStorm (instance size 68, VMT 557CB794) }
     public partial class TDivineStorm : Aow.Units.Storms.TBlastStorm
     {
         public TDivineStorm(TECustomNode owner) : base(owner)
@@ -521,7 +509,7 @@ namespace Aow.Units.Storms
 
     }
 
-    // { TLightningStorm (instance size 68, VMT 557CB958): $40 storm image library. }
+    // storm image library
     public partial class TLightningStorm : Aow.Units.Storms.TStorm
     {
         public TLightningStorm(TECustomNode owner) : base(owner)
@@ -646,7 +634,6 @@ namespace Aow.Units.Storms
 
     }
 
-    // { TFireStorm (instance size 64, VMT 557CBB0C) }
     public partial class TFireStorm : Aow.Units.Storms.TStorm
     {
         public TFireStorm(TECustomNode owner) : base(owner)
@@ -814,7 +801,7 @@ namespace Aow.Units.Storms
 
     }
 
-    // { TPestilenceStorm (instance size 68, VMT 557CBCB8): $40 poison cloud resource. }
+    // poison cloud resource
     public partial class TPestilenceStorm : Aow.Units.Storms.TStorm
     {
         public TPestilenceStorm(TECustomNode owner) : base(owner)
@@ -986,7 +973,7 @@ namespace Aow.Units.Storms
 
     }
 
-    // { TStormSpellTE (instance size 40, VMT 557CBE74): $20 storm, $24 X, $25 Y, $26 layer. }
+    // storm, X, Y, layer
     public partial class TStormSpellTE : Aow.Units.AoWE.TSpellTE
     {
         public TStormSpellTE(TECustomNode owner) : base(owner)
@@ -996,14 +983,9 @@ namespace Aow.Units.Storms
         public new const int ClassID = 135937;
 
         public Aow.Units.Storms.TStorm FStorm;
-        // { $20 }
         public sbyte FX;
-        // { $24 }
         public sbyte FY;
-        // { $25 }
         public sbyte FL;
-        // { $26 }
-        public Aow.Units.FixedArray_byte_1 F_StormSpellTE_27;
         // Storms.pas:735
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -1049,14 +1031,12 @@ namespace Aow.Units.Storms
 
     }
 
-    // { TStormSpell (instance size 60, VMT 557CBF48): $34 targeting storm, $38 caster. }
+    // targeting storm, caster
     public partial class TStormSpell : Aow.Units.AoWE.TSpell
     {
         public Aow.Units.Storms.TStorm FTargetStorm;
-        // { $34 }
         public Aow.Units.AoWE.TAbstractUnit FSource;
         // Storms.pas:762
-        // { $38 }
         public TStormSpell(TECustomNode owner) : base(owner)
         {
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
@@ -1218,7 +1198,6 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:768
-        // { +09C }
         public virtual bool ExecuteStormSpell(Aow.Units.AoWE.TAbstractUnit Source, sbyte X, sbyte Y, sbyte L)
         {
             bool Result = default;
@@ -1246,7 +1225,6 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:860
-        // { +0A0 }
         public virtual int AICastSpellPriority(Aow.Units.AoWE.TAbstractUnit Source)
         {
             int Result = default;
@@ -1287,7 +1265,6 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:786
-        // { +0A4 }
         public void OnTargetSelectionChange(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWE.TTargetSelectionControl Selection = default;
@@ -1314,7 +1291,6 @@ namespace Aow.Units.Storms
         }
     }
 
-    // { TFireStormSpell (instance size 60, VMT 557CC060) }
     public partial class TFireStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:939
@@ -1337,7 +1313,6 @@ namespace Aow.Units.Storms
         }
     }
 
-    // { TDivineStormSpell (instance size 60, VMT 557CC180) }
     public partial class TDivineStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:954
@@ -1360,7 +1335,6 @@ namespace Aow.Units.Storms
         }
     }
 
-    // { TDeathStormSpell (instance size 60, VMT 557CC2A8) }
     public partial class TDeathStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:969
@@ -1383,7 +1357,6 @@ namespace Aow.Units.Storms
         }
     }
 
-    // { TIceStormSpell (instance size 60, VMT 557CC3D0) }
     public partial class TIceStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:984
@@ -1406,7 +1379,6 @@ namespace Aow.Units.Storms
         }
     }
 
-    // { TLightningStormSpell (instance size 60, VMT 557CC4F0) }
     public partial class TLightningStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:1014
@@ -1429,7 +1401,6 @@ namespace Aow.Units.Storms
         }
     }
 
-    // { TPestilenceStormSpell (instance size 60, VMT 557CC620) }
     public partial class TPestilenceStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:999

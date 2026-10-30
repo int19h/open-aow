@@ -72,7 +72,6 @@ namespace Aow.Units.E3EventDialogs
         // { Event-log dialog routines called by TMapEvents in AoW.exe. }
         public static void ShowDiplomaticEvent(Aow.Units.AoWRelations.TRelWindow Dialog, Aow.Units.AoWE.TDiplomaticActionEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
-            // { Tried typed event view and explicit action case; no exact match. }
             Dialog.ClearActions();
             Dialog.ResetChecks();
             // { Original reports its source filename, independent of this checkout. }
@@ -438,7 +437,6 @@ namespace Aow.Units.E3EventDialogs
             }
         }
 
-        // { $45B04C }
         public static Aow.Units.AoWSendEmailGameDlg.TSendEmailGameDlg SendEmailGameDlg;
         public static Aow.Units.AoWPasswordDlg.TPasswordDlg PasswordDlg;
         public static Aow.Units.AoWArmyEventDlg.TArmyEventDlg ArmyEventDlg;
@@ -447,19 +445,15 @@ namespace Aow.Units.E3EventDialogs
         public static Aow.Units.AoWPartyJoin.TPartyJoinDlg PartyJoinDlg;
         public static Aow.Units.AoWHeroJoinDlg.THeroJoinDlg HeroJoinDlg;
         public static Aow.Units.AoWMsgReceiveDlg.TMsgReceiveDlg MsgReceiveDlg;
-        // { $45B278 }
         public static Aow.Units.AoWHeroUpgradeDlg.THeroUpgradeDlg HeroUpgradeDlg;
         public static Aow.Units.AoWHeroInfoDlg.THeroInfoDlg HeroInfoDlg;
         public static Aow.Units.AoWWizardsTowerDlg.TWizardsTowerDlg WizardsTowerDlg;
         public static Aow.Units.AoWArenaDlg.TArenaDlg ArenaDlg;
         public static Aow.Units.AoWItemsFoundDlg.TItemsFoundDlg ItemsFoundDlg;
         public static Aow.Units.FastCombatWin.TFastCombatWindow FastCombatWindow;
-        // { $45B1B0 }
         public static Aow.Units.AoWNewTurnDialog.TNewTurnDlg NewTurnDlg;
-        // { $45B1E8 }
         public static Aow.Units.TCFCDlg.TTCFCDialog TCFCDialog;
         // E3EventDialogs.pas:33
-        // { $45B1F0 }
         public static void OriginalAssert(Aow.Rtl.AnsiString Message, Aow.Rtl.AnsiString Filename, int LineNumber)
         {
             Aow.Rtl.Rtl.Assert(false, Message, Filename.ToString(), LineNumber);

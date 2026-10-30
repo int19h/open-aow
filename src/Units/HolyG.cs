@@ -45,8 +45,7 @@ namespace Aow.Units.HolyG
         hgSummoning = 0
     }
 
-    // { THolyGround (instance size 32, VMT 557C79A0): $1C FMode, $1D FPlayer,
-//     $1E FDuration, $1F FOriginalOverlay. }
+    // FMode, FPlayer, FDuration, FOriginalOverlay
     public partial class THolyGround : Aow.Units.ILTer.TILTerrainMO
     {
         public THolyGround(TECustomNode owner) : base(owner)
@@ -56,14 +55,10 @@ namespace Aow.Units.HolyG
         public new const int ClassID = 131987;
 
         public TSet<Aow.Units.HolyG.AnonymousEnum_hgSummoning> FMode;
-        // { $1C }
         public sbyte FPlayer;
-        // { $1D }
         public sbyte FDuration;
-        // { $1E }
         public sbyte FOriginalOverlay;
         // HolyG.pas:201
-        // { $1F }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -404,7 +399,6 @@ namespace Aow.Units.HolyG
 
     }
 
-    // { THolyGroundResource (instance size 68, VMT 557C7B48) }
     public partial class THolyGroundResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public THolyGroundResource(TECustomNode owner) : base(owner)
@@ -431,7 +425,6 @@ namespace Aow.Units.HolyG
 
     }
 
-    // { THolyGroundSpellTE (instance size 36, VMT 557C7C40) }
     public partial class THolyGroundSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public THolyGroundSpellTE(TECustomNode owner) : base(owner)
@@ -518,7 +511,6 @@ namespace Aow.Units.HolyG
 
     }
 
-    // { THolyGroundSpell (instance size 60, VMT 557C7D1C) }
     public partial class THolyGroundSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         public THolyGroundSpell(TECustomNode owner) : base(owner)

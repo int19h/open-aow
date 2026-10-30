@@ -78,160 +78,86 @@ using static Aow.Units.AoWLeaderSetup.AoWLeaderSetup;
 
 namespace Aow.Units.AoWWorldMap
 {
-    // { TWorldMap: size $16C; $13C star image, $140/$144 brightness, $148/$14C path animation, $150/$154 pawn timing, $158 hover, $15C context, $160 completion event, $168 book action. VMT 0041B5B8. }
+    // star image, brightness, path animation, pawn timing, hover, context, completion event, book
+    // action
     public partial class TWorldMap : Aow.Rtl.TDataModule
     {
         public TWorldMap(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWMemo.TAOWMemo MemoL;
-        // { +0044 }
         public Aow.Units.AoWImage.TAOWImage PicR;
-        // { +0048 }
         public Aow.Units.AoWPanel.TAOWPanel WorldPnl;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage Path1;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage Path2;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage Path3;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage PPawn;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage EPawn;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel DescLbl;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton Back;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton Next;
-        // { +006C }
         public Aow.Units.AoWButton.TAOWButton Cancel;
-        // { +0070 }
         public Aow.Units.AoWButton.TAOWButton BookStart;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel LabelL;
-        // { +0078 }
         public Aow.Units.AoWMemo.TAOWMemo MemoR;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel LabelR;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage PicL;
-        // { +0084 }
         public Aow.Units.AoWBookWindow.TAoWBookWindow BookWin;
-        // { +0088 }
         public Aow.Units.AoWPanel.TAOWPanel InfoPnl;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel Elves;
-        // { +0090 }
         public Aow.Units.AoWLabel.TAOWLabel Halflings;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel Goblins;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel Orcs;
-        // { +009C }
         public Aow.Units.AoWLabel.TAOWLabel Dwarves;
-        // { +00A0 }
         public Aow.Units.AoWLabel.TAOWLabel Undead;
-        // { +00A4 }
         public Aow.Units.AoWLabel.TAOWLabel Highmen;
-        // { +00A8 }
         public Aow.Units.AoWLabel.TAOWLabel Lizardmen;
-        // { +00AC }
         public Aow.Units.AoWLabel.TAOWLabel DarkElves;
-        // { +00B0 }
         public Aow.Units.AoWLabel.TAOWLabel VoW;
-        // { +00B4 }
         public Aow.Units.AoWLabel.TAOWLabel ElvenC;
-        // { +00B8 }
         public Aow.Units.AoWLabel.TAOWLabel IoLG;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel Deepmir;
-        // { +00C0 }
         public Aow.Units.AoWLabel.TAOWLabel Aldor;
-        // { +00C4 }
         public Aow.Units.AoWLabel.TAOWLabel Serpent;
-        // { +00C8 }
         public Aow.Units.AoWLabel.TAOWLabel Blackwater;
-        // { +00CC }
         public Aow.Units.AoWLabel.TAOWLabel Skull;
-        // { +00D0 }
         public Aow.Units.AoWLabel.TAOWLabel Sylvanus;
-        // { +00D4 }
         public Aow.Units.AoWLabel.TAOWLabel Pass;
-        // { +00D8 }
         public Aow.Units.AoWLabel.TAOWLabel Arcalot;
-        // { +00DC }
         public Aow.Units.AoWLabel.TAOWLabel Flowershire;
-        // { +00E0 }
         public Aow.Units.AoWLabel.TAOWLabel Sobek;
-        // { +00E4 }
         public Aow.Units.AoWLabel.TAOWLabel Steppe;
-        // { +00E8 }
         public Aow.Units.AoWLabel.TAOWLabel Bronnam;
-        // { +00EC }
         public Aow.Units.AoWLabel.TAOWLabel UC;
-        // { +00F0 }
         public Aow.Units.AoWLabel.TAOWLabel Woods;
-        // { +00F4 }
         public Aow.Units.AoWLabel.TAOWLabel Burbatak;
-        // { +00F8 }
         public Aow.Units.AoWButton.TAOWButton QuitBtn;
-        // { +00FC }
         public Aow.Units.AoWButton.TAOWButton ShowBtn;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel SelectLbl;
-        // { +0104 }
         public Aow.Units.AoWLabel.TAOWLabel AlliesLnl;
-        // { +0108 }
         public Aow.Units.AoWPanel.TAOWPanel Frame;
-        // { +010C }
         public Aow.Units.AoWLabel.TAOWLabel Azrac;
-        // { +0110 }
         public Aow.Units.AoWImage.TAOWImage StarImg;
-        // { +0114 }
         public Aow.Units.AoWLabel.TAOWLabel Terstar;
-        // { +0118 }
         public Aow.Units.AoWFrame.TAoWFrame HeroPnl;
-        // { +011C }
         public Aow.Units.AoWFrame.TAoWFrame Ally1Pnl;
-        // { +0120 }
         public Aow.Units.AoWFrame.TAoWFrame Ally2Pnl;
-        // { +0124 }
         public Aow.Units.AoWFrame.TAoWFrame Ally3Pnl;
-        // { +0128 }
         public Aow.Units.AoWButton.TAOWButton SetBtn;
-        // { +012C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0130 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar leftSB;
-        // { +0134 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar rightSB;
-        // { +0138 }
         public int FStarImage;
-        // { $13C }
         public int FStarStep;
-        // { $140 }
         public int FStarIntensity;
-        // { $144 }
         public int FPathFrame;
-        // { $148 }
         public int FPathDelay;
-        // { $14C }
         public int FPawnTicks;
-        // { $150 }
         public int FEnemyDelay;
-        // { $154 }
         public bool FDescriptionHandled;
-        // { $158 }
-        public Aow.Units.FixedArray_byte_3 F_WorldMap_159;
         public Aow.Units.Engine.TEObject FBookContext;
-        // { $15C }
         public Aow.Rtl.TNotifyEvent FOnBookClosed;
-        // { $160 }
         public byte FBookAction;
-        // { $168 }
-        public Aow.Units.FixedArray_byte_3 F_WorldMap_169;
         // AoWWorldMap.pas:152
         public Aow.Units.AoWVideoDlg.TWMCampaign GetCampaign()
         {
@@ -704,7 +630,6 @@ namespace Aow.Units.AoWWorldMap
         }
 
         // AoWWorldMap.pas:347
-        // { 0041CA5C }
         public void ShowIntroPages(int Index)
         {
             Aow.Rtl.Rtl.SetCurrentDir(Aow.Units.AoWE.AoWE.AoWEngine.StartupDirectory + ((AnsiString)"Int\\Scenes"));
@@ -1589,7 +1514,6 @@ namespace Aow.Units.AoWWorldMap
         }
     }
 
-    // { TFileTime (instance size 12, VMT 0041EB14) }
     public partial class TFileTime : Aow.Rtl.TObject
     {
         public double FTime;
@@ -1598,7 +1522,6 @@ namespace Aow.Units.AoWWorldMap
     public static partial class AoWWorldMap
     {
         // AoWWorldMap.pas:147
-        // { $04; 0041F71B }
         public static Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage GetCampaignPage(Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList Pages, int Index)
         {
             Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage Result = default;
@@ -1608,7 +1531,6 @@ namespace Aow.Units.AoWWorldMap
 
         public static Aow.Units.AoWTargetSelection.TTargetSelectionDlg TargetSelectionDlg;
         public static Aow.Units.AoWWorldMap.TWorldMap WorldMap;
-        // { $45B0F8 }
         public static bool BookStartVisible;
     }
 }

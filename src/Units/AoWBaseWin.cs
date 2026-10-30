@@ -24,10 +24,8 @@ namespace Aow.Units.AoWBaseWin
 //   itself and its controls into its back surface (DrawSurface) or straight into the display surface
 //   (DrawSurfDesc), redrawing only the dirty rectangles, and passes invalidated rectangles on to the
 //   windows above it and to its owner. }
-    // { AoWBaseWin.TAOWBaseWindow (instance size 492). Fields: +$1D0 FBuffer (freed by
-//     TAOWGenericWindow.Destroy), +$1D4 FFreeSurfaceOnHide, +$1D8 FWinManager, +$1DC FOnShow, +$1E4
-//     FOnHide.
-//     VMT (new): SetILFrame, SetILTexture }
+    // Fields: FBuffer (freed by TAOWGenericWindow.Destroy), FFreeSurfaceOnHide, FWinManager,
+    // FOnShow, FOnHide
     public partial class TAOWBaseWindow : Aow.Units.AoWWinControl.TAOWWindowControl
     {
         public TAOWBaseWindow(TComponent owner) : base(owner)
@@ -43,7 +41,6 @@ namespace Aow.Units.AoWBaseWin
         {
             int I = default;
             Aow.Units.AoWComp.TAoWComponent C = default;
-            // { Tried Self identity, receiver scope and local/field staging; register/stack allocation still differs. }
             if (((Index > -1) && FValid) && FVisible)
             {
                 {
@@ -76,7 +73,6 @@ namespace Aow.Units.AoWBaseWin
         }
 
         // AoWBaseWin.pas:50
-        // { TAOWBaseWindow }
         public override void AddBltRect(ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
         {
             if (FDoubleBuffered && FSurfaceValid)
@@ -91,7 +87,6 @@ namespace Aow.Units.AoWBaseWin
 //   place in FBackRect, and is put back at its place in the window order. }
         public override void SetVisible(bool Value)
         {
-            // { Tried Self identity and typed/untyped receiver scopes; Self register still differs. }
             if (Value != FVisible)
             {
                 FVisible = Value;

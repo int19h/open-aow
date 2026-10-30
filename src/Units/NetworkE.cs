@@ -11,8 +11,7 @@ using Aow.Units.NetworkE;
 
 namespace Aow.Units.NetworkE
 {
-    // { NetworkE.TPlayerCommunicator (instance size 36): +8 FEngine, +$C FOnReceive, +$10
-//     FReceivedPackage, +$14 FSendStream, +$18 FReceiveStream, +$1C FPCC, +$20 FOnProcess. }
+    // FEngine, FOnReceive, FReceivedPackage, FSendStream, FReceiveStream, FPCC, FOnProcess
     public partial class TPlayerCommunicator : Aow.Units.Engine.TEObject
     {
         internal Aow.Units.Engine.TEngine FEngine;
@@ -23,7 +22,6 @@ namespace Aow.Units.NetworkE
         internal Aow.Units.NetworkE.TPlayerCommunicationControl FPCC;
         internal Aow.Units.Engine.TEventList FOnProcess;
         // NetworkE.pas:605
-        // { TPlayerCommunicator }
         public TPlayerCommunicator(TECustomNode owner) : base(owner)
         {
             FReceivedPackage = null;
@@ -156,8 +154,8 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TTokenEvent (instance size 16): +8 FRefCount, +$C FTokenCounter (stored with id 10;
-//     -1 until the executer numbers the event). The base of the game's token events. }
+    // FRefCount, FTokenCounter (stored with id 10. -1 until the executer numbers the event). The
+    // base of the game's token events
     public partial class TTokenEvent : Aow.Units.Engine.TEObject
     {
         // NetworkE.pas:950
@@ -179,7 +177,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:943
-        // { TTokenEvent }
 
 
         // NetworkE.pas:955
@@ -217,8 +214,7 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TTokenEventList (instance size 12): +8 FList (stored with id 5), a reference node of
-//     token events }
+    // FList (stored with id 5), a reference node of token events
     public partial class TTokenEventList : Aow.Units.Engine.TEObject
     {
         // NetworkE.pas:995
@@ -233,7 +229,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:982
-        // { TTokenEventList }
         public TTokenEventList(TECustomNode owner) : base(owner)
         {
             var call__9 = new Aow.Units.Engine.TEReferenceNode(null);
@@ -377,8 +372,7 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TTokenControl (instance size 20): +4 FEvents, +8 FTokenManager, +$C FPlayer, +$10
-//     FActive. The token events of one player. }
+    // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
     public partial class TTokenControl : Aow.Rtl.TObject
     {
         internal Aow.Units.NetworkE.TTokenEventList FEvents;
@@ -556,7 +550,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1169
-        // { TTokenControl }
         public TTokenControl(TTokenManager AManager, int APlayer)
         {
             var call__38 = new Aow.Units.NetworkE.TTokenEventList(null);
@@ -731,11 +724,9 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TTokenExecuter (instance size 92): +4 FActiveTC, +8 FPrefetchTC, +$C FActiveTCIndex,
-//     +$10 FEvents, +$14 FTCList, +$18 FTokenCounter, +$1C FRound, +$20 FExecuteCount, +$24 FState,
-//     +$28 FOnEventsExecuted, +$2C FOnActivateTC, +$30 FOnSyncError, +$38 FOnGetSyncValue, +$40
-//     FOnExecuteTokenEvent, +$48 FExecuting, +$4C FLockCount, +$50 FSystemEvents, +$54 FHoldTC,
-//     +$58 FTokenManager. }
+    // FActiveTC, FPrefetchTC, FActiveTCIndex, FEvents, FTCList, FTokenCounter, FRound,
+    // FExecuteCount, FState, FOnEventsExecuted, FOnActivateTC, FOnSyncError, FOnGetSyncValue,
+    // FOnExecuteTokenEvent, FExecuting, FLockCount, FSystemEvents, FHoldTC, FTokenManager
     public partial class TTokenExecuter : Aow.Rtl.TObject
     {
         internal Aow.Units.NetworkE.TTokenControl FActiveTC;
@@ -783,7 +774,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1350
-        // { TTokenExecuter }
         public TTokenExecuter(TTokenManager AManager)
         {
             FTokenManager = AManager;
@@ -1157,8 +1147,8 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TTokenManager (instance size 28): +4 FTokenExecuter, +8 FTokenPackageDistributer, +$C
-//     FOwner, +$10 FTokenControls (one per player, nil for a free slot), +$14 FOnMessage. }
+    // FTokenExecuter, FTokenPackageDistributer, FOwner, FTokenControls (one per player, nil for a
+    // free slot), FOnMessage
     public partial class TTokenManager : Aow.Rtl.TObject
     {
 
@@ -1338,7 +1328,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1606
-        // { TTokenManager }
         // { The original does not call the inherited constructor. }
 
 
@@ -1437,8 +1426,8 @@ namespace Aow.Units.NetworkE
         public Aow.Units.Engine.TEObjectList FChildren;
     }
 
-    // { NetworkE.TDataPackage (instance size 20): +8 FSender, +$C FReceiver (player indices, stored
-//     with ids 1 and 2), +$10 FRefCount. The base of the packages that TPlayerCommunicator sends. }
+    // FSender, FReceiver (player indices, stored with ids 1 and 2), FRefCount. The base of the
+    // packages that TPlayerCommunicator sends
     public partial class TDataPackage : Aow.Units.Engine.TEObject
     {
         internal int FSender;
@@ -1459,7 +1448,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:566
-        // { TDataPackage }
         public TDataPackage(TECustomNode owner) : base(owner)
         {
             FRefCount = 1;
@@ -1501,8 +1489,7 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TPlayerCommunicationSettings (instance size 16): +8 FConnectionMode (stored with id 5),
-//     +$C FSystemID (id 6). One per player. }
+    // FConnectionMode (stored with id 5), FSystemID (id 6). One per player
     public partial class TPlayerCommunicationSettings : Aow.Units.Engine.TEObject
     {
         internal Aow.Units.NetworkE.TConnectionMode FConnectionMode;
@@ -1516,7 +1503,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:446
-        // { TPlayerCommunicationSettings }
         public TPlayerCommunicationSettings(TECustomNode owner) : base(owner)
         {
             FConnectionMode = Aow.Units.NetworkE.TConnectionMode.cmLocal;
@@ -1527,15 +1513,13 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TPlayerCommunicationSettingsList (instance size 12): the node that owns the players'
-//     settings }
+    // the node that owns the players' settings
     public partial class TPlayerCommunicationSettingsList : Aow.Units.Engine.TENode
     {
         public TPlayerCommunicationSettingsList(TECustomNode owner) : base(owner)
         { }
 
         // NetworkE.pas:461
-        // { TPlayerCommunicationSettingsList }
         public Aow.Units.NetworkE.TPlayerCommunicationSettings GetPlayers(int Index)
         {
             Aow.Units.NetworkE.TPlayerCommunicationSettings Result = default;
@@ -1552,8 +1536,8 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TPlayerCommunicationControl (instance size 16): +4 FRefCount, +8 FPlayerCommunicator,
-//     +$C FPCSList. The base player communication control: one system, no transport. }
+    // FRefCount, FPlayerCommunicator, FPCSList. The base player communication control: one system,
+    // no transport
     public partial class TPlayerCommunicationControl : Aow.Rtl.TObject
     {
         internal int FRefCount;
@@ -1617,7 +1601,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:468
-        // { TPlayerCommunicationControl }
         public TPlayerCommunicationControl()
         {
             FRefCount = 1;
@@ -1733,13 +1716,11 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TPackageDataList (instance size 8): +4 FList, the memory streams of the packages that
-//     wait to be received }
+    // FList, the memory streams of the packages that wait to be received
     public partial class TPackageDataList : Aow.Rtl.TObject
     {
         internal Aow.Rtl.TList FList;
         // NetworkE.pas:870
-        // { TPackageDataList }
         public TPackageDataList()
         {
             var call__114 = new Aow.Rtl.TList();
@@ -1834,9 +1815,8 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TRemotePCC (instance size 32): +$10 FLocalSystemID, +$14 FPackageDataList, +$18
-//     FOnSendData. The control of a network game: the transport sends through OnSendData and hands
-//     what arrives to DataReceived. }
+    // FLocalSystemID, FPackageDataList, FOnSendData. The control of a network game: the transport
+    // sends through OnSendData and hands what arrives to DataReceived
     public partial class TRemotePCC : Aow.Units.NetworkE.TPlayerCommunicationControl
     {
         internal int FLocalSystemID;
@@ -1955,7 +1935,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:759
-        // { TRemotePCC }
         public TRemotePCC() : base()
         {
             var call__130 = new Aow.Units.NetworkE.TPackageDataList();
@@ -2023,8 +2002,7 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TLocalPCC (instance size 20): +$10 FPackageDataList. The control of a game on one
-//     system: what is sent is received again. }
+    // FPackageDataList. The control of a game on one system: what is sent is received again
     public partial class TLocalPCC : Aow.Units.NetworkE.TPlayerCommunicationControl
     {
         internal Aow.Units.NetworkE.TPackageDataList FPackageDataList;
@@ -2078,7 +2056,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:697
-        // { TLocalPCC }
         public TLocalPCC() : base()
         {
             var call__139 = new Aow.Units.NetworkE.TPackageDataList();
@@ -2124,7 +2101,7 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TTokenPackage (instance size 24): +$14 FTokenEvents (stored with id 5) }
+    // FTokenEvents (stored with id 5)
     public partial class TTokenPackage : Aow.Units.NetworkE.TDataPackage
     {
         // NetworkE.pas:1100
@@ -2139,7 +2116,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1088
-        // { TTokenPackage }
         public TTokenPackage(TECustomNode owner) : base(owner)
         {
             var call__144 = new Aow.Units.NetworkE.TTokenEventList(null);
@@ -2157,9 +2133,8 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TTokenPackageDistributer (instance size 12): +4 FTokenManager, +8 FPC. Sends the token
-//     events of the local players in token packages and files the received ones with their players'
-//     token controls. }
+    // FTokenManager, FPC. Sends the token events of the local players in token packages and files
+    // the received ones with their players' token controls
     public partial class TTokenPackageDistributer : Aow.Rtl.TObject
     {
         internal Aow.Units.NetworkE.TTokenManager FTokenManager;
@@ -2211,7 +2186,6 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1113
-        // { TTokenPackageDistributer }
         public TTokenPackageDistributer(TTokenManager AManager)
         {
             FTokenManager = AManager;
@@ -2255,8 +2229,7 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TPassTokenTE (instance size 16): ends the turn of the token control that prefetched
-//     it }
+    // ends the turn of the token control that prefetched it
     public partial class TPassTokenTE : Aow.Units.NetworkE.TTokenEvent
     {
         public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_PassTokenTE;
@@ -2266,8 +2239,8 @@ namespace Aow.Units.NetworkE
 
     }
 
-    // { NetworkE.TSyncTE (instance size 20): +$10 FSyncValue (stored with id $14), the sync value of the
-//     system that sent it; another value on execution triggers OnSyncError }
+    // FSyncValue (stored with id), the sync value of the system that sent it. another value on
+    // execution triggers OnSyncError
     public partial class TSyncTE : Aow.Units.NetworkE.TTokenEvent
     {
         public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_SyncTE;
@@ -2303,21 +2276,18 @@ namespace Aow.Units.NetworkE
 
     public static partial class NetworkE
     {
-        // { The NetworkE unit of Network.dpl (the network message layer of Age of Wonders: the player
-//   communication controls that move data packages between the players' systems, and the token
-//   system that orders the game's token events and executes them on every system in the same order)
-//   written for the original compiler (Delphi 3.02), class by class: tools/match.py compares the code
-//   DCC32 generates for every method with the code in the game's module. Declarations follow the
-//   original instance layouts and VMT orders (data/classes.json); the field names are made up, the
-//   module has no RTTI for them. Network.dpl was compiled with the default switches.
-//
-//   A data package travels as a stored TEObject: TPlayerCommunicator.SendDataPackage stores it in a
-//   memory stream with TEngine.StoreEObject and hands the stream to the active player communication
-//   control (TLocalPCC queues it for itself, TRemotePCC sends it through OnSendData to every other
-//   system); TPlayerCommunicator.Process retrieves the packages that arrived and triggers OnReceive.
-//   The token manager keeps one token control per player; the token executer activates them in turn,
-//   lets the active one prefetch its events (a local player sends them to the others in a token
-//   package, a TPassTokenTE ends the turn of the token) and executes them in token counter order. }
+        // The NetworkE unit of Network.dpl (the network message layer of Age of Wonders: the player
+        // communication controls that move data packages between the players' systems, and the
+        // token system that orders the game's token events and executes them on every system in the
+        // same order). A data package travels as a stored TEObject:
+        // TPlayerCommunicator.SendDataPackage stores it in a memory stream with
+        // TEngine.StoreEObject and hands the stream to the active player communication control
+        // (TLocalPCC queues it for itself, TRemotePCC sends it through OnSendData to every other
+        // system). TPlayerCommunicator.Process retrieves the packages that arrived and triggers
+        // OnReceive. The token manager keeps one token control per player. the token executer
+        // activates them in turn, lets the active one prefetch its events (a local player sends
+        // them to the others in a token package, a TPassTokenTE ends the turn of the token) and
+        // executes them in token counter order
         // { TRemotePCC.SendPackageData / TTokenControl.TokenEventsPrefetched: the package goes to every
 //     player }
         public const int AllPlayers = 32768;

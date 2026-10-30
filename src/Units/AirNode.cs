@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AirNode
 {
-    // { TAirNode (instance size 76, no added fields, VMT 557C0DF4) }
     public partial class TAirNode : Aow.Units.PrdPlace.TProductionPlace
     {
         public TAirNode(TECustomNode owner) : base(owner)
@@ -55,7 +54,6 @@ namespace Aow.Units.AirNode
 
     }
 
-    // { TAirNodeResource (instance size 120, no added fields, VMT 557C10A4) }
     public partial class TAirNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
         public TAirNodeResource(TECustomNode owner) : base(owner)

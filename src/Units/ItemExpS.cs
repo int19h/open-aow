@@ -38,7 +38,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.ItemExpS
 {
-    // { TExplorationSiteItemList (instance size 24, VMT 557C2298) }
     public partial class TExplorationSiteItemList : Aow.Units.AoWE.TItemList
     {
         public TExplorationSiteItemList(TECustomNode owner) : base(owner)
@@ -54,7 +53,7 @@ namespace Aow.Units.ItemExpS
 
     }
 
-    // { TItemExplorationSite (instance size 64, VMT 557C23BC): $38 FItemCount, $3C FItems. }
+    // FItemCount, FItems
     public partial class TItemExplorationSite : Aow.Units.ExploreS.TExplorationSite
     {
         public TItemExplorationSite(TECustomNode owner) : base(owner)
@@ -68,11 +67,9 @@ namespace Aow.Units.ItemExpS
         public new const int ClassID = 132083;
 
         public byte FItemCount;
-        // { $38; 0 user-defined, 4 random }
-        public Aow.Units.FixedArray_byte_3 F_ItemExplorationSite_39;
+        // 0 user-defined, 4 random
         public Aow.Units.ItemExpS.TExplorationSiteItemList FItems;
         // ItemExpS.pas:95
-        // { $3C }
         public override void Destroy()
         {
             base.Destroy();
@@ -217,9 +214,7 @@ namespace Aow.Units.ItemExpS
 
     }
 
-    // { +204 }
-    // { TItemExplorationSiteEventLog (instance size 40, VMT 557C264C):
-//     $18 FItemIDs, $1C FMessages, $20 FTitle, $24 FLocation. }
+    // FItemIDs, FMessages, FTitle, FLocation
     public partial class TItemExplorationSiteEventLog : Aow.Units.EventLog.TEventLog
     {
         // ItemExpS.pas:187
@@ -235,14 +230,10 @@ namespace Aow.Units.ItemExpS
         public new const int ClassID = 132085;
 
         public Aow.Units.Engine.TIntegerList FItemIDs;
-        // { $18 }
         public Aow.Rtl.TStringList FMessages;
-        // { $1C }
         public Aow.Rtl.AnsiString FTitle;
-        // { $20 }
         public Aow.Units.HSEngine.TXYL FLocation;
         // ItemExpS.pas:194
-        // { $24 }
         public override void Destroy()
         {
             FItemIDs.Free();
@@ -261,7 +252,6 @@ namespace Aow.Units.ItemExpS
 
     }
 
-    // { TItemExplorationSiteResource (instance size 104, VMT 557C276C) }
     public partial class TItemExplorationSiteResource : Aow.Units.ExploreS.TExplorationSiteResource
     {
         public TItemExplorationSiteResource(TECustomNode owner) : base(owner)

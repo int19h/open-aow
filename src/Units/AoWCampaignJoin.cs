@@ -56,44 +56,28 @@ using static Aow.Units.AoWExeForms.AoWExeForms;
 
 namespace Aow.Units.AoWCampaignJoin
 {
-    // { TCampaignJoinDlg (instance size $80, VMT 00418020): $68 stage, $6C faction, $70 leader, $74 scroll delay, $78 scroll position, $7C text. }
+    // stage, faction, leader, scroll delay, scroll position, text
     public partial class TCampaignJoinDlg : Aow.Rtl.TDataModule
     {
         public TCampaignJoinDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWPanel.TAOWPanel CharGenPnl;
-        // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel LeaderTypePnl;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton CustomBtn;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton DefaultBtn;
-        // { +0050 }
         public Aow.Units.AoWMemo.TAOWMemo LeaderTypeMsg;
-        // { +0054 }
         public Aow.Units.AoWPanel.TAOWPanel DefaultFacePnl;
-        // { +0058 }
         public Aow.Units.AoWPanel.TAOWPanel CustomFacePnl;
-        // { +005C }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox ScrollTextDB;
-        // { +0060 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0064 }
         public byte FStage;
-        // { $68 }
-        public Aow.Units.FixedArray_byte_3 F_CampaignJoinDlg_69;
         public int FFaction;
-        // { $6C }
         public Aow.Units.AoWE.TLeader FLeader;
-        // { $70 }
         public int FScrollDelay;
-        // { $74 }
         public int FScrollPosition;
-        // { $78 }
         public Aow.Rtl.TStringList FScrollText;
         // AoWCampaignJoin.pas:160
-        // { $7C }
         public void CustomizeLeader()
         {
             Aow.Units.AoWE.TLeaderSetupControl Control = default;
@@ -179,7 +163,6 @@ namespace Aow.Units.AoWCampaignJoin
         }
 
         // AoWCampaignJoin.pas:57
-        // { draft }
         public void CampaignJoinDlgCreate()
         {
             var call__4 = new Aow.Units.AoWE.TLeader(null);
@@ -220,7 +203,6 @@ namespace Aow.Units.AoWCampaignJoin
         }
 
         // AoWCampaignJoin.pas:91
-        // { draft }
         public void DefaultBtnClick()
         {
             var call__7 = Aow.Units.AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign();
@@ -229,7 +211,6 @@ namespace Aow.Units.AoWCampaignJoin
         }
 
         // AoWCampaignJoin.pas:97
-        // { draft }
         public void ScrollTextDBUpdate()
         {
             if (FStage == 0)

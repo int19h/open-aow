@@ -37,7 +37,6 @@ using static Aow.Units.AoWE.AoWE;
 namespace Aow.Units.ExploreS
 {
     // { ot=1 }
-    // { TDefendersArmy (instance size 44, VMT 557C12B4): no additional fields. }
     public partial class TDefendersArmy : Aow.Units.AoWE.TArmy
     {
         public TDefendersArmy(TECustomNode owner) : base(owner)
@@ -70,8 +69,7 @@ namespace Aow.Units.ExploreS
 
     }
 
-    // { TExplorationSite (instance size 56, VMT 557C1440):
-//     $30 FDefendersMode, $34 FDefenders. }
+    // FDefendersMode, FDefenders
     public partial class TExplorationSite : Aow.Units.AoWE.TStructure
     {
         public TExplorationSite(TECustomNode owner) : base(owner)
@@ -85,7 +83,6 @@ namespace Aow.Units.ExploreS
         public new const int ClassID = 132033;
 
         public Aow.Units.ExploreS.TDefendersMode FDefendersMode;
-        public Aow.Units.FixedArray_byte_3 F_ExplorationSite_31;
         public Aow.Units.ExploreS.TDefendersArmy FDefenders;
         // ExploreS.pas:84
         public override void Destroy()
@@ -545,8 +542,7 @@ namespace Aow.Units.ExploreS
 
     }
 
-    // { TExplorationSiteResource (instance size 104, VMT 557C16C4):
-//     $64 FDefenderCollections, the available defender army compositions. }
+    // FDefenderCollections, the available defender army compositions
     public partial class TExplorationSiteResource : Aow.Units.AoWE.TStructureResource
     {
         public TExplorationSiteResource(TECustomNode owner) : base(owner)
@@ -561,7 +557,6 @@ namespace Aow.Units.ExploreS
 
         public Aow.Units.AoWE.TUnitIndexListCollection FDefenderCollections;
         // ExploreS.pas:364
-        // { $64 }
         public override void Destroy()
         {
             FDefenderCollections.Free();

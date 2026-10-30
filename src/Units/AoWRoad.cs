@@ -34,7 +34,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AoWRoad
 {
-    // { TAoWRoad (instance size 20, VMT 5579B6FC) }
     public partial class TAoWRoad : Aow.Units.Road.TRoad
     {
         public TAoWRoad(TECustomNode owner) : base(owner)
@@ -103,7 +102,6 @@ namespace Aow.Units.AoWRoad
         }
     }
 
-    // { needs: Road.TRoad.FTransitions at +$10 is private. }
     [StructLayout(LayoutKind.Explicit, Size = 17)]
     public struct TRoadFields
     {

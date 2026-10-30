@@ -64,96 +64,54 @@ using static Aow.Units.AoWExeForms.AoWExeForms;
 
 namespace Aow.Units.AoWEmailGameSettingsDlg
 {
-    // { TEmailGameSettingsDlg (instance size $E8, VMT 0040EFAC).
-//     $E0 editable email address list; $E4 setup control. }
+    // editable email address list. setup control
     public partial class TEmailGameSettingsDlg : Aow.Rtl.TDataModule
     {
         public TEmailGameSettingsDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWButton.TAOWButton OKBtn;
-        // { +0044 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton CancelBut;
-        // { +0050 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0054 }
         public Aow.Units.AoWLabel.TAOWLabel LocalEmailAdressLbl;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage DecoL;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage DecoR;
-        // { +0060 }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +0064 }
         public Aow.Units.AoWEdit.TAOWEdit LocalEmailAddressEdit;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerEMailAddressesLbl;
-        // { +006C }
         public Aow.Units.AoWEdit.TAOWEdit EmailAddressEdit1;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel PlayerPnl;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerLbl1;
-        // { +0078 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar PlayerSB;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel PlayerLbl2;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerLbl3;
-        // { +0084 }
         public Aow.Units.AoWEdit.TAOWEdit EmailAddressEdit2;
-        // { +0088 }
         public Aow.Units.AoWEdit.TAOWEdit EmailAddressEdit3;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel PlayerLbl4;
-        // { +0090 }
         public Aow.Units.AoWEdit.TAOWEdit EmailAddressEdit4;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel EmailGameNameLbl;
-        // { +0098 }
         public Aow.Units.AoWEdit.TAOWEdit EmailGameNameEdit;
-        // { +009C }
         public Aow.Units.AoWButton.TAOWButton SettingsBtn;
-        // { +00A0 }
         public Aow.Units.AoWPanel.TAOWPanel Player1Pnl;
-        // { +00A4 }
         public Aow.Units.AoWPanel.TAOWPanel PowePnl;
-        // { +00A8 }
         public Aow.Units.AoWPanel.TAOWPanel Player2Pnl;
-        // { +00AC }
         public Aow.Units.AoWPanel.TAOWPanel Player3Pnl;
-        // { +00B0 }
         public Aow.Units.AoWPanel.TAOWPanel Player4Pnl;
-        // { +00B4 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerLbl5;
-        // { +00B8 }
         public Aow.Units.AoWEdit.TAOWEdit EmailAddressEdit5;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel PlayerLbl6;
-        // { +00C0 }
         public Aow.Units.AoWEdit.TAOWEdit EmailAddressEdit6;
-        // { +00C4 }
         public Aow.Units.AoWPanel.TAOWPanel Player5Pnl;
-        // { +00C8 }
         public Aow.Units.AoWPanel.TAOWPanel Player6Pnl;
-        // { +00CC }
         public Aow.Units.AoWPanel.TAOWPanel NamePnl;
-        // { +00D0 }
         public Aow.Units.AoWPanel.TAOWPanel LocalPnl;
-        // { +00D4 }
         public Aow.Units.AoWButton.TAOWButton CloseBtn;
-        // { +00D8 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +00DC }
         public Aow.Rtl.TStringList FEmailAddresses;
-        // { $E0 }
         public Aow.Units.AoWSetup.TSetupControl FSetupControl;
         // AoWEmailGameSettingsDlg.pas:85
-        // { $E4 }
         public void EmailGameSettingsDlgCreate()
         {
             var call__1 = new Aow.Rtl.TStringList();

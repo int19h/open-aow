@@ -66,7 +66,6 @@ namespace Aow.Units.AoWE
         public Aow.Units.FixedArray_byte_128 Text;
     }
 
-    // { Tried assert address forms, field/receiver staging and local layout; still differs. }
     [StructLayout(LayoutKind.Explicit, Size = 136)]
     public struct TMoveControl_SetupMove__TOriginalAssertText
     {
@@ -78,7 +77,6 @@ namespace Aow.Units.AoWE
         public Aow.Units.FixedArray_byte_128 Text;
     }
 
-    // { Tried assert address forms, field/receiver staging and local layout; still differs. }
     [StructLayout(LayoutKind.Explicit, Size = 136)]
     public struct TMoveControl_CalculatePathEx__TOriginalAssertText
     {
@@ -90,7 +88,6 @@ namespace Aow.Units.AoWE
         public Aow.Units.FixedArray_byte_128 Text;
     }
 
-    // { Tried assert address forms, field/receiver staging and local layout; still differs. }
     [StructLayout(LayoutKind.Explicit, Size = 136)]
     public struct TMoveControl_Activate__TOriginalAssertText
     {
@@ -102,7 +99,7 @@ namespace Aow.Units.AoWE
         public Aow.Units.FixedArray_byte_128 Text;
     }
 
-    // { Review fix: retain both original assertion diagnostics; registers still differ. Tried assert address forms, local order and receiver/result copies; still differs. }
+    // Retain both original assertion diagnostics
     [StructLayout(LayoutKind.Explicit, Size = 136)]
     public struct TUnitEnchantmentAbility_Expand__TOriginalAssertText
     {
@@ -526,27 +523,16 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { TWorldFXHS (instance size $28, VMT 55709CA8): $0C FFinished, $10 FFrame,
-//     $14 FX, $18 FY, $1C FLayer, $20 FPath, $24 FEffectType. }
+    // FFinished, FFrame, FX, FY, FLayer, FPath, FEffectType
     public partial class TWorldFXHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
         public bool FDone;
-        // { $0C; 55779027 }
-        // { conflict: FFinished: Boolean; }
-        public Aow.Units.FixedArray_byte_3 F_WorldFXHS_0D;
         public int FFrame;
-        // { $10 }
         public int FX;
-        // { $14; 557ED3B2 }
         public int FY;
-        // { $18; 557ED3BB }
         public int FLayer;
-        // { $1C; 557ED3C2 }
         public Aow.Units.aowFX.TXYZList FPath;
-        // { $20 }
         public Aow.Units.AoWE.TworldFXType FEffectType;
-        // { $24; 5577908E }
-        public Aow.Units.FixedArray_byte_3 F_WorldFXHS_25;
         // Army.PAS:5334
         public override void Destroy()
         {
@@ -1110,7 +1096,6 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TPlayerStructureList (instance size 24, VMT 55709EC8) }
     public partial class TPlayerStructureList : Aow.Units.Engine.TEChangeNotifyEventList
     {
         public TPlayerStructureList(TECustomNode owner) : base(owner)
@@ -1118,7 +1103,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TPlayer FPlayer;
         // Player.PAS:1
-        // { $14 }
         public Aow.Units.AoWE.TPlayerStructure GetStructure(int Index)
         {
             Aow.Units.AoWE.TPlayerStructure Result = default;
@@ -1130,7 +1114,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyList (instance size 24, VMT 55709FD8) }
     public partial class TArmyList : Aow.Units.Engine.TEChangeNotifyEventList
     {
         public TArmyList(TECustomNode owner) : base(owner)
@@ -1138,7 +1121,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TPlayer FPlayer;
         // Player.PAS:6
-        // { $14 }
         public Aow.Units.AoWE.TArmy GetArmy(int Index)
         {
             Aow.Units.AoWE.TArmy Result = default;
@@ -1150,7 +1132,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitProduction: size $10; $08 unit index, $0C researched. VMT 5570A0D0. }
+    // unit index, researched
     public partial class TUnitProduction : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131737;
@@ -1159,10 +1141,7 @@ namespace Aow.Units.AoWE
         {}
 
         public int FUnitIndex;
-        // { $08 }
         public bool FResearched;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_UnitProduction_0D;
         // Structur.PAS:7
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -1175,7 +1154,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitProductionList: size $0C, no added fields. VMT 5570A194. }
     public partial class TUnitProductionList : Aow.Units.Engine.TENode
     {
         public TUnitProductionList(TECustomNode owner) : base(owner)
@@ -1242,7 +1220,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TProductionItem: size $14; $08 production ID, $0C parameter, $10 group ID. VMT 5570A29C. }
+    // production ID, parameter, group ID
     public partial class TProductionItem : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131735;
@@ -1251,12 +1229,9 @@ namespace Aow.Units.AoWE
         {}
 
         public int FProductionID;
-        // { $08 }
         public int FParameter;
-        // { $0C }
         public int FGroupID;
         // Structur.PAS:63
-        // { $10 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -1283,7 +1258,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:77
-        // { $4C }
         public Aow.Rtl.AnsiString GetNameProgressive()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -1304,7 +1278,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TProductionQueue: size $10; $0C production control. VMT 5570A364. }
+    // production control
     public partial class TProductionQueue : Aow.Units.Engine.TENode
     {
         public TProductionQueue(TECustomNode owner) : base(owner)
@@ -1312,7 +1286,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TProductionControl FProductionControl;
         // Structur.PAS:83
-        // { $0C }
         public Aow.Units.AoWE.TProductionItem GetItem(int Index)
         {
             Aow.Units.AoWE.TProductionItem Result = default;
@@ -1377,38 +1350,23 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TProductionSettings: size $2C; $08/$0C costs, $10 turns left, $14/$18 upkeep,
-//     $1C turns total, $1D player, $20 group, $24 unit, $28 unit production. VMT 5570A4B4. }
+    // costs, turns left, upkeep, turns total, player, group, unit, unit production
     public partial class TProductionSettings : Aow.Units.Engine.TEObject
     {
         public TProductionSettings(TECustomNode owner) : base(owner)
         {}
 
         public int FGold;
-        // { $08 }
         public int FMana;
-        // { $0C }
         public sbyte FTurnsLeft;
-        // { $10 }
-        // { conflict: FTurnsRemaining: Shortint; }
-        public Aow.Units.FixedArray_byte_3 F_ProductionSettings_11;
         public int FGoldUpkeep;
-        // { $14 }
         public int FManaUpkeep;
-        // { $18 }
         public sbyte FTurnsTotal;
-        // { $1C }
-        // { conflict: FDuration: Shortint; }
         public sbyte FPlayer;
-        // { $1D }
-        public Aow.Units.FixedArray_byte_2 F_ProductionSettings_1E;
         public int FGroupID;
-        // { $20 }
         public Aow.Units.AoWE.TUnit FUnit;
-        // { $24; 5573BBC3 }
         public int FUnitProductionIndex;
         // Structur.PAS:114
-        // { $28 }
         public override void Destroy()
         {
             Clear();
@@ -1454,7 +1412,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TProductionEventLog (instance size 32, VMT 5570A580) }
     public partial class TProductionEventLog : Aow.Units.EventLog.TLocationTextEventLog
     {
         public TProductionEventLog(TECustomNode owner) : base(owner)
@@ -1464,8 +1421,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TProductionTE: size $28; $10..$13 location/player, $14 command, $18 item,
-//     $1C queue, $20 index, $24 reserved. VMT 5570A6C0. }
+    // location/player, command, item, queue, index
     public partial class TProductionTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TProductionTE(TECustomNode owner) : base(owner)
@@ -1474,26 +1430,16 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131736;
 
         public sbyte FX;
-        // { $10 }
         public sbyte FY;
-        // { $11 }
         public sbyte FL;
-        // { $12 }
         public sbyte FPlayer;
-        // { $13 }
         public int FCommand;
-        // { $14 }
         public Aow.Units.AoWE.TProductionItem FItem;
-        // { $18 }
         public bool FQueue;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_ProductionTE_1D;
         public int FIndex;
-        // { $20 }
         public int FReserved;
         // Structur.PAS:155
         // { Original leaves the upkeep fields unchanged. }
-        // { $24 }
         public override void Destroy()
         {
             if (FItem != null)
@@ -1545,8 +1491,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TProductionControl: size $28; $08 change event, $10 update count, $14 queue,
-//     $18 loop queue, $1C unit productions, $20 status, $24 settings. VMT 5570A784. }
+    // change event, update count, queue, loop queue, unit productions, status, settings
     public partial class TProductionControl : Aow.Units.Engine.TEObject
     {
 
@@ -1565,22 +1510,13 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.TNotifyEvent FOnChange;
-        // { $08 }
         public int FUpdateCount;
-        // { $10 }
         public Aow.Units.AoWE.TProductionQueue FQueue;
-        // { $14 }
         public bool FLoopQueue;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_ProductionControl_19;
         public Aow.Units.AoWE.TUnitProductionList FUnitProductions;
-        // { $1C }
         public Aow.Units.AoWE.TProductionControlStatus FStatus;
-        // { $20 }
-        public Aow.Units.FixedArray_byte_3 F_ProductionControl_21;
         public Aow.Units.AoWE.TProductionSettings FSettings;
         // Structur.PAS:202
-        // { $24 }
         public override void Destroy()
         {
             FSettings.Free();
@@ -1693,7 +1629,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:497
-        // { 5573B2D9/5573B33B }
         public virtual bool ExecuteAIResearch(int Index)
         {
             bool Result = default;
@@ -1718,7 +1653,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:392
-        // { 5573B2D9/5573B33B }
         public virtual bool ExecuteProduction(Aow.Units.AoWE.TProductionItem Item)
         {
             bool Result = default;
@@ -1842,7 +1776,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:475
-        // { $68 }
         public virtual void ExecuteDeleteProductions()
         {
             BeginUpdate();
@@ -1900,7 +1833,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:551
-        // { $70 }
         public virtual Aow.Units.AoWE.TProductionTE CreateProductionTE()
         {
             Aow.Units.AoWE.TProductionTE Result = default;
@@ -1914,7 +1846,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:776
-        // { $74; 5575D54C }
         public virtual void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
         {
             X = unchecked((sbyte)-1);
@@ -1964,7 +1895,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:834
-        // { $88; 5575DDFC }
         public virtual bool LockQueueProduction(Aow.Units.AoWE.TProductionItem Item)
         {
             bool Result = default;
@@ -2222,7 +2152,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:726
-        // { $B4; 5575D9E0 }
         public virtual bool DeleteProductions()
         {
             bool Result = default;
@@ -2256,7 +2185,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:840
-        // { $B8; 5575DA60 }
         public virtual Aow.Rtl.AnsiString GetProductionName(Aow.Units.AoWE.TProductionItem Item)
         {
             Aow.Rtl.AnsiString Result = default;
@@ -2481,7 +2409,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:631
-        // { $DC }
         public virtual bool ProduceUnit(int Index, bool Queue)
         {
             bool Result = default;
@@ -2724,7 +2651,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:760
-        // { 5575DAD8 }
         public bool SetLoopQueueTo(bool Value)
         {
             bool Result = default;
@@ -2766,7 +2692,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:793
-        // { 5575DB80 }
         public void ProductionDone()
         {
             BeginUpdate();
@@ -2902,7 +2827,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TProductionControlList: size $10; inherited $04 item array. VMT 5570A8FC. }
+    // inherited item array
     public partial class TProductionControlList : Aow.Rtl.TList
     {
         // Structur.PAS:929
@@ -2917,12 +2842,11 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TEnchantment (instance size 24, VMT 5570A98C; $08 ID, $0C source,
-//     $10 upkeep, $14 signed dispel resistance) }
+    // (ID, source, upkeep, signed dispel resistance)
     public partial class TEnchantment : Aow.Units.Engine.TEObject
     {
         // Spells.PAS:1692
-        // { TEnchantment: instance size 24; $08 ID, $0C source, $10 upkeep, $14 dispel resistance. }
+        // ID, source, upkeep, dispel resistance
         public TEnchantment(TECustomNode owner) : base(owner)
         {
             FDispelResistance = 10;
@@ -2932,15 +2856,9 @@ namespace Aow.Units.AoWE
         }
 
         public int FEnchantmentID;
-        // { $08 }
         public sbyte FSource;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_Enchantment_0D;
         public int FUpkeep;
-        // { $10 }
         public sbyte FDispelResistance;
-        // { $14; 5577C1A0 }
-        public Aow.Units.FixedArray_byte_3 F_Enchantment_15;
         // Spells.PAS:1726
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -3052,7 +2970,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1751
-        // { +064; 5577BFA4 }
         public virtual bool Dispel()
         {
             bool Result = default;
@@ -3067,7 +2984,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1753
-        // { +06C; 5577C0B4 }
         public int DispelChance(int A1)
         {
             int Result = default;
@@ -3089,14 +3005,13 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TEnchantmentList (instance size 12, VMT 5570AA70) }
     public partial class TEnchantmentList : Aow.Units.Engine.TENode
     {
         public TEnchantmentList(TECustomNode owner) : base(owner)
         {}
 
         // Spells.PAS:1762
-        // { TEnchantmentList: instance size 12; inherited $08 children. }
+        // inherited children
         public Aow.Units.AoWE.TEnchantment GetEnchantments(int A1)
         {
             Aow.Units.AoWE.TEnchantment Result = default;
@@ -3123,7 +3038,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1774
-        // { 5577C1D8 }
         public Aow.Units.AoWE.TEnchantment FindID(int A1)
         {
             Aow.Units.AoWE.TEnchantment Result = default;
@@ -3145,7 +3059,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TChangePlayerMagicTE (instance size 28, VMT 5570ABDC; $10 mode, $11 player, $14/$18 values) }
+    // (mode, player, values)
     public partial class TChangePlayerMagicTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TChangePlayerMagicTE(TECustomNode owner) : base(owner)
@@ -3154,15 +3068,10 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135445;
 
         public Aow.Units.AoWE.TChangePlayerMagicMode FMode;
-        // { $10 }
         public byte FPlayerIndex;
-        // { $11 }
-        public Aow.Units.FixedArray_byte_2 F_ChangePlayerMagicTE_12;
         public int FValue;
-        // { $14 }
         public int FExtraValue;
         // Spells.PAS:2448
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -3215,13 +3124,11 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerMagicEventLog (instance size 44, VMT 5570AD0C; $18 mode,
-//     $1C location, $20 spell ID, $24 value, $28 enchantment name) }
+    // (mode, location, spell ID, value, enchantment name)
     public partial class TPlayerMagicEventLog : Aow.Units.EventLog.TEventLog
     {
         // Spells.PAS:1847
-        // { TPlayerMagicEventLog: instance size 44; $18 mode, $1C location,
-//   $20 spell ID, $24 value, $28 enchantment name. }
+        // mode, location, spell ID, value, enchantment name
         public TPlayerMagicEventLog(TECustomNode owner) : base(owner)
         {
             FLocation.XYL = 16777215;
@@ -3230,17 +3137,11 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131824;
 
         public Aow.Units.AoWE.TPlayerMagicEventMode FMode;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_PlayerMagicEventLog_19;
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $1C }
         public int FSpellID;
-        // { $20 }
         public int FValue;
-        // { $24 }
         public Aow.Rtl.AnsiString FEnchantmentName;
         // Spells.PAS:1854
-        // { $28 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -3347,7 +3248,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPowerSource (instance size 8, VMT 5570AE18) }
     public partial class TPowerSource : Aow.Units.Engine.TEObject
     {
         public TPowerSource(TECustomNode owner) : base(owner)
@@ -3387,13 +3287,13 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1826
-        // { $058; AoW.exe 0042D9D8 }
+        // AoW.exe
         public virtual void Select()
         {
         }
     }
 
-    // { TExternalPowerSource (instance size 12, VMT 5570AEEC; $08 external power control) }
+    // (external power control)
     public partial class TExternalPowerSource : Aow.Units.AoWE.TPowerSource
     {
         public TExternalPowerSource(TECustomNode owner) : base(owner)
@@ -3401,7 +3301,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TPlayerMagicControl FExternalPowerControl;
         // Spells.PAS:1835
-        // { $08 }
         public override Aow.Rtl.AnsiString Name()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -3413,7 +3312,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPowerSourceList (instance size 12, VMT 5570AFD0) }
     public partial class TPowerSourceList : Aow.Units.Engine.TENode
     {
         public TPowerSourceList(TECustomNode owner) : base(owner)
@@ -3431,21 +3329,16 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { 5577CA19 }
-    // { TPlayerMagicControl (instance size 76, VMT 5570B198; $08 next ID,
-//     $0C cheat, $10 player, $14 updates, $18/$1C external mana/power,
-//     $20 external source, $24 mana, $28 spheres, $2C research percentage,
-//     $30 spells, $34 research spell, $38 points, $3C enchantments,
-//     $40 power sources, $44/$45 enchantment sets, $48 changed events) }
+    // (next ID, cheat, player, updates, external mana/power, external source, mana, spheres,
+    // research percentage, spells, research spell, points, enchantments, power sources, enchantment
+    // sets, changed events)
     public partial class TPlayerMagicControl : Aow.Units.Engine.TEObject
     {
 
         // Spells.PAS:1908
-        // { TPlayerMagicControl: instance size 76; $08 next enchantment ID, $0C cheat,
-//   $10 player, $14 update count, $18 external mana, $1C external power,
-//   $20 external source, $24 mana, $28 spheres, $2C research percentage,
-//   $30 spells, $34 research spell, $38 points, $3C enchantments,
-//   $40 power sources, $44/$45 active/enemy enchantments, $48 change events. }
+        // next enchantment ID, cheat, player, update count, external mana, external power, external
+        // source, mana, spheres, research percentage, spells, research spell, points, enchantments,
+        // power sources, active/enemy enchantments, change events
         public TPlayerMagicControl(TECustomNode owner) : base(owner)
         {
             Aow.Units.AoWE.TExternalPowerSource Source = default;
@@ -3470,46 +3363,24 @@ namespace Aow.Units.AoWE
         }
 
         public int FNextEnchantmentID;
-        // { $08 }
         public bool FCheatEnabled;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_PlayerMagicControl_0D;
         public Aow.Units.AoWE.TPlayer FPlayer;
-        // { $10 }
         public int FUpdateCount;
-        // { $14 }
         public int FExternalMana;
-        // { $18 }
         public int FExternalPower;
-        // { $1C }
         public Aow.Units.AoWE.TExternalPowerSource FExternalPowerSource;
-        // { $20 }
         public int FMana;
-        // { $24 }
         public TSet<Aow.Units.AoWE.TMagicSphere> FSpheres;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_2 F_PlayerMagicControl_2A;
         public int FResearchPercentage;
-        // { $2C }
         public Aow.Units.Engine.TIntegerList FSpells;
-        // { $30 }
         public int FResearchSpellID;
-        // { $34 }
         public int FResearchPointsLeft;
-        // { $38 }
         public Aow.Units.AoWE.TEnchantmentList FEnchantments;
-        // { $3C }
         public Aow.Units.AoWE.TPowerSourceList FPowerSources;
-        // { $40 }
         public TSet<Aow.Units.AoWE.TPlayerEnchantmentType> FActiveEnchantments;
-        // { $44; 557EFE57 }
         public TSet<Aow.Units.AoWE.TPlayerEnchantmentType> FEnemyEnchantments;
-        // { $45 }
-        // { conflict: FGlobalEnchantmentFlags: Byte; }
-        public Aow.Units.FixedArray_byte_2 F_PlayerMagicControl_46;
         public Aow.Units.Engine.TEventList FChangedEvents;
         // Spells.PAS:1927
-        // { $48 }
         public override void Destroy()
         {
             try
@@ -3719,7 +3590,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2023
-        // { 5577CA00 }
         public void OutOfMana(int A1)
         {
             int I = default;
@@ -3778,7 +3648,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2052
-        // { 5577CA34 }
         public void RemoveEnchantments()
         {
             while (true)
@@ -3794,7 +3663,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2056
-        // { 5577CB9C }
         public bool ValidateEnchantmentsUpkeep()
         {
             bool Result = default;
@@ -3815,7 +3683,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2064
-        // { 5577CBC4 }
         public bool ExecuteSpellResearched(int A1)
         {
             bool Result = default;
@@ -3836,7 +3703,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2074
-        // { 5577CBF8 }
         public void NewTurn()
         {
             Aow.Units.AoWE.TSpellType Kind = default;
@@ -3958,7 +3824,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2140
-        // { 5577CC2C }
         public void SetSpheres(TSet<Aow.Units.AoWE.TMagicSphere> Value)
         {
             if ((((Value & TSet<Aow.Units.AoWE.TMagicSphere>.Of(Aow.Units.AoWE.TMagicSphere.msEarth, Aow.Units.AoWE.TMagicSphere.msAir)) != TSet<Aow.Units.AoWE.TMagicSphere>.Of(Aow.Units.AoWE.TMagicSphere.msEarth, Aow.Units.AoWE.TMagicSphere.msAir)) && ((Value & TSet<Aow.Units.AoWE.TMagicSphere>.Of(Aow.Units.AoWE.TMagicSphere.msFire, Aow.Units.AoWE.TMagicSphere.msWater)) != TSet<Aow.Units.AoWE.TMagicSphere>.Of(Aow.Units.AoWE.TMagicSphere.msFire, Aow.Units.AoWE.TMagicSphere.msWater))) && ((Value & TSet<Aow.Units.AoWE.TMagicSphere>.Of(Aow.Units.AoWE.TMagicSphere.msLife, Aow.Units.AoWE.TMagicSphere.msDeath)) != TSet<Aow.Units.AoWE.TMagicSphere>.Of(Aow.Units.AoWE.TMagicSphere.msLife, Aow.Units.AoWE.TMagicSphere.msDeath)))
@@ -3968,7 +3833,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2146
-        // { 5577CE60 }
         public int GetNetPower()
         {
             int Result = default;
@@ -3982,7 +3846,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2151
-        // { 5577CEC4 }
         public int GetNetPowerToMana()
         {
             int Result = default;
@@ -4009,7 +3872,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2161
-        // { 5577CEE4 }
         public int GetNetPowerToResearch()
         {
             int Result = default;
@@ -4019,7 +3881,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2163
-        // { 5577B829 }
         public int ResearchTurns(int Power, int Points)
         {
             int Result = default;
@@ -4040,7 +3901,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2172
-        // { 5577B839 }
         public int GetResearchTurnsLeft()
         {
             int Result = default;
@@ -4051,7 +3911,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2176
-        // { 5577CFD8 }
         public bool ValidResearchSpell(Aow.Units.AoWE.TSpell Spell)
         {
             bool Result = default;
@@ -4114,7 +3973,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2199
-        // { 5577CFF0 }
         public void ListResearchSpells(ref Aow.Units.AoWE.TSpellList List, TSet<Aow.Units.AoWE.TSpellType> SpellTypes)
         {
             int I = default;
@@ -4202,7 +4060,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2233
-        // { draft }
         public void EndUpdate()
         {
             FUpdateCount -= 1;
@@ -4213,7 +4070,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2235
-        // { draft }
         public void Update()
         {
             if (FUpdateCount == 0)
@@ -4277,7 +4133,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2275
-        // { 5577D2A8 }
         public bool RegisterEnchantment(Aow.Units.AoWE.TEnchantment Enchantment)
         {
             bool Result = default;
@@ -4536,8 +4391,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TGlobalEnchantment (instance size 36, VMT 5570B398; $08 ID, $0C references,
-//     $10 status, $11 mode, $14 dispel mana, $18 type, $19 player, $1C name, $20 upkeep) }
+    // (ID, references, status, mode, dispel mana, type, player, name, upkeep)
     public partial class TGlobalEnchantment : Aow.Units.Engine.TEObject
     {
 
@@ -4549,27 +4403,15 @@ namespace Aow.Units.AoWE
         }
 
         public int FEnchantmentID;
-        // { $08 }
         public int FRefCount;
-        // { $0C }
         public TSet<Aow.Units.AoWE.TGlobalEnchantmentStatusElement> FEnchantmentStatus;
-        // { $10 }
         public TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement> FEnchantmentMode;
-        // { $11 }
-        public Aow.Units.FixedArray_byte_2 F_GlobalEnchantment_12;
         public int FDispelMana;
-        // { $14; 557EB619 }
         public Aow.Units.AoWE.TGlobalEnchantmentType FEnchantmentType;
-        // { $18 }
         public sbyte FPlayerIndex;
-        // { $19 }
-        // { conflict: FEnchantmentPlayer: Shortint; }
-        public Aow.Units.FixedArray_byte_2 F_GlobalEnchantment_1A;
         public Aow.Rtl.AnsiString FName;
-        // { $1C; 557EFCFF }
         public int FEnchantmentManaUpkeep;
         // Spells.PAS:2520
-        // { $20 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -4615,7 +4457,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2505
-        // { +04C }
         public virtual int GetUpkeep()
         {
             int Result = default;
@@ -4624,7 +4465,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2490
-        // { +050 }
         public virtual Aow.Units.HSEngine.TXYL GetLocation()
         {
             Aow.Units.HSEngine.TXYL Result = default;
@@ -4633,7 +4473,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2488
-        // { +054 }
         public virtual int GetAIUpkeepPriority()
         {
             int Result = default;
@@ -4642,7 +4481,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2563
-        // { +058 }
         public virtual bool CanDeactivate(byte Player, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
@@ -4651,7 +4489,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2565
-        // { +05C }
         public virtual bool Deactivate(byte Player)
         {
             bool Result = default;
@@ -4678,7 +4515,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2536
-        // { +060 }
         public virtual bool CanActivate(sbyte Player, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
@@ -4699,7 +4535,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2550
-        // { +064 }
         public virtual bool Activate(sbyte Player)
         {
             bool Result = default;
@@ -4736,7 +4571,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2577
-        // { +06C }
         public virtual bool Cast(sbyte Player)
         {
             bool Result = default;
@@ -4766,7 +4600,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2597
-        // { +070 }
         public virtual bool CanDispel(sbyte Player, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
@@ -4775,7 +4608,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2599
-        // { +074; 557EBE5C }
         public virtual bool Dispel(byte Player)
         {
             bool Result = default;
@@ -4821,7 +4653,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2626
-        // { +078; 5577DDA4 }
         public virtual bool CanRemove(sbyte Player, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
@@ -4839,7 +4670,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2631
-        // { +07C; 5577DF28 }
         public virtual bool Remove(byte Player)
         {
             bool Result = default;
@@ -4886,7 +4716,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2507
-        // { +080; 5577DF44 }
         public virtual bool VisibleForPlayer(sbyte Player)
         {
             bool Result = default;
@@ -4913,7 +4742,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2492
-        // { +084 }
         public virtual void CenterToLocation()
         {
             Aow.Units.HSEngine.TXYL Location = default;
@@ -4926,7 +4754,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2530
-        // { +088; 5577D970 }
         public void Setup(Aow.Units.AoWE.TGlobalEnchantmentType Kind, Aow.Rtl.AnsiString Name, int Upkeep)
         {
             FEnchantmentType = Kind;
@@ -4938,8 +4765,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { 5577DA8C }
-    // { TGlobalEnchantmentEventLog (instance size 36, VMT 5570B4B8; $20 enchantment player) }
+    // (enchantment player)
     public partial class TGlobalEnchantmentEventLog : Aow.Units.EventLog.TLocationTextEventLog
     {
         public TGlobalEnchantmentEventLog(TECustomNode owner) : base(owner)
@@ -4948,8 +4774,6 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131819;
 
         public sbyte FEnchantmentPlayer;
-        // { $20 }
-        public Aow.Units.FixedArray_byte_3 F_GlobalEnchantmentEventLog_21;
         // Spells.PAS:2660
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -4985,7 +4809,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TGlobalEnchantmentList (instance size 12, VMT 5570B5C0) }
     public partial class TGlobalEnchantmentList : Aow.Units.Engine.TENode
     {
         public TGlobalEnchantmentList(TECustomNode owner) : base(owner)
@@ -5003,8 +4826,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TChangeGlobalMagicTE (instance size 28, VMT 5570B724):
-//     $10 mode, $11 player, $14 enchantment ID, $18 value. }
+    // mode, player, enchantment ID, value
     public partial class TChangeGlobalMagicTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TChangeGlobalMagicTE(TECustomNode owner) : base(owner)
@@ -5013,15 +4835,10 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135446;
 
         public Aow.Units.AoWE.TChangeGlobalMagicMode FMode;
-        // { $10 }
         public byte FPlayerIndex;
-        // { $11 }
-        public Aow.Units.FixedArray_byte_2 F_ChangeGlobalMagicTE_12;
         public int FEnchantmentID;
-        // { $14 }
         public int FValue;
         // Spells.PAS:2720
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -5056,7 +4873,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                // { Original road-construction predicate, $55770FF0. }
+                // Original road-construction predicate
                 Result = Aow.Units.NetworkE.TExecuteResult.erDoneHalt;
             }
 
@@ -5068,7 +4885,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TGlobalMagicControl: size $40, VMT 5570B7F8; $08 next ID, $0C update count, $10 active types, $14 enchantments, $18..38 double-mana counters, $3C changed events. }
+    // next ID, update count, active types, enchantments, double-mana counters, changed events
     public partial class TGlobalMagicControl : Aow.Units.Engine.TEObject
     {
 
@@ -5083,19 +4900,12 @@ namespace Aow.Units.AoWE
         }
 
         public int FNextEnchantmentID;
-        // { $08 }
         public int FUpdateCount;
-        // { $0C }
         public TSet<Aow.Units.AoWE.TGlobalEnchantmentType> FActiveEnchantments;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_GlobalMagicControl_11;
         public Aow.Units.AoWE.TGlobalEnchantmentList FEnchantments;
-        // { $14 }
         public Aow.Units.FixedArray_int_9 FDoubleSphereManaCount;
-        // { $18 }
         public Aow.Units.Engine.TEventList FChangedEvents;
         // Spells.PAS:2675
-        // { $3C }
         public override void Destroy()
         {
             base.Destroy();
@@ -5281,7 +5091,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2702
-        // { 5577C9A0 }
         public void UpdateActiveEnchantments()
         {
             int I = default;
@@ -5360,7 +5169,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2708
-        // { 5577E4EC }
         public Aow.Units.AoWE.TChangeGlobalMagicTE CreateChangeMagicTE()
         {
             Aow.Units.AoWE.TChangeGlobalMagicTE Result = default;
@@ -5505,7 +5313,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TRace: size $18; $08 race, $0C defaults, $10 player relations, $14 enabled. }
+    // race, defaults, player relations, enabled
     public partial class TRace : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131586;
@@ -5522,15 +5330,10 @@ namespace Aow.Units.AoWE
         }
 
         public sbyte FRace;
-        // { $08 }
-        public Aow.Units.FixedArray_byte_3 F_Race_09;
         public Aow.Units.Engine.TByteList FDefaultRelations;
-        // { $0C, TStatus values }
+        // TStatus values
         public Aow.Units.Engine.TIntegerList FPlayerRelations;
-        // { $10 }
         public bool FEnabled;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_Race_15;
         // Ability.PAS:221
         public override void Destroy()
         {
@@ -5811,7 +5614,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TRaceList (instance size 20, VMT 5570B974) }
     public partial class TRaceList : Aow.Units.Engine.TEControlStyleNode
     {
         // Ability.PAS:367
@@ -5960,7 +5762,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDiplomaticRelationList: size $14; inherited TByteList, $10 default relation }
+    // inherited TByteList, default relation
     public partial class TDiplomaticRelationList : Aow.Units.Engine.TByteList
     {
         // Player.PAS:11
@@ -5995,7 +5797,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDiplomaticRelationHistoryItem: size $10; $08 day, $0C relation }
+    // day, relation
     public partial class TDiplomaticRelationHistoryItem : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131354;
@@ -6004,10 +5806,7 @@ namespace Aow.Units.AoWE
         {}
 
         public int FDay;
-        // { $08 }
         public Aow.Units.AoWE.TDiplomaticRelation FRelation;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_DiplomaticRelationHistoryItem_0D;
         // Player.PAS:33
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -6020,7 +5819,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDiplomaticRelationHistoryList (instance size 12, VMT 5570BBE8) }
     public partial class TDiplomaticRelationHistoryList : Aow.Units.Engine.TENode
     {
         public new const int ClassID = 131355;
@@ -6097,7 +5895,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerDiplomaticRelations: size $14; $08 player, $0C relations, $10 history }
+    // player, relations, history
     public partial class TPlayerDiplomaticRelations : Aow.Units.Engine.TEObject
     {
         // Player.PAS:78
@@ -6110,12 +5908,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TPlayer FPlayer;
-        // { $08 }
         public Aow.Units.Engine.TByteList FRelations;
-        // { $0C }
         public Aow.Units.Engine.TENode FHistory;
         // Player.PAS:85
-        // { $10 }
         public override void Destroy()
         {
             FRelations.Free();
@@ -6253,7 +6048,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TLeaderSetupControl: size $28; $08 references, $0C leader, $10 mode, $14 original leader, $18 items, $20 done event. VMT 5570BE8C. }
+    // references, leader, mode, original leader, items, done event
     public partial class TLeaderSetupControl : Aow.Units.Engine.TEObject
     {
 
@@ -6273,22 +6068,13 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public Aow.Units.AoWE.TLeader FLeader;
-        // { $0C }
         public TSet<Aow.Units.AoWE.TLeaderSetupModeElement> FMode;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_LeaderSetupControl_11;
         public Aow.Units.AoWE.TLeader FOriginalLeader;
-        // { $14 }
         public Aow.Units.Engine.TIntegerList FItems;
-        // { $18 }
         public Aow.Units.AoWE.TLeaderSetupStatus FStatus;
-        public Aow.Units.FixedArray_byte_3 F_LeaderSetupControl_1D;
-        // { $1C }
         public Aow.Rtl.TNotifyEvent FOnDone;
         // Player.PAS:1766
-        // { $20 }
         public override void Destroy()
         {
             FOriginalLeader.Free();
@@ -6337,7 +6123,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTurnInfoItem: size $1C; $08 gold, $0C mana, $10 structures, $14 army strength, $18 heroes }
+    // gold, mana, structures, army strength, heroes
     public partial class TTurnInfoItem : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131739;
@@ -6346,16 +6132,10 @@ namespace Aow.Units.AoWE
         {}
 
         public int FGold;
-        // { $08 }
         public int FMana;
-        // { $0C }
         public int FStructures;
-        // { $10 }
         public int FArmyStrength;
-        // { $14 }
         public byte FHeroes;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_TurnInfoItem_19;
         // Player.PAS:161
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -6379,7 +6159,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTurnInfo (instance size 12, VMT 5570C01C) }
     public partial class TTurnInfo : Aow.Units.Engine.TENode
     {
         public TTurnInfo(TECustomNode owner) : base(owner)
@@ -6397,7 +6176,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerStatistics: size $14; $08 turn info, $0C units killed, $10 units lost }
+    // turn info, units killed, units lost
     public partial class TPlayerStatistics : Aow.Units.Engine.TEObject
     {
         // Player.PAS:182
@@ -6408,12 +6187,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TTurnInfo FTurnInfo;
-        // { $08 }
         public int FUnitsKilled;
-        // { $0C }
         public int FUnitsLost;
         // Player.PAS:188
-        // { $10 }
         public override void Destroy()
         {
             FTurnInfo.Free();
@@ -6433,7 +6209,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TIncomeSource (instance size 8, VMT 5570C1D8) }
     public partial class TIncomeSource : Aow.Units.Engine.TEObject
     {
         public TIncomeSource(TECustomNode owner) : base(owner)
@@ -6448,7 +6223,6 @@ namespace Aow.Units.AoWE
         }
 
         // Player.PAS:207
-        // { $04C }
         public virtual int Income()
         {
             int Result = default;
@@ -6457,7 +6231,6 @@ namespace Aow.Units.AoWE
         }
 
         // Player.PAS:212
-        // { $050 }
         public virtual void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
         {
             X = unchecked((sbyte)-1);
@@ -6466,7 +6239,6 @@ namespace Aow.Units.AoWE
         }
 
         // Player.PAS:219
-        // { $054 }
         public virtual void CenterToLocation()
         {
             sbyte X = default;
@@ -6481,8 +6253,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { $058 }
-    // { TIncomeSourceList (instance size 12, VMT 5570C2A8) }
     public partial class TIncomeSourceList : Aow.Units.Engine.TENode
     {
         public TIncomeSourceList(TECustomNode owner) : base(owner)
@@ -6500,7 +6270,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPBEMPlayerSettings: size $10; $08 status, $0C email game }
+    // status, email game
     public partial class TPBEMPlayerSettings : Aow.Units.Engine.TEObject
     {
         // Player.PAS:236
@@ -6512,12 +6282,8 @@ namespace Aow.Units.AoWE
         }
 
         public TSet<Aow.Units.AoWE.TPBEMPlayerStatusElement> FStatus;
-        // { $08 }
-        public Aow.Units.FixedArray_byte_3 F_PBEMPlayerSettings_09;
         public Aow.Units.AoWE.TEmailGame FEmailGame;
         // Player.PAS:243
-        // { $0C }
-        // { conflict: FGame: TEmailGame; }
         public override void Destroy()
         {
             FEmailGame.Free();
@@ -6542,15 +6308,12 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayer: size $DC; $08 update count, $0C..$18 events, $1C structures,
-//     $20 victory locations, $28 armies, $34 messages, $38/$3C legacy relations,
-//     $40 diplomacy, $44 game over, $45 player status, $48 busy count, $50 morale, $58 leader setup,
-//     $60 statistics, $64 income sources, $68 known structures, $80 heroes,
-//     $84 groups, $88 AI control, $8C budget, $90 diplomatic actions, $94 attack players,
-//     $98/$9C seen days, $A0 PBEM, $A4 emerging hero, $A9 participating,
-//     $AC initial gold, $B0 base income, $B4/$B8 hero join days, $C8/$CC upkeep;
-//     $2C end turn, $2D..$2F view, $30 password, $5C turn number, $6C base hero level,
-//     $74 emerging hero ID, $78 emerge day, $7C highest hero level, $BC/$C0 settings/description }
+    // update count, events, structures, victory locations, armies, messages, legacy relations,
+    // diplomacy, game over, player status, busy count, morale, leader setup, statistics, income
+    // sources, known structures, heroes, groups, AI control, budget, diplomatic actions, attack
+    // players, seen days, PBEM, emerging hero, participating, initial gold, base income, hero join
+    // days, upkeep. end turn, view, password, turn number, base hero level, emerging hero ID,
+    // emerge day, highest hero level, settings/description
     public partial class TPlayer : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131104;
@@ -6637,138 +6400,67 @@ namespace Aow.Units.AoWE
         }
 
         public int FUpdateCount;
-        // { $08 }
         public Aow.Units.Engine.TEventList FGemsChangedEvents;
-        // { $0C }
         public Aow.Units.Engine.TEventList FIncomeChangedEvents;
-        // { $10 }
         public Aow.Units.Engine.TEventList FUpkeepChangedEvents;
-        // { $14 }
         public Aow.Units.Engine.TEventList FLogbookChangedEvents;
-        // { $18 }
         public Aow.Units.AoWE.TPlayerStructureList FStructures;
-        // { $1C }
         public Aow.Units.AoWE.TPlayerStructureList FVictoryLocations;
-        // { $20 }
         public Aow.Units.AoWE.TProductionControlList FProductionControls;
-        // { $24 }
         public Aow.Units.AoWE.TArmyList FArmies;
-        // { $28 }
         public bool FSingleProcessCycle;
-        // { $2C }
-        // { conflict: FEndTurn: Boolean; }
         public byte FViewX;
-        // { $2D }
         public byte FViewY;
-        // { $2E }
         public byte FViewL;
-        // { $2F }
         public Aow.Rtl.AnsiString FPassword;
-        // { $30 }
         public Aow.Rtl.TStringList FMessages;
-        // { $34 }
         public Aow.Units.AoWE.TDiplomaticRelationList FLegacyRelations;
-        // { $38 }
         public Aow.Units.AoWE.TDiplomaticRelationList FLegacyNewRelations;
-        // { $3C }
         public Aow.Units.AoWE.TPlayerDiplomaticRelations FDiplomaticRelations;
-        // { $40 }
         public Aow.Units.AoWE.TGameOverStatus FGameOverStatus;
-        // { $44 }
         public Aow.Units.AoWE.TPlayerStatus FStatus;
-        // { $45 }
-        public Aow.Units.FixedArray_byte_2 F_Player_46;
         public int FBusyCount;
-        // { $48 }
         public Aow.Rtl.AnsiString FName;
-        // { $4C }
         public sbyte FMoraleValue;
-        // { $50 }
-        public Aow.Units.FixedArray_byte_3 F_Player_51;
         public Aow.Units.AoWE.TPlayerMagicControl FMagicControl;
-        // { $54 }
         public Aow.Units.AoWE.TLeader FLeaderSetup;
-        // { $58 }
         public int FDay;
-        // { $5C; 55785754 }
-        // { conflict: FTurnNumber: Integer; }
         public Aow.Units.AoWE.TPlayerStatistics FStatistics;
-        // { $60 }
         public Aow.Units.AoWE.TIncomeSourceList FIncomeSources;
-        // { $64 }
         public Aow.Units.AoWE.TPlayerStructureList FKnownStructures;
-        // { $68 }
         public int FBaseHeroJoinLevel;
-        // { $6C }
         public int FLastHeroJoinDay;
-        // { $70 }
         public int FEmergingHeroID;
-        // { $74 }
-        // { conflict: FHeroEmergeID: Integer; }
         public int FLastHeroEmergeDay;
-        // { $78 }
         public int FHighestHeroLevel;
-        // { $7C }
         public Aow.Units.AoWE.THeroList FHeroes;
-        // { $80 }
         public Aow.Units.AoWE.TAIGroupList FAIGroups;
-        // { $84 }
         public Aow.Units.AoWE.TAIPlayerControl FAIControl;
-        // { $88 }
         public Aow.Units.AoWE.TAIBudgetManager FAIBudget;
-        // { $8C }
-        // { conflict: FBudgetManager: TAIBudgetManager; }
         public Aow.Units.AoWE.TDiplomaticActionList FDiplomaticActions;
-        // { $90 }
         public Aow.Units.Engine.TBitList FAIValidAttackPlayers;
-        // { $94 }
         public Aow.Units.Engine.TIntegerList FFirstDaySeen;
-        // { $98 }
         public Aow.Units.Engine.TIntegerList FLastDaySeen;
-        // { $9C }
         public Aow.Units.AoWE.TPBEMPlayerSettings FPBEMSettings;
-        // { $A0 }
         public bool FHeroEmerging;
-        // { $A4 }
         public sbyte FPlayerRace;
-        // { $A5 }
         public sbyte FPlayerIndex;
-        // { $A6 }
         public Aow.Units.AoWE.TPlayerType FPlayerType;
-        // { $A7 }
         public Aow.Units.AoWE.TPlayerBehavior FBehavior;
-        // { $A8 }
-        // { conflict: FConnectionType: TPlayerConnectionType; }
         public bool FParticipating;
-        // { $A9 }
-        public Aow.Units.FixedArray_byte_2 F_Player_AA;
         public int FInitialGold;
-        // { $AC }
-        // { conflict: FGold: Integer; }
         public int FBaseIncome;
-        // { $B0 }
         public int FBaseHeroJoinDay;
-        // { $B4 }
         public int FHeroJoinDay;
-        // { $B8 }
         public Aow.Rtl.AnsiString FSettings;
-        // { $BC }
         public Aow.Rtl.AnsiString FDescription;
-        // { $C0 }
         public int FGems;
-        // { $C4 }
-        // { conflict: FGems: Integer; $C4, read at $557A7E18 }
         public int FArmyUpkeep;
-        // { $C8 }
         public int FMagicUpkeep;
-        // { $CC }
         public int FIncome;
-        // { $D0 }
         public Aow.Units.AoWE.TLeader FLeader;
-        // { $D4 }
         public Aow.Units.EventLog.TEventLogbook FEventLogbook;
         // Player.PAS:315
-        // { $D8 }
         public override void Destroy()
         {
             int I = default;
@@ -6784,11 +6476,11 @@ namespace Aow.Units.AoWE
                     if ((Aow.Units.AoWE.AoWE.AoWHSMap != null) && Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msDestroying))
                     {
                         var call__549 = FVictoryLocations.Count;
-                        Aow.Rtl.Rtl.Assert(call__549 == 0, (AnsiString)"Victory Locations not correctly cleared (TPlayer)", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Player.PAS", 326);
+                        Aow.Rtl.Rtl.Assert(call__549 == 0, (AnsiString)"Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
                         var call__550 = FStructures.Count;
-                        Aow.Rtl.Rtl.Assert(call__550 == 0, (AnsiString)"Registered Player Structures not correctly cleared (TPlayer)", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Player.PAS", 327);
+                        Aow.Rtl.Rtl.Assert(call__550 == 0, (AnsiString)"Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
                         var call__551 = FArmies.Count;
-                        Aow.Rtl.Rtl.Assert(call__551 == 0, (AnsiString)"Registered Player Armies not correctly cleared (TPlayer)", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Player.PAS", 328);
+                        Aow.Rtl.Rtl.Assert(call__551 == 0, (AnsiString)"Registered Player Armies not correctly cleared (TPlayer)", "Player.PAS", 328);
                     }
                     else
                     {
@@ -7463,7 +7155,7 @@ namespace Aow.Units.AoWE
         // Player.PAS:552
         public void UnlockBusy()
         {
-            Aow.Rtl.Rtl.Assert(FBusyCount != 0, (AnsiString)"Invalid busy counter usage", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Player.PAS", 554);
+            Aow.Rtl.Rtl.Assert(FBusyCount != 0, (AnsiString)"Invalid busy counter usage", "Player.PAS", 554);
             FBusyCount -= 1;
         }
 
@@ -8405,7 +8097,6 @@ namespace Aow.Units.AoWE
         // Player.PAS:1124
         public void PlayerSeen(sbyte Player)
         {
-            // { Tried Self identity, Pointer identity, typed with; cast Self at list field access; still differs. }
             bool bool__739 = !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
             if (bool__739)
             {
@@ -8848,7 +8539,7 @@ namespace Aow.Units.AoWE
         public bool ValidAttackRelation(sbyte Player, sbyte IndependentRelation)
         {
             bool Result = default;
-            Aow.Rtl.Rtl.Assert(FPlayerIndex != 0, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Player.PAS", 1390);
+            Aow.Rtl.Rtl.Assert(FPlayerIndex != 0, (AnsiString)"", "Player.PAS", 1390);
             if (TSet<Aow.Units.AoWE.TPlayerType>.Of(Aow.Units.AoWE.TPlayerType.ptCPU1, Aow.Units.AoWE.TPlayerType.ptCPU2, Aow.Units.AoWE.TPlayerType.ptCPU3, Aow.Units.AoWE.TPlayerType.ptCPU4, Aow.Units.AoWE.TPlayerType.ptCPU5).Contains(FPlayerType))
             {
                 var call__799 = FAIValidAttackPlayers[Player];
@@ -8890,7 +8581,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerList: size $20; $10 active, $14 local, $18 human, $1C local human lists. VMT 5570C5E8. }
+    // active, local, human, local human lists
     public partial class TPlayerList : Aow.Units.Engine.TEControlStyleNode
     {
 
@@ -8910,13 +8601,8 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.Engine.TByteList FActivePlayers;
-        // { $10 }
         public Aow.Units.Engine.TByteList FLocalControlledPlayers;
         public Aow.Units.Engine.TByteList FLocalPlayers;
-        // { $18 }
-        // { conflict: FLocalPlayers: TByteList; $14 }
-        // { conflict: FHumanPlayers: TByteList; }
-        // { conflict: FActivePlayers: TIntegerList; }
         public Aow.Units.Engine.TByteList FLocalHumanPlayers;
 
         // Player.PAS:1543
@@ -8974,7 +8660,6 @@ namespace Aow.Units.AoWE
         }
 
         // Player.PAS:1450
-        // { conflict: function GetDiplomaticRelation(Source, Target: Shortint): TDiplomaticRelation; }
         public void SetDiplomaticRelation(sbyte Player, sbyte OtherPlayer, Aow.Units.AoWE.TDiplomaticRelation Relation)
         {
             int I = default;
@@ -9532,7 +9217,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWNewHSMapSettings: size $20; inherited $14 map and $1C level class IDs. VMT 5570C6E0. }
+    // inherited map and level class IDs
     public partial class TAoWNewHSMapSettings : Aow.Units.HSEngine.TNewHSMapSettings
     {
         // Legacy factory runs the split base body after raw allocation.
@@ -9549,8 +9234,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWMapField (instance size 28, VMT 5570C764) }
-    // { TAoWMapField: size $1C; +$18 flags, byte +$1A fog count, bit $02000000 owner query. }
+    // flags, byte fog count, bit $02000000 owner query
     public partial class TAoWMapField : Aow.Units.HSEngine.TMapField
     {
         public TAoWMapField(TECustomNode owner) : base(owner)
@@ -9561,8 +9245,6 @@ namespace Aow.Units.AoWE
         public int FFieldFlags;
         // AoWHSMap.PAS:63
         // { Original tests the entire ECX register for a Boolean passed in CL. }
-        // { $18 }
-        // { conflict: FMapFlags: Word; }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -9577,7 +9259,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:68
-        // { conflict: procedure SetExplored(Player: Integer; Explored: LongBool); }
         public void FogChanged()
         {
             Aow.Units.HSEngine.TMapFieldMsg Msg = default;
@@ -9683,7 +9364,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:165
-        // { 55737FF5 }
         public Aow.Units.AoWE.TMoveAction GetMoveAction(sbyte Player)
         {
             Aow.Units.AoWE.TMoveAction Result = default;
@@ -9721,7 +9401,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:204
-        // { conflict: procedure GetDefenseRequirements(Player: Shortint; var Requirements); }
         public Aow.Units.AoWE.TWallType GetWallType()
         {
             Aow.Units.AoWE.TWallType Result = default;
@@ -9754,8 +9433,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWMapLevel (instance size 128, VMT 5570C864) }
-    // { TAoWMapLevel: size $80; inherited field table and coordinate offsets, reserved +$7C. }
+    // inherited field table and coordinate offsets, reserved
     public partial class TAoWMapLevel : Aow.Units.HSEngine.TMapLevel
     {
         public TAoWMapLevel(TECustomNode owner) : base(owner)
@@ -9763,7 +9441,6 @@ namespace Aow.Units.AoWE
 
         public new const int ClassID = 131091;
 
-        public Aow.Units.FixedArray_byte_4 F_AoWMapLevel_7C;
         // AoWHSMap.PAS:231
         public override Aow.Units.Engine.EClass MapFieldClass()
         {
@@ -9775,7 +9452,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P5. }
-    // { TSubMove: instance size $14; $08 location, $0C origin, $10 move point lines. }
+    // location, origin, move point lines
     public partial class TSubMove : Aow.Units.Engine.TEObject
     {
         // MoveT.PAS:20
@@ -9788,12 +9465,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $08 }
         public Aow.Units.HSEngine.TXYL FOrigin;
-        // { $0C }
         public Aow.Units.Engine.TDoubleItemList FMovePointLines;
         // MoveT.PAS:28
-        // { $10 }
         public override void Destroy()
         {
             FMovePointLines.Free();
@@ -9810,7 +9484,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSubMoveList (instance size 12, VMT 5570CAF8) }
     public partial class TSubMoveList : Aow.Units.Engine.TENode
     {
         public TSubMoveList(TECustomNode owner) : base(owner)
@@ -9893,67 +9566,36 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public int FMovePointsLimit;
-        // { $0C }
         public Aow.Units.AoWE.TSubMoveList FSubMoves;
-        // { $10 }
         public int FSubMoveIndex;
-        // { $14 }
         public Aow.Rtl.TList FProcessedMapFields;
-        // { $18; 557D7BF9 }
         public int[] FRowOffsets = [];
-        // { $1C }
         public int[][] FLevelData = [];
-        // { $20 }
         public Aow.Units.FixedArray_int_8 FEvenOffsets;
-        // { $24 }
         public Aow.Units.FixedArray_int_8 FOddOffsets;
-        // { $44 }
         public bool FMovePointsClear;
-        // { $64 }
         public Aow.Units.AoWE.TMoveControlSettingsStatus FStatus;
-        // { $65 }
         public TSet<Aow.Units.AoWE.TMoveModeElement> FMode;
-        // { $66; 557D7B17 }
-        public Aow.Units.FixedArray_byte_1 F_MoveControlSettings_67;
         public Aow.Units.AoWE.TMovepath FPath;
-        // { $68 }
         public sbyte FPlayer;
-        // { $6C }
-        public Aow.Units.FixedArray_byte_3 F_MoveControlSettings_6D;
         public int FWidth;
-        // { $70 }
         public int FHeight;
-        // { $74 }
         public int FLevelCount;
-        // { $78 }
         public int FSourceX;
-        // { $7C }
         public int FSourceY;
-        // { $80 }
         public int FSourceL;
-        // { $84 }
         public int FDestinationX;
-        // { $88 }
         public int FDestinationY;
-        // { $8C }
         public int FDestinationL;
-        // { $90 }
-        public Aow.Units.FixedArray_byte_4 F_MoveControlSettings_94;
         public int FMovePointsMax;
-        // { $98; 557D7B3D }
         public Aow.Units.AoWE.TUnitHS FArmyHS;
-        // { $9C; 00418DC2 }
         public int FSelection;
-        // { $A0 }
         public Aow.Units.AoWE.TArmyHS FTransporterArmy;
-        // { $A4 }
         public Aow.Units.AoWE.TUnitUserList FUnits;
-        // { $A8; AddUnitsEx at 557929AD }
+        // AddUnitsEx
         public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
         // MoveT.PAS:84
-        // { $AC }
         public override void Destroy()
         {
             Clear();
@@ -10172,16 +9814,13 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveControl: instance size $1E0; $04 map, $08 status, $09 player, $0A mode,
-//     $0C source, $18 destination, $24 map level, $28 processed count, $2C move limit,
-//     $30 move table, $130 processed fields, $134 army, $138 selection, $13C move data,
-//     $140 callback, $148 field offsets, $188 point offsets, $1C8/$1CC gap endpoints,
-//     $1D0 direct route, $1D8 exploration mask, $1DC settings. }
+    // map, status, player, mode, source, destination, map level, processed count, move limit, move
+    // table, processed fields, army, selection, move data, callback, field offsets, point offsets,
+    // gap endpoints, direct route, exploration mask, settings
     public partial class TMoveControl : Aow.Rtl.TObject
     {
 
         // MoveT.PAS:257
-        // { +004 }
         public TMoveControl(THSMap owner)
         {
             FMap = owner;
@@ -10194,60 +9833,32 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.HSEngine.THSMap FMap;
-        // { $04; AoWTCPCK 0041B428 }
         public TSet<Aow.Units.AoWE.TMoveControlStatusElement> FStatus;
-        // { $08 }
         public sbyte FPlayer;
-        // { $09; 55761458 }
         public TSet<Aow.Units.AoWE.TMoveModeElement> FMode;
-        // { $0A }
-        public byte F_MoveControl_0B;
         public int FSourceX;
-        // { $0C }
         public int FSourceY;
-        // { $10 }
         public int FSourceL;
-        // { $14 }
         public int FDestinationX;
-        // { $18 }
         public int FDestinationY;
-        // { $1C }
         public int FDestinationL;
-        // { $20 }
         public Aow.Units.HSEngine.TMapLevel FMapLevel;
-        // { $24 }
         public int FProcessedCount;
-        // { $28 }
         public int FMovePointsLimit;
-        // { $2C }
         public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
-        // { $30 }
         public Aow.Rtl.TList FProcessedMapFields;
-        // { $130 }
         public Aow.Units.AoWE.TArmyHS FArmyHS;
-        // { $134 }
         public int FSelection;
-        // { $138 }
         public Aow.Units.AoWE.TArmyHS FTransporterArmy;
-        // { $13C }
         public Aow.Units.AoWE.TMoveOnMovePointProc FOnMovePoint;
-        // { $140 }
         public Aow.Units.FixedArray_int_8[] FFieldOffsets = new Aow.Units.FixedArray_int_8[2];
-        // { $148 }
         public Aow.Units.FixedArray_Aow_Units_FixedArray_int_8_2 FPointOffsets;
-        // { $188 }
         public Aow.Units.HSEngine.TXYLList FGapStarts;
-        // { $1C8 }
         public Aow.Units.HSEngine.TXYLList FGapEnds;
-        // { $1CC }
         public Aow.Units.HSEngine.TXYLList FDirectRoute;
-        // { $1D0 }
-        public int F_MoveControl_1D4;
         public int FExploredMask;
-        // { $1D8 }
         public Aow.Units.AoWE.TMoveControlSettings FSettings;
         // MoveT.PAS:266
-        // { $1DC }
         public override void Destroy()
         {
             FGapStarts.Free();
@@ -10342,14 +9953,13 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:1515
-        // { +000 }
         public virtual void ProcessMove(Aow.Units.AoWE.TMoveControlSettings A1)
         {
             if (((A1.FSourceX != A1.FDestinationX) || (A1.FSourceY != A1.FDestinationY)) || (A1.FSourceL != A1.FDestinationL))
             {
                 if (Activate(A1))
                 {
-                    Aow.Rtl.Rtl.Assert(Aow.Units.AoWE.AoWE.AoWEngine.FDemo || (A1.FStatus != Aow.Units.AoWE.TMoveControlSettingsStatus.mcssProcessed), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\MoveT.PAS", 1541);
+                    Aow.Rtl.Rtl.Assert(Aow.Units.AoWE.AoWE.AoWEngine.FDemo || (A1.FStatus != Aow.Units.AoWE.TMoveControlSettingsStatus.mcssProcessed), (AnsiString)"", "MoveT.PAS", 1541);
                     do
                     {
                     }
@@ -10653,7 +10263,7 @@ namespace Aow.Units.AoWE
         public bool Process()
         {
             bool Result = default;
-            Aow.Rtl.Rtl.Assert(FStatus.Contains(Aow.Units.AoWE.TMoveControlStatusElement.mcsActivated), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\MoveT.PAS", 1339);
+            Aow.Rtl.Rtl.Assert(FStatus.Contains(Aow.Units.AoWE.TMoveControlStatusElement.mcsActivated), (AnsiString)"", "MoveT.PAS", 1339);
             switch (FSettings.FStatus)
             {
                 case Aow.Units.AoWE.TMoveControlSettingsStatus.mcssIdle:
@@ -11028,7 +10638,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWTokenManager (instance size 28, VMT 5570CE24) }
     public partial class TAoWTokenManager : Aow.Units.NetworkE.TTokenManager
     {
         public TAoWTokenManager(TObject owner) : base(owner)
@@ -11039,17 +10648,14 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TPlayerConnectionEventLog: size $2C; $28 reason, $29 disconnected player. VMT 5570CF20. }
+    // reason, disconnected player
     public partial class TPlayerConnectionEventLog : Aow.Units.EventLog.TMessageEventLog
     {
         public TPlayerConnectionEventLog(TECustomNode owner) : base(owner)
         { }
 
         public byte FReason;
-        // { $28 }
         public sbyte FDisconnectedPlayer;
-        // { $29 }
-        public Aow.Units.FixedArray_byte_2 F_PlayerConnectionEventLog_2A;
         // PlayerC.PAS:1714
         public override bool Yes()
         {
@@ -11146,8 +10752,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerControl: size $20; $08 exit callback, $10 exit mode, $14 password,
-//     $18 disconnected-player list, $1C sync warning shown. VMT 5570D074. }
+    // exit callback, exit mode, password, disconnected-player list, sync warning shown
     public partial class TPlayerControl : Aow.Units.Engine.TEObject
     {
         // PlayerC.PAS:1
@@ -11158,17 +10763,10 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TExitGameCallBack FExitCallBack;
-        // { $08 }
         public Aow.Units.AoWE.TExitGameMode FExitMode;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_PlayerControl_11;
         public Aow.Rtl.AnsiString FPassword;
-        // { $14 }
         public Aow.Units.Engine.TDoubleItemList FDisconnectedPlayers;
-        // { $18 }
         public bool FOutOfSyncShown;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_PlayerControl_1D;
         // PlayerC.PAS:7
         public override void Destroy()
         {
@@ -11717,7 +11315,6 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:153
-        // { $80 }
         public virtual void EndTurn(sbyte Player)
         {
             Aow.Units.Engine.TEMsg Msg = default;
@@ -12119,8 +11716,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTextControlItem (instance size 20, VMT 5570D198) }
-    // { TTextControlItem: instance size $14; +$08 ID, +$0C Text, +$10 Name. }
+    // ID, Text, Name
     public partial class TTextControlItem : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131738;
@@ -12133,12 +11729,9 @@ namespace Aow.Units.AoWE
         }
 
         public int FID;
-        // { $08 }
         public Aow.Rtl.TStrings FText;
-        // { $0C }
         public Aow.Rtl.AnsiString FName;
         // Structur.PAS:4400
-        // { $10 }
         public override void Destroy()
         {
             FText.Free();
@@ -12161,8 +11754,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTextControl (instance size 12, VMT 5570D270) }
-    // { TTextControl: instance size $0C; inherits the children list at +$08. }
+    // inherits the children list
     public partial class TTextControl : Aow.Units.Engine.TENode
     {
         public TTextControl(TECustomNode owner) : base(owner)
@@ -12253,24 +11845,18 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TNewTurnEventLog: size $24; $18 player, $1C text, $20 mode, $21 dialog style. VMT 5570D448. }
+    // player, text, mode, dialog style
     public partial class TNewTurnEventLog : Aow.Units.EventLog.TEventLog
     {
         public TNewTurnEventLog(TECustomNode owner) : base(owner)
         { }
 
         public sbyte FTurnPlayer;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 FReserved19;
         public Aow.Rtl.AnsiString FText;
-        // { $1C }
         public Aow.Units.AoWE.TNewTurnEventLogMode FMode;
-        // { $20 }
         public TSet<Aow.Units.AoWE.TNewTurnEventLogDialogStyleElement> FDialogStyle;
     }
 
-    // { $21 }
-    // { TTurnPlayerControl: size $20, no added fields. VMT 5570D54C. }
     public partial class TTurnPlayerControl : Aow.Units.AoWE.TPlayerControl
     {
         public new const int ClassID = 131664;
@@ -12507,7 +12093,6 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:854
         public override void SetPlayerGameOverStatus(sbyte Player, Aow.Units.AoWE.TGameOverStatus Status)
         {
-            // { Tried Self identity, Pointer identity, typed with; named enum status local; still differs. }
             base.SetPlayerGameOverStatus(unchecked((sbyte)Player), Status);
             bool bool__1095 = !Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType;
             if (!bool__1095)
@@ -12720,7 +12305,6 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:683
-        // { $98 }
         public void ReplayLogbook()
         {
             Aow.Units.EventLog.TEventLogbook Book = default;
@@ -12776,19 +12360,17 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSendEmailGameEventLog: size $1C; $18 mode, $19 player. VMT 5570D6AC. }
+    // mode, player
     public partial class TSendEmailGameEventLog : Aow.Units.EventLog.TEventLog
     {
         public TSendEmailGameEventLog(TECustomNode owner) : base(owner)
         { }
 
         public byte FMode;
-        // { $18 }
         public sbyte FSendPlayer;
     }
 
-    // { $19 }
-    // { TPBEMPlayerControl: size $24; $20 local player. VMT 5570D7AC. }
+    // local player
     public partial class TPBEMPlayerControl : Aow.Units.AoWE.TTurnPlayerControl
     {
         public new const int ClassID = 131667;
@@ -12797,8 +12379,6 @@ namespace Aow.Units.AoWE
         {}
 
         public sbyte FLocalPlayer;
-        // { $20 }
-        public Aow.Units.FixedArray_byte_3 F_PBEMPlayerControl_21;
         // PlayerC.PAS:984
         public override void NewTurn(sbyte Player)
         {
@@ -13128,7 +12708,7 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:938
         public void SendEmailGameCallBack(Aow.Units.EventLog.TEventLog Log)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetTempPath */
+            /* TODO: Implement Windows.GetTempPath in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -13339,7 +12919,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSimultaniousPlayerControl: size $20, no added fields. VMT 5570D8C8. }
     public partial class TSimultaniousPlayerControl : Aow.Units.AoWE.TPlayerControl
     {
         public new const int ClassID = 131665;
@@ -13497,7 +13076,7 @@ namespace Aow.Units.AoWE
             var call__1227 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers[0];
             Aow.Units.AoWE.AoWE.AoWHSMap.SetSeatedPlayer(unchecked((sbyte)call__1227));
             Aow.Units.AoWE.AoWE.AoWHSMap.SeatedPlayerChanged();
-            Aow.Rtl.Rtl.Assert(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer != 0, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\PlayerC.PAS", 1584);
+            Aow.Rtl.Rtl.Assert(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer != 0, (AnsiString)"", "PlayerC.PAS", 1584);
             Aow.Units.AoWE.AoWE.AoWHSMap.ResetSeatedPlayerView();
             Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.ActivateTC(Aow.Units.AoWE.AoWE.AoWHSMap.FCurrentPlayer);
             Log = new Aow.Units.AoWE.TNewTurnEventLog(null);
@@ -13722,13 +13301,11 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMovepath (instance size 20, VMT 5570D9F0) }
-    // { TMovepath (instance size 20): inherited $04 locations and $08 count;
-//     the signed Flag byte of each location is its movement cost. }
+    // inherited locations and count. the signed Flag byte of each location is its movement cost
     public partial class TMovepath : Aow.Units.HSEngine.TXYLList
     {
         // Structur.PAS:3981
-        // { TMovepath (instance size 20): inherited $04 locations and $08 count. }
+        // inherited locations and count
         public int MovePointsToPos(int MovePoints)
         {
             int Result = default;
@@ -13773,7 +13350,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4004
-        // { conflict: function PosToMovePoints(Index: Integer): Integer; }
         public int GetMovePoints()
         {
             int Result = default;
@@ -13785,14 +13361,11 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveSettings (instance size 44): $08 FPath, $0C FPathMovePoints,
-//     $10 FMoveObject, $14 FMovePoints, $1C FPriority, $20 FSelection,
-//     $24 FMovePos, $28 FValid. }
+    // FPath, FPathMovePoints, FMoveObject, FMovePoints, FPriority, FSelection, FMovePos, FValid
     public partial class TMoveSettings : Aow.Units.Engine.TEObject
     {
         // Structur.PAS:4011
-        // { TMoveSettings (instance size 44): $08 path, $0C path cost, $10 object,
-//   $14 available points, $1C priority, $20 selection, $24 position, $28 valid. }
+        // path, path cost, object, available points, priority, selection, position, valid
         public TMoveSettings(TECustomNode owner) : base(owner)
         {
             var call__1253 = new Aow.Units.AoWE.TMovepath();
@@ -13801,26 +13374,14 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TMovepath FPath;
-        // { $08 }
         public int FPathMovePoints;
-        // { $0C }
-        // { conflict: FMoveCost: Integer; }
         public Aow.Rtl.TObject FMoveObject;
-        // { $10 }
-        // { conflict: FMoveObject: THexagonSprite; }
         public int FMovePoints;
-        // { $14 }
         public int FMoves;
-        // { $18 }
         public int FPriority;
-        // { $1C }
         public int FSelection;
-        // { $20; 5578C260 }
         public int FMovePos;
-        // { $24 }
         public bool FValid;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 FReserved29;
         // Structur.PAS:4018
         public override void Destroy()
         {
@@ -13858,14 +13419,14 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveSettingsList (instance size 12): inherited $08 FChildren. }
+    // inherited FChildren
     public partial class TMoveSettingsList : Aow.Units.Engine.TENode
     {
         public TMoveSettingsList(TECustomNode owner) : base(owner)
         {}
 
         // Structur.PAS:4040
-        // { TMoveSettingsList (instance size 12): inherited $08 FChildren. }
+        // inherited FChildren
         public Aow.Units.AoWE.TMoveSettings GetMoveSettings(int Index)
         {
             Aow.Units.AoWE.TMoveSettings Result = default;
@@ -13922,7 +13483,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4075
-        // { conflict: function IndexOfMoveObject(Obj: THexagonSprite): Integer; }
         public void CalculateMovePositions(Aow.Units.AoWE.TValidateMovePositionProc Validate)
         {
             int I = default;
@@ -13992,13 +13552,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveSelector (instance size 24, VMT 5570DC88) }
     public partial class TMoveSelector : Aow.Rtl.TObject
     {
         // Structur.PAS:4109
-        // { TMoveSelector (instance size 24): $04 control settings, $08 moves, $0C current move,
-//   $10 map, $14 status. }
-        // { $30 }
+        // control settings, moves, current move, map, status
         public TMoveSelector()
         {
             var call__1352 = CreateMCS();
@@ -14010,16 +13567,10 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TMoveControlSettings FMoveControlSettings;
-        // { $04 }
         public Aow.Units.AoWE.TMoveSettingsList FMoveSettingsList;
-        // { $08; 5577468B }
         public int FCurrentMove;
-        // { $0C }
         public Aow.Units.AoWE.TAbstractAoWHSMap FMap;
-        // { $10; AoWTCPCK 0041FD22 }
         public TSet<Aow.Units.AoWE.TMoveSelectorStatusElement> FStatus;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_MoveSelector_15;
         // Structur.PAS:4118
         public override void Destroy()
         {
@@ -14036,7 +13587,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4214
-        // { $000 }
         public virtual void MouseDownEvent(Aow.Rtl.TObject Sender)
         {
             Aow.Rtl.TObject Capture = default;
@@ -14060,19 +13610,16 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4197
-        // { $04 }
         public virtual void CalculateMovePath(int Index, sbyte X, sbyte Y, sbyte L)
         {
         }
 
         // Structur.PAS:4189
-        // { $08 }
         public virtual void UpdateMoveCursor()
         {
         }
 
         // Structur.PAS:4126
-        // { $00C }
         public virtual Aow.Units.AoWE.TMoveControlSettings CreateMCS()
         {
             Aow.Units.AoWE.TMoveControlSettings Result = default;
@@ -14081,17 +13628,14 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4138
-        // { $010 }
         public virtual void SetCurrentMove(int A1)
         {
             FCurrentMove = A1;
         }
 
         // Structur.PAS:4200
-        // { $014 }
         public virtual void SelectPath(sbyte X, sbyte Y, sbyte L)
         {
-            // { Tried Self identity, Pointer identity, typed with; typed settings receiver at each path access; still differs. }
             if ((FCurrentMove != -1) && (X != -1))
             {
                 var moveSettings = FMoveSettingsList.GetMoveSettings(FCurrentMove);
@@ -14137,7 +13681,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4143
-        // { $18 }
         public virtual void Unselect()
         {
             Deactivate();
@@ -14145,7 +13688,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4149
-        // { +01C }
         public virtual bool ValidateSelection(Aow.Units.AoWE.TAoWMapField Field)
         {
             bool Result = default;
@@ -14154,13 +13696,11 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4154
-        // { $20 }
         public virtual void ExecuteMove()
         {
         }
 
         // Structur.PAS:4225
-        // { $024 }
         public virtual void Activate(Aow.Units.AoWE.TAbstractAoWHSMap Map)
         {
             if (FStatus.Contains(Aow.Units.AoWE.TMoveSelectorStatusElement.mssActivated))
@@ -14180,7 +13720,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4239
-        // { $28 }
         public virtual void Deactivate()
         {
             if (FStatus.Contains(Aow.Units.AoWE.TMoveSelectorStatusElement.mssActivated))
@@ -14200,7 +13739,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4253
-        // { $02C }
         public virtual void ShowMovePaths(in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             int X1 = default;
@@ -14537,9 +14075,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:4109
-        // { TMoveSelector (instance size 24): $04 control settings, $08 moves, $0C current move,
-//   $10 map, $14 status. }
-        // { $30 }
+        // control settings, moves, current move, map, status
 
 
 
@@ -14616,8 +14152,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { TSelectedArmy (instance size $28): $18 mode, $1C road builder ID,
-//     $20 selected graphics references, $24 ignore next mouse-down. }
+    // mode, road builder ID, selected graphics references, ignore next mouse-down
     public partial class TSelectedArmy : Aow.Units.AoWE.TMoveSelector
     {
         // Army.PAS:3567
@@ -14628,15 +14163,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TSelectedArmyMode FMode;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_SelectedArmy_19;
         public int FRoadBuilderID;
-        // { $1C }
         public Aow.Units.Engine.TIntegerList FSelectedUnitGFX;
-        // { $20 }
         public bool FIgnoreMouseDown;
-        // { $24; 557632E7 }
-        public Aow.Units.FixedArray_byte_3 F_SelectedArmy_25;
         // Army.PAS:3573
         public override void Destroy()
         {
@@ -15373,7 +14902,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:3685
-        // { conflict: procedure OnDestroyArmy(Army: TArmy); }
         public void RectangleSelectEvent(Aow.Rtl.TObject Sender)
         {
             int X1 = default;
@@ -15457,7 +14985,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:3731
-        // { conflict: procedure RectangleSelectEvent(Mouse: TAbstractAoWHSMapMouse); }
         public bool ValidMultiMoveSelection(Aow.Units.AoWE.TAoWMapField Field)
         {
             bool Result = default;
@@ -15716,7 +15243,6 @@ namespace Aow.Units.AoWE
         // Army.PAS:4146
         public void Center()
         {
-            // { Tried explicit global receiver; differs. }
             if (GetArmyHS() != null)
             {
                 var aoWHSMap = Aow.Units.AoWE.AoWE.AoWHSMap;
@@ -15777,14 +15303,11 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TTargetSelectionControl (instance size 92, VMT 5570E03C) }
     public partial class TTargetSelectionControl : Aow.Rtl.TObject
     {
         // Structur.PAS:3785
-        // { TTargetSelectionControl (instance size 92): $04 images, $08 HNs,
-//   $0C status, $0D mode, $10/$18 callbacks, $20 range, $24..$2C source
-//   coordinates, $30 source, $34 change events, $38 change, $39..$3B target,
-//   $3C text, $40 title, $44 cancel text, $50/$54/$58 images. }
+        // images, HNs, status, mode, callbacks, range, source coordinates, source, change events,
+        // change, target, text, title, cancel text, images
         public TTargetSelectionControl()
         {
             var call__1577 = new Aow.Units.Engine.TEventList();
@@ -15796,54 +15319,29 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
-        // { $04 }
         public Aow.Units.Engine.TShortIntList FHNs;
-        // { $08 }
         public TSet<Aow.Units.AoWE.TTargetSelectionStatusElement> FStatus;
-        // { $0C }
         public TSet<Aow.Units.AoWE.TTargetSelectionModeElement> FTargetMode;
-        // { $0D }
-        public Aow.Units.FixedArray_byte_2 F_TargetSelectionControl_0E;
         public Aow.Units.AoWE.TShowTargetSelectionEvent FOnShow;
-        // { $10 }
         public Aow.Units.AoWE.TValidateTargetEvent FOnValidateTarget;
-        // { $18 }
         public int FRange;
-        // { $20 }
         public int FSourceX;
-        // { $24 }
         public int FSourceY;
-        // { $28 }
         public int FSourceL;
-        // { $2C }
         public Aow.Rtl.TObject FSource;
-        // { $30 }
         public Aow.Units.Engine.TEventList FOnChange;
-        // { $34 }
         public Aow.Units.AoWE.TTargetSelectionChange FChange;
-        // { $38 }
         public sbyte FTargetX;
-        // { $39 }
         public sbyte FTargetY;
-        // { $3A }
         public sbyte FTargetL;
-        // { $3B }
         public Aow.Rtl.TStrings FText;
-        // { $3C }
         public Aow.Rtl.AnsiString FTitle;
-        // { $40 }
         public Aow.Rtl.AnsiString FCancelText;
-        // { $44 }
         public int FSourceUnitID;
-        // { $48; 5577AE93 }
-        public Aow.Units.FixedArray_byte_4 F_TargetSelectionControl_4C;
         public Aow.Units.ImageLib.TLibraryImage FSourceImage;
-        // { $50 }
         public Aow.Units.ImageLib.TLibraryImage FValidTargetImage;
-        // { $54 }
         public Aow.Units.ImageLib.TLibraryImage FInvalidTargetImage;
         // Structur.PAS:3793
-        // { $58 }
         public override void Destroy()
         {
             FText.Free();
@@ -16140,21 +15638,17 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TNotifyEvent target passed directly at 55774D17. }
-    // { TAoWHSMapKeyboard: size $14; $08 cheat text, $0C mode, $10 lock count. VMT 5570E11C. }
+    // TNotifyEvent target passed directly
+    // cheat text, mode, lock count
     public partial class TAoWHSMapKeyboard : Aow.Units.Engine.TEObject
     {
         public TAoWHSMapKeyboard(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Rtl.AnsiString FCheatText;
-        // { $08 }
         public Aow.Units.AoWE.TAoWHSMapKeyboardMode FMode;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMapKeyboard_0D;
         public int FLockCount;
         // AoWHSMap.PAS:946
-        // { $10 }
         public virtual void KeyDown(ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             ushort TranslatedKey = default;
@@ -16401,7 +15895,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:928
-        // { $4C }
         public void Lock()
         {
             FLockCount += 1;
@@ -16426,7 +15919,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAbstractAoWHSMapMouse: size $50; $3C selection rectangle, $4C events. VMT 5570E22C. }
+    // selection rectangle, events
     public partial class TAbstractAoWHSMapMouse : Aow.Units.HSEngine.THSMapMouse
     {
         public TAbstractAoWHSMapMouse() : base()
@@ -16437,10 +15930,8 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.TRect FSelectionRectangle;
-        // { $3C..$48; 55792672 }
         public Aow.Units.Engine.TEventList FRectangleSelectEvents;
         // AoWHSMap.PAS:1057
-        // { $4C; 55774A94 }
         public override void Destroy()
         {
             base.Destroy();
@@ -16607,7 +16098,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWHSMapMouse: size $50; no additional fields. VMT 5570E2DC. }
     public partial class TAoWHSMapMouse : Aow.Units.AoWE.TAbstractAoWHSMapMouse
     {
 
@@ -16787,45 +16277,23 @@ namespace Aow.Units.AoWE
         }
 
         public sbyte FCurrentPlayer;
-        // { $A4 }
         public sbyte FSeatedPlayer;
-        // { $A5 }
-        public Aow.Units.FixedArray_byte_2 FReservedA6;
         public Aow.Units.Engine.TEventList FShowMessageEvents;
-        // { $A8 }
         public Aow.Rtl.AnsiString FMessageText;
-        // { $AC }
         public byte FMessageFrame;
-        // { $B0 }
-        public Aow.Units.FixedArray_byte_3 F_AbstractAoWHSMap_B1;
         public int FFPS;
-        // { $B4 }
         public int FMapChangedLockCount;
-        // { $B8 }
         public Aow.Units.Engine.TEventList FMapChangedEvents;
-        // { $BC }
         public Aow.Units.Engine.TEventList FScannerIconsChangedEvents;
-        // { $C0 }
         public int FScannerIconsChangedLockCount;
-        // { $C4 }
         public bool FFogEnabled;
-        // { $C8 }
         public bool FExplorationEnabled;
-        // { $C9 }
         public bool FShowGrid;
-        // { $CA; 55778A78 }
-        public Aow.Units.FixedArray_byte_1 F_AbstractAoWHSMap_CB;
         public Aow.Units.HSEngine.TCustomFixedVisibleHS FBackHexagonSelector;
-        // { $CC }
         public Aow.Units.HSEngine.TCustomFixedVisibleHS FFrontHexagonSelector;
-        // { $D0 }
         public sbyte FSelectorX;
-        // { $D4 }
         public sbyte FSelectorY;
-        // { $D5 }
         public bool FHexagonSelectorVisible;
-        // { $D6 }
-        public Aow.Units.FixedArray_byte_1 F_AbstractAoWHSMap_D7;
         // AoWHSMap.PAS:383
         public override void Destroy()
         {
@@ -16991,7 +16459,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:772
-        // { $EC }
         public virtual void ShowFrontHexagonSelector(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
@@ -17007,7 +16474,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:785
-        // { $F0 }
         public virtual void UpdateHexagonSelector()
         {
             int Xhp = default;
@@ -17052,21 +16518,18 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:590
-        // { $F4 }
         public virtual void SetSeatedPlayer(sbyte A1)
         {
             FSeatedPlayer = unchecked((sbyte)A1);
         }
 
         // AoWHSMap.PAS:594
-        // { $F8 }
         public virtual void SetCurrentPlayer(sbyte A1)
         {
             FCurrentPlayer = unchecked((sbyte)A1);
         }
 
         // AoWHSMap.PAS:401
-        // { $FC }
         public virtual void SetFogEnabled(bool Value)
         {
             if (Value != FFogEnabled)
@@ -17077,7 +16540,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:410
-        // { $100 }
         public virtual void SetExplorationEnabled(bool Value)
         {
             if (Value != FExplorationEnabled)
@@ -17089,7 +16551,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:871
-        // { $104 }
         public virtual void DropHeroItem(Aow.Units.AoWE.THero Hero, Aow.Units.AoWE.TItem Item)
         {
             sbyte X = default;
@@ -17100,7 +16561,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:878
-        // { $108 }
         public virtual Aow.Units.AoWE.TItemList GetHeroItemsOnGround(Aow.Units.AoWE.THero Hero)
         {
             Aow.Units.AoWE.TItemList Result = default;
@@ -17125,7 +16585,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:578
-        // { $10C }
         public virtual void ShowMessage(Aow.Rtl.AnsiString Text)
         {
             var notification = new Aow.Units.AoWE.ShowMessageNotification();
@@ -17181,7 +16640,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:435
         public void UnlockMapChangedEvent()
         {
-            Aow.Rtl.Rtl.Assert(FMapChangedLockCount != 0, (AnsiString)"Invalid MapChanged Lock usage", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AoWHSMap.PAS", 437);
+            Aow.Rtl.Rtl.Assert(FMapChangedLockCount != 0, (AnsiString)"Invalid MapChanged Lock usage", "AoWHSMap.PAS", 437);
             FMapChangedLockCount -= 1;
         }
 
@@ -17268,7 +16727,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:495
         public void UnlockScannerIconsChangedEvent()
         {
-            Aow.Rtl.Rtl.Assert(FScannerIconsChangedLockCount != 0, (AnsiString)"Invalid ScannerIcons Lock usage", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AoWHSMap.PAS", 497);
+            Aow.Rtl.Rtl.Assert(FScannerIconsChangedLockCount != 0, (AnsiString)"Invalid ScannerIcons Lock usage", "AoWHSMap.PAS", 497);
             FScannerIconsChangedLockCount -= 1;
         }
 
@@ -17383,7 +16842,7 @@ namespace Aow.Units.AoWE
         public bool FogArea(int X, int Y, int Level, int Range)
         {
             bool Result = default;
-            Aow.Rtl.Rtl.Assert(Range <= 15, (AnsiString)"Invalid Unfog Range", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AoWHSMap.PAS", 600);
+            Aow.Rtl.Rtl.Assert(Range <= 15, (AnsiString)"Invalid Unfog Range", "AoWHSMap.PAS", 600);
             var call__1670 = MapContainer.GetMapLevel(Level);
             var call__1671 = ((Aow.Units.AoWE.TAoWMapLevel)call__1670).FogArea(X, Y, Range);
             Result = call__1671;
@@ -17399,7 +16858,7 @@ namespace Aow.Units.AoWE
         public bool UnFogArea(int X, int Y, int Level, int Range)
         {
             bool Result = default;
-            Aow.Rtl.Rtl.Assert(Range <= 15, (AnsiString)"Invalid Unfog Range", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AoWHSMap.PAS", 607);
+            Aow.Rtl.Rtl.Assert(Range <= 15, (AnsiString)"Invalid Unfog Range", "AoWHSMap.PAS", 607);
             var call__1672 = MapContainer.GetMapLevel(Level);
             var call__1673 = ((Aow.Units.AoWE.TAoWMapLevel)call__1672).UnFogArea(X, Y, Range);
             Result = call__1673;
@@ -17442,7 +16901,7 @@ namespace Aow.Units.AoWE
             Radius = Range;
             if (Radius > 15)
             {
-                /* TODO(T-8.2) Inline assembly needs a mapped rule or override */
+                /* TODO: Implement the inline assembly operation. */
                 throw new System.NotImplementedException();
             }
 
@@ -17484,7 +16943,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:738
-        // { conflict: procedure DrawFog(const SD: TSurfaceDesc); }
         public void ShowHexagonSelector()
         {
             if (!FHexagonSelectorVisible)
@@ -17531,16 +16989,13 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { conflict: procedure DrawSelectionRect(X, Y: Integer; const R: TRect; const SD: TSurfaceDesc); }
-    // { TAbstractAoWCombatMap: size $E0; $D8/$DC combat event lists. VMT 5570E548. }
+    // combat event lists
     public partial class TAbstractAoWCombatMap : Aow.Units.AoWE.TAbstractAoWHSMap
     {
 
         public Aow.Units.Engine.TEventList FCombatStartedEvents;
-        // { $D8 }
         public Aow.Units.Engine.TEventList FAbilityActivatedEvents;
         // AoWHSMap.PAS:914
-        // { $DC; 5574F004 }
         public override void Destroy()
         {
             base.Destroy();
@@ -17559,8 +17014,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTutorialControl (instance size 12, VMT 5570E6E4) }
-    // { TTutorialControl: size $0C; +$08 list of shown message IDs. }
+    // list of shown message IDs
     public partial class TTutorialControl : Aow.Units.Engine.TEObject
     {
         // AoWHSMap.PAS:1
@@ -17572,7 +17026,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.Engine.TIntegerList FShownMessages;
         // AoWHSMap.PAS:6
-        // { $08 }
         public override void Destroy()
         {
             FShownMessages.Free();
@@ -17626,7 +17079,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStartupSongList: instance size $10; inherited $08 Songs, $0C SongNames. VMT 5570E7AC. }
+    // inherited Songs, SongNames
     public partial class TStartupSongList : Aow.Units.Sound.TSonglist
     {
         // AoWHSMap.PAS:1215
@@ -17666,249 +17119,120 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWHSMap: size $41C; $E4 map name, $F8 heroes, $139 game mode, $13A stream mode,
-//     $148 fixed leaders, $14B allied victory, $158 day limit, $16C turn order,
-//     $19C/$1A0 day/turn events, $1D8 event-log locks, $1E8 diplomacy events,
-//     $22C initial seed, $230 random seed, $238 debug save, $240 communicator,
-//     $24C..$417 token log Text, $418 logging enabled. VMT 5570E874. }
+    // map name, heroes, game mode, stream mode, fixed leaders, allied victory, day limit, turn
+    // order, day/turn events, event-log locks, diplomacy events, initial seed, random seed, debug
+    // save, communicator, token log Text, logging enabled
     public partial class TAoWHSMap : Aow.Units.AoWE.TAbstractAoWHSMap
     {
 
         public new const int ClassID = 131089;
 
         public Aow.Units.AoWE.TSelectedArmy FSelectedArmy;
-        // { $D8 }
         public bool FIgnoreStreamErrors;
-        // { $DC }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMap_DD;
         public Aow.Units.AoWE.TTargetSelectionControl FTargetSelection;
-        // { $E0 }
         public Aow.Rtl.AnsiString FMapName;
-        // { $E4 }
         public Aow.Rtl.AnsiString FAuthor;
-        // { $E8 }
         public int FSphereCount;
-        // { $EC }
         public Aow.Rtl.TStringList FDescription;
-        // { $F0 }
         public Aow.Units.AoWE.TItemControl FItemControl;
-        // { $F4 }
         public Aow.Units.AoWE.THeroControl FHeroControl;
-        // { $F8 }
         public Aow.Units.AoWE.TUnitControl FUnitControl;
-        // { $FC }
         public Aow.Units.AoWE.TStructureControl FStructureControl;
-        // { $100; 5575F6CF }
         public Aow.Units.AoWE.TIndependentAIMode FIndependentAIMode;
-        // { $104 }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMap_105;
         public Aow.Rtl.TStringList FObjectives;
-        // { $108 }
         public sbyte FHeroCountMax;
-        // { $10C }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMap_10D;
         public Aow.Units.AoWE.TStartupSongList FStartupSongs;
-        // { $110 }
         public Aow.Units.Sound.TSonglist FGameSongs;
-        // { $114 }
         public Aow.Units.AoWE.TGameStatus FGameStatus;
-        // { $118 }
         public Aow.Units.AoWE.TGameResult FGameResult;
-        // { $119 }
         public Aow.Units.AoWE.TGameType FGameType;
-        // { $11A }
-        public Aow.Units.FixedArray_byte_1 F_AoWHSMap_11B;
         public Aow.Units.AoWE.TAbstractAoWCombatMap FCombatMap;
-        // { $11C }
         public Aow.Units.AoWE.TCombat FCombat;
-        // { $120 }
         public Aow.Units.AoWE.TTutorialControl FTutorialControl;
-        // { $124 }
         public Aow.Units.AoWE.TAIExecuter FAIExecuter;
-        // { $128 }
         public Aow.Units.AoWE.TAIPlayerActionManager FAIPlayerActionManager;
-        // { $12C }
         public Aow.Units.AoWE.TAIGroupManager FAIGroupManager;
-        // { $130 }
         public Aow.Units.AoWE.TAoWHSMapKeyboard FKeyboard;
-        // { $134; 5576374C }
         public bool FUnlimitedMoves;
-        // { $138 }
         public bool FRequestCombatType;
-        // { $139 }
-        // { conflict: FGameMode: Byte; }
-        // { conflict: FTacticalCombatEnabled: Boolean; }
         public Aow.Units.AoWE.TPlayerConnectionType FConnectionType;
-        // { $13A }
-        // { conflict: FStreamMode: Byte; }
-        // { conflict: FTacticalCombatAvailability: TTacticalCombatAvailability; }
-        public Aow.Units.FixedArray_byte_1 F_AoWHSMap_13B;
         public Aow.Units.AoWE.TTextControl FTextControl;
-        // { $13C }
         public Aow.Units.AoWE.TPlayerList FPlayers;
-        // { $140 }
         public Aow.Units.AoWE.TRaceList FRaces;
-        // { $144 }
         public bool FFixedLeaders;
-        // { $148 }
         public bool FLeadersFixed;
-        // { $149; 55786C99 }
         public bool FStartingGame;
-        // { $14A }
         public bool FAlliedVictory;
-        // { $14B }
         public byte FVictoryMode;
-        // { $14C }
         public Aow.Units.AoWE.TVictoryCondition FVictoryCondition;
-        // { $14D }
-        public Aow.Units.FixedArray_byte_2 F_AoWHSMap_14E;
         public int FVictoryMana;
-        // { $150 }
         public int FVictoryGold;
-        // { $154 }
         public int FDayLimit;
-        // { $158 }
         public int FTurnTime;
-        // { $15C }
         public int FTurnTimeElapsed;
-        // { $160 }
         public int FTurnTimeBeep;
-        // { $164 }
         public int FTurnTimerStart;
-        // { $168 }
         public Aow.Units.AoWE.TTurnOrderMode FTurnOrderMode;
-        // { $16C }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMap_16D;
         public Aow.Units.Engine.TByteList FTurnOrder;
-        // { $170 }
         public int FDay;
-        // { $174 }
         public Aow.Rtl.AnsiString FSessionName;
-        // { $178 }
         public Aow.Units.Engine.TEventList FOnLeaderChanged;
-        // { $17C; 5578B0B7 }
         public bool FShowIndependentMoves;
-        // { $180 }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMap_181;
         public Aow.Units.AoWE.TMoveControl FMoveControl;
-        // { $184 }
         public Aow.Units.AoWE.TGlobalMagicControl FGlobalMagicControl;
-        // { $188 }
-        // { conflict: FPlayerControl: TPlayerControl; }
         public Aow.Units.AoWE.TAoWMapCampaignSettings FCampaignSettings;
-        // { $18C }
         public sbyte FEditorPlayer;
-        // { $190, read at $55784FB4 }
         public bool FShowAllPlayers;
-        // { $191 }
-        public Aow.Units.FixedArray_byte_2 F_AoWHSMap_192;
         public int FRelationsChangedLockCount;
-        // { $194 }
         public Aow.Units.Engine.TEventList FPlayerChangedEvents;
-        // { $198 }
         public Aow.Units.Engine.TEventList FNewDayEvents;
-        // { $19C }
         public Aow.Units.Engine.TEventList FNewTurnEvents;
-        // { $1A0 }
         public Aow.Units.Engine.TEventList FEndTurnEvents;
-        // { $1A4 }
         public Aow.Units.Engine.TEventList FCurrentPlayerChangedEvents;
-        // { $1A8 }
         public Aow.Units.Engine.TEventList FSeatedPlayerChangedEvents;
-        // { $1AC }
         public Aow.Units.Engine.TEventList FCombatEvents;
-        // { $1B0 }
         public Aow.Units.Engine.TEventList FPlayerTerminatedEvents;
-        // { $1B4 }
         public Aow.Units.Engine.TEventList FGameOverEvents;
-        // { $1B8 }
         public Aow.Units.Engine.TEventList FGameTerminatedEvents;
-        // { $1BC }
         public bool FExitPending;
-        // { $1C0 }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMap_1C1;
         public Aow.Units.Engine.TEventList FExitEvents;
-        // { $1C4 }
         public int FGameOverLockCount;
-        // { $1C8 }
         public Aow.Units.EventLog.TEventLogList FExecuteEventLogBuffer;
-        // { $1CC }
         public Aow.Units.Engine.TEventList FExecuteEventLogEvents;
-        // { $1D0 }
         public Aow.Units.EventLog.TExecuteEventLogCallBackList FExecuteEventLogCallBacks;
-        // { $1D4 }
         public int FAILockCount;
-        // { $1D8 }
         public int FExecuteEventLogDelay;
-        // { $1DC }
         public Aow.Units.Engine.TEventList FCosmeticSurgeryEvents;
-        // { $1E0 }
         public Aow.Units.Engine.TEventList FOnActivateAbility;
-        // { $1E4 }
         public Aow.Units.Engine.TEventList FDiplomaticRelationsChangedEvents;
-        // { $1E8 }
         public Aow.Units.Engine.TEventList FUpdateVisibilityEvents;
-        // { $1EC }
         public Aow.Rtl.TList FEffects;
-        // { $1F0 }
         public int FUpdateVisibilityLockCount;
-        // { $1F4 }
         public bool FVisibilityChanged;
-        // { $1F8 }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMap_1F9;
         public int FArmyUpdateCount;
-        // { $1FC }
         public int FStructureUpdateCount;
-        // { $200 }
         public int FUnitUpdateCount;
-        // { $204 }
         public Aow.Units.Engine.TEventList FUnitChangedEvents;
-        // { $208 }
         public Aow.Units.Engine.TEventList FArmyChangedEvents;
-        // { $20C }
         public Aow.Units.Engine.TEventList FStructureChangedEvents;
-        // { $210 }
         public Aow.Units.Engine.TEventList FUnitDestroyedEvents;
-        // { $214 }
         public Aow.Units.Engine.TEventList FArmyDestroyedEvents;
-        // { $218 }
         public Aow.Units.Engine.TEventList FStructureDestroyedEvents;
-        // { $21C }
         public Aow.Units.Engine.TEventList FTokenControlActivatedEvents;
-        // { $220 }
         public Aow.Units.Engine.TEventList FCombatMapCreatedEvents;
-        // { $224 }
         public Aow.Units.Engine.TEventList FCombatMapDestroyedEvents;
-        // { $228 }
         public int FInitialRandomSeed;
-        // { $22C }
-        // { conflict: FRandomSeed: Integer; }
         public int FDefendersSeed;
-        // { $230 }
         public int FSynchroniseCount;
-        // { $234 }
         public bool FDebugSave;
-        // { $238 }
         public Aow.Units.AoWE.TPlayMode FPlayMode;
-        // { $239 }
-        public Aow.Units.FixedArray_byte_2 F_AoWHSMap_23A;
         public Aow.Units.NetworkE.TTokenManager FTokenManager;
-        // { $23C }
-        // { conflict: FTokenManager: TAoWTokenManager; }
         public Aow.Units.NetworkE.TPlayerCommunicator FPlayerCommunicator;
-        // { $240 }
         public Aow.Units.AoWE.TPlayerControl FPlayerControl;
-        // { $244 }
         public bool FUseTurnTimer;
-        // { $248 }
         public bool FShowUnitShadows;
-        // { $249, tested at $55783E36 }
-        public Aow.Units.FixedArray_byte_2 F_AoWHSMap_24A;
         public Aow.Rtl.Text FTokenEventLog;
-        // { $24C..$417 }
         public bool FTokenEventLogging;
-        // { $418 }
-        public Aow.Units.FixedArray_byte_3 F_AoWHSMap_419;
         // AoWHSMap.PAS:1336
         public override void Destroy()
         {
@@ -18760,19 +18084,16 @@ namespace Aow.Units.AoWE
         public virtual void TriggerGameTerminatedEvent()
         {
             FGameStatus = Aow.Units.AoWE.TGameStatus.gsTerminated;
-            // { Original dispatches through $1B8. }
             FGameOverEvents.TriggerNotifyEvents(this);
         }
 
         // AoWHSMap.PAS:2012
-        // { +11C draft }
         public virtual void TriggerPlayerTerminatedEvent(int Player)
         {
             FPlayerTerminatedEvents.TriggerNotifyEvents(Aow.Rtl.Rtl.IntToObject((int)Player));
         }
 
         // AoWHSMap.PAS:2586
-        // { $120 }
         public virtual void StartNewMap()
         {
             int I = default;
@@ -18832,14 +18153,12 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2615
-        // { +124 draft }
         public virtual void StartLoadedMap()
         {
             FPlayerControl.StartLoadedMap();
         }
 
         // AoWHSMap.PAS:1996
-        // { +128 draft }
         public virtual void TriggerExecuteEventLog(Aow.Units.EventLog.TEventLog Log, bool Immediate, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
             var notification = new Aow.Units.AoWE.ExecuteEventLogNotification();
@@ -19482,12 +18801,12 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:1860
         public void ArmyDestroyed(Aow.Units.AoWE.TArmy Army)
         {
-            // { TArmy.Destroy passes its Self pointer at 5578C1C9. }
+            // TArmy.Destroy passes its Self pointer
             FArmyDestroyedEvents.TriggerNotifyEvents(Army);
         }
 
         // AoWHSMap.PAS:1866
-        // { TArmy.Destroy passes TArmy at 5578C1C9. }
+        // TArmy.Destroy passes TArmy
         public void BeginStructureUpdate()
         {
             FStructureUpdateCount += 1;
@@ -19767,13 +19086,11 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2085
-        // { conflict: procedure GameOver(A1: Byte; A2: TGameOverStatus); }
         public void VerifyAddOnPacks()
         {
         }
 
         // AoWHSMap.PAS:2088
-        // { draft }
         public bool ValidateMap(Aow.Rtl.TStrings Messages)
         {
             bool Result = default;
@@ -20170,7 +19487,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2502
-        // { draft }
         public void ResetSeatedPlayerView()
         {
             Aow.Units.AoWE.TPlayer Player = default;
@@ -20236,7 +19552,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2552
-        // { draft }
         public void TokenControlActivatedEvent(Aow.Rtl.TObject Sender)
         {
             int Player = default;
@@ -20314,7 +19629,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2703
-        // { draft }
         public int Random(int Range)
         {
             int Result = default;
@@ -20371,7 +19685,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2749
-        // { draft }
         public bool EndTurn()
         {
             bool Result = default;
@@ -20426,7 +19739,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2790
-        // { draft }
         public void UnLockUpdateVisibility()
         {
             FUpdateVisibilityLockCount -= 1;
@@ -20437,7 +19749,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2797
-        // { draft }
         public void UpdateVisibility()
         {
             Aow.Units.Engine.TEMsg Msg = default;
@@ -20461,7 +19772,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2817
-        // { draft }
         public void ResetMapLevels()
         {
             int I = default;
@@ -20480,13 +19790,11 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2867
-        // { draft }
         public void ExecuteNegotiateMove(int A1, int A2, int A3, int A4, int A5)
         {
         }
 
         // AoWHSMap.PAS:2870
-        // { draft }
         public void InitializeCombatMap(Aow.Units.AoWE.TCombat A1, Aow.Rtl.AnsiString FileName)
         {
             Aow.Units.AoWE.TPlayer Player = default;
@@ -20524,7 +19832,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2903
-        // { draft }
         public Aow.Units.AoWE.TCombat CreateCombat(int AClassID)
         {
             Aow.Units.AoWE.TCombat Result = default;
@@ -20675,22 +19982,19 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:3038
-        // { draft }
         public void LockRelationsChanged()
         {
             FRelationsChangedLockCount += 1;
         }
 
         // AoWHSMap.PAS:3044
-        // { draft }
         public void UnlockRelationsChanged()
         {
-            Aow.Rtl.Rtl.Assert(FRelationsChangedLockCount != 0, (AnsiString)"Invalid MapChanged Lock usage", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AoWHSMap.PAS", 3056);
+            Aow.Rtl.Rtl.Assert(FRelationsChangedLockCount != 0, (AnsiString)"Invalid MapChanged Lock usage", "AoWHSMap.PAS", 3056);
             FRelationsChangedLockCount -= 1;
         }
 
         // AoWHSMap.PAS:3061
-        // { draft }
         public void UpdateTurnTimeBeep()
         {
             int Seconds = default;
@@ -20713,7 +20017,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:3078
-        // { draft }
         public void ResetTurnTimer()
         {
             FTurnTimeElapsed = (FTurnTime * 1000) * 60;
@@ -20722,7 +20025,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:3086
-        // { draft }
         public int GetTurnTimeLeft()
         {
             int Result = default;
@@ -20771,7 +20073,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:3114
-        // { draft }
         public void DisableTurnTimer()
         {
             int Time = default;
@@ -20786,14 +20087,12 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:3124
-        // { draft }
         public void ZeroTurnTimer()
         {
             FTurnTimeElapsed = 0;
         }
 
         // AoWHSMap.PAS:3144
-        // { draft }
         public void CenterOnLeader(sbyte Player, bool Select, bool Animate)
         {
             sbyte X = default;
@@ -20918,7 +20217,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:3219
-        // { draft }
         public Aow.Units.AoWE.TWorldFXHS AddEffect(Aow.Units.AoWE.TworldFXType EffectType)
         {
             Aow.Units.AoWE.TWorldFXHS Result = default;
@@ -20935,9 +20233,8 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { TUnitGFXResource (instance size 72, VMT 5570EA70): +18 FName; +1C FFaceIndex;
-//     +20 FFaceImageLibrary; +24 FFaceImageLibraryName; +28 FSequences; +2C FRefCount;
-//     +30 flags; +34..44 FSFXLibraries. }
+    // FName. FFaceIndex. FFaceImageLibrary. FFaceImageLibraryName. FSequences. FRefCount. flags.
+    // FSFXLibraries
     public partial class TUnitGFXResource : Aow.Units.Engine.TEResource
     {
         public new const int ClassID = 131600;
@@ -20961,24 +20258,14 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.AnsiString FName;
-        // { $18 }
         public int FFaceIndex;
-        // { $1C }
         public Aow.Units.ImageLib.TCustomImageLibrary FFaceImageLibrary;
-        // { $20 }
         public Aow.Rtl.AnsiString FFaceImageLibraryName;
-        // { $24 }
         public Aow.Units.ImageLib.TImageSequenceList FSequences;
         public int FRefCount;
-        // { $2C }
         public byte F_UnitGFXResource_30;
-        public Aow.Units.FixedArray_byte_3 F_UnitGFXResource_31;
         public Aow.Units.FixedArray_Aow_Units_Sound_TSFXLibrary_5 FSFXLibraries;
         // UnitHS.PAS:12
-        // { $34..$44 }
-        // { conflict: FSFXLibrary: TSFXLibrary; }
-        // { conflict: FHitSFXLibrary: TSFXLibrary; }
-        // { conflict: FDeathSFXLibrary: TSFXLibrary; }
         public override void Destroy()
         {
             if (FRefCount != 0)
@@ -21187,7 +20474,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitGFXResourceList (instance size 20, VMT 5570EB68) }
     public partial class TUnitGFXResourceList : Aow.Units.Engine.TEResourceList
     {
         // UnitHS.PAS:133
@@ -21235,7 +20521,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWMapObjectEditor (instance size 8, VMT 5570EC78) }
     public partial class TAoWMapObjectEditor : Aow.Units.Engine.TEObjectEditor, Aow.Units.Engine.IEObjectEditorClass
     {
         public TAoWMapObjectEditor(TECustomNode owner) : base(owner)
@@ -21246,7 +20531,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitShadowHS (instance size 12, VMT 5570ED54): +08 FUnitHS. }
+    // FUnitHS
     public partial class TUnitShadowHS : Aow.Units.HSEngine.THexagonSprite
     {
         public TUnitShadowHS(TECustomNode owner) : base(owner)
@@ -21254,7 +20539,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TUnitHS FUnitHS;
         // UnitHS.PAS:153
-        // { $08 }
         public override int GetShowPriority()
         {
             int Result = default;
@@ -21270,8 +20554,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TUnitHS (instance size 28, VMT 5570EED0): +08 FStatus; +0C FShowPriority;
-//     +10 FUnitGFXResource; +14 FDirection; +15 FMoveStep; +16 FFlagID; +18 FShadow. }
+    // FStatus. FShowPriority. FUnitGFXResource. FDirection. FMoveStep. FFlagID. FShadow
     public partial class TUnitHS : Aow.Units.HSEngine.THexagonSprite
     {
         public TUnitHS(TECustomNode owner) : base(owner)
@@ -21284,22 +20567,15 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131604;
 
         public byte FStatus;
-        // { $08: visible, edit, selected, paused, instant move }
-        public Aow.Units.FixedArray_byte_3 F_UnitHS_09;
+        // visible, edit, selected, paused, instant move
         public int FShowPriority;
-        // { $0C }
         public Aow.Units.AoWE.TUnitGFXResource FUnitGFXResource;
-        // { $10 }
         public byte FDirection;
-        // { $14 }
         public sbyte FMoveStep;
-        // { $15, -1 when idle }
+        // -1 when idle
         public byte FFlagID;
-        // { $16 }
-        public Aow.Units.FixedArray_byte_1 F_UnitHS_17;
         public Aow.Units.AoWE.TUnitShadowHS FShadow;
         // UnitHS.PAS:168
-        // { $18 }
         public override void Destroy()
         {
             DestroyShadow();
@@ -21400,7 +20676,7 @@ namespace Aow.Units.AoWE
         public override sbyte GetLhx()
         {
             sbyte Result = default;
-            Aow.Rtl.Rtl.Assert(Owner != null, (AnsiString)"Onwer isn't defined", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\UnitHS.PAS", 557);
+            Aow.Rtl.Rtl.Assert(Owner != null, (AnsiString)"Onwer isn't defined", "UnitHS.PAS", 557);
             Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner).Lhx);
             return Result;
         }
@@ -21975,7 +21251,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TAbilityData (instance size $0C, +$08 FNext, VMT 5570F05C) }
+    // (FNext,)
     public partial class TAbilityData : Aow.Units.Engine.TEObject
     {
 
@@ -21984,7 +21260,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TAbilityData FNext;
         // Ability.PAS:1234
-        // { $08 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -21994,7 +21269,6 @@ namespace Aow.Units.AoWE
         public virtual int GetAbilityID() => -1;
     }
 
-    // { TActivateAbilityInfo (instance size 28, VMT 5570F120) }
     public partial class TActivateAbilityInfo : Aow.Units.Engine.TEObject
     {
         // Ability.PAS:920
@@ -22004,12 +21278,8 @@ namespace Aow.Units.AoWE
         }
 
         public int FReferences;
-        // { $08 }
         public int FUnitID;
-        // { $0C }
         public int FAbilityID;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_8 F_ActivateAbilityInfo_14;
 
         // Ability.PAS:926
         public override int AddRef()
@@ -22040,9 +21310,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAbility: size $24; $08 name, $0C ID, $10 description, $14 cost,
-//     $18 SFX library, $1C image sequences, $20 selection types.
-//     Procedure return-ABI adapters preserve unmarked overrides in other packages. }
+    // name, ID, description, cost, SFX library, image sequences, selection types. Procedure
+    // return-ABI adapters preserve unmarked overrides in other packages
     public partial class TAbility : Aow.Units.Engine.TEObject
     {
 
@@ -22058,20 +21327,12 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.AnsiString FAbilityName;
-        // { $08 }
         public int FAbilityID;
-        // { $0C }
         public Aow.Rtl.TStringList FDescription;
-        // { $10 }
         public int FSkillPointCost;
-        // { $14 }
         public Aow.Units.Sound.TSFXLibrary FSFXLibrary;
-        // { $18 }
         public Aow.Units.ImageLib.TImageSequenceList FImageSequences;
-        // { $1C }
         public TSet<Aow.Units.AoWE.TAbilitySelectionType> FSelectionTypes;
-        // { $20 }
-        public Aow.Units.FixedArray_byte_2 F_Ability_22;
         // Ability.PAS:1245
         public override void Destroy()
         {
@@ -22098,11 +21359,9 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1477
-        // { +04C draft }
         public virtual bool GetHidden() => false;
 
         // Ability.PAS:1563
-        // { +050 draft }
         public virtual Aow.Units.AoWE.TAbilityType GetAbilityType() => (Aow.Units.AoWE.TAbilityType)0;
 
         // Ability.PAS:1449
@@ -22123,34 +21382,27 @@ namespace Aow.Units.AoWE
         public virtual sbyte GetResistance(Aow.Units.AoWE.TAbilityOwner A1) => 0;
 
         // Ability.PAS:1467
-        // { +064 }
         public virtual sbyte GetDamage(Aow.Units.AoWE.TAbilityOwner A1) => 0;
 
         // Ability.PAS:1472
-        // { +068 }
         public virtual TSet<Aow.Units.AoWE.TMoveType> GetMoveTypes(Aow.Units.AoWE.TAbilityOwner A1) => Aow.Units.AoWE.AoWE.P1EmptyMoveTypes;
 
         // Ability.PAS:1482
-        // { +06C }
         public virtual int GetLevel(Aow.Units.AoWE.TAbilityOwner A1) => 0;
 
         // Ability.PAS:1550
-        // { +074 }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetImmunityTypes(Aow.Units.AoWE.TAbilityOwner A1) => Aow.Units.AoWE.AoWE.P1EmptyDamageTypes;
 
         // Ability.PAS:1555
-        // { +078 }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetProtectionTypes(Aow.Units.AoWE.TAbilityOwner A1) => Aow.Units.AoWE.AoWE.P1EmptyDamageTypes;
 
         // Ability.PAS:1268
-        // { +080 }
         public virtual Aow.Units.AoWE.TCombatMode GetCombatMode(Aow.Units.AoWE.TAbilityOwner A1) => (Aow.Units.AoWE.TCombatMode)0;
 
         // Ability.PAS:1341
         public virtual TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> GetWallCombatFeatures(Aow.Units.AoWE.TAbilityOwner A1) => Aow.Units.AoWE.AoWE.P1EmptyWallFeatures;
 
         // Ability.PAS:1256
-        // { +088 }
         public virtual Aow.Rtl.AnsiString GetSourceName(Aow.Units.AoWE.TAbilityOwner A1)
         {
             Aow.Rtl.AnsiString Result = default;
@@ -22162,7 +21414,6 @@ namespace Aow.Units.AoWE
         public virtual int GetInherentLevel(Aow.Units.AoWE.TAbilityOwner Owner) => 0;
 
         // Ability.PAS:1264
-        // { $094; AoW 0044719D }
         public virtual TSet<Aow.Units.AoWE.TAbilityControlTypeElement> GetControlType(Aow.Units.AoWE.TAbilityOwner Owner) => Aow.Units.AoWE.AoWE.P1EmptyControlType;
 
         // Ability.PAS:1298
@@ -22217,7 +21468,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1585
-        // { +0A8 }
         public virtual void NewTurn(Aow.Units.AoWE.TAbilityOwner A1, sbyte A2)
         {
         }
@@ -22232,7 +21482,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1606
-        // { +0B0 }
         public virtual bool Activate(Aow.Units.AoWE.TAbilityOwner A1, ref Aow.Rtl.AnsiString A2)
         {
             bool Result = default;
@@ -22264,7 +21513,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1624
-        // { +0B4 }
         public virtual bool CanActivateCombat(Aow.Units.AoWE.TAbilityOwner A1, ref Aow.Rtl.AnsiString A2)
         {
             bool Result = default;
@@ -22274,7 +21522,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1637
-        // { +0B8; 5574EFDC }
         public virtual bool ActivateCombat(Aow.Units.AoWE.TAbilityOwner Owner, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
@@ -22310,7 +21557,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1374
-        // { +0C8 }
         public virtual Aow.Rtl.AnsiString ExpandName(Aow.Units.AoWE.TAbilityOwner A1)
         {
             Aow.Rtl.AnsiString Result = default;
@@ -22319,7 +21565,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1382
-        // { +0CC }
         public virtual bool Expand(Aow.Units.AoWE.TAbilityOwner A1)
         {
             bool Result = default;
@@ -22376,7 +21621,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1324
-        // { +0EC }
         public virtual int tcGetDamageValue(Aow.Units.AoWE.TCombatObject Source, Aow.Units.AoWE.TCombatObject Target)
         {
             int Result = default;
@@ -22392,7 +21636,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1588
-        // { +0F4 }
         public virtual void NewCombatTurn(Aow.Units.AoWE.TCombatObject A1, sbyte A2)
         {
         }
@@ -22513,7 +21756,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1331
-        // { +100 }
         public virtual void GetCombatInfo(Aow.Units.AoWE.TAbilityOwner A1, ref Aow.Units.AoWE.TAbilityCombatInfo A2)
         {
             ref var abilityCombatInfo = ref A2;
@@ -22524,7 +21766,7 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1252
-        // { class receiver at 5576FE79 }
+        // class receiver
         public void ShowInfo(Aow.Units.AoWE.TAbilityOwner Owner, Aow.Units.ImageLib.TImageLibraryFont Font, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             var call__2057 = this.GetName(Owner);
@@ -22543,7 +21785,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCustomAbilityList: size $10; $08 ability-bit buffer, $0C bit count. }
+    // ability-bit buffer, bit count
     public partial class TCustomAbilityList : Aow.Units.Engine.TEObject
     {
 
@@ -22551,10 +21793,8 @@ namespace Aow.Units.AoWE
         {}
 
         public byte[] FAbilityBits = [];
-        // { $08 }
         public int FAbilityCount;
         // Ability.PAS:942
-        // { $0C }
         public override void Destroy()
         {
             Clear();
@@ -22645,13 +21885,12 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:994
-        // { +058 draft }
         public void SetAbCount(int Value)
         {
             int OldSize = default;
             int NewSize = default;
             // { Original assertion accepts every Integer: its bounds predicate uses OR. }
-            Aow.Rtl.Rtl.Assert(!((Value < 0) && (Value >= 134217727)), (AnsiString)"Invalid AbCount Value (TArrayList)", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Ability.PAS", 1119);
+            Aow.Rtl.Rtl.Assert(!((Value < 0) && (Value >= 134217727)), (AnsiString)"Invalid AbCount Value (TArrayList)", "Ability.PAS", 1119);
             OldSize = (int)(((uint)(FAbilityCount + 7)) >> 3);
             NewSize = (int)(((uint)(Value + 7)) >> 3);
             if (NewSize != OldSize)
@@ -22800,7 +22039,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TAbilityList (instance size 16, VMT 5570F4B8) }
     public partial class TAbilityList : Aow.Units.AoWE.TCustomAbilityList
     {
         public TAbilityList(TECustomNode owner) : base(owner)
@@ -22808,7 +22046,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAbilityOwner (instance size $14, +$10 FAbilityData, VMT 5570F588) }
+    // (FAbilityData,)
     public partial class TAbilityOwner : Aow.Units.AoWE.TCustomAbilityList
     {
 
@@ -22820,7 +22058,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TAbilityData FAbilityData;
         // Ability.PAS:1762
-        // { $10 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             Aow.Units.AoWE.TAbilityData Previous = default;
@@ -22830,7 +22067,7 @@ namespace Aow.Units.AoWE
             base.ReadWrite(Stream);
             if ((Stream.StorageMode() & TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead, Aow.Units.Engine.TStorageModeElement.smCompare)) == TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead))
             {
-                // { Original tests property 3 before reading the data-ID list at $31. }
+                // The original tests property 3 before reading the data-ID list.
                 var call__2079 = Stream.PropertyTable.PropertyExist(3);
                 if (call__2079)
                 {
@@ -22970,7 +22207,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1676
-        // { +05C }
         public virtual Aow.Rtl.AnsiString GetOwnerName()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -22979,7 +22215,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1927
-        // { +060 }
         public virtual Aow.Rtl.AnsiString GetAbName(int AbilityID)
         {
             Aow.Rtl.AnsiString Result = default;
@@ -22990,7 +22225,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1931
-        // { +064 }
         public virtual sbyte GetAbAttack(int AbilityID)
         {
             sbyte Result = default;
@@ -23001,7 +22235,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1935
-        // { +068 }
         public virtual sbyte GetAbDefense(int AbilityID)
         {
             sbyte Result = default;
@@ -23012,7 +22245,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1939
-        // { +06C }
         public virtual sbyte GetAbResistance(int AbilityID)
         {
             sbyte Result = default;
@@ -23023,7 +22255,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1943
-        // { +070 }
         public virtual sbyte GetAbDamage(int AbilityID)
         {
             sbyte Result = default;
@@ -23034,7 +22265,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1947
-        // { +074 }
         public virtual TSet<Aow.Units.AoWE.TMoveType> GetAbMoveTypes(int AbilityID)
         {
             TSet<Aow.Units.AoWE.TMoveType> Result = default;
@@ -23045,7 +22275,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1951
-        // { +078 }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetAbProtectionTypes(int AbilityID)
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -23056,7 +22285,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1955
-        // { +07C }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetAbImmunityTypes(int AbilityID)
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -23067,7 +22295,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1959
-        // { +080 }
         public virtual int GetAbLevel(int AbilityID)
         {
             int Result = default;
@@ -23078,7 +22305,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1963
-        // { +084 }
         public virtual bool GetAbEnabled(int AbilityID)
         {
             bool Result = default;
@@ -23096,7 +22322,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1672
-        // { +088 }
         public virtual TSet<Aow.Units.AoWE.TAbilitySelectionType> GetAbilitySelectionTypes()
         {
             TSet<Aow.Units.AoWE.TAbilitySelectionType> Result = default;
@@ -23105,13 +22330,11 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1837
-        // { +08C }
         public virtual void Changed()
         {
         }
 
         // Ability.PAS:1840
-        // { +090 }
         public virtual bool ExpandAbility(int AbilityID)
         {
             bool Result = default;
@@ -23142,7 +22365,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1678
-        // { +098 }
         public void ValidateOwnerTypeAbilities()
         {
             TSet<Aow.Units.AoWE.TAbilitySelectionType> Types = default;
@@ -23328,7 +22550,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1850
-        // { conflict: procedure UpdateDefaultAbilities(A1: TCustomAbilityList); }
         public sbyte GetAbAttackAll()
         {
             sbyte Result = default;
@@ -23526,13 +22747,13 @@ namespace Aow.Units.AoWE
 
             if (bool__2166)
             {
-                // { Original set constant at $5574F918 is $40. }
+                // The original set constant is $40.
                 Result = Result + TSet<Aow.Units.AoWE.TMoveType>.Of(Aow.Units.AoWE.TMoveType.mtLavaCrossing);
             }
 
             if (GetAbEnabled(42))
             {
-                // { Original set constant at $5574F91C is $80. }
+                // The original set constant is $80.
                 Result = Result + TSet<Aow.Units.AoWE.TMoveType>.Of(Aow.Units.AoWE.TMoveType.mtTunneling);
             }
 
@@ -23799,7 +23020,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAbilityTypeList (instance size 16, VMT 5570F698) }
     public partial class TAbilityTypeList : Aow.Rtl.TList
     {
         // Ability.PAS:2033
@@ -23814,7 +23034,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAbilityControl (instance size $20, +$08 FAbilities, +$0C..$1C FAbilitiesByType, VMT 5570F71C) }
+    // (FAbilities, FAbilitiesByType,)
     public partial class TAbilityControl : Aow.Units.Engine.TEObject
     {
         // Ability.PAS:2035
@@ -23837,11 +23057,8 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.TList FAbilities;
-        // { $08 }
         public Aow.Units.FixedArray_Aow_Units_AoWE_TAbilityTypeList_5 FAbilitiesByType;
         // Ability.PAS:2044
-        // { $0C..$1C }
-        // { conflict: FCombatAbilities: TAbilityTypeList; }
         public override void Destroy()
         {
             Aow.Units.AoWE.TAbilityType Kind = default;
@@ -24041,8 +23258,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemGFX (instance size $30): $18 library name, $1C image index,
-//     $20 item type, $24 library, $28 references, $2C hidden. }
+    // library name, image index, item type, library, references, hidden
     public partial class TItemGFX : Aow.Units.Engine.TEResource
     {
         public new const int ClassID = 131689;
@@ -24051,19 +23267,11 @@ namespace Aow.Units.AoWE
         {}
 
         public Aow.Rtl.AnsiString FImageLibraryName;
-        // { $18 }
         public int FImageIndex;
-        // { $1C }
         public Aow.Units.AoWE.TItemType FItemType;
-        // { $20 }
-        public Aow.Units.FixedArray_byte_3 F_ItemGFX_21;
         public Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
-        // { $24 }
         public int FRefCount;
-        // { $28 }
         public bool FHidden;
-        // { $2C }
-        public Aow.Units.FixedArray_byte_3 F_ItemGFX_2D;
         // Army.PAS:5093
         public override Aow.Units.Engine.TEngine GetEngine()
         {
@@ -24201,7 +23409,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemGFXList (instance size $14): inherited $08 children, $0C engine, $10 control style. }
+    // inherited children, engine, control style
     public partial class TItemGFXList : Aow.Units.Engine.TEResourceList
     {
         // Army.PAS:5176
@@ -24250,7 +23458,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemTE (instance size $1C): $10 item ID, $14 action, $18 hero ID. }
+    // item ID, action, hero ID
     public partial class TItemTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TItemTE(TECustomNode owner) : base(owner)
@@ -24259,13 +23467,10 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131698;
 
         public int FItemID;
-        // { $10 }
         public byte FAction;
-        // { $14; 0 = use }
-        public Aow.Units.FixedArray_byte_3 F_ItemTE_15;
+        // 0 = use
         public int FHeroID;
         // Army.PAS:4185
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -24322,10 +23527,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItem (instance size $4C): $14 ID, $18 owner name, $1C status, $20 references,
-//     $24 library ID, $28 library name, $2C value, $30 name, $34 type, $38 spell ID,
-//     $3C description, $40 graphics index, $44 hidden, $45 availability,
-//     $46 attack, $47 defense, $48 damage, $49 resistance. }
+    // ID, owner name, status, references, library ID, library name, value, name, type, spell ID,
+    // description, graphics index, hidden, availability, attack, defense, damage, resistance
     public partial class TItem : Aow.Units.AoWE.TAbilityOwner
     {
         public new const int ClassID = 131688;
@@ -24341,44 +23544,23 @@ namespace Aow.Units.AoWE
         }
 
         public int FItemID;
-        // { $14 }
         public Aow.Rtl.AnsiString FOwnerName;
-        // { $18 }
         public TSet<Aow.Units.AoWE.TItemStatusElement> FStatus;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_Item_1D;
         public int FRefCount;
-        // { $20 }
         public int FLibraryID;
-        // { $24 }
         public Aow.Rtl.AnsiString FLibraryName;
-        // { $28 }
         public int FObtainValue;
-        // { $2C }
         public Aow.Rtl.AnsiString FName;
-        // { $30 }
         public Aow.Units.AoWE.TItemType FItemType;
-        // { $34 }
-        public Aow.Units.FixedArray_byte_3 F_Item_35;
         public int FSpellID;
-        // { $38 }
         public Aow.Rtl.TStringList FDescription;
-        // { $3C }
         public int FItemGFXIndex;
-        // { $40 }
         public bool FHidden;
-        // { $44 }
         public Aow.Units.AoWE.TItemAvailability FAvailability;
-        // { $45 }
         public sbyte FAttack;
-        // { $46 }
         public sbyte FDefense;
-        // { $47 }
         public sbyte FDamage;
-        // { $48 }
         public sbyte FResistance;
-        // { $49 }
-        public Aow.Units.FixedArray_byte_2 F_Item_4A;
         // Army.PAS:4220
         public override void Destroy()
         {
@@ -24514,7 +23696,7 @@ namespace Aow.Units.AoWE
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65541)
             {
-                /* TODO(T-N6) Managed record view requires an explicit field mapping */
+                /* TODO: Implement the managed record view field mapping. */
                 throw new System.NotImplementedException();
             }
         }
@@ -24613,7 +23795,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4296
-        // { $09C }
         public virtual bool Use(Aow.Units.AoWE.THero Hero)
         {
             bool Result = default;
@@ -24647,7 +23828,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4255
-        // { $0A0 }
         public virtual bool ExecuteUse(Aow.Units.AoWE.THero Hero)
         {
             bool Result = default;
@@ -24680,7 +23860,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4418
-        // { $A4 }
         public virtual void Show(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Units.AoWE.TItemGFX GFX = default;
@@ -24696,7 +23875,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4331
-        // { $A8 }
         public virtual void Activate()
         {
             if (!FStatus.Contains(Aow.Units.AoWE.TItemStatusElement.isActivated))
@@ -24711,7 +23889,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4340
-        // { +0AC draft }
         public virtual void Deactivate()
         {
             if (FStatus.Contains(Aow.Units.AoWE.TItemStatusElement.isActivated))
@@ -24721,7 +23898,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4320
-        // { +0B0 draft }
         public void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
         {
             if ((FOwner != null) && (FOwner is Aow.Units.AoWE.TItemList))
@@ -24820,14 +23996,12 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4415
-        // { draft }
         public void SetItemGFXIndex(int A1)
         {
             FItemGFXIndex = A1;
         }
 
         // Army.PAS:4430
-        // { draft }
         public void SetItemType(Aow.Units.AoWE.TItemType Value)
         {
             Aow.Units.AoWE.TItemType ItemType = default;
@@ -24926,8 +24100,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemList (instance size $18): inherited $08 children, $0C update lock;
-//     $10..$17 change event. }
+    // inherited children, update lock. change event
     public partial class TItemList : Aow.Units.Engine.TEChangeNotifyNode
     {
 
@@ -24939,7 +24112,7 @@ namespace Aow.Units.AoWE
 
         public Aow.Rtl.TNotifyEvent FOnChanged;
         // Army.PAS:4537
-        // { $10 code, $14 data }
+        // code, data
         public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             int I = default;
@@ -25148,17 +24321,15 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemLibrary (instance size $20): $18 name, $1C last library ID. }
+    // name, last library ID
     public partial class TItemLibrary : Aow.Units.AoWE.TItemList
     {
         public TItemLibrary(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Rtl.AnsiString FName;
-        // { $18 }
         public int FLastID;
         // Army.PAS:4933
-        // { $1C }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -25203,7 +24374,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4897
-        // { $94 }
         public int CreateUniqueLibraryID()
         {
             int Result = default;
@@ -25278,7 +24448,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemLibraryManager (instance size $10): $08 system library, $0C libraries. }
+    // system library, libraries
     public partial class TItemLibraryManager : Aow.Units.Engine.TEObject
     {
         // Army.PAS:4967
@@ -25291,10 +24461,8 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TItemLibrary FSystemLibrary;
-        // { $08 }
         public Aow.Units.Engine.TENode FLibraries;
         // Army.PAS:4974
-        // { $0C }
         public override void Destroy()
         {
             FLibraries.Free();
@@ -25485,8 +24653,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemControl (instance size $20): $08 items, $0C change events,
-//     $10 update lock, $14 item change events, $18 last ID, $1C status. }
+    // items, change events, update lock, item change events, last ID, status
     public partial class TItemControl : Aow.Units.Engine.TEObject
     {
         // Army.PAS:4639
@@ -25501,18 +24668,11 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.TList FItems;
-        // { $08 }
         public Aow.Units.Engine.TEventList FOnChanged;
-        // { $0C }
         public int FUpdateLock;
-        // { $10 }
         public Aow.Units.Engine.TEventList FOnItemChanged;
-        // { $14 }
         public int FLastID;
-        // { $18 }
         public TSet<Aow.Units.AoWE.TItemControlStatusElement> FStatus;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_ItemControl_1D;
         // Army.PAS:4647
         public override void Destroy()
         {
@@ -25931,7 +25091,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemHSList (instance size $18): inherited $08 children, $0C update lock, $10 change event. }
+    // inherited children, update lock, change event
     public partial class TItemHSList : Aow.Units.AoWE.TItemList
     {
         public TItemHSList(TECustomNode owner) : base(owner)
@@ -25947,17 +25107,14 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TItemHS (instance size $14): $0C items, $10 generation mode. }
+    // items, generation mode
     public partial class TItemHS : Aow.Units.HSEngine.TSingleHS
     {
 
         public new const int ClassID = 131697;
 
         public Aow.Units.AoWE.TItemHSList FItems;
-        // { $0C }
         public Aow.Units.AoWE.TItemGenerateMode FGenerateMode;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_ItemHS_11;
         // Army.PAS:5221
         public override void Destroy()
         {
@@ -26132,7 +25289,6 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TFaceResource (instance size 44, VMT 557102F0) }
     public partial class TFaceResource : Aow.Units.Engine.TEResource
     {
         public new const int ClassID = 131696;
@@ -26141,16 +25297,10 @@ namespace Aow.Units.AoWE
         {}
 
         public Aow.Rtl.AnsiString FImageLibraryName;
-        // { $18 }
         public int FImageIndex;
-        // { $1C }
         public Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
-        // { $20 }
         public int FReferences;
-        // { $24 }
         public bool FDeveloperOnly;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 F_FaceResource_29;
         // Ability.PAS:445
         public override Aow.Units.Engine.TEngine GetEngine()
         {
@@ -26288,7 +25438,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFaceResourceList (instance size 20, VMT 557103D8) }
     public partial class TFaceResourceList : Aow.Units.Engine.TEResourceList
     {
         // Ability.PAS:520
@@ -26379,8 +25528,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitControl (instance size 20, VMT 557105E8):
-//     +08 FNextUnitID; +0C FUnitTable; +10 FUnits. }
+    // FNextUnitID. FUnitTable. FUnits
     public partial class TUnitControl : Aow.Units.Engine.TEObject
     {
         // Unit.PAS:1
@@ -26544,10 +25692,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAbstractUnit (instance size 60, VMT 55710740):
-//     +14 FRefCount; +18 FUnitID; +1C FGroupID; +20 FGroup: TAIGroup;
-//     +25 FUnitStatus.
-//     Other fields retain their offset names pending recovery. }
+    // FRefCount. FUnitID. FGroupID. FGroup: TAIGroup. FUnitStatus
     public partial class TAbstractUnit : Aow.Units.AoWE.TAbilityOwner
     {
         // SetOwner observes this count before the base body, as in Unit.PAS:95.
@@ -26555,17 +25700,14 @@ namespace Aow.Units.AoWE
         public int FUnitID;
         public int FGroupID;
         public Aow.Units.AoWE.TAIGroup FGroup;
-        // { $20; group VMT at 55782FF8 }
+        // group
         public sbyte FPlayer;
         public TSet<Aow.Units.AoWE.TUnitStatusElement> FUnitStatus;
         public sbyte FMoraleValue;
-        public Aow.Units.FixedArray_byte_1 F_AbstractUnit_27;
         public Aow.Units.FixedArray_byte_10 FOffensiveStrength;
         public byte FMaxOffensiveStrength;
-        public Aow.Units.FixedArray_byte_1 F_AbstractUnit_33;
         public int FDefensiveStrength;
         public byte F_AbstractUnit_38;
-        public Aow.Units.FixedArray_byte_3 F_AbstractUnit_39;
         // Unit.PAS:108
         public override void Destroy()
         {
@@ -26576,8 +25718,6 @@ namespace Aow.Units.AoWE
 
             if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
             {
-                // { needs: P1 TAoWHSMap.UnitDestroyed(AUnit: TAbstractUnit),
-//       EDX is Self at 5577EB8B; keep the argument live across the draft call. }
                 Aow.Units.AoWE.AoWE.AoWHSMap.UnitDestroyed(this);
             }
 
@@ -26680,7 +25820,6 @@ namespace Aow.Units.AoWE
         // Unit.PAS:1494
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
-            // { Tried Self identity, Pointer identity, typed with; base sender cast; still differs. }
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001986)
             {
@@ -26721,8 +25860,6 @@ namespace Aow.Units.AoWE
         public override Aow.Rtl.AnsiString GetOwnerName()
         {
             Aow.Rtl.AnsiString Result = default;
-            // { needs: draft ancestor GetOwnerName is a string result; current A1 is its
-//     hidden result pointer, proved by EDX at 5577F6A2 and 5577F6C2. }
             Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.P2InherentRStr);
             return Result;
         }
@@ -26766,7 +25903,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:809
-        // { $09C; AoW 00409188 }
         public virtual sbyte GetUnitLevel()
         {
             sbyte Result = default;
@@ -26783,7 +25919,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:866
-        // { +0A4; 557F7CBA }
         public virtual sbyte GetInherentAttack()
         {
             sbyte Result = default;
@@ -26792,7 +25927,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:874
-        // { +0A8 draft }
         public virtual sbyte GetInherentDefense()
         {
             sbyte Result = default;
@@ -26801,7 +25935,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:882
-        // { +0AC draft }
         public virtual sbyte GetInherentDamage()
         {
             sbyte Result = default;
@@ -26810,7 +25943,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:890
-        // { +0B0 draft }
         public virtual sbyte GetInherentResistance()
         {
             sbyte Result = default;
@@ -26819,7 +25951,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:534
-        // { +0B4 draft }
         public virtual bool GetInherentAbility(int AbilityID)
         {
             bool Result = default;
@@ -26836,7 +25967,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:543
-        // { +0B8 draft }
         public virtual int GetInherentAbilityLevel(int AbilityID)
         {
             int Result = default;
@@ -26853,7 +25983,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:870
-        // { $0BC; AoW 0044719D }
         public virtual sbyte GetAttack()
         {
             sbyte Result = default;
@@ -26862,7 +25991,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:878
-        // { +0C0 draft }
         public virtual sbyte GetDefense()
         {
             sbyte Result = default;
@@ -26871,7 +25999,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:886
-        // { +0C4 draft }
         public virtual sbyte GetDamage()
         {
             sbyte Result = default;
@@ -26880,7 +26007,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:894
-        // { +0C8 draft }
         public virtual sbyte GetResistance()
         {
             sbyte Result = default;
@@ -26889,7 +26015,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:898
-        // { +0CC }
         public virtual sbyte GetHits()
         {
             sbyte Result = default;
@@ -26898,7 +26023,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:902
-        // { +0D0 }
         public virtual sbyte GetMoves()
         {
             sbyte Result = default;
@@ -26907,7 +26031,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:817
-        // { $D4; 5573743C }
         public virtual sbyte GetMovePoints()
         {
             sbyte Result = default;
@@ -26916,13 +26039,11 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:821
-        // { $D8; 557373E8 }
         public virtual void SetMovePoints(sbyte Value)
         {
         }
 
         // Unit.PAS:823
-        // { +0DC draft }
         public virtual sbyte GetHitPoints()
         {
             sbyte Result = default;
@@ -26931,14 +26052,12 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:827
-        // { +0E0 }
         public virtual void SetHitPoints(sbyte Value)
         {
             UpdateDefensiveStrength();
         }
 
         // Unit.PAS:973
-        // { +0E4 }
         public virtual TSet<Aow.Units.AoWE.TMoveType> GetMoveTypes()
         {
             TSet<Aow.Units.AoWE.TMoveType> Result = default;
@@ -26947,7 +26066,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:852
-        // { +0E8; 5573E849 }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetImmunityTypes()
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -26956,7 +26074,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:858
-        // { +0EC }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetProtectionTypes()
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -26965,7 +26082,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:977
-        // { +0F0 draft }
         public virtual Aow.Units.ImageLib.TLibraryImage GetFace()
         {
             Aow.Units.ImageLib.TLibraryImage Result = default;
@@ -26974,7 +26090,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:981
-        // { +0F4 draft }
         public virtual Aow.Rtl.AnsiString GetName()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -26991,7 +26106,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:985
-        // { +0FC }
         public virtual Aow.Units.ImageLib.TLibraryImage GetPreviewImage()
         {
             Aow.Units.ImageLib.TLibraryImage Result = default;
@@ -27000,7 +26114,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:813
-        // { +100 draft }
         public virtual byte GetTransportCapacity()
         {
             byte Result = default;
@@ -27009,7 +26122,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:846
-        // { +104; 5573FB15 }
         public virtual bool GetTransporter()
         {
             bool Result = default;
@@ -27018,7 +26130,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1205
-        // { +108; 5573ED2E }
         public virtual Aow.Units.AoWE.TUnitGender GetGender()
         {
             Aow.Units.AoWE.TUnitGender Result = default;
@@ -27027,7 +26138,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:119
-        // { +10C draft }
         public virtual Aow.Units.AoWE.TBloodType GetBloodType()
         {
             Aow.Units.AoWE.TBloodType Result = default;
@@ -27036,7 +26146,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:862
-        // { +110 draft }
         public virtual Aow.Units.AoWE.TUnitType GetUnitType()
         {
             Aow.Units.AoWE.TUnitType Result = default;
@@ -27045,7 +26154,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:989
-        // { +114 }
         public virtual int GetUnitGFXResourceIndex()
         {
             int Result = default;
@@ -27054,7 +26162,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1480
-        // { +118 }
         public virtual bool CanAddToList(Aow.Units.AoWE.TUnitList AList)
         {
             bool Result = default;
@@ -27063,8 +26170,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:179
-        // { needs: P1 TAbilityOwner.GetAbilitySelectionTypes: TAbilitySelectionTypes;
-//     original 5577ECC0 takes no arguments and returns the set in AX. }
         public virtual TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> GetWallCombatFeatures()
         {
             TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> Result = default;
@@ -27127,7 +26232,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:123
-        // { +120 draft }
         public virtual int GetCampaignTransferPoints()
         {
             int Result = default;
@@ -27136,7 +26240,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:910
-        // { +124 draft }
         public virtual sbyte GetCastingPointsMax()
         {
             sbyte Result = default;
@@ -27145,7 +26248,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:914
-        // { $128 }
         public virtual sbyte GetCastingPoints()
         {
             sbyte Result = default;
@@ -27154,13 +26256,11 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:918
-        // { $12C }
         public virtual void SetCastingPoints(sbyte Value)
         {
         }
 
         // Unit.PAS:906
-        // { $130 }
         public virtual int GetPowerGeneration()
         {
             int Result = default;
@@ -27169,13 +26269,11 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1484
-        // { +134 draft }
         public virtual void NewDay()
         {
         }
 
         // Unit.PAS:1355
-        // { +138 draft }
         public virtual void NewTurn(sbyte Player)
         {
             sbyte Heal = default;
@@ -27219,7 +26317,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1375
-        // { +13C draft }
         public virtual void NewTurnDone(sbyte Player)
         {
             if ((Player == FPlayer) && (FPlayer > 0))
@@ -27257,7 +26354,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:578
-        // { +140 draft }
         public virtual int GetAbilityLevel(int AbilityID)
         {
             int Result = default;
@@ -27268,7 +26364,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:552
-        // { +144 draft }
         public virtual bool GetAbilityEnabled(int AbilityID)
         {
             bool Result = default;
@@ -27285,7 +26380,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:574
-        // { +14C draft }
         public virtual Aow.Rtl.AnsiString GetAbilityName(int AbilityID)
         {
             Aow.Rtl.AnsiString Result = default;
@@ -27296,7 +26390,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:582
-        // { +150 draft }
         public virtual Aow.Units.AoWE.TAbilityOwner GetAbilityOwner(int AbilityID)
         {
             Aow.Units.AoWE.TAbilityOwner Result = default;
@@ -27311,7 +26404,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:530
-        // { +154 draft }
         public virtual int GetAbilityCount()
         {
             int Result = default;
@@ -27320,7 +26412,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:747
-        // { +158 draft }
         public virtual int GetExperience()
         {
             int Result = default;
@@ -27329,13 +26420,11 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:751
-        // { +15C draft }
         public virtual void SetExperience(int Value)
         {
         }
 
         // Unit.PAS:753
-        // { +160 }
         public virtual int GetNextLevelExperience()
         {
             int Result = default;
@@ -27344,7 +26433,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:739
-        // { +164 draft }
         public virtual Aow.Rtl.TStrings GetDescription()
         {
             Aow.Rtl.TStrings Result = default;
@@ -27353,7 +26441,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:494
-        // { +168 draft }
         public virtual void SetPlayer(sbyte Player)
         {
             Aow.Units.AoWE.TUnitUserList List = default;
@@ -27394,7 +26481,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:350
-        // { +170 draft }
         public virtual int GetObtainValue()
         {
             int Result = default;
@@ -27403,7 +26489,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:346
-        // { +174 draft }
         public virtual Aow.Units.AoWE.TUnitSize GetUnitSize()
         {
             Aow.Units.AoWE.TUnitSize Result = default;
@@ -27412,7 +26497,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:260
-        // { +178 draft }
         public virtual int GetUnitMoraleValue(sbyte Player, sbyte IndependentRelation)
         {
             int Result = default;
@@ -27487,7 +26571,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:743
-        // { +17C draft }
         public virtual bool CanActivate()
         {
             bool Result = default;
@@ -27496,7 +26579,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:761
-        // { +180 draft }
         public virtual void Activate()
         {
             Aow.Units.AoWE.TAIGroup Group = default;
@@ -27525,7 +26607,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:777
-        // { +184 draft }
         public virtual void Deactivate()
         {
             Aow.Units.AoWE.TUnitUserList Group = default;
@@ -27541,7 +26622,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1100
-        // { +188 draft }
         public virtual void MovedTo(Aow.Units.HSEngine.TMapField OldField, Aow.Units.HSEngine.TMapField NewField, int MaxCost)
         {
             int Cost = default;
@@ -27621,7 +26701,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1890
-        // { +18C draft }
         public virtual bool CanDisband(ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
@@ -27643,7 +26722,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1796
-        // { +190 draft }
         public virtual bool CanJoin(sbyte Player)
         {
             bool Result = default;
@@ -27738,7 +26816,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1835
-        // { +194 }
         public virtual int JoinAmount(sbyte Player)
         {
             int Result = default;
@@ -27757,7 +26834,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1843
-        // { $198 }
         public virtual bool OfferToJoin(sbyte Player)
         {
             bool Result = default;
@@ -27821,7 +26897,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1872
-        // { +19C draft }
         public virtual void GetJoinMessage(sbyte Player, int Count, int Amount, Aow.Units.AoWE.TJoinMode Mode, Aow.Rtl.TStrings Messages)
         {
             Aow.Units.AoWE.TUnitUserList Group = default;
@@ -27864,13 +26939,11 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:844
-        // { +1A4 draft }
         public virtual void UnitKilled()
         {
         }
 
         // Unit.PAS:1209
-        // { +1A8 draft }
         public virtual void Killed()
         {
             Aow.Units.AoWE.TUnitUserList Group = default;
@@ -27891,7 +26964,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1224
-        // { +1AC }
         public virtual void Resurrect()
         {
             this.ExpandAbility(128);
@@ -27901,7 +26973,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1231
-        // { +1B0 draft }
         public virtual void Animate()
         {
             this.ExpandAbility(129);
@@ -27912,7 +26983,6 @@ namespace Aow.Units.AoWE
 
         // Unit.PAS:152
         // { A stack-argument assembler routine gets an EBP frame; remove it before jumping. }
-        // { +1B4 draft }
         public void RetrieveDamageInfo(sbyte Attack, sbyte Damage, TSet<Aow.Units.AoWE.TDamageType> DamageTypes, ref int DamageValue, ref int ObtainValue)
         {
             int MaxDamage = default;
@@ -28004,7 +27074,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:301
-        // { draft }
         public Aow.Units.AoWE.TStatus UnitRelation(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
             Aow.Units.AoWE.TStatus Result = default;
@@ -28142,7 +27211,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:375
-        // { draft }
         public void RemoveEnchantments()
         {
             Aow.Units.AoWE.TAbility Ability = default;
@@ -28174,7 +27242,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:391
-        // { draft }
         public void RemoveHandicaps()
         {
             AddRef();
@@ -28185,7 +27252,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:403
-        // { draft }
         public void RegisterEnchantments()
         {
             Aow.Units.AoWE.TAbility Ability = default;
@@ -28221,7 +27287,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:424
-        // { draft }
         public void UnregisterEnchantments()
         {
             Aow.Units.AoWE.TAbility Ability = default;
@@ -28257,7 +27322,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:449
-        // { draft }
         public Aow.Units.AoWE.TUnitEnchantment AbilityToEnchantment(int AbilityID)
         {
             Aow.Units.AoWE.TUnitEnchantment Result = default;
@@ -28347,8 +27411,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:620
-        // { needs: draft P1 TAbilityOwner.RemoveAbility(ID: Integer): Boolean.
-//     Preserve the returned EAX across Release, as at 5577F703..5577F70C. }
         public void UpdateDefensiveStrength()
         {
             var call__2484 = GetDefense();
@@ -28362,7 +27424,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:657
-        // { draft }
         public int GetStrength(Aow.Units.AoWE.TDamageType DamageType)
         {
             int Result = default;
@@ -29030,7 +28091,6 @@ namespace Aow.Units.AoWE
 
         // Unit.PAS:1198
         // { Result is the final damage. }
-        // { 55790581..55790587 }
         public int MovePointCost(sbyte TerrainType, sbyte OverlayType)
         {
             int Result = default;
@@ -29054,7 +28114,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1246
-        // { draft }
         public void SetEarthMasteryStoneSkin()
         {
             Aow.Units.AoWE.TP2EnchantmentCalls Enchantment = default;
@@ -29081,7 +28140,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1259
-        // { draft }
         public void ResetFireMasteryProtection()
         {
             if (GetAbilityEnabled(167))
@@ -29095,7 +28153,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1265
-        // { draft }
         public void SetFireMasteryProtection()
         {
             Aow.Units.AoWE.TP2EnchantmentCalls Enchantment = default;
@@ -29121,7 +28178,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1278
-        // { draft }
         public void ResetLifeMasteryBlessing()
         {
             if (GetAbilityEnabled(158))
@@ -29135,7 +28191,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1284
-        // { draft }
         public void SetLifeMasteryBlessing()
         {
             Aow.Units.AoWE.TP2EnchantmentCalls Enchantment = default;
@@ -29154,7 +28209,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1305
-        // { draft }
         public void ExecuteLifeMasteryFearRole()
         {
             Aow.Units.AoWE.TDurationAbilityData Data = default;
@@ -29200,7 +28254,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1319
-        // { draft }
         public void ValidateLifeMastery()
         {
             sbyte Player = default;
@@ -29222,7 +28275,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1332
-        // { draft }
         public void ExecuteDeathMasteryCurseRole()
         {
             Aow.Units.AoWE.TDurationAbilityData Data = default;
@@ -29253,7 +28305,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1344
-        // { draft }
         public void ValidateDeathMastery()
         {
             sbyte Player = default;
@@ -29276,7 +28327,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1391
-        // { draft }
         public int VisibilityRange()
         {
             int Result = default;
@@ -29470,7 +28520,6 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1504
-        // { draft }
         public void Show(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
         {
             Aow.Units.AoWE.TP2UnitShowInfo Info = default;
@@ -29787,7 +28836,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAbstractUnitResource (instance size 28, VMT 5571096C): +18 FUnitGFXResourceIndex. }
+    // FUnitGFXResourceIndex
     public partial class TAbstractUnitResource : Aow.Units.Engine.TEResource
     {
         public TAbstractUnitResource(TECustomNode owner) : base(owner)
@@ -29795,7 +28844,6 @@ namespace Aow.Units.AoWE
 
         public int FUnitGFXResourceIndex;
         // UnitRes.PAS:1
-        // { $18 }
         public override Aow.Units.Engine.TEngine GetEngine()
         {
             Aow.Units.Engine.TEngine Result = default;
@@ -29859,7 +28907,6 @@ namespace Aow.Units.AoWE
         }
 
         // UnitRes.PAS:9
-        // { +068 draft }
         public virtual Aow.Units.ImageLib.TLibraryImage GetFace()
         {
             Aow.Units.ImageLib.TLibraryImage Result = default;
@@ -29927,9 +28974,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitResource (instance size 84, VMT 55710A64): +1C FName; +20 FRace;
-//     +21 FChampion; +24 FNickname; +28..31 unit statistics; +38 FAbilities[rank];
-//     +44 FTransportCapacity; +48 FDescription; +4C FObtainValue; +50 size; +51 blood. }
+    // FName. FRace. FChampion. FNickname. unit statistics. FAbilities[rank]. FTransportCapacity.
+    // FDescription. FObtainValue. size. blood
     public partial class TUnitResource : Aow.Units.AoWE.TAbstractUnitResource
     {
         public new const int ClassID = 131602;
@@ -29963,13 +29009,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.AnsiString FName;
-        // { $1C }
         public sbyte FRace;
         public bool FChampion;
-        // { $21 }
-        public Aow.Units.FixedArray_byte_2 F_UnitResource_22;
         public Aow.Rtl.AnsiString FNickname;
-        // { $24 }
         public Aow.Units.AoWE.TAlignment FAlignment;
         public sbyte FAttack;
         public sbyte FDefense;
@@ -29980,18 +29022,12 @@ namespace Aow.Units.AoWE
         public sbyte FLevel;
         public Aow.Units.AoWE.TUnitType FUnitType;
         public Aow.Units.AoWE.TUnitGender FGender;
-        public Aow.Units.FixedArray_byte_6 FReserved32;
         public Aow.Units.FixedArray_Aow_Units_AoWE_TAbilityOwner_3 FAbilities;
-        // { $38..$40 }
         public byte FTransportCapacity;
-        // { $44 }
-        public Aow.Units.FixedArray_byte_3 F_UnitResource_45;
         public Aow.Rtl.TStringList FDescription;
-        // { $48 }
         public int FObtainValue;
         public Aow.Units.AoWE.TUnitSize FUnitSize;
         public Aow.Units.AoWE.TBloodType FBloodType;
-        public Aow.Units.FixedArray_byte_2 F_UnitResource_52;
         // UnitRes.PAS:92
         public override void Destroy()
         {
@@ -30174,7 +29210,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitResourceList (instance size 20, VMT 55710B64) }
     public partial class TUnitResourceList : Aow.Units.Engine.TEResourceList
     {
         // UnitRes.PAS:206
@@ -30203,7 +29238,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnit (instance size 72, VMT 55710CAC) }
     public partial class TUnit : Aow.Units.AoWE.TAbstractUnit
     {
         public new const int ClassID = 131603;
@@ -30214,7 +29248,6 @@ namespace Aow.Units.AoWE
         public byte FExperience;
         public sbyte FMovePoints;
         public sbyte FHitPoints;
-        public Aow.Units.FixedArray_byte_1 F_Unit_3F;
         public Aow.Units.AoWE.TUnitResource FUnitResource;
         public sbyte FAbAttack;
         public sbyte FAbDefense;
@@ -30829,8 +29862,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitList (instance size 16, VMT 55710EC8): inherited +08 FChildren,
-//     +0C UpdateCount. }
+    // inherited FChildren, UpdateCount
     public partial class TUnitList : Aow.Units.Engine.TEChangeNotifyNode
     {
 
@@ -31196,7 +30228,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitUserList (instance size 16, VMT 55710FEC): inherited +08 FChildren. }
+    // inherited FChildren
     public partial class TUnitUserList : Aow.Units.AoWE.TUnitList
     {
 
@@ -31271,8 +30303,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitIndexList (instance size 20, VMT 55711118): inherited +04 List,
-//     +08 Count, +10 Default. }
+    // inherited List, Count, Default
     public partial class TUnitIndexList : Aow.Units.Engine.TIntegerList
     {
         // UnitRes.PAS:219
@@ -31331,7 +30362,7 @@ namespace Aow.Units.AoWE
         // UnitRes.PAS:245
         public void SetUnitIndex(int Index, int Value)
         {
-            Aow.Rtl.Rtl.Assert(Index >= 0, (AnsiString)"List index out of bounds (TUnitIndexList)", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\UnitRes.PAS", 250);
+            Aow.Rtl.Rtl.Assert(Index >= 0, (AnsiString)"List index out of bounds (TUnitIndexList)", "UnitRes.PAS", 250);
             if (Index >= Count)
             {
                 Count = Index + 1;
@@ -31360,7 +30391,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitIndexListCollection (instance size 12, VMT 557111A4): +04 FCollectionSize; +08 FUnits. }
+    // FCollectionSize. FUnits
     public partial class TUnitIndexListCollection : Aow.Rtl.TObject
     {
         // Unit.PAS:2413
@@ -31372,10 +30403,8 @@ namespace Aow.Units.AoWE
         }
 
         public int FCollectionSize;
-        // { $04 }
         public Aow.Units.AoWE.TUnitIndexList FUnits;
         // Unit.PAS:2419
-        // { $08 }
         public override void Destroy()
         {
             base.Destroy();
@@ -31529,7 +30558,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitCategoryList (instance size 16, VMT 55711230) }
     public partial class TUnitCategoryList : Aow.Rtl.TList
     {
         // Ability.PAS:723
@@ -31618,7 +30646,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitSelectionControl (instance size 80, VMT 557112B4) }
     public partial class TUnitSelectionControl : Aow.Rtl.TStringList
     {
         // Ability.PAS:763
@@ -31640,35 +30667,20 @@ namespace Aow.Units.AoWE
         }
 
         public byte FMinimumLevel;
-        // { $2C }
         public byte FMaximumLevel;
-        // { $2D }
         public TSet<Aow.Units.AoWE.TAlignment> FAlignments;
-        // { $2E }
-        public Aow.Units.FixedArray_byte_1 F_UnitSelectionControl_2F;
         public Aow.Units.Engine.TBitList FRacesEnabled;
-        // { $30 }
         public Aow.Units.Engine.TBitList FTypesEnabled;
-        // { $34 }
         public Aow.Units.AoWE.TUnitCategoryList FRaceUnits;
-        // { $38 }
         public Aow.Units.AoWE.TUnitCategoryList FTypeUnits;
-        // { $3C }
         public Aow.Units.AoWE.TUnitIndexList FAllUnits;
-        // { $40 }
         public int FSelectedUnitIndex;
-        // { $44 }
         public bool FShowEmptyCategories;
-        // { $48 }
         public bool FShowRaceCategories;
-        // { $49 }
         public bool FShowTypeCategories;
-        // { $4A }
         public bool FShowAllCategory;
-        // { $4B }
         public Aow.Units.AoWE.THero FSelectedHero;
         // Ability.PAS:776
-        // { $4C }
         public override void Destroy()
         {
             Clear();
@@ -31990,7 +31002,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitSelector (instance size 44, VMT 557113B8) }
     public partial class TUnitSelector : Aow.Rtl.TObject
     {
         // Ability.PAS:575
@@ -32003,28 +31014,16 @@ namespace Aow.Units.AoWE
         }
 
         public int FReferences;
-        // { $04 }
         public sbyte FPlayer;
-        // { $08 }
-        public Aow.Units.FixedArray_byte_3 F_UnitSelector_09;
         public Aow.Rtl.AnsiString FCaption;
-        // { $0C }
         public Aow.Units.AoWE.TUnitUserList FUnits;
-        // { $10 }
         public byte FSelection;
-        // { $14 }
         public bool FCanceled;
-        // { $15 }
         public byte FSelectable;
-        // { $16 }
-        public Aow.Units.FixedArray_byte_1 F_UnitSelector_17;
         public int FSourceUnitID;
-        // { $18 }
         public Aow.Units.AoWE.TUnitSelectorNotifyEvent FOnSelect;
-        // { $1C }
         public Aow.Units.AoWE.TUnitSelectorNotifyEvent FOnCancel;
         // Ability.PAS:583
-        // { $24 }
         public override void Destroy()
         {
             FUnits.Free();
@@ -32041,8 +31040,6 @@ namespace Aow.Units.AoWE
         public virtual bool CanSelectUnit(Aow.Units.AoWE.TUnit A1) => true;
 
         // Ability.PAS:662
-        // { needs: function CanSelectUnit(Unit: TUnit): Boolean; unmarked P4 overrides. }
-        // { +004 }
         public virtual void Setup(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TUnitList Units)
         {
             int I = default;
@@ -32072,7 +31069,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:623
-        // { 5574D804: Source+$18/$24. }
         public virtual bool CanSelect(ref Aow.Rtl.AnsiString Error)
         {
             bool Result = default;
@@ -32090,8 +31086,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:651
-        // { needs: function Select: Boolean; P4 has unmarked procedure overrides. }
-        // { +010 }
         public virtual void Cancel()
         {
             if (FOnCancel != null)
@@ -32101,7 +31095,6 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:589
-        // { draft }
         public int AddRef()
         {
             int Result = default;
@@ -32150,7 +31143,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitSelectorAAI (instance size 32, VMT 55711454) }
     public partial class TUnitSelectorAAI : Aow.Units.AoWE.TActivateAbilityInfo
     {
         // Ability.PAS:690
@@ -32161,7 +31153,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TUnitSelector FUnitSelector;
         // Ability.PAS:696
-        // { $1C }
         public override void Destroy()
         {
             Aow.Units.AoWE.TUnitSelector Selector = default;
@@ -32201,8 +31192,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { THeroInventory (instance size 24, VMT 5571162C): inherited +04 FOwner is the hero;
-//     +08 FChildren holds inventory slots. }
+    // inherited FOwner is the hero. FChildren holds inventory slots
     public partial class THeroInventory : Aow.Units.AoWE.TItemList
     {
         // Hero.PAS:274
@@ -32455,8 +31445,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroItems (instance size 24, VMT 55711738): inherited +04 FOwner is the hero;
-//     +08 FChildren holds six equipment slots. }
+    // inherited FOwner is the hero. FChildren holds six equipment slots
     public partial class THeroItems : Aow.Units.AoWE.TItemList
     {
         // Hero.PAS:388
@@ -32867,32 +31856,21 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroUpgradeTE (instance size 32, VMT 55711920): +10 FUnitID; +14 FPlayer;
-//     +15..1A statistic upgrades; +1C FAbilities. }
+    // FUnitID. FPlayer. statistic upgrades. FAbilities
     public partial class THeroUpgradeTE : Aow.Units.NetworkE.TTokenEvent
     {
         public new const int ClassID = 135965;
 
         public int FUnitID;
-        // { $10 }
         public sbyte FPlayer;
-        // { $14 }
         public sbyte FAttack;
-        // { $15 }
         public sbyte FDefense;
-        // { $16 }
         public sbyte FResistance;
-        // { $17 }
         public sbyte FDamage;
-        // { $18 }
         public sbyte FMoves;
-        // { $19 }
         public sbyte FHits;
-        // { $1A }
-        public Aow.Units.FixedArray_byte_1 F_HeroUpgradeTE_1B;
         public Aow.Units.AoWE.TAbilityOwner FAbilities;
         // Hero.PAS:7
-        // { $1C }
         public override void Destroy()
         {
             FAbilities.Free();
@@ -32963,8 +31941,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroUpdateTE (instance size 32, VMT 557119E8): +10 FUnitID;
-//     +14 FMode; +18 FItemID (also spell ID); +1C FParameter. }
+    // FUnitID. FMode. FItemID (also spell ID). FParameter
     public partial class THeroUpdateTE : Aow.Units.NetworkE.TTokenEvent
     {
         public THeroUpdateTE(TECustomNode owner) : base(owner)
@@ -32973,15 +31950,10 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135429;
 
         public int FUnitID;
-        // { $10 }
         public Aow.Units.AoWE.THeroUpdateMode FMode;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_HeroUpdateTE_15;
         public int FItemID;
-        // { $18 }
         public int FParameter;
         // Hero.PAS:2279
-        // { $1C }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -33052,7 +32024,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroPowerSource (instance size 12, VMT 55711AAC): +08 FHero. }
+    // FHero
     public partial class THeroPowerSource : Aow.Units.AoWE.TPowerSource
     {
         public THeroPowerSource(TECustomNode owner) : base(owner)
@@ -33060,7 +32032,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.THero FHero;
         // Hero.PAS:587
-        // { $08 }
         public override Aow.Rtl.AnsiString Name()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -33107,8 +32078,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroUpgradeEventLog (instance size 36, VMT 55711B88): +18 FUnitID;
-//     +1C FOldLevel; +1D FNewLevel; +20 FDay. }
+    // FUnitID. FOldLevel. FNewLevel. FDay
     public partial class THeroUpgradeEventLog : Aow.Units.EventLog.TEventLog
     {
         public THeroUpgradeEventLog(TECustomNode owner) : base(owner)
@@ -33117,15 +32087,10 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131825;
 
         public int FUnitID;
-        // { $18 }
         public byte FOldLevel;
-        // { $1C }
         public byte FNewLevel;
-        // { $1D }
-        public Aow.Units.FixedArray_byte_2 F_HeroUpgradeEventLog_1E;
         public new int FDay;
         // Hero.PAS:57
-        // { $20 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -33264,9 +32229,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P5. }
-    // { TJoinEventLog (instance size $3C, VMT 55711C84).
-//     $18 FirstUnitID, $1C UnitIDs, $20 Location, $24 Selection,
-//     $28 JoinIndex, $2C JoinMessage, $30 Gold, $34 JoinMode, $38 Text. }
+    // FirstUnitID, UnitIDs, Location, Selection, JoinIndex, JoinMessage, Gold, JoinMode, Text
     public partial class TJoinEventLog : Aow.Units.EventLog.TEventLog
     {
         // Diplomacy.pas:1
@@ -33286,12 +32249,10 @@ namespace Aow.Units.AoWE
         public Aow.Units.Engine.TIntegerList FUnitIDs;
         public Aow.Units.HSEngine.TXYL FLocation;
         public byte FSelection;
-        public Aow.Units.FixedArray_byte_3 F_JoinEventLog_25;
         public int FJoinIndex;
         public Aow.Rtl.TStringList FJoinMessage;
         public int FGold;
         public Aow.Units.AoWE.TJoinMode FJoinMode;
-        public Aow.Units.FixedArray_byte_3 F_JoinEventLog_35;
         public Aow.Rtl.AnsiString FText;
         // Diplomacy.pas:12
         public override void Destroy()
@@ -33343,7 +32304,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:80
-        // { +078 }
         public virtual void ListJoinUnits(Aow.Units.AoWE.TUnitList Units, ref byte Selection)
         {
             int I = default;
@@ -33364,7 +32324,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:93
-        // { +07C }
         public virtual bool Accept(ref Aow.Rtl.AnsiString ErrorText)
         {
             bool Result = default;
@@ -33383,7 +32342,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:105
-        // { $80 }
         public virtual bool Cancel()
         {
             bool Result = default;
@@ -33392,7 +32350,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:110
-        // { $84 }
         public virtual bool Reject(ref Aow.Rtl.AnsiString ErrorText)
         {
             bool Result = default;
@@ -33401,7 +32358,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:33
-        // { +088 }
         public void SetupJoinArmy(Aow.Units.AoWE.TArmy Army, sbyte Player, Aow.Units.AoWE.TJoinMode JoinMode)
         {
             int I = default;
@@ -33439,7 +32395,6 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { THeroJoinEventLog (instance size 60, VMT 55711D94) }
     public partial class THeroJoinEventLog : Aow.Units.AoWE.TJoinEventLog
     {
         public THeroJoinEventLog(TECustomNode owner) : base(owner)
@@ -33593,8 +32548,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroEmergeEventLog (instance size 44, VMT 55711ED8): +18 FUnitID; +1C FDay;
-//     +20 FText; +24 FMode; +28 FLocationName. }
+    // FUnitID. FDay. FText. FMode. FLocationName
     public partial class THeroEmergeEventLog : Aow.Units.EventLog.TEventLog
     {
         public THeroEmergeEventLog(TECustomNode owner) : base(owner)
@@ -33603,17 +32557,11 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131832;
 
         public int FUnitID;
-        // { $18 }
         public new int FDay;
-        // { $1C }
         public Aow.Rtl.AnsiString FText;
-        // { $20 }
         public Aow.Units.AoWE.THeroJoinMode FMode;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_HeroEmergeEventLog_25;
         public Aow.Rtl.AnsiString FLocationName;
         // Hero.PAS:188
-        // { $28 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -33774,89 +32722,48 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THero (instance size 156, VMT 55711FEC): +54 FUpgradePending;
-//     +40 FHeroResource; +44 FHeroResourceIndex; +48 FExperience; +50 FUsedSkillPoints;
-//     +58 FDeathDay; +5C FDeathPlayer; +4C FLevel; +55 FHeroStatus; +60 FHeroName;
-//     +64 FNickname; +68 FRace; +69 FGender; +6A..6F unit statistics; +78 FCastSpellInstantly; +79 FMovePoints; +7A FHitPoints; +7C FPowerSource;
-//     +80 FCastingPoints; +88 FCastingMana; +8C FCastingProgress; +90 FLibraryID; +94 FLibraryName; +98 FRegistered. }
+    // FUpgradePending. FHeroResource. FHeroResourceIndex. FExperience. FUsedSkillPoints. FDeathDay.
+    // FDeathPlayer. FLevel. FHeroStatus. FHeroName. FNickname. FRace. FGender. unit statistics.
+    // FCastSpellInstantly. FMovePoints. FHitPoints. FPowerSource. FCastingPoints. FCastingMana.
+    // FCastingProgress. FLibraryID. FLibraryName. FRegistered
     public partial class THero : Aow.Units.AoWE.TAbstractUnit
     {
         public new const int ClassID = 131632;
 
         public int FFaceIndex;
-        // { $3C }
         public Aow.Units.AoWE.THeroResource FHeroResource;
-        // { $40 }
         public int FHeroResourceIndex;
-        // { $44 }
         public int FExperience;
-        // { $48 }
         public byte FLevel;
-        // { $4C }
-        public Aow.Units.FixedArray_byte_3 F_Hero_4D;
         public int FUsedSkillPoints;
-        // { $50 }
         public bool FUpgradePending;
-        // { $54 }
         public TSet<Aow.Units.AoWE.THeroStatusElement> FHeroStatus;
-        // { $55 }
-        public Aow.Units.FixedArray_byte_2 F_Hero_56;
         public int FDeathDay;
-        // { $58 }
         public sbyte FDeathPlayer;
-        // { $5C }
         public TSet<Aow.Units.AoWE.THeroModeElement> FMode;
-        // { $5D }
-        public Aow.Units.FixedArray_byte_2 F_Hero_5E;
         public Aow.Rtl.AnsiString FHeroName;
-        // { $60 }
         public Aow.Rtl.AnsiString FNickname;
-        // { $64 }
         public sbyte FRace;
-        // { $68 }
         public Aow.Units.AoWE.TUnitGender FGender;
-        // { $69 }
         public sbyte FUnitAttack;
-        // { $6A }
         public sbyte FUnitDefense;
-        // { $6B }
         public sbyte FUnitDamage;
-        // { $6C }
         public sbyte FUnitHits;
-        // { $6D }
         public sbyte FUnitMoves;
-        // { $6E }
         public sbyte FUnitResistance;
-        // { $6F }
         public Aow.Units.AoWE.THeroItems FHeroItems;
-        // { $70 }
         public Aow.Units.AoWE.THeroInventory FInventory;
-        // { $74 }
         public bool FCastSpellInstantly;
-        // { $78 }
         public sbyte FMovePoints;
-        // { $79 }
         public sbyte FHitPoints;
-        // { $7A }
-        public Aow.Units.FixedArray_byte_1 F_Hero_7B;
         public Aow.Units.AoWE.THeroPowerSource FPowerSource;
-        // { $7C }
         public sbyte FCastingPoints;
-        // { $80 }
-        public Aow.Units.FixedArray_byte_3 F_Hero_81;
         public int FCastingSpellID;
-        // { $84 }
         public int FCastingMana;
-        // { $88 }
         public int FCastingProgress;
-        // { $8C }
         public int FLibraryID;
-        // { $90 }
         public Aow.Rtl.AnsiString FLibraryName;
-        // { $94 }
         public bool FRegistered;
-        // { $98 }
-        public Aow.Units.FixedArray_byte_3 F_Hero_99;
         // Hero.PAS:631
         public override void Destroy()
         {
@@ -35127,14 +34034,12 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:694
-        // { $1B8 }
         public virtual void SetNickname(Aow.Rtl.AnsiString Value)
         {
             FNickname = Value;
         }
 
         // Hero.PAS:1615
-        // { $1BC }
         public virtual void SetHeroResourceIndex(int Value)
         {
             var call__2979 = Aow.Units.AoWE.AoWE.AoWHSSet.FHeroResources.GetHeroResource(Value);
@@ -35148,7 +34053,6 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:1674
-        // { $1C0 }
         public virtual void EditDropMsg(ref Aow.Units.Engine.TEMsg Msg)
         {
             Aow.Units.HSEngine.TMapLevel Level = default;
@@ -35195,7 +34099,6 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:650
-        // { $1C4 }
         public Aow.Rtl.AnsiString GetLibraryName()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -35450,7 +34353,6 @@ namespace Aow.Units.AoWE
         public sbyte GetLevel()
         {
             sbyte Result = default;
-            // { Tried cast Self at field read; Self copy through untyped local; still differs. }
             var call__3005 = this.ExperienceToLevel(this.FExperience);
             Result = unchecked((sbyte)call__3005);
 
@@ -36492,7 +35394,6 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:1876
-        // { conflict: procedure ExecutePlaceItem(ItemID: Integer; Position: THeroItemPosition); }
         public bool ExecuteStartCasting(int SpellID)
         {
             bool Result = default;
@@ -36611,7 +35512,7 @@ namespace Aow.Units.AoWE
             if (SpellID == FCastingSpellID)
             {
                 var call__3115 = CastingReady();
-                Aow.Rtl.Rtl.Assert(call__3115, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Hero.PAS", 2080);
+                Aow.Rtl.Rtl.Assert(call__3115, (AnsiString)"", "Hero.PAS", 2080);
                 FCastingMana = 0;
                 FCastingProgress = 0;
                 FCastingSpellID = 0;
@@ -37031,17 +35932,14 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TLeader (instance size 164, VMT 55712238): +9C FSpherePicksMax; +A0 FSpheres. }
+    // FSpherePicksMax. FSpheres
     public partial class TLeader : Aow.Units.AoWE.THero
     {
         public new const int ClassID = 131634;
 
         public byte FSpherePicksMax;
-        // { $9C }
-        public Aow.Units.FixedArray_byte_3 F_Leader_9D;
         public Aow.Units.Engine.TByteList FSpheres;
         // Hero.PAS:2766
-        // { $A0 }
         public override void Destroy()
         {
             bool bool__3170 = (Aow.Units.AoWE.AoWE.AoWHSMap != null);
@@ -37543,7 +36441,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroList (instance size 12, VMT 557124C8) }
     public partial class THeroList : Aow.Units.Engine.TEReferenceNode
     {
         public THeroList(TECustomNode owner) : base(owner)
@@ -37589,8 +36486,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroControl (instance size 24, VMT 557125BC): +08 FOnChanged; +0C FUpdateCount;
-//     +10 FOnHeroChanged; +14 FHeroes. }
+    // FOnChanged. FUpdateCount. FOnHeroChanged. FHeroes
     public partial class THeroControl : Aow.Units.Engine.TEObject
     {
         // Hero.PAS:2413
@@ -37605,14 +36501,10 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.Engine.TEventList FOnChanged;
-        // { $08 }
         public int FUpdateCount;
-        // { $0C }
         public Aow.Units.Engine.TEventList FOnHeroChanged;
-        // { $10 }
         public Aow.Units.AoWE.THeroList FHeroes;
         // Hero.PAS:2421
-        // { $14 }
         public override void Destroy()
         {
             int I = default;
@@ -37988,17 +36880,15 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroLibrary (instance size 20, VMT 5571267C): +0C FLibraryName; +10 FNextLibraryID. }
+    // FLibraryName. FNextLibraryID
     public partial class THeroLibrary : Aow.Units.AoWE.THeroList
     {
         public THeroLibrary(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Rtl.AnsiString FLibraryName;
-        // { $0C }
         public int FNextLibraryID;
         // Hero.PAS:2639
-        // { $10 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -38124,7 +37014,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroLibraryManager (instance size 16, VMT 55712788): +08 FSystemLibrary; +0C FLibraries. }
+    // FSystemLibrary. FLibraries
     public partial class THeroLibraryManager : Aow.Units.Engine.TEObject
     {
         // Hero.PAS:2646
@@ -38137,10 +37027,8 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.THeroLibrary FSystemLibrary;
-        // { $08 }
         public Aow.Units.Engine.TENode FLibraries;
         // Hero.PAS:2653
-        // { $0C }
         public override void Destroy()
         {
             FLibraries.Free();
@@ -38330,8 +37218,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroResource (instance size 52, VMT 55712854): +20 FRace; +21 FHeroType;
-//     +1C FName; +22 FAlignment; +23 FHidden; +24..29 base statistics; +2C FAbilities; +30 FFaceIndex. }
+    // FRace. FHeroType. FName. FAlignment. FHidden. base statistics. FAbilities. FFaceIndex
     public partial class THeroResource : Aow.Units.AoWE.TAbstractUnitResource
     {
         public new const int ClassID = 131633;
@@ -38350,33 +37237,19 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.AnsiString FName;
-        // { $1C }
         public sbyte FRace;
-        // { $20 }
         public Aow.Units.AoWE.THeroType FHeroType;
-        // { $21 }
         public Aow.Units.AoWE.TAlignment FAlignment;
-        // { $22 }
         public bool FHidden;
-        // { $23 }
         public sbyte FAttack;
-        // { $24 }
         public sbyte FDefense;
-        // { $25 }
         public sbyte FDamage;
-        // { $26 }
         public sbyte FHits;
-        // { $27 }
         public sbyte FMoves;
-        // { $28 }
         public sbyte FResistance;
-        // { $29 }
-        public Aow.Units.FixedArray_byte_2 F_HeroResource_2A;
         public Aow.Units.AoWE.TAbilityOwner FAbilities;
-        // { $2C }
         public int FFaceIndex;
         // Hero.PAS:2320
-        // { $30 }
         public override void Destroy()
         {
             FAbilities.Free();
@@ -38452,7 +37325,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroResourceList (instance size 20, VMT 5571294C) }
     public partial class THeroResourceList : Aow.Units.Engine.TEResourceList
     {
         // Hero.PAS:2360
@@ -38528,27 +37400,17 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAdjustableUnit (instance size 72, VMT 55712A54): +3C attack; +3D defense; +3E resistance;
-//     +3F hits; +40 damage; +41 immunity; +43 protection; +45 hit points. }
+    // attack. defense. resistance. hits. damage. immunity. protection. hit points
     public partial class TAdjustableUnit : Aow.Units.AoWE.TAbstractUnit
     {
         public sbyte FAttack;
-        // { $3C }
         public sbyte FDefense;
-        // { $3D }
         public sbyte FResistance;
-        // { $3E }
         public sbyte FHits;
-        // { $3F }
         public sbyte FDamage;
-        // { $40 }
         public TSet<Aow.Units.AoWE.TDamageType> FImmunityTypes;
-        // { $41 }
         public TSet<Aow.Units.AoWE.TDamageType> FProtectionTypes;
-        // { $43 }
         public sbyte FHitPoints;
-        // { $45 }
-        public Aow.Units.FixedArray_byte_2 F_AdjustableUnit_46;
         // Unit.PAS:2534
         public TAdjustableUnit(TECustomNode owner) : base(owner)
         {
@@ -38682,19 +37544,15 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TWallUnit (instance size 64, VMT 55712C84): +3C FWallType; +3D FHitPoints; +3E FHits. }
+    // FWallType. FHitPoints. FHits
     public partial class TWallUnit : Aow.Units.AoWE.TAbstractUnit
     {
         public TWallUnit(TECustomNode owner) : base(owner)
         { }
 
         public Aow.Units.AoWE.TWallType FWallType;
-        // { $3C }
         public sbyte FHitPoints;
-        // { $3D }
         public sbyte FHits;
-        // { $3E }
-        public byte F_WallUnit_3F;
         // Unit.PAS:2510
         public override sbyte GetDefense()
         {
@@ -38775,7 +37633,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyID (instance size 20, VMT 55712FF4): +08 FUnitIDs; +0C FPlayer; +10 FX, FY, FL. }
+    // FUnitIDs. FPlayer. FX, FY, FL
     public partial class TArmyID : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131616;
@@ -38788,14 +37646,10 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.Engine.TIntegerList FUnitIDs;
-        // { $08 }
         public sbyte FPlayer;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_ArmyID_0D;
         public sbyte FX;
         public sbyte FY;
         public sbyte FL;
-        // { $10..12 }
         public byte F_ArmyID_13;
         // Army.PAS:7
         public override void Destroy()
@@ -38890,10 +37744,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmy (instance size 44, VMT 557130EC): +10 FStatus; +11 FMode; +12 FPlayer;
-//     +13..15 location; +16 FIndependentRelation; +17 FUnfogRange; +18 FUpkeep; +1C FOnUpdate;
-//     +24 FOldAIBehavior; +25..27 destination; +28 FUserMode;
-//     +29 FVisibilityRanges; +2A FConcealedUnits. }
+    // FStatus. FMode. FPlayer. location. FIndependentRelation. FUnfogRange. FUpkeep. FOnUpdate.
+    // FOldAIBehavior. destination. FUserMode. FVisibilityRanges. FConcealedUnits
     public partial class TArmy : Aow.Units.AoWE.TUnitList
     {
         public new const int ClassID = 131606;
@@ -38911,41 +37763,22 @@ namespace Aow.Units.AoWE
         }
 
         public TSet<Aow.Units.AoWE.TArmyStatusElement> FStatus;
-        // { $10 }
         public TSet<Aow.Units.AoWE.TArmyModeElement> FMode;
-        // { $11 }
         public sbyte FPlayer;
-        // { $12 }
         public sbyte FX;
-        // { $13 }
         public sbyte FY;
-        // { $14 }
         public sbyte FL;
-        // { $15 }
         public sbyte FIndependentRelation;
-        // { $16 }
         public byte FUnfogRange;
-        // { $17 }
         public byte FUpkeep;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_Army_19;
         public Aow.Rtl.TNotifyEvent FOnUpdate;
-        // { $1C }
         public Aow.Units.AoWE.TGroupBehavior FOldAIBehavior;
-        // { $24 }
         public sbyte FDestinationX;
-        // { $25 }
         public sbyte FDestinationY;
-        // { $26 }
         public sbyte FDestinationL;
-        // { $27 }
         public TSet<Aow.Units.AoWE.TArmyUserModeElement> FUserMode;
-        // { $28; 5578E986 }
         public byte FVisibilityRanges;
-        // { $29 }
         public byte FConcealedUnits;
-        // { $2A }
-        public Aow.Units.FixedArray_byte_1 F_Army_2B;
         // Army.PAS:336
         public override void Destroy()
         {
@@ -39253,7 +38086,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:1269
-        // { +0B8 }
         public virtual bool GetConcealedForPlayer(sbyte Player)
         {
             bool Result = default;
@@ -39296,7 +38128,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:343
-        // { +0BC }
         public void Kill(byte Selection)
         {
             int I = default;
@@ -39624,7 +38455,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:488
-        // { conflict: procedure SetBehavior(Player: Shortint; Behavior: TGroupBehavior); }
         public Aow.Units.AoWE.TGroupBehavior GetOldAIBehavior()
         {
             Aow.Units.AoWE.TGroupBehavior Result = default;
@@ -40352,7 +39182,7 @@ namespace Aow.Units.AoWE
         {
             int I = default;
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
-            Aow.Rtl.Rtl.Assert(!FStatus.Contains(Aow.Units.AoWE.TArmyStatusElement.asActivated), (AnsiString)"Army already activated", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Army.PAS", 1171);
+            Aow.Rtl.Rtl.Assert(!FStatus.Contains(Aow.Units.AoWE.TArmyStatusElement.asActivated), (AnsiString)"Army already activated", "Army.PAS", 1171);
             if (FOldAIBehavior == Aow.Units.AoWE.TGroupBehavior.gbNone)
             {
                 var call__3348 = GetOldAIBehavior();
@@ -43197,8 +42027,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyView (instance size 96, VMT 55713210): +2C FUnitConcealment;
-//     +3C FConcealedForPlayers; +40 FMoraleValues. }
+    // FUnitConcealment. FConcealedForPlayers. FMoraleValues
     public partial class TArmyView : Aow.Units.AoWE.TArmy
     {
         public new const int ClassID = 131609;
@@ -43207,13 +42036,9 @@ namespace Aow.Units.AoWE
         {}
 
         public Aow.Units.FixedArray_ushort_8 FUnitConcealment;
-        // { $2C }
         public ushort FConcealedForPlayers;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_2 F_ArmyView_3E;
         public Aow.Units.FixedArray_int_8 FMoraleValues;
         // Army.PAS:122
-        // { $40 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -43308,7 +42133,6 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:81
-        // { +0C0 }
         public void SetConcealedForPlayer(sbyte Player, bool Value)
         {
             int Mask = default;
@@ -43342,22 +42166,16 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyHS (instance size $24, VMT 557133A0): $1C FArmy; $20 FUnitIndex;
-//     $21 FUnitYOffset; $22 FMoveSteps. }
+    // FArmy. FUnitIndex. FUnitYOffset. FMoveSteps
     public partial class TArmyHS : Aow.Units.AoWE.TUnitHS
     {
 
         public new const int ClassID = 131607;
 
         public Aow.Units.AoWE.TArmy FArmy;
-        // { $1C }
         public byte FUnitIndex;
-        // { $20 }
         public sbyte FUnitYOffset;
-        // { $21 }
         public sbyte FMoveSteps;
-        // { $22 }
-        public Aow.Units.FixedArray_byte_1 F_ArmyHS_23;
         // Army.PAS:2654
         public override void Destroy()
         {
@@ -43505,7 +42323,6 @@ namespace Aow.Units.AoWE
         // Army.PAS:3421
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
         {
-            // { Tried nested Boolean conditions in range checks; differs. }
             base.MapFieldMsgProc(ref Msg);
             if (Msg.HN == 0)
             {
@@ -44297,7 +43114,7 @@ namespace Aow.Units.AoWE
                 FUnitYOffset = 0;
             }
 
-            Aow.Rtl.Rtl.Assert(FUnitGFXResource != null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Army.PAS", 3027);
+            Aow.Rtl.Rtl.Assert(FUnitGFXResource != null, (AnsiString)"", "Army.PAS", 3027);
         }
 
         // Army.PAS:3200
@@ -44378,7 +43195,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyHSList (instance size 20, VMT 5571352C) }
     public partial class TArmyHSList : Aow.Units.Engine.TEChangeNotifyEventList
     {
         public TArmyHSList(TECustomNode owner) : base(owner)
@@ -44396,8 +43212,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyEventLog (instance size 52, VMT 55713628): +18 FArmyView; +1C FArmyText;
-//     +20 FArmyMessages; +24 FArmyIcon; +28 FDamageValues; +2C FDamageTypes; +30 FGameOver. }
+    // FArmyView. FArmyText. FArmyMessages. FArmyIcon. FDamageValues. FDamageTypes. FGameOver
     public partial class TArmyEventLog : Aow.Units.EventLog.TEventLog
     {
         // Army.PAS:141
@@ -44416,20 +43231,12 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131608;
 
         public Aow.Units.AoWE.TArmyView FArmyView;
-        // { $18 }
         public Aow.Rtl.AnsiString FArmyText;
-        // { $1C }
         public Aow.Rtl.TStrings FArmyMessages;
-        // { $20 }
         public int FArmyIcon;
-        // { $24 }
         public Aow.Units.Engine.TByteList FDamageValues;
-        // { $28 }
         public Aow.Units.Engine.TByteList FDamageTypes;
-        // { $2C }
         public bool FGameOver;
-        // { $30 }
-        public Aow.Units.FixedArray_byte_3 F_ArmyEventLog_31;
         // Army.PAS:150
         public override void Destroy()
         {
@@ -44632,8 +43439,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyInfoEventLog (instance size 52, VMT 55713724): +18 FArmyView; +1C FSelection;
-//     +20 FMessages; +24 FTitle; +28 FText; +2C FDescription; +30 FTriggers. }
+    // FArmyView. FSelection. FMessages. FTitle. FText. FDescription. FTriggers
     public partial class TArmyInfoEventLog : Aow.Units.EventLog.TEventLog
     {
         // Army.PAS:255
@@ -44649,21 +43455,12 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131817;
 
         public Aow.Units.AoWE.TArmyView FArmyView;
-        // { $18 }
         public byte FSelection;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_ArmyInfoEventLog_1D;
         public Aow.Rtl.TStrings FMessages;
-        // { $20 }
         public Aow.Rtl.AnsiString FTitle;
-        // { $24 }
         public Aow.Rtl.AnsiString FText;
-        // { $28 }
         public Aow.Rtl.AnsiString FDescription;
-        // { $2C }
         public TSet<Aow.Units.EventLog.TExecuteTrigger> FTriggers;
-        // { $30 }
-        public Aow.Units.FixedArray_byte_3 F_ArmyInfoEventLog_31;
         // Army.PAS:263
         public override void Destroy()
         {
@@ -44751,9 +43548,8 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TRaceResource: size $48; $18 face library, $1C city library, $20 library name,
-//     $24 name, $28 race name, $2C description, $30 alignments, $34 references,
-//     $38 units, $3C hero unit, $40 special units, $44 hero names. VMT 55713838. }
+    // face library, city library, library name, name, race name, description, alignments,
+    // references, units, hero unit, special units, hero names
     public partial class TRaceResource : Aow.Units.Engine.TEResource
     {
         public new const int ClassID = 131585;
@@ -44770,32 +43566,18 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.ImageLib.TCustomImageLibrary FFaceLibrary;
-        // { $18 }
         public Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
-        // { $1C }
-        // { conflict: FImageLibrary: TImageLibrary; }
         public Aow.Rtl.AnsiString FImageLibraryName;
-        // { $20 }
         public Aow.Rtl.AnsiString FName;
-        // { $24 }
         public Aow.Rtl.AnsiString FRaceName;
-        // { $28 }
         public Aow.Rtl.AnsiString FDescription;
-        // { $2C }
         public TSet<Aow.Units.AoWE.TAlignment> FAlignments;
-        // { $30 }
-        public Aow.Units.FixedArray_byte_3 F_RaceResource_31;
         public int FReferences;
-        // { $34 }
         public Aow.Units.AoWE.TUnitIndexList FUnitIndexes;
-        // { $38 }
         public int FHeroUnitIndex;
-        // { $3C }
         public Aow.Units.AoWE.TUnitIndexList FSpecialUnitIndexes;
-        // { $40 }
         public Aow.Rtl.TStringList FHeroNames;
         // PlayerC.PAS:1740
-        // { $44 }
         public override void Destroy()
         {
             ReleaseIL();
@@ -45083,7 +43865,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TRaceResourceList: size $14, no added fields. VMT 55713938. }
     public partial class TRaceResourceList : Aow.Units.Engine.TEResourceList
     {
         // PlayerC.PAS:1890
@@ -45126,18 +43907,15 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStructureShadow: size $10; $08 connected/visible flags, $0C structure. VMT 55713A94. }
+    // connected/visible flags, structure
     public partial class TStructureShadow : Aow.Units.HSEngine.THexagonSprite
     {
         public TStructureShadow(TECustomNode owner) : base(owner)
         { }
 
         public TSet<Aow.Units.AoWE.TStructureShadowStatusElement> FShadowStatus;
-        // { $08 }
-        public Aow.Units.FixedArray_byte_3 F_StructureShadow_09;
         public Aow.Units.AoWE.TStructure FStructure;
         // Structur.PAS:934
-        // { $0C }
         public override void Destroy()
         {
             if (FShadowStatus.Contains(Aow.Units.AoWE.TStructureShadowStatusElement.sssVisible))
@@ -45249,7 +44027,6 @@ namespace Aow.Units.AoWE
         // Structur.PAS:1000
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
         {
-            // { Tried coordinate identity assignment; zero-shift Y argument; still differs. }
             FStructure.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
         }
 
@@ -45257,8 +44034,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStructure: size $30; $1C ID, $20 update count, $24 building player,
-//     $25 days left, $28 shadow, $2C fogged. VMT 55713C18. }
+    // ID, update count, building player, days left, shadow, fogged
     public partial class TStructure : Aow.Units.ILTer.TFixedILTerrainMO
     {
 
@@ -45272,19 +44048,11 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131914;
 
         public int FStructureID;
-        // { $1C }
         public int FUpdateCount;
-        // { $20 }
         public sbyte FBuildingPlayer;
-        // { $24 }
         public byte FBuildingDays;
-        // { $25 }
-        public Aow.Units.FixedArray_byte_2 F_Structure_26;
         public Aow.Units.AoWE.TStructureShadow FShadow;
-        // { $28 }
         public bool FFogged;
-        // { $2C }
-        public Aow.Units.FixedArray_byte_3 F_Structure_2D;
         // Structur.PAS:1017
         public override void Destroy()
         {
@@ -45320,7 +44088,6 @@ namespace Aow.Units.AoWE
         // Structur.PAS:1629
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
-            // { Tried Self identity, Pointer identity, typed with; base sender cast; still differs. }
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001985)
             {
@@ -45452,7 +44219,6 @@ namespace Aow.Units.AoWE
         // Structur.PAS:1599
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
         {
-            // { Tried Self identity, Pointer identity, typed with; parameter spill or local lifetime/receiver staging; still differs. }
             base.MapFieldMsgProc(ref Msg);
             var call__3753 = FResource.TerrainList.Terrain[Msg.HN];
             if (call__3753 >= 0)
@@ -45624,7 +44390,6 @@ namespace Aow.Units.AoWE
         // Structur.PAS:1206
         public override void Select()
         {
-            // { Tried Self identity, Pointer identity, typed with; Pointer identity after inherited call; still differs. }
             base.Select();
             if (!Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
             {
@@ -45891,7 +44656,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1164
-        // { $144 }
         public virtual Aow.Rtl.AnsiString GetName()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -45921,7 +44685,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1844
-        // { $154; 557D7523 }
         public virtual bool RazeEx(sbyte Player)
         {
             bool Result = default;
@@ -45956,7 +44719,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1755
-        // { $158 }
         public virtual void SetupRazeDefenderAG(Aow.Units.AoWE.TUnitList Attackers, Aow.Units.AoWE.TUnitList Defenders)
         {
             Aow.Units.AoWE.THuntAG Group = default;
@@ -46064,7 +44826,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1479
-        // { $174 }
         public virtual void NewTurn(sbyte Player)
         {
             if (Player == FBuildingPlayer)
@@ -46088,25 +44849,21 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1488
-        // { $17C }
         public virtual void ArmyPlaced(Aow.Units.AoWE.TArmyHS A1)
         {
         }
 
         // Structur.PAS:1491
-        // { +180 }
         public virtual void ArmyRemoved(Aow.Units.AoWE.TArmyHS Army)
         {
         }
 
         // Structur.PAS:1494
-        // { $184 }
         public virtual void ArmyChanged(Aow.Units.AoWE.TArmyHS Army)
         {
         }
 
         // Structur.PAS:1200
-        // { $188 }
         public virtual void PlaySelectSample()
         {
             var call__3799 = GetRazed();
@@ -46117,7 +44874,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1107
-        // { $18C }
         public virtual void CreateShadow()
         {
             if (FShadow != null)
@@ -46132,7 +44888,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1115
-        // { $190 }
         public virtual void DestroyShadow()
         {
             if (FShadow != null)
@@ -46148,7 +44903,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1639
-        // { $194 }
         public virtual void ShowShadow(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
@@ -46158,7 +44912,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1414
-        // { $198 }
         public virtual void BuildingDone()
         {
             Aow.Units.EventLog.TLocationTextEventLog Log = default;
@@ -46195,7 +44948,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1383
-        // { $19C }
         public virtual bool ExecuteRebuild(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
             bool Result = default;
@@ -46224,7 +44976,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1400
-        // { $1A0 }
         public virtual bool ExecuteBuild(Aow.Units.AoWE.TAbstractUnit AUnit, int Days)
         {
             bool Result = default;
@@ -46238,7 +44989,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1734
-        // { $1A4 }
         public virtual bool GenerateRazeDefenders(sbyte Player, Aow.Units.AoWE.TUnitList Units)
         {
             bool Result = default;
@@ -46330,7 +45080,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1801
-        // { $1AC }
         public virtual bool ExecuteRaze(sbyte Player)
         {
             bool Result = default;
@@ -46417,7 +45166,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1569
-        // { +1B8  }
         public virtual bool MainValidateMap(Aow.Rtl.TStrings Messages)
         {
             bool Result = default;
@@ -46451,7 +45199,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1046
-        // { $1BC }
         public virtual bool ExecuteAI(sbyte Player, int Phase)
         {
             bool Result = default;
@@ -46474,7 +45221,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1349
-        // { $1C8 }
         public virtual bool VisibleForPlayer(sbyte Player)
         {
             bool Result = default;
@@ -46625,7 +45371,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1458
-        // { $1E0 }
         public virtual bool Rebuild(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
             bool Result = default;
@@ -46660,7 +45405,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1862
-        // { $1E4 }
         public virtual bool Raze(sbyte Player)
         {
             bool Result = default;
@@ -46707,7 +45451,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1708
-        // { $1E8; 557D7432 }
         public virtual bool CanRaze(sbyte Player, ref Aow.Rtl.AnsiString Reason)
         {
             bool Result = default;
@@ -46781,7 +45524,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1027
-        // { $1EC }
         public void BeginUpdate()
         {
             FUpdateCount += 1;
@@ -46981,7 +45723,7 @@ namespace Aow.Units.AoWE
                     Surface.Lock(ref SurfaceDesc);
                     Result = ShowBorderImage(SurfaceDesc, BorderRect);
                     Surface.Unlock();
-                    /* TODO(T-4.3) Address needs a cell or array backing */
+                    /* TODO: Implement cell or array backing for this address. */
                     throw new System.NotImplementedException();
                 }
                 finally
@@ -46996,7 +45738,6 @@ namespace Aow.Units.AoWE
         // Structur.PAS:1795
         public void ShowRazeAnimation(Aow.Units.Animation.TAnimation Animation, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
         {
-            // { Tried with animation receiver; same animation cast for frame argument; still differs. }
             var call__3908 = ((Aow.Units.Animation.TImageSequenceAnimation)Animation).FImageSequence.GetUnloopedFrameIndex(Animation.FFrameCounter);
             if ((call__3908 == 0) && (Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail != unchecked((byte)Aow.Units.AoWReg.TDetailLevel.dtlLow)))
             {
@@ -47010,11 +45751,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStructureControl (instance size 20, VMT 55713E78) }
     public partial class TStructureControl : Aow.Units.Engine.TEObject
     {
         // Structur.PAS:3220
-        // { TStructureControl (instance size 20; $08 structures, $0C next ID, $10 city count). }
+        // (structures, next ID, city count)
         public TStructureControl(TECustomNode owner) : base(owner)
         {
             var call__3910 = new Aow.Units.Engine.TENode(null);
@@ -47023,12 +45763,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.Engine.TENode FStructures;
-        // { $08 }
         public int FNextID;
-        // { $0C }
         public int FCityCount;
         // Structur.PAS:3227
-        // { $10 }
         public override void Destroy()
         {
             FStructures.Free();
@@ -47137,7 +45874,7 @@ namespace Aow.Units.AoWE
         public void Register(Aow.Units.AoWE.TStructure Structure)
         {
             var call__3914 = FStructures.FChildren.IndexOf(Structure);
-            Aow.Rtl.Rtl.Assert(call__3914 == -1, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Structur.PAS", 3299);
+            Aow.Rtl.Rtl.Assert(call__3914 == -1, (AnsiString)"", "Structur.PAS", 3299);
             bool bool__3915 = (Structure.FStructureID == 0);
             if (!bool__3915)
             {
@@ -47178,8 +45915,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStructureResource: size $64; $48 selection SFX, $50 description,
-//     $54 scanner icon. VMT 55713F40; other recovered resource fields below. }
+    // selection SFX, description, scanner icon. . other recovered resource fields below
     public partial class TStructureResource : Aow.Units.ILTer.TFixedILTerrainMOR
     {
         public TStructureResource(TECustomNode owner) : base(owner)
@@ -47199,36 +45935,19 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131915;
 
         public bool FTerrainBound;
-        // { $44 }
-        // { conflict: FUsePad: Boolean; }
         public bool FConnectRoads;
-        // { $45 }
         public byte FFlagType;
-        // { $46 }
-        public Aow.Units.FixedArray_byte_1 F_StructureResource_47;
         public Aow.Rtl.AnsiString FSelectSFX;
-        // { $48; 5575EA18 }
         public bool FSelectSFXLooped;
-        // { $4C; AoWEd 00408F6D }
-        public Aow.Units.FixedArray_byte_3 F_StructureResource_4D;
         public Aow.Rtl.TStrings FDescription;
-        // { $50; 5575E988 }
         public int FScannerIcon;
-        // { $54; 5575F817 }
         public bool FRazeable;
-        // { $58 }
         public bool FCastsShadow;
-        // { $59; $5575F6ED, $557D6C7F }
         public byte FRebuildGold;
-        // { $5A }
         public byte FRebuildDays;
-        // { $5B }
         public Aow.Units.AoWE.TUnitIndexListCollection FDefenders;
-        // { $5C }
         public int FRazeDefenderBudget;
         // Structur.PAS:1904
-        // { $60 }
-        // { conflict: FRazeDefenderStrength: Integer; }
         public override void Destroy()
         {
             FDescription.Free();
@@ -47355,7 +46074,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TRazeStructureEventLog: size $2C; $28 structure. VMT 55714050. }
+    // structure
     public partial class TRazeStructureEventLog : Aow.Units.EventLog.TMessageEventLog
     {
         public TRazeStructureEventLog(TECustomNode owner) : base(owner)
@@ -47363,8 +46082,7 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TStructure FStructure;
         // Structur.PAS:3086
-        // { TRazeStructureEventLog (instance size 44; $28 FStructure). }
-        // { $28; 5576039B }
+        // (FStructure)
         public override bool Yes()
         {
             bool Result = default;
@@ -47375,7 +46093,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerStructureIncomeSource (instance size 12, VMT 55714160) }
     public partial class TPlayerStructureIncomeSource : Aow.Units.AoWE.TIncomeSource
     {
         public TPlayerStructureIncomeSource(TECustomNode owner) : base(owner)
@@ -47383,7 +46100,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TPlayerStructure FStructure;
         // Structur.PAS:2486
-        // { $08 }
         public override Aow.Rtl.AnsiString Name()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -47412,7 +46128,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2481
-        // { TPlayerStructureIncomeSource (instance size 12; $08 FStructure). }
+        // (FStructure)
         public void Setup(Aow.Units.AoWE.TPlayerStructure Structure)
         {
             FStructure = Structure;
@@ -47422,7 +46138,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerStructurePowerSource (instance size 12, VMT 55714250) }
     public partial class TPlayerStructurePowerSource : Aow.Units.AoWE.TPowerSource
     {
         public TPlayerStructurePowerSource(TECustomNode owner) : base(owner)
@@ -47430,7 +46145,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TPlayerStructure FStructure;
         // Structur.PAS:2509
-        // { $08 }
         public override Aow.Rtl.AnsiString Name()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -47465,7 +46179,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2504
-        // { TPlayerStructurePowerSource (instance size 12; $08 FStructure). }
+        // (FStructure)
         public void Setup(Aow.Units.AoWE.TPlayerStructure Structure)
         {
             FStructure = Structure;
@@ -47475,8 +46189,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerStructure: size $3C; $30 player, $31 turns owned (FProductionPriority),
-//     $32 flag ID, $34 victory-location bits, $38 unfog range. VMT 55714340. }
+    // player, turns owned (FProductionPriority), flag ID, victory-location bits, unfog range
     public partial class TPlayerStructure : Aow.Units.AoWE.TStructure
     {
 
@@ -47491,17 +46204,10 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131916;
 
         public sbyte FPlayer;
-        // { $30 }
         public byte FProductionPriority;
-        // { $31 }
         public byte FFlagID;
-        // { $32 }
-        public Aow.Units.FixedArray_byte_1 F_PlayerStructure_33;
         public Aow.Units.Engine.TBitList FVictoryLocations;
-        // { $34 }
         public byte FUnfogRange;
-        // { $38; $557D50FC }
-        public Aow.Units.FixedArray_byte_3 F_PlayerStructure_39;
         // Structur.PAS:1977
         public override void Destroy()
         {
@@ -47524,7 +46230,6 @@ namespace Aow.Units.AoWE
         // Structur.PAS:2328
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
-            // { Tried Self identity, Pointer identity, typed with; base sender cast; still differs. }
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001989)
             {
@@ -48147,7 +46852,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2208
-        // { $1FC }
         public virtual int VisibilityRange()
         {
             int Result = default;
@@ -48256,7 +46960,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2233
-        // { $204 }
         public virtual void UpdateExploration()
         {
             int Player = default;
@@ -48302,7 +47005,6 @@ namespace Aow.Units.AoWE
 
         // Structur.PAS:2124
         // { Original leaves the result unchanged for a razed structure. }
-        // { $208 }
         public virtual void FinalizeCombat(Aow.Units.AoWE.TCombat Combat)
         {
             if ((Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crVictory) || (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crNoDefenders))
@@ -48335,7 +47037,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2094
-        // { +210; $557D066C }
         public virtual void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
         {
             Aow.Units.EventLog.TLocationTextEventLog Log = default;
@@ -48465,7 +47166,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1991
-        // { 557607AC }
         public void SetVictoryLocation(sbyte Player, bool Value)
         {
             var call__4049 = FVictoryLocations[Player];
@@ -48488,7 +47188,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2002
-        // { 557607B8 }
         public void RegisterVictoryLocations()
         {
             int I = default;
@@ -48581,7 +47280,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPlayerStructureResource (instance size 116, VMT 557145E0) }
     public partial class TPlayerStructureResource : Aow.Units.AoWE.TStructureResource
     {
         public TPlayerStructureResource(TECustomNode owner) : base(owner)
@@ -48595,15 +47293,10 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131917;
 
         public bool FClaimed;
-        // { $64 }
-        public Aow.Units.FixedArray_byte_3 F_PlayerStructureResource_65;
         public int FFlagX;
-        // { $68 }
         public int FFlagY;
-        // { $6C }
         public Aow.Units.AoWE.TFlagControl FFlagControl;
         // Structur.PAS:2430
-        // { $70; 5576103D }
         public override void Destroy()
         {
             base.Destroy();
@@ -48620,7 +47313,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2422
-        // { TPlayerStructureResource (instance size 116; $64 claimed, $68/$6C flag position, $70 flag control). }
+        // (claimed, flag position, flag control)
 
 
         // Structur.PAS:2467
@@ -48682,7 +47375,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2462
-        // { $7C }
         public void ActivateMsg()
         {
             FFlagControl = ((Aow.Units.AoWE.TAoWHSSet)Engine.HSSet).FFlagControl;
@@ -48693,7 +47385,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStructureTE (instance size 40, VMT 557146EC) }
     public partial class TStructureTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TStructureTE(TECustomNode owner) : base(owner)
@@ -48703,25 +47394,15 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135440;
 
         public sbyte FX;
-        // { $10 }
         public sbyte FY;
-        // { $11 }
         public sbyte FL;
-        // { $12 }
         public sbyte FPlayer;
-        // { $13 }
         public int FStructureClassID;
-        // { $14 }
         public int FAction;
-        // { $18 }
         public bool FRazed;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_StructureTE_1D;
         public int FParam;
-        // { $20 }
         public int FParam2;
         // Structur.PAS:3051
-        // { $24 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -48793,7 +47474,6 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2537
-        // { $50; 55761D9B }
         public void Initialize(int AClassID, sbyte X, sbyte Y, sbyte L)
         {
             Aow.Units.AoWE.TAoWMapField MapField = default;
@@ -48805,7 +47485,7 @@ namespace Aow.Units.AoWE
             MapField = (Aow.Units.AoWE.TAoWMapField)call__4076;
             Structure = (Aow.Units.AoWE.TStructure)MapField.FindOwnedChild(AClassID);
             var call__4077 = Structure.EClass.ClassID;
-            Aow.Rtl.Rtl.Assert(AClassID == call__4077, (AnsiString)"Invalid position (StructureTE)", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Structur.PAS", 3045);
+            Aow.Rtl.Rtl.Assert(AClassID == call__4077, (AnsiString)"Invalid position (StructureTE)", "Structur.PAS", 3045);
             FStructureClassID = AClassID;
             var call__4078 = Structure.GetRazed();
             FRazed = call__4078;
@@ -48819,8 +47499,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFrozenWaterHS (instance size 16, VMT 557147B4) }
-    // { TFrozenWaterHS: size $10; +$0C signed days remaining, +$0D caster player. }
+    // signed days remaining, caster player
     public partial class TFrozenWaterHS : Aow.Units.HSEngine.TSingleHS
     {
         public TFrozenWaterHS(TECustomNode owner) : base(owner)
@@ -48829,10 +47508,7 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131436;
 
         public sbyte FDaysRemaining;
-        // { $0C; 557CCEC1 }
         public sbyte FCasterPlayer;
-        // { $0D; 557CCEC7 }
-        public Aow.Units.FixedArray_byte_2 F_FrozenWaterHS_0E;
         // Structur.PAS:4487
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -48928,14 +47604,12 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P5. }
-    // { TPadControl: size $14, VMT 5571493C; $0C pad resources, $10 terrain types. }
+    // pad resources, terrain types
     public partial class TPadControl : Aow.Units.Engine.TEControlStyleObject
     {
         public Aow.Rtl.TList FPadResources;
-        // { $0C }
         public Aow.Units.Engine.TBitList FTerrainTypes;
         // MoveT.PAS:3622
-        // { $10; 5575EC58 }
         public override void Destroy()
         {
             FTerrainTypes.Free();
@@ -49041,15 +47715,13 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TFlagControl: size $14; $0C race resources, $10 flag library. VMT 557149F8. }
+    // race resources, flag library
     public partial class TFlagControl : Aow.Units.Engine.TEControlStyleObject
     {
 
         public Aow.Units.AoWE.TRaceResourceList FRaceResources;
-        // { $0C }
         public Aow.Units.ImageLib.TCustomImageLibrary FFlags;
         // PlayerC.PAS:1920
-        // { $10 }
         public override void Destroy()
         {
             Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"Flags.ILB");
@@ -49157,57 +47829,34 @@ namespace Aow.Units.AoWE
             ConstructionContext.Create(owner, static (context, owner) => new TFlagControl(context, owner ?? throw new NullReferenceException()));
     }
 
-    // { TAoWHSSet: instance size $A0, inherited $00..$47; fields $48..$9C
-//     listed below. VMT 55714AB8. Shared resources and controls for a game pack. }
+    // inherited . fields listed below. Shared resources and controls for a game pack
     public partial class TAoWHSSet : Aow.Units.HSEngine.THSSet
     {
         public new const int ClassID = 131088;
 
         public Aow.Units.ImageLib.TCustomImageLibrary FGeneralImages;
-        // { $48 }
         public Aow.Units.ImageLib.TCustomImageLibrary FCursorImages;
-        // { $4C }
         public Aow.Units.ImageLib.TCustomImageLibrary FCombatImages;
-        // { $50 }
         public Aow.Units.AoWE.TRaceResourceList FRaceResources;
-        // { $54 }
         public Aow.Units.AoWE.TPadControl FPadControl;
-        // { $58 }
         public Aow.Units.AoWE.TUnitResourceList FUnitResources;
-        // { $5C }
         public Aow.Units.AoWE.TUnitGFXResourceList FUnitGFXResources;
-        // { $60 }
         public Aow.Units.AoWE.THeroResourceList FHeroResources;
-        // { $64 }
         public Aow.Units.AoWE.TItemGFXList FItemGFXResources;
-        // { $68 }
         public Aow.Units.AoWE.TItemLibraryManager FItemLibraries;
-        // { $6C }
         public Aow.Units.AoWE.THeroLibraryManager FHeroLibraries;
-        // { $70 }
         public Aow.Units.AoWE.TFaceResourceList FFaceResources;
-        // { $74 }
         public Aow.Units.AoWE.TFlagControl FFlagControl;
-        // { $78 }
         public Aow.Units.AoWE.TFireControl FFireControl;
-        // { $7C }
         public Aow.Units.AoWE.TAbilityControl FAbilityControl;
-        // { $80 }
         public Aow.Units.AoWE.TSpellControl FSpellControl;
-        // { $84 }
         public Aow.Units.HSEngine.TMapObjectResourceList FCombatResources;
-        // { $88 }
         public Aow.Units.HSEngine.THexagonControl FCombatHexagons;
-        // { $8C }
         public Aow.Units.HSEngine.TRoadControl FCombatRoads;
-        // { $90 }
         public Aow.Units.ImageLib.TImageSequenceList FImageSequences;
-        // { $94 }
         public Aow.Units.AoWE.TTextControl FTextControl;
-        // { $98 }
         public int FHSSCRC;
         // Ability.PAS:74
-        // { $9C }
         public override void Destroy()
         {
             FFireControl.Free();
@@ -49571,9 +48220,8 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P5. }
-    // { TEmailGame (instance size $20, VMT 55714BAC).
-//     $08 name; $0C unique local ID; $10 unique ID; $14 security ID;
-//     $18 email address; $1C last day (not serialized by the original). }
+    // name. unique local ID. unique ID. security ID. email address. last day (not serialized by the
+    // original)
     public partial class TEmailGame : Aow.Units.Engine.TEObject
     {
         // Diplomacy.pas:2462
@@ -49583,18 +48231,12 @@ namespace Aow.Units.AoWE
         {}
 
         public Aow.Rtl.AnsiString FName;
-        // { $08 }
         public int FUniqueLocalID;
-        // { $0C }
         public int FUniqueID;
-        // { $10 }
         public int FSecurityID;
-        // { $14 }
         public Aow.Rtl.AnsiString FEmailAddress;
-        // { $18 }
         public int FLastDay;
         // Diplomacy.pas:2465
-        // { $1C }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -49609,7 +48251,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TEmailGameList (instance size 12, VMT 55714C84) }
     public partial class TEmailGameList : Aow.Units.Engine.TENode
     {
         public TEmailGameList(TECustomNode owner) : base(owner)
@@ -49646,7 +48287,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TEmailGameControl (instance size $0C, VMT 55714D84). $08 games. }
+    // games
     public partial class TEmailGameControl : Aow.Units.Engine.TEObject
     {
         // Diplomacy.pas:2489
@@ -49658,7 +48299,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TEmailGameList FGames;
         // Diplomacy.pas:2495
-        // { $08 }
         public override void Destroy()
         {
             FGames.Free();
@@ -49928,7 +48568,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TRestartGameEventLog (instance size 40, VMT 55714E4C) }
     public partial class TRestartGameEventLog : Aow.Units.EventLog.TMessageEventLog
     {
         public TRestartGameEventLog(TECustomNode owner) : base(owner)
@@ -49963,7 +48602,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSMTPEventLog (instance size $34, VMT 55714F58). $24 message. }
+    // message
     public partial class TSMTPEventLog : Aow.Units.EventLog.TEventLog
     {
         // Diplomacy.pas:2441
@@ -49974,21 +48613,13 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.AnsiString FToAddress;
-        // { $18 }
         public Aow.Rtl.AnsiString FFileName;
-        // { $1C }
         public Aow.Rtl.AnsiString FSubject;
-        // { $20 }
         public Aow.Rtl.TStringList FMessage;
-        // { $24 }
         public bool FSuccess;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 FReserved29;
         public Aow.Rtl.AnsiString FFromAddress;
-        // { $2C }
         public Aow.Rtl.AnsiString FError;
         // Diplomacy.pas:2447
-        // { $30; 0044DD66 }
         public override void Destroy()
         {
             FMessage.Free();
@@ -49998,29 +48629,19 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TFire (instance size 44, VMT 557150AC) }
-    // { TFire (instance size 44): $1C FMode, $1D FTurnsLeft, $1E FAge,
-//     $20 FShowPriority, $24 FPlayer, $28 FExplosionFrame. }
+    // FMode, FTurnsLeft, FAge, FShowPriority, FPlayer, FExplosionFrame
     public partial class TFire : Aow.Units.ILTer.TILTerrainMO
     {
 
         public new const int ClassID = 132990;
 
         public TSet<Aow.Units.AoWE.TFireModeElement> FMode;
-        // { $1C }
         public sbyte FTurnsLeft;
-        // { $1D; AoWEd 0041D2AE, 0041D336 }
         public byte FAge;
-        // { $1E }
-        public Aow.Units.FixedArray_byte_1 F_Fire_1F;
         public int FShowPriority;
-        // { $20 }
         public sbyte FPlayer;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_Fire_25;
         public int FExplosionFrame;
         // Structur.PAS:3402
-        // { $28 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -50031,8 +48652,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:3386
-        // { TFire (instance size 44): $1C mode, $1D lifetime, $1E age,
-//   $20 priority, $24 owner player, $28 explosion frame. }
+        // mode, lifetime, age, priority, owner player, explosion frame
         public TFire(TECustomNode owner) : base(owner)
         {
             FTurnsLeft = 3;
@@ -50466,8 +49086,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFireResource (instance size 72, VMT 55715274) }
-    // { TFireResource (instance size 72): $44 FFireType. }
+    // FFireType
     public partial class TFireResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TFireResource(TECustomNode owner) : base(owner)
@@ -50476,10 +49095,8 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 132991;
 
         public Aow.Units.AoWE.TFireType FFireType;
-        // { $44 }
-        public Aow.Units.FixedArray_byte_3 F_FireResource_45;
         // Structur.PAS:3685
-        // { TFireResource (instance size 72): $44 FFireType. }
+        // FFireType
         public override void Destroy()
         {
             if ((FEngine != null) && !Aow.Units.AoWE.AoWE.AoWHSSet.Status.Contains(Aow.Units.HSEngine.THSSetStatusElement.ssDestroying))
@@ -50525,12 +49142,11 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFireControl (instance size 8, VMT 55715360) }
-    // { TFireControl (instance size 8): $04 FResources. }
+    // FResources
     public partial class TFireControl : Aow.Rtl.TObject
     {
         // Structur.PAS:3720
-        // { TFireControl (instance size 8): $04 FResources. }
+        // FResources
         public TFireControl()
         {
             var call__4271 = new Aow.Rtl.TList();
@@ -50539,7 +49155,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Rtl.TList FResources;
         // Structur.PAS:3726
-        // { $04 }
         public override void Destroy()
         {
             FResources.Free();
@@ -50627,13 +49242,10 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P3. }
-    // { TCombatPredictorUnit: instance size $54, VMT 5571567C;
-//     $04 FUnit; $08 FCPUID; $0C FPredictor; $10 FInitialHitPoints;
-//     $14 FSide; $18 FOpponents; $1C FEnabled; $1D FBehindWall;
-//     $20 FTargets; $24 FCombatValue; $28 FWallTargets; $2C FWallCombatValue;
-//     $30/$31 cache flags; $34 FRoundTargets; $38 FCombatValueTotal;
-//     $3C FCombatRounds; $40 FIncomingCombatValue; $44 FIneffectiveAttackers;
-//     $48 FTargetPriority; $4C FHitPoints; $50 FStatus. }
+    // FUnit. FCPUID. FPredictor. FInitialHitPoints. FSide. FOpponents. FEnabled. FBehindWall.
+    // FTargets. FCombatValue. FWallTargets. FWallCombatValue. cache flags. FRoundTargets.
+    // FCombatValueTotal. FCombatRounds. FIncomingCombatValue. FIneffectiveAttackers.
+    // FTargetPriority. FHitPoints. FStatus
     public partial class TCombatPredictorUnit : Aow.Rtl.TObject
     {
         // CombatPredictor.pas:1
@@ -50644,30 +49256,20 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAbstractUnit FUnit;
-        // { $04 }
         public int FCPUID;
-        // { $08 }
         public Aow.Units.AoWE.TCombatPredictor FPredictor;
-        // { $0C }
         public int FInitialHitPoints;
         public byte FSide;
-        public Aow.Units.FixedArray_byte_3 F_CombatPredictorUnit_15;
         public Aow.Units.AoWE.TCombatPredictorSide FOpponents;
-        // { $18 }
         public byte FEnabled;
         public byte FBehindWall;
-        public Aow.Units.FixedArray_byte_2 F_CombatPredictorUnit_1E;
         public Aow.Units.Engine.TQuadItemList FTargets;
-        // { $20 }
         public int FCombatValue;
         public Aow.Units.Engine.TQuadItemList FWallTargets;
-        // { $28 }
         public int FWallCombatValue;
         public byte FTargetsInvalid;
         public byte FWallTargetsInvalid;
-        public Aow.Units.FixedArray_byte_2 F_CombatPredictorUnit_32;
         public Aow.Units.Engine.TQuadItemList FRoundTargets;
-        // { $34 }
         public int FCombatValueTotal;
         public int FCombatRounds;
         public int FIncomingCombatValue;
@@ -50675,7 +49277,6 @@ namespace Aow.Units.AoWE
         public int FTargetPriority;
         public int FHitPoints;
         public TSet<Aow.Units.AoWE.TCombatPredictorUnitStatusElement> FStatus;
-        public Aow.Units.FixedArray_byte_3 F_CombatPredictorUnit_51;
         // CombatPredictor.pas:4
         public override void Destroy()
         {
@@ -50717,7 +49318,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:45
-        // { draft }
         public void UpdateTargets()
         {
             int I = default;
@@ -50800,7 +49400,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:89
-        // { draft }
         public void UpdateWallTargets()
         {
             int I = default;
@@ -50947,7 +49546,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:145
-        // { draft }
         public void InvalidateTargets()
         {
             FTargetsInvalid = 1;
@@ -50955,7 +49553,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:148
-        // { draft }
         public void ResetCombat()
         {
             FHitPoints = FInitialHitPoints;
@@ -50964,7 +49561,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:155
-        // { draft }
         public void ResetRoundTargets()
         {
             FRoundTargets.Clear();
@@ -50974,7 +49570,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:163
-        // { draft }
         public void SetupRoundTargets(byte A1)
         {
             int I = default;
@@ -51033,7 +49628,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:201
-        // { draft }
         public void UpdateRoundTargetPriority()
         {
             int I = default;
@@ -51056,7 +49650,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:216
-        // { draft }
         public void SortRoundTargets()
         {
             int I = default;
@@ -51087,7 +49680,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:231
-        // { draft }
         public bool ExecuteRound()
         {
             bool Result = default;
@@ -51119,7 +49711,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:250
-        // { draft }
         public void FinishCombat()
         {
             if (FHitPoints <= 0)
@@ -51132,8 +49723,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TCombatPredictorUnitList (instance size 16, VMT 55715700) }
     public partial class TCombatPredictorUnitList : Aow.Rtl.TList
     {
         // CombatPredictor.pas:253
@@ -51163,7 +49752,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:267
-        // { 5572B0BC }
         public int IndexOfCPUID(int A1)
         {
             int Result = default;
@@ -51185,9 +49773,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TCombatPredictorSide (instance size $3C, VMT 55715794):
-//     $10 dirty flag; $14 FStrength (ten Integers indexed by TDamageType). }
+    // dirty flag. FStrength (ten Integers indexed by TDamageType)
     public partial class TCombatPredictorSide : Aow.Units.AoWE.TCombatPredictorUnitList
     {
         public Aow.Units.FixedArray_byte_4 F_CombatPredictorSide_10;
@@ -51199,7 +49785,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:281
-        // { draft }
         public int GetStrength(Aow.Units.AoWE.TDamageType A1)
         {
             int Result = default;
@@ -51208,7 +49793,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:284
-        // { draft }
         public int GetStrengthMax(TSet<Aow.Units.AoWE.TDamageType> A1)
         {
             int Result = default;
@@ -51234,11 +49818,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TCombatPredictor (instance size $34, VMT 55715820):
-//     $04 FAllUnits; $08 FActiveUnits; $0C/$10 FSides; $14 FResult;
-//     $18 FSuperiority; $1C FEfficiency; $20 FWall; $24 FRound;
-//     $28 FNextCPUID; $2C FInvalid; $30 FWork. }
+    // FAllUnits. FActiveUnits. FSides. FResult. FSuperiority. FEfficiency. FWall. FRound.
+    // FNextCPUID. FInvalid. FWork
     public partial class TCombatPredictor : Aow.Rtl.TObject
     {
         // CombatPredictor.pas:292
@@ -51255,21 +49836,15 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TCombatPredictorUnitList FAllUnits;
-        // { $04 }
         public Aow.Units.AoWE.TCombatPredictorUnitList FActiveUnits;
-        // { $08 }
         public Aow.Units.FixedArray_Aow_Units_AoWE_TCombatPredictorSide_2 FSides;
-        // { $0C }
         public byte FResult;
-        public Aow.Units.FixedArray_byte_3 F_CombatPredictor_15;
         public int FSuperiority;
         public int FEfficiency;
         public Aow.Units.AoWE.TCombatPredictorUnit FWall;
-        // { $20 }
         public int FRound;
         public int FNextCPUID;
         public byte FInvalid;
-        public Aow.Units.FixedArray_byte_3 F_CombatPredictor_2D;
         public int FWork;
         // CombatPredictor.pas:301
         public override void Destroy()
@@ -51306,7 +49881,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:325
-        // { draft }
         public int CreateUniqueCPUID()
         {
             int Result = default;
@@ -51316,7 +49890,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:328
-        // { draft }
         public void EnableAllUnits()
         {
             int I = default;
@@ -51335,7 +49908,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:339
-        // { draft }
         public void Validate()
         {
             if (FInvalid != 0)
@@ -51345,7 +49917,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:342
-        // { draft }
         public void ResetCombat()
         {
             int I = default;
@@ -51364,7 +49935,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:352
-        // { draft }
         public void SetupCombat(byte A1)
         {
             int I = default;
@@ -51441,7 +50011,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:380
-        // { draft }
         public bool ExecuteCombatRound()
         {
             bool Result = default;
@@ -51487,7 +50056,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:398
-        // { draft }
         public bool CanPassWall()
         {
             bool Result = default;
@@ -51517,7 +50085,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:415
-        // { draft }
         public void FinishCombat()
         {
             Aow.Units.AoWE.TCombatPredictorUnit Wall = default;
@@ -51599,7 +50166,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:440
-        // { draft }
         public Aow.Units.AoWE.TCombatResult Execute()
         {
             Aow.Units.AoWE.TCombatResult Result = default;
@@ -51697,7 +50263,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:489
-        // { 5573A91D }
         public Aow.Units.AoWE.TCombatPredictorUnit AddUnitEx(Aow.Units.AoWE.TAbstractUnit A1, byte A2, byte A3)
         {
             Aow.Units.AoWE.TCombatPredictorUnit Result = default;
@@ -51768,7 +50333,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:524
-        // { draft }
         public void AddWall(Aow.Units.AoWE.TWallType A1)
         {
             Aow.Units.AoWE.TWallUnit Wall = default;
@@ -51810,7 +50374,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:725
-        // { draft }
         public void DeleteUnits()
         {
             int I = default;
@@ -51826,7 +50389,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:732
-        // { draft }
         public void DeleteOpponents()
         {
             int I = default;
@@ -52409,7 +50971,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:994
-        // { draft }
         public void ListUselessUnits(int A1)
         {
             int I = default;
@@ -52429,7 +50990,6 @@ namespace Aow.Units.AoWE
         }
 
         // CombatPredictor.pas:1004
-        // { draft }
         public int Usefullness(Aow.Units.AoWE.TAbstractUnit A1)
         {
             int Result = default;
@@ -52504,12 +51064,9 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatObject: instance size $4C, VMT 557158EC.
-//     $08 FCombat; $0C FID; $10 FTargets; $14 FTargetedBy;
-//     $18/$1C outgoing CV/wall CV; $20/$24 incoming CV/wall CV;
-//     $28/$2C target counts; $30/$34 attacker counts;
-//     $38/$3C target priority/cache flag; $40/$44 strength/cache flag;
-//     $45 FCombatPlayer; $46 FPosition; $47 FStatus; $48 FControlMode. }
+    // FCombat. FID. FTargets. FTargetedBy. outgoing CV/wall CV. incoming CV/wall CV. target counts.
+    // attacker counts. target priority/cache flag. strength/cache flag. FCombatPlayer. FPosition.
+    // FStatus. FControlMode
     public partial class TCombatObject : Aow.Units.Engine.TEObject
     {
 
@@ -52524,13 +51081,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TCombat FCombat;
-        // { $08 }
         public byte FID;
-        public Aow.Units.FixedArray_byte_3 F_CombatObject_0D;
         public Aow.Units.Engine.TQuadItemList FTargets;
-        // { $10 }
         public Aow.Units.Engine.TQuadItemList FTargetedBy;
-        // { $14 }
         public int FCombatValue;
         public int FWallCombatValue;
         public int FIncomingCombatValue;
@@ -52539,20 +51092,14 @@ namespace Aow.Units.AoWE
         public int FWallTargetCount;
         public int FAttackerCount;
         public int FWallAttackerCount;
-        // { $34 }
         public int FTargetPriority;
         public bool FTargetPriorityInvalid;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_3 F_CombatObject_3D;
         public int FTargetStrength;
         public bool FTargetStrengthInvalid;
-        // { $44 }
         public sbyte FCombatPlayer;
-        // { $45; AoWTCPCK 00407DD9, 00407F8F }
         public byte FPosition;
         public TSet<Aow.Units.AoWE.TCombatObjectStatusElement> FStatus;
         public TSet<Aow.Units.AoWE.TCombatObjectControlModeElement> FControlMode;
-        public Aow.Units.FixedArray_byte_3 F_CombatObject_49;
         // Combat.pas:1930
         public override void Destroy()
         {
@@ -52588,7 +51135,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5527
-        // { +04C }
         public virtual int GetTargetWallCV(Aow.Units.AoWE.TCombatObject Target)
         {
             int Result = default;
@@ -52597,7 +51143,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1938
-        // { +050 }
         public virtual void TargetsChanged()
         {
             FTargetPriorityInvalid = true;
@@ -52605,7 +51150,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5530
-        // { +054 draft }
         public virtual int GetTargetPriority()
         {
             int Result = default;
@@ -52664,7 +51208,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5559
-        // { +058 }
         public virtual int GetTargetStrength()
         {
             int Result = default;
@@ -52696,7 +51239,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5633
-        // { +05C draft }
         public virtual bool GetEnabled()
         {
             bool Result = default;
@@ -52705,7 +51247,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5706
-        // { +060 }
         public virtual bool GetLocked()
         {
             bool Result = default;
@@ -52714,7 +51255,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5709
-        // { +064 draft }
         public virtual void SetCombatPlayer(byte Player)
         {
             bool ChangedSide = default;
@@ -52760,7 +51300,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5737
-        // { +068 }
         public virtual sbyte GetAttack()
         {
             sbyte Result = default;
@@ -52769,7 +51308,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5740
-        // { +06C draft }
         public virtual sbyte GetDefense()
         {
             sbyte Result = default;
@@ -52778,7 +51316,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5743
-        // { +070 }
         public virtual sbyte GetResistance()
         {
             sbyte Result = default;
@@ -52787,7 +51324,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5746
-        // { +074 }
         public virtual sbyte GetDamage()
         {
             sbyte Result = default;
@@ -52796,7 +51332,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5749
-        // { +078 draft }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetImmunityTypes()
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -52805,7 +51340,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5752
-        // { +07C }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetProtectionTypes()
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -52814,7 +51348,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5758
-        // { +080 }
         public virtual sbyte GetHits()
         {
             sbyte Result = default;
@@ -52823,8 +51356,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5764
-        // { +084; 557F8068 }
-        // { conflict: function GetHits: Shortint; virtual; }
         public virtual sbyte GetHitPoints()
         {
             sbyte Result = default;
@@ -52833,14 +51364,11 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5761
-        // { +088 }
         public virtual void SetHitPoints(byte A1)
         {
         }
 
         // Combat.pas:5779
-        // { +08C; 557F7DEC }
-        // { conflict: procedure SetHitPoints(A1: Shortint); virtual; }
         public virtual Aow.Units.AoWE.TAlignment GetAlignment()
         {
             Aow.Units.AoWE.TAlignment Result = default;
@@ -52849,7 +51377,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5755
-        // { +090 draft }
         public virtual int GetMoves()
         {
             int Result = default;
@@ -52858,7 +51385,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5767
-        // { +094 draft }
         public virtual int GetExperience()
         {
             int Result = default;
@@ -52867,13 +51393,11 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5770
-        // { +098 draft }
         public virtual void SetExperience(int A1)
         {
         }
 
         // Combat.pas:5773
-        // { +09C draft }
         public virtual byte GetLevel()
         {
             byte Result = default;
@@ -52882,7 +51406,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5617
-        // { +0A0 draft }
         public virtual int GetVisibilityRange()
         {
             int Result = default;
@@ -52891,7 +51414,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5785
-        // { +0A4 draft }
         public virtual bool GetAbilityEnabled(int A1)
         {
             bool Result = default;
@@ -52900,13 +51422,11 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5788
-        // { +0A8; 557F89BC }
         public virtual void SetAbilityEnabled(int A1, bool A2)
         {
         }
 
         // Combat.pas:5791
-        // { +0AC draft }
         public virtual int GetAbilityLevel(int A1)
         {
             int Result = default;
@@ -52915,7 +51435,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5794
-        // { +0B0 draft }
         public virtual int GetAbilityCount()
         {
             int Result = default;
@@ -52924,7 +51443,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5782
-        // { +0B4 draft }
         public virtual Aow.Units.AoWE.TAbilityOwner GetAbilityOwner()
         {
             Aow.Units.AoWE.TAbilityOwner Result = default;
@@ -52933,7 +51451,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5672
-        // { +0B8 }
         public virtual void Activate(int A1)
         {
             byte Player = default;
@@ -52952,7 +51469,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5685
-        // { +0BC draft }
         public virtual void Deactivate()
         {
             byte Player = default;
@@ -52970,7 +51486,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5813
-        // { +0C0 draft }
         public virtual void ObjectDestroyed(Aow.Units.AoWE.TCombatObject A1)
         {
             var call__4412 = A1.GetSide();
@@ -52982,7 +51497,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5592
-        // { +0C4; 55726934 }
         public virtual void ObjectSideChanged(Aow.Units.AoWE.TCombatObject A1)
         {
             int CV = default;
@@ -53011,21 +51525,18 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5697
-        // { +0C8; 5572653C }
         public virtual void Initialize(int A1)
         {
             FCombat = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TCombat>((int)A1);
         }
 
         // Combat.pas:5700
-        // { +0CC draft }
         public virtual void Finalize(Aow.Units.AoWE.TFinalizeMode A1)
         {
             Destroy();
         }
 
         // Combat.pas:5614
-        // { +0D0 draft }
         public virtual int fcRoundDistance()
         {
             int Result = default;
@@ -53034,7 +51545,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5605
-        // { +0D4 }
         public virtual bool fcExecute(int A1)
         {
             bool Result = default;
@@ -53043,7 +51553,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5608
-        // { +0D8 }
         public virtual bool fcBehindWall()
         {
             bool Result = default;
@@ -53060,7 +51569,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5818
-        // { conflict: function fcWallInBetween(A1: Integer): Boolean; virtual; }
         public virtual bool SupportCombatMode(TSet<Aow.Units.AoWE.TCombatMode> Modes)
         {
             bool Result = default;
@@ -53069,7 +51577,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5630
-        // { +0E4 }
         public virtual TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> WallCombatFeatures()
         {
             TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> Result = default;
@@ -53078,13 +51585,11 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5703
-        // { +0E8 draft }
         public virtual void PlaySFX(byte A1)
         {
         }
 
         // Combat.pas:5654
-        // { +0EC draft }
         public virtual void NewTurn(byte A1)
         {
             if (A1 == unchecked((byte)FCombatPlayer))
@@ -53094,25 +51599,21 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5657
-        // { +0F0 draft }
         public virtual void NewRound()
         {
         }
 
         // Combat.pas:5660
-        // { +0F4 draft }
         public virtual void CombatDone()
         {
         }
 
         // Combat.pas:5990
-        // { +0F8 draft }
         public virtual void Show(int Frame, int Direction, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
         }
 
         // Combat.pas:5993
-        // { +0FC draft }
         public virtual int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             int Result = default;
@@ -53121,7 +51622,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5996
-        // { +100 draft }
         public virtual int ShowHitAnimation(int Frame, int Direction, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             int Result = default;
@@ -53130,7 +51630,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5868
-        // { +104 draft }
         public virtual int DoDamage(Aow.Units.AoWE.TCombatObject A1, int A2)
         {
             int Result = default;
@@ -53198,7 +51697,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5836
-        // { +10C }
         public virtual int ExecuteDamageRole(int A1, int A2, TSet<Aow.Units.AoWE.TDamageType> A3)
         {
             int Result = default;
@@ -53220,7 +51718,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5849
-        // { +110 }
         public virtual int ExecuteDamageRoleEx(int A1, int A2, TSet<Aow.Units.AoWE.TDamageType> A3, byte A4)
         {
             int Result = default;
@@ -53250,7 +51747,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5865
-        // { +114 draft }
         public virtual TSet<Aow.Units.AoWE.TDamageType> ExecuteDamageEffectsRole(TSet<Aow.Units.AoWE.TDamageType> A1)
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -53259,7 +51755,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5895
-        // { +118 draft }
         public virtual void Surrender()
         {
             SetHitPoints(0);
@@ -53269,7 +51764,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5881
-        // { +11C draft }
         public virtual void DestroyObject()
         {
             int I = default;
@@ -53296,12 +51790,11 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5903
-        // { +120 }
         public virtual int ExecuteDamage(int A1)
         {
             int Result = default;
             int Hits = default;
-            Aow.Rtl.Rtl.Assert((A1 >= 0) && (A1 < 50), (AnsiString)"Invalid Damage Value (TCombatUnit.ExecuteDamage)", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Combat.pas", 5982);
+            Aow.Rtl.Rtl.Assert((A1 >= 0) && (A1 < 50), (AnsiString)"Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
             Hits = GetHitPoints();
             if (Hits < A1)
             {
@@ -53327,7 +51820,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5862
-        // { +124 draft }
         public virtual TSet<Aow.Units.AoWE.TDamageType> ExecuteDamageEffects(TSet<Aow.Units.AoWE.TDamageType> A1)
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -53336,7 +51828,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5663
-        // { +128 draft }
         public virtual void TurnDone()
         {
             Aow.Units.AoWE.TCombatObjectTurnDoneCA A = default;
@@ -53347,7 +51838,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5776
-        // { +12C draft }
         public virtual Aow.Rtl.AnsiString IDStr()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -53356,11 +51846,10 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1941
-        // { +130 draft }
         public void AddTarget(Aow.Units.AoWE.TCombatObject Target, int CV, int WallCV, int DV)
         {
             var call__4422 = FTargets.IndexOfItemA(Aow.Rtl.Rtl.ObjectToInt(Target));
-            Aow.Rtl.Rtl.Assert(call__4422 == -1, (AnsiString)"target already exists use update target", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Combat.pas", 5473);
+            Aow.Rtl.Rtl.Assert(call__4422 == -1, (AnsiString)"target already exists use update target", "Combat.pas", 5473);
             FCombatValue += CV;
             FWallCombatValue += WallCV;
             FTargets.AddABCD(Aow.Rtl.Rtl.ObjectToInt(Target), CV, WallCV, DV);
@@ -53452,7 +51941,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5575
-        // { draft }
         public void SetupTargets()
         {
             int I = default;
@@ -53488,7 +51976,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5636
-        // { draft }
         public Aow.Units.AoWE.TCombatSideIndex GetSide()
         {
             Aow.Units.AoWE.TCombatSideIndex Result = default;
@@ -53508,7 +51995,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5645
-        // { draft }
         public Aow.Units.AoWE.TCombatSideIndex GetOpponentSide()
         {
             Aow.Units.AoWE.TCombatSideIndex Result = default;
@@ -53528,7 +52014,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5797
-        // { draft }
         public sbyte GetPlayer()
         {
             sbyte Result = default;
@@ -53570,10 +52055,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatUnit (instance size $5C, VMT 55715A94).
-//     $4C FUnit; $50 FParty; $54 FDisabled; $55 FWallCombatFeatures;
-//     $58 FUnitGFXResourceIndex. Inherited: $0C FID; $46 FPosition;
-//     $47 FStatus; $48 FControlMode. }
+    // FUnit. FParty. FDisabled. FWallCombatFeatures. FUnitGFXResourceIndex. Inherited: FID.
+    // FPosition. FStatus. FControlMode
     public partial class TCombatUnit : Aow.Units.AoWE.TCombatObject
     {
         // Combat.pas:1084
@@ -53589,10 +52072,8 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TAbstractUnit FUnit;
         public Aow.Units.AoWE.TCombatParty FParty;
-        // { $50 }
         public bool FDisabled;
         public TSet<Aow.Units.AoWE.TWallCombatFeaturesElement> FWallCombatFeatures;
-        public Aow.Units.FixedArray_byte_2 F_CombatUnit_56;
         public int FUnitGFXResourceIndex;
         // Combat.pas:1078
         public override void Destroy()
@@ -53881,7 +52362,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1289
-        // { conflict: function GetHits: Shortint; override; }
         public override sbyte GetHitPoints()
         {
             sbyte Result = default;
@@ -53912,7 +52392,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1260
-        // { conflict: procedure SetHitPoints(A1: Shortint); override; }
         public override Aow.Units.AoWE.TAlignment GetAlignment()
         {
             Aow.Units.AoWE.TAlignment Result = default;
@@ -54391,7 +52870,6 @@ namespace Aow.Units.AoWE
         // Combat.pas:1544
         public override void Surrender()
         {
-            // { Tried receiver casts, nested with and a receiver copy; still differs. }
             if (GetHitPoints() != 0)
             {
                 SetHitPoints(0);
@@ -54531,17 +53009,14 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1522
-        // { +134 }
         public virtual void KillUnit()
         {
             FUnit.Killed();
         }
 
         // Combat.pas:1087
-        // { +138 draft }
         public void Setup(byte A1, byte A2, Aow.Units.AoWE.TAbstractUnit A3, byte A4, byte A5)
         {
-            // { Tried Self identity, Pointer identity, typed with; uncast unit argument; still differs. }
             FID = unchecked((byte)A1);
             FPosition = unchecked((byte)A4);
             SetCombatPlayer(unchecked((byte)A5));
@@ -54578,7 +53053,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1303
-        // { draft }
         public void SetParty(Aow.Units.AoWE.TCombatParty Party)
         {
             Aow.Units.AoWE.TCombatParty P = default;
@@ -54621,7 +53095,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1331
-        // { draft }
         public void UpdateUnitGFXResource()
         {
             int Index = default;
@@ -54649,7 +53122,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1347
-        // { draft }
         public void ReleaseUnitGFXResource()
         {
             int Index = default;
@@ -54663,7 +53135,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1512
-        // { draft }
         public void SetStatus(TSet<Aow.Units.AoWE.TCombatObjectStatusElement> Status)
         {
             if (Status.Contains(Aow.Units.AoWE.TCombatObjectStatusElement.csFled) && !FStatus.Contains(Aow.Units.AoWE.TCombatObjectStatusElement.csFled))
@@ -54739,8 +53210,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatWall (instance size $50, VMT 55715C40): $4C FWallType;
-//     $4D FHitPoints; $4E FLocked. }
+    // FWallType. FHitPoints. FLocked
     public partial class TCombatWall : Aow.Units.AoWE.TCombatObject
     {
         // Combat.pas:1670
@@ -54756,7 +53226,6 @@ namespace Aow.Units.AoWE
         public byte FWallType;
         public byte FHitPoints;
         public bool FLocked;
-        public Aow.Units.FixedArray_byte_1 F_CombatWall_4F;
         // Combat.pas:1667
         public override void Destroy()
         {
@@ -54886,7 +53355,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1743
-        // { conflict: function GetHits: Shortint; override; }
         public override sbyte GetHitPoints()
         {
             sbyte Result = default;
@@ -54901,7 +53369,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1712
-        // { conflict: procedure SetHitPoints(A1: Shortint); override; }
         public override void Activate(int A1)
         {
             base.Activate(A1);
@@ -54990,8 +53457,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatSide (instance size $1C, VMT 55715DE4):
-//     $0C FSideIndex; $10 FOpponent; $14 FStrength; $18 FConquerCount. }
+    // FSideIndex. FOpponent. FStrength. FConquerCount
     public partial class TCombatSide : Aow.Units.Engine.TENode
     {
         // Combat.pas:5999
@@ -55000,7 +53466,6 @@ namespace Aow.Units.AoWE
         }
 
         public byte FSideIndex;
-        public Aow.Units.FixedArray_byte_3 F_CombatSide_0D;
         public Aow.Units.AoWE.TCombatSide FOpponent;
         public int FStrength;
         public int FConquerCount;
@@ -55025,7 +53490,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6011
-        // { 557F7E59 }
         public int IndexOfID(int A1)
         {
             int Result = default;
@@ -55046,7 +53510,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6018
-        // { draft }
         public int GetDestroyedObjects()
         {
             int Result = default;
@@ -55068,7 +53531,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6026
-        // { draft }
         public int GetUndestroyedConquerObjects()
         {
             int Result = default;
@@ -55092,7 +53554,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6038
-        // { draft }
         public void OutputDebugInfo()
         {
             int I = default;
@@ -55124,7 +53585,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6052
-        // { draft }
         public void UpdateSettings()
         {
             int I = default;
@@ -55157,27 +53617,22 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P5. }
-    // { TFastCombatCommand (instance size $1C, VMT 55715EDC). $04 ability ID,
-//     $08 source DV, $0C target DV, $10 expected DV, $14 move cost, $18 target. }
+    // ability ID, source DV, target DV, expected DV, move cost, target
     public partial class TFastCombatCommand : Aow.Rtl.TObject
     {
         // AIGroup.pas:6705
-        // { +000; 557790CF..5577910F }
         public TFastCombatCommand(int AbilityID)
         {
             FAbilityID = AbilityID;
         }
 
         public int FAbilityID;
-        // { $04 }
         public int FSourceDV;
         public int FTargetDV;
         public int FExpectedDV;
         public int FMoveCost;
-        // { $08..$14 }
         public Aow.Units.AoWE.TCombatObject FTarget;
         // AIGroup.pas:6710
-        // { $18 }
         public virtual Aow.Rtl.AnsiString GetName()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -55197,8 +53652,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFastCombatCommandList (instance size $18, VMT 55715F60).
-//     $04 source, $08 source side, $0C target side, $10 combat, $14 command list. }
+    // source, source side, target side, combat, command list
     public partial class TFastCombatCommandList : Aow.Rtl.TObject
     {
         // AIGroup.pas:6716
@@ -55220,16 +53674,11 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TCombatObject FSource;
-        // { $04 }
         public Aow.Units.AoWE.TCombatSide FSourceSide;
-        // { $08 }
         public Aow.Units.AoWE.TCombatSide FTargetSide;
-        // { $0C }
         public Aow.Units.AoWE.TFastCombat FCombat;
-        // { $10 }
         public Aow.Rtl.TList FCommands;
         // AIGroup.pas:6727
-        // { $14 }
         public override void Destroy()
         {
             Clear();
@@ -55292,8 +53741,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatViewer (instance size $1C, VMT 55716040):
-//     $04 FStatus; $08 FCombat; $0C FDelay; $0D FSpeed; $10 FPosition; $14 FTime; $18 FLogbook. }
+    // FStatus. FCombat. FDelay. FSpeed. FPosition. FTime. FLogbook
     public partial class TCombatViewer : Aow.Rtl.TObject
     {
         // Combat2.pas:546
@@ -55307,17 +53755,13 @@ namespace Aow.Units.AoWE
         }
 
         public TSet<Aow.Units.AoWE.TCombatViewerStatusElement> FStatus;
-        public Aow.Units.FixedArray_byte_3 F_CombatViewer_05;
         public Aow.Units.AoWE.TCombat FCombat;
-        // { $08 }
         public byte FDelay;
         public byte FSpeed;
-        public Aow.Units.FixedArray_byte_2 F_CombatViewer_0E;
         public int FPosition;
         public int FTime;
         public Aow.Units.AoWE.TCombatLogbook FLogbook;
         // Combat2.pas:555
-        // { $18 }
         public override void Destroy()
         {
             if (FStatus.Contains(Aow.Units.AoWE.TCombatViewerStatusElement.vsInitialized))
@@ -55330,7 +53774,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:562
-        // { draft }
         public void Initialize(Aow.Units.AoWE.TCombatLogbook A1)
         {
             if (FStatus.Contains(Aow.Units.AoWE.TCombatViewerStatusElement.vsInitialized))
@@ -55362,7 +53805,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:587
-        // { draft }
         public int GetEndPosition()
         {
             int Result = default;
@@ -55372,7 +53814,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:590
-        // { draft }
         public void SetSpeed(byte A1)
         {
             if (A1 == 0)
@@ -55384,7 +53825,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:593
-        // { draft }
         public void SetPosition(int A1)
         {
             if (FStatus.Contains(Aow.Units.AoWE.TCombatViewerStatusElement.vsInitialized))
@@ -55444,21 +53884,18 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:629
-        // { draft }
         public void Play()
         {
             FStatus = (FStatus + TSet<Aow.Units.AoWE.TCombatViewerStatusElement>.Of(Aow.Units.AoWE.TCombatViewerStatusElement.vsPlaying)) - TSet<Aow.Units.AoWE.TCombatViewerStatusElement>.Of(Aow.Units.AoWE.TCombatViewerStatusElement.vsPaused);
         }
 
         // Combat2.pas:632
-        // { draft }
         public void Pause()
         {
             FStatus = FStatus + TSet<Aow.Units.AoWE.TCombatViewerStatusElement>.Of(Aow.Units.AoWE.TCombatViewerStatusElement.vsPaused);
         }
 
         // Combat2.pas:635
-        // { draft }
         public void Update()
         {
             bool Playing = default;
@@ -55517,7 +53954,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:667
-        // { draft }
         public void ShowObject(Aow.Units.AoWE.TCombatObject A1, int A2, int A3, int A4, int A5, in Aow.Units.GFXE.TSurfaceDesc A6)
         {
             var call__4560 = FLogbook.FActions.Count;
@@ -55602,7 +54038,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatAction: instance size $0C, VMT 557160B4; $08 FRefCount. }
+    // FRefCount
     public partial class TCombatAction : Aow.Units.Engine.TEObject
     {
 
@@ -55648,35 +54084,30 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P3_02.inc:42
-        // { +04C }
         public virtual void Execute(Aow.Units.AoWE.TCombat A1)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // intf_P3_02.inc:43
-        // { +050 }
         public virtual bool Play(Aow.Units.AoWE.TCombatViewer A1)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // Combat2.pas:716
-        // { +054 }
         public virtual void ShowObject(Aow.Units.AoWE.TCombatViewer A1, Aow.Units.AoWE.TCombatObject A2, int A3, int A4, int A5, int A6, in Aow.Units.GFXE.TSurfaceDesc A7)
         {
             A2.Show(A3, A4, A5, A6, A7);
         }
 
         // Combat2.pas:721
-        // { +058 }
         public virtual void ShowFieldObject(Aow.Units.AoWE.TCombatViewer A1, Aow.Units.AoWE.TCombatObject A2, int A3, int A4, int A5, int A6, in Aow.Units.GFXE.TSurfaceDesc A7)
         {
             A2.Show(A3, A4, A5, A6, A7);
         }
 
         // Combat2.pas:726
-        // { +05C }
         public virtual void ShowFightingObjects(Aow.Units.AoWE.TCombatViewer A1, int A2, int A3, int A4, in Aow.Units.GFXE.TSurfaceDesc A5)
         {
         }
@@ -55685,9 +54116,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { +060 }
-    // { TSingleTargetCA: instance size $10, VMT 557161CC;
-//     $0C FMode; $0D FSourceID; $0E FTargetID. }
+    // FMode. FSourceID. FTargetID
     public partial class TSingleTargetCA : Aow.Units.AoWE.TCombatAction
     {
 
@@ -55698,7 +54127,6 @@ namespace Aow.Units.AoWE
         public TSet<Aow.Units.AoWE.TSingleTargetModeElement> FMode;
         public byte FSourceID;
         public byte FTargetID;
-        public Aow.Units.FixedArray_byte_1 F_SingleTargetCA_0F;
         // Combat2.pas:732
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -55775,7 +54203,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:743
-        // { draft }
         public void SetDefensive(bool A1)
         {
             if (A1)
@@ -55789,10 +54216,8 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { 557299E4; 557666F6 }
-    // { TDamageCA (instance size $18, VMT 557162F4):
-//     $10 FDamage; $11 FDamageTypes; $13 FEffects; $15 FDamageTaken.
-//     The two damage sets are deliberately unaligned packed fields. }
+    // FDamage. FDamageTypes. FEffects. FDamageTaken. The two damage sets are deliberately unaligned
+    // packed fields
     public partial class TDamageCA : Aow.Units.AoWE.TSingleTargetCA
     {
         // Combat2.pas:774
@@ -55803,13 +54228,9 @@ namespace Aow.Units.AoWE
         }
 
         public byte FDamage;
-        // { $10 }
         public Aow.Units.AoWE.TP3PackedDamageTypes FDamageTypes;
         public Aow.Units.AoWE.TP3PackedDamageTypes FEffects;
         public byte FDamageDone;
-        // { $15 }
-        // { conflict: FDamageTaken: Byte; }
-        public Aow.Units.FixedArray_byte_2 F_DamageCA_16;
         // Combat2.pas:777
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -55923,7 +54344,6 @@ namespace Aow.Units.AoWE
                         Aow.Units.AoWE.AoWE.ShowDamageEffects(FEffects.Value, A5, A6, A1.FTime - HitFrame, A7);
                     }
 
-                    // { needs: P1 ShowDamageIcon has five arguments; DamageTypesToDamageType returns TDamageType. }
                     var call__4579 = Aow.Units.AoWE.AoWE.DamageTypesToDamageType(FDamageTypes.Value);
                     Aow.Units.AoWE.AoWE.ShowDamageIcon(A5, A6, A7, FDamageDone, call__4579);
                 }
@@ -55949,7 +54369,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:795
-        // { +064 draft }
         public virtual void Generate(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, sbyte A3, sbyte A4, TSet<Aow.Units.AoWE.TDamageType> A5)
         {
             FSourceID = unchecked((byte)A1.FID);
@@ -55995,8 +54414,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { +06C }
-    // { TDamageEffectCA: instance size $14, VMT 557163D0; $10 FDamageType. }
+    // FDamageType
     public partial class TDamageEffectCA : Aow.Units.AoWE.TSingleTargetCA
     {
         // Combat2.pas:876
@@ -56006,8 +54424,6 @@ namespace Aow.Units.AoWE
         {}
 
         public Aow.Units.AoWE.TDamageType FDamageType;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_DamageEffectCA_11;
         // Combat2.pas:879
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -56042,7 +54458,6 @@ namespace Aow.Units.AoWE
         // Combat2.pas:926
         public override void ShowObject(Aow.Units.AoWE.TCombatViewer A1, Aow.Units.AoWE.TCombatObject A2, int A3, int A4, int A5, int A6, in Aow.Units.GFXE.TSurfaceDesc A7)
         {
-            // { Tried parameter casts, identity assignments and zero-shift arguments; still differs. }
             if (A2.FID == FTargetID)
             {
                 switch (FDamageType)
@@ -56097,8 +54512,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TUpdateHeaderCA (instance size 16, VMT 557164AC) }
     public partial class TUpdateHeaderCA : Aow.Units.AoWE.TCombatAction
     {
         // Combat2.pas:960
@@ -56118,7 +54531,6 @@ namespace Aow.Units.AoWE
         // Combat2.pas:969
         public override void Execute(Aow.Units.AoWE.TCombat A1)
         {
-            // { conflict: procedure TUpdateHeaderCA.Execute(A1: TCombat; A2: Integer); }
             A1.FCombatData.FHeader = F_UpdateHeaderCA_0C;
         }
 
@@ -56126,7 +54538,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TNewCombatTurnCA (instance size 16, VMT 5571659C) }
     public partial class TNewCombatTurnCA : Aow.Units.AoWE.TCombatAction
     {
         // Combat2.pas:982
@@ -56136,7 +54547,6 @@ namespace Aow.Units.AoWE
         {}
 
         public byte F_NewCombatTurnCA_0C;
-        public Aow.Units.FixedArray_byte_3 F_NewCombatTurnCA_0D;
         // Combat2.pas:985
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -56178,7 +54588,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TNewCombatRoundCA (instance size 12, VMT 5571667C) }
     public partial class TNewCombatRoundCA : Aow.Units.AoWE.TCombatAction
     {
         // Combat2.pas:1009
@@ -56209,7 +54618,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatObjectTurnDoneCA (instance size 16, VMT 5571675C) }
     public partial class TCombatObjectTurnDoneCA : Aow.Units.AoWE.TCombatAction
     {
         // Combat2.pas:1038
@@ -56219,7 +54627,6 @@ namespace Aow.Units.AoWE
         {}
 
         public byte F_CombatObjectTurnDoneCA_0C;
-        public Aow.Units.FixedArray_byte_3 F_CombatObjectTurnDoneCA_0D;
         // Combat2.pas:1041
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -56240,7 +54647,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveWallCA (instance size 16, VMT 55716880) }
     public partial class TMoveWallCA : Aow.Units.AoWE.TCombatAction
     {
         // Combat2.pas:1072
@@ -56251,7 +54657,6 @@ namespace Aow.Units.AoWE
 
         public byte F_MoveWallCA_0C;
         public byte F_MoveWallCA_0D;
-        public Aow.Units.FixedArray_byte_2 F_MoveWallCA_0E;
         // Combat2.pas:1075
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -56281,7 +54686,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFleeCA (instance size 16, VMT 55716954) }
     public partial class TFleeCA : Aow.Units.AoWE.TCombatAction
     {
         // Combat2.pas:1099
@@ -56291,8 +54695,6 @@ namespace Aow.Units.AoWE
         {}
 
         public byte FObjectID;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_FleeCA_0D;
         // Combat2.pas:1102
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -56313,7 +54715,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatActionList (instance size 12, VMT 55716A20) }
     public partial class TCombatActionList : Aow.Units.Engine.TEReferenceNode
     {
         public TCombatActionList(TECustomNode owner) : base(owner)
@@ -56331,8 +54732,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TCombatParty (instance size 28, VMT 55716B24) }
     public partial class TCombatParty : Aow.Units.Engine.TEObject
     {
         // Combat2.pas:47
@@ -56346,16 +54745,12 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TArmy FArmy;
-        // { $08; 00435D7C }
         public int F_CombatParty_0C;
         public int F_CombatParty_10;
         public int F_CombatParty_14;
         public byte FWall;
-        // { $18 }
         public byte F_CombatParty_19;
         public byte FPlayerIndex;
-        // { $1A; 00435472 }
-        public Aow.Units.FixedArray_byte_1 F_CombatParty_1B;
         // Combat2.pas:40
         public override void Destroy()
         {
@@ -56384,7 +54779,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:67
-        // { draft }
         public void Deactivate(int A1)
         {
         }
@@ -56393,8 +54787,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TCombatPartyList (instance size 12, VMT 55716BE4) }
     public partial class TCombatPartyList : Aow.Units.Engine.TENode
     {
         public TCombatPartyList(TECustomNode owner) : base(owner)
@@ -56442,7 +54834,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:96
-        // { draft }
         public Aow.Units.AoWE.TCombatParty GetParty(byte A1)
         {
             Aow.Units.AoWE.TCombatParty Result = default;
@@ -56459,7 +54850,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:99
-        // { draft }
         public void Activate(int A1)
         {
             int I = default;
@@ -56477,7 +54867,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:107
-        // { draft }
         public void Deactivate(int A1)
         {
             int I = default;
@@ -56498,8 +54887,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TCombatPlayer (instance size 12, VMT 55716CE8) }
     public partial class TCombatPlayer : Aow.Units.Engine.TEObject
     {
         // Combat2.pas:115
@@ -56509,13 +54896,8 @@ namespace Aow.Units.AoWE
         {}
 
         public sbyte FPlayer;
-        // { $08 }
-        // { conflict: FPlayer: Byte; }
         public byte FIndependentRelation;
-        // { $09 }
         public byte FSideIndex;
-        // { $0A }
-        public Aow.Units.FixedArray_byte_1 F_CombatPlayer_0B;
         // Combat2.pas:118
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -56529,7 +54911,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatPlayerList (instance size 12, VMT 55716DA8) }
     public partial class TCombatPlayerList : Aow.Units.Engine.TENode
     {
         // Combat2.pas:126
@@ -56590,7 +54971,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:159
-        // { draft }
         public void Delete(int A1)
         {
             var call__4609 = GetPlayers(unchecked((sbyte)unchecked((sbyte)A1)));
@@ -56601,10 +54981,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TCombatData (instance size $54, VMT 55716EAC):
-//     $22 damage set; $28/$2C/$40 byte lists; $34 objects; $38 players;
-//     $3C parties; $44 round; $48 header string; $4D Boolean; $50 combat wall. }
+    // damage set. byte lists. objects. players. parties. round. header string. Boolean. combat wall
     public partial class TCombatData : Aow.Units.Engine.TEObject
     {
         // Combat2.pas:184
@@ -56628,49 +55005,29 @@ namespace Aow.Units.AoWE
         }
 
         public int FX;
-        // { $08 }
         public int FY;
-        // { $0C }
         public int FL;
-        // { $10 }
         public int FAttackerX;
-        // { $14; 557496FD }
         public int FAttackerY;
-        // { $18; 557496FD }
         public int FAttackerL;
-        // { $1C; 557496FD }
         public Aow.Units.FixedArray_byte_2 F_CombatData_20;
         public TSet<Aow.Units.AoWE.TDamageType> F_CombatData_22;
         public sbyte FAttackerPlayer;
-        // { $24 }
         public sbyte FDefenderPlayer;
-        // { $25 }
-        public Aow.Units.FixedArray_byte_2 F_CombatData_26;
         public Aow.Units.Engine.TByteList FInvolvedLeaders;
         public Aow.Units.Engine.TByteList FDefeatedLeaders;
         public byte F_CombatData_30;
         public byte FCurrentPlayer;
-        // { $31; 5574491F }
-        public Aow.Units.FixedArray_byte_2 F_CombatData_32;
         public Aow.Units.Engine.TENode FCombatObjects;
         public Aow.Units.AoWE.TCombatPlayerList FPlayers;
-        // { $38 }
         public Aow.Units.AoWE.TCombatPartyList FParties;
-        // { $3C }
         public Aow.Units.Engine.TByteList FTurnOrder;
-        // { $40; 557448C1 }
         public int FRound;
-        // { $44; 55744564 }
         public Aow.Rtl.AnsiString FHeader;
-        // { $48 }
         public byte FWallType;
-        // { $4C }
         public bool FWallBreached;
-        // { $4D }
-        public Aow.Units.FixedArray_byte_2 F_CombatData_4E;
         public Aow.Units.AoWE.TCombatWall FWall;
         // Combat2.pas:173
-        // { $50 }
         public override void Destroy()
         {
             ((Aow.Rtl.TObject)FParties).Free();
@@ -56701,7 +55058,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:231
-        // { draft }
         public int GetCount()
         {
             int Result = default;
@@ -56710,7 +55066,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:234
-        // { draft }
         public Aow.Units.AoWE.TCombatObject GetObjects(int A1)
         {
             Aow.Units.AoWE.TCombatObject Result = default;
@@ -56719,7 +55074,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:246
-        // { draft }
         public int IndexOfID(int A1)
         {
             int Result = default;
@@ -56740,7 +55094,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:253
-        // { draft }
         public Aow.Units.AoWE.TCombatObject FindID(int A1)
         {
             Aow.Units.AoWE.TCombatObject Result = default;
@@ -56761,7 +55114,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:269
-        // { draft }
         public Aow.Units.AoWE.TCombatObject FindPosition(byte A1)
         {
             Aow.Units.AoWE.TCombatObject Result = default;
@@ -56781,7 +55133,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:282
-        // { draft }
         public void AddObject(Aow.Units.AoWE.TCombatObject A1)
         {
             var call__4619 = FindID(A1.FID);
@@ -56792,7 +55143,7 @@ namespace Aow.Units.AoWE
                 bool__4620 = (call__4621 == null);
             }
 
-            Aow.Rtl.Rtl.Assert(bool__4620, (AnsiString)"CombatObject Position/ID double defined", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Combat2.pas", 284);
+            Aow.Rtl.Rtl.Assert(bool__4620, (AnsiString)"CombatObject Position/ID double defined", "Combat2.pas", 284);
             A1.SetOwner(FCombatObjects);
         }
 
@@ -56800,9 +55151,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TCombatLogbook: instance size $1C, VMT 55716F7C; $08 FRefCount;
-//     $0C FInitialData; $10 FFinalData; $14 FActions; $19 result flag. }
+    // FRefCount. FInitialData. FFinalData. FActions. result flag
     public partial class TCombatLogbook : Aow.Units.Engine.TEObject
     {
         // Combat2.pas:381
@@ -56823,15 +55172,10 @@ namespace Aow.Units.AoWE
 
         public int FRefCount;
         public Aow.Units.AoWE.TCombatData FInitialData;
-        // { $0C }
         public Aow.Units.AoWE.TCombatData FFinalData;
-        // { $10 }
         public Aow.Units.AoWE.TCombatActionList FActions;
-        // { $14 }
         public Aow.Units.AoWE.TCombatResult FCombatResult;
-        // { $18 }
         public bool F_CombatLogbook_19;
-        public Aow.Units.FixedArray_byte_2 F_CombatLogbook_1A;
         // Combat2.pas:359
         public override void Destroy()
         {
@@ -56901,10 +55245,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombat (instance size $4C, VMT 55717114):
-//     $08 FCombatStatus; $0C FCombatData; $10 FNextCOID; $14 FResult;
-//     $18 FLogbook; $1C/$20 FSides; $24 FExecutedEvents; $28 FExecutedLock;
-//     $2C FOnExecuted; $34 FTerminated; $38 FOnTerminated; $40 FVisibilityMode. }
+    // FCombatStatus. FCombatData. FNextCOID. FResult. FLogbook. FSides. FExecutedEvents.
+    // FExecutedLock. FOnExecuted. FTerminated. FOnTerminated. FVisibilityMode
     public partial class TCombat : Aow.Units.Engine.TEObject
     {
 
@@ -56929,37 +55271,20 @@ namespace Aow.Units.AoWE
         }
 
         public TSet<Aow.Units.AoWE.TCombatStatusElement> FStatus;
-        // { $08 }
-        // { conflict: FCombatStatus: TCombatStatus; }
-        public Aow.Units.FixedArray_byte_3 F_Combat_09;
         public Aow.Units.AoWE.TCombatData FCombatData;
-        // { $0C }
-        // { conflict: FData: TCombatData; }
         public int FNextCOID;
         public Aow.Units.AoWE.TCombatResult FCombatResult;
-        // { $14 }
-        // { conflict: FResult: Byte; }
-        // { conflict: FResult: TCombatResult; }
-        public Aow.Units.FixedArray_byte_3 F_Combat_15;
         public Aow.Units.AoWE.TCombatLogbook FLogbook;
-        // { $18 }
         public Aow.Units.FixedArray_Aow_Units_AoWE_TCombatSide_2 FSides;
-        // { $1C..$20 }
         public Aow.Units.Engine.TEventList FExecutedEvents;
-        // { $24 }
         public int FExecutedLock;
         public Aow.Units.AoWE.TCombatExecutedEvent FOnExecuted;
         public bool FTerminated;
-        public Aow.Units.FixedArray_byte_3 F_Combat_35;
         public Aow.Rtl.TNotifyEvent FOnTerminated;
-        // { 00451897: EndCombat also receives a form sender. }
+        // EndCombat also receives a form sender
         public byte FExplorationSite;
-        // { $40 }
-        // { conflict: FVisibilityMode: Byte; }
-        public Aow.Units.FixedArray_byte_3 F_Combat_41;
         public Aow.Units.Engine.TEObject FItems;
-        // { $44; item list or prisoners army }
-        public Aow.Units.FixedArray_byte_4 F_Combat_48;
+        // item list or prisoners army
         // Combat.pas:6082
         public override void Destroy()
         {
@@ -57058,7 +55383,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6227
-        // { +04C draft }
         public virtual void ObjectDestroyed(Aow.Units.AoWE.TCombatObject A1)
         {
             int I = default;
@@ -57077,7 +55401,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6218
-        // { +050; 55727554 }
         public virtual void ObjectSideChanged(Aow.Units.AoWE.TCombatObject A1)
         {
             int I = default;
@@ -57098,7 +55421,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6163
-        // { +054; 55727510 }
         public virtual Aow.Units.AoWE.TCombatUnit CreateCombatUnit()
         {
             Aow.Units.AoWE.TCombatUnit Result = default;
@@ -57109,7 +55431,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6289
-        // { +058; 557445F0 }
         public virtual Aow.Units.AoWE.TCombatPlayer CreateCombatPlayer()
         {
             Aow.Units.AoWE.TCombatPlayer Result = default;
@@ -57118,7 +55439,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6143
-        // { +05C; AoWTCPCK 004295C4 }
         public virtual bool Setup(byte A1, byte A2, int A3, int A4, int A5, byte A6, byte A7, int A8, int A9, int A10, bool A11)
         {
             bool Result = default;
@@ -57153,7 +55473,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6619
-        // { +060 }
         public virtual Aow.Units.AoWE.TCombatResult Execute()
         {
             Aow.Units.AoWE.TCombatResult Result = default;
@@ -57164,7 +55483,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6405
-        // { +064 }
         public virtual void Initialize()
         {
             int I = default;
@@ -57272,7 +55590,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6446
-        // { +068 draft }
         public virtual void Finalize()
         {
             int I = default;
@@ -57285,7 +55602,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TCombatData Data = default;
             Aow.Units.AoWE.TCombatData FinalData = default;
             Aow.Units.HSEngine.TMapFieldMsg Msg = default;
-            Aow.Rtl.Rtl.Assert((FStatus & TSet<Aow.Units.AoWE.TCombatStatusElement>.Of(Aow.Units.AoWE.TCombatStatusElement.cExecuting, Aow.Units.AoWE.TCombatStatusElement.cActivated)) == TSet<Aow.Units.AoWE.TCombatStatusElement>.Of(Aow.Units.AoWE.TCombatStatusElement.cExecuting), (AnsiString)"Combat Finalize Failure", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Combat.pas", 6523);
+            Aow.Rtl.Rtl.Assert((FStatus & TSet<Aow.Units.AoWE.TCombatStatusElement>.Of(Aow.Units.AoWE.TCombatStatusElement.cExecuting, Aow.Units.AoWE.TCombatStatusElement.cActivated)) == TSet<Aow.Units.AoWE.TCombatStatusElement>.Of(Aow.Units.AoWE.TCombatStatusElement.cExecuting), (AnsiString)"Combat Finalize Failure", "Combat.pas", 6523);
             {
                 I = 0;
                 int end__4661 = FCombatData.FDefeatedLeaders.Count - 1;
@@ -57377,11 +55694,10 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6577
-        // { +06C draft }
         public virtual void Activate()
         {
             int I = default;
-            Aow.Rtl.Rtl.Assert(!FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cActivated), (AnsiString)"Combat already activated", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Combat.pas", 6595);
+            Aow.Rtl.Rtl.Assert(!FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cActivated), (AnsiString)"Combat already activated", "Combat.pas", 6595);
             FStatus = FStatus + TSet<Aow.Units.AoWE.TCombatStatusElement>.Of(Aow.Units.AoWE.TCombatStatusElement.cActivated);
             FCombatData.FParties.Activate(Aow.Rtl.Rtl.ObjectToInt(this));
             {
@@ -57411,11 +55727,10 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6608
-        // { +070 draft }
         public virtual void Deactivate()
         {
             int I = default;
-            Aow.Rtl.Rtl.Assert(FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cActivated), (AnsiString)"Combat Failure during Deactivating", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Combat.pas", 6612);
+            Aow.Rtl.Rtl.Assert(FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cActivated), (AnsiString)"Combat Failure during Deactivating", "Combat.pas", 6612);
             FStatus = FStatus - TSet<Aow.Units.AoWE.TCombatStatusElement>.Of(Aow.Units.AoWE.TCombatStatusElement.cActivated);
             {
                 I = FCombatData.GetCount() - 1;
@@ -57431,7 +55746,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6180
-        // { +074 }
         public virtual void NewTurn(byte A1)
         {
             Aow.Units.AoWE.TNewCombatTurnCA A = default;
@@ -57443,7 +55757,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6169
-        // { +078 }
         public virtual void NewRound()
         {
             Aow.Units.AoWE.TNewCombatRoundCA A = default;
@@ -57453,7 +55766,6 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:6094
-        // { +07C }
         public bool GetLogCombatActions()
         {
             bool Result = default;
@@ -58006,7 +56318,7 @@ namespace Aow.Units.AoWE
     }
 
     // { }
-    // { TCombatEventLog: instance size $1C, VMT 557171FC; $18 FLogbook. }
+    // FLogbook
     public partial class TCombatEventLog : Aow.Units.EventLog.TEventLog
     {
         public TCombatEventLog(TECustomNode owner) : base(owner)
@@ -58017,7 +56329,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TCombatLogbook FLogbook;
         // Combat2.pas:405
-        // { $18 }
         public override void Destroy()
         {
             Aow.Units.AoWE.TCombatLogbook L = default;
@@ -58042,7 +56353,6 @@ namespace Aow.Units.AoWE
         public override Aow.Rtl.AnsiString GetText()
         {
             Aow.Rtl.AnsiString Result = default;
-            // { needs: string result in EventLog's unmarked interface. }
             Result = FLogbook.FFinalData.FHeader;
             return Result;
         }
@@ -58241,33 +56551,22 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatTypeRequestEventLog (instance size $2C, VMT 557172EC):
-//     $18 selection; $1B/$1C/$1D location; $20 FTokenEvent; $28 owned object. }
+    // selection. location. FTokenEvent. owned object
     public partial class TCombatTypeRequestEventLog : Aow.Units.EventLog.TEventLog
     {
         public TCombatTypeRequestEventLog(TECustomNode owner) : base(owner)
         { }
 
         public Aow.Units.AoWE.TCombatType FCombatType;
-        // { $18 }
         public new sbyte FPlayer;
-        // { $19 }
         public sbyte FDefenderPlayer;
-        // { $1A }
         public sbyte FX;
-        // { $1B }
         public sbyte FY;
-        // { $1C }
         public sbyte FL;
-        // { $1D }
-        public Aow.Units.FixedArray_byte_2 F_CombatTypeRequestEventLog_1E;
         public Aow.Units.Engine.TEObject FTokenEvent;
         public bool FCreateNewMove;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_CombatTypeRequestEventLog_25;
         public Aow.Units.AoWE.TArmyID FArmyID;
         // Combat2.pas:1
-        // { $28 }
         public override void Destroy()
         {
             Aow.Rtl.TObject Obj = default;
@@ -58317,8 +56616,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P5. }
-    // { TAIPlayerAction (instance size $14, VMT 55717458).
-//     $08 process cycles, $0C player control, $10 phase. }
+    // process cycles, player control, phase
     public partial class TAIPlayerAction : Aow.Units.Engine.TEObject, Aow.Units.AoWE.IAIPlayerActionClass
     {
 
@@ -58326,14 +56624,9 @@ namespace Aow.Units.AoWE
         {}
 
         public int FProcessCycles;
-        // { $08 }
         public Aow.Units.AoWE.TAIPlayerControl FControl;
-        // { $0C }
         public Aow.Units.AoWE.TAIPlayerProcessPhase FPhase;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_AIPlayerAction_11;
         // AI.pas:4
-        // { $50 }
         public virtual bool Setup(Aow.Units.AoWE.TAIPlayerControl Control, Aow.Units.AoWE.TAIPlayerProcessPhase Phase)
         {
             bool Result = default;
@@ -58344,7 +56637,6 @@ namespace Aow.Units.AoWE
         }
 
         // AI.pas:17
-        // { $54 }
         public virtual bool Activate()
         {
             bool Result = default;
@@ -58354,13 +56646,11 @@ namespace Aow.Units.AoWE
         }
 
         // AI.pas:23
-        // { $58 }
         public virtual void Deactivate()
         {
         }
 
         // AI.pas:11
-        // { $5C }
         public virtual bool Process()
         {
             bool Result = default;
@@ -58373,13 +56663,12 @@ namespace Aow.Units.AoWE
         public static int Priority => throw EAbstractError.Create("Abstract Error");
 
         // AI.pas:1
-        // { $4C }
         public static TSet<Aow.Units.AoWE.TAIPlayerProcessPhase> SupportedPhases => TSet<Aow.Units.AoWE.TAIPlayerProcessPhase>.Of(Aow.Units.AoWE.TAIPlayerProcessPhase.appMain);
 
 
     }
 
-    // { TAIPlayerActionList (instance size $0C, VMT 55717534). $08 children. }
+    // children
     public partial class TAIPlayerActionList : Aow.Units.Engine.TENode
     {
         public TAIPlayerActionList(TECustomNode owner) : base(owner)
@@ -58406,7 +56695,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIPlayerActionManager (instance size $0C, VMT 5571763C). $08 registered classes. }
+    // registered classes
     public partial class TAIPlayerActionManager : Aow.Units.Engine.TEObject
     {
         // AI.pas:36
@@ -58418,7 +56707,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Rtl.TList FRegisteredClasses;
         // AI.pas:42
-        // { $08 }
         public override void Destroy()
         {
             FRegisteredClasses.Free();
@@ -58481,7 +56769,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupList (instance size $0C, VMT 55717710). $08 children. }
+    // children
     public partial class TAIGroupList : Aow.Units.Engine.TENode
     {
         public TAIGroupList(TECustomNode owner) : base(owner)
@@ -58556,9 +56844,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIPlayerControl (instance size $28, VMT 5571780C).
-//     $08 player, $0C actions, $10 action, $14 action index, $18 cycles,
-//     $1C move executer, $20 phase, $24 progress. }
+    // player, actions, action, action index, cycles, move executer, phase, progress
     public partial class TAIPlayerControl : Aow.Units.Engine.TEObject
     {
         // AI.pas:84
@@ -58572,24 +56858,14 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TPlayer FPlayer;
-        // { $08 }
         public Aow.Units.AoWE.TAIPlayerActionList FActions;
-        // { $0C }
         public Aow.Units.AoWE.TAIPlayerAction FAction;
-        // { $10 }
         public int FActionIndex;
-        // { $14 }
         public int FProcessCyclesMax;
-        // { $18 }
         public Aow.Units.AoWE.TAIMoveExecuter FMoveExecuter;
-        // { $1C }
         public Aow.Units.AoWE.TAIPlayerProcessPhase FPhase;
-        // { $20 }
-        public Aow.Units.FixedArray_byte_3 F_AIPlayerControl_21;
         public float FDefenseStrengthMultiplier;
         // AI.pas:92
-        // { $24 }
-        // { conflict: FProgress: Single; }
         public override void Destroy()
         {
             Reset();
@@ -59007,7 +57283,7 @@ namespace Aow.Units.AoWE
         }
 
         // AI.pas:311
-        // { Original checks player status at $45; Unknown is not cleared before appending. }
+        // The original checks player status. Unknown is not cleared before appending.
         public void ListIdealPeaceWarPlayers(Aow.Units.Engine.TByteList Peace, Aow.Units.Engine.TByteList War)
         {
             int I = default;
@@ -59387,10 +57663,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIExecuter (instance size $34, VMT 55717968).
-//     $08 cycles, $0C players, $10 current player, $14 player cycles, $18 status,
-//     $19 token done, $1A time mode, $1C time, $20 used time, $24 start,
-//     $28 token cycles, $2C token cycle, $30 lock count. }
+    // cycles, players, current player, player cycles, status, token done, time mode, time, used
+    // time, start, token cycles, token cycle, lock count
     public partial class TAIExecuter : Aow.Units.Engine.TEObject
     {
 
@@ -59406,34 +57680,19 @@ namespace Aow.Units.AoWE
         }
 
         public int FProcessCycles;
-        // { $08 }
         public Aow.Units.Engine.TByteList FPlayers;
-        // { $0C }
         public sbyte FPlayer;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_AIExecuter_11;
         public int FPlayerProcessCycles;
-        // { $14 }
         public TSet<Aow.Units.AoWE.TAIExecuterStatusElement> FStatus;
-        // { $18 }
         public bool FTokenControlDone;
-        // { $19 }
         public Aow.Units.AoWE.TProcessTimeMode FProcessTimeMode;
-        // { $1A }
-        public Aow.Units.FixedArray_byte_1 F_AIExecuter_1B;
         public int FProcessTime;
-        // { $1C }
         public int FProcessTimeUsed;
-        // { $20 }
         public int FProcessStarted;
-        // { $24 }
         public int FTokenCycles;
-        // { $28 }
         public int FTokenCycle;
-        // { $2C }
         public int FLockCount;
         // AI.pas:569
-        // { $30 }
         public override void Destroy()
         {
             FPlayers.Free();
@@ -59586,14 +57845,14 @@ namespace Aow.Units.AoWE
         // AI.pas:659
         public void Unlock()
         {
-            Aow.Rtl.Rtl.Assert(FLockCount != 0, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AI.pas", 931);
+            Aow.Rtl.Rtl.Assert(FLockCount != 0, (AnsiString)"", "AI.pas", 931);
             FLockCount -= 1;
         }
 
         // AI.pas:935
         public void CaptureTokenCycles(int Cycles)
         {
-            Aow.Rtl.Rtl.Assert(!FStatus.Contains(Aow.Units.AoWE.TAIExecuterStatusElement.aesTokenLocked), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AI.pas", 937);
+            Aow.Rtl.Rtl.Assert(!FStatus.Contains(Aow.Units.AoWE.TAIExecuterStatusElement.aesTokenLocked), (AnsiString)"", "AI.pas", 937);
             FStatus = FStatus + TSet<Aow.Units.AoWE.TAIExecuterStatusElement>.Of(Aow.Units.AoWE.TAIExecuterStatusElement.aesTokenLocked);
             Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.Lock();
             FTokenCycle = 0;
@@ -59603,7 +57862,7 @@ namespace Aow.Units.AoWE
         // AI.pas:944
         public void TokenCyclesCaptured()
         {
-            Aow.Rtl.Rtl.Assert(FStatus.Contains(Aow.Units.AoWE.TAIExecuterStatusElement.aesTokenLocked), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AI.pas", 947);
+            Aow.Rtl.Rtl.Assert(FStatus.Contains(Aow.Units.AoWE.TAIExecuterStatusElement.aesTokenLocked), (AnsiString)"", "AI.pas", 947);
             FStatus = FStatus - TSet<Aow.Units.AoWE.TAIExecuterStatusElement>.Of(Aow.Units.AoWE.TAIExecuterStatusElement.aesTokenLocked);
             Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.Unlock();
         }
@@ -59734,11 +57993,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveControlSettings: instance size $168, VMT 55717A78.
-//     $08 references, $0C player, $10..$18 source, $1C..$24 destination,
-//     $28 move table, $128 completion event, $130 transporter,
-//     $134/$138 search limits, $13C mode, $140 army, $144 selection,
-//     $148 cycles, $14C status, $150 cost, $154 path, $158..$164 transport locations. }
+    // references, player, source, destination, move table, completion event, transporter, search
+    // limits, mode, army, selection, cycles, status, cost, path, transport locations
     public partial class TAIMoveControlSettings : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:3841
@@ -59751,53 +58007,30 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public sbyte FPlayer;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_AIMoveControlSettings_0D;
         public int FSourceX;
         public int FSourceY;
         public int FSourceL;
-        // { $10..$18 }
         public int FDestinationX;
         public int FDestinationY;
         public int FDestinationL;
-        // { $1C..$24 }
         public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
-        // { $28 }
         public Aow.Rtl.TNotifyEvent FOnDone;
-        // { $128 }
         public Aow.Units.AoWE.TAbstractUnit FTransporter;
-        // { $130 }
         public int FMovePointsMax;
-        // { $134 }
         public int FQuickMovePointsMax;
-        // { $138 }
         public TSet<Aow.Units.AoWE.TMoveModeElement> FMoveMode;
-        // { $13C }
-        public Aow.Units.FixedArray_byte_3 F_AIMoveControlSettings_13D;
         public Aow.Units.AoWE.TArmyHS FArmyHS;
-        // { $140 }
         public int FSelection;
-        // { $144 }
         public int FProcessCycles;
-        // { $148 }
         public Aow.Units.AoWE.TAIMoveControlStatus FStatus;
-        // { $14C }
-        public Aow.Units.FixedArray_byte_3 F_AIMoveControlSettings_14D;
         public int FMovePoints;
-        // { $150 }
         public Aow.Units.AoWE.TMovepath FTransportPath;
-        // { $154 }
         public Aow.Units.HSEngine.TXYL FBoardingPoint;
-        // { $158 }
         public Aow.Units.HSEngine.TXYL FArrivalPoint;
-        // { $15C }
         public Aow.Units.HSEngine.TXYL FTransportSource;
-        // { $160 }
         public Aow.Units.HSEngine.TXYL FTransportDestination;
         // AIGroup.pas:3849
-        // { $164 }
         public override void Destroy()
         {
             FTransportPath.Free();
@@ -59881,9 +58114,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveControl: instance size $220; $08 status, $0C settings, $10 cycles,
-//     $14 army table, $114 transporter table, $214 multiple gaps, $215 mode,
-//     $218 search state, $21C path settings. }
+    // status, settings, cycles, army table, transporter table, multiple gaps, mode, search state,
+    // path settings
     public partial class TAIMoveControl : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:3911
@@ -59895,26 +58127,15 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAIMoveControlStatus FStatus;
-        // { $08 }
-        public Aow.Units.FixedArray_byte_3 F_AIMoveControl_09;
         public Aow.Units.AoWE.TAIMoveControlSettings FSettings;
-        // { $0C }
         public int FProcessCycles;
-        // { $10 }
         public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
-        // { $14 }
         public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 FTransportMovePointTable;
-        // { $114 }
         public bool FMultipleTransportGaps;
-        // { $214 }
         public Aow.Units.AoWE.TAIMoveControlMode FMode;
-        // { $215 }
-        public Aow.Units.FixedArray_byte_2 F_AIMoveControl_216;
         public int FState;
-        // { $218 }
         public Aow.Units.AoWE.TMoveControlSettings FPathSettings;
         // AIGroup.pas:3918
-        // { $21C }
         public override void Destroy()
         {
             Clear();
@@ -60369,8 +58590,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveTarget: instance size $34; $08 references, $0C target data,
-//     $24 location, $28 move points, $2C transporter ID, $30 path. }
+    // references, target data, location, move points, transporter ID, path
     public partial class TMoveTarget : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:4215
@@ -60380,17 +58600,12 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public Aow.Units.AoWE.TAITargetData FData;
-        // { $0C }
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $24 }
         public int FMovePoints;
         public int FTransporterID;
-        // { $28/$2C }
         public Aow.Units.AoWE.TMovepath FMovepath;
         // AIGroup.pas:4221
-        // { $30 }
         public override void Destroy()
         {
             if (FMovepath != null)
@@ -60414,7 +58629,6 @@ namespace Aow.Units.AoWE
         public override int Release()
         {
             int Result = default;
-            // { Tried a count temporary, direct field test and with; still differs. }
             FRefCount -= 1;
             Result = FRefCount;
             if (Result == 0)
@@ -60429,7 +58643,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveTargetList: instance size $0C; $08 reference children. }
+    // reference children
     public partial class TMoveTargetList : Aow.Units.Engine.TEReferenceNode
     {
         public TMoveTargetList(TECustomNode owner) : base(owner)
@@ -60485,8 +58699,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveTargetSelector (instance size $250). $08 state, $0C targets,
-//     $14 settings, $1C buffer, $2C transporter movement table, $244 transporter, $24C control. }
+    // state, targets, settings, buffer, transporter movement table, transporter, control
     public partial class TAIMoveTargetSelector : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:6375
@@ -60503,42 +58716,23 @@ namespace Aow.Units.AoWE
         }
 
         public int FState;
-        // { $08 }
         public Aow.Units.AoWE.TMoveTargetList FTargets;
-        // { $0C }
         public Aow.Units.AoWE.TAIMoveTargetSelectorStatus FStatus;
-        // { $10; 557D790E }
-        public Aow.Units.FixedArray_byte_3 F_AIMoveTargetSelector_11;
         public Aow.Units.AoWE.TMoveControlSettings FSettings;
-        // { $14 }
         public TSet<Aow.Units.AoWE.TAIMoveTargetSelectorModeElement> FMode;
-        // { $18; 5573A32B }
-        public Aow.Units.FixedArray_byte_3 F_AIMoveTargetSelector_19;
         public Aow.Units.AoWE.TMoveTargetList FBufferedTargets;
-        // { $1C }
         public Aow.Units.AoWE.TMoveTargetFoundEvent FOnTargetFound;
-        // { $20; 557D7656 }
         public int FProcessCycles;
-        // { $28 }
         public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 FTransportMovePointTable;
-        // { $2C }
         public Aow.Units.HSEngine.TXYL FSourceLocation;
-        // { $12C; 557D7838 }
         public Aow.Units.AoWE.TAITargetInfo FTargetInfo;
-        // { $130; 557D779E }
         public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
-        // { $13C; 557D783F }
         public int FMovePointsMax;
-        // { $23C; 557D7660 }
         public int FMovePointsMin;
-        // { $240; 557D766C }
         public Aow.Units.AoWE.TAbstractUnit FTransporter;
-        // { $244 }
         public Aow.Units.AoWE.TUnitUserList FUnits;
-        // { $248; 5573A2E6 }
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // AIGroup.pas:6384
-        // { $24C }
         public override void Destroy()
         {
             FSettings.Release();
@@ -61048,42 +59242,26 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveExecuterUnit: instance size $38; $08 unit, $0C ID, $10 location,
-//     $14 origin, $18 destination, $1C transporter ID, $20 transport status,
-//     $24..$30 transport points, $34 status, $35 move result. }
+    // unit, ID, location, origin, destination, transporter ID, transport status, transport points,
+    // status, move result
     public partial class TAIMoveExecuterUnit : Aow.Units.Engine.TEObject
     {
         public TAIMoveExecuterUnit(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.AoWE.TAbstractUnit FUnit;
-        // { $08 }
         public int FUnitID;
-        // { $0C }
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $10 }
         public Aow.Units.HSEngine.TXYL FOrigin;
-        // { $14 }
         public Aow.Units.HSEngine.TXYL FDestination;
-        // { $18 }
         public int FTransporterID;
-        // { $1C }
         public Aow.Units.AoWE.TAIMoveExecuterTransportStatus FTransportStatus;
-        // { $20 }
-        public Aow.Units.FixedArray_byte_3 FTransportPadding;
         public Aow.Units.HSEngine.TXYL FBoardingPoint;
-        // { $24 }
         public Aow.Units.HSEngine.TXYL FArrivalPoint;
-        // { $28 }
         public Aow.Units.HSEngine.TXYL FTransportSource;
-        // { $2C }
         public Aow.Units.HSEngine.TXYL FTransportDestination;
-        // { $30 }
         public Aow.Units.AoWE.TAIMoveExecuterUnitStatus FStatus;
-        // { $34 }
         public byte FMoveResult;
-        // { $35 }
-        public Aow.Units.FixedArray_byte_2 F_AIMoveExecuterUnit_36;
         // AIGroup.pas:4280
         public void Initialize(Aow.Units.AoWE.TAbstractUnit AUnit, sbyte X, sbyte Y, sbyte L)
         {
@@ -61143,7 +59321,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveExecuterUnitList: instance size $0C; $08 children. }
+    // children
     public partial class TAIMoveExecuterUnitList : Aow.Units.Engine.TENode
     {
         public TAIMoveExecuterUnitList(TECustomNode owner) : base(owner)
@@ -61337,33 +59515,21 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveExecuterArmy: instance size $30; $0C location, $10 destination,
-//     $14 transport status, $18..$24 transport points, $28 player, $29 grouped. }
+    // location, destination, transport status, transport points, player, grouped
     public partial class TAIMoveExecuterArmy : Aow.Units.AoWE.TAIMoveExecuterUnitList
     {
         public TAIMoveExecuterArmy(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $0C }
         public Aow.Units.HSEngine.TXYL FDestination;
-        // { $10 }
         public Aow.Units.AoWE.TAIMoveExecuterTransportStatus FTransportStatus;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_AIMoveExecuterArmy_15;
         public Aow.Units.HSEngine.TXYL FBoardingPoint;
-        // { $18 }
         public Aow.Units.HSEngine.TXYL FArrivalPoint;
-        // { $1C }
         public Aow.Units.HSEngine.TXYL FTransportSource;
-        // { $20 }
         public Aow.Units.HSEngine.TXYL FTransportDestination;
-        // { $24 }
         public sbyte FPlayer;
-        // { $28 }
         public bool FGrouped;
-        // { $29 }
-        public Aow.Units.FixedArray_byte_6 F_AIMoveExecuterArmy_2A;
         // AIGroup.pas:4527
         public void Setup(Aow.Units.AoWE.TAIMoveExecuterUnit Transporter)
         {
@@ -61569,7 +59735,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveExecuterArmyList: instance size $0C; $08 armies. }
+    // armies
     public partial class TAIMoveExecuterArmyList : Aow.Units.Engine.TENode
     {
         public TAIMoveExecuterArmyList(TECustomNode owner) : base(owner)
@@ -61699,8 +59865,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveExecuterMove: instance size $20; $08 units, $0C path, $10 points,
-//     $14 moves, $18..$1A source, $1B..$1D destination. }
+    // units, path, points, moves, source, destination
     public partial class TAIMoveExecuterMove : Aow.Units.AoWE.TAIMoveExecuterUnitList
     {
         // AIGroup.pas:4440
@@ -61711,24 +59876,14 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TMovepath FPath;
-        // { $0C }
         public int FMovePoints;
-        // { $10 }
         public int FMoves;
-        // { $14 }
         public sbyte FSourceX;
-        // { $18 }
         public sbyte FSourceY;
-        // { $19 }
         public sbyte FSourceL;
-        // { $1A }
         public sbyte FDestinationX;
-        // { $1B }
         public sbyte FDestinationY;
-        // { $1C }
         public sbyte FDestinationL;
-        // { $1D }
-        public Aow.Units.FixedArray_byte_2 F_AIMoveExecuterMove_1E;
         // AIGroup.pas:4446
         public override void Destroy()
         {
@@ -61837,7 +59992,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveExecuterMoveQueue: instance size $0C; $08 queued moves. }
+    // queued moves
     public partial class TAIMoveExecuterMoveQueue : Aow.Units.Engine.TENode
     {
         public TAIMoveExecuterMoveQueue(TECustomNode owner) : base(owner)
@@ -61877,7 +60032,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIMoveExecuterControl: instance size $14; $08 move control, $0C executer, $10 state. }
+    // move control, executer, state
     public partial class TAIMoveExecuterControl : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:4726
@@ -61888,12 +60043,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAIMoveControl FMoveControl;
-        // { $08 }
         public Aow.Units.AoWE.TAIMoveExecuter FExecuter;
-        // { $0C }
         public int FState;
         // AIGroup.pas:4732
-        // { $10 }
         public override void Destroy()
         {
             FMoveControl.Free();
@@ -62115,7 +60267,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:4854
-        // { $4C }
         public virtual byte CanMoveTo(Aow.Units.AoWE.TAIMoveExecuterArmy Army, byte Selection, sbyte X, sbyte Y, sbyte L)
         {
             byte Result = default;
@@ -62297,14 +60448,12 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:4952
-        // { $50 }
         public virtual void CalculateMoves()
         {
             Done();
         }
 
         // AIGroup.pas:4942
-        // { $54 }
         public virtual void Activate(Aow.Units.AoWE.TAIMoveExecuter Executer)
         {
             FExecuter = Executer;
@@ -62312,20 +60461,17 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:4948
-        // { $58 }
         public virtual void Deactivate()
         {
         }
 
         // AIGroup.pas:4957
-        // { $5C }
         public virtual void Done()
         {
             FState = -1;
         }
 
         // AIGroup.pas:4962
-        // { $60 }
         public virtual bool Process()
         {
             bool Result = default;
@@ -62349,8 +60495,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { $64 }
-    // { TDefaultMEC: instance size $14; inherited move control, executer and state. }
+    // inherited move control, executer and state
     public partial class TDefaultMEC : Aow.Units.AoWE.TAIMoveExecuterControl
     {
         public TDefaultMEC(TECustomNode owner) : base(owner)
@@ -62506,8 +60651,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TAdjacentArmy: instance size $18; $08 location, $0C moves,
-//     $10 current move points, $14 path. }
+    // location, moves, current move points, path
     public partial class TAdjacentArmy : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:5045
@@ -62518,14 +60662,10 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $08 }
         public int FMoves;
-        // { $0C }
         public int FMovePoints;
-        // { $10 }
         public Aow.Units.AoWE.TMovepath FPath;
         // AIGroup.pas:5051
-        // { $14 }
         public override void Destroy()
         {
             FPath.Free();
@@ -62569,7 +60709,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAdjacentArmyList: instance size $0C; $08 adjacent armies. }
+    // adjacent armies
     public partial class TAdjacentArmyList : Aow.Units.Engine.TENode
     {
         public TAdjacentArmyList(TECustomNode owner) : base(owner)
@@ -62657,7 +60797,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAdjacentMEC: instance size $1C; $14 meeting point, $18 adjacent armies. }
+    // meeting point, adjacent armies
     public partial class TAdjacentMEC : Aow.Units.AoWE.TAIMoveExecuterControl
     {
         // AIGroup.pas:5117
@@ -62668,10 +60808,8 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.HSEngine.TXYL FMeetingPoint;
-        // { $14 }
         public Aow.Units.AoWE.TAdjacentArmyList FAdjacentArmies;
         // AIGroup.pas:5123
-        // { $18 }
         public override void Destroy()
         {
             FAdjacentArmies.Free();
@@ -63357,7 +61495,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTransportMEC (instance size $18, VMT 55718CD0). $14 meeting point. }
+    // meeting point
     public partial class TTransportMEC : Aow.Units.AoWE.TAIMoveExecuterControl
     {
         public TTransportMEC(TECustomNode owner) : base(owner)
@@ -63365,7 +61503,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.HSEngine.TXYL FMeetingPoint;
         // AIGroup.pas:5741
-        // { $14 }
         public override void CalculateMoves()
         {
             Aow.Units.AoWE.TAIMoveExecuterArmyList Transporters = default;
@@ -64259,10 +62396,8 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TAIMoveExecuter (instance size $3C, VMT 55718E18).
-//     $08 destination, $0C control, $10 control queue, $14 moves, $18 units,
-//     $1C transporter, $20 move limit, $24 mode, $28 state, $2C status,
-//     $2D player, $30 process cycles, $34 completion event. }
+    // destination, control, control queue, moves, units, transporter, move limit, mode, state,
+    // status, player, process cycles, completion event
     public partial class TAIMoveExecuter : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:5976
@@ -64278,35 +62413,19 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.HSEngine.TXYL FDestination;
-        // { $08 }
         public Aow.Units.AoWE.TAIMoveExecuterControl FControl;
-        // { $0C }
         public Aow.Units.Engine.TIntegerList FControlQueue;
-        // { $10 }
         public Aow.Units.AoWE.TAIMoveExecuterMoveQueue FMoves;
-        // { $14 }
         public Aow.Units.AoWE.TAIMoveExecuterUnitList FUnits;
-        // { $18 }
         public Aow.Units.AoWE.TAIMoveExecuterUnit FTransporter;
-        // { $1C }
         public int FMovePointsMax;
-        // { $20 }
         public TSet<Aow.Units.AoWE.TAIMoveExecuterModeElement> FMode;
-        // { $24; 557D7981 }
-        public Aow.Units.FixedArray_byte_3 F_AIMoveExecuter_25;
         public int FState;
-        // { $28 }
         public Aow.Units.AoWE.TAIMoveExecuterStatus FStatus;
-        // { $2C }
         public sbyte FPlayer;
-        // { $2D }
-        public Aow.Units.FixedArray_byte_2 F_AIMoveExecuter_2E;
         public int FProcessCycles;
-        // { $30 }
         public Aow.Units.AoWE.TAIMoveExecuterDoneEvent FOnDone;
         // AIGroup.pas:5985
-        // { $34 }
-        // { conflict: FOnDone: TNotifyEvent; }
         public override void Destroy()
         {
             Clear();
@@ -65042,7 +63161,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TEndTurnAIPA (instance size 20, VMT 55718EDC) }
     public partial class TEndTurnAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         public TEndTurnAIPA(TECustomNode owner) : base(owner)
@@ -65083,7 +63201,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TInitializeAIPA (instance size 20, VMT 55718FB4) }
     public partial class TInitializeAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         public TInitializeAIPA(TECustomNode owner) : base(owner)
@@ -65108,7 +63225,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TGroupControlAIPA (instance size $1C). $14 group cycles, $18 group control. }
+    // group cycles, group control
     public partial class TGroupControlAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:1049
@@ -65117,10 +63234,8 @@ namespace Aow.Units.AoWE
         }
 
         public int FGroupProcessCycles;
-        // { $14 }
         public Aow.Units.AoWE.TAIGroupControl FGroupControl;
         // AI.pas:1054
-        // { $18 }
         public override void Destroy()
         {
             DeactivateGroupControl();
@@ -65240,7 +63355,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TGroupControlLoopAIPA (instance size $1C). $14 group cycles, $18 group control. }
+    // group cycles, group control
     public partial class TGroupControlLoopAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:1119
@@ -65249,10 +63364,8 @@ namespace Aow.Units.AoWE
         }
 
         public int FGroupProcessCycles;
-        // { $14 }
         public Aow.Units.AoWE.TAIGroupControl FGroupControl;
         // AI.pas:1124
-        // { $18 }
         public override void Destroy()
         {
             DeactivateGroupControl();
@@ -65396,9 +63509,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIBudget (instance size $38, VMT 55719258).
-//     $08 priority, $0C/$10 required gold/mana, $14/$18 upkeep, $1C days,
-//     $20/$24 daily limits, $28/$2C daily requirements, $30/$34 gold/mana. }
+    // priority, required gold/mana, upkeep, days, daily limits, daily requirements, gold/mana
     public partial class TAIBudget : Aow.Units.Engine.TEObject
     {
         // AI.pas:1653
@@ -65408,31 +63519,18 @@ namespace Aow.Units.AoWE
         {}
 
         public int FPriority;
-        // { $08 }
         public int FRequiredGold;
-        // { $0C }
         public int FRequiredMana;
-        // { $10 }
         public int FGoldUpkeep;
-        // { $14 }
         public int FManaUpkeep;
-        // { $18 }
         public int FDays;
-        // { $1C }
-        // { conflict: FPriority: Integer; }
         public int FDayGoldMax;
-        // { $20 }
         public int FDayManaMax;
-        // { $24 }
         public int FDayGold;
-        // { $28 }
         public int FDayMana;
-        // { $2C }
         public int FGold;
-        // { $30 }
         public int FMana;
         // AI.pas:1658
-        // { $34 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -65459,20 +63557,17 @@ namespace Aow.Units.AoWE
         }
 
         // AI.pas:1678
-        // { $4C }
         public virtual void OutputDebugInfo()
         {
             Aow.Units.AoWE.AoWE.AoWEngine.OutputDebugMessage(Aow.Units.AoWE.AoWE.TMPDID, (((((((((AnsiString)TObject.ClassNameOf(this.GetType())) + ((AnsiString)" Gold:")) + Aow.Rtl.Rtl.IntToStr(FGold)) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(FRequiredGold)) + ((AnsiString)" Mana:")) + Aow.Rtl.Rtl.IntToStr(FMana)) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(FRequiredMana));
         }
 
         // AI.pas:1675
-        // { $50 }
         public virtual void Done()
         {
         }
 
         // AI.pas:1685
-        // { $54 }
         public virtual void UpdateDayRequirements()
         {
             FDayGold = FRequiredGold - FGold;
@@ -65503,8 +63598,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { $58 }
-    // { TAISavingsBudget (instance size $38, VMT 55719320). Uses TAIBudget fields. }
+    // Uses TAIBudget fields
     public partial class TAISavingsBudget : Aow.Units.AoWE.TAIBudget
     {
         // AI.pas:2189
@@ -65523,7 +63617,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAITransporterBudget (instance size $38, VMT 557193F8). Uses TAIBudget fields. }
+    // Uses TAIBudget fields
     public partial class TAITransporterBudget : Aow.Units.AoWE.TAIBudget
     {
         // AI.pas:2198
@@ -65539,7 +63633,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIBudgetList (instance size 12, VMT 557194D8) }
     public partial class TAIBudgetList : Aow.Units.Engine.TENode
     {
         public TAIBudgetList(TECustomNode owner) : base(owner)
@@ -65557,9 +63650,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIBudgetManager (instance size $3C, VMT 55719628). $08 player, $0C budgets,
-//     $10..$1C income/reserve factors, $20/$24 production upkeep,
-//     $28/$2C available upkeep, $30/$34 pool, $38 savings budget. }
+    // player, budgets, income/reserve factors, production upkeep, available upkeep, pool, savings
+    // budget
     public partial class TAIBudgetManager : Aow.Units.Engine.TEObject
     {
         // AI.pas:1712
@@ -65574,33 +63666,19 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TPlayer FPlayer;
-        // { $08 }
         public Aow.Units.AoWE.TAIBudgetList FBudgets;
-        // { $0C }
-        // { conflict: FBudgets: TENode; }
         public float FGoldIncomeFactor;
-        // { $10 }
         public float FManaIncomeFactor;
-        // { $14 }
         public float FGoldReserveFactor;
-        // { $18 }
         public float FManaReserveFactor;
-        // { $1C }
         public int FProductionGoldUpkeep;
-        // { $20 }
         public int FProductionManaUpkeep;
-        // { $24 }
         public int FGoldUpkeep;
-        // { $28 }
         public int FManaUpkeep;
-        // { $2C }
         public int FGold;
-        // { $30 }
         public int FMana;
-        // { $34 }
         public Aow.Units.AoWE.TAIBudget FDefaultBudget;
         // AI.pas:1722
-        // { $38; 55785970 }
         public override void Destroy()
         {
             FBudgets.Free();
@@ -66404,7 +64482,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TBudgetManagerAIPA (instance size $14, VMT 557196F0). No new fields. }
+    // No new fields
     public partial class TBudgetManagerAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:2201
@@ -66433,8 +64511,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAutoProduceAIPA (instance size $28, VMT 557197D4).
-//     $14 production index, $18 state, $1C gold upkeep, $20 mana upkeep, $24 productions. }
+    // production index, state, gold upkeep, mana upkeep, productions
     public partial class TAutoProduceAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:1202
@@ -66445,16 +64522,11 @@ namespace Aow.Units.AoWE
         }
 
         public int FProductionIndex;
-        // { $14 }
         public int FState;
-        // { $18 }
         public int FGoldUpkeep;
-        // { $1C }
         public int FManaUpkeep;
-        // { $20 }
         public Aow.Units.Engine.TQuadItemList FProductions;
         // AI.pas:1208
-        // { $24 }
         public override void Destroy()
         {
             FProductions.Free();
@@ -67121,7 +65193,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TProcessEventlogAIPA (instance size $18, VMT 557198B4). $14 log index. }
+    // log index
     public partial class TProcessEventlogAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // AI.pas:1610
@@ -67132,7 +65204,6 @@ namespace Aow.Units.AoWE
 
         public int FLogIndex;
         // AI.pas:1616
-        // { $14 }
         public override void Destroy()
         {
             base.Destroy();
@@ -67197,11 +65268,10 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TStructureAIPA (instance size 28, VMT 5571999C) }
     public partial class TStructureAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
         // Structur.PAS:3318
-        // { TStructureAIPA (instance size 28; $14 phase, $18 structure IDs). }
+        // (phase, structure IDs)
         public TStructureAIPA(TECustomNode owner) : base(owner)
         {
             var call__5601 = new Aow.Units.Engine.TIntegerList();
@@ -67209,10 +65279,8 @@ namespace Aow.Units.AoWE
         }
 
         public new int FPhase;
-        // { $14; 557626E3 }
         public Aow.Units.Engine.TIntegerList FStructureIDs;
         // Structur.PAS:3324
-        // { $18 }
         public override void Destroy()
         {
             FStructureIDs.Free();
@@ -67297,11 +65365,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStructurePhase1AIPA (instance size 28, VMT 55719A78) }
     public partial class TStructurePhase1AIPA : Aow.Units.AoWE.TStructureAIPA, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Structur.PAS:3361
-        // { TStructurePhase1AIPA (instance size 28; inherited $14 phase). }
+        // (inherited phase)
         public TStructurePhase1AIPA(TECustomNode owner) : base(owner)
         {
             FPhase = 1;
@@ -67314,11 +65381,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStructurePhase2AIPA (instance size 28, VMT 55719B60) }
     public partial class TStructurePhase2AIPA : Aow.Units.AoWE.TStructureAIPA, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Structur.PAS:3373
-        // { TStructurePhase2AIPA (instance size 28): inherited $14 FPhase. }
+        // inherited FPhase
         public TStructurePhase2AIPA(TECustomNode owner) : base(owner)
         {
             FPhase = 2;
@@ -67331,21 +65397,19 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupProduction (instance size 16, VMT 55719DDC) }
     public partial class TAIGroupProduction : Aow.Units.Engine.TEObject
     {
         public TAIGroupProduction(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.AoWE.TAbstractUnit FUnit;
-        // { $08 }
         public Aow.Units.AoWE.TProductionControl FControl;
         // Engine.pas:524
 
     }
 
     // { Interface declaration run owned by P5. }
-    // { TAIGroupProductionList (instance size $0C, VMT 55719EA8). $08 children. }
+    // children
     public partial class TAIGroupProductionList : Aow.Units.Engine.TENode
     {
         public TAIGroupProductionList(TECustomNode owner) : base(owner)
@@ -67458,52 +65522,23 @@ namespace Aow.Units.AoWE
         }
 
         public TSet<Aow.Units.AoWE.TAIGroupStatusElement> FStatus;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroup_11;
         public int FRefCount;
-        // { $14 }
         public Aow.Units.AoWE.TAbstractUnit FLeader;
-        // { $18 }
         public Aow.Units.AoWE.TAbstractUnit FTransporter;
-        // { $1C }
         public Aow.Units.AoWE.TAIGroupProductionList FProductions;
-        // { $20 }
         public int FGroupID;
-        // { $24; 5578305E }
         public sbyte FPlayer;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroup_29;
         public int FLeaderID;
-        // { $2C }
         public int FTransporterID;
-        // { $30 }
         public sbyte FIndependentRelation;
-        // { $34 }
-        // { conflict: FRelation: Shortint; }
-        public Aow.Units.FixedArray_byte_3 F_AIGroup_35;
         public Aow.Units.HSEngine.TXYL FTargetXYL;
-        // { $38 }
-        // { conflict: FDefenseLocation: TXYL; }
-        // { conflict: FTargetLocation: Integer; }
         public Aow.Units.AoWE.TAIGroupTargetStatus FTargetType;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroup_3D;
         public int FGoldBudget;
-        // { $40 }
-        // { conflict: FTargetGold: Integer; }
         public int FManaBudget;
-        // { $44 }
         public int FTargetMovePoints;
-        // { $48 }
         public byte FTargetMode;
-        // { $4C }
-        // { conflict: FDefendMode: TGroupDefendMode; }
         public byte FProcessPriority;
-        // { $4D }
         public byte FRecruitmentPriority;
-        // { $4E }
-        // { conflict: FRecruitPriority: Byte; }
-        public Aow.Units.FixedArray_byte_1 F_AIGroup_4F;
         // AIGroup.pas:72
         public override void Destroy()
         {
@@ -67600,7 +65635,6 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:515
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
-            // { Tried receiver/parameter identity casts and typed field access; still differs. }
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001986)
             {
@@ -67779,7 +65813,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:216
-        // { $B8 }
         public virtual int GetManaBudget()
         {
             int Result = default;
@@ -67788,7 +65821,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:148
-        // { $BC }
         public virtual int GetLoc()
         {
             int Result = default;
@@ -67810,7 +65842,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:510
-        // { $C4 }
         public virtual void NewTurn(sbyte Player)
         {
             if (Player == FPlayer)
@@ -67820,7 +65851,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:138
-        // { $C8 }
         public virtual Aow.Units.AoWE.TAIGroupControl CreateGroupControl()
         {
             Aow.Units.AoWE.TAIGroupControl Result = default;
@@ -67859,7 +65889,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:459
-        // { $D4 }
         public virtual bool CooperateWithGroup(Aow.Units.AoWE.TAIGroup Group, Aow.Units.AoWE.TAIGroupControlTarget Target)
         {
             bool Result = default;
@@ -67870,7 +65899,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:473
-        // { $D8 }
         public virtual bool GetRecruitableUnits(int Phase, Aow.Units.AoWE.TUnitList Units, Aow.Units.AoWE.TUnitList Recruitable)
         {
             bool Result = default;
@@ -67879,8 +65907,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:144
-        // { $DC }
-        // { conflict: function GetRecruitableUnits(Group: TAIGroup; Units, Recruitable: TUnitList): Boolean; virtual; }
         public int GetProcessPriority()
         {
             int Result = default;
@@ -68208,7 +66234,7 @@ namespace Aow.Units.AoWE
         public void Activate()
         {
             sbyte Player = default;
-            Aow.Rtl.Rtl.Assert(!FStatus.Contains(Aow.Units.AoWE.TAIGroupStatusElement.agsActivated), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AIGroup.pas", 479);
+            Aow.Rtl.Rtl.Assert(!FStatus.Contains(Aow.Units.AoWE.TAIGroupStatusElement.agsActivated), (AnsiString)"", "AIGroup.pas", 479);
             FStatus = FStatus + TSet<Aow.Units.AoWE.TAIGroupStatusElement>.Of(Aow.Units.AoWE.TAIGroupStatusElement.agsActivated);
             Player = unchecked((sbyte)FPlayer);
             if (Player != -1)
@@ -68219,7 +66245,7 @@ namespace Aow.Units.AoWE
 
             var call__5666 = FindID(FLeaderID);
             FLeader = call__5666;
-            Aow.Rtl.Rtl.Assert((FTransporter != null) || (FTransporterID == -1), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AIGroup.pas", 485);
+            Aow.Rtl.Rtl.Assert((FTransporter != null) || (FTransporterID == -1), (AnsiString)"", "AIGroup.pas", 485);
         }
 
         // AIGroup.pas:488
@@ -68264,7 +66290,6 @@ namespace Aow.Units.AoWE
         // intf_P5_07.inc:54
 
         // AIGroup.pas:123
-        // { $C0 }
         public virtual Aow.Units.Engine.EClass GroupControlClass()
         {
             Aow.Units.Engine.EClass Result = default;
@@ -68273,13 +66298,12 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:121
-        // { $CC }
         public static Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbNone;
 
 
     }
 
-    // { TAIGroupManager (instance size $14, VMT 5571A104). $0C next ID, $10 classes. }
+    // next ID, classes
     public partial class TAIGroupManager : Aow.Units.AoWE.TAIGroupList
     {
         // AIGroup.pas:564
@@ -68291,10 +66315,8 @@ namespace Aow.Units.AoWE
         }
 
         public int FNextID;
-        // { $0C }
         public Aow.Rtl.TList FRegisteredClasses;
         // AIGroup.pas:571
-        // { $10 }
         public override void Destroy()
         {
             FRegisteredClasses.Free();
@@ -68398,13 +66420,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupControlTarget (instance size $4C, VMT 5571A280).
-//     $08 references; $0C info; $18 data; $30 location; $34 moves; $38 transporter;
-//     $3C status; $40 path strength; $44 data A; $48 data B. }
+    // references. info. data. location. moves. transporter. status. path strength. data A. data B
     public partial class TAIGroupControlTarget : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:635
-        // { $48 }
         public TAIGroupControlTarget(TECustomNode owner) : base(owner)
         {
             FRefCount = 1;
@@ -68412,24 +66431,14 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public Aow.Units.AoWE.TAITargetInfo FInfo;
-        // { $0C; 557D77A4 }
         public Aow.Units.AoWE.TAITargetData FData;
-        // { $18; 557D77BE }
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $30; 557D77CD }
         public int FMovePoints;
-        // { $34; 557D77D3 }
         public int FTransporterID;
-        // { $38; 557D77FF }
         public TSet<Aow.Units.AoWE.TAIGroupControlTargetStatusElement> FStatus;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupControlTarget_3D;
         public int FPathStrength;
-        // { $40; 557D77F4 }
         public int FDataA;
-        // { $44 }
         public int FDataB;
 
         // AIGroup.pas:642
@@ -68477,7 +66486,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:666
-        // { $4C }
         public int GetTargetGold()
         {
             int Result = default;
@@ -68507,8 +66515,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupControlTargetList (instance size $10, VMT 5571A354).
-//     $08 children; $0C group control. }
+    // children. group control
     public partial class TAIGroupControlTargetList : Aow.Units.Engine.TEReferenceNode
     {
         public TAIGroupControlTargetList(TECustomNode owner) : base(owner)
@@ -68516,11 +66523,10 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // AIGroup.pas:684
-        // { $0C }
         public Aow.Units.AoWE.TAIGroupControlTarget GetTargets(int Index)
         {
             Aow.Units.AoWE.TAIGroupControlTarget Result = default;
-            Aow.Rtl.Rtl.Assert((Index >= 0) && (Index < FChildren.Count), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AIGroup.pas", 687);
+            Aow.Rtl.Rtl.Assert((Index >= 0) && (Index < FChildren.Count), (AnsiString)"", "AIGroup.pas", 687);
             Result = (Aow.Units.AoWE.TAIGroupControlTarget)FChildren.List[Index];
             return Result;
         }
@@ -68600,8 +66606,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIRecruitmentGroup (instance size $28, VMT 5571A468). $08 references,
-//     $0C location, $10 group, $14 moves, $18 transporter, $1C path strength. }
+    // references, location, group, moves, transporter, path strength
     public partial class TAIRecruitmentGroup : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:750
@@ -68611,18 +66616,11 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $0C }
         public Aow.Units.AoWE.TAIGroup FGroup;
-        // { $10 }
         public int FMovePoints;
-        // { $14 }
         public int FTransporterID;
-        // { $18 }
         public int FPathStrength;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_8 F_AIRecruitmentGroup_20;
         // AIGroup.pas:756
         public override void Destroy()
         {
@@ -68674,7 +66672,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:775
-        // { $4C }
         public void SetGroup(Aow.Units.AoWE.TAIGroup Group)
         {
             Aow.Units.AoWE.TAIGroup OldGroup = default;
@@ -68698,7 +66695,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIRecruitmentGroupList (instance size $0C, VMT 5571A538). $08 children. }
+    // children
     public partial class TAIRecruitmentGroupList : Aow.Units.Engine.TEReferenceNode
     {
         public TAIRecruitmentGroupList(TECustomNode owner) : base(owner)
@@ -68708,7 +66705,7 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TAIRecruitmentGroup GetRecruitmentGroups(int Index)
         {
             Aow.Units.AoWE.TAIRecruitmentGroup Result = default;
-            Aow.Rtl.Rtl.Assert((Index >= 0) && (Index < FChildren.Count), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AIGroup.pas", 802);
+            Aow.Rtl.Rtl.Assert((Index >= 0) && (Index < FChildren.Count), (AnsiString)"", "AIGroup.pas", 802);
             Result = (Aow.Units.AoWE.TAIRecruitmentGroup)FChildren.List[Index];
             return Result;
         }
@@ -68820,8 +66817,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupProductionLocation (instance size $28, VMT 5571A648). $08 references,
-//     $0C production control, $10 location, $14 moves, $18 transporter, $1C path strength. }
+    // references, production control, location, moves, transporter, path strength
     public partial class TAIGroupProductionLocation : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:887
@@ -68831,18 +66827,11 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public Aow.Units.AoWE.TProductionControl FProductionControl;
-        // { $0C }
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $10 }
         public int FMovePoints;
-        // { $14 }
         public int FTransporterID;
-        // { $18 }
         public int FPathStrength;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_8 F_AIGroupProductionLocation_20;
 
         // AIGroup.pas:892
         public override int AddRef()
@@ -68879,8 +66868,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { $4C }
-    // { TAIGroupProductionLocationList (instance size $0C, VMT 5571A728). $08 children. }
+    // children
     public partial class TAIGroupProductionLocationList : Aow.Units.Engine.TEReferenceNode
     {
         public TAIGroupProductionLocationList(TECustomNode owner) : base(owner)
@@ -68890,7 +66878,7 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TAIGroupProductionLocation GetProductionLocation(int Index)
         {
             Aow.Units.AoWE.TAIGroupProductionLocation Result = default;
-            Aow.Rtl.Rtl.Assert((Index >= 0) && (Index < FChildren.Count), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\AIGroup.pas", 909);
+            Aow.Rtl.Rtl.Assert((Index >= 0) && (Index < FChildren.Count), (AnsiString)"", "AIGroup.pas", 909);
             Result = (Aow.Units.AoWE.TAIGroupProductionLocation)FChildren.List[Index];
             return Result;
         }
@@ -68934,7 +66922,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:945
-        // { 5573ACC8 }
         public Aow.Units.AoWE.TAIGroupProductionLocation FindPC(Aow.Units.AoWE.TProductionControl Control)
         {
             Aow.Units.AoWE.TAIGroupProductionLocation Result = default;
@@ -68980,13 +66967,11 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupControlPlugin (instance size $1C, VMT 5571A894).
-//     $08 references, $0C cycles, $10 control, $14 status, $18 state. }
+    // references, cycles, control, status, state
     public partial class TAIGroupControlPlugin : Aow.Units.Engine.TEObject
     {
 
         // AIGroup.pas:1354
-        // { $18; 557D7422 }
         public TAIGroupControlPlugin(TECustomNode owner) : base(owner)
         {
             FRefCount = 1;
@@ -68994,14 +66979,9 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public int FProcessCycles;
-        // { $0C }
         public Aow.Units.AoWE.TAIGroupControl FGroupControl;
-        // { $10 }
         public TSet<Aow.Units.AoWE.TAIGroupControlPluginStatusElement> FStatus;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupControlPlugin_15;
         public int FState;
 
         // AIGroup.pas:1361
@@ -69033,7 +67013,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1383
-        // { $4C }
         public virtual bool GetBusy()
         {
             bool Result = default;
@@ -69042,7 +67021,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1388
-        // { $50; 5573A348 }
         public virtual bool Activate(Aow.Units.AoWE.TAIGroupControl Control)
         {
             bool Result = default;
@@ -69061,7 +67039,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1402
-        // { $58 }
         public virtual bool Process()
         {
             bool Result = default;
@@ -69125,11 +67102,9 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupControl (instance size $170, VMT 5571A978).
-//     $08 cycles, $0C group, $10 status, $14 location, $18 army, $1C army sprite,
-//     $20 selection, $24 targets, $28 strengths, $50 max strength, $54 move table,
-//     $154 immunity, $158 predictor, $15C move executer, $160 recruitment,
-//     $164 production locations, $168 plugin, $16C state. }
+    // cycles, group, status, location, army, army sprite, selection, targets, strengths, max
+    // strength, move table, immunity, predictor, move executer, recruitment, production locations,
+    // plugin, state
     public partial class TAIGroupControl : Aow.Units.Engine.TEObject
     {
 
@@ -69148,45 +67123,24 @@ namespace Aow.Units.AoWE
         }
 
         public int FProcessCycles;
-        // { $08 }
         public Aow.Units.AoWE.TAIGroup FGroup;
-        // { $0C }
         public TSet<Aow.Units.AoWE.TAIGroupControlStatusElement> FStatus;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupControl_11;
         public Aow.Units.HSEngine.TXYL FLocation;
-        // { $14; 557D74F8 }
         public Aow.Units.AoWE.TArmy FArmy;
-        // { $18 }
         public Aow.Units.AoWE.TArmyHS FArmyHS;
-        // { $1C; 557D7B43 }
         public byte FSelection;
-        // { $20; 557D7B4C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupControl_21;
         public Aow.Units.AoWE.TAIGroupControlTargetList FTargets;
-        // { $24; 5573A36F }
         public Aow.Units.FixedArray_int_10 FStrength;
-        // { $28 }
         public int FStrengthMax;
-        // { $50; 557D7805 }
         public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
-        // { $54; 557D7845 }
         public TSet<Aow.Units.AoWE.TDamageType> FImmunityTypes;
-        // { $154 }
-        public Aow.Units.FixedArray_byte_2 F_AIGroupControl_156;
         public Aow.Units.AoWE.TCombatPredictor FCombatPredictor;
-        // { $158; 5573A7F5 }
         public Aow.Units.AoWE.TAIMoveExecuter FMoveExecuter;
-        // { $15C; 557D7974 }
         public Aow.Units.AoWE.TAIRecruitmentGroupList FRecruitmentGroups;
-        // { $160; 5573A6F4 }
         public Aow.Units.AoWE.TAIGroupProductionLocationList FProductionLocations;
-        // { $164; 5573ACC0 }
         public Aow.Units.AoWE.TAIGroupControlPlugin FPlugin;
-        // { $168 }
         public int FState;
         // AIGroup.pas:983
-        // { $16C }
         public override void Destroy()
         {
             DeactivatePlugin();
@@ -69237,28 +67191,24 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1165
-        // { $4C }
         public virtual void TargetFoundEvent(Aow.Units.AoWE.TAIGroupControlPlugin Sender, Aow.Units.AoWE.TAIGroupControlTarget Target, ref bool SearchDone)
         {
             FTargets.Add(Target);
         }
 
         // AIGroup.pas:1155
-        // { $50; 5573A217 }
         public virtual void RecruitmentGroupFoundEvent(Aow.Units.AoWE.TAIGroupControlPlugin Sender, Aow.Units.AoWE.TAIRecruitmentGroup Group, ref bool SearchDone)
         {
             FRecruitmentGroups.Add(Group);
         }
 
         // AIGroup.pas:1160
-        // { $54; 5573A4FA }
         public virtual void ProductionLocationFoundEvent(Aow.Units.AoWE.TAIGroupControlPlugin Sender, Aow.Units.AoWE.TAIGroupProductionLocation Location, ref bool SearchDone)
         {
             FProductionLocations.Add(Location);
         }
 
         // AIGroup.pas:1266
-        // { $58; 5573AD1E }
         public virtual bool Validate()
         {
             bool Result = default;
@@ -69288,21 +67238,18 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1246
-        // { $5C }
         public virtual void ProcessStates()
         {
             Done();
         }
 
         // AIGroup.pas:1251
-        // { +060 }
         public virtual void ProcessStatesLooped()
         {
             Done();
         }
 
         // AIGroup.pas:1170
-        // { +064 }
         public virtual bool Split()
         {
             bool Result = default;
@@ -69371,7 +67318,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1214
-        // { $68 }
         public virtual void Activate()
         {
             FState = 0;
@@ -69382,7 +67328,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1222
-        // { +06C }
         public virtual void Deactivate()
         {
             FMoveExecuter.FOnDone = null;
@@ -69390,7 +67335,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1101
-        // { +070 }
         public virtual void ResetME()
         {
             FMoveExecuter.Reset();
@@ -69398,7 +67342,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1107
-        // { +074 }
         public virtual void SetupME()
         {
             int I = default;
@@ -69438,7 +67381,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1124
-        // { +078 }
         public virtual void ExecuteME(sbyte X, sbyte Y, sbyte L)
         {
             Aow.Units.AoWE.TAoWMapField Field = default;
@@ -69461,7 +67403,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:994
-        // { +07C }
         public void Done()
         {
             FGroup.FStatus = FGroup.FStatus + TSet<Aow.Units.AoWE.TAIGroupStatusElement>.Of(Aow.Units.AoWE.TAIGroupStatusElement.agsDone);
@@ -69832,8 +67773,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupTargetFinder (instance size 56, VMT 5571AAC4).
-//     $1C control, $20 selector, $24 mode, $28/$2C ranges, $30 step, $34 damage types. }
+    // control, selector, mode, ranges, step, damage types
     public partial class TAIGroupTargetFinder : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         // AIGroup.pas:1889
@@ -69844,21 +67784,12 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAIGroupControl FControl;
-        // { $1C }
         public Aow.Units.AoWE.TAIMoveTargetSelector FSelector;
-        // { $20 }
         public TSet<Aow.Units.AoWE.TAIGroupTargetFinderModeElement> FMode;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupTargetFinder_25;
         public int FRange;
-        // { $28 }
         public int FTargetRange;
-        // { $2C }
         public int FStep;
-        // { $30 }
         public TSet<Aow.Units.AoWE.TDamageType> FDamageTypes;
-        // { $34 }
-        public Aow.Units.FixedArray_byte_2 F_AIGroupTargetFinder_36;
         // AIGroup.pas:1895
         public override void Destroy()
         {
@@ -69973,8 +67904,7 @@ namespace Aow.Units.AoWE
     }
 
     // { TDamageStrengths is shared with TDefenseRequirements in intf_P1_01.inc. }
-    // { TGroupDefenseSelector: instance size $10, VMT 5571ABB0.
-//     $08 defenders, $0C selected defense location. }
+    // defenders, selected defense location
     public partial class TGroupDefenseSelector : Aow.Rtl.TObject
     {
         // AIGroup.pas:1640
@@ -69984,12 +67914,9 @@ namespace Aow.Units.AoWE
             FDefenders = call__5778;
         }
 
-        public Aow.Units.FixedArray_byte_4 F_GroupDefenseSelector_04;
         public Aow.Units.AoWE.TUnitList FDefenders;
-        // { $08 }
         public Aow.Units.HSEngine.TXYL FDefenseLocation;
         // AIGroup.pas:1646
-        // { $0C }
         public override void Destroy()
         {
             FDefenders.Free();
@@ -69997,7 +67924,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:1652
-        // { $00 }
         public bool GetDefenders(sbyte Player, sbyte X, sbyte Y, sbyte L, Aow.Units.AoWE.TUnitList Units)
         {
             bool Result = default;
@@ -70283,8 +68209,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupDefenseControl: instance size $28, VMT 5571ACDC.
-//     $1C selector, $20 custom state, $24 mode, $25 defend mode. }
+    // selector, custom state, mode, defend mode
     public partial class TAIGroupDefenseControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         // AIGroup.pas:1807
@@ -70298,14 +68223,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TGroupDefenseSelector FSelector;
-        // { $1C }
         public int FCustomState;
-        // { $20 }
         public TSet<Aow.Units.AoWE.TGroupDefenseControlModeElement> FMode;
-        // { $24 }
         public Aow.Units.AoWE.TGroupDefendMode FDefendMode;
-        // { $25; 55739FC0, 557D9594 }
-        public Aow.Units.FixedArray_byte_2 F_AIGroupDefenseControl_26;
         // AIGroup.pas:1816
         public override void Destroy()
         {
@@ -70410,8 +68330,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIRecruitmentGroupFinder (instance size 52, VMT 5571AE1C).
-//     $1C control, $20 selector, $24 range, $28 step, $2C target range, $30 mode. }
+    // control, selector, range, step, target range, mode
     public partial class TAIRecruitmentGroupFinder : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         // AIGroup.pas:1981
@@ -70422,18 +68341,11 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAIGroupControl FControl;
-        // { $1C }
         public Aow.Units.AoWE.TAIMoveTargetSelector FSelector;
-        // { $20 }
         public int FRange;
-        // { $24 }
         public int FStep;
-        // { $28 }
         public int FTargetRange;
-        // { $2C }
         public TSet<Aow.Units.AoWE.TAIRecruitmentGroupFinderModeElement> FMode;
-        // { $30 }
-        public Aow.Units.FixedArray_byte_3 F_AIRecruitmentGroupFinder_31;
         // AIGroup.pas:1987
         public override void Destroy()
         {
@@ -70558,11 +68470,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupRecruitControl: instance size $98, VMT 5571AF78.
-//     $1C mode, $20 control, $24 completion, $28 units, $2C remaining strengths,
-//     $54 remaining maximum, $58 requested maximum, $5C damage types,
-//     $60 requested strengths, $88 superiority, $8C move types, $90 moves,
-//     $94 path-strength factor. }
+    // mode, control, completion, units, remaining strengths, remaining maximum, requested maximum,
+    // damage types, requested strengths, superiority, move types, moves, path-strength factor
     public partial class TAIGroupRecruitControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         // AIGroup.pas:2070
@@ -70573,36 +68482,19 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAIGroupRecruitControlMode FMode;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupRecruitControl_1D;
         public Aow.Units.AoWE.TAIGroupControl FControl;
-        // { $20 }
         public bool FComplete;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupRecruitControl_25;
         public Aow.Units.AoWE.TUnitUserList FUnits;
-        // { $28 }
         public Aow.Units.FixedArray_int_10 FRemainingStrengths;
-        // { $2C }
         public int FRemainingStrength;
-        // { $54 }
         public int FRecruitStrength;
-        // { $58 }
         public TSet<Aow.Units.AoWE.TDamageType> FDamageTypes;
-        // { $5C }
-        public Aow.Units.FixedArray_byte_2 F_AIGroupRecruitControl_5E;
         public Aow.Units.FixedArray_int_10 FRecruitStrengths;
-        // { $60 }
         public int FSuperiority;
-        // { $88 }
         public TSet<Aow.Units.AoWE.TMoveType> FMoveTypes;
-        // { $8C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupRecruitControl_8D;
         public int FMovesMin;
-        // { $90 }
         public float FPathStrengthFactor;
         // AIGroup.pas:2076
-        // { $94 }
         public override void Destroy()
         {
             FUnits.Free();
@@ -70689,7 +68581,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:2082
-        // { $60 }
         public int GetRecruitedStrength()
         {
             int Result = default;
@@ -71020,10 +68911,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupCooperationControl: instance size $94, VMT 5571B0C8.
-//     $1C completion, $20 control, $24 groups, $28 mode, $2C remaining strength,
-//     $30 remaining strengths, $58 path factor, $5C target, $60 strength,
-//     $64 damage types, $68 strengths, $90 required superiority. }
+    // completion, control, groups, mode, remaining strength, remaining strengths, path factor,
+    // target, strength, damage types, strengths, required superiority
     public partial class TAIGroupCooperationControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         // AIGroup.pas:2839
@@ -71034,33 +68923,18 @@ namespace Aow.Units.AoWE
         }
 
         public bool FComplete;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupCooperationControl_1D;
         public Aow.Units.AoWE.TAIGroupControl FControl;
-        // { $20 }
         public Aow.Units.AoWE.TAIRecruitmentGroupList FGroups;
-        // { $24 }
         public Aow.Units.AoWE.TAIGroupCooperateControlMode FMode;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupCooperationControl_29;
         public int FRemainingStrength;
-        // { $2C }
         public Aow.Units.FixedArray_int_10 FRemainingStrengths;
-        // { $30 }
         public float FPathStrengthFactor;
-        // { $58 }
         public Aow.Units.AoWE.TAIGroupControlTarget FTarget;
-        // { $5C }
         public int FCooperateStrength;
-        // { $60 }
         public TSet<Aow.Units.AoWE.TDamageType> FDamageTypes;
-        // { $64 }
-        public Aow.Units.FixedArray_byte_2 F_AIGroupCooperationControl_66;
         public Aow.Units.FixedArray_int_10 FCooperateStrengths;
-        // { $68 }
         public int FSuperiority;
         // AIGroup.pas:2845
-        // { $90 }
         public override void Destroy()
         {
             FGroups.Free();
@@ -71146,7 +69020,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:2851
-        // { $60 }
         public int GetCooperateMoveDays()
         {
             int Result = default;
@@ -71423,8 +69296,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIProductionLocationFinder: instance size $34, VMT 5571B218.
-//     $1C control, $20 selector, $24 mode, $28 range, $2C step, $30 target range. }
+    // control, selector, mode, range, step, target range
     public partial class TAIProductionLocationFinder : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         // AIGroup.pas:2303
@@ -71435,19 +69307,12 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAIGroupControl FControl;
-        // { $1C }
         public Aow.Units.AoWE.TAIMoveTargetSelector FSelector;
-        // { $20 }
         public TSet<Aow.Units.AoWE.TAIProductionLocationFinderModeElement> FMode;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_AIProductionLocationFinder_25;
         public int FRange;
-        // { $28 }
         public int FStep;
-        // { $2C }
         public int FTargetRange;
         // AIGroup.pas:2309
-        // { $30 }
         public override void Destroy()
         {
             FSelector.Free();
@@ -71517,7 +69382,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:2320
-        // { $60 }
         public void ProductionLocationFoundEvent(Aow.Units.AoWE.TMoveTarget Target, ref bool SearchDone)
         {
             Aow.Units.AoWE.TAIGroupProductionLocation Location = default;
@@ -71559,9 +69423,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupUnitProduction: instance size $30, VMT 5571B36C.
-//     $08 references, $0C unit, $10 production location, $14 gold, $18 mana,
-//     $1C/$20 upkeep, $24 production time, $28 priority, $2C research. }
+    // references, unit, production location, gold, mana, upkeep, production time, priority,
+    // research
     public partial class TAIGroupUnitProduction : Aow.Units.Engine.TEObject
     {
         // AIGroup.pas:2389
@@ -71571,26 +69434,15 @@ namespace Aow.Units.AoWE
         }
 
         public int FRefCount;
-        // { $08 }
         public Aow.Units.AoWE.TUnit FU;
-        // { $0C }
         public Aow.Units.AoWE.TAIGroupProductionLocation FProductionLocation;
-        // { $10 }
         public int FGold;
-        // { $14 }
         public int FMana;
-        // { $18 }
         public int FGoldUpkeep;
-        // { $1C }
         public int FManaUpkeep;
-        // { $20 }
         public int FProductionTime;
-        // { $24 }
         public int FPriority;
-        // { $28 }
         public bool FResearch;
-        // { $2C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupUnitProduction_2D;
         // AIGroup.pas:2395
         public override void Destroy()
         {
@@ -71664,7 +69516,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupUnitProductionList: instance size $0C, VMT 5571B440; $08 children. }
+    // children
     public partial class TAIGroupUnitProductionList : Aow.Units.Engine.TEReferenceNode
     {
         public TAIGroupUnitProductionList(TECustomNode owner) : base(owner)
@@ -71683,13 +69535,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupProductionControl: instance size $C0, VMT 5571B558.
-//     $1C control, $20 mode, $21 completion, $24/$28 costs, $2C/$30 upkeep,
-//     $34 productions, $38 candidates, $3C remaining strengths, $64 remainder,
-//     $68 requested strength, $6C damage types, $70 requested strengths,
-//     $98 priority range, $9C multiple, $A0 group ID, $A4 superiority,
-//     $A8 move-point priority, $AC allow research, $B0 research priority,
-//     $B4 move types, $B8 minimum moves, $BC path-strength factor. }
+    // control, mode, completion, costs, upkeep, productions, candidates, remaining strengths,
+    // remainder, requested strength, damage types, requested strengths, priority range, multiple,
+    // group ID, superiority, move-point priority, allow research, research priority, move types,
+    // minimum moves, path-strength factor
     public partial class TAIGroupProductionControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         // AIGroup.pas:2440
@@ -71702,59 +69551,30 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAIGroupControl FControl;
-        // { $1C }
         public Aow.Units.AoWE.TAIGroupProductionControlMode FMode;
-        // { $20 }
         public bool FComplete;
-        // { $21 }
-        public Aow.Units.FixedArray_byte_2 F_AIGroupProductionControl_22;
         public int FGold;
-        // { $24 }
         public int FMana;
-        // { $28 }
         public int FGoldUpkeep;
-        // { $2C }
         public int FManaUpkeep;
-        // { $30 }
         public Aow.Units.AoWE.TAIGroupUnitProductionList FProductions;
-        // { $34 }
         public Aow.Units.AoWE.TAIGroupUnitProductionList FProduceableUnits;
-        // { $38 }
         public Aow.Units.FixedArray_int_10 FRemainingStrengths;
-        // { $3C }
         public int FRemainingStrength;
-        // { $64 }
         public int FProduceStrength;
-        // { $68 }
         public TSet<Aow.Units.AoWE.TDamageType> FDamageTypes;
-        // { $6C }
-        public Aow.Units.FixedArray_byte_2 F_AIGroupProductionControl_6E;
         public Aow.Units.FixedArray_int_10 FProduceStrengths;
-        // { $70 }
         public int FPriorityRange;
-        // { $98 }
         public bool FMultiple;
-        // { $9C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupProductionControl_9D;
         public int FGroupID;
-        // { $A0 }
         public int FSuperiority;
-        // { $A4 }
         public int FMovePointPriority;
-        // { $A8 }
         public bool FAllowResearch;
-        // { $AC }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupProductionControl_AD;
         public int FResearchPriority;
-        // { $B0 }
         public TSet<Aow.Units.AoWE.TMoveType> FMoveTypes;
-        // { $B4 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupProductionControl_B5;
         public int FMovesMin;
-        // { $B8 }
         public float FPathStrengthFactor;
         // AIGroup.pas:2447
-        // { $BC }
         public override void Destroy()
         {
             FProductions.Free();
@@ -71904,7 +69724,6 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:2456
-        // { $60 }
         public int GetProducedStrength()
         {
             int Result = default;
@@ -72419,52 +70238,32 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAIGroupTargetPrioritySettings: instance size $3C, VMT 5571B750.
-//     $04 target factor, $08 immediate bonus, $0C transport penalty,
-//     $10/$14 overlap penalties, $18/$1C existing-target bonuses,
-//     $20/$24 cooperation penalties, $28/$2C recruitment penalties,
-//     $30 move-day penalty, $34/$38 production penalties. }
+    // target factor, immediate bonus, transport penalty, overlap penalties, existing-target
+    // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties
     public partial class TAIGroupTargetPrioritySettings : Aow.Rtl.TObject
     {
         public float FTargetFactor;
-        // { $04 }
         public int FImmediateBonus;
-        // { $08 }
-        // { conflict: FMaximumPriority: Integer; }
         public int FTransportPenalty;
-        // { $0C }
-        // { conflict: FTransporterPriority: Integer; }
         public int FFarOverlapPenalty;
         public int FNearOverlapPenalty;
-        // { $10, $14 }
         public int FSetupBonus;
         public int FExecuteBonus;
-        // { $18, $1C }
-        // { conflict: FSetupTargetPriority: Integer; }
-        // { conflict: FExecuteTargetPriority: Integer; }
         public int FCompleteCooperationPenalty;
         public int FPartialCooperationPenalty;
-        // { $20, $24 }
         public int FPartialRecruitmentPenalty;
         public int FCompleteRecruitmentPenalty;
-        // { $28, $2C }
         public int FMoveDayPenalty;
-        // { $30 }
-        // { conflict: FMoveTurnPriority: Integer; }
         public int FPartialProductionPenalty;
         public int FProductionDayPenalty;
         // System.pas:111
 
     }
 
-    // { $34, $38 }
-    // { TAIGroupTargetSelector: instance size $88, VMT 5571B7E8.
-//     $1C status, $20 plugin, $24 recruitment, $28 production, $2C cooperation,
-//     $30 mode, $34 minimum moves, $38 target, $3C priority, $40 spare units,
-//     $44 next target, $48..$50 battlefield factors, $54 radius, $58 damage types,
-//     $5C/$60 superiority, $64 move-day factor, $68 minimum strength, $6C split factor,
-//     $70/$74 path factors, $78 target limit, $7C transport, $80 valid limit,
-//     $84 priority settings. }
+    // status, plugin, recruitment, production, cooperation, mode, minimum moves, target, priority,
+    // spare units, next target, battlefield factors, radius, damage types, superiority, move-day
+    // factor, minimum strength, split factor, path factors, target limit, transport, valid limit,
+    // priority settings
     public partial class TAIGroupTargetSelector : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         // AIGroup.pas:3041
@@ -72483,66 +70282,33 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAIGroupTargetSelectorStatus FTargetStatus;
-        // { $1C }
-        // { conflict: FStatus: TAIGroupTargetSelectorStatus; }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupTargetSelector_1D;
         public Aow.Units.AoWE.TAIGroupControlPlugin FPlugin;
-        // { $20 }
         public Aow.Units.AoWE.TAIGroupRecruitControl FRecruitment;
-        // { $24 }
         public Aow.Units.AoWE.TAIGroupProductionControl FProduction;
-        // { $28 }
         public Aow.Units.AoWE.TAIGroupCooperationControl FCooperation;
-        // { $2C }
         public TSet<Aow.Units.AoWE.TAIGroupTargetSelectorModeElement> FMode;
-        // { $30 }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupTargetSelector_31;
         public int FMovesMin;
-        // { $34 }
         public Aow.Units.AoWE.TAIGroupControlTarget FTarget;
-        // { $38 }
         public int FPriority;
-        // { $3C }
         public Aow.Units.AoWE.TUnitUserList FSpareUnits;
-        // { $40 }
         public Aow.Units.AoWE.TAIGroupControlTarget FNextTarget;
-        // { $44 }
         public float FBattleFieldFactor;
         public float FCurrentBattleFieldFactor;
         public float FBattleFieldMoveFactor;
-        // { $48..$50 }
-        // { conflict: FBattleFieldSuperiority: Single; }
-        // { conflict: FCurrentBattleFieldSuperiority: Single; }
         public int FBattleFieldRadius;
-        // { $54 }
         public TSet<Aow.Units.AoWE.TDamageType> FDamageTypes;
-        // { $58 }
-        public Aow.Units.FixedArray_byte_2 F_AIGroupTargetSelector_5A;
         public float FSuperiority;
         public float FNearSuperiority;
         public float FMoveDayFactor;
-        // { $5C..$64 }
-        // { conflict: FCurrentSuperiority: Single; }
-        // { conflict: FStrengthFactor: Single; }
         public int FMinimumStrength;
-        // { $68 }
         public float FMultiTargetFactor;
         public float FPathStrengthFactor;
         public float FCurrentPathStrengthFactor;
-        // { $6C..$74 }
-        // { conflict: FMovePointSuperiority: Single; }
-        // { conflict: FStrengthRatio: Single; }
-        // { conflict: FCurrentStrengthRatio: Single; }
         public int FTargetLimit;
-        // { $78 }
         public bool FAllowTransport;
-        // { $7C }
-        public Aow.Units.FixedArray_byte_3 F_AIGroupTargetSelector_7D;
         public int FValidTargetLimit;
-        // { $80 }
         public Aow.Units.AoWE.TAIGroupTargetPrioritySettings FPrioritySettings;
         // AIGroup.pas:3051
-        // { $84 }
         public override void Destroy()
         {
             DeactivatePlugin();
@@ -73565,7 +71331,6 @@ namespace Aow.Units.AoWE
         public bool Setup(Aow.Units.AoWE.TAIGroupControl Control)
         {
             bool Result = default;
-            // { Tried separate case labels, wider selector and explicit default labels; still differs. }
             Reset();
             var call__6155 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Control.FGroup.FPlayer);
             switch ((int)call__6155.FPlayerType)
@@ -73982,8 +71747,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THuntAG (instance size 84, VMT 5571B8D0) }
-    // { THuntAG (instance size $54). $50 hunted unit IDs. }
+    // hunted unit IDs
     public partial class THuntAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // AIGroup.pas:1442
@@ -73998,7 +71762,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.Engine.TIntegerList FTargetUnitIDs;
         // AIGroup.pas:1436
-        // { $50; 5575FE61 }
         public override void Destroy()
         {
             FTargetUnitIDs.Free();
@@ -74047,7 +71810,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THuntAGC (instance size 368, VMT 5571BA18) }
     public partial class THuntAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public THuntAGC(TECustomNode owner) : base(owner)
@@ -74165,7 +71927,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TGroupControl (instance size 8, VMT 5571BB04) }
     public partial class TGroupControl : Aow.Units.Engine.TEObject
     {
         public TGroupControl(TECustomNode owner) : base(owner)
@@ -74180,8 +71941,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { $4C }
-    // { TGuardGC (instance size 8, VMT 5571BBC8) }
     public partial class TGuardGC : Aow.Units.AoWE.TGroupControl
     {
         // AIGroup.pas:1570
@@ -74200,7 +71959,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPassiveGC (instance size 8, VMT 5571BC84) }
     public partial class TPassiveGC : Aow.Units.AoWE.TGroupControl
     {
         // AIGroup.pas:1580
@@ -74219,7 +71977,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TGuardAreaGC (instance size 8, VMT 5571BD44) }
     public partial class TGuardAreaGC : Aow.Units.AoWE.TGroupControl
     {
         // AIGroup.pas:1590
@@ -74238,7 +71995,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSuicidalGC (instance size 8, VMT 5571BE08) }
     public partial class TSuicidalGC : Aow.Units.AoWE.TGroupControl
     {
         // AIGroup.pas:1600
@@ -74257,7 +72013,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPatrolGC (instance size 8, VMT 5571BEC8) }
     public partial class TPatrolGC : Aow.Units.AoWE.TGroupControl
     {
         // AIGroup.pas:1610
@@ -74276,7 +72031,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TScoutGC (instance size 8, VMT 5571BF84) }
     public partial class TScoutGC : Aow.Units.AoWE.TGroupControl
     {
         // AIGroup.pas:1620
@@ -74295,7 +72049,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TRefugeGC (instance size 8, VMT 5571C040) }
     public partial class TRefugeGC : Aow.Units.AoWE.TGroupControl
     {
         // AIGroup.pas:1630
@@ -74314,8 +72067,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TEndTurnTE (instance size $1C, VMT 5571C138).
-//     $10 player, $14 day, $18 end-turn mode. }
+    // player, day, end-turn mode
     public partial class TEndTurnTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TEndTurnTE(TECustomNode owner) : base(owner)
@@ -74324,13 +72076,8 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135425;
 
         public sbyte FPlayer;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_EndTurnTE_11;
         public int FDay;
-        // { $14 }
         public Aow.Units.AoWE.TEndTurnMode FMode;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_EndTurnTE_19;
         // MoveT.PAS:1907
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -74394,8 +72141,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TChangePlayerSettingsTE (instance size 24, VMT 5571C1F8) }
-    // { TChangePlayerSettingsTE: $10 player, $14 settings string; size $18. }
+    // player, settings string
     public partial class TChangePlayerSettingsTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TChangePlayerSettingsTE(TECustomNode owner) : base(owner)
@@ -74404,11 +72150,8 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135974;
 
         public sbyte FPlayer;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_ChangePlayerSettingsTE_11;
         public Aow.Rtl.AnsiString FSettings;
         // MoveT.PAS:1891
-        // { $14 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -74431,8 +72174,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveTE (instance size 28, VMT 5571C330) }
-    // { TMoveTE: $10 status, $14 path, $18 move index; size $1C. }
+    // status, path, move index
     public partial class TMoveTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TMoveTE(TECustomNode owner) : base(owner)
@@ -74444,13 +72186,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TMoveStatus FStatus;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_MoveTE_11;
         public Aow.Units.AoWE.TMovepath FPath;
-        // { $14 }
         public int FMoveIndex;
         // MoveT.PAS:1958
-        // { $18 }
         public override void Destroy()
         {
             FPath.Free();
@@ -74544,7 +72282,6 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2019
-        // { $50 }
         public virtual Aow.Units.AoWE.TMoveStatus ProcessMove()
         {
             Aow.Units.AoWE.TMoveStatus Result = default;
@@ -74568,7 +72305,6 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2004
-        // { $54 }
         public virtual bool Validate()
         {
             bool Result = default;
@@ -74577,14 +72313,12 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2010
-        // { $5C }
         public virtual void FinishMove()
         {
             FStatus = Aow.Units.AoWE.TMoveStatus.msFinished;
         }
 
         // MoveT.PAS:1997
-        // { $60 }
         public virtual Aow.Units.AoWE.TMoveStatus Move()
         {
             Aow.Units.AoWE.TMoveStatus Result = default;
@@ -74602,7 +72336,6 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2016
-        // { $64 }
         public virtual Aow.Units.AoWE.TMoveStatus LastMove()
         {
             Aow.Units.AoWE.TMoveStatus Result = default;
@@ -74611,7 +72344,6 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2013
-        // { $68 }
         public virtual Aow.Units.AoWE.TMoveStatus DefaultMove()
         {
             Aow.Units.AoWE.TMoveStatus Result = default;
@@ -74620,7 +72352,6 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:1975
-        // { +06C draft }
         public int GetDirection(int Index)
         {
             int Result = default;
@@ -74686,17 +72417,13 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMultiMoveTE (instance size 24, VMT 5571C408) }
-    // { TMultiMoveTE: $10 events, $14 simultaneous; size $18. }
+    // events, simultaneous
     public partial class TMultiMoveTE : Aow.Units.NetworkE.TTokenEvent
     {
         public new const int ClassID = 135442;
 
         public Aow.Units.NetworkE.TTokenEventList FEvents;
-        // { $10 }
         public bool FSimultaneous;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_MultiMoveTE_15;
         // MoveT.PAS:3293
         public override void Destroy()
         {
@@ -74819,42 +72546,24 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMoveArmyTE (instance size 56, VMT 5571C52C) }
-    // { TMoveArmyTE: $1C mode, $20 unit IDs, $24 selection, $28 army sprite,
-//     $2C/$2D moving/target player, $2E..$30 target, $31..$33 destination, $34 animate; size $38. }
+    // mode, unit IDs, selection, army sprite, moving/target player, target, destination, animate
     public partial class TMoveArmyTE : Aow.Units.AoWE.TMoveTE
     {
         public new const int ClassID = 135424;
 
         public TSet<Aow.Units.AoWE.TArmyMoveModeElement> FMode;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_MoveArmyTE_1D;
         public Aow.Units.Engine.TIntegerList FUnitIDs;
-        // { $20 }
         public byte FSelection;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_MoveArmyTE_25;
         public Aow.Units.AoWE.TArmyHS FArmyHS;
-        // { $28 }
         public sbyte FPlayer;
-        // { $2C }
         public sbyte FTargetPlayer;
-        // { $2D }
         public sbyte FTargetX;
-        // { $2E }
         public sbyte FTargetY;
-        // { $2F }
         public sbyte FTargetL;
-        // { $30 }
         public sbyte FDestinationX;
-        // { $31 }
         public sbyte FDestinationY;
-        // { $32 }
         public sbyte FDestinationL;
-        // { $33 }
         public bool FAnimate;
-        // { $34 }
-        public Aow.Units.FixedArray_byte_3 F_MoveArmyTE_35;
         // MoveT.PAS:2066
         public override void Destroy()
         {
@@ -75164,14 +72873,12 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2309
-        // { $70 }
         public virtual void UpdateAnimation()
         {
             FArmyHS.MoveNext();
         }
 
         // MoveT.PAS:2342
-        // { $74 }
         public virtual void SetupNextMove()
         {
             int Direction = default;
@@ -75214,7 +72921,6 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2312
-        // { $78 }
         public virtual bool CanMoveNext()
         {
             bool Result = default;
@@ -75264,7 +72970,6 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2279
-        // { $7C }
         public virtual Aow.Units.AoWE.TMoveStatus ExecuteMove()
         {
             Aow.Units.AoWE.TMoveStatus Result = default;
@@ -75320,7 +73025,6 @@ namespace Aow.Units.AoWE
         }
 
         // MoveT.PAS:2108
-        // { $80 }
         public virtual bool Setup(Aow.Units.AoWE.TArmyHS ArmyHS, byte Selection, Aow.Units.AoWE.TMovepath Path, TSet<Aow.Units.AoWE.TArmyMoveModeElement> Mode)
         {
             bool Result = default;
@@ -75461,7 +73165,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyDefaultMoveTE (instance size 56, VMT 5571C624) }
     public partial class TArmyDefaultMoveTE : Aow.Units.AoWE.TMoveArmyTE
     {
         public TArmyDefaultMoveTE(TECustomNode owner) : base(owner)
@@ -75482,7 +73185,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyNegotiateMoveTE (instance size 56, VMT 5571C72C) }
     public partial class TArmyNegotiateMoveTE : Aow.Units.AoWE.TMoveArmyTE
     {
         public TArmyNegotiateMoveTE(TECustomNode owner) : base(owner)
@@ -75627,7 +73329,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyCombineMoveTE (instance size 56, VMT 5571C838) }
     public partial class TArmyCombineMoveTE : Aow.Units.AoWE.TMoveArmyTE
     {
         public TArmyCombineMoveTE(TECustomNode owner) : base(owner)
@@ -75712,8 +73413,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TArmyCombatMoveTE (instance size 60, VMT 5571C9D4) }
-    // { TArmyCombatMoveTE: $38 combat mode, $39 combat type, $3A ignore defenders; size $3C. }
+    // combat mode, combat type, ignore defenders
     public partial class TArmyCombatMoveTE : Aow.Units.AoWE.TMoveArmyTE
     {
         public TArmyCombatMoveTE(TECustomNode owner) : base(owner)
@@ -75722,12 +73422,8 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135426;
 
         public Aow.Units.AoWE.TCombatMoveMode FCombatMode;
-        // { $38 }
         public Aow.Units.AoWE.TCombatType FCombatType;
-        // { $39 }
         public bool FIgnoreDefenders;
-        // { $3A }
-        public Aow.Units.FixedArray_byte_1 F_ArmyCombatMoveTE_3B;
         // MoveT.PAS:2513
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -76052,7 +73748,6 @@ namespace Aow.Units.AoWE
         // MoveT.PAS:2594
         public void ShowHotSeatPlayerCallBack(Aow.Units.EventLog.TEventLog Log)
         {
-            // { Tried receiver/parameter identity casts and typed field access; still differs. }
             Aow.Units.AoWE.AoWE.AoWHSMap.SetSeatedPlayer(unchecked((sbyte)((Aow.Units.AoWE.TNewTurnEventLog)Log).FTurnPlayer));
             if (FCombatMode == Aow.Units.AoWE.TCombatMoveMode.cmSetupHotseat)
             {
@@ -76676,8 +74371,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatRestoreHotseatEventLog (instance size 28, VMT 5571CAD8) }
-    // { TCombatRestoreHotseatEventLog: $18 combat-move token; size $1C. }
+    // combat-move token
     public partial class TCombatRestoreHotseatEventLog : Aow.Units.EventLog.TEventLog
     {
         public TCombatRestoreHotseatEventLog(TECustomNode owner) : base(owner)
@@ -76685,7 +74379,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TArmyCombatMoveTE FCombatMove;
         // MoveT.PAS:2494
-        // { $18 }
         public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
             bool Result = default;
@@ -76696,10 +74389,8 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TNegotiateTE (instance size $3C, VMT 5571CCFC).
-//     $10 Gold, $14 Offer, $15/$16/$17 X/Y/L, $18 ArmyID,
-//     $1C Player, $1D OwnerPlayer, $20 ArmyHS, $24 Object, $28 MovePoints,
-//     $2C Selection, $2D Mode, $2E Result, $30 EventLogID, $34/$38 Data1/Data2. }
+    // Gold, Offer, X/Y/L, ArmyID, Player, OwnerPlayer, ArmyHS, Object, MovePoints, Selection, Mode,
+    // Result, EventLogID, Data1/Data2
     public partial class TNegotiateTE : Aow.Units.NetworkE.TTokenEvent
     {
         // Diplomacy.pas:133
@@ -76712,17 +74403,13 @@ namespace Aow.Units.AoWE
         public byte FL;
         public Aow.Units.AoWE.TArmyID FArmyID;
         public sbyte FPlayer;
-        // { $1C }
         public byte FOwnerPlayer;
-        public Aow.Units.FixedArray_byte_2 F_NegotiateTE_1E;
         public Aow.Units.AoWE.TArmyHS FArmyHS;
         public Aow.Units.AoWE.TNegotiateObject FObject;
-        public Aow.Units.FixedArray_byte_3 F_NegotiateTE_25;
         public int FMovePoints;
         public byte FSelection;
         public TSet<Aow.Units.AoWE.TNegotiateModeElement> FMode;
         public Aow.Units.AoWE.TNegotiateResult FResult;
-        public Aow.Units.FixedArray_byte_1 F_NegotiateTE_2F;
         public int FEventLogID;
         public int FData1;
         public int FData2;
@@ -76818,7 +74505,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:192
-        // { +050 }
         public virtual void Accept()
         {
             Aow.Units.EventLog.TEventLog Log = default;
@@ -76861,7 +74547,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:226
-        // { +054 }
         public virtual void Reject()
         {
             Aow.Units.AoWE.TMovepath Path = default;
@@ -76885,14 +74570,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { +058 }
-    // { TNegotiateRequestEventLog (instance size $54, VMT 5571CDCC).
-//     $3C/$3D/$3E X/Y/L, $40 MovePoints, $44 ArmyID, $48 Object,
-//     $4C/$50 Data1/Data2; inherited join fields $18..$3B. }
+    // X/Y/L, MovePoints, ArmyID, Object, Data1/Data2. inherited join fields
     public partial class TNegotiateRequestEventLog : Aow.Units.AoWE.TJoinEventLog
     {
         // Diplomacy.pas:264
-        // { needs: P1 TPlayer.GetBusy: Boolean, tested in AL at 5572C813..5572C81A. }
         public TNegotiateRequestEventLog(TECustomNode owner) : base(owner)
         {
             FArmyID = null;
@@ -76902,16 +74583,11 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131814;
 
         public sbyte FX;
-        // { $3C; 0044F009 }
         public sbyte FY;
-        // { $3D; 0044F009 }
         public sbyte FL;
-        // { $3E; 0044F009 }
-        public Aow.Units.FixedArray_byte_1 F_NegotiateRequestEventLog_3F;
         public int FMovePoints;
         public Aow.Units.AoWE.TArmyID FArmyID;
         public Aow.Units.AoWE.TNegotiateObject FObject;
-        public Aow.Units.FixedArray_byte_3 F_NegotiateRequestEventLog_49;
         public int FData1;
         public int FData2;
         // Diplomacy.pas:270
@@ -77051,8 +74727,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { +08C }
-    // { TGameOverTE (instance size 20, VMT 5571CEE8) }
     public partial class TGameOverTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TGameOverTE(TECustomNode owner) : base(owner)
@@ -77061,10 +74735,7 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135441;
 
         public sbyte FPlayer;
-        // { $10 }
         public Aow.Units.AoWE.TGameOverStatus FGameOverStatus;
-        // { $11 }
-        public Aow.Units.FixedArray_byte_2 F_GameOverTE_12;
         // MoveT.PAS:3233
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -77087,8 +74758,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSaveGameTE (instance size 20, VMT 5571CFA8) }
-    // { TSaveGameTE: instance size $14; $10 save filename. }
+    // save filename
     public partial class TSaveGameTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TSaveGameTE(TECustomNode owner) : base(owner)
@@ -77098,7 +74768,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Rtl.AnsiString FFileName;
         // MoveT.PAS:1848
-        // { $10; 557758D5 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -77166,7 +74835,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCheatTE (instance size 24, VMT 5571D07C) }
     public partial class TCheatTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TCheatTE(TECustomNode owner) : base(owner)
@@ -77175,11 +74843,8 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131829;
 
         public sbyte FPlayer;
-        // { $10; 5577406D }
-        public Aow.Units.FixedArray_byte_3 F_CheatTE_11;
         public int FCheatID;
         // MoveT.PAS:3460
-        // { $14; 55774073 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -77357,8 +75022,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDisbandUnitTE (instance size 24, VMT 5571D138) }
-    // { TDisbandUnitTE: $10 unit ID, $14 player; size $18. }
+    // unit ID, player
     public partial class TDisbandUnitTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TDisbandUnitTE(TECustomNode owner) : base(owner)
@@ -77367,10 +75031,7 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135447;
 
         public int FUnitID;
-        // { $10 }
         public sbyte FPlayer;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_DisbandUnitTE_15;
         // MoveT.PAS:3532
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -77518,8 +75179,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatFlowControlTE (instance size 24, VMT 5571D2A8) }
-    // { TCombatFlowControlTE: $10 flow mode, $14 player; size $18. }
+    // flow mode, player
     public partial class TCombatFlowControlTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TCombatFlowControlTE(TECustomNode owner) : base(owner)
@@ -77528,11 +75188,8 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135448;
 
         public TSet<Aow.Units.AoWE.TCombatFlowControlModeElement> FMode;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_CombatFlowControlTE_11;
         public int FPlayer;
         // MoveT.PAS:3596
-        // { $14 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -77583,7 +75240,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTerminatePlayerTE (instance size 32, VMT 5571D37C) }
     public partial class TTerminatePlayerTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TTerminatePlayerTE(TECustomNode owner) : base(owner)
@@ -77592,13 +75248,8 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131836;
 
         public sbyte FPlayer;
-        // { $10; 55755EB4 }
-        public Aow.Units.FixedArray_byte_3 F_TerminatePlayerTE_11;
         public Aow.Units.AoWE.TExitGameCallBack FExitCallBack;
-        // { $14; 55755EB7 }
         public Aow.Units.AoWE.TExitGameMode FExitMode;
-        // { $1C; 55755EC3 }
-        public Aow.Units.FixedArray_byte_3 F_TerminatePlayerTE_1D;
         // MoveT.PAS:3249
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -77656,7 +75307,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFastCombatUnit (instance size $64, VMT 5571D4BC). $5C round distance, $60 state. }
+    // round distance, state
     public partial class TFastCombatUnit : Aow.Units.AoWE.TCombatUnit
     {
         // AIGroup.pas:6778
@@ -77668,10 +75319,7 @@ namespace Aow.Units.AoWE
         }
 
         public int FRoundDistance;
-        // { $5C }
         public TSet<Aow.Units.AoWE.TFastCombatUnitStateElement> FState;
-        // { $60 }
-        public Aow.Units.FixedArray_byte_3 F_FastCombatUnit_61;
         // AIGroup.pas:6797
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -78187,10 +75835,8 @@ namespace Aow.Units.AoWE
         }
 
         // AIGroup.pas:6830
-        // { conflict: function fcWallInBetween(A1: Integer): Boolean; override; }
         public override void Show(int Frame, int Direction, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
-            // { Tried receiver casts, zero-shift image indexes and coordinate casts; still differs. }
             if (FState.Contains(Aow.Units.AoWE.TFastCombatUnitStateElement.fsOutsideWall))
             {
                 var call__6655 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatImages[21];
@@ -78204,7 +75850,6 @@ namespace Aow.Units.AoWE
         public override int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             int Result = default;
-            // { Tried receiver casts, zero-shift image indexes and coordinate casts; still differs. }
             if ((Direction != 6) && FState.Contains(Aow.Units.AoWE.TFastCombatUnitStateElement.fsOutsideWall))
             {
                 var call__6656 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatImages[21];
@@ -78219,7 +75864,6 @@ namespace Aow.Units.AoWE
         public override int ShowHitAnimation(int Frame, int Direction, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             int Result = default;
-            // { Tried receiver casts, zero-shift image indexes and coordinate casts; still differs. }
             if (FState.Contains(Aow.Units.AoWE.TFastCombatUnitStateElement.fsOutsideWall))
             {
                 var call__6657 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatImages[21];
@@ -78325,7 +75969,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFastCombatParty (instance size 28, VMT 5571D670) }
     public partial class TFastCombatParty : Aow.Units.AoWE.TCombatParty
     {
         public TFastCombatParty(TECustomNode owner) : base(owner)
@@ -78333,8 +75976,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCombatObjectList (instance size 16, VMT 5571D738) }
-    // { TCombatObjectList: instance size $10; inherited $04 list, $08 count. }
+    // inherited list, count
     public partial class TCombatObjectList : Aow.Rtl.TList
     {
         // AIGroup.pas:7352
@@ -78349,8 +75991,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TFastCombat (instance size 80, VMT 5571D7BC) }
-    // { TFastCombat: instance size $50; $4C wall siege object count. }
+    // wall siege object count
     public partial class TFastCombat : Aow.Units.AoWE.TCombat
     {
         // AIGroup.pas:7128
@@ -78363,7 +76004,6 @@ namespace Aow.Units.AoWE
 
         public int FWallSiegeObjectCount;
         // AIGroup.pas:7123
-        // { $4C }
         public override void Destroy()
         {
             base.Destroy();
@@ -78770,7 +76410,6 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P4. }
-    // { TAbilityPlugIn (instance size 16, VMT 5571D8AC) }
     public partial class TAbilityPlugIn : Aow.Units.Engine.TPlugIn
     {
         // AoWAb.PAS:5569
@@ -78811,7 +76450,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAdjustableAbility (instance size 40, VMT 5571D930; $24 ability type) }
+    // (ability type)
     public partial class TAdjustableAbility : Aow.Units.AoWE.TAbility
     {
 
@@ -78820,10 +76459,7 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TAbilityType FAbilityType;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 FAbilityTypePadding;
         // AoWAb.PAS:1
-        // { $25 }
         public override Aow.Units.AoWE.TAbilityType GetAbilityType()
         {
             Aow.Units.AoWE.TAbilityType Result = default;
@@ -78832,7 +76468,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TEnhancementAbility (instance size 40, VMT 5571DABC) }
     public partial class TEnhancementAbility : Aow.Units.AoWE.TAdjustableAbility
     {
 
@@ -78844,8 +76479,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TDurationAbilityData (instance size 20, VMT 5571DC94;
-//     $0C duration, $0D player index, $0E ability ID, $10 unresolved Integer) }
+    // (duration, player index, ability ID, unresolved Integer)
     public partial class TDurationAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 139266;
@@ -78858,7 +76492,6 @@ namespace Aow.Units.AoWE
         public ushort FAbilityID;
         public int FSource;
         // AoWAb.PAS:16
-        // { $10 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -78880,7 +76513,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDurationAbility (instance size 44, VMT 5571DD68; $28 duration mode) }
+    // (duration mode)
     public partial class TDurationAbility : Aow.Units.AoWE.TAdjustableAbility
     {
 
@@ -78891,7 +76524,6 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TDurationMode FDurationMode;
-        public Aow.Units.FixedArray_byte_3 FDurationPadding;
 
         // AoWAb.PAS:96
         public override Aow.Rtl.AnsiString GetName(Aow.Units.AoWE.TAbilityOwner A1)
@@ -79066,7 +76698,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:35
-        // { +10C }
         public virtual int GetTotalDuration()
         {
             int Result = default;
@@ -79084,7 +76715,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMultiLevelAbilityData (instance size 16, VMT 5571DEF8; $0C level, $0E ability ID) }
+    // (level, ability ID)
     public partial class TMultiLevelAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 139265;
@@ -79093,7 +76724,6 @@ namespace Aow.Units.AoWE
         {}
 
         public byte FLevel;
-        public Aow.Units.FixedArray_byte_1 F_MultiLevelAbilityData_0D;
         public ushort FLevelAbilityID;
         // AoWAb.PAS:231
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
@@ -79115,7 +76745,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMultiLevelAbility (instance size 48, VMT 5571DFD0; $28 max level, $2C level costs) }
+    // (max level, level costs)
     public partial class TMultiLevelAbility : Aow.Units.AoWE.TAdjustableAbility
     {
 
@@ -79130,7 +76760,6 @@ namespace Aow.Units.AoWE
         public int FMaxLevel;
         public Aow.Units.Engine.TIntegerList FLevelCosts;
         // AoWAb.PAS:255
-        // { $2C }
         public override void Destroy()
         {
             FLevelCosts.Free();
@@ -79151,7 +76780,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTransportAbility (instance size 48, VMT 5571E160) }
     public partial class TTransportAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // AoWAb.PAS:939
@@ -79173,7 +76801,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TStrikeCA (instance size 28, VMT 5571E344; $18 strike mode) }
+    // (strike mode)
     public partial class TStrikeCA : Aow.Units.AoWE.TDamageCA
     {
         public new const int ClassID = 131754;
@@ -79182,8 +76810,6 @@ namespace Aow.Units.AoWE
         {}
 
         public TSet<Aow.Units.AoWE.TStrikeModeElement> FStrikeMode;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_StrikeCA_19;
         // AoWAb.PAS:1157
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -79309,10 +76935,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TMeleeRound (instance size 52, VMT 5571E460):
-//     $04 count, $08 capacity, $0C strikes, $10/$14 combat objects,
-//     $18/$1C cached damage values, $20/$24 units, $28/$2C strike counts,
-//     $30/$32 attacker/defender damage types. }
+    // count, capacity, strikes, combat objects, cached damage values, units, strike counts,
+    // attacker/defender damage types
     public partial class TMeleeRound : Aow.Rtl.TObject
     {
         // AoWAb.PAS:1487
@@ -79321,27 +76945,19 @@ namespace Aow.Units.AoWE
         }
 
         public int FCount;
-        // { $04 }
         public int FCapacity;
-        // { $08 }
         public Aow.Units.AoWE.TMeleeStrike[] FStrikes = [];
-        // { $0C }
         public Aow.Units.AoWE.TCombatObject FAttacker;
         public Aow.Units.AoWE.TCombatObject FDefender;
-        // { $10/$14 }
         public int FAttackerDV;
         public int FDefenderDV;
-        // { $18/$1C }
         public Aow.Units.AoWE.TAbstractUnit FAttackerUnit;
         public Aow.Units.AoWE.TAbstractUnit FDefenderUnit;
-        // { $20/$24 }
         public int FAttackerStrikes;
         public int FDefenderStrikes;
-        // { $28/$2C }
         public TSet<Aow.Units.AoWE.TDamageType> FAttackerDamageTypes;
         public TSet<Aow.Units.AoWE.TDamageType> FDefenderDamageTypes;
         // AoWAb.PAS:1492
-        // { $30/$32 }
         public override void Destroy()
         {
             SetCapacity(0);
@@ -79980,7 +77596,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TStrikeEnhancementAbility (instance size 40, VMT 5571E4D0) }
     public partial class TStrikeEnhancementAbility : Aow.Units.AoWE.TAdjustableAbility
     {
 
@@ -80000,7 +77615,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TStrikeAbility (instance size 44, VMT 5571E668; $28 melee round) }
+    // (melee round)
     public partial class TStrikeAbility : Aow.Units.AoWE.TAdjustableAbility
     {
 
@@ -80018,7 +77633,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TMeleeRound FMeleeRound;
         // AoWAb.PAS:1220
-        // { $28 }
         public override void Destroy()
         {
             FMeleeRound.Free();
@@ -80474,7 +78088,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TRangedAttackCA (instance size 28, VMT 5571E7EC; $18 ability ID) }
+    // (ability ID)
     public partial class TRangedAttackCA : Aow.Units.AoWE.TDamageCA
     {
         public new const int ClassID = 131753;
@@ -80484,7 +78098,6 @@ namespace Aow.Units.AoWE
 
         public int FAbilityID;
         // AoWAb.PAS:4631
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -80530,8 +78143,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TRangedAttackAbility (instance size 48, VMT 5571E8D4;
-//     $28 range, $29 damage, $2A attack, $2B packed damage types, $2D repeats) }
+    // (range, damage, attack, packed damage types, repeats)
     public partial class TRangedAttackAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // AoWAb.PAS:4653
@@ -80542,16 +78154,10 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TCombatRange FRangeRA;
-        // { $28 }
         public sbyte FDamageRA;
-        // { $29 }
         public sbyte FAttackRA;
-        // { $2A }
         public Aow.Units.AoWE.TP3PackedDamageTypes FDamageTypesRA;
-        // { $2B }
         public sbyte FAttackRepeatRA;
-        // { $2D }
-        public Aow.Units.FixedArray_byte_2 F_RangedAttackAbility_2E;
 
         // AoWAb.PAS:4694
         public override Aow.Units.AoWE.TCombatMode GetCombatMode(Aow.Units.AoWE.TAbilityOwner A1)
@@ -80850,7 +78456,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4665
-        // { +10C }
         public virtual sbyte GetDamageRA(Aow.Units.AoWE.TAbilityOwner A1)
         {
             sbyte Result = default;
@@ -80875,7 +78480,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4675
-        // { +110 }
         public virtual sbyte GetAttackRA(Aow.Units.AoWE.TAbilityOwner A1)
         {
             sbyte Result = default;
@@ -80903,7 +78507,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4686
-        // { +114 }
         public virtual sbyte GetAttackRepeatRA(Aow.Units.AoWE.TAbilityOwner A1)
         {
             sbyte Result = default;
@@ -80912,7 +78515,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4690
-        // { +118 }
         public virtual TSet<Aow.Units.AoWE.TDamageType> GetDamageTypesRA(Aow.Units.AoWE.TAbilityOwner A1)
         {
             TSet<Aow.Units.AoWE.TDamageType> Result = default;
@@ -80921,7 +78523,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4777
-        // { +11C }
         public Aow.Units.AoWE.TRangedAttackCA CreateRangedAttackCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, int A3)
         {
             Aow.Units.AoWE.TRangedAttackCA Result = default;
@@ -80940,7 +78541,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TBoltsAbility (instance size 48, VMT 5571EA78) }
     public partial class TBoltsAbility : Aow.Units.AoWE.TRangedAttackAbility
     {
         // AoWAb.PAS:4844
@@ -80953,7 +78553,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TBreathAbility (instance size 48, VMT 5571EC0C) }
     public partial class TBreathAbility : Aow.Units.AoWE.TRangedAttackAbility
     {
         // AoWAb.PAS:4852
@@ -81119,7 +78718,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TFlameThrowingAbility (instance size 48, VMT 5571EDA4) }
     public partial class TFlameThrowingAbility : Aow.Units.AoWE.TBreathAbility
     {
         // AoWAb.PAS:4934
@@ -81146,7 +78744,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TTouchAbility (instance size 40, VMT 5571EF48) }
     public partial class TTouchAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // AoWAb.PAS:1843
@@ -81258,7 +78855,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1892
-        // { +10C }
         public virtual bool CombatTouchRole(Aow.Units.AoWE.TCombatUnit A1, Aow.Units.AoWE.TCombatObject A2)
         {
             bool Result = default;
@@ -81291,7 +78887,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1904
-        // { +110 }
         public virtual float CombatTouchRoleProbability(Aow.Units.AoWE.TCombatUnit A1, Aow.Units.AoWE.TCombatObject A2)
         {
             float Result = default;
@@ -81318,7 +78913,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1880
-        // { +114 }
         public virtual float TouchRoleProbability(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAbstractUnit A2)
         {
             float Result = default;
@@ -81345,7 +78939,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1916
-        // { +118 }
         public virtual bool CanTouch(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
         {
             bool Result = default;
@@ -81420,7 +79013,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1937
-        // { +11C }
         public virtual bool CanTouchUnit(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAbstractUnit A2)
         {
             bool Result = default;
@@ -81443,7 +79035,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1947
-        // { +120 }
         public void fcValidateMoveOutsideWall(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2)
         {
             Aow.Units.AoWE.TMoveWallCA Action = default;
@@ -81473,7 +79064,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TPossessCA (instance size 20, VMT 5571F0E0; $10 possession succeeded) }
+    // (possession succeeded)
     public partial class TPossessCA : Aow.Units.AoWE.TSingleTargetCA
     {
         public new const int ClassID = 131765;
@@ -81482,8 +79073,6 @@ namespace Aow.Units.AoWE
         {}
 
         public bool FSuccessful;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_PossessCA_11;
         // AoWAb.PAS:2471
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -81615,7 +79204,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPossessAbility (instance size 40, VMT 5571F1B4) }
     public partial class TPossessAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2627
@@ -81840,7 +79428,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TPossessedAbilityData (instance size 16, VMT 5571F350; $0C source experience) }
+    // (source experience)
     public partial class TPossessedAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 131797;
@@ -81850,7 +79438,6 @@ namespace Aow.Units.AoWE
 
         public int FSourceExperience;
         // AoWAb.PAS:2556
-        // { $0C }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -81869,7 +79456,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TPossessedAbility (instance size 40, VMT 5571F424) }
     public partial class TPossessedAbility : Aow.Units.AoWE.TPossessAbility
     {
         // AoWAb.PAS:2562
@@ -81959,7 +79545,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TWebCA (instance size 20, VMT 5571F5C4; $10 successful) }
+    // (successful)
     public partial class TWebCA : Aow.Units.AoWE.TSingleTargetCA
     {
         public new const int ClassID = 131768;
@@ -81968,8 +79554,6 @@ namespace Aow.Units.AoWE
         {}
 
         public bool FSuccessful;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_WebCA_11;
         // AoWAb.PAS:2765
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -82032,7 +79616,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TWebAbility (instance size 40, VMT 5571F690) }
     public partial class TWebAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2806
@@ -82224,7 +79807,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TEntangleCA (instance size 20, VMT 5571F824; $10 successful) }
+    // (successful)
     public partial class TEntangleCA : Aow.Units.AoWE.TSingleTargetCA
     {
         public new const int ClassID = 131774;
@@ -82233,8 +79816,6 @@ namespace Aow.Units.AoWE
         {}
 
         public bool FSuccessful;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_EntangleCA_11;
         // AoWAb.PAS:2927
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -82307,7 +79888,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TEntangleAbility (instance size 40, VMT 5571F8F8) }
     public partial class TEntangleAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2968
@@ -82485,7 +80065,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TInvokeDeathCA (instance size 20, VMT 5571FA98; $10 successful) }
+    // (successful)
     public partial class TInvokeDeathCA : Aow.Units.AoWE.TSingleTargetCA
     {
         public new const int ClassID = 131780;
@@ -82494,8 +80074,6 @@ namespace Aow.Units.AoWE
         {}
 
         public bool FSuccessful;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_InvokeDeathCA_11;
         // AoWAb.PAS:3400
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -82561,7 +80139,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TInvokeDeathAbility (instance size 40, VMT 5571FB74) }
     public partial class TInvokeDeathAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:3437
@@ -82818,7 +80395,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TTurnUndeadCA (instance size 24, VMT 5571FD18) }
     public partial class TTurnUndeadCA : Aow.Units.AoWE.TDamageCA
     {
         public new const int ClassID = 131769;
@@ -82891,7 +80467,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TTurnUndeadAbility (instance size 40, VMT 5571FDFC) }
     public partial class TTurnUndeadAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:3121
@@ -83401,7 +80976,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TRoundAttackAbility (instance size 40, VMT 5571FFA0) }
     public partial class TRoundAttackAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2262
@@ -83768,8 +81342,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TCommandedAbilityData (instance size 28, VMT 55720144;
-//     $0C ability ID, $10 commander ID, $14 command ability ID, $18 original combat player) }
+    // (ability ID, commander ID, command ability ID, original combat player)
     public partial class TCommandedAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 131757;
@@ -83778,15 +81351,9 @@ namespace Aow.Units.AoWE
         {}
 
         public int FAbilityID;
-        // { $0C }
         public byte FSourceID;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_CommandedAbilityData_11;
         public int FCommandAbilityID;
-        // { $14 }
         public byte FOriginalCombatPlayer;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 F_CommandedAbilityData_19;
         // AoWAb.PAS:5005
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -83807,7 +81374,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCommandedAbility (instance size 40, VMT 55720218) }
     public partial class TCommandedAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // AoWAb.PAS:5013
@@ -83861,7 +81427,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCommandCA (instance size 24, VMT 557203A0; $10 ability ID, $14 success) }
+    // (ability ID, success)
     public partial class TCommandCA : Aow.Units.AoWE.TSingleTargetCA
     {
         public new const int ClassID = 131763;
@@ -83870,10 +81436,7 @@ namespace Aow.Units.AoWE
         {}
 
         public int FAbilityID;
-        // { $10 }
         public bool FSuccessful;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_CommandCA_15;
         // AoWAb.PAS:5044
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -83969,8 +81532,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCommandAbilityData (instance size 20, VMT 55720474;
-//     $0C ability ID, $10 commanded combat-unit IDs) }
+    // (ability ID, commanded combat-unit IDs)
     public partial class TCommandAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 131755;
@@ -83983,10 +81545,8 @@ namespace Aow.Units.AoWE
         }
 
         public int FAbilityID;
-        // { $0C }
         public Aow.Units.Engine.TByteList FCommandedUnits;
         // AoWAb.PAS:4954
-        // { $10 }
         public override void Destroy()
         {
             FCommandedUnits.Free();
@@ -84061,11 +81621,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCommandAbility (instance size 44, VMT 55720544; $28 commanded ability ID) }
+    // (commanded ability ID)
     public partial class TCommandAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:5088
-        // { $28 }
         public TCommandAbility(TECustomNode owner) : base(owner)
         {
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astUseItem);
@@ -84328,7 +81887,6 @@ namespace Aow.Units.AoWE
         public override bool CanTouchUnit(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAbstractUnit A2)
         {
             bool Result = default;
-            // { Tried receiver/parameter casts, Boolean staging and operand order; still differs. }
             if (base.CanTouchUnit(A1, A2))
             {
                 Result = A2.GetUnitType() != Aow.Units.AoWE.TUnitType.utMachine;
@@ -84373,7 +81931,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5259
-        // { +124 }
         public virtual Aow.Units.AoWE.TCommandCA CreateCommandCA(Aow.Units.AoWE.TCombatUnit Source, Aow.Units.AoWE.TCombatUnit Target)
         {
             Aow.Units.AoWE.TCommandCA Result = default;
@@ -84391,7 +81948,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5157
-        // { +128 }
         public virtual void ResetCommandedUnits(Aow.Units.AoWE.TCombatUnit A1)
         {
             Aow.Units.AoWE.TAbstractUnit UnitOwner = default;
@@ -84424,7 +81980,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5135
-        // { +12C }
         public virtual void Uncommand(Aow.Units.AoWE.TCombatUnit A1)
         {
             Aow.Units.AoWE.TAbstractUnit UnitOwner = default;
@@ -84469,8 +82024,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { +130 }
-    // { TDominatedAbility (instance size 40, VMT 557206F0) }
     public partial class TDominatedAbility : Aow.Units.AoWE.TCommandedAbility
     {
         // AoWAb.PAS:5315
@@ -84482,7 +82035,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TDominateAbility (instance size 44, VMT 55720878) }
     public partial class TDominateAbility : Aow.Units.AoWE.TCommandAbility
     {
         // AoWAb.PAS:5321
@@ -84504,7 +82056,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TCharmedAbility (instance size 40, VMT 55720A28) }
     public partial class TCharmedAbility : Aow.Units.AoWE.TCommandedAbility
     {
         // AoWAb.PAS:5333
@@ -84516,7 +82067,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TCharmAbility (instance size 44, VMT 55720BAC) }
     public partial class TCharmAbility : Aow.Units.AoWE.TCommandAbility
     {
         // AoWAb.PAS:5339
@@ -84595,7 +82145,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TSeducedAbility (instance size 40, VMT 55720D54) }
     public partial class TSeducedAbility : Aow.Units.AoWE.TCommandedAbility
     {
         // AoWAb.PAS:5366
@@ -84607,7 +82156,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TSeduceAbility (instance size 44, VMT 55720ED8) }
     public partial class TSeduceAbility : Aow.Units.AoWE.TCommandAbility
     {
         // AoWAb.PAS:5372
@@ -84673,7 +82221,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TSelfDestructCA (instance size 24, VMT 55721084) }
     public partial class TSelfDestructCA : Aow.Units.AoWE.TDamageCA
     {
         public new const int ClassID = 131764;
@@ -84704,7 +82251,6 @@ namespace Aow.Units.AoWE
         // AoWAb.PAS:2127
         public override void ShowObject(Aow.Units.AoWE.TCombatViewer A1, Aow.Units.AoWE.TCombatObject A2, int A3, int A4, int A5, int A6, in Aow.Units.GFXE.TSurfaceDesc A7)
         {
-            // { Tried receiver/parameter casts and comparison order; still differs. }
             base.ShowObject(A1, A2, A3, A4, A5, A6, A7);
             if (((A2.FID == FTargetID) || (A2.FID == FSourceID)) && (A1.FTime >= (A1.FDelay - 2)))
             {
@@ -84717,7 +82263,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSelfDestructAbility (instance size 40, VMT 5572116C) }
     public partial class TSelfDestructAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:2136
@@ -84928,7 +82473,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TWallCrushingAbility (instance size 40, VMT 55721314) }
     public partial class TWallCrushingAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:1991
@@ -85083,7 +82627,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { THealingCA (instance size 16, VMT 557214BC) }
     public partial class THealingCA : Aow.Units.AoWE.TSingleTargetCA
     {
         public new const int ClassID = 131773;
@@ -85147,7 +82690,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THealingAbilityData (instance size 16, VMT 55721590; $0C enabled) }
+    // (enabled)
     public partial class THealingAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 131758;
@@ -85156,8 +82699,6 @@ namespace Aow.Units.AoWE
         {}
 
         public bool FEnabled;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_HealingAbilityData_0D;
         // AoWAb.PAS:3611
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -85177,7 +82718,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THealingTE (instance size 32, VMT 55721660; $10/$18 unit IDs, $14/$1C players) }
+    // (unit IDs, players)
     public partial class THealingTE : Aow.Units.NetworkE.TTokenEvent
     {
         public THealingTE(TECustomNode owner) : base(owner)
@@ -85186,15 +82727,9 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131826;
 
         public int FSourceID;
-        // { $10 }
         public byte FSourcePlayer;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_HealingTE_15;
         public int FTargetID;
-        // { $18 }
         public byte FTargetPlayer;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_HealingTE_1D;
         // AoWAb.PAS:3853
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -85268,7 +82803,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THealingUnitSelector (instance size 44, VMT 55721720) }
     public partial class THealingUnitSelector : Aow.Units.AoWE.TUnitSelector
     {
         public THealingUnitSelector() : base()
@@ -85372,7 +82906,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THealingAbility (instance size 40, VMT 557217BC) }
     public partial class THealingAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:3616
@@ -85628,7 +83161,6 @@ namespace Aow.Units.AoWE
         // AoWAb.PAS:3702
         public override void GetCombatInfo(Aow.Units.AoWE.TAbilityOwner A1, ref Aow.Units.AoWE.TAbilityCombatInfo A2)
         {
-            // { Tried receiver/source identity copies and explicit inherited calls; still differs. }
             base.GetCombatInfo(A1, ref A2);
             A2.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttFriend);
         }
@@ -85819,7 +83351,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDispelMagicCA (instance size 20, VMT 55721958; $10 dispelled enchantment IDs) }
+    // (dispelled enchantment IDs)
     public partial class TDispelMagicCA : Aow.Units.AoWE.TSingleTargetCA
     {
 
@@ -85832,7 +83364,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.Engine.TIntegerList FEnchantmentIDs;
         // AoWAb.PAS:3941
-        // { $10 }
         public override void Destroy()
         {
             FEnchantmentIDs.Free();
@@ -85966,7 +83497,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDispelMagicAbilityCA (instance size 20, VMT 55721A34) }
     public partial class TDispelMagicAbilityCA : Aow.Units.AoWE.TDispelMagicCA
     {
         public new const int ClassID = 131775;
@@ -85989,8 +83519,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDispelMagicAbilityTE (instance size 32, VMT 55721B1C;
-//     $10/$14 source unit ID/player, $18/$1C target unit ID/player) }
+    // (source unit ID/player, target unit ID/player)
     public partial class TDispelMagicAbilityTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TDispelMagicAbilityTE(TECustomNode owner) : base(owner)
@@ -85999,15 +83528,9 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131827;
 
         public int FSourceID;
-        // { $10 }
         public byte FSourcePlayer;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_DispelMagicAbilityTE_15;
         public int FTargetID;
-        // { $18 }
         public byte FTargetPlayer;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_DispelMagicAbilityTE_1D;
         // AoWAb.PAS:4337
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -86130,7 +83653,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDispelMagicAbilityData (instance size 16, VMT 55721BF0; $0C enabled, $0D level) }
+    // (enabled, level)
     public partial class TDispelMagicAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 131789;
@@ -86139,10 +83662,7 @@ namespace Aow.Units.AoWE
         {}
 
         public bool FEnabled;
-        // { $0C }
         public byte FLevel;
-        // { $0D }
-        public Aow.Units.FixedArray_byte_2 F_DispelMagicAbilityData_0E;
         // AoWAb.PAS:4034
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -86163,7 +83683,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDispelMagicAbilityUnitSelector (instance size 44, VMT 55721CC8) }
     public partial class TDispelMagicAbilityUnitSelector : Aow.Units.AoWE.TUnitSelector
     {
         public TDispelMagicAbilityUnitSelector() : base()
@@ -86253,7 +83772,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDispelMagicAbility (instance size 40, VMT 55721D78) }
     public partial class TDispelMagicAbility : Aow.Units.AoWE.TTouchAbility
     {
         // AoWAb.PAS:4040
@@ -86643,7 +84161,6 @@ namespace Aow.Units.AoWE
         // AoWAb.PAS:4078
         public override void GetCombatInfo(Aow.Units.AoWE.TAbilityOwner A1, ref Aow.Units.AoWE.TAbilityCombatInfo A2)
         {
-            // { Tried receiver/source identity copies and explicit inherited calls; still differs. }
             base.GetCombatInfo(A1, ref A2);
             A2.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttFriend, Aow.Units.AoWE.TCombatTargetTypeElement.cttEnemy);
         }
@@ -86767,8 +84284,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { 5576D52C }
-    // { TLeadershipAbilityData (instance size 24, VMT 55721F1C; $10 external level, $14 source name) }
+    // (external level, source name)
     public partial class TLeadershipAbilityData : Aow.Units.AoWE.TMultiLevelAbilityData
     {
         public new const int ClassID = 131790;
@@ -86777,11 +84293,8 @@ namespace Aow.Units.AoWE
         {}
 
         public byte FExternalLevel;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_LeadershipAbilityData_11;
         public Aow.Rtl.AnsiString FExternalSource;
         // AoWAb.PAS:957
-        // { $14 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -86796,7 +84309,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TLeadershipAbility (instance size 48, VMT 55722008) }
     public partial class TLeadershipAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // AoWAb.PAS:965
@@ -86998,7 +84510,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitEnchantment (instance size 32, VMT 55722198; $18 unit ID, $1C ability ID) }
+    // (unit ID, ability ID)
     public partial class TUnitEnchantment : Aow.Units.AoWE.TEnchantment
     {
         public new const int ClassID = 135951;
@@ -87012,10 +84524,8 @@ namespace Aow.Units.AoWE
         }
 
         public int FUnitID;
-        // { $18 }
         public int FEnchantmentAbilityID;
         // AoWAb.PAS:797
-        // { $1C }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -87168,7 +84678,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitEnchantmentAbilityData (instance size 20, VMT 55722284; $0C ability ID, $0E duration, $0F player, $10 enchantment) }
+    // (ability ID, duration, player, enchantment)
     public partial class TUnitEnchantmentAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 131756;
@@ -87182,12 +84692,10 @@ namespace Aow.Units.AoWE
 
         public ushort FEnchantmentAbilityID;
         public sbyte FEnchantmentDuration;
-        // { $0E; -1 is permanent }
+        // -1 is permanent
         public sbyte FEnchantmentPlayerIndex;
-        // { $0F }
         public Aow.Units.AoWE.TUnitEnchantment FEnchantment;
         // AoWAb.PAS:567
-        // { $10 }
         public override void Destroy()
         {
             Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
@@ -87235,7 +84743,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitEnchantmentAbility (instance size 40, VMT 55722364) }
     public partial class TUnitEnchantmentAbility : Aow.Units.AoWE.TAdjustableAbility
     {
 
@@ -87498,7 +85005,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:608
-        // { +110 }
         public virtual int GetAIUpkeepPriority(Aow.Units.AoWE.TAbilityOwner A1)
         {
             int Result = default;
@@ -87532,7 +85038,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TConstructionControl (instance size 8, VMT 5572250C) }
     public partial class TConstructionControl : Aow.Units.Engine.TEObject
     {
 
@@ -87548,7 +85053,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5500
-        // { +04C }
         public virtual bool CanConstruct(Aow.Units.AoWE.TAbstractUnit A1, ref Aow.Rtl.AnsiString A2)
         {
             bool Result = default;
@@ -87579,7 +85083,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5517
-        // { +054 }
         public virtual int ID()
         {
             int Result = default;
@@ -87590,8 +85093,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { +058 }
-    // { TConstructionControlList (instance size 12, VMT 557225EC) }
     public partial class TConstructionControlList : Aow.Units.Engine.TENode
     {
         public TConstructionControlList(TECustomNode owner) : base(owner)
@@ -87631,7 +85132,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TConstructAbility (instance size 44, VMT 55722700; $28 construction controls) }
+    // (construction controls)
     public partial class TConstructAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // AoWAb.PAS:5537
@@ -87652,7 +85153,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.AoWE.TConstructionControlList FConstructionControls;
         // AoWAb.PAS:5548
-        // { $28 }
         public override void Destroy()
         {
             FConstructionControls.Free();
@@ -87699,7 +85199,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TCosmeticSurgeryEnchantment (instance size 36, VMT 55722888) }
     public partial class TCosmeticSurgeryEnchantment : Aow.Units.AoWE.TUnitEnchantment
     {
         public new const int ClassID = 135964;
@@ -87711,7 +85210,6 @@ namespace Aow.Units.AoWE
 
         public int FFaceIndex;
         // AoWAb.PAS:895
-        // { $20 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -87737,7 +85235,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TCosmeticSurgeryAbility (instance size 40, VMT 55722988) }
     public partial class TCosmeticSurgeryAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // AoWAb.PAS:910
@@ -87757,7 +85254,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TSpellCastingAbility (instance size 48, VMT 55722B30) }
     public partial class TSpellCastingAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // AoWAb.PAS:4439
@@ -88141,7 +85637,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TSpellCC (instance size 32, VMT 55722D0C) }
     public partial class TSpellCC : Aow.Units.AoWE.TFastCombatCommand
     {
         public TSpellCC(int AbilityID) : base(AbilityID)
@@ -88149,7 +85644,6 @@ namespace Aow.Units.AoWE
 
         public int FSpellID;
         // Spells.PAS:1
-        // { $1C }
         public override Aow.Rtl.AnsiString GetName()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -88170,9 +85664,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSpell (instance size 52, VMT 55722D7C; $08 name, $0C control types,
-//     $10 spell ID, $14 base mana cost, $20 sphere, $21 level, $22 type,
-//     $24 text, $28 sounds, $2C images; $18/$1C/$30 remain unresolved Integers) }
+    // (name, control types, spell ID, base mana cost, sphere, level, type, text, sounds, images.
+    // remain unresolved Integers)
     public partial class TSpell : Aow.Units.Engine.TEObject
     {
 
@@ -88190,32 +85683,20 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.AnsiString FSpellName;
-        // { $08 }
         public TSet<Aow.Units.AoWE.TSpellControlTypeElement> FSpellControlTypes;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 F_Spell_0D;
         public int FSpellID;
         public int FBaseManaCost;
         public int FResearchCost;
-        // { $18; 557D5EE7 }
         public int FManaUpkeep;
-        // { $1C }
         public Aow.Units.AoWE.TMagicSphere FMagicSphere;
-        // { $20 }
         public byte FSpellLevel;
         public Aow.Units.AoWE.TSpellType FSpellType;
-        // { $22; stGlobal guard at 557792E8 }
-        public Aow.Units.FixedArray_byte_1 F_Spell_23;
+        // stGlobal guard
         public Aow.Rtl.TStringList FSpellText;
-        // { $24 }
         public Aow.Units.Sound.TSFXLibrary FCastSounds;
-        // { $28 }
         public Aow.Units.ImageLib.TImageSequenceList FCastImages;
-        // { $2C }
-        // { conflict: FImageSequences: TImageSequenceList; }
         public int FCastDuration;
         // Spells.PAS:20
-        // { $30 }
         public override void Destroy()
         {
             FCastSounds.Free();
@@ -88273,25 +85754,20 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:312
-        // { +04C }
         public virtual bool ExecuteTE(Aow.Units.AoWE.TSpellTE A1, Aow.Units.AoWE.TAbstractUnit A2, int A3) => false;
 
         // Spells.PAS:413
-        // { +058 }
         public virtual void AIPrefetchCastSpellActions(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAICastSpellActionList A2)
         {
         }
 
         // Spells.PAS:415
-        // { +05C }
         public virtual bool AIExecuteCastSpellAction(Aow.Units.AoWE.TAbstractUnit A1) => false;
 
         // Spells.PAS:27
-        // { +060 }
         public virtual bool GetEnabled() => true;
 
         // Spells.PAS:43
-        // { +064 }
         public virtual bool CanActivate(Aow.Units.AoWE.TAbstractUnit A1, ref Aow.Rtl.AnsiString A2)
         {
             bool Result = default;
@@ -88339,7 +85815,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:54
-        // { +068 }
         public virtual bool Activate(Aow.Units.AoWE.TAbstractUnit A1)
         {
             bool Result = default;
@@ -88381,7 +85856,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:90
-        // { $070 }
         public virtual bool ActivateCombat(Aow.Units.AoWE.TAbstractUnit A1)
         {
             bool Result = default;
@@ -88405,15 +85879,12 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:158
-        // { $074 }
         public virtual Aow.Units.AoWE.TCombatAction CreateCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, bool A3) => default;
 
         // Spells.PAS:178
-        // { +07C }
         public virtual int GetCombatDamageValue(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2) => 0;
 
         // Spells.PAS:182
-        // { +080 }
         public virtual void GetCombatDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, ref Aow.Units.AoWE.TAbilityDamageValues A3)
         {
             ref var p4DamageValue = ref Unsafe.As<Aow.Units.AoWE.TAbilityDamageValues, Aow.Units.AoWE.TP4DamageValue>(ref A3);
@@ -88425,32 +85896,26 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:326
-        // { +084 }
         public virtual void tcGetDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, ref Aow.Units.AoWE.TAbilityDamageValues A3) => this.GetCombatDamageValueEx(A1, A2, ref A3);
 
         // Spells.PAS:339
-        // { +088 draft }
         public virtual int tcGetDamageValue(Aow.Units.AoWE.TCombatObject Source, Aow.Units.AoWE.TCombatObject Target) => this.GetCombatDamageValue(Source, Target);
 
         // Spells.PAS:320
-        // { +08C; 00418831 }
         public virtual void fcPrefetchCombatCommands(Aow.Units.AoWE.TFastCombatCommandList A1)
         {
         }
 
         // Spells.PAS:322
-        // { +090 }
         public virtual bool fcExecuteCombatCommand(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TFastCombatCommand A2) => false;
 
         // Spells.PAS:316
-        // { +094 }
         public virtual void fcGetDamageValueEx(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, Aow.Units.AoWE.TWallSituation A3, ref Aow.Units.AoWE.TAbilityDamageValues A4)
         {
             A4 = default;
         }
 
         // Spells.PAS:193
-        // { +098 }
         public void CastingDone(Aow.Units.AoWE.TAbstractUnit Source, int Mana)
         {
             if (Source is Aow.Units.AoWE.THero)
@@ -88537,7 +86002,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TSpellControl (instance size 12, VMT 55722E94; $08 registered-spell list) }
+    // (registered-spell list)
     public partial class TSpellControl : Aow.Units.Engine.TEObject
     {
 
@@ -88550,7 +86015,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Rtl.TList FRegisteredSpells;
         // Spells.PAS:582
-        // { $08 }
         public override void Destroy()
         {
             UnregisterAll();
@@ -88612,7 +86076,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:610
-        // { conflict: function GetSpell(SpellID: Integer): TSpell; }
         public void RegisterSpell(Aow.Units.AoWE.TSpell Spell)
         {
             int ID = default;
@@ -88687,7 +86150,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:651
-        // { draft }
         public void UnregisterAll()
         {
             int I = default;
@@ -88707,7 +86169,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:659
-        // { draft }
         public void ListSpells(Aow.Rtl.TStrings SpellStrings, TSet<Aow.Units.AoWE.TMagicSphere> Spheres)
         {
             int I = default;
@@ -88765,7 +86226,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSpellList (instance size 8, VMT 55722F54; $04 spell list) }
+    // (spell list)
     public partial class TSpellList : Aow.Rtl.TObject
     {
         // Spells.PAS:695
@@ -88777,7 +86238,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Rtl.TList FSpells;
         // Spells.PAS:700
-        // { $04 }
         public override void Destroy()
         {
             FSpells.Free();
@@ -88785,7 +86245,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:705
-        // { draft }
         public Aow.Units.AoWE.TSpell GetSpell(int Index)
         {
             Aow.Units.AoWE.TSpell Result = default;
@@ -88829,14 +86288,12 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:734
-        // { draft }
         public void SortOnName()
         {
             FSpells.Sort(Aow.Units.AoWE.AoWE.P4CompareSpellNames);
         }
 
         // Spells.PAS:744
-        // { draft }
         public void SortOnLevel()
         {
             FSpells.Sort(Aow.Units.AoWE.AoWE.P4CompareSpellLevels);
@@ -88846,8 +86303,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { draft }
-    // { TSpellTE (instance size 32, VMT 55722FC4; $10 spell ID, $14 source ID, $18 player, $1C mana) }
+    // (spell ID, source ID, player, mana)
     public partial class TSpellTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TSpellTE(TECustomNode owner) : base(owner)
@@ -88858,7 +86314,6 @@ namespace Aow.Units.AoWE
         public int FEventSpellID;
         public int FEventSourceID;
         public byte FEventPlayerIndex;
-        public Aow.Units.FixedArray_byte_3 F_SpellTE_19;
         public int FEventMana;
         // Spells.PAS:423
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
@@ -88871,7 +86326,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:431
-        // { +058 draft }
         public void Initialize(int SpellID, byte PlayerIndex, int SourceID, int Mana)
         {
             FEventSpellID = SpellID;
@@ -88885,7 +86339,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSpellCaster (instance size 20, VMT 5572308C; $08 spell ID, $0C source ID, $10 refcount) }
+    // (spell ID, source ID, refcount)
     public partial class TSpellCaster : Aow.Units.Engine.TEObject
     {
 
@@ -88927,14 +86381,13 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:789
-        // { +04C }
         public virtual bool Cast() => true;
 
         // intf_P4_02.inc:998
 
     }
 
-    // { TCombatSpellCaster (instance size 20, VMT 55723154; $08 spell ID, $0C source ID, $10 refcount) }
+    // (spell ID, source ID, refcount)
     public partial class TCombatSpellCaster : Aow.Units.Engine.TEObject
     {
         // Spells.PAS:793
@@ -88944,9 +86397,7 @@ namespace Aow.Units.AoWE
         }
 
         public int FCombatCasterSpellID;
-        // { $08 }
         public int FCombatCasterSourceID;
-        // { $0C }
         public int FCombatCasterRefCount;
 
         // Spells.PAS:798
@@ -88980,7 +86431,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TSpellCastEventLog (instance size 32, VMT 55723220; $18 unit ID, $1C spell ID) }
+    // (unit ID, spell ID)
     public partial class TSpellCastEventLog : Aow.Units.EventLog.TEventLog
     {
         public TSpellCastEventLog(TECustomNode owner) : base(owner)
@@ -88989,10 +86440,8 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131823;
 
         public int FUnitID;
-        // { $18 }
         public int FSpellID;
         // Spells.PAS:837
-        // { $1C }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -89087,7 +86536,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitSpellCaster (instance size 28, VMT 55723318; $14 target-unit users, $18 selection bits) }
+    // (target-unit users, selection bits)
     public partial class TUnitSpellCaster : Aow.Units.AoWE.TSpellCaster
     {
         // Spells.PAS:859
@@ -89098,13 +86547,9 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TUnitUserList FTargetUnits;
-        // { $14 }
         public byte FSelectionMask;
         public bool FAllowMultipleTargets;
-        // { $19 }
         public byte FValidSelection;
-        // { $1A }
-        public byte F_UnitSpellCaster_1B;
         // Spells.PAS:864
         public override void Destroy()
         {
@@ -89118,7 +86563,6 @@ namespace Aow.Units.AoWE
             bool Result = default;
             Aow.Units.AoWE.THero Hero = default;
             int Mana = default;
-            // { conflict: Caster: THero; }
             var call__7821 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
             Hero = (Aow.Units.AoWE.THero)call__7821;
             if ((Hero != null) && !Hero.FUnitStatus.Contains(Aow.Units.AoWE.TUnitStatusElement.usKilled))
@@ -89264,22 +86708,16 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitSpellTE (instance size 52, VMT 557233E8;
-//     $20 target IDs, $24 target users, $28 target player, $2C spell data) }
+    // (target IDs, target users, target player, spell data)
     public partial class TUnitSpellTE : Aow.Units.AoWE.TSpellTE
     {
         public new const int ClassID = 135944;
 
         public Aow.Units.Engine.TIntegerList FTargetUnitIDs;
-        // { $20 }
         public Aow.Units.AoWE.TUnitUserList FTargetUnits;
-        // { $24 }
         public byte FTargetPlayer;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 F_UnitSpellTE_29;
         public Aow.Units.FixedArray_int_2 FSpellData;
         // Spells.PAS:1126
-        // { $2C }
         public override void Destroy()
         {
             FTargetUnitIDs.Free();
@@ -89429,8 +86867,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitSpellCA (instance size 32, VMT 557234B8;
-//     $0C spell ID, $10/$11 source/target IDs, $14 spell data, $1C mana) }
+    // (spell ID, source/target IDs, spell data, mana)
     public partial class TUnitSpellCA : Aow.Units.AoWE.TCombatAction
     {
         public new const int ClassID = 131779;
@@ -89439,17 +86876,11 @@ namespace Aow.Units.AoWE
         {}
 
         public int FSpellID;
-        // { $0C }
         public byte FSourceID;
-        // { $10 }
         public byte FTargetID;
-        // { $11 }
-        public Aow.Units.FixedArray_byte_2 F_UnitSpellCA_12;
         public Aow.Units.FixedArray_int_2 FSpellData;
-        // { $14 }
         public int FMana;
         // Spells.PAS:1102
-        // { $1C }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -89480,13 +86911,11 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TUnitSpell (instance size 68, VMT 55723590;
-//     $34 multiple targets, $38 range, $3C dispel resistance, $40 AI value) }
+    // (multiple targets, range, dispel resistance, AI value)
     public partial class TUnitSpell : Aow.Units.AoWE.TSpell
     {
 
         // Spells.PAS:1210
-        // { $40 }
         public TUnitSpell(TECustomNode owner) : base(owner)
         {
             FAIValue = -1;
@@ -89496,13 +86925,8 @@ namespace Aow.Units.AoWE
         }
 
         public bool FAllowMultipleTargets;
-        // { $34 }
-        public Aow.Units.FixedArray_byte_3 F_UnitSpell_35;
         public int FTargetRange;
-        // { $38 }
         public byte FUnitDispelResistance;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_3 F_UnitSpell_3D;
         public int FAIValue;
 
         // Spells.PAS:1444
@@ -89681,7 +87105,6 @@ namespace Aow.Units.AoWE
         // Spells.PAS:1218
         public override void GetCombatInfo(Aow.Units.AoWE.TAbstractUnit Source, ref Aow.Units.AoWE.TSpellCombatInfo Info)
         {
-            // { Tried receiver/source identity copies and explicit inherited calls; still differs. }
             base.GetCombatInfo(Source, ref Info);
             Info.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttFriend);
             Info.Range = unchecked((sbyte)-1);
@@ -89696,7 +87119,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1228
-        // { +09C }
         public virtual void ValidateUnitSelection(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TUnitList Targets, ref byte Selection)
         {
             int I = default;
@@ -89721,7 +87143,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1238
-        // { +0A0; 5577ACB0 }
         public virtual void SetupUSC(Aow.Units.AoWE.TUnitSpellCaster Caster, Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TUnitList Targets)
         {
             int I = default;
@@ -89760,7 +87181,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1254
-        // { +0A4; 5577AD34 }
         public virtual bool CastSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TUnitList Targets)
         {
             bool Result = default;
@@ -89787,7 +87207,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1344
-        // { +0A8 }
         public virtual bool ValidTargetParty(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TArmyHS Party)
         {
             bool Result = default;
@@ -89796,7 +87215,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1346
-        // { +0AC }
         public virtual void TargetPartySelected(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TArmyHS Party)
         {
             Aow.Units.AoWE.TUnitSpellCaster Caster = default;
@@ -89807,7 +87225,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1224
-        // { +0B0; 5577B1DC }
         public virtual bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
         {
             bool Result = default;
@@ -89816,7 +87233,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1400
-        // { +0B4 }
         public virtual Aow.Units.AoWE.TUnitSpellCA CreateCAEx(Aow.Units.AoWE.TCombatObject Source, Aow.Units.AoWE.TCombatObject Target, int Mana)
         {
             Aow.Units.AoWE.TUnitSpellCA Result = default;
@@ -89836,7 +87252,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1411
-        // { +0B8; 5577B370 }
         public virtual void ExecuteCA(Aow.Units.AoWE.TCombat Combat, Aow.Units.AoWE.TUnitSpellCA Action)
         {
             Aow.Units.AoWE.TCombatObject Source = default;
@@ -89860,7 +87275,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1422
-        // { +0BC }
         public virtual bool AIRetrieveOptimalTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TUnitList Targets, ref Aow.Units.AoWE.TAbstractUnit Target, ref int Priority)
         {
             bool Result = default;
@@ -89913,7 +87327,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1269
-        // { +0C0; 5577B460 }
         public void OnValidateTarget(Aow.Units.AoWE.TTargetSelectionControl Control, sbyte X, sbyte Y, sbyte L, ref bool Valid)
         {
             Aow.Units.AoWE.TAbstractUnit Source = default;
@@ -89963,7 +87376,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1289
-        // { 5577AE80 }
         public void OnTargetSelectionChange(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWE.TTargetSelectionControl Control = default;
@@ -90001,7 +87413,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1310
-        // { 5577AF58 }
         public void ResetTargetSelection()
         {
             var targetSelectionControl = Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection;
@@ -90010,7 +87421,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1318
-        // { 5577AFF0 }
         public void SetupTargetSelection(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TTargetSelectionControl Control)
         {
             sbyte X = default;
@@ -90056,8 +87466,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { 5577B014 }
-    // { TResearchSpellAIPA (instance size 20, VMT 557236C4) }
     public partial class TResearchSpellAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         public TResearchSpellAIPA(TECustomNode owner) : base(owner)
@@ -90116,34 +87524,28 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1502
-        // { TResearchSpellAIPA: instance size 20; inherited $0C player control. }
+        // inherited player control
         public static new int Priority => 22;
 
     }
 
-    // { TAICastSpellAction (instance size 28, VMT 557237A8) }
     public partial class TAICastSpellAction : Aow.Units.Engine.TEObject
     {
         public TAICastSpellAction(TECustomNode owner) : base(owner)
         {}
 
         public int FSourceUnitID;
-        // { $08 }
         public int FSpellID;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_8 F_AICastSpellAction_10;
         public int FPriority;
     }
 
-    // { $18 }
-    // { TAICastSpellActionList (instance size 12, VMT 55723874) }
     public partial class TAICastSpellActionList : Aow.Units.Engine.TENode
     {
         public TAICastSpellActionList(TECustomNode owner) : base(owner)
         {}
 
         // Spells.PAS:1535
-        // { TAICastSpellActionList: instance size 12; inherited $08 children. }
+        // inherited children
         public Aow.Units.AoWE.TAICastSpellAction GetCastSpellActions(int A1)
         {
             Aow.Units.AoWE.TAICastSpellAction Result = default;
@@ -90152,7 +87554,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1539
-        // { 5577B8D4 }
         public void SortOnPriority()
         {
             FChildren.Sort(Aow.Units.AoWE.AoWE.P4CompareCastSpellPriority);
@@ -90162,13 +87563,10 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { 5577B8EC }
-    // { TCastSpellAIPA (instance size 40, VMT 55723984) }
     public partial class TCastSpellAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Spells.PAS:1543
-        // { TCastSpellAIPA: instance size 40; $14 state, $18 casting heroes,
-//   $1C idle heroes, $20 pending hero IDs, $24 candidate actions. }
+        // state, casting heroes, idle heroes, pending hero IDs, candidate actions
         public TCastSpellAIPA(TECustomNode owner) : base(owner)
         {
             var call__7924 = new Aow.Units.Engine.TIntegerList();
@@ -90182,16 +87580,11 @@ namespace Aow.Units.AoWE
         }
 
         public int FState;
-        // { $14 }
         public Aow.Units.Engine.TIntegerList FCastingHeroes;
-        // { $18 }
         public Aow.Units.Engine.TIntegerList FIdleHeroes;
-        // { $1C }
         public Aow.Units.Engine.TIntegerList FPendingHeroes;
-        // { $20 }
         public Aow.Units.AoWE.TAICastSpellActionList FCastSpellActions;
         // Spells.PAS:1551
-        // { $24 }
         public override void Destroy()
         {
             FIdleHeroes.Free();
@@ -90307,7 +87700,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1593
-        // { 5577BA54 }
         public int CastingHeroesMax()
         {
             int Result = default;
@@ -90318,7 +87710,6 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1600
-        // { 5577BAE8 }
         public void ProcessStates()
         {
             Aow.Units.AoWE.THero Hero = default;
@@ -90490,8 +87881,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P5. }
-    // { TAoWMapCampaignSettings (instance size 28, VMT 55723A60).
-//     $08 allied victory; $09 padding; $0C points; $10 gold; $14 mana; $18 next scenario. }
+    // allied victory. . points. gold. mana. next scenario
     public partial class TAoWMapCampaignSettings : Aow.Units.Engine.TEObject
     {
         // Diplomacy.pas:1716
@@ -90505,13 +87895,11 @@ namespace Aow.Units.AoWE
         }
 
         public bool FAlliedVictory;
-        public Aow.Units.FixedArray_byte_3 F_AoWMapCampaignSettings_09;
         public int FTransferPointsMax;
         public int FTransferGoldMax;
         public int FTransferManaMax;
         public int FHeroLevelMax;
         // Diplomacy.pas:1726
-        // { $18; 55787651 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -90526,11 +87914,9 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWCampaignTransferSettings (instance size $50, VMT 55723B34).
-//     $08 leader; $0C heroes; $10 items; $14 units; $18 research percentage;
-//     $1C spells; $20 research spell ID; $24 research points left; $28/$2C/$30
-//     selected heroes/items/units; $34/$38 gold/mana; $3C spheres;
-//     $40 points max; $44 gold max; $48 mana max; $4C points left. }
+    // leader. heroes. items. units. research percentage. spells. research spell ID. research points
+    // left. selected heroes/items/units. gold/mana. spheres. points max. gold max. mana max. points
+    // left
     public partial class TAoWCampaignTransferSettings : Aow.Units.Engine.TEObject
     {
         // Diplomacy.pas:1736
@@ -90556,42 +87942,24 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Units.AoWE.TLeader FLeader;
-        // { $08 }
         public Aow.Units.AoWE.THeroList FHeroes;
-        // { $0C }
         public Aow.Units.AoWE.TItemList FItems;
-        // { $10 }
         public Aow.Units.AoWE.TUnitList FUnits;
-        // { $14 }
         public int FResearchPercentage;
-        // { $18 }
         public Aow.Units.Engine.TIntegerList FSpells;
-        // { $1C }
         public int FResearchSpellID;
-        // { $20 }
         public int FResearchPointsLeft;
-        // { $24 }
         public Aow.Units.Engine.TIntegerList FSelectedHeroes;
-        // { $28 }
         public Aow.Units.Engine.TIntegerList FSelectedItems;
-        // { $2C }
         public Aow.Units.Engine.TIntegerList FSelectedUnits;
-        // { $30 }
         public int FSelectedTransferGold;
-        // { $34 }
         public int FSelectedTransferMana;
-        // { $38 }
         public Aow.Units.Engine.TByteList FSelectedSpheres;
-        // { $3C }
         public int FTransferPointsMax;
-        // { $40 }
         public int FTransferGoldMax;
-        // { $44 }
         public int FTransferManaMax;
-        // { $48 }
         public int FTransferPointsLeft;
         // Diplomacy.pas:1750
-        // { $4C }
         public override void Destroy()
         {
             Clear();
@@ -91451,8 +88819,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWCampaignScenario (instance size $14, VMT 55723C14).
-//     $08 ID; $0C name; $10 map file name. }
+    // ID. name. map file name
     public partial class TAoWCampaignScenario : Aow.Units.Engine.TEObject
     {
         // Diplomacy.pas:2200
@@ -91465,12 +88832,9 @@ namespace Aow.Units.AoWE
         }
 
         public int FID;
-        // { $08 }
         public Aow.Rtl.AnsiString FName;
-        // { $0C }
         public Aow.Rtl.AnsiString FFileName;
         // Diplomacy.pas:2197
-        // { $10 }
         public override void Destroy()
         {
             base.Destroy();
@@ -91492,7 +88856,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWCampaignScenarioList (instance size 12, VMT 55723CFC) }
     public partial class TAoWCampaignScenarioList : Aow.Units.Engine.TENode
     {
         public TAoWCampaignScenarioList(TECustomNode owner) : base(owner)
@@ -91568,10 +88931,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWCampaign (instance size $34, VMT 55723E4C).
-//     $08 name; $0C map stream; $10 scenarios; $14 completed scenario IDs;
-//     $18 race history; $1C scenario started; $20 transfer settings;
-//     $24 current ID; $28 next ID; $30 difficulty; $31 play mode. }
+    // name. map stream. scenarios. completed scenario IDs. race history. scenario started. transfer
+    // settings. current ID. next ID. difficulty. play mode
     public partial class TAoWCampaign : Aow.Units.Engine.TEObject
     {
 
@@ -91596,32 +88957,17 @@ namespace Aow.Units.AoWE
         }
 
         public Aow.Rtl.AnsiString FName;
-        // { $08 }
         public Aow.Rtl.TMemoryStream FStream;
-        // { $0C }
         public Aow.Units.AoWE.TAoWCampaignScenarioList FScenarios;
-        // { $10 }
         public Aow.Units.Engine.TIntegerList FCompletedScenarios;
-        // { $14 }
         public Aow.Units.Engine.TByteList FRaceHistory;
-        // { $18 }
-        // { conflict: FRaces: TByteList; }
         public bool FScenarioStarted;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_AoWCampaign_1D;
         public Aow.Units.AoWE.TAoWCampaignTransferSettings FTransferSettings;
-        // { $20 }
         public int FCurrentScenarioID;
-        // { $24 }
         public int FNextScenarioID;
-        // { $28 }
         public Aow.Rtl.AnsiString FFileName;
-        // { $2C; 55755C80 }
         public Aow.Units.AoWE.TCampaignDifficultyLevel FDifficultyLevel;
-        // { $30 }
         public Aow.Units.AoWE.TPlayMode FPlayMode;
-        // { $31 }
-        public Aow.Units.FixedArray_byte_2 F_AoWCampaign_32;
         // Diplomacy.pas:2261
         public override void Destroy()
         {
@@ -91726,7 +89072,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2413
-        // { $4C }
         public virtual Aow.Rtl.AnsiString GetAutoSaveFileName(Aow.Units.AoWE.TCampaignAutoSaveType Auto)
         {
             Aow.Rtl.AnsiString Result = default;
@@ -91735,21 +89080,18 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2330
-        // { $50 }
         public virtual void SelectNextScenario(int ID)
         {
             FNextScenarioID = ID;
         }
 
         // Diplomacy.pas:2333
-        // { $54 }
         public virtual void ResetNextScenario()
         {
             FNextScenarioID = -1;
         }
 
         // Diplomacy.pas:2336
-        // { $058 }
         public virtual void StartScenario(int ID, Aow.Units.GFXE.TProgressEvent Progress)
         {
             FStream.Clear();
@@ -91758,7 +89100,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2343
-        // { $5C }
         public virtual void SetupScenario()
         {
             sbyte Player = default;
@@ -91981,7 +89322,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2416
-        // { $060 }
         public virtual void FinishScenario()
         {
             sbyte Player = default;
@@ -92021,7 +89361,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2432
-        // { $064 }
         public virtual void RestartScenario()
         {
             if (FCompletedScenarios.Count != 0)
@@ -92039,7 +89378,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2285
-        // { $068 }
         public virtual Aow.Units.AoWE.TAoWCampaignScenario AddScenario()
         {
             Aow.Units.AoWE.TAoWCampaignScenario Result = default;
@@ -92051,7 +89389,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2292
-        // { $6C }
         public bool GetContainsMap()
         {
             bool Result = default;
@@ -92064,10 +89401,8 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDiplomaticAction (instance size $30, VMT 55723F48).
-//     $08 RefCount, $0C Day, $10 Source, $11 Target, $12 OtherPlayer,
-//     $13 ActionType, $14 Reaction, $18 Gold, $1C Mana, $20 Message,
-//     $24 EscrowGold, $28 EscrowMana, $2C EventLogID. }
+    // RefCount, Day, Source, Target, OtherPlayer, ActionType, Reaction, Gold, Mana, Message,
+    // EscrowGold, EscrowMana, EventLogID
     public partial class TDiplomaticAction : Aow.Units.Engine.TEObject
     {
         // Diplomacy.pas:495
@@ -92084,14 +89419,10 @@ namespace Aow.Units.AoWE
         public int FRefCount;
         public int FDay;
         public sbyte FSource;
-        // { $10 }
         public sbyte FTarget;
-        // { $11 }
         public sbyte FOtherPlayer;
-        // { $12 }
         public Aow.Units.AoWE.TDiplomaticActionType FActionType;
         public Aow.Units.AoWE.TDiplomaticActionReaction FReaction;
-        public Aow.Units.FixedArray_byte_3 FReserved;
         public int FGold;
         public int FMana;
         public Aow.Rtl.TStringList FMessage;
@@ -92211,7 +89542,7 @@ namespace Aow.Units.AoWE
                     var call__8177 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
                     var call__8178 = call__8177.FEventLogbook.FindID(FEventLogID);
                     Log = call__8178;
-                    Aow.Rtl.Rtl.Assert(Log is Aow.Units.AoWE.TDiplomaticActionEventLog, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Diplomacy.pas", 697);
+                    Aow.Rtl.Rtl.Assert(Log is Aow.Units.AoWE.TDiplomaticActionEventLog, (AnsiString)"", "Diplomacy.pas", 697);
                     var call__8179 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSource);
                     call__8179.FEventLogbook.AddEvent(Log);
                     var call__8180 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSource);
@@ -92345,7 +89676,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:826
-        // { $4C }
         public virtual void ExecuteAccept(Aow.Units.AoWE.TDiplomaticActionTE TE)
         {
             int I = default;
@@ -92508,7 +89838,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:950
-        // { $50 }
         public virtual void ExecuteReject(Aow.Units.AoWE.TDiplomaticActionTE TE)
         {
             Aow.Units.AoWE.TDiplomaticActionEventLog Log = default;
@@ -92585,7 +89914,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:722
-        // { $54 }
         public virtual void ExecuteAI(sbyte Player)
         {
             Aow.Units.Engine.TByteList Peace = default;
@@ -92822,7 +90150,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:1055
-        // { $58 }
         public virtual bool CanSend(ref Aow.Rtl.AnsiString ErrorText)
         {
             bool Result = default;
@@ -92855,7 +90182,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:1081
-        // { $5C }
         public virtual bool Send(ref Aow.Rtl.AnsiString ErrorText)
         {
             bool Result = default;
@@ -92889,7 +90215,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:920
-        // { $60 }
         public virtual bool CanAccept(ref Aow.Rtl.AnsiString ErrorText)
         {
             bool Result = default;
@@ -92898,7 +90223,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:923
-        // { $64 }
         public virtual bool Accept(ref Aow.Rtl.AnsiString ErrorText)
         {
             bool Result = default;
@@ -92931,7 +90255,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:974
-        // { $68 }
         public virtual bool CanReject(ref Aow.Rtl.AnsiString ErrorText)
         {
             bool Result = default;
@@ -92940,7 +90263,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:977
-        // { $6C }
         public virtual bool Reject(ref Aow.Rtl.AnsiString ErrorText)
         {
             bool Result = default;
@@ -92973,7 +90295,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:505
-        // { $70 }
         public Aow.Rtl.AnsiString GetName(sbyte Player)
         {
             Aow.Rtl.AnsiString Result = default;
@@ -93305,7 +90626,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDiplomaticActionList (instance size 12, VMT 55724038) }
     public partial class TDiplomaticActionList : Aow.Units.Engine.TEReferenceNode
     {
         public TDiplomaticActionList(TECustomNode owner) : base(owner)
@@ -93345,7 +90665,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDiplomaticActionTE (instance size $18, VMT 55724144): $10 Operation, $14 Action. }
+    // Operation, Action
     public partial class TDiplomaticActionTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TDiplomaticActionTE(TECustomNode owner) : base(owner)
@@ -93441,7 +90761,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDiplomaticActionEventLog (instance size $1C, VMT 55724214): $18 Action. }
+    // Action
     public partial class TDiplomaticActionEventLog : Aow.Units.EventLog.TEventLog
     {
         public TDiplomaticActionEventLog(TECustomNode owner) : base(owner)
@@ -93996,7 +91316,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TDiplomacyAIPA (instance size 24, VMT 55724318) }
     public partial class TDiplomacyAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         // Diplomacy.pas:1540
@@ -94005,7 +91324,6 @@ namespace Aow.Units.AoWE
         }
 
         public sbyte FNextPlayer;
-        public Aow.Units.FixedArray_byte_3 F_DiplomacyAIPA_15;
         // Diplomacy.pas:1543
         public override void Destroy()
         {
@@ -94381,7 +91699,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAoWDictionary (instance size 152, VMT 557243F4) }
     public partial class TAoWDictionary : Aow.Rtl.TIvBinaryDictionary
     {
 
@@ -94393,46 +91710,24 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { TAoWEngine (instance size $80, VMT 557244F0): $58 FVersion, $5C FRegistry,
-//     $60 FGameMap, $64 FGameSet, $68 FCombatFont, $6C FDebugMode, $6D FAnimationDetail,
-//     $6E FDemo, $70 FCampaign, $74 FEmailGames, $78 FDictionary, $7C FLanguage. }
+    // FVersion, FRegistry, FGameMap, FGameSet, FCombatFont, FDebugMode, FAnimationDetail, FDemo,
+    // FCampaign, FEmailGames, FDictionary, FLanguage
     public partial class TAoWEngine : Aow.Units.HSEngine.THSEngine
     {
         public new const int ClassID = 131073;
 
         public int FVersion;
-        // { $58 }
         public Aow.Units.AoWReg.TAoWRegistry FRegistry;
-        // { $5C }
-        // { conflict: FRegistry: TRegistry; }
         public Aow.Units.AoWE.TAoWHSMap FGameMap;
-        // { $60 }
         public Aow.Units.AoWE.TAoWHSSet FGameSet;
-        // { $64 }
-        // { conflict: FHSSet: TAoWHSSet; }
         public Aow.Units.ImageLib.TImageLibraryFont FCombatFont;
-        // { $68 }
-        // { conflict: FUnitFont: TImageLibraryFont; }
         public bool FDebug;
-        // { $6C; 55773E51 }
-        // { conflict: FDebugMode: Boolean; }
-        // { conflict: FDeveloper: Boolean; }
         public byte FAnimationDetail;
-        // { $6D }
-        // { conflict: FAnimationDetail: TDetailLevel; }
         public bool FDemo;
-        // { $6E; 5578B227 }
-        public Aow.Units.FixedArray_byte_1 F_AoWEngine_6F;
         public Aow.Units.AoWE.TAoWCampaign FCampaign;
-        // { $70 }
         public Aow.Units.AoWE.TEmailGameControl FEmailGames;
-        // { $74 }
         public Aow.Units.AoWE.TAoWDictionary FDictionary;
-        // { $78 }
         public byte FLanguage;
-        // { $7C; 55773B82 }
-        // { conflict: FLanguage: TAoWLanguage; }
-        public Aow.Units.FixedArray_byte_3 F_AoWEngine_7D;
         // Army.PAS:5853
         public override void Destroy()
         {
@@ -94449,7 +91744,6 @@ namespace Aow.Units.AoWE
         // Army.PAS:5767-5786
         private protected sealed override void InitializeBeforeInherited()
         {
-            // { Tried typed language selector; still differs. }
             Aow.Units.AoWE.AoWE.AoWEngine = this;
             SetVersion(1, 36, 53);
             var call__8505 = new Aow.Units.AoWReg.TAoWRegistry();
@@ -94536,7 +91830,6 @@ namespace Aow.Units.AoWE
         // Army.PAS:5901
         public override void UpdateStartupDirectory()
         {
-            // { Tried Self identity, Pointer identity, typed with; parameter spill or local lifetime/receiver staging; still differs. }
             var call__8516 = FRegistry.GetStartupDirectory();
             if (call__8516 != ((AnsiString)""))
             {
@@ -95000,7 +92293,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TAgeOfWondersEngine (instance size $40, VMT 55724618): $3C FGameEngine. }
+    // FGameEngine
     public partial class TAgeOfWondersEngine : Aow.Units.HSEngine.THexagonSpriteEngine
     {
 
@@ -95009,7 +92302,6 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.HSEngine.THSEngine FGameEngine;
         // Army.PAS:6104
-        // { $3C }
         public override void Destroy()
         {
             FGameEngine = null;
@@ -95036,7 +92328,6 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P1. }
-    // { TStructureConstructionControl (instance size 8, VMT 557246C8) }
     public partial class TStructureConstructionControl : Aow.Units.AoWE.TConstructionControl
     {
 
@@ -95156,20 +92447,14 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:3158
-        // { TStructureConstructionControl (instance size 8; no additional fields). }
-        // { +05C }
         public virtual Aow.Units.AoWE.TStructureResource StructureResource(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
             Aow.Units.AoWE.TStructureResource Result = default;
-            // { conflict: function TStructureConstructionControl.StructureResource: TStructureResource; }
             Result = null;
             return Result;
         }
     }
 
-    // { +060 }
-    // { conflict: function StructureResource: TStructureResource; virtual; }
-    // { TConstructStructureTE (instance size 28, VMT 557247C0) }
     public partial class TConstructStructureTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TConstructStructureTE(TECustomNode owner) : base(owner)
@@ -95178,13 +92463,9 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135962;
 
         public int FUnitID;
-        // { $10 }
         public sbyte FPlayer;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_ConstructStructureTE_15;
         public int FControlID;
         // Structur.PAS:3098
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -95279,7 +92560,6 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { TExportTextStream (instance size 44, VMT 55724894) }
     public partial class TExportTextStream : Aow.Units.Engine.TEWriteTextStorageStream
     {
         // Army.PAS:5685
@@ -95360,12 +92640,10 @@ namespace Aow.Units.AoWE
         { }
     }
 
-    // { TTranslateTextStream (instance size 40, VMT 55724960) }
     public partial class TTranslateTextStream : Aow.Units.Engine.TTranslateStorageStream
     {
         public Aow.Rtl.TIvDictionary FDictionary;
         // Army.PAS:5614
-        // { $24; 557973C9 }
         public override void TranslateStrings(ref Aow.Rtl.TStrings Strings)
         {
             Aow.Rtl.AnsiString S = default;
@@ -95440,7 +92718,6 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P4. }
-    // { TRebuildConstructionControl (instance size 8, VMT 55770A28) }
     public partial class TRebuildConstructionControl : Aow.Units.AoWE.TConstructionControl
     {
         public TRebuildConstructionControl(TECustomNode owner) : base(owner)
@@ -95477,7 +92754,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5413
-        // { 55770B58 }
         public override void GetInfo(Aow.Units.AoWE.TAbstractUnit AUnit, ref Aow.Rtl.AnsiString Text, ref int Gold, ref int Days)
         {
             Aow.Units.AoWE.TStructure Structure = default;
@@ -95549,7 +92825,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { TBuildRoadsControl (instance size 8, VMT 55770AE0) }
     public partial class TBuildRoadsControl : Aow.Units.AoWE.TConstructionControl
     {
         // AoWAb.PAS:5446
@@ -95626,7 +92901,6 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { TUnitResourceAbilityOwner (instance size 20, VMT 55784B80) }
     public partial class TUnitResourceAbilityOwner : Aow.Units.AoWE.TAbilityOwner
     {
         public TUnitResourceAbilityOwner(TECustomNode owner) : base(owner)
@@ -95644,7 +92918,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { THeroResourceAbilityOwner (instance size 20, VMT 55789DE8) }
     public partial class THeroResourceAbilityOwner : Aow.Units.AoWE.TAbilityOwner
     {
         public THeroResourceAbilityOwner(TECustomNode owner) : base(owner)
@@ -96151,7 +93424,6 @@ namespace Aow.Units.AoWE
         attNegotiate = 1
     }
 
-    // { $100; 557D7848 }
     [StructLayout(LayoutKind.Explicit, Size = 12)]
     public struct TAITargetInfo
     {
@@ -96215,7 +93487,6 @@ namespace Aow.Units.AoWE
         public Aow.Units.FixedArray_int_10 DamageStrengths;
     }
 
-    // { $28; 55771E58 }
     [StructLayout(LayoutKind.Explicit, Size = 24)]
     public struct TAITargetData
     {
@@ -96784,11 +94055,8 @@ namespace Aow.Units.AoWE
     }
 
     public delegate bool TValidateMovePositionProc(Aow.Units.AoWE.TMoveSettingsList Moves, int Index);
-    // { TAbstractAoWHSMap (instance size 216, VMT 5570E37C) }
-    // { TAbstractAoWHSMap: size $D8; $A4/$A5 current/seated player, $A8 message events,
-//     $AC message text, $B0 message frame, $B4 FPS, $B8 map-event lock, $BC map events,
-//     $C0 scanner events, $C4 scanner lock, $C8/$C9 fog/exploration, $CC/$D0 selectors,
-//     $D6 selector visibility. }
+    // current/seated player, message events, message text, message frame, FPS, map-event lock, map
+    // events, scanner events, scanner lock, fog/exploration, selectors, selector visibility
     public struct TMapChangedInfo
     {
         public Aow.Rtl.TRect Bounds;
@@ -96803,7 +94071,7 @@ namespace Aow.Units.AoWE
     }
 
     // { Interface declaration run owned by P2. }
-    // { Editor drop message, size $30: screen X/Y at $18/$1C, level at $20, result at $2C. }
+    // The editor drop message carries screen X/Y, level, and result.
     public struct TItemDropMsg
     {
         public int MsgID;
@@ -97303,7 +94571,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { TAbility name-return ABI at VMT +$58; declarations in other packages remain unchanged. }
     public partial class TP1AbilityNameView : Aow.Units.Engine.TEObject
     {
         public TP1AbilityNameView(TECustomNode owner) : base(owner)
@@ -97334,7 +94601,6 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { ABI-only view of TUnitSelector: Boolean CanSelectUnit at VMT +$04. }
     public partial class TSelectorView : Aow.Rtl.TObject
     {
         // Combat.pas:102
@@ -97678,7 +94944,6 @@ namespace Aow.Units.AoWE
     }
 
     public delegate int TP1FastRound(Aow.Units.AoWE.TFastCombat Combat);
-    // { $557083A4 }
     // { P2 recovery in original code order. }
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     public struct TP2HeroLevel
@@ -97710,14 +94975,11 @@ namespace Aow.Units.AoWE
 
     public partial class TP2AbilityControlFields : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_20 Reserved;
         public Aow.Units.AoWE.TAbilityTypeList CombatAbilities;
         public Aow.Units.AoWE.TAbilityTypeList Enchantments;
     }
 
-    // { Local VMT view while foreign draft result types remain undeclared.
-//     Offsets proved by calls 5577F57C, 5577F599, 5577F5D1, 5577F60C, 5577F651. }
-    // { Damage-value record, five dwords at 5577F9FF..5577FA24. }
+    // Damage-value record, five dwords
     [StructLayout(LayoutKind.Explicit, Size = 20)]
     public struct TP2DamageValue
     {
@@ -97735,7 +94997,6 @@ namespace Aow.Units.AoWE
 
     public partial class TP2AbilityCalls : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_8 ReservedFields;
         public int AbilityID;
         // Combat.pas:355
         public virtual void Slot00()
@@ -98082,7 +95343,7 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { VMT +94 is ExpandAbility for an owner; +54/+58 are enchantment setters. }
+    // ExpandAbility acts on an owner. The setters update enchantments.
     public partial class TP2OwnerCalls : Aow.Rtl.TObject
     {
         // Combat.pas:429
@@ -98316,7 +95577,6 @@ namespace Aow.Units.AoWE
 
     public partial class TP2EnchantmentCalls : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_16 Reserved;
         public byte Duration;
         // Combat.pas:471
         public virtual void Slot00()
@@ -98459,18 +95719,16 @@ namespace Aow.Units.AoWE
 
     public partial class TP2SpellFields : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_56 Reserved;
         public byte Duration;
     }
 
-    // { 558E8330; original seven-byte table. }
+    // original seven-byte table
     public partial class TP2CombatTurnFields : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_45 Reserved;
         public byte Turn;
     }
 
-    // { Obsolete serialized behavior object, VMT +4C read at 55782176. }
+    // Obsolete serialized behavior object.
     public partial class TP2LegacyBehaviorCalls : Aow.Rtl.TObject
     {
         // Combat.pas:510
@@ -98598,13 +95856,11 @@ namespace Aow.Units.AoWE
 
     public partial class TP2MapPlayerFields : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_161 Reserved;
         public sbyte Player;
     }
 
     public partial class TP2FaceEnchantmentFields : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_28 Reserved;
         public int FaceIndex;
     }
 
@@ -98623,7 +95879,6 @@ namespace Aow.Units.AoWE
 
     }
 
-    // { P1's unmarked $FC field is still Integer. This local view changes no layout. }
     public struct TP4MapUnitControl
     {
         public Aow.Units.FixedArray_byte_252 Reserved;
@@ -98723,10 +95978,7 @@ namespace Aow.Units.AoWE
         }
     }
 
-    // { needs: P3 TCombatObject.GetAbilityOwner: TAbilityOwner at VMT $B8.
-//     This declaration-only view preserves TEObject's slots through $48 and
-//     the TCombatObject slots $4C..$B8; no instances are created. }
-    // { Only VMT $128/$12C are called; this view is never instantiated. }
+    // This view is never instantiated.
     public partial class TCastingPointsReturnViewP4 : Aow.Units.AoWE.TDurationReturnView
     {
 
@@ -98777,14 +96029,13 @@ namespace Aow.Units.AoWE
     }
 
     // { P5: AI, diplomacy, campaign and turn movement. }
-    // { ABI views for the still-unmarked EventLog/P2 override declarations.
-//     Never instantiated; EventLog size $18, JoinEventLog size $3C. }
+    // ABI views for the still-unmarked EventLog/P2 override declarations. Never instantiated.
+    // EventLog JoinEventLog
     public partial class TP5EventLogABI : Aow.Units.Engine.TEObject
     {
         public TP5EventLogABI(TECustomNode owner) : base(owner)
         {}
 
-        public Aow.Units.FixedArray_byte_16 FReserved;
         // Combat.pas:951
         public virtual void Slot4C()
         {
@@ -99275,7 +96526,6 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:1420
-        // { conflict: function CreateDamageCA(Source, Target: TCombatObject; Attack, Damage: Integer; DamageTypes: TDamageTypes): TDamageCA; }
         public static void RetrieveDefaultDiplomaticActionMessage(sbyte Source, sbyte Target, sbyte Other, Aow.Units.AoWE.TDiplomaticActionType Action, Aow.Units.AoWE.TDiplomaticActionReaction Reaction, Aow.Rtl.TStrings Text)
         {
             Aow.Rtl.AnsiString SourceRace = default;
@@ -99903,7 +97153,6 @@ namespace Aow.Units.AoWE
         public static Aow.Rtl.AnsiString Format(Aow.Rtl.AnsiString S, params TVarRec[] Args)
         {
             Aow.Rtl.AnsiString Result = default;
-            // { conflict: function Format(const Fmt: string; const Args: array of const): string; }
             try
             {
                 Result = Aow.Rtl.Rtl.Format(S, Args);
@@ -99917,7 +97166,6 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:1977
-        // { conflict: function Format(const Fmt: string; const Args: array of const): string; }
         public static Aow.Rtl.AnsiString FmtTurnsStr(int Turns)
         {
             Aow.Rtl.AnsiString Result = default;
@@ -100035,7 +97283,6 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:2026
         public static void ShowDamageIcon(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc Surface, int Damage, Aow.Units.AoWE.TDamageType DamageType)
         {
-            // { Tried enum local before calls; enum identity assignment; still differs. }
             if (DamageType != Aow.Units.AoWE.TDamageType.dtNone)
             {
                 var call__8718 = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatImages[((int)DamageType) + 10];
@@ -100331,7 +97578,7 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:2149
-        // { AL result; 5575AD73. }
+        // AL result
         public static Aow.Units.AoWE.TStatus dAlignmentsToStatus(TSet<Aow.Units.AoWE.TAlignment> A, TSet<Aow.Units.AoWE.TAlignment> B)
         {
             Aow.Units.AoWE.TStatus Result = default;
@@ -100439,7 +97686,7 @@ namespace Aow.Units.AoWE
         public static int AlsToInt(TSet<Aow.Units.AoWE.TAlignment> Alignments)
         {
             int Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             return Result;
         }
@@ -100448,7 +97695,7 @@ namespace Aow.Units.AoWE
         public static TSet<Aow.Units.AoWE.TAlignment> IntToAls(int Value)
         {
             TSet<Aow.Units.AoWE.TAlignment> Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             return Result;
         }
@@ -101202,7 +98449,6 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:2505
-        // { conflict: function ValidAttackRelation(Player, IndependentRelation, TargetPlayer: Shortint; Mode: Boolean): Boolean; }
         public static int GetUnitIndexAIPriority(int UnitIndex, sbyte Player, sbyte Relation)
         {
             int Result = default;
@@ -101756,7 +99002,6 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:2704
-        // { 5573A1E9..5573A209; 5575C224 }
         public static int GetBattleFieldStrengthAdvantage(int Location, sbyte Player, sbyte Relation, Aow.Units.AoWE.TUnitList Units, int FriendlyRadius, int EnemyRadius, TSet<Aow.Units.AoWE.TDamageType> DamageTypes)
         {
             int Result = default;
@@ -101873,7 +99118,6 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:929
-        // { 55762E4D }
         public static Aow.Units.AoWE.TEnhancementAbility CreateEnhancementAbility(int ID, Aow.Rtl.AnsiString Name, TSet<Aow.Units.AoWE.TAbilitySelectionType> SelectionTypes)
         {
             Aow.Units.AoWE.TEnhancementAbility Result = default;
@@ -102088,51 +99332,34 @@ namespace Aow.Units.AoWE
         }
 
         public static Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_256 MovePointTables;
-        // { $558EA040 }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 TTacticalCombatAvailabilityRStr;
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_4 TVictoryConditionRStr;
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 TPlayerConnectionTypeRStr;
-        // { $558E8240, $558E821C; 0041BCB4 }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_9 TMagicSphereRStr;
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 TSpellTypeRStr;
-        // { $558E8118, $558E81C0; 0042F009 }
         public static Aow.Units.FixedArray_int_3 CommandAbilityIDs = Aow.Units.FixedArray_int_3.From([29, 28, 148]);
-        // { 557F8492 }
         public static readonly Aow.Rtl.AnsiString ObstacleRStr = (AnsiString)"Obstacle";
         public static readonly Aow.Rtl.AnsiString CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr = (AnsiString)"Spell Ward locks all global enchantments";
         public static readonly Aow.Rtl.AnsiString XIsAlreadyActiveRStr = (AnsiString)"%s is already active";
         public static readonly Aow.Rtl.AnsiString SystemRStr = (AnsiString)"System";
         public static readonly Aow.Rtl.AnsiString HillRStr = (AnsiString)"Hill";
-        // { $55706964 }
         public static readonly Aow.Rtl.AnsiString MountainRStr = (AnsiString)"Mountain";
-        // { $55706954 }
-        // { conflict: DispelMagicRStr = 'Dispel Magic'; }
         public static readonly Aow.Rtl.AnsiString DispelMagicFailedRStr = (AnsiString)"Dispel Magic failed";
-        // { 557EB882 }
         public static readonly Aow.Rtl.AnsiString DispelMagicRStr = (AnsiString)"Dispel Magic";
         public static readonly Aow.Rtl.AnsiString XSpellsSuccessfullyDispelledRStr = (AnsiString)"%s spell(s) dispelled";
-        // { conflict: XSpellsSuccessfullyDispelledRStr = '%s spell(s) dispelled'; }
         public static readonly Aow.Rtl.AnsiString CastingXInProgressRStr = (AnsiString)"Casting %s...";
-        // { $55707454 }
         public static readonly Aow.Rtl.AnsiString P2NotEnoughCastingPointsRStr = (AnsiString)"Not enough channeling points";
-        // { $557075E4 }
         public static readonly Aow.Rtl.AnsiString CannotCastSpellInCombatRStr = (AnsiString)"Cannot cast spell in combat";
-        // { $5570826C }
         public static readonly Aow.Rtl.AnsiString NotEnoughChannelingPointsRStr = (AnsiString)"Not enough channeling points";
-        // { $55708324 }
         public static readonly Aow.Rtl.AnsiString NoUnitSelectedRStr = (AnsiString)"No unit selected";
-        // { $55707A6C }
         public static readonly Aow.Rtl.AnsiString NotEnoughGoldRStr = (AnsiString)"Not enough gold.";
-        // { $5570719C }
         public static readonly Aow.Rtl.AnsiString NotEnoughManaRStr = (AnsiString)"Not enough mana.";
         public static readonly Aow.Rtl.AnsiString StructureCapturedRStr = (AnsiString)"%s captured";
         public static readonly Aow.Rtl.AnsiString UnknownRStr = (AnsiString)"Unknown";
         public static readonly Aow.Rtl.AnsiString PlayerRStr = (AnsiString)"Player";
-        // { AoWEd 004289AF }
         public static readonly Aow.Rtl.AnsiString NoneRStr = (AnsiString)"None";
         public static readonly Aow.Rtl.AnsiString AWarRelationIsRequiredForXRStr = (AnsiString)"A state of WAR is required for %s";
         public static readonly Aow.Rtl.AnsiString NoWarDeclaredtoXRStr = (AnsiString)"Not at war with the %s";
-        // { 55708054 }
         public static readonly Aow.Rtl.AnsiString AcceptAllianceRStr = (AnsiString)"Accept alliance";
         public static readonly Aow.Rtl.AnsiString AcceptRStr = (AnsiString)"Accept";
         public static readonly Aow.Rtl.AnsiString AccumulateGoldRStr = (AnsiString)"Accumulate gold";
@@ -102209,15 +99436,14 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString CPUWarriorRStr = (AnsiString)"CPU Squire";
         public static readonly Aow.Rtl.AnsiString CallHeroRStr = (AnsiString)"Call Hero";
         public static readonly Aow.Rtl.AnsiString CallFlamesRStr = (AnsiString)"Call Flames";
-        // { 557F8CE4 }
         public static readonly Aow.Rtl.AnsiString CallLightningRStr = (AnsiString)"Call Lightning";
         public static readonly Aow.Rtl.AnsiString CampaignMapRStr = (AnsiString)"Campaign map";
         public static readonly Aow.Rtl.AnsiString CampaignRStr = (AnsiString)"Campaign";
         public static readonly Aow.Rtl.AnsiString CanOnlyBuildNextToWaterRStr = (AnsiString)"Can only be built next to water";
         public static readonly Aow.Rtl.AnsiString XCastRStr = (AnsiString)"%s cast";
-        // { $557075B4, referenced at $557B2059 }
+        // referenced
         public static readonly Aow.Rtl.AnsiString CancelRStr = (AnsiString)"Cancel";
-        // { $558E9488, referenced at $557B0820 }
+        // referenced
         public static readonly Aow.Rtl.AnsiString CancelSpellResearchRStr = (AnsiString)"Cancels current spell research";
         public static readonly Aow.Rtl.AnsiString CannotCastSpellInUndergoundRStr = (AnsiString)"Cannot cast spell underground";
         public static readonly Aow.Rtl.AnsiString CannotDispelWhenSpellWardIsActiveRStr = (AnsiString)"Cannot dispel when Spell Ward is active";
@@ -102268,7 +99494,6 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString ColdRStr = (AnsiString)"Cold";
         public static readonly Aow.Rtl.AnsiString ColdBreathRStr = (AnsiString)"Cold Breath";
         public static readonly Aow.Rtl.AnsiString FireRStr = (AnsiString)"Fire";
-        // { 557F8758 }
         public static readonly Aow.Rtl.AnsiString CombatRStr = (AnsiString)"Combat";
         public static readonly Aow.Rtl.AnsiString CommonRStr = (AnsiString)"Common";
         public static readonly Aow.Rtl.AnsiString ConcealAreaRStr = (AnsiString)"Conceal Area";
@@ -102360,7 +99585,6 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString EnhancementsRStr = (AnsiString)"Enhancements";
         public static readonly Aow.Rtl.AnsiString EntangledRStr = (AnsiString)"Entangled";
         public static readonly Aow.Rtl.AnsiString EntangleRStr = (AnsiString)"Entangle";
-        // { 557F8A68 }
         public static readonly Aow.Rtl.AnsiString EnterLibraryNameRStr = (AnsiString)"Enter library name";
         public static readonly Aow.Rtl.AnsiString EnterNewPasswordRStr = (AnsiString)"Enter new password:";
         public static readonly Aow.Rtl.AnsiString EnterPasswordRStr = (AnsiString)"Enter password:";
@@ -102385,7 +99609,6 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString FireAuraRStr = (AnsiString)"Fire Halo";
         public static readonly Aow.Rtl.AnsiString FireBallRStr = (AnsiString)"Fireball";
         public static readonly Aow.Rtl.AnsiString FireBreathRStr = (AnsiString)"Fire Breath";
-        // { 557F8DA0 }
         public static readonly Aow.Rtl.AnsiString FireBarrierRStr = (AnsiString)"Fire Barrier";
         public static readonly Aow.Rtl.AnsiString FireImmunityRStr = (AnsiString)"Fire Immunity";
         public static readonly Aow.Rtl.AnsiString FireMasteryRStr = (AnsiString)"Fire Mastery";
@@ -102539,7 +99762,6 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString ManaCrystalsRStr = (AnsiString)"Mana Crystals";
         public static readonly Aow.Rtl.AnsiString ManaPoolRStr = (AnsiString)"Mana Pool";
         public static readonly Aow.Rtl.AnsiString ManaRStr = (AnsiString)"Mana";
-        // { 004300B5 }
         public static readonly Aow.Rtl.AnsiString MapRStr = (AnsiString)"Map";
         public static readonly Aow.Rtl.AnsiString MarksmanshipRStr = (AnsiString)"Marksmanship";
         public static readonly Aow.Rtl.AnsiString MaxFortifyLevelReachedRStr = (AnsiString)"Max. fortify level reached.";
@@ -102656,7 +99878,7 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString ProduceRStr = (AnsiString)"Produce";
         public static readonly Aow.Rtl.AnsiString ProduceXRStr = (AnsiString)"Produce %s";
         public static readonly Aow.Rtl.AnsiString InstallXRStr = (AnsiString)"Install %s";
-        // { exports $55707C8C/$55707C94 }
+        // exports /
         public static readonly Aow.Rtl.AnsiString ProducingMerchandiseRStr = (AnsiString)"Producing Merchandise";
         public static readonly Aow.Rtl.AnsiString ProducingRStr = (AnsiString)"Producing";
         public static readonly Aow.Rtl.AnsiString ProducingXIncomeRStr = (AnsiString)"Producing %s income";
@@ -102749,7 +99971,7 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString SoundFXRStr = (AnsiString)"Sound FX";
         public static readonly Aow.Rtl.AnsiString SourceLibraryXRStr = (AnsiString)"Source Library: %s";
         public static readonly Aow.Rtl.AnsiString StructureRStr = (AnsiString)"Structure";
-        // { public resource, AoWEd 00425694 }
+        // public resource, AoWEd
         public static readonly Aow.Rtl.AnsiString SpecialThanksRStr = (AnsiString)"Special Thanks";
         public static readonly Aow.Rtl.AnsiString SpellIsAlreadyResearchedRStr = (AnsiString)"Spell already researched";
         public static readonly Aow.Rtl.AnsiString SpellRStr = (AnsiString)"Spell";
@@ -102822,7 +100044,6 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString TurnRStr = (AnsiString)"Turn";
         public static readonly Aow.Rtl.AnsiString TurnedUndeadRStr = (AnsiString)"Turned Undead";
         public static readonly Aow.Rtl.AnsiString TurnUndeadRStr = (AnsiString)"Turn Undead";
-        // { 557F7B94 }
         public static readonly Aow.Rtl.AnsiString TurnsRStr = (AnsiString)"Turns";
         public static readonly Aow.Rtl.AnsiString TurnsXRStr = (AnsiString)"Turns: %s";
         public static readonly Aow.Rtl.AnsiString TutorialMessageEventRStr = (AnsiString)"Tutorial Message Event";
@@ -102849,7 +100070,6 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString UseXRStr = (AnsiString)"Use %s";
         public static readonly Aow.Rtl.AnsiString UserRStr = (AnsiString)"user";
         public static readonly Aow.Rtl.AnsiString UsedRStr = (AnsiString)"Used";
-        // { 558085EF }
         public static readonly Aow.Rtl.AnsiString VaporizeRStr = (AnsiString)"Vaporize";
         public static readonly Aow.Rtl.AnsiString VersionXRStr = (AnsiString)"Version: %s";
         public static readonly Aow.Rtl.AnsiString VersionXYRequiredRStr = (AnsiString)"(Version %0:s.%1:s required)";
@@ -102918,34 +100138,23 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString YouWhereVictoriousRStr = (AnsiString)"you were victorious!";
         public static readonly Aow.Rtl.AnsiString YourReignHasEndedRStr = (AnsiString)"your reign has ended!";
         public static readonly Aow.Rtl.AnsiString spRStr = (AnsiString)"sp";
-        // { P1 shared world globals; original addresses $558FA048 and $558FA040. }
+        // P1 shared world globals. original addresses and
         public static Aow.Units.AoWE.TAoWEngine AoWEngine;
         public static Aow.Units.AoWE.TAoWHSMap AoWHSMap;
         public static Aow.Units.AoWE.TAoWHSSet AoWHSSet;
-        // { $558FA044 }
         public static Aow.Units.FixedArray_int_13 RaceColors = Aow.Units.FixedArray_int_13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
-        // { $558E8294 }
         public static Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_7_7 dAlignmentToStatusValue = Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_7_7.From([Aow.Units.FixedArray_sbyte_7.From([100, 90, 30, 40, 10, 0, 50]), Aow.Units.FixedArray_sbyte_7.From([90, 90, 40, 50, 10, 10, 50]), Aow.Units.FixedArray_sbyte_7.From([30, 40, 70, 50, 40, 30, 50]), Aow.Units.FixedArray_sbyte_7.From([40, 50, 50, 50, 50, 40, 50]), Aow.Units.FixedArray_sbyte_7.From([10, 10, 40, 50, 90, 90, 50]), Aow.Units.FixedArray_sbyte_7.From([0, 10, 30, 40, 90, 100, 50]), Aow.Units.FixedArray_sbyte_7.From([50, 50, 50, 50, 50, 50, 50])]);
-        // { $558E8480 }
         public static TSet<Aow.Units.AoWE.TDamageType> dtAll = TSet<Aow.Units.AoWE.TDamageType>.FromMask(1023UL);
-        // { $558E8044 }
         public static TSet<Aow.Units.AoWE.TItemType> itAll = TSet<Aow.Units.AoWE.TItemType>.FromMask(127UL);
-        // { $558E803C; ItemExpS 557C2996 }
+        // ItemExpS
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_2 ExplosionSFX = Aow.Units.FixedArray_Aow_Rtl_AnsiString_2.From([(AnsiString)"SFX\\ATTACK\\STORM.WAV", (AnsiString)"SFX\\ATTACK\\EXPLOD1.WAV"]);
-        // { $558E8030 }
         public static TSet<Aow.Units.AoWE.TAlignment> alsPureGood = TSet<Aow.Units.AoWE.TAlignment>.FromMask(67UL);
-        // { $558E8050 }
         public static TSet<Aow.Units.AoWE.TAlignment> alsGood = TSet<Aow.Units.AoWE.TAlignment>.FromMask(75UL);
-        // { $558E8054 }
         public static TSet<Aow.Units.AoWE.TAlignment> alsNeutral = TSet<Aow.Units.AoWE.TAlignment>.FromMask(90UL);
-        // { $558E8058 }
         public static TSet<Aow.Units.AoWE.TAlignment> alsEvil = TSet<Aow.Units.AoWE.TAlignment>.FromMask(120UL);
-        // { $558E805C }
         public static TSet<Aow.Units.AoWE.TAlignment> alsPureNeutral = TSet<Aow.Units.AoWE.TAlignment>.FromMask(72UL);
-        // { $558E8064 }
         public static TSet<Aow.Units.AoWE.TAlignment> alsPureEvil = TSet<Aow.Units.AoWE.TAlignment>.FromMask(112UL);
-        // { $558E8060 }
-        // { Original alsAll at $558E8068 excludes alPureNeutral. }
+        // Original alsAll at excludes alPureNeutral
         public static Aow.Units.AoWE.TRaceTerrainInfo[] RaceTerrain = [new Aow.Units.AoWE.TRaceTerrainInfo
         {
             Bonus = TSet<byte>.WithBounds(0, 15),
@@ -102997,41 +100206,31 @@ namespace Aow.Units.AoWE
         }
 
         ];
-        // { $558E8394 }
         public static TSet<Aow.Units.AoWE.TAlignment> alsAll = TSet<Aow.Units.AoWE.TAlignment>.FromMask(123UL);
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 UnitTypePluralRStr;
-        // { $558E8088, initially empty }
+        // initially empty
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_5 TAbilityTypeRStr;
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_10 TAbilitySelectionTypeRStr;
-        // { AoWEd 0042C336 }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_8 TPlayerTypeRStr;
-        // { $558E81A0 }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 TCampaignDifficultyLevelRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"Easy", (AnsiString)"Normal", (AnsiString)"Hard"]);
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 TPlayModeRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"None", (AnsiString)"Classic", (AnsiString)"Simultaneous"]);
-        // { AoW 0041B3CA / 0041B43B }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_6 TPlayerBehaviorRStr;
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_4 TDiplomaticRelationRStr;
-        // { $558E813C; $558E81CC, AoWEd 0042307B/00423DFF }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_6 TCombatModeRStr;
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 TCombatResolveModeRStr;
-        // { $558E81DC; AoW 00422576 }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_19 TGroupBehaviorStr;
-        // { $558E8154; 5579389C }
         public static Aow.Rtl.AnsiString[] TAlignmentRStr = [(AnsiString)"Pure Good", (AnsiString)"Good", (AnsiString)"Pure Neutral", (AnsiString)"Neutral", (AnsiString)"Evil", (AnsiString)"Pure Evil", (AnsiString)"None"];
-        // { export $558E80E4; AoW 0043C43C }
+        // export . AoW
         public static Aow.Rtl.AnsiString[] TStatusRStr = new Aow.Rtl.AnsiString[5];
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_5 TPartyStatusRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_5.From([(AnsiString)"Unruly", (AnsiString)"Unrest", (AnsiString)"Stable", (AnsiString)"Content", (AnsiString)"Cheerful"]);
-        // { 0040667C }
         public static Aow.Rtl.AnsiString[] ItemAvailabilityRStr = [(AnsiString)"Exceptional", (AnsiString)"Rare", (AnsiString)"Common", (AnsiString)"Frequent"];
-        // { 55802A7F; export 558E806C }
+        // export
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_5 TMoraleRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_5.From([(AnsiString)"Terrible", (AnsiString)"Poor", (AnsiString)"Okay", (AnsiString)"Good", (AnsiString)"High"]);
-        // { AoW 00409284 / 004092EA }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_10 TDamageTypeRStr;
         public static TSet<Aow.Units.AoWE.TAbilitySelectionType> astAll = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of().WithRange(Aow.Units.AoWE.TAbilitySelectionType.astUnit, Aow.Units.AoWE.TAbilitySelectionType.astEditor);
         public static TSet<Aow.Units.AoWE.TMagicSphere> msAll = TSet<Aow.Units.AoWE.TMagicSphere>.Of().WithRange(Aow.Units.AoWE.TMagicSphere.msCosmos, Aow.Units.AoWE.TMagicSphere.msNone);
-        // { AoWEd 0042A5A4 / 0042A5E1 }
-        // { RaceNamesPluralRStr export $558E82FC spans $34 bytes to the next export; ListDebugInfo
-//     ($55730868) reads its entries. AIDID $558FA050 goes to TEngine.OutputDebugMessage. (P5) }
+        // RaceNamesPluralRStr export spans $34 bytes to the next export. ListDebugInfo reads its
+        // entries. AIDID goes to TEngine.OutputDebugMessage. (P5)
         public static Aow.Rtl.AnsiString[] RaceNamesPluralRStr = new Aow.Rtl.AnsiString[13];
         public static int AIDID;
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_13 RaceNamesRStr;
@@ -103062,13 +100261,10 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString NotEnoughForcesRStr = (AnsiString)"Your forces aren't sufficient";
         public static readonly Aow.Rtl.AnsiString RazeStructureWarningRStr = (AnsiString)"You're about to raze this structure.";
         public static readonly Aow.Rtl.AnsiString WarningRStr = (AnsiString)"Warning";
-        // { 557A5465 }
         public static readonly Aow.Rtl.AnsiString DoYouWishToContinueRStr = (AnsiString)"Do you wish to continue?";
         public static readonly Aow.Rtl.AnsiString MessageRStr = (AnsiString)"Message";
         // Diplomacy.pas:396
-        // { Original unnamed helper 5572C924, following TNegotiateRequestEventLog.
-//   needs: P1 declare NegotiateArmy after all forward classes are defined, then
-//   reference it from hosts/P5.inc. Splitting the earlier type block is illegal. }
+        // Original unnamed helper, following TNegotiateRequestEventLog
         // { P5 unnamed helper declarations; these must follow the forward class block. }
         public static void NegotiateArmy(sbyte Player, Aow.Units.AoWE.TArmyHS ArmyHS, byte Selection, sbyte X, sbyte Y, sbyte L, int MovePoints)
         {
@@ -103078,7 +100274,7 @@ namespace Aow.Units.AoWE
             var call__8933 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
             if (call__8933.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman)
             {
-                // { needs: P1 current-player byte at $A5, inside the draft $A4 field. }
+                // Use the map's seated player.
                 if (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
                 {
                     Log = new Aow.Units.AoWE.TNegotiateRequestEventLog(null);
@@ -103145,7 +100341,7 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:458
-        // { Original unnamed helper 5572CB08: copy a diplomatic event to eligible players. }
+        // Original unnamed helper: copy a diplomatic event to eligible players
         public static void BroadcastDiplomaticEvent(Aow.Units.AoWE.TDiplomaticActionEventLog Log, sbyte Exclude)
         {
             Aow.Units.EventLog.TEventLog CopyLog = default;
@@ -103192,7 +100388,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5490
-        // { Shared helper declaration required by TMoveArmyTE; original $55771068. }
+        // Shared helper declaration required by TMoveArmyTE. original
         public static bool ConstructRoad(sbyte Player, Aow.Units.AoWE.TAoWMapField Field)
         {
             bool Result = default;
@@ -103200,9 +100396,7 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        // { Draft declarations of AoWE, from AoWEPACK.dpl.
-//   Layouts and VMT order follow data/classes.json; guessed signatures are marked draft.
-//   Stub bodies are placeholders for source recovery. }
+        // declarations of AoWE, from AoWEPACK.dpl
         public static readonly Aow.Rtl.AnsiString CannotBreachWallRStr = (AnsiString)"Cannot breach wall";
         public static readonly Aow.Rtl.AnsiString CannotInflictDamageRStr = (AnsiString)"Cannot inflict damage";
         public static readonly Aow.Rtl.AnsiString UndeadRStr = (AnsiString)"Undead";
@@ -103255,7 +100449,7 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString IndependentsAreMovingRStr = (AnsiString)"Independents are moving";
         public static readonly Aow.Rtl.AnsiString PlayerIsMovingRStr = (AnsiString)"%s is moving";
         public static readonly Aow.Rtl.AnsiString AreMovingRStr = (AnsiString)"%s are moving";
-        // { PlayerRStr is declared in the interface; AoWEd 004289AF. }
+        // PlayerRStr is declared in the interface. AoWEd
         public static readonly Aow.Rtl.AnsiString IndependentsRStr = (AnsiString)"Independents";
         public static readonly Aow.Rtl.AnsiString PlayerNameExRStr = (AnsiString)"%0:s of the %1:s";
         public static readonly Aow.Rtl.AnsiString GameOverDefeatMessageRStr = (AnsiString)"On day %0:s, the empire of the %1:s, led by %2:s was defeated.";
@@ -103285,7 +100479,7 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString RoadRStr = (AnsiString)"Road";
         public static readonly Aow.Rtl.AnsiString BridgeRStr = (AnsiString)"Bridge";
         public static readonly Aow.Rtl.AnsiString RubbleRStr = (AnsiString)"Rubble";
-        // { StructureRStr is public in the interface; AoWEd 00425694. }
+        // StructureRStr is public in the interface. AoWEd
         // { ObstacleRStr is exported in the interface. }
         public static readonly Aow.Rtl.AnsiString LightVegetationRStr = (AnsiString)"Light Vegetation";
         public static readonly Aow.Rtl.AnsiString SolidRStr = (AnsiString)"Solid";
@@ -103300,30 +100494,25 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString GamePackLoadedRStr = (AnsiString)"Game Pack Loaded";
         public static Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12 DefaultRaceRelations = Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12.From([Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sWary]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sWary]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sWary]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sWary]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sPolite]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sNeutral, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sFriendly, Aow.Units.AoWE.TStatus.sPolite]), Aow.Units.FixedArray_Aow_Units_AoWE_TStatus_12.From([Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sWary, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sHostile, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sPolite, Aow.Units.AoWE.TStatus.sFriendly])]);
         public static readonly Aow.Rtl.AnsiString CannotBuildOnCurrentLocationRStr = (AnsiString)"Cannot build on current location";
-        // { Exported resourcestring declaration recovered from AoW 00433E4D. }
-        // { FireRStr is exported from the interface; AoW 00433E4D. }
+        // Exported resourcestring declaration recovered from AoW
+        // FireRStr is exported from the interface. AoW
         public static readonly Aow.Rtl.AnsiString ObserveEnabledRStr = (AnsiString)"Observe enabled";
         public static readonly Aow.Rtl.AnsiString ObserveDisabledRStr = (AnsiString)"Observe disabled";
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_10 CheatNames = Aow.Units.FixedArray_Aow_Rtl_AnsiString_10.From([(AnsiString)"gold", (AnsiString)"mana", (AnsiString)"explore", (AnsiString)"fog", (AnsiString)"spells", (AnsiString)"win", (AnsiString)"freemove", (AnsiString)"towns", (AnsiString)"lose", (AnsiString)"research"]);
         public static readonly Aow.Rtl.AnsiString FileNotFoundRStr = (AnsiString)"File not found";
         public static Aow.Units.FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 HeroExperienceTable = Aow.Units.FixedArray_Aow_Units_AoWE_TP2HeroLevel_6.From([new Aow.Units.AoWE.TP2HeroLevel { DailyExperience = 1, Experience = 15 }, new Aow.Units.AoWE.TP2HeroLevel { DailyExperience = 1, Experience = 15 }, new Aow.Units.AoWE.TP2HeroLevel { DailyExperience = 1, Experience = 20 }, new Aow.Units.AoWE.TP2HeroLevel { DailyExperience = 1, Experience = 20 }, new Aow.Units.AoWE.TP2HeroLevel { DailyExperience = 1, Experience = 25 }, new Aow.Units.AoWE.TP2HeroLevel { DailyExperience = 1, Experience = 25 }]);
-        // { Use the P1 shared AoWHSSet at $558FA044. }
-        // { needs: P1 shared dAlignmentToStatusValue, original 558E8480. }
+        // Use the P1 shared AoWHSSet
         public static Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_7_7 P2AlignmentToStatusValue = Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_7_7.From([Aow.Units.FixedArray_sbyte_7.From([100, 90, 30, 40, 10, 0, 50]), Aow.Units.FixedArray_sbyte_7.From([90, 90, 40, 50, 10, 10, 50]), Aow.Units.FixedArray_sbyte_7.From([30, 40, 70, 50, 40, 30, 50]), Aow.Units.FixedArray_sbyte_7.From([40, 50, 50, 50, 50, 40, 50]), Aow.Units.FixedArray_sbyte_7.From([10, 10, 40, 50, 90, 90, 50]), Aow.Units.FixedArray_sbyte_7.From([0, 10, 30, 40, 90, 100, 50]), Aow.Units.FixedArray_sbyte_7.From([50, 50, 50, 50, 50, 50, 50])]);
-        // { needs: P1 shared RaceTerrain at 558E8394, 12 pairs of two-byte terrain sets. }
+        // RaceTerrain holds 12 pairs of two-byte terrain sets.
         public static Aow.Units.FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 P2RaceTerrain = Aow.Units.FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12.From([new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of() }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttDesert), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttSnow, Aow.Units.AoWE.TAoWTerrainType.ttIce, Aow.Units.AoWE.TAoWTerrainType.ttUndergroundIce) }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttWater), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttDesert, Aow.Units.AoWE.TAoWTerrainType.ttWasteland) }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttSnow, Aow.Units.AoWE.TAoWTerrainType.ttIce, Aow.Units.AoWE.TAoWTerrainType.ttUndergroundIce), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttDesert) }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttGrass), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttWasteland) }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttGrass), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttWasteland) }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttDirt), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of() }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of() }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttDirt), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of() }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of() }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttDirt), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of() }, new Aow.Units.AoWE.TP2RaceTerrain { Preferred = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttWasteland), Disliked = TSet<Aow.Units.AoWE.TAoWTerrainType>.Of(Aow.Units.AoWE.TAoWTerrainType.ttGrass) }]);
         public static readonly Aow.Rtl.AnsiString P2InherentRStr = (AnsiString)"Inherent";
-        // { original resource at 5570716C }
-        // { needs: original shared ability-type text table at 558E8250.
-//     These defaults follow the recovered ability-type enumeration. }
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_5 P2AbilityTypeNames = Aow.Units.FixedArray_Aow_Rtl_AnsiString_5.From([(AnsiString)"Enhancement", (AnsiString)"Handicap", (AnsiString)"Movement", (AnsiString)"Combat", (AnsiString)"Enchantment"]);
         public static Aow.Units.FixedArray_Aow_Units_AoWE_TDamageType_7 StormDamageType = Aow.Units.FixedArray_Aow_Units_AoWE_TDamageType_7.From([Aow.Units.AoWE.TDamageType.dtNone, Aow.Units.AoWE.TDamageType.dtFire, Aow.Units.AoWE.TDamageType.dtDeath, Aow.Units.AoWE.TDamageType.dtHoly, Aow.Units.AoWE.TDamageType.dtCold, Aow.Units.AoWE.TDamageType.dtLightning, Aow.Units.AoWE.TDamageType.dtPoison]);
-        // { Class call at 55782176. }
         public static readonly Aow.Rtl.AnsiString P2RefugeJoinRStr = (AnsiString)"This one begs to join your cause.";
         public static readonly Aow.Rtl.AnsiString P2RefugeesJoinRStr = (AnsiString)"This group wishes to join your forces.";
         public static readonly Aow.Rtl.AnsiString P2BribeUnitJoinRStr = (AnsiString)"For %s gold pieces, this one offers to join you.";
         public static readonly Aow.Rtl.AnsiString P2BribeUnitsJoinRStr = (AnsiString)"For %s gold pieces, they offer to join you.";
-        // { Rank and morale tables read at 557829DD..55782B75. }
+        // Rank and morale tables read
         public static Aow.Units.FixedArray_sbyte_3 P2RankDefense = Aow.Units.FixedArray_sbyte_3.From([0, 1, 1]);
         public static Aow.Units.FixedArray_sbyte_3 P2RankAttack = Aow.Units.FixedArray_sbyte_3.From([0, 1, 1]);
         public static Aow.Units.FixedArray_sbyte_3 P2RankDamage = Aow.Units.FixedArray_sbyte_3.From([0, 0, 1]);
@@ -103390,7 +100579,7 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString BattleLostRStr = (AnsiString)"Battle Lost";
         public static readonly Aow.Rtl.AnsiString BattleDrawnRStr = (AnsiString)"Battle Drawn";
         public static Aow.Units.FixedArray_float_20 P3HitProbabilities;
-        // { CommandAbilityIDs is declared in the interface (557F8492). }
+        // CommandAbilityIDs is declared in the interface
         public static Aow.Units.FixedArray_sbyte_5 P4LeadershipAttack = Aow.Units.FixedArray_sbyte_5.From([0, 1, 1, 2, 2]);
         public static Aow.Units.FixedArray_sbyte_5 P4LeadershipDefense = Aow.Units.FixedArray_sbyte_5.From([2, 0, 1, 1, 2]);
         // { Class-reference constants used by the recovered multilevel implementation. }
@@ -103444,8 +100633,8 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString FlameThrowingRStr = (AnsiString)"Flame Throwing";
         // { UsedRStr is declared in the interface. }
         public static readonly Aow.Rtl.AnsiString SelectUnitForXRStr = (AnsiString)"Select unit for %s";
-        // { EntangleRStr is declared in the interface (557F8A68). }
-        // { TurnUndeadRStr is declared in the interface (557F7B94). }
+        // EntangleRStr is declared in the interface
+        // TurnUndeadRStr is declared in the interface
         public static readonly Aow.Rtl.AnsiString StrikeRStr = (AnsiString)"Strike";
         public static readonly Aow.Rtl.AnsiString WallCrushingRStr = (AnsiString)"Wall Crushing";
         public static readonly Aow.Rtl.AnsiString SelfDestructRStr = (AnsiString)"Self Destruct";
@@ -103461,9 +100650,8 @@ namespace Aow.Units.AoWE
         public static readonly Aow.Rtl.AnsiString DurationDaysRStr = (AnsiString)"(%s/%s days)";
         public static readonly Aow.Rtl.AnsiString DurationCombatTurnRStr = (AnsiString)"(%s/%s turns)";
         public static readonly Aow.Rtl.AnsiString DurationEntireCombatRStr = (AnsiString)"(combat only)";
-        // { $70 }
         // { TMPDID is declared with the shared engine globals. }
-        // { needs: P1 NotEnoughGoldRStr (5570719C, string resource 65215). }
+        // NotEnoughGoldRStr uses string resource 65215.
         public static readonly Aow.Rtl.AnsiString P5NotEnoughGoldRStr = (AnsiString)"Not enough gold.";
         public static readonly Aow.Rtl.AnsiString GameRestartedRStr = (AnsiString)"Game Restarted";
         public static readonly Aow.Rtl.AnsiString P5FinishedTheirTurnRStr = (AnsiString)"finished their turn";
@@ -103513,9 +100701,7 @@ namespace Aow.Units.AoWE
         public static Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5 Player2GroupBehaviorTable = Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5.From([Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal, Aow.Units.AoWE.TGroupBehavior.gbNormal]), Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive, Aow.Units.AoWE.TGroupBehavior.gbAggressive]), Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive, Aow.Units.AoWE.TGroupBehavior.gbDefensive]), Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand, Aow.Units.AoWE.TGroupBehavior.gbExpand]), Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch, Aow.Units.AoWE.TGroupBehavior.gbScorch])]);
         public static Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4 IndependentGroupBehaviorTable = Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4.From([Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive]), Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbPatrol, Aow.Units.AoWE.TGroupBehavior.gbScout, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive]), Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbPatrol, Aow.Units.AoWE.TGroupBehavior.gbPatrol, Aow.Units.AoWE.TGroupBehavior.gbScout, Aow.Units.AoWE.TGroupBehavior.gbScout, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive]), Aow.Units.FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([Aow.Units.AoWE.TGroupBehavior.gbPatrol, Aow.Units.AoWE.TGroupBehavior.gbPatrol, Aow.Units.AoWE.TGroupBehavior.gbScout, Aow.Units.AoWE.TGroupBehavior.gbScout, Aow.Units.AoWE.TGroupBehavior.gbSuicidal, Aow.Units.AoWE.TGroupBehavior.gbSuicidal, Aow.Units.AoWE.TGroupBehavior.gbRaid, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive, Aow.Units.AoWE.TGroupBehavior.gbPassive])]);
         public static int DefenseSortGroupID;
-        // { $558FA0B4 }
         public static Aow.Units.AoWE.TUnitList DefenseSortUnits;
-        // { $558FA0B0 }
         public static readonly Aow.Rtl.AnsiString P5RoundXRStr = (AnsiString)"Round: %s";
         public static Aow.Units.FixedArray_int_7 P5OppositeDirections = Aow.Units.FixedArray_int_7.From([0, 4, 5, 6, 1, 2, 3]);
         public static Aow.Units.FixedArray_Aow_Units_FixedArray_int_2_7 P5SideDirections = Aow.Units.FixedArray_Aow_Units_FixedArray_int_2_7.From([Aow.Units.FixedArray_int_2.From([-1, -1]), Aow.Units.FixedArray_int_2.From([6, 2]), Aow.Units.FixedArray_int_2.From([1, 3]), Aow.Units.FixedArray_int_2.From([2, 4]), Aow.Units.FixedArray_int_2.From([3, 5]), Aow.Units.FixedArray_int_2.From([4, 6]), Aow.Units.FixedArray_int_2.From([5, 1])]);
@@ -103926,7 +101112,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1110
-        // { Anonymous unit-strike damage helper at $55766468. }
+        // Anonymous unit-strike damage helper
         public static int P4UnitStrikeDV(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
         {
             int Result = default;
@@ -103939,7 +101125,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1268
-        // { Anonymous arithmetic helper at 55726100. }
+        // Anonymous arithmetic helper
         public static int P4OffensiveStrength(int Attack, int Damage, int Repeats)
         {
             int Result = default;
@@ -103967,7 +101153,7 @@ namespace Aow.Units.AoWE
             Result = bool__8999;
             Result = Result && TSet<byte>.WithBounds(0, 255).WithRange(1, 5).Contains((byte)Field.TerrainType);
             Result = Result && !TSet<byte>.WithBounds(0, 255).With(0).With(2).With(4).With(5).Contains((byte)Field.OverlayType);
-            // { Original shared helper at $55771138. }
+            // Original shared helper
             Result = Result && (Field.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TStructure)) == null);
             return Result;
         }
@@ -104179,7 +101365,6 @@ namespace Aow.Units.AoWE
             Control.UnregisterAbilityID(57);
             Control.UnregisterAbilityID(58);
             Control.UnregisterAbilityID(61);
-            // { $5576F82C }
             Control.UnregisterAbilityID(62);
         }
 
@@ -104200,7 +101385,6 @@ namespace Aow.Units.AoWE
             Control.UnregisterAbilityID(17);
             Control.UnregisterAbilityID(18);
             Control.UnregisterAbilityID(19);
-            // { $55767600 }
             Control.UnregisterAbilityID(20);
         }
 
@@ -104212,7 +101396,6 @@ namespace Aow.Units.AoWE
             AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSpellTE>()]);
             AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSpellCastEventLog>()]);
             AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitSpellCA>()]);
-            // { $5577BE44 }
             Control.UnregisterAll();
         }
 
@@ -104254,7 +101437,6 @@ namespace Aow.Units.AoWE
             Control.UnregisterAbilityID(106);
             Control.UnregisterAbilityID(107);
             Aow.Units.AoWE.AoWE.UnregisterEnhancementAbilities(Control);
-            // { $557717A4 }
             Aow.Units.AoWE.AoWE.UnregisterTouchAbilities(Control);
         }
 
@@ -104270,7 +101452,7 @@ namespace Aow.Units.AoWE
                 bool__9021 = (call__9022 != null);
             }
 
-            Aow.Rtl.Rtl.Assert(bool__9021, (AnsiString)"Undefined UnitResource Used!", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\UnitRes.PAS", 256);
+            Aow.Rtl.Rtl.Assert(bool__9021, (AnsiString)"Undefined UnitResource Used!", "UnitRes.PAS", 256);
             var call__9023 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Item2);
             var call__9024 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Item1);
             Result = call__9023.FLevel - call__9024.FLevel;
@@ -104557,7 +101739,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.AoWE.P2RegisterRangedGroup1(Control);
             Aow.Units.AoWE.AoWE.P2RegisterRangedGroup2(Control);
             Aow.Units.AoWE.AoWE.P2RegisterRangedGroup3(Control);
-            // { Original ranged-attack registration at 5576F2EC. }
+            // Original ranged-attack registration
             Aow.Units.AoWE.AoWE.P2RegisterRangedGroup4(Control);
         }
 
@@ -104566,7 +101748,7 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.AoWE.P2RegisterStrikeGroup1(Control);
             Aow.Units.AoWE.AoWE.P2RegisterStrikeGroup2(Control);
-            // { Original strike registration at 557672B4. }
+            // Original strike registration
             Aow.Units.AoWE.AoWE.P2RegisterStrikeGroup3(Control);
         }
 
@@ -104709,7 +101891,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.AoWE.TPlayerTypeRStr[5] = Aow.Units.AoWE.AoWE.FreeRStr;
             Aow.Units.AoWE.AoWE.TPlayerTypeRStr[6] = Aow.Units.AoWE.AoWE.CPUKingRStr;
             Aow.Units.AoWE.AoWE.TPlayerTypeRStr[7] = Aow.Units.AoWE.AoWE.CPUEmperorRStr;
-            // { Original InitResStrings table at 55798BC0: race-name entries 558E82C8..558E832C. }
+            // Original InitResStrings table: race-name entries
             Aow.Units.AoWE.AoWE.RaceNamesRStr[0] = Aow.Units.AoWE.AoWE.HumanRStr;
             Aow.Units.AoWE.AoWE.RaceNamesRStr[1] = Aow.Units.AoWE.AoWE.AzracRStr;
             Aow.Units.AoWE.AoWE.RaceNamesRStr[2] = Aow.Units.AoWE.AoWE.LizardRStr;
@@ -104736,7 +101918,7 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[10] = Aow.Units.AoWE.AoWE.GoblinPluralRStr;
             Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[11] = Aow.Units.AoWE.AoWE.UndeadPluralRStr;
             Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[12] = Aow.Units.AoWE.AoWE.IndependentsRStr;
-            // { Original AoWE initialization, 5579939B..557993B1. }
+            // Original AoWE initialization
             Aow.Units.AoWE.AoWE.P3InitializeHitProbabilities();
             Aow.Units.AoWE.AoWE.ValidateAoWEngine();
             var call__9122 = new Aow.Units.AoWE.TAbilityPlugIn();

@@ -52,14 +52,6 @@
             "TArmy.FVisibilityRanges": 0,
             "TArmy.FX": -1,
             "TArmy.FY": -1,
-            "TArmy.F_Army_19": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TArmy.F_Army_2B": {
-              "$type": "Aow.Units.FixedArray_byte_1",
-              "FixedArray_byte_1.element0": 0
-            },
             "TEChangeNotifyNode.FChildren": {
               "$offset": 3,
               "$type": "Aow.Units.Engine.TEObjectList",
@@ -72,10 +64,6 @@
           "TArmyHS.FMoveSteps": 0,
           "TArmyHS.FUnitIndex": 0,
           "TArmyHS.FUnitYOffset": 0,
-          "TArmyHS.F_ArmyHS_23": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TEObject.FOwner": null,
           "TUnitHS.FDirection": 3,
           "TUnitHS.FFlagID": 0,
@@ -83,15 +71,7 @@
           "TUnitHS.FShadow": null,
           "TUnitHS.FShowPriority": 1744830464,
           "TUnitHS.FStatus": 0,
-          "TUnitHS.FUnitGFXResource": null,
-          "TUnitHS.F_UnitHS_09": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "TUnitHS.F_UnitHS_17": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          }
+          "TUnitHS.FUnitGFXResource": null
         }
       },
       "Events": null,
@@ -161,14 +141,6 @@
             "TArmy.FVisibilityRanges": 0,
             "TArmy.FX": -1,
             "TArmy.FY": -1,
-            "TArmy.F_Army_19": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TArmy.F_Army_2B": {
-              "$type": "Aow.Units.FixedArray_byte_1",
-              "FixedArray_byte_1.element0": 0
-            },
             "TEChangeNotifyNode.FChildren": {
               "$offset": 3,
               "$type": "Aow.Units.Engine.TEObjectList",
@@ -181,10 +153,6 @@
           "TArmyHS.FMoveSteps": 0,
           "TArmyHS.FUnitIndex": 0,
           "TArmyHS.FUnitYOffset": 0,
-          "TArmyHS.F_ArmyHS_23": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TEObject.FOwner": "$owner",
           "TUnitHS.FDirection": 3,
           "TUnitHS.FFlagID": 0,
@@ -192,15 +160,7 @@
           "TUnitHS.FShadow": null,
           "TUnitHS.FShowPriority": 1744830464,
           "TUnitHS.FStatus": 0,
-          "TUnitHS.FUnitGFXResource": null,
-          "TUnitHS.F_UnitHS_09": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "TUnitHS.F_UnitHS_17": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          }
+          "TUnitHS.FUnitGFXResource": null
         }
       },
       "Events": [
@@ -212,10 +172,6 @@
             "TArmyHS.FMoveSteps": 0,
             "TArmyHS.FUnitIndex": 0,
             "TArmyHS.FUnitYOffset": 0,
-            "TArmyHS.F_ArmyHS_23": {
-              "$type": "Aow.Units.FixedArray_byte_1",
-              "FixedArray_byte_1.element0": 0
-            },
             "TEObject.FOwner": "$owner",
             "TUnitHS.FDirection": 0,
             "TUnitHS.FFlagID": 0,
@@ -223,15 +179,7 @@
             "TUnitHS.FShadow": null,
             "TUnitHS.FShowPriority": 0,
             "TUnitHS.FStatus": 0,
-            "TUnitHS.FUnitGFXResource": null,
-            "TUnitHS.F_UnitHS_09": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TUnitHS.F_UnitHS_17": {
-              "$type": "Aow.Units.FixedArray_byte_1",
-              "FixedArray_byte_1.element0": 0
-            }
+            "TUnitHS.FUnitGFXResource": null
           }
         }
       ],

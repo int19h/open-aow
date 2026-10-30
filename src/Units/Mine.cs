@@ -34,8 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Mine
 {
-    // { TMine (instance size 68, VMT 557B4020): +$3C FState (bit 0 razed),
-//     +$40 FIncomeSource. }
+    // FState (bit 0 razed), FIncomeSource
     public partial class TMine : Aow.Units.AoWE.TPlayerStructure
     {
         public TMine(TECustomNode owner) : base(owner)
@@ -49,7 +48,6 @@ namespace Aow.Units.Mine
         public new const int ClassID = 131962;
 
         public byte FState;
-        public Aow.Units.FixedArray_byte_3 FReserved3D;
         public Aow.Units.AoWE.TPlayerStructureIncomeSource FIncomeSource;
         // Mine.pas:76
         public override void Destroy()
@@ -260,7 +258,6 @@ namespace Aow.Units.Mine
 
     }
 
-    // { TMineResource (instance size 116, VMT 557B42A8) }
     public partial class TMineResource : Aow.Units.AoWE.TPlayerStructureResource
     {
         public TMineResource(TECustomNode owner) : base(owner)
@@ -356,7 +353,6 @@ namespace Aow.Units.Mine
         }
 
         // Mine.pas:226
-        // { draft }
         public static void RegisterMine(Aow.Units.Engine.TEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Mine.TMine>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mine.TMineResource>()]);

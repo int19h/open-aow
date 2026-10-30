@@ -38,7 +38,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.MainAG
 {
-    // { TPassiveAG (instance size 80, VMT 557D9ED8) }
     public partial class TPassiveAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // MainAG.pas:129
@@ -123,7 +122,6 @@ namespace Aow.Units.MainAG
 
     }
 
-    // { TPassiveAGC (instance size 368, VMT 557DA028) }
     public partial class TPassiveAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TPassiveAGC(TECustomNode owner) : base(owner)
@@ -237,7 +235,6 @@ namespace Aow.Units.MainAG
         }
     }
 
-    // { TFortifyAG (instance size 80, VMT 557DA118) }
     public partial class TFortifyAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // MainAG.pas:247
@@ -263,19 +260,14 @@ namespace Aow.Units.MainAG
 
     }
 
-    // { TFortifyAGC (instance size 384, VMT 557DA268): $170 city location,
-//     $174 enemy strength, $178 required strength, $17C target selector. }
+    // city location, enemy strength, required strength, target selector
     public partial class TFortifyAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public Aow.Units.HSEngine.TXYL FFortifyLocation;
-        // { $170 }
         public int FEnemyStrength;
-        // { $174 }
         public int FRequiredStrength;
-        // { $178 }
         public Aow.Units.AoWE.TAIGroupTargetSelector FTargetSelector;
         // MainAG.pas:262
-        // { $17C }
         public override void Destroy()
         {
             FTargetSelector.Release();
@@ -1064,7 +1056,6 @@ namespace Aow.Units.MainAG
 
     }
 
-    // { TSuicidalAG (instance size 80, VMT 557DA358) }
     public partial class TSuicidalAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // MainAG.pas:729
@@ -1090,7 +1081,6 @@ namespace Aow.Units.MainAG
 
     }
 
-    // { TSuicidalAGC (instance size 368, VMT 557DA4A8) }
     public partial class TSuicidalAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TSuicidalAGC(TECustomNode owner) : base(owner)
@@ -1172,7 +1162,6 @@ namespace Aow.Units.MainAG
         }
     }
 
-    // { TTransportAG (instance size 80, VMT 557DA5A0) }
     public partial class TTransportAG : Aow.Units.AoWE.TAIGroup, Aow.Units.AoWE.IAIGroupClass
     {
         // MainAG.pas:801
@@ -1204,7 +1193,6 @@ namespace Aow.Units.MainAG
 
     }
 
-    // { TTransportAGC (instance size 368, VMT 557DA6F8) }
     public partial class TTransportAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public TTransportAGC(TECustomNode owner) : base(owner)
@@ -1333,7 +1321,7 @@ namespace Aow.Units.MainAG
         }
     }
 
-    // { TRegistrator (instance size 4): no fields; map-load registration callback. }
+    // no fields. map-load registration callback
     public partial class TRegistrator : Aow.Rtl.TObject
     {
         // MainAG.pas:115

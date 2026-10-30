@@ -20,7 +20,7 @@ namespace Aow.Units.ILTer
 //   per terrain type (TILTerrainMO, ClassID $20186; resource TILTerrainMOR, $20187), and the fixed
 //   variant that keeps its terrain type and updates the map terrain instead
 //   (TFixedILTerrainMO, $20188; TFixedILTerrainMOR, $20189). }
-    // { ILTer.TILTerrainMO (instance size 28): +$14 FImageIndex, +$18 FTerrainType }
+    // FImageIndex, FTerrainType
     public partial class TILTerrainMO : Aow.Units.HSEngine.TMultiHexMO
     {
 
@@ -113,7 +113,6 @@ namespace Aow.Units.ILTer
         {
             int Xhp = default;
             int Yhp = default;
-            // { Tried index shift/addition and receiver/Self casts; argument load order still differs. }
             Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             if (this.FResource.ImageSequenceList == null)
             {
@@ -260,7 +259,6 @@ namespace Aow.Units.ILTer
             bool Result = default;
             int Index = default;
             Aow.Units.ImageLib.TImageSequenceList Sequences = default;
-            // { Tried local order, index identity/shift, receiver cast and indexed property; argument order still differs. }
             if (TerrainType >= 0)
             {
                 Index = GetTerrainTypeImage(TerrainType);
@@ -339,7 +337,6 @@ namespace Aow.Units.ILTer
 
     }
 
-    // { ILTer.TILTerrainMOR (instance size 68) }
     public partial class TILTerrainMOR : Aow.Units.HSEngine.TMultiHexMOR
     {
         public TILTerrainMOR(TECustomNode owner) : base(owner)
@@ -362,7 +359,6 @@ namespace Aow.Units.ILTer
         }
 
         // ILTer.pas:264
-        // { TILTerrainMOR }
         public override Aow.Rtl.AnsiString ResourceEditName()
         {
             Aow.Rtl.AnsiString Result = default;
@@ -372,7 +368,6 @@ namespace Aow.Units.ILTer
 
     }
 
-    // { ILTer.TFixedILTerrainMO (instance size 28) }
     public partial class TFixedILTerrainMO : Aow.Units.ILTer.TILTerrainMO
     {
 
@@ -462,7 +457,6 @@ namespace Aow.Units.ILTer
 
     }
 
-    // { ILTer.TFixedILTerrainMOR (instance size 68) }
     public partial class TFixedILTerrainMOR : Aow.Units.ILTer.TILTerrainMOR
     {
         public TFixedILTerrainMOR(TECustomNode owner) : base(owner)
@@ -481,7 +475,6 @@ namespace Aow.Units.ILTer
         }
 
         // ILTer.pas:334
-        // { TFixedILTerrainMOR }
         public override Aow.Rtl.AnsiString ResourceEditName()
         {
             Aow.Rtl.AnsiString Result = default;

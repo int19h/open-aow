@@ -14,7 +14,7 @@ namespace Aow.Units.aowFX
         sdBackward = 1
     }
 
-    // { aowFX.TXYZ (instance size 16): one point, +4 X, +8 Y, +$C Z. }
+    // one point, X, Y, Z
     public partial class TXYZ : Aow.Rtl.TObject
     {
         public int X;
@@ -22,13 +22,12 @@ namespace Aow.Units.aowFX
         public int Z;
     }
 
-    // { aowFX.TXYZList (instance size 8): +4 FList, the owned points. }
+    // FList, the owned points
     public partial class TXYZList : Aow.Rtl.TObject
     {
 
         internal Aow.Rtl.TList FList;
         // aowFX.pas:93
-        // { TXYZList }
         public TXYZList()
         {
             var call__1 = new Aow.Rtl.TList();
@@ -115,31 +114,28 @@ namespace Aow.Units.aowFX
 
     }
 
-    // { aowFX.TfxParticleObject (instance size 44): no method of the package touches its fields, so
-//     only their size (+4..+$2B) is known. }
+    // no method of the package touches its fields, so only their size is known
     public partial class TfxParticleObject : Aow.Rtl.TObject
     {
         internal Aow.Units.FixedArray_int_10 FData;
     }
 
-    // { aowFX.TfxParticle (instance size 44), no fields of its own. }
+    // no fields of its own
     public partial class TfxParticle : Aow.Units.aowFX.TfxParticleObject
     {
     }
 
-    // { aowFX.TfxParticleEffect (instance size 44), no fields of its own. }
+    // no fields of its own
     public partial class TfxParticleEffect : Aow.Units.aowFX.TfxParticleObject
     {
     }
 
-    // { aowFX.TfxParticleSystem (instance size 52): +$2C FParticles, +$30 FEffects (never created by
-//     this unit). }
+    // FParticles, FEffects (never created by this unit)
     public partial class TfxParticleSystem : Aow.Units.aowFX.TfxParticleObject
     {
         internal Aow.Rtl.TList FParticles;
         internal Aow.Rtl.TList FEffects;
         // aowFX.pas:143
-        // { TfxParticleSystem }
         public Aow.Units.aowFX.TfxParticle GetParticle(int Index)
         {
             Aow.Units.aowFX.TfxParticle Result = default;

@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Ruin
 {
-    // { TRuin (instance size 64, no added fields, VMT 557C68FC) }
     public partial class TRuin : Aow.Units.ItemExpS.TItemExplorationSite
     {
         public TRuin(TECustomNode owner) : base(owner)
@@ -47,7 +46,6 @@ namespace Aow.Units.Ruin
 
     }
 
-    // { TRuinResource (instance size 104, no added fields, VMT 557C6B68) }
     public partial class TRuinResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
         public TRuinResource(TECustomNode owner) : base(owner)

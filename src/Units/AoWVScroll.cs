@@ -39,21 +39,17 @@ namespace Aow.Units.AoWVScroll
         ttBar = 1
     }
 
-    // { AoWVScroll.TAOWScrollBar (instance size 380). Fields: +$114 FVanishWhenFull, +$118 FILIInc
-//     (the increment button: down or right), +$11C FILIDec (the decrement button), +$120 FILTBack
-//     (the background of a scroll bar), +$124 FILLBack (the background line of a slider), +$128
-//     FILITab (an icon tab), +$12C FILLTab (a line tab), +$130 F130 (the length of the track the tab
-//     moves in), +$134 F134 (the length of the tab), +$138 FMin, +$13C FMax, +$140 FSmallChange,
-//     +$144 FLargeChange, +$148 FPosition, +$14C F14C (the number of positions, FMax - FMin + 1),
-//     +$150 F150 (the updates the mouse button has been held; 0 when it is up), +$151 F151 (the part
-//     that was clicked: 1 the decrement button, 2 the track before the tab, 3 the track after it,
-//     4 the increment button, 5 the tab), +$152 FDelay (the updates before a held button repeats),
-//     +$154 F154 (the position a click in the track pages to; the mouse offset into the tab while
-//     the tab is dragged), +$158 FNumberVisible, +$15C F15C (unused), +$160 FScrollType, +$161
-//     FTabType, +$164 FILIndexIncUp, +$168 FILIndexIncDown, +$16C FILIndexDecUp, +$170
-//     FILIndexDecDown, +$174 FILIndexBack, +$178 FILIndexTab.
-//     VMT (new): SetILIUIndex, SetILIDIndex, SetILDUIndex, SetILDDIndex, SetILBIndex, SetILTIndex,
-//     SetILInc, SetILDec, SetILBack, SetILLBack, SetILITab, SetILLTab }
+    // Fields: FVanishWhenFull, FILIInc (the increment button: down or right), FILIDec (the
+    // decrement button), FILTBack (the background of a scroll bar), FILLBack (the background line
+    // of a slider), FILITab (an icon tab), FILLTab (a line tab), F130 (the length of the track the
+    // tab moves in), F134 (the length of the tab), FMin, FMax, FSmallChange, FLargeChange,
+    // FPosition, F14C (the number of positions, FMax - FMin + 1), F150 (the updates the mouse
+    // button has been held. 0 when it is up), F151 (the part that was clicked: 1 the decrement
+    // button, 2 the track before the tab, 3 the track after it, 4 the increment button, 5 the tab),
+    // FDelay (the updates before a held button repeats), F154 (the position a click in the track
+    // pages to. the mouse offset into the tab while the tab is dragged), FNumberVisible, F15C
+    // (unused), FScrollType, FTabType, FILIndexIncUp, FILIndexIncDown, FILIndexDecUp,
+    // FILIndexDecDown, FILIndexBack, FILIndexTab
     public partial class TAOWScrollBar : Aow.Units.AoWControl.TAOWControl
     {
         public bool FVanishWhenFull;
@@ -86,7 +82,6 @@ namespace Aow.Units.AoWVScroll
         public int FILIndexBack;
         public int FILIndexTab;
         // AoWVScroll.pas:130
-        // { TAOWScrollBar }
         public TAOWScrollBar(TComponent owner) : base(owner)
         {
             FSmallChange = 1;
@@ -535,15 +530,14 @@ namespace Aow.Units.AoWVScroll
         public int ILIndexTab { get => FILIndexTab; set => SetILTIndex(value); }
     }
 
-    // { AoWVScroll.TAOWVScrollBar (instance size 380): the vertical scroll bar, the decrement button
-//     at the top and the increment button at the bottom }
+    // the vertical scroll bar, the decrement button at the top and the increment button at the
+    // bottom
     public partial class TAOWVScrollBar : Aow.Units.AoWVScroll.TAOWScrollBar
     {
         public TAOWVScrollBar(TComponent owner) : base(owner)
         { }
 
         // AoWVScroll.pas:408
-        // { TAOWVScrollBar }
         // { SetSize takes the width from the images and sizes the track and the tab: the tab of a line is
 //   proportional to the visible part of the range, but no shorter than its two end images }
         public override void SetSize()

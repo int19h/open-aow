@@ -36,19 +36,14 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.MoveOnEvents
 {
-    // { TMoveOnEvent (instance size 24, VMT 557D2A34) }
     public partial class TMoveOnEvent : Aow.Units.HSEngine.TMapObject
     {
         public TMoveOnEvent(TECustomNode owner) : base(owner)
         {}
 
         public byte FRadius;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 FReserved11;
-        // { $11 }
         public int FTriggerPlayers;
         // MoveOnEvents.pas:151
-        // { $14 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -168,7 +163,6 @@ namespace Aow.Units.MoveOnEvents
         }
 
         // MoveOnEvents.pas:139
-        // { +120 }
         public bool GetTriggerPlayer(sbyte Player)
         {
             bool Result = default;
@@ -219,7 +213,6 @@ namespace Aow.Units.MoveOnEvents
         }
     }
 
-    // { TMoveOnEventResource (instance size 52, VMT 557D2BD4) }
     public partial class TMoveOnEventResource : Aow.Units.HSEngine.TMapObjectResource
     {
         public TMoveOnEventResource(TECustomNode owner) : base(owner)
@@ -249,7 +242,6 @@ namespace Aow.Units.MoveOnEvents
 
     }
 
-    // { TChangeSongMoveOnEvent (instance size 28, VMT 557D2CD0) }
     public partial class TChangeSongMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
     {
         public TChangeSongMoveOnEvent(TECustomNode owner) : base(owner)
@@ -260,7 +252,6 @@ namespace Aow.Units.MoveOnEvents
 
         public Aow.Rtl.AnsiString FSongFileName;
         // MoveOnEvents.pas:280
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -273,7 +264,7 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:286
         public override void MovedOnTrigger(sbyte Player)
         {
-            // { needs: seated-player field at AoWHSMap +$A5 (557D3878). }
+            // Use the map's seated player.
             if (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
             {
                 var call__5 = Aow.Units.Sound.Sound.PlayingSongFileName();
@@ -288,7 +279,6 @@ namespace Aow.Units.MoveOnEvents
 
     }
 
-    // { TChangeSongMoveOnEventResource (instance size 52, VMT 557D2E98) }
     public partial class TChangeSongMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
     {
         public TChangeSongMoveOnEventResource(TECustomNode owner) : base(owner)
@@ -309,14 +299,12 @@ namespace Aow.Units.MoveOnEvents
         public override Aow.Rtl.AnsiString ResourceEditName()
         {
             Aow.Rtl.AnsiString Result = default;
-            // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
             Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ChangeSongEventRStr);
             return Result;
         }
 
     }
 
-    // { TPlaySampleMoveOnEvent (instance size 28, VMT 557D2FA8) }
     public partial class TPlaySampleMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
     {
         public TPlaySampleMoveOnEvent(TECustomNode owner) : base(owner)
@@ -327,7 +315,6 @@ namespace Aow.Units.MoveOnEvents
 
         public Aow.Rtl.AnsiString FSampleFileName;
         // MoveOnEvents.pas:310
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -350,7 +337,6 @@ namespace Aow.Units.MoveOnEvents
 
     }
 
-    // { TPlaySampleMoveOnEventResource (instance size 52, VMT 557D3170) }
     public partial class TPlaySampleMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
     {
         public TPlaySampleMoveOnEventResource(TECustomNode owner) : base(owner)
@@ -371,14 +357,12 @@ namespace Aow.Units.MoveOnEvents
         public override Aow.Rtl.AnsiString ResourceEditName()
         {
             Aow.Rtl.AnsiString Result = default;
-            // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
             Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PlaySampleEventRStr);
             return Result;
         }
 
     }
 
-    // { TShowMessageMoveOnEvent (instance size 28, VMT 557D3280) }
     public partial class TShowMessageMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
     {
         public TShowMessageMoveOnEvent(TECustomNode owner) : base(owner)
@@ -392,7 +376,6 @@ namespace Aow.Units.MoveOnEvents
 
         public Aow.Rtl.TStringList FMessage;
         // MoveOnEvents.pas:340
-        // { $18 }
         public override void Destroy()
         {
             FMessage.Free();
@@ -430,7 +413,6 @@ namespace Aow.Units.MoveOnEvents
 
     }
 
-    // { TShowMessageMoveOnEventResource (instance size 52, VMT 557D3434) }
     public partial class TShowMessageMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
     {
         public TShowMessageMoveOnEventResource(TECustomNode owner) : base(owner)
@@ -451,7 +433,6 @@ namespace Aow.Units.MoveOnEvents
         public override Aow.Rtl.AnsiString ResourceEditName()
         {
             Aow.Rtl.AnsiString Result = default;
-            // { needs: TranslateRStr(const S: string): string; explicit hidden result. }
             Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ShowMessageEventRStr);
             return Result;
         }

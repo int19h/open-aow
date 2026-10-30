@@ -56,8 +56,7 @@ namespace Aow.Units.CitySpells
     }
 
     // { ot=1 }
-    // { TCityTargetSpellTE (instance size 40, VMT 557AF390):
-//     $20 packed target coordinates; $24 target owner. }
+    // packed target coordinates. target owner
     public partial class TCityTargetSpellTE : Aow.Units.AoWE.TSpellTE
     {
         public TCityTargetSpellTE(TECustomNode owner) : base(owner)
@@ -67,10 +66,7 @@ namespace Aow.Units.CitySpells
         public new const int ClassID = 135949;
 
         public Aow.Units.HSEngine.TXYL FTargetLocation;
-        // { $20 }
         public sbyte FTargetPlayer;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_CityTargetSpellTE_25;
         // CitySpells.pas:175
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -124,15 +120,11 @@ namespace Aow.Units.CitySpells
 
     }
 
-    // { TCityTargetSpell (instance size 60, VMT 557AF4C8):
-//     $34 source unit ID; $38 city target modes. }
+    // source unit ID. city target modes
     public partial class TCityTargetSpell : Aow.Units.AoWE.TSpell
     {
         public int FSourceID;
-        // { $34 }
         public TSet<Aow.Units.CitySpells.TCityTargetModeElement> FCityTargetMode;
-        // { $38 }
-        public Aow.Units.FixedArray_byte_3 F_CityTargetSpell_39;
         // CitySpells.pas:209
         public TCityTargetSpell(TECustomNode owner) : base(owner)
         {
@@ -199,7 +191,6 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:215
-        // { +09C }
         public virtual void PlayDefaultCityEffects(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.City.TCity TargetCity)
         {
             Aow.Units.HSEngine.TMapLevel Level = default;
@@ -270,7 +261,6 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:323
-        // { +0A0 }
         public virtual void SetupTargetSelection(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TTargetSelectionControl TargetSelection)
         {
             sbyte X = default;
@@ -312,7 +302,6 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:359
-        // { +0A4 }
         public virtual bool TargetSelected(Aow.Units.AoWE.TAbstractUnit Source, int X, int Y, int L)
         {
             bool Result = default;
@@ -344,7 +333,6 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:248
-        // { +0A8 }
         public virtual bool ValidTargetCity(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.City.TCity TargetCity)
         {
             bool Result = default;
@@ -374,7 +362,6 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:346
-        // { +0AC }
         public virtual Aow.Units.CitySpells.TCityTargetSpellTE CreateTE()
         {
             Aow.Units.CitySpells.TCityTargetSpellTE Result = default;
@@ -383,7 +370,6 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:351
-        // { +0B0 }
         public virtual bool SetupTE(Aow.Units.CitySpells.TCityTargetSpellTE Event, Aow.Units.AoWE.TAbstractUnit Source, int X, int Y, int L)
         {
             bool Result = default;
@@ -396,7 +382,6 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:262
-        // { +0B4 }
         public void ValidateTarget(Aow.Units.AoWE.TTargetSelectionControl TargetSelection, sbyte X, sbyte Y, sbyte L, ref bool Valid)
         {
             Aow.Units.AoWE.TAbstractUnit Source = default;
@@ -438,7 +423,7 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TTownGateTE (instance size 48, VMT 557AF604): $28 army ID; $2C destination coordinates. }
+    // army ID. destination coordinates
     public partial class TTownGateTE : Aow.Units.CitySpells.TCityTargetSpellTE
     {
         public TTownGateTE(TECustomNode owner) : base(owner)
@@ -448,10 +433,8 @@ namespace Aow.Units.CitySpells
         public new const int ClassID = 135950;
 
         public Aow.Units.AoWE.TArmyID FArmyID;
-        // { $28 }
         public Aow.Units.HSEngine.TXYL FTeleportLocation;
         // CitySpells.pas:391
-        // { $2C }
         public override void Destroy()
         {
             FArmyID.Free();
@@ -497,7 +480,6 @@ namespace Aow.Units.CitySpells
 
     }
 
-    // { TTownGate (instance size 60, VMT 557AF6D4) }
     public partial class TTownGate : Aow.Units.CitySpells.TCityTargetSpell
     {
         // CitySpells.pas:421
@@ -781,7 +763,6 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TCityEnchantmentSpellTE (instance size 40, VMT 557AF800) }
     public partial class TCityEnchantmentSpellTE : Aow.Units.CitySpells.TCityTargetSpellTE
     {
         public TCityEnchantmentSpellTE(TECustomNode owner) : base(owner)
@@ -795,22 +776,14 @@ namespace Aow.Units.CitySpells
 
     }
 
-    // { TCityEnchantmentSpell (instance size 80, VMT 557AF958): $3C enchantment ID,
-//     $40 enchantment setting, $44 AI priority, $48 AI budget, $4C AI cast situations. }
+    // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
     public partial class TCityEnchantmentSpell : Aow.Units.CitySpells.TCityTargetSpell
     {
         public Aow.Units.City.TCityEnchantmentID FEnchantmentID;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_3 F_CityEnchantmentSpell_3D;
         public int FEnchantmentSpellID;
-        // { $40 }
         public int FAIPriority;
-        // { $44 }
         public int FAIBudget;
-        // { $48 }
         public TSet<Aow.Units.CitySpells.TCityEnchantmentCastSpellSituationElement> FAICastSituation;
-        // { $4C }
-        public Aow.Units.FixedArray_byte_3 F_CityEnchantmentSpell_4D;
         // CitySpells.pas:554
         public TCityEnchantmentSpell(TECustomNode owner) : base(owner)
         {
@@ -1000,7 +973,6 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TFountainOfLife (instance size 80, VMT 557AFA9C) }
     public partial class TFountainOfLife : Aow.Units.CitySpells.TCityEnchantmentSpell
     {
         // CitySpells.pas:649
@@ -1091,7 +1063,6 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TGoldRush (instance size 80, VMT 557AFBD0) }
     public partial class TGoldRush : Aow.Units.CitySpells.TCityEnchantmentSpell
     {
         // CitySpells.pas:710
@@ -1113,7 +1084,6 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TAntiMagicShell (instance size 80, VMT 557AFCFC) }
     public partial class TAntiMagicShell : Aow.Units.CitySpells.TCityEnchantmentSpell
     {
         // CitySpells.pas:727
@@ -1155,7 +1125,6 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TWarmonger (instance size 80, VMT 557AFE30) }
     public partial class TWarmonger : Aow.Units.CitySpells.TCityEnchantmentSpell
     {
         // CitySpells.pas:751
@@ -1173,7 +1142,6 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TTownQuake (instance size 60, VMT 557AFF5C) }
     public partial class TTownQuake : Aow.Units.CitySpells.TCityTargetSpell
     {
         // CitySpells.pas:764
@@ -1312,7 +1280,6 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TAnarchy (instance size 60, VMT 557B0088) }
     public partial class TAnarchy : Aow.Units.CitySpells.TCityTargetSpell
     {
         // CitySpells.pas:849
@@ -1405,7 +1372,6 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:867
         public void ShowAnimation(Aow.Units.Animation.TAnimation Animation, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
         {
-            // { Unmatched: tried direct sequence receiver and uncast inherited frame field; stage sequence before reading frame counter; stage frame counter before sequence call (5 variants total). }
             var imageSequenceAnimation = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
             var call__155 = imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter);
             if ((call__155 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))
@@ -1416,7 +1382,6 @@ namespace Aow.Units.CitySpells
         }
     }
 
-    // { TAnimateRuins (instance size 60, VMT 557B01B4) }
     public partial class TAnimateRuins : Aow.Units.CitySpells.TCityTargetSpell
     {
         // CitySpells.pas:915
@@ -1527,7 +1492,6 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:930
         public void ShowAnimation(Aow.Units.Animation.TAnimation Animation, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
         {
-            // { Unmatched: tried direct sequence receiver and uncast inherited frame field; stage sequence before reading frame counter; stage frame counter before sequence call (5 variants total). }
             var imageSequenceAnimation = (Aow.Units.Animation.TImageSequenceAnimation)Animation;
             var call__182 = imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter);
             if ((call__182 == 0) && (((int)Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail) != 0))

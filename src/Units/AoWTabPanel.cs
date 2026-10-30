@@ -29,10 +29,8 @@ namespace Aow.Units.AoWTabPanel
     // { The AoWTabPanel unit of aowInt.dpl: TAOWTabPanel, a row of tabs, one per item, in a window.
 //   Clicking a tab selects it; the panels (TAOWPanel) whose TabPanel is this control are shown when
 //   their OwnerItem is the selected tab and hidden otherwise. }
-    // { AoWTabPanel.TAOWTabPanel (instance size 304). Fields: +$114 FItems, +$118 FSelected, +$11C
-//     FILButton, +$120 FBorderHeightSelected (the text offset of the selected tab), +$124
-//     FILIndexUp, +$128 FILIndexDown, +$12C FPanels (the TAOWPanel objects of the tabs).
-//     VMT (new): SetILButton, SetILUIndex, SetILDIndex }
+    // Fields: FItems, FSelected, FILButton, FBorderHeightSelected (the text offset of the selected
+    // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
     public partial class TAOWTabPanel : Aow.Units.AoWControl.TAOWControl
     {
         public Aow.Rtl.TStringList FItems;
@@ -43,7 +41,6 @@ namespace Aow.Units.AoWTabPanel
         public int FILIndexDown;
         public Aow.Rtl.TList FPanels;
         // AoWTabPanel.pas:62
-        // { TAOWTabPanel }
         public TAOWTabPanel(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();

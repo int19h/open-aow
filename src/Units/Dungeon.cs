@@ -39,7 +39,6 @@ using static Aow.Units.AoWE.AoWE;
 namespace Aow.Units.Dungeon
 {
     // { ot=1 }
-    // { TPrisonersArmy (instance size 44, VMT 557C53F4) }
     public partial class TPrisonersArmy : Aow.Units.AoWE.TArmy
     {
         public TPrisonersArmy(TECustomNode owner) : base(owner)
@@ -72,7 +71,7 @@ namespace Aow.Units.Dungeon
 
     }
 
-    // { TDungeon (instance size 64, VMT 557C557C): $38 FPrisoners, $3C FPrisonersMode. }
+    // FPrisoners, FPrisonersMode
     public partial class TDungeon : Aow.Units.ExploreS.TExplorationSite
     {
         public TDungeon(TECustomNode owner) : base(owner)
@@ -86,10 +85,7 @@ namespace Aow.Units.Dungeon
         public new const int ClassID = 131882;
 
         public Aow.Units.Dungeon.TPrisonersArmy FPrisoners;
-        // { $38 }
         public Aow.Units.Dungeon.TPrisonersMode FPrisonersMode;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_3 F_Dungeon_3D;
         // Dungeon.pas:102
         public override void Destroy()
         {
@@ -354,7 +350,7 @@ namespace Aow.Units.Dungeon
 
     }
 
-    // { TDungeonResource (instance size 108, VMT 557C57F0): $68 FPrisonerCollections. }
+    // FPrisonerCollections
     public partial class TDungeonResource : Aow.Units.ExploreS.TExplorationSiteResource
     {
         public TDungeonResource(TECustomNode owner) : base(owner)
@@ -368,7 +364,6 @@ namespace Aow.Units.Dungeon
 
         public Aow.Units.AoWE.TUnitIndexListCollection FPrisonerCollections;
         // Dungeon.pas:271
-        // { $68 }
         public override void Destroy()
         {
             FPrisonerCollections.Free();
@@ -406,19 +401,15 @@ namespace Aow.Units.Dungeon
 
     }
 
-    // { TPrisonersJoinEventLog (instance size 64, VMT 557C58EC): $3C FX, $3D FY, $3E FL. }
+    // FX, FY, FL
     public partial class TPrisonersJoinEventLog : Aow.Units.AoWE.TJoinEventLog
     {
         public TPrisonersJoinEventLog(TECustomNode owner) : base(owner)
         { }
 
         public sbyte FX;
-        // { $3C }
         public sbyte FY;
-        // { $3D }
         public sbyte FL;
-        // { $3E }
-        public Aow.Units.FixedArray_byte_1 F_PrisonersJoinEventLog_3F;
         // Dungeon.pas:292
         public override bool Accept(ref Aow.Rtl.AnsiString ErrorText)
         {

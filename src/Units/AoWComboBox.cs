@@ -31,18 +31,14 @@ namespace Aow.Units.AoWComboBox
     // { The AoWComboBox unit of aowInt.dpl: TAOWComboBox, a drop-down list. Closed, it shows the
 //   selected item in an edit field; a click opens the list below the field (at PriorityOpened, with
 //   a vertical scroll bar when one is attached), a click on an item selects it and closes the list. }
-    // { AoWComboBox.TAOWComboBox (instance size 416). Fields: +$114 F114 (the mouse button went down
-//     on the field), +$118 FOpen (the list is shown), +$11C FItems, +$120 FVScrollBar, +$124 F124
-//     (the rows the open list shows), +$128 FNumberVisible, +$12C F12C (the first item shown),
-//     +$130 FListBorderWidth, +$134 FListBorderHeight, +$138 FSelected, +$13C F13C (the item under
-//     the mouse, -1 for none), +$140 FPriorityOpened, +$144 F144 (the priority before the list was
-//     opened), +$148 FOnDrawItem, +$150 F150 (the width the scroll bar takes from the list), +$154
-//     F154 (the scroll bar is visible), +$158 FILEdit, +$15C FILFrame, +$160 FILTextureNormal, +$164
-//     FILTextureSelected, +$168 FItemHeight, +$16C FOnOpen, +$174 FOnClose, +$17C FILEIndex, +$180
-//     FILFIndex, +$184 FILTnIndex, +$188 FILTsIndex, +$18C FDrawItem, +$190 FDrawItemRect (the item
-//     and its rectangle while OnDrawItem runs).
-//     VMT (new): SetILEdit, SetILEIndex, SetILFrame, SetILFIndex, SetILTNorm, SetILTnIndex,
-//     SetILTSel, SetILTsIndex, SetIndex }
+    // Fields: F114 (the mouse button went down on the field), FOpen (the list is shown), FItems,
+    // FVScrollBar, F124 (the rows the open list shows), FNumberVisible, F12C (the first item
+    // shown), FListBorderWidth, FListBorderHeight, FSelected, F13C (the item under the mouse, -1
+    // for none), FPriorityOpened, F144 (the priority before the list was opened), FOnDrawItem, F150
+    // (the width the scroll bar takes from the list), F154 (the scroll bar is visible), FILEdit,
+    // FILFrame, FILTextureNormal, FILTextureSelected, FItemHeight, FOnOpen, FOnClose, FILEIndex,
+    // FILFIndex, FILTnIndex, FILTsIndex, FDrawItem, FDrawItemRect (the item and its rectangle while
+    // OnDrawItem runs)
     public partial class TAOWComboBox : Aow.Units.AoWControl.TAOWControl
     {
         public bool F114;
@@ -75,7 +71,6 @@ namespace Aow.Units.AoWComboBox
         public int FDrawItem;
         public Aow.Rtl.TRect FDrawItemRect;
         // AoWComboBox.pas:114
-        // { TAOWComboBox }
         public TAOWComboBox(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
@@ -780,7 +775,6 @@ namespace Aow.Units.AoWComboBox
         // AoWComboBox.pas:196
         public void SetVScroll(Aow.Units.AoWVScroll.TAOWVScrollBar Value)
         {
-            // { Tried parameter identity, with and typed/TObject locals; original scrollbar save still differs. }
             FVScrollBar = Value;
             if (Value != null)
             {

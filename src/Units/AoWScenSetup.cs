@@ -82,400 +82,205 @@ using static Aow.Units.E2GameFlow.E2GameFlow;
 
 namespace Aow.Units.AoWScenSetup
 {
-    // { TScenSetup (instance size $348, VMT 0040FBF8).
-//     $338 map-validation delay; $33C setup control; $340 ping delay; $344 chat scroll pending. }
+    // map-validation delay. setup control. ping delay. chat scroll pending
     public partial class TScenSetup : Aow.Rtl.TDataModule
     {
         public TScenSetup(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWMemo.TAOWMemo ChatMemo;
-        // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel ChatPnl;
-        // { +0048 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar ChatSB;
-        // { +004C }
         public Aow.Units.AoWEdit.TAOWEdit ChatEdit;
-        // { +0050 }
         public Aow.Units.AoWPanel.TAOWPanel SidesPnl;
-        // { +0054 }
         public Aow.Units.AoWPanel.TAOWPanel SettingsPnl;
-        // { +0058 }
         public Aow.Units.AoWListBox.TAOWListBox PlayerList;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel R1Pnl;
-        // { +0060 }
         public Aow.Units.AoWPanel.TAOWPanel R5Pnl;
-        // { +0064 }
         public Aow.Units.AoWPanel.TAOWPanel R9Pnl;
-        // { +0068 }
         public Aow.Units.AoWPanel.TAOWPanel R2Pnl;
-        // { +006C }
         public Aow.Units.AoWPanel.TAOWPanel R6Pnl;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel R10Pnl;
-        // { +0074 }
         public Aow.Units.AoWPanel.TAOWPanel R3Pnl;
-        // { +0078 }
         public Aow.Units.AoWPanel.TAOWPanel R7Pnl;
-        // { +007C }
         public Aow.Units.AoWPanel.TAOWPanel R11Pnl;
-        // { +0080 }
         public Aow.Units.AoWPanel.TAOWPanel R4Pnl;
-        // { +0084 }
         public Aow.Units.AoWPanel.TAOWPanel R8Pnl;
-        // { +0088 }
         public Aow.Units.AoWPanel.TAOWPanel R12Pnl;
-        // { +008C }
         public Aow.Units.AoWButton.TAOWButton ExitGame;
-        // { +0090 }
         public Aow.Units.AoWButton.TAOWButton PickScenarioBtn;
-        // { +0094 }
         public Aow.Units.AoWButton.TAOWButton StartBtn;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel MiscLbl;
-        // { +009C }
         public Aow.Units.AoWPanel.TAOWPanel ScenSetupPnl;
-        // { +00A0 }
         public Aow.Units.AoWImage.TAOWImage R1PlayerIcon;
-        // { +00A4 }
         public Aow.Units.AoWLabel.TAOWLabel R1Lbl;
-        // { +00A8 }
         public Aow.Units.AoWComboBox.TAOWComboBox R1PlayerCB;
-        // { +00AC }
         public Aow.Units.AoWPanel.TAOWPanel R1CenterPnl;
-        // { +00B0 }
         public Aow.Units.AoWLabel.TAOWLabel TurnLbl;
-        // { +00B4 }
         public Aow.Units.AoWLabel.TAOWLabel DurationLbl;
-        // { +00B8 }
         public Aow.Units.AoWLabel.TAOWLabel TurnsLbl;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel TurnTimeLbl;
-        // { +00C0 }
         public Aow.Units.AoWHScroll.TAOWHScrollBar TurnTimeSl;
-        // { +00C4 }
         public Aow.Units.AoWLabel.TAOWLabel TurnTimeVal;
-        // { +00C8 }
         public Aow.Units.AoWFrame.TAoWFrame DurFr;
-        // { +00CC }
         public Aow.Units.AoWHScroll.TAOWHScrollBar TurnsSl;
-        // { +00D0 }
         public Aow.Units.AoWLabel.TAOWLabel TurnsVal;
-        // { +00D4 }
         public Aow.Units.AoWComboBox.TAOWComboBox PlayModeCB;
-        // { +00D8 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar TurnVSB;
-        // { +00DC }
         public Aow.Units.AoWLabel.TAOWLabel R1InfoLbl;
-        // { +00E0 }
         public Aow.Units.AoWComboBox.TAOWComboBox R1BehaviorCB;
-        // { +00E4 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R1BehaviorSB;
-        // { +00E8 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R1PlayerSB;
-        // { +00EC }
         public Aow.Units.AoWPanel.TAOWPanel R3CenterPnl;
-        // { +00F0 }
         public Aow.Units.AoWLabel.TAOWLabel R3Lbl;
-        // { +00F4 }
         public Aow.Units.AoWComboBox.TAOWComboBox R3BehaviorCB;
-        // { +00F8 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R3BehaviorSB;
-        // { +00FC }
         public Aow.Units.AoWImage.TAOWImage R3PlayerIcon;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel R3PlayerLbl;
-        // { +0104 }
         public Aow.Units.AoWComboBox.TAOWComboBox R3PlayerCB;
-        // { +0108 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R3PlayerSB;
-        // { +010C }
         public Aow.Units.AoWLabel.TAOWLabel R3InfoLbl;
-        // { +0110 }
         public Aow.Units.AoWPanel.TAOWPanel R2CenterPnl;
-        // { +0114 }
         public Aow.Units.AoWLabel.TAOWLabel R2Lbl;
-        // { +0118 }
         public Aow.Units.AoWComboBox.TAOWComboBox R2BehaviorCB;
-        // { +011C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R2BehaviorSB;
-        // { +0120 }
         public Aow.Units.AoWImage.TAOWImage R2PlayerIcon;
-        // { +0124 }
         public Aow.Units.AoWLabel.TAOWLabel R2InfoLbl;
-        // { +0128 }
         public Aow.Units.AoWComboBox.TAOWComboBox R2PlayerCB;
-        // { +012C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R2PlayerSB;
-        // { +0130 }
         public Aow.Units.AoWLabel.TAOWLabel R2PlayerLbl;
-        // { +0134 }
         public Aow.Units.AoWLabel.TAOWLabel R4InfoLbl;
-        // { +0138 }
         public Aow.Units.AoWLabel.TAOWLabel R4PlayerLbl;
-        // { +013C }
         public Aow.Units.AoWPanel.TAOWPanel R4CenterPnl;
-        // { +0140 }
         public Aow.Units.AoWLabel.TAOWLabel R4Lbl;
-        // { +0144 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R4BehaviorSB;
-        // { +0148 }
         public Aow.Units.AoWComboBox.TAOWComboBox R4PlayerCB;
-        // { +014C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R4PlayerSB;
-        // { +0150 }
         public Aow.Units.AoWImage.TAOWImage R4PlayerIcon;
-        // { +0154 }
         public Aow.Units.AoWImage.TAOWImage R5PlayerIcon;
-        // { +0158 }
         public Aow.Units.AoWLabel.TAOWLabel R5Lbl;
-        // { +015C }
         public Aow.Units.AoWComboBox.TAOWComboBox R5PlayerCB;
-        // { +0160 }
         public Aow.Units.AoWPanel.TAOWPanel R5CenterPnl;
-        // { +0164 }
         public Aow.Units.AoWComboBox.TAOWComboBox R5BehaviorCB;
-        // { +0168 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R5BehaviorSB;
-        // { +016C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R5PlayerSB;
-        // { +0170 }
         public Aow.Units.AoWLabel.TAOWLabel R5InfoLbl;
-        // { +0174 }
         public Aow.Units.AoWLabel.TAOWLabel R5PlayerLbl;
-        // { +0178 }
         public Aow.Units.AoWPanel.TAOWPanel R6CenterPnl;
-        // { +017C }
         public Aow.Units.AoWLabel.TAOWLabel R6Lbl;
-        // { +0180 }
         public Aow.Units.AoWComboBox.TAOWComboBox R6BehaviorCB;
-        // { +0184 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R6BehaviorSB;
-        // { +0188 }
         public Aow.Units.AoWImage.TAOWImage R6PlayerIcon;
-        // { +018C }
         public Aow.Units.AoWLabel.TAOWLabel R6PlayerLbl;
-        // { +0190 }
         public Aow.Units.AoWComboBox.TAOWComboBox R6PlayerCB;
-        // { +0194 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R6PlayerSB;
-        // { +0198 }
         public Aow.Units.AoWLabel.TAOWLabel R6InfoLbl;
-        // { +019C }
         public Aow.Units.AoWPanel.TAOWPanel R7CenterPnl;
-        // { +01A0 }
         public Aow.Units.AoWLabel.TAOWLabel R7Lbl;
-        // { +01A4 }
         public Aow.Units.AoWComboBox.TAOWComboBox R7BehaviorCB;
-        // { +01A8 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R7BehaviorSB;
-        // { +01AC }
         public Aow.Units.AoWImage.TAOWImage R7PlayerIcon;
-        // { +01B0 }
         public Aow.Units.AoWLabel.TAOWLabel R7PlayerLbl;
-        // { +01B4 }
         public Aow.Units.AoWComboBox.TAOWComboBox R7PlayerCB;
-        // { +01B8 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R7PlayerSB;
-        // { +01BC }
         public Aow.Units.AoWLabel.TAOWLabel R7InfoLbl;
-        // { +01C0 }
         public Aow.Units.AoWLabel.TAOWLabel R8InfoLbl;
-        // { +01C4 }
         public Aow.Units.AoWLabel.TAOWLabel R8PlayerLbl;
-        // { +01C8 }
         public Aow.Units.AoWPanel.TAOWPanel R8CenterPnl;
-        // { +01CC }
         public Aow.Units.AoWLabel.TAOWLabel R8Lbl;
-        // { +01D0 }
         public Aow.Units.AoWComboBox.TAOWComboBox R8BehaviorCB;
-        // { +01D4 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R8BehaviorSB;
-        // { +01D8 }
         public Aow.Units.AoWComboBox.TAOWComboBox R8PlayerCB;
-        // { +01DC }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R8PlayerSB;
-        // { +01E0 }
         public Aow.Units.AoWImage.TAOWImage R8PlayerIcon;
-        // { +01E4 }
         public Aow.Units.AoWImage.TAOWImage R9PlayerIcon;
-        // { +01E8 }
         public Aow.Units.AoWLabel.TAOWLabel R9Lbl;
-        // { +01EC }
         public Aow.Units.AoWComboBox.TAOWComboBox R9PlayerCB;
-        // { +01F0 }
         public Aow.Units.AoWPanel.TAOWPanel R9CenterPnl;
-        // { +01F4 }
         public Aow.Units.AoWComboBox.TAOWComboBox R9BehaviorCB;
-        // { +01F8 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R9BehaviorSB;
-        // { +01FC }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R9PlayerSB;
-        // { +0200 }
         public Aow.Units.AoWLabel.TAOWLabel R9InfoLbl;
-        // { +0204 }
         public Aow.Units.AoWLabel.TAOWLabel R9PlayerLbl;
-        // { +0208 }
         public Aow.Units.AoWPanel.TAOWPanel R10CenterPnl;
-        // { +020C }
         public Aow.Units.AoWLabel.TAOWLabel R10Lbl;
-        // { +0210 }
         public Aow.Units.AoWComboBox.TAOWComboBox R10BehaviorCB;
-        // { +0214 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R10BehaviorSB;
-        // { +0218 }
         public Aow.Units.AoWImage.TAOWImage R10PlayerIcon;
-        // { +021C }
         public Aow.Units.AoWLabel.TAOWLabel R10PlayerLbl;
-        // { +0220 }
         public Aow.Units.AoWComboBox.TAOWComboBox R10PlayerCB;
-        // { +0224 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar s10sb2;
-        // { +0228 }
         public Aow.Units.AoWLabel.TAOWLabel R10InfoLbl;
-        // { +022C }
         public Aow.Units.AoWPanel.TAOWPanel R11CenterPnl;
-        // { +0230 }
         public Aow.Units.AoWLabel.TAOWLabel R11Lbl;
-        // { +0234 }
         public Aow.Units.AoWComboBox.TAOWComboBox R11BehaviorCB;
-        // { +0238 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R11BehaviorSB;
-        // { +023C }
         public Aow.Units.AoWImage.TAOWImage R11PlayerIcon;
-        // { +0240 }
         public Aow.Units.AoWLabel.TAOWLabel R11PlayerLbl;
-        // { +0244 }
         public Aow.Units.AoWComboBox.TAOWComboBox R11PlayerCB;
-        // { +0248 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R11PlayerSB;
-        // { +024C }
         public Aow.Units.AoWLabel.TAOWLabel R11InfoLbl;
-        // { +0250 }
         public Aow.Units.AoWLabel.TAOWLabel R12InfoLbl;
-        // { +0254 }
         public Aow.Units.AoWLabel.TAOWLabel R12PlayerLbl;
-        // { +0258 }
         public Aow.Units.AoWPanel.TAOWPanel R12CenterPnl;
-        // { +025C }
         public Aow.Units.AoWLabel.TAOWLabel R12Lbl;
-        // { +0260 }
         public Aow.Units.AoWComboBox.TAOWComboBox R12BehaviorCB;
-        // { +0264 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R12BehaviorSB;
-        // { +0268 }
         public Aow.Units.AoWComboBox.TAOWComboBox R12PlayerCB;
-        // { +026C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar R12PlayerSB;
-        // { +0270 }
         public Aow.Units.AoWImage.TAOWImage R12PlayerIcon;
-        // { +0274 }
         public Aow.Units.AoWComboBox.TAOWComboBox PreferredRaceCB;
-        // { +0278 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar PreferredRaceSB;
-        // { +027C }
         public Aow.Units.AoWLabel.TAOWLabel PreferredRaceLbl;
-        // { +0280 }
         public Aow.Units.AoWFrame.TAoWFrame LFr;
-        // { +0284 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox CustomizeLeaders;
-        // { +0288 }
         public Aow.Units.AoWLabel.TAOWLabel CustomizeLeadersLbl;
-        // { +028C }
         public Aow.Units.AoWButton.TAOWButton EjectBtn;
-        // { +0290 }
         public Aow.Units.AoWComboBox.TAOWComboBox R4BehaviorCB;
-        // { +0294 }
         public Aow.Units.AoWPanel.TAOWPanel R1FogPnl;
-        // { +0298 }
         public Aow.Units.AoWLabel.TAOWLabel R1PlayerLbl;
-        // { +029C }
         public Aow.Units.AoWPanel.TAOWPanel R2FogPnl;
-        // { +02A0 }
         public Aow.Units.AoWPanel.TAOWPanel R3FogPnl;
-        // { +02A4 }
         public Aow.Units.AoWPanel.TAOWPanel R4FogPnl;
-        // { +02A8 }
         public Aow.Units.AoWPanel.TAOWPanel R8FogPnl;
-        // { +02AC }
         public Aow.Units.AoWPanel.TAOWPanel R7FogPnl;
-        // { +02B0 }
         public Aow.Units.AoWPanel.TAOWPanel R6FogPnl;
-        // { +02B4 }
         public Aow.Units.AoWPanel.TAOWPanel R5FogPnl;
-        // { +02B8 }
         public Aow.Units.AoWPanel.TAOWPanel R12FogPnl;
-        // { +02BC }
         public Aow.Units.AoWPanel.TAOWPanel R11FogPnl;
-        // { +02C0 }
         public Aow.Units.AoWPanel.TAOWPanel R10FogPnl;
-        // { +02C4 }
         public Aow.Units.AoWPanel.TAOWPanel R9FogPnl;
-        // { +02C8 }
         public Aow.Units.AoWButton.TAOWButton PreferredRaceSort;
-        // { +02CC }
         public Aow.Units.AoWButton.TAOWButton PlayerListSort;
-        // { +02D0 }
         public Aow.Units.AoWPanel.TAOWPanel ConnectionPnl;
-        // { +02D4 }
         public Aow.Units.AoWListBox.TAOWListBox PreferredRaceList;
-        // { +02D8 }
         public Aow.Units.AoWButton.TAOWButton AOWButton1;
-        // { +02DC }
         public Aow.Units.AoWListBox.TAOWListBox PingList;
-        // { +02E0 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar PlayerListSB;
-        // { +02E4 }
         public Aow.Units.AoWPanel.TAOWPanel SettingsFogPnl;
-        // { +02E8 }
         public Aow.Units.AoWLabel.TAOWLabel ExplorationLbl;
-        // { +02EC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Exploration;
-        // { +02F0 }
         public Aow.Units.AoWLabel.TAOWLabel ScenarioLbl;
-        // { +02F4 }
         public Aow.Units.AoWLabel.TAOWLabel HostNameLbl;
-        // { +02F8 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerNameLbl;
-        // { +02FC }
         public Aow.Units.AoWLabel.TAOWLabel FileNameLbl;
-        // { +0300 }
         public Aow.Units.AoWButton.TAOWButton MakeHostBtn;
-        // { +0304 }
         public Aow.Units.AoWPanel.TAOWPanel RestartSettingsFogPnl;
-        // { +0308 }
         public Aow.Units.AoWImage.TAOWImage ChatFogPnl;
-        // { +030C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LeadersOnMapCB;
-        // { +0310 }
         public Aow.Units.AoWLabel.TAOWLabel AOWLabel1;
-        // { +0314 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox AlliedVictoryCB;
-        // { +0318 }
         public Aow.Units.AoWLabel.TAOWLabel AlliedVictoryLbl;
-        // { +031C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0320 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AOWVScrollBar1;
-        // { +0324 }
         public Aow.Units.AoWComboBox.TAOWComboBox TacticalCombatCB;
-        // { +0328 }
         public Aow.Units.AoWLabel.TAOWLabel TacticalCombatLbl;
-        // { +032C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox AlwaysViewTCCB;
-        // { +0330 }
         public Aow.Units.AoWLabel.TAOWLabel AlwaysViewTCLbl;
-        // { +0334 }
         public int FValidateDelay;
-        // { $338 }
         public Aow.Units.AoWSetup.TSetupControl FSetupControl;
-        // { $33C }
         public int FPingDelay;
-        // { $340 }
         public bool FChatScrollPending;
-        // { $344 }
-        public Aow.Units.FixedArray_byte_3 F_ScenSetup_345;
         // AoWScenSetup.pas:526
         public void Execute(Aow.Units.AoWSetup.TSetupControl Control)
         {
@@ -582,15 +387,14 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:257
         public void ExitGameClick(Aow.Rtl.TObject Sender)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.CloseSession */
+            /* TODO: Implement aowDPlayComp.CloseSession in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // AoWScenSetup.pas:281
-        // { conflict: procedure ExitGameClick; }
         public void ChatEditReturn()
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.PlayerName */
+            /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -633,7 +437,6 @@ namespace Aow.Units.AoWScenSetup
         }
 
         // AoWScenSetup.pas:364
-        // { draft }
         public void PreferredRaceCBChange()
         {
             if (PreferredRaceCB.Selected >= 0)

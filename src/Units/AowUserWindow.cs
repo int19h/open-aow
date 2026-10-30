@@ -40,7 +40,7 @@ using static Aow.Units.AoWWindow.AoWWindow;
 
 namespace Aow.Units.AowUserWindow
 {
-    // { TAoWUserWindow: instance size $1F4; $1EC extended drawing event. }
+    // extended drawing event
     public partial class TAoWUserWindow : Aow.Units.AoWWindow.TAOWWindow
     {
         public TAoWUserWindow(TComponent owner) : base(owner)
@@ -48,7 +48,6 @@ namespace Aow.Units.AowUserWindow
 
         public Aow.Units.AowUserWindow.TDrawSurfaceExEvent FOnDrawSurfaceEx;
         // AowUserWindow.pas:29
-        // { $1EC }
         public override void DrawSurface(Aow.Units.GFXE.TSurface Surface)
         {
             bool Handled = default;

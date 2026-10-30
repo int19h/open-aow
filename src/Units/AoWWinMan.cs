@@ -92,70 +92,39 @@ using static Aow.Units.E2GameFlow.E2GameFlow;
 
 namespace Aow.Units.AoWWinMan
 {
-    // { TGeneral (instance size $CC, VMT 00453FC4).
-//     $68 preview settings; $78 abilities; $7C active ability count;
-//     $84 selected indices; $A4 unit list; $C0 selected unit; $C4 combat sprite. }
+    // preview settings. abilities. active ability count. selected indices. unit list. selected
+    // unit. combat sprite
     public partial class TGeneral : Aow.Rtl.TDataModule
     {
         public TGeneral(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AOWWinManager.TAOWWinManager Manager;
-        // { +0044 }
         public Aow.Units.AOWToolTip.TAOWToolTip ToolTip;
-        // { +0048 }
         public bool FWindowsHidden;
-        public Aow.Units.FixedArray_byte_11 FReserved4D;
         public bool FInfoVisible;
         public bool FRealmVisible;
         public bool FMagicVisible;
-        public bool FReserved5B;
-        public bool FReserved5C;
         public bool FUnitVisible;
         public bool FScannerVisible;
         public bool FControlVisible;
         public bool FChatVisible;
         public bool FMapVisible;
-        public bool FReserved62;
-        public bool FReserved63;
-        public bool FReserved64;
         public bool FTargetVisible;
-        public Aow.Units.FixedArray_byte_2 FReserved66;
-        // { $4C..$67; 00455A34 }
-        // { conflict: FSavedWindowVisibility: array[0..15] of Boolean; }
-        // { conflict: FPInfoVisible, FControlVisible, FUnitVisible: Boolean; FReserved5B: array[0..1] of Byte; FRealmVisible, FScannerVisible, FInfoVisible, FChatVisible, FMapVisible: Boolean; FReserved62: array[0..2] of Byte; FMagicVisible: Boolean; }
         public Aow.Units.AoWE.TP2UnitShowInfo FUnitShowInfo;
-        // { $68; 0044A1E5 }
-        // { $69..$73 are part of FUnitShowInfo. }
-        public int FReserved74;
-        // { $74 }
+        // are part of FUnitShowInfo
         public Aow.Rtl.TList FAbilities;
-        // { $78 }
         public int FActiveAbilityCount;
-        // { $7C }
-        public int F_General_80;
         public Aow.Units.FixedArray_int_8 FSelectedUnits;
-        // { $84 }
         public Aow.Units.AoWE.TArmy FUnitList;
-        // { $A4 }
         public Aow.Units.AoWE.TStructure FStructure;
-        // { $A8; 00442354 }
         public Aow.Units.AoWE.TStructure FPreviousStructure;
-        // { $AC }
         public Aow.Units.City.TCity FCity;
-        // { $B0 }
         public Aow.Units.PrdPlace.TProductionPlace FProductionPlace;
-        // { $B4 }
         public Aow.Units.AoWE.TProductionControl FProductionControl;
-        // { $B8; 004437FC }
         public Aow.Units.Sign.TSign FSign;
-        // { $BC }
         public Aow.Units.AoWE.TAbstractUnit FSelectedUnit;
-        // { $C0; 00449DCD }
-        // { conflict: FUnit: TAbstractUnit; }
         public Aow.Units.AoWTC.TTacticalCombatUnitHS FCombatUnit;
-        // { $C4 }
-        public Aow.Units.FixedArray_byte_4 F_General_C8;
         // AoWWinMan.pas:503
         public void ReturnToTitle()
         {
@@ -327,8 +296,6 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:123
-        // { draft; 00455DFC }
-        // { conflict: procedure ButtonSound(Index: Byte); }
         public void SortLists(ref Aow.Rtl.TList Lists, byte Order)
         {
             Aow.Units.AoWListBox.TAOWListBox L = default;
@@ -439,10 +406,8 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:152
-        // { draft; 00455744 }
         public void RegisterDialog(Aow.Units.AoWWindow.TAOWWindow Window)
         {
-            // { Tried direct initial map alignment receiver; no exact match. }
             var window = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
             if ((window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth) && (Window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth))
             {
@@ -463,10 +428,8 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:168
-        // { draft; 00456AAC }
         public void UnregisterDialog(Aow.Units.AoWWindow.TAOWWindow Window)
         {
-            // { Tried direct initial map alignment receiver; no exact match. }
             var window = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapWindow;
             if (((((window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth) && (Window.Alignment.AlignWidth == Aow.Units.AoWComp.TAOWAlignWidth.awBoth)) && (((Window == Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin) || !Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible) || (Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth))) && (((Window == Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg) || !Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Visible) || (Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth))) && (((Window == Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg) || !Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible) || (Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Alignment.AlignWidth != Aow.Units.AoWComp.TAOWAlignWidth.awBoth)))
             {
@@ -480,7 +443,6 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:89
-        // { draft; 00456B34 }
         public int IndexOfUnit(Aow.Units.AoWE.TAbstractUnit U)
         {
             int Result = default;
@@ -565,7 +527,6 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:197
-        // { 00455D10 }
         public int MTtoInt(TSet<Aow.Units.AoWE.TMoveType> MoveTypes)
         {
             int Result = default;
@@ -648,7 +609,6 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:216
-        // { draft }
         public void GeneralCreate()
         {
             FUnitShowInfo.Direction = 3;
@@ -658,7 +618,6 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:223
-        // { draft }
         public void GeneralDestroy()
         {
             int I = default;
@@ -676,10 +635,8 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:231
-        // { draft }
         public void ResetLayout()
         {
-            // { Tried addressable Self; no exact match. }
             var window = Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow;
             var alignment = window.Alignment;
             alignment.TopOffset = 0;
@@ -840,15 +797,12 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:336
-        // { draft }
         public void ManagerDebugMessage(Aow.Rtl.AnsiString Text)
         {
             Aow.Units.E2Globals.E2Globals.DialogWin.AddDebugMessage(Text);
         }
 
         // AoWWinMan.pas:351
-        // { 00454CA7 }
-        // { conflict: procedure MapProgress(Sender: TObject; const Text: string; Position: Integer); }
         public void ManagerKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             Aow.Units.AoWE.TPlayer Player = default;
@@ -916,7 +870,6 @@ namespace Aow.Units.AoWWinMan
 
     public static partial class AoWWinMan
     {
-        // { draft }
         public static Aow.Units.AoWWinMan.TGeneral General;
         // AoWWinMan.pas:514
         public static void LoadGame(Aow.Units.AoWWinMan.TGeneral Controller, Aow.Rtl.AnsiString Name)

@@ -38,7 +38,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AltDeath
 {
-    // { TAltarOfDeath (instance size 68, no added fields, VMT 557D2094) }
     public partial class TAltarOfDeath : Aow.Units.Altar.TAltar
     {
         public TAltarOfDeath(TECustomNode owner) : base(owner)
@@ -57,7 +56,6 @@ namespace Aow.Units.AltDeath
 
     }
 
-    // { TAltarOfDeathResource (instance size 116, no added fields, VMT 557D234C) }
     public partial class TAltarOfDeathResource : Aow.Units.Altar.TAltarResource
     {
         public TAltarOfDeathResource(TECustomNode owner) : base(owner)

@@ -5,7 +5,7 @@ namespace Aow.Units.AoWCampaignTransferDlg;
 
 public partial class TCampaignTransferDlg
 {
-    // AoW.exe 0040CD08 pushes "Scenario\Campaign\" at 0040CD3A.
+    // AoW.exe pushes "Scenario\Campaign\"
     public void Execute()
     {
         var campaign = AoWEngine.FCampaign;

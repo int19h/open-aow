@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.DeathNode
 {
-    // { TDeathNode (instance size 76, VMT 557BFFA4) }
     public partial class TDeathNode : Aow.Units.PrdPlace.TProductionPlace
     {
         public TDeathNode(TECustomNode owner) : base(owner)
@@ -55,7 +54,6 @@ namespace Aow.Units.DeathNode
 
     }
 
-    // { TDeathNodeResource (instance size 120, VMT 557C0258) }
     public partial class TDeathNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
         public TDeathNodeResource(TECustomNode owner) : base(owner)

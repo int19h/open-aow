@@ -62,64 +62,37 @@ using static Aow.Units.E1GameFlow.E1GameFlow;
 
 namespace Aow.Units.AoWPOP3Dlg
 {
-    // { TPOP3Dlg (instance size 168, VMT 00429ECC) }
     public partial class TPOP3Dlg : Aow.Rtl.TDataModule
     {
         public TPOP3Dlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel SearchingEmailGameLbl;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel EmailGameFoundLbl;
-        // { +0064 }
         public Aow.Units.AoWListBox.TAOWListBox FoundEmailGames;
-        // { +0068 }
         public Aow.Units.AoWPanel.TAOWPanel ExitPnl;
-        // { +006C }
         public Aow.Units.AoWButton.TAOWButton Exit2Btn;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel StartExitPnl;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton StartBtn;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton ExitBtn;
-        // { +007C }
         public Aow.Units.AoWEdit.TAOWEdit LocalEmailAddressEdit;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel AttachmentDirectoryLbl;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0088 }
         public Aow.Units.AoWPanel.TAOWPanel EditPnl;
-        // { +008C }
         public Aow.Units.AoWPanel.TAOWPanel ModePnl;
-        // { +0090 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar EmailGamesSB;
-        // { +0094 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0098 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +009C }
         public bool FSearching;
-        public Aow.Units.FixedArray_byte_3 FReservedA1;
-        // { $A0 }
         public int FCheckDelay;
         // AoWPOP3Dlg.pas:64
-        // { $A4 }
         public void ResetSearch()
         {
             FCheckDelay = 30;
@@ -148,7 +121,7 @@ namespace Aow.Units.AoWPOP3Dlg
         // AoWPOP3Dlg.pas:87
         public int CheckAttachments()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.CreateFile */
+            /* TODO: Implement Windows.CreateFile in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -172,7 +145,6 @@ namespace Aow.Units.AoWPOP3Dlg
         }
 
         // AoWPOP3Dlg.pas:135
-        // { draft }
         public void DlgUpdate()
         {
             FCheckDelay -= 1;
@@ -198,21 +170,18 @@ namespace Aow.Units.AoWPOP3Dlg
         }
 
         // AoWPOP3Dlg.pas:147
-        // { draft }
         public void ExitBtnClick()
         {
             Dlg.Visible = false;
         }
 
         // AoWPOP3Dlg.pas:152
-        // { draft }
         public void FoundEmailGamesChange()
         {
             UpdateSelection();
         }
 
         // AoWPOP3Dlg.pas:157
-        // { draft }
         public void StartBtnClick()
         {
             if (FoundEmailGames.Selected != -1)
@@ -224,7 +193,6 @@ namespace Aow.Units.AoWPOP3Dlg
         }
 
         // AoWPOP3Dlg.pas:166
-        // { draft }
         public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if (Key == 27)

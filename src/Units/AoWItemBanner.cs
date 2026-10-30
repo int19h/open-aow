@@ -52,39 +52,25 @@ using static Aow.Units.aowUserDrawBox.aowUserDrawBox;
 
 namespace Aow.Units.AoWItemBanner
 {
-    // { TItemBanner (instance size 120, VMT 00406950) }
     public partial class TItemBanner : Aow.Rtl.TDataModule
     {
         public TItemBanner(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWLabel.TAOWLabel ItemNameLbl;
-        // { +0044 }
         public Aow.Units.AOWMenu.TAOWMenu IBannerPopup;
-        // { +0048 }
         public Aow.Units.AoWImage.TAOWImage AttackIcon;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage DefenseIcon;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage DamageIcon;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage ResistanceIcon;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel Attack;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel Defense;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel Damage;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel Resistance;
-        // { +0068 }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox DrawBox;
-        // { +006C }
         public Aow.Units.AoWListBox.TAOWListBox AbLB;
-        // { +0070 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AbVSB;
         // AoWItemBanner.pas:46
-        // { +0074 }
         public void IBannerPopupShow(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWE.TItem Item = default;

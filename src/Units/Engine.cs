@@ -77,7 +77,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3397
-        // { AoWE $557652FC, $55765367 }
+        // AoWE
         internal void Put(int Index, int Item)
         {
             if (Index < 0)
@@ -211,7 +211,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3268
-        // { TIntegerList }
         public override void Destroy()
         {
             Clear();
@@ -725,7 +724,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3603
-        // { TByteList }
         public override void Destroy()
         {
             Clear();
@@ -1187,7 +1185,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3950
-        // { TShortIntList }
         public override void Destroy()
         {
             Clear();
@@ -1648,7 +1645,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4261
-        // { TWordList }
         public override void Destroy()
         {
             Clear();
@@ -2189,7 +2185,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4571
-        // { TBitList }
         public override void Destroy()
         {
             Clear();
@@ -2582,7 +2577,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4854
-        // { TEventList }
         public override void Destroy()
         {
             Clear();
@@ -2939,7 +2933,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:5056
-        // { TDoubleItemList }
         public override void Destroy()
         {
             Clear();
@@ -3531,7 +3524,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:5452
-        // { TQuadItemList }
         public override void Destroy()
         {
             Clear();
@@ -4021,7 +4013,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2253
-        // { TPropertyTable }
         public override void Destroy()
         {
             SetCapacity(0);
@@ -4263,7 +4254,7 @@ namespace Aow.Units.Engine
         public int First { get => FFirst; }
     }
 
-    // { Engine.TEObject (instance size 8): +4 FOwner. }
+    // FOwner
     public partial class TEObject : Aow.Rtl.TObject
     {
         // Engine.pas:2461
@@ -4542,9 +4533,8 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TECustomNode (instance size 8): children through an abstract list interface. Message ids
-//     carry flags: $10000000 deliver once per Seq, $20000000 owned children only, $40000000 do not
-//     forward to children. }
+    // children through an abstract list interface. Message ids carry flags: $10000000 deliver once
+    // per Seq, $20000000 owned children only, $40000000 do not forward to children
     public partial class TECustomNode : Aow.Units.Engine.TEObject
     {
 
@@ -5011,7 +5001,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2602
-        // { TECustomNode }
         public override void Destroy()
         {
             DestroyAllChildren();
@@ -5028,9 +5017,8 @@ namespace Aow.Units.Engine
         public ChildrenAccessor Children => new ChildrenAccessor(this);
     }
 
-    // { Engine.TEngine (instance size 52): +$C FMsgCount, +$10 FEClasses, +$14 FClassTable,
-//     +$18 FEditors, +$1C FControlNode, +$20 FComponent (the owning component), +$24 FDebugIDs,
-//     +$28 FDebugEvents, +$2C FStartupDirectory, +$31 FOptions. Every engine is in the Engines list. }
+    // FMsgCount, FEClasses, FClassTable, FEditors, FControlNode, FComponent (the owning component),
+    // FDebugIDs, FDebugEvents, FStartupDirectory, FOptions. Every engine is in the Engines list
     public partial class TEngine : Aow.Units.Engine.TENode
     {
         // Engine.pas:8756
@@ -5042,12 +5030,10 @@ namespace Aow.Units.Engine
         internal Aow.Units.Engine.TEObjectEditorList FEditors;
         internal Aow.Units.Engine.TEControlStyleNode FControlNode;
         public Aow.Units.Engine.TEComponent FComponent;
-        // { $20; AoWEd 00404501 }
         internal Aow.Rtl.TStringList FDebugIDs;
         internal Aow.Units.Engine.TEventList FDebugEvents;
         internal Aow.Rtl.AnsiString FStartupDirectory;
         public TSet<Aow.Units.Engine.TEngineUserElement> FUser;
-        // { $30; 5578A15C }
         internal TSet<Aow.Units.Engine.TEngineModeElement> FOptions;
         // Engine.pas:8776
         internal int CreateUniqueDebugID()
@@ -5632,8 +5618,8 @@ namespace Aow.Units.Engine
         // Engine.pas:1126
     }
 
-    // { Engine.TEStorageStream (instance size 36): the base of every storage stream. The rw* methods do
-//     nothing here; the subclasses read, write, compare or translate. }
+    // the base of every storage stream. The rw* methods do nothing here. the subclasses read,
+    // write, compare or translate
     public partial class TEStorageStream : Aow.Rtl.TObject
     {
 
@@ -5752,7 +5738,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9489
-        // { TEStorageStream }
         public TEStorageStream(TStream AStream, TEngine AEngine)
         {
             FEngine = AEngine;
@@ -5777,7 +5762,6 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEObjectEditorList (instance size 16) }
     // { Engine.TEObjectEditorList: the editor descriptors an engine registers, one per editor class id
     //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
     public partial class TEObjectEditorList : Aow.Rtl.TObject
@@ -5788,7 +5772,6 @@ namespace Aow.Units.Engine
         public Aow.Units.Engine.EditorClass this[int Index] { get => FList[Index]; }
 
         // Engine.pas:8356
-        // { TEObjectEditorList }
         public void RegisterClass(Aow.Units.Engine.EditorClass AClass)
         {
             var call__161 = AClass.EditorClassID;
@@ -5837,9 +5820,8 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TEResource (instance size 24): +8 FResourceList, +$C FResourceID, +$10 FEditID (the
-//     edit id of the resource grid that placed it), +$14 FEditIndex (its cell in that grid); all three
-//     integers are persisted (ids 1..3) }
+    // FResourceList, FResourceID, FEditID (the edit id of the resource grid that placed it),
+    // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
     public partial class TEResource : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 1024;
@@ -5966,7 +5948,7 @@ namespace Aow.Units.Engine
 }
     }
 
-    // { Engine.TEBufferStream (instance size 20): the write stream's data buffer }
+    // the write stream's data buffer
     public partial class TEBufferStream : Aow.Units.FMemStr.TFastMemoryStream
     {
         // System.pas:111
@@ -6126,15 +6108,14 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TPlugIn (instance size 16): +4 FRefCount, +8 FEngines, +$C FCounts. A plug-in registers
-//     itself in PlugIns on creation and counts the engines it is initialized for. }
+    // FRefCount, FEngines, FCounts. A plug-in registers itself in PlugIns on creation and counts
+    // the engines it is initialized for
     public partial class TPlugIn : Aow.Rtl.TObject
     {
         internal int FRefCount;
         internal Aow.Rtl.TList FEngines;
         internal Aow.Units.Engine.TIntegerList FCounts;
         // Engine.pas:9144
-        // { TPlugIn }
         public TPlugIn()
         {
             ;
@@ -6262,8 +6243,8 @@ namespace Aow.Units.Engine
 }
     }
 
-    // { Engine.TPlugInControl (instance size 16): +8 FEngine, +$C FUsedPlugIns; the names of the
-//     plug-ins an engine uses, initialized and finalized as the list changes }
+    // FEngine, FUsedPlugIns. the names of the plug-ins an engine uses, initialized and finalized as
+    // the list changes
     public partial class TPlugInControl : Aow.Units.Engine.TEObject
     {
         internal Aow.Units.Engine.TEngine FEngine;
@@ -6346,7 +6327,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9252
-        // { TPlugInControl }
         public TPlugInControl(TECustomNode owner) : base(owner)
         {
             var call__191 = new Aow.Rtl.TStringList();
@@ -6395,11 +6375,10 @@ namespace Aow.Units.Engine
         public Aow.Rtl.TStrings UsedPlugIns { get => GetUsedPlugIns(); set => SetUsedPlugIns(value); }
     }
 
-    // { Engine.TEObjectList (instance size 16): the child list of a TENode }
+    // the child list of a TENode
     public partial class TEObjectList : Aow.Rtl.TList
     {
         // Engine.pas:7136
-        // { TEObjectList }
         protected internal Aow.Units.Engine.TEObject GetEObject(int Index)
         {
             Aow.Units.Engine.TEObject Result = default;
@@ -6533,7 +6512,7 @@ namespace Aow.Units.Engine
         public EObjectsAccessor EObjects => new EObjectsAccessor(this);
     }
 
-    // { Engine.TENode (instance size 12): +8 FChildren }
+    // FChildren
     public partial class TENode : Aow.Units.Engine.TECustomNode
     {
         // Engine.pas:2861
@@ -6939,8 +6918,8 @@ namespace Aow.Units.Engine
         // Engine.pas:631
     }
 
-    // { Engine.TETimerNode (instance size 56): +8 FTick, +$C FCount, +$10 FTimerLists[1..10]. Children
-//     sit in one of ten lists and get TimerEvent every tick, every second tick, ... every tenth. }
+    // FTick, FCount, FTimerLists[1.10]. Children sit in one of ten lists and get TimerEvent every
+    // tick, every second tick. every tenth
     public partial class TETimerNode : Aow.Units.Engine.TECustomNode
     {
         // Engine.pas:1836
@@ -6977,7 +6956,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1819
-        // { TETimerNode }
         public TETimerNode(TECustomNode owner) : base(owner)
         {
             int I = default;
@@ -7192,7 +7170,7 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, +$C FUpdateCount; Changed on child changes. }
+    // Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, FUpdateCount. Changed on child changes
     public partial class TEChangeNotifyNode : Aow.Units.Engine.TECustomNode
     {
         // Engine.pas:7246
@@ -8008,7 +7986,7 @@ namespace Aow.Units.Engine
 // }
         public void EndUpdate()
         {
-            Aow.Rtl.Rtl.Assert(FUpdateCount > 0, (AnsiString)"Invalid UpdateCount Usage", "D:\\git\\aow\\src\\delphi3\\Engine.pas", 7959);
+            Aow.Rtl.Rtl.Assert(FUpdateCount > 0, (AnsiString)"Invalid UpdateCount Usage", "Engine.pas", 7959);
             FUpdateCount -= 1;
             if (FUpdateCount == 0)
             {
@@ -8297,7 +8275,7 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEChangeNotifyEventList (instance size 20): +$10 FEvents, notified by Changed }
+    // FEvents, notified by Changed
     public partial class TEChangeNotifyEventList : Aow.Units.Engine.TEChangeNotifyNode
     {
 
@@ -8335,9 +8313,8 @@ namespace Aow.Units.Engine
     }
 
     public delegate void TEditDoneEvent(Aow.Units.Engine.TEditResult EditResult, Aow.Units.Engine.TEObject EObject);
-    // { Engine.TEObjectEditor (instance size 8): editors are classes looked up by the class id of the
-//     object (TEObject.Editor); everything is called on the class. The base editor edits nothing:
-//     Edit reports a cancel at once. }
+    // editors are classes looked up by the class id of the object (TEObject.Editor). everything is
+    // called on the class. The base editor edits nothing: Edit reports a cancel at once
     public partial class TEObjectEditor : Aow.Units.Engine.TEObject, Aow.Units.Engine.IEObjectEditorClass
     {
 
@@ -8357,9 +8334,8 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.THashList (instance size 16): +4 FCount, +8 FCapacity, +$C FItems. The hash classes
-//     come from an include file of the original, D:\GEngine\Engine\inc\HashTab.PAS, whose name the
-//     Assert calls carry. }
+    // FCount, FCapacity, FItems. The hash classes come from an include file of the original,
+    // D:\GEngine\Engine\inc\HashTab.PAS, whose name the Assert calls carry
     public struct THashItem
     {
         public IntOrRef Key;
@@ -8374,7 +8350,7 @@ namespace Aow.Units.Engine
         // HashTab.PAS:18
         protected internal void SetCapacity(int NewCapacity)
         {
-            Aow.Rtl.Rtl.Assert(NewCapacity >= FCount, (AnsiString)"Capacity Error (THashList)", "D:\\git\\aow\\src\\delphi3\\inc\\HashTab.PAS", 20);
+            Aow.Rtl.Rtl.Assert(NewCapacity >= FCount, (AnsiString)"Capacity Error (THashList)", "HashTab.PAS", 20);
             if (NewCapacity != FCapacity)
             {
                 Array.Resize(ref FItems, NewCapacity);
@@ -8385,7 +8361,7 @@ namespace Aow.Units.Engine
         // HashTab.PAS:28
         protected internal void Delete(int Index)
         {
-            Aow.Rtl.Rtl.Assert((Index >= 0) && (Index < FCount), (AnsiString)"Delete Error (THashList)", "D:\\git\\aow\\src\\delphi3\\inc\\HashTab.PAS", 30);
+            Aow.Rtl.Rtl.Assert((Index >= 0) && (Index < FCount), (AnsiString)"Delete Error (THashList)", "HashTab.PAS", 30);
             FCount -= 1;
             if (Index < FCount)
             {
@@ -8426,7 +8402,7 @@ namespace Aow.Units.Engine
         public int Count { get => FCount; }
     }
 
-    // { Engine.TIntegerHashList (instance size 16): items keyed by an integer }
+    // items keyed by an integer
     public partial class TIntegerHashList : Aow.Units.Engine.THashList
     {
         // HashTab.PAS:43
@@ -8438,7 +8414,7 @@ namespace Aow.Units.Engine
                 throw Aow.Rtl.Exception.Create((AnsiString)"ID already in HashTable");
             }
 
-            Aow.Rtl.Rtl.Assert(Item != null, (AnsiString)"Cannot add nil item to hash table", "D:\\git\\aow\\src\\delphi3\\inc\\HashTab.PAS", 48);
+            Aow.Rtl.Rtl.Assert(Item != null, (AnsiString)"Cannot add nil item to hash table", "HashTab.PAS", 48);
             H.Key = Key;
             H.Item = Item;
             base.Add(H);
@@ -8487,7 +8463,7 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TIntegerHashTable (instance size 4): the abstract table interface }
+    // the abstract table interface
     public partial class TIntegerHashTable : Aow.Rtl.TObject
     {
         // Engine.pas:771
@@ -8515,7 +8491,7 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TIntegerHashTable256 (instance size 1028): 256 lists selected by the low key byte }
+    // 256 lists selected by the low key byte
     public partial class TIntegerHashTable256 : Aow.Units.Engine.TIntegerHashTable
     {
         internal Aow.Units.FixedArray_Aow_Units_Engine_TIntegerHashList_256 FLists;
@@ -8634,7 +8610,7 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TStringHashList (instance size 16): THashList items whose key dword is a string }
+    // THashList items whose key dword is a string
     public partial class TStringHashList : Aow.Units.Engine.THashList
     {
         // HashTab.PAS:143
@@ -8686,7 +8662,7 @@ namespace Aow.Units.Engine
                 throw Aow.Rtl.Exception.Create((AnsiString)"ID already in HashTable");
             }
 
-            Aow.Rtl.Rtl.Assert(Item != null, (AnsiString)"Cannot add nil item to hash table", "D:\\git\\aow\\src\\delphi3\\inc\\HashTab.PAS", 175);
+            Aow.Rtl.Rtl.Assert(Item != null, (AnsiString)"Cannot add nil item to hash table", "HashTab.PAS", 175);
             H.Key = 0;
             H.Item = Item;
             H.Key = Key;
@@ -8715,7 +8691,7 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TStringHashTable (instance size 4): the abstract table interface }
+    // the abstract table interface
     public partial class TStringHashTable : Aow.Rtl.TObject
     {
         // Engine.pas:804
@@ -8743,8 +8719,7 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TStringHashTable256 (instance size 1028): 256 lists selected by a hash of the first
-//     and the second-to-last character and the length }
+    // 256 lists selected by a hash of the first and the second-to-last character and the length
     public partial class TStringHashTable256 : Aow.Units.Engine.TStringHashTable
     {
         internal Aow.Units.FixedArray_Aow_Units_Engine_TStringHashList_256 FLists;
@@ -8861,7 +8836,7 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEControlStyleObject (instance size 12): +8 FControlStyle }
+    // FControlStyle
     public partial class TEControlStyleObject : Aow.Units.Engine.TEObject
     {
         // Engine.pas:8228
@@ -8869,7 +8844,6 @@ namespace Aow.Units.Engine
 
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:8222
-        // { TEControlStyleObject }
         public TEControlStyleObject(TECustomNode owner) : this(null, owner) { }
 
         // Engine.pas:8222
@@ -8900,7 +8874,7 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEControlStyleNode (instance size 16): +$C FControlStyle }
+    // FControlStyle
     public partial class TEControlStyleNode : Aow.Units.Engine.TENode
     {
         // Engine.pas:8199
@@ -8936,8 +8910,8 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TECustomOwner (instance size 20): +$C FEngine, +$10 FControlStyle. A node that knows
-//     its engine: message $20000008 (TEngine.ActivateEObject) carries the engine in the message. }
+    // FEngine, FControlStyle. A node that knows its engine: message $20000008
+    // (TEngine.ActivateEObject) carries the engine in the message
     public partial class TECustomOwner : Aow.Units.Engine.TENode
     {
         // Engine.pas:8257
@@ -9003,11 +8977,10 @@ namespace Aow.Units.Engine
         // Engine.pas:855
     }
 
-    // { Engine.TEObjectClassList (instance size 16): a TList of class references }
+    // a TList of class references
     public partial class TEObjectClassList : Aow.Rtl.TList
     {
         // Engine.pas:8296
-        // { TEObjectClassList }
         protected internal Aow.Units.Engine.EClass GetEClass(int Index)
         {
             Aow.Units.Engine.EClass Result = default;
@@ -9129,7 +9102,7 @@ namespace Aow.Units.Engine
         public EClassesAccessor EClasses => new EClassesAccessor(this);
     }
 
-    // { Engine.TEResourceEditSettings (instance size 16): +$C FEditors, editor names with ids }
+    // FEditors, editor names with ids
     public partial class TEResourceEditSettings : Aow.Units.Engine.TEControlStyleObject
     {
         // Engine.pas:8662
@@ -9166,7 +9139,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8650
-        // { TEResourceEditSettings }
         public TEResourceEditSettings(TECustomNode owner) : base(owner)
         {
             var call__305 = new Aow.Rtl.TStringList();
@@ -9492,7 +9464,7 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEControlStyleSortNode (instance size 28): +$18 FControlStyle }
+    // FControlStyle
     public partial class TEControlStyleSortNode : Aow.Units.Engine.TESortNode
     {
         // Engine.pas:1672
@@ -9500,7 +9472,6 @@ namespace Aow.Units.Engine
 
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:1666
-        // { TEControlStyleSortNode }
         public TEControlStyleSortNode(TECustomNode owner) : base(owner)
         {
             FControlStyle = base.GetControlStyle();
@@ -9522,7 +9493,7 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEControlStyleInverseSortNode (instance size 28): +$18 FControlStyle }
+    // FControlStyle
     public partial class TEControlStyleInverseSortNode : Aow.Units.Engine.TEInverseSortNode
     {
         // Engine.pas:1695
@@ -9554,8 +9525,8 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEReferenceNode (instance size 12): a TENode that holds references to objects owned
-//     elsewhere (AddRef on AddChild, Release on removal) }
+    // a TENode that holds references to objects owned elsewhere (AddRef on AddChild, Release on
+    // removal)
     public partial class TEReferenceNode : Aow.Units.Engine.TENode
     {
 
@@ -9563,7 +9534,6 @@ namespace Aow.Units.Engine
         { }
 
         // Engine.pas:8144
-        // { TEReferenceNode }
         public override void Clear()
         {
             int I = default;
@@ -9670,7 +9640,7 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEUser (instance size 12): +8 FNode, the node the user is connected to }
+    // FNode, the node the user is connected to
     public partial class TEUser : Aow.Units.Engine.TEObject
     {
         // Engine.pas:2430
@@ -10895,7 +10865,6 @@ namespace Aow.Units.Engine
 // 
 // 
 // }
-        // { TEUser }
         public override void Destroy()
         {
             Disconnect();
@@ -10926,7 +10895,7 @@ namespace Aow.Units.Engine
         public Aow.Units.Engine.TECustomNode Node { get => FNode; }
     }
 
-    // { Engine.TEResourceList (instance size 20): resources with unique ids }
+    // resources with unique ids
     public partial class TEResourceList : Aow.Units.Engine.TECustomOwner
     {
         public new const int ClassID = 1025;
@@ -11026,9 +10995,9 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEComponent (instance size 56): +$24 FOnRegisterClasses (called from Loaded),
-//     +$2C FOnUnRegisterClasses (called from Destroy), +$34 FEngine, the engine the component owns
-//     and frees. Descendants such as HSEngine's THexagonSpriteEngine publish the two events. }
+    // FOnRegisterClasses (called from Loaded), FOnUnRegisterClasses (called from Destroy), FEngine,
+    // the engine the component owns and frees. Descendants such as HSEngine's THexagonSpriteEngine
+    // publish the two events
     public partial class TEComponent : Aow.Rtl.TComponent
     {
         internal Aow.Rtl.TNotifyEvent FOnRegisterClasses;
@@ -11048,7 +11017,6 @@ namespace Aow.Units.Engine
         protected internal Aow.Rtl.TNotifyEvent OnUnRegisterClasses { get => FOnUnRegisterClasses; set => FOnUnRegisterClasses = value; }
 
         // Engine.pas:8635
-        // { TEComponent }
         public override void Destroy()
         {
             if (FOnUnRegisterClasses != null)
@@ -11134,10 +11102,10 @@ namespace Aow.Units.Engine
         public Aow.Rtl.AnsiString Text;
     }
 
-    // { Engine.TEReadTextStorageStream (instance size 56): +$24 FPath, +$28 FSize, +$2C FSections,
-//     +$30 FText, +$34 FValues. The text form of the storage: "[:path:]" lines open the section of
-//     an object (its path is the ids of its parents joined with '\'), "[id]=value" lines are its
-//     properties; the section is split into FValues with the property table pointing at them. }
+    // FPath, FSize, FSections, FText, FValues. The text form of the storage: "[:path:]" lines open
+    // the section of an object (its path is the ids of its parents joined with '\'), "[id]=value"
+    // lines are its properties. the section is split into FValues with the property table pointing
+    // at them
     public partial class TEReadTextStorageStream : Aow.Units.Engine.TEStorageStream
     {
         internal Aow.Rtl.AnsiString FPath;
@@ -11289,7 +11257,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10611
-        // { TEReadTextStorageStream }
         public TEReadTextStorageStream(TStream AStream, TEngine AEngine, int ASize) : base(AStream, AEngine)
         {
             FPath = (AnsiString)"";
@@ -11337,7 +11304,6 @@ namespace Aow.Units.Engine
         public override void rwCreateEObject(ref Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TECustomNode AOwner, int ID)
         {
             Aow.Units.Engine.TEObject O = default;
-            // { Match trials (4): named temporaries, with scopes, Pointer casts, zero-shift scheduling; still differs. }
             O = Obj;
             if (O != null)
             {
@@ -11488,14 +11454,13 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEWriteTextStorageStream (instance size 44): +$24 FPath, +$28 FBuffer. Each object's
-//     properties are collected in FBuffer and written behind the "[:path:]" line. }
+    // FPath, FBuffer. Each object's properties are collected in FBuffer and written behind the
+    // "[:path:]" line
     public partial class TEWriteTextStorageStream : Aow.Units.Engine.TEStorageStream
     {
         internal Aow.Rtl.AnsiString FPath;
         protected internal Aow.Units.Engine.TEBufferStream FBuffer;
         // Engine.pas:10355
-        // { $28; 557977DF }
         internal void WriteTextBuffer(Aow.Rtl.TStream Stream)
         {
             Aow.Rtl.AnsiString S = default;
@@ -11520,7 +11485,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10335
-        // { TEWriteTextStorageStream }
         public TEWriteTextStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine)
         {
             FPath = (AnsiString)"";
@@ -11550,7 +11514,6 @@ namespace Aow.Units.Engine
         public override void rwCreateEObject(ref Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TECustomNode AOwner, int ID)
         {
             Aow.Units.Engine.TEObject O = default;
-            // { Match trials (4): named temporaries, with scopes, Pointer casts, zero-shift scheduling; still differs. }
             O = Obj;
             if (O != null)
             {
@@ -11738,15 +11701,13 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEReadStorageStream (instance size 44): +$24 FPartial, +$28 FDataBase. The constructor
-//     reads the root property table; every property is found through the table and read at
-//     FDataBase + offset. }
+    // FPartial, FDataBase. The constructor reads the root property table. every property is found
+    // through the table and read at FDataBase + offset
     public partial class TEReadStorageStream : Aow.Units.Engine.TEStorageStream
     {
         internal bool FPartial;
         internal int FDataBase;
         // Engine.pas:9968
-        // { TEReadStorageStream }
         public TEReadStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
         {
             var call__371 = new Aow.Units.Engine.TPropertyTable();
@@ -12134,7 +12095,6 @@ namespace Aow.Units.Engine
             int Offset = default;
             int SavedBase = default;
             int AClassID = default;
-            // { Match trials (3): named temporaries, identity assignments, try-entry lifetimes; still differs. }
             Obj = null;
             var call__402 = FPropertyTable.FindOffset(ID);
             Offset = call__402;
@@ -12319,9 +12279,9 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TEWriteStorageStream (instance size 44): +$24 FPartial, +$28 FBuffer. Values go into the
-//     buffer; the property table records (id, buffer position). A nested object gets its own buffer,
-//     appended to the outer one as [table][data]. The destructor writes the root table and buffer. }
+    // FPartial, FBuffer. Values go into the buffer. the property table records (id, buffer
+    // position). A nested object gets its own buffer, appended to the outer one as [table][data].
+    // The destructor writes the root table and buffer
     public partial class TEWriteStorageStream : Aow.Units.Engine.TEStorageStream
     {
 
@@ -12334,7 +12294,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9565
-        // { TEWriteStorageStream }
         // Engine.pas:10489 TDebugWriteStream borrows the supplied stream as its buffer.
         private protected TEWriteStorageStream(TStream stream, TEngine engine, TEBufferStream buffer) : base(stream, engine)
         {
@@ -12692,7 +12651,6 @@ namespace Aow.Units.Engine
             int Start = default;
             int AClassID = default;
             Aow.Units.Engine.TEObject O = default;
-            // { Match trials (3): named temporaries, with scopes, identity assignments, try-entry lifetimes; still differs. }
             var call__438 = FPropertyTable.PropertyExist(ID);
             if (!call__438)
             {
@@ -12810,7 +12768,6 @@ namespace Aow.Units.Engine
         {
             Aow.Units.Engine.TEBufferStream Outer = default;
             int Start = default;
-            // { Match trials (3): named temporaries, with scopes, identity assignments, try-entry lifetimes; still differs. }
             var call__449 = FPropertyTable.PropertyExist(ID);
             if (!call__449)
             {
@@ -12854,7 +12811,6 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TEBufferStream Outer = default;
             int Start = default;
             int Len = default;
-            // { Match trials (3): named temporaries, with scopes, identity assignments, try-entry lifetimes; still differs. }
             Start = FBuffer.Position;
             Outer = FBuffer;
             var call__452 = new Aow.Units.Engine.TEBufferStream();
@@ -12892,12 +12848,11 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TDebugWriteStream (instance size 44): a write storage stream that writes every
-//     object's data straight into the stream (FBuffer is the stream itself) }
+    // a write storage stream that writes every object's data straight into the stream (FBuffer is
+    // the stream itself)
     public partial class TDebugWriteStream : Aow.Units.Engine.TEWriteStorageStream
     {
         // Engine.pas:10489
-        // { TDebugWriteStream }
         // Retained: The debug writer uses the supplied stream as FBuffer and skips the normal writer buffer allocation. Retire with a replacement-base storage protocol.
         public TDebugWriteStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine, (TEBufferStream)AStream)
         { }
@@ -12914,7 +12869,6 @@ namespace Aow.Units.Engine
         {
             int AClassID = default;
             Aow.Units.Engine.TEObject O = default;
-            // { Match trials (3): declaration/operand order, named temporaries, Pointer casts, identity assignments; still differs. }
             var call__455 = FPropertyTable.PropertyExist(ID);
             if (!call__455)
             {
@@ -13066,12 +13020,11 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TTranslateStorageStream (instance size 36): visits every string of an object tree
-//     through TranslateString and TranslateStrings; nothing is read or written. }
+    // visits every string of an object tree through TranslateString and TranslateStrings. nothing
+    // is read or written
     public partial class TTranslateStorageStream : Aow.Units.Engine.TEStorageStream
     {
         // Engine.pas:10825
-        // { TTranslateStorageStream }
         public TTranslateStorageStream(TEngine AEngine) : base(null, AEngine)
         {
             var call__467 = new Aow.Units.Engine.TPropertyTable();
@@ -13115,7 +13068,6 @@ namespace Aow.Units.Engine
         public override void rwCreateEObject(ref Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TECustomNode AOwner, int ID)
         {
             Aow.Units.Engine.TEObject O = default;
-            // { Match trials (4): named temporaries, with scopes, Pointer casts, zero-shift scheduling; still differs. }
             O = Obj;
             if (O != null)
             {
@@ -13202,15 +13154,13 @@ namespace Aow.Units.Engine
 
     }
 
-    // { Engine.TSetupCompareStorageStream (instance size 44): a read stream that announces a
-//     comparison to come (smSetupCompare) }
+    // a read stream that announces a comparison to come (smSetupCompare)
     public partial class TSetupCompareStorageStream : Aow.Units.Engine.TEReadStorageStream
     {
         public TSetupCompareStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine, APartial)
         { }
 
         // Engine.pas:10911
-        // { TSetupCompareStorageStream }
         public override TSet<Aow.Units.Engine.TStorageModeElement> StorageMode()
         {
             TSet<Aow.Units.Engine.TStorageModeElement> Result = default;
@@ -13219,9 +13169,8 @@ namespace Aow.Units.Engine
         }
     }
 
-    // { Engine.TCompareStorageStream (instance size 44): reads a stored copy and calls Mismatch for
-//     every property that differs from the object; Mismatch raises and swallows its own exception,
-//     a place for a breakpoint. }
+    // reads a stored copy and calls Mismatch for every property that differs from the object.
+    // Mismatch raises and swallows its own exception, a place for a breakpoint
     public partial class TCompareStorageStream : Aow.Units.Engine.TEReadStorageStream
     {
         // Engine.pas:11002
@@ -13237,7 +13186,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10918
-        // { TCompareStorageStream }
         public TCompareStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine, false)
         { }
 
@@ -13561,7 +13509,6 @@ namespace Aow.Units.Engine
         public Aow.Rtl.TList ExchangeData;
     }
 
-    // { TECopyComponent }
     // { the layout of TList, to write its count field straight from the object }
     public partial class TListFields : Aow.Rtl.TObject
     {
@@ -13571,11 +13518,8 @@ namespace Aow.Units.Engine
 
     public static partial class Engine
     {
-        // { The Engine unit of Enginep.dpl written for the original compiler (Delphi 3.02), class by class:
-//   tools/match.py compares the code DCC32 generates for every method with the code in the game's
-//   module. Declarations follow the original instance layouts and VMT orders (data/classes.json); a
-//   method whose body is still a stub is marked "stub". The hash classes come from
-//   inc\HashTab.PAS as in the original. }
+        // The Engine unit of Enginep.dpl. The hash classes come from inc\HashTab.PAS as in the
+        // original
         public const int MaxListSize = 134217727;
         // { Compatibility names used by the recovered dependent packages. }
         public const Aow.Units.Engine.TEControlStyleElement csStored = (Aow.Units.Engine.TEControlStyleElement)0;
@@ -13880,7 +13824,7 @@ namespace Aow.Units.Engine
                 {
                     try
                     {
-                        /* TODO(T-5.4) Native Delphi packages have no managed loader */
+                        /* TODO: Implement the native Delphi package loader. */
                         throw new System.NotImplementedException();
                         Aow.Units.Engine.Engine.Packages.AddObject(Dir + SR.Name, Aow.Rtl.Rtl.IntToObject((int)H));
                     }
@@ -13945,7 +13889,7 @@ namespace Aow.Units.Engine
                         var call__524 = Aow.Units.Engine.Engine.Packages[I];
                         S = call__524;
                         // { the original hands the name, not the handle in Objects, to UnloadPackage }
-                        /* TODO(T-5.4) Native Delphi packages have no managed loader */
+                        /* TODO: Implement the native Delphi package loader. */
                         throw new System.NotImplementedException();
                         Aow.Units.Engine.Engine.Packages.Delete(I);
                     }
@@ -14232,7 +14176,6 @@ namespace Aow.Units.Engine
             while (!(I >= R));
         }
 
-        // { TCompressStream }
         public static Aow.Units.FixedArray_byte_4 CompressMagic = Aow.Units.FixedArray_byte_4.From([67, 70, 83, 0]);
         // Engine.pas:1977
         public static void QuickSortStrings(ref Aow.Units.Engine.TSortStringsContext Ctx, int L, int R)

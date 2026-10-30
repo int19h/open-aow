@@ -62,73 +62,55 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWSMTPDlg
 {
-    // { Draft declarations of AoWSMTPDlg, from AoW.exe.
-//   Layouts and VMT order follow data/classes.json; guessed signatures are marked draft.
-//   Stub bodies are placeholders for source recovery. }
-    // { Declaration-only field type from ims.dpl (instance size 588). }
+    // declarations of AoWSMTPDlg, from AoW.exe
+    // Declaration-only field type from ims.dpl
     public partial class TmsMessage : Aow.Rtl.TComponent
     {
         public TmsMessage(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.E3IMSTypes.TmsMessageHeader FHeader;
-        // { $24 }
         public Aow.Rtl.AnsiString FSubject;
-        // { $28 }
         public bool FIncludeHeader;
         public bool FEncode;
-        // { $128/$129; 0044DBD5 }
-        public Aow.Units.FixedArray_byte_10 FReserved12A;
         public Aow.Units.E3IMSTypes.TmsAttList FAttachments;
-        // { $134 }
-        public Aow.Units.FixedArray_byte_260 FReserved138;
         public Aow.Units.E3IMSTypes.TmsAddressList FRecipients;
-        // { $23C }
-        public Aow.Units.FixedArray_byte_12 FReserved240;
         // AoWSMTPDlg.pas:20
         public void SetBody(Aow.Rtl.TStrings Value)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement TmsMessage.SetBody. */
             throw new System.NotImplementedException();
         }
     }
 
-    // { Declaration-only field type from ims.dpl (instance size 636). }
+    // Declaration-only field type from ims.dpl
     public partial class TmsSMTP : Aow.Rtl.TComponent
     {
         public TmsSMTP(TComponent owner) : base(owner)
         { }
 
         public Aow.Rtl.AnsiString FHost;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_584 FReserved28;
         public Aow.Units.AoWSMTPDlg.TmsMessage FMessage;
-        // { $270 }
-        public Aow.Units.FixedArray_byte_8 FReserved274;
         // AoWSMTPDlg.pas:29
         public void SetWinsockLoaded(bool Value)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement TmsSMTP.SetWinsockLoaded. */
             throw new System.NotImplementedException();
         }
 
         public bool WinsockLoaded { set => SetWinsockLoaded(value); }
 
         // AoWSMTPDlg.pas:30
-        // { 0044DBB9 }
         public void Send()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement TmsSMTP.Send. */
             throw new System.NotImplementedException();
         }
     }
 
-    // { TIMSSendThread (instance size 44, VMT 0044D5D8) }
     public partial class TIMSSendThread : Aow.Rtl.TThread
     {
         public bool FSuccess;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 F_IMSSendThread_29;
         // AoWSMTPDlg.pas:105
         protected internal override void Execute()
         {
@@ -148,71 +130,42 @@ namespace Aow.Units.AoWSMTPDlg
         { }
     }
 
-    // { TSMTPDlg (instance size 180, VMT 0044D630) }
     public partial class TSMTPDlg : Aow.Rtl.TDataModule
     {
         public TSMTPDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +0058 }
         public Aow.Units.AoWButton.TAOWButton ExitBtn;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel SendingGameLbl;
-        // { +0060 }
         public Aow.Units.AOWGauge.TAoWGauge ProgressBar;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel RecipientLbl;
-        // { +0068 }
         public Aow.Units.AoWPanel.TAOWPanel SendPnl;
-        // { +006C }
         public Aow.Units.AoWPanel.TAOWPanel FailedPnl;
-        // { +0070 }
         public Aow.Units.AoWMemo.TAOWMemo FailedMemo;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton SettingsBtn;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton RetryBtn;
-        // { +007C }
         public Aow.Units.AoWButton.TAOWButton ExitBtn2;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;
-        // { +0084 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0088 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +008C }
         public Aow.Units.AoWSMTPDlg.TmsMessage IMSMessage;
-        // { +0090 }
         public Aow.Units.AoWSMTPDlg.TmsSMTP IMSSMTP;
-        // { +0094 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0098 }
         public Aow.Units.AoWSMTPDlg.TIMSSendThread FThread;
-        // { $9C }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $A0 }
         public Aow.Units.AoWE.TSMTPEventLog FEvent;
-        // { $A8 }
         public int FProgress;
-        // { $AC }
         public bool FFinished;
-        // { $B0 }
-        public Aow.Units.FixedArray_byte_3 F_SMTPDlg_B1;
         // AoWSMTPDlg.pas:115
         public void FinishDialog()
         {
-            /* TODO(T-shim) Platform or editor boundary Classes.Destroy */
+            /* TODO: Implement Classes.Destroy in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -232,7 +185,7 @@ namespace Aow.Units.AoWSMTPDlg
         // AoWSMTPDlg.pas:145
         public void StartSending()
         {
-            /* TODO(T-shim) Platform or editor boundary Classes.Create */
+            /* TODO: Implement Classes.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -254,14 +207,12 @@ namespace Aow.Units.AoWSMTPDlg
         }
 
         // AoWSMTPDlg.pas:166
-        // { draft }
         public void ExitBtnClick()
         {
             Dlg.Visible = false;
         }
 
         // AoWSMTPDlg.pas:171
-        // { draft }
         public void IMSSMTPProgress(Aow.Rtl.TObject Sender, int Progress, int Total)
         {
             if (Progress > FProgress)
@@ -281,7 +232,6 @@ namespace Aow.Units.AoWSMTPDlg
         }
 
         // AoWSMTPDlg.pas:185
-        // { draft }
         public void IMSSMTPError(Aow.Rtl.TObject Sender, ref Aow.Rtl.AnsiString Error)
         {
             if (FEvent != null)
@@ -314,14 +264,12 @@ namespace Aow.Units.AoWSMTPDlg
         }
 
         // AoWSMTPDlg.pas:207
-        // { draft }
         public void RetryBtnClick()
         {
             StartSending();
         }
 
         // AoWSMTPDlg.pas:212
-        // { draft }
         public void SettingsBtnClick()
         {
             Aow.Units.E3Globals.E3Globals.ShowEmailSettings(Aow.Units.E3Globals.E3Globals.EmailSettingsDlg);
@@ -330,7 +278,6 @@ namespace Aow.Units.AoWSMTPDlg
 
     public static partial class AoWSMTPDlg
     {
-        // { draft }
         public static Aow.Units.AoWSMTPDlg.TSMTPDlg SMTPDlg;
     }
 }

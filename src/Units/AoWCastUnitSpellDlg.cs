@@ -62,94 +62,53 @@ using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
 
 namespace Aow.Units.AoWCastUnitSpellDlg
 {
-    // { TCastUnitSpellDlg (size $E4, VMT 00431ACC): $E0 retained unit spell caster. }
+    // retained unit spell caster
     public partial class TCastUnitSpellDlg : Aow.Rtl.TDataModule
     {
         public TCastUnitSpellDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AOWGauge.TAoWGauge Unit1Gge;
-        // { +0044 }
         public Aow.Units.AOWGauge.TAoWGauge Unit2Gge;
-        // { +0048 }
         public Aow.Units.AOWGauge.TAoWGauge Unit3Gge;
-        // { +004C }
         public Aow.Units.AOWGauge.TAoWGauge Unit4Gge;
-        // { +0050 }
         public Aow.Units.AOWGauge.TAoWGauge Unit5Gg;
-        // { +0054 }
         public Aow.Units.AOWGauge.TAoWGauge Unit6Gg;
-        // { +0058 }
         public Aow.Units.AOWGauge.TAoWGauge Unit7Gg;
-        // { +005C }
         public Aow.Units.AOWGauge.TAoWGauge Unit8Gg;
-        // { +0060 }
         public Aow.Units.AoWButton.TAOWButton CastBut;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0070 }
         public Aow.Units.AoWButton.TAOWButton CancelBut;
-        // { +0074 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel SelectLbl;
-        // { +007C }
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        // { +0080 }
         public Aow.Units.AoWPanel.TAOWPanel TopPnl;
-        // { +0084 }
         public Aow.Units.AoWLabel.TAOWLabel SpellUpkeepLbl;
-        // { +0088 }
         public Aow.Units.AoWLabel.TAOWLabel SpellManaLbl;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel CastingManaLbl;
-        // { +0090 }
         public Aow.Units.AoWLabel.TAOWLabel SpellNameLbl;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel CasterNameLbl;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel CastingPointsLbl;
-        // { +009C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U1;
-        // { +00A0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U2;
-        // { +00A4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U3;
-        // { +00A8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U4;
-        // { +00AC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U5;
-        // { +00B0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U6;
-        // { +00B4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U7;
-        // { +00B8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U8;
-        // { +00BC }
         public Aow.Units.AoWImage.TAOWImage DecoL;
-        // { +00C0 }
         public Aow.Units.AoWImage.TAOWImage DecoR;
-        // { +00C4 }
         public Aow.Units.AoWImage.TAOWImage SpellFr;
-        // { +00C8 }
         public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        // { +00CC }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +00D0 }
         public Aow.Units.AoWPanel.TAOWPanel SelectionInfoPnl;
-        // { +00D4 }
         public Aow.Units.AoWLabel.TAOWLabel SelectionInfoLbl;
-        // { +00D8 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +00DC }
         public Aow.Units.AoWE.TUnitSpellCaster FCaster;
         // AoWCastUnitSpellDlg.pas:79
-        // { draft }
-        // { $E0 }
         public void ClearCaster()
         {
             FCaster.Release();
@@ -157,7 +116,6 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         }
 
         // AoWCastUnitSpellDlg.pas:85
-        // { 00432174 }
         public void DrawUnit(int Index, int X, int Y, ref Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Units.AoWE.TAlignment Alignment = default;
@@ -194,7 +152,6 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         }
 
         // AoWCastUnitSpellDlg.pas:111
-        // { 0043222C }
         public void CloseClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -202,7 +159,6 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         }
 
         // AoWCastUnitSpellDlg.pas:117
-        // { draft }
         public void CastButClick()
         {
             Aow.Rtl.AnsiString Reason = default;
@@ -247,7 +203,6 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         }
 
         // AoWCastUnitSpellDlg.pas:191
-        // { draft }
         public void SpellFrPreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Units.AoWE.TSpell Spell = default;
@@ -279,7 +234,6 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         }
 
         // AoWCastUnitSpellDlg.pas:219
-        // { draft }
         public void DlgUpdate()
         {
             if (Dlg.Visible && (FCaster != null))

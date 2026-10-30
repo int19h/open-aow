@@ -46,7 +46,6 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CombatHex
 {
-    // { TCombatHexagon (instance size 20, VMT 0040340C) }
     public partial class TCombatHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
         public TCombatHexagon(TECustomNode owner) : base(owner)
@@ -55,7 +54,6 @@ namespace Aow.Units.CombatHex
         public new const int ClassID = 2229504;
 
         public byte FImageVariant;
-        // { $10 }
         public Aow.Units.FixedArray_byte_3 FTransitions;
         // CombatHex.pas:174
         public override void TerrainChanged(in Aow.Units.HSEngine.THSTerrainInfo Msg)
@@ -303,7 +301,6 @@ namespace Aow.Units.CombatHex
 
     }
 
-    // { TCombatHexagonResource (instance size 56, VMT 004035A8) }
     public partial class TCombatHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
         public TCombatHexagonResource(TECustomNode owner) : base(owner)
@@ -392,7 +389,6 @@ namespace Aow.Units.CombatHex
 
     }
 
-    // { TWaterCombatHexagon (instance size 32, VMT 004036A8) }
     public partial class TWaterCombatHexagon : Aow.Units.AoWHex.TAoWWaterHexagon
     {
         public TWaterCombatHexagon(TECustomNode owner) : base(owner)
@@ -411,7 +407,6 @@ namespace Aow.Units.CombatHex
 
     }
 
-    // { TWaterCombatHexagonResource (instance size 56, VMT 00403854) }
     public partial class TWaterCombatHexagonResource : Aow.Units.AoWHex.TAoWWaterHexagonResource
     {
         public TWaterCombatHexagonResource(TECustomNode owner) : base(owner)

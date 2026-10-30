@@ -53,8 +53,7 @@ namespace Aow.Units.DisplayC
         doAutoEnableDDraw = 9
     }
 
-    // { DisplayC.TMatrix (instance size 12): a byte matrix (the invalidated blocks of a surface).
-//     +4 FData, +8 FWidth, +9 FHeight. }
+    // a byte matrix (the invalidated blocks of a surface). FData, FWidth, FHeight
     public partial class TMatrix : Aow.Rtl.TObject
     {
         internal Ptr<byte> FData;
@@ -120,15 +119,12 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TCustomDisplay (instance size 428): the display control. +$118 FFSWinControl, the
-//     events (+$11C OnBltSurface, +$124 OnUpdateFrame, +$12C OnSurfaceDataLost, +$134 OnResize,
-//     +$13C OnError, +$144 OnActivateDC, +$14C OnDeactivateDC, +$154 OnHide, +$15C OnShow, +$164
-//     OnResizeBackSurface, +$16C OnSwapDC), +$174 FFrameRate, +$178 FFrameTime (ms per frame),
-//     +$17C FCurrentFrameRate, +$180 FUpdateFrameThread, +$184 FStatus, +$185 FOptions (2 bytes),
-//     +$187 FUpdateFrameMode, +$188 FBackSurfaceControlMode, +$189 FBufferingScheme, +$18C
-//     FBackSurfaceWidth, +$190 FBackSurfaceHeight, +$194 FSurfaceIndex (the back surface to
-//     show), +$198 FPauseCount, +$19C FMouseAboveSurface, +$1A0 FPrimaryDC, +$1A4 FSecondaryDC,
-//     +$1A8 FActiveDC. }
+    // the display control. FFSWinControl, the events (OnBltSurface, OnUpdateFrame,
+    // OnSurfaceDataLost, OnResize, OnError, OnActivateDC, OnDeactivateDC, OnHide, OnShow,
+    // OnResizeBackSurface, OnSwapDC), FFrameRate, FFrameTime (ms per frame), FCurrentFrameRate,
+    // FUpdateFrameThread, FStatus, FOptions (2 bytes), FUpdateFrameMode, FBackSurfaceControlMode,
+    // FBufferingScheme, FBackSurfaceWidth, FBackSurfaceHeight, FSurfaceIndex (the back surface to
+    // show), FPauseCount, FMouseAboveSurface, FPrimaryDC, FSecondaryDC, FActiveDC
     public partial class TCustomDisplay : Aow.Rtl.TWinControl
     {
 
@@ -149,10 +145,8 @@ namespace Aow.Units.DisplayC
         protected internal int FCurrentFrameRate;
         public int CurrentFrameRate { get => FCurrentFrameRate; }
 
-        // { $17C; AoWEd 0042914E }
         internal Aow.Units.DisplayC.TUpdateFrameThread FUpdateFrameThread;
         public TSet<Aow.Units.DisplayC.TDisplayStatusElement> FStatus;
-        // { $184; AoWEd 00404F44 }
         internal TSet<Aow.Units.DisplayC.TDisplayOptionsElement> FOptions;
         internal Aow.Units.DisplayC.TUpdateFrameMode FUpdateFrameMode;
         internal Aow.Units.DisplayC.TBackSurfaceControlMode FBackSurfaceControlMode;
@@ -160,7 +154,7 @@ namespace Aow.Units.DisplayC
         internal int FBackSurfaceWidth;
         internal int FBackSurfaceHeight;
         public int FSurfaceIndex;
-        // { $194; direct frame blit at 00455483 }
+        // direct frame blit
         internal int FPauseCount;
         internal bool FMouseAboveSurface;
         internal Aow.Units.DisplayC.TAbstractDC FPrimaryDC;
@@ -250,169 +244,143 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1390
         protected internal override void KeyDown(ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.KeyDown */
+            /* TODO: Implement Controls.KeyDown in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1327
-        // { TCustomDisplay (inc\TDisplay.PAS in the original)
-//
-//   How the display works, as far as the code of this unit tells:
-//
-//   The display control has no surfaces of its own. It shows the surfaces of its active display
-//   controller (FActiveDC), which is one of PrimaryDC and SecondaryDC; SwapDC (also Alt+Enter in
-//   KeyDown) switches between the two. A controller owns surface 0, the output (the window
-//   through GDI, or the DirectDraw primary surface), and with double or triple buffering
-//   (BufferingScheme) back surfaces 1 and 2 that the game draws on. FSurfaceIndex is the back
-//   surface to show next; with triple buffering UpdateFrame alternates it between 1 and 2.
-//
-//   Life cycle:
-//   - Create sets the size to 100 x 100, the color to black, the default options
-//     [doAutoSwapDC, doAutoStartUpdateFrameLoop, doAutoActivatePrimaryDC, doBltOnWMPAINT],
-//     double buffering and back surfaces of 640 x 480, and (outside the designer) makes the
-//     owner the parent and creates the TDDrawFSWinControl that the full screen controllers draw
-//     in.
-//   - Loaded creates the window handle; CreateWnd lets the active controller know that the
-//     window was recreated (WindowRecreated) and, with doAutoActivatePrimaryDC, posts
-//     WM_DISPLAYC with WParam 2 to activate the primary controller once the window exists.
-//   - ActivateDC deactivates the active controller and activates the new one. With
-//     doRestoreSurfacesOnSwap the contents of the old surfaces are captured in TDataSurfaces
-//     first and remapped into the surfaces of the new controller. When the new controller
-//     cannot be activated, the old one is activated again and the result is
-//     DCERR_ACTIVATEFAILED. The frame loop is paused meanwhile; a change of the output size
-//     calls Resize, a change of the back surface size OnResizeBackSurface, then OnActivateDC
-//     follows and, with doAutoStartUpdateFrameLoop, the frame loop starts.
-//   - DeactivateDC calls OnDeactivateDC and deactivates the active controller.
-//   - Destroy stops the frame loop, deactivates the controller and frees the full screen window
-//     unless it is already being destroyed.
-//
-//   The frame loop:
-//   - StartUpdateFrameLoop runs UpdateFrame at FrameRate frames per second. In umAsynchrone mode
-//     a TUpdateFrameThread waits for the frame time (FFrameTime, 1000 / FrameRate ms, 2 ms less
-//     for the thread) and calls UpdateFrame in the main thread through Synchronize; in
-//     umSynchrone mode StartUpdateFrameLoop itself loops, calling UpdateFrame and
-//     Application.ProcessMessages, until the loop is stopped or the application terminates.
-//   - PauseFrameUpdateLoop and ResumeFrameUpdateLoop nest (FPauseCount) and suspend and resume
-//     the thread; StopUpdateFrameLoop resumes the thread as often as needed and terminates it.
-//   - UpdateFrame switches the triple buffer, sends a MouseMove(-1, -1) when the mouse left the
-//     output with no button down, calls OnUpdateFrame (the game draws the frame on the back
-//     surface it gets; an exception there only shows a message), counts the frame for the frame
-//     rate (NewFrame), waits for the frame time or the vertical blank (WaitForVerticalBlank) and
-//     shows the back surface (ExecuteBltSurfaceEvent).
-//   - ExecuteBltSurfaceEvent calls OnBltSurface and then, depending on BackSurfaceControlMode:
-//     bmBltSurface blits the whole back surface to the output (BltSurface),
-//     bmBltInvalidatedSurface blits only the blocks marked in the controller's invalidation
-//     matrix (BltInvalidatedSurface; Invalidate and InvalidateAll mark them), bmPageFlipping
-//     flips (FlipSurface; controllers that cannot flip blit and return DCERR_NOFLIP) and bmNone
-//     shows nothing. With doShowFrameRate the controller writes the frame rate on the output.
-//
-//   The options (Options):
-//   - doAutoResizeBackSurface: the back surfaces follow the size of the output (Resize and the
-//     controllers' Activate).
-//   - doAutoSwapDC: not tested in this unit.
-//   - doAutoStartUpdateFrameLoop: ActivateDC and SetUpdateFrameMode start the frame loop.
-//   - doAutoActivatePrimaryDC: CreateWnd activates the primary controller.
-//   - doShowFrameRate: ExecuteBltSurfaceEvent shows the frame rate.
-//   - doShowErrors: ShowError shows a message box.
-//   - doFocusAble: a mouse click focuses the output window.
-//   - doRestoreSurfacesOnSwap: ActivateDC copies the surface contents to the new controller.
-//   - doBltOnWMPAINT: WM_PAINT invalidates everything and shows the back surface again.
-//   - doAutoEnableDDraw: TWindows16DC activates DirectDraw to find the best 16 bit format.
-//
-//   The status (FStatus): dsFrameLoopActive and dsFrameLoopPaused belong to the frame loop;
-//   dsDDrawEnabled, dsDirectInputEnabled, dsAsynchrone and dsExclusiveAccess are not used here.
-//
-//   The events:
-//   - OnBltSurface(Sender): before the back surface is shown.
-//   - OnUpdateFrame(Sender, DC, SurfaceType): draw the frame on back surface SurfaceType of DC.
-//   - OnSurfaceDataLost(DC, SurfaceType): the contents of a surface were lost (a DirectDraw
-//     surface was restored, or the back surfaces were resized) and must be drawn again.
-//   - OnResize(Sender): the output changed its size.
-//   - OnError(ErrorStr, Error): declared and published, not called in this unit.
-//   - OnActivateDC, OnDeactivateDC(Sender, DC): a controller was activated or is deactivated.
-//   - OnHide, OnShow(Sender): the output is hidden or shown (Hide and Show; the full screen
-//     controllers hide when the application is deactivated and show again through WM_DISPLAYC
-//     with WParam 1).
-//   - OnResizeBackSurface(DC, Width, Height): the back surfaces got a new size.
-//   - OnSwapDC(DC): SwapDC is about to activate DC.
-//
-//   The messages: WM_SIZE calls Resize; WM_PAINT is handled as described for doBltOnWMPAINT;
-//   the windowed controllers see the window messages first (TAbstractDC.WndProc) and swallow
-//   WM_NCPAINT and WM_ERASEBKGND; CM_WANTSPECIALKEY and CN_KEYUP keep the arrow keys for the
-//   display; WM_DISPLAYC carries the posted requests.
-//
-//   The controllers (Register puts them on the GFX Engine page of the component palette;
-//   TDDrawFullScr08DC and the TDDrawWnd DCs have bitmaps in the package but no code):
-//   - TWindowsDC and its descendants draw in the display's window through GDI: TWindows08DC
-//     with 8 bit DIBs and a logical palette, TWindows16DC with 16 bit DIB sections (555 or 565,
-//     PixelFormat), TWindows24DC and TWindows32DC with 24 and 32 bit ones. Every block of the
-//     invalidation matrix is blitted on its own (GetInvBlockSize).
-//   - TDDrawFullScrDC and its descendants switch the screen to DisplayWidth x DisplayHeight at
-//     16, 24 or 32 bits and draw in the full screen window through DirectDraw: a flipping chain
-//     in video memory when the back surfaces have the size of the screen (UseVideoMemory), else
-//     separate back surfaces that are blitted. They hide the application's forms while they
-//     are active, hook the main window for WM_ACTIVATEAPP and WM_DISPLAYCHANGE, and restore
-//     lost surfaces (VerifyLostSurfaces). UseVerticalBlank waits for the vertical blank;
-//     DebugMode leaves the window where it is; Enable3D asks for 3D capable surfaces.
-//
-//   The error codes: DCERR_NOTSUPPORTED (not supported by the controller), DCERR_ACTIVATEFAILED,
-//   DCERR_FAILED (no invalidation matrix, or an exception during activation), DCERR_ACTIVATED
-//   (already activated), DCERR_NOTACTIVATED and DCERR_NOFLIP (blitted instead of flipped).
-//
-//   The controller interface (TAbstractDC), in the order of its VMT:
-//   - GetInvMatrix, InitInvMatrix, Invalidate, InvalidateAll: the invalidation matrix (blocks
-//     of the back surface that changed; TMatrix values count down once per shown frame).
-//   - SetPrimarySurfaceRgn, GetPrimarySurfaceRgn: the rectangle of the output that shows the
-//     back surface.
-//   - GetStatus (dsVisible, dsActivated, dsWindowed); GetDisplay, OutputWnd and Handle: the
-//     display, the control and the window drawn in.
-//   - GetPalette, GetHPalette, SetPalet, RealizePaletNow: the palette of 8 bit controllers.
-//   - GetSurface, GetSurfaceCount: surface 0 (the output) and the back surfaces.
-//   - WndProc: the window messages of the windowed controllers (False swallows a message).
-//   - SupportDisplayMode: whether the controller can work with the display (SupportDC).
-//   - WindowRecreated: the window handle changed.
-//   - ShowError passes an error message to the display; Hide and Show hide and show the output.
-//   - GetPixPosofBlock, GetBlockPosofPix, GetInvBlockSize: block and pixel coordinates of the
-//     invalidation matrix.
-//   - NewFrame, ShowFrameRate: the frame rate; Activate, Deactivate: start and stop working.
-//   - FlipSurface, BltSurface, BltInvalidatedSurface: show a back surface.
-//   - ResizeBackSurfaces: gives the back surfaces a new size.
-//   - GetMousePos: the mouse position in output coordinates (-1, -1 outside).
-//   - WaitForVerticalBlank: waits for the frame time or the vertical blank.
-//
-//   This comment also keeps the Assert in CreateWnd on the line that the original reports
-//   (1350, counted through the include file). }
+        // (inc\TDisplay.PAS in the original) How the display works, as far as the code of this unit
+        // tells: The display control has no surfaces of its own. It shows the surfaces of its
+        // active display controller (FActiveDC), which is one of PrimaryDC and SecondaryDC. SwapDC
+        // (also Alt+Enter in KeyDown) switches between the two. A controller owns surface 0, the
+        // output (the window through GDI, or the DirectDraw primary surface), and with double or
+        // triple buffering (BufferingScheme) back surfaces 1 and 2 that the game draws on.
+        // FSurfaceIndex is the back surface to show next. with triple buffering UpdateFrame
+        // alternates it between 1 and 2. Life cycle: - Create sets the size to 100 x 100, the color
+        // to black, the default options [doAutoSwapDC, doAutoStartUpdateFrameLoop,
+        // doAutoActivatePrimaryDC, doBltOnWMPAINT], double buffering and back surfaces of 640 x
+        // 480, and (outside the designer) makes the owner the parent and creates the
+        // TDDrawFSWinControl that the full screen controllers draw in. - Loaded creates the window
+        // handle. CreateWnd lets the active controller know that the window was recreated
+        // (WindowRecreated) and, with doAutoActivatePrimaryDC, posts WM_DISPLAYC with WParam 2 to
+        // activate the primary controller once the window exists. - ActivateDC deactivates the
+        // active controller and activates the new one. With doRestoreSurfacesOnSwap the contents of
+        // the old surfaces are captured in TDataSurfaces first and remapped into the surfaces of
+        // the new controller. When the new controller cannot be activated, the old one is activated
+        // again and the result is DCERR_ACTIVATEFAILED. The frame loop is paused meanwhile. a
+        // change of the output size calls Resize, a change of the back surface size
+        // OnResizeBackSurface, then OnActivateDC follows and, with doAutoStartUpdateFrameLoop, the
+        // frame loop starts. - DeactivateDC calls OnDeactivateDC and deactivates the active
+        // controller. - Destroy stops the frame loop, deactivates the controller and frees the full
+        // screen window unless it is already being destroyed. The frame loop: -
+        // StartUpdateFrameLoop runs UpdateFrame at FrameRate frames per second. In umAsynchrone
+        // mode a TUpdateFrameThread waits for the frame time (FFrameTime, 1000 / FrameRate ms, 2 ms
+        // less for the thread) and calls UpdateFrame in the main thread through Synchronize. in
+        // umSynchrone mode StartUpdateFrameLoop itself loops, calling UpdateFrame and
+        // Application.ProcessMessages, until the loop is stopped or the application terminates. -
+        // PauseFrameUpdateLoop and ResumeFrameUpdateLoop nest (FPauseCount) and suspend and resume
+        // the thread. StopUpdateFrameLoop resumes the thread as often as needed and terminates it.
+        // - UpdateFrame switches the triple buffer, sends a MouseMove(-1, -1) when the mouse left
+        // the output with no button down, calls OnUpdateFrame (the game draws the frame on the back
+        // surface it gets. an exception there only shows a message), counts the frame for the frame
+        // rate (NewFrame), waits for the frame time or the vertical blank (WaitForVerticalBlank)
+        // and shows the back surface (ExecuteBltSurfaceEvent). - ExecuteBltSurfaceEvent calls
+        // OnBltSurface and then, depending on BackSurfaceControlMode: bmBltSurface blits the whole
+        // back surface to the output (BltSurface), bmBltInvalidatedSurface blits only the blocks
+        // marked in the controller's invalidation matrix (BltInvalidatedSurface. Invalidate and
+        // InvalidateAll mark them), bmPageFlipping flips (FlipSurface. controllers that cannot flip
+        // blit and return DCERR_NOFLIP) and bmNone shows nothing. With doShowFrameRate the
+        // controller writes the frame rate on the output. The options (Options): -
+        // doAutoResizeBackSurface: the back surfaces follow the size of the output (Resize and the
+        // controllers' Activate). - doAutoSwapDC: not tested in this unit. -
+        // doAutoStartUpdateFrameLoop: ActivateDC and SetUpdateFrameMode start the frame loop. -
+        // doAutoActivatePrimaryDC: CreateWnd activates the primary controller. - doShowFrameRate:
+        // ExecuteBltSurfaceEvent shows the frame rate. - doShowErrors: ShowError shows a message
+        // box. - doFocusAble: a mouse click focuses the output window. - doRestoreSurfacesOnSwap:
+        // ActivateDC copies the surface contents to the new controller. - doBltOnWMPAINT: WM_PAINT
+        // invalidates everything and shows the back surface again. - doAutoEnableDDraw:
+        // TWindows16DC activates DirectDraw to find the best 16 bit format. The status (FStatus):
+        // dsFrameLoopActive and dsFrameLoopPaused belong to the frame loop. dsDDrawEnabled,
+        // dsDirectInputEnabled, dsAsynchrone and dsExclusiveAccess are not used here. The events: -
+        // OnBltSurface(Sender): before the back surface is shown. - OnUpdateFrame(Sender, DC,
+        // SurfaceType): draw the frame on back surface SurfaceType of DC. - OnSurfaceDataLost(DC,
+        // SurfaceType): the contents of a surface were lost (a DirectDraw surface was restored, or
+        // the back surfaces were resized) and must be drawn again. - OnResize(Sender): the output
+        // changed its size. - OnError(ErrorStr, Error): declared and published, not called in this
+        // unit. - OnActivateDC, OnDeactivateDC(Sender, DC): a controller was activated or is
+        // deactivated. - OnHide, OnShow(Sender): the output is hidden or shown (Hide and Show. the
+        // full screen controllers hide when the application is deactivated and show again through
+        // WM_DISPLAYC with WParam 1). - OnResizeBackSurface(DC, Width, Height): the back surfaces
+        // got a new size. - OnSwapDC(DC): SwapDC is about to activate DC. The messages: WM_SIZE
+        // calls Resize. WM_PAINT is handled as described for doBltOnWMPAINT. the windowed
+        // controllers see the window messages first (TAbstractDC.WndProc) and swallow WM_NCPAINT
+        // and WM_ERASEBKGND. CM_WANTSPECIALKEY and CN_KEYUP keep the arrow keys for the display.
+        // WM_DISPLAYC carries the posted requests. The controllers (Register puts them on the GFX
+        // Engine page of the component palette. TDDrawFullScr08DC and the TDDrawWnd DCs have
+        // bitmaps in the package but no code): - TWindowsDC and its descendants draw in the
+        // display's window through GDI: TWindows08DC with 8 bit DIBs and a logical palette,
+        // TWindows16DC with 16 bit DIB sections (555 or 565, PixelFormat), TWindows24DC and
+        // TWindows32DC with 24 and 32 bit ones. Every block of the invalidation matrix is blitted
+        // on its own (GetInvBlockSize). - TDDrawFullScrDC and its descendants switch the screen to
+        // DisplayWidth x DisplayHeight at 16, 24 or 32 bits and draw in the full screen window
+        // through DirectDraw: a flipping chain in video memory when the back surfaces have the size
+        // of the screen (UseVideoMemory), else separate back surfaces that are blitted. They hide
+        // the application's forms while they are active, hook the main window for WM_ACTIVATEAPP
+        // and WM_DISPLAYCHANGE, and restore lost surfaces (VerifyLostSurfaces). UseVerticalBlank
+        // waits for the vertical blank. DebugMode leaves the window where it is. Enable3D asks for
+        // 3D capable surfaces. The error codes: DCERR_NOTSUPPORTED (not supported by the
+        // controller), DCERR_ACTIVATEFAILED, DCERR_FAILED (no invalidation matrix, or an exception
+        // during activation), DCERR_ACTIVATED (already activated), DCERR_NOTACTIVATED and
+        // DCERR_NOFLIP (blitted instead of flipped). The controller interface (TAbstractDC), in the
+        // methods: - GetInvMatrix, InitInvMatrix, Invalidate, InvalidateAll: the invalidation
+        // matrix (blocks of the back surface that changed. TMatrix values count down once per shown
+        // frame). - SetPrimarySurfaceRgn, GetPrimarySurfaceRgn: the rectangle of the output that
+        // shows the back surface. - GetStatus (dsVisible, dsActivated, dsWindowed). GetDisplay,
+        // OutputWnd and Handle: the display, the control and the window drawn in. - GetPalette,
+        // GetHPalette, SetPalet, RealizePaletNow: the palette of 8 bit controllers. - GetSurface,
+        // GetSurfaceCount: surface 0 (the output) and the back surfaces. - WndProc: the window
+        // messages of the windowed controllers (False swallows a message). - SupportDisplayMode:
+        // whether the controller can work with the display (SupportDC). - WindowRecreated: the
+        // window handle changed. - ShowError passes an error message to the display. Hide and Show
+        // hide and show the output. - GetPixPosofBlock, GetBlockPosofPix, GetInvBlockSize: block
+        // and pixel coordinates of the invalidation matrix. - NewFrame, ShowFrameRate: the frame
+        // rate. Activate, Deactivate: start and stop working. - FlipSurface, BltSurface,
+        // BltInvalidatedSurface: show a back surface. - ResizeBackSurfaces: gives the back surfaces
+        // a new size. - GetMousePos: the mouse position in output coordinates (-1, -1 outside). -
+        // WaitForVerticalBlank: waits for the frame time or the vertical blank. This comment also
+        // keeps the Assert in CreateWnd on the line that the original reports (1350, counted
+        // through the include file)
         protected internal override int GetPalette()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.GetPalette */
+            /* TODO: Implement Controls.GetPalette in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1382
         protected internal override void MouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.SetFocus */
+            /* TODO: Implement Windows.SetFocus in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1341
         protected internal override void CreateParams(ref Aow.Rtl.TCreateParams Params)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.CreateParams */
+            /* TODO: Implement Controls.CreateParams in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1348
         protected internal override void CreateWnd()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.CreateWnd */
+            /* TODO: Implement Controls.CreateWnd in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1588
         protected internal override void WndProc(ref Aow.Rtl.TMessage Message)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.WndProc */
+            /* TODO: Implement Controls.WndProc in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -567,7 +535,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1568
         public bool GetMouseAboveSurface()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetWindowRect */
+            /* TODO: Implement Windows.GetWindowRect in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -667,8 +635,8 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TAbstractDC (instance size 36): the interface of a display controller; 35 new
-//     virtual methods, all abstract but GetSurface and BltInvalidatedSurface. }
+    // the interface of a display controller. 35 new virtual methods, all abstract but GetSurface
+    // and BltInvalidatedSurface
     public partial class TAbstractDC : Aow.Rtl.TComponent
     {
         public TAbstractDC(TComponent owner) : base(owner)
@@ -711,7 +679,6 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:554
-        // { TAbstractDC }
         public virtual Aow.Units.GFXE.TSurface GetSurface(int Index)
         {
             Aow.Units.GFXE.TSurface Result = default;
@@ -1036,10 +1003,8 @@ namespace Aow.Units.DisplayC
         }
     }
 
-    // { DisplayC.TDisplayCtrl (instance size 76): the common part of the display controllers. +$24
-//     FLastFrameTime, +$28 FFrameCount (Word), +$2A FStatus, +$2C FDisplay, +$30
-//     FPrimarySurfaceRgn (the output rectangle), +$40 FInvMatrix, +$44 FRealizePalet, +$48
-//     FLastVBTime. }
+    // the common part of the display controllers. FLastFrameTime, FFrameCount (Word), FStatus,
+    // FDisplay, FPrimarySurfaceRgn (the output rectangle), FInvMatrix, FRealizePalet, FLastVBTime
     public partial class TDisplayCtrl : Aow.Units.DisplayC.TAbstractDC
     {
 
@@ -1076,7 +1041,6 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:634
-        // { TDisplayCtrl }
         public override Aow.Units.DisplayC.TMatrix GetInvMatrix()
         {
             Aow.Units.DisplayC.TMatrix Result = default;
@@ -1134,7 +1098,7 @@ namespace Aow.Units.DisplayC
         // { Bug kept from the original: the result of Resize is ignored, so Result stays 0. }
         public override int ResizeBackSurfaces(int AWidth, int AHeight)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Color */
+            /* TODO: Implement Controls.Color in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1148,7 +1112,7 @@ namespace Aow.Units.DisplayC
         public override Ptr<Aow.Rtl.TRect> GetPrimarySurfaceRgn()
         {
             Ptr<Aow.Rtl.TRect> Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             return Result;
         }
@@ -1287,7 +1251,7 @@ namespace Aow.Units.DisplayC
 //   captured it. }
         public override void GetMousePos(ref int X, ref int Y)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetCapture */
+            /* TODO: Implement Windows.GetCapture in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1573,8 +1537,8 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TDDrawFSWinControl (instance size 284): the full screen window of the DirectDraw
-//     controllers; passes the mouse and key events on to its display. +$118 FDisplay. }
+    // the full screen window of the DirectDraw controllers. passes the mouse and key events on to
+    // its display. FDisplay
     public partial class TDDrawFSWinControl : Aow.Rtl.TWinControl
     {
         internal Aow.Units.DisplayC.TCustomDisplay FDisplay;
@@ -1587,28 +1551,28 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1134
         protected internal override void MouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.MouseMove */
+            /* TODO: Implement Controls.MouseMove in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1139
         protected internal override void MouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.MouseUp */
+            /* TODO: Implement Controls.MouseUp in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1159
         protected internal override void DblClick()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.DblClick */
+            /* TODO: Implement Controls.DblClick in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1164
         protected internal override void Click()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Click */
+            /* TODO: Implement Controls.Click in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1621,44 +1585,43 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1149
         protected internal override void KeyUp(ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.KeyUp */
+            /* TODO: Implement Controls.KeyUp in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1154
         protected internal override void KeyPress(ref byte Key)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.KeyPress */
+            /* TODO: Implement Controls.KeyPress in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1169
         protected internal override void CreateParams(ref Aow.Rtl.TCreateParams Params)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.CreateParams */
+            /* TODO: Implement Controls.CreateParams in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1180
         protected internal override void WndProc(ref Aow.Rtl.TMessage Message)
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.Active */
+            /* TODO: Implement Forms.Active in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1114
-        // { TDDrawFSWinControl }
 
         public TDDrawFSWinControl(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Create */
+            /* TODO: Implement Controls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1121
         public override void Destroy()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Handle */
+            /* TODO: Implement Controls.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
@@ -1697,33 +1660,31 @@ namespace Aow.Units.DisplayC
 
     public delegate void TResizeBackSurfaceEvent(Aow.Units.DisplayC.TAbstractDC DC, int Width, int Height);
     public delegate void TSwapDCEvent(Aow.Units.DisplayC.TAbstractDC DC);
-    // { DisplayC.TUpdateFrameThread (instance size 52): the asynchronous frame loop; calls
-//     TCustomDisplay.UpdateFrame through Synchronize at the frame rate. +$28 FDisplay, +$2C FBusy,
-//     +$30 FLastTime. }
+    // the asynchronous frame loop. calls TCustomDisplay.UpdateFrame through Synchronize at the
+    // frame rate. FDisplay, FBusy, FLastTime
     public partial class TUpdateFrameThread : Aow.Rtl.TThread
     {
         internal Aow.Units.DisplayC.TCustomDisplay FDisplay;
         internal bool FBusy;
         internal int FLastTime;
         // DisplayC.pas:1069
-        // { TUpdateFrameThread }
         internal void TriggerUpdateFrame()
         {
-            /* TODO(T-shim) Platform or editor boundary Classes.Terminated */
+            /* TODO: Implement Classes.Terminated in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1078
         protected internal override void Execute()
         {
-            /* TODO(T-shim) Platform or editor boundary Classes.Terminated */
+            /* TODO: Implement Classes.Terminated in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1105
         public TUpdateFrameThread(TCustomDisplay ADisplay)
         {
-            /* TODO(T-shim) Platform or editor boundary Classes.Create */
+            /* TODO: Implement Classes.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1731,7 +1692,7 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TDisplay (instance size 428): TCustomDisplay with its properties published. }
+    // TCustomDisplay with its properties published
     public partial class TDisplay : Aow.Units.DisplayC.TCustomDisplay
     {
 
@@ -1740,23 +1701,21 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TDisplayGDISurface (instance size 12): a TGDISurface on the window of a control,
-//     taking the handle from the control. +8 FControl. }
+    // a TGDISurface on the window of a control, taking the handle from the control. FControl
     public partial class TDisplayGDISurface : Aow.Units.GFXE.TGDISurface
     {
         internal Aow.Rtl.TWinControl FControl;
         // DisplayC.pas:1878
-        // { TDisplayGDISurface }
         public TDisplayGDISurface(TWinControl AControl) : base(0)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Handle */
+            /* TODO: Implement Controls.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1887
         public override int GetHandle()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Handle */
+            /* TODO: Implement Controls.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1764,8 +1723,7 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TWindowsDC (instance size 88): the windowed controllers (GDI). +$4C FDC, +$50 FWnd,
-//     +$54 FGDISurface (the window, surface 0). }
+    // the windowed controllers (GDI). FDC, FWnd, FGDISurface (the window, surface 0)
     public partial class TWindowsDC : Aow.Units.DisplayC.TDisplayCtrl
     {
 
@@ -1773,7 +1731,6 @@ namespace Aow.Units.DisplayC
         internal int FWnd;
         internal Aow.Units.DisplayC.TDisplayGDISurface FGDISurface;
         // DisplayC.pas:1894
-        // { TWindowsDC }
         public TWindowsDC(TComponent owner) : base(owner)
         {
             InitInvMatrix(4, 4);
@@ -1783,21 +1740,21 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1901
         public override int Activate(Aow.Units.DisplayC.TCustomDisplay ADisplay)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
+            /* TODO: Implement Windows.GetDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1920
         public override int Deactivate()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.ReleaseDC */
+            /* TODO: Implement Windows.ReleaseDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:1932
         public override void WindowRecreated()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
+            /* TODO: Implement Windows.GetDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1813,7 +1770,7 @@ namespace Aow.Units.DisplayC
         public override int BltSurface(int Index)
         {
             int Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             return Result;
         }
@@ -1822,7 +1779,7 @@ namespace Aow.Units.DisplayC
         public override int FlipSurface(int Index)
         {
             int Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             if (Result >= 0)
             {
@@ -1857,16 +1814,15 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1972
         public override void ShowFrameRate()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.TextOut */
+            /* TODO: Implement Windows.TextOut in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
     }
 
-    // { DisplayC.TWindows08DC (instance size 1172): 8 bit back surfaces drawn with StretchDIBits
-//     through a palette. +$58 FBack1, +$5C FBack2 (TWindows08DIBSurface, declared in the
-//     implementation), +$60 FPalette, +$64 FBitmapInfo (header and
-//     256 colors), +$48C FHPalette, +$490 FOldPalette. }
+    // 8 bit back surfaces drawn with StretchDIBits through a palette. FBack1, FBack2
+    // (TWindows08DIBSurface, declared in the implementation), FPalette, FBitmapInfo (header and 256
+    // colors), FHPalette, FOldPalette
     public partial class TWindows08DC : Aow.Units.DisplayC.TWindowsDC
     {
 
@@ -1878,7 +1834,6 @@ namespace Aow.Units.DisplayC
         internal int FHPalette;
         internal int FOldPalette;
         // DisplayC.pas:2165
-        // { TWindows08DC }
         public TWindows08DC(TComponent owner) : base(owner)
         {
             var call__67 = new Aow.Units.GFXE.TGFXEPalette();
@@ -1952,35 +1907,35 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2212
         public override int Activate(Aow.Units.DisplayC.TCustomDisplay ADisplay)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Color */
+            /* TODO: Implement Controls.Color in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2254
         public void CreateHPalette()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.CreatePalette */
+            /* TODO: Implement Windows.CreatePalette in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2270
         public void ReleaseHPalette()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.SelectPalette */
+            /* TODO: Implement Windows.SelectPalette in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2281
         public override void WindowRecreated()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.DeleteObject */
+            /* TODO: Implement Windows.DeleteObject in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2290
         public void UpdatePalette()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.SetPaletteEntries */
+            /* TODO: Implement Windows.SetPaletteEntries in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1993,8 +1948,7 @@ namespace Aow.Units.DisplayC
         pf565 = 2
     }
 
-    // { DisplayC.TWindows16DC (instance size 100): 16 bit DIB back surfaces. +$58 FPixelFormat,
-//     +$5C FBack1, +$60 FBack2. }
+    // 16 bit DIB back surfaces. FPixelFormat, FBack1, FBack2
     public partial class TWindows16DC : Aow.Units.DisplayC.TWindowsDC
     {
 
@@ -2015,7 +1969,6 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:2314
-        // { TWindows16DC }
         public TWindows16DC(TComponent owner) : base(owner)
         {
             FPixelFormat = Aow.Units.DisplayC.TWin16DCPixelFormat.pfAuto;
@@ -2063,7 +2016,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2351
         public override int Activate(Aow.Units.DisplayC.TCustomDisplay ADisplay)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Color */
+            /* TODO: Implement Controls.Color in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2072,8 +2025,7 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TWindows24DC (instance size 96): 24 bit DIB back surfaces. +$58 FBack1, +$5C
-//     FBack2. }
+    // 24 bit DIB back surfaces. FBack1, FBack2
     public partial class TWindows24DC : Aow.Units.DisplayC.TWindowsDC
     {
 
@@ -2083,7 +2035,6 @@ namespace Aow.Units.DisplayC
         internal Aow.Units.GFXE.TDIB24Surface FBack1;
         internal Aow.Units.GFXE.TDIB24Surface FBack2;
         // DisplayC.pas:2390
-        // { TWindows24DC }
         public override Aow.Units.GFXE.TSurface GetSurface(int Index)
         {
             Aow.Units.GFXE.TSurface Result = default;
@@ -2125,12 +2076,12 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2413
         public override int Activate(Aow.Units.DisplayC.TCustomDisplay ADisplay)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Color */
+            /* TODO: Implement Controls.Color in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
 
-    // { DisplayC.TWindows32DC (instance size 96): 32 bit back surfaces. +$58 FBack1, +$5C FBack2. }
+    // 32 bit back surfaces. FBack1, FBack2
     public partial class TWindows32DC : Aow.Units.DisplayC.TWindowsDC
     {
 
@@ -2140,7 +2091,6 @@ namespace Aow.Units.DisplayC
         internal Aow.Units.GFXE.TDIB32Surface FBack1;
         internal Aow.Units.GFXE.TDIB32Surface FBack2;
         // DisplayC.pas:2435
-        // { TWindows32DC }
         public override Aow.Units.GFXE.TSurface GetSurface(int Index)
         {
             Aow.Units.GFXE.TSurface Result = default;
@@ -2182,17 +2132,16 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2458
         public override int Activate(Aow.Units.DisplayC.TCustomDisplay ADisplay)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Color */
+            /* TODO: Implement Controls.Color in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
 
-    // { DisplayC.TDDrawDCSurface (instance size 100): a TDDrawSurface around a surface that
-//     DirectDraw created elsewhere (the primary surface and its attached back buffers). }
+    // a TDDrawSurface around a surface that DirectDraw created elsewhere (the primary surface and
+    // its attached back buffers)
     public partial class TDDrawDCSurface : Aow.Units.GFXE.TDDrawSurface
     {
         // DisplayC.pas:2480
-        // { TDDrawDCSurface }
         public int SetDDSurface(Aow.Units.GFXE.IDirectDrawSurface ASurface, TSet<Aow.Units.GFXE.TDDrawSurfaceStatusElement> AStatus)
         {
             int Result = default;
@@ -2234,8 +2183,8 @@ namespace Aow.Units.DisplayC
         }
     }
 
-    // { DisplayC.TDDrawDC (instance size 92): the DirectDraw controllers. +$4C FPrimary, +$50
-//     FBack1, +$54 FBack2, +$58 FUseVideoMemory, +$59 FUseVerticalBlank, +$5A FDebugMode. }
+    // the DirectDraw controllers. FPrimary, FBack1, FBack2, FUseVideoMemory, FUseVerticalBlank,
+    // FDebugMode
     public partial class TDDrawDC : Aow.Units.DisplayC.TDisplayCtrl
     {
 
@@ -2249,7 +2198,6 @@ namespace Aow.Units.DisplayC
         internal bool FUseVerticalBlank;
         internal bool FDebugMode;
         // DisplayC.pas:2514
-        // { TDDrawDC }
         public void SurfaceLost(Aow.Rtl.TObject Sender)
         {
             VerifyLostSurfaces();
@@ -2330,7 +2278,7 @@ namespace Aow.Units.DisplayC
         public override int FlipSurface(int Index)
         {
             int Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             if (Aow.Rtl.Rtl.Succeeded(Result))
             {
@@ -2344,7 +2292,7 @@ namespace Aow.Units.DisplayC
         public override int BltSurface(int Index)
         {
             int Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             return Result;
         }
@@ -2452,7 +2400,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2628
         public override void ShowFrameRate()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Parent */
+            /* TODO: Implement Controls.Parent in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2488,10 +2436,9 @@ namespace Aow.Units.DisplayC
         public bool DebugMode { get => FDebugMode; set => FDebugMode = value; }
     }
 
-    // { DisplayC.TDDrawFullScrDC (instance size 112): full screen through DirectDraw, in the window
-//     of the display's TDDrawFSWinControl. +$5C FHooked (the main window hook), +$60
-//     FDisplayWidth, +$64 FDisplayHeight, +$68 FBitDepth, +$6C FEnable3D, +$6D FSwitching. One
-//     more virtual: CreateSurfaces. }
+    // full screen through DirectDraw, in the window of the display's TDDrawFSWinControl. FHooked
+    // (the main window hook), FDisplayWidth, FDisplayHeight, FBitDepth, FEnable3D, FSwitching. One
+    // more virtual: CreateSurfaces
     public partial class TDDrawFullScrDC : Aow.Units.DisplayC.TDDrawDC
     {
 
@@ -2502,7 +2449,6 @@ namespace Aow.Units.DisplayC
         internal bool FEnable3D;
         internal bool FSwitching;
         // DisplayC.pas:2673
-        // { TDDrawFullScrDC }
         public TDDrawFullScrDC(TComponent owner) : base(owner)
         {
             FHooked = false;
@@ -2524,21 +2470,21 @@ namespace Aow.Units.DisplayC
 //   message) when it is activated. }
         public bool MainWindowHook(ref Aow.Rtl.TMessage Message)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.PostMessage */
+            /* TODO: Implement Windows.PostMessage in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2703
         public void HookMainWindow()
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.HookMainWindow */
+            /* TODO: Implement Forms.HookMainWindow in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2712
         public void UnHookMainWindow()
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.UnhookMainWindow */
+            /* TODO: Implement Forms.UnhookMainWindow in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2547,21 +2493,21 @@ namespace Aow.Units.DisplayC
 //   differ from the current ones. }
         public int SwitchResolution(int AWidth, int AHeight)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Handle */
+            /* TODO: Implement Controls.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2753
         public void HideApplicationForms()
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.FormCount */
+            /* TODO: Implement Forms.FormCount in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2763
         public void ShowApplicationForms()
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.FormCount */
+            /* TODO: Implement Forms.FormCount in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2577,14 +2523,14 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2778
         public override int Handle()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Handle */
+            /* TODO: Implement Controls.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2783
         public override void GetMousePos(ref int X, ref int Y)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetCursorPos */
+            /* TODO: Implement Windows.GetCursorPos in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2695,7 +2641,7 @@ namespace Aow.Units.DisplayC
 //   made), else a primary surface and separate back surfaces. }
         public virtual int CreateSurfaces()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Color */
+            /* TODO: Implement Controls.Color in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2743,21 +2689,21 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:3018
         public override int Hide()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.ShowWindow */
+            /* TODO: Implement Windows.ShowWindow in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:3031
         public override int Show()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Handle */
+            /* TODO: Implement Controls.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:3060
         public override int Activate(Aow.Units.DisplayC.TCustomDisplay ADisplay)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Cursor */
+            /* TODO: Implement Controls.Cursor in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2787,12 +2733,11 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TDDrawFullScr16DC (instance size 112): 16 bit full screen. }
+    // 16 bit full screen
     public partial class TDDrawFullScr16DC : Aow.Units.DisplayC.TDDrawFullScrDC
     {
 
         // DisplayC.pas:3106
-        // { TDDrawFullScr16DC }
         public TDDrawFullScr16DC(TComponent owner) : base(owner)
         {
             FBitDepth = 16;
@@ -2842,12 +2787,11 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TDDrawFullScr24DC (instance size 112): 24 bit full screen. }
+    // 24 bit full screen
     public partial class TDDrawFullScr24DC : Aow.Units.DisplayC.TDDrawFullScrDC
     {
 
         // DisplayC.pas:3129
-        // { TDDrawFullScr24DC }
         public TDDrawFullScr24DC(TComponent owner) : base(owner)
         {
             FBitDepth = 24;
@@ -2855,12 +2799,11 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TDDrawFullScr32DC (instance size 112): 32 bit full screen. }
+    // 32 bit full screen
     public partial class TDDrawFullScr32DC : Aow.Units.DisplayC.TDDrawFullScrDC
     {
 
         // DisplayC.pas:3137
-        // { TDDrawFullScr32DC }
         public TDDrawFullScr32DC(TComponent owner) : base(owner)
         {
             FBitDepth = 32;
@@ -2868,9 +2811,8 @@ namespace Aow.Units.DisplayC
 
     }
 
-    // { DisplayC.TWindows08DIBSurface (instance size 28): an 8 bit bottom-up DIB of a
-//     TWindows08DC, drawn with the bitmap info and palette of its owner. +4 FWidth, +8 FHeight,
-//     +$C FMem, +$10 FBits (FMem aligned to 8), +$14 FPitch (negative), +$18 FOwner. }
+    // an 8 bit bottom-up DIB of a TWindows08DC, drawn with the bitmap info and palette of its
+    // owner. FWidth, FHeight, FMem, FBits (FMem aligned to 8), FPitch (negative), FOwner
     public partial class TWindows08DIBSurface : Aow.Units.GFXE.TSurface
     {
         internal int FWidth;
@@ -2880,7 +2822,6 @@ namespace Aow.Units.DisplayC
         internal int FPitch;
         internal Aow.Units.DisplayC.TWindows08DC FOwner;
         // DisplayC.pas:2011
-        // { TWindows08DIBSurface }
         public TWindows08DIBSurface(int AWidth, int AHeight, TWindows08DC owner)
         {
             FOwner = owner;
@@ -2915,14 +2856,14 @@ namespace Aow.Units.DisplayC
 //   locked is drawn on with BltDC. }
         public override int BltStretch(Aow.Units.GFXE.TSurface Dest, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
+            /* TODO: Implement Windows.GetDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // DisplayC.pas:2078
         public override int BltDC(int DC, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetClientRect */
+            /* TODO: Implement Windows.GetClientRect in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2972,7 +2913,7 @@ namespace Aow.Units.DisplayC
             int C = default;
             var call__128 = FOwner.FPalette.GetNearestColor(Color);
             C = call__128;
-            /* TODO(T-5.8) No physical byte image for Pointer */
+            /* TODO: Implement the pointer byte image. */
             throw new System.NotImplementedException();
             Result = 0;
             return Result;
@@ -3007,20 +2948,15 @@ namespace Aow.Units.DisplayC
 
     public static partial class DisplayC
     {
-        // { The DisplayC unit of Dcpack.dpl (the display layer of Age of Wonders: the display control
-//   TDisplay and the display controllers ("DCs") that put the surfaces of GFXE on the screen, in a
-//   window through GDI or full screen through DirectDraw, plus the frame update loop) written for
-//   the original compiler (Delphi 3.02), class by class: tools/match.py compares the code DCC32
-//   generates for every method with the code in the game's module. Declarations follow the original
-//   instance layouts and VMT orders (data/classes.json). The original was
-//   D:\GEngine\GFXE\DisplayC\DisplayC.pas with inc\TDisplay.PAS included (the Assert in
-//   TCustomDisplay.CreateWnd names it); TMatrix came from a unit DCTypes (its error message says so)
-//   but is compiled into this unit: its VMT is the first of the unit and its methods the last.
-//   TWindows08DIBSurface is declared in the implementation section (its VMT sits between the
-//   methods of TWindowsDC and TWindows08DC and it is not exported). Two declarations of GFXE.pas
-//   must be as in the original: the fields of TDDrawSurface protected (TDDrawDCSurface and
-//   TDDrawFullScr16DC write them) and the surface parameter of IDirectDrawSurface.GetAttachedSurface
-//   var, not out (the calls do not clear it). }
+        // The DisplayC unit of Dcpack.dpl (the display layer of Age of Wonders: the display control
+        // TDisplay and the display controllers ("DCs") that put the surfaces of GFXE on the screen,
+        // in a window through GDI or full screen through DirectDraw, plus the frame update loop).
+        // The original was D:\GEngine\GFXE\DisplayC\DisplayC.pas with inc\TDisplay.PAS included
+        // (the Assert in TCustomDisplay.CreateWnd names it). TMatrix came from a unit DCTypes (its
+        // error message says so) but is compiled into this unit. Two declarations of GFXE.pas must
+        // be as in the original: the fields of TDDrawSurface protected (TDDrawDCSurface and
+        // TDDrawFullScr16DC write them) and the surface parameter of
+        // IDirectDrawSurface.GetAttachedSurface var, not out (the calls do not clear it)
         // { HResult codes of the display controllers }
         public const int DCERR_NOTSUPPORTED = -2147414015;
         public const int DCERR_ACTIVATEFAILED = -2147414014;

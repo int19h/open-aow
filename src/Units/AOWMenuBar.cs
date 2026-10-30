@@ -31,11 +31,9 @@ namespace Aow.Units.AOWMenuBar
     // { The AOWMenuBar unit of aowInt.dpl: TAOWMenuBar, a horizontal bar of buttons, one per item, in a
 //   window. Clicking an item selects it and shows the menus (TAOWMenu) that belong to the item
 //   (their OwnerItem is the item's index); clicking it again closes it. }
-    // { AOWMenuBar.TAOWMenuBar (instance size 308). Fields: +$114 FItems, +$118 FSelected (-1 for
-//     none), +$11C FILButton, +$120 FLastSelected, +$124 FILIndexUp, +$128 FILIndexDown, +$12C
-//     FMenus (the TAOWMenu objects whose OwnerMenuBar is this bar), +$130 F130 (only cleared and
-//     tested: a click on the item last selected then does nothing).
-//     VMT (new): SetILButton, SetILUIndex, SetILDIndex }
+    // Fields: FItems, FSelected (-1 for none), FILButton, FLastSelected, FILIndexUp, FILIndexDown,
+    // FMenus (the TAOWMenu objects whose OwnerMenuBar is this bar), F130 (only cleared and tested:
+    // a click on the item last selected then does nothing)
     public partial class TAOWMenuBar : Aow.Units.AoWControl.TAOWControl
     {
         public Aow.Rtl.TStringList FItems;
@@ -47,7 +45,6 @@ namespace Aow.Units.AOWMenuBar
         public Aow.Rtl.TList FMenus;
         public bool F130;
         // AOWMenuBar.pas:65
-        // { TAOWMenuBar }
         public TAOWMenuBar(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();

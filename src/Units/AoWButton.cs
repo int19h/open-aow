@@ -37,12 +37,10 @@ namespace Aow.Units.AoWButton
 //   middle and the right end of a horizontal line) or from an icon library (one image), in the up,
 //   down or lit (mouse over) state, with its text centred on it; and TAOWButton, the push button,
 //   which calls OnClick when the left button is released over it. }
-    // { AoWButton.TAOWBaseButton (instance size 312). Fields: +$114 FBorderHeightSelected (the text
-//     offset from the top when the button is down; FBorderHeight when it is up), +$118 FButtonType
-//     (btText: drawn from FILButton, btIcon: from FILIcon; set by Validate), +$11C FILButton, +$120
-//     FILIcon, +$124 FILIndexUp, +$128 FILIndexDown, +$12C FILIndexLit, +$130 FPopupMenu, +$134
-//     FLit (the mouse is over the button). FChecked (+$B0) is the down state.
-//     VMT (new): SetILButton, SetILIcon, SetILUIndex, SetILDIndex, SetILHIndex }
+    // Fields: FBorderHeightSelected (the text offset from the top when the button is down.
+    // FBorderHeight when it is up), FButtonType (btText: drawn from FILButton, btIcon: from
+    // FILIcon. set by Validate), FILButton, FILIcon, FILIndexUp, FILIndexDown, FILIndexLit,
+    // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
     public partial class TAOWBaseButton : Aow.Units.AoWControl.TAOWControl
     {
         public TAOWBaseButton(TComponent owner) : base(owner)
@@ -143,7 +141,6 @@ namespace Aow.Units.AoWButton
         }
 
         // AoWButton.pas:78
-        // { TAOWBaseButton }
         public override void SetVisible(bool Value)
         {
             if (Value != FVisible)
@@ -325,7 +322,7 @@ namespace Aow.Units.AoWButton
         public Aow.Rtl.AnsiString Text { get => FText; set => SetGText(value); }
     }
 
-    // { AoWButton.TAOWButton (instance size 320). Fields: +$138 FOnClick }
+    // Fields: FOnClick
     public partial class TAOWButton : Aow.Units.AoWButton.TAOWBaseButton
     {
         public TAOWButton(TComponent owner) : base(owner)
@@ -333,7 +330,6 @@ namespace Aow.Units.AoWButton
 
         public Aow.Rtl.TNotifyEvent FOnClick;
         // AoWButton.pas:239
-        // { TAOWButton }
         public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);

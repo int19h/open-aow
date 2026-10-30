@@ -50,29 +50,21 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWTutorialWin
 {
-    // { TTutorialWindow (instance size $68, VMT 0044E1C0): $5C done callback, $64 retained event. }
+    // done callback, retained event
     public partial class TTutorialWindow : Aow.Rtl.TDataModule
     {
         public TTutorialWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWMemo.TAOWMemo MessageMemo;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +004C }
         public Aow.Units.AoWMemo.TAOWMemo HeaderMemo;
-        // { +0050 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AbVSB;
-        // { +0054 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0058 }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $5C }
         public Aow.Units.EventLog.TEventLog FEvent;
         // AoWTutorialWin.pas:51
-        // { $64 }
         public void FinishDialog()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;

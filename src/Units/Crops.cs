@@ -34,8 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Crops
 {
-    // { TPlayerCropStructure (instance size 68, VMT 557A5634): +$3C FIncome,
-//     +$3D FChangingCrops, +$40 FIncomeSource. }
+    // FIncome, FChangingCrops, FIncomeSource
     public partial class TPlayerCropStructure : Aow.Units.AoWE.TPlayerStructure
     {
 
@@ -52,7 +51,6 @@ namespace Aow.Units.Crops
 
         public byte FIncome;
         public bool FChangingCrops;
-        public Aow.Units.FixedArray_byte_2 FReserved3E;
         public Aow.Units.AoWE.TPlayerStructureIncomeSource FIncomeSource;
         // Crops.pas:278
         public override void Destroy()
@@ -285,7 +283,6 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:332
-        // { +22C draft }
         public virtual void UpdateIncome()
         {
             var call__18 = GetRazed();
@@ -327,7 +324,6 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:413
-        // { +234 draft }
         public virtual sbyte GetRace()
         {
             sbyte Result = default;
@@ -351,7 +347,6 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:290
-        // { +23C draft }
         public virtual void CropTrampled(sbyte Player)
         {
             int Race = default;
@@ -383,7 +378,6 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:382
-        // { draft }
         public void UpdateCropSettings()
         {
             Aow.Units.HSEngine.TMapLevel MapLevel = default;
@@ -579,8 +573,7 @@ namespace Aow.Units.Crops
 
     }
 
-    // { draft }
-    // { TPlayerCropStructureResource (instance size 120, VMT 557A58FC): +$74 FCropLocations. }
+    // FCropLocations
     public partial class TPlayerCropStructureResource : Aow.Units.AoWE.TPlayerStructureResource
     {
         public TPlayerCropStructureResource(TECustomNode owner) : base(owner)
@@ -624,7 +617,7 @@ namespace Aow.Units.Crops
 
     }
 
-    // { TCrop (instance size 32, VMT 557A5A10): +$1C FCropOwner. }
+    // FCropOwner
     public partial class TCrop : Aow.Units.ILTer.TILTerrainMO
     {
         public TCrop(TECustomNode owner) : base(owner)
@@ -807,7 +800,6 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:136
-        // { draft }
         public void EndTurn(sbyte Player)
         {
             sbyte PlayerIndex = default;
@@ -855,8 +847,6 @@ namespace Aow.Units.Crops
 
     }
 
-    // { draft }
-    // { TCropResource (instance size 68, VMT 557A5BB0) }
     public partial class TCropResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TCropResource(TECustomNode owner) : base(owner)

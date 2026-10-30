@@ -38,7 +38,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AltFire
 {
-    // { TAltarOfFire (instance size 68, no added fields, VMT 557CF5F8) }
     public partial class TAltarOfFire : Aow.Units.Altar.TAltar
     {
         public TAltarOfFire(TECustomNode owner) : base(owner)
@@ -64,7 +63,6 @@ namespace Aow.Units.AltFire
 
     }
 
-    // { TAltarOfFireResource (instance size 116, no added fields, VMT 557CF8B0) }
     public partial class TAltarOfFireResource : Aow.Units.Altar.TAltarResource
     {
         public TAltarOfFireResource(TECustomNode owner) : base(owner)

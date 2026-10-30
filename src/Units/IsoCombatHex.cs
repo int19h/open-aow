@@ -40,7 +40,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.IsoCombatHex
 {
-    // { TIsometricCombatHexagon (instance size 24, VMT 0043386C) }
     public partial class TIsometricCombatHexagon : Aow.Units.IsoHex.TUpperIsometricHexagon
     {
         public TIsometricCombatHexagon(TECustomNode owner) : base(owner)
@@ -204,7 +203,6 @@ namespace Aow.Units.IsoCombatHex
 
     }
 
-    // { TIsometricCombatHexagonResource (instance size 56, VMT 00433A24) }
     public partial class TIsometricCombatHexagonResource : Aow.Units.IsoHex.TUpperIsometricHexagonResource
     {
         public TIsometricCombatHexagonResource(TECustomNode owner) : base(owner)

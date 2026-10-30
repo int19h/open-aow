@@ -19,7 +19,7 @@ namespace Aow.Units.E2WindowLayout
     public static partial class E2WindowLayout
     {
         // E2WindowLayout.pas:13
-        // { The original window placement loader, 00455F58. }
+        // The original window placement loader
         public static void RestoreWindowLayout(Aow.Rtl.TObject Controller)
         {
             Aow.Rtl.TRect R = default;

@@ -42,7 +42,7 @@ using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 
 namespace Aow.Units.AoWLenLine
 {
-    // { TAoWLenLine: instance size $118; $114 vertical line image library. }
+    // vertical line image library
     public partial class TAoWLenLine : Aow.Units.AoWControl.TAOWControl
     {
         public TAoWLenLine(TComponent owner) : base(owner)
@@ -50,7 +50,6 @@ namespace Aow.Units.AoWLenLine
 
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILLine;
         // AoWLenLine.pas:36
-        // { $114 }
         public override void Validate()
         {
             if (FILLine != null)

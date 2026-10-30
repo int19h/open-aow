@@ -58,21 +58,15 @@ using static Aow.Units.AoWMessageDlg.AoWMessageDlg;
 
 namespace Aow.Units.aowSetupEvents
 {
-    // { TSetupEvents (instance size 80, VMT 0041375C) }
     public partial class TSetupEvents : Aow.Rtl.TDataModule
     {
         public TSetupEvents(TComponent owner) : base(owner)
         { }
 
         public Aow.Rtl.TGDPlay DPlay;
-        // { +0044 }
         public Aow.Units.AoWSetup.TSetupControl SetupControl;
-        // { +0048 }
         public bool FLobbyGame;
-        public Aow.Units.FixedArray_byte_3 FReserved4D;
         // aowSetupEvents.pas:61
-        // { $4C }
-        // { conflict: FCommandLineLaunch: Boolean; FSetupPad: array[0..2] of Byte; }
         public void ClearChat()
         {
             Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatMemo.Items.Clear();
@@ -122,7 +116,7 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:84
         public void UpdatePlayerName(Aow.Rtl.AnsiString Name)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.PlayerName */
+            /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -142,7 +136,7 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:102
         public void SetupControlSendMap(Aow.Units.AoWSetup.TSetupControl Control, object Data, int Size, int Recipient)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.Players */
+            /* TODO: Implement aowDPlayComp.Players in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -158,7 +152,7 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:119
         public void DPlayFileDoneMessage(int ID, Aow.Rtl.TGDFile FileData)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.FData */
+            /* TODO: Implement aowDPlayComp.FData in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -192,7 +186,7 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:150
         public void DPlayMessageTimeout(ref Aow.Rtl.TGDMessage Message)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.FToID */
+            /* TODO: Implement aowDPlayComp.FToID in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -268,7 +262,7 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:220
         public bool SetupControlSendData(object Data, int Size, int Recipient)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.SendMessage */
+            /* TODO: Implement aowDPlayComp.SendMessage in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -281,7 +275,7 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:228
         public void SetupControlEjectPlayer(Aow.Units.AoWSetup.TSetupControl Control, int RemoteID)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.EjectPlayer */
+            /* TODO: Implement aowDPlayComp.EjectPlayer in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -316,14 +310,14 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:249
         public void SetupControlIncompatibleVersion(Aow.Units.AoWSetup.TSetupControl Control, int Major, int Minor)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.CloseSession */
+            /* TODO: Implement aowDPlayComp.CloseSession in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // aowSetupEvents.pas:263
         public void DPlaySessionLost()
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.DisConnect */
+            /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

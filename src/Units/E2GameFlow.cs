@@ -135,7 +135,7 @@ namespace Aow.Units.E2GameFlow
         // E2GameFlow.pas:354
         public static bool StartLobby(Aow.Units.aowSetupEvents.TSetupEvents Events)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.CheckLobby */
+            /* TODO: Implement aowDPlayComp.CheckLobby in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

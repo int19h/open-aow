@@ -57,7 +57,7 @@ public partial class TAoWBookWindow
         FBackSurface.Unlock();
         surface.Unlock();
         FBackRect.Top = area.Top;
-        // AOWTools 597063C2..597063DF keeps the area above the window intact.
+        // AOWTools keeps the area above the window intact
         if (FBackRect.Top >= FWinTop && FBackRect.Top <= FWinTop + FFrameTop) FBackRect.Top = FWinTop - 1;
         FBackRect.Bottom = FWinTop - area.Top + FWinHeight;
         FSurfaceValid = true;

@@ -40,7 +40,6 @@ using static Aow.Units.AGCPlugins.AGCPlugins;
 
 namespace Aow.Units.BehaviorAG
 {
-    // { TAbstractBehaviorAG (instance size 80, VMT 557DC2CC) }
     public partial class TAbstractBehaviorAG : Aow.Units.AoWE.TAIGroup
     {
         public TAbstractBehaviorAG(TECustomNode owner) : base(owner)
@@ -50,19 +49,17 @@ namespace Aow.Units.BehaviorAG
         public override bool CooperateWithGroup(Aow.Units.AoWE.TAIGroup Group, Aow.Units.AoWE.TAIGroupControlTarget Target)
         {
             bool Result = default;
-            // { conflict: function TAbstractBehaviorAG.CooperateWithGroup(Group: TAIGroup): Boolean; }
             Result = base.CooperateWithGroup(Group, Target);
             Result = Result || (Group.GroupClass.Behavior == Aow.Units.AoWE.TGroupBehavior.gbFortify);
             return Result;
         }
     }
 
-    // { TAbstractBehaviorAGC (instance size 372, VMT 557DC430): $170 FTargetSelector. }
+    // FTargetSelector
     public partial class TAbstractBehaviorAGC : Aow.Units.AoWE.TAIGroupControl
     {
         public Aow.Units.AoWE.TAIGroupTargetSelector FTargetSelector;
         // BehaviorAG.pas:150
-        // { $170 }
         public override void Destroy()
         {
             FTargetSelector.Release();
@@ -78,7 +75,6 @@ namespace Aow.Units.BehaviorAG
 
     }
 
-    // { TSkirmishAG (instance size 80, VMT 557DC53C) }
     public partial class TSkirmishAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:729
@@ -104,7 +100,6 @@ namespace Aow.Units.BehaviorAG
 
     }
 
-    // { TSkirmishAGC (instance size 372, VMT 557DC690) }
     public partial class TSkirmishAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
         public TSkirmishAGC(TECustomNode owner) : base(owner)
@@ -200,7 +195,6 @@ namespace Aow.Units.BehaviorAG
         }
     }
 
-    // { TNormalAG (instance size 80, VMT 557DC78C) }
     public partial class TNormalAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:163
@@ -226,7 +220,6 @@ namespace Aow.Units.BehaviorAG
 
     }
 
-    // { TNormalAGC (instance size 372, VMT 557DC8E0) }
     public partial class TNormalAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
         public TNormalAGC(TECustomNode owner) : base(owner)
@@ -383,7 +376,6 @@ namespace Aow.Units.BehaviorAG
         }
     }
 
-    // { TDefenderAG (instance size 80, VMT 557DC9D4) }
     public partial class TDefenderAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:277
@@ -409,7 +401,6 @@ namespace Aow.Units.BehaviorAG
 
     }
 
-    // { TDefenderAGC (instance size 372, VMT 557DCB28) }
     public partial class TDefenderAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
         public TDefenderAGC(TECustomNode owner) : base(owner)
@@ -558,7 +549,6 @@ namespace Aow.Units.BehaviorAG
         }
     }
 
-    // { TAggressorAG (instance size 80, VMT 557DCC24) }
     public partial class TAggressorAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:390
@@ -584,7 +574,6 @@ namespace Aow.Units.BehaviorAG
 
     }
 
-    // { TAggressorAGC (instance size 372, VMT 557DCD80) }
     public partial class TAggressorAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
         public TAggressorAGC(TECustomNode owner) : base(owner)
@@ -732,7 +721,6 @@ namespace Aow.Units.BehaviorAG
         }
     }
 
-    // { TExpanderAG (instance size 80, VMT 557DCE7C) }
     public partial class TExpanderAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:502
@@ -758,7 +746,6 @@ namespace Aow.Units.BehaviorAG
 
     }
 
-    // { TExpanderAGC (instance size 372, VMT 557DCFD0) }
     public partial class TExpanderAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
         public TExpanderAGC(TECustomNode owner) : base(owner)
@@ -908,7 +895,6 @@ namespace Aow.Units.BehaviorAG
         }
     }
 
-    // { TScorcherAG (instance size 80, VMT 557DD0CC) }
     public partial class TScorcherAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG, Aow.Units.AoWE.IAIGroupClass
     {
         // BehaviorAG.pas:616
@@ -934,7 +920,6 @@ namespace Aow.Units.BehaviorAG
 
     }
 
-    // { TScorcherAGC (instance size 372, VMT 557DD220) }
     public partial class TScorcherAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
         public TScorcherAGC(TECustomNode owner) : base(owner)

@@ -56,46 +56,29 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWUnitBanner
 {
-    // { TUnitBanner (instance size $84, VMT 00403D84).
-//     $44..80 published labels, popup and ability-list controls. }
+    // published labels, popup and ability-list controls
     public partial class TUnitBanner : Aow.Rtl.TDataModule
     {
         public TUnitBanner(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWLabel.TAOWLabel UnitNameLbl;
-        // { +0044 }
         public Aow.Units.AoWImage.TAOWImage AttackIcon;
-        // { +0048 }
         public Aow.Units.AoWImage.TAOWImage DefenseIcon;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage MovesIcon;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage DamageIcon;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage ResistanceIcon;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage HitsIcon;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel Attack;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel Defense;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel Moves;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel Damage;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel Resistance;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel Hits;
-        // { +0074 }
         public Aow.Units.AOWMenu.TAOWMenu BannerPopup;
-        // { +0078 }
         public Aow.Units.AoWListBox.TAOWListBox AbLB;
-        // { +007C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AbVSB;
         // AoWUnitBanner.pas:53
-        // { +0080 }
         public void BannerPopupShow(Aow.Rtl.TObject Sender)
         {
             int I = default;
@@ -144,7 +127,6 @@ namespace Aow.Units.AoWUnitBanner
         }
 
         // AoWUnitBanner.pas:80
-        // { draft }
         public void AbLBUpdate()
         {
             if (AbLB.F188 != AbLB.Selected)
@@ -154,10 +136,8 @@ namespace Aow.Units.AoWUnitBanner
         }
 
         // AoWUnitBanner.pas:85
-        // { draft }
         public void AbLBMouseMove(Aow.Rtl.TObject Sender, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            // { Tried with/local receiver; no exact match. }
             if ((Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null) && (AbLB.F188 >= Aow.Units.AoWWinMan.AoWWinMan.General.FActiveAbilityCount))
             {
                 AbLB.F188 = -1;
@@ -174,7 +154,6 @@ namespace Aow.Units.AoWUnitBanner
         }
 
         // AoWUnitBanner.pas:95
-        // { draft }
         public void AbLBMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             Aow.Rtl.AnsiString Reason = default;

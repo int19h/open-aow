@@ -48,30 +48,20 @@ using static Aow.Units.AoWWindow.AoWWindow;
 
 namespace Aow.Units.AoWProgressDialog
 {
-    // { TProgressDialog (instance size 108, VMT 004131A0) }
     public partial class TProgressDialog : Aow.Rtl.TDataModule
     {
         public TProgressDialog(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0044 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWLabel.TAOWLabel StatusLbl;
-        // { +0050 }
         public Aow.Units.AoWWindow.TAOWWindow ProgDlg;
-        // { +0054 }
         public Aow.Units.AOWGauge.TAoWGauge Bar;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +0064 }
         public Aow.Rtl.TIvTranslator Translator;
     }
 

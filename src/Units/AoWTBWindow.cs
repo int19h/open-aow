@@ -80,145 +80,78 @@ using static Aow.Units.E1GameFlow.E1GameFlow;
 
 namespace Aow.Units.AoWTBWindow
 {
-    // { TTBWindow (size $144, VMT 00456CAC): $134/$138 indicator frame/step, $13C/$13E world/combat clock delays, $140 chat flash countdown. }
+    // indicator frame/step, world/combat clock delays, chat flash countdown
     public partial class TTBWindow : Aow.Rtl.TDataModule
     {
         public TTBWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow TaskWindow;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton TBNextButton;
-        // { +0048 }
         public Aow.Units.AOWMenuBar.TAOWMenuBar StartMenuBar;
-        // { +004C }
         public Aow.Units.AoWEdit.TAOWEdit TBMessEdit;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel WGILbl;
-        // { +0054 }
         public Aow.Units.AoWLabel.TAOWLabel WGTLbl;
-        // { +0058 }
         public Aow.Units.TurnButton.TAOWTurnButton TurnButton;
-        // { +005C }
         public Aow.Units.AoWButton.TAOWButton WMButton;
-        // { +0060 }
         public Aow.Units.AoWButton.TAOWButton OVButton;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton ConButton;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton StructButton;
-        // { +006C }
         public Aow.Units.AoWButton.TAOWButton OV2Btn;
-        // { +0070 }
         public Aow.Units.AoWButton.TAOWButton InfoBtn;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton ChatBtn;
-        // { +0078 }
         public Aow.Units.AoWPanel.TAOWPanel TaskPanel;
-        // { +007C }
         public Aow.Units.AoWPanel.TAOWPanel WGIPnl;
-        // { +0080 }
         public Aow.Units.AoWFrame.TAoWFrame TBbk;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage TimerImg;
-        // { +0088 }
         public Aow.Units.AoWImage.TAOWImage TimeIcn;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel TimeLbl;
-        // { +0090 }
         public Aow.Units.AoWFrame.TAoWFrame PInd;
-        // { +0094 }
         public Aow.Units.AoWImage.TAOWImage CurP;
-        // { +0098 }
         public Aow.Units.AoWPanel.TAOWPanel TBWorld;
-        // { +009C }
         public Aow.Units.AoWButton.TAOWButton TCNextBtn;
-        // { +00A0 }
         public Aow.Units.AOWMenuBar.TAOWMenuBar TCStartBar;
-        // { +00A4 }
         public Aow.Units.AoWEdit.TAOWEdit TCMsg;
-        // { +00A8 }
         public Aow.Units.TurnButton.TAOWTurnButton TCTurnButton;
-        // { +00AC }
         public Aow.Units.AoWButton.TAOWButton TCScannerBtn;
-        // { +00B0 }
         public Aow.Units.AoWButton.TAOWButton TCUnitBtn;
-        // { +00B4 }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +00B8 }
         public Aow.Units.AoWImage.TAOWImage TCTimerImg;
-        // { +00BC }
         public Aow.Units.AoWImage.TAOWImage TCTimeImg;
-        // { +00C0 }
         public Aow.Units.AoWLabel.TAOWLabel TCTimeLbl;
-        // { +00C4 }
         public Aow.Units.AoWFrame.TAoWFrame TCPInd;
-        // { +00C8 }
         public Aow.Units.AoWImage.TAOWImage TCCurP;
-        // { +00CC }
         public Aow.Units.AoWPanel.TAOWPanel TBCombat;
-        // { +00D0 }
         public Aow.Units.AoWPanel.TAOWPanel TCPnl;
-        // { +00D4 }
         public Aow.Units.AoWButton.TAOWButton TCChatBtn;
-        // { +00D8 }
         public Aow.Units.AoWPanel.TAOWPanel WGoldPnl;
-        // { +00DC }
         public Aow.Units.AoWLabel.TAOWLabel WGSign;
-        // { +00E0 }
         public Aow.Units.AoWLabel.TAOWLabel WMILbl;
-        // { +00E4 }
         public Aow.Units.AoWLabel.TAOWLabel WMTLbl;
-        // { +00E8 }
         public Aow.Units.AoWPanel.TAOWPanel WMIPnl;
-        // { +00EC }
         public Aow.Units.AoWPanel.TAOWPanel WManaPnl;
-        // { +00F0 }
         public Aow.Units.AoWLabel.TAOWLabel WMTSign;
-        // { +00F4 }
         public Aow.Units.AoWLabel.TAOWLabel TGILbl;
-        // { +00F8 }
         public Aow.Units.AoWLabel.TAOWLabel TGTLbl;
-        // { +00FC }
         public Aow.Units.AoWImage.TAOWImage TGIcn;
-        // { +0100 }
         public Aow.Units.AoWPanel.TAOWPanel TGIPnl;
-        // { +0104 }
         public Aow.Units.AoWPanel.TAOWPanel TGoldPnl;
-        // { +0108 }
         public Aow.Units.AoWLabel.TAOWLabel TGSign;
-        // { +010C }
         public Aow.Units.AoWLabel.TAOWLabel TMILbl;
-        // { +0110 }
         public Aow.Units.AoWLabel.TAOWLabel TMTLbl;
-        // { +0114 }
         public Aow.Units.AoWImage.TAOWImage TWMIcn;
-        // { +0118 }
         public Aow.Units.AoWPanel.TAOWPanel TMIPnl;
-        // { +011C }
         public Aow.Units.AoWPanel.TAOWPanel TManaPnl;
-        // { +0120 }
         public Aow.Units.AoWLabel.TAOWLabel TMTSign;
-        // { +0124 }
         public Aow.Units.AoWButton.TAOWButton RelationsBtn;
-        // { +0128 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox AutoBtn;
-        // { +012C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0130 }
         public int FIndicatorFrame;
-        // { $134 }
         public int FIndicatorStep;
-        // { $138 }
         public short FWorldClockDelay;
-        // { $13C }
         public short FCombatClockDelay;
-        // { $13E }
         public short FChatFlash;
-        // { $140 }
-        public Aow.Units.FixedArray_byte_2 F_TBWindow_142;
         // AoWTBWindow.pas:122
-        // { draft }
         public void TurnButtonAnimDone()
         {
             TurnButton.Checked = false;
@@ -229,7 +162,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:128
-        // { draft }
         public void WMButtonClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -237,7 +169,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:134
-        // { draft }
         public void OVButtonClick(int A1)
         {
             if (A1 != 0)
@@ -253,7 +184,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:141
-        // { draft }
         public void ConButtonClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -261,7 +191,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:147
-        // { draft }
         public void StructButtonClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -269,7 +198,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:153
-        // { draft }
         public void TBNextButtonClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -277,7 +205,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:159
-        // { draft }
         public void UnitBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -285,7 +212,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:165
-        // { draft }
         public void InfoBtnClick(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -306,14 +232,12 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:177
-        // { draft }
         public void COBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
         }
 
         // AoWTBWindow.pas:182
-        // { draft }
         public void ChatBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -321,7 +245,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:188
-        // { draft }
         public void TurnButtonChange()
         {
             var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
@@ -338,7 +261,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:195
-        // { draft }
         public void PIndDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             int I = default;
@@ -408,7 +330,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:231
-        // { draft }
         public void TCTurnButtonChange()
         {
             if (TCTurnButton.Checked)
@@ -423,7 +344,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:237
-        // { draft }
         public void TCTurnButtonAnimDone()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 0;
@@ -432,7 +352,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:244
-        // { draft }
         public void TCPIndDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             int I = default;
@@ -486,7 +405,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:273
-        // { draft }
         public void TCScannerBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -494,7 +412,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:279
-        // { draft }
         public void TCNextBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -502,7 +419,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:285
-        // { draft }
         public void TBWorldUpdate(Aow.Rtl.TObject Sender)
         {
             ushort Hour = default;
@@ -616,7 +532,6 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:344
-        // { draft }
         public void TCUnitBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -624,14 +539,12 @@ namespace Aow.Units.AoWTBWindow
         }
 
         // AoWTBWindow.pas:350
-        // { draft }
         public void StartMenuBarChange()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(3);
         }
 
         // AoWTBWindow.pas:355
-        // { draft }
         public void RelationsBtnClick(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);

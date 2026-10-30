@@ -51,23 +51,15 @@ namespace Aow.Units.AoWComp
         dmFilledBox = 3
     }
 
-    // { AoWComp.TAoWComponent (instance size 260). Fields: +$24 FColor, +$28 FSelColor, +$2C FValid
-//     (Validate found everything it needs), +$2D FAligned, +$2E FSized, +$30 FCursor, +$34 FOnDraw,
-//     +$3C FOnPreDraw, +$44 FOnMouseDown, +$4C FOnMouseUp, +$54 FOnMouseMove, +$5C FOnKeyPress, +$64
-//     FOnKeyDown, +$6C FOnChange, +$74 FMouseDown, +$75 FVisible, +$78 FHandled (a Check* method
-//     consumed the input), +$7C FWinWidth, +$80 FWinHeight, +$84 FWinLeft, +$88 FWinTop, +$8C
-//     FAOWFont, +$90 FText, +$94 FRedraw, +$98 FBorderWidth, +$9C FBorderHeight, +$A0 FPriority,
-//     +$A4 FDrawn (the component is drawn as it is now), +$A5 FFirstDraw, +$A6 FMouseIn, +$A8
-//     FToolTipCount, +$AC FRadioIndex, +$B0 FChecked, +$B4 FOwnerItem, +$B8 FOnUpdate, +$C0
-//     FCaptureInput, +$C4 FOnDebugMessage, +$CC FAOWOwner, +$D0 FChildren (sorted by FPriority),
-//     +$D4 FAlignment, +$D8 FMasked, +$DC FBltList, +$E0 FDrawList (TaowRect), +$E4 FBltCount, +$E8
-//     FDrawCount, +$EC FToolTipLeft, +$F0 FOldRect, +$100 FHidden, +$101 FDoubleBuffered, +$102
-//     FSurfaceValid.
-//     VMT (after TComponent's): Create, OnChangeText, Validate, SetSize, ReAlign, Setup, Update,
-//     ClearDrawList, ClearBltList, InvalidateRect, AddBltRect, AddDrawRect, SetOwner, SetWinLeft,
-//     SetWinTop, SetWidth, SetHeight, SetPriority, SetVisible, SetColor, SetSelColor, DrawSurface,
-//     DrawSurfDesc, Draw, CheckMouseDown, CheckMouseUp, CheckMouseMove, CheckKeyPress,
-//     CheckKeyDown }
+    // Fields: FColor, FSelColor, FValid (Validate found everything it needs), FAligned, FSized,
+    // FCursor, FOnDraw, FOnPreDraw, FOnMouseDown, FOnMouseUp, FOnMouseMove, FOnKeyPress,
+    // FOnKeyDown, FOnChange, FMouseDown, FVisible, FHandled (a Check* method consumed the input),
+    // FWinWidth, FWinHeight, FWinLeft, FWinTop, FAOWFont, FText, FRedraw, FBorderWidth,
+    // FBorderHeight, FPriority, FDrawn (the component is drawn as it is now), FFirstDraw, FMouseIn,
+    // FToolTipCount, FRadioIndex, FChecked, FOwnerItem, FOnUpdate, FCaptureInput, FOnDebugMessage,
+    // FAOWOwner, FChildren (sorted by FPriority), FAlignment, FMasked, FBltList, FDrawList
+    // (TaowRect), FBltCount, FDrawCount, FToolTipLeft, FOldRect, FHidden, FDoubleBuffered,
+    // FSurfaceValid
     public partial class TAoWComponent : Aow.Rtl.TComponent
     {
         public int FColor;
@@ -407,7 +399,6 @@ namespace Aow.Units.AoWComp
         }
 
         // AoWComp.pas:202
-        // { TAoWComponent }
         public virtual void ClearDrawList()
         {
             int I = default;
@@ -1156,11 +1147,10 @@ namespace Aow.Units.AoWComp
     public delegate void TAoWOnDrawBackEvent(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SurfDesc);
     public delegate void TAoWOnDrawItemEvent(Aow.Units.AoWComp.TAoWComponent Sender, in Aow.Rtl.TRect DrawRect, int DrawItem, ref Aow.Units.GFXE.TSurfaceDesc SurfDesc);
     public delegate void TAoWOnDebugEvent(Aow.Rtl.AnsiString Dtext);
-    // { AoWComp.TAOWAlignment (instance size 44): how a component sizes and places itself inside its
-//     owner (ReAlign). +4 FWidthPercent, +5 FHeightPercent, +8 FLeftOffPercent, +$C
-//     FRightOffPercent, +$10 FTopOffPercent, +$14 FBottomOffPercent, +$18 FLeftOffset, +$1C
-//     FRightOffset, +$20 FTopOffset, +$24 FBottomOffset, +$28 FAlignWidth, +$29 FAlignHeight.
-//     It does not override Assign, so TAoWComponent.SetAlign raises EConvertError (original bug). }
+    // how a component sizes and places itself inside its owner (ReAlign). FWidthPercent,
+    // FHeightPercent, FLeftOffPercent, FRightOffPercent, FTopOffPercent, FBottomOffPercent,
+    // FLeftOffset, FRightOffset, FTopOffset, FBottomOffset, FAlignWidth, FAlignHeight. It does not
+    // override Assign, so TAoWComponent.SetAlign raises EConvertError (original bug)
     public partial class TAOWAlignment : Aow.Rtl.TPersistent
     {
         internal byte FWidthPercent;
@@ -1213,8 +1203,8 @@ namespace Aow.Units.AoWComp
 
     }
 
-    // { AoWComp.TaowRect (instance size 24): one entry of the dirty rectangle lists. +4 R, +$14 Owner
-//     (the component that asked for the redraw; AddDrawRect only) }
+    // one entry of the dirty rectangle lists. R, Owner (the component that asked for the redraw.
+    // AddDrawRect only)
     public partial class TaowRect : Aow.Rtl.TObject
     {
         public Aow.Rtl.TRect R;

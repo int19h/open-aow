@@ -58,48 +58,30 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWArmyEventDlg
 {
-    // { TArmyEventDlg (instance size $8C, VMT 004365E4).
-//     $78 completion callback; $80 army event; $84 frame; $88 visible unit indices. }
+    // completion callback. army event. frame. visible unit indices
     public partial class TArmyEventDlg : Aow.Rtl.TDataModule
     {
         public TArmyEventDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow ArmyEventWin;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame BGoldSq;
-        // { +0048 }
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        // { +004C }
         public Aow.Units.AoWLabel.TAOWLabel EventText;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage DamagePic;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton CloseBut;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +005C }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0064 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0068 }
         public Aow.Units.AoWImage.TAOWImage DecoL;
-        // { +006C }
         public Aow.Units.AoWImage.TAOWImage DecoR;
-        // { +0070 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0074 }
         public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
-        // { $78 }
         public Aow.Units.AoWE.TArmyEventLog FEvent;
-        // { $80 }
         public int FFrame;
-        // { $84 }
         public Aow.Units.Engine.TByteList FUnits;
         // AoWArmyEventDlg.pas:113
-        // { $88 }
         public void DrawUnits(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
         {
             int Offset = default;
@@ -247,14 +229,12 @@ namespace Aow.Units.AoWArmyEventDlg
         }
 
         // AoWArmyEventDlg.pas:176
-        // { draft }
         public void ArmyEventDlgDestroy()
         {
             FUnits.Free();
         }
 
         // AoWArmyEventDlg.pas:181
-        // { draft }
         public void CloseClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -262,7 +242,6 @@ namespace Aow.Units.AoWArmyEventDlg
         }
 
         // AoWArmyEventDlg.pas:187
-        // { draft }
         public void UnitPnlDrawBack(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
         {
             if (FFrame < 1000)
@@ -281,14 +260,12 @@ namespace Aow.Units.AoWArmyEventDlg
         }
 
         // AoWArmyEventDlg.pas:198
-        // { draft }
         public void ArmyEventWinHide()
         {
             ClearEvent();
         }
 
         // AoWArmyEventDlg.pas:203
-        // { draft }
         public void ArmyEventWinKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if ((Key == 27) || (Key == 32))
@@ -307,7 +284,7 @@ namespace Aow.Units.AoWArmyEventDlg
             Aow.Units.AoWE.TArmyView Army = default;
             int I = default;
             int Image = default;
-            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWArmyEventDlg.pas", 92);
+            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArmyEventDlg.pas", 92);
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();

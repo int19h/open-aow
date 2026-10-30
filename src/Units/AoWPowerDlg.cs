@@ -60,65 +60,39 @@ using static Aow.Units.AoWExeForms.AoWExeForms;
 
 namespace Aow.Units.AoWPowerDlg
 {
-    // { TPowerDlg: size $AC; all fields are form components, $9C power allocation slider. VMT 0042B9B0. }
+    // all fields are form components, power allocation slider
     public partial class TPowerDlg : Aow.Rtl.TDataModule
     {
         public TPowerDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton SetBtn;
-        // { +0058 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel NetMana;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel NetMamaLbl;
-        // { +0064 }
         public Aow.Units.AoWPanel.TAOWPanel UpkeePnl;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel ResearchLeft;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel SpellName;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel ResearchPnl;
-        // { +0074 }
         public Aow.Units.AoWPanel.TAOWPanel SliderPnl;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel PowerLbl;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel Power;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel Mana;
-        // { +0084 }
         public Aow.Units.AoWLabel.TAOWLabel Research;
-        // { +0088 }
         public Aow.Units.AoWPanel.TAOWPanel ManaPnl;
-        // { +008C }
         public Aow.Units.AoWPanel.TAOWPanel ResPnl;
-        // { +0090 }
         public Aow.Units.AoWLabel.TAOWLabel ManaLbl;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel ResearchLbl;
-        // { +0098 }
         public Aow.Units.AoWHScroll.TAOWHScrollBar PowerSlider;
-        // { +009C }
         public Aow.Units.AoWImage.TAOWImage PAMana;
-        // { +00A0 }
         public Aow.Units.AoWImage.TAOWImage PARes;
-        // { +00A4 }
         public Aow.Rtl.TIvTranslator Translator;
         // AoWPowerDlg.pas:70
-        // { +00A8 }
         public void Execute()
         {
             Aow.Units.AoWE.TPlayerMagicControl Control = default;

@@ -34,10 +34,8 @@ namespace Aow.Units.AOWGauge
         gtBorderless = 1
     }
 
-    // { AOWGauge.TAoWGauge (instance size 316). Fields: +$114 FMin, +$118 FMax, +$11C FPosition,
-//     +$120 FILFrame, +$124 FILTextureNormal, +$128 FILTextureSelected, +$12C FStyle, +$130
-//     FILIndexFrame, +$134 FILIndexTNormal, +$138 FILIndexTSelected.
-//     VMT (new): SetILFrame, SetILTNorm, SetILTSel }
+    // Fields: FMin, FMax, FPosition, FILFrame, FILTextureNormal, FILTextureSelected, FStyle,
+    // FILIndexFrame, FILIndexTNormal, FILIndexTSelected
     public partial class TAoWGauge : Aow.Units.AoWControl.TAOWControl
     {
         public int FMin;
@@ -51,7 +49,6 @@ namespace Aow.Units.AOWGauge
         public int FILIndexTNormal;
         public int FILIndexTSelected;
         // AOWGauge.pas:69
-        // { TAoWGauge }
         public TAoWGauge(TComponent owner) : base(owner)
         {
             FMax = 1;

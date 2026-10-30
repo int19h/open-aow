@@ -64,20 +64,16 @@ using static Aow.Units.E1TacticalSupport.E1TacticalSupport;
 
 namespace Aow.Units.aowTCMapEvents
 {
-    // { TTCMapEvents (instance size 76, VMT 00458004) }
     public partial class TTCMapEvents : Aow.Rtl.TDataModule
     {
         public TTCMapEvents(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.CMapCtrl.TAoWCombatMapControl TCMap;
-        // { +0044 }
         public int FChatHeight;
         // aowTCMapEvents.pas:105
-        // { draft }
         public void TCMapDeActivateMap()
         {
-            // { Tried Self identity; no exact match. }
             Aow.Units.Sound.Sound.StopSong();
             Aow.Units.Sound.Sound.SongPlayer.Resume();
             Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer.HSMap = Aow.Units.AoWE.AoWE.AoWHSMap;
@@ -143,7 +139,6 @@ namespace Aow.Units.aowTCMapEvents
         }
 
         // aowTCMapEvents.pas:157
-        // { draft }
         public void TCMapDeselected(Aow.Units.HSEngine.THexagonSprite HS)
         {
             if (HS is Aow.Units.AoWTC.TTacticalCombatUnitHS)

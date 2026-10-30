@@ -22,7 +22,7 @@ public partial class TCastUnitSpellDlg
         }
         AnsiString reason = default;
         SelectionInfoLbl.TextColor = FCaster.CanCast(ref reason) ? 0 : 149;
-        // AoW.exe 00432583 loads the two-byte separator at 004325FC.
+        // AoW.exe loads the two-byte separator
         SelectionInfoLbl.Text = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RequiredManaRStr) +
             ": " + Aow.Rtl.Rtl.IntToStr(FCaster.GetRequiredMana());
     }

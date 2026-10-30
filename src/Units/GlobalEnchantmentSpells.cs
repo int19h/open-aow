@@ -36,7 +36,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.GlobalEnchantmentSpells
 {
-    // { TGlobalEnchantmentSpellTE (instance size 36, VMT 557ED91C): $20 FEnchantment. }
+    // FEnchantment
     public partial class TGlobalEnchantmentSpellTE : Aow.Units.AoWE.TSpellTE
     {
         public TGlobalEnchantmentSpellTE(TECustomNode owner) : base(owner)
@@ -47,7 +47,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
         public Aow.Units.AoWE.TGlobalEnchantment FEnchantment;
         // GlobalEnchantmentSpells.pas:379
-        // { $20 }
         public override void Destroy()
         {
             if (FEnchantment != null)
@@ -96,12 +95,11 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TGlobalEnchantmentSpell (instance size 56, VMT 557EDA18): $34 FAIBasePriority. }
+    // FAIBasePriority
     public partial class TGlobalEnchantmentSpell : Aow.Units.AoWE.TSpell
     {
         public int FAIBasePriority;
         // GlobalEnchantmentSpells.pas:413
-        // { $34 }
         public TGlobalEnchantmentSpell(TECustomNode owner) : base(owner)
         {
             FAIBasePriority = -1;
@@ -262,7 +260,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:419
-        // { +09C }
         public virtual Aow.Units.AoWE.TGlobalEnchantment CreateEnchantment()
         {
             Aow.Units.AoWE.TGlobalEnchantment Result = default;
@@ -271,14 +268,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:424
-        // { +0A0 }
         public virtual void SetupEnchantment(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TGlobalEnchantment Enchantment)
         {
             Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
         }
 
         // GlobalEnchantmentSpells.pas:484
-        // { +0A4 }
         public int AIUpkeepPriority()
         {
             int Result = default;
@@ -291,7 +286,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TEnchantedRoadsEnchantment (instance size 36, VMT 557EDB5C) }
     public partial class TEnchantedRoadsEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:535
@@ -366,7 +360,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TEnchantedRoads (instance size 56, VMT 557EDC88) }
     public partial class TEnchantedRoads : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:571
@@ -421,7 +414,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TAirMasteryEnchantment (instance size 36, VMT 557EDDBC) }
     public partial class TAirMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:649
@@ -497,7 +489,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TAirMastery (instance size 56, VMT 557EDEE0) }
     public partial class TAirMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:688
@@ -599,7 +590,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TWaterMasteryEnchantment (instance size 36, VMT 557EE00C) }
     public partial class TWaterMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:760
@@ -677,7 +667,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TWaterMastery (instance size 56, VMT 557EE138) }
     public partial class TWaterMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:806
@@ -723,7 +712,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { THatredEnchantment (instance size 40, VMT 557EE268): $24 FDaysActive. }
+    // FDaysActive
     public partial class THatredEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:841
@@ -731,7 +720,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
         public int FDaysActive;
         // GlobalEnchantmentSpells.pas:851
-        // { $24 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -806,7 +794,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { THatred (instance size 56, VMT 557EE384) }
     public partial class THatred : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:889
@@ -848,7 +835,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { THarmonyEnchantment (instance size 40, VMT 557EE4A8): $24 FDaysActive. }
+    // FDaysActive
     public partial class THarmonyEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:921
@@ -856,7 +843,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
         public int FDaysActive;
         // GlobalEnchantmentSpells.pas:931
-        // { $24 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -931,7 +917,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { THarmony (instance size 56, VMT 557EE5C8) }
     public partial class THarmony : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:969
@@ -973,7 +958,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TPowerLeakEnchantment (instance size 36, VMT 557EE6F0) }
     public partial class TPowerLeakEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1001
@@ -1039,7 +1023,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TPowerLeak (instance size 56, VMT 557EE814) }
     public partial class TPowerLeak : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1036
@@ -1088,16 +1071,13 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TFloodControl (instance size 20, VMT 557EE93C): $08 FWidth, $0C FHeight, $10 FOriginalTerrain. }
+    // FWidth, FHeight, FOriginalTerrain
     public partial class TFloodControl : Aow.Units.Engine.TEObject
     {
         public int FWidth;
-        // { $08 }
         public int FHeight;
-        // { $0C }
         public sbyte[] FOriginalTerrain = [];
         // GlobalEnchantmentSpells.pas:1072
-        // { $10 }
         public override void Destroy()
         {
             if (FOriginalTerrain.Length != 0)
@@ -1363,25 +1343,19 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TFloodEnchantment (instance size 48, VMT 557EEA10): $24 FRemoved, $25 FRestoreDays, $26 FDispelPlayer, $28 FTurnsActive, $2C FFloodControl. }
+    // FRemoved, FRestoreDays, FDispelPlayer, FTurnsActive, FFloodControl
     public partial class TFloodEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1240
         public new const int ClassID = 135960;
 
         public bool FRemoved;
-        // { $24 }
         public sbyte FRestoreDays;
-        // { $25 }
         public sbyte FDispelPlayer;
-        // { $26 }
-        public byte FReserved;
-        // { $27 alignment }
+        // alignment
         public int FTurnsActive;
-        // { $28 }
         public Aow.Units.GlobalEnchantmentSpells.TFloodControl FFloodControl;
         // GlobalEnchantmentSpells.pas:1234
-        // { $2C }
         public override void Destroy()
         {
             FFloodControl.Free();
@@ -1570,7 +1544,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         // GlobalEnchantmentSpells.pas:1282
         public void NewTurn()
         {
-            // { Unmatched: tried stage play mode and independent turn-count reloads; stage first mode read and retain second map-field expression. }
             if (!FRemoved)
             {
                 FTurnsActive += 1;
@@ -1618,7 +1591,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TFlood (instance size 56, VMT 557EEB2C) }
     public partial class TFlood : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1356
@@ -1670,8 +1642,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { draft }
-    // { TLifeMasteryEnchantment (instance size 36, VMT 557EEC4C) }
     public partial class TLifeMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1395
@@ -1773,7 +1743,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TLifeMastery (instance size 56, VMT 557EED74) }
     public partial class TLifeMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1441
@@ -1824,7 +1793,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TDeathMasteryEnchantment (instance size 36, VMT 557EEEA4) }
     public partial class TDeathMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1483
@@ -2011,7 +1979,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TDeathMastery (instance size 56, VMT 557EEFD0) }
     public partial class TDeathMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1577
@@ -2113,7 +2080,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TFireMasteryEnchantment (instance size 36, VMT 557EF100) }
     public partial class TFireMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1647
@@ -2311,7 +2277,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TFireMastery (instance size 56, VMT 557EF228) }
     public partial class TFireMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1733
@@ -2374,7 +2339,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TEarthMasteryEnchantment (instance size 36, VMT 557EF358) }
     public partial class TEarthMasteryEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1828
@@ -2495,7 +2459,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TEarthMastery (instance size 56, VMT 557EF484) }
     public partial class TEarthMastery : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1877
@@ -2577,7 +2540,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
                             }
 
                             // { Original uses the field address. }
-                            /* TODO(T-A3) Object pool address increment requires managed pool traversal */
+                            /* TODO: Implement managed object pool traversal. */
                             throw new System.NotImplementedException();
                             Yhp += 32;
                         }
@@ -2592,7 +2555,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
     }
 
-    // { TSpellWardEnchantment (instance size 36, VMT 557EF5B4) }
     public partial class TSpellWardEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1943
@@ -2618,7 +2580,6 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
     }
 
-    // { TSpellWard (instance size 56, VMT 557EF6D8) }
     public partial class TSpellWard : Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1949

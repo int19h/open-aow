@@ -26,8 +26,8 @@ namespace Aow.Units.AoWControl
 {
     // { The AoWControl unit of aowInt.dpl: TAOWControl, the ancestor of the controls that sit in a
 //   window (buttons, edits, lists, scroll bars, ...). It knows its window and shows its tool tip. }
-    // { AoWControl.TAOWControl (instance size 276). Fields: +$104 FToolTipText, +$108 FToolTipShown
-//     (updates the tool tip has been visible), +$10C FAOWWindow, +$110 FToolTip }
+    // Fields: FToolTipText, FToolTipShown (updates the tool tip has been visible), FAOWWindow,
+    // FToolTip
     public partial class TAOWControl : Aow.Units.AoWComp.TAoWComponent
     {
         public Aow.Rtl.TStringList FToolTipText;
@@ -35,7 +35,6 @@ namespace Aow.Units.AoWControl
         public Aow.Units.AoWBaseWin.TAOWBaseWindow FAOWWindow;
         public Aow.Units.AOWToolTip.TAOWToolTip FToolTip;
         // AoWControl.pas:46
-        // { TAOWControl }
         public TAOWControl(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
@@ -60,7 +59,6 @@ namespace Aow.Units.AoWControl
         {
             Aow.Rtl.TRect R = default;
             Aow.Units.AoWBaseWin.TAOWBaseWindow W = default;
-            // { Tried Self/field casts, receiver scope and receiver/local staging; Self/temporary registers still differ. }
             if (FValid)
             {
                 if (FVisible)
@@ -241,7 +239,6 @@ namespace Aow.Units.AoWControl
         // AoWControl.pas:201
         public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            // { Tried Self/coordinate identities and receiver scope; Y/sum registers still differ. }
             if ((((X < (FAOWWindow.FWinLeft + FWinLeft)) || (X > (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - 1))) || (Y < (FAOWWindow.FWinTop + FWinTop))) || (Y > (((FAOWWindow.FWinTop + FWinTop) + FWinHeight) - 1)))
             {
                 FToolTipCount = 0;

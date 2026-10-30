@@ -138,231 +138,231 @@ namespace Aow.Units.GFXE
         // GFXE.pas:212
         public int AddAttachedSurface(Aow.Units.GFXE.IDirectDrawSurface lpDDSAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.AddAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:213
         public int AddOverlayDirtyRect(in Aow.Rtl.TRect lpRect)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.AddOverlayDirtyRect. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:214
         public int Blt(Ptr<Aow.Rtl.TRect> lpDestRect, Aow.Units.GFXE.IDirectDrawSurface lpDDSrcSurface, Ptr<Aow.Rtl.TRect> lpSrcRect, int dwFlags, Ptr<Aow.Units.GFXE.TDDBltFX> lpDDBltFx)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.Blt. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:215
         public int BltBatch(object lpDDBltBatch, int dwCount, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.BltBatch. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:216
         public int BltFast(int dwX, int dwY, Aow.Units.GFXE.IDirectDrawSurface lpDDSrcSurface, Ptr<Aow.Rtl.TRect> lpSrcRect, int dwTrans)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.BltFast. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:217
         public int DeleteAttachedSurface(int dwFlags, Aow.Units.GFXE.IDirectDrawSurface lpDDSAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.DeleteAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:218
         public int EnumAttachedSurfaces(object lpContext, object lpEnumSurfacesCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.EnumAttachedSurfaces. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:219
         public int EnumOverlayZOrders(int dwFlags, object lpContext, object lpfnCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.EnumOverlayZOrders. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:220
         public int Flip(Aow.Units.GFXE.IDirectDrawSurface lpDDSurfaceTargetOverride, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.Flip. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:221
         public int GetAttachedSurface(ref Aow.Units.GFXE.TDDSCaps lpDDSCaps, ref Aow.Units.GFXE.IDirectDrawSurface lplpDDAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:222
         public int GetBltStatus(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetBltStatus. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:223
         public int GetCaps(ref Aow.Units.GFXE.TDDSCaps lpDDSCaps)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetCaps. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:224
         public int GetClipper(Aow.Units.GFXE.IDirectDrawClipper lplpDDClipper)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetClipper. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:225
         public int GetColorKey(int dwFlags, ref Aow.Units.GFXE.TDDColorKey lpDDColorKey)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetColorKey. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:226
         public int GetDC(ref int lphDC)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetDC. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:227
         public int GetFlipStatus(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetFlipStatus. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:228
         public int GetOverlayPosition(ref int lplX, ref int lplY)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetOverlayPosition. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:229
         public int GetPalette(Aow.Units.GFXE.IDirectDrawPalette lplpDDPalette)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetPalette. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:230
         public int GetPixelFormat(ref Aow.Units.GFXE.TDDPixelFormat lpDDPixelFormat)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetPixelFormat. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:231
         public int GetSurfaceDesc(ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.GetSurfaceDesc. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:232
         public int Initialize(Aow.Units.GFXE.IDirectDraw lpDD, ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.Initialize. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:233
         public int IsLost()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.IsLost. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:234
         public int Lock(Ptr<Aow.Rtl.TRect> lpDestRect, ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc, int dwFlags, int hEvent)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.Lock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:235
         public int ReleaseDC(int hDC)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.ReleaseDC. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:236
         public int Restore()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.Restore. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:237
         public int SetClipper(Aow.Units.GFXE.IDirectDrawClipper lpDDClipper)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.SetClipper. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:238
         public int SetColorKey(int dwFlags, Ptr<Aow.Units.GFXE.TDDColorKey> lpDDColorKey)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.SetColorKey. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:239
         public int SetOverlayPosition(int lX, int lY)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.SetOverlayPosition. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:240
         public int SetPalette(Aow.Units.GFXE.IDirectDrawPalette lpDDPalette)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.SetPalette. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:241
         public int Unlock(object lpSurfaceData)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.Unlock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:242
         public int UpdateOverlay(Ptr<Aow.Rtl.TRect> lpSrcRect, Aow.Units.GFXE.IDirectDrawSurface lpDDDestSurface, Ptr<Aow.Rtl.TRect> lpDestRect, int dwFlags, object lpDDOverlayFx)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.UpdateOverlay. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:243
         public int UpdateOverlayDisplay(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.UpdateOverlayDisplay. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:244
         public int UpdateOverlayZOrder(int dwFlags, Aow.Units.GFXE.IDirectDrawSurface lpDDSReference)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface.UpdateOverlayZOrder. */
             throw new System.NotImplementedException();
         }
     }
@@ -372,28 +372,28 @@ namespace Aow.Units.GFXE
         // GFXE.pas:196
         public int GetCaps(ref int lpdwCaps)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawPalette.GetCaps. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:197
         public int GetEntries(int dwFlags, int dwBase, int dwNumEntries, object lpEntries)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawPalette.GetEntries. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:198
         public int Initialize(Aow.Units.GFXE.IDirectDraw lpDD, int dwFlags, object lpDDColorTable)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawPalette.Initialize. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:199
         public int SetEntries(int dwFlags, int dwStartingEntry, int dwCount, object lpEntries)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawPalette.SetEntries. */
             throw new System.NotImplementedException();
         }
     }
@@ -403,42 +403,42 @@ namespace Aow.Units.GFXE
         // GFXE.pas:203
         public int GetClipList(Ptr<Aow.Rtl.TRect> lpRect, object lpClipList, ref int lpdwSize)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawClipper.GetClipList. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:204
         public int GetHWnd(ref int lphWnd)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawClipper.GetHWnd. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:205
         public int Initialize(Aow.Units.GFXE.IDirectDraw lpDD, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawClipper.Initialize. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:206
         public int IsClipListChanged(ref bool lpbChanged)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawClipper.IsClipListChanged. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:207
         public int SetClipList(object lpClipList, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawClipper.SetClipList. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:208
         public int SetHWnd(int dwFlags, int hWnd)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawClipper.SetHWnd. */
             throw new System.NotImplementedException();
         }
     }
@@ -448,140 +448,140 @@ namespace Aow.Units.GFXE
         // GFXE.pas:149
         public int Compact()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.Compact. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:150
         public int CreateClipper(int dwFlags, Aow.Units.GFXE.IDirectDrawClipper lplpDDClipper, Aow.Rtl.IUnknown pUnkOuter)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.CreateClipper. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:151
         public int CreatePalette(int dwFlags, object lpColorTable, Aow.Units.GFXE.IDirectDrawPalette lplpDDPalette, Aow.Rtl.IUnknown pUnkOuter)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.CreatePalette. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:152
         public int CreateSurface(in Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc, ref Aow.Units.GFXE.IDirectDrawSurface lplpDDSurface, Aow.Rtl.IUnknown pUnkOuter)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.CreateSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:153
         public int DuplicateSurface(Aow.Units.GFXE.IDirectDrawSurface lpDDSurface, Aow.Units.GFXE.IDirectDrawSurface lplpDupDDSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.DuplicateSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:154
         public int EnumDisplayModes(int dwFlags, Ptr<Aow.Units.GFXE.TDDSurfaceDesc> lpDDSurfaceDesc, object lpContext, Aow.Units.GFXE.TDDEnumModesCallback lpEnumModesCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.EnumDisplayModes. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:155
         public int EnumSurfaces(int dwFlags, Ptr<Aow.Units.GFXE.TDDSurfaceDesc> lpDDSD, object lpContext, object lpEnumCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.EnumSurfaces. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:156
         public int FlipToGDISurface()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.FlipToGDISurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:157
         public int GetCaps(object lpDDDriverCaps, object lpDDHELCaps)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.GetCaps. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:158
         public int GetDisplayMode(ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.GetDisplayMode. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:159
         public int GetFourCCCodes(ref int lpNumCodes, Ptr<int> lpCodes)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.GetFourCCCodes. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:160
         public int GetGDISurface(Aow.Units.GFXE.IDirectDrawSurface lplpGDIDDSSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.GetGDISurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:161
         public int GetMonitorFrequency(ref int lpdwFrequency)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.GetMonitorFrequency. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:162
         public int GetScanLine(ref int lpdwScanLine)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.GetScanLine. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:163
         public int GetVerticalBlankStatus(ref bool lpbIsInVB)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.GetVerticalBlankStatus. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:164
         public int Initialize(Ptr<Aow.Rtl.TGUID> lpGUID)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.Initialize. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:165
         public int RestoreDisplayMode()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.RestoreDisplayMode. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:166
         public int SetCooperativeLevel(int hWnd, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.SetCooperativeLevel. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:167
         public int SetDisplayMode(int dwWidth, int dwHeight, int dwBpp)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.SetDisplayMode. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:168
         public int WaitForVerticalBlank(int dwFlags, int hEvent)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw.WaitForVerticalBlank. */
             throw new System.NotImplementedException();
         }
     }
@@ -591,147 +591,147 @@ namespace Aow.Units.GFXE
         // GFXE.pas:172
         public int Compact()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.Compact. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:173
         public int CreateClipper(int dwFlags, Aow.Units.GFXE.IDirectDrawClipper lplpDDClipper, Aow.Rtl.IUnknown pUnkOuter)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.CreateClipper. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:174
         public int CreatePalette(int dwFlags, object lpColorTable, Aow.Units.GFXE.IDirectDrawPalette lplpDDPalette, Aow.Rtl.IUnknown pUnkOuter)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.CreatePalette. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:175
         public int CreateSurface(in Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc, ref Aow.Units.GFXE.IDirectDrawSurface lplpDDSurface, Aow.Rtl.IUnknown pUnkOuter)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.CreateSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:176
         public int DuplicateSurface(Aow.Units.GFXE.IDirectDrawSurface lpDDSurface, Aow.Units.GFXE.IDirectDrawSurface lplpDupDDSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.DuplicateSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:177
         public int EnumDisplayModes(int dwFlags, Ptr<Aow.Units.GFXE.TDDSurfaceDesc> lpDDSurfaceDesc, object lpContext, Aow.Units.GFXE.TDDEnumModesCallback lpEnumModesCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.EnumDisplayModes. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:178
         public int EnumSurfaces(int dwFlags, Ptr<Aow.Units.GFXE.TDDSurfaceDesc> lpDDSD, object lpContext, object lpEnumCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.EnumSurfaces. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:179
         public int FlipToGDISurface()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.FlipToGDISurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:180
         public int GetCaps(object lpDDDriverCaps, object lpDDHELCaps)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.GetCaps. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:181
         public int GetDisplayMode(ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.GetDisplayMode. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:182
         public int GetFourCCCodes(ref int lpNumCodes, Ptr<int> lpCodes)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.GetFourCCCodes. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:183
         public int GetGDISurface(Aow.Units.GFXE.IDirectDrawSurface lplpGDIDDSSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.GetGDISurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:184
         public int GetMonitorFrequency(ref int lpdwFrequency)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.GetMonitorFrequency. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:185
         public int GetScanLine(ref int lpdwScanLine)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.GetScanLine. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:186
         public int GetVerticalBlankStatus(ref bool lpbIsInVB)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.GetVerticalBlankStatus. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:187
         public int Initialize(Ptr<Aow.Rtl.TGUID> lpGUID)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.Initialize. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:188
         public int RestoreDisplayMode()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.RestoreDisplayMode. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:189
         public int SetCooperativeLevel(int hWnd, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.SetCooperativeLevel. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:190
         public int SetDisplayMode(int dwWidth, int dwHeight, int dwBpp, int dwRefreshRate, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.SetDisplayMode. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:191
         public int WaitForVerticalBlank(int dwFlags, int hEvent)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.WaitForVerticalBlank. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:192
         public int GetAvailableVidMem(Ptr<Aow.Units.GFXE.TDDSCaps> lpDDSCaps, ref int lpdwTotal, ref int lpdwFree)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDraw2.GetAvailableVidMem. */
             throw new System.NotImplementedException();
         }
     }
@@ -741,252 +741,252 @@ namespace Aow.Units.GFXE
         // GFXE.pas:248
         public int AddAttachedSurface(Aow.Units.GFXE.IDirectDrawSurface2 lpDDSAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.AddAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:249
         public int AddOverlayDirtyRect(in Aow.Rtl.TRect lpRect)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.AddOverlayDirtyRect. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:250
         public int Blt(Ptr<Aow.Rtl.TRect> lpDestRect, Aow.Units.GFXE.IDirectDrawSurface2 lpDDSrcSurface, Ptr<Aow.Rtl.TRect> lpSrcRect, int dwFlags, Ptr<Aow.Units.GFXE.TDDBltFX> lpDDBltFx)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.Blt. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:251
         public int BltBatch(object lpDDBltBatch, int dwCount, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.BltBatch. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:252
         public int BltFast(int dwX, int dwY, Aow.Units.GFXE.IDirectDrawSurface2 lpDDSrcSurface, Ptr<Aow.Rtl.TRect> lpSrcRect, int dwTrans)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.BltFast. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:253
         public int DeleteAttachedSurface(int dwFlags, Aow.Units.GFXE.IDirectDrawSurface2 lpDDSAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.DeleteAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:254
         public int EnumAttachedSurfaces(object lpContext, object lpEnumSurfacesCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.EnumAttachedSurfaces. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:255
         public int EnumOverlayZOrders(int dwFlags, object lpContext, object lpfnCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.EnumOverlayZOrders. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:256
         public int Flip(Aow.Units.GFXE.IDirectDrawSurface2 lpDDSurfaceTargetOverride, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.Flip. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:257
         public int GetAttachedSurface(ref Aow.Units.GFXE.TDDSCaps lpDDSCaps, ref Aow.Units.GFXE.IDirectDrawSurface2 lplpDDAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:258
         public int GetBltStatus(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetBltStatus. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:259
         public int GetCaps(ref Aow.Units.GFXE.TDDSCaps lpDDSCaps)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetCaps. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:260
         public int GetClipper(Aow.Units.GFXE.IDirectDrawClipper lplpDDClipper)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetClipper. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:261
         public int GetColorKey(int dwFlags, ref Aow.Units.GFXE.TDDColorKey lpDDColorKey)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetColorKey. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:262
         public int GetDC(ref int lphDC)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetDC. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:263
         public int GetFlipStatus(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetFlipStatus. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:264
         public int GetOverlayPosition(ref int lplX, ref int lplY)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetOverlayPosition. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:265
         public int GetPalette(Aow.Units.GFXE.IDirectDrawPalette lplpDDPalette)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetPalette. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:266
         public int GetPixelFormat(ref Aow.Units.GFXE.TDDPixelFormat lpDDPixelFormat)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetPixelFormat. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:267
         public int GetSurfaceDesc(ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetSurfaceDesc. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:268
         public int Initialize(Aow.Units.GFXE.IDirectDraw lpDD, ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.Initialize. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:269
         public int IsLost()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.IsLost. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:270
         public int Lock(Ptr<Aow.Rtl.TRect> lpDestRect, ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc, int dwFlags, int hEvent)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.Lock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:271
         public int ReleaseDC(int hDC)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.ReleaseDC. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:272
         public int Restore()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.Restore. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:273
         public int SetClipper(Aow.Units.GFXE.IDirectDrawClipper lpDDClipper)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.SetClipper. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:274
         public int SetColorKey(int dwFlags, Ptr<Aow.Units.GFXE.TDDColorKey> lpDDColorKey)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.SetColorKey. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:275
         public int SetOverlayPosition(int lX, int lY)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.SetOverlayPosition. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:276
         public int SetPalette(Aow.Units.GFXE.IDirectDrawPalette lpDDPalette)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.SetPalette. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:277
         public int Unlock(object lpSurfaceData)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.Unlock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:278
         public int UpdateOverlay(Ptr<Aow.Rtl.TRect> lpSrcRect, Aow.Units.GFXE.IDirectDrawSurface2 lpDDDestSurface, Ptr<Aow.Rtl.TRect> lpDestRect, int dwFlags, object lpDDOverlayFx)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.UpdateOverlay. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:279
         public int UpdateOverlayDisplay(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.UpdateOverlayDisplay. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:280
         public int UpdateOverlayZOrder(int dwFlags, Aow.Units.GFXE.IDirectDrawSurface2 lpDDSReference)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.UpdateOverlayZOrder. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:281
         public int GetDDInterface(Aow.Rtl.IUnknown lplpDD)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.GetDDInterface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:282
         public int PageLock(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.PageLock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:283
         public int PageUnlock(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface2.PageUnlock. */
             throw new System.NotImplementedException();
         }
     }
@@ -996,259 +996,259 @@ namespace Aow.Units.GFXE
         // GFXE.pas:287
         public int AddAttachedSurface(Aow.Units.GFXE.IDirectDrawSurface3 lpDDSAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.AddAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:288
         public int AddOverlayDirtyRect(in Aow.Rtl.TRect lpRect)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.AddOverlayDirtyRect. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:289
         public int Blt(Ptr<Aow.Rtl.TRect> lpDestRect, Aow.Units.GFXE.IDirectDrawSurface3 lpDDSrcSurface, Ptr<Aow.Rtl.TRect> lpSrcRect, int dwFlags, Ptr<Aow.Units.GFXE.TDDBltFX> lpDDBltFx)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.Blt. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:290
         public int BltBatch(object lpDDBltBatch, int dwCount, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.BltBatch. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:291
         public int BltFast(int dwX, int dwY, Aow.Units.GFXE.IDirectDrawSurface3 lpDDSrcSurface, Ptr<Aow.Rtl.TRect> lpSrcRect, int dwTrans)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.BltFast. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:292
         public int DeleteAttachedSurface(int dwFlags, Aow.Units.GFXE.IDirectDrawSurface3 lpDDSAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.DeleteAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:293
         public int EnumAttachedSurfaces(object lpContext, object lpEnumSurfacesCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.EnumAttachedSurfaces. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:294
         public int EnumOverlayZOrders(int dwFlags, object lpContext, object lpfnCallback)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.EnumOverlayZOrders. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:295
         public int Flip(Aow.Units.GFXE.IDirectDrawSurface3 lpDDSurfaceTargetOverride, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.Flip. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:296
         public int GetAttachedSurface(ref Aow.Units.GFXE.TDDSCaps lpDDSCaps, ref Aow.Units.GFXE.IDirectDrawSurface3 lplpDDAttachedSurface)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetAttachedSurface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:297
         public int GetBltStatus(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetBltStatus. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:298
         public int GetCaps(ref Aow.Units.GFXE.TDDSCaps lpDDSCaps)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetCaps. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:299
         public int GetClipper(Aow.Units.GFXE.IDirectDrawClipper lplpDDClipper)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetClipper. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:300
         public int GetColorKey(int dwFlags, ref Aow.Units.GFXE.TDDColorKey lpDDColorKey)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetColorKey. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:301
         public int GetDC(ref int lphDC)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetDC. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:302
         public int GetFlipStatus(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetFlipStatus. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:303
         public int GetOverlayPosition(ref int lplX, ref int lplY)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetOverlayPosition. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:304
         public int GetPalette(Aow.Units.GFXE.IDirectDrawPalette lplpDDPalette)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetPalette. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:305
         public int GetPixelFormat(ref Aow.Units.GFXE.TDDPixelFormat lpDDPixelFormat)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetPixelFormat. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:306
         public int GetSurfaceDesc(ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetSurfaceDesc. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:307
         public int Initialize(Aow.Units.GFXE.IDirectDraw lpDD, ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.Initialize. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:308
         public int IsLost()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.IsLost. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:309
         public int Lock(Ptr<Aow.Rtl.TRect> lpDestRect, ref Aow.Units.GFXE.TDDSurfaceDesc lpDDSurfaceDesc, int dwFlags, int hEvent)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.Lock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:310
         public int ReleaseDC(int hDC)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.ReleaseDC. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:311
         public int Restore()
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.Restore. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:312
         public int SetClipper(Aow.Units.GFXE.IDirectDrawClipper lpDDClipper)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.SetClipper. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:313
         public int SetColorKey(int dwFlags, Ptr<Aow.Units.GFXE.TDDColorKey> lpDDColorKey)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.SetColorKey. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:314
         public int SetOverlayPosition(int lX, int lY)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.SetOverlayPosition. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:315
         public int SetPalette(Aow.Units.GFXE.IDirectDrawPalette lpDDPalette)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.SetPalette. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:316
         public int Unlock(object lpSurfaceData)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.Unlock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:317
         public int UpdateOverlay(Ptr<Aow.Rtl.TRect> lpSrcRect, Aow.Units.GFXE.IDirectDrawSurface3 lpDDDestSurface, Ptr<Aow.Rtl.TRect> lpDestRect, int dwFlags, object lpDDOverlayFx)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.UpdateOverlay. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:318
         public int UpdateOverlayDisplay(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.UpdateOverlayDisplay. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:319
         public int UpdateOverlayZOrder(int dwFlags, Aow.Units.GFXE.IDirectDrawSurface3 lpDDSReference)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.UpdateOverlayZOrder. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:320
         public int GetDDInterface(Aow.Rtl.IUnknown lplpDD)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.GetDDInterface. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:321
         public int PageLock(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.PageLock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:322
         public int PageUnlock(int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.PageUnlock. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:323
         public int SetSurfaceDesc(in Aow.Units.GFXE.TDDSurfaceDesc lpDDSD, int dwFlags)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawSurface3.SetSurfaceDesc. */
             throw new System.NotImplementedException();
         }
     }
@@ -1258,14 +1258,14 @@ namespace Aow.Units.GFXE
         // GFXE.pas:327
         public int GetColorControls(object lpColorControl)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawColorControl.GetColorControls. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:328
         public int SetColorControls(object lpColorControl)
         {
-            /* TODO(T-4.4) Routine body is absent */
+            /* TODO: Implement IDirectDrawColorControl.SetColorControls. */
             throw new System.NotImplementedException();
         }
     }
@@ -1292,7 +1292,6 @@ namespace Aow.Units.GFXE
         public int PixelFormatID;
         public Aow.Units.GFXE.TPaletteEntry[] Entries = new Aow.Units.GFXE.TPaletteEntry[256];
         // GFXE.pas:11050
-        // { TGFXEPalette }
         public void LoadFromStream(Aow.Rtl.TStream Stream)
         {
             Stream.Read(Aow.Rtl.Bytes.Of(ref PixelFormatID, 4));
@@ -1471,10 +1470,7 @@ namespace Aow.Units.GFXE
         }
     }
 
-    // { GFXE.TSurface (instance size 4): the abstract surface; GetWidth and GetHeight are abstract.
-//     VMT: GetColor, GetPixelInfo, GetWidth, GetHeight, GetPixelFormatID, Blt, BltClipped,
-//     BltColorKey, BltColorKeyClipped, BltDC, BltStretch, Lock, Unlock, LockEx, UnlockEx,
-//     UpdatePalette, Resize, Cls }
+    // the abstract surface. GetWidth and GetHeight are abstract
     public partial class TSurface : Aow.Rtl.TObject
     {
         // GFXE.pas:11964
@@ -1492,7 +1488,7 @@ namespace Aow.Units.GFXE
             {
                 try
                 {
-                    Aow.Rtl.Rtl.Assert((((X >= 0) && (X < SD.Width)) && (Y >= 0)) && (Y < SD.Height), (AnsiString)"Coordinates out of bounds!", "D:\\git\\aow\\src\\delphi3\\Gfxepack\\GFXE.pas", 11974);
+                    Aow.Rtl.Rtl.Assert((((X >= 0) && (X < SD.Width)) && (Y >= 0)) && (Y < SD.Height), (AnsiString)"Coordinates out of bounds!", "GFXE.pas", 11974);
                     // { 8 bit pixels need the palette; 1555 and the TColor ordered 24 bit layout are not handled }
                     switch (SD.PixelFormatID)
                     {
@@ -1505,7 +1501,7 @@ namespace Aow.Units.GFXE
                             Result = (((int)(((uint)(W & 63488)) >> 8)) + ((W & 2016) << 5)) + ((W & 31) << 19);
                             break;
                         case Aow.Units.GFXE.GFXE.pfPAL8:
-                            Aow.Rtl.Rtl.Assert(SD.Palette != null, (AnsiString)"Palette not found, cannot retrieve color (GetColor)", "D:\\git\\aow\\src\\delphi3\\Gfxepack\\GFXE.pas", 11986);
+                            Aow.Rtl.Rtl.Assert(SD.Palette != null, (AnsiString)"Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                             Index = unchecked((byte)MemoryMarshal.Read<byte>(((Aow.Rtl.Rtl.BytePointer(SD.Data) + X) + (Y * SD.Pitch)).AsSpan(1)));
                             P = Ptr<Aow.Units.GFXE.TPaletteEntry>.To(SD.Palette.Entries, Index).Reinterpret<byte>();
                             Result = (P[0] + (P[1] << 8)) + (P[2] << 16);
@@ -1519,7 +1515,7 @@ namespace Aow.Units.GFXE
                             Result = (((int)(((uint)(V & 16711680)) >> 16)) + (V & 65280)) + ((V & 255) << 16);
                             break;
                         default:
-                            Aow.Rtl.Rtl.Assert(false, (AnsiString)"Pixel format not supported (GetColor)", "D:\\git\\aow\\src\\delphi3\\Gfxepack\\GFXE.pas", 11999);
+                            Aow.Rtl.Rtl.Assert(false, (AnsiString)"Pixel format not supported (GetColor)", "GFXE.pas", 11999);
                             Result = 0;
                             break;
                     }
@@ -1531,7 +1527,7 @@ namespace Aow.Units.GFXE
             }
             else
             {
-                Aow.Rtl.Rtl.Assert(false, (AnsiString)"Cannot Lock Surface", "D:\\git\\aow\\src\\delphi3\\Gfxepack\\GFXE.pas", 12004);
+                Aow.Rtl.Rtl.Assert(false, (AnsiString)"Cannot Lock Surface", "GFXE.pas", 12004);
                 Result = -1;
             }
 
@@ -1540,7 +1536,6 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:11924
         // { The original unit was longer: the line numbers compiled into the Assert calls (11932 for the next Assert below) prove that 737 more lines preceded this point. Their content is unknown; the blank lines below keep the Assert line numbers identical. }
-        // { TSurface }
         public virtual int GetPixelInfo(int X, int Y)
         {
             int Result = default;
@@ -1552,7 +1547,7 @@ namespace Aow.Units.GFXE
             {
                 try
                 {
-                    Aow.Rtl.Rtl.Assert((((X >= 0) && (X < SD.Width)) && (Y >= 0)) && (Y < SD.Height), (AnsiString)"Coordinates out of bounds!", "D:\\git\\aow\\src\\delphi3\\Gfxepack\\GFXE.pas", 11932);
+                    Aow.Rtl.Rtl.Assert((((X >= 0) && (X < SD.Width)) && (Y >= 0)) && (Y < SD.Height), (AnsiString)"Coordinates out of bounds!", "GFXE.pas", 11932);
                     switch (SD.BitCount)
                     {
                         case 8:
@@ -1577,7 +1572,7 @@ namespace Aow.Units.GFXE
                             Result = MemoryMarshal.Read<int>(((Aow.Rtl.Rtl.BytePointer(SD.Data) + (X << 2)) + (Y * SD.Pitch)).AsSpan(4));
                             break;
                         default:
-                            Aow.Rtl.Rtl.Assert(false, (AnsiString)"Pixel format not supported (GetColor)", "D:\\git\\aow\\src\\delphi3\\Gfxepack\\GFXE.pas", 11946);
+                            Aow.Rtl.Rtl.Assert(false, (AnsiString)"Pixel format not supported (GetColor)", "GFXE.pas", 11946);
                             Result = 0;
                             break;
                     }
@@ -1589,7 +1584,7 @@ namespace Aow.Units.GFXE
             }
             else
             {
-                Aow.Rtl.Rtl.Assert(false, (AnsiString)"Cannot Lock Surface", "D:\\git\\aow\\src\\delphi3\\Gfxepack\\GFXE.pas", 11951);
+                Aow.Rtl.Rtl.Assert(false, (AnsiString)"Cannot Lock Surface", "GFXE.pas", 11951);
                 Result = -1;
             }
 
@@ -2045,9 +2040,8 @@ namespace Aow.Units.GFXE
         public int PixelFormatID { get => GetPixelFormatID(); }
     }
 
-    // { GFXE.TDataSurface (instance size 44): a surface in memory. +4 FWidth, +8 FHeight, +$C FMem,
-//     +$10 FData (FMem aligned to 8), +$14 FBitCount (Byte), +$18 FPitch, +$1C FPixelFormatID,
-//     +$20 FX, +$24 FY (origin of the captured rectangle), +$28 FPalette. }
+    // a surface in memory. FWidth, FHeight, FMem, FData (FMem aligned to 8), FBitCount (Byte),
+    // FPitch, FPixelFormatID, FX, FY (origin of the captured rectangle), FPalette
     public partial class TDataSurface : Aow.Units.GFXE.TSurface
     {
 
@@ -2062,7 +2056,6 @@ namespace Aow.Units.GFXE
         internal int FY;
         internal Aow.Units.GFXE.TGFXEPalette FPalette;
         // GFXE.pas:12387
-        // { TDataSurface }
         public TDataSurface(int AWidth, int AHeight, int APixelFormatID, TGFXEPalette APalette)
         {
             FBitCount = unchecked((byte)(APixelFormatID & 255));
@@ -2215,9 +2208,8 @@ namespace Aow.Units.GFXE
 
     }
 
-    // { GFXE.TDIBSurface (instance size 1100): a DIB section of any format (8, 16 or 24 bit). +4
-//     FHandle, +8 FWidth, +$C FHeight, +$10 FMem, +$14 FBits, +$18 FPitch, +$1C FPixelFormatID,
-//     +$20 FInfo (BITMAPINFOHEADER and 256 colors), +$448 FPalette. }
+    // a DIB section of any format (8, 16 or 24 bit). FHandle, FWidth, FHeight, FMem, FBits, FPitch,
+    // FPixelFormatID, FInfo (BITMAPINFOHEADER and 256 colors), FPalette
     public partial class TDIBSurface : Aow.Units.GFXE.TSurface
     {
         internal int FHandle;
@@ -2234,7 +2226,7 @@ namespace Aow.Units.GFXE
         public Ptr<Aow.Rtl.TBitmapInfo> GetBITMAPINFO()
         {
             Ptr<Aow.Rtl.TBitmapInfo> Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             return Result;
         }
@@ -2243,7 +2235,7 @@ namespace Aow.Units.GFXE
         public Ptr<Aow.Rtl.TBitmapInfoHeader> GetBITMAPINFOHEADER()
         {
             Ptr<Aow.Rtl.TBitmapInfoHeader> Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             return Result;
         }
@@ -2278,9 +2270,8 @@ namespace Aow.Units.GFXE
         public Aow.Units.GFXE.TGFXEPalette Palette { get => FPalette; }
     }
 
-    // { GFXE.TDIB08Surface (instance size 1092): an 8 bit bitmap in memory (bottom-up: the pitch is
-//     negative). +4 FWidth, +8 FHeight, +$C FMem, +$10 FBits, +$14 FPitch, +$18 FInfo (header and
-//     256 colors), +$440 FPalette. }
+    // an 8 bit bitmap in memory (bottom-up: the pitch is negative). FWidth, FHeight, FMem, FBits,
+    // FPitch, FInfo (header and 256 colors), FPalette
     public partial class TDIB08Surface : Aow.Units.GFXE.TSurface
     {
         internal int FWidth;
@@ -2319,8 +2310,8 @@ namespace Aow.Units.GFXE
 
     }
 
-    // { GFXE.TDIB16Surface (instance size 80): a 16 bit DIB section (555 or 565). +4 FHandle, +8
-//     FWidth, +$C FHeight, +$10 FBits, +$14 FPitch, +$18 FPixelFormatID, +$1C FInfo, +$44 FMasks. }
+    // a 16 bit DIB section (555 or 565). FHandle, FWidth, FHeight, FBits, FPitch, FPixelFormatID,
+    // FInfo, FMasks
     public partial class TDIB16Surface : Aow.Units.GFXE.TSurface
     {
         internal int FHandle;
@@ -2359,8 +2350,7 @@ namespace Aow.Units.GFXE
 
     }
 
-    // { GFXE.TDIB24Surface (instance size 64): a 24 bit DIB section. +4 FHandle, +8 FWidth, +$C
-//     FHeight, +$10 FBits, +$14 FPitch, +$18 FInfo. }
+    // a 24 bit DIB section. FHandle, FWidth, FHeight, FBits, FPitch, FInfo
     public partial class TDIB24Surface : Aow.Units.GFXE.TSurface
     {
         internal int FHandle;
@@ -2389,15 +2379,14 @@ namespace Aow.Units.GFXE
         public Ptr<Aow.Rtl.TBitmapInfoHeader> GetBMPInfo()
         {
             Ptr<Aow.Rtl.TBitmapInfoHeader> Result = default;
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             return Result;
         }
 
     }
 
-    // { GFXE.TDIB32Surface (instance size 64): a 32 bit bitmap in memory (bottom-up). +4 FWidth, +8
-//     FHeight, +$C FMem, +$10 FBits, +$14 FPitch, +$18 FInfo. }
+    // a 32 bit bitmap in memory (bottom-up). FWidth, FHeight, FMem, FBits, FPitch, FInfo
     public partial class TDIB32Surface : Aow.Units.GFXE.TSurface
     {
         internal int FWidth;
@@ -2424,14 +2413,12 @@ namespace Aow.Units.GFXE
 
     }
 
-    // { GFXE.TGDISurface (instance size 8): a window drawn through GDI. +4 FHandle. Two more
-//     virtuals: GetHandle, SetHandle. }
+    // a window drawn through GDI. FHandle. Two more virtuals: GetHandle, SetHandle
     public partial class TGDISurface : Aow.Units.GFXE.TSurface
     {
 
         internal int FHandle;
         // GFXE.pas:12293
-        // { TGDISurface }
         public TGDISurface(int AHandle)
         {
             FHandle = AHandle;
@@ -2454,14 +2441,14 @@ namespace Aow.Units.GFXE
         // GFXE.pas:12309
         public override int GetWidth()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetClientRect */
+            /* TODO: Implement Windows.GetClientRect in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:12319
         public override int GetHeight()
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetClientRect */
+            /* TODO: Implement Windows.GetClientRect in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2476,21 +2463,21 @@ namespace Aow.Units.GFXE
         // GFXE.pas:12334
         public override int BltDC(int DC, Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
+            /* TODO: Implement Windows.GetDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:12360
         public override int Resize(int AWidth, int AHeight)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.SetWindowPos */
+            /* TODO: Implement Windows.SetWindowPos in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:12368
         public override int Cls(int Color)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDC */
+            /* TODO: Implement Windows.GetDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2498,9 +2485,8 @@ namespace Aow.Units.GFXE
 
     }
 
-    // { GFXE.TDDrawSurface (instance size 100): a DirectDraw surface. +4 FOnSurfaceLost, +$C
-//     FPixelFormatID, +$10 FWidth, +$14 FHeight, +$18 FSurface, +$1C FCreationFlags, +$1D FStatus,
-//     +$20 FLockCount, +$24 FLockExCount, +$28 FSurfaceDesc (the description of the lock). }
+    // a DirectDraw surface. FOnSurfaceLost, FPixelFormatID, FWidth, FHeight, FSurface,
+    // FCreationFlags, FStatus, FLockCount, FLockExCount, FSurfaceDesc (the description of the lock)
     public partial class TDDrawSurface : Aow.Units.GFXE.TSurface
     {
         protected internal Aow.Rtl.TNotifyEvent FOnSurfaceLost;
@@ -2543,12 +2529,11 @@ namespace Aow.Units.GFXE
         public Aow.Rtl.TNotifyEvent OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
     }
 
-    // { GFXE.TRectangle (instance size 20): +4 Rect. }
+    // Rect
     public partial class TRectangle : Aow.Rtl.TObject
     {
         public Aow.Rtl.TRect Rect;
         // GFXE.pas:2432
-        // { TRectangle }
         public TRectangle(int ALeft, int ATop, int ARight, int ABottom)
         {
             Rect.Left = ALeft;
@@ -2564,7 +2549,7 @@ namespace Aow.Units.GFXE
         }
     }
 
-    // { GFXE.TRectangleList (instance size 16): a TList of TRectangle, owning them. }
+    // a TList of TRectangle, owning them
     public partial class TRectangleList : Aow.Rtl.TList
     {
         // GFXE.pas:2458
@@ -2576,7 +2561,6 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:2447
-        // { TRectangleList }
         public override void Destroy()
         {
             int I = default;
@@ -2601,8 +2585,7 @@ namespace Aow.Units.GFXE
     }
 
     public delegate void TOnDrawRectEvent(Aow.Rtl.TObject Sender, in Aow.Rtl.TRect R);
-    // { GFXE.TDrawPanel (instance size 324): a panel that paints through OnDraw. +$138
-//     FEraseBkgndEnabled, +$13C FOnDraw. }
+    // a panel that paints through OnDraw. FEraseBkgndEnabled, FOnDraw
     public partial class TDrawPanel : Aow.Rtl.TCustomPanel
     {
         internal bool FEraseBkgndEnabled;
@@ -2610,23 +2593,22 @@ namespace Aow.Units.GFXE
         // GFXE.pas:8730
         protected internal override void WndProc(ref Aow.Rtl.TMessage Message)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:8741
         protected internal override void Paint()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.ClientRect */
+            /* TODO: Implement Controls.ClientRect in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:8721
-        // { TDrawPanel }
 
         public TDrawPanel(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary ExtCtrls.Create */
+            /* TODO: Implement ExtCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2637,7 +2619,7 @@ namespace Aow.Units.GFXE
         public bool EraseBkgndEnabled { get => FEraseBkgndEnabled; set => FEraseBkgndEnabled = value; }
     }
 
-    // { GFXE.TImageFile (instance size 4): an image file format, all class functions. }
+    // an image file format, all class functions
     public partial class TImageFile : Aow.Rtl.TObject, IImageFileClass
     {
         // GFXE.pas:693
@@ -2670,28 +2652,26 @@ namespace Aow.Units.GFXE
 
     }
 
-    // { GFXE.TOpenImageFileDialog (instance size 144): a TOpenDialog whose filter lists the
-//     registered image file classes. }
+    // a TOpenDialog whose filter lists the registered image file classes
     public partial class TOpenImageFileDialog : Aow.Rtl.TOpenDialog
     {
         // GFXE.pas:972
         public override void Loaded()
         {
-            /* TODO(T-shim) Platform or editor boundary Dialogs.Filter */
+            /* TODO: Implement Dialogs.Filter in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:966
-        // { TOpenImageFileDialog }
 
         public TOpenImageFileDialog(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary Dialogs.Create */
+            /* TODO: Implement Dialogs.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
 
-    // { GFXE.TDisplayModeItem (instance size 16): +4 PixelFormatID, +8 Width, +$C Height. }
+    // PixelFormatID, Width, Height
     public partial class TDisplayModeItem : Aow.Rtl.TObject
     {
         public int PixelFormatID;
@@ -2699,7 +2679,7 @@ namespace Aow.Units.GFXE
         public int Height;
     }
 
-    // { GFXE.TDisplayModeList (instance size 8): +4 FList. }
+    // FList
     public partial class TDisplayModeList : Aow.Rtl.TObject
     {
         internal Aow.Rtl.TList FList;
@@ -2720,7 +2700,6 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:12611
-        // { TDisplayModeList }
         public TDisplayModeList()
         {
             var call__54 = new Aow.Rtl.TList();
@@ -2773,7 +2752,7 @@ namespace Aow.Units.GFXE
 
     }
 
-    // { GFXE.TBlendTable (instance size 12): +4 FBits, +8 FTable. VMT: Copy, Assign. }
+    // FBits, FTable
     public partial class TBlendTable : Aow.Rtl.TObject
     {
         internal int FBits;
@@ -2791,7 +2770,6 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:9601
-        // { TBlendTable }
         public void Initialize(int ABits, object ATable)
         {
             FTable = ATable;
@@ -2802,12 +2780,11 @@ namespace Aow.Units.GFXE
         public object Table { get => FTable; }
     }
 
-    // { GFXE.TBlendTable5Bit (instance size 1036): +$C Table (32 x 32 bytes). }
+    // Table (32 x 32 bytes)
     public partial class TBlendTable5Bit : Aow.Units.GFXE.TBlendTable
     {
         public new Aow.Units.FixedArray_byte_32[] Table = new Aow.Units.FixedArray_byte_32[32];
         // GFXE.pas:9609
-        // { TBlendTable5Bit }
         public TBlendTable5Bit()
         {
             Initialize(5, Ptr<Aow.Units.FixedArray_byte_32>.To(Table, 0).Reinterpret<byte>().Box());
@@ -2824,7 +2801,7 @@ namespace Aow.Units.GFXE
 
     }
 
-    // { GFXE.TBlendTableList (instance size 8): +4 FList. }
+    // FList
     public partial class TBlendTableList : Aow.Rtl.TObject
     {
         internal Aow.Rtl.TList FList;
@@ -2845,7 +2822,6 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:9629
-        // { TBlendTableList }
         public TBlendTableList()
         {
             var call__56 = new Aow.Rtl.TList();
@@ -2895,8 +2871,7 @@ namespace Aow.Units.GFXE
     }
 
     public delegate void TGenerateBlendTableProc(Aow.Units.GFXE.TBlendTable Table, float Value);
-    // { GFXE.TLookupBlendTableCollection100 (instance size 412): +4 FTables, +8 Lookup (101
-//     tables, indexed by percentage). }
+    // FTables, Lookup (101 tables, indexed by percentage)
     public partial class TLookupBlendTableCollection100 : Aow.Rtl.TObject
     {
         internal Aow.Units.GFXE.TBlendTableList FTables;
@@ -2911,7 +2886,6 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:9674
-        // { TLookupBlendTableCollection100 }
         public TLookupBlendTableCollection100()
         {
             var call__57 = new Aow.Units.GFXE.TBlendTableList();
@@ -3016,7 +2990,6 @@ namespace Aow.Units.GFXE
     public partial class TImageFileClassList : Aow.Rtl.TList
     {
         // GFXE.pas:941
-        // { TImageFileClassList }
         internal Aow.Units.GFXE.ImageFileClass GetClasses(int Index)
         {
             Aow.Units.GFXE.ImageFileClass Result = default;
@@ -3094,7 +3067,7 @@ namespace Aow.Units.GFXE
         public int Bandwidth;
     }
 
-    // { GFXE.TBMPImageFile (instance size 4): the Windows bitmap file format. }
+    // the Windows bitmap file format
     public partial class TBMPImageFile : Aow.Units.GFXE.TImageFile, IImageFileClass
     {
         // GFXE.pas:9043
@@ -3134,15 +3107,13 @@ namespace Aow.Units.GFXE
     public delegate int Procedure_2(int dwFlags, Aow.Units.GFXE.IDirectDrawClipper lplpDDClipper, Aow.Rtl.IUnknown pUnkOuter);
     public static partial class GFXE
     {
-        // { The GFXE unit of Gfxepack.dpl (the graphics engine of Age of Wonders: surfaces, blitters, blend
-//   tables, DirectDraw access) written for the original compiler (Delphi 3.02), class by class:
-//   tools/match.py compares the code DCC32 generates for every method with the code in the game's
-//   module. Declarations follow the original instance layouts and VMT orders (data/classes.json).
-//   The original was D:\GEngine\GFXE\GFXMAIN\GFXE.pas with inc\DIBSURF.PAS and inc\DDSurf.PAS
-//   included (the Assert line numbers tell); the DirectDraw interfaces and GUIDs are declared in
-//   this unit itself (their type info and typed constants sit in Gfxepack.dpl), without GUIDs on
-//   the interface types. The assembler blitters are transcribed from the disassembly: `asm` blocks
-//   compile verbatim; the MMX instructions are DB-encoded (Delphi 3 has no MMX mnemonics). }
+        // The GFXE unit of Gfxepack.dpl (the graphics engine of Age of Wonders: surfaces, blitters,
+        // blend tables, DirectDraw access). The original was D:\GEngine\GFXE\GFXMAIN\GFXE.pas with
+        // inc\DIBSURF.PAS and inc\DDSurf.PAS included (the Assert line numbers tell). the
+        // DirectDraw interfaces and GUIDs are declared in this unit itself (their type info and
+        // typed constants sit in Gfxepack.dpl), without GUIDs on the interface types. The assembler
+        // blitters are transcribed from the disassembly: `asm` blocks compile verbatim. the MMX
+        // instructions are DB-encoded (Delphi 3 has no MMX mnemonics)
         // { HResult codes returned by the surfaces (GetErrorMsg) }
         public const byte GFXE_OK = 0;
         public const int GFXE_ERROR = -2147483647;
@@ -3391,7 +3362,7 @@ namespace Aow.Units.GFXE
         // GFXE.pas:1656
         public static void GetOptimalGFXESettings(bool ShowDialog)
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Cells */
+            /* TODO: Implement Grids.Cells in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -4679,7 +4650,7 @@ namespace Aow.Units.GFXE
         // GFXE.pas:8923
         public static int SaveSurfaceDescToBMP24(in Aow.Units.GFXE.TSurfaceDesc SD, Aow.Rtl.TRect R, Aow.Rtl.AnsiString FileName)
         {
-            /* TODO(T-5.8) Untyped file buffers require a stream override */
+            /* TODO: Implement the untyped file stream buffer. */
             throw new System.NotImplementedException();
         }
 
@@ -4963,7 +4934,7 @@ namespace Aow.Units.GFXE
                 var call__148 = Aow.Units.GFXE.GFXE.PFIDtoMASK(PixelFormatID, ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwGBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwBBitMask), ref Unsafe.As<int, int>(ref Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBAlphaBitMask));
                 Aow.Units.GFXE.GFXE.EnumDDSD.ddpfPixelFormat.dwRGBBitCount = call__148;
                 Aow.Units.GFXE.GFXE.ModeCount = 0;
-                /* TODO(T-4.3) Address needs a cell or array backing */
+                /* TODO: Implement cell or array backing for this address. */
                 throw new System.NotImplementedException();
                 Result = Aow.Units.GFXE.GFXE.ModeCount != 0;
             }
@@ -4991,7 +4962,7 @@ namespace Aow.Units.GFXE
         // GFXE.pas:12705
         public static int GetOptimalPixelFormatID(int BitCount)
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.Width */
+            /* TODO: Implement Forms.Width in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -5317,21 +5288,21 @@ namespace Aow.Units.GFXE
         // { The BMP file format: TBMPImageFile and its helpers. }
         public static int LoadBMP(Aow.Rtl.AnsiString FileName, ref Aow.Units.GFXE.TSurfaceDesc SD, int X, int Y)
         {
-            /* TODO(T-5.8) Untyped file buffers require a stream override */
+            /* TODO: Implement the untyped file stream buffer. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:8968
         public static Aow.Units.GFXE.TSurface CreateSurfaceFromBMP(Aow.Rtl.AnsiString FileName)
         {
-            /* TODO(T-5.8) Untyped file buffers require a stream override */
+            /* TODO: Implement the untyped file stream buffer. */
             throw new System.NotImplementedException();
         }
 
         // GFXE.pas:9009
         public static int GetBMPPixelFormat(Aow.Rtl.AnsiString FileName)
         {
-            /* TODO(T-5.8) Untyped file buffers require a stream override */
+            /* TODO: Implement the untyped file stream buffer. */
             throw new System.NotImplementedException();
         }
 
@@ -5423,7 +5394,7 @@ namespace Aow.Units.GFXE
         // GFXE.pas:12761
         public static bool ActivateDirectDraw()
         {
-            /* TODO(T-shim) Platform or editor boundary ActiveX.CoInitialize */
+            /* TODO: Implement ActiveX.CoInitialize in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

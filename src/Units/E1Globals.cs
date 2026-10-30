@@ -32,9 +32,7 @@ namespace Aow.Units.E1Globals
 {
     public static partial class E1Globals
     {
-        // { $45B0E8 }
         public static Aow.Units.AoWIntroScene.TIntroScene IntroScene;
-        // { $45B0F8 }
         public static Aow.Units.AoWRelations.TRelWindow RelWindow;
         public static Aow.Units.AoWPWindows.TPopupWindows PopupWindows;
     }

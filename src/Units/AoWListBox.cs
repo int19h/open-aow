@@ -40,16 +40,14 @@ namespace Aow.Units.AoWListBox
         lbBlank = 1
     }
 
-    // { AoWListBox.TAOWListBox (instance size 396). Fields: +$114 FItems, +$118 FVScrollBar, +$11C
-//     F11C (the rows shown), +$120 FSelected, +$124 F124 (set to -1 by SetSize, otherwise unused),
-//     +$128 FOnPreDrawItem, +$130 FOnDrawItem, +$138 F138 (the width the frame or the scroll bar
-//     takes at the right), +$13C F13C (the scroll bar is visible), +$140 FILFrame, +$144
-//     FILTextureNormal, +$148 FILTextureSelected, +$14C FItemHeight, +$150 FOnDoubleClick, +$158
-//     FTextAlign, +$15C F15C (the first item shown), +$160 F160 (0: drawn with the frame and the
-//     textures, 1: text only), +$164 FILIndexFrame, +$168 FILIndexTNormal, +$16C FILIndexTSelected,
-//     +$170 FPopupMenu, +$174 FDrawItem, +$178 FDrawItemRect (the item and its rectangle while
-//     OnPreDrawItem and OnDrawItem run), +$188 F188 (the item under the mouse, -1 for none).
-//     VMT (new): SetILFrame, SetILTNorm, SetILTSel }
+    // Fields: FItems, FVScrollBar, F11C (the rows shown), FSelected, F124 (set to -1 by SetSize,
+    // otherwise unused), FOnPreDrawItem, FOnDrawItem, F138 (the width the frame or the scroll bar
+    // takes at the right), F13C (the scroll bar is visible), FILFrame, FILTextureNormal,
+    // FILTextureSelected, FItemHeight, FOnDoubleClick, FTextAlign, F15C (the first item shown),
+    // F160 (0: drawn with the frame and the textures, 1: text only), FILIndexFrame,
+    // FILIndexTNormal, FILIndexTSelected, FPopupMenu, FDrawItem, FDrawItemRect (the item and its
+    // rectangle while OnPreDrawItem and OnDrawItem run), F188 (the item under the mouse, -1 for
+    // none)
     public partial class TAOWListBox : Aow.Units.AoWControl.TAOWControl
     {
         public Aow.Rtl.TStringList FItems;
@@ -77,7 +75,6 @@ namespace Aow.Units.AoWListBox
         public Aow.Rtl.TRect FDrawItemRect;
         public int F188;
         // AoWListBox.pas:107
-        // { TAOWListBox }
         public TAOWListBox(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
@@ -441,7 +438,6 @@ namespace Aow.Units.AoWListBox
         public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             int I = default;
-            // { Tried Self identity and absolute/addressed coordinates; index/popup locations still differ. }
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
             if ((((!FAOWOwner.FHandled && (X > ((FAOWWindow.FWinLeft + FWinLeft) - 1))) && (X < (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - F138))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
@@ -648,7 +644,6 @@ namespace Aow.Units.AoWListBox
         // AoWListBox.pas:232
         public void SetVScroll(Aow.Units.AoWVScroll.TAOWVScrollBar Value)
         {
-            // { Tried parameter identity, with and typed/TObject locals; original scrollbar save still differs. }
             FVScrollBar = Value;
             if (Value != null)
             {

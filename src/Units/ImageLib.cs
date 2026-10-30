@@ -56,13 +56,11 @@ namespace Aow.Units.ImageLib
         bmCenter = 3
     }
 
-    // { ImageLib.TLibraryImage (instance size 64): an image of an image library. +4 FOwner, +8
-//     FDataLoaded (the discardable data, the pixels, are in memory), +$C FDataPosition (of the
-//     discardable data in the library file, -1 for none), +$10 FDataSize, +$14 FReloadingEnabled,
-//     +$15 FVersion, +$16 FLoadMode, +$18 FDataWidth, +$1C FDataHeight (of the pixels), +$20
-//     FWidth, +$24 FHeight (the visual size), +$28 FXshift, +$2C FYshift (of the pixels in the
-//     visual rectangle), +$30 FFileName, +$34 FFileIndex (where the image was grabbed), +$38
-//     FShowInfo. }
+    // an image of an image library. FOwner, FDataLoaded (the discardable data, the pixels, are in
+    // memory), FDataPosition (of the discardable data in the library file, -1 for none), FDataSize,
+    // FReloadingEnabled, FVersion, FLoadMode, FDataWidth, FDataHeight (of the pixels), FWidth,
+    // FHeight (the visual size), FXshift, FYshift (of the pixels in the visual rectangle),
+    // FFileName, FFileIndex (where the image was grabbed), FShowInfo
     public partial class TLibraryImage : Aow.Rtl.TPersistent, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 0;
@@ -373,7 +371,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:1596
-        // { TLibraryImage }
         public TLibraryImage(TCustomImageLibrary owner)
         {
             FDataPosition = -1;
@@ -493,7 +490,6 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:1996
         public virtual void Show(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
         {
-            // { Tried addressed/absolute Y, named X and post-call identity; entry X save still differs. }
             switch (FShowInfo.ShowMode)
             {
                 case Aow.Units.ImageLib.TShowMode.smOpaque:
@@ -536,7 +532,6 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:2040
         public virtual void ShowStretched(in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc SD)
         {
-            // { Tried named descriptor pointer, pointer identity and receiver scope; descriptor save still differs. }
             switch (FShowInfo.ShowMode)
             {
                 case Aow.Units.ImageLib.TShowMode.smOpaque:
@@ -603,7 +598,6 @@ namespace Aow.Units.ImageLib
 //   gives the show mode and the blend value), and bmLinearAlpha is not handled. }
         public virtual void ShowEx(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD, in Aow.Units.ImageLib.TShowInfo ShowInfo)
         {
-            // { Tried addressed/absolute coordinates, Self identity and named receiver; entry Self save still differs. }
             switch (ShowInfo.ShowMode)
             {
                 case Aow.Units.ImageLib.TShowMode.smOpaque:
@@ -730,8 +724,8 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TLibraryImagePalette (instance size 20): +4 FIndex, +8 FPalette, +$C FRemapPalette
-//     (the palette remapped to a pixel format, made on demand), +$10 FRefCount. }
+    // FIndex, FPalette, FRemapPalette (the palette remapped to a pixel format, made on demand),
+    // FRefCount
     public partial class TLibraryImagePalette : Aow.Rtl.TPersistent
     {
         internal int FIndex;
@@ -739,7 +733,6 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.GFXE.TGFXEPalette FRemapPalette;
         internal int FRefCount;
         // ImageLib.pas:7084
-        // { TLibraryImagePalette }
         public TLibraryImagePalette()
         {
             var call__16 = new Aow.Units.GFXE.TGFXEPalette();
@@ -864,7 +857,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:6971
-        // { TPaletteManager }
         public TPaletteManager()
         {
             var call__22 = new Aow.Rtl.TList();
@@ -1009,11 +1001,10 @@ namespace Aow.Units.ImageLib
         public int Reference;
     }
 
-    // { ImageLib.TCustomImageLibrary (instance size 80): +$24 FStatus, +$28 FOnChange, +$30
-//     FChangeLock (OnChange is called when it is 0), +$31 FReloading (the images can reload their
-//     data from FLoadedFileName), +$32 FLoadOnDemand, +$34 FLoadedFileName, +$38 FFileName (relative
-//     to the project or to BaseImageLibraryPath), +$3C FDataOffset (where the discardable image
-//     data starts in the file), +$40 FCapacity, +$44 FCount, +$48 FImages, +$4C FPaletteManager. }
+    // FStatus, FOnChange, FChangeLock (OnChange is called when it is 0), FReloading (the images can
+    // reload their data from FLoadedFileName), FLoadOnDemand, FLoadedFileName, FFileName (relative
+    // to the project or to BaseImageLibraryPath), FDataOffset (where the discardable image data
+    // starts in the file), FCapacity, FCount, FImages, FPaletteManager
     public partial class TCustomImageLibrary : Aow.Rtl.TComponent
     {
 
@@ -1159,7 +1150,6 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:9775
         internal void DeleteItem(int Index)
         {
-            // { Tried Self identity, receiver scope and shifted index; Self/array registers still differ. }
             Ptr<Aow.Units.ImageLib.TImageItem>.Copy(FImages + (Index + 1), FImages + Index, ((FCount - Index) - 1));
             Ptr<Aow.Units.ImageLib.TImageItem>.Fill(FImages + (FCount - 1), 1, default);
             FCount -= 1;
@@ -1192,7 +1182,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:9820
         public override void DefineProperties(Aow.Rtl.TFiler Filer)
         {
-            /* TODO(T-shim) Platform or editor boundary Classes.DefineBinaryProperty */
+            /* TODO: Implement Classes.DefineBinaryProperty in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1671,7 +1661,6 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:9947
         public void SetImageReference(int Index, int Value)
         {
-            // { Tried old-image local and class casts; cached image/index registers still differ. }
             if (Index >= FCount)
             {
                 SetCount(Index + 1);
@@ -1713,14 +1702,14 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:10127
         public void CopyToClipboard()
         {
-            /* TODO(T-shim) Platform or editor boundary Clipbrd.SetComponent */
+            /* TODO: Implement Clipbrd.SetComponent in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:10132
         public void PasteFromClipboard()
         {
-            /* TODO(T-shim) Platform or editor boundary Clipbrd.GetComponent */
+            /* TODO: Implement Clipbrd.GetComponent in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -1838,7 +1827,6 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:10232
         public void SetImage(int Index, Aow.Units.ImageLib.TLibraryImage Image)
         {
-            // { Tried old-image local and class casts; cached image/index registers still differ. }
             if (Index >= FCount)
             {
                 SetCount(Index + 1);
@@ -2073,7 +2061,6 @@ namespace Aow.Units.ImageLib
         {
             Aow.Units.ImageLib.TLibraryImage Old = default;
             Aow.Units.ImageLib.TImageNode Node = default;
-            // { Tried local order, receiver scope and index identity; old-image/index registers still differ. }
             if (Index < FCount)
             {
                 Old = FImages[Index].Image;
@@ -2338,7 +2325,7 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TImageLibrary (instance size 80): the image library component }
+    // the image library component
     public partial class TImageLibrary : Aow.Units.ImageLib.TCustomImageLibrary
     {
 
@@ -2385,7 +2372,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:9629
-        // { TGrabInfo }
         public virtual Aow.Units.ImageLib.GrabInfoClass GrabInfoClass()
         {
             Aow.Units.ImageLib.GrabInfoClass Result = default;
@@ -2517,7 +2503,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:1286
-        // { TImageNode }
         public TImageNode(TCustomImageLibrary owner) : base(owner)
         {
             FFileName = (AnsiString)"(multi images)";
@@ -2867,7 +2852,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:1514
         public override void ShowDC(Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect, int DC, int BkColor)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.WindowFromDC */
+            /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -2956,12 +2941,11 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TImage08 (instance size 76): the base of the 8 bit images. +$40 FOwnPalette (the
-//     image owns FImagePalette; otherwise it is shared through the palette manager of the
-//     library), +$44 FImagePalette, +$48 FRemapPalette (the palette the pixels are shown with:
-//     the image palette, or the copy remapped to the pixel format of the last surface). VMT: adds
-//     RegisterPalette (share the palette through the owner's palette manager) and
-//     UnregisterPalette (make a private copy again). }
+    // the base of the 8 bit images. FOwnPalette (the image owns FImagePalette. otherwise it is
+    // shared through the palette manager of the library), FImagePalette, FRemapPalette (the palette
+    // the pixels are shown with: the image palette, or the copy remapped to the pixel format of the
+    // last surface). RegisterPalette (share the palette through the owner's palette manager) and
+    // UnregisterPalette (make a private copy again)
     public partial class TImage08 : Aow.Units.ImageLib.TLibraryImage, ILibraryImageClass
     {
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImage08(owner);
@@ -2973,7 +2957,6 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TLibraryImagePalette FImagePalette;
         internal Aow.Units.GFXE.TGFXEPalette FRemapPalette;
         // ImageLib.pas:7152
-        // { TImage08 }
         public override void Clear()
         {
             UnregisterPalette();
@@ -3108,14 +3091,13 @@ namespace Aow.Units.ImageLib
 //   remaps the palette again when it differs). }
         public override void ShowDC(Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect, int DC, int BkColor)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.WindowFromDC */
+            /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
 
-    // { ImageLib.TPicture08 (instance size 88): an opaque 8 bit picture (ClassID 1). +$4C FPitch (of
-//     the rows: a multiple of 4 below 32 pixels, of 8 from 32 on), +$50 FBuffer (the allocated
-//     block), +$54 FBits (FBuffer aligned to 8 bytes). }
+    // an opaque 8 bit picture (ClassID 1). FPitch (of the rows: a multiple of 4 below 32 pixels, of
+    // 8 from 32 on), FBuffer (the allocated block), FBits (FBuffer aligned to 8 bytes)
     public partial class TPicture08 : Aow.Units.ImageLib.TImage08, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 1;
@@ -3309,12 +3291,11 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TRLESprite08 (instance size 104): an 8 bit sprite, run length encoded (ClassID 2).
-//     +$4C FTransparentColor (the palette index of the transparent pixels), +$50 FReserved (only
-//     stored), +$54 FData (the encoded rows: per row a length dword, then the opaque pixels and,
-//     for a transparent run, the transparent index and the run length), +$58 FRLELeft, +$5C
-//     FRLETop, +$60 FRLEWidth, +$64 FRLEHeight (the rectangle of the encoded pixels in the data
-//     rectangle). }
+    // an 8 bit sprite, run length encoded (ClassID 2). FTransparentColor (the palette index of the
+    // transparent pixels), FReserved (only stored), FData (the encoded rows: per row a length
+    // dword, then the opaque pixels and, for a transparent run, the transparent index and the run
+    // length), FRLELeft, FRLETop, FRLEWidth, FRLEHeight (the rectangle of the encoded pixels in the
+    // data rectangle)
     public partial class TRLESprite08 : Aow.Units.ImageLib.TImage08, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 2;
@@ -3613,7 +3594,6 @@ namespace Aow.Units.ImageLib
                 }
             }
 
-            // { Tried record rebasing/casts and receiver scope; minimizer argument order still differs. }
             if (SD.BitCount == 8)
             {
                 Result = true;
@@ -3654,7 +3634,7 @@ namespace Aow.Units.ImageLib
                                     int end__103 = MinRect.Right - 1;
                                     for (; X <= end__103; X += 1)
                                     {
-                                        /* TODO(T-A3) Integer address requires managed pointer provenance */
+                                        /* TODO: Implement managed pointer provenance for the integer address. */
                                         throw new System.NotImplementedException();
                                         if (B != FTransparentColor)
                                         {
@@ -3700,9 +3680,9 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TImage16 (instance size 72): the base of the 16 bit images (pfRGB565 or pfRGB555).
-//     +$40 FPixelFormatID (of the pixels in memory), +$44 FStoredPixelFormatID (of the pixels in
-//     the library file: WriteImageData remaps the pixels back to it before they are written). }
+    // the base of the 16 bit images (pfRGB565 or pfRGB555). FPixelFormatID (of the pixels in
+    // memory), FStoredPixelFormatID (of the pixels in the library file: WriteImageData remaps the
+    // pixels back to it before they are written)
     public partial class TImage16 : Aow.Units.ImageLib.TLibraryImage, ILibraryImageClass
     {
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImage16(owner);
@@ -3710,7 +3690,6 @@ namespace Aow.Units.ImageLib
         internal int FPixelFormatID;
         internal int FStoredPixelFormatID;
         // ImageLib.pas:2098
-        // { TImage16 }
         public TImage16(TCustomImageLibrary owner) : base(owner)
         {
         }
@@ -3747,15 +3726,14 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:2128
         public override void ShowDC(Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect, int DC, int BkColor)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.WindowFromDC */
+            /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
     }
 
-    // { ImageLib.TPicture16 (instance size 84, ClassID $10): an opaque 16 bit picture. +$48 FPitch
-//     (bytes per row, a multiple of 4, or of 8 from 32 pixels on), +$4C FBuffer (the allocated
-//     memory), +$50 FData (FBuffer aligned to 8 bytes). }
+    // (ClassID $10): an opaque 16 bit picture. FPitch (bytes per row, a multiple of 4, or of 8 from
+    // 32 pixels on), FBuffer (the allocated memory), FData (FBuffer aligned to 8 bytes)
     public partial class TPicture16 : Aow.Units.ImageLib.TImage16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 16;
@@ -3908,7 +3886,6 @@ namespace Aow.Units.ImageLib
             Ptr<ushort> D = default;
             Ptr<Aow.Units.GFXE.TPaletteEntry> P = default;
             Ptr<byte> S24 = default;
-            // { Tried absolute/addressed descriptor and receiver scope; descriptor/pixel locations still differ. }
             try
             {
                 Clear();
@@ -4040,7 +4017,6 @@ namespace Aow.Units.ImageLib
             int Bottom = default;
             object Src = default;
             object Dst = default;
-            // { Tried Self identity, receiver/descriptor with and descriptor pointer; image/descriptor registers still differ. }
             DX = X + FXshift;
             W = FDataWidth;
             Right = FDataWidth + DX;
@@ -4144,7 +4120,6 @@ namespace Aow.Units.ImageLib
             int Bottom = default;
             object Src = default;
             object Dst = default;
-            // { Tried Self identity, receiver/descriptor with and descriptor pointer; image/descriptor registers still differ. }
             DX = X + FXshift;
             W = FDataWidth;
             Right = FDataWidth + DX;
@@ -4308,7 +4283,6 @@ namespace Aow.Units.ImageLib
             int Bottom = default;
             object Src = default;
             object Dst = default;
-            // { Tried Self identity, receiver/descriptor with and descriptor pointer; image/descriptor registers still differ. }
             DX = X + FXshift;
             W = FDataWidth;
             Right = FDataWidth + DX;
@@ -4429,8 +4403,7 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TTransparentPicture16 (instance size 84, ClassID $15): a TPicture16 shown
-//     transparent by default; it cannot be grabbed. }
+    // (ClassID $15): a TPicture16 shown transparent by default. it cannot be grabbed
     public partial class TTransparentPicture16 : Aow.Units.ImageLib.TPicture16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 21;
@@ -4438,7 +4411,6 @@ namespace Aow.Units.ImageLib
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TTransparentPicture16(owner);
 
         // ImageLib.pas:2845
-        // { TTransparentPicture16 }
         public TTransparentPicture16(TCustomImageLibrary owner) : base(owner)
         {
             FShowInfo.ShowMode = Aow.Units.ImageLib.TShowMode.smTransparent;
@@ -4454,11 +4426,11 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TSprite16 (instance size 108, ClassID $16): a 16 bit picture with a transparent
-//     color, cut to the smallest rectangle holding its opaque pixels. +$48 FPitch, +$4C FBuffer,
-//     +$50 FData (as TPicture16), +$54 FTransparentColor (in FStoredPixelFormatID), +$58 FColorKey
-//     (the transparent color in FPixelFormatID), +$5C FSpriteX, +$60 FSpriteY (of the pixels in the
-//     grabbed rectangle), +$64 FSpriteWidth, +$68 FSpriteHeight (of the pixels). }
+    // (ClassID $16): a 16 bit picture with a transparent color, cut to the smallest rectangle
+    // holding its opaque pixels. FPitch, FBuffer, FData (as TPicture16), FTransparentColor (in
+    // FStoredPixelFormatID), FColorKey (the transparent color in FPixelFormatID), FSpriteX,
+    // FSpriteY (of the pixels in the grabbed rectangle), FSpriteWidth, FSpriteHeight (of the
+    // pixels)
     public partial class TSprite16 : Aow.Units.ImageLib.TImage16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 22;
@@ -4493,7 +4465,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:4247
-        // { TSprite16 }
         public TSprite16(TCustomImageLibrary owner) : base(owner)
         {
         }
@@ -5024,12 +4995,11 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TRLESprite16 (instance size 96, ClassID $11): a run length encoded 16 bit sprite.
-//     +$48 FColorKey (the transparent color, in FPixelFormatID), +$4C FData (FDataSize bytes),
-//     +$50 FSpriteX, +$54 FSpriteY, +$58 FSpriteWidth, +$5C FSpriteHeight (as TSprite16). The data
-//     is FSpriteHeight rows; a row is a word with its size in bytes (the header included), a zero
-//     word, then pixels and skips (the color key and the size of the skip in bytes), padded with the
-//     color key to a dword. }
+    // (ClassID $11): a run length encoded 16 bit sprite. FColorKey (the transparent color, in
+    // FPixelFormatID), FData (FDataSize bytes), FSpriteX, FSpriteY, FSpriteWidth, FSpriteHeight (as
+    // TSprite16). The data is FSpriteHeight rows. a row is a word with its size in bytes (the
+    // header included), a zero word, then pixels and skips (the color key and the size of the skip
+    // in bytes), padded with the color key to a dword
     public partial class TRLESprite16 : Aow.Units.ImageLib.TImage16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 17;
@@ -5043,7 +5013,6 @@ namespace Aow.Units.ImageLib
         internal int FSpriteWidth;
         internal int FSpriteHeight;
         // ImageLib.pas:2881
-        // { TRLESprite16 }
         public TRLESprite16(TCustomImageLibrary owner) : base(owner)
         {
         }
@@ -5316,11 +5285,10 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:3090
-        // { The sprites take their transparent color from TGrabInfo +$C (declared Reserved in the core),
-//   not from TransparentColor (+4, the color GetSurfaceRectangles separates the images with).
-//
-//   GrabImage encodes the rows into FData, which grows in 4 KB steps; FDataSize stays 0 until the
-//   end, so every word added past the first step reallocates (an original inefficiency). }
+        // The sprites take their transparent color from TGrabInfo (declared Reserved in the core),
+        // not from TransparentColor (+4, the color GetSurfaceRectangles separates the images with).
+        // GrabImage encodes the rows into FData, which grows in 4 KB steps. FDataSize stays 0 until
+        // the end, so every word added past the first step reallocates (an original inefficiency)
         public override bool GrabImage(in Aow.Units.GFXE.TSurfaceDesc SD, in Aow.Rtl.TRect R, Aow.Units.ImageLib.TGrabInfo GrabInfo)
         {
             bool Result = default;
@@ -5386,7 +5354,6 @@ namespace Aow.Units.ImageLib
                 }
             }
 
-            // { Tried Self identity, receiver scope and record rebasing; private rectangle/FS code still differs. }
             Result = true;
             try
             {
@@ -5491,8 +5458,7 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TTransparentRLESprite16 (instance size 96, ClassID $12): a TRLESprite16 shown
-//     transparent by default; it cannot be grabbed. }
+    // (ClassID $12): a TRLESprite16 shown transparent by default. it cannot be grabbed
     public partial class TTransparentRLESprite16 : Aow.Units.ImageLib.TRLESprite16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 18;
@@ -5500,7 +5466,6 @@ namespace Aow.Units.ImageLib
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TTransparentRLESprite16(owner);
 
         // ImageLib.pas:3592
-        // { TTransparentRLESprite16 }
         public TTransparentRLESprite16(TCustomImageLibrary owner) : base(owner)
         {
             FShowInfo.ShowMode = Aow.Units.ImageLib.TShowMode.smTransparent;
@@ -5516,8 +5481,7 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TBitMaskGrabInfo (instance size 28): +$18 Inverse (grab the non-transparent
-//     rectangle with MinimizeInvTransparentRect). }
+    // Inverse (grab the non-transparent rectangle with MinimizeInvTransparentRect)
     public partial class TBitMaskGrabInfo : Aow.Units.ImageLib.TGrabInfo
     {
         public static new GrabInfoClass Descriptor { get; } = new("TBitMaskGrabInfo", static () => new TBitMaskGrabInfo());
@@ -5538,7 +5502,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:4633
-        // { TBitMaskGrabInfo }
         public override Aow.Units.ImageLib.GrabInfoClass GrabInfoClass()
         {
             Aow.Units.ImageLib.GrabInfoClass Result = default;
@@ -5547,10 +5510,9 @@ namespace Aow.Units.ImageLib
         }
     }
 
-    // { ImageLib.TBitMask (instance size 88): a mask of one bit per pixel (ClassID $13), shown as
-//     white pixels. +$40 FPitch (bytes per row, whole dwords), +$44 FMaskData (rows of dwords, the
-//     first pixel in the high bit), +$48 FMaskLeft, +$4C FMaskTop, +$50 FMaskWidth, +$54
-//     FMaskHeight (the rectangle of the mask in the data rectangle). }
+    // a mask of one bit per pixel (ClassID $13), shown as white pixels. FPitch (bytes per row,
+    // whole dwords), FMaskData (rows of dwords, the first pixel in the high bit), FMaskLeft,
+    // FMaskTop, FMaskWidth, FMaskHeight (the rectangle of the mask in the data rectangle)
     public partial class TBitMask : Aow.Units.ImageLib.TLibraryImage, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 19;
@@ -5733,7 +5695,6 @@ namespace Aow.Units.ImageLib
                 Bits = 0;
             }
 
-            // { Tried record rebasing/casts and receiver scope; minimizer argument order still differs. }
             Clear();
             Result = true;
             FDataLoaded = true;
@@ -5795,7 +5756,7 @@ namespace Aow.Units.ImageLib
         // { ShowDC clears the surface to gray, not to BkColor. }
         public override void ShowDC(Ptr<Aow.Rtl.TRect> SrcRect, Ptr<Aow.Rtl.TRect> DestRect, int DC, int BkColor)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.WindowFromDC */
+            /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -5812,8 +5773,7 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TShadow (instance size 88): a bit mask shown as a shadow, darkening the 16 bit
-//     surface under the set bits (ClassID $14). }
+    // a bit mask shown as a shadow, darkening the 16 bit surface under the set bits (ClassID $14)
     public partial class TShadow : Aow.Units.ImageLib.TBitMask, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 20;
@@ -5821,7 +5781,6 @@ namespace Aow.Units.ImageLib
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TShadow(owner);
 
         // ImageLib.pas:5100
-        // { TShadow }
         public TShadow(TCustomImageLibrary owner) : base(owner)
         {
         }
@@ -5878,11 +5837,10 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TImageLibraryFont (instance size 100): an image library whose image N is the
-//     character with code N. +$50 FCharacterDistance (pixels between two characters), +$54
-//     FHeight (the largest image height, set by LoadFromStream), +$58 FCharCase, +$5C FColor,
-//     +$60 FFontColorPaletteIndex (the entry of the first palette that SetColor sets to Color, -1
-//     for none). A character without an image is 5 pixels wide. }
+    // an image library whose image N is the character with code N. FCharacterDistance (pixels
+    // between two characters), FHeight (the largest image height, set by LoadFromStream),
+    // FCharCase, FColor, FFontColorPaletteIndex (the entry of the first palette that SetColor sets
+    // to Color, -1 for none). A character without an image is 5 pixels wide
     public partial class TImageLibraryFont : Aow.Units.ImageLib.TCustomImageLibrary
     {
 
@@ -5909,7 +5867,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:6258
-        // { TImageLibraryFont }
         public TImageLibraryFont(TComponent owner) : base(owner)
         {
             FCharacterDistance = 2;
@@ -6128,9 +6085,8 @@ namespace Aow.Units.ImageLib
 
     // { Splits Text into lines no wider than MaxWidth pixels in Font, at spaces and line breaks, and
 //   adds them to Strings. }
-    // { ImageLib.TCustomImageLibraryPanel (instance size 340): a panel that shows one image of an
-//     image library with BltLibraryImage. +$138 FScaleX, +$13C FScaleY (percent), +$140 FBltMode,
-//     +$144 FOnUpdated (called after every Paint), +$14C FImageLibrary, +$150 FImageIndex. }
+    // a panel that shows one image of an image library with BltLibraryImage. FScaleX, FScaleY
+    // (percent), FBltMode, FOnUpdated (called after every Paint), FImageLibrary, FImageIndex
     public partial class TCustomImageLibraryPanel : Aow.Rtl.TCustomPanel
     {
         internal int FScaleX;
@@ -6142,42 +6098,42 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6513
         internal void SetBltMode(Aow.Units.ImageLib.TBltMode Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6519
         internal void SetScaleX(int Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6525
         internal void SetScaleY(int Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6531
         internal void SetImageIndex(int Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6537
         internal void SetImageLibrary(Aow.Units.ImageLib.TCustomImageLibrary Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6543
         protected internal override void Paint()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Canvas */
+            /* TODO: Implement Controls.Canvas in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -6189,16 +6145,14 @@ namespace Aow.Units.ImageLib
         protected internal int ScaleY { get => FScaleY; set => SetScaleY(value); }
 
         // ImageLib.pas:6504
-        // { TCustomImageLibraryPanel }
 
         public TCustomImageLibraryPanel(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary ExtCtrls.Create */
+            /* TODO: Implement ExtCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
 
-    // { ImageLib.TImageLibraryPanel (instance size 340) }
     public partial class TImageLibraryPanel : Aow.Units.ImageLib.TCustomImageLibraryPanel
     {
         public TImageLibraryPanel(TComponent owner) : base(owner)
@@ -6213,12 +6167,11 @@ namespace Aow.Units.ImageLib
         ilVertical = 2
     }
 
-    // { ImageLib.TCustomImageDrawGrid (instance size 476): a grid of Count image cells. +$1A0
-//     FScaleX, +$1A4 FScaleY, +$1A8 FBltMode, +$1A9 FEditMode, +$1AC FOnCellUpdated (draws a cell
-//     at run time), +$1B4 FOnSelectCell, +$1BC FFocusColor, +$1C0 FGrowDirection, +$1C1
-//     FSelectionEnabled, +$1C4 FMinRowCount, +$1C8 FMinColCount, +$1CC FMaxRowCount, +$1D0
-//     FMaxColCount (0 for no limit), +$1D4 FShowGridIndex, +$1D8 FCount. Ctrl+X/C/V/Del call the
-//     edit methods, Ins and Del without a modifier InsCell and DelCell; they do nothing here. }
+    // a grid of Count image cells. FScaleX, FScaleY, FBltMode, FEditMode, FOnCellUpdated (draws a
+    // cell at run time), FOnSelectCell, FFocusColor, FGrowDirection, FSelectionEnabled,
+    // FMinRowCount, FMinColCount, FMaxRowCount, FMaxColCount (0 for no limit), FShowGridIndex,
+    // FCount. Ctrl+X/C/V/Del call the edit methods, Ins and Del without a modifier InsCell and
+    // DelCell. they do nothing here
     public partial class TCustomImageDrawGrid : Aow.Rtl.TCustomGrid
     {
         internal int FScaleX;
@@ -6239,14 +6192,14 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6705
         internal void SetBltMode(Aow.Units.ImageLib.TBltMode Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6711
         internal void SetSelectionEnabled(bool Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -6259,35 +6212,35 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6722
         internal void SetScaleX(int Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6728
         internal void SetScaleY(int Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6734
         internal void SetShowGridIndex(bool Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6740
         internal int GetColCount()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.ColCount */
+            /* TODO: Implement Grids.ColCount in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6745
         internal new void SetColCount(int Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.ColCount */
+            /* TODO: Implement Grids.ColCount in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -6326,21 +6279,21 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6776
         internal int GetRowCount()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.RowCount */
+            /* TODO: Implement Grids.RowCount in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6781
         internal new void SetRowCount(int Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.RowCount */
+            /* TODO: Implement Grids.RowCount in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6788
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Graphics.Color */
+            /* TODO: Implement Graphics.Color in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -6361,7 +6314,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6620
         protected internal override void KeyDown(ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.KeyDown */
+            /* TODO: Implement Grids.KeyDown in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -6383,18 +6336,16 @@ namespace Aow.Units.ImageLib
         protected internal bool ShowGridIndex { get => FShowGridIndex; set => SetShowGridIndex(value); }
 
         // ImageLib.pas:6594
-        // { TCustomImageDrawGrid }
 
         public TCustomImageDrawGrid(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Create */
+            /* TODO: Implement Grids.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6661
         public virtual void SetCount(int Value)
         {
-            // { Tried receiver cast, identity and with scope; extra Self save remains. }
             FCount = Value;
             UpdateDimensions();
         }
@@ -6468,15 +6419,13 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6687
         public void SelectIndex(int Index)
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Left */
+            /* TODO: Implement Grids.Left in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         public int Count { get => FCount; set => SetCount(value); }
     }
 
-    // { AoWEd 0042D13C }
-    // { ImageLib.TImageDrawGrid (instance size 476) }
     public partial class TImageDrawGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public TImageDrawGrid(TComponent owner) : base(owner)
@@ -6484,9 +6433,9 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TCustomImageLibraryGrid (instance size 480): a grid of the images of an image
-//     library, +$1DC FImageLibrary. The edit methods work on the selected cells, through the
-//     clipboard format of TCustomImageLibrary, when EditMode allows them. }
+    // a grid of the images of an image library, FImageLibrary. The edit methods work on the
+    // selected cells, through the clipboard format of TCustomImageLibrary, when EditMode allows
+    // them
     public partial class TCustomImageLibraryGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public TCustomImageLibraryGrid(TComponent owner) : base(owner)
@@ -6496,45 +6445,44 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6934
         internal void SetImageLibrary(Aow.Units.ImageLib.TCustomImageLibrary Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6942
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Canvas */
+            /* TODO: Implement Controls.Canvas in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         protected internal Aow.Units.ImageLib.TCustomImageLibrary ImageLibrary { get => FImageLibrary; set => SetImageLibrary(value); }
 
         // ImageLib.pas:6818
-        // { TCustomImageLibraryGrid }
         public Aow.Units.ImageLib.TCustomImageLibrary CreateSelectedIL()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Top */
+            /* TODO: Implement Grids.Top in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6834
         public override void InsCell()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6843
         public override void DelCell()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6852
         public override void CutCell()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Top */
+            /* TODO: Implement Grids.Top in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -6559,19 +6507,18 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6892
         public override void DeleteCell()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Top */
+            /* TODO: Implement Grids.Top in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:6907
         public override void PasteCell()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Top */
+            /* TODO: Implement Grids.Top in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
 
-    // { ImageLib.TImageLibraryGrid (instance size 480) }
     public partial class TImageLibraryGrid : Aow.Units.ImageLib.TCustomImageLibraryGrid
     {
         public TImageLibraryGrid(TComponent owner) : base(owner)
@@ -6579,9 +6526,8 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TImageLibraryManager (instance size 48): the libraries a program shares, linked by
-//     file name. +$24 FSearchPath (upper case, ends with a backslash), +$28 FDiskList, +$2C
-//     FOwnedList. }
+    // the libraries a program shares, linked by file name. FSearchPath (upper case, ends with a
+    // backslash), FDiskList, FOwnedList
     public partial class TImageLibraryManager : Aow.Rtl.TComponent
     {
 
@@ -6590,7 +6536,6 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TILManagerList FDiskList;
         internal Aow.Units.ImageLib.TILManagerList FOwnedList;
         // ImageLib.pas:8260
-        // { TImageLibraryManager }
         public TImageLibraryManager(TComponent owner) : base(owner)
         {
             var call__184 = new Aow.Units.ImageLib.TILManagerList(this);
@@ -6763,8 +6708,8 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TILManagerObject (instance size 12): an entry of a TILManagerList. +4 FRefCount
-//     (the LinkToIL calls not yet released), +8 FImageLibrary (loaded by the first LinkToIL). }
+    // an entry of a TILManagerList. FRefCount (the LinkToIL calls not yet released), FImageLibrary
+    // (loaded by the first LinkToIL)
     public partial class TILManagerObject : Aow.Rtl.TObject
     {
         internal int FRefCount;
@@ -6773,15 +6718,13 @@ namespace Aow.Units.ImageLib
         public Aow.Units.ImageLib.TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
     }
 
-    // { ImageLib.TILManagerList (instance size 52): library file names (upper case, relative to the
-//     search path) with their TILManagerObject. +$2C FHashTable (the objects by name), +$30
-//     FOwner. }
+    // library file names (upper case, relative to the search path) with their TILManagerObject.
+    // FHashTable (the objects by name), FOwner
     public partial class TILManagerList : Aow.Rtl.TStringList
     {
         internal Aow.Units.HashTabU.TStringHashTable256 FHashTable;
         internal Aow.Units.ImageLib.TImageLibraryManager FOwner;
         // ImageLib.pas:8093
-        // { TILManagerList }
         public TILManagerList(TImageLibraryManager owner)
         {
             FOwner = owner;
@@ -7007,10 +6950,9 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TILManagerComboBox (instance size 388): a combo box with the library names of a
-//     manager. +$170 FILManager, +$174 FCategory, +$178 FSubDirectory (only the names in it are
-//     listed, without it), +$17C FSkipDirectories (separated by semicolons), +$180 FEmptyILName
-//     (the first item, for no library). }
+    // a combo box with the library names of a manager. FILManager, FCategory, FSubDirectory (only
+    // the names in it are listed, without it), FSkipDirectories (separated by semicolons),
+    // FEmptyILName (the first item, for no library)
     public partial class TILManagerComboBox : Aow.Rtl.TComboBox
     {
         internal Aow.Units.ImageLib.TImageLibraryManager FILManager;
@@ -7019,7 +6961,6 @@ namespace Aow.Units.ImageLib
         internal Aow.Rtl.AnsiString FSkipDirectories;
         internal Aow.Rtl.AnsiString FEmptyILName;
         // ImageLib.pas:8373
-        // { TILManagerComboBox }
         internal void SetILManager(Aow.Units.ImageLib.TImageLibraryManager Value)
         {
             FILManager = Value;
@@ -7039,14 +6980,14 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:8393
         internal Aow.Rtl.AnsiString GetImageLibraryName()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:8401
         internal void SetImageLibraryName(Aow.Rtl.AnsiString Value)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -7054,14 +6995,14 @@ namespace Aow.Units.ImageLib
 
         public TILManagerComboBox(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
+            /* TODO: Implement StdCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:8414
         public void GenerateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -7083,9 +7024,8 @@ namespace Aow.Units.ImageLib
         public Aow.Rtl.AnsiString EmptyILName { get => FEmptyILName; set => FEmptyILName = value; }
     }
 
-    // { ImageLib.TILManagerListBox (instance size 360): the list box version of TILManagerComboBox.
-//     +$154 FILManager, +$158 FCategory, +$15C FSubDirectory, +$160 FSkipDirectories, +$164
-//     FEmptyILName. }
+    // the list box version of TILManagerComboBox. FILManager, FCategory, FSubDirectory,
+    // FSkipDirectories, FEmptyILName
     public partial class TILManagerListBox : Aow.Rtl.TListBox
     {
         internal Aow.Units.ImageLib.TImageLibraryManager FILManager;
@@ -7094,7 +7034,6 @@ namespace Aow.Units.ImageLib
         internal Aow.Rtl.AnsiString FSkipDirectories;
         internal Aow.Rtl.AnsiString FEmptyILName;
         // ImageLib.pas:8463
-        // { TILManagerListBox }
         internal void SetILManager(Aow.Units.ImageLib.TImageLibraryManager Value)
         {
             FILManager = Value;
@@ -7114,14 +7053,14 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:8483
         internal Aow.Rtl.AnsiString GetImageLibraryName()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:8491
         internal void SetImageLibraryName(Aow.Rtl.AnsiString Value)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -7129,14 +7068,14 @@ namespace Aow.Units.ImageLib
 
         public TILManagerListBox(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
+            /* TODO: Implement StdCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:8504
         public void GenerateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -7168,10 +7107,9 @@ namespace Aow.Units.ImageLib
         smRndFrameTable = 5
     }
 
-    // { ImageLib.TImageSequenceList (instance size 28): the image sequences of the indices, each the
-//     first layer of a chain (nil for none). +$10 FLinked (the sequences are linked to their
-//     libraries), +$14 FILManager, +$18 FImageLibrary (the library of the sequences without a
-//     library name). }
+    // the image sequences of the indices, each the first layer of a chain (nil for none). FLinked
+    // (the sequences are linked to their libraries), FILManager, FImageLibrary (the library of the
+    // sequences without a library name)
     public partial class TImageSequenceList : Aow.Rtl.TList
     {
         internal bool FLinked;
@@ -7179,7 +7117,6 @@ namespace Aow.Units.ImageLib
         public Aow.Units.ImageLib.TImageLibraryManager FILManager;
         internal Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
         // ImageLib.pas:8903
-        // { TImageSequenceList }
         public TImageSequenceList(TImageLibraryManager AILManager, TCustomImageLibrary AImageLibrary)
         {
             FILManager = AILManager;
@@ -7335,14 +7272,14 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:9001
         public void SaveToIniFile(Aow.Rtl.AnsiString Section, Aow.Rtl.TIniFile IniFile)
         {
-            /* TODO(T-shim) Platform or editor boundary IniFiles.WriteString */
+            /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:9016
         public void LoadFromIniFile(Aow.Rtl.AnsiString Section, Aow.Rtl.TIniFile IniFile)
         {
-            /* TODO(T-shim) Platform or editor boundary IniFiles.ReadString */
+            /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -7878,7 +7815,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:9360
-        // { TFrameTableList }
         public override void Destroy()
         {
             Clear();
@@ -8209,13 +8145,12 @@ namespace Aow.Units.ImageLib
 
     }
 
-    // { ImageLib.TImageSequence (instance size 56): an animation of the images of a library, one
-//     layer of a chain sorted by layer. +4 FOwner, +8 FLayer, +$C FNext (the next layer), +$10
-//     FImageLibrary (linked by LinkToIL: FImageLibraryName from the manager of FOwner, or the
-//     library of FOwner), +$14 FImageLibraryName, +$18 FSequenceSpeed (frames per image - 1), +$19
-//     FSequenceMode, +$1C FFrameTable (the image indices of smFrameTable and smRndFrameTable),
-//     +$20 FImageIndex (the image of smNone, the random start of smRandom and smRndFrameTable),
-//     +$24 FdXshift, +$28 FdYshift, +$2C FLastFrame, +$30 FSpeedCount, +$34 FFrameCounter. }
+    // an animation of the images of a library, one layer of a chain sorted by layer. FOwner,
+    // FLayer, FNext (the next layer), FImageLibrary (linked by LinkToIL: FImageLibraryName from the
+    // manager of FOwner, or the library of FOwner), FImageLibraryName, FSequenceSpeed (frames per
+    // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
+    // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
+    // smRndFrameTable), FdXshift, FdYshift, FLastFrame, FSpeedCount, FFrameCounter
     public partial class TImageSequence : Aow.Rtl.TObject
     {
         internal Aow.Units.ImageLib.TImageSequenceList FOwner;
@@ -8256,7 +8191,6 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8553
-        // { TImageSequence }
         public TImageSequence(TImageSequenceList owner)
         {
             FOwner = owner;
@@ -8702,14 +8636,14 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:8865
         public void SaveToIniFile(Aow.Rtl.AnsiString Section, Aow.Rtl.TIniFile IniFile)
         {
-            /* TODO(T-shim) Platform or editor boundary IniFiles.WriteString */
+            /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ImageLib.pas:8880
         public void LoadFromIniFile(Aow.Rtl.AnsiString Section, Aow.Rtl.TIniFile IniFile)
         {
-            /* TODO(T-shim) Platform or editor boundary IniFiles.ReadString */
+            /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -8720,7 +8654,6 @@ namespace Aow.Units.ImageLib
         public Aow.Rtl.AnsiString ImageLibraryName { get => FImageLibraryName; set => SetImageLibraryName(value); }
         public byte SequenceSpeed { get => FSequenceSpeed; set => FSequenceSpeed = value; }
         public byte SpeedCount { get => FSpeedCount; }
-        // { $30; 5579143B }
         public Aow.Units.ImageLib.TSequenceMode SequenceMode { get => FSequenceMode; set => SetSequenceMode(value); }
         public Aow.Units.ImageLib.TFrameTableList FrameTable { get => FFrameTable; }
         public int ImageIndex { get => FImageIndex; set => FImageIndex = value; }
@@ -8730,8 +8663,8 @@ namespace Aow.Units.ImageLib
     }
 
     public delegate int TFrameTableSortCompare(int Item1, int Item2);
-    // { TFastLoadFileStream (instance size 8, declared in the implementation): a read-only file
-//     stream opened with FILE_FLAG_SEQUENTIAL_SCAN. Destroy does not call the inherited destructor. }
+    // (declared in the implementation): a read-only file stream opened with
+    // FILE_FLAG_SEQUENTIAL_SCAN. Destroy does not call the inherited destructor
     public partial class TFastLoadFileStream : Aow.Rtl.THandleStream
     {
     }
@@ -8755,14 +8688,13 @@ namespace Aow.Units.ImageLib
         public int Size;
     }
 
-    // { TILFilenameProperty (instance size 16, declared in the implementation): the property editor
-//     of TCustomImageLibrary.FileName. }
+    // (declared in the implementation): the property editor of TCustomImageLibrary.FileName
     public partial class TILFilenameProperty : Aow.Rtl.TStringProperty
     {
         // ImageLib.pas:10669
         public override void Edit()
         {
-            /* TODO(T-shim) Platform or editor boundary DsgnIntf.GetComponent */
+            /* TODO: Implement DsgnIntf.GetComponent in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -8775,10 +8707,9 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:10663
-        // { TILFilenameProperty }
         public override Aow.Rtl.AnsiString GetValue()
         {
-            /* TODO(T-shim) Platform or editor boundary DsgnIntf.GetValue */
+            /* TODO: Implement DsgnIntf.GetValue in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
@@ -8793,7 +8724,7 @@ namespace Aow.Units.ImageLib
 //   DrawRect receives Rect, cut to the image for a selected centered image. }
         public static void BltLibraryImage(Aow.Rtl.TCanvas Canvas, Aow.Units.ImageLib.TLibraryImage Image, Aow.Rtl.TRect Rect, Aow.Units.ImageLib.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref Aow.Rtl.TRect DrawRect)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.SetStretchBltMode */
+            /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -8829,7 +8760,7 @@ namespace Aow.Units.ImageLib
             }
 
             Surface.Unlock();
-            /* TODO(T-4.3) Address needs a cell or array backing */
+            /* TODO: Implement cell or array backing for this address. */
             throw new System.NotImplementedException();
             Surface.Free();
         }
@@ -8839,7 +8770,7 @@ namespace Aow.Units.ImageLib
 //   of the size of their union first }
         public static void BltImageSequenceEx(Aow.Rtl.TCanvas Canvas, Aow.Units.ImageLib.TImageSequence Sequence, int Frame, Aow.Rtl.TRect Rect, Aow.Units.ImageLib.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref Aow.Rtl.TRect DrawRect)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.SetStretchBltMode */
+            /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -9289,7 +9220,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:10725
         public static void Register()
         {
-            /* TODO(T-shim) Platform or editor boundary DsgnIntf.RegisterComponentEditor */
+            /* TODO: Implement DsgnIntf.RegisterComponentEditor in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -9328,7 +9259,7 @@ namespace Aow.Units.ImageLib
 //   and outside it (TCustomImageDrawGrid.DrawCell). }
         public static void DrawFocusFrame(int DC, Aow.Rtl.TRect R, bool Focused, int Color)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.CreateSolidBrush */
+            /* TODO: Implement Windows.CreateSolidBrush in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

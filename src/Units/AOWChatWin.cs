@@ -64,37 +64,24 @@ using static Aow.Units.aowSetupEvents.aowSetupEvents;
 
 namespace Aow.Units.AOWChatWin
 {
-    // { TChatWindow: size $74; $70 pending scroll to the newest message. VMT 00412D5C. }
+    // pending scroll to the newest message
     public partial class TChatWindow : Aow.Rtl.TDataModule
     {
         public TChatWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow ChatWin;
-        // { +0044 }
         public Aow.Units.AoWMemo.TAOWMemo ChatMemo;
-        // { +0048 }
         public Aow.Units.AoWEdit.TAOWEdit ChatEdit;
-        // { +004C }
         public Aow.Units.AoWListBox.TAOWListBox PlayerList;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage SIcon;
-        // { +0054 }
         public Aow.Units.AoWLabel.TAOWLabel IWTitle;
-        // { +0058 }
         public Aow.Units.AoWButton.TAOWButton Min;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel ChatPnl;
-        // { +0060 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar NSBar;
-        // { +0064 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar ChatSB;
-        // { +0068 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +006C }
         public bool FScrollPending;
-        // { $70 }
-        public Aow.Units.FixedArray_byte_3 F_ChatWindow_71;
         // AOWChatWin.pas:47
         public void MinClick()
         {
@@ -105,7 +92,7 @@ namespace Aow.Units.AOWChatWin
         // AOWChatWin.pas:53
         public void ChatEditReturn()
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.PlayerName */
+            /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

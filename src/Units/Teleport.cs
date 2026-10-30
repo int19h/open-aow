@@ -60,8 +60,7 @@ namespace Aow.Units.Teleport
         tm7 = 7
     }
 
-    // { TTeleport (instance size 52, VMT 557A4A28): +$30 FDestinationX, +$31 FDestinationY,
-//     +$32 FDestinationL, +$33 FState (bit 0 razed). }
+    // FDestinationX, FDestinationY, FDestinationL, FState (bit 0 razed)
     public partial class TTeleport : Aow.Units.AoWE.TStructure
     {
         public TTeleport(TECustomNode owner) : base(owner)
@@ -169,7 +168,6 @@ namespace Aow.Units.Teleport
                 FState = FState - TSet<Aow.Units.Teleport.TTeleportStateElement>.Of(Aow.Units.Teleport.TTeleportStateElement.tsRazed);
             }
 
-            // { needs: ILTer.TILTerrainMO.FImageIndex is private. }
             var call__9 = GetTerrainTypeImage(TerrainType);
             this.FImageIndex = call__9;
         }
@@ -377,7 +375,6 @@ namespace Aow.Units.Teleport
 
     }
 
-    // { TTeleportResource (instance size 100, VMT 557A4C88) }
     public partial class TTeleportResource : Aow.Units.AoWE.TStructureResource
     {
         public TTeleportResource(TECustomNode owner) : base(owner)
@@ -461,7 +458,7 @@ namespace Aow.Units.Teleport
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Teleport.TTeleport>(), Aow.Units.Engine.EClass.Of<Aow.Units.Teleport.TTeleportResource>()]);
         }
 
-        // { Original AoWE resource initialization table $55798BC0..$557990E4. }
+        // Original AoWE resource initialization table
         public static Aow.Rtl.AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
         public static readonly Aow.Rtl.AnsiString TeleportNoWarRStr = (AnsiString)"Not at war with the %s";
         // { original RT_STRING $FCD6 }

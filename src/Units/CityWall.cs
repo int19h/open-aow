@@ -48,7 +48,6 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CityWall
 {
-    // { TCityWall (instance size 48, VMT 00405008) }
     public partial class TCityWall : Aow.Units.CombatILTer.TCombatILTerrain
     {
         public TCityWall(TECustomNode owner) : base(owner)
@@ -58,16 +57,10 @@ namespace Aow.Units.CityWall
         public new const int ClassID = 2229508;
 
         public int FHitPoints;
-        // { $20 }
         public int FDamageImage;
-        // { $24 }
         public int FFlagID;
-        // { $28 }
         public bool FPlaySound;
-        // { $2C }
         public byte FWallType;
-        // { $2D }
-        public Aow.Units.FixedArray_byte_2 F_CityWall_2E;
         // CityWall.pas:133
         public override sbyte GetOverlay(int Index)
         {
@@ -552,7 +545,6 @@ namespace Aow.Units.CityWall
 
     }
 
-    // { TCityWallResource (instance size 76, VMT 004051B4) }
     public partial class TCityWallResource : Aow.Units.CombatILTer.TCombatILTerrainResource
     {
         public TCityWallResource(TECustomNode owner) : base(owner)
@@ -562,8 +554,6 @@ namespace Aow.Units.CityWall
         public new const int ClassID = 2229509;
 
         public byte FDirection;
-        // { $48 }
-        public Aow.Units.FixedArray_byte_3 F_CityWallResource_49;
         // CityWall.pas:369
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -589,7 +579,6 @@ namespace Aow.Units.CityWall
 
     }
 
-    // { TCityWallDoor (instance size 48, VMT 004052AC) }
     public partial class TCityWallDoor : Aow.Units.CityWall.TCityWall
     {
         public TCityWallDoor(TECustomNode owner) : base(owner)
@@ -784,7 +773,6 @@ namespace Aow.Units.CityWall
 
     }
 
-    // { TCityWallDoorResource (instance size 76, VMT 00405460) }
     public partial class TCityWallDoorResource : Aow.Units.CityWall.TCityWallResource
     {
         public TCityWallDoorResource(TECustomNode owner) : base(owner)

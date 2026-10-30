@@ -34,31 +34,21 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.ItemCtrl
 {
-    // { TItemControlGrid (instance size 504, VMT 5580795C); $1DC indices, $1E0 stream, $1E6 show status, $1E8 map, $1EC sort, $1F0 unselect event. }
+    // indices, stream, show status, map, sort, unselect event
     public partial class TItemControlGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public Aow.Units.Engine.TIntegerList FIndices;
-        // { +$1DC }
         public Aow.Rtl.TMemoryStream FStream;
-        // { +$1E0 }
         public bool FDisplayMode;
-        // { +$1E4 }
         public bool FUnplacedOnly;
-        // { +$1E5 }
         public bool FShowStatus;
-        // { $1E6 }
-        public byte FReserved1E7;
         public Aow.Units.AoWE.TAoWHSMap FMap;
-        // { +$1E8 }
         public byte FSort;
-        // { +$1EC }
-        public Aow.Units.FixedArray_byte_3 FReserved1ED;
         public Aow.Rtl.TNotifyEvent FOnUnselect;
         // ItemCtrl.pas:135
-        // { +$1F0 }
         public override void Destroy()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Destroy */
+            /* TODO: Implement Grids.Destroy in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -81,7 +71,7 @@ namespace Aow.Units.ItemCtrl
         // ItemCtrl.pas:262
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Canvas */
+            /* TODO: Implement Controls.Canvas in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -97,14 +87,14 @@ namespace Aow.Units.ItemCtrl
         // ItemCtrl.pas:143
         protected internal override void MouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.MouseCoord */
+            /* TODO: Implement Grids.MouseCoord in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ItemCtrl.pas:157
         public void ItemChanged(Aow.Rtl.TObject Sender)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -139,21 +129,21 @@ namespace Aow.Units.ItemCtrl
         // ItemCtrl.pas:187
         public void SortOnName()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ItemCtrl.pas:197
         public void SortOnType()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ItemCtrl.pas:212
         public Aow.Units.AoWE.TItem GetSelectedItem()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -183,7 +173,7 @@ namespace Aow.Units.ItemCtrl
         // ItemCtrl.pas:235
         public void UpdateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -200,26 +190,24 @@ namespace Aow.Units.ItemCtrl
         // ItemCtrl.pas:334
         public void EditItemDone(Aow.Units.Engine.TEditResult ResultCode, Aow.Units.Engine.TEObject Obj)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ItemCtrl.pas:357
         public void DeleteItem()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Bottom */
+            /* TODO: Implement Grids.Bottom in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // ItemCtrl.pas:388
-        // { draft }
         public void RemoveItemFromMap()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Bottom */
+            /* TODO: Implement Grids.Bottom in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
-        // { AoWEd 0042B7C6 }
         [Published]
         public bool EditItemEnabled { get => FDisplayMode; set => FDisplayMode = value; }
 
@@ -235,12 +223,9 @@ namespace Aow.Units.ItemCtrl
 
     public partial class TGridMapView : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_240 Reserved04;
         public Aow.Units.AoWE.TItemControl ItemControl;
         public Aow.Units.AoWE.THeroControl HeroControl;
-        public Aow.Units.FixedArray_byte_68 ReservedFC;
         public Aow.Units.AoWE.TPlayerList Players;
-        public Aow.Units.FixedArray_byte_56 Reserved144;
         public Aow.Units.Engine.TEventList LeaderEvent;
     }
 

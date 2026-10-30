@@ -66,120 +66,66 @@ using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
 
 namespace Aow.Units.AoWSoundDlg
 {
-    // { TSoundDlg (size $12C, VMT 00420E44): $110 sound quality, $114 sound settings ($118 rate, $11C music, $11D DirectSound, $120 window, $124 SFX, $128 voices). }
+    // sound quality, sound settings (rate, music, DirectSound, window, SFX, voices)
     public partial class TSoundDlg : Aow.Rtl.TDataModule
     {
         public TSoundDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton CloseBut;
-        // { +0048 }
         public Aow.Units.AoWImage.TAOWImage TCeltLL;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0054 }
         public Aow.Units.AoWListBox.TAOWListBox SongLB;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel SongLbl;
-        // { +005C }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0060 }
         public Aow.Units.AoWPanel.TAOWPanel PlayListPnl;
-        // { +0064 }
         public Aow.Units.AoWTabPanel.TAOWTabPanel SoundTab;
-        // { +0068 }
         public Aow.Units.AoWListBox.TAOWListBox PlayLB;
-        // { +006C }
         public Aow.Units.AoWButton.TAOWButton AddBtn;
-        // { +0070 }
         public Aow.Units.AoWButton.TAOWButton RemoveBtn;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton PlayBtn;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel PlayLbl;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel CurrentSongLbl;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage TCeltLR;
-        // { +0084 }
         public Aow.Units.AoWLabel.TAOWLabel MusicVolLbl;
-        // { +0088 }
         public Aow.Units.AoWLabel.TAOWLabel SFXVolLbl;
-        // { +008C }
         public Aow.Units.AoWPanel.TAOWPanel MainPnl;
-        // { +0090 }
         public Aow.Units.AoWLabel.TAOWLabel SoundLbl;
-        // { +0094 }
         public Aow.Units.AoWPanel.TAOWPanel SettingsPnl;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel SFXLbl;
-        // { +009C }
         public Aow.Units.AoWPanel.TAOWPanel SQPnl;
-        // { +00A0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox SQCB1;
-        // { +00A4 }
         public Aow.Units.AoWLabel.TAOWLabel SQLBL1;
-        // { +00A8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox SQCB2;
-        // { +00AC }
         public Aow.Units.AoWLabel.TAOWLabel SQLBL2;
-        // { +00B0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox SQCB3;
-        // { +00B4 }
         public Aow.Units.AoWLabel.TAOWLabel SQLBL3;
-        // { +00B8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox SQCB4;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel SQLBL4;
-        // { +00C0 }
         public Aow.Units.AoWPanel.TAOWPanel SFXPnl;
-        // { +00C4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox MusicEnabledChk;
-        // { +00C8 }
         public Aow.Units.AoWLabel.TAOWLabel SFXLBL2;
-        // { +00CC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox SFXEnabledChk;
-        // { +00D0 }
         public Aow.Units.AoWLabel.TAOWLabel SFXLBL3;
-        // { +00D4 }
         public Aow.Units.AoWFrame.TAoWFrame TopLine;
-        // { +00D8 }
         public Aow.Units.AoWImage.TAOWImage AOWImage4;
-        // { +00DC }
         public Aow.Units.AoWImage.TAOWImage HarpL;
-        // { +00E0 }
         public Aow.Units.AoWImage.TAOWImage HarpR;
-        // { +00E4 }
         public Aow.Units.AoWHScroll.TAOWHScrollBar MusicVolume;
-        // { +00E8 }
         public Aow.Units.AoWHScroll.TAOWHScrollBar SFXVolume;
-        // { +00EC }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +00F0 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar SongSB;
-        // { +00F4 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar PlaySB;
-        // { +00F8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox DirectSoundEnabledChk;
-        // { +00FC }
         public Aow.Units.AoWLabel.TAOWLabel UseDirectSoundLbl;
-        // { +0100 }
         public Aow.Units.AoWPanel.TAOWPanel FolderPnl;
-        // { +0104 }
         public Aow.Units.AoWPanel.TAOWPanel PlayPnl;
-        // { +0108 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +010C }
         public int FSoundQuality;
-        // { $110 }
         public Aow.Units.Sound.TSoundSettings FSettings;
         // AoWSoundDlg.pas:108
-        // { $114..$12B }
-        // { conflict: FSoundSettings: TSoundSettings; }
         public void CloseClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);

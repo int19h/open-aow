@@ -52,33 +52,23 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWMsgReceiveDlg
 {
-    // { TMsgReceiveDlg (instance size $70, VMT 00438EC4): $64 done callback, $6C retained event. }
+    // done callback, retained event
     public partial class TMsgReceiveDlg : Aow.Rtl.TDataModule
     {
         public TMsgReceiveDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow MsgReceiveWin;
-        // { +0044 }
         public Aow.Units.AoWMemo.TAOWMemo MessageMemo;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +004C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar MessageSB;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage LShield;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage RShield;
-        // { +0058 }
         public Aow.Units.AoWMemo.TAOWMemo HeaderMemo;
-        // { +005C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0060 }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $64 }
         public Aow.Units.EventLog.TEventLog FEvent;
         // AoWMsgReceiveDlg.pas:54
-        // { $6C }
         public void FinishDialog()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;

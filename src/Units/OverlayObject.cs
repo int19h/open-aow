@@ -34,7 +34,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.OverlayObject
 {
-    // { TOverlayObject (instance size 28, VMT 557D3C78) }
     public partial class TOverlayObject : Aow.Units.ILTer.TFixedILTerrainMO
     {
         public TOverlayObject(TECustomNode owner) : base(owner)
@@ -45,7 +44,7 @@ namespace Aow.Units.OverlayObject
 
     }
 
-    // { TOverlayObjectResource (instance size 72, VMT 557D3E30): $44 FOverlayType. }
+    // FOverlayType
     public partial class TOverlayObjectResource : Aow.Units.ILTer.TFixedILTerrainMOR
     {
         public TOverlayObjectResource(TECustomNode owner) : base(owner)
@@ -56,7 +55,6 @@ namespace Aow.Units.OverlayObject
 
         public int FOverlayType;
         // OverlayObject.pas:48
-        // { $44 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);

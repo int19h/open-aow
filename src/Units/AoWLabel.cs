@@ -30,14 +30,13 @@ namespace Aow.Units.AoWLabel
 {
     // { The AoWLabel unit of aowInt.dpl: TAOWLabel, a line of text in an image library font; it
 //   sizes itself to its text. }
-    // { AoWLabel.TAOWLabel (instance size 276): no fields of its own }
+    // no fields of its own
     public partial class TAOWLabel : Aow.Units.AoWControl.TAOWControl
     {
         public TAOWLabel(TComponent owner) : base(owner)
         { }
 
         // AoWLabel.pas:38
-        // { TAOWLabel }
         public override void Validate()
         {
             if (FAOWFont != null)

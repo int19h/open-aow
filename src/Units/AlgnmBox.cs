@@ -34,16 +34,11 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AlgnmBox
 {
-    // { TAlignmentBox (instance size 372, VMT 557FEB3C) }
     public partial class TAlignmentBox : Aow.Rtl.TComboBox
     {
         public Aow.Units.AoWE.TAlignment FAlignment;
-        // { +$170 }
         public TSet<Aow.Units.AoWE.TAlignment> FAlignments;
-        // { +$171 }
         public bool FSetMode;
-        // { +$172 }
-        public Aow.Units.FixedArray_byte_1 F_AlignmentBox_173;
         // AlgnmBox.pas:133
         public override void Loaded()
         {
@@ -55,35 +50,35 @@ namespace Aow.Units.AlgnmBox
 
         public TAlignmentBox(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
+            /* TODO: Implement StdCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // AlgnmBox.pas:60
         public void GenerateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // AlgnmBox.pas:100
         public void SetAlignments(TSet<Aow.Units.AoWE.TAlignment> Value)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // AlgnmBox.pas:110
         public void SetAlignment(Aow.Units.AoWE.TAlignment Value)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // AlgnmBox.pas:120
         protected internal override void Change()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

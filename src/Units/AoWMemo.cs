@@ -36,27 +36,23 @@ namespace Aow.Units.AoWMemo
         mtBlank = 1
     }
 
-    // { AoWMemo.TColorChange (instance size 12): the color of a wrapped line. +4 FHasColor, +8
-//     FColor }
+    // the color of a wrapped line. FHasColor, FColor
     public partial class TColorChange : Aow.Rtl.TObject
     {
         public bool FHasColor;
         public int FColor;
     }
 
-    // { AoWMemo.TAOWMemo (instance size 396). Fields: +$114 F114 (cleared by CheckMouseUp, not read),
-//     +$118 FItems (the text, one paragraph a line), +$11C FColorList (TColorChange of every wrapped
-//     line), +$120 FVScrollBar, +$124 FNumVisible (lines that fit), +$128 FTopItem (the first line
-//     shown), +$12C FScrollSet, +$130 FOnDrawItem, +$138 FScrollWidth (the width taken at the right
-//     by the frame or the scroll bar), +$13C FScrollVisible, +$13D FCursorChar, +$140 FBlink (the
-//     cursor is shown), +$144 FBlinkDelay, +$145 FBlinkCount, +$148 FCurCol, +$14C FCurLine (the
-//     cursor in FLines), +$150 FRealCol, +$154 FRealLine (the cursor in FItems), +$158 FEditable,
-//     +$15C FILFrame, +$160 FILTexture, +$164 FItemHeight, +$168 FColorChangeChar, +$169
-//     FTextAlign, +$16A FNoFrame (Validate found no frame or texture: drawn transparent), +$16C
-//     FILIndexFrame, +$170 FILIndexTexture, +$174 FDrawIndex, +$178 FItemRect (the line being
-//     drawn, for OnDrawItem), +$188 FLines (the wrapped lines). FRedraw (+$94) is the focus: the
-//     memo takes the keys while it is set.
-//     VMT (new): SetILFrame, SetILTexture }
+    // Fields: F114 (cleared by CheckMouseUp, not read), FItems (the text, one paragraph a line),
+    // FColorList (TColorChange of every wrapped line), FVScrollBar, FNumVisible (lines that fit),
+    // FTopItem (the first line shown), FScrollSet, FOnDrawItem, FScrollWidth (the width taken at
+    // the right by the frame or the scroll bar), FScrollVisible, FCursorChar, FBlink (the cursor is
+    // shown), FBlinkDelay, FBlinkCount, FCurCol, FCurLine (the cursor in FLines), FRealCol,
+    // FRealLine (the cursor in FItems), FEditable, FILFrame, FILTexture, FItemHeight,
+    // FColorChangeChar, FTextAlign, FNoFrame (Validate found no frame or texture: drawn
+    // transparent), FILIndexFrame, FILIndexTexture, FDrawIndex, FItemRect (the line being drawn,
+    // for OnDrawItem), FLines (the wrapped lines). FRedraw is the focus: the memo takes the keys
+    // while it is set
     public partial class TAOWMemo : Aow.Units.AoWControl.TAOWControl
     {
         public int F114;
@@ -90,7 +86,6 @@ namespace Aow.Units.AoWMemo
         public Aow.Rtl.TRect FItemRect;
         public Aow.Rtl.TStringList FLines;
         // AoWMemo.pas:126
-        // { TAOWMemo }
         public TAOWMemo(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
@@ -983,7 +978,6 @@ namespace Aow.Units.AoWMemo
         // AoWMemo.pas:325
         public void SetVScroll(Aow.Units.AoWVScroll.TAOWVScrollBar Value)
         {
-            // { Tried parameter identity, with and typed/TObject locals; original scrollbar save still differs. }
             FVScrollBar = Value;
             if (Value != null)
             {

@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Crypt
 {
-    // { TCrypt (instance size 64, no added fields, VMT 557C64D0) }
     public partial class TCrypt : Aow.Units.ItemExpS.TItemExplorationSite
     {
         public TCrypt(TECustomNode owner) : base(owner)
@@ -47,7 +46,6 @@ namespace Aow.Units.Crypt
 
     }
 
-    // { TCryptResource (instance size 104, no added fields, VMT 557C6740) }
     public partial class TCryptResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
         public TCryptResource(TECustomNode owner) : base(owner)

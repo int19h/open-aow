@@ -60,71 +60,42 @@ using static Aow.Units.AoWExeForms.AoWExeForms;
 
 namespace Aow.Units.AoWMessageDlg
 {
-    // { TMessageDlg (size $BC, VMT 0040E4E8): $B0 completion event, $B8 retained message event. }
+    // completion event, retained message event
     public partial class TMessageDlg : Aow.Rtl.TDataModule
     {
         public TMessageDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;
-        // { +0048 }
         public Aow.Units.AoWPanel.TAOWPanel YesNoPnl;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton YesBtn;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton NoBtn;
-        // { +0054 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton OKBtn;
-        // { +006C }
         public Aow.Units.AoWPanel.TAOWPanel OKPnl;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel OKCancelPnl;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton OKBtn2;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +007C }
         public Aow.Units.AoWMemo.TAOWMemo MessageMemo;
-        // { +0080 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar MessageMemoSB;
-        // { +0084 }
         public Aow.Units.AoWPanel.TAOWPanel YesNoCancelPnl;
-        // { +0088 }
         public Aow.Units.AoWButton.TAOWButton YesBtn2;
-        // { +008C }
         public Aow.Units.AoWButton.TAOWButton NoBtn2;
-        // { +0090 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn2;
-        // { +0094 }
         public Aow.Units.AoWPanel.TAOWPanel MemoPnl;
-        // { +0098 }
         public Aow.Units.AoWPanel.TAOWPanel HeaderMemoPnl;
-        // { +009C }
         public Aow.Units.AoWMemo.TAOWMemo HeaderMemo;
-        // { +00A0 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar HeaderMemoSB;
-        // { +00A4 }
         public Aow.Units.AoWLabel.TAOWLabel HeaderLbl;
-        // { +00A8 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +00AC }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $B0 }
         public Aow.Units.EventLog.TMessageEventLog FEvent;
         // AoWMessageDlg.pas:68
-        // { $B8 }
         public void FinishDialog()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;
@@ -146,14 +117,12 @@ namespace Aow.Units.AoWMessageDlg
         }
 
         // AoWMessageDlg.pas:83
-        // { 0040E780 }
         public void DlgHide()
         {
             FinishDialog();
         }
 
         // AoWMessageDlg.pas:88
-        // { draft }
         public void YesBtnClick()
         {
             var call__1 = FEvent.Yes();
@@ -164,7 +133,6 @@ namespace Aow.Units.AoWMessageDlg
         }
 
         // AoWMessageDlg.pas:93
-        // { draft }
         public void NoBtnClick()
         {
             var call__2 = FEvent.No();
@@ -175,7 +143,6 @@ namespace Aow.Units.AoWMessageDlg
         }
 
         // AoWMessageDlg.pas:98
-        // { draft }
         public void OKBtnClick()
         {
             if (FEvent != null)
@@ -191,7 +158,6 @@ namespace Aow.Units.AoWMessageDlg
         }
 
         // AoWMessageDlg.pas:105
-        // { draft }
         public void OKBtn2Click()
         {
             var call__4 = FEvent.OK();
@@ -202,7 +168,6 @@ namespace Aow.Units.AoWMessageDlg
         }
 
         // AoWMessageDlg.pas:110
-        // { draft }
         public void CancelBtnClick()
         {
             var call__5 = FEvent.Cancel();
@@ -216,7 +181,6 @@ namespace Aow.Units.AoWMessageDlg
     public static partial class AoWMessageDlg
     {
         // AoWMessageDlg.pas:116
-        // { draft }
         public static void ShowDemoMessage()
         {
             Aow.Units.AoWExeForms.AoWExeForms.ResetMessageDialog(Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg);

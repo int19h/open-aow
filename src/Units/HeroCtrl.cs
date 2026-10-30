@@ -34,31 +34,22 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.HeroCtrl
 {
-    // { THeroControlGrid (instance size 504, VMT 55808AFC); $1DC indices, $1E0 show level, $1E2 show status, $1E4 stream, $1E8 map, $1EC sort, $1F0 unselect event. }
+    // indices, show level, show status, stream, map, sort, unselect event
     public partial class THeroControlGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public Aow.Units.Engine.TIntegerList FIndices;
-        // { +$1DC }
         public bool FShowLevel;
-        // { $1E0 }
         public bool FReservedDisplay;
         public bool FShowStatus;
-        // { $1E2 }
         public bool FUnplacedOnly;
-        // { +$1E3 }
         public Aow.Rtl.TMemoryStream FStream;
-        // { +$1E4 }
         public Aow.Units.AoWE.TAoWHSMap FMap;
-        // { +$1E8 }
         public byte FSort;
-        // { +$1EC }
-        public Aow.Units.FixedArray_byte_3 FReserved1ED;
         public Aow.Rtl.TNotifyEvent FOnUnselect;
         // HeroCtrl.pas:134
-        // { +$1F0 }
         public override void Destroy()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Destroy */
+            /* TODO: Implement Grids.Destroy in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -81,14 +72,14 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:263
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Canvas */
+            /* TODO: Implement Controls.Canvas in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // HeroCtrl.pas:142
         protected internal override void MouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.MouseCoord */
+            /* TODO: Implement Grids.MouseCoord in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -123,7 +114,7 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:180
         public void HeroChanged(Aow.Rtl.TObject Sender)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -149,7 +140,7 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:193
         public Aow.Units.AoWE.THero GetSelectedHero()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -183,7 +174,7 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:220
         public void UpdateHeroes()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -210,14 +201,14 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:356
         public void DeleteHero()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Bottom */
+            /* TODO: Implement Grids.Bottom in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // HeroCtrl.pas:379
         public void RemoveFromMap()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Top */
+            /* TODO: Implement Grids.Top in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -239,12 +230,9 @@ namespace Aow.Units.HeroCtrl
 
     public partial class TGridMapView : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_240 Reserved04;
         public Aow.Units.AoWE.TItemControl ItemControl;
         public Aow.Units.AoWE.THeroControl HeroControl;
-        public Aow.Units.FixedArray_byte_68 ReservedFC;
         public Aow.Units.AoWE.TPlayerList Players;
-        public Aow.Units.FixedArray_byte_56 Reserved144;
         public Aow.Units.Engine.TEventList LeaderEvent;
     }
 

@@ -65,9 +65,7 @@ namespace Aow.Units.Animation
     }
 
     // { ot=1 }
-    // { TAnimation: size $3C; $08/$09/$0A hex position, $0B display level,
-//     $0C state, $10 frame, $14..$23 dimensions, $24/$2C callbacks,
-//     $34 tag, $38 map. VMT 557FAEA0. }
+    // hex position, display level, state, frame, dimensions, callbacks, tag, map
     public partial class TAnimation : Aow.Units.HSEngine.THexagonSprite
     {
         public TAnimation(TECustomNode owner) : base(owner)
@@ -79,29 +77,17 @@ namespace Aow.Units.Animation
         public new const int ClassID = 131815;
 
         public sbyte FXhx;
-        // { $08 }
         public sbyte FYhx;
-        // { $09 }
         public sbyte FLhx;
-        // { $0A }
         public byte FAnimationLevel;
-        // { $0B }
         public TSet<Aow.Units.Animation.TAnimationStateElement> FState;
-        // { $0C }
         public int FFrameCounter;
-        // { $10 }
         public Aow.Rtl.TRect FDimensions;
-        // { $14 }
         public Aow.Units.Animation.TShowAnimationEvent FOnShow;
-        // { $24 }
-        // { conflict: FOnShowAnimation: TShowAnimationEvent; }
         public Aow.Units.Animation.TNewFrameAnimationEvent FOnNewFrame;
-        // { $2C }
         public int FTag;
-        // { $34 }
         public Aow.Units.HSEngine.THSMap FAnimationMap;
         // Animation.pas:133
-        // { $38 }
         public override void Destroy()
         {
             base.Destroy();
@@ -383,7 +369,6 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:286
-        // { $108; 557E2BB4 }
         public virtual bool PlaceTE(Aow.Units.Animation.TAnimationTE Event, Aow.Units.NetworkE.TTokenExecuter Executer)
         {
             bool Result = default;
@@ -393,7 +378,6 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:291
-        // { $10C }
         public virtual bool RemoveTE(Aow.Units.Animation.TAnimationTE Event, Aow.Units.NetworkE.TTokenExecuter Executer)
         {
             bool Result = default;
@@ -403,7 +387,6 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:297
-        // { $110 }
         public virtual bool ExecuteTE(Aow.Units.Animation.TAnimationTE Event, Aow.Units.NetworkE.TTokenExecuter Executer)
         {
             bool Result = default;
@@ -412,7 +395,6 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:308
-        // { $114 }
         public virtual bool CanPlace(Aow.Units.HSEngine.TMapContainer Map, sbyte X, sbyte Y, sbyte L)
         {
             bool Result = default;
@@ -429,7 +411,6 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:357
-        // { $118 }
         public virtual bool PlaceHX(Aow.Units.HSEngine.TMapContainer Map, sbyte X, sbyte Y, sbyte L)
         {
             bool Result = default;
@@ -460,7 +441,6 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:302
-        // { +11C }
         public virtual void NewFrame()
         {
             FFrameCounter += 1;
@@ -471,7 +451,6 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:138
-        // { $120 }
         public void DestroyEvent(Aow.Rtl.TObject Sender)
         {
             if (Owner == null)
@@ -513,7 +492,7 @@ namespace Aow.Units.Animation
 
     }
 
-    // { TAnimationTE: size $18; $10 state, $14 animation. VMT 557FB074. }
+    // state, animation
     public partial class TAnimationTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TAnimationTE(TECustomNode owner) : base(owner)
@@ -523,10 +502,8 @@ namespace Aow.Units.Animation
         public new const int ClassID = 135433;
 
         public Aow.Units.Animation.TAnimationTEState FState;
-        // { $10 }
         public Aow.Units.Animation.TAnimation FAnimation;
         // Animation.pas:399
-        // { $14 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -589,8 +566,7 @@ namespace Aow.Units.Animation
 
     }
 
-    // { TImageSequenceAnimation: size $50; $3C sequence, $40/$44 pixel offsets,
-//     $48 last frame, $4C loop flag. VMT 557FB13C. }
+    // sequence, pixel offsets, last frame, loop flag
     public partial class TImageSequenceAnimation : Aow.Units.Animation.TAnimation
     {
         public TImageSequenceAnimation(TECustomNode owner) : base(owner)
@@ -601,16 +577,10 @@ namespace Aow.Units.Animation
         }
 
         public Aow.Units.ImageLib.TImageSequence FImageSequence;
-        // { $3C }
         public int FXhpOffset;
-        // { $40 }
         public int FYhpOffset;
-        // { $44 }
         public int FFrameCount;
-        // { $48 }
         public bool FLooped;
-        // { $4C }
-        public Aow.Units.FixedArray_byte_3 F_ImageSequenceAnimation_4D;
         // Animation.pas:424
 
 
@@ -747,8 +717,7 @@ namespace Aow.Units.Animation
 
     }
 
-    // { TTwinkleAnimation: size $54; $3C sequence, $40 particle count, $44 radius,
-//     $48 lifetime, $4C random start delay, $50 mode. VMT 557FB340. }
+    // sequence, particle count, radius, lifetime, random start delay, mode
     public partial class TTwinkleAnimation : Aow.Units.Animation.TAnimation
     {
         public TTwinkleAnimation(TECustomNode owner) : base(owner)
@@ -757,18 +726,12 @@ namespace Aow.Units.Animation
         }
 
         public Aow.Units.ImageLib.TImageSequence FImageSequence;
-        // { $3C }
         public int FCount;
-        // { $40 }
         public int FRadius;
-        // { $44 }
         public int FDuration;
-        // { $48 }
         public int FStartDelay;
-        // { $4C }
         public TSet<Aow.Units.Animation.TTwinkleModeElement> FMode;
         // Animation.pas:532
-        // { $50 }
 
 
         // Animation.pas:538

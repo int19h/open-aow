@@ -88,185 +88,98 @@ using static Aow.Units.BldGuild.BldGuild;
 
 namespace Aow.Units.AoWRealm
 {
-    // { TRealmWin (instance size 412, VMT 004484F0) }
     public partial class TRealmWin : Aow.Rtl.TDataModule
     {
         public TRealmWin(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel OWTitle;
-        // { +0048 }
         public Aow.Units.AoWImage.TAOWImage OWTitleIc;
-        // { +004C }
         public Aow.Units.AoWTabPanel.TAOWTabPanel HeaderTab;
-        // { +0050 }
         public Aow.Units.AoWPanel.TAOWPanel T1Pnl;
-        // { +0054 }
         public Aow.Units.AoWPanel.TAOWPanel T2Pnl;
-        // { +0058 }
         public Aow.Units.AoWPanel.TAOWPanel T2LBPnl;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel T3Pnl;
-        // { +0060 }
         public Aow.Units.AoWPanel.TAOWPanel T3LBPnl;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton Minimize;
-        // { +0068 }
         public Aow.Units.AoWPanel.TAOWPanel T4Pnl;
-        // { +006C }
         public Aow.Units.AoWPanel.TAOWPanel T4LBPnl;
-        // { +0070 }
         public Aow.Units.AoWListBox.TAOWListBox T2NameLB;
-        // { +0074 }
         public Aow.Units.AoWListBox.TAOWListBox T2RaceLB;
-        // { +0078 }
         public Aow.Units.AoWListBox.TAOWListBox T2IncomeLB;
-        // { +007C }
         public Aow.Units.AoWListBox.TAOWListBox T2LevelLB;
-        // { +0080 }
         public Aow.Units.AoWListBox.TAOWListBox T2WallLB;
-        // { +0084 }
         public Aow.Units.AoWListBox.TAOWListBox T2SizeLB;
-        // { +0088 }
         public Aow.Units.AoWListBox.TAOWListBox T2EncLB;
-        // { +008C }
         public Aow.Units.AoWButton.TAOWButton T2SName;
-        // { +0090 }
         public Aow.Units.AoWButton.TAOWButton T2SRace;
-        // { +0094 }
         public Aow.Units.AoWButton.TAOWButton T2SIn;
-        // { +0098 }
         public Aow.Units.AoWButton.TAOWButton T2SWall;
-        // { +009C }
         public Aow.Units.AoWButton.TAOWButton T2SLvl;
-        // { +00A0 }
         public Aow.Units.AoWButton.TAOWButton T2SSize;
-        // { +00A4 }
         public Aow.Units.AoWButton.TAOWButton T2SEnc;
-        // { +00A8 }
         public Aow.Units.AoWListBox.TAOWListBox T2ActLB;
-        // { +00AC }
         public Aow.Units.AoWButton.TAOWButton T2SAct;
-        // { +00B0 }
         public Aow.Units.AoWListBox.TAOWListBox T2RelLB;
-        // { +00B4 }
         public Aow.Units.AoWButton.TAOWButton T2SRel;
-        // { +00B8 }
         public Aow.Units.AoWListBox.TAOWListBox T2MorLB;
-        // { +00BC }
         public Aow.Units.AoWButton.TAOWButton T2SMor;
-        // { +00C0 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar CitySB;
-        // { +00C4 }
         public Aow.Units.AoWListBox.TAOWListBox T3Name;
-        // { +00C8 }
         public Aow.Units.AoWButton.TAOWButton T3SName;
-        // { +00CC }
         public Aow.Units.AoWListBox.TAOWListBox T3ActLB;
-        // { +00D0 }
         public Aow.Units.AoWButton.TAOWButton T3Activity;
-        // { +00D4 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar PlaceSB;
-        // { +00D8 }
         public Aow.Units.AoWFrame.TAoWFrame UnitFr;
-        // { +00DC }
         public Aow.Units.AOWGauge.TAoWGauge UnitGg;
-        // { +00E0 }
         public Aow.Units.AoWListBox.TAOWListBox Unit1LB;
-        // { +00E4 }
         public Aow.Units.AoWListBox.TAOWListBox Unit2LB;
-        // { +00E8 }
         public Aow.Units.AoWListBox.TAOWListBox Unit3LB;
-        // { +00EC }
         public Aow.Units.AoWListBox.TAOWListBox Unit4LB;
-        // { +00F0 }
         public Aow.Units.AoWListBox.TAOWListBox Unit5LB;
-        // { +00F4 }
         public Aow.Units.AoWListBox.TAOWListBox Unit6LB;
-        // { +00F8 }
         public Aow.Units.AoWListBox.TAOWListBox Unit7LB;
-        // { +00FC }
         public Aow.Units.AoWListBox.TAOWListBox Unit8LB;
-        // { +0100 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar PartySb;
-        // { +0104 }
         public Aow.Units.AoWPanel.TAOWPanel HeroPnl;
-        // { +0108 }
         public Aow.Units.AoWPanel.TAOWPanel T5MainPnl;
-        // { +010C }
         public Aow.Units.AoWListBox.TAOWListBox T5Name;
-        // { +0110 }
         public Aow.Units.AoWListBox.TAOWListBox T5Health;
-        // { +0114 }
         public Aow.Units.AoWListBox.TAOWListBox T5Level;
-        // { +0118 }
         public Aow.Units.AoWButton.TAOWButton T5SName;
-        // { +011C }
         public Aow.Units.AoWButton.TAOWButton T5SHealth;
-        // { +0120 }
         public Aow.Units.AoWButton.TAOWButton T5SLevel;
-        // { +0124 }
         public Aow.Units.AoWPanel.TAOWPanel T5HeroInf;
-        // { +0128 }
         public Aow.Units.AoWPanel.TAOWPanel T5LBFr;
-        // { +012C }
         public Aow.Units.AoWButton.TAOWButton HInfoBtn;
-        // { +0130 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar HeroSB;
-        // { +0134 }
         public Aow.Units.AoWPanel.TAOWPanel TotalPnl;
-        // { +0138 }
         public Aow.Units.AoWPanel.TAOWPanel IncomePnl;
-        // { +013C }
         public Aow.Units.AoWMemo.TAOWMemo IncomeMem;
-        // { +0140 }
         public Aow.Units.AoWPanel.TAOWPanel IncomeBtm;
-        // { +0144 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar IncomeSB;
-        // { +0148 }
         public Aow.Units.AoWLabel.TAOWLabel IncomeLbl;
-        // { +014C }
         public Aow.Units.AoWLabel.TAOWLabel Income;
-        // { +0150 }
         public Aow.Units.AoWPanel.TAOWPanel UpkeepPnl;
-        // { +0154 }
         public Aow.Units.AoWMemo.TAOWMemo UpkeepMem;
-        // { +0158 }
         public Aow.Units.AoWPanel.TAOWPanel UpkeepBtm;
-        // { +015C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar UpkeepSB;
-        // { +0160 }
         public Aow.Units.AoWLabel.TAOWLabel UpkeepLbl;
-        // { +0164 }
         public Aow.Units.AoWLabel.TAOWLabel Upkeep;
-        // { +0168 }
         public Aow.Units.AoWLabel.TAOWLabel Totallbl;
-        // { +016C }
         public Aow.Units.AoWLabel.TAOWLabel NetInc;
-        // { +0170 }
         public Aow.Units.AoWPanel.TAOWPanel TotalBtm;
-        // { +0174 }
         public Aow.Units.AoWLabel.TAOWLabel TreasuryLbl;
-        // { +0178 }
         public Aow.Units.AoWLabel.TAOWLabel Treasury;
-        // { +017C }
         public Aow.Units.AoWPanel.TAOWPanel TreasuryPnl;
-        // { +0180 }
         public Aow.Units.AoWMemo.TAOWMemo IncomeValue;
-        // { +0184 }
         public Aow.Units.AoWMemo.TAOWMemo UpkeepValue;
-        // { +0188 }
         public Aow.Units.AoWImage.TAOWImage GoldAnim;
-        // { +018C }
         public Aow.Units.AoWPanel.TAOWPanel PicPnl;
-        // { +0190 }
         public Aow.Units.AoWButton.TAOWButton Help;
-        // { +0194 }
         public Aow.Rtl.TIvTranslator Translator;
         // AoWRealm.pas:238
-        // { +0198 }
         public void UpdateIncome()
         {
             int Value = default;
@@ -334,7 +247,6 @@ namespace Aow.Units.AoWRealm
         }
 
         // AoWRealm.pas:178
-        // { 00448EB4 }
         public void UpdateCities()
         {
             int I = default;
@@ -463,7 +375,6 @@ namespace Aow.Units.AoWRealm
         }
 
         // AoWRealm.pas:309
-        // { 00449230 }
         public void UpdatePlaces()
         {
             int I = default;
@@ -490,7 +401,6 @@ namespace Aow.Units.AoWRealm
         }
 
         // AoWRealm.pas:283
-        // { 0044975C }
         public void UpdateHeroes()
         {
             int I = default;
@@ -539,13 +449,11 @@ namespace Aow.Units.AoWRealm
         }
 
         // AoWRealm.pas:327
-        // { 00449894 }
         public void UpdateOther()
         {
         }
 
         // AoWRealm.pas:331
-        // { 00449B2C }
         public void UpdateOverview()
         {
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == -1)
@@ -579,7 +487,6 @@ namespace Aow.Units.AoWRealm
         }
 
         // AoWRealm.pas:345
-        // { 00449B30 }
         public void DrawArmyUnit(int Column, in Aow.Rtl.TRect DrawRect, int DrawItem, ref Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
             Aow.Units.AoWE.TAbstractUnit U = default;
@@ -637,7 +544,6 @@ namespace Aow.Units.AoWRealm
         }
 
         // AoWRealm.pas:382
-        // { 0044A030 }
         public void OWMinIconClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -693,7 +599,6 @@ namespace Aow.Units.AoWRealm
         // AoWRealm.pas:421
         public void Unit1LBChange(Aow.Rtl.TObject Sender)
         {
-            // { Tried typed Sender without redundant with cast; typed Sender retaining cast plus explicit window with; no exact match. }
             var listBox = (Aow.Units.AoWListBox.TAOWListBox)Sender;
             var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
             var call__69 = call__68.FArmies.GetArmy(listBox.Selected);
@@ -856,7 +761,6 @@ namespace Aow.Units.AoWRealm
         // AoWRealm.pas:513
         public void HeroListDoubleClick(Aow.Rtl.TObject Sender)
         {
-            // { Tried separate selection cast; no exact match. }
             var listBox = (Aow.Units.AoWListBox.TAOWListBox)Sender;
             if (listBox.Selected != -1)
             {

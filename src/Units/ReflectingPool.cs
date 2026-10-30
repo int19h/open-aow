@@ -34,7 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.ReflectingPool
 {
-    // { TReflectingPool: size $40; $3C FCenterFrame (-1 when inactive). }
+    // FCenterFrame (-1 when inactive)
     public partial class TReflectingPool : Aow.Units.AoWE.TPlayerStructure
     {
         public TReflectingPool(TECustomNode owner) : base(owner)
@@ -465,7 +465,6 @@ namespace Aow.Units.ReflectingPool
 
     }
 
-    // { TReflectingPoolResource (instance size 116, VMT 557D4B6C) }
     public partial class TReflectingPoolResource : Aow.Units.AoWE.TPlayerStructureResource
     {
         public TReflectingPoolResource(TECustomNode owner) : base(owner)

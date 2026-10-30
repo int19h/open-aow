@@ -36,25 +36,18 @@ using static Aow.Units.UnitIDlg.UnitIDlg;
 
 namespace Aow.Units.UnitGrid
 {
-    // { TUnitGrid (instance size 500, VMT 55802E30): $1DC FSelectionControl,
-//     $1E0 FUnits, $1E4 FEditEnabled, $1E5 FShowUnitLevel, $1F0 FMemoryStream. }
+    // FSelectionControl, FUnits, FEditEnabled, FShowUnitLevel, FMemoryStream
     public partial class TUnitGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public Aow.Units.AoWE.TUnitSelectionControl FSelectionControl;
-        // { $1DC }
         public Aow.Units.AoWE.TUnitList FUnits;
-        // { $1E0 }
         public bool FEditEnabled;
-        // { $1E4 }
         public bool FShowUnitLevel;
-        // { $1E5 }
-        public Aow.Units.FixedArray_byte_10 F_UnitGrid_1E6;
         public Aow.Rtl.TMemoryStream FMemoryStream;
         // UnitGrid.pas:60
-        // { $1F0 }
         public override void Destroy()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Destroy */
+            /* TODO: Implement Grids.Destroy in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -74,22 +67,21 @@ namespace Aow.Units.UnitGrid
         // UnitGrid.pas:98
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Graphics.Handle */
+            /* TODO: Implement Graphics.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitGrid.pas:67
         public void SetShowUnitLevel(bool Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitGrid.pas:73
-        // { AoWEd 0041B03F }
         public void SetUnits(Aow.Units.AoWE.TUnitList Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -123,35 +115,35 @@ namespace Aow.Units.UnitGrid
         // UnitGrid.pas:90
         public Aow.Units.AoWE.TAbstractUnit GetSelectedUnit()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitGrid.pas:133
         public void AddUnit()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitGrid.pas:169
         public void DeleteUnit()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitGrid.pas:184
         public void EditUnitDone(Aow.Units.Engine.TEditResult EditResult, Aow.Units.Engine.TEObject Obj)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitGrid.pas:196
         protected internal override void DblClick()
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.Create */
+            /* TODO: Implement Forms.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

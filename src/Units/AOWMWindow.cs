@@ -52,32 +52,21 @@ using static Aow.Units.AoWFileDialog.AoWFileDialog;
 
 namespace Aow.Units.AOWMWindow
 {
-    // { TMWindow: size $70; $5C saved map rectangle, $6D/$6F saved alignment. VMT 00450C38. }
+    // saved map rectangle, saved alignment
     public partial class TMWindow : Aow.Rtl.TDataModule
     {
         public TMWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow MapWindow;
-        // { +0044 }
         public Aow.Units.HSEngine.THSMapViewer MapViewer;
-        // { +0048 }
         public Aow.Rtl.TRect FWorldRect;
-        // { $4C }
         public Aow.Rtl.TRect FMapRect;
-        // { $5C }
-        // { conflict: FCombatRect: TRect; }
         public Aow.Units.AoWComp.TAOWAlignWidth FWorldAlignWidth;
-        // { $6C }
         public Aow.Units.AoWComp.TAOWAlignWidth FMapAlignWidth;
-        // { $6D }
-        // { conflict: FCombatAlignWidth: TAOWAlignWidth; }
         public Aow.Units.AoWComp.TAOWAlignHeight FWorldAlignHeight;
-        // { $6E }
         public Aow.Units.AoWComp.TAOWAlignHeight FMapAlignHeight;
         // AOWMWindow.pas:61
-        // { $6F }
-        // { conflict: FCombatAlignHeight: TAOWAlignHeight; }
         public bool InsideMap(int X, int Y)
         {
             bool Result = default;
@@ -87,7 +76,6 @@ namespace Aow.Units.AOWMWindow
         }
 
         // AOWMWindow.pas:53
-        // { 00450DE8 }
         public void MWindowCreate()
         {
             MapWindow.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
@@ -123,7 +111,6 @@ namespace Aow.Units.AOWMWindow
         // AOWMWindow.pas:82
         public void MapWindowMouseMove(Aow.Units.AoWComp.TAoWComponent Sender, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            // { Tried coordinate identity assignments; no exact match. }
             var window = MapWindow;
             if ((((X > (window.WinLeft + 11)) && (X < ((MapWindow.WinLeft + window.WinWidth) - 11))) && (Y > (window.WinTop + 11))) && (Y < ((window.WinTop + window.WinHeight) - 11)))
             {
@@ -135,7 +122,6 @@ namespace Aow.Units.AOWMWindow
         // AOWMWindow.pas:93
         public void MapViewerSceneChanged()
         {
-            // { Tried scanner-first comparison; no exact match. }
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer != -1)
             {
                 Aow.Units.AoWSWindow.AoWSWindow.SWindow.Scanner.SetTWidth(Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer.SceneWidth / 32);

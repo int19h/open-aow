@@ -96,14 +96,11 @@ namespace Aow.Units.E3Globals
 {
     public static partial class E3Globals
     {
-        // { $45B054; 00404F58 }
         public static Aow.Units.AoWUnitSelDlg.TUnitSelectionDlg UnitSelectionDlg;
         public static Aow.Units.AoWArmyInfoDlg.TArmyInfoDlg ArmyInfoDlg;
         public static Aow.Units.AoWDisjunctionDlg.TDisjunctionDlg DisjunctionDlg;
-        // { $45B290 }
         public static Aow.Units.AoWEmailSettingsDlg.TEmailSettingsDlg EmailSettingsDlg;
         public static Aow.Units.AoWEmailGameSettingsDlg.TEmailGameSettingsDlg EmailGameSettingsDlg;
-        // { $45B14C }
         public static Aow.Units.AoWPOP3Dlg.TPOP3Dlg POP3Dlg;
         public static Aow.Units.AoWCastUnitSpellDlg.TCastUnitSpellDlg CastUnitSpellDlg;
         public static Aow.Units.AoWDeformFaceDlg.TDeformFaceDlg DeformFaceDlg;

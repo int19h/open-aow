@@ -62,66 +62,38 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWVideoDlg
 {
-    // { TVideoDialog: size $A4; $90 full screen, $91 change flag, $9C/$A0 display size. VMT 0040ADD4. }
+    // full screen, change flag, display size
     public partial class TVideoDialog : Aow.Rtl.TDataModule
     {
         public TVideoDialog(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton CloseBut;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage TCeltLR;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame TopLine;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel VideoLbl;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage TCeltPattern;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0068 }
         public Aow.Units.AoWImage.TAOWImage TCeltLL;
-        // { +006C }
         public Aow.Units.AoWListBox.TAOWListBox DisplayModesLB;
-        // { +0070 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox ResCB;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel ResSwLbl;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton ApplyBtn;
-        // { +007C }
         public Aow.Units.AoWPanel.TAOWPanel T3LBPnl;
-        // { +0080 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar VideoSB;
-        // { +0084 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0088 }
         public Aow.Units.GFXE.TDisplayModeList FDisplayModes;
-        // { $8C }
         public Aow.Units.AoWVideoDlg.TScreenMode FFullScreen;
-        // { $90; 0040B034 }
-        // { conflict: FFullScreen: Byte; }
         public bool FModeChanged;
-        // { $91; 0040B034 }
-        public ushort FReserved92;
         public int FSceneWidth;
         public int FSceneHeight;
-        // { $94/$98; 0040B06C }
         public int FDisplayWidth;
-        // { $9C; 0040B04C }
-        // { conflict: FWidth: Integer; }
         public int FDisplayHeight;
         // AoWVideoDlg.pas:366
-        // { $A0; 0040B04C }
-        // { conflict: FHeight: Integer; }
         public void SetSceneSize(int W, int H)
         {
             FSceneWidth = W;
@@ -183,14 +155,12 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:201
-        // { draft }
         public void VideoDlgWindowDestroy()
         {
             FDisplayModes.Free();
         }
 
         // AoWVideoDlg.pas:206
-        // { draft }
         public void CloseButClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -198,7 +168,6 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:212
-        // { draft }
         public void ApplyBtnClick()
         {
             int I = default;
@@ -225,7 +194,6 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:233
-        // { draft }
         public void ResCBChange(Aow.Rtl.TObject Sender)
         {
             if (((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked)
@@ -265,25 +233,17 @@ namespace Aow.Units.AoWVideoDlg
         scmTitle = 2
     }
 
-    // { draft }
-    // { TWMCampaignScenarioPage: size $18; $08 image library, $0C image index, $10 heading, $14 text. VMT 0040B804. }
+    // image library, image index, heading, text
     public partial class TWMCampaignScenarioPage : Aow.Units.Engine.TEObject
     {
         // AoWVideoDlg.pas:264
         public new const int ClassID = 2248706;
 
         public Aow.Rtl.AnsiString FImageLibrary;
-        // { $08 }
-        // { Managed string at $08. }
         public int FImageIndex;
-        // { $0C }
-        // { Integer at $0C. }
         public Aow.Rtl.AnsiString FHeading;
-        // { $10 }
-        // { Managed string at $10. }
         public Aow.Rtl.TStringList FText;
         // AoWVideoDlg.pas:257
-        // { $14 }
         public override void Destroy()
         {
             FText.Free();
@@ -313,7 +273,6 @@ namespace Aow.Units.AoWVideoDlg
 
     }
 
-    // { TWMCampaignScenarioPageList (instance size 12, VMT 0040B8C4) }
     public partial class TWMCampaignScenarioPageList : Aow.Units.Engine.TENode
     {
         public TWMCampaignScenarioPageList(TECustomNode owner) : base(owner)
@@ -321,39 +280,23 @@ namespace Aow.Units.AoWVideoDlg
 
     }
 
-    // { TWMCampaignScenario: size $3C; $14 image library, $18 path text, $1C description, $20 flag, $24/$28 position, $2C paths, $30/$34 pages, $38 map kind. VMT 0040B9A8. }
+    // image library, path text, description, flag, position, paths, pages, map kind
     public partial class TWMCampaignScenario : Aow.Units.AoWE.TAoWCampaignScenario
     {
         // AoWVideoDlg.pas:304
         public new const int ClassID = 2248705;
 
         public Aow.Rtl.AnsiString FImageLibrary;
-        // { $14 }
-        // { Managed string at $14. }
         public Aow.Rtl.AnsiString FPathDescription;
-        // { $18 }
-        // { Managed string at $18. }
         public Aow.Rtl.AnsiString FDescription;
-        // { $1C }
-        // { Managed string at $1C. }
         public bool F_WMCampaignScenario_20;
-        // { $20; 0040BCE7 rwBool }
-        public Aow.Units.FixedArray_byte_3 F_WMCampaignScenario_21;
+        // rwBool
         public int FMapX;
-        // { $24 }
-        // { Integer at $24. }
         public int FMapY;
-        // { $28 }
-        // { Integer at $28. }
         public Aow.Units.Engine.TIntegerList FPaths;
-        // { $2C }
         public Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList FIntroPages;
-        // { $30 }
         public Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList FOutroPages;
-        // { $34 }
         public byte FMapKind;
-        // { $38 }
-        public Aow.Units.FixedArray_byte_3 F_WMCampaignScenario_39;
         // AoWVideoDlg.pas:295
         public override void Destroy()
         {
@@ -408,19 +351,16 @@ namespace Aow.Units.AoWVideoDlg
 
     }
 
-    // { TWMCampaign: size $40; $34 faction, $38 state, $3C page. VMT 0040BA6C. }
+    // faction, state, page
     public partial class TWMCampaign : Aow.Units.AoWE.TAoWCampaign
     {
         // AoWVideoDlg.pas:334
         public new const int ClassID = 2248704;
 
         public int FFaction;
-        // { $34; 0041D90E }
         public int FState;
-        // { $38; 0041D968 }
         public int FPage;
         // AoWVideoDlg.pas:329
-        // { $3C; 0041E43C }
         public override void Destroy()
         {
             base.Destroy();

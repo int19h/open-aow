@@ -11,7 +11,7 @@ namespace Aow.Units.HashTabU
     // { The HashTabU unit of Ilpack.dpl: the hash list and hash table classes, an older copy of the
 //   ones the Engine unit includes from inc\HashTab.PAS (Enginep.dpl). This version has no Assert
 //   calls, and TIntegerHashTable256 has neither DeleteSafe nor GetFreeID. }
-    // { HashTabU.THashList (instance size 16): +4 FCount, +8 FCapacity, +$C FItems }
+    // FCount, FCapacity, FItems
     public struct THashItem
     {
         public IntOrRef Key;
@@ -56,7 +56,6 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:108
-        // { THashList }
         public override void Destroy()
         {
             Clear();
@@ -73,11 +72,10 @@ namespace Aow.Units.HashTabU
         public int Count { get => FCount; }
     }
 
-    // { HashTabU.TIntegerHashList (instance size 16): items keyed by an integer }
+    // items keyed by an integer
     public partial class TIntegerHashList : Aow.Units.HashTabU.THashList
     {
         // HashTabU.pas:145
-        // { TIntegerHashList }
         public void Add(object Item, int Key)
         {
             Aow.Units.HashTabU.THashItem H = default;
@@ -135,7 +133,7 @@ namespace Aow.Units.HashTabU
 
     }
 
-    // { HashTabU.TIntegerHashTable (instance size 4): the abstract table interface }
+    // the abstract table interface
     public partial class TIntegerHashTable : Aow.Rtl.TObject
     {
         // HashTabU.pas:47
@@ -163,12 +161,11 @@ namespace Aow.Units.HashTabU
         }
     }
 
-    // { HashTabU.TIntegerHashTable256 (instance size 1028): 256 lists selected by the low key byte }
+    // 256 lists selected by the low key byte
     public partial class TIntegerHashTable256 : Aow.Units.HashTabU.TIntegerHashTable
     {
         internal Aow.Units.FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 FLists;
         // HashTabU.pas:186
-        // { TIntegerHashTable256 }
         public TIntegerHashTable256()
         {
             int I = default;
@@ -246,7 +243,6 @@ namespace Aow.Units.HashTabU
     public partial class TStringHashList : Aow.Units.HashTabU.THashList
     {
         // HashTabU.pas:226
-        // { TStringHashList }
         public override void Clear()
         {
             int I = default;
@@ -324,7 +320,7 @@ namespace Aow.Units.HashTabU
 
     }
 
-    // { HashTabU.TStringHashTable (instance size 4): the abstract table interface }
+    // the abstract table interface
     public partial class TStringHashTable : Aow.Rtl.TObject
     {
         // HashTabU.pas:84
@@ -352,13 +348,11 @@ namespace Aow.Units.HashTabU
         }
     }
 
-    // { HashTabU.TStringHashTable256 (instance size 1028): 256 lists selected by a hash of the first
-//     and the second-to-last character and the length }
+    // 256 lists selected by a hash of the first and the second-to-last character and the length
     public partial class TStringHashTable256 : Aow.Units.HashTabU.TStringHashTable
     {
         internal Aow.Units.FixedArray_Aow_Units_HashTabU_TStringHashList_256 FLists;
         // HashTabU.pas:281
-        // { TStringHashTable256 }
         public TStringHashTable256()
         {
             int I = default;

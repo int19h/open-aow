@@ -21,7 +21,6 @@ namespace Aow.Units.RndHex
     // { The RndHex unit of HSEPack.dpl: the random hexagon resource (TRndHexagonResource, ClassID
 //   $20154): placing it changes the terrain under the cursor to its terrain type through the map,
 //   which picks one of the hexagons of that terrain; its resource user is created the same way. }
-    // { RndHex.TRndHexagonResource (instance size 56) }
     public partial class TRndHexagonResource : Aow.Units.Hexagon.THexagonResource
     {
         public TRndHexagonResource(TECustomNode owner) : base(owner)

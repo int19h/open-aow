@@ -34,23 +34,18 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.LeadrGrd
 {
-    // { TLeaderGrid (instance size 488, VMT 55803A10); $1DC show level, $1DE show status, $1E0 stream, $1E4 map. }
+    // show level, show status, stream, map
     public partial class TLeaderGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public bool FShowLevel;
-        // { $1DC }
         public bool FReserved1DD;
         public bool FShowStatus;
-        // { $1DE }
-        public byte FReserved1DF;
         public Aow.Rtl.TMemoryStream FStream;
-        // { +$1E0 }
         public Aow.Units.AoWE.TAoWHSMap FMap;
         // LeadrGrd.pas:111
-        // { +$1E4 }
         public override void Destroy()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Destroy */
+            /* TODO: Implement Grids.Destroy in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -70,21 +65,21 @@ namespace Aow.Units.LeadrGrd
         // LeadrGrd.pas:166
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Canvas */
+            /* TODO: Implement Controls.Canvas in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // LeadrGrd.pas:118
         public void LeadersUpdated(Aow.Rtl.TObject Sender)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // LeadrGrd.pas:123
         public void SetAoWHSMap(Aow.Units.AoWE.TAoWHSMap Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -117,7 +112,7 @@ namespace Aow.Units.LeadrGrd
         // LeadrGrd.pas:144
         public Aow.Units.AoWE.TLeader GetSelectedLeader()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -147,7 +142,6 @@ namespace Aow.Units.LeadrGrd
             }
         }
 
-        // { AoWEd 0042D0F8 }
         [Published]
         public bool EditLeaderEnabled { get => FReserved1DD; set => FReserved1DD = value; }
 
@@ -160,12 +154,9 @@ namespace Aow.Units.LeadrGrd
 
     public partial class TGridMapView : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_240 Reserved04;
         public Aow.Units.AoWE.TItemControl ItemControl;
         public Aow.Units.AoWE.THeroControl HeroControl;
-        public Aow.Units.FixedArray_byte_68 ReservedFC;
         public Aow.Units.AoWE.TPlayerList Players;
-        public Aow.Units.FixedArray_byte_56 Reserved144;
         public Aow.Units.Engine.TEventList LeaderEvent;
     }
 

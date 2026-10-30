@@ -70,133 +70,73 @@ using static Aow.Units.AoWExeForms.AoWExeForms;
 
 namespace Aow.Units.AoWGamePlayDlg
 {
-    // { TGamePlayDlg (size $134, VMT 0042200C): $130 pending password. }
+    // pending password
     public partial class TGamePlayDlg : Aow.Rtl.TDataModule
     {
         public TGamePlayDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow GamePlayDlg;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage TCeltLR;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage TCeltLL;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0060 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox AutoSaveCB;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel asLbl;
-        // { +0068 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox SkipIntroCB;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel siLbl;
-        // { +0070 }
         public Aow.Units.AoWTabPanel.TAOWTabPanel Tab1;
-        // { +0074 }
         public Aow.Units.AoWPanel.TAOWPanel Pnl1;
-        // { +0078 }
         public Aow.Units.AoWPanel.TAOWPanel Pnl2;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel GamePasswordLbl;
-        // { +0080 }
         public Aow.Units.AoWEdit.TAOWEdit PasswordEdit;
-        // { +0084 }
         public Aow.Units.AoWComboBox.TAOWComboBox CombatResolveModeCB;
-        // { +0088 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar CombatResolveModeSB;
-        // { +008C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Classic1CB;
-        // { +0090 }
         public Aow.Units.AoWLabel.TAOWLabel PopupLbl1;
-        // { +0094 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Classic2CB;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel PopupLbl2;
-        // { +009C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Classic3CB;
-        // { +00A0 }
         public Aow.Units.AoWLabel.TAOWLabel PopupLbl3;
-        // { +00A4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Classic4CB;
-        // { +00A8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Classic5CB;
-        // { +00AC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Classic6CB;
-        // { +00B0 }
         public Aow.Units.AoWLabel.TAOWLabel WindowPopupLbl;
-        // { +00B4 }
         public Aow.Units.AoWLabel.TAOWLabel ClassicLbl;
-        // { +00B8 }
         public Aow.Units.AoWLabel.TAOWLabel SimultaneousLbl;
-        // { +00BC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Sim1CB;
-        // { +00C0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Sim2CB;
-        // { +00C4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Sim3CB;
-        // { +00C8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Sim4CB;
-        // { +00CC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Sim5CB;
-        // { +00D0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Sim6CB;
-        // { +00D4 }
         public Aow.Units.AoWLabel.TAOWLabel PopupLbl4;
-        // { +00D8 }
         public Aow.Units.AoWLabel.TAOWLabel PopupLbl5;
-        // { +00DC }
         public Aow.Units.AoWLabel.TAOWLabel PopupLbl6;
-        // { +00E0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Classic7CB;
-        // { +00E4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Sim7CB;
-        // { +00E8 }
         public Aow.Units.AoWLabel.TAOWLabel PopupLbl7;
-        // { +00EC }
         public Aow.Units.AoWButton.TAOWButton ChangePasswordBtn;
-        // { +00F0 }
         public Aow.Units.AoWComboBox.TAOWComboBox MovementSpeedCB;
-        // { +00F4 }
         public Aow.Units.AoWButton.TAOWButton OKBtn;
-        // { +00F8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Classic8CB;
-        // { +00FC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Sim8CB;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel PopupLbl8;
-        // { +0104 }
         public Aow.Units.AoWLabel.TAOWLabel CombLbl;
-        // { +0108 }
         public Aow.Units.AoWPanel.TAOWPanel CombFr;
-        // { +010C }
         public Aow.Units.AoWPanel.TAOWPanel CombPnl;
-        // { +0110 }
         public Aow.Units.AoWLabel.TAOWLabel Movelbl;
-        // { +0114 }
         public Aow.Units.AoWPanel.TAOWPanel MovFr;
-        // { +0118 }
         public Aow.Units.AoWPanel.TAOWPanel BtmPnl;
-        // { +011C }
         public Aow.Units.AoWPanel.TAOWPanel MovPnl;
-        // { +0120 }
         public Aow.Units.AoWPanel.TAOWPanel AOWPanel1;
-        // { +0124 }
         public Aow.Units.AoWImage.TAOWImage CeltLineL;
-        // { +0128 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +012C }
         public Aow.Rtl.AnsiString FNewPassword;
         // AoWGamePlayDlg.pas:200
-        // { $130 }
         public void PasswordEntered(Aow.Units.EventLog.TEventLog Log)
         {
             Aow.Units.EventLog.TPasswordEventLog Password = default;

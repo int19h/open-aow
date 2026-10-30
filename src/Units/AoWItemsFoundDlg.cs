@@ -72,65 +72,39 @@ using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
 
 namespace Aow.Units.AoWItemsFoundDlg
 {
-    // { TItemsFoundDlg: size $B0; $A0 item offset, $A4 completion event, $AC item event. VMT 0044C8D0. }
+    // item offset, completion event, item event
     public partial class TItemsFoundDlg : Aow.Rtl.TDataModule
     {
         public TItemsFoundDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;
-        // { +0048 }
         public Aow.Units.AoWPanel.TAOWPanel PickupPnl;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton PickupBtn;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton CloseBtn;
-        // { +0054 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton CloseBtn2;
-        // { +006C }
         public Aow.Units.AoWPanel.TAOWPanel OKPnl;
-        // { +0070 }
         public Aow.Units.AoWMemo.TAOWMemo MessageMemo;
-        // { +0074 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar MessageMemoSB;
-        // { +0078 }
         public Aow.Units.AoWPanel.TAOWPanel MemoPnl;
-        // { +007C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0080 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Gnd3;
-        // { +0084 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Gnd2;
-        // { +0088 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Gnd1;
-        // { +008C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Gnd4;
-        // { +0090 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Gnd5;
-        // { +0094 }
         public Aow.Units.AoWButton.TAOWButton LeftBtn;
-        // { +0098 }
         public Aow.Units.AoWButton.TAOWButton RightBtn;
-        // { +009C }
         public int FItemOffset;
-        // { $A0 }
         public Aow.Units.EventLog.TExecuteDoneEvent FOnDone;
-        // { $A4 }
         public Aow.Units.ItemExpS.TItemExplorationSiteEventLog FEvent;
         // AoWItemsFoundDlg.pas:80
-        // { $AC }
         public Aow.Units.AoWE.THero GetHero()
         {
             Aow.Units.AoWE.THero Result = default;

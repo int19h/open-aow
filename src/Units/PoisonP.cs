@@ -45,8 +45,7 @@ namespace Aow.Units.PoisonP
         ppsSummoning = 0
     }
 
-    // { TPoisonPlant (instance size 32, VMT 557C3AB8):
-//     $1C summoning status; $1D caster player; $1E remaining turns; $1F original overlay. }
+    // summoning status. caster player. remaining turns. original overlay
     public partial class TPoisonPlant : Aow.Units.ILTer.TILTerrainMO
     {
         public TPoisonPlant(TECustomNode owner) : base(owner)
@@ -61,14 +60,10 @@ namespace Aow.Units.PoisonP
         public new const int ClassID = 131998;
 
         public TSet<Aow.Units.PoisonP.TPoisonPlantStatusElement> FPlantStatus;
-        // { $1C }
         public sbyte FCasterPlayer;
-        // { $1D }
         public sbyte FDaysRemaining;
-        // { $1E }
         public sbyte FOriginalOverlay;
         // PoisonP.pas:97
-        // { $1F }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -431,7 +426,6 @@ namespace Aow.Units.PoisonP
 
     }
 
-    // { TPoisonPlantResource (instance size 68, VMT 557C3C68) }
     public partial class TPoisonPlantResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TPoisonPlantResource(TECustomNode owner) : base(owner)
@@ -458,7 +452,6 @@ namespace Aow.Units.PoisonP
 
     }
 
-    // { TPoisonPlantSpellTE (instance size 36, VMT 557C3D68) }
     public partial class TPoisonPlantSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public TPoisonPlantSpellTE(TECustomNode owner) : base(owner)
@@ -556,7 +549,6 @@ namespace Aow.Units.PoisonP
 
     }
 
-    // { TPoisonPlantSpell (instance size 60, VMT 557C3E48) }
     public partial class TPoisonPlantSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         public TPoisonPlantSpell(TECustomNode owner) : base(owner)
