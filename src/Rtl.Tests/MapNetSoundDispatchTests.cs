@@ -51,13 +51,15 @@ public sealed class MapNetSoundDispatchTests
         private SpecializedLevel(ConstructionContext context, TECustomNode owner) : base(context, owner) { }
         internal static new SpecializedLevel Create(TECustomNode owner) =>
             ConstructionContext.Create(owner, static (context, value) => new SpecializedLevel(context, value));
-        public override TEObject.Meta MapFieldClass() => TEObject.Meta.Of<SpecializedField>();
+        public override EClass MapFieldClass() => EClass.Of<SpecializedField>();
     }
 
     static MapNetSoundDispatchTests()
     {
-        EObjectCreation.Register(typeof(SpecializedField), new TMapField.Meta(), static owner => new SpecializedField(owner), 40);
-        EObjectCreation.Register(typeof(SpecializedLevel), new TMapLevel.Meta(), static owner => SpecializedLevel.Create(owner), 124);
+        EClass.Register(typeof(SpecializedField), TMapField.ClassID, static owner => new SpecializedField(owner), 40);
+        MetaRegistry.Register(typeof(SpecializedField), new TMapField.Meta(), 40);
+        EClass.Register(typeof(SpecializedLevel), TMapLevel.ClassID, static owner => SpecializedLevel.Create(owner), 124);
+        MetaRegistry.Register(typeof(SpecializedLevel), new TMapLevel.Meta(), 124);
     }
 
     [Fact]

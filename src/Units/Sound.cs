@@ -827,6 +827,9 @@ namespace Aow.Units.Sound
 //     files). An engine object with a list of music files. }
     public partial class TSonglist : Aow.Units.Engine.TEObject
     {
+        // Sound.pas:801
+        public new const int ClassID = 2162692;
+
         // Sound.pas:786
         private void InitializeSonglist(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -934,12 +937,7 @@ namespace Aow.Units.Sound
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Sound.pas:801
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2162692;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sound.TSonglist.ClassID;
 
             // Sound.pas:243
             public new Aow.Units.Sound.TSonglist Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sound.TSonglist)base.Create(AOwner);
@@ -1271,6 +1269,8 @@ namespace Aow.Units.Sound
     // { Sound.TSFX (instance size 12): +8 FFileName. One wave file of a sequence. }
     public partial class TSFX : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 2162689;
+
         public TSFX(TECustomNode owner) : base(owner) { }
 
         internal Aow.Rtl.AnsiString FFileName;
@@ -1308,12 +1308,7 @@ namespace Aow.Units.Sound
         {
             // Sound.pas:1022
             // { TSFX }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2162689;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sound.TSFX.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sound.TSFX => (Meta)MetaRegistry.Of(typeof(T));
@@ -1326,6 +1321,8 @@ namespace Aow.Units.Sound
 //     of them plays (at random). }
     public partial class TSFXSequence : Aow.Units.Engine.TENode
     {
+        public new const int ClassID = 2162690;
+
         public TSFXSequence(TECustomNode owner) : base(owner) { }
 
         internal int FID;
@@ -1393,12 +1390,7 @@ namespace Aow.Units.Sound
         {
             // Sound.pas:1047
             // { TSFXSequence }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2162690;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sound.TSFXSequence.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sound.TSFXSequence => (Meta)MetaRegistry.Of(typeof(T));
@@ -1410,6 +1402,8 @@ namespace Aow.Units.Sound
     // { Sound.TSFXLibrary (instance size 12): the sound effects (TSFXSequence children) by ID. }
     public partial class TSFXLibrary : Aow.Units.Engine.TENode
     {
+        public new const int ClassID = 2162691;
+
         public TSFXLibrary(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // Sound.pas:1088
@@ -1537,12 +1531,7 @@ namespace Aow.Units.Sound
         {
             // Sound.pas:1083
             // { TSFXLibrary }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2162691;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sound.TSFXLibrary.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sound.TSFXLibrary => (Meta)MetaRegistry.Of(typeof(T));
@@ -2300,13 +2289,13 @@ namespace Aow.Units.Sound
         // Sound.pas:1547
         public static void RegisterSoundEngineClasses(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFXSequence>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFXLibrary>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFX>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFXSequence>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFXLibrary>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFX>()]);
         }
 
         // Sound.pas:1552
         public static void UnregisterSoundEngineClasses(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFXSequence>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFXLibrary>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFX>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFXSequence>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFXLibrary>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFX>()]);
         }
 
         // Sound.pas:1557

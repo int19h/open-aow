@@ -39,6 +39,9 @@ namespace Aow.Units.Shipyard
     // { TShipyard (instance size 76, no added fields, VMT 557C715C) }
     public partial class TShipyard : Aow.Units.PrdPlace.TProductionPlace
     {
+        // Shipyard.pas:49
+        public new const int ClassID = 132286;
+
         // Shipyard.pas:55
         public override void UpdateAITarget(in Aow.Units.AoWE.TAITargetInfo Info, ref Aow.Units.AoWE.TAITargetData Data)
         {
@@ -56,37 +59,21 @@ namespace Aow.Units.Shipyard
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
         {
             // Shipyard.pas:49
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132286;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Shipyard.TShipyard.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Shipyard.TShipyard => (Meta)MetaRegistry.Of(typeof(T));
             // PrdPlace.pas:51
-            public new Aow.Units.Shipyard.TShipyard Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Shipyard.TShipyard o = (Aow.Units.Shipyard.TShipyard)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Shipyard.TShipyard Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Shipyard.TShipyard)base.Create(AOwner);
         }
     }
 
     // { TShipyardResource (instance size 120, no added fields, VMT 557C740C) }
     public partial class TShipyardResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
+        // Shipyard.pas:72
+        public new const int ClassID = 132287;
+
         // Shipyard.pas:60
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -125,12 +112,7 @@ namespace Aow.Units.Shipyard
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // Shipyard.pas:72
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132287;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Shipyard.TShipyardResource.ClassID;
 
             // Shipyard.pas:69
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -141,21 +123,7 @@ namespace Aow.Units.Shipyard
             }
 
             // Shipyard.pas:29
-            public new Aow.Units.Shipyard.TShipyardResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Shipyard.TShipyardResource o = (Aow.Units.Shipyard.TShipyardResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Shipyard.TShipyardResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Shipyard.TShipyardResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Shipyard.TShipyardResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -261,7 +229,7 @@ namespace Aow.Units.Shipyard
         public static void RegisterShipyard(Aow.Units.Engine.TEngine AEngine)
         {
             // { conflict: procedure RegisterShipyard; }
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Shipyard.TShipyard>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Shipyard.TShipyardResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Shipyard.TShipyard>(), Aow.Units.Engine.EClass.Of<Aow.Units.Shipyard.TShipyardResource>()]);
             var call__8 = new Aow.Units.Shipyard.TShipyardConstructionControl(null);
             var call__9 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(125);
             ((Aow.Units.AoWE.TConstructAbility)call__9).RegisterConstructionControl(call__8);

@@ -581,9 +581,11 @@ public sealed class EngineBridgeConstructionTests
         for (int index = 0; index < ConvertedTypes.Length; index++)
         {
             int kind = index;
-            int size = MetaRegistry.Of(ConvertedTypes[kind].BaseType!).InstanceSize;
-            EObjectCreation.Register(ConvertedTypes[kind], NewMeta(kind), owner => Converted(kind, owner, 2), size);
-            MetaRegistry.Register(LegacyTypes[kind], NewMeta(kind), () => RawLegacy(kind), size);
+            var parent = EClass.Of(ConvertedTypes[kind].BaseType!);
+            EClass.Register(ConvertedTypes[kind], parent.ClassID, owner => Converted(kind, owner, 2), parent.InstanceSize);
+            MetaRegistry.Register(ConvertedTypes[kind], NewMeta(kind), parent.InstanceSize);
+            EClass.Register(LegacyTypes[kind], parent.ClassID, owner => EClass.Initialize(RawLegacy(kind), owner), parent.InstanceSize);
+            MetaRegistry.Register(LegacyTypes[kind], NewMeta(kind), () => RawLegacy(kind), parent.InstanceSize);
         }
     }
 

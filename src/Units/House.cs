@@ -49,6 +49,8 @@ namespace Aow.Units.House
     // { THouse (instance size 48, VMT 00434584) }
     public partial class THouse : Aow.Units.CombatStructure.TCombatStructure
     {
+        public new const int ClassID = 2229522;
+
         public int FRace;
         // { $28 }
         public int FFlagID;
@@ -96,37 +98,21 @@ namespace Aow.Units.House
         {
             // House.pas:42
             // { $2C }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229522;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.House.THouse.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.House.THouse => (Meta)MetaRegistry.Of(typeof(T));
             // CombatStructure.pas:23
-            public new Aow.Units.House.THouse Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.House.THouse o = (Aow.Units.House.THouse)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.House.THouse Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.House.THouse)base.Create(AOwner);
         }
     }
 
     // { THouseResource (instance size 72, VMT 00434728) }
     public partial class THouseResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
+        // House.pas:145
+        public new const int ClassID = 2229523;
+
         // House.pas:151
         public override int ResourceUserClassID()
         {
@@ -138,12 +124,7 @@ namespace Aow.Units.House
         public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
         {
             // House.pas:145
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229523;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.House.THouseResource.ClassID;
 
             // House.pas:148
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -156,21 +137,7 @@ namespace Aow.Units.House
             public static new Meta Of<T>()
                 where T : Aow.Units.House.THouseResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.House.THouseResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.House.THouseResource o = (Aow.Units.House.THouseResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.House.THouseResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.House.THouseResource)base.Create(AOwner);
         }
     }
 
@@ -179,7 +146,7 @@ namespace Aow.Units.House
         // House.pas:154
         public static void RegisterHouse(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.House.THouseResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.House.THouse>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.House.THouseResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.House.THouse>()]);
         }
 
         public static void Initialize()

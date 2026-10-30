@@ -125,6 +125,9 @@ namespace Aow.Units.MagicSanctuary
     // { TMagicSanctuary (instance size 52, VMT 557D41F4): $30 FOverlayHS. }
     public partial class TMagicSanctuary : Aow.Units.AoWE.TStructure
     {
+        // MagicSanctuary.pas:124
+        public new const int ClassID = 133274;
+
         public Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS FOverlayHS;
         // MagicSanctuary.pas:117
         // { $30 }
@@ -195,29 +198,10 @@ namespace Aow.Units.MagicSanctuary
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // MagicSanctuary.pas:124
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133274;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MagicSanctuary.TMagicSanctuary.ClassID;
 
             // MagicSanctuary.pas:33
-            public new Aow.Units.MagicSanctuary.TMagicSanctuary Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.MagicSanctuary.TMagicSanctuary o = (Aow.Units.MagicSanctuary.TMagicSanctuary)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.MagicSanctuary.TMagicSanctuary Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MagicSanctuary.TMagicSanctuary)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MagicSanctuary.TMagicSanctuary => (Meta)MetaRegistry.Of(typeof(T));
@@ -227,6 +211,9 @@ namespace Aow.Units.MagicSanctuary
     // { TMagicSanctuaryResource (instance size 100, VMT 557D4464) }
     public partial class TMagicSanctuaryResource : Aow.Units.AoWE.TStructureResource
     {
+        // MagicSanctuary.pas:160
+        public new const int ClassID = 133275;
+
         // MagicSanctuary.pas:149
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -264,12 +251,7 @@ namespace Aow.Units.MagicSanctuary
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // MagicSanctuary.pas:160
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133275;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MagicSanctuary.TMagicSanctuaryResource.ClassID;
 
             // MagicSanctuary.pas:157
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -282,21 +264,7 @@ namespace Aow.Units.MagicSanctuary
             }
 
             // MagicSanctuary.pas:43
-            public new Aow.Units.MagicSanctuary.TMagicSanctuaryResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.MagicSanctuary.TMagicSanctuaryResource o = (Aow.Units.MagicSanctuary.TMagicSanctuaryResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.MagicSanctuary.TMagicSanctuaryResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MagicSanctuary.TMagicSanctuaryResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MagicSanctuary.TMagicSanctuaryResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -308,7 +276,7 @@ namespace Aow.Units.MagicSanctuary
         // MagicSanctuary.pas:166
         public static void RegisterMagicSanctuary(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MagicSanctuary.TMagicSanctuary>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MagicSanctuary.TMagicSanctuaryResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MagicSanctuary.TMagicSanctuary>(), Aow.Units.Engine.EClass.Of<Aow.Units.MagicSanctuary.TMagicSanctuaryResource>()]);
         }
 
         public static void Initialize()

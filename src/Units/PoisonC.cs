@@ -38,6 +38,9 @@ namespace Aow.Units.PoisonC
 //     $18 FTurnsRemaining, $1C FDrifting, $1D FDirection, $1E FUpdated. }
     public partial class TPoisonCloud : Aow.Units.HSEngine.TMultiHexMO
     {
+        // PoisonC.pas:64
+        public new const int ClassID = 135743;
+
         public sbyte FPlayer;
         public Aow.Units.FixedArray_byte_3 F_PoisonCloud_15;
         public int FTurnsRemaining;
@@ -451,29 +454,10 @@ namespace Aow.Units.PoisonC
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
             // PoisonC.pas:64
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135743;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PoisonC.TPoisonCloud.ClassID;
 
             // PoisonC.pas:27
-            public new Aow.Units.PoisonC.TPoisonCloud Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PoisonC.TPoisonCloud o = (Aow.Units.PoisonC.TPoisonCloud)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PoisonC.TPoisonCloud Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PoisonC.TPoisonCloud)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PoisonC.TPoisonCloud => (Meta)MetaRegistry.Of(typeof(T));
@@ -483,6 +467,9 @@ namespace Aow.Units.PoisonC
     // { TPoisonCloudResource (instance size 68, VMT 557CA7E0) }
     public partial class TPoisonCloudResource : Aow.Units.HSEngine.TMultiHexMOR
     {
+        // PoisonC.pas:286
+        public new const int ClassID = 135744;
+
         // PoisonC.pas:292
         public override int ResourceUserClassID()
         {
@@ -494,12 +481,7 @@ namespace Aow.Units.PoisonC
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // PoisonC.pas:286
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135744;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PoisonC.TPoisonCloudResource.ClassID;
 
             // PoisonC.pas:289
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -514,21 +496,7 @@ namespace Aow.Units.PoisonC
             public static new Meta Of<T>()
                 where T : Aow.Units.PoisonC.TPoisonCloudResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.PoisonC.TPoisonCloudResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PoisonC.TPoisonCloudResource o = (Aow.Units.PoisonC.TPoisonCloudResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PoisonC.TPoisonCloudResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PoisonC.TPoisonCloudResource)base.Create(AOwner);
         }
     }
 
@@ -537,7 +505,7 @@ namespace Aow.Units.PoisonC
         // PoisonC.pas:295
         public static void RegisterPoisonCloud(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PoisonC.TPoisonCloud>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PoisonC.TPoisonCloudResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.PoisonC.TPoisonCloud>(), Aow.Units.Engine.EClass.Of<Aow.Units.PoisonC.TPoisonCloudResource>()]);
         }
 
         public static void Initialize()

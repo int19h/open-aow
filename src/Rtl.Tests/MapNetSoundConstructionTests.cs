@@ -51,9 +51,9 @@ public sealed class MapNetSoundConstructionTests
         var owner = new Owner();
         TECustomNode argument = owned ? type == typeof(TMapContainer) ? new THSMap(null!) : owner : null!;
         var meta = (TEObject.Meta)MetaRegistry.Of(type);
-        var previous = (TEObject.Meta?)engine.FClassTable.Find(meta.ClassID());
+        var previous = (EClass?)engine.FClassTable.Find(meta.ClassID());
         if (previous is not null) engine.UnregisterEClasses([previous]);
-        engine.RegisterEClasses([meta]);
+        engine.RegisterEClasses([EClass.Of(type)]);
         var direct = type == typeof(TMapLevel) ? TMapLevel.Create(argument)
             : (TEObject)Activator.CreateInstance(type, [argument])!;
         TEObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID(), argument)];
@@ -87,7 +87,7 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(-1, field.OverlayType);
                 Assert.Equal(3, field.FCapacity);
                 Assert.Equal(0, field.Count);
-                Assert.Equal(24, field.ClassType.InstanceSize);
+                Assert.Equal(24, field.EClass.InstanceSize);
                 break;
             case TMapContainer container:
                 Assert.Equal(0, container.Count);
@@ -120,7 +120,7 @@ public sealed class MapNetSoundConstructionTests
             case TMapLevel level:
                 Assert.Equal(65793, level.MapFieldCID);
                 Assert.Equal(0, level.Fields.Length);
-                Assert.Equal(124, level.ClassType.InstanceSize);
+                Assert.Equal(124, level.EClass.InstanceSize);
                 break;
             case THexagonSpriteSelection selection:
                 Assert.Equal(0, selection.LocationHS.Count);

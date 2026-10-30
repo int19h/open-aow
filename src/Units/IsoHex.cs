@@ -23,6 +23,9 @@ namespace Aow.Units.IsoHex
 //     terrain, bits 6..7: the image variant) }
     public partial class TIsometricHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
+        // IsoHex.pas:214
+        public new const int ClassID = 131437;
+
         protected internal Aow.Units.IsoHex.TDynamicIsometricHexagon FDynamic;
         protected internal byte FOpenSides;
         protected internal byte FSides;
@@ -124,12 +127,7 @@ namespace Aow.Units.IsoHex
         public new partial class Meta : Aow.Units.HSEngine.TAbstractHexagon.Meta
         {
             // IsoHex.pas:214
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131437;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoHex.TIsometricHexagon.ClassID;
 
             // IsoHex.pas:219
             public virtual Aow.Units.IsoHex.TDynamicIsometricHexagon.Meta DynamicIsometricHexagonClass()
@@ -140,21 +138,7 @@ namespace Aow.Units.IsoHex
             }
 
             // IsoHex.pas:50
-            public new Aow.Units.IsoHex.TIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoHex.TIsometricHexagon o = (Aow.Units.IsoHex.TIsometricHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoHex.TIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TIsometricHexagon)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TIsometricHexagon => (Meta)MetaRegistry.Of(typeof(T));
@@ -167,6 +151,9 @@ namespace Aow.Units.IsoHex
 //     directly, so it is not added as a child) and shown from the map field of that hexagon }
     public partial class TDynamicIsometricHexagon : Aow.Units.HSEngine.THexagonSprite
     {
+        // IsoHex.pas:126
+        public new const int ClassID = 131439;
+
         // IsoHex.pas:136
         public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
         {
@@ -225,12 +212,7 @@ namespace Aow.Units.IsoHex
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // IsoHex.pas:126
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131439;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoHex.TDynamicIsometricHexagon.ClassID;
 
             // IsoHex.pas:141
             public override TSet<Aow.Units.HSEngine.TControlModeElement> ControlMode()
@@ -241,21 +223,7 @@ namespace Aow.Units.IsoHex
             }
 
             // IsoHex.pas:24
-            public new Aow.Units.IsoHex.TDynamicIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoHex.TDynamicIsometricHexagon o = (Aow.Units.IsoHex.TDynamicIsometricHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoHex.TDynamicIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TDynamicIsometricHexagon)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TDynamicIsometricHexagon => (Meta)MetaRegistry.Of(typeof(T));
@@ -265,6 +233,9 @@ namespace Aow.Units.IsoHex
     // { IsoHex.TIsometricHexagonResource (instance size 56): +$34 FDynamicLevel (26) }
     public partial class TIsometricHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
+        // IsoHex.pas:268
+        public new const int ClassID = 131438;
+
         protected internal byte FDynamicLevel;
         // IsoHex.pas:262
         // { TIsometricHexagonResource }
@@ -342,29 +313,10 @@ namespace Aow.Units.IsoHex
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // IsoHex.pas:268
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131438;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoHex.TIsometricHexagonResource.ClassID;
 
             // IsoHex.pas:64
-            public new Aow.Units.IsoHex.TIsometricHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoHex.TIsometricHexagonResource o = (Aow.Units.IsoHex.TIsometricHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoHex.TIsometricHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TIsometricHexagonResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TIsometricHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -374,6 +326,8 @@ namespace Aow.Units.IsoHex
     // { IsoHex.TUpperIsometricHexagon (instance size 24) }
     public partial class TUpperIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
     {
+        public new const int ClassID = 131440;
+
         // IsoHex.pas:355
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
         {
@@ -415,37 +369,20 @@ namespace Aow.Units.IsoHex
         {
             // IsoHex.pas:310
             // { TUpperIsometricHexagon }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131440;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoHex.TUpperIsometricHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TUpperIsometricHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // IsoHex.pas:50
-            public new Aow.Units.IsoHex.TUpperIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoHex.TUpperIsometricHexagon o = (Aow.Units.IsoHex.TUpperIsometricHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoHex.TUpperIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TUpperIsometricHexagon)base.Create(AOwner);
         }
     }
 
     // { IsoHex.TUpperIsometricHexagonResource (instance size 56) }
     public partial class TUpperIsometricHexagonResource : Aow.Units.IsoHex.TIsometricHexagonResource
     {
+        public new const int ClassID = 131441;
+
         // IsoHex.pas:443
         public override int ResourceUserClassID()
         {
@@ -458,12 +395,7 @@ namespace Aow.Units.IsoHex
         {
             // IsoHex.pas:438
             // { TUpperIsometricHexagonResource }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131441;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoHex.TUpperIsometricHexagonResource.ClassID;
 
             // IsoHex.pas:448
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -476,62 +408,33 @@ namespace Aow.Units.IsoHex
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TUpperIsometricHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
             // IsoHex.pas:64
-            public new Aow.Units.IsoHex.TUpperIsometricHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoHex.TUpperIsometricHexagonResource o = (Aow.Units.IsoHex.TUpperIsometricHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoHex.TUpperIsometricHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TUpperIsometricHexagonResource)base.Create(AOwner);
         }
     }
 
     // { IsoHex.TLowerIsometricHexagon (instance size 24) }
     public partial class TLowerIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
     {
+        public new const int ClassID = 131442;
+
         public new partial class Meta : Aow.Units.IsoHex.TIsometricHexagon.Meta
         {
             // IsoHex.pas:455
             // { TLowerIsometricHexagon }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131442;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoHex.TLowerIsometricHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TLowerIsometricHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // IsoHex.pas:50
-            public new Aow.Units.IsoHex.TLowerIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoHex.TLowerIsometricHexagon o = (Aow.Units.IsoHex.TLowerIsometricHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoHex.TLowerIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TLowerIsometricHexagon)base.Create(AOwner);
         }
     }
 
     // { IsoHex.TLowerIsometricHexagonResource (instance size 56) }
     public partial class TLowerIsometricHexagonResource : Aow.Units.IsoHex.TIsometricHexagonResource
     {
+        public new const int ClassID = 131443;
+
         // IsoHex.pas:581
         public override int ResourceUserClassID()
         {
@@ -544,12 +447,7 @@ namespace Aow.Units.IsoHex
         {
             // IsoHex.pas:571
             // { TLowerIsometricHexagonResource }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131443;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoHex.TLowerIsometricHexagonResource.ClassID;
 
             // IsoHex.pas:576
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -562,21 +460,7 @@ namespace Aow.Units.IsoHex
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TLowerIsometricHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
             // IsoHex.pas:64
-            public new Aow.Units.IsoHex.TLowerIsometricHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoHex.TLowerIsometricHexagonResource o = (Aow.Units.IsoHex.TLowerIsometricHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoHex.TLowerIsometricHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TLowerIsometricHexagonResource)base.Create(AOwner);
         }
     }
 
@@ -585,7 +469,7 @@ namespace Aow.Units.IsoHex
         // IsoHex.pas:586
         public static void RegisterIsometricHexagon(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoHex.TIsometricHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoHex.TIsometricHexagonResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoHex.TUpperIsometricHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoHex.TUpperIsometricHexagonResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoHex.TLowerIsometricHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoHex.TLowerIsometricHexagonResource>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TIsometricHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TIsometricHexagonResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TUpperIsometricHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TUpperIsometricHexagonResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TLowerIsometricHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TLowerIsometricHexagonResource>()]);
         }
     }
 }

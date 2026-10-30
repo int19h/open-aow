@@ -159,6 +159,9 @@ namespace Aow.Units.NetworkE
 //     -1 until the executer numbers the event). The base of the game's token events. }
     public partial class TTokenEvent : Aow.Units.Engine.TEObject
     {
+        // NetworkE.pas:950
+        public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_TokenEvent;
+
         // NetworkE.pas:943
         private void InitializeTokenEvent(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -227,12 +230,7 @@ namespace Aow.Units.NetworkE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // NetworkE.pas:950
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = Aow.Units.NetworkE.NetworkE.CID_TokenEvent;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.NetworkE.TTokenEvent.ClassID;
 
             // NetworkE.pas:230
             public new Aow.Units.NetworkE.TTokenEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenEvent)base.Create(AOwner);
@@ -246,6 +244,9 @@ namespace Aow.Units.NetworkE
 //     token events }
     public partial class TTokenEventList : Aow.Units.Engine.TEObject
     {
+        // NetworkE.pas:995
+        public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_TokenEventList;
+
         internal Aow.Units.Engine.TEReferenceNode FList;
         // NetworkE.pas:1000
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
@@ -315,7 +316,7 @@ namespace Aow.Units.NetworkE
                 bool bool__12 = (Result != C);
                 if (bool__12)
                 {
-                    var call__13 = ((Aow.Units.NetworkE.TTokenEvent)FList.FChildren.List[Result]).ClassType.ClassID();
+                    var call__13 = ((Aow.Units.NetworkE.TTokenEvent)FList.FChildren.List[Result]).EClass.ClassID;
                     bool__12 = (call__13 != AClassID);
                 }
 
@@ -400,12 +401,7 @@ namespace Aow.Units.NetworkE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // NetworkE.pas:995
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = Aow.Units.NetworkE.NetworkE.CID_TokenEventList;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.NetworkE.TTokenEventList.ClassID;
 
             // NetworkE.pas:257
             public new Aow.Units.NetworkE.TTokenEventList Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenEventList)base.Create(AOwner);
@@ -738,7 +734,7 @@ namespace Aow.Units.NetworkE
                         var call__51 = FEvents[I];
                         InOrder = call__51.FTokenCounter == (Executer.FTokenCounter + I);
                         var call__52 = FEvents[I];
-                        var call__53 = call__52.ClassType.ClassID();
+                        var call__53 = call__52.EClass.ClassID;
                         PassToken = call__53 == Aow.Units.NetworkE.NetworkE.CID_PassTokenTE;
                         I += 1;
                     }
@@ -2172,6 +2168,9 @@ namespace Aow.Units.NetworkE
     // { NetworkE.TTokenPackage (instance size 24): +$14 FTokenEvents (stored with id 5) }
     public partial class TTokenPackage : Aow.Units.NetworkE.TDataPackage
     {
+        // NetworkE.pas:1100
+        public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_TokenPackage;
+
         internal Aow.Units.NetworkE.TTokenEventList FTokenEvents;
         // NetworkE.pas:1105
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
@@ -2200,12 +2199,7 @@ namespace Aow.Units.NetworkE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // NetworkE.pas:1100
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = Aow.Units.NetworkE.NetworkE.CID_TokenPackage;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.NetworkE.TTokenPackage.ClassID;
 
             // NetworkE.pas:244
             public new Aow.Units.NetworkE.TTokenPackage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenPackage)base.Create(AOwner);
@@ -2317,18 +2311,15 @@ namespace Aow.Units.NetworkE
 //     it }
     public partial class TPassTokenTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_PassTokenTE;
+
         public TPassTokenTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // NetworkE.pas:1726
             // { TPassTokenTE }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = Aow.Units.NetworkE.NetworkE.CID_PassTokenTE;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.NetworkE.TPassTokenTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.NetworkE.TPassTokenTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -2341,6 +2332,8 @@ namespace Aow.Units.NetworkE
 //     system that sent it; another value on execution triggers OnSyncError }
     public partial class TSyncTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_SyncTE;
+
         public TSyncTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         internal int FSyncValue;
@@ -2371,12 +2364,7 @@ namespace Aow.Units.NetworkE
         {
             // NetworkE.pas:1733
             // { TSyncTE }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = Aow.Units.NetworkE.NetworkE.CID_SyncTE;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.NetworkE.TSyncTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.NetworkE.TSyncTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -2416,7 +2404,7 @@ namespace Aow.Units.NetworkE
         {
             var call__156 = AEngine.RegisterDebugID((AnsiString)"Network Engine");
             Aow.Units.NetworkE.NetworkE.NetworkEngineDID = call__156;
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.NetworkE.TTokenPackage>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.NetworkE.TPassTokenTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.NetworkE.TSyncTE>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.NetworkE.TTokenPackage>(), Aow.Units.Engine.EClass.Of<Aow.Units.NetworkE.TPassTokenTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.NetworkE.TSyncTE>()]);
         }
 
         public static int NetworkEngineDID;

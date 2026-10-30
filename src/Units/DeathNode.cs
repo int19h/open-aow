@@ -39,6 +39,9 @@ namespace Aow.Units.DeathNode
     // { TDeathNode (instance size 76, VMT 557BFFA4) }
     public partial class TDeathNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        // DeathNode.pas:37
+        public new const int ClassID = 132270;
+
         // DeathNode.pas:40
         public override Aow.Units.AoWE.TMagicSphere GetMagicSphere()
         {
@@ -50,37 +53,21 @@ namespace Aow.Units.DeathNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
         {
             // DeathNode.pas:37
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132270;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.DeathNode.TDeathNode.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.DeathNode.TDeathNode => (Meta)MetaRegistry.Of(typeof(T));
             // PrdPlace.pas:51
-            public new Aow.Units.DeathNode.TDeathNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.DeathNode.TDeathNode o = (Aow.Units.DeathNode.TDeathNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.DeathNode.TDeathNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.DeathNode.TDeathNode)base.Create(AOwner);
         }
     }
 
     // { TDeathNodeResource (instance size 120, VMT 557C0258) }
     public partial class TDeathNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
+        // DeathNode.pas:55
+        public new const int ClassID = 132271;
+
         // DeathNode.pas:43
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -119,12 +106,7 @@ namespace Aow.Units.DeathNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // DeathNode.pas:55
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132271;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.DeathNode.TDeathNodeResource.ClassID;
 
             // DeathNode.pas:52
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -135,21 +117,7 @@ namespace Aow.Units.DeathNode
             }
 
             // DeathNode.pas:27
-            public new Aow.Units.DeathNode.TDeathNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.DeathNode.TDeathNodeResource o = (Aow.Units.DeathNode.TDeathNodeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.DeathNode.TDeathNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.DeathNode.TDeathNodeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.DeathNode.TDeathNodeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -161,7 +129,7 @@ namespace Aow.Units.DeathNode
         // DeathNode.pas:61
         public static void RegisterDeathNode(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.DeathNode.TDeathNode>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.DeathNode.TDeathNodeResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.DeathNode.TDeathNode>(), Aow.Units.Engine.EClass.Of<Aow.Units.DeathNode.TDeathNodeResource>()]);
         }
 
         public static void Initialize()

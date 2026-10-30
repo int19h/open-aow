@@ -43,6 +43,9 @@ namespace Aow.Units.IsoCombatHex
     // { TIsometricCombatHexagon (instance size 24, VMT 0043386C) }
     public partial class TIsometricCombatHexagon : Aow.Units.IsoHex.TUpperIsometricHexagon
     {
+        // IsoCombatHex.pas:40
+        public new const int ClassID = 2229514;
+
         // IsoCombatHex.pas:43
         public override Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
         {
@@ -199,37 +202,21 @@ namespace Aow.Units.IsoCombatHex
         public new partial class Meta : Aow.Units.IsoHex.TUpperIsometricHexagon.Meta
         {
             // IsoCombatHex.pas:40
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229514;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoCombatHex.TIsometricCombatHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoCombatHex.TIsometricCombatHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // IsoHex.pas:50
-            public new Aow.Units.IsoCombatHex.TIsometricCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoCombatHex.TIsometricCombatHexagon o = (Aow.Units.IsoCombatHex.TIsometricCombatHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoCombatHex.TIsometricCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoCombatHex.TIsometricCombatHexagon)base.Create(AOwner);
         }
     }
 
     // { TIsometricCombatHexagonResource (instance size 56, VMT 00433A24) }
     public partial class TIsometricCombatHexagonResource : Aow.Units.IsoHex.TUpperIsometricHexagonResource
     {
+        // IsoCombatHex.pas:108
+        public new const int ClassID = 2229515;
+
         // IsoCombatHex.pas:114
         public override int ResourceUserClassID()
         {
@@ -249,12 +236,7 @@ namespace Aow.Units.IsoCombatHex
         public new partial class Meta : Aow.Units.IsoHex.TUpperIsometricHexagonResource.Meta
         {
             // IsoCombatHex.pas:108
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229515;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource.ClassID;
 
             // IsoCombatHex.pas:111
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -267,21 +249,7 @@ namespace Aow.Units.IsoCombatHex
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
             // IsoHex.pas:64
-            public new Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource o = (Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource)base.Create(AOwner);
         }
     }
 
@@ -290,7 +258,7 @@ namespace Aow.Units.IsoCombatHex
         // IsoCombatHex.pas:120
         public static void RegisterIsometricCombatHexagon(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoCombatHex.TIsometricCombatHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.IsoCombatHex.TIsometricCombatHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource>()]);
         }
 
         public static void Initialize()

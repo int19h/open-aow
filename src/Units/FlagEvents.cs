@@ -239,6 +239,9 @@ namespace Aow.Units.FlagEvents
     // { TFlagMessageEvent (instance size 32, VMT 557D0BE8): +$18 FHelpFileName, +$1C FMessage. }
     public partial class TFlagMessageEvent : Aow.Units.FlagEvents.TFlagEvent
     {
+        // FlagEvents.pas:192
+        public new const int ClassID = 132461;
+
         public Aow.Rtl.AnsiString FHelpFileName;
         public Aow.Rtl.TStringList FMessage;
         // FlagEvents.pas:186
@@ -303,29 +306,10 @@ namespace Aow.Units.FlagEvents
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
             // FlagEvents.pas:192
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132461;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FlagEvents.TFlagMessageEvent.ClassID;
 
             // FlagEvents.pas:62
-            public new Aow.Units.FlagEvents.TFlagMessageEvent Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FlagEvents.TFlagMessageEvent o = (Aow.Units.FlagEvents.TFlagMessageEvent)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FlagEvents.TFlagMessageEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FlagEvents.TFlagMessageEvent)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FlagEvents.TFlagMessageEvent => (Meta)MetaRegistry.Of(typeof(T));
@@ -335,6 +319,9 @@ namespace Aow.Units.FlagEvents
     // { TFlagMessageEventResource (instance size 52, VMT 557D0D9C): no additional fields. }
     public partial class TFlagMessageEventResource : Aow.Units.FlagEvents.TFlagEventResource
     {
+        // FlagEvents.pas:218
+        public new const int ClassID = 132462;
+
         // FlagEvents.pas:228
         public override int ResourceUserClassID()
         {
@@ -346,12 +333,7 @@ namespace Aow.Units.FlagEvents
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // FlagEvents.pas:218
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132462;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FlagEvents.TFlagMessageEventResource.ClassID;
 
             // FlagEvents.pas:223
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -364,27 +346,16 @@ namespace Aow.Units.FlagEvents
             public static new Meta Of<T>()
                 where T : Aow.Units.FlagEvents.TFlagMessageEventResource => (Meta)MetaRegistry.Of(typeof(T));
             // FlagEvents.pas:46
-            public new Aow.Units.FlagEvents.TFlagMessageEventResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FlagEvents.TFlagMessageEventResource o = (Aow.Units.FlagEvents.TFlagMessageEventResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FlagEvents.TFlagMessageEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FlagEvents.TFlagMessageEventResource)base.Create(AOwner);
         }
     }
 
     // { TTutorialMessageEvent (instance size 28, VMT 557D0EA0): +$18 FMessage. }
     public partial class TTutorialMessageEvent : Aow.Units.FlagEvents.TFlagEvent
     {
+        // FlagEvents.pas:245
+        public new const int ClassID = 132459;
+
         public Aow.Rtl.TStringList FMessage;
         // FlagEvents.pas:239
         public override void Destroy()
@@ -446,29 +417,10 @@ namespace Aow.Units.FlagEvents
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
             // FlagEvents.pas:245
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132459;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FlagEvents.TTutorialMessageEvent.ClassID;
 
             // FlagEvents.pas:81
-            public new Aow.Units.FlagEvents.TTutorialMessageEvent Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FlagEvents.TTutorialMessageEvent o = (Aow.Units.FlagEvents.TTutorialMessageEvent)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FlagEvents.TTutorialMessageEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FlagEvents.TTutorialMessageEvent)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FlagEvents.TTutorialMessageEvent => (Meta)MetaRegistry.Of(typeof(T));
@@ -478,6 +430,9 @@ namespace Aow.Units.FlagEvents
     // { TTutorialMessageEventResource (instance size 52, VMT 557D104C): no additional fields. }
     public partial class TTutorialMessageEventResource : Aow.Units.FlagEvents.TFlagEventResource
     {
+        // FlagEvents.pas:269
+        public new const int ClassID = 132460;
+
         // FlagEvents.pas:279
         public override int ResourceUserClassID()
         {
@@ -489,12 +444,7 @@ namespace Aow.Units.FlagEvents
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // FlagEvents.pas:269
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132460;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FlagEvents.TTutorialMessageEventResource.ClassID;
 
             // FlagEvents.pas:274
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -507,21 +457,7 @@ namespace Aow.Units.FlagEvents
             public static new Meta Of<T>()
                 where T : Aow.Units.FlagEvents.TTutorialMessageEventResource => (Meta)MetaRegistry.Of(typeof(T));
             // FlagEvents.pas:46
-            public new Aow.Units.FlagEvents.TTutorialMessageEventResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FlagEvents.TTutorialMessageEventResource o = (Aow.Units.FlagEvents.TTutorialMessageEventResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FlagEvents.TTutorialMessageEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FlagEvents.TTutorialMessageEventResource)base.Create(AOwner);
         }
     }
 
@@ -536,7 +472,7 @@ namespace Aow.Units.FlagEvents
         // FlagEvents.pas:284
         public static void RegisterFlagEvents(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FlagEvents.TFlagMessageEvent>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FlagEvents.TFlagMessageEventResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FlagEvents.TTutorialMessageEvent>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FlagEvents.TTutorialMessageEventResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.FlagEvents.TFlagMessageEvent>(), Aow.Units.Engine.EClass.Of<Aow.Units.FlagEvents.TFlagMessageEventResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.FlagEvents.TTutorialMessageEvent>(), Aow.Units.Engine.EClass.Of<Aow.Units.FlagEvents.TTutorialMessageEventResource>()]);
         }
 
         public static void Initialize()

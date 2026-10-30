@@ -41,6 +41,9 @@ namespace Aow.Units.AltLife
     // { TAltarOfLife (instance size 68, no added fields, VMT 557D1BCC) }
     public partial class TAltarOfLife : Aow.Units.Altar.TAltar
     {
+        // AltLife.pas:36
+        public new const int ClassID = 131635;
+
         // AltLife.pas:39
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
@@ -52,37 +55,21 @@ namespace Aow.Units.AltLife
         public new partial class Meta : Aow.Units.Altar.TAltar.Meta
         {
             // AltLife.pas:36
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131635;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltLife.TAltarOfLife.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltLife.TAltarOfLife => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:249
-            public new Aow.Units.AltLife.TAltarOfLife Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltLife.TAltarOfLife o = (Aow.Units.AltLife.TAltarOfLife)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltLife.TAltarOfLife Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltLife.TAltarOfLife)base.Create(AOwner);
         }
     }
 
     // { TAltarOfLifeResource (instance size 116, no added fields, VMT 557D1E84) }
     public partial class TAltarOfLifeResource : Aow.Units.Altar.TAltarResource
     {
+        // AltLife.pas:52
+        public new const int ClassID = 131636;
+
         // AltLife.pas:44
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -117,12 +104,7 @@ namespace Aow.Units.AltLife
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltLife.pas:52
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131636;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltLife.TAltarOfLifeResource.ClassID;
 
             // AltLife.pas:49
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -133,21 +115,7 @@ namespace Aow.Units.AltLife
             }
 
             // AltLife.pas:26
-            public new Aow.Units.AltLife.TAltarOfLifeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltLife.TAltarOfLifeResource o = (Aow.Units.AltLife.TAltarOfLifeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltLife.TAltarOfLifeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltLife.TAltarOfLifeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltLife.TAltarOfLifeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -159,7 +127,7 @@ namespace Aow.Units.AltLife
         // AltLife.pas:58
         public static void RegisterAltarOfLife(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltLife.TAltarOfLife>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltLife.TAltarOfLifeResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AltLife.TAltarOfLife>(), Aow.Units.Engine.EClass.Of<Aow.Units.AltLife.TAltarOfLifeResource>()]);
         }
 
         public static void Initialize()

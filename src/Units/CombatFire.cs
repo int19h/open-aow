@@ -49,6 +49,9 @@ namespace Aow.Units.CombatFire
     // { TCombatFire (instance size 28, VMT 00406B24) }
     public partial class TCombatFire : Aow.Units.HSEngine.TSingleHS
     {
+        // CombatFire.pas:80
+        public new const int ClassID = 2229578;
+
         public int FXShift;
         // { $0C }
         public int FYShift;
@@ -227,29 +230,10 @@ namespace Aow.Units.CombatFire
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // CombatFire.pas:80
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229578;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatFire.TCombatFire.ClassID;
 
             // CombatFire.pas:26
-            public new Aow.Units.CombatFire.TCombatFire Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatFire.TCombatFire o = (Aow.Units.CombatFire.TCombatFire)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatFire.TCombatFire Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatFire.TCombatFire)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatFire.TCombatFire => (Meta)MetaRegistry.Of(typeof(T));
@@ -259,6 +243,9 @@ namespace Aow.Units.CombatFire
     // { TCombatFireResource (instance size 68, VMT 00406CA8) }
     public partial class TCombatFireResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        // CombatFire.pas:160
+        public new const int ClassID = 2229579;
+
         // CombatFire.pas:166
         public override int ResourceUserClassID()
         {
@@ -270,12 +257,7 @@ namespace Aow.Units.CombatFire
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // CombatFire.pas:160
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229579;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatFire.TCombatFireResource.ClassID;
 
             // CombatFire.pas:163
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -288,21 +270,7 @@ namespace Aow.Units.CombatFire
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatFire.TCombatFireResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.CombatFire.TCombatFireResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatFire.TCombatFireResource o = (Aow.Units.CombatFire.TCombatFireResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatFire.TCombatFireResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatFire.TCombatFireResource)base.Create(AOwner);
         }
     }
 
@@ -409,7 +377,7 @@ namespace Aow.Units.CombatFire
         // CombatFire.pas:204
         public static void RegisterCombatFire(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatFire.TCombatFireResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatFire.TCombatFire>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatFire.TCombatFireResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatFire.TCombatFire>()]);
         }
 
         public static void Initialize()

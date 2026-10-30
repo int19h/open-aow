@@ -20,6 +20,9 @@ namespace Aow.Units.Terrain
 //     persisted as ids $12 and $11 }
     public partial class TTerrainMOR : Aow.Units.HSEngine.TMultiHexMOR
     {
+        // Terrain.pas:327
+        public new const int ClassID = 131431;
+
         internal sbyte FDecorationType;
         internal byte FTerrainType;
         // Terrain.pas:305
@@ -75,12 +78,7 @@ namespace Aow.Units.Terrain
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // Terrain.pas:327
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131431;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Terrain.TTerrainMOR.ClassID;
 
             // Terrain.pas:317
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -91,21 +89,7 @@ namespace Aow.Units.Terrain
             }
 
             // Terrain.pas:42
-            public new Aow.Units.Terrain.TTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Terrain.TTerrainMOR o = (Aow.Units.Terrain.TTerrainMOR)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Terrain.TTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Terrain.TTerrainMOR)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Terrain.TTerrainMOR => (Meta)MetaRegistry.Of(typeof(T));
@@ -115,6 +99,9 @@ namespace Aow.Units.Terrain
     // { Terrain.TTerrainMO (instance size 20) }
     public partial class TTerrainMO : Aow.Units.HSEngine.TMultiHexMO
     {
+        // Terrain.pas:65
+        public new const int ClassID = 131430;
+
         // Terrain.pas:60
         // { TTerrainMO }
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
@@ -267,8 +254,8 @@ namespace Aow.Units.Terrain
                 {
                     I -= 1;
                     R = (Aow.Units.Terrain.TTerrainMOR)Resources.List[I];
-                    var call__12 = R.ClassType.ClassID();
-                    var call__13 = FResource.ClassType.ClassID();
+                    var call__12 = R.EClass.ClassID;
+                    var call__13 = FResource.EClass.ClassID;
                     bool bool__14 = ((call__12 == call__13) && (R.FDecorationType == ((Aow.Units.Terrain.TTerrainMOR)FResource).FDecorationType)) && (R.FTerrainType == ((Aow.Units.Terrain.TTerrainMOR)FResource).FTerrainType);
                     if (bool__14)
                     {
@@ -343,8 +330,8 @@ namespace Aow.Units.Terrain
                 for (; I <= end__23; I += 1)
                 {
                     R = (Aow.Units.Terrain.TTerrainMOR)Resources.List[I];
-                    var call__24 = R.ClassType.ClassID();
-                    var call__25 = FResource.ClassType.ClassID();
+                    var call__24 = R.EClass.ClassID;
+                    var call__25 = FResource.EClass.ClassID;
                     bool bool__26 = (((call__24 == call__25) && (R.FTerrainType == ((Aow.Units.Terrain.TTerrainMOR)FResource).FTerrainType)) && (R.FDecorationType == DecorationType)) && (R != FResource);
                     if (bool__26)
                     {
@@ -426,29 +413,10 @@ namespace Aow.Units.Terrain
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
             // Terrain.pas:65
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131430;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Terrain.TTerrainMO.ClassID;
 
             // Terrain.pas:19
-            public new Aow.Units.Terrain.TTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Terrain.TTerrainMO o = (Aow.Units.Terrain.TTerrainMO)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Terrain.TTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Terrain.TTerrainMO)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Terrain.TTerrainMO => (Meta)MetaRegistry.Of(typeof(T));
@@ -460,7 +428,7 @@ namespace Aow.Units.Terrain
         // Terrain.pas:332
         public static void RegisterTerrain(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Terrain.TTerrainMO>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Terrain.TTerrainMOR>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Terrain.TTerrainMO>(), Aow.Units.Engine.EClass.Of<Aow.Units.Terrain.TTerrainMOR>()]);
         }
     }
 }

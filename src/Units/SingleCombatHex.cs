@@ -43,6 +43,9 @@ namespace Aow.Units.SingleCombatHex
     // { TSingleCombatHexagon (instance size 16, VMT 00434E38) }
     public partial class TSingleCombatHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
+        // SingleCombatHex.pas:41
+        public new const int ClassID = 2229534;
+
         // SingleCombatHex.pas:47
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
         {
@@ -69,37 +72,21 @@ namespace Aow.Units.SingleCombatHex
         public new partial class Meta : Aow.Units.HSEngine.TAbstractHexagon.Meta
         {
             // SingleCombatHex.pas:41
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229534;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.SingleCombatHex.TSingleCombatHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.SingleCombatHex.TSingleCombatHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.SingleCombatHex.TSingleCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.SingleCombatHex.TSingleCombatHexagon o = (Aow.Units.SingleCombatHex.TSingleCombatHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.SingleCombatHex.TSingleCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SingleCombatHex.TSingleCombatHexagon)base.Create(AOwner);
         }
     }
 
     // { TSingleCombatHexagonResource (instance size 52, VMT 00434FE8) }
     public partial class TSingleCombatHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
+        // SingleCombatHex.pas:59
+        public new const int ClassID = 2229535;
+
         // SingleCombatHex.pas:73
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
@@ -135,12 +122,7 @@ namespace Aow.Units.SingleCombatHex
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // SingleCombatHex.pas:59
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229535;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.SingleCombatHex.TSingleCombatHexagonResource.ClassID;
 
             // SingleCombatHex.pas:62
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -153,21 +135,7 @@ namespace Aow.Units.SingleCombatHex
             public static new Meta Of<T>()
                 where T : Aow.Units.SingleCombatHex.TSingleCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1223
-            public new Aow.Units.SingleCombatHex.TSingleCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.SingleCombatHex.TSingleCombatHexagonResource o = (Aow.Units.SingleCombatHex.TSingleCombatHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.SingleCombatHex.TSingleCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SingleCombatHex.TSingleCombatHexagonResource)base.Create(AOwner);
         }
     }
 
@@ -176,7 +144,7 @@ namespace Aow.Units.SingleCombatHex
         // SingleCombatHex.pas:82
         public static void RegisterSingleCombatHexagon(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.SingleCombatHex.TSingleCombatHexagonResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.SingleCombatHex.TSingleCombatHexagon>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.SingleCombatHex.TSingleCombatHexagonResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.SingleCombatHex.TSingleCombatHexagon>()]);
         }
 
         public static void Initialize()

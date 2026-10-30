@@ -1167,6 +1167,8 @@ namespace Aow.Units.AoWE
     // { TUnitProduction: size $10; $08 unit index, $0C researched. VMT 5570A0D0. }
     public partial class TUnitProduction : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 131737;
+
         public TUnitProduction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -1188,12 +1190,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Structur.PAS:4
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131737;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnitProduction.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnitProduction => (Meta)MetaRegistry.Of(typeof(T));
@@ -1275,6 +1272,8 @@ namespace Aow.Units.AoWE
     // { TProductionItem: size $14; $08 production ID, $0C parameter, $10 group ID. VMT 5570A29C. }
     public partial class TProductionItem : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 131735;
+
         public TProductionItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -1333,12 +1332,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Structur.PAS:60
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131735;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TProductionItem.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TProductionItem => (Meta)MetaRegistry.Of(typeof(T));
@@ -1503,34 +1497,17 @@ namespace Aow.Units.AoWE
     // { TProductionEventLog (instance size 32, VMT 5570A580) }
     public partial class TProductionEventLog : Aow.Units.EventLog.TLocationTextEventLog
     {
+        public new const int ClassID = 131833;
+
         public new partial class Meta : Aow.Units.EventLog.TLocationTextEventLog.Meta
         {
             // Structur.PAS:1
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131833;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TProductionEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TProductionEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:91
-            public new Aow.Units.AoWE.TProductionEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TProductionEventLog o = (Aow.Units.AoWE.TProductionEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TProductionEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TProductionEventLog)base.Create(AOwner);
         }
     }
 
@@ -1538,6 +1515,8 @@ namespace Aow.Units.AoWE
 //     $1C queue, $20 index, $24 reserved. VMT 5570A6C0. }
     public partial class TProductionTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 131736;
+
         public sbyte FX;
         // { $10 }
         public sbyte FY;
@@ -1625,31 +1604,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Structur.PAS:165
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131736;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TProductionTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TProductionTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TProductionTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TProductionTE o = (Aow.Units.AoWE.TProductionTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TProductionTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TProductionTE)base.Create(AOwner);
         }
     }
 
@@ -3270,6 +3230,8 @@ namespace Aow.Units.AoWE
     // { TChangePlayerMagicTE (instance size 28, VMT 5570ABDC; $10 mode, $11 player, $14/$18 values) }
     public partial class TChangePlayerMagicTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135445;
+
         public Aow.Units.AoWE.TChangePlayerMagicMode FMode;
         // { $10 }
         public byte FPlayerIndex;
@@ -3347,31 +3309,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Spells.PAS:2446
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135445;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TChangePlayerMagicTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TChangePlayerMagicTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TChangePlayerMagicTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TChangePlayerMagicTE o = (Aow.Units.AoWE.TChangePlayerMagicTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TChangePlayerMagicTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TChangePlayerMagicTE)base.Create(AOwner);
         }
     }
 
@@ -3379,6 +3322,8 @@ namespace Aow.Units.AoWE
 //     $1C location, $20 spell ID, $24 value, $28 enchantment name) }
     public partial class TPlayerMagicEventLog : Aow.Units.EventLog.TEventLog
     {
+        public new const int ClassID = 131824;
+
         public Aow.Units.AoWE.TPlayerMagicEventMode FMode;
         // { $18 }
         public Aow.Units.FixedArray_byte_3 F_PlayerMagicEventLog_19;
@@ -3524,29 +3469,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Spells.PAS:1852
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131824;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPlayerMagicEventLog.ClassID;
 
             // intf_P4_01.inc:73
-            public new Aow.Units.AoWE.TPlayerMagicEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TPlayerMagicEventLog o = (Aow.Units.AoWE.TPlayerMagicEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TPlayerMagicEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TPlayerMagicEventLog)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPlayerMagicEventLog => (Meta)MetaRegistry.Of(typeof(T));
@@ -5185,6 +5111,8 @@ namespace Aow.Units.AoWE
     // { TGlobalEnchantmentEventLog (instance size 36, VMT 5570B4B8; $20 enchantment player) }
     public partial class TGlobalEnchantmentEventLog : Aow.Units.EventLog.TLocationTextEventLog
     {
+        public new const int ClassID = 131819;
+
         public sbyte FEnchantmentPlayer;
         // { $20 }
         public Aow.Units.FixedArray_byte_3 F_GlobalEnchantmentEventLog_21;
@@ -5241,31 +5169,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.EventLog.TLocationTextEventLog.Meta
         {
             // Spells.PAS:2658
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131819;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TGlobalEnchantmentEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TGlobalEnchantmentEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:91
-            public new Aow.Units.AoWE.TGlobalEnchantmentEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TGlobalEnchantmentEventLog o = (Aow.Units.AoWE.TGlobalEnchantmentEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TGlobalEnchantmentEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TGlobalEnchantmentEventLog)base.Create(AOwner);
         }
     }
 
@@ -5291,6 +5200,8 @@ namespace Aow.Units.AoWE
 //     $10 mode, $11 player, $14 enchantment ID, $18 value. }
     public partial class TChangeGlobalMagicTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135446;
+
         public Aow.Units.AoWE.TChangeGlobalMagicMode FMode;
         // { $10 }
         public byte FPlayerIndex;
@@ -5362,31 +5273,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Spells.PAS:2718
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135446;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TChangeGlobalMagicTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TChangeGlobalMagicTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TChangeGlobalMagicTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TChangeGlobalMagicTE o = (Aow.Units.AoWE.TChangeGlobalMagicTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TChangeGlobalMagicTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TChangeGlobalMagicTE)base.Create(AOwner);
         }
     }
 
@@ -5832,6 +5724,8 @@ namespace Aow.Units.AoWE
     // { TRace: size $18; $08 race, $0C defaults, $10 player relations, $14 enabled. }
     public partial class TRace : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 131586;
+
         // Ability.PAS:212
         public TRace(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -6134,12 +6028,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Ability.PAS:305
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131586;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TRace.ClassID;
 
             // intf_P1_03.inc:13
             public new TRace Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -6339,6 +6228,8 @@ namespace Aow.Units.AoWE
     // { TDiplomaticRelationHistoryItem: size $10; $08 day, $0C relation }
     public partial class TDiplomaticRelationHistoryItem : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 131354;
+
         public TDiplomaticRelationHistoryItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -6360,12 +6251,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Player.PAS:28
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131354;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDiplomaticRelationHistoryItem.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDiplomaticRelationHistoryItem => (Meta)MetaRegistry.Of(typeof(T));
@@ -6380,6 +6266,8 @@ namespace Aow.Units.AoWE
     // { TDiplomaticRelationHistoryList (instance size 12, VMT 5570BBE8) }
     public partial class TDiplomaticRelationHistoryList : Aow.Units.Engine.TENode
     {
+        public new const int ClassID = 131355;
+
         public TDiplomaticRelationHistoryList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -6453,12 +6341,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // Player.PAS:40
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131355;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDiplomaticRelationHistoryList.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDiplomaticRelationHistoryList => (Meta)MetaRegistry.Of(typeof(T));
@@ -6728,6 +6611,8 @@ namespace Aow.Units.AoWE
     // { TTurnInfoItem: size $1C; $08 gold, $0C mana, $10 structures, $14 army strength, $18 heroes }
     public partial class TTurnInfoItem : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 131739;
+
         public TTurnInfoItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -6766,12 +6651,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Player.PAS:156
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131739;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TTurnInfoItem.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TTurnInfoItem => (Meta)MetaRegistry.Of(typeof(T));
@@ -6957,6 +6837,8 @@ namespace Aow.Units.AoWE
 //     $74 emerging hero ID, $78 emerge day, $7C highest hero level, $BC/$C0 settings/description }
     public partial class TPlayer : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 131104;
+
         // Raw allocation for tests/probes/remaining-todos/Program.cs.
         // Raw allocation for tools/oracle/MovementChecks/Program.cs.
         // Raw allocation for Game/FrameFixtureChecks.cs.
@@ -8392,7 +8274,7 @@ namespace Aow.Units.AoWE
                     {
                         var call__684 = FStructures.GetStructure(I);
                         Structure = call__684;
-                        if (Structure.ClassType.ClassID() == 131336)
+                        if (Structure.EClass.ClassID == 131336)
                         {
                             var call__685 = Structure.GetLhx();
                             var call__686 = Structure.GetYhx();
@@ -9298,12 +9180,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Player.PAS:390
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131104;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPlayer.ClassID;
 
             // intf_P1_03.inc:248
             public new TPlayer Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -9997,6 +9874,8 @@ namespace Aow.Units.AoWE
     // { TAoWMapField: size $1C; +$18 flags, byte +$1A fog count, bit $02000000 owner query. }
     public partial class TAoWMapField : Aow.Units.HSEngine.TMapField
     {
+        public new const int ClassID = 131090;
+
         public int FFieldFlags;
         // AoWHSMap.PAS:63
         // { Original tests the entire ECX register for a Boolean passed in CL. }
@@ -10194,31 +10073,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.HSEngine.TMapField.Meta
         {
             // AoWHSMap.PAS:30
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131090;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAoWMapField.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAoWMapField => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:219
-            public new Aow.Units.AoWE.TAoWMapField Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TAoWMapField o = (Aow.Units.AoWE.TAoWMapField)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TAoWMapField Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TAoWMapField)base.Create(AOwner);
         }
     }
 
@@ -10226,43 +10086,26 @@ namespace Aow.Units.AoWE
     // { TAoWMapLevel: size $80; inherited field table and coordinate offsets, reserved +$7C. }
     public partial class TAoWMapLevel : Aow.Units.HSEngine.TMapLevel
     {
+        public new const int ClassID = 131091;
+
         public Aow.Units.FixedArray_byte_4 F_AoWMapLevel_7C;
         // AoWHSMap.PAS:231
-        public override Aow.Units.Engine.TEObject.Meta MapFieldClass()
+        public override Aow.Units.Engine.EClass MapFieldClass()
         {
-            Aow.Units.Engine.TEObject.Meta Result = default;
-            Result = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAoWMapField>();
+            Aow.Units.Engine.EClass Result = default;
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWMapField>();
             return Result;
         }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapLevel.Meta
         {
             // AoWHSMap.PAS:227
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131091;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAoWMapLevel.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAoWMapLevel => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:312
-            public new Aow.Units.AoWE.TAoWMapLevel Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TAoWMapLevel o = (Aow.Units.AoWE.TAoWMapLevel)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TAoWMapLevel Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TAoWMapLevel)base.Create(AOwner);
         }
     }
 
@@ -12668,6 +12511,8 @@ namespace Aow.Units.AoWE
     // { TTextControlItem: instance size $14; +$08 ID, +$0C Text, +$10 Name. }
     public partial class TTextControlItem : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 131738;
+
         // Structur.PAS:4394
         public TTextControlItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -12705,12 +12550,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Structur.PAS:4406
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131738;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TTextControlItem.ClassID;
 
             // intf_P1_04.inc:67
             public new TTextControlItem Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -12848,6 +12688,8 @@ namespace Aow.Units.AoWE
     // { TTurnPlayerControl: size $20, no added fields. VMT 5570D54C. }
     public partial class TTurnPlayerControl : Aow.Units.AoWE.TPlayerControl
     {
+        public new const int ClassID = 131664;
+
         public TTurnPlayerControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -13350,12 +13192,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // PlayerC.PAS:566
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131664;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TTurnPlayerControl.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TTurnPlayerControl => (Meta)MetaRegistry.Of(typeof(T));
@@ -13395,6 +13232,8 @@ namespace Aow.Units.AoWE
     // { TPBEMPlayerControl: size $24; $20 local player. VMT 5570D7AC. }
     public partial class TPBEMPlayerControl : Aow.Units.AoWE.TTurnPlayerControl
     {
+        public new const int ClassID = 131667;
+
         public TPBEMPlayerControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -13942,12 +13781,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TTurnPlayerControl.Meta
         {
             // PlayerC.PAS:884
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131667;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPBEMPlayerControl.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPBEMPlayerControl => (Meta)MetaRegistry.Of(typeof(T));
@@ -13962,6 +13796,8 @@ namespace Aow.Units.AoWE
     // { TSimultaniousPlayerControl: size $20, no added fields. VMT 5570D8C8. }
     public partial class TSimultaniousPlayerControl : Aow.Units.AoWE.TPlayerControl
     {
+        public new const int ClassID = 131665;
+
         public TSimultaniousPlayerControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -14341,12 +14177,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // PlayerC.PAS:1255
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131665;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TSimultaniousPlayerControl.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSimultaniousPlayerControl => (Meta)MetaRegistry.Of(typeof(T));
@@ -18394,6 +18225,8 @@ namespace Aow.Units.AoWE
 //     $24C..$417 token log Text, $418 logging enabled. VMT 5570E874. }
     public partial class TAoWHSMap : Aow.Units.AoWE.TAbstractAoWHSMap
     {
+        public new const int ClassID = 131089;
+
         public Aow.Units.AoWE.TSelectedArmy FSelectedArmy;
         // { $D8 }
         public bool FIgnoreStreamErrors;
@@ -21339,7 +21172,7 @@ namespace Aow.Units.AoWE
                 bool bool__1971 = FRequestCombatType;
                 if (bool__1971)
                 {
-                    var call__1972 = FCombat.ClassType.ClassID();
+                    var call__1972 = FCombat.EClass.ClassID;
                     bool__1971 = (call__1972 != 131760);
                 }
 
@@ -21367,7 +21200,7 @@ namespace Aow.Units.AoWE
                 }
                 else
                 {
-                    var call__1976 = FCombat.ClassType.ClassID();
+                    var call__1976 = FCombat.EClass.ClassID;
                     if (call__1976 == 2228496)
                     {
                         EnableTurnTimer();
@@ -21565,7 +21398,7 @@ namespace Aow.Units.AoWE
                     for (; I <= end__1984; I += 1)
                     {
                         Resource = (Aow.Units.HSEngine.TMapObjectResource)Resources.List[I];
-                        var call__1985 = Resource.ClassType.ClassID();
+                        var call__1985 = Resource.EClass.ClassID;
                         bool bool__1986 = (call__1985 == 131431);
                         if (bool__1986)
                         {
@@ -21671,29 +21504,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.HSEngine.THSMap.Meta
         {
             // AoWHSMap.PAS:2255
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131089;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAoWHSMap.ClassID;
 
             // intf_P1_05.inc:335
-            public new Aow.Units.AoWE.TAoWHSMap Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TAoWHSMap o = (Aow.Units.AoWE.TAoWHSMap)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TAoWHSMap Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TAoWHSMap)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAoWHSMap => (Meta)MetaRegistry.Of(typeof(T));
@@ -21706,6 +21520,8 @@ namespace Aow.Units.AoWE
 //     +30 flags; +34..44 FSFXLibraries. }
     public partial class TUnitGFXResource : Aow.Units.Engine.TEResource
     {
+        public new const int ClassID = 131600;
+
         // Raw allocation for Game/FrameFixtureChecks.cs.
         public TUnitGFXResource() { }
 
@@ -21955,12 +21771,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
             // UnitHS.PAS:23
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131600;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnitGFXResource.ClassID;
 
             // intf_P2_03.inc:22
             public new TUnitGFXResource Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -22089,6 +21900,8 @@ namespace Aow.Units.AoWE
 //     +10 FUnitGFXResource; +14 FDirection; +15 FMoveStep; +16 FFlagID; +18 FShadow. }
     public partial class TUnitHS : Aow.Units.HSEngine.THexagonSprite
     {
+        public new const int ClassID = 131604;
+
         public byte FStatus;
         // { $08: visible, edit, selected, paused, instant move }
         public Aow.Units.FixedArray_byte_3 F_UnitHS_09;
@@ -22803,29 +22616,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // UnitHS.PAS:174
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131604;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnitHS.ClassID;
 
             // intf_P2_03.inc:74
-            public new Aow.Units.AoWE.TUnitHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TUnitHS o = (Aow.Units.AoWE.TUnitHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TUnitHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TUnitHS)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnitHS => (Meta)MetaRegistry.Of(typeof(T));
@@ -23423,7 +23217,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Ability.PAS:1445
-            public virtual Aow.Units.Engine.TEObject.Meta AbilityDataClass() => default;
+            public virtual Aow.Units.Engine.EClass AbilityDataClass() => default;
 
             public new Aow.Units.AoWE.TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
                 => (Aow.Units.AoWE.TAbility)base.Create(AOwner);
@@ -24952,6 +24746,8 @@ namespace Aow.Units.AoWE
 //     $20 item type, $24 library, $28 references, $2C hidden. }
     public partial class TItemGFX : Aow.Units.Engine.TEResource
     {
+        public new const int ClassID = 131689;
+
         public TItemGFX(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -25107,12 +24903,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
             // Army.PAS:5098
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131689;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TItemGFX.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TItemGFX => (Meta)MetaRegistry.Of(typeof(T));
@@ -25176,6 +24967,8 @@ namespace Aow.Units.AoWE
     // { TItemTE (instance size $1C): $10 item ID, $14 action, $18 hero ID. }
     public partial class TItemTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 131698;
+
         public int FItemID;
         // { $10 }
         public byte FAction;
@@ -25255,31 +25048,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Army.PAS:4182
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131698;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TItemTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TItemTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TItemTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TItemTE o = (Aow.Units.AoWE.TItemTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TItemTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TItemTE)base.Create(AOwner);
         }
     }
 
@@ -25289,6 +25063,8 @@ namespace Aow.Units.AoWE
 //     $46 attack, $47 defense, $48 damage, $49 resistance. }
     public partial class TItem : Aow.Units.AoWE.TAbilityOwner
     {
+        public new const int ClassID = 131688;
+
         // Army.PAS:4211
         public TItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -25886,12 +25662,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Army.PAS:4350
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131688;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TItem.ClassID;
 
             // intf_P2_04.inc:84
             public new TItem Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -26941,6 +26712,8 @@ namespace Aow.Units.AoWE
     // { TItemHS (instance size $14): $0C items, $10 generation mode. }
     public partial class TItemHS : Aow.Units.HSEngine.TSingleHS
     {
+        public new const int ClassID = 131697;
+
         public Aow.Units.AoWE.TItemHSList FItems;
         // { $0C }
         public Aow.Units.AoWE.TItemGenerateMode FGenerateMode;
@@ -27134,29 +26907,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // Army.PAS:5250
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131697;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TItemHS.ClassID;
 
             // intf_P2_04.inc:216
-            public new Aow.Units.AoWE.TItemHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TItemHS o = (Aow.Units.AoWE.TItemHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TItemHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TItemHS)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TItemHS => (Meta)MetaRegistry.Of(typeof(T));
@@ -27167,6 +26921,8 @@ namespace Aow.Units.AoWE
     // { TFaceResource (instance size 44, VMT 557102F0) }
     public partial class TFaceResource : Aow.Units.Engine.TEResource
     {
+        public new const int ClassID = 131696;
+
         public TFaceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -27319,12 +27075,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
             // Ability.PAS:442
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131696;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TFaceResource.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TFaceResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -30990,6 +30741,8 @@ namespace Aow.Units.AoWE
 //     +44 FTransportCapacity; +48 FDescription; +4C FObtainValue; +50 size; +51 blood. }
     public partial class TUnitResource : Aow.Units.AoWE.TAbstractUnitResource
     {
+        public new const int ClassID = 131602;
+
         // UnitRes.PAS:73
         public TUnitResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -31231,12 +30984,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbstractUnitResource.Meta
         {
             // UnitRes.PAS:145
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131602;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnitResource.ClassID;
 
             // intf_P2_05.inc:243
             public new TUnitResource Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -31281,6 +31029,8 @@ namespace Aow.Units.AoWE
     // { TUnit (instance size 72, VMT 55710CAC) }
     public partial class TUnit : Aow.Units.AoWE.TAbstractUnit
     {
+        public new const int ClassID = 131603;
+
         public TUnit(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public byte FExperience;
@@ -31902,12 +31652,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Unit.PAS:1915
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131603;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnit.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnit => (Meta)MetaRegistry.Of(typeof(T));
@@ -33963,6 +33708,8 @@ namespace Aow.Units.AoWE
 //     +15..1A statistic upgrades; +1C FAbilities. }
     public partial class THeroUpgradeTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135965;
+
         public int FUnitID;
         // { $10 }
         public sbyte FPlayer;
@@ -34069,29 +33816,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Hero.PAS:27
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135965;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THeroUpgradeTE.ClassID;
 
             // intf_P2_06.inc:62
-            public new Aow.Units.AoWE.THeroUpgradeTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.THeroUpgradeTE o = (Aow.Units.AoWE.THeroUpgradeTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.THeroUpgradeTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.THeroUpgradeTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THeroUpgradeTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -34102,6 +33830,8 @@ namespace Aow.Units.AoWE
 //     +14 FMode; +18 FItemID (also spell ID); +1C FParameter. }
     public partial class THeroUpdateTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135429;
+
         public int FUnitID;
         // { $10 }
         public Aow.Units.AoWE.THeroUpdateMode FMode;
@@ -34197,31 +33927,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Hero.PAS:2288
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135429;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THeroUpdateTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THeroUpdateTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.THeroUpdateTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.THeroUpdateTE o = (Aow.Units.AoWE.THeroUpdateTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.THeroUpdateTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.THeroUpdateTE)base.Create(AOwner);
         }
     }
 
@@ -34284,6 +33995,8 @@ namespace Aow.Units.AoWE
 //     +1C FOldLevel; +1D FNewLevel; +20 FDay. }
     public partial class THeroUpgradeEventLog : Aow.Units.EventLog.TEventLog
     {
+        public new const int ClassID = 131825;
+
         public int FUnitID;
         // { $18 }
         public byte FOldLevel;
@@ -34449,31 +34162,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Hero.PAS:54
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131825;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THeroUpgradeEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THeroUpgradeEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.AoWE.THeroUpgradeEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.THeroUpgradeEventLog o = (Aow.Units.AoWE.THeroUpgradeEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.THeroUpgradeEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.THeroUpgradeEventLog)base.Create(AOwner);
         }
     }
 
@@ -34673,6 +34367,8 @@ namespace Aow.Units.AoWE
     // { THeroJoinEventLog (instance size 60, VMT 55711D94) }
     public partial class THeroJoinEventLog : Aow.Units.AoWE.TJoinEventLog
     {
+        public new const int ClassID = 131828;
+
         // Hero.PAS:116
         public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
@@ -34837,31 +34533,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Hero.PAS:113
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131828;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THeroJoinEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THeroJoinEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P5_02.inc:20
-            public new Aow.Units.AoWE.THeroJoinEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.THeroJoinEventLog o = (Aow.Units.AoWE.THeroJoinEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.THeroJoinEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.THeroJoinEventLog)base.Create(AOwner);
         }
     }
 
@@ -34869,6 +34546,8 @@ namespace Aow.Units.AoWE
 //     +20 FText; +24 FMode; +28 FLocationName. }
     public partial class THeroEmergeEventLog : Aow.Units.EventLog.TEventLog
     {
+        public new const int ClassID = 131832;
+
         public int FUnitID;
         // { $18 }
         public new int FDay;
@@ -35059,31 +34738,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Hero.PAS:172
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131832;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THeroEmergeEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THeroEmergeEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.AoWE.THeroEmergeEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.THeroEmergeEventLog o = (Aow.Units.AoWE.THeroEmergeEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.THeroEmergeEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.THeroEmergeEventLog)base.Create(AOwner);
         }
     }
 
@@ -35094,6 +34754,8 @@ namespace Aow.Units.AoWE
 //     +80 FCastingPoints; +88 FCastingMana; +8C FCastingProgress; +90 FLibraryID; +94 FLibraryName; +98 FRegistered. }
     public partial class THero : Aow.Units.AoWE.TAbstractUnit
     {
+        public new const int ClassID = 131632;
+
         public int FFaceIndex;
         // { $3C }
         public Aow.Units.AoWE.THeroResource FHeroResource;
@@ -38343,12 +38005,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Hero.PAS:723
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131632;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THero.ClassID;
 
             // intf_P2_07.inc:82
             public new Aow.Units.AoWE.THero Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -38362,6 +38019,8 @@ namespace Aow.Units.AoWE
     // { TLeader (instance size 164, VMT 55712238): +9C FSpherePicksMax; +A0 FSpheres. }
     public partial class TLeader : Aow.Units.AoWE.THero
     {
+        public new const int ClassID = 131634;
+
         public byte FSpherePicksMax;
         // { $9C }
         public Aow.Units.FixedArray_byte_3 F_Leader_9D;
@@ -38870,12 +38529,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.THero.Meta
         {
             // Hero.PAS:2781
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131634;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TLeader.ClassID;
 
             // intf_P2_07.inc:222
             public new Aow.Units.AoWE.TLeader Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -39677,6 +39331,8 @@ namespace Aow.Units.AoWE
 //     +1C FName; +22 FAlignment; +23 FHidden; +24..29 base statistics; +2C FAbilities; +30 FFaceIndex. }
     public partial class THeroResource : Aow.Units.AoWE.TAbstractUnitResource
     {
+        public new const int ClassID = 131633;
+
         // Hero.PAS:2308
         public THeroResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -39794,12 +39450,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbstractUnitResource.Meta
         {
             // Hero.PAS:2323
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131633;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THeroResource.ClassID;
 
             // intf_P2_07.inc:343
             public new THeroResource Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -40137,6 +39788,8 @@ namespace Aow.Units.AoWE
     // { TArmyID (instance size 20, VMT 55712FF4): +08 FUnitIDs; +0C FPlayer; +10 FX, FY, FL. }
     public partial class TArmyID : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 131616;
+
         // Army.PAS:1
         public TArmyID(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -40248,12 +39901,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Army.PAS:13
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131616;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyID.ClassID;
 
             // intf_P2_07.inc:411
             public new TArmyID Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -40272,6 +39920,8 @@ namespace Aow.Units.AoWE
 //     +29 FVisibilityRanges; +2A FConcealedUnits. }
     public partial class TArmy : Aow.Units.AoWE.TUnitList
     {
+        public new const int ClassID = 131606;
+
         // Raw allocation for TDefendersArmy, TPrisonersArmy legacy factories.
         // Raw allocation for tests/probes/remaining-todos/Program.cs.
         public TArmy() { }
@@ -42492,7 +42142,7 @@ namespace Aow.Units.AoWE
             {
                 if ((Selection & 1) != 0)
                 {
-                    var call__3393 = ((Aow.Units.AoWE.TAbstractUnit)FChildren.List[I]).ClassType.ClassID();
+                    var call__3393 = ((Aow.Units.AoWE.TAbstractUnit)FChildren.List[I]).EClass.ClassID;
                     if (call__3393 == 131634)
                     {
                         Result = (Aow.Units.AoWE.TLeader)FChildren.List[I];
@@ -44588,12 +44238,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEChangeNotifyNode.Meta
         {
             // Army.PAS:576
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131606;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmy.ClassID;
 
             // intf_P2_07.inc:445
             public new TArmy Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -44610,6 +44255,8 @@ namespace Aow.Units.AoWE
 //     +3C FConcealedForPlayers; +40 FMoraleValues. }
     public partial class TArmyView : Aow.Units.AoWE.TArmy
     {
+        public new const int ClassID = 131609;
+
         public TArmyView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -44750,12 +44397,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TArmy.Meta
         {
             // Army.PAS:75
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131609;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyView.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyView => (Meta)MetaRegistry.Of(typeof(T));
@@ -44771,6 +44413,8 @@ namespace Aow.Units.AoWE
 //     $21 FUnitYOffset; $22 FMoveSteps. }
     public partial class TArmyHS : Aow.Units.AoWE.TUnitHS
     {
+        public new const int ClassID = 131607;
+
         public Aow.Units.AoWE.TArmy FArmy;
         // { $1C }
         public byte FUnitIndex;
@@ -44843,11 +44487,11 @@ namespace Aow.Units.AoWE
                 bool bool__3609 = (Info.MapField.TerrainType == 0) && (Info.Sender != null);
                 if (bool__3609)
                 {
-                    var call__3610 = ((Aow.Units.Engine.TEObject)Info.Sender).ClassType.ClassID();
+                    var call__3610 = ((Aow.Units.Engine.TEObject)Info.Sender).EClass.ClassID;
                     bool bool__3611 = (call__3610 == 135742);
                     if (!bool__3611)
                     {
-                        var call__3612 = ((Aow.Units.Engine.TEObject)Info.Sender).ClassType.ClassID();
+                        var call__3612 = ((Aow.Units.Engine.TEObject)Info.Sender).EClass.ClassID;
                         bool__3611 = (call__3612 == 131436);
                     }
 
@@ -45820,29 +45464,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TUnitHS.Meta
         {
             // Army.PAS:2662
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131607;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyHS.ClassID;
 
             // intf_P2_07.inc:587
-            public new Aow.Units.AoWE.TArmyHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TArmyHS o = (Aow.Units.AoWE.TArmyHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TArmyHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TArmyHS)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyHS => (Meta)MetaRegistry.Of(typeof(T));
@@ -45871,6 +45496,8 @@ namespace Aow.Units.AoWE
 //     +20 FArmyMessages; +24 FArmyIcon; +28 FDamageValues; +2C FDamageTypes; +30 FGameOver. }
     public partial class TArmyEventLog : Aow.Units.EventLog.TEventLog
     {
+        public new const int ClassID = 131608;
+
         public Aow.Units.AoWE.TArmyView FArmyView;
         // { $18 }
         public Aow.Rtl.AnsiString FArmyText;
@@ -46120,29 +45747,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Army.PAS:159
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131608;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyEventLog.ClassID;
 
             // intf_P2_07.inc:643
-            public new Aow.Units.AoWE.TArmyEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TArmyEventLog o = (Aow.Units.AoWE.TArmyEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TArmyEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TArmyEventLog)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyEventLog => (Meta)MetaRegistry.Of(typeof(T));
@@ -46153,6 +45761,8 @@ namespace Aow.Units.AoWE
 //     +20 FMessages; +24 FTitle; +28 FText; +2C FDescription; +30 FTriggers. }
     public partial class TArmyInfoEventLog : Aow.Units.EventLog.TEventLog
     {
+        public new const int ClassID = 131817;
+
         public Aow.Units.AoWE.TArmyView FArmyView;
         // { $18 }
         public byte FSelection;
@@ -46284,29 +45894,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Army.PAS:270
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131817;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyInfoEventLog.ClassID;
 
             // intf_P2_07.inc:670
-            public new Aow.Units.AoWE.TArmyInfoEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TArmyInfoEventLog o = (Aow.Units.AoWE.TArmyInfoEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TArmyInfoEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TArmyInfoEventLog)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyInfoEventLog => (Meta)MetaRegistry.Of(typeof(T));
@@ -46319,6 +45910,8 @@ namespace Aow.Units.AoWE
 //     $38 units, $3C hero unit, $40 special units, $44 hero names. VMT 55713838. }
     public partial class TRaceResource : Aow.Units.Engine.TEResource
     {
+        public new const int ClassID = 131585;
+
         // PlayerC.PAS:1732
         public TRaceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -46637,12 +46230,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
             // PlayerC.PAS:1812
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131585;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TRaceResource.ClassID;
 
             // PlayerC.PAS:1815
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -46852,6 +46440,8 @@ namespace Aow.Units.AoWE
 //     $25 days left, $28 shadow, $2C fogged. VMT 55713C18. }
     public partial class TStructure : Aow.Units.ILTer.TFixedILTerrainMO
     {
+        public new const int ClassID = 131914;
+
         public int FStructureID;
         // { $1C }
         public int FUpdateCount;
@@ -47582,7 +47172,7 @@ namespace Aow.Units.AoWE
             var call__3793 = GetLhx();
             var call__3794 = GetYhx();
             var call__3795 = GetXhx();
-            var call__3796 = ClassType.ClassID();
+            var call__3796 = EClass.ClassID;
             A1.Initialize(call__3796, unchecked((sbyte)call__3795), unchecked((sbyte)call__3794), unchecked((sbyte)call__3793));
         }
 
@@ -48611,29 +48201,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMO.Meta
         {
             // Structur.PAS:1005
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131914;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TStructure.ClassID;
 
             // intf_P1_09.inc:78
-            public new Aow.Units.AoWE.TStructure Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TStructure o = (Aow.Units.AoWE.TStructure)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TStructure Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TStructure)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TStructure => (Meta)MetaRegistry.Of(typeof(T));
@@ -48782,7 +48353,7 @@ namespace Aow.Units.AoWE
             }
 
             FStructures.AddChild(Structure);
-            if (Structure.ClassType.ClassID() == 131336)
+            if (Structure.EClass.ClassID == 131336)
             {
                 FCityCount += 1;
             }
@@ -48792,7 +48363,7 @@ namespace Aow.Units.AoWE
         public void Unregister(Aow.Units.AoWE.TStructure Structure)
         {
             FStructures.FChildren.Remove(Structure);
-            if (Structure.ClassType.ClassID() == 131336)
+            if (Structure.EClass.ClassID == 131336)
             {
                 FCityCount -= 1;
             }
@@ -48812,6 +48383,8 @@ namespace Aow.Units.AoWE
 //     $54 scanner icon. VMT 55713F40; other recovered resource fields below. }
     public partial class TStructureResource : Aow.Units.ILTer.TFixedILTerrainMOR
     {
+        public new const int ClassID = 131915;
+
         public bool FTerrainBound;
         // { $44 }
         // { conflict: FUsePad: Boolean; }
@@ -48988,12 +48561,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMOR.Meta
         {
             // Structur.PAS:1911
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131915;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TStructureResource.ClassID;
 
             // Structur.PAS:1914
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -49004,21 +48572,7 @@ namespace Aow.Units.AoWE
             }
 
             // intf_P1_09.inc:200
-            public new Aow.Units.AoWE.TStructureResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TStructureResource o = (Aow.Units.AoWE.TStructureResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TStructureResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TStructureResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TStructureResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -49162,6 +48716,8 @@ namespace Aow.Units.AoWE
 //     $32 flag ID, $34 victory-location bits, $38 unfog range. VMT 55714340. }
     public partial class TPlayerStructure : Aow.Units.AoWE.TStructure
     {
+        public new const int ClassID = 131916;
+
         public sbyte FPlayer;
         // { $30 }
         public byte FProductionPriority;
@@ -50274,29 +49830,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // Structur.PAS:1983
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131916;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPlayerStructure.ClassID;
 
             // intf_P1_09.inc:249
-            public new Aow.Units.AoWE.TPlayerStructure Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TPlayerStructure o = (Aow.Units.AoWE.TPlayerStructure)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TPlayerStructure Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TPlayerStructure)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPlayerStructure => (Meta)MetaRegistry.Of(typeof(T));
@@ -50306,6 +49843,8 @@ namespace Aow.Units.AoWE
     // { TPlayerStructureResource (instance size 116, VMT 557145E0) }
     public partial class TPlayerStructureResource : Aow.Units.AoWE.TStructureResource
     {
+        public new const int ClassID = 131917;
+
         public bool FClaimed;
         // { $64 }
         public Aow.Units.FixedArray_byte_3 F_PlayerStructureResource_65;
@@ -50426,29 +49965,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Structur.PAS:2435
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131917;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPlayerStructureResource.ClassID;
 
             // intf_P1_09.inc:300
-            public new Aow.Units.AoWE.TPlayerStructureResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TPlayerStructureResource o = (Aow.Units.AoWE.TPlayerStructureResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TPlayerStructureResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TPlayerStructureResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPlayerStructureResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -50458,6 +49978,8 @@ namespace Aow.Units.AoWE
     // { TStructureTE (instance size 40, VMT 557146EC) }
     public partial class TStructureTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135440;
+
         public sbyte FX;
         // { $10 }
         public sbyte FY;
@@ -50531,7 +50053,7 @@ namespace Aow.Units.AoWE
             bool bool__4073 = (Structure != null);
             if (bool__4073)
             {
-                var call__4074 = Structure.ClassType.ClassID();
+                var call__4074 = Structure.EClass.ClassID;
                 bool__4073 = (call__4074 == FStructureClassID);
             }
 
@@ -50560,7 +50082,7 @@ namespace Aow.Units.AoWE
             var call__4076 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FX, FY, FL);
             MapField = (Aow.Units.AoWE.TAoWMapField)call__4076;
             Structure = (Aow.Units.AoWE.TStructure)MapField.FindOwnedChild(AClassID);
-            var call__4077 = Structure.ClassType.ClassID();
+            var call__4077 = Structure.EClass.ClassID;
             Aow.Rtl.Rtl.Assert(AClassID == call__4077, (AnsiString)"Invalid position (StructureTE)", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Structur.PAS", 3045);
             FStructureClassID = AClassID;
             var call__4078 = Structure.GetRazed();
@@ -50591,31 +50113,12 @@ namespace Aow.Units.AoWE
         {
             // Structur.PAS:2532
             // { TStructureTE (instance size 40; $10/$11/$12 coordinates, $13 player, $14 class ID, $18 action, $1C razed, $20/$24 parameters). }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135440;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TStructureTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TStructureTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TStructureTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TStructureTE o = (Aow.Units.AoWE.TStructureTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TStructureTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TStructureTE)base.Create(AOwner);
         }
     }
 
@@ -50623,6 +50126,8 @@ namespace Aow.Units.AoWE
     // { TFrozenWaterHS: size $10; +$0C signed days remaining, +$0D caster player. }
     public partial class TFrozenWaterHS : Aow.Units.HSEngine.TSingleHS
     {
+        public new const int ClassID = 131436;
+
         public sbyte FDaysRemaining;
         // { $0C; 557CCEC1 }
         public sbyte FCasterPlayer;
@@ -50737,31 +50242,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // Structur.PAS:4477
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131436;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TFrozenWaterHS.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TFrozenWaterHS => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWE.TFrozenWaterHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TFrozenWaterHS o = (Aow.Units.AoWE.TFrozenWaterHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TFrozenWaterHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TFrozenWaterHS)base.Create(AOwner);
         }
     }
 
@@ -51005,6 +50491,8 @@ namespace Aow.Units.AoWE
 //     listed below. VMT 55714AB8. Shared resources and controls for a game pack. }
     public partial class TAoWHSSet : Aow.Units.HSEngine.THSSet
     {
+        public new const int ClassID = 131088;
+
         public Aow.Units.ImageLib.TCustomImageLibrary FGeneralImages;
         // { $48 }
         public Aow.Units.ImageLib.TCustomImageLibrary FCursorImages;
@@ -51428,29 +50916,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.HSEngine.THSSet.Meta
         {
             // Ability.PAS:88
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131088;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAoWHSSet.ClassID;
 
             // intf_P1_10.inc:44
-            public new Aow.Units.AoWE.TAoWHSSet Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TAoWHSSet o = (Aow.Units.AoWE.TAoWHSSet)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TAoWHSSet Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TAoWHSSet)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAoWHSSet => (Meta)MetaRegistry.Of(typeof(T));
@@ -51463,6 +50932,9 @@ namespace Aow.Units.AoWE
 //     $18 email address; $1C last day (not serialized by the original). }
     public partial class TEmailGame : Aow.Units.Engine.TEObject
     {
+        // Diplomacy.pas:2462
+        public new const int ClassID = 136960;
+
         public TEmailGame(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -51494,12 +50966,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Diplomacy.pas:2462
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136960;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TEmailGame.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TEmailGame => (Meta)MetaRegistry.Of(typeof(T));
@@ -51833,6 +51300,9 @@ namespace Aow.Units.AoWE
     // { TRestartGameEventLog (instance size 40, VMT 55714E4C) }
     public partial class TRestartGameEventLog : Aow.Units.EventLog.TMessageEventLog
     {
+        // Diplomacy.pas:2450
+        public new const int ClassID = 131831;
+
         // Diplomacy.pas:2453
         public override Aow.Rtl.AnsiString GetText()
         {
@@ -51877,31 +51347,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Diplomacy.pas:2450
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131831;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TRestartGameEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TRestartGameEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:110
-            public new Aow.Units.AoWE.TRestartGameEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TRestartGameEventLog o = (Aow.Units.AoWE.TRestartGameEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TRestartGameEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TRestartGameEventLog)base.Create(AOwner);
         }
     }
 
@@ -51962,6 +51413,8 @@ namespace Aow.Units.AoWE
 //     $20 FShowPriority, $24 FPlayer, $28 FExplosionFrame. }
     public partial class TFire : Aow.Units.ILTer.TILTerrainMO
     {
+        public new const int ClassID = 132990;
+
         public TSet<Aow.Units.AoWE.TFireModeElement> FMode;
         // { $1C }
         public sbyte FTurnsLeft;
@@ -52207,7 +51660,7 @@ namespace Aow.Units.AoWE
             Result = base.CanPlace(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
             if (Result)
             {
-                var call__4254 = ClassType.ClassID();
+                var call__4254 = EClass.ClassID;
                 var call__4255 = MapContainer.GetField(Xhx, Yhx, Lhx);
                 var call__4256 = call__4255.FindOwnedChild(call__4254);
                 Result = call__4256 == null;
@@ -52438,29 +51891,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
             // Structur.PAS:3397
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132990;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TFire.ClassID;
 
             // intf_P1_11.inc:16
-            public new Aow.Units.AoWE.TFire Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TFire o = (Aow.Units.AoWE.TFire)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TFire Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TFire)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TFire => (Meta)MetaRegistry.Of(typeof(T));
@@ -52471,6 +51905,8 @@ namespace Aow.Units.AoWE
     // { TFireResource (instance size 72): $44 FFireType. }
     public partial class TFireResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public new const int ClassID = 132991;
+
         public Aow.Units.AoWE.TFireType FFireType;
         // { $44 }
         public Aow.Units.FixedArray_byte_3 F_FireResource_45;
@@ -52514,12 +51950,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // Structur.PAS:3697
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132991;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TFireResource.ClassID;
 
             // Structur.PAS:3692
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -52532,21 +51963,7 @@ namespace Aow.Units.AoWE
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TFireResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.AoWE.TFireResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TFireResource o = (Aow.Units.AoWE.TFireResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TFireResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TFireResource)base.Create(AOwner);
         }
     }
 
@@ -55615,6 +55032,9 @@ namespace Aow.Units.AoWE
 //     $47 FStatus; $48 FControlMode. }
     public partial class TCombatUnit : Aow.Units.AoWE.TCombatObject
     {
+        // Combat.pas:1084
+        public new const int ClassID = 131745;
+
         // Raw allocation for TTacticalCombatUnit legacy factories.
         protected TCombatUnit() { }
 
@@ -56792,12 +56212,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat.pas:1084
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131745;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatUnit.ClassID;
 
             // intf_P3_01.inc:244
             public new TCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -56814,6 +56229,9 @@ namespace Aow.Units.AoWE
 //     $4D FHitPoints; $4E FLocked. }
     public partial class TCombatWall : Aow.Units.AoWE.TCombatObject
     {
+        // Combat.pas:1670
+        public new const int ClassID = 131759;
+
         // Combat.pas:1660
         public TCombatWall(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -57059,12 +56477,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat.pas:1670
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131759;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatWall.ClassID;
 
             // Army.PAS:6131
             // { 55727CFE }
@@ -57916,6 +57329,9 @@ namespace Aow.Units.AoWE
 //     The two damage sets are deliberately unaligned packed fields. }
     public partial class TDamageCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        // Combat2.pas:774
+        public new const int ClassID = 131761;
+
         // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTDamageCA.
         protected TDamageCA() { }
 
@@ -58117,12 +57533,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:774
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131761;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDamageCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDamageCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -58135,6 +57546,9 @@ namespace Aow.Units.AoWE
     // { TDamageEffectCA: instance size $14, VMT 557163D0; $10 FDamageType. }
     public partial class TDamageEffectCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        // Combat2.pas:876
+        public new const int ClassID = 131762;
+
         public TDamageEffectCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -58231,12 +57645,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:876
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131762;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDamageEffectCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDamageEffectCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -58252,6 +57661,9 @@ namespace Aow.Units.AoWE
     // { TUpdateHeaderCA (instance size 16, VMT 557164AC) }
     public partial class TUpdateHeaderCA : Aow.Units.AoWE.TCombatAction
     {
+        // Combat2.pas:960
+        public new const int ClassID = 131766;
+
         public TUpdateHeaderCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -58275,12 +57687,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:960
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131766;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUpdateHeaderCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUpdateHeaderCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -58295,6 +57702,9 @@ namespace Aow.Units.AoWE
     // { TNewCombatTurnCA (instance size 16, VMT 5571659C) }
     public partial class TNewCombatTurnCA : Aow.Units.AoWE.TCombatAction
     {
+        // Combat2.pas:982
+        public new const int ClassID = 131770;
+
         public TNewCombatTurnCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -58342,12 +57752,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:982
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131770;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TNewCombatTurnCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TNewCombatTurnCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -58362,6 +57767,9 @@ namespace Aow.Units.AoWE
     // { TNewCombatRoundCA (instance size 12, VMT 5571667C) }
     public partial class TNewCombatRoundCA : Aow.Units.AoWE.TCombatAction
     {
+        // Combat2.pas:1009
+        public new const int ClassID = 131771;
+
         public TNewCombatRoundCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -58388,12 +57796,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:1009
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131771;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TNewCombatRoundCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TNewCombatRoundCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -58408,6 +57811,9 @@ namespace Aow.Units.AoWE
     // { TCombatObjectTurnDoneCA (instance size 16, VMT 5571675C) }
     public partial class TCombatObjectTurnDoneCA : Aow.Units.AoWE.TCombatAction
     {
+        // Combat2.pas:1038
+        public new const int ClassID = 131772;
+
         public TCombatObjectTurnDoneCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -58434,12 +57840,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:1038
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131772;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatObjectTurnDoneCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCombatObjectTurnDoneCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -58454,6 +57855,9 @@ namespace Aow.Units.AoWE
     // { TMoveWallCA (instance size 16, VMT 55716880) }
     public partial class TMoveWallCA : Aow.Units.AoWE.TCombatAction
     {
+        // Combat2.pas:1072
+        public new const int ClassID = 131767;
+
         public TMoveWallCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -58490,12 +57894,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:1072
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131767;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TMoveWallCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TMoveWallCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -58510,6 +57909,9 @@ namespace Aow.Units.AoWE
     // { TFleeCA (instance size 16, VMT 55716954) }
     public partial class TFleeCA : Aow.Units.AoWE.TCombatAction
     {
+        // Combat2.pas:1099
+        public new const int ClassID = 131776;
+
         public TFleeCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -58537,12 +57939,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:1099
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131776;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TFleeCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TFleeCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -58576,6 +57973,9 @@ namespace Aow.Units.AoWE
     // { TCombatParty (instance size 28, VMT 55716B24) }
     public partial class TCombatParty : Aow.Units.Engine.TEObject
     {
+        // Combat2.pas:47
+        public new const int ClassID = 131746;
+
         // Combat2.pas:37
         public TCombatParty(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -58632,12 +58032,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:47
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131746;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatParty.ClassID;
 
             // intf_P3_02.inc:180
             public new TCombatParty Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -58759,6 +58154,9 @@ namespace Aow.Units.AoWE
     // { TCombatPlayer (instance size 12, VMT 55716CE8) }
     public partial class TCombatPlayer : Aow.Units.Engine.TEObject
     {
+        // Combat2.pas:115
+        public new const int ClassID = 131744;
+
         // Raw allocation for TTacticalCombatPlayer legacy factories.
         protected TCombatPlayer() { }
 
@@ -58787,12 +58185,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:115
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131744;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatPlayer.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCombatPlayer => (Meta)MetaRegistry.Of(typeof(T));
@@ -58882,6 +58275,9 @@ namespace Aow.Units.AoWE
 //     $3C parties; $44 round; $48 header string; $4D Boolean; $50 combat wall. }
     public partial class TCombatData : Aow.Units.Engine.TEObject
     {
+        // Combat2.pas:184
+        public new const int ClassID = 131747;
+
         // Raw allocation for tools/oracle/MovementChecks/Program.cs.
         public TCombatData() { }
 
@@ -59076,12 +58472,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:184
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131747;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatData.ClassID;
 
             // intf_P3_02.inc:252
             public new TCombatData Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -59099,6 +58490,9 @@ namespace Aow.Units.AoWE
 //     $0C FInitialData; $10 FFinalData; $14 FActions; $19 result flag. }
     public partial class TCombatLogbook : Aow.Units.Engine.TEObject
     {
+        // Combat2.pas:381
+        public new const int ClassID = 131749;
+
         // Combat2.pas:349
         public TCombatLogbook(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -59193,12 +58587,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:381
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131749;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatLogbook.ClassID;
 
             // intf_P3_02.inc:278
             public new TCombatLogbook Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -60333,6 +59722,9 @@ namespace Aow.Units.AoWE
     // { TCombatEventLog: instance size $1C, VMT 557171FC; $18 FLogbook. }
     public partial class TCombatEventLog : Aow.Units.EventLog.TEventLog
     {
+        // Combat2.pas:413
+        public new const int ClassID = 131810;
+
         public Aow.Units.AoWE.TCombatLogbook FLogbook;
         // Combat2.pas:405
         // { $18 }
@@ -60577,31 +59969,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Combat2.pas:413
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131810;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCombatEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.AoWE.TCombatEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TCombatEventLog o = (Aow.Units.AoWE.TCombatEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TCombatEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TCombatEventLog)base.Create(AOwner);
         }
     }
 
@@ -61051,7 +60424,7 @@ namespace Aow.Units.AoWE
                     if (AUnit != null)
                     {
                         Group = AUnit.FGroup;
-                        if ((Group == null) || (Group.ClassType.ClassID() == 136295))
+                        if ((Group == null) || (Group.EClass.ClassID == 136295))
                         {
                             Units.AddUnit(AUnit);
                             Result += 1;
@@ -61213,7 +60586,7 @@ namespace Aow.Units.AoWE
                 for (; I <= end__4789; I += 1)
                 {
                     var call__4790 = FPlayer.FAIGroups.GetGroups(I);
-                    var call__4791 = call__4790.ClassType.ClassID();
+                    var call__4791 = call__4790.EClass.ClassID;
                     if (call__4791 == 136294)
                     {
                         SkirmishCount += 1;
@@ -61253,35 +60626,35 @@ namespace Aow.Units.AoWE
                         bool bool__4795 = (Group.FTargetType != Aow.Units.AoWE.TAIGroupTargetStatus.gtsExecute);
                         if (bool__4795)
                         {
-                            var call__4796 = Group.ClassType.ClassID();
+                            var call__4796 = Group.EClass.ClassID;
                             bool__4795 = (call__4796 != 136281);
                         }
 
                         bool bool__4797 = bool__4795;
                         if (bool__4797)
                         {
-                            var call__4798 = Group.ClassType.ClassID();
+                            var call__4798 = Group.EClass.ClassID;
                             bool__4797 = (call__4798 != 136294);
                         }
 
                         bool bool__4799 = bool__4797;
                         if (bool__4799)
                         {
-                            var call__4800 = Group.ClassType.ClassID();
+                            var call__4800 = Group.EClass.ClassID;
                             bool__4799 = (call__4800 != 136273);
                         }
 
                         bool bool__4801 = bool__4799;
                         if (bool__4801)
                         {
-                            var call__4802 = Group.ClassType.ClassID();
+                            var call__4802 = Group.EClass.ClassID;
                             bool__4801 = (call__4802 != 136275);
                         }
 
                         bool bool__4803 = bool__4801;
                         if (bool__4803)
                         {
-                            var call__4804 = Group.ClassType.ClassID();
+                            var call__4804 = Group.EClass.ClassID;
                             bool__4803 = (call__4804 != 136295);
                         }
 
@@ -67883,6 +67256,9 @@ namespace Aow.Units.AoWE
 //     $20/$24 daily limits, $28/$2C daily requirements, $30/$34 gold/mana. }
     public partial class TAIBudget : Aow.Units.Engine.TEObject
     {
+        // AI.pas:1653
+        public new const int ClassID = 131740;
+
         // Raw allocation for TAICityFortifyBudget, TAICityResearchBudget, TAICityUpgradeBudget legacy factories.
         protected TAIBudget() { }
 
@@ -67986,12 +67362,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AI.pas:1653
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131740;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAIBudget.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAIBudget => (Meta)MetaRegistry.Of(typeof(T));
@@ -68007,6 +67378,9 @@ namespace Aow.Units.AoWE
     // { TAISavingsBudget (instance size $38, VMT 55719320). Uses TAIBudget fields. }
     public partial class TAISavingsBudget : Aow.Units.AoWE.TAIBudget
     {
+        // AI.pas:2189
+        public new const int ClassID = 131741;
+
         // AI.pas:2180
         public TAISavingsBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -68021,12 +67395,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
             // AI.pas:2189
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131741;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAISavingsBudget.ClassID;
 
             // intf_P5_06.inc:555
             public new TAISavingsBudget Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -68042,6 +67411,9 @@ namespace Aow.Units.AoWE
     // { TAITransporterBudget (instance size $38, VMT 557193F8). Uses TAIBudget fields. }
     public partial class TAITransporterBudget : Aow.Units.AoWE.TAIBudget
     {
+        // AI.pas:2198
+        public new const int ClassID = 131742;
+
         // AI.pas:2192
         public TAITransporterBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -68053,12 +67425,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
             // AI.pas:2198
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131742;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAITransporterBudget.ClassID;
 
             // intf_P5_06.inc:562
             public new TAITransporterBudget Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -70050,6 +69417,9 @@ namespace Aow.Units.AoWE
 
     public partial class TAIGroup : Aow.Units.AoWE.TUnitUserList
     {
+        // AIGroup.pas:101
+        public new const int ClassID = 136272;
+
         // Raw allocation for TAbstractBehaviorAG, TAggressorAG, TDefenderAG legacy factories.
         // Raw allocation for tests/probes/remaining-todos/Program.cs.
         public TAIGroup() { }
@@ -70891,12 +70261,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEChangeNotifyNode.Meta
         {
             // AIGroup.pas:101
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136272;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAIGroup.ClassID;
 
             // AIGroup.pas:123
             // { $C0 }
@@ -72266,8 +71631,8 @@ namespace Aow.Units.AoWE
                     bool bool__5745 = (Group != FGroup);
                     if (bool__5745)
                     {
-                        var call__5746 = Group.ClassType.ClassID();
-                        var call__5747 = FGroup.ClassType.ClassID();
+                        var call__5746 = Group.EClass.ClassID;
+                        var call__5747 = FGroup.EClass.ClassID;
                         bool__5745 = (call__5746 == call__5747);
                     }
 
@@ -72471,7 +71836,7 @@ namespace Aow.Units.AoWE
                         bool bool__5770 = (AUnit.FGroup == null);
                         if (!bool__5770)
                         {
-                            var call__5771 = AUnit.FGroup.ClassType.ClassID();
+                            var call__5771 = AUnit.FGroup.EClass.ClassID;
                             bool__5770 = (call__5771 == 136295);
                         }
 
@@ -76675,6 +76040,9 @@ namespace Aow.Units.AoWE
     // { THuntAG (instance size $54). $50 hunted unit IDs. }
     public partial class THuntAG : Aow.Units.AoWE.TAIGroup
     {
+        // AIGroup.pas:1442
+        public new const int ClassID = 136288;
+
         // AIGroup.pas:1430
         public THuntAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -76723,12 +76091,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // AIGroup.pas:1442
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136288;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THuntAG.ClassID;
 
             // AIGroup.pas:1452
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -76894,6 +76257,9 @@ namespace Aow.Units.AoWE
     // { TGuardGC (instance size 8, VMT 5571BBC8) }
     public partial class TGuardGC : Aow.Units.AoWE.TGroupControl
     {
+        // AIGroup.pas:1570
+        public new const int ClassID = 136194;
+
         public TGuardGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -76908,12 +76274,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AIGroup.pas:1570
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136194;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TGuardGC.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TGuardGC => (Meta)MetaRegistry.Of(typeof(T));
@@ -76928,6 +76289,9 @@ namespace Aow.Units.AoWE
     // { TPassiveGC (instance size 8, VMT 5571BC84) }
     public partial class TPassiveGC : Aow.Units.AoWE.TGroupControl
     {
+        // AIGroup.pas:1580
+        public new const int ClassID = 136199;
+
         public TPassiveGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -76942,12 +76306,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AIGroup.pas:1580
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136199;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPassiveGC.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPassiveGC => (Meta)MetaRegistry.Of(typeof(T));
@@ -76962,6 +76321,9 @@ namespace Aow.Units.AoWE
     // { TGuardAreaGC (instance size 8, VMT 5571BD44) }
     public partial class TGuardAreaGC : Aow.Units.AoWE.TGroupControl
     {
+        // AIGroup.pas:1590
+        public new const int ClassID = 136192;
+
         public TGuardAreaGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -76976,12 +76338,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AIGroup.pas:1590
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136192;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TGuardAreaGC.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TGuardAreaGC => (Meta)MetaRegistry.Of(typeof(T));
@@ -76996,6 +76353,9 @@ namespace Aow.Units.AoWE
     // { TSuicidalGC (instance size 8, VMT 5571BE08) }
     public partial class TSuicidalGC : Aow.Units.AoWE.TGroupControl
     {
+        // AIGroup.pas:1600
+        public new const int ClassID = 136195;
+
         public TSuicidalGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -77010,12 +76370,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AIGroup.pas:1600
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136195;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TSuicidalGC.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSuicidalGC => (Meta)MetaRegistry.Of(typeof(T));
@@ -77030,6 +76385,9 @@ namespace Aow.Units.AoWE
     // { TPatrolGC (instance size 8, VMT 5571BEC8) }
     public partial class TPatrolGC : Aow.Units.AoWE.TGroupControl
     {
+        // AIGroup.pas:1610
+        public new const int ClassID = 136193;
+
         public TPatrolGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -77044,12 +76402,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AIGroup.pas:1610
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136193;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPatrolGC.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPatrolGC => (Meta)MetaRegistry.Of(typeof(T));
@@ -77064,6 +76417,9 @@ namespace Aow.Units.AoWE
     // { TScoutGC (instance size 8, VMT 5571BF84) }
     public partial class TScoutGC : Aow.Units.AoWE.TGroupControl
     {
+        // AIGroup.pas:1620
+        public new const int ClassID = 136196;
+
         public TScoutGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -77078,12 +76434,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AIGroup.pas:1620
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136196;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TScoutGC.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TScoutGC => (Meta)MetaRegistry.Of(typeof(T));
@@ -77098,6 +76449,9 @@ namespace Aow.Units.AoWE
     // { TRefugeGC (instance size 8, VMT 5571C040) }
     public partial class TRefugeGC : Aow.Units.AoWE.TGroupControl
     {
+        // AIGroup.pas:1630
+        public new const int ClassID = 136208;
+
         public TRefugeGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -77112,12 +76466,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AIGroup.pas:1630
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136208;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TRefugeGC.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TRefugeGC => (Meta)MetaRegistry.Of(typeof(T));
@@ -77133,6 +76482,8 @@ namespace Aow.Units.AoWE
 //     $10 player, $14 day, $18 end-turn mode. }
     public partial class TEndTurnTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135425;
+
         public sbyte FPlayer;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_EndTurnTE_11;
@@ -77219,31 +76570,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:1904
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135425;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TEndTurnTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TEndTurnTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TEndTurnTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TEndTurnTE o = (Aow.Units.AoWE.TEndTurnTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TEndTurnTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TEndTurnTE)base.Create(AOwner);
         }
     }
 
@@ -77251,6 +76583,8 @@ namespace Aow.Units.AoWE
     // { TChangePlayerSettingsTE: $10 player, $14 settings string; size $18. }
     public partial class TChangePlayerSettingsTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135974;
+
         public sbyte FPlayer;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_ChangePlayerSettingsTE_11;
@@ -77294,31 +76628,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:1888
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135974;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TChangePlayerSettingsTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TChangePlayerSettingsTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TChangePlayerSettingsTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TChangePlayerSettingsTE o = (Aow.Units.AoWE.TChangePlayerSettingsTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TChangePlayerSettingsTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TChangePlayerSettingsTE)base.Create(AOwner);
         }
     }
 
@@ -77596,6 +76911,8 @@ namespace Aow.Units.AoWE
     // { TMultiMoveTE: $10 events, $14 simultaneous; size $18. }
     public partial class TMultiMoveTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135442;
+
         public Aow.Units.NetworkE.TTokenEventList FEvents;
         // { $10 }
         public bool FSimultaneous;
@@ -77739,29 +77056,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:3299
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135442;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TMultiMoveTE.ClassID;
 
             // intf_P5_07.inc:788
-            public new Aow.Units.AoWE.TMultiMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TMultiMoveTE o = (Aow.Units.AoWE.TMultiMoveTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TMultiMoveTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TMultiMoveTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TMultiMoveTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -77773,6 +77071,8 @@ namespace Aow.Units.AoWE
 //     $2C/$2D moving/target player, $2E..$30 target, $31..$33 destination, $34 animate; size $38. }
     public partial class TMoveArmyTE : Aow.Units.AoWE.TMoveTE
     {
+        public new const int ClassID = 135424;
+
         public TSet<Aow.Units.AoWE.TArmyMoveModeElement> FMode;
         // { $1C }
         public Aow.Units.FixedArray_byte_3 F_MoveArmyTE_1D;
@@ -78424,29 +77724,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:2072
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135424;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TMoveArmyTE.ClassID;
 
             // intf_P5_07.inc:816
-            public new Aow.Units.AoWE.TMoveArmyTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TMoveArmyTE o = (Aow.Units.AoWE.TMoveArmyTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TMoveArmyTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TMoveArmyTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TMoveArmyTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -78456,6 +77737,8 @@ namespace Aow.Units.AoWE
     // { TArmyDefaultMoveTE (instance size 56, VMT 5571C624) }
     public partial class TArmyDefaultMoveTE : Aow.Units.AoWE.TMoveArmyTE
     {
+        public new const int ClassID = 135428;
+
         // MoveT.PAS:2394
         public override bool Setup(Aow.Units.AoWE.TArmyHS ArmyHS, byte Selection, Aow.Units.AoWE.TMovepath Path, TSet<Aow.Units.AoWE.TArmyMoveModeElement> Mode)
         {
@@ -78484,37 +77767,20 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TMoveArmyTE.Meta
         {
             // MoveT.PAS:2391
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135428;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyDefaultMoveTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyDefaultMoveTE => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P5_07.inc:816
-            public new Aow.Units.AoWE.TArmyDefaultMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TArmyDefaultMoveTE o = (Aow.Units.AoWE.TArmyDefaultMoveTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TArmyDefaultMoveTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TArmyDefaultMoveTE)base.Create(AOwner);
         }
     }
 
     // { TArmyNegotiateMoveTE (instance size 56, VMT 5571C72C) }
     public partial class TArmyNegotiateMoveTE : Aow.Units.AoWE.TMoveArmyTE
     {
+        public new const int ClassID = 135430;
+
         // MoveT.PAS:2400
         public override bool Validate()
         {
@@ -78667,37 +77933,20 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TMoveArmyTE.Meta
         {
             // MoveT.PAS:2397
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135430;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyNegotiateMoveTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyNegotiateMoveTE => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P5_07.inc:816
-            public new Aow.Units.AoWE.TArmyNegotiateMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TArmyNegotiateMoveTE o = (Aow.Units.AoWE.TArmyNegotiateMoveTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TArmyNegotiateMoveTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TArmyNegotiateMoveTE)base.Create(AOwner);
         }
     }
 
     // { TArmyCombineMoveTE (instance size 56, VMT 5571C838) }
     public partial class TArmyCombineMoveTE : Aow.Units.AoWE.TMoveArmyTE
     {
+        public new const int ClassID = 135427;
+
         // MoveT.PAS:2471
         public override bool CanMoveNext()
         {
@@ -78790,31 +78039,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TMoveArmyTE.Meta
         {
             // MoveT.PAS:2459
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135427;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyCombineMoveTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyCombineMoveTE => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P5_07.inc:816
-            public new Aow.Units.AoWE.TArmyCombineMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TArmyCombineMoveTE o = (Aow.Units.AoWE.TArmyCombineMoveTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TArmyCombineMoveTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TArmyCombineMoveTE)base.Create(AOwner);
         }
     }
 
@@ -78822,6 +78052,8 @@ namespace Aow.Units.AoWE
     // { TArmyCombatMoveTE: $38 combat mode, $39 combat type, $3A ignore defenders; size $3C. }
     public partial class TArmyCombatMoveTE : Aow.Units.AoWE.TMoveArmyTE
     {
+        public new const int ClassID = 135426;
+
         public Aow.Units.AoWE.TCombatMoveMode FCombatMode;
         // { $38 }
         public Aow.Units.AoWE.TCombatType FCombatType;
@@ -79792,31 +79024,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TMoveArmyTE.Meta
         {
             // MoveT.PAS:2501
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135426;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TArmyCombatMoveTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TArmyCombatMoveTE => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P5_07.inc:816
-            public new Aow.Units.AoWE.TArmyCombatMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TArmyCombatMoveTE o = (Aow.Units.AoWE.TArmyCombatMoveTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TArmyCombatMoveTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TArmyCombatMoveTE)base.Create(AOwner);
         }
     }
 
@@ -79843,6 +79056,9 @@ namespace Aow.Units.AoWE
 //     $2C Selection, $2D Mode, $2E Result, $30 EventLogID, $34/$38 Data1/Data2. }
     public partial class TNegotiateTE : Aow.Units.NetworkE.TTokenEvent
     {
+        // Diplomacy.pas:133
+        public new const int ClassID = 135431;
+
         public int FGold;
         public Aow.Units.AoWE.TNegotiateOffer FOffer;
         public byte FX;
@@ -80042,29 +79258,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Diplomacy.pas:133
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135431;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TNegotiateTE.ClassID;
 
             // intf_P5_07.inc:921
-            public new Aow.Units.AoWE.TNegotiateTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TNegotiateTE o = (Aow.Units.AoWE.TNegotiateTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TNegotiateTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TNegotiateTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TNegotiateTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -80077,6 +79274,9 @@ namespace Aow.Units.AoWE
 //     $4C/$50 Data1/Data2; inherited join fields $18..$3B. }
     public partial class TNegotiateRequestEventLog : Aow.Units.AoWE.TJoinEventLog
     {
+        // Diplomacy.pas:279
+        public new const int ClassID = 131814;
+
         public sbyte FX;
         // { $3C; 0044F009 }
         public sbyte FY;
@@ -80253,29 +79453,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Diplomacy.pas:279
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131814;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TNegotiateRequestEventLog.ClassID;
 
             // intf_P5_07.inc:946
-            public new Aow.Units.AoWE.TNegotiateRequestEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TNegotiateRequestEventLog o = (Aow.Units.AoWE.TNegotiateRequestEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TNegotiateRequestEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TNegotiateRequestEventLog)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TNegotiateRequestEventLog => (Meta)MetaRegistry.Of(typeof(T));
@@ -80286,6 +79467,8 @@ namespace Aow.Units.AoWE
     // { TGameOverTE (instance size 20, VMT 5571CEE8) }
     public partial class TGameOverTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135441;
+
         public sbyte FPlayer;
         // { $10 }
         public Aow.Units.AoWE.TGameOverStatus FGameOverStatus;
@@ -80328,31 +79511,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:3230
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135441;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TGameOverTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TGameOverTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TGameOverTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TGameOverTE o = (Aow.Units.AoWE.TGameOverTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TGameOverTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TGameOverTE)base.Create(AOwner);
         }
     }
 
@@ -80360,6 +79524,8 @@ namespace Aow.Units.AoWE
     // { TSaveGameTE: instance size $14; $10 save filename. }
     public partial class TSaveGameTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135444;
+
         public Aow.Rtl.AnsiString FFileName;
         // MoveT.PAS:1848
         // { $10; 557758D5 }
@@ -80445,37 +79611,20 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:1843
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135444;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TSaveGameTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSaveGameTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TSaveGameTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TSaveGameTE o = (Aow.Units.AoWE.TSaveGameTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TSaveGameTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TSaveGameTE)base.Create(AOwner);
         }
     }
 
     // { TCheatTE (instance size 24, VMT 5571D07C) }
     public partial class TCheatTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 131829;
+
         public sbyte FPlayer;
         // { $10; 5577406D }
         public Aow.Units.FixedArray_byte_3 F_CheatTE_11;
@@ -80608,7 +79757,7 @@ namespace Aow.Units.AoWE
                     {
                         var call__6574 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(0);
                         var call__6575 = call__6574.FStructures.GetStructure(I);
-                        var call__6576 = call__6575.ClassType.ClassID();
+                        var call__6576 = call__6575.EClass.ClassID;
                         if (call__6576 == 131336)
                         {
                             var call__6577 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(0);
@@ -80674,31 +79823,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:3457
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131829;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCheatTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCheatTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TCheatTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TCheatTE o = (Aow.Units.AoWE.TCheatTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TCheatTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TCheatTE)base.Create(AOwner);
         }
     }
 
@@ -80706,6 +79836,8 @@ namespace Aow.Units.AoWE
     // { TDisbandUnitTE: $10 unit ID, $14 player; size $18. }
     public partial class TDisbandUnitTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135447;
+
         public int FUnitID;
         // { $10 }
         public sbyte FPlayer;
@@ -80873,31 +80005,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:3529
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135447;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDisbandUnitTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDisbandUnitTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TDisbandUnitTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TDisbandUnitTE o = (Aow.Units.AoWE.TDisbandUnitTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TDisbandUnitTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TDisbandUnitTE)base.Create(AOwner);
         }
     }
 
@@ -80905,6 +80018,8 @@ namespace Aow.Units.AoWE
     // { TCombatFlowControlTE: $10 flow mode, $14 player; size $18. }
     public partial class TCombatFlowControlTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135448;
+
         public TSet<Aow.Units.AoWE.TCombatFlowControlModeElement> FMode;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_CombatFlowControlTE_11;
@@ -80976,37 +80091,20 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:3593
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135448;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCombatFlowControlTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCombatFlowControlTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TCombatFlowControlTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TCombatFlowControlTE o = (Aow.Units.AoWE.TCombatFlowControlTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TCombatFlowControlTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TCombatFlowControlTE)base.Create(AOwner);
         }
     }
 
     // { TTerminatePlayerTE (instance size 32, VMT 5571D37C) }
     public partial class TTerminatePlayerTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 131836;
+
         public sbyte FPlayer;
         // { $10; 55755EB4 }
         public Aow.Units.FixedArray_byte_3 F_TerminatePlayerTE_11;
@@ -81087,37 +80185,21 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // MoveT.PAS:3246
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131836;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TTerminatePlayerTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TTerminatePlayerTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TTerminatePlayerTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TTerminatePlayerTE o = (Aow.Units.AoWE.TTerminatePlayerTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TTerminatePlayerTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TTerminatePlayerTE)base.Create(AOwner);
         }
     }
 
     // { TFastCombatUnit (instance size $64, VMT 5571D4BC). $5C round distance, $60 state. }
     public partial class TFastCombatUnit : Aow.Units.AoWE.TCombatUnit
     {
+        // AIGroup.pas:6778
+        public new const int ClassID = 131791;
+
         // AIGroup.pas:6773
         public TFastCombatUnit(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -81782,12 +80864,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TCombatUnit.Meta
         {
             // AIGroup.pas:6778
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131791;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TFastCombatUnit.ClassID;
 
             // intf_P5_07.inc:1031
             public new TFastCombatUnit Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -81828,6 +80905,9 @@ namespace Aow.Units.AoWE
     // { TFastCombat: instance size $50; $4C wall siege object count. }
     public partial class TFastCombat : Aow.Units.AoWE.TCombat
     {
+        // AIGroup.pas:7128
+        public new const int ClassID = 131760;
+
         // Raw allocation for tools/oracle/MovementChecks/Program.cs.
         public TFastCombat() { }
 
@@ -82245,12 +81325,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AIGroup.pas:7128
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131760;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TFastCombat.ClassID;
 
             // intf_P5_07.inc:1073
             public new TFastCombat Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -82388,6 +81463,8 @@ namespace Aow.Units.AoWE
 //     $0C duration, $0D player index, $0E ability ID, $10 unresolved Integer) }
     public partial class TDurationAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public new const int ClassID = 139266;
+
         // Raw allocation for tests/probes/remaining-todos/Program.cs.
         // Raw allocation for tools/oracle/MovementChecks/Program.cs.
         public TDurationAbilityData() { }
@@ -82423,12 +81500,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:6
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 139266;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDurationAbilityData.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDurationAbilityData => (Meta)MetaRegistry.Of(typeof(T));
@@ -82657,10 +81729,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
             // AoWAb.PAS:30
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
-                Result = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDurationAbilityData>();
+                Aow.Units.Engine.EClass Result = default;
+                Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDurationAbilityData>();
                 return Result;
             }
 
@@ -82675,6 +81747,8 @@ namespace Aow.Units.AoWE
     // { TMultiLevelAbilityData (instance size 16, VMT 5571DEF8; $0C level, $0E ability ID) }
     public partial class TMultiLevelAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public new const int ClassID = 139265;
+
         public TMultiLevelAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -82702,12 +81776,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:238
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 139265;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TMultiLevelAbilityData.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TMultiLevelAbilityData => (Meta)MetaRegistry.Of(typeof(T));
@@ -82775,7 +81844,7 @@ namespace Aow.Units.AoWE
         {
             // AoWAb.PAS:317
             // { branch past the missing-data exit and nil-owner zero result }
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass() => Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
+            public override Aow.Units.Engine.EClass AbilityDataClass() => Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
 
             public new Aow.Units.AoWE.TMultiLevelAbility Create(Aow.Units.Engine.TECustomNode AOwner)
                 => (Aow.Units.AoWE.TMultiLevelAbility)base.Create(AOwner);
@@ -82816,6 +81885,8 @@ namespace Aow.Units.AoWE
     // { TStrikeCA (instance size 28, VMT 5571E344; $18 strike mode) }
     public partial class TStrikeCA : Aow.Units.AoWE.TDamageCA
     {
+        public new const int ClassID = 131754;
+
         public TStrikeCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -82948,12 +82019,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
             // AoWAb.PAS:1152
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131754;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TStrikeCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TStrikeCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -84149,6 +83215,8 @@ namespace Aow.Units.AoWE
     // { TRangedAttackCA (instance size 28, VMT 5571E7EC; $18 ability ID) }
     public partial class TRangedAttackCA : Aow.Units.AoWE.TDamageCA
     {
+        public new const int ClassID = 131753;
+
         public TRangedAttackCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -84201,12 +83269,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
             // AoWAb.PAS:4627
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131753;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TRangedAttackCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TRangedAttackCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -85194,6 +84257,8 @@ namespace Aow.Units.AoWE
     // { TPossessCA (instance size 20, VMT 5571F0E0; $10 possession succeeded) }
     public partial class TPossessCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public new const int ClassID = 131765;
+
         public TPossessCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -85332,12 +84397,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:2466
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131765;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPossessCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPossessCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -85583,6 +84643,8 @@ namespace Aow.Units.AoWE
     // { TPossessedAbilityData (instance size 16, VMT 5571F350; $0C source experience) }
     public partial class TPossessedAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public new const int ClassID = 131797;
+
         public TPossessedAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -85608,12 +84670,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:2546
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131797;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TPossessedAbilityData.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TPossessedAbilityData => (Meta)MetaRegistry.Of(typeof(T));
@@ -85714,9 +84771,9 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
             // AoWAb.PAS:2592
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
+                Aow.Units.Engine.EClass Result = default;
                 Result = Aow.Units.AoWE.AoWE.P4PossessedDataClass;
                 return Result;
             }
@@ -85735,6 +84792,8 @@ namespace Aow.Units.AoWE
     // { TWebCA (instance size 20, VMT 5571F5C4; $10 successful) }
     public partial class TWebCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public new const int ClassID = 131768;
+
         public TWebCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -85804,12 +84863,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:2760
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131768;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TWebCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TWebCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -86022,6 +85076,8 @@ namespace Aow.Units.AoWE
     // { TEntangleCA (instance size 20, VMT 5571F824; $10 successful) }
     public partial class TEntangleCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public new const int ClassID = 131774;
+
         public TEntangleCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -86101,12 +85157,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:2923
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131774;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TEntangleCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TEntangleCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -86305,6 +85356,8 @@ namespace Aow.Units.AoWE
     // { TInvokeDeathCA (instance size 20, VMT 5571FA98; $10 successful) }
     public partial class TInvokeDeathCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public new const int ClassID = 131780;
+
         public TInvokeDeathCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -86377,12 +85430,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:3396
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131780;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TInvokeDeathCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TInvokeDeathCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -86660,6 +85708,8 @@ namespace Aow.Units.AoWE
     // { TTurnUndeadCA (instance size 24, VMT 5571FD18) }
     public partial class TTurnUndeadCA : Aow.Units.AoWE.TDamageCA
     {
+        public new const int ClassID = 131769;
+
         public TTurnUndeadCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -86729,12 +85779,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
             // AoWAb.PAS:3080
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131769;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TTurnUndeadCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TTurnUndeadCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -87255,9 +86300,9 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
             // AoWAb.PAS:3164
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
+                Aow.Units.Engine.EClass Result = default;
                 Result = Aow.Units.AoWE.AoWE.P4MultiLevelDataClass;
                 return Result;
             }
@@ -87650,6 +86695,8 @@ namespace Aow.Units.AoWE
 //     $0C ability ID, $10 commander ID, $14 command ability ID, $18 original combat player) }
     public partial class TCommandedAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public new const int ClassID = 131757;
+
         public TCommandedAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -87684,12 +86731,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:4997
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131757;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCommandedAbilityData.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCommandedAbilityData => (Meta)MetaRegistry.Of(typeof(T));
@@ -87754,9 +86796,9 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
             // AoWAb.PAS:5019
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
+                Aow.Units.Engine.EClass Result = default;
                 Result = Aow.Units.AoWE.AoWE.P4CommandedDataClass;
                 return Result;
             }
@@ -87775,6 +86817,8 @@ namespace Aow.Units.AoWE
     // { TCommandCA (instance size 24, VMT 557203A0; $10 ability ID, $14 success) }
     public partial class TCommandCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public new const int ClassID = 131763;
+
         public TCommandCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -87879,12 +86923,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:5040
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131763;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCommandCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TCommandCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -87900,6 +86939,8 @@ namespace Aow.Units.AoWE
 //     $0C ability ID, $10 commanded combat-unit IDs) }
     public partial class TCommandAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public new const int ClassID = 131755;
+
         // AoWAb.PAS:4949
         public TCommandAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -87987,12 +87028,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:4959
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131755;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCommandAbilityData.ClassID;
 
             // intf_P4_02.inc:475
             public new TCommandAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -88412,9 +87448,9 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
             // AoWAb.PAS:5093
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
+                Aow.Units.Engine.EClass Result = default;
                 Result = Aow.Units.AoWE.AoWE.P4CommandDataClass;
                 return Result;
             }
@@ -88673,6 +87709,8 @@ namespace Aow.Units.AoWE
     // { TSelfDestructCA (instance size 24, VMT 55721084) }
     public partial class TSelfDestructCA : Aow.Units.AoWE.TDamageCA
     {
+        public new const int ClassID = 131764;
+
         public TSelfDestructCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -88713,12 +87751,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TDamageCA.Meta
         {
             // AoWAb.PAS:2111
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131764;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TSelfDestructCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSelfDestructCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -89111,6 +88144,8 @@ namespace Aow.Units.AoWE
     // { THealingCA (instance size 16, VMT 557214BC) }
     public partial class THealingCA : Aow.Units.AoWE.TSingleTargetCA
     {
+        public new const int ClassID = 131773;
+
         public THealingCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -89171,12 +88206,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:3570
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131773;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THealingCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THealingCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -89191,6 +88221,8 @@ namespace Aow.Units.AoWE
     // { THealingAbilityData (instance size 16, VMT 55721590; $0C enabled) }
     public partial class THealingAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public new const int ClassID = 131758;
+
         public THealingAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -89217,12 +88249,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:3603
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131758;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THealingAbilityData.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THealingAbilityData => (Meta)MetaRegistry.Of(typeof(T));
@@ -89237,6 +88264,8 @@ namespace Aow.Units.AoWE
     // { THealingTE (instance size 32, VMT 55721660; $10/$18 unit IDs, $14/$1C players) }
     public partial class THealingTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 131826;
+
         public int FSourceID;
         // { $10 }
         public byte FSourcePlayer;
@@ -89335,31 +88364,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // AoWAb.PAS:3849
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131826;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.THealingTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.THealingTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.THealingTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.THealingTE o = (Aow.Units.AoWE.THealingTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.THealingTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.THealingTE)base.Create(AOwner);
         }
     }
 
@@ -89913,9 +88923,9 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
             // AoWAb.PAS:3659
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
+                Aow.Units.Engine.EClass Result = default;
                 Result = Aow.Units.AoWE.AoWE.P4HealingDataClass;
                 return Result;
             }
@@ -90095,6 +89105,8 @@ namespace Aow.Units.AoWE
     // { TDispelMagicAbilityCA (instance size 20, VMT 55721A34) }
     public partial class TDispelMagicAbilityCA : Aow.Units.AoWE.TDispelMagicCA
     {
+        public new const int ClassID = 131775;
+
         public TDispelMagicAbilityCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -90114,12 +89126,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:4014
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131775;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDispelMagicAbilityCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDispelMagicAbilityCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -90135,6 +89142,8 @@ namespace Aow.Units.AoWE
 //     $10/$14 source unit ID/player, $18/$1C target unit ID/player) }
     public partial class TDispelMagicAbilityTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 131827;
+
         public int FSourceID;
         // { $10 }
         public byte FSourcePlayer;
@@ -90282,37 +89291,20 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // AoWAb.PAS:4333
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131827;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDispelMagicAbilityTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDispelMagicAbilityTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TDispelMagicAbilityTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TDispelMagicAbilityTE o = (Aow.Units.AoWE.TDispelMagicAbilityTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TDispelMagicAbilityTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TDispelMagicAbilityTE)base.Create(AOwner);
         }
     }
 
     // { TDispelMagicAbilityData (instance size 16, VMT 55721BF0; $0C enabled, $0D level) }
     public partial class TDispelMagicAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public new const int ClassID = 131789;
+
         public TDispelMagicAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -90342,12 +89334,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:4026
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131789;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDispelMagicAbilityData.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDispelMagicAbilityData => (Meta)MetaRegistry.Of(typeof(T));
@@ -90962,9 +89949,9 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
             // AoWAb.PAS:4092
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
+                Aow.Units.Engine.EClass Result = default;
                 Result = Aow.Units.AoWE.AoWE.P4DispelMagicDataClass;
                 return Result;
             }
@@ -90984,6 +89971,8 @@ namespace Aow.Units.AoWE
     // { TLeadershipAbilityData (instance size 24, VMT 55721F1C; $10 external level, $14 source name) }
     public partial class TLeadershipAbilityData : Aow.Units.AoWE.TMultiLevelAbilityData
     {
+        public new const int ClassID = 131790;
+
         public TLeadershipAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -91008,12 +89997,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TMultiLevelAbilityData.Meta
         {
             // AoWAb.PAS:952
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131790;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TLeadershipAbilityData.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TLeadershipAbilityData => (Meta)MetaRegistry.Of(typeof(T));
@@ -91226,10 +90210,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TMultiLevelAbility.Meta
         {
             // AoWAb.PAS:973
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
-                Result = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TLeadershipAbilityData>();
+                Aow.Units.Engine.EClass Result = default;
+                Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TLeadershipAbilityData>();
                 return Result;
             }
 
@@ -91247,6 +90231,8 @@ namespace Aow.Units.AoWE
     // { TUnitEnchantment (instance size 32, VMT 55722198; $18 unit ID, $1C ability ID) }
     public partial class TUnitEnchantment : Aow.Units.AoWE.TEnchantment
     {
+        public new const int ClassID = 135951;
+
         // AoWAb.PAS:785
         public TUnitEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(null)
         {
@@ -91413,12 +90399,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:792
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135951;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnitEnchantment.ClassID;
 
             // intf_P4_02.inc:770
             public new TUnitEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -91434,6 +90415,8 @@ namespace Aow.Units.AoWE
     // { TUnitEnchantmentAbilityData (instance size 20, VMT 55722284; $0C ability ID, $0E duration, $0F player, $10 enchantment) }
     public partial class TUnitEnchantmentAbilityData : Aow.Units.AoWE.TAbilityData
     {
+        public new const int ClassID = 131756;
+
         // AoWAb.PAS:555
         public TUnitEnchantmentAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -91497,12 +90480,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWAb.PAS:562
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131756;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnitEnchantmentAbilityData.ClassID;
 
             // intf_P4_02.inc:789
             public new TUnitEnchantmentAbilityData Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -91828,10 +90806,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TAbility.Meta
         {
             // AoWAb.PAS:658
-            public override Aow.Units.Engine.TEObject.Meta AbilityDataClass()
+            public override Aow.Units.Engine.EClass AbilityDataClass()
             {
-                Aow.Units.Engine.TEObject.Meta Result = default;
-                Result = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>();
+                Aow.Units.Engine.EClass Result = default;
+                Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>();
                 return Result;
             }
 
@@ -92032,6 +91010,8 @@ namespace Aow.Units.AoWE
     // { TCosmeticSurgeryEnchantment (instance size 36, VMT 55722888) }
     public partial class TCosmeticSurgeryEnchantment : Aow.Units.AoWE.TUnitEnchantment
     {
+        public new const int ClassID = 135964;
+
         // AoWAb.PAS:885
         public TCosmeticSurgeryEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -92066,12 +91046,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TUnitEnchantment.Meta
         {
             // AoWAb.PAS:890
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135964;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TCosmeticSurgeryEnchantment.ClassID;
 
             // intf_P4_02.inc:846
             public new TCosmeticSurgeryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -93235,6 +92210,8 @@ namespace Aow.Units.AoWE
     // { TSpellTE (instance size 32, VMT 55722FC4; $10 spell ID, $14 source ID, $18 player, $1C mana) }
     public partial class TSpellTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135936;
+
         public int FEventSpellID;
         public int FEventSourceID;
         public byte FEventPlayerIndex;
@@ -93280,31 +92257,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Spells.PAS:419
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135936;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TSpellTE o = (Aow.Units.AoWE.TSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TSpellTE)base.Create(AOwner);
         }
     }
 
@@ -93419,6 +92377,8 @@ namespace Aow.Units.AoWE
     // { TSpellCastEventLog (instance size 32, VMT 55723220; $18 unit ID, $1C spell ID) }
     public partial class TSpellCastEventLog : Aow.Units.EventLog.TEventLog
     {
+        public new const int ClassID = 131823;
+
         public int FUnitID;
         // { $18 }
         public int FSpellID;
@@ -93536,31 +92496,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Spells.PAS:814
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131823;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TSpellCastEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TSpellCastEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.AoWE.TSpellCastEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TSpellCastEventLog o = (Aow.Units.AoWE.TSpellCastEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TSpellCastEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TSpellCastEventLog)base.Create(AOwner);
         }
     }
 
@@ -93745,6 +92686,8 @@ namespace Aow.Units.AoWE
 //     $20 target IDs, $24 target users, $28 target player, $2C spell data) }
     public partial class TUnitSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        public new const int ClassID = 135944;
+
         public Aow.Units.Engine.TIntegerList FTargetUnitIDs;
         // { $20 }
         public Aow.Units.AoWE.TUnitUserList FTargetUnits;
@@ -93920,29 +92863,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // Spells.PAS:1132
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135944;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnitSpellTE.ClassID;
 
             // intf_P4_02.inc:1059
-            public new Aow.Units.AoWE.TUnitSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TUnitSpellTE o = (Aow.Units.AoWE.TUnitSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TUnitSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TUnitSpellTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnitSpellTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -93953,6 +92877,8 @@ namespace Aow.Units.AoWE
 //     $0C spell ID, $10/$11 source/target IDs, $14 spell data, $1C mana) }
     public partial class TUnitSpellCA : Aow.Units.AoWE.TCombatAction
     {
+        public new const int ClassID = 131779;
+
         public TUnitSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -93999,12 +92925,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Spells.PAS:1098
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131779;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TUnitSpellCA.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TUnitSpellCA => (Meta)MetaRegistry.Of(typeof(T));
@@ -96044,6 +94965,9 @@ namespace Aow.Units.AoWE
 //     $08 ID; $0C name; $10 map file name. }
     public partial class TAoWCampaignScenario : Aow.Units.Engine.TEObject
     {
+        // Diplomacy.pas:2200
+        public new const int ClassID = 131588;
+
         // Raw allocation for TWMCampaignScenario legacy factories.
         protected TAoWCampaignScenario() { }
 
@@ -96093,12 +95017,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Diplomacy.pas:2200
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131588;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAoWCampaignScenario.ClassID;
 
             // intf_P5_08.inc:71
             public new TAoWCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -96703,6 +95622,9 @@ namespace Aow.Units.AoWE
 //     $24 EscrowGold, $28 EscrowMana, $2C EventLogID. }
     public partial class TDiplomaticAction : Aow.Units.Engine.TEObject
     {
+        // Diplomacy.pas:495
+        public new const int ClassID = 131666;
+
         // Diplomacy.pas:482
         public TDiplomaticAction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -97936,12 +96858,7 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Diplomacy.pas:495
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131666;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDiplomaticAction.ClassID;
 
             // intf_P5_08.inc:143
             public new TDiplomaticAction Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -97997,6 +96914,9 @@ namespace Aow.Units.AoWE
     // { TDiplomaticActionTE (instance size $18, VMT 55724144): $10 Operation, $14 Action. }
     public partial class TDiplomaticActionTE : Aow.Units.NetworkE.TTokenEvent
     {
+        // Diplomacy.pas:1125
+        public new const int ClassID = 135432;
+
         public int FOperation;
         public Aow.Units.AoWE.TDiplomaticAction FAction;
         // Diplomacy.pas:1117
@@ -98099,37 +97019,21 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Diplomacy.pas:1125
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135432;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDiplomaticActionTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDiplomaticActionTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TDiplomaticActionTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TDiplomaticActionTE o = (Aow.Units.AoWE.TDiplomaticActionTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TDiplomaticActionTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TDiplomaticActionTE)base.Create(AOwner);
         }
     }
 
     // { TDiplomaticActionEventLog (instance size $1C, VMT 55724214): $18 Action. }
     public partial class TDiplomaticActionEventLog : Aow.Units.EventLog.TEventLog
     {
+        // Diplomacy.pas:1199
+        public new const int ClassID = 131347;
+
         public Aow.Units.AoWE.TDiplomaticAction FAction;
         // Diplomacy.pas:1170
         public override void Destroy()
@@ -98694,31 +97598,12 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Diplomacy.pas:1199
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131347;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TDiplomaticActionEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TDiplomaticActionEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.AoWE.TDiplomaticActionEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TDiplomaticActionEventLog o = (Aow.Units.AoWE.TDiplomaticActionEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TDiplomaticActionEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TDiplomaticActionEventLog)base.Create(AOwner);
         }
     }
 
@@ -99142,6 +98027,8 @@ namespace Aow.Units.AoWE
 //     $6E FDemo, $70 FCampaign, $74 FEmailGames, $78 FDictionary, $7C FLanguage. }
     public partial class TAoWEngine : Aow.Units.HSEngine.THSEngine
     {
+        public new const int ClassID = 131073;
+
         public int FVersion;
         // { $58 }
         public Aow.Units.AoWReg.TAoWRegistry FRegistry;
@@ -99236,21 +98123,21 @@ namespace Aow.Units.AoWE
             FLanguage = unchecked((byte)unchecked((byte)call__8511));
             base.Create__init(AOwner);
             Options = Options - TSet<Aow.Units.Engine.TEngineModeElement>.Of(Aow.Units.Engine.TEngineModeElement.emVerifyEObjects);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAoWHSSet>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAoWHSMap>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAoWMapLevel>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAoWCampaign>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAoWCampaignScenario>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPlayer>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TRace>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnit>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TRaceResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitGFXResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitHS>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THero>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THeroResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THeroUpgradeTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THeroJoinEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THeroEmergeEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TLeader>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TItemGFX>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TItem>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TItemTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TItemHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFaceResource>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmy>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyView>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyID>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TTurnInfoItem>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.EventLog.TShowMessageEventLog>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyDefaultMoveTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyCombatMoveTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyCombineMoveTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyNegotiateMoveTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TNegotiateTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSaveGameTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TChangePlayerMagicTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TChangeGlobalMagicTE>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatLogbook>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatParty>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDamageCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDamageEffectCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFleeCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatUnit>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFastCombat>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatWall>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFastCombatUnit>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TMoveWallCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TProductionEventLog>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUpdateHeaderCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TNewCombatTurnCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TNewCombatRoundCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatObjectTurnDoneCA>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatPlayer>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDiplomaticAction>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TEmailGame>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TRestartGameEventLog>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TStructure>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TStructureResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TStructureTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TConstructStructureTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TProductionTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THeroUpdateTE>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPlayerStructure>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPlayerStructureResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TProductionItem>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitProduction>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFire>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFireResource>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.EventLog.TNewDayEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TArmyInfoEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TTextControlItem>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THeroUpgradeEventLog>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDiplomaticActionTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDiplomaticActionEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPlayerMagicEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDiplomaticRelationHistoryItem>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDiplomaticRelationHistoryList>()]);
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THuntAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAIBudget>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAISavingsBudget>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAITransporterBudget>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWHSSet>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWHSMap>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWMapLevel>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWCampaign>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWCampaignScenario>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPlayer>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TRace>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnit>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TRaceResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitGFXResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitHS>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THero>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THeroResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THeroUpgradeTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THeroJoinEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THeroEmergeEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TLeader>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TItemGFX>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TItem>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TItemTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TItemHS>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TFaceResource>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmy>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyHS>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyView>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyID>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TTurnInfoItem>(), Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TShowMessageEventLog>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyDefaultMoveTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyCombatMoveTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyCombineMoveTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyNegotiateMoveTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TNegotiateTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSaveGameTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TChangePlayerMagicTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TChangeGlobalMagicTE>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatLogbook>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatParty>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDamageCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDamageEffectCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TFleeCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatUnit>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TFastCombat>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatWall>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TFastCombatUnit>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TMoveWallCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TProductionEventLog>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUpdateHeaderCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TNewCombatTurnCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TNewCombatRoundCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatObjectTurnDoneCA>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatPlayer>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDiplomaticAction>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TEmailGame>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TRestartGameEventLog>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TStructure>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TStructureResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TStructureTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TConstructStructureTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TProductionTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THeroUpdateTE>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPlayerStructure>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPlayerStructureResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TProductionItem>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitProduction>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TFire>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TFireResource>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TNewDayEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TArmyInfoEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TTextControlItem>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THeroUpgradeEventLog>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDiplomaticActionTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDiplomaticActionEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPlayerMagicEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDiplomaticRelationHistoryItem>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDiplomaticRelationHistoryList>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THuntAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAIBudget>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAISavingsBudget>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAITransporterBudget>()]);
             Aow.Units.AoWE.AoWE.P2RegisterGroupControls();
             Aow.Units.Sound.Sound.RegisterSoundEngineClasses(this);
             Aow.Units.NetworkE.NetworkE.RegisterNetworkEngine(this);
@@ -99752,29 +98639,10 @@ namespace Aow.Units.AoWE
         public new partial class Meta : Aow.Units.HSEngine.THSEngine.Meta
         {
             // Army.PAS:5912
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131073;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TAoWEngine.ClassID;
 
             // intf_P2_08.inc:29
-            public new Aow.Units.AoWE.TAoWEngine Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TAoWEngine o = (Aow.Units.AoWE.TAoWEngine)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TAoWEngine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TAoWEngine)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TAoWEngine => (Meta)MetaRegistry.Of(typeof(T));
@@ -99951,6 +98819,8 @@ namespace Aow.Units.AoWE
     // { TConstructStructureTE (instance size 28, VMT 557247C0) }
     public partial class TConstructStructureTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public new const int ClassID = 135962;
+
         public int FUnitID;
         // { $10 }
         public sbyte FPlayer;
@@ -100068,31 +98938,12 @@ namespace Aow.Units.AoWE
         {
             // Structur.PAS:3093
             // { TConstructStructureTE (instance size 28; $10 unit ID, $14 player, $18 construction control ID). }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135962;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWE.TConstructStructureTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWE.TConstructStructureTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.AoWE.TConstructStructureTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWE.TConstructStructureTE o = (Aow.Units.AoWE.TConstructStructureTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWE.TConstructStructureTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWE.TConstructStructureTE)base.Create(AOwner);
         }
     }
 
@@ -108243,21 +107094,21 @@ namespace Aow.Units.AoWE
         public static Aow.Units.FixedArray_sbyte_5 P4LeadershipAttack = Aow.Units.FixedArray_sbyte_5.From([0, 1, 1, 2, 2]);
         public static Aow.Units.FixedArray_sbyte_5 P4LeadershipDefense = Aow.Units.FixedArray_sbyte_5.From([2, 0, 1, 1, 2]);
         // { Class-reference constants used by the recovered multilevel implementation. }
-        public static Aow.Units.Engine.TEObject.Meta P4CommandDataClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandAbilityData>();
-        public static Aow.Units.Engine.TEObject.Meta P4CommandedDataClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandedAbilityData>();
-        public static Aow.Units.Engine.TEObject.Meta P4PossessedDataClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPossessedAbilityData>();
-        public static Aow.Units.Engine.TEObject.Meta P4DispelMagicDataClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityData>();
-        public static Aow.Units.Engine.TEObject.Meta P4HealingDataClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingAbilityData>();
-        public static Aow.Units.Engine.TEObject.Meta P4DurationDataClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDurationAbilityData>();
-        public static Aow.Units.Engine.TEObject.Meta P4MultiLevelDataClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TMultiLevelAbilityData>();
+        public static Aow.Units.Engine.EClass P4CommandDataClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCommandAbilityData>();
+        public static Aow.Units.Engine.EClass P4CommandedDataClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCommandedAbilityData>();
+        public static Aow.Units.Engine.EClass P4PossessedDataClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPossessedAbilityData>();
+        public static Aow.Units.Engine.EClass P4DispelMagicDataClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDispelMagicAbilityData>();
+        public static Aow.Units.Engine.EClass P4HealingDataClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THealingAbilityData>();
+        public static Aow.Units.Engine.EClass P4DurationDataClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDurationAbilityData>();
+        public static Aow.Units.Engine.EClass P4MultiLevelDataClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TMultiLevelAbilityData>();
         public static Aow.Units.FixedArray_byte_9 P4SelectionMasks = Aow.Units.FixedArray_byte_9.From([0, 1, 3, 7, 15, 31, 63, 127, 255]);
         public static ushort P4EmptySelection = 0;
         public static TSet<Aow.Units.AoWE.TDamageType> P4EmptyDamageTypes = TSet<Aow.Units.AoWE.TDamageType>.FromMask(0UL);
         public static TSet<Aow.Units.AoWE.TCombatMode> P4EmptyCombatModes = TSet<Aow.Units.AoWE.TCombatMode>.FromMask(0UL);
-        public static Aow.Units.Engine.TEObject.Meta P4CastSpellActionClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAICastSpellAction>();
-        public static Aow.Units.Engine.TEObject.Meta P4CombatCasterClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatSpellCaster>();
-        public static Aow.Units.Engine.TEObject.Meta P4ImageAnimationClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Animation.TImageSequenceAnimation>();
-        public static Aow.Units.Engine.TEObject.Meta P4UnitSelectionClass = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitUserList>();
+        public static Aow.Units.Engine.EClass P4CastSpellActionClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAICastSpellAction>();
+        public static Aow.Units.Engine.EClass P4CombatCasterClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatSpellCaster>();
+        public static Aow.Units.Engine.EClass P4ImageAnimationClass = Aow.Units.Engine.EClass.Of<Aow.Units.Animation.TImageSequenceAnimation>();
+        public static Aow.Units.Engine.EClass P4UnitSelectionClass = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitUserList>();
         public static readonly Aow.Rtl.AnsiString P4XResearchedRStr = (AnsiString)"%s researched";
         public static readonly Aow.Rtl.AnsiString P4XRemovedOutOfManaRStr = (AnsiString)"%s removed (out of mana)";
         public static readonly Aow.Rtl.AnsiString P4XRemovedRStr = (AnsiString)"%s removed";
@@ -109058,9 +107909,9 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = AEngine.FGameSet.FSpellControl;
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSpellTE>()]);
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSpellCastEventLog>()]);
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitSpellCA>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSpellTE>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSpellCastEventLog>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitSpellCA>()]);
             // { $5577BE44 }
             Control.UnregisterAll();
         }
@@ -109068,11 +107919,11 @@ namespace Aow.Units.AoWE
         // UnitRes.PAS:204
         public static void UnregisterCoreAbilities(Aow.Units.AoWE.TAbilityControl Control)
         {
-            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCosmeticSurgeryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TLeadershipAbilityData>()]);
-            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDurationAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TMultiLevelAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TRangedAttackCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSelfDestructCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TStrikeCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityCA>()]);
-            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityTE>()]);
-            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandedAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityData>()]);
-            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPossessCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TWebCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TEntangleCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TInvokeDeathCA>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCosmeticSurgeryEnchantment>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TLeadershipAbilityData>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDurationAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TMultiLevelAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TRangedAttackCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSelfDestructCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TStrikeCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDispelMagicAbilityCA>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitEnchantment>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDispelMagicAbilityTE>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCommandCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCommandedAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCommandAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THealingTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDispelMagicAbilityData>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPossessCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TWebCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THealingCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TEntangleCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THealingAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TInvokeDeathCA>()]);
             Control.UnregisterAbilityID(86);
             Control.UnregisterAbilityID(87);
             Control.UnregisterAbilityID(88);
@@ -109471,23 +108322,23 @@ namespace Aow.Units.AoWE
         // Army.PAS:5761
         public static void P2RegisterGroupControls()
         {
-            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TGuardGC>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPassiveGC>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TGuardAreaGC>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSuicidalGC>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPatrolGC>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TScoutGC>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TRefugeGC>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TGuardGC>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPassiveGC>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TGuardAreaGC>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSuicidalGC>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPatrolGC>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TScoutGC>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TRefugeGC>()]);
         }
 
         // Army.PAS:5762
         public static void P2RegisterMoveEvents(Aow.Units.AoWE.TAoWEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TEndTurnTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TGameOverTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TMultiMoveTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCheatTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDisbandUnitTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TChangePlayerSettingsTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCombatFlowControlTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TTerminatePlayerTE>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TEndTurnTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TGameOverTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TMultiMoveTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCheatTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDisbandUnitTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TChangePlayerSettingsTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCombatFlowControlTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TTerminatePlayerTE>()]);
         }
 
         // Army.PAS:5763
         public static void P2RegisterAbilities(Aow.Units.AoWE.TAbilityControl Control)
         {
-            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCosmeticSurgeryEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TLeadershipAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityCA>()]);
-            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDurationAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TMultiLevelAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TRangedAttackCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSelfDestructCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TStrikeCA>()]);
-            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPossessedAbilityData>()]);
-            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandedAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TCommandAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TDispelMagicAbilityData>()]);
-            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TPossessCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TWebCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TEntangleCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.THealingAbilityData>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TTurnUndeadCA>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TInvokeDeathCA>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCosmeticSurgeryEnchantment>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TLeadershipAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDispelMagicAbilityCA>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDurationAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TMultiLevelAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TRangedAttackCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSelfDestructCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TStrikeCA>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitEnchantmentAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitEnchantment>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDispelMagicAbilityTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPossessedAbilityData>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCommandCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCommandedAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TCommandAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THealingTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TDispelMagicAbilityData>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPossessCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TWebCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THealingCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TEntangleCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.THealingAbilityData>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TTurnUndeadCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TInvokeDeathCA>()]);
             var call__9101 = Aow.Units.AoWE.TLeadershipAbility.Create(null);
             Control.RegisterAbility(call__9101);
             var call__9102 = Aow.Units.AoWE.TEntangleAbility.Create(null);
@@ -109537,9 +108388,9 @@ namespace Aow.Units.AoWE
         // Army.PAS:5764
         public static void P2RegisterSpells(Aow.Units.AoWE.TAoWEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSpellTE>()]);
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TSpellCastEventLog>()]);
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TUnitSpellCA>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSpellTE>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TSpellCastEventLog>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitSpellCA>()]);
         }
 
         public static Aow.Units.AoWE.TAbilityPlugIn AoWAbilityPlugIn;

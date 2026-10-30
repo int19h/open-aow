@@ -121,6 +121,9 @@ namespace Aow.Units.CombatObstacle
     // { TCombatObstacle (instance size 28, VMT 00431BB8) }
     public partial class TCombatObstacle : Aow.Units.HSEngine.TMultiHexMO
     {
+        // CombatObstacle.pas:94
+        public new const int ClassID = 2229546;
+
         public Aow.Units.CombatObstacle.TCombatObstacleShadow FShadow;
         // { $14 }
         public Aow.Units.CombatObstacle.TCombatObstacleOverlay FOverlay;
@@ -337,37 +340,21 @@ namespace Aow.Units.CombatObstacle
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
             // CombatObstacle.pas:94
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229546;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatObstacle.TCombatObstacle.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatObstacle.TCombatObstacle => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.CombatObstacle.TCombatObstacle Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatObstacle.TCombatObstacle o = (Aow.Units.CombatObstacle.TCombatObstacle)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatObstacle.TCombatObstacle Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatObstacle.TCombatObstacle)base.Create(AOwner);
         }
     }
 
     // { TCombatObstacleResource (instance size 68, VMT 00431D60) }
     public partial class TCombatObstacleResource : Aow.Units.HSEngine.TMultiHexMOR
     {
+        // CombatObstacle.pas:239
+        public new const int ClassID = 2229547;
+
         // CombatObstacle.pas:245
         public override int ResourceUserClassID()
         {
@@ -379,12 +366,7 @@ namespace Aow.Units.CombatObstacle
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // CombatObstacle.pas:239
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229547;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatObstacle.TCombatObstacleResource.ClassID;
 
             // CombatObstacle.pas:242
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -397,21 +379,7 @@ namespace Aow.Units.CombatObstacle
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatObstacle.TCombatObstacleResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.CombatObstacle.TCombatObstacleResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatObstacle.TCombatObstacleResource o = (Aow.Units.CombatObstacle.TCombatObstacleResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatObstacle.TCombatObstacleResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatObstacle.TCombatObstacleResource)base.Create(AOwner);
         }
     }
 
@@ -420,7 +388,7 @@ namespace Aow.Units.CombatObstacle
         // CombatObstacle.pas:248
         public static void RegisterCombatObstacle(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatObstacle.TCombatObstacleResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatObstacle.TCombatObstacle>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatObstacle.TCombatObstacleResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatObstacle.TCombatObstacle>()]);
         }
 
         public static void Initialize()

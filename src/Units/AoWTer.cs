@@ -141,7 +141,7 @@ namespace Aow.Units.AoWTer
         // AoWTer.pas:122
         public static void RegisterAoWTerrain(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWTer.TAoWTerrain>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWTer.TAoWTerrainResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWTer.TAoWTerrain>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWTer.TAoWTerrainResource>()]);
         }
 
         public static void Initialize()

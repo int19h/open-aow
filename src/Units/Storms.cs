@@ -339,6 +339,9 @@ namespace Aow.Units.Storms
     // { TIceStorm (instance size 68, VMT 557CB41C) }
     public partial class TIceStorm : Aow.Units.Storms.TBlastStorm
     {
+        // Storms.pas:363
+        public new const int ClassID = 135738;
+
         // Storms.pas:390
         public override void ChangeStormTerrain(Aow.Units.HSEngine.TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
@@ -425,12 +428,7 @@ namespace Aow.Units.Storms
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:363
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135738;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Storms.TIceStorm.ClassID;
 
             // Storms.pas:368
             public override Aow.Rtl.AnsiString Name()
@@ -443,27 +441,16 @@ namespace Aow.Units.Storms
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TIceStorm => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
-            public new Aow.Units.Storms.TIceStorm Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Storms.TIceStorm o = (Aow.Units.Storms.TIceStorm)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Storms.TIceStorm Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Storms.TIceStorm)base.Create(AOwner);
         }
     }
 
     // { TDeathStorm (instance size 68, VMT 557CB5D8) }
     public partial class TDeathStorm : Aow.Units.Storms.TBlastStorm
     {
+        // Storms.pas:492
+        public new const int ClassID = 135741;
+
         // Storms.pas:502
         public override void ChangeStormTerrain(Aow.Units.HSEngine.TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
@@ -509,12 +496,7 @@ namespace Aow.Units.Storms
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:492
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135741;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Storms.TDeathStorm.ClassID;
 
             // Storms.pas:497
             public override Aow.Rtl.AnsiString Name()
@@ -527,27 +509,16 @@ namespace Aow.Units.Storms
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TDeathStorm => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
-            public new Aow.Units.Storms.TDeathStorm Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Storms.TDeathStorm o = (Aow.Units.Storms.TDeathStorm)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Storms.TDeathStorm Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Storms.TDeathStorm)base.Create(AOwner);
         }
     }
 
     // { TDivineStorm (instance size 68, VMT 557CB794) }
     public partial class TDivineStorm : Aow.Units.Storms.TBlastStorm
     {
+        // Storms.pas:608
+        public new const int ClassID = 135740;
+
         // Storms.pas:618
         public override void ChangeStormTerrain(Aow.Units.HSEngine.TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
@@ -593,12 +564,7 @@ namespace Aow.Units.Storms
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:608
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135740;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Storms.TDivineStorm.ClassID;
 
             // Storms.pas:613
             public override Aow.Rtl.AnsiString Name()
@@ -611,27 +577,15 @@ namespace Aow.Units.Storms
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TDivineStorm => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
-            public new Aow.Units.Storms.TDivineStorm Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Storms.TDivineStorm o = (Aow.Units.Storms.TDivineStorm)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Storms.TDivineStorm Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Storms.TDivineStorm)base.Create(AOwner);
         }
     }
 
     // { TLightningStorm (instance size 68, VMT 557CB958): $40 storm image library. }
     public partial class TLightningStorm : Aow.Units.Storms.TStorm
     {
+        public new const int ClassID = 135739;
+
         public Aow.Units.ImageLib.TCustomImageLibrary FStormImages;
         // Storms.pas:429
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
@@ -757,12 +711,7 @@ namespace Aow.Units.Storms
         {
             // Storms.pas:419
             // { $40 }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135739;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Storms.TLightningStorm.ClassID;
 
             // Storms.pas:424
             public override Aow.Rtl.AnsiString Name()
@@ -775,27 +724,16 @@ namespace Aow.Units.Storms
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TLightningStorm => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
-            public new Aow.Units.Storms.TLightningStorm Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Storms.TLightningStorm o = (Aow.Units.Storms.TLightningStorm)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Storms.TLightningStorm Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Storms.TLightningStorm)base.Create(AOwner);
         }
     }
 
     // { TFireStorm (instance size 64, VMT 557CBB0C) }
     public partial class TFireStorm : Aow.Units.Storms.TStorm
     {
+        // Storms.pas:517
+        public new const int ClassID = 135742;
+
         // Storms.pas:527
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
         {
@@ -962,12 +900,7 @@ namespace Aow.Units.Storms
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:517
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135742;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Storms.TFireStorm.ClassID;
 
             // Storms.pas:522
             public override Aow.Rtl.AnsiString Name()
@@ -980,27 +913,15 @@ namespace Aow.Units.Storms
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TFireStorm => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
-            public new Aow.Units.Storms.TFireStorm Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Storms.TFireStorm o = (Aow.Units.Storms.TFireStorm)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Storms.TFireStorm Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Storms.TFireStorm)base.Create(AOwner);
         }
     }
 
     // { TPestilenceStorm (instance size 68, VMT 557CBCB8): $40 poison cloud resource. }
     public partial class TPestilenceStorm : Aow.Units.Storms.TStorm
     {
+        public new const int ClassID = 135745;
+
         public Aow.Units.PoisonC.TPoisonCloudResource FCloudResource;
         // Storms.pas:644
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
@@ -1173,12 +1094,7 @@ namespace Aow.Units.Storms
         {
             // Storms.pas:634
             // { $40 }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135745;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Storms.TPestilenceStorm.ClassID;
 
             // Storms.pas:639
             public override Aow.Rtl.AnsiString Name()
@@ -1191,27 +1107,16 @@ namespace Aow.Units.Storms
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TPestilenceStorm => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
-            public new Aow.Units.Storms.TPestilenceStorm Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Storms.TPestilenceStorm o = (Aow.Units.Storms.TPestilenceStorm)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Storms.TPestilenceStorm Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Storms.TPestilenceStorm)base.Create(AOwner);
         }
     }
 
     // { TStormSpellTE (instance size 40, VMT 557CBE74): $20 storm, $24 X, $25 Y, $26 layer. }
     public partial class TStormSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        // Storms.pas:730
+        public new const int ClassID = 135937;
+
         public Aow.Units.Storms.TStorm FStorm;
         // { $20 }
         public sbyte FX;
@@ -1281,31 +1186,12 @@ namespace Aow.Units.Storms
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // Storms.pas:730
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135937;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Storms.TStormSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TStormSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.Storms.TStormSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Storms.TStormSpellTE o = (Aow.Units.Storms.TStormSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Storms.TStormSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Storms.TStormSpellTE)base.Create(AOwner);
         }
     }
 
@@ -1760,7 +1646,7 @@ namespace Aow.Units.Storms
         public static void RegisterStorms(Aow.Units.Engine.TEngine AEngine)
         {
             Aow.Units.AoWE.TSpellControl Spells = default;
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Storms.TIceStorm>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Storms.TDeathStorm>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Storms.TDivineStorm>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Storms.TFireStorm>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Storms.TLightningStorm>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Storms.TPestilenceStorm>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Storms.TStormSpellTE>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TIceStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TDeathStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TDivineStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TFireStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TLightningStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TPestilenceStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TStormSpellTE>()]);
             Spells = ((Aow.Units.AoWE.TAoWEngine)AEngine).FGameSet.FSpellControl;
             var call__131 = Aow.Units.Storms.TFireStormSpell.Create(null);
             Spells.RegisterSpell(call__131);

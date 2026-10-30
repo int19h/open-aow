@@ -353,6 +353,9 @@ namespace Aow.Units.PrdPlace
 //     control, $48 razed state, $49 defender level, $4A padding. VMT 557BD68C. }
     public partial class TProductionPlace : Aow.Units.AoWE.TPlayerStructure
     {
+        // PrdPlace.pas:291
+        public new const int ClassID = 132026;
+
         public Aow.Units.AoWE.TPlayerStructurePowerSource FPowerSource;
         // { $3C }
         public Aow.Units.AoWE.TPlayerStructureIncomeSource FIncomeSource;
@@ -1335,29 +1338,10 @@ namespace Aow.Units.PrdPlace
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
             // PrdPlace.pas:291
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132026;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PrdPlace.TProductionPlace.ClassID;
 
             // PrdPlace.pas:51
-            public new Aow.Units.PrdPlace.TProductionPlace Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PrdPlace.TProductionPlace o = (Aow.Units.PrdPlace.TProductionPlace)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PrdPlace.TProductionPlace Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PrdPlace.TProductionPlace)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PrdPlace.TProductionPlace => (Meta)MetaRegistry.Of(typeof(T));
@@ -1367,6 +1351,9 @@ namespace Aow.Units.PrdPlace
     // { TProductionPlaceResource: size $78; $74 available unit indexes. VMT 557BD94C. }
     public partial class TProductionPlaceResource : Aow.Units.AoWE.TPlayerStructureResource
     {
+        // PrdPlace.pas:718
+        public new const int ClassID = 132027;
+
         public Aow.Units.AoWE.TUnitIndexList FUnits;
         // PrdPlace.pas:709
         // { $74 }
@@ -1435,12 +1422,7 @@ namespace Aow.Units.PrdPlace
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // PrdPlace.pas:718
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132027;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PrdPlace.TProductionPlaceResource.ClassID;
 
             // PrdPlace.pas:715
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -1451,21 +1433,7 @@ namespace Aow.Units.PrdPlace
             }
 
             // PrdPlace.pas:100
-            public new Aow.Units.PrdPlace.TProductionPlaceResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PrdPlace.TProductionPlaceResource o = (Aow.Units.PrdPlace.TProductionPlaceResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PrdPlace.TProductionPlaceResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PrdPlace.TProductionPlaceResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PrdPlace.TProductionPlaceResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -1475,6 +1443,9 @@ namespace Aow.Units.PrdPlace
     // { TProductionPlaceEventLog: size $20; no added fields. VMT 557BDA5C. }
     public partial class TProductionPlaceEventLog : Aow.Units.AoWE.TProductionEventLog
     {
+        // PrdPlace.pas:736
+        public new const int ClassID = 131835;
+
         // PrdPlace.pas:744
         public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
@@ -1524,31 +1495,12 @@ namespace Aow.Units.PrdPlace
         public new partial class Meta : Aow.Units.AoWE.TProductionEventLog.Meta
         {
             // PrdPlace.pas:736
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131835;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.PrdPlace.TProductionPlaceEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PrdPlace.TProductionPlaceEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:91
-            public new Aow.Units.PrdPlace.TProductionPlaceEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.PrdPlace.TProductionPlaceEventLog o = (Aow.Units.PrdPlace.TProductionPlaceEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.PrdPlace.TProductionPlaceEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PrdPlace.TProductionPlaceEventLog)base.Create(AOwner);
         }
     }
 
@@ -1557,7 +1509,7 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:760
         public static void RegisterProductionPlace(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PrdPlace.TProductionPlace>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PrdPlace.TProductionPlaceResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.PrdPlace.TProductionPlaceEventLog>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.PrdPlace.TProductionPlace>(), Aow.Units.Engine.EClass.Of<Aow.Units.PrdPlace.TProductionPlaceResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.PrdPlace.TProductionPlaceEventLog>()]);
         }
 
         public static void Initialize()

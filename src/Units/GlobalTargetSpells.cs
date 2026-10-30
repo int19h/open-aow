@@ -51,6 +51,9 @@ namespace Aow.Units.GlobalTargetSpells
 //     $20 FLocation: packed X/Y/layer coordinates; $23 reserved. }
     public partial class TGlobalTargetSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        // GlobalTargetSpells.pas:401
+        public new const int ClassID = 135976;
+
         public Aow.Units.HSEngine.TXYL FLocation;
         // GlobalTargetSpells.pas:406
         // { $20; packed coordinates, 557C493C }
@@ -111,31 +114,12 @@ namespace Aow.Units.GlobalTargetSpells
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // GlobalTargetSpells.pas:401
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135976;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE o = (Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE)base.Create(AOwner);
         }
     }
 
@@ -334,6 +318,8 @@ namespace Aow.Units.GlobalTargetSpells
     // { TFreezeWaterTE (instance size 36, VMT 5579CDE0) }
     public partial class TFreezeWaterTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public new const int ClassID = 135939;
+
         // GlobalTargetSpells.pas:679
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
         {
@@ -449,31 +435,12 @@ namespace Aow.Units.GlobalTargetSpells
 //   The stack-argument shims discard their assembler EBP frame before tail calls. }
             // { needs: Animation.TTwinkleAnimation.Setup has TImageSequence/TTwinkleMode
 //   arguments ($5579EA15-$5579EA1F); Animation is outside the interface exception. }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135939;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TFreezeWaterTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TFreezeWaterTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TFreezeWaterTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TFreezeWaterTE o = (Aow.Units.GlobalTargetSpells.TFreezeWaterTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TFreezeWaterTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TFreezeWaterTE)base.Create(AOwner);
         }
     }
 
@@ -533,6 +500,8 @@ namespace Aow.Units.GlobalTargetSpells
     // { TFireBarrierTE (instance size 36, VMT 5579CFFC) }
     public partial class TFireBarrierTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public new const int ClassID = 135940;
+
         // GlobalTargetSpells.pas:873
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
         {
@@ -614,31 +583,12 @@ namespace Aow.Units.GlobalTargetSpells
             // GlobalTargetSpells.pas:839
             // { needs: TFireControl.PlaceFire(X,Y,Layer:Integer; Create:Boolean): TFire,
 //   result consumed at $5579EDC3; GetSource returns TAbstractUnit at $5579EDE2. }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135940;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TFireBarrierTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TFireBarrierTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TFireBarrierTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TFireBarrierTE o = (Aow.Units.GlobalTargetSpells.TFireBarrierTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TFireBarrierTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TFireBarrierTE)base.Create(AOwner);
         }
     }
 
@@ -744,6 +694,9 @@ namespace Aow.Units.GlobalTargetSpells
     // { TLevelTerrainTE (instance size 36, VMT 5579D218) }
     public partial class TLevelTerrainTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        // GlobalTargetSpells.pas:940
+        public new const int ClassID = 135945;
+
         // GlobalTargetSpells.pas:968
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
         {
@@ -816,31 +769,12 @@ namespace Aow.Units.GlobalTargetSpells
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // GlobalTargetSpells.pas:940
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135945;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TLevelTerrainTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TLevelTerrainTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TLevelTerrainTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TLevelTerrainTE o = (Aow.Units.GlobalTargetSpells.TLevelTerrainTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TLevelTerrainTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TLevelTerrainTE)base.Create(AOwner);
         }
     }
 
@@ -946,6 +880,9 @@ namespace Aow.Units.GlobalTargetSpells
     // { TRejuvenateTE (instance size 36, VMT 5579D434) }
     public partial class TRejuvenateTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        // GlobalTargetSpells.pas:1036
+        public new const int ClassID = 135952;
+
         // GlobalTargetSpells.pas:1044
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
         {
@@ -1015,31 +952,12 @@ namespace Aow.Units.GlobalTargetSpells
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // GlobalTargetSpells.pas:1036
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135952;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TRejuvenateTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TRejuvenateTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TRejuvenateTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TRejuvenateTE o = (Aow.Units.GlobalTargetSpells.TRejuvenateTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TRejuvenateTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TRejuvenateTE)base.Create(AOwner);
         }
     }
 
@@ -1140,6 +1058,9 @@ namespace Aow.Units.GlobalTargetSpells
 //     $1C visibility flag; $0E/$1D padding. }
     public partial class TWatcherHS : Aow.Units.HSEngine.TSingleHS
     {
+        // GlobalTargetSpells.pas:1220
+        public new const int ClassID = 132989;
+
         public byte FWatcherState;
         public byte FUnfogRadius;
         public Aow.Units.FixedArray_byte_2 FReserved0E;
@@ -1621,29 +1542,10 @@ namespace Aow.Units.GlobalTargetSpells
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // GlobalTargetSpells.pas:1220
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132989;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TWatcherHS.ClassID;
 
             // GlobalTargetSpells.pas:172
-            public new Aow.Units.GlobalTargetSpells.TWatcherHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TWatcherHS o = (Aow.Units.GlobalTargetSpells.TWatcherHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TWatcherHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TWatcherHS)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TWatcherHS => (Meta)MetaRegistry.Of(typeof(T));
@@ -1654,6 +1556,9 @@ namespace Aow.Units.GlobalTargetSpells
     // { TWatcherTE (instance size 36, VMT 5579D92C) }
     public partial class TWatcherTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        // GlobalTargetSpells.pas:1476
+        public new const int ClassID = 135963;
+
         // GlobalTargetSpells.pas:1479
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
         {
@@ -1698,31 +1603,12 @@ namespace Aow.Units.GlobalTargetSpells
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // GlobalTargetSpells.pas:1476
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135963;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TWatcherTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TWatcherTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TWatcherTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TWatcherTE o = (Aow.Units.GlobalTargetSpells.TWatcherTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TWatcherTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TWatcherTE)base.Create(AOwner);
         }
     }
 
@@ -1781,6 +1667,9 @@ namespace Aow.Units.GlobalTargetSpells
 //     $28 animation, $2C selected army identity. }
     public partial class TTornadoTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        // GlobalTargetSpells.pas:1559
+        public new const int ClassID = 135972;
+
         public int FAngle;
         public Aow.Units.Animation.TAnimation FAnimation;
         public Aow.Units.AoWE.TArmyID FArmyID;
@@ -2156,29 +2045,10 @@ namespace Aow.Units.GlobalTargetSpells
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // GlobalTargetSpells.pas:1559
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135972;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TTornadoTE.ClassID;
 
             // GlobalTargetSpells.pas:215
-            public new Aow.Units.GlobalTargetSpells.TTornadoTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TTornadoTE o = (Aow.Units.GlobalTargetSpells.TTornadoTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TTornadoTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TTornadoTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TTornadoTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -2346,6 +2216,9 @@ namespace Aow.Units.GlobalTargetSpells
 //     $28 animation, $2C selected army identity. }
     public partial class TVortexTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        // GlobalTargetSpells.pas:1905
+        public new const int ClassID = 135973;
+
         public int FAngle;
         public Aow.Units.Animation.TAnimation FAnimation;
         public Aow.Units.AoWE.TArmyID FArmyID;
@@ -2595,29 +2468,10 @@ namespace Aow.Units.GlobalTargetSpells
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // GlobalTargetSpells.pas:1905
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135973;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.TVortexTE.ClassID;
 
             // GlobalTargetSpells.pas:242
-            public new Aow.Units.GlobalTargetSpells.TVortexTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.TVortexTE o = (Aow.Units.GlobalTargetSpells.TVortexTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.TVortexTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TVortexTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.TVortexTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -2726,6 +2580,9 @@ namespace Aow.Units.GlobalTargetSpells
     // { THealingShowersTE (instance size 40, VMT 5579DF48): $24 animation. }
     public partial class THealingShowersTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        // GlobalTargetSpells.pas:2138
+        public new const int ClassID = 135975;
+
         public Aow.Units.Animation.TAnimation FAnimation;
         // GlobalTargetSpells.pas:2190
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
@@ -2985,31 +2842,12 @@ namespace Aow.Units.GlobalTargetSpells
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // GlobalTargetSpells.pas:2138
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135975;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalTargetSpells.THealingShowersTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalTargetSpells.THealingShowersTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.THealingShowersTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalTargetSpells.THealingShowersTE o = (Aow.Units.GlobalTargetSpells.THealingShowersTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalTargetSpells.THealingShowersTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.THealingShowersTE)base.Create(AOwner);
         }
     }
 
@@ -3398,7 +3236,7 @@ namespace Aow.Units.GlobalTargetSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = A1.FGameSet.FSpellControl;
-            ((Aow.Units.Engine.TEngine)A1).RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TFreezeWaterTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFrozenWaterHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TFireBarrierTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TLevelTerrainTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TRejuvenateTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TWatcherTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TWatcherHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TTornadoTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TVortexTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.THealingShowersTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE>()]);
+            ((Aow.Units.Engine.TEngine)A1).RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TFreezeWaterTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TFrozenWaterHS>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TFireBarrierTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TLevelTerrainTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TRejuvenateTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TWatcherTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TWatcherHS>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TTornadoTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TVortexTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.THealingShowersTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE>()]);
             var call__302 = Aow.Units.GlobalTargetSpells.TFreezeWater.Create(null);
             Control.RegisterSpell(call__302);
             var call__303 = Aow.Units.GlobalTargetSpells.TFireBarrier.Create(null);
@@ -3433,7 +3271,7 @@ namespace Aow.Units.GlobalTargetSpells
             Control.UnregisterSpellID(70);
             Control.UnregisterSpellID(73);
             Control.UnregisterSpellID(74);
-            Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TEngine>((int)A1).UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TFreezeWaterTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TFrozenWaterHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TFireBarrierTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TLevelTerrainTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TRejuvenateTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TWatcherTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TWatcherHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TTornadoTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TVortexTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.THealingShowersTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE>()]);
+            Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TEngine>((int)A1).UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TFreezeWaterTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TFrozenWaterHS>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TFireBarrierTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TLevelTerrainTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TRejuvenateTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TWatcherTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TWatcherHS>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TTornadoTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TVortexTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.THealingShowersTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE>()]);
         }
 
         // { Import cells bind to the shared globals; distinct references preserve the original reloads. }

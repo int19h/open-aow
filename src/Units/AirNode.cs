@@ -39,6 +39,9 @@ namespace Aow.Units.AirNode
     // { TAirNode (instance size 76, no added fields, VMT 557C0DF4) }
     public partial class TAirNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        // AirNode.pas:37
+        public new const int ClassID = 133454;
+
         // AirNode.pas:40
         public override Aow.Units.AoWE.TMagicSphere GetMagicSphere()
         {
@@ -50,37 +53,21 @@ namespace Aow.Units.AirNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
         {
             // AirNode.pas:37
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133454;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AirNode.TAirNode.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AirNode.TAirNode => (Meta)MetaRegistry.Of(typeof(T));
             // PrdPlace.pas:51
-            public new Aow.Units.AirNode.TAirNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AirNode.TAirNode o = (Aow.Units.AirNode.TAirNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AirNode.TAirNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AirNode.TAirNode)base.Create(AOwner);
         }
     }
 
     // { TAirNodeResource (instance size 120, no added fields, VMT 557C10A4) }
     public partial class TAirNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
+        // AirNode.pas:55
+        public new const int ClassID = 133455;
+
         // AirNode.pas:43
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -119,12 +106,7 @@ namespace Aow.Units.AirNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // AirNode.pas:55
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133455;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AirNode.TAirNodeResource.ClassID;
 
             // AirNode.pas:52
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -135,21 +117,7 @@ namespace Aow.Units.AirNode
             }
 
             // AirNode.pas:27
-            public new Aow.Units.AirNode.TAirNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AirNode.TAirNodeResource o = (Aow.Units.AirNode.TAirNodeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AirNode.TAirNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AirNode.TAirNodeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AirNode.TAirNodeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -161,7 +129,7 @@ namespace Aow.Units.AirNode
         // AirNode.pas:61
         public static void RegisterAirNode(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AirNode.TAirNode>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AirNode.TAirNodeResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AirNode.TAirNode>(), Aow.Units.Engine.EClass.Of<Aow.Units.AirNode.TAirNodeResource>()]);
         }
 
         public static void Initialize()

@@ -52,6 +52,9 @@ namespace Aow.Units.ManaCrystals
     // { TManaCrystals (instance size 36, VMT 557B494C): +$1C FAmount, +$20 FSize. }
     public partial class TManaCrystals : Aow.Units.ILTer.TILTerrainMO
     {
+        // ManaCrystals.pas:80
+        public new const int ClassID = 132030;
+
         public int FAmount;
         public byte FSize;
         public Aow.Units.FixedArray_byte_3 F_ManaCrystals_21;
@@ -229,29 +232,10 @@ namespace Aow.Units.ManaCrystals
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
             // ManaCrystals.pas:80
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132030;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ManaCrystals.TManaCrystals.ClassID;
 
             // ManaCrystals.pas:28
-            public new Aow.Units.ManaCrystals.TManaCrystals Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ManaCrystals.TManaCrystals o = (Aow.Units.ManaCrystals.TManaCrystals)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ManaCrystals.TManaCrystals Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ManaCrystals.TManaCrystals)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ManaCrystals.TManaCrystals => (Meta)MetaRegistry.Of(typeof(T));
@@ -261,6 +245,9 @@ namespace Aow.Units.ManaCrystals
     // { TManaCrystalsResource (instance size 68, VMT 557B4B00) }
     public partial class TManaCrystalsResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        // ManaCrystals.pas:168
+        public new const int ClassID = 132031;
+
         // ManaCrystals.pas:171
         public override int ResourceUserClassID()
         {
@@ -272,12 +259,7 @@ namespace Aow.Units.ManaCrystals
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // ManaCrystals.pas:168
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132031;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ManaCrystals.TManaCrystalsResource.ClassID;
 
             // ManaCrystals.pas:165
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -290,21 +272,7 @@ namespace Aow.Units.ManaCrystals
             public static new Meta Of<T>()
                 where T : Aow.Units.ManaCrystals.TManaCrystalsResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.ManaCrystals.TManaCrystalsResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ManaCrystals.TManaCrystalsResource o = (Aow.Units.ManaCrystals.TManaCrystalsResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ManaCrystals.TManaCrystalsResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ManaCrystals.TManaCrystalsResource)base.Create(AOwner);
         }
     }
 
@@ -338,7 +306,7 @@ namespace Aow.Units.ManaCrystals
         // ManaCrystals.pas:174
         public static void RegisterManaCrystals(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ManaCrystals.TManaCrystals>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ManaCrystals.TManaCrystalsResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.ManaCrystals.TManaCrystals>(), Aow.Units.Engine.EClass.Of<Aow.Units.ManaCrystals.TManaCrystalsResource>()]);
         }
 
         public static void Initialize()

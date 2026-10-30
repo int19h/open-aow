@@ -67,6 +67,7 @@ public sealed partial class SpellConstructionTests
         for (Type? current = type; current is not null && current != typeof(TObject); current = current.BaseType)
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
+                if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
                 object? fieldValue = field.GetValue(value);
                 fields[current.Name + "." + field.Name] = field.Name == "FOwner"
                     ? fieldValue is null ? null : "$owner"
@@ -95,7 +96,7 @@ public sealed partial class SpellConstructionTests
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
         var engine = new TEngine();
         engine.Create__init(null!);
-        try { engine.RegisterEClasses([(TEObject.Meta)MetaRegistry.Of(type)]); }
+        try { engine.RegisterEClasses([EClass.Of(type)]); }
         catch { engine.Destroy(); throw; }
         return engine;
     }

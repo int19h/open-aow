@@ -115,7 +115,7 @@ namespace Aow.Units.AoWRoad
         // AoWRoad.pas:76
         public static void RegisterAoWRoad(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWRoad.TAoWRoad>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Road.TRoadResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWRoad.TAoWRoad>(), Aow.Units.Engine.EClass.Of<Aow.Units.Road.TRoadResource>()]);
         }
 
         public static void Initialize()

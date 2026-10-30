@@ -70,6 +70,9 @@ namespace Aow.Units.Animation
 //     $34 tag, $38 map. VMT 557FAEA0. }
     public partial class TAnimation : Aow.Units.HSEngine.THexagonSprite
     {
+        // Animation.pas:143
+        public new const int ClassID = 131815;
+
         public sbyte FXhx;
         // { $08 }
         public sbyte FYhx;
@@ -515,12 +518,7 @@ namespace Aow.Units.Animation
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // Animation.pas:143
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131815;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Animation.TAnimation.ClassID;
 
             // Animation.pas:159
             public virtual TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
@@ -531,21 +529,7 @@ namespace Aow.Units.Animation
             }
 
             // Animation.pas:43
-            public new Aow.Units.Animation.TAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Animation.TAnimation o = (Aow.Units.Animation.TAnimation)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Animation.TAnimation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Animation.TAnimation)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Animation.TAnimation => (Meta)MetaRegistry.Of(typeof(T));
@@ -557,6 +541,9 @@ namespace Aow.Units.Animation
     // { TAnimationTE: size $18; $10 state, $14 animation. VMT 557FB074. }
     public partial class TAnimationTE : Aow.Units.NetworkE.TTokenEvent
     {
+        // Animation.pas:388
+        public new const int ClassID = 135433;
+
         public Aow.Units.Animation.TAnimationTEState FState;
         // { $10 }
         public Aow.Units.Animation.TAnimation FAnimation;
@@ -625,31 +612,12 @@ namespace Aow.Units.Animation
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Animation.pas:388
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135433;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Animation.TAnimationTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Animation.TAnimationTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.Animation.TAnimationTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Animation.TAnimationTE o = (Aow.Units.Animation.TAnimationTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Animation.TAnimationTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Animation.TAnimationTE)base.Create(AOwner);
         }
     }
 

@@ -39,6 +39,9 @@ namespace Aow.Units.IndependentAG
     // { TGuardAG (instance size 80, VMT 557D7E5C) }
     public partial class TGuardAG : Aow.Units.AoWE.TAIGroup
     {
+        // IndependentAG.pas:144
+        public new const int ClassID = 136275;
+
         // IndependentAG.pas:137
         public TGuardAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -49,12 +52,7 @@ namespace Aow.Units.IndependentAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:144
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136275;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IndependentAG.TGuardAG.ClassID;
 
             // IndependentAG.pas:150
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -90,6 +88,9 @@ namespace Aow.Units.IndependentAG
     // { TGuardAreaAG (instance size 84, VMT 557D80A8): $50 guard location. }
     public partial class TGuardAreaAG : Aow.Units.AoWE.TAIGroup
     {
+        // IndependentAG.pas:161
+        public new const int ClassID = 136273;
+
         public Aow.Units.HSEngine.TXYL FGuardLocation;
         // IndependentAG.pas:170
         // { $50 }
@@ -110,12 +111,7 @@ namespace Aow.Units.IndependentAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:161
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136273;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IndependentAG.TGuardAreaAG.ClassID;
 
             // IndependentAG.pas:167
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -327,6 +323,9 @@ namespace Aow.Units.IndependentAG
     // { TPatrolAG (instance size 96, VMT 557D8304): $50 from, $54 to, $58 previous heading, $5C strength. }
     public partial class TPatrolAG : Aow.Units.AoWE.TAIGroup
     {
+        // IndependentAG.pas:295
+        public new const int ClassID = 136274;
+
         public Aow.Units.HSEngine.TXYL FPatrolFrom;
         // { $50 }
         public Aow.Units.HSEngine.TXYL FPatrolTo;
@@ -359,12 +358,7 @@ namespace Aow.Units.IndependentAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:295
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136274;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IndependentAG.TPatrolAG.ClassID;
 
             // IndependentAG.pas:301
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -787,6 +781,9 @@ namespace Aow.Units.IndependentAG
     // { TRefugeAG (instance size 80, VMT 557D8554) }
     public partial class TRefugeAG : Aow.Units.AoWE.TAIGroup
     {
+        // IndependentAG.pas:551
+        public new const int ClassID = 136289;
+
         // IndependentAG.pas:544
         public TRefugeAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -797,12 +794,7 @@ namespace Aow.Units.IndependentAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:551
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136289;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IndependentAG.TRefugeAG.ClassID;
 
             // IndependentAG.pas:557
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -838,6 +830,9 @@ namespace Aow.Units.IndependentAG
     // { TRaidAG (instance size 80, VMT 557D87A4) }
     public partial class TRaidAG : Aow.Units.AoWE.TAIGroup
     {
+        // IndependentAG.pas:567
+        public new const int ClassID = 136293;
+
         // IndependentAG.pas:560
         public TRaidAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -848,12 +843,7 @@ namespace Aow.Units.IndependentAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:567
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136293;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IndependentAG.TRaidAG.ClassID;
 
             // IndependentAG.pas:573
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -928,6 +918,9 @@ namespace Aow.Units.IndependentAG
     // { TScoutAG (instance size 80, VMT 557D89E8) }
     public partial class TScoutAG : Aow.Units.AoWE.TAIGroup
     {
+        // IndependentAG.pas:650
+        public new const int ClassID = 136277;
+
         // IndependentAG.pas:643
         public TScoutAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -938,12 +931,7 @@ namespace Aow.Units.IndependentAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // IndependentAG.pas:650
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136277;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.IndependentAG.TScoutAG.ClassID;
 
             // IndependentAG.pas:656
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -1124,7 +1112,7 @@ namespace Aow.Units.IndependentAG
         {
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IndependentAG.TGuardAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IndependentAG.TGuardAreaAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IndependentAG.TPatrolAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IndependentAG.TRefugeAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IndependentAG.TRaidAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.IndependentAG.TScoutAG>()]);
+                Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TGuardAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TGuardAreaAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TPatrolAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TRefugeAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TRaidAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.IndependentAG.TScoutAG>()]);
                 Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.IndependentAG.TRegistrator.Meta.Of<Aow.Units.IndependentAG.TRegistrator>().MapLoaded);
             }
         }

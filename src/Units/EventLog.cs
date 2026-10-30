@@ -302,6 +302,9 @@ namespace Aow.Units.EventLog
     // { TTextEventLog: size $1C; $18 text. VMT 557FC564. }
     public partial class TTextEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:713
+        public new const int ClassID = 131809;
+
         public Aow.Rtl.AnsiString FText;
         // EventLog.pas:716
         // { $18 }
@@ -330,37 +333,21 @@ namespace Aow.Units.EventLog
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:713
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131809;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.EventLog.TTextEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EventLog.TTextEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.EventLog.TTextEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.EventLog.TTextEventLog o = (Aow.Units.EventLog.TTextEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.EventLog.TTextEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TTextEventLog)base.Create(AOwner);
         }
     }
 
     // { TLocationTextEventLog: size $20; $1C/$1D/$1E location. VMT 557FC664. }
     public partial class TLocationTextEventLog : Aow.Units.EventLog.TTextEventLog
     {
+        // EventLog.pas:728
+        public new const int ClassID = 131816;
+
         public sbyte FXhx;
         // { $1C }
         public sbyte FYhx;
@@ -436,29 +423,10 @@ namespace Aow.Units.EventLog
         public new partial class Meta : Aow.Units.EventLog.TTextEventLog.Meta
         {
             // EventLog.pas:728
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131816;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.EventLog.TLocationTextEventLog.ClassID;
 
             // EventLog.pas:91
-            public new Aow.Units.EventLog.TLocationTextEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.EventLog.TLocationTextEventLog o = (Aow.Units.EventLog.TLocationTextEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.EventLog.TLocationTextEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TLocationTextEventLog)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EventLog.TLocationTextEventLog => (Meta)MetaRegistry.Of(typeof(T));
@@ -837,6 +805,9 @@ namespace Aow.Units.EventLog
     // { TEventLogbook: size $14; $08 events, $0C player, $10 next ID. VMT 557FC3B0. }
     public partial class TEventLogbook : Aow.Units.Engine.TEObject
     {
+        // EventLog.pas:532
+        public new const int ClassID = 131808;
+
         // AoWE.cs retains this caller until its separate constructor pass.
         public static new TEventLogbook Create(Aow.Units.Engine.TECustomNode AOwner) => new TEventLogbook(AOwner);
 
@@ -989,7 +960,7 @@ namespace Aow.Units.EventLog
                     bool bool__27 = (((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player) || (((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day);
                     if (!bool__27)
                     {
-                        var call__28 = ((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).ClassType.ClassID();
+                        var call__28 = ((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).EClass.ClassID;
                         bool__27 = (call__28 != AClassID);
                     }
 
@@ -1032,12 +1003,7 @@ namespace Aow.Units.EventLog
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:532
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131808;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.EventLog.TEventLogbook.ClassID;
 
             // EventLog.pas:169
             public new Aow.Units.EventLog.TEventLogbook Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TEventLogbook)base.Create(AOwner);
@@ -1074,6 +1040,9 @@ namespace Aow.Units.EventLog
     // { TEndTurnEventLog: size $18; no additional fields. VMT 557FC764. }
     public partial class TEndTurnEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:753
+        public new const int ClassID = 131811;
+
         // EventLog.pas:750
         public override bool GetVisible()
         {
@@ -1110,37 +1079,21 @@ namespace Aow.Units.EventLog
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:753
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131811;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.EventLog.TEndTurnEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EventLog.TEndTurnEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.EventLog.TEndTurnEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.EventLog.TEndTurnEventLog o = (Aow.Units.EventLog.TEndTurnEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.EventLog.TEndTurnEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TEndTurnEventLog)base.Create(AOwner);
         }
     }
 
     // { TShowMessageEventLog: size $1C; $18 message. VMT 557FC85C. }
     public partial class TShowMessageEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:765
+        public new const int ClassID = 131830;
+
         public Aow.Rtl.TStringList FMessage;
         // EventLog.pas:762
         // { $18 }
@@ -1185,29 +1138,10 @@ namespace Aow.Units.EventLog
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:765
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131830;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.EventLog.TShowMessageEventLog.ClassID;
 
             // EventLog.pas:206
-            public new Aow.Units.EventLog.TShowMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.EventLog.TShowMessageEventLog o = (Aow.Units.EventLog.TShowMessageEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.EventLog.TShowMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TShowMessageEventLog)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EventLog.TShowMessageEventLog => (Meta)MetaRegistry.Of(typeof(T));
@@ -1217,6 +1151,9 @@ namespace Aow.Units.EventLog
     // { TGameOverEventLog: size $20; $18 message, inherited $10 player. VMT 557FC95C. }
     public partial class TGameOverEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:777
+        public new const int ClassID = 131812;
+
         public Aow.Rtl.TStringList FMessage;
         // { $18 }
         public sbyte FTargetPlayer;
@@ -1331,29 +1268,10 @@ namespace Aow.Units.EventLog
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:777
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131812;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.EventLog.TGameOverEventLog.ClassID;
 
             // EventLog.pas:218
-            public new Aow.Units.EventLog.TGameOverEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.EventLog.TGameOverEventLog o = (Aow.Units.EventLog.TGameOverEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.EventLog.TGameOverEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TGameOverEventLog)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EventLog.TGameOverEventLog => (Meta)MetaRegistry.Of(typeof(T));
@@ -1363,6 +1281,9 @@ namespace Aow.Units.EventLog
     // { TNewDayEventLog: size $1C; inherited $18 text. VMT 557FCA54. }
     public partial class TNewDayEventLog : Aow.Units.EventLog.TTextEventLog
     {
+        // EventLog.pas:809
+        public new const int ClassID = 131813;
+
         // EventLog.pas:812
         public override int GetLeftIcon()
         {
@@ -1400,37 +1321,21 @@ namespace Aow.Units.EventLog
         public new partial class Meta : Aow.Units.EventLog.TTextEventLog.Meta
         {
             // EventLog.pas:809
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131813;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.EventLog.TNewDayEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EventLog.TNewDayEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.EventLog.TNewDayEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.EventLog.TNewDayEventLog o = (Aow.Units.EventLog.TNewDayEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.EventLog.TNewDayEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TNewDayEventLog)base.Create(AOwner);
         }
     }
 
     // { TShowBookEventLog: size $18; no additional fields. VMT 557FCB48. }
     public partial class TShowBookEventLog : Aow.Units.EventLog.TEventLog
     {
+        // EventLog.pas:818
+        public new const int ClassID = 131818;
+
         // EventLog.pas:821
         public override bool GetVisible()
         {
@@ -1459,31 +1364,12 @@ namespace Aow.Units.EventLog
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // EventLog.pas:818
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131818;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.EventLog.TShowBookEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.EventLog.TShowBookEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.EventLog.TShowBookEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.EventLog.TShowBookEventLog o = (Aow.Units.EventLog.TShowBookEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.EventLog.TShowBookEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TShowBookEventLog)base.Create(AOwner);
         }
     }
 
@@ -1642,7 +1528,7 @@ namespace Aow.Units.EventLog
         // EventLog.pas:886
         public static void RegisterEventLog(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.EventLog.TTextEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.EventLog.TEndTurnEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.EventLog.TGameOverEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.EventLog.TLocationTextEventLog>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TTextEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TEndTurnEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TGameOverEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TLocationTextEventLog>()]);
         }
 
         // EventLog.pas:889
