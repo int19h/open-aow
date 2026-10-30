@@ -11,7 +11,7 @@ internal static class Program
         {
             string root = Value(args, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
             if (args.Contains("--verify")) return Verification.Run(root, Value(args, "--source-root"));
-            if (args.Contains("--verify-frame-inputs")) return FrameFixtureChecks.Run();
+            if (args.Contains("--verify-frame-inputs")) return FrameFixtureChecks.Run(root);
             if (args.Contains("--verify-pacing")) return PacingVerification.Run(Value(args, "--out") ?? throw new ArgumentException("--verify-pacing requires --out PATH"));
             if (args.Contains("--verify-sdl")) return SdlVerification.Run();
             if (args.Contains("--smoke-test"))

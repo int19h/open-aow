@@ -11,10 +11,9 @@ namespace Aow.Game;
 
 internal static class FrameFixtureChecks
 {
-    private sealed class RawWorldMap : TAoWHSMap { }
-
-    public static int Run()
+    public static int Run(string gameRoot)
     {
+        using var startup = new StartupScope(gameRoot);
         int checks = 0;
         void Check(bool condition, string label)
         {
@@ -60,11 +59,12 @@ internal static class FrameFixtureChecks
             controller.HideTransientWindows();
             Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
 
-            var players = new TPlayerList { FChildren = new Aow.Units.Engine.TEObjectList() };
-            players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });
-            players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psTerminated });
-            players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });
-            GameState.AoWHSMap = new RawWorldMap { FPlayers = players };
+            var players = new TPlayerList(null!) { FChildren = new Aow.Units.Engine.TEObjectList() };
+            players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psPlaying });
+            players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psTerminated });
+            players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psPlaying });
+            GameState.AoWHSMap = TAoWHSMap.Create(null!);
+            GameState.AoWHSMap.FPlayers = players;
             var bar = new Aow.Units.AoWTBWindow.TTBWindow(null)
             {
                 PInd = new(null) { FAligned = true },
@@ -81,13 +81,13 @@ internal static class FrameFixtureChecks
                 GameState.TPlayerBehaviorRStr[(int)TPlayerBehavior.pbRandom] == "Random", "setup behavior names are initialized");
 
             Aow.Rtl.Rtl.Settings = new MemorySettingsStore();
-            GameState.AoWEngine = new() { FRegistry = new() };
+            GameState.AoWEngine = oldEngine;
             GameState.AoWEngine.FRegistry.SetMovementSpeed(Aow.Units.AoWReg.TMovementSpeed.mmsNormal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
             var world = new Aow.Units.AOWMWindow.TMWindow(null) { MapWindow = mapWindow };
             world.MapWindowUpdate();
             Check(GameState.AoWHSMap.FFPS == 9, "captured FPS reaches the strategic movement input");
-            var army = new MovementArmy { FMoveStep = -1, FUnitGFXResource = new() { F_UnitGFXResource_30 = 2 } };
+            var army = new MovementArmy { FMoveStep = -1, FUnitGFXResource = new(null) { F_UnitGFXResource_30 = 2 } };
             army.MoveFirst(1, false);
             Check(army.FMoveSteps == 4, "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
@@ -115,8 +115,38 @@ internal static class FrameFixtureChecks
         return 0;
     }
 
+    private sealed class StartupScope : IDisposable
+    {
+        private readonly IFileSystem files = Aow.Rtl.Rtl.Files;
+        private readonly ISettingsStore? settings = Aow.Rtl.Rtl.Settings;
+        private readonly IDialogService? dialogs = Aow.Rtl.Rtl.Dialogs;
+        private readonly IClock clock = Aow.Rtl.Rtl.Clock;
+        private readonly AnsiString exe = Aow.Rtl.Rtl.Application.ExeName;
+        private readonly string scratch = Path.Combine(Path.GetTempPath(), "aow-frame-inputs-" + Guid.NewGuid().ToString("N"));
+        internal StartupScope(string root)
+        {
+            Directory.CreateDirectory(scratch);
+            Aow.Rtl.Rtl.InstallHost(new FrameFixture.FixtureHost(root, scratch, [], clock, null));
+            Aow.Units.Startup.InitializeAll();
+            Aow.Units.Sound.NullSoundSystem.Install();
+            GameState.ValidateAoWEngine();
+        }
+        public void Dispose()
+        {
+            GameState.AoWEngine.Destroy();
+            Aow.Rtl.Rtl.Files = files;
+            Aow.Rtl.Rtl.Settings = settings;
+            Aow.Rtl.Rtl.Dialogs = dialogs;
+            Aow.Rtl.Rtl.Clock = clock;
+            Aow.Rtl.Rtl.Application.ExeName = exe;
+            Directory.Delete(scratch, true);
+        }
+    }
+
     private sealed class MovementArmy : TArmyHS
     {
+        public MovementArmy() : base(null!, null!) { }
+
         public override void CalcShowPriority() { }
         public override sbyte GetLhx() => 0;
     }

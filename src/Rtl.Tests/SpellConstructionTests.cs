@@ -10,10 +10,14 @@ using Game = Aow.Units.AoWE.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed partial class SpellConstructionTests
 {
     private sealed class Owner : TECustomNode
     {
+        public Owner() : base(null!) { }
+
         internal readonly List<TEObject> Members = [];
         internal readonly List<TEObject> Removed = [];
         internal readonly List<string> Observations = [];
@@ -40,7 +44,7 @@ public sealed partial class SpellConstructionTests
         internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
         internal Fixture()
         {
-            var set = new TAoWHSSet();
+            var set = TAoWHSSet.Create(null!);
             typeof(THSSet).GetField("FImageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(set, Manager);
             Game.AoWHSSet = set;
             Game.AoWEngine = null!;
@@ -142,13 +146,18 @@ public sealed partial class SpellConstructionTests
         using var fixture = new Fixture();
         TEngine? engine = route == 2 ? RegisteredEngine(type) : null;
         if (typeof(TSpell).IsAssignableFrom(type) || typeof(TAbility).IsAssignableFrom(type)) Game.AoWHSSet = null!;
-        else Game.AoWEngine = new TAoWEngine();
+        var dictionary = EngineFixture.Engine.FDictionary;
+        if (!typeof(TSpell).IsAssignableFrom(type) && !typeof(TAbility).IsAssignableFrom(type))
+        {
+            Game.AoWEngine = EngineFixture.Engine;
+            Game.AoWEngine.FDictionary = null!;
+        }
         var owner = new Owner();
         TEObject? result = null;
         System.Exception? failure = null;
         try { result = Create(type, owner, route, engine); }
         catch (System.Exception error) { failure = error; }
-        finally { engine?.Destroy(); }
+        finally { engine?.Destroy(); EngineFixture.Engine.FDictionary = dictionary; }
         Assert.Null(result);
         Assert.NotNull(failure);
         Assert.IsType<NullReferenceException>(failure);
@@ -212,9 +221,7 @@ public sealed partial class SpellConstructionTests
                 }
             Assert.Equal(4, owner.Members.Count);
             Assert.Throws<InvalidOperationException>(() => MetaRegistry.Of(type).NewInstance());
-            bool hasRawFixture = type == typeof(Aow.Units.SummonSpells.TSummonSpell);
-            if (hasRawFixture) Assert.Single(type.GetConstructors());
-            else Assert.DoesNotContain(type.GetConstructors(), constructor => constructor.GetParameters().Length == 0);
+            Assert.DoesNotContain(type.GetConstructors(), constructor => constructor.GetParameters().Length == 0);
             if (expected.GetProperty("Failure").ValueKind == JsonValueKind.String)
                 Assert.DoesNotContain(type.GetConstructors(), constructor => constructor.GetParameters().Length != 0);
         }
@@ -261,11 +268,11 @@ public sealed partial class SpellConstructionTests
     }
 
     [Fact]
-    public void MovementProbeKeepsItsNamedRawSummonAllocation()
+    public void SummonConstructionInitializesItsSpellState()
     {
-        var raw = new Aow.Units.SummonSpells.TSummonSpell();
-        Assert.Null(raw.FSpellText);
-        Assert.Null(raw.FUnitIndices);
+        var raw = Aow.Units.SummonSpells.TSummonSpell.Create(null!);
+        Assert.NotNull(raw.FSpellText);
+        Assert.NotNull(raw.FUnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null!));
         raw.Destroy();
     }

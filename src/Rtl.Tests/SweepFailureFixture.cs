@@ -19,7 +19,7 @@ internal static class SweepFailureFixture
         "Aow.Units.AoWTC.TAoWCombatMapLevel",
     ];
 
-    private sealed class Owner(bool reject) : TECustomNode
+    private sealed class Owner(bool reject) : TECustomNode(null!)
     {
         internal readonly List<TEObject> Members = [];
         internal readonly List<string> Events = [];
@@ -44,7 +44,9 @@ internal static class SweepFailureFixture
     internal static string Observe(string name, bool reject, int route)
     {
         var previousEngine = Game.AoWEngine;
-        Game.AoWEngine = new TAoWEngine();
+        var dictionary = EngineFixture.Engine.FDictionary;
+        Game.AoWEngine = EngineFixture.Engine;
+        Game.AoWEngine.FDictionary = null!;
         var owner = new Owner(reject);
         string error = "no failure";
         Type type = typeof(TSpell).Assembly.GetType(name)!;
@@ -78,7 +80,7 @@ internal static class SweepFailureFixture
             if (exception is TargetInvocationException { InnerException: { } inner }) exception = inner;
             error = exception.GetType().FullName + ":" + exception.Message;
         }
-        finally { Game.AoWEngine = previousEngine; }
+        finally { EngineFixture.Engine.FDictionary = dictionary; Game.AoWEngine = previousEngine; }
         return JsonSerializer.Serialize(new { Error = error, owner.Events, Count = owner.Members.Count, HasOwner = owner.Last?.Owner is not null });
     }
 }

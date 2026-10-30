@@ -2442,8 +2442,6 @@ namespace Aow.Units.GFXE
 //     virtuals: GetHandle, SetHandle. }
     public partial class TGDISurface : Aow.Units.GFXE.TSurface
     {
-        // Raw base for the retained TDisplayGDISurface stub, which skips handle initialization.
-        protected TGDISurface() { }
 
         internal int FHandle;
         // GFXE.pas:12293
@@ -2645,8 +2643,8 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:8721
         // { TDrawPanel }
-        // Retained: The ExtCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TDrawPanel(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary ExtCtrls.Create */
             throw new System.NotImplementedException();
@@ -2657,23 +2655,6 @@ namespace Aow.Units.GFXE
 
         [Published]
         public bool EraseBkgndEnabled { get => FEraseBkgndEnabled; set => FEraseBkgndEnabled = value; }
-
-        // GFXE.pas:682
-        public static Aow.Units.GFXE.TDrawPanel Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.GFXE.TDrawPanel o = new Aow.Units.GFXE.TDrawPanel();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { GFXE.TImageFile (instance size 4): an image file format, all class functions. }
@@ -2723,28 +2704,11 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:966
         // { TOpenImageFileDialog }
-        // Retained: The Dialogs.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TOpenImageFileDialog(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Dialogs.Create */
             throw new System.NotImplementedException();
-        }
-
-        // GFXE.pas:708
-        public static Aow.Units.GFXE.TOpenImageFileDialog Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.GFXE.TOpenImageFileDialog o = new Aow.Units.GFXE.TOpenImageFileDialog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
     }
 

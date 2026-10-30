@@ -162,19 +162,10 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:950
         public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_TokenEvent;
 
-        // NetworkE.pas:943
-        private void InitializeTokenEvent(Aow.Units.Engine.TECustomNode AOwner)
+        public TTokenEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
             FRefCount = 1;
             FTokenCounter = -1;
-        }
-
-        // Raw allocation for TAnimationTE and the legacy gameplay token factories.
-        protected TTokenEvent() { }
-
-        public TTokenEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeTokenEvent(AOwner);
         }
 
         internal int FRefCount;
@@ -1191,8 +1182,8 @@ namespace Aow.Units.NetworkE
 //     FOwner, +$10 FTokenControls (one per player, nil for a free slot), +$14 FOnMessage. }
     public partial class TTokenManager : Aow.Rtl.TObject
     {
-        // NetworkE.pas:1606
-        private void InitializeTokenManager(Aow.Rtl.TObject AOwner)
+
+        public TTokenManager(Aow.Rtl.TObject AOwner)
         {
             FOwner = AOwner;
             var call__102 = new Aow.Rtl.TList();
@@ -1201,14 +1192,6 @@ namespace Aow.Units.NetworkE
             FTokenExecuter = call__103;
             var call__104 = CreateTokenPackageDistributer();
             FTokenPackageDistributer = call__104;
-        }
-
-        // Raw allocation for TAoWTokenManager.
-        protected TTokenManager() { }
-
-        public TTokenManager(Aow.Rtl.TObject AOwner)
-        {
-            InitializeTokenManager(AOwner);
         }
 
         internal Aow.Units.NetworkE.TTokenExecuter FTokenExecuter;

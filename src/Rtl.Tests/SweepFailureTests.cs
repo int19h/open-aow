@@ -2,6 +2,8 @@ using System.Text.Json;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class SweepFailureTests
 {
     public static IEnumerable<object[]> Cases => SweepFailureFixture.Names.SelectMany(name =>

@@ -376,7 +376,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEnchantedRoadsEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -524,7 +524,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAirMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -721,7 +721,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWaterMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -867,7 +867,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.THatredEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.THatredEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THatredEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -1009,7 +1009,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THarmonyEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -1134,7 +1134,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPowerLeakEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -1730,7 +1730,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFloodEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -1902,7 +1902,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLifeMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -2157,7 +2157,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Array.Resize(ref Flags, 0);
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDeathMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -2474,7 +2474,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             }
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -2675,7 +2675,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEarthMasteryEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -2815,7 +2815,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             return Result;
         }
 
-        public static new Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSpellWardEnchantment(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta

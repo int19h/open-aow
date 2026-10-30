@@ -15,16 +15,7 @@ public sealed class MapNetSoundDispatchTests
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class LegacyField : TMapField
-    {
-        public override void Create__init(TECustomNode owner)
-        {
-            base.Create__init(owner);
-            typeof(TMapField).GetMethod("InitializeMapField", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.Invoke(this, [owner]);
-        }
-        internal int OwnerCalls;
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
-    }
+
 
     private sealed class ConvertedMap(TECustomNode owner) : THSMap(owner)
     {
@@ -55,21 +46,7 @@ public sealed class MapNetSoundDispatchTests
         MetaRegistry.Register(typeof(SpecializedLevel), new TMapLevel.Meta(), 124);
     }
 
-    [Fact]
-    public void SemanticAndLegacyFieldBodiesRunOnce()
-    {
-        var converted = new ConvertedField(null!);
-        var legacy = new LegacyField();
-        legacy.Create__init(null!);
-        Assert.Equal(1, converted.OwnerCalls);
-        Assert.Equal(1, legacy.OwnerCalls);
-        Assert.Equal(3, converted.FCapacity);
-        Assert.Equal(3, legacy.FCapacity);
-        Assert.Equal(-1, converted.TerrainType);
-        Assert.Equal(-1, legacy.TerrainType);
-        converted.Destroy();
-        legacy.Destroy();
-    }
+
 
     [Fact]
     public void MapConstructorKeepsVirtualMouseCreationBeforeChildren()

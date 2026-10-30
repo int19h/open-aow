@@ -64,9 +64,9 @@ namespace Aow.Units.ItemCtrl
 
         // ItemCtrl.pas:123
         // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TItemControlGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
+
             var call__1 = new Aow.Rtl.TMemoryStream();
             FStream = call__1;
             DefaultColWidth = 155;
@@ -231,23 +231,6 @@ namespace Aow.Units.ItemCtrl
 
         [Published]
         public Aow.Rtl.TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
-
-        // ItemCtrl.pas:30
-        public static new Aow.Units.ItemCtrl.TItemControlGrid Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ItemCtrl.TItemControlGrid o = new Aow.Units.ItemCtrl.TItemControlGrid();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public partial class TGridMapView : Aow.Rtl.TObject

@@ -95,7 +95,7 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Components))]
     public void ComponentsKeepDefaultsAndOwnership(Type type, Func<TComponent, TComponent> create)
     {
-        var owner = new TComponent();
+        var owner = new TComponent(null!);
         var value = create(owner);
         Assert.Equal(type, value.GetType());
         Assert.Same(owner, value.Owner);
@@ -275,7 +275,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void DisplayFailureAfterPublicationRemovesOwnerOnce()
     {
-        var owner = new TComponent();
+        var owner = new TComponent(null!);
         FailingDisplay.Last = null;
         Assert.Throws<InvalidOperationException>(() =>
         {
@@ -312,7 +312,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void LibraryLegacyBridgeAndLayoutFlagsRunOnce()
     {
-        var owner = new TComponent();
+        var owner = new TComponent(null!);
         var session = new Aow.Layout.LayoutSession();
         var library = TImageLibrary.Create(owner);
         session.BeginRead(library);
@@ -414,13 +414,6 @@ public sealed class GraphicsConstructionTests
     public void SdlHostCapturePrecedesOwnerCallbacks()
     {
         var owner = new DisplayObservingOwner();
-        // This named raw consumer pins the retained host-before-owner route beside its factory.
-        var legacy = new TSdlDC(new NullDisplayHost());
-        legacy.Create__init(owner);
-        Assert.Equal(7, owner.X);
-        Assert.Equal(9, owner.Y);
-        Assert.Equal(1, owner.ComponentCount);
-        legacy.Destroy();
         var controller = TSdlDC.Create(new NullDisplayHost(), owner);
         Assert.Equal(7, owner.X);
         Assert.Equal(9, owner.Y);

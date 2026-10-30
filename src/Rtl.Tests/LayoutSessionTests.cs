@@ -18,6 +18,8 @@ public sealed class LayoutSessionTests
     // The second label is complete and owned when its Name setter rejects the duplicate.
     private class FailingModule : TDataModule, ILayoutModule
     {
+        public FailingModule() : base(null!) { }
+
         public Tracked? First;
         public TAOWLabel? Second;
         public void InitializeComponent(LayoutSession session)
@@ -43,6 +45,8 @@ public sealed class LayoutSessionTests
 
     private sealed class GoodModule : TDataModule, ILayoutModule
     {
+        public GoodModule() : base(null!) { }
+
         public Tracked? Child;
         public void InitializeComponent(LayoutSession session)
         {
@@ -114,7 +118,7 @@ public sealed class LayoutSessionTests
     public void LoadingFlagsAreSetByTheSessionAndClearedInTwoSteps()
     {
         var session = new LayoutSession();
-        var root = new TDataModule();
+        var root = new TDataModule(null!);
         var child = new TAOWLabel(root);
         Assert.True(child.ComponentState.IsEmpty);
         session.Begin(root);

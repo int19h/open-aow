@@ -646,8 +646,8 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:485
-        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TSFXManagerComboBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -675,23 +675,6 @@ namespace Aow.Units.Sound
 
         [Published]
         public Aow.Rtl.AnsiString EmptySFXName { get => FEmptySFXName; set => FEmptySFXName = value; }
-
-        // Sound.pas:189
-        public static Aow.Units.Sound.TSFXManagerComboBox Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.Sound.TSFXManagerComboBox o = new Aow.Units.Sound.TSFXManagerComboBox();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Sound.TSFXManagerListBox (instance size 356): +$154 FSFXManager, +$158 FSubDirectory, +$15C
@@ -735,8 +718,8 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:579
-        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TSFXManagerListBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -762,23 +745,6 @@ namespace Aow.Units.Sound
 
         [Published]
         public Aow.Rtl.AnsiString EmptySFXName { get => FEmptySFXName; set => FEmptySFXName = value; }
-
-        // Sound.pas:212
-        public static Aow.Units.Sound.TSFXManagerListBox Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.Sound.TSFXManagerListBox o = new Aow.Units.Sound.TSFXManagerListBox();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { Sound.TSonglist (instance size 16): +8 FSongs, +$C FSongNames (the titles, from the
@@ -788,22 +754,13 @@ namespace Aow.Units.Sound
         // Sound.pas:801
         public new const int ClassID = 2162692;
 
-        // Sound.pas:786
-        private void InitializeSonglist(Aow.Units.Engine.TECustomNode AOwner)
+        public TSonglist(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
             var call__11 = new Aow.Rtl.TStringList();
             FSongs = call__11;
             FSongs.OnChange = SongsChanged;
             var call__12 = new Aow.Rtl.TStringList();
             FSongNames = call__12;
-        }
-
-        // Raw allocation for TStartupSongList.
-        protected TSonglist() { }
-
-        public TSonglist(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeSonglist(AOwner);
         }
 
         internal Aow.Rtl.TStringList FSongs;

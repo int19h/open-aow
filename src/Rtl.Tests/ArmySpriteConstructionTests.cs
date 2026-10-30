@@ -7,9 +7,11 @@ using Game = Aow.Units.AoWE.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class ArmySpriteConstructionTests
 {
-    private sealed class Owner(bool reject) : TECustomNode
+    private sealed class Owner(bool reject) : TECustomNode(null!)
     {
         internal readonly List<TEObject> Members = [];
         internal readonly List<string> Events = [];
@@ -53,7 +55,7 @@ public sealed class ArmySpriteConstructionTests
             }
             Assert.Equal(owned != 2, value is not null);
             actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-            Game.AoWHSMap = new TAoWHSMap(default(RawAoWERuleConstruction)) { FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying) };
+            Game.AoWHSMap = EngineFixture.Configure(TAoWHSMap.Create(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
             value?.SetOwner(null!);
             value?.Destroy();
             if (owned == 2) owner!.Members.Clear();
@@ -83,7 +85,7 @@ public sealed class ArmySpriteConstructionTests
         }
         finally
         {
-            Game.AoWHSMap = new TAoWHSMap(default(RawAoWERuleConstruction)) { FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying) };
+            Game.AoWHSMap = EngineFixture.Configure(TAoWHSMap.Create(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
             loaded?.Destroy();
             source.Destroy();
         }

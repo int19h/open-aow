@@ -1199,19 +1199,7 @@ namespace Aow.Units.ImageLib
             throw new System.NotImplementedException();
         }
 
-        // ImageLib.pas:9669
-        // { TCustomImageLibrary }
-        // Raw construction serves THSLibrary and TInterfaceIL legacy factories and layout constructors.
-        protected TCustomImageLibrary() { }
-
-        private protected TCustomImageLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner)
-        {
-            context.Capture(this);
-            InitializeComponentOwner(AOwner);
-            InitializeLibrary();
-        }
-
-        private void InitializeLibrary()
+        private protected TCustomImageLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
         {
             var call__40 = new Aow.Units.ImageLib.TPaletteManager();
             FPaletteManager = call__40;
@@ -2356,8 +2344,6 @@ namespace Aow.Units.ImageLib
     // { ImageLib.TImageLibrary (instance size 80): the image library component }
     public partial class TImageLibrary : Aow.Units.ImageLib.TCustomImageLibrary
     {
-        // Raw construction serves the THSLibrary and TInterfaceIL legacy descendants.
-        protected TImageLibrary() { }
 
         private protected TImageLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
 
@@ -6239,34 +6225,19 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:6504
         // { TCustomImageLibraryPanel }
-        // Retained: The ExtCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TCustomImageLibraryPanel(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary ExtCtrls.Create */
             throw new System.NotImplementedException();
-        }
-
-        // ImageLib.pas:727
-        public static Aow.Units.ImageLib.TCustomImageLibraryPanel Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ImageLib.TCustomImageLibraryPanel o = new Aow.Units.ImageLib.TCustomImageLibraryPanel();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
     }
 
     // { ImageLib.TImageLibraryPanel (instance size 340) }
     public partial class TImageLibraryPanel : Aow.Units.ImageLib.TCustomImageLibraryPanel
     {
+        public TImageLibraryPanel(TComponent owner) : base(owner) { }
+
     }
 
     public enum TILGrowDirection : byte
@@ -6447,8 +6418,8 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:6594
         // { TCustomImageDrawGrid }
-        // Retained: The Grids.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TCustomImageDrawGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Grids.Create */
             throw new System.NotImplementedException();
@@ -6536,29 +6507,14 @@ namespace Aow.Units.ImageLib
         }
 
         public int Count { get => FCount; set => SetCount(value); }
-
-        // ImageLib.pas:808
-        public static Aow.Units.ImageLib.TCustomImageDrawGrid Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ImageLib.TCustomImageDrawGrid o = new Aow.Units.ImageLib.TCustomImageDrawGrid();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { AoWEd 0042D13C }
     // { ImageLib.TImageDrawGrid (instance size 476) }
     public partial class TImageDrawGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
+        public TImageDrawGrid(TComponent owner) : base(owner) { }
+
     }
 
     // { ImageLib.TCustomImageLibraryGrid (instance size 480): a grid of the images of an image
@@ -6566,6 +6522,8 @@ namespace Aow.Units.ImageLib
 //     clipboard format of TCustomImageLibrary, when EditMode allows them. }
     public partial class TCustomImageLibraryGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
+        public TCustomImageLibraryGrid(TComponent owner) : base(owner) { }
+
         internal Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
         // ImageLib.pas:6934
         internal void SetImageLibrary(Aow.Units.ImageLib.TCustomImageLibrary Value)
@@ -6648,6 +6606,8 @@ namespace Aow.Units.ImageLib
     // { ImageLib.TImageLibraryGrid (instance size 480) }
     public partial class TImageLibraryGrid : Aow.Units.ImageLib.TCustomImageLibraryGrid
     {
+        public TImageLibraryGrid(TComponent owner) : base(owner) { }
+
     }
 
     // { ImageLib.TImageLibraryManager (instance size 48): the libraries a program shares, linked by
@@ -6664,10 +6624,8 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TILManagerList FOwnedList;
         // ImageLib.pas:8260
         // { TImageLibraryManager }
-        private protected TImageLibraryManager(ConstructionContext context, Aow.Rtl.TComponent AOwner)
+        private protected TImageLibraryManager(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
         {
-            context.Capture(this);
-            InitializeComponentOwner(AOwner);
             var call__184 = new Aow.Units.ImageLib.TILManagerList(this);
             FDiskList = call__184;
             var call__185 = new Aow.Units.ImageLib.TILManagerList(this);
@@ -7132,8 +7090,8 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8386
-        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TILManagerComboBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -7162,23 +7120,6 @@ namespace Aow.Units.ImageLib
 
         [Published]
         public Aow.Rtl.AnsiString EmptyILName { get => FEmptyILName; set => FEmptyILName = value; }
-
-        // ImageLib.pas:984
-        public static Aow.Units.ImageLib.TILManagerComboBox Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ImageLib.TILManagerComboBox o = new Aow.Units.ImageLib.TILManagerComboBox();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { ImageLib.TILManagerListBox (instance size 360): the list box version of TILManagerComboBox.
@@ -7224,8 +7165,8 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8476
-        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TILManagerListBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -7254,23 +7195,6 @@ namespace Aow.Units.ImageLib
 
         [Published]
         public Aow.Rtl.AnsiString EmptyILName { get => FEmptyILName; set => FEmptyILName = value; }
-
-        // ImageLib.pas:1010
-        public static Aow.Units.ImageLib.TILManagerListBox Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ImageLib.TILManagerListBox o = new Aow.Units.ImageLib.TILManagerListBox();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TSequenceMode : byte

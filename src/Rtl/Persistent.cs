@@ -32,17 +32,12 @@ public class TComponent : TPersistent
     private readonly List<TComponent> children = [];
     private List<TComponent>? freeNotifies;
     private AnsiString name;
-    // CLASSES.PAS TComponent.Create.
-    public TComponent() { }
-    public TComponent(TComponent? owner) => InitializeComponentOwner(owner);
+    public TComponent(TComponent? owner = null) => owner?.InsertComponent(this);
     protected TComponent(ConstructionContext context, TComponent? owner)
     {
-        context.Capture(this);
-        InitializeComponentOwner(owner);
+        context?.Capture(this);
+        owner?.InsertComponent(this);
     }
-    // Retained for editor boundary stubs that skip owner insertion before throwing.
-    public virtual void Create__init(TComponent? owner) => InitializeComponentOwner(owner);
-    protected void InitializeComponentOwner(TComponent? owner) => owner?.InsertComponent(this);
     public new Meta ClassType => (Meta)base.ClassType;
     public TComponent? Owner { get; private set; }
     public int Tag { get; set; }
@@ -147,7 +142,7 @@ public class TComponent : TPersistent
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class PublishedAttribute : Attribute
 {
-    public PublishedAttribute() { }
+    public PublishedAttribute() : base() { }
     public PublishedAttribute(object? defaultValue) => DefaultValue = defaultValue;
     public object? DefaultValue { get; }
 }

@@ -10,6 +10,8 @@ public sealed class EngineLeafConstructionTests
 
     private sealed class Owner : TECustomNode
     {
+        public Owner() : base(null!) { }
+
         internal readonly List<TEObject> Members = [];
         internal readonly List<TEObject> ObservedBeforeLeafBody = [];
         public override int AddChild(TEObject child)
@@ -143,12 +145,7 @@ public sealed class EngineLeafConstructionTests
         public override int GetCount() => 0;
     }
 
-    private sealed class LegacyNode : TECustomNode
-    {
-        internal int OwnerCalls;
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
-        public override int GetCount() => 0;
-    }
+
 
     private sealed class ConvertedSort : TESortNode
     {
@@ -162,54 +159,9 @@ public sealed class EngineLeafConstructionTests
         }
     }
 
-    private sealed class LegacySort : TESortNode
-    {
-        public override void Create__init(TECustomNode owner)
-        {
-            base.Create__init(owner);
-            FItems = [];
-        }
-        internal int OwnerCalls;
-        public override void SetOwner(TECustomNode owner)
-        {
-            OwnerCalls++;
-            base.SetOwner(owner);
-            FItems = new TSortItem[1];
-        }
-    }
 
-    [Fact]
-    public void BridgesKeepOneOwnerBodyAndSortResetOnConvertedAndLegacyChains()
-    {
-        EClass.Register(typeof(ConvertedNode), TEObject.ClassID, static owner => new ConvertedNode(owner), 8);
-        MetaRegistry.Register(typeof(ConvertedNode), new TEObject.Meta(), 8);
-        EClass.Register(typeof(ConvertedSort), TESortNode.ClassID, static owner => new ConvertedSort(owner), 24);
-        MetaRegistry.Register(typeof(ConvertedSort), new TESortNode.Meta(), 24);
-        EClass.Register(typeof(LegacyNode), TEObject.ClassID, static owner => EClass.Initialize(new LegacyNode(), owner), 8);
-        MetaRegistry.Register(typeof(LegacyNode), new TEObject.Meta(), static () => new LegacyNode(), 8);
-        EClass.Register(typeof(LegacySort), TESortNode.ClassID, static owner => EClass.Initialize(new LegacySort(), owner), 24);
-        MetaRegistry.Register(typeof(LegacySort), new TESortNode.Meta(), static () => new LegacySort(), 24);
-        foreach (bool owned in new[] { false, true })
-        {
-            var owner = new Owner();
-            TECustomNode argument = owned ? owner : null!;
-            var convertedNode = (ConvertedNode)TEObject.Meta.Of<ConvertedNode>().Create(argument);
-            var legacyNode = (LegacyNode)TEObject.Meta.Of<LegacyNode>().Create(argument);
-            var convertedSort = (ConvertedSort)TESortNode.Meta.Of<ConvertedSort>().Create(argument);
-            var legacySort = (LegacySort)TESortNode.Meta.Of<LegacySort>().Create(argument);
-            Assert.Equal(1, convertedNode.OwnerCalls); Assert.Equal(1, legacyNode.OwnerCalls);
-            Assert.Equal(1, convertedSort.OwnerCalls); Assert.Equal(1, legacySort.OwnerCalls);
-            Assert.Empty(Field<TSortItem[]>(convertedSort, "FItems")); Assert.Empty(Field<TSortItem[]>(legacySort, "FItems"));
-            foreach (var value in new TEObject[] { convertedNode, legacyNode, convertedSort, legacySort })
-            {
-                Assert.Same(argument, value.Owner);
-                value.Destroy();
-            }
-            Assert.Empty(owner.Members);
-        }
-        Assert.Empty(Field<TSortItem[]>(new TESortNode(), "FItems"));
-        Assert.Null(new TECustomNode().Owner);
-    }
+
+
 
     [Fact]
     public void SortStyleUsesTheNonvirtualInheritedStyleAndBothMetaclassFacades()

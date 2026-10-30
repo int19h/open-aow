@@ -7528,9 +7528,6 @@ namespace Aow.Units.AoWTC
     public partial class TCombatMoveControl : Aow.Units.AoWE.TMoveControl
     {
 
-        // Raw allocation for the MovementChecks tactical activation fixture.
-        protected TCombatMoveControl() { }
-
         public TCombatMoveControl(Aow.Units.HSEngine.THSMap AOwner) : base(AOwner) { }
 
         public Aow.Units.AoWTC.TTacticalCombatUnitHS FUnitHS;
@@ -7886,9 +7883,6 @@ namespace Aow.Units.AoWTC
     {
         public TTacticalCombatUnitHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
-
-        // Raw allocation for RawTacticalSprite in MovementChecks.
-        protected TTacticalCombatUnitHS() { }
 
         // AoWTC.pas:3348
         public new const int ClassID = 2228484;
@@ -10999,9 +10993,6 @@ namespace Aow.Units.AoWTC
 
         // AoWTC.pas:2189
         private protected sealed override void InitializeBeforeInherited() => AoWTC.AoWCombatMap = this;
-
-        // Raw allocation for tools/oracle/MovementChecks/Program.cs RawCombatMap until CF-1.
-        protected TAoWCombatMap() { }
 
         // AoWTC.pas:2186
         public TAoWCombatMap(TECustomNode owner) : base(owner)

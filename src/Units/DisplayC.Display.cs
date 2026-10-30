@@ -24,10 +24,8 @@ public partial class TCustomDisplay
         FramePresented?.Invoke(PresentedFrames);
     }
 
-    private protected TCustomDisplay(ConstructionContext context, TComponent owner)
+    private protected TCustomDisplay(ConstructionContext context, TComponent owner) : base(context, owner)
     {
-        context.Capture(this);
-        InitializeComponentOwner(owner);
         Width = Height = 100;
         FOptions = TSet<TDisplayOptionsElement>.Of(doAutoResizeBackSurface, doAutoSwapDC,
             doAutoStartUpdateFrameLoop, doAutoActivatePrimaryDC, doRestoreSurfacesOnSwap, doBltOnWMPAINT);

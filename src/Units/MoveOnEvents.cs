@@ -42,9 +42,6 @@ namespace Aow.Units.MoveOnEvents
         public TMoveOnEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
-        // Raw allocation for Trigger in remaining-todos.
-        protected TMoveOnEvent() { }
-
         public byte FRadius;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 FReserved11;

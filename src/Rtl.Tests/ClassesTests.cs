@@ -4,6 +4,8 @@ using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class ClassesTests
 {
     private sealed class Identical : TObject
@@ -55,7 +57,7 @@ public sealed class ClassesTests
         Assert.Equal((AnsiString)"Cannot assign a TPersistent to a TPersistent", Assert.Throws<EConvertError>(() => target.Assign(new TPersistent())).Message);
         Assert.Null(target.GetOwner()); Assert.Equal((AnsiString)"TPersistent", target.GetNamePath());
         Assert.Equal((AnsiString)"TPersistent.Owned", new Owned(target).GetNamePath());
-        Assert.Equal((AnsiString)"Owned", new Owned(new TComponent()).GetNamePath());
+        Assert.Equal((AnsiString)"Owned", new Owned(new TComponent(null!)).GetNamePath());
         target.DefineProperties(null); target.Destroy();
     }
 
@@ -78,7 +80,7 @@ public sealed class ClassesTests
     public void ComponentsValidateNamesAndExposeSourceParentHooks()
     {
         // CLASSES.PAS:6170..6329. Parent and child hooks are empty in TComponent itself.
-        var owner = new TComponent { Name = "Root", Tag = 42 };
+        var owner = EngineFixture.Configure(new TComponent(null!), value => { value.Name = "Root"; value.Tag = 42; });
         var first = new TComponent(owner) { Name = "A_1" };
         var second = new TComponent(owner) { Name = "B" };
         Assert.Same(owner, first.Owner); Assert.Same(owner, first.GetOwner());
@@ -90,14 +92,14 @@ public sealed class ClassesTests
         first.Name = "a_1"; first.Name = "a_1";
         first.ComponentIndex = 99; Assert.Same(first, owner.Components[1]);
         first.ComponentIndex = -1; Assert.Same(first, owner.Components[0]); first.ComponentIndex = 0;
-        Assert.Throws<EListError>(() => owner.Components[2]); Assert.Throws<EListError>(() => new TComponent().Components[0]);
+        Assert.Throws<EListError>(() => owner.Components[2]); Assert.Throws<EListError>(() => new TComponent(null!).Components[0]);
         Assert.False(first.HasParent()); Assert.Null(first.GetParentComponent());
         int calls = 0; owner.GetChildren(_ => calls++, owner); Assert.Equal(0, calls);
         owner.SetChildOrder(first, 1); Assert.Equal(0, first.ComponentIndex);
         owner.DefineProperties(null); owner.Loaded();
         owner.RemoveComponent(first); Assert.Null(first.Owner); Assert.Equal(-1, first.ComponentIndex); first.ComponentIndex = 0;
         owner.InsertComponent(first); Assert.Equal(1, first.ComponentIndex);
-        var duplicate = new TComponent { Name = "B" }; Assert.Throws<EComponentError>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
+        var duplicate = EngineFixture.Configure(new TComponent(null!), value => { value.Name = "B"; }); Assert.Throws<EComponentError>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
         owner.DestroyComponents(); Assert.Equal(0, owner.ComponentCount); Assert.Null(first.Owner); Assert.Null(second.Owner);
         owner.Destroy(); duplicate.Destroy();
     }
@@ -115,16 +117,16 @@ public sealed class ClassesTests
         Assert.False(root.ComponentState.Contains(TComponentState.csDesigning));
         log.Clear(); observer.Destroy(); Assert.Single(log);
         var loading = new Watched(log); loading.Loading(); Assert.True(loading.ComponentState.Contains(TComponentState.csLoading)); loading.Loaded(); Assert.False(loading.ComponentState.Contains(TComponentState.csLoading));
-        var owner = new TComponent(); a = new Watched(log) { Name = "a" }; b = new Watched(log) { Name = "b" }; owner.InsertComponent(a); owner.InsertComponent(b); a.FreeNotification(b); log.Clear();
+        var owner = new TComponent(null!); a = new Watched(log) { Name = "a" }; b = new Watched(log) { Name = "b" }; owner.InsertComponent(a); owner.InsertComponent(b); a.FreeNotification(b); log.Clear();
         a.Destroy(); Assert.Equal(1, owner.ComponentCount); Assert.Contains(log, line => line.StartsWith("notify b a opRemove", StringComparison.Ordinal)); owner.Destroy();
-        var tree = new TComponent(); var sub = new TComponent(tree); var leaf = new TComponent(sub); tree.Destroying(); tree.Destroying();
+        var tree = new TComponent(null!); var sub = new TComponent(tree); var leaf = new TComponent(sub); tree.Destroying(); tree.Destroying();
         Assert.True(leaf.ComponentState.Contains(TComponentState.csDestroying)); tree.Destroy();
     }
 
     [Fact]
     public void ComponentConstructorInsertsAndDestroyRemovesOwnerMembership()
     {
-        var owner = new TComponent();
+        var owner = new TComponent(null!);
         var instance = new TComponent(owner);
         Assert.Same(owner, instance.Owner);
         Assert.Equal(1, owner.ComponentCount);

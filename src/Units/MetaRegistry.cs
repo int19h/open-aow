@@ -16,7 +16,7 @@ namespace Aow.Units
         {
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TP2AbilityCalls), new Aow.Units.AoWE.TP2AbilityCalls.Meta(), () => new Aow.Units.AoWE.TP2AbilityCalls(), 16);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.AoWE.TP2LegacyBehaviorCalls), new Aow.Units.AoWE.TP2LegacyBehaviorCalls.Meta(), () => new Aow.Units.AoWE.TP2LegacyBehaviorCalls(), 4);
-            Register(typeof(Aow.Units.Engine.TEObject), Aow.Units.Engine.TEObject.ClassID, new Aow.Units.Engine.TEObject.Meta(), static owner => Aow.Units.Engine.EClass.Initialize(new Aow.Units.Engine.TEObject(), owner), 8);
+            Register(typeof(Aow.Units.Engine.TEObject), Aow.Units.Engine.TEObject.ClassID, new Aow.Units.Engine.TEObject.Meta(), static owner => new Aow.Units.Engine.TEObject(owner), 8);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.GFXE.TImageFile), new Aow.Units.GFXE.TImageFile.Meta(), () => new Aow.Units.GFXE.TImageFile(), 4);
             Aow.Rtl.MetaRegistry.Register(typeof(Aow.Units.ImageLib.TGrabInfo), new Aow.Units.ImageLib.TGrabInfo.Meta(), () => new Aow.Units.ImageLib.TGrabInfo(), 24);
             Register(typeof(Aow.Units.AoWE.TAIBudget), Aow.Units.AoWE.TAIBudget.ClassID, new Aow.Units.AoWE.TAIBudget.Meta(), static owner => new Aow.Units.AoWE.TAIBudget(owner), 56);

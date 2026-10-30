@@ -54,9 +54,6 @@ namespace Aow.Units.GlobalTargetSpells
         public TGlobalTargetSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
-        // Raw allocation for TFreezeWaterTE, TFireBarrierTE, TLevelTerrainTE.
-        protected TGlobalTargetSpellTE() { }
-
         // GlobalTargetSpells.pas:401
         public new const int ClassID = 135976;
 
@@ -125,8 +122,6 @@ namespace Aow.Units.GlobalTargetSpells
 //     record fields, record with-scope and reversed coordinate local order. }
     public partial class TGlobalTargetSpell : Aow.Units.AoWE.TSpell
     {
-        // Raw base for THolyGroundSpell, TUnholyGroundSpell, TRaiseTerrain and TPoisonPlantSpell.
-        protected TGlobalTargetSpell() { }
 
         public int FCasterID;
         public sbyte FCasterPlayer;
@@ -134,11 +129,6 @@ namespace Aow.Units.GlobalTargetSpells
         public Aow.Units.FixedArray_byte_2 F_GlobalTargetSpell_3A;
         // GlobalTargetSpells.pas:439
         private protected TGlobalTargetSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
-        {
-            InitializeConstruction();
-        }
-
-        private void InitializeConstruction()
         {
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
         }

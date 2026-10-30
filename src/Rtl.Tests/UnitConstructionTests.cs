@@ -13,7 +13,7 @@ public sealed partial class AoWERuleConstructionTests
         "TAbstractUnit", "TUnit", "THero", "TLeader", "TAdjustableUnit", "TWallUnit", "THeroCastingViewP4"
     }.Select(name => new object[] { name });
 
-    private sealed class UnitOwner(bool reject) : TECustomNode
+    private sealed class UnitOwner(bool reject) : TECustomNode(null!)
     {
         internal readonly List<TEObject> Members = [];
         internal readonly List<string> Events = [];
@@ -99,12 +99,7 @@ public sealed partial class AoWERuleConstructionTests
         var previousMap = Game.AoWHSMap;
         var previousSet = Game.AoWHSSet;
         Game.AoWHSMap = null!;
-        var set = new TAoWHSSet
-        {
-            FUnitResources = new TUnitResourceList(null!),
-            FHeroResources = new THeroResourceList(null!),
-            FAbilityControl = new TAbilityControl(null!)
-        };
+        var set = EngineFixture.Configure(TAoWHSSet.Create(null!), value => { value.FUnitResources = new TUnitResourceList(null!); value.FHeroResources = new THeroResourceList(null!); value.FAbilityControl = new TAbilityControl(null!); });
         Game.AoWHSSet = set;
         Type type = typeof(TAbstractUnit).Assembly.GetType("Aow.Units.AoWE." + name)!;
         var meta = (TEObject.Meta)MetaRegistry.Of(type);

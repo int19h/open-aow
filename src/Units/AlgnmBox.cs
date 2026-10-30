@@ -52,8 +52,8 @@ namespace Aow.Units.AlgnmBox
         }
 
         // AlgnmBox.pas:54
-        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TAlignmentBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -89,23 +89,6 @@ namespace Aow.Units.AlgnmBox
 
         [Published]
         public bool UseSets { get => FSetMode; set => FSetMode = value; }
-
-        // AlgnmBox.pas:24
-        public static Aow.Units.AlgnmBox.TAlignmentBox Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AlgnmBox.TAlignmentBox o = new Aow.Units.AlgnmBox.TAlignmentBox();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AlgnmBox

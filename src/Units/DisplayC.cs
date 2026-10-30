@@ -672,6 +672,8 @@ namespace Aow.Units.DisplayC
 //     virtual methods, all abstract but GetSurface and BltInvalidatedSurface. }
     public partial class TAbstractDC : Aow.Rtl.TComponent
     {
+        protected TAbstractDC(ConstructionContext context, TComponent owner) : base(context, owner) { }
+
         // DisplayC.pas:74
         public virtual Aow.Units.DisplayC.TMatrix GetInvMatrix()
         {
@@ -1051,25 +1053,8 @@ namespace Aow.Units.DisplayC
         internal Aow.Units.DisplayC.TMatrix FInvMatrix;
         internal bool FRealizePalet;
         internal int FLastVBTime;
-        // DisplayC.pas:1025
-        // Raw construction serves TSdlDC, whose host capture precedes owner callbacks.
-        protected TDisplayCtrl() { }
 
-        private protected TDisplayCtrl(ConstructionContext context, Aow.Rtl.TComponent AOwner)
-        {
-            context.Capture(this);
-            InitializeComponentOwner(AOwner);
-            InitializeInvalidationMatrix();
-        }
-
-        // Retained for TSdlDC host capture before owner callbacks and the named raw reentry test.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeInvalidationMatrix();
-        }
-
-        private void InitializeInvalidationMatrix()
+        private protected TDisplayCtrl(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
         {
             var call__41 = new Aow.Units.DisplayC.TMatrix(4, 4);
             FInvMatrix = call__41;
@@ -1665,8 +1650,8 @@ namespace Aow.Units.DisplayC
 
         // DisplayC.pas:1114
         // { TDDrawFSWinControl }
-        // Retained: The Controls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TDDrawFSWinControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Controls.Create */
             throw new System.NotImplementedException();
@@ -1677,23 +1662,6 @@ namespace Aow.Units.DisplayC
         {
             /* TODO(T-shim) Platform or editor boundary Controls.Handle */
             throw new System.NotImplementedException();
-        }
-
-        // DisplayC.pas:183
-        public static Aow.Units.DisplayC.TDDrawFSWinControl Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.DisplayC.TDDrawFSWinControl o = new Aow.Units.DisplayC.TDDrawFSWinControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
     }
 
@@ -1782,7 +1750,7 @@ namespace Aow.Units.DisplayC
         internal Aow.Rtl.TWinControl FControl;
         // DisplayC.pas:1878
         // { TDisplayGDISurface }
-        public TDisplayGDISurface(Aow.Rtl.TWinControl AControl)
+        public TDisplayGDISurface(Aow.Rtl.TWinControl AControl) : base(0)
         {
             /* TODO(T-shim) Platform or editor boundary Controls.Handle */
             throw new System.NotImplementedException();

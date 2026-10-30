@@ -10,11 +10,15 @@ using Game = Aow.Units.AoWE.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class UiConstructionFailureTests
 {
     private static readonly List<string> Events = [];
     private sealed class TrackedEngine : THSEngine
     {
+        public TrackedEngine() : base(null!, null!) { }
+
         public override void Destroy() { Events.Add("engine destroyed"); base.SetOwner(null!); }
     }
     private sealed class FailingEngineComponent : THexagonSpriteEngine
@@ -90,9 +94,9 @@ public sealed class UiConstructionFailureTests
         var previousMap = Game.AoWHSMap;
         var previousCombat = Aow.Units.AoWTC.AoWTC.AoWCombatMap;
         var loaded = new TEventList();
-        var owner = new TComponent();
+        var owner = new TComponent(null!);
         Events.Clear();
-        Game.AoWEngine = new TAoWEngine();
+        Game.AoWEngine = EngineFixture.Engine;
         Game.AoWEngine.FOnHSMLoaded = loaded;
         Game.AoWEngine.FOnHSMClose = null!;
         Game.AoWHSMap = null!;

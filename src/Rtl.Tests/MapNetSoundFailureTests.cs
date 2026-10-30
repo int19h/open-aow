@@ -10,6 +10,8 @@ public sealed class MapNetSoundFailureTests
 {
     private sealed class Owner : TECustomNode
     {
+        public Owner() : base(null!) { }
+
         internal readonly List<TEObject> Members = [];
         internal readonly List<string> Events = [];
         public override int AddChild(TEObject child)

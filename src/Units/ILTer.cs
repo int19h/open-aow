@@ -27,25 +27,14 @@ namespace Aow.Units.ILTer
 
         private protected TILTerrainMO(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            InitializeTerrainMO();
+            FTerrainType = unchecked((sbyte)-1);
         }
-
-        // Raw allocation for TFire.
-        protected TILTerrainMO() { }
 
         // ILTer.pas:79
         public new const int ClassID = 131462;
 
         protected internal int FImageIndex;
         protected internal sbyte FTerrainType;
-        // ILTer.pas:73
-        // { TILTerrainMO }
-
-
-        private void InitializeTerrainMO()
-        {
-            FTerrainType = unchecked((sbyte)-1);
-        }
 
 
         // ILTer.pas:164
@@ -367,9 +356,6 @@ namespace Aow.Units.ILTer
     {
         public TILTerrainMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
-
-        // Raw allocation for TFireResource.
-        protected TILTerrainMOR() { }
 
         // ILTer.pas:269
         public new const int ClassID = 131463;

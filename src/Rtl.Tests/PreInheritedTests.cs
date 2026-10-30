@@ -9,6 +9,8 @@ public sealed class PreInheritedTests
     private static int destroyed;
     private sealed class Owner : TECustomNode
     {
+        public Owner() : base(null!) { }
+
         public override int AddChild(TEObject child)
         {
             Assert.Equal(17, ((Leaf)child).State);
@@ -18,19 +20,19 @@ public sealed class PreInheritedTests
     }
     private class First : TEObject
     {
-        protected First() { }
+
         private protected First(ConstructionContext? context, TECustomNode? owner) : base(context!, owner!) => Events.Add("first body");
     }
     private class Middle : First
     {
-        protected Middle() { }
+
         private protected Middle(ConstructionContext? context, TECustomNode? owner) : base(context, owner) => Events.Add("middle body");
     }
     private sealed class Leaf : Middle
     {
         private readonly int initialized = InitializeField();
         internal int State;
-        internal Leaf() { }
+
         internal Leaf(ConstructionContext? context, TECustomNode? owner) : base(context, owner) => Events.Add("leaf body");
         private static int InitializeField() { Events.Add("leaf field"); return 1; }
         private protected sealed override void InitializeBeforeInherited()
@@ -57,17 +59,7 @@ public sealed class PreInheritedTests
         _ = new Leaf(null, owner);
         Assert.Equal(["leaf field", "hook", "owner", "first body", "middle body", "leaf body"], Events);
     }
-    [Fact]
-    public void RawAndLegacyRoutesSkipHook()
-    {
-        Events.Clear();
-        fail = false;
-        var value = new Leaf();
-        Assert.Equal(["leaf field"], Events);
-        value.Create__init(null!);
-        Assert.Equal(["leaf field"], Events);
-        Assert.Equal(0, value.State);
-    }
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]

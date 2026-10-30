@@ -1024,7 +1024,7 @@ namespace Aow.Units.City
             FEnchantmentsVisible = false;
         }
 
-        public static new TCity Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static TCity Create(Aow.Units.Engine.TECustomNode AOwner)
         {
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCity(context, owner));
         }

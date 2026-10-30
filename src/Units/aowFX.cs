@@ -25,8 +25,6 @@ namespace Aow.Units.aowFX
     // { aowFX.TXYZList (instance size 8): +4 FList, the owned points. }
     public partial class TXYZList : Aow.Rtl.TObject
     {
-        // AoWE.cs retains this caller until its separate constructor pass.
-        public static TXYZList Create() => new TXYZList();
 
         internal Aow.Rtl.TList FList;
         // aowFX.pas:93

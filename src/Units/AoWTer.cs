@@ -40,9 +40,6 @@ namespace Aow.Units.AoWTer
         public TAoWTerrain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
-        // Raw allocation for BurnTerrain in MovementChecks.
-        protected TAoWTerrain() { }
-
         // AoWTer.pas:89
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {

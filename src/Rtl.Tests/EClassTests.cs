@@ -136,8 +136,8 @@ public sealed class EClassTests
         try { Assert.IsType<TEResourceList>(split); }
         finally { split.Free(); }
         Assert.Throws<InvalidOperationException>(() => EClass.Of(typeof(Unregistered)));
-        Assert.Throws<ArgumentException>(() => EClass.Register(typeof(string), 1, static owner => new TEObject(), 0));
-        Assert.Throws<InvalidOperationException>(() => EClass.Register(typeof(TEObject), 80, static owner => new TEObject(), 8));
+        Assert.Throws<ArgumentException>(() => EClass.Register(typeof(string), 1, static owner => new TEObject(null!), 0));
+        Assert.Throws<InvalidOperationException>(() => EClass.Register(typeof(TEObject), 80, static owner => new TEObject(null!), 8));
     }
 
     [Fact]
@@ -151,6 +151,8 @@ public sealed class EClassTests
 
     private sealed class Unregistered : TEObject
     {
+        public Unregistered() : base(null!) { }
+
     }
 
     private sealed class Registered(TECustomNode owner) : TEObject(owner);

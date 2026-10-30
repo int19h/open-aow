@@ -204,8 +204,6 @@ namespace Aow.Units.SummonSpells
     // { TSummonSpell (instance size 60, VMT 557E3004): $34 FAIBasePriority, $38 FUnitIndices. }
     public partial class TSummonSpell : Aow.Units.AoWE.TSpell
     {
-        // Raw allocation for private tools/oracle/MovementChecks/Program.cs, GetDispelResistance fixture.
-        public TSummonSpell() { }
 
         public int FAIBasePriority;
         // { $34 }

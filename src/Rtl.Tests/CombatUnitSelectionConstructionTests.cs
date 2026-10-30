@@ -6,6 +6,8 @@ using Game = Aow.Units.AoWE.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class CombatUnitSelectionConstructionTests
 {
     private static TCombatUnitSelectionControl Create()

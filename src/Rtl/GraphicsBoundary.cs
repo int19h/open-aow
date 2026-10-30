@@ -70,6 +70,8 @@ public delegate void TKeyEvent(TObject sender, ref ushort key, TSet<TShiftState>
 // These VCL controls retain component identity. Native drawing awaits the platform layer.
 public class TControl : TComponent
 {
+    public TControl(TComponent? owner = null) : base(owner) { }
+    protected TControl(ConstructionContext? context, TComponent? owner) : base(context!, owner) { }
     public int Width, Height, Left, Top, Color;
     public int Cursor { get; set; }
     protected internal void SetCursor(int value) => Cursor = value;
@@ -84,9 +86,14 @@ public class TControl : TComponent
     protected internal virtual int GetPalette() => 0;
     protected internal virtual void WndProc(ref TMessage message) => throw new NotImplementedException("VCL.WndProc");
 }
-public class TCustomPanel : TWinControl { }
+public class TCustomPanel : TWinControl
+{
+    public TCustomPanel(TComponent? owner = null) : base(owner) { }
+ }
 public class TWinControl : TControl
 {
+    public TWinControl(TComponent? owner = null) : base(owner) { }
+    protected TWinControl(ConstructionContext? context, TComponent? owner) : base(context, owner) { }
     protected internal virtual void CreateParams(ref TCreateParams parameters) => throw new NotImplementedException("VCL.CreateParams");
     protected internal virtual void CreateWnd() => throw new NotImplementedException("VCL.CreateWnd");
     protected internal virtual void DestroyWnd() => throw new NotImplementedException("VCL.DestroyWnd");
@@ -109,6 +116,8 @@ public class TLabel : TControl { }
 public class TBevel : TControl { }
 public class TTabControl : TWinControl
 {
+    public TTabControl(TComponent? owner = null) : base(owner) { }
+
     protected internal virtual void Change() { }
 }
 public class TRegistry : TObject
@@ -133,7 +142,10 @@ public class TRegistry : TObject
     }
     public void WriteBinaryData(AnsiString name, ReadOnlySpan<byte> buffer, int size) => values.Write(key + "\\" + name.ToString(), buffer[..size].ToArray());
 }
-public class TIvTranslator : TIvCustomTranslator { }
+public class TIvTranslator : TIvCustomTranslator
+{
+    public TIvTranslator(TComponent? owner = null) : base(owner) { }
+ }
 public partial class TIvDictionary : TComponent
 {
     public AnsiString FFileName;
@@ -145,14 +157,17 @@ public class TIvBinaryDictionary : TIvDictionary { }
 public class Text : TObject { }
 public class TDataModule : TComponent
 {
-    // Raw construction serves the RTL-only layout-session fixtures.
-    public TDataModule() { }
     public TDataModule(TComponent? owner) : base(owner) { }
 }
 public class TMainForm : TForm { }
-public class TVideoPlayer : TComponent { }
+public class TVideoPlayer : TComponent
+{
+    public TVideoPlayer(TComponent? owner = null) : base(owner) { }
+ }
 public class TGDPlay : TComponent
 {
+    public TGDPlay(TComponent? owner = null) : base(owner) { }
+
     public TGUID AppGUID { get; set; }
     public bool Connected => false;
     public TConnectionType ConnectionType => TConnectionType.conNone;
@@ -169,6 +184,8 @@ public struct TPaletteEntry { public byte peRed, peGreen, peBlue, peFlags; }
 public enum TWindowState : byte { wsNormal, wsMinimized, wsMaximized }
 public class TCustomGrid : TWinControl
 {
+    public TCustomGrid(TComponent? owner = null) : base(owner) { }
+
     public int ColCount, RowCount;
     public int Col, Row, DefaultColWidth, DefaultRowHeight;
     public TScrollStyle ScrollBars;
@@ -180,15 +197,18 @@ public class TCustomGrid : TWinControl
 public enum TScrollStyle : byte { ssNone, ssHorizontal, ssVertical, ssBoth }
 public class TComboBox : TWinControl
 {
+    public TComboBox(TComponent? owner = null) : base(owner) { }
+
     protected internal virtual void Change() { }
     protected internal virtual void DropDown() { }
 }
 public class TListBox : TWinControl
 {
+    public TListBox(TComponent? owner = null) : base(owner) { }
+
 }
 public class TOpenDialog : TComponent
 {
-    public TOpenDialog() { }
     public TOpenDialog(TComponent owner) : base(owner) { }
     public AnsiString Filter, FileName, DefaultExt;
     public virtual bool Execute() => throw new NotImplementedException("VCL.OpenDialog");
@@ -209,7 +229,6 @@ public class TIToolServices : TObject
 public class THandleStream : TStream
 {
     // TFastLoadFileStream supplies its own managed file stream and skips handle setup.
-    protected THandleStream() { }
     public int Handle { get; protected set; }
     public THandleStream(int handle) => Handle = handle;
     public override int Read(Span<byte> buffer) => throw new NotImplementedException("HandleStream.Read");
