@@ -47,7 +47,7 @@ public sealed class MapNetSoundConstructionTests
     public void DirectMetaAndSavedIdKeepExactTypeOwnerAndState(Type type, bool owned)
     {
         if (EngineApi.Engines is null) EngineApi.Initialize();
-        var engine = TEngine.Create(null!);
+        var engine = new TEngine(null!);
         var owner = new Owner();
         TECustomNode argument = owned ? type == typeof(TMapContainer) ? new THSMap(null!) : owner : null!;
         var meta = (TEObject.Meta)MetaRegistry.Of(type);

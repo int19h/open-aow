@@ -120,8 +120,7 @@ public sealed class ClassFamilyTests
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-        var engine = new TEngine();
-        engine.Create__init(null!);
+        var engine = new TEngine(null!);
         try
         {
             var mapObjectEditor = EditorClass.Of<TAoWMapObjectEditor>();
@@ -166,8 +165,7 @@ public sealed class ClassFamilyTests
         // Item.Editor() to EditorClass.Edit to the done callback.
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
         var previous = Game.AoWEngine;
-        var engine = new TEngine();
-        engine.Create__init(null!);
+        var engine = new TEngine(null!);
         var items = new TItemList(engine.ControlNode);
         var grid = new TItemGrid { FStream = new TMemoryStream(), FItems = items };
         Game.AoWEngine = new TAoWEngine();

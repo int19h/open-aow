@@ -135,7 +135,7 @@ public sealed class MapNetSoundFailureTests
     public void ContainerCatchSeesTheFailedLevelAlreadyDetached()
     {
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-        var engine = TEngine.Create(null!);
+        var engine = new TEngine(null!);
         engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
         engine.RegisterEClasses([EClass.Of<FailingPublishedLevel>()]);
         var map = new THSMap(null!);
