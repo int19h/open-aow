@@ -517,9 +517,8 @@ namespace Aow.Units.Sound
         internal Aow.Units.Sound.TSFXList FSFX;
         // Sound.pas:407
         // { TSFXManager }
-        public TSFXManager(Aow.Rtl.TComponent AOwner)
+        public TSFXManager(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__3 = new Aow.Units.Sound.TSFXList();
             FSFX = call__3;
         }
@@ -647,6 +646,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:485
+        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
@@ -735,6 +735,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:579
+        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
@@ -850,11 +851,7 @@ namespace Aow.Units.Sound
 
         // Sound.pas:786
         // { TSonglist }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeSonglist(AOwner);
-        }
+
 
         // Sound.pas:794
         public override void Destroy()
@@ -1560,6 +1557,8 @@ namespace Aow.Units.Sound
 //     protected FChildren, which is probably what the original Engine unit had. }
     public partial class TENodeAccess : Aow.Units.Engine.TECustomNode
     {
+        public TENodeAccess(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         internal Aow.Units.Engine.TEObjectList FChildren;
     }
 

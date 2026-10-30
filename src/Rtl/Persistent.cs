@@ -40,6 +40,7 @@ public class TComponent : TPersistent
         context.Capture(this);
         InitializeComponentOwner(owner);
     }
+    // Retained for editor boundary stubs that skip owner insertion before throwing.
     public virtual void Create__init(TComponent? owner) => InitializeComponentOwner(owner);
     protected void InitializeComponentOwner(TComponent? owner) => owner?.InsertComponent(this);
     public new Meta ClassType => (Meta)base.ClassType;

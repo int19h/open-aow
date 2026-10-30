@@ -61,9 +61,8 @@ namespace Aow.Units.SummonSpells
         }
 
         // SummonSpells.pas:159
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TSummonSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Units.AoWE.TUnitIndexList();
             FUnitIndices = call__1;
         }
@@ -187,21 +186,7 @@ namespace Aow.Units.SummonSpells
         }
 
         // SummonSpells.pas:34
-        public static new Aow.Units.SummonSpells.TSummonSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.SummonSpells.TSummonSpellTE o = new Aow.Units.SummonSpells.TSummonSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
@@ -316,7 +301,7 @@ namespace Aow.Units.SummonSpells
             Aow.Rtl.AnsiString Reason = default;
             if (CanActivate(A1, ref Reason))
             {
-                Event = Aow.Units.SummonSpells.TSummonSpellTE.Create(null);
+                Event = new Aow.Units.SummonSpells.TSummonSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 SetupSummonSpellTE(Event);
                 var call__34 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);

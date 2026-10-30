@@ -138,13 +138,6 @@ namespace Aow.Units.GlobalTargetSpells
             InitializeConstruction();
         }
 
-        // Legacy descendants outside this brief still enter this body through their initializer.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeConstruction();
-        }
-
         private void InitializeConstruction()
         {
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
@@ -310,6 +303,8 @@ namespace Aow.Units.GlobalTargetSpells
     // { TFreezeWaterTE (instance size 36, VMT 5579CDE0) }
     public partial class TFreezeWaterTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TFreezeWaterTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public new const int ClassID = 135939;
 
         // GlobalTargetSpells.pas:679
@@ -393,7 +388,7 @@ namespace Aow.Units.GlobalTargetSpells
                 Ice = (Aow.Units.AoWE.TFrozenWaterHS)MapF.FindOwnedHS(typeof(Aow.Units.AoWE.TFrozenWaterHS));
                 if (Ice == null)
                 {
-                    Ice = Aow.Units.AoWE.TFrozenWaterHS.Create(null);
+                    Ice = new Aow.Units.AoWE.TFrozenWaterHS(null);
                     Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
                 }
 
@@ -404,21 +399,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalTargetSpells.TFreezeWaterTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TFreezeWaterTE o = new Aow.Units.GlobalTargetSpells.TFreezeWaterTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -475,7 +456,7 @@ namespace Aow.Units.GlobalTargetSpells
         {
             bool Result = default;
             Aow.Units.GlobalTargetSpells.TFreezeWaterTE Event = default;
-            Event = Aow.Units.GlobalTargetSpells.TFreezeWaterTE.Create(null);
+            Event = new Aow.Units.GlobalTargetSpells.TFreezeWaterTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__36 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -492,6 +473,8 @@ namespace Aow.Units.GlobalTargetSpells
     // { TFireBarrierTE (instance size 36, VMT 5579CFFC) }
     public partial class TFireBarrierTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TFireBarrierTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public new const int ClassID = 135940;
 
         // GlobalTargetSpells.pas:873
@@ -554,21 +537,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalTargetSpells.TFireBarrierTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TFireBarrierTE o = new Aow.Units.GlobalTargetSpells.TFireBarrierTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -622,7 +591,7 @@ namespace Aow.Units.GlobalTargetSpells
         {
             bool Result = default;
             Aow.Units.GlobalTargetSpells.TFireBarrierTE Event = default;
-            Event = Aow.Units.GlobalTargetSpells.TFireBarrierTE.Create(null);
+            Event = new Aow.Units.GlobalTargetSpells.TFireBarrierTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__51 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -686,6 +655,8 @@ namespace Aow.Units.GlobalTargetSpells
     // { TLevelTerrainTE (instance size 36, VMT 5579D218) }
     public partial class TLevelTerrainTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TLevelTerrainTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // GlobalTargetSpells.pas:940
         public new const int ClassID = 135945;
 
@@ -742,21 +713,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalTargetSpells.TLevelTerrainTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TLevelTerrainTE o = new Aow.Units.GlobalTargetSpells.TLevelTerrainTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -808,7 +765,7 @@ namespace Aow.Units.GlobalTargetSpells
         {
             bool Result = default;
             Aow.Units.GlobalTargetSpells.TLevelTerrainTE Event = default;
-            Event = Aow.Units.GlobalTargetSpells.TLevelTerrainTE.Create(null);
+            Event = new Aow.Units.GlobalTargetSpells.TLevelTerrainTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -872,6 +829,8 @@ namespace Aow.Units.GlobalTargetSpells
     // { TRejuvenateTE (instance size 36, VMT 5579D434) }
     public partial class TRejuvenateTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TRejuvenateTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // GlobalTargetSpells.pas:1036
         public new const int ClassID = 135952;
 
@@ -925,21 +884,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalTargetSpells.TRejuvenateTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TRejuvenateTE o = new Aow.Units.GlobalTargetSpells.TRejuvenateTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -991,7 +936,7 @@ namespace Aow.Units.GlobalTargetSpells
         {
             bool Result = default;
             Aow.Units.GlobalTargetSpells.TRejuvenateTE Event = default;
-            Event = Aow.Units.GlobalTargetSpells.TRejuvenateTE.Create(null);
+            Event = new Aow.Units.GlobalTargetSpells.TRejuvenateTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__85 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -1077,9 +1022,8 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1203
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TWatcherHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__89 = new Aow.Units.GlobalTargetSpells.TWatcherEnchantment(null);
             FEnchantment = call__89;
             FEnchantment.FWatcher = this;
@@ -1515,21 +1459,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:172
-        public static new Aow.Units.GlobalTargetSpells.TWatcherHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TWatcherHS o = new Aow.Units.GlobalTargetSpells.TWatcherHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
@@ -1548,6 +1478,8 @@ namespace Aow.Units.GlobalTargetSpells
     // { TWatcherTE (instance size 36, VMT 5579D92C) }
     public partial class TWatcherTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TWatcherTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // GlobalTargetSpells.pas:1476
         public new const int ClassID = 135963;
 
@@ -1558,7 +1490,7 @@ namespace Aow.Units.GlobalTargetSpells
             Aow.Units.GlobalTargetSpells.TWatcherHS Watcher = default;
             base.Process(A1, A2);
             PlayDefaultEffects(unchecked((sbyte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).X), unchecked((sbyte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Y), unchecked((sbyte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Layer));
-            Watcher = Aow.Units.GlobalTargetSpells.TWatcherHS.Create(null);
+            Watcher = new Aow.Units.GlobalTargetSpells.TWatcherHS(null);
             Watcher.FEnchantment.FPlayerIndex = unchecked((sbyte)A1.FPlayer);
             var call__147 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(57);
             Watcher.FEnchantment.FEnchantmentManaUpkeep = call__147.FManaUpkeep;
@@ -1576,21 +1508,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalTargetSpells.TWatcherTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TWatcherTE o = new Aow.Units.GlobalTargetSpells.TWatcherTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -1634,7 +1552,7 @@ namespace Aow.Units.GlobalTargetSpells
             var call__152 = call__151.GetBusy();
             if (!call__152)
             {
-                Event = Aow.Units.GlobalTargetSpells.TWatcherTE.Create(null);
+                Event = new Aow.Units.GlobalTargetSpells.TWatcherTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
                 var call__153 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -1681,9 +1599,8 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1547
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TTornadoTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FArmyID = null;
         }
 
@@ -2018,21 +1935,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:215
-        public static new Aow.Units.GlobalTargetSpells.TTornadoTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TTornadoTE o = new Aow.Units.GlobalTargetSpells.TTornadoTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -2078,7 +1981,7 @@ namespace Aow.Units.GlobalTargetSpells
             var call__206 = call__205.GetBusy();
             if (!call__206)
             {
-                Event = Aow.Units.GlobalTargetSpells.TTornadoTE.Create(null);
+                Event = new Aow.Units.GlobalTargetSpells.TTornadoTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
                 var call__207 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(A2, A3, A4);
@@ -2230,9 +2133,8 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1893
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TVortexTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FArmyID = null;
         }
 
@@ -2441,21 +2343,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:242
-        public static new Aow.Units.GlobalTargetSpells.TVortexTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TVortexTE o = new Aow.Units.GlobalTargetSpells.TVortexTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -2502,7 +2390,7 @@ namespace Aow.Units.GlobalTargetSpells
             var call__245 = call__244.GetBusy();
             if (!call__245)
             {
-                Event = Aow.Units.GlobalTargetSpells.TVortexTE.Create(null);
+                Event = new Aow.Units.GlobalTargetSpells.TVortexTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
                 var call__246 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(A2, A3, A4);
@@ -2572,6 +2460,8 @@ namespace Aow.Units.GlobalTargetSpells
     // { THealingShowersTE (instance size 40, VMT 5579DF48): $24 animation. }
     public partial class THealingShowersTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public THealingShowersTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // GlobalTargetSpells.pas:2138
         public new const int ClassID = 135975;
 
@@ -2815,21 +2705,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalTargetSpells.THealingShowersTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.THealingShowersTE o = new Aow.Units.GlobalTargetSpells.THealingShowersTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -2880,7 +2756,7 @@ namespace Aow.Units.GlobalTargetSpells
         {
             bool Result = default;
             Aow.Units.GlobalTargetSpells.THealingShowersTE Event = default;
-            Event = Aow.Units.GlobalTargetSpells.THealingShowersTE.Create(null);
+            Event = new Aow.Units.GlobalTargetSpells.THealingShowersTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__290 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -3032,6 +2908,8 @@ namespace Aow.Units.GlobalTargetSpells
 //     its P7 descendants. This call-only view uses the original VMT slots. }
     public partial class TGlobalTargetSpellCalls : Aow.Units.AoWE.TSpell
     {
+        public TGlobalTargetSpellCalls(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // GlobalTargetSpells.pas:303
         public virtual void ShowSelection(Aow.Units.AoWE.TTargetSelectionControl Target, int HN, int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
         {

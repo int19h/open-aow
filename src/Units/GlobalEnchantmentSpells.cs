@@ -39,6 +39,8 @@ namespace Aow.Units.GlobalEnchantmentSpells
     // { TGlobalEnchantmentSpellTE (instance size 36, VMT 557ED91C): $20 FEnchantment. }
     public partial class TGlobalEnchantmentSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        public TGlobalEnchantmentSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // GlobalEnchantmentSpells.pas:389
         public new const int ClassID = 135954;
 
@@ -89,21 +91,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpellTE o = new Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
@@ -247,7 +235,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
 
             if (bool__14)
             {
-                Event = Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpellTE.Create(null);
+                Event = new Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__17 = CreateEnchantment();
                 Event.FEnchantment = call__17;

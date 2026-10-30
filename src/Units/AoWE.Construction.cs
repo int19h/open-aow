@@ -1,4 +1,4 @@
 namespace Aow.Units.AoWE;
 
-// Distinguishes the tactical selector raw route from completed no-argument construction.
+// Distinguishes fixture and tactical selector raw routes from completed construction.
 internal readonly struct RawAoWERuleConstruction { }

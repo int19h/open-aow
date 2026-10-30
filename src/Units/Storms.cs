@@ -392,7 +392,7 @@ namespace Aow.Units.Storms
                 Ice = (Aow.Units.AoWE.TFrozenWaterHS)MapF.FindOwnedHS(typeof(Aow.Units.AoWE.TFrozenWaterHS));
                 if (Ice == null)
                 {
-                    Ice = Aow.Units.AoWE.TFrozenWaterHS.Create(null);
+                    Ice = new Aow.Units.AoWE.TFrozenWaterHS(null);
                     Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
                 }
 

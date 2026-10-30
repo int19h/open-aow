@@ -4272,7 +4272,7 @@ namespace Aow.Units.CombatTE
             if (bool__702)
             {
                 Path = new Aow.Units.AoWE.TMovepath();
-                Multi = Aow.Units.AoWE.TMultiMoveTE.Create(null);
+                Multi = new Aow.Units.AoWE.TMultiMoveTE(null);
                 Multi.FSimultaneous = false;
                 Moves.CalculateMovePositions(Aow.Units.CombatTE.CombatTE.ValidateTCMovePosition);
                 {

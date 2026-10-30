@@ -61,6 +61,7 @@ namespace Aow.Units.ItemGrid
         }
 
         // ItemGrid.pas:108
+        // Retained: The Controls.ControlStyle implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Controls.ControlStyle */

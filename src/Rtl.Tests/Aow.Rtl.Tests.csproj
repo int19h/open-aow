@@ -5,6 +5,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LeftoverConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.LeftoverConstructionBaseline.json" />
     <EmbeddedResource Include="UiConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.UiConstructionBaseline.json" />
     <EmbeddedResource Include="UiConstructionFailureBaseline.json" LogicalName="Aow.Rtl.Tests.UiConstructionFailureBaseline.json" />
     <EmbeddedResource Include="ImageClassBaseline.json" LogicalName="Aow.Rtl.Tests.ImageClassBaseline.json" />

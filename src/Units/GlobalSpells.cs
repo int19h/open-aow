@@ -57,9 +57,8 @@ namespace Aow.Units.GlobalSpells
 
         // GlobalSpells.pas:199
         // { needs: pointer and Boolean results on the shared procedure drafts. }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TConcealAreaHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Units.Engine.TIntegerList();
             FHexagons = call__1;
         }
@@ -176,21 +175,7 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:39
-        public static new Aow.Units.GlobalSpells.TConcealAreaHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalSpells.TConcealAreaHS o = new Aow.Units.GlobalSpells.TConcealAreaHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { draft }
@@ -227,7 +212,7 @@ namespace Aow.Units.GlobalSpells
             A2.GetLocation(ref X, ref Y, ref Layer);
             if (A2.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
             {
-                Conceal = Aow.Units.GlobalSpells.TConcealAreaHS.Create(null);
+                Conceal = new Aow.Units.GlobalSpells.TConcealAreaHS(null);
                 Conceal.StartAnimation(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 14);
             }
 
@@ -410,9 +395,8 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:406
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TBirdsViewHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__40 = new Aow.Units.Engine.TIntegerList();
             FHexagons = call__40;
         }
@@ -526,21 +510,7 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:67
-        public static new Aow.Units.GlobalSpells.TBirdsViewHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalSpells.TBirdsViewHS o = new Aow.Units.GlobalSpells.TBirdsViewHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { draft }
@@ -572,7 +542,7 @@ namespace Aow.Units.GlobalSpells
             A2.GetLocation(ref X, ref Y, ref Layer);
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == A2.FPlayer)
             {
-                var birdsViewHS = Aow.Units.GlobalSpells.TBirdsViewHS.Create(null);
+                var birdsViewHS = new Aow.Units.GlobalSpells.TBirdsViewHS(null);
                 birdsViewHS.StartAnimation(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 14);
             }
 
@@ -673,9 +643,8 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:552
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TWarpPartyTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FArmyID = null;
         }
 
@@ -811,21 +780,7 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:92
-        public static new Aow.Units.GlobalSpells.TWarpPartyTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalSpells.TWarpPartyTE o = new Aow.Units.GlobalSpells.TWarpPartyTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
@@ -874,7 +829,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__86)
             {
-                Event = Aow.Units.GlobalSpells.TWarpPartyTE.Create(null);
+                Event = new Aow.Units.GlobalSpells.TWarpPartyTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__89 = ((Aow.Units.AoWE.TArmy)A1.Owner).CreateID(255);
                 Event.FArmyID = call__89;
@@ -1674,6 +1629,8 @@ namespace Aow.Units.GlobalSpells
     // { TDisjunctionTE (instance size 40, VMT 557E9A24): $20 dispel chance, $24 enchantment ID. }
     public partial class TDisjunctionTE : Aow.Units.AoWE.TSpellTE
     {
+        public TDisjunctionTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // GlobalSpells.pas:745
         public new const int ClassID = 135961;
 
@@ -1773,21 +1730,7 @@ namespace Aow.Units.GlobalSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalSpells.TDisjunctionTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalSpells.TDisjunctionTE o = new Aow.Units.GlobalSpells.TDisjunctionTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
@@ -1885,7 +1828,7 @@ namespace Aow.Units.GlobalSpells
                 var call__259 = call__258.GetBusy();
                 if (!call__259)
                 {
-                    Event = Aow.Units.GlobalSpells.TDisjunctionTE.Create(null);
+                    Event = new Aow.Units.GlobalSpells.TDisjunctionTE(null);
                     var call__260 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(51);
                     Event.Initialize(FCasterSpellID, unchecked((byte)Source.FPlayer), Source.FUnitID, call__260.FBaseManaCost);
                     Event.FEnchantmentID = FEnchantmentID;

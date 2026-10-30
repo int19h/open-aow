@@ -2645,6 +2645,7 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:8721
         // { TDrawPanel }
+        // Retained: The ExtCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary ExtCtrls.Create */
@@ -2731,6 +2732,7 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:966
         // { TOpenImageFileDialog }
+        // Retained: The Dialogs.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Dialogs.Create */

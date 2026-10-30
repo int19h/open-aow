@@ -54,6 +54,7 @@ namespace Aow.Units.UnitTabC
         }
 
         // UnitTabC.pas:35
+        // Retained: The ComCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary ComCtrls.Create */
