@@ -648,7 +648,8 @@ namespace Aow.Units.AoWRealm
         public void T2WallLBDrawItem(Aow.Units.AoWComp.TAoWComponent Sender, in Aow.Rtl.TRect DrawRect, int DrawItem, ref Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
             var call__62 = T2WallLB.Items[DrawItem];
-            switch (call__62.AsPtr().Value)
+            ReadOnlySpan<byte> text = Aow.Rtl.Rtl.StringBytes(call__62);
+            switch ((text.IsEmpty ? (byte)0 : text[0]))
             {
                 case 49:
                     var call__63 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[7];
@@ -762,7 +763,8 @@ namespace Aow.Units.AoWRealm
         {
             int Icon = default;
             var call__77 = T2MorLB.Items[DrawItem];
-            Icon = ((int)call__77.AsPtr().Value) - ((int)48);
+            ReadOnlySpan<byte> text = Aow.Rtl.Rtl.StringBytes(call__77);
+            Icon = ((int)(text.IsEmpty ? (byte)0 : text[0])) - ((int)48);
             var call__78 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[Icon + 9];
             var call__79 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[Icon + 9];
             call__79.ShowClipped((DrawRect.Left + ((DrawRect.Right - DrawRect.Left) / 2)) - (call__78.Width / 2), DrawRect.Top, SurfDesc);
@@ -927,7 +929,8 @@ namespace Aow.Units.AoWRealm
         {
             byte Icon = default;
             var call__111 = T2ActLB.Items[DrawItem];
-            Icon = unchecked((byte)call__111.AsPtr().Value);
+            ReadOnlySpan<byte> text = Aow.Rtl.Rtl.StringBytes(call__111);
+            Icon = unchecked((byte)(text.IsEmpty ? (byte)0 : text[0]));
             if (Icon != 45)
             {
                 var call__112 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[((int)Icon) - 23];
@@ -948,7 +951,8 @@ namespace Aow.Units.AoWRealm
         {
             int Icon = default;
             var call__114 = T2RelLB.Items[DrawItem];
-            Icon = ((int)call__114.AsPtr().Value) - ((int)48);
+            ReadOnlySpan<byte> text = Aow.Rtl.Rtl.StringBytes(call__114);
+            Icon = ((int)(text.IsEmpty ? (byte)0 : text[0])) - ((int)48);
             var call__115 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[Icon + 14];
             var call__116 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[Icon + 14];
             call__116.ShowClipped((DrawRect.Left + ((DrawRect.Right - DrawRect.Left) / 2)) - (call__115.Width / 2), DrawRect.Top, SurfDesc);

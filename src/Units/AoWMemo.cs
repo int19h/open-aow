@@ -165,7 +165,7 @@ namespace Aow.Units.AoWMemo
             int I = default;
             int Len = default;
             int W = default;
-            Ptr<byte> P = default;
+            ReadOnlySpan<byte> text = default;
             Aow.Rtl.AnsiString S = default;
             int J = default;
             int Start = default;
@@ -249,9 +249,10 @@ namespace Aow.Units.AoWMemo
                     }
 
                     var call__22 = FItems[I];
-                    P = Ptr<byte>.Unbox(call__22);
-                    Len = AnsiString.FromPChar(P).Length;
-                    if ((Len > 6) && (P.Value == FColorChangeChar))
+                    AnsiString item = Aow.Rtl.Rtl.NullTerminatedText(call__22);
+                    text = Aow.Rtl.Rtl.StringBytes(item);
+                    Len = text.Length;
+                    if ((Len > 6) && (text[0] == FColorChangeChar))
                     {
                         var call__23 = FColorList[FColorList.Count - 1];
                         CC = (Aow.Units.AoWMemo.TColorChange)call__23;
@@ -271,9 +272,9 @@ namespace Aow.Units.AoWMemo
 
                     while (J < Len)
                     {
-                        if ((P[J] == 32) || (J == (Len - 1)))
+                        if ((text[J] == 32) || (J == (Len - 1)))
                         {
-                            S = Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), Start + 1, (J + 1) - Start);
+                            S = Aow.Rtl.Rtl.Copy(item, Start + 1, (J + 1) - Start);
                             var call__25 = FAOWFont.GetTextWidth(S);
                             TW = call__25;
                             if ((W + TW) > FWinWidth)

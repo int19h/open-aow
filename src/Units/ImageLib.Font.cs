@@ -9,7 +9,7 @@ public partial class TImageLibraryFont
     internal int TextWidth(AnsiString text)
     {
         int width = 0;
-        foreach (byte character in text.Span)
+        foreach (byte character in Aow.Rtl.Rtl.StringBytes(text))
         {
             var image = GetSafe(character);
             width += (image?.Width ?? 5) + FCharacterDistance;
@@ -19,7 +19,7 @@ public partial class TImageLibraryFont
 
     internal void ShowText(int x, int y, AnsiString text, in TSurfaceDesc sd)
     {
-        foreach (byte character in text.Span)
+        foreach (byte character in Aow.Rtl.Rtl.StringBytes(text))
         {
             var image = GetSafe(character);
             if (image != null) image.Show(x, y, sd);

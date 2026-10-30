@@ -9314,8 +9314,13 @@ namespace Aow.Units.ImageLib
         {
             int L = default;
             Stream.Read(Aow.Rtl.Bytes.Of(ref L, 4));
-            S = S.Resized(L);
-            Aow.Rtl.Rtl.ReadString(Stream, ref S, 1 - 1, L, false);
+            if (L < 0) throw new ERangeError("Negative string length");
+            byte[] buffer = new byte[L];
+            Aow.Rtl.Rtl.StringBytes(S)[..Math.Min(S.Length, L)].CopyTo(buffer);
+            // A failed read leaves the resized value in the destination.
+            S = AnsiString.FromBytes(buffer);
+            Stream.Read(buffer);
+            S = AnsiString.FromBytes(buffer);
         }
 
         // ImageLib.pas:6568

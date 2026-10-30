@@ -160,7 +160,7 @@ namespace Aow.Units.AoWHTMLMemo
             int TextEnd = default;
             int TagStart = default;
             byte C = default;
-            Ptr<byte> P = default;
+            ReadOnlySpan<byte> text = default;
             Aow.Rtl.AnsiString S = default;
             int K = default;
             int V = default;
@@ -358,8 +358,9 @@ namespace Aow.Units.AoWHTMLMemo
                     for (; I <= end__21; I += 1)
                     {
                         var call__22 = FItems[I];
-                        P = Ptr<byte>.Unbox(call__22);
-                        Last = AnsiString.FromPChar(P).Length - 1;
+                        AnsiString item = Aow.Rtl.Rtl.NullTerminatedText(call__22);
+                        text = Aow.Rtl.Rtl.StringBytes(item);
+                        Last = text.Length - 1;
                         TextStart = 0;
                         TextEnd = -1;
                         TagStart = 0;
@@ -368,7 +369,7 @@ namespace Aow.Units.AoWHTMLMemo
                             int end__23 = Last;
                             for (; J <= end__23; J += 1)
                             {
-                                C = unchecked((byte)P[J]);
+                                C = unchecked((byte)text[J]);
                                 switch (State)
                                 {
                                     case Aow.Units.AoWHTMLMemo.TIntParseMode.pNone:
@@ -387,13 +388,13 @@ namespace Aow.Units.AoWHTMLMemo
                                         switch (C)
                                         {
                                             case 62:
-                                                ParseTag(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart));
+                                                ParseTag(Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart));
                                                 State = Aow.Units.AoWHTMLMemo.TIntParseMode.pNone;
                                                 TextStart = J + 1;
                                                 break;
                                             case 32:
                                             case 61:
-                                                ParseTag(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart));
+                                                ParseTag(Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart));
                                                 TagStart = J + 1;
                                                 break;
                                         }
@@ -405,7 +406,7 @@ namespace Aow.Units.AoWHTMLMemo
                                             var call__24 = FLines[LineIdx];
                                             CI.FPos = call__24.Length;
                                             CI.FLine = LineIdx;
-                                            CI.FFont = Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart);
+                                            CI.FFont = Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart);
                                             if (CI.FFont != ((AnsiString)""))
                                             {
                                                 var call__25 = LoadFont(CI.FFont);
@@ -437,7 +438,7 @@ namespace Aow.Units.AoWHTMLMemo
                                             CI.FLine = LineIdx;
                                             try
                                             {
-                                                CI.FHeight = Aow.Rtl.Rtl.StrToInt(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart));
+                                                CI.FHeight = Aow.Rtl.Rtl.StrToInt(Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart));
                                             }
                                             catch (System.Exception)
                                             {
@@ -471,7 +472,7 @@ namespace Aow.Units.AoWHTMLMemo
                                                     byte end__28 = 5;
                                                     for (; K <= end__28; K += 1)
                                                     {
-                                                        V = (int)P[TagStart + K];
+                                                        V = (int)text[TagStart + K];
                                                         if (V < 58)
                                                         {
                                                             V = V - 48;
@@ -509,7 +510,7 @@ namespace Aow.Units.AoWHTMLMemo
                                             CI.FLine = LineIdx;
                                             try
                                             {
-                                                CI.FSpacing = Aow.Rtl.Rtl.StrToInt(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart));
+                                                CI.FSpacing = Aow.Rtl.Rtl.StrToInt(Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart));
                                                 if (FAOWFont != null)
                                                 {
                                                     FAOWFont.CharacterDistance = CI.FSpacing;
@@ -536,7 +537,7 @@ namespace Aow.Units.AoWHTMLMemo
                                     case Aow.Units.AoWHTMLMemo.TIntParseMode.pAlign:
                                         if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                                         {
-                                            S = Aow.Rtl.Rtl.UpperCase(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart));
+                                            S = Aow.Rtl.Rtl.UpperCase(Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart));
                                             var call__30 = FLines[LineIdx];
                                             CI.FPos = call__30.Length;
                                             CI.FLine = LineIdx;
@@ -575,12 +576,12 @@ namespace Aow.Units.AoWHTMLMemo
                                         {
                                             var call__31 = Aow.Rtl.Rtl.Application.ExeName;
                                             var call__32 = Aow.Rtl.Rtl.ExtractFilePath(call__31);
-                                            var call__33 = Aow.Rtl.Rtl.FileExists(call__32 + Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart));
+                                            var call__33 = Aow.Rtl.Rtl.FileExists(call__32 + Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart));
                                             if (call__33)
                                             {
                                                 var call__34 = Aow.Rtl.Rtl.Application.ExeName;
                                                 var call__35 = Aow.Rtl.Rtl.ExtractFilePath(call__34);
-                                                FImages.LoadFromFile(call__35 + Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart));
+                                                FImages.LoadFromFile(call__35 + Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart));
                                             }
 
                                             FILIndexTexture = 0;
@@ -602,7 +603,7 @@ namespace Aow.Units.AoWHTMLMemo
                                         {
                                             try
                                             {
-                                                FILIndexTexture = Aow.Rtl.Rtl.StrToInt(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, J - TagStart));
+                                                FILIndexTexture = Aow.Rtl.Rtl.StrToInt(Aow.Rtl.Rtl.Copy(item, TagStart + 1, J - TagStart));
                                             }
                                             catch (System.Exception)
                                             {
@@ -625,7 +626,7 @@ namespace Aow.Units.AoWHTMLMemo
 
                                 if (TextEnd >= TextStart)
                                 {
-                                    AddText(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TextStart + 1, (TextEnd - TextStart) + 1));
+                                    AddText(Aow.Rtl.Rtl.Copy(item, TextStart + 1, (TextEnd - TextStart) + 1));
                                     TextStart = TextEnd;
                                 }
                             }
@@ -636,14 +637,14 @@ namespace Aow.Units.AoWHTMLMemo
                             case Aow.Units.AoWHTMLMemo.TIntParseMode.pNone:
                                 if (TextStart <= Last)
                                 {
-                                    AddText(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TextStart + 1, (Last - TextStart) + 1));
+                                    AddText(Aow.Rtl.Rtl.Copy(item, TextStart + 1, (Last - TextStart) + 1));
                                 }
 
                                 break;
                             case Aow.Units.AoWHTMLMemo.TIntParseMode.pStart:
                                 if (TagStart <= Last)
                                 {
-                                    ParseTag(Aow.Rtl.Rtl.Copy(AnsiString.FromPChar(P), TagStart + 1, Last - TagStart));
+                                    ParseTag(Aow.Rtl.Rtl.Copy(item, TagStart + 1, Last - TagStart));
                                 }
 
                                 break;
