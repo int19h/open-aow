@@ -27,6 +27,7 @@ public sealed class StringPathTests
     [Fact]
     public void ExpandFileNameMatchesFilesProbeInputs()
     {
+        using var mode = new StringMode(false);
         foreach (string path in new[] { "", ".", "..", "probe-files\\alpha.TXT", ".\\probe-files\\d00\\..\\Beta.txt",
             "probe-files\\..", "probe-files\\missing\\..\\new.txt", "probe-files/alpha.TXT" })
             Assert.Equal(Rtl.ExpandFileName((AnsiString)path).ToString(), Rtl.ExpandFileName(path));
@@ -35,6 +36,7 @@ public sealed class StringPathTests
     [Fact]
     public void PathsAcceptNullAndPreserveHostCharacters()
     {
+        using var mode = new StringMode(false);
         foreach (Func<string?, string> function in new Func<string?, string>[] {
             Rtl.ExtractFileName, Rtl.ExtractFilePath, Rtl.ExtractFileDir, Rtl.ExtractFileExt,
             Rtl.ExtractFileDrive, Rtl.ExpandFileName }) Assert.Equal("", function(null));
