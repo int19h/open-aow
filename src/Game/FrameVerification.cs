@@ -14,8 +14,8 @@ internal static class FrameVerification
         var savedClock = Aow.Rtl.Rtl.Clock;
         Aow.Rtl.Rtl.Clock = clock;
         var host = new TestHost();
-        var display = TestDisplay.Create();
-        var controller = TSdlDC.Create(host);
+        var display = new TestDisplay();
+        var controller = new TSdlDC(host);
         int checks = 0;
         void Check(bool success, string label)
         {
@@ -81,8 +81,7 @@ internal static class FrameVerification
     }
     private sealed class TestDisplay : TDisplay
     {
-        private TestDisplay(ConstructionContext context) : base(context, null!) { }
-        internal static TestDisplay Create() => ConstructionContext.Create(static context => new TestDisplay(context));
+        public TestDisplay() : base(null!) { }
 
         public void SetUpdate(TUpdateFrameEvent action) => OnUpdateFrame = action;
     }

@@ -71,7 +71,8 @@ namespace Aow.Units.AoWDisjunctionDlg
     // { TDisjunctionDlg (instance size $B0, VMT 0043285C): $A4 caster, $A8 sort order, $AC..$AE map location. }
     public partial class TDisjunctionDlg : Aow.Rtl.TDataModule
     {
-        public TDisjunctionDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TDisjunctionDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
         // { +0044 }

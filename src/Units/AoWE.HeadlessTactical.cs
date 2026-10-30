@@ -171,7 +171,7 @@ public partial class TArmyCombatMoveTE
                 {
                     FArmyHS.CancelMove();
                     FArmyHS.FArmy.BeginUpdate();
-                    ArmyHS = Aow.Units.AoWE.TArmyHS.Create(null);
+                    ArmyHS = new Aow.Units.AoWE.TArmyHS(null);
                     ArmyHS.FArmy.BeginUpdate();
                     ArmyHS.FArmy.AssignSettings(FArmyHS.FArmy);
                     ArmyHS.FDirection = unchecked((byte)FArmyHS.FDirection);

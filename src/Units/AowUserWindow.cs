@@ -43,7 +43,8 @@ namespace Aow.Units.AowUserWindow
     // { TAoWUserWindow: instance size $1F4; $1EC extended drawing event. }
     public partial class TAoWUserWindow : Aow.Units.AoWWindow.TAOWWindow
     {
-        public TAoWUserWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TAoWUserWindow(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AowUserWindow.TDrawSurfaceExEvent FOnDrawSurfaceEx;
         // AowUserWindow.pas:29

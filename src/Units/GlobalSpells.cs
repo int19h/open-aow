@@ -57,7 +57,7 @@ namespace Aow.Units.GlobalSpells
 
         // GlobalSpells.pas:199
         // { needs: pointer and Boolean results on the shared procedure drafts. }
-        public TConcealAreaHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TConcealAreaHS(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Units.Engine.TIntegerList();
             FHexagons = call__1;
@@ -183,7 +183,7 @@ namespace Aow.Units.GlobalSpells
     public partial class TConcealArea : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:286
-        private protected TConcealArea(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TConcealArea(TECustomNode owner) : base(owner)
         {
             var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ConcealAreaRStr);
             FSpellName = call__11;
@@ -372,9 +372,6 @@ namespace Aow.Units.GlobalSpells
 
             return Result;
         }
-
-        public static new Aow.Units.GlobalSpells.TConcealArea Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TConcealArea(context, owner));
     }
 
     // { TBirdsViewHS (instance size 24, VMT 557E925C): $0C/$0D/$0E
@@ -395,7 +392,7 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:406
-        public TBirdsViewHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TBirdsViewHS(TECustomNode owner) : base(owner)
         {
             var call__40 = new Aow.Units.Engine.TIntegerList();
             FHexagons = call__40;
@@ -519,7 +516,7 @@ namespace Aow.Units.GlobalSpells
     public partial class TBirdsView : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:489
-        private protected TBirdsView(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TBirdsView(TECustomNode owner) : base(owner)
         {
             var call__50 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BirdsViewRStr);
             FSpellName = call__50;
@@ -612,9 +609,6 @@ namespace Aow.Units.GlobalSpells
 
             return Result;
         }
-
-        public static new Aow.Units.GlobalSpells.TBirdsView Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TBirdsView(context, owner));
     }
 
     // { TWarpPartyTE (instance size 40, VMT 557E94F4): $20 army ID, $24 packed destination. }
@@ -643,7 +637,7 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:552
-        public TWarpPartyTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TWarpPartyTE(TECustomNode owner) : base(owner)
         {
             FArmyID = null;
         }
@@ -789,7 +783,7 @@ namespace Aow.Units.GlobalSpells
     public partial class TWarpParty : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:632
-        private protected TWarpParty(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TWarpParty(TECustomNode owner) : base(owner)
         {
             var call__84 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WarpPartyRStr);
             FSpellName = call__84;
@@ -993,16 +987,13 @@ namespace Aow.Units.GlobalSpells
             Candidates.Free();
             return Result;
         }
-
-        public static new Aow.Units.GlobalSpells.TWarpParty Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWarpParty(context, owner));
     }
 
     // { TResurrectHero (instance size 52, VMT 557E96E0): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
     public partial class TResurrectHero : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:980
-        private protected TResurrectHero(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TResurrectHero(TECustomNode owner) : base(owner)
         {
             var call__115 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResurrectHeroRStr);
             FSpellName = call__115;
@@ -1172,16 +1163,13 @@ namespace Aow.Units.GlobalSpells
 
             return Result;
         }
-
-        public static new Aow.Units.GlobalSpells.TResurrectHero Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TResurrectHero(context, owner));
     }
 
     // { TAnimateHero (instance size 52, VMT 557E97FC): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
     public partial class TAnimateHero : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:1080
-        private protected TAnimateHero(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TAnimateHero(TECustomNode owner) : base(owner)
         {
             var call__147 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateHeroRStr);
             FSpellName = call__147;
@@ -1356,16 +1344,13 @@ namespace Aow.Units.GlobalSpells
 
             return Result;
         }
-
-        public static new Aow.Units.GlobalSpells.TAnimateHero Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAnimateHero(context, owner));
     }
 
     // { TCallHero (instance size 52, VMT 557E9914): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
     public partial class TCallHero : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:1184
-        private protected TCallHero(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TCallHero(TECustomNode owner) : base(owner)
         {
             var call__180 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CallHeroRStr);
             FSpellName = call__180;
@@ -1610,15 +1595,13 @@ namespace Aow.Units.GlobalSpells
             Heroes.Free();
             return Result;
         }
-
-        public static new Aow.Units.GlobalSpells.TCallHero Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCallHero(context, owner));
     }
 
     // { TDisjunctionTE (instance size 40, VMT 557E9A24): $20 dispel chance, $24 enchantment ID. }
     public partial class TDisjunctionTE : Aow.Units.AoWE.TSpellTE
     {
-        public TDisjunctionTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TDisjunctionTE(TECustomNode owner) : base(owner)
+        { }
 
         // GlobalSpells.pas:745
         public new const int ClassID = 135961;
@@ -1732,7 +1715,7 @@ namespace Aow.Units.GlobalSpells
         public int FDispelChance;
         // GlobalSpells.pas:806
         // { $18 }
-        public TDisjunctionSpellCaster(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDisjunctionSpellCaster(TECustomNode owner) : base(owner)
         {
             FDispelChance = 50;
         }
@@ -1937,7 +1920,7 @@ namespace Aow.Units.GlobalSpells
     public partial class TDisjunction : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:931
-        private protected TDisjunction(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TDisjunction(TECustomNode owner) : base(owner)
         {
             var call__270 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DisjunctionRStr);
             FSpellName = call__270;
@@ -2020,16 +2003,13 @@ namespace Aow.Units.GlobalSpells
 
             return Result;
         }
-
-        public static new Aow.Units.GlobalSpells.TDisjunction Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDisjunction(context, owner));
     }
 
     // { TCrusade (instance size 52, VMT 557E9CFC): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
     public partial class TCrusade : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:1302
-        private protected TCrusade(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TCrusade(TECustomNode owner) : base(owner)
         {
             var call__279 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CrusadeRStr);
             FSpellName = call__279;
@@ -2068,7 +2048,7 @@ namespace Aow.Units.GlobalSpells
                 var call__281 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(100);
                 if (call__281 < 20)
                 {
-                    Party = Aow.Units.AoWE.TArmyHS.Create(null);
+                    Party = new Aow.Units.AoWE.TArmyHS(null);
                     Party.FArmy.SetPlayer(0);
                     Count = 1;
                     var call__282 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(1);
@@ -2099,7 +2079,7 @@ namespace Aow.Units.GlobalSpells
                         byte end__285 = 1;
                         for (; I <= end__285; I += 1)
                         {
-                            Party = Aow.Units.AoWE.TArmyHS.Create(null);
+                            Party = new Aow.Units.AoWE.TArmyHS(null);
                             Party.FArmy.SetPlayer(0);
                             var call__286 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
                             Count = call__286 + 4;
@@ -2126,7 +2106,7 @@ namespace Aow.Units.GlobalSpells
                         }
                     }
 
-                    Party = Aow.Units.AoWE.TArmyHS.Create(null);
+                    Party = new Aow.Units.AoWE.TArmyHS(null);
                     Party.FArmy.SetPlayer(0);
                     var call__290 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
                     UnitIndex = call__290;
@@ -2249,9 +2229,6 @@ namespace Aow.Units.GlobalSpells
 
             return Result;
         }
-
-        public static new Aow.Units.GlobalSpells.TCrusade Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCrusade(context, owner));
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 110)]
@@ -2274,21 +2251,21 @@ namespace Aow.Units.GlobalSpells
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
             Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
-            var call__313 = Aow.Units.GlobalSpells.TConcealArea.Create(null);
+            var call__313 = new Aow.Units.GlobalSpells.TConcealArea(null);
             Control.RegisterSpell(call__313);
-            var call__314 = Aow.Units.GlobalSpells.TBirdsView.Create(null);
+            var call__314 = new Aow.Units.GlobalSpells.TBirdsView(null);
             Control.RegisterSpell(call__314);
-            var call__315 = Aow.Units.GlobalSpells.TWarpParty.Create(null);
+            var call__315 = new Aow.Units.GlobalSpells.TWarpParty(null);
             Control.RegisterSpell(call__315);
-            var call__316 = Aow.Units.GlobalSpells.TDisjunction.Create(null);
+            var call__316 = new Aow.Units.GlobalSpells.TDisjunction(null);
             Control.RegisterSpell(call__316);
-            var call__317 = Aow.Units.GlobalSpells.TResurrectHero.Create(null);
+            var call__317 = new Aow.Units.GlobalSpells.TResurrectHero(null);
             Control.RegisterSpell(call__317);
-            var call__318 = Aow.Units.GlobalSpells.TAnimateHero.Create(null);
+            var call__318 = new Aow.Units.GlobalSpells.TAnimateHero(null);
             Control.RegisterSpell(call__318);
-            var call__319 = Aow.Units.GlobalSpells.TCallHero.Create(null);
+            var call__319 = new Aow.Units.GlobalSpells.TCallHero(null);
             Control.RegisterSpell(call__319);
-            var call__320 = Aow.Units.GlobalSpells.TCrusade.Create(null);
+            var call__320 = new Aow.Units.GlobalSpells.TCrusade(null);
             Control.RegisterSpell(call__320);
         }
 

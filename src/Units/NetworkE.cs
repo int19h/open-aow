@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using static Aow.Units.Engine.Engine;
+using Aow.Units.NetworkE;
 
 namespace Aow.Units.NetworkE
 {
@@ -23,7 +24,7 @@ namespace Aow.Units.NetworkE
         internal Aow.Units.Engine.TEventList FOnProcess;
         // NetworkE.pas:605
         // { TPlayerCommunicator }
-        public TPlayerCommunicator(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPlayerCommunicator(TECustomNode owner) : base(owner)
         {
             FReceivedPackage = null;
             var call__1 = new Aow.Units.Engine.TEventList();
@@ -162,7 +163,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:950
         public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_TokenEvent;
 
-        public TTokenEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTokenEvent(TECustomNode owner) : base(owner)
         {
             FRefCount = 1;
             FTokenCounter = -1;
@@ -233,7 +234,7 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:982
         // { TTokenEventList }
-        public TTokenEventList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTokenEventList(TECustomNode owner) : base(owner)
         {
             var call__9 = new Aow.Units.Engine.TEReferenceNode(null);
             FList = call__9;
@@ -556,7 +557,7 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:1169
         // { TTokenControl }
-        public TTokenControl(Aow.Units.NetworkE.TTokenManager AManager, int APlayer)
+        public TTokenControl(TTokenManager AManager, int APlayer)
         {
             var call__38 = new Aow.Units.NetworkE.TTokenEventList(null);
             FEvents = call__38;
@@ -783,7 +784,7 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:1350
         // { TTokenExecuter }
-        public TTokenExecuter(Aow.Units.NetworkE.TTokenManager AManager)
+        public TTokenExecuter(TTokenManager AManager)
         {
             FTokenManager = AManager;
             var call__55 = new Aow.Units.NetworkE.TTokenEventList(null);
@@ -1161,9 +1162,9 @@ namespace Aow.Units.NetworkE
     public partial class TTokenManager : Aow.Rtl.TObject
     {
 
-        public TTokenManager(Aow.Rtl.TObject AOwner)
+        public TTokenManager(TObject owner)
         {
-            FOwner = AOwner;
+            FOwner = owner;
             var call__102 = new Aow.Rtl.TList();
             FTokenControls = call__102;
             var call__103 = CreateTokenExecuter();
@@ -1430,7 +1431,8 @@ namespace Aow.Units.NetworkE
 //     typecast of a field or parameter compiles to no code) }
     public partial class TENodeView : Aow.Units.Engine.TECustomNode
     {
-        public TENodeView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TENodeView(TECustomNode owner) : base(owner)
+        { }
 
         public Aow.Units.Engine.TEObjectList FChildren;
     }
@@ -1458,7 +1460,7 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:566
         // { TDataPackage }
-        public TDataPackage(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDataPackage(TECustomNode owner) : base(owner)
         {
             FRefCount = 1;
         }
@@ -1515,7 +1517,7 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:446
         // { TPlayerCommunicationSettings }
-        public TPlayerCommunicationSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPlayerCommunicationSettings(TECustomNode owner) : base(owner)
         {
             FConnectionMode = Aow.Units.NetworkE.TConnectionMode.cmLocal;
         }
@@ -1529,7 +1531,8 @@ namespace Aow.Units.NetworkE
 //     settings }
     public partial class TPlayerCommunicationSettingsList : Aow.Units.Engine.TENode
     {
-        public TPlayerCommunicationSettingsList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TPlayerCommunicationSettingsList(TECustomNode owner) : base(owner)
+        { }
 
         // NetworkE.pas:461
         // { TPlayerCommunicationSettingsList }
@@ -2137,7 +2140,7 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:1088
         // { TTokenPackage }
-        public TTokenPackage(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTokenPackage(TECustomNode owner) : base(owner)
         {
             var call__144 = new Aow.Units.NetworkE.TTokenEventList(null);
             FTokenEvents = call__144;
@@ -2209,7 +2212,7 @@ namespace Aow.Units.NetworkE
 
         // NetworkE.pas:1113
         // { TTokenPackageDistributer }
-        public TTokenPackageDistributer(Aow.Units.NetworkE.TTokenManager AManager)
+        public TTokenPackageDistributer(TTokenManager AManager)
         {
             FTokenManager = AManager;
         }
@@ -2258,7 +2261,8 @@ namespace Aow.Units.NetworkE
     {
         public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_PassTokenTE;
 
-        public TPassTokenTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TPassTokenTE(TECustomNode owner) : base(owner)
+        { }
 
     }
 
@@ -2268,7 +2272,8 @@ namespace Aow.Units.NetworkE
     {
         public new const int ClassID = Aow.Units.NetworkE.NetworkE.CID_SyncTE;
 
-        public TSyncTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TSyncTE(TECustomNode owner) : base(owner)
+        { }
 
         internal int FSyncValue;
         // NetworkE.pas:1738

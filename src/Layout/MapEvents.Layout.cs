@@ -17,7 +17,7 @@ namespace Aow.Units.aowMapEvents
         {
             session.Begin(this);
             Name = "MapEvents";
-            TheMap = Aow.Units.MapCtrl.TAoWMapControl.Create(this);
+            TheMap = new Aow.Units.MapCtrl.TAoWMapControl(this);
             session.BeginRead(TheMap);
             TheMap.Name = "TheMap";
             TheMap.OnArmySelected = Layout_TheMapArmySelected_0;

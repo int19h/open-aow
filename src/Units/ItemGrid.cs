@@ -62,7 +62,7 @@ namespace Aow.Units.ItemGrid
 
         // ItemGrid.pas:108
         // Retained: The Controls.ControlStyle implementation is absent. Preserve the throw before semantic base initialization.
-        public TItemGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TItemGrid(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary Controls.ControlStyle */
             throw new System.NotImplementedException();
@@ -214,7 +214,8 @@ namespace Aow.Units.ItemGrid
 
     public partial class TItemListView : Aow.Units.Engine.TEChangeNotifyNode
     {
-        public TItemListView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TItemListView(TECustomNode owner) : base(owner)
+        { }
 
         // ItemGrid.pas:57
         public virtual Aow.Units.AoWE.TItem GetItem(int Index)

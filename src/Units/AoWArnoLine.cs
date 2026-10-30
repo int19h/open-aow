@@ -62,9 +62,9 @@ namespace Aow.Units.AoWArnoLine
         }
 
         // AoWArnoLine.pas:41
-        public TAoWArnoLine(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAoWArnoLine(TComponent owner) : base(owner)
         {
-            var call__1 = Aow.Units.AOWInterfaceImgLib.TInterfaceIL.Create(this);
+            var call__1 = new Aow.Units.AOWInterfaceImgLib.TInterfaceIL(this);
             FLineLibrary = call__1;
         }
 

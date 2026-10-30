@@ -38,7 +38,7 @@ namespace Aow.Units.MagicSanctuary
 //     $0C FStructure; $10 FFadeEndFrame. }
     public partial class TMagicSanctuaryOverlayHS : Aow.Units.HSEngine.TSingleHS
     {
-        public TMagicSanctuaryOverlayHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMagicSanctuaryOverlayHS(TECustomNode owner) : base(owner)
         {
             FFadeEndFrame = -1;
         }
@@ -112,7 +112,7 @@ namespace Aow.Units.MagicSanctuary
     // { TMagicSanctuary (instance size 52, VMT 557D41F4): $30 FOverlayHS. }
     public partial class TMagicSanctuary : Aow.Units.AoWE.TStructure
     {
-        public TMagicSanctuary(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMagicSanctuary(TECustomNode owner) : base(owner)
         {
             var call__4 = new Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS(null);
             FOverlayHS = call__4;
@@ -174,7 +174,7 @@ namespace Aow.Units.MagicSanctuary
     // { TMagicSanctuaryResource (instance size 100, VMT 557D4464) }
     public partial class TMagicSanctuaryResource : Aow.Units.AoWE.TStructureResource
     {
-        public TMagicSanctuaryResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMagicSanctuaryResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = false;
             FRazeable = false;

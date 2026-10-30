@@ -17,7 +17,7 @@ namespace Aow.Units.FontMod
         {
             session.Begin(this);
             Name = "FontModule";
-            Age8 = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Age8 = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Age8);
             Age8.Name = "Age8";
             Age8.CharacterDistance = 0;
@@ -27,7 +27,7 @@ namespace Aow.Units.FontMod
             Age8.LoadOnDemand = true;
             Age8.FileName = "Int\\Fonts\\Age8.ILB";
             session.EndRead(Age8);
-            Age10 = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Age10 = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Age10);
             Age10.Name = "Age10";
             Age10.CharacterDistance = 1;
@@ -37,7 +37,7 @@ namespace Aow.Units.FontMod
             Age10.LoadOnDemand = true;
             Age10.FileName = "Int\\Fonts\\Age10.ILB";
             session.EndRead(Age10);
-            Age16s = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Age16s = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Age16s);
             Age16s.Name = "Age16s";
             Age16s.CharacterDistance = 0;
@@ -47,7 +47,7 @@ namespace Aow.Units.FontMod
             Age16s.LoadOnDemand = true;
             Age16s.FileName = "Int\\Fonts\\Age16s.ILB";
             session.EndRead(Age16s);
-            Age10s = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Age10s = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Age10s);
             Age10s.Name = "Age10s";
             Age10s.CharacterDistance = 1;
@@ -57,7 +57,7 @@ namespace Aow.Units.FontMod
             Age10s.LoadOnDemand = true;
             Age10s.FileName = "Int\\Fonts\\Age10s.ILB";
             session.EndRead(Age10s);
-            Age8s = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Age8s = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Age8s);
             Age8s.Name = "Age8s";
             Age8s.CharacterDistance = 0;
@@ -67,7 +67,7 @@ namespace Aow.Units.FontMod
             Age8s.LoadOnDemand = true;
             Age8s.FileName = "Int\\Fonts\\Age8s.ILB";
             session.EndRead(Age8s);
-            Sessis14G = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Sessis14G = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Sessis14G);
             Sessis14G.Name = "Sessis14G";
             Sessis14G.CharacterDistance = -2;
@@ -77,7 +77,7 @@ namespace Aow.Units.FontMod
             Sessis14G.LoadOnDemand = true;
             Sessis14G.FileName = "Int\\Fonts\\Age14G.ILB";
             session.EndRead(Sessis14G);
-            AoW15WhiteGrey = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            AoW15WhiteGrey = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(AoW15WhiteGrey);
             AoW15WhiteGrey.Name = "AoW15WhiteGrey";
             AoW15WhiteGrey.CharacterDistance = 0;
@@ -87,7 +87,7 @@ namespace Aow.Units.FontMod
             AoW15WhiteGrey.LoadOnDemand = true;
             AoW15WhiteGrey.FileName = "Int\\Fonts\\Age15WhGr.ILB";
             session.EndRead(AoW15WhiteGrey);
-            AoW15BlackBrown = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            AoW15BlackBrown = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(AoW15BlackBrown);
             AoW15BlackBrown.Name = "AoW15BlackBrown";
             AoW15BlackBrown.CharacterDistance = 0;
@@ -97,7 +97,7 @@ namespace Aow.Units.FontMod
             AoW15BlackBrown.LoadOnDemand = true;
             AoW15BlackBrown.FileName = "Int\\Fonts\\Age15BlBr.ILB";
             session.EndRead(AoW15BlackBrown);
-            Age10LB = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Age10LB = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Age10LB);
             Age10LB.Name = "Age10LB";
             Age10LB.CharacterDistance = 0;
@@ -107,7 +107,7 @@ namespace Aow.Units.FontMod
             Age10LB.LoadOnDemand = true;
             Age10LB.FileName = "Int\\Fonts\\Age10LB.ILB";
             session.EndRead(Age10LB);
-            Age10b = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Age10b = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Age10b);
             Age10b.Name = "Age10b";
             Age10b.CharacterDistance = 1;
@@ -117,7 +117,7 @@ namespace Aow.Units.FontMod
             Age10b.LoadOnDemand = true;
             Age10b.FileName = "INT\\Fonts\\Age10b.ILB";
             session.EndRead(Age10b);
-            Age10bs = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            Age10bs = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(Age10bs);
             Age10bs.Name = "Age10bs";
             Age10bs.CharacterDistance = 1;
@@ -127,7 +127,7 @@ namespace Aow.Units.FontMod
             Age10bs.LoadOnDemand = true;
             Age10bs.FileName = "INT\\Fonts\\Age10bs.ILB";
             session.EndRead(Age10bs);
-            TBarNumber = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+            TBarNumber = new Aow.Units.ImageLib.TImageLibraryFont(this);
             session.BeginRead(TBarNumber);
             TBarNumber.Name = "TBarNumber";
             TBarNumber.CharacterDistance = 0;

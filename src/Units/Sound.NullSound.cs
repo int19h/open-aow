@@ -47,11 +47,12 @@ public sealed class NullSoundSystem : TSoundSystem
     public override bool RestoreSongStatus(TSongStatus status) { song = status.FileName; return true; }
 }
 
-internal sealed class NullSample : TSample
+internal class NullSample : TSample
 {
-    private NullSample(ConstructionContext context, TSampleData data) : base(context, data) { }
+    private protected NullSample(ConstructionContext context, TSampleData data) : base(context, data)
+        { }
     public static new NullSample Create(TSampleData data) =>
-        ConstructionContext.Create(data, static (context, value) => new NullSample(context, value));
+            ConstructionContext.Create(data, static (context, value) => new NullSample(context, value));
     private int volume;
     private bool looped;
     private TSamplePanning panning;

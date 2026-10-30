@@ -23,11 +23,11 @@ public partial class TAoWBookWindow
                 var flags = direct.Status.Contains(TDDrawSurfaceStatusElement.ssVideoMemory) && FUseVMem
                     ? TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfVideoMemory, TDDSCreationFlagsElement.cfSystemMemory)
                     : TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfSystemMemory);
-                var page = TDDrawSurface.Create();
+                var page = new TDDrawSurface();
                 page.CreateSurface(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, flags);
                 FPageSurface = page;
             }
-            else FPageSurface = TDataSurface.Create(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, null);
+            else FPageSurface = new TDataSurface(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, null);
             FBackSurface.BltAreaClipped(FPageSurface, area, 0, 0);
         }
         if (!FAnimating)

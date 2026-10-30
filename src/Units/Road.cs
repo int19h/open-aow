@@ -22,7 +22,7 @@ namespace Aow.Units.Road
 //     pairs 2+6 and 3+5 become bits 7 and 6) }
     public partial class TRoad : Aow.Units.HSEngine.TAbstractRoad
     {
-        public TRoad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRoad(TECustomNode owner) : base(owner)
         {
         }
 
@@ -143,7 +143,7 @@ namespace Aow.Units.Road
     // { Road.TRoadResource (instance size 52) }
     public partial class TRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
-        public TRoadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRoadResource(TECustomNode owner) : base(owner)
         {}
 
         // Road.pas:136

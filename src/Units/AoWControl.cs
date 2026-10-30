@@ -36,7 +36,7 @@ namespace Aow.Units.AoWControl
         public Aow.Units.AOWToolTip.TAOWToolTip FToolTip;
         // AoWControl.pas:46
         // { TAOWControl }
-        public TAOWControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWControl(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FToolTipText = call__1;

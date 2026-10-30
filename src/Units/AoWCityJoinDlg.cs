@@ -63,7 +63,8 @@ namespace Aow.Units.AoWCityJoinDlg
     // { TCityJoinDlg (size $90, VMT 004371B4): $80 race, $84 completion event, $8C retained negotiation event. }
     public partial class TCityJoinDlg : Aow.Rtl.TDataModule
     {
-        public TCityJoinDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TCityJoinDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

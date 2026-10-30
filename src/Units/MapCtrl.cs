@@ -148,7 +148,7 @@ namespace Aow.Units.MapCtrl
         }
 
         // MapCtrl.pas:174
-        private protected TAoWMapControl(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TAoWMapControl(TComponent owner) : base(owner)
         {
             // { needs: ValidateAoWEngine returns Boolean; its implementation declaration is still a procedure. }
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
@@ -1105,10 +1105,6 @@ namespace Aow.Units.MapCtrl
 
         [Published]
         public Aow.Rtl.TNotifyEvent OnExitGame { get => FOnExitGameEvent; set => FOnExitGameEvent = value; }
-
-        // MapCtrl.pas:79
-        public static TAoWMapControl Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TAoWMapControl(context, owner));
     }
 
     public delegate void TMapEvent();

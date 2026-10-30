@@ -60,7 +60,8 @@ namespace Aow.Units.AoWNewTurnDialog
 //     (instance size 132, VMT 004391B0) }
     public partial class TNewTurnDlg : Aow.Rtl.TDataModule
     {
-        public TNewTurnDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TNewTurnDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow NewTDlg;
         // { +0044 }

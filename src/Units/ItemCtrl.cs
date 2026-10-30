@@ -64,7 +64,7 @@ namespace Aow.Units.ItemCtrl
 
         // ItemCtrl.pas:123
         // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public TItemControlGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TItemControlGrid(TComponent owner) : base(owner)
         {
 
             var call__1 = new Aow.Rtl.TMemoryStream();

@@ -59,7 +59,8 @@ namespace Aow.Units.AoWDeformFaceDlg
     // { TDeformFaceDlg: size $90; $8C cosmetic-surgery caster. VMT 00445340. }
     public partial class TDeformFaceDlg : Aow.Rtl.TDataModule
     {
-        public TDeformFaceDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TDeformFaceDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

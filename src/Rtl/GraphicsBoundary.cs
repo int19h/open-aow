@@ -71,7 +71,6 @@ public delegate void TKeyEvent(TObject sender, ref ushort key, TSet<TShiftState>
 public class TControl : TComponent
 {
     public TControl(TComponent? owner = null) : base(owner) { }
-    protected TControl(ConstructionContext? context, TComponent? owner) : base(context!, owner) { }
     public int Width, Height, Left, Top, Color;
     public int Cursor { get; set; }
     protected internal void SetCursor(int value) => Cursor = value;
@@ -93,7 +92,6 @@ public class TCustomPanel : TWinControl
 public class TWinControl : TControl
 {
     public TWinControl(TComponent? owner = null) : base(owner) { }
-    protected TWinControl(ConstructionContext? context, TComponent? owner) : base(context, owner) { }
     protected internal virtual void CreateParams(ref TCreateParams parameters) => throw new NotImplementedException("VCL.CreateParams");
     protected internal virtual void CreateWnd() => throw new NotImplementedException("VCL.CreateWnd");
     protected internal virtual void DestroyWnd() => throw new NotImplementedException("VCL.DestroyWnd");

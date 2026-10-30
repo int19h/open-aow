@@ -37,7 +37,7 @@ namespace Aow.Units.Merchant
     // { TMerchant (instance size 48, VMT 557C9C54) }
     public partial class TMerchant : Aow.Units.AoWE.TStructure
     {
-        public TMerchant(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMerchant(TECustomNode owner) : base(owner)
         {
         }
 
@@ -55,7 +55,7 @@ namespace Aow.Units.Merchant
     // { TMerchantResource (instance size 100, VMT 557C9EB4) }
     public partial class TMerchantResource : Aow.Units.AoWE.TStructureResource
     {
-        public TMerchantResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMerchantResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = false;
         }

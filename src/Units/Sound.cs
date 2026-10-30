@@ -517,7 +517,7 @@ namespace Aow.Units.Sound
         internal Aow.Units.Sound.TSFXList FSFX;
         // Sound.pas:407
         // { TSFXManager }
-        public TSFXManager(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TSFXManager(TComponent owner) : base(owner)
         {
             var call__3 = new Aow.Units.Sound.TSFXList();
             FSFX = call__3;
@@ -647,7 +647,7 @@ namespace Aow.Units.Sound
 
         // Sound.pas:485
 
-        public TSFXManagerComboBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TSFXManagerComboBox(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -719,7 +719,7 @@ namespace Aow.Units.Sound
 
         // Sound.pas:579
 
-        public TSFXManagerListBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TSFXManagerListBox(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -754,7 +754,7 @@ namespace Aow.Units.Sound
         // Sound.pas:801
         public new const int ClassID = 2162692;
 
-        public TSonglist(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSonglist(TECustomNode owner) : base(owner)
         {
             var call__11 = new Aow.Rtl.TStringList();
             FSongs = call__11;
@@ -1171,7 +1171,8 @@ namespace Aow.Units.Sound
     {
         public new const int ClassID = 2162689;
 
-        public TSFX(TECustomNode owner) : base(owner) { }
+        public TSFX(TECustomNode owner) : base(owner)
+        { }
 
         internal Aow.Rtl.AnsiString FFileName;
         // Sound.pas:1027
@@ -1212,7 +1213,8 @@ namespace Aow.Units.Sound
     {
         public new const int ClassID = 2162690;
 
-        public TSFXSequence(TECustomNode owner) : base(owner) { }
+        public TSFXSequence(TECustomNode owner) : base(owner)
+        { }
 
         internal int FID;
         // Sound.pas:1057
@@ -1282,7 +1284,8 @@ namespace Aow.Units.Sound
     {
         public new const int ClassID = 2162691;
 
-        public TSFXLibrary(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TSFXLibrary(TECustomNode owner) : base(owner)
+        { }
 
         // Sound.pas:1088
         public Aow.Units.Sound.TSFXSequence GetSFXSequence(int Index)
@@ -1470,7 +1473,8 @@ namespace Aow.Units.Sound
 //     protected FChildren, which is probably what the original Engine unit had. }
     public partial class TENodeAccess : Aow.Units.Engine.TECustomNode
     {
-        public TENodeAccess(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TENodeAccess(TECustomNode owner) : base(owner)
+        { }
 
         internal Aow.Units.Engine.TEObjectList FChildren;
     }

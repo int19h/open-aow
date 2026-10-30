@@ -63,7 +63,7 @@ internal static class FrameFixtureChecks
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psPlaying });
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psTerminated });
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psPlaying });
-            GameState.AoWHSMap = TAoWHSMap.Create(null!);
+            GameState.AoWHSMap = new TAoWHSMap(null!);
             GameState.AoWHSMap.FPlayers = players;
             var bar = new Aow.Units.AoWTBWindow.TTBWindow(null)
             {
@@ -145,7 +145,7 @@ internal static class FrameFixtureChecks
 
     private sealed class MovementArmy : TArmyHS
     {
-        public MovementArmy() : base(null!, null!) { }
+        public MovementArmy() : base(null!) { }
 
         public override void CalcShowPriority() { }
         public override sbyte GetLhx() => 0;

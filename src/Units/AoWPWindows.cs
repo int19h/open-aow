@@ -73,7 +73,8 @@ namespace Aow.Units.AoWPWindows
     // { TPopupWindows: size $78; $44..$74 published menu components. VMT 00427450. }
     public partial class TPopupWindows : Aow.Rtl.TDataModule
     {
-        public TPopupWindows(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TPopupWindows(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.StartMenu.TStartMenu StartMenu;
         // { +0044 }

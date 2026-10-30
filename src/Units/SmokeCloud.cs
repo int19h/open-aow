@@ -54,7 +54,7 @@ namespace Aow.Units.SmokeCloud
 
         public Aow.Units.SmokeCloud.TSmokeCloud FCloud;
         // SmokeCloud.pas:91
-        public TSmokeCloudEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSmokeCloudEnchantment(TECustomNode owner) : base(owner)
         {
             FEnchantmentMode = TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement>.FromMask((TSet<Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement>.FromMask((ulong)FEnchantmentMode.Mask) - TSet<Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement>.Of(Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement.ce0, Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement.ce1)).Mask);
             FDispelMana = 25;
@@ -96,7 +96,7 @@ namespace Aow.Units.SmokeCloud
 //     +$1C FDrifting, +$1D FDirection, +$1E FUpdated, +$1F FVisibleForSeatedPlayer, +$20 FEnchantment. }
     public partial class TSmokeCloud : Aow.Units.HSEngine.TMultiHexMO
     {
-        public TSmokeCloud(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSmokeCloud(TECustomNode owner) : base(owner)
         {
             var call__6 = new Aow.Units.SmokeCloud.TSmokeCloudEnchantment(null);
             FEnchantment = call__6;
@@ -459,7 +459,7 @@ namespace Aow.Units.SmokeCloud
     // { TSmokeCloudResource (instance size 68, VMT 5579C1E0) }
     public partial class TSmokeCloudResource : Aow.Units.HSEngine.TMultiHexMOR
     {
-        public TSmokeCloudResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSmokeCloudResource(TECustomNode owner) : base(owner)
         {}
 
         // SmokeCloud.pas:385

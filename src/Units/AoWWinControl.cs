@@ -82,7 +82,7 @@ namespace Aow.Units.AoWWinControl
         public bool FDockable;
         // AoWWinControl.pas:103
         // { TAOWWindowControl }
-        public TAOWWindowControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWWindowControl(TComponent owner) : base(owner)
         {
             FOldCursor = -2;
             FWindowCursor = -2;
@@ -313,7 +313,7 @@ namespace Aow.Units.AoWWinControl
                             Flags = TSet<Aow.Units.GFXE.TDDSCreationFlagsElement>.Of(Aow.Units.GFXE.TDDSCreationFlagsElement.cfSystemMemory);
                         }
 
-                        DDS = Aow.Units.GFXE.TDDrawSurface.Create();
+                        DDS = new Aow.Units.GFXE.TDDrawSurface();
                         FBackSurface = DDS;
                         var call__14 = Surface.GetPixelFormatID();
                         DDS.CreateSurface(FWinWidth, FWinHeight, call__14, Flags);
@@ -321,7 +321,7 @@ namespace Aow.Units.AoWWinControl
                     else
                     {
                         var call__15 = Surface.GetPixelFormatID();
-                        var call__16 = Aow.Units.GFXE.TDataSurface.Create(FWinWidth, FWinHeight, call__15, null);
+                        var call__16 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, call__15, null);
                         FBackSurface = call__16;
                     }
 

@@ -20,7 +20,8 @@ namespace Aow.Units.AOWInterfaceImgLib
     // { AOWInterfaceImgLib.TInterfaceIL (instance size 80): no fields or virtual methods of its own }
     public partial class TInterfaceIL : Aow.Units.ImageLib.TImageLibrary
     {
-        private protected TInterfaceIL(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
+        public TInterfaceIL(TComponent owner) : base(owner)
+        { }
 
         // AOWInterfaceImgLib.pas:34
         // { TInterfaceIL }
@@ -365,10 +366,6 @@ namespace Aow.Units.AOWInterfaceImgLib
             call__62.ShowClipped(R.Left, (R.Top + R.Bottom) - call__61.Height, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
-
-        // ImageLib.pas:111
-        public static new TInterfaceIL Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TInterfaceIL(context, owner));
     }
 
     public static partial class AOWInterfaceImgLib

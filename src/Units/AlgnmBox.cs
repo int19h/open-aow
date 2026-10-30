@@ -53,7 +53,7 @@ namespace Aow.Units.AlgnmBox
 
         // AlgnmBox.pas:54
 
-        public TAlignmentBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAlignmentBox(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();

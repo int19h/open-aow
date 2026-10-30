@@ -24,7 +24,7 @@ namespace Aow.Units.RndHex
     // { RndHex.TRndHexagonResource (instance size 56) }
     public partial class TRndHexagonResource : Aow.Units.Hexagon.THexagonResource
     {
-        public TRndHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRndHexagonResource(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 131412;

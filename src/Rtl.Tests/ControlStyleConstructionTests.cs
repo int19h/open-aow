@@ -125,18 +125,23 @@ public sealed class ControlStyleConstructionTests
     private sealed class FlagFixture : IDisposable
     {
         internal readonly FlagOwner Owner = new();
-        internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
+        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TILManagerObject Entry;
         private readonly TAoWHSSet previous = Game.AoWHSSet;
 
-        internal FlagFixture(bool loaded)
+        internal FlagFixture(bool loaded, string? directory = null)
         {
             Field(typeof(THSSet), "FImageLibraryManager").SetValue(Owner, Manager);
             Field(typeof(TImageLibraryManager), "FSearchPath").SetValue(Manager, (AnsiString)"9.3b-2-missing/");
             var disk = (TILManagerList)Field(typeof(TImageLibraryManager), "FDiskList").GetValue(Manager)!;
-            Entry = disk.AddILFile("Flags.ILB");
+            if (directory is null) Entry = disk.AddILFile("Flags.ILB");
+            else
+            {
+                Manager.ExecutePathSearch(directory);
+                Entry = Assert.IsType<TILManagerObject>(disk.Objects[0]);
+            }
             if (loaded)
-                Field(typeof(TILManagerObject), "FImageLibrary").SetValue(Entry, TImageLibrary.Create(null!));
+                Field(typeof(TILManagerObject), "FImageLibrary").SetValue(Entry, new TImageLibrary(null!));
             Game.AoWHSSet = Owner;
             Owner.Members.Clear();
         }
@@ -183,6 +188,23 @@ public sealed class ControlStyleConstructionTests
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
         Assert.NotNull(fixture.Entry.ImageLibrary);
+    }
+
+    [Fact]
+    public void CorruptFlagFileDiscoveredByImageSearchRestoresPublication()
+    {
+        string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            File.WriteAllBytes(Path.Combine(directory, "FLAGS.ILB"), [1, 2, 3]);
+            using var fixture = new FlagFixture(loaded: false, directory);
+            var error = Assert.Throws<Aow.Rtl.Exception>(() => TFlagControl.Create(fixture.Owner));
+            Assert.Contains("Error loading:", error.Message.ToString(), StringComparison.Ordinal);
+            Assert.Equal(0, fixture.Entry.RefCount);
+            Assert.Empty(fixture.Owner.Members);
+        }
+        finally { Directory.Delete(directory, recursive: true); }
     }
 
     private sealed class Owner : TECustomNode

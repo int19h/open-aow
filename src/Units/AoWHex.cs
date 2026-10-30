@@ -40,7 +40,7 @@ namespace Aow.Units.AoWHex
 //     images [0..2], +$13 side flags. }
     public partial class TAoWHexagon : Aow.Units.Hexagon.THexagon
     {
-        public TAoWHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAoWHexagon(TECustomNode owner) : base(owner)
         {}
 
         // AoWHex.pas:119
@@ -278,7 +278,7 @@ namespace Aow.Units.AoWHex
     // { TAoWHexagonResource (instance size 56, VMT 5579A364) }
     public partial class TAoWHexagonResource : Aow.Units.Hexagon.THexagonResource
     {
-        public TAoWHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAoWHexagonResource(TECustomNode owner) : base(owner)
         {}
 
         // AoWHex.pas:254
@@ -300,7 +300,7 @@ namespace Aow.Units.AoWHex
     // { TAoWBorderHexagon (instance size 16, VMT 5579A458) }
     public partial class TAoWBorderHexagon : Aow.Units.BorderHx.TBorderHexagon
     {
-        public TAoWBorderHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAoWBorderHexagon(TECustomNode owner) : base(owner)
         {}
 
         // AoWHex.pas:261
@@ -317,7 +317,7 @@ namespace Aow.Units.AoWHex
 //     +$19 FAnimationIndex, +$1A..$1F FShoreTerrain[1..6]. }
     public partial class TAoWWaterHexagon : Aow.Units.IsoHex.TLowerIsometricHexagon
     {
-        public TAoWWaterHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAoWWaterHexagon(TECustomNode owner) : base(owner)
         {
             var call__20 = Aow.Rtl.Rtl.Random(20);
             FAnimationFrame = unchecked((sbyte)(-1 - call__20));
@@ -342,7 +342,7 @@ namespace Aow.Units.AoWHex
     // { TAoWWaterHexagonResource (instance size 56, VMT 5579A7A0) }
     public partial class TAoWWaterHexagonResource : Aow.Units.IsoHex.TLowerIsometricHexagonResource
     {
-        public TAoWWaterHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAoWWaterHexagonResource(TECustomNode owner) : base(owner)
         {
             this.FDynamicLevel = 23;
         }

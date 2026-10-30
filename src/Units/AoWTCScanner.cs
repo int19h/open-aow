@@ -59,7 +59,8 @@ namespace Aow.Units.AoWTCScanner
     // { TTCScanner (instance size 96, VMT 00450958) }
     public partial class TTCScanner : Aow.Rtl.TDataModule
     {
-        public TTCScanner(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TTCScanner(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow TCScannerWin;
         // { +0044 }

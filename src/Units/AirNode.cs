@@ -39,7 +39,7 @@ namespace Aow.Units.AirNode
     // { TAirNode (instance size 76, no added fields, VMT 557C0DF4) }
     public partial class TAirNode : Aow.Units.PrdPlace.TProductionPlace
     {
-        public TAirNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAirNode(TECustomNode owner) : base(owner)
         {}
 
         // AirNode.pas:37
@@ -58,7 +58,7 @@ namespace Aow.Units.AirNode
     // { TAirNodeResource (instance size 120, no added fields, VMT 557C10A4) }
     public partial class TAirNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        public TAirNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAirNodeResource(TECustomNode owner) : base(owner)
         {
             FRazeDefenderBudget = 200;
             FRebuildGold = 50;

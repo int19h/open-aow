@@ -41,7 +41,7 @@ namespace Aow.Units.AltLight
     // { TAltarOfLightning (instance size 68, no added fields, VMT 557D16F4) }
     public partial class TAltarOfLightning : Aow.Units.Altar.TAltar
     {
-        public TAltarOfLightning(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarOfLightning(TECustomNode owner) : base(owner)
         {}
 
         // AltLight.pas:36
@@ -60,7 +60,7 @@ namespace Aow.Units.AltLight
     // { TAltarOfLightningResource (instance size 116, no added fields, VMT 557D19B4) }
     public partial class TAltarOfLightningResource : Aow.Units.Altar.TAltarResource
     {
-        public TAltarOfLightningResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarOfLightningResource(TECustomNode owner) : base(owner)
         {
         }
 

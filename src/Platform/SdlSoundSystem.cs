@@ -170,7 +170,7 @@ public class TSdlSoundSystem : TSoundSystem
     }
 }
 
-internal sealed class SdlSampleData : TSampleData
+internal class SdlSampleData : TSampleData
 {
     public WaveData Wave { get; private set; } = new(44100, 1, []);
     public static new SdlSampleData Create(AnsiString name) =>
@@ -179,19 +179,24 @@ internal sealed class SdlSampleData : TSampleData
         ConstructionContext.Create((format, data, size), static (context, value) =>
             new SdlSampleData(context, value.format, value.data, value.size));
 
-    private SdlSampleData(ConstructionContext context, AnsiString name) : base(context, name)
+    private protected SdlSampleData(ConstructionContext context, AnsiString name) : base(context, name)
     {
         using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name).ToString(), 0);
         Wave = WaveData.Read(stream);
     }
-    private SdlSampleData(ConstructionContext context, in TWaveFormatEx format, object data, int size) : base(context, format, data, size)
+    private protected SdlSampleData(ConstructionContext context, in TWaveFormatEx format, object data, int size) : base(context, format, data, size)
     {
         Wave = WaveData.Decode(format, Aow.Rtl.Rtl.BufferBytes(data)[..size]);
     }
 }
 
-internal sealed class SdlSample(ConstructionContext context, AudioMixer mixer, TSampleData data) : TSample(context, data)
+internal class SdlSample : TSample
 {
+    private readonly AudioMixer mixer;
+    private protected SdlSample(ConstructionContext context, AudioMixer mixer, TSampleData data) : base(context, data)
+    {
+        this.mixer = mixer;
+    }
     public static SdlSample Create(AudioMixer mixer, TSampleData data) =>
         ConstructionContext.Create((mixer, data), static (context, value) => new SdlSample(context, value.mixer, value.data));
     private AudioMixer.Voice? voice;

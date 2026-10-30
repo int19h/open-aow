@@ -846,12 +846,6 @@ namespace Aow.Units.AoWReg
             /* TODO(T-shim) Platform or editor boundary Registry.RootKey */
             throw new System.NotImplementedException();
         }
-
-        // Registry.pas:54
-        public static Aow.Units.AoWReg.TAoWRegistry Create()
-        {
-            return new Aow.Units.AoWReg.TAoWRegistry();
-        }
     }
 
     public enum TDetailLevel : byte

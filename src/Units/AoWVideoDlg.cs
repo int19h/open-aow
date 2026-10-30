@@ -65,7 +65,8 @@ namespace Aow.Units.AoWVideoDlg
     // { TVideoDialog: size $A4; $90 full screen, $91 change flag, $9C/$A0 display size. VMT 0040ADD4. }
     public partial class TVideoDialog : Aow.Rtl.TDataModule
     {
-        public TVideoDialog(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TVideoDialog(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
@@ -304,7 +305,7 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:250
-        public TWMCampaignScenarioPage(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TWMCampaignScenarioPage(TECustomNode owner) : base(owner)
         {
             var call__12 = new Aow.Rtl.TStringList();
             FText = call__12;
@@ -315,7 +316,8 @@ namespace Aow.Units.AoWVideoDlg
     // { TWMCampaignScenarioPageList (instance size 12, VMT 0040B8C4) }
     public partial class TWMCampaignScenarioPageList : Aow.Units.Engine.TENode
     {
-        public TWMCampaignScenarioPageList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TWMCampaignScenarioPageList(TECustomNode owner) : base(owner)
+        { }
 
     }
 
@@ -382,7 +384,7 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:278
-        public TWMCampaignScenario(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TWMCampaignScenario(TECustomNode owner) : base(owner)
         {
             int I = default;
             var call__13 = new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList(null);
@@ -432,7 +434,7 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:324
-        public TWMCampaign(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TWMCampaign(TECustomNode owner) : base(owner)
         {
         }
 

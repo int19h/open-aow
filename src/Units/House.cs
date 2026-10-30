@@ -49,7 +49,7 @@ namespace Aow.Units.House
     // { THouse (instance size 48, VMT 00434584) }
     public partial class THouse : Aow.Units.CombatStructure.TCombatStructure
     {
-        public THouse(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THouse(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 2229522;
@@ -102,7 +102,7 @@ namespace Aow.Units.House
     // { THouseResource (instance size 72, VMT 00434728) }
     public partial class THouseResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
-        public THouseResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THouseResource(TECustomNode owner) : base(owner)
         {}
 
         // House.pas:145

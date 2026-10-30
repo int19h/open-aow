@@ -68,7 +68,8 @@ namespace Aow.Units.AoWSMTPDlg
     // { Declaration-only field type from ims.dpl (instance size 588). }
     public partial class TmsMessage : Aow.Rtl.TComponent
     {
-        public TmsMessage(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TmsMessage(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.E3IMSTypes.TmsMessageHeader FHeader;
         // { $24 }
@@ -95,7 +96,8 @@ namespace Aow.Units.AoWSMTPDlg
     // { Declaration-only field type from ims.dpl (instance size 636). }
     public partial class TmsSMTP : Aow.Rtl.TComponent
     {
-        public TmsSMTP(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TmsSMTP(TComponent owner) : base(owner)
+        { }
 
         public Aow.Rtl.AnsiString FHost;
         // { $24 }
@@ -142,16 +144,15 @@ namespace Aow.Units.AoWSMTPDlg
         }
 
         // Classes.pas:771
-        public static Aow.Units.AoWSMTPDlg.TIMSSendThread Create(bool CreateSuspended)
-        {
-            return new Aow.Units.AoWSMTPDlg.TIMSSendThread();
-        }
+        public TIMSSendThread(bool CreateSuspended) : base()
+        { }
     }
 
     // { TSMTPDlg (instance size 180, VMT 0044D630) }
     public partial class TSMTPDlg : Aow.Rtl.TDataModule
     {
-        public TSMTPDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TSMTPDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

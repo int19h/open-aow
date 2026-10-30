@@ -45,7 +45,7 @@ namespace Aow.Units.Townhall
     // { TTownhall (instance size 40, VMT 004341F8) }
     public partial class TTownhall : Aow.Units.CombatStructure.TCombatStructure
     {
-        public TTownhall(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTownhall(TECustomNode owner) : base(owner)
         {}
 
         // Townhall.pas:36
@@ -56,7 +56,7 @@ namespace Aow.Units.Townhall
     // { TTownhallResource (instance size 72, VMT 004343A4) }
     public partial class TTownhallResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
-        public TTownhallResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTownhallResource(TECustomNode owner) : base(owner)
         {}
 
         // Townhall.pas:39

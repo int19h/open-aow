@@ -64,7 +64,7 @@ namespace Aow.Units.Teleport
 //     +$32 FDestinationL, +$33 FState (bit 0 razed). }
     public partial class TTeleport : Aow.Units.AoWE.TStructure
     {
-        public TTeleport(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTeleport(TECustomNode owner) : base(owner)
         {
             FDestinationX = 0;
             FDestinationY = 0;
@@ -380,7 +380,7 @@ namespace Aow.Units.Teleport
     // { TTeleportResource (instance size 100, VMT 557A4C88) }
     public partial class TTeleportResource : Aow.Units.AoWE.TStructureResource
     {
-        public TTeleportResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTeleportResource(TECustomNode owner) : base(owner)
         {
             FRazeDefenderBudget = 200;
             FRazeable = true;

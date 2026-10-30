@@ -40,7 +40,7 @@ namespace Aow.Units.Gems
     // { TGems (instance size 36, VMT 557C4D54): $1C FAmount, $20 FGenerateMode. }
     public partial class TGems : Aow.Units.ILTer.TILTerrainMO
     {
-        public TGems(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TGems(TECustomNode owner) : base(owner)
         {
             FGenerateMode = Aow.Units.Gems.TGemsGenerateMode.gmNormal;
             FAmount = 0;
@@ -198,7 +198,7 @@ namespace Aow.Units.Gems
     // { TGemsResource (instance size 68, VMT 557C4EF0): no additional fields. }
     public partial class TGemsResource : Aow.Units.ILTer.TILTerrainMOR
     {
-        public TGemsResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TGemsResource(TECustomNode owner) : base(owner)
         {}
 
         // Gems.pas:137

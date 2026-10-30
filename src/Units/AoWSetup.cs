@@ -89,7 +89,7 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:242
-        public TSetupPackage(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSetupPackage(TECustomNode owner) : base(owner)
         {
         }
 
@@ -112,7 +112,8 @@ namespace Aow.Units.AoWSetup
         // AoWSetup.pas:266
         public new const int ClassID = 131682;
 
-        public TRemotePlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TRemotePlayer(TECustomNode owner) : base(owner)
+        { }
 
         public Aow.Rtl.AnsiString FName;
         // { +$08 }
@@ -141,7 +142,8 @@ namespace Aow.Units.AoWSetup
     // { TRemotePlayerList (instance size 12, VMT 557DEA00) }
     public partial class TRemotePlayerList : Aow.Units.Engine.TENode
     {
-        public TRemotePlayerList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TRemotePlayerList(TECustomNode owner) : base(owner)
+        { }
 
         // AoWSetup.pas:279
         public Aow.Units.AoWSetup.TRemotePlayer GetPlayers(int Index)
@@ -219,7 +221,7 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:296
-        public TPlayerSetupSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPlayerSetupSettings(TECustomNode owner) : base(owner)
         {
             FStatus = TSet<Aow.Units.AoWSetup.TPlayerSetupStatusElement>.Of();
             FBehavior = Aow.Units.AoWSetup.AoWSetup.DefaultBehavior;
@@ -313,7 +315,7 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:327
-        public TSetupSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSetupSettings(TECustomNode owner) : base(owner)
         {
             var call__2 = new Aow.Units.AoWSetup.TRemotePlayerList(null);
             FRemotePlayers = call__2;
@@ -418,7 +420,8 @@ namespace Aow.Units.AoWSetup
     // { TCustomizeLeaderControl (instance size 48, VMT 557DED7C) }
     public partial class TCustomizeLeaderControl : Aow.Units.AoWE.TLeaderSetupControl
     {
-        public TCustomizeLeaderControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TCustomizeLeaderControl(TECustomNode owner) : base(owner)
+        { }
 
         public Aow.Units.AoWSetup.TSetupControl FSetupControl;
         // { +$28 }
@@ -480,7 +483,7 @@ namespace Aow.Units.AoWSetup
 
         // AoWSetup.pas:436
         // { needs: TLeaderSetupControl.Done returns Boolean (557DF7EA); its draft is a procedure. }
-        public TSetupControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TSetupControl(TComponent owner) : base(owner)
         {
             var call__3 = new Aow.Units.AoWSetup.TSetupSettings(null);
             FSettings = call__3;

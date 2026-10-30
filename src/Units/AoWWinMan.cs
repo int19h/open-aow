@@ -97,7 +97,8 @@ namespace Aow.Units.AoWWinMan
 //     $84 selected indices; $A4 unit list; $C0 selected unit; $C4 combat sprite. }
     public partial class TGeneral : Aow.Rtl.TDataModule
     {
-        public TGeneral(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TGeneral(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AOWWinManager.TAOWWinManager Manager;
         // { +0044 }

@@ -43,7 +43,8 @@ namespace Aow.Units.BehaviorAG
     // { TAbstractBehaviorAG (instance size 80, VMT 557DC2CC) }
     public partial class TAbstractBehaviorAG : Aow.Units.AoWE.TAIGroup
     {
-        public TAbstractBehaviorAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TAbstractBehaviorAG(TECustomNode owner) : base(owner)
+        { }
 
         // BehaviorAG.pas:137
         public override bool CooperateWithGroup(Aow.Units.AoWE.TAIGroup Group, Aow.Units.AoWE.TAIGroupControlTarget Target)
@@ -69,7 +70,7 @@ namespace Aow.Units.BehaviorAG
         }
 
         // BehaviorAG.pas:144
-        public TAbstractBehaviorAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAbstractBehaviorAGC(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Units.AoWE.TAIGroupTargetSelector(null);
             FTargetSelector = call__1;
@@ -84,7 +85,7 @@ namespace Aow.Units.BehaviorAG
         public new const int ClassID = 136294;
 
         // BehaviorAG.pas:722
-        public TSkirmishAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSkirmishAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 12;
             FRecruitmentPriority = 12;
@@ -106,7 +107,8 @@ namespace Aow.Units.BehaviorAG
     // { TSkirmishAGC (instance size 372, VMT 557DC690) }
     public partial class TSkirmishAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
-        public TSkirmishAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TSkirmishAGC(TECustomNode owner) : base(owner)
+        { }
 
         // BehaviorAG.pas:738
         public override void ProcessStates()
@@ -205,7 +207,7 @@ namespace Aow.Units.BehaviorAG
         public new const int ClassID = 136292;
 
         // BehaviorAG.pas:156
-        public TNormalAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TNormalAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
@@ -227,7 +229,8 @@ namespace Aow.Units.BehaviorAG
     // { TNormalAGC (instance size 372, VMT 557DC8E0) }
     public partial class TNormalAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
-        public TNormalAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TNormalAGC(TECustomNode owner) : base(owner)
+        { }
 
         // BehaviorAG.pas:172
         public override void ProcessStates()
@@ -387,7 +390,7 @@ namespace Aow.Units.BehaviorAG
         public new const int ClassID = 136278;
 
         // BehaviorAG.pas:270
-        public TDefenderAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDefenderAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
@@ -409,7 +412,8 @@ namespace Aow.Units.BehaviorAG
     // { TDefenderAGC (instance size 372, VMT 557DCB28) }
     public partial class TDefenderAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
-        public TDefenderAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TDefenderAGC(TECustomNode owner) : base(owner)
+        { }
 
         // BehaviorAG.pas:286
         public override void ProcessStates()
@@ -561,7 +565,7 @@ namespace Aow.Units.BehaviorAG
         public new const int ClassID = 136279;
 
         // BehaviorAG.pas:383
-        public TAggressorAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAggressorAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
@@ -583,7 +587,8 @@ namespace Aow.Units.BehaviorAG
     // { TAggressorAGC (instance size 372, VMT 557DCD80) }
     public partial class TAggressorAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
-        public TAggressorAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TAggressorAGC(TECustomNode owner) : base(owner)
+        { }
 
         // BehaviorAG.pas:399
         public override void ProcessStates()
@@ -734,7 +739,7 @@ namespace Aow.Units.BehaviorAG
         public new const int ClassID = 136290;
 
         // BehaviorAG.pas:495
-        public TExpanderAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TExpanderAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
@@ -756,7 +761,8 @@ namespace Aow.Units.BehaviorAG
     // { TExpanderAGC (instance size 372, VMT 557DCFD0) }
     public partial class TExpanderAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
-        public TExpanderAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TExpanderAGC(TECustomNode owner) : base(owner)
+        { }
 
         // BehaviorAG.pas:511
         public override void ProcessStates()
@@ -909,7 +915,7 @@ namespace Aow.Units.BehaviorAG
         public new const int ClassID = 136291;
 
         // BehaviorAG.pas:609
-        public TScorcherAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TScorcherAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
@@ -931,7 +937,8 @@ namespace Aow.Units.BehaviorAG
     // { TScorcherAGC (instance size 372, VMT 557DD220) }
     public partial class TScorcherAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
-        public TScorcherAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TScorcherAGC(TECustomNode owner) : base(owner)
+        { }
 
         // BehaviorAG.pas:625
         public override void ProcessStates()

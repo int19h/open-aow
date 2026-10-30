@@ -20,7 +20,7 @@ namespace Aow.Units.Terrain
 //     persisted as ids $12 and $11 }
     public partial class TTerrainMOR : Aow.Units.HSEngine.TMultiHexMOR
     {
-        public TTerrainMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTerrainMOR(TECustomNode owner) : base(owner)
         {
             FDecorationType = unchecked((sbyte)-1);
         }
@@ -75,7 +75,7 @@ namespace Aow.Units.Terrain
     // { Terrain.TTerrainMO (instance size 20) }
     public partial class TTerrainMO : Aow.Units.HSEngine.TMultiHexMO
     {
-        public TTerrainMO(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTerrainMO(TECustomNode owner) : base(owner)
         {
         }
 

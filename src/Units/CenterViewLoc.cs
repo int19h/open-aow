@@ -45,7 +45,7 @@ namespace Aow.Units.CenterViewLoc
     // { TCenterViewLocation (instance size 16, VMT 004356E0) }
     public partial class TCenterViewLocation : Aow.Units.HSEngine.TMapObject
     {
-        public TCenterViewLocation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCenterViewLocation(TECustomNode owner) : base(owner)
         {}
 
         // CenterViewLoc.pas:46
@@ -125,7 +125,7 @@ namespace Aow.Units.CenterViewLoc
     // { TCenterViewLocationResource (instance size 52, VMT 00435884) }
     public partial class TCenterViewLocationResource : Aow.Units.HSEngine.TMapObjectResource
     {
-        public TCenterViewLocationResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCenterViewLocationResource(TECustomNode owner) : base(owner)
         {
             SetLevel(27);
         }

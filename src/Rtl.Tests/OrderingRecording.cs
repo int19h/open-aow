@@ -53,7 +53,7 @@ internal static class OrderingRecording
         private readonly TAoWHSSet set = Game.AoWHSSet;
         private readonly TAoWEngine engine = Game.AoWEngine;
         private readonly TAoWHSMap map = Game.AoWHSMap;
-        internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
+        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TEngine Engine;
         internal Fixture(Type? type = null)
         {

@@ -39,7 +39,7 @@ namespace Aow.Units.RandomNode
     // { TRandomNode (instance size 76, VMT 5580B3D8) }
     public partial class TRandomNode : Aow.Units.PrdPlace.TProductionPlace
     {
-        public TRandomNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRandomNode(TECustomNode owner) : base(owner)
         {}
 
         // RandomNode.pas:35
@@ -50,7 +50,7 @@ namespace Aow.Units.RandomNode
     // { TRandomNodeResource (instance size 120, VMT 5580B68C) }
     public partial class TRandomNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        public TRandomNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRandomNodeResource(TECustomNode owner) : base(owner)
         {
         }
 

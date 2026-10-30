@@ -4212,7 +4212,7 @@ namespace Aow.Units.AoWTC
 //     Inherited world-map field layout; no additional fields. }
     public partial class TAoWCombatMapField : Aow.Units.AoWE.TAoWMapField
     {
-        public TAoWCombatMapField(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAoWCombatMapField(TECustomNode owner) : base(owner)
         {}
 
         // AoWTC.pas:2158
@@ -4237,13 +4237,8 @@ namespace Aow.Units.AoWTC
 //     Inherited world-map level layout; no additional fields. }
     public partial class TAoWCombatMapLevel : Aow.Units.AoWE.TAoWMapLevel
     {
-        private protected TAoWCombatMapLevel(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TAoWCombatMapLevel(TECustomNode owner) : base(owner)
         {}
-
-        public static new TAoWCombatMapLevel Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAoWCombatMapLevel(context, owner));
-        }
 
         // AoWTC.pas:2173
         public new const int ClassID = 2228482;
@@ -4262,7 +4257,7 @@ namespace Aow.Units.AoWTC
     // { TRangedPathHS (instance size 32, VMT 00411EA8): $0C FMiscImages; $10 FTargetImages; $14 FFrame; $16 FFrameCount; $18 FSelection; $1C FRange. }
     public partial class TRangedPathHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
-        public TRangedPathHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRangedPathHS(TECustomNode owner) : base(owner)
         {}
 
         // AoWTC.pas:4846
@@ -4544,7 +4539,7 @@ namespace Aow.Units.AoWTC
     public partial class TfxHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
 
-        public TfxHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TfxHS(TECustomNode owner) : base(owner)
         {
             var call__824 = new Aow.Units.aowFX.TXYZList();
             FPath = call__824;
@@ -6653,7 +6648,7 @@ namespace Aow.Units.AoWTC
     public partial class TCItemHS : Aow.Units.AoWE.TItemHS
     {
 
-        public TCItemHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCItemHS(TECustomNode owner) : base(owner)
         {}
 
         // AoWTC.pas:2586
@@ -6709,7 +6704,7 @@ namespace Aow.Units.AoWTC
 //     $0C FPosition; $0D FIndex; $10 FImageIndex; $14 FImages; $18 FDirection. }
     public partial class TUnitPositionHS : Aow.Units.HSEngine.TSingleHS
     {
-        public TUnitPositionHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TUnitPositionHS(TECustomNode owner) : base(owner)
         {
             FPosition = 0;
             FIndex = 0;
@@ -6855,7 +6850,7 @@ namespace Aow.Units.AoWTC
 //     $10 FFrame; $14 FOffsetX; $18 FOffsetY. }
     public partial class TCBloodHS : Aow.Units.HSEngine.TSingleHS
     {
-        public TCBloodHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCBloodHS(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 2228487;
@@ -6922,7 +6917,7 @@ namespace Aow.Units.AoWTC
 //     $0C FUnit; $10 FUnitGFX; $18 FFrame; $1C FOffsetX; $20 FOffsetY; $24 FSequenceIndex; $28 FSequenceFrame. }
     public partial class TCCorpseHS : Aow.Units.HSEngine.TSingleHS
     {
-        public TCCorpseHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCCorpseHS(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 2228488;
@@ -7198,7 +7193,7 @@ namespace Aow.Units.AoWTC
 //     Inherited single-hexagon sprite layout; no additional fields. }
     public partial class TCOozeHS : Aow.Units.HSEngine.TSingleHS
     {
-        public TCOozeHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCOozeHS(TECustomNode owner) : base(owner)
         {}
 
         // AoWTC.pas:4092
@@ -7302,7 +7297,7 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:4936
-        public TUnitPositionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TUnitPositionControl(TECustomNode owner) : base(owner)
         {
             var call__1386 = new Aow.Units.HSEngine.TXYLList();
             FPositions = call__1386;
@@ -7431,7 +7426,8 @@ namespace Aow.Units.AoWTC
     // { TCombatMoveControlSettings (instance size 432, VMT 004129E8): $1AC FMoveFlags. }
     public partial class TCombatMoveControlSettings : Aow.Units.AoWE.TMoveControlSettings
     {
-        public TCombatMoveControlSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TCombatMoveControlSettings(TECustomNode owner) : base(owner)
+        { }
 
         public TSet<Aow.Units.AoWTC.TCombatMoveModeElement> FMoveFlags;
         // { $1AC }
@@ -7444,7 +7440,8 @@ namespace Aow.Units.AoWTC
     public partial class TCombatMoveControl : Aow.Units.AoWE.TMoveControl
     {
 
-        public TCombatMoveControl(Aow.Units.HSEngine.THSMap AOwner) : base(AOwner) { }
+        public TCombatMoveControl(THSMap owner) : base(owner)
+        { }
 
         public Aow.Units.AoWTC.TTacticalCombatUnitHS FUnitHS;
         // { $1E0 }
@@ -7467,7 +7464,8 @@ namespace Aow.Units.AoWTC
 //     $5C FMovePoints; $60 FUnitHS; $64 FPositionIndex; $65 FPositionGroup; $66 FCanFlee; $67 FDeathMethod. }
     public partial class TTacticalCombatUnit : Aow.Units.AoWE.TCombatUnit
     {
-        public TTacticalCombatUnit(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TTacticalCombatUnit(TECustomNode owner) : base(owner)
+        { }
 
         public int FMovePoints;
         // { $5C }
@@ -7797,7 +7795,7 @@ namespace Aow.Units.AoWTC
 //     $38 FSelectedSpell; $3C FCombatAbilityCount; $40 FAbilities; $44 FBusy. }
     public partial class TTacticalCombatUnitHS : Aow.Units.AoWE.TUnitHS
     {
-        public TTacticalCombatUnitHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTacticalCombatUnitHS(TECustomNode owner) : base(owner)
         {}
 
         // AoWTC.pas:3348
@@ -10727,7 +10725,8 @@ namespace Aow.Units.AoWTC
 //     $0C FAuto; $0D FEndTurn; $0E FIndex; $10 FLastX; $14 FLastY; $18 FLastUnit. }
     public partial class TTacticalCombatPlayer : Aow.Units.AoWE.TCombatPlayer
     {
-        public TTacticalCombatPlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TTacticalCombatPlayer(TECustomNode owner) : base(owner)
+        { }
 
         public bool FAuto;
         // { $0C }
@@ -11807,7 +11806,8 @@ namespace Aow.Units.AoWTC
         // AoWTC.pas:5081
         public new const int ClassID = 2228496;
 
-        public TTacticalCombat(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TTacticalCombat(TECustomNode owner) : base(owner)
+        { }
 
         public sbyte FHostPlayer;
         // { $4C }

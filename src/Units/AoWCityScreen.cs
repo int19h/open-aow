@@ -80,7 +80,8 @@ namespace Aow.Units.AoWCityScreen
 //     $2C4 production, $2C8 queue, $2CC mode, $2D0 migrations, $2D4 sort, $2D8 images. VMT 00439F68. }
     public partial class TCityScreen : Aow.Rtl.TDataModule
     {
-        public TCityScreen(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TCityScreen(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

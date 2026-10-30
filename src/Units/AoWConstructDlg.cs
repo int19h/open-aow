@@ -61,7 +61,8 @@ namespace Aow.Units.AoWConstructDlg
     // { TConstructDlg: size $98; $94 activation request. VMT 00431368. }
     public partial class TConstructDlg : Aow.Rtl.TDataModule
     {
-        public TConstructDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TConstructDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
         // { +0044 }

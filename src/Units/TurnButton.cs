@@ -67,7 +67,7 @@ namespace Aow.Units.TurnButton
         public int FAnimationFrame;
         // TurnButton.pas:54
         // { $140 }
-        public TAOWTurnButton(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWTurnButton(TComponent owner) : base(owner)
         {
             FFrameOffset = 11;
         }

@@ -45,7 +45,7 @@ namespace Aow.Units.AoWPanel
         public Aow.Units.AoWBaseWin.TAOWBaseWindow FAOWWindow;
         // AoWPanel.pas:63
         // { TAOWPanel }
-        public TAOWPanel(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWPanel(TComponent owner) : base(owner)
         {
             FCaptureInput = true;
         }

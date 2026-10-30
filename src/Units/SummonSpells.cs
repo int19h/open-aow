@@ -61,7 +61,7 @@ namespace Aow.Units.SummonSpells
         }
 
         // SummonSpells.pas:159
-        public TSummonSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSummonSpellTE(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Units.AoWE.TUnitIndexList();
             FUnitIndices = call__1;
@@ -206,7 +206,7 @@ namespace Aow.Units.SummonSpells
         }
 
         // SummonSpells.pas:241
-        private protected TSummonSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonSpell(TECustomNode owner) : base(owner)
         {
             var call__25 = new Aow.Units.AoWE.TUnitIndexList();
             FUnitIndices = call__25;
@@ -322,16 +322,13 @@ namespace Aow.Units.SummonSpells
             Result = call__39;
             return Result;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonSpell(context, owner));
     }
 
     // { TSummonSyron (instance size 60, VMT 557E3120) }
     public partial class TSummonSyron : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:328
-        private protected TSummonSyron(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonSyron(TECustomNode owner) : base(owner)
         {
             var call__40 = Aow.Units.AoWE.AoWE.SummonSyronRStr;
             var call__41 = Aow.Units.AoWE.AoWE.TranslateRStr(call__40);
@@ -344,16 +341,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 40;
             FAIBasePriority = 500;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonSyron Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonSyron(context, owner));
     }
 
     // { TSummonFrog (instance size 60, VMT 557E323C) }
     public partial class TSummonFrog : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:341
-        private protected TSummonFrog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonFrog(TECustomNode owner) : base(owner)
         {
             var call__42 = Aow.Units.AoWE.AoWE.SummonFrogRStr;
             var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(call__42);
@@ -366,16 +360,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 5;
             FAIBasePriority = 200;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonFrog Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonFrog(context, owner));
     }
 
     // { TSummonBoar (instance size 60, VMT 557E3354) }
     public partial class TSummonBoar : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:354
-        private protected TSummonBoar(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonBoar(TECustomNode owner) : base(owner)
         {
             var call__44 = Aow.Units.AoWE.AoWE.SummonBoarRStr;
             var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(call__44);
@@ -387,16 +378,13 @@ namespace Aow.Units.SummonSpells
             FUnitIndices.Add(235);
             FCastDuration = 5;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonBoar Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonBoar(context, owner));
     }
 
     // { TSummonAirElemental (instance size 60, VMT 557E346C) }
     public partial class TSummonAirElemental : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:366
-        private protected TSummonAirElemental(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonAirElemental(TECustomNode owner) : base(owner)
         {
             var call__46 = Aow.Units.AoWE.AoWE.SummonAirElementalRStr;
             var call__47 = Aow.Units.AoWE.AoWE.TranslateRStr(call__46);
@@ -409,16 +397,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 40;
             FAIBasePriority = 750;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonAirElemental Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonAirElemental(context, owner));
     }
 
     // { TSummonEarthElemental (instance size 60, VMT 557E3594) }
     public partial class TSummonEarthElemental : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:379
-        private protected TSummonEarthElemental(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonEarthElemental(TECustomNode owner) : base(owner)
         {
             var call__48 = Aow.Units.AoWE.AoWE.SummonEarthElementalRStr;
             var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(call__48);
@@ -431,16 +416,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 40;
             FAIBasePriority = 750;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonEarthElemental Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonEarthElemental(context, owner));
     }
 
     // { TSummonFireElemental (instance size 60, VMT 557E36C0) }
     public partial class TSummonFireElemental : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:392
-        private protected TSummonFireElemental(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonFireElemental(TECustomNode owner) : base(owner)
         {
             var call__50 = Aow.Units.AoWE.AoWE.SummonFireElementalRStr;
             var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(call__50);
@@ -453,16 +435,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 40;
             FAIBasePriority = 500;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonFireElemental Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonFireElemental(context, owner));
     }
 
     // { TSummonWaterElemental (instance size 60, VMT 557E37EC) }
     public partial class TSummonWaterElemental : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:405
-        private protected TSummonWaterElemental(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonWaterElemental(TECustomNode owner) : base(owner)
         {
             var call__52 = Aow.Units.AoWE.AoWE.SummonWaterElementalRStr;
             var call__53 = Aow.Units.AoWE.AoWE.TranslateRStr(call__52);
@@ -475,16 +454,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 40;
             FAIBasePriority = 500;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonWaterElemental Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonWaterElemental(context, owner));
     }
 
     // { TSummonGoldDragon (instance size 60, VMT 557E3918) }
     public partial class TSummonGoldDragon : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:418
-        private protected TSummonGoldDragon(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonGoldDragon(TECustomNode owner) : base(owner)
         {
             var call__54 = Aow.Units.AoWE.AoWE.SummonGoldDragonRStr;
             var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(call__54);
@@ -497,16 +473,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 40;
             FAIBasePriority = 750;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonGoldDragon Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonGoldDragon(context, owner));
     }
 
     // { TSummonBlackDragon (instance size 60, VMT 557E3A3C) }
     public partial class TSummonBlackDragon : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:431
-        private protected TSummonBlackDragon(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonBlackDragon(TECustomNode owner) : base(owner)
         {
             var call__56 = Aow.Units.AoWE.AoWE.SummonBlackDragonRStr;
             var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(call__56);
@@ -519,16 +492,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 40;
             FAIBasePriority = 750;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonBlackDragon Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonBlackDragon(context, owner));
     }
 
     // { TSummonGreatEagle (instance size 60, VMT 557E3B64) }
     public partial class TSummonGreatEagle : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:444
-        private protected TSummonGreatEagle(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonGreatEagle(TECustomNode owner) : base(owner)
         {
             var call__58 = Aow.Units.AoWE.AoWE.SummonGreatEagleRStr;
             var call__59 = Aow.Units.AoWE.AoWE.TranslateRStr(call__58);
@@ -541,16 +511,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 10;
             FAIBasePriority = 250;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonGreatEagle Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonGreatEagle(context, owner));
     }
 
     // { TSummonFireSprite (instance size 60, VMT 557E3C88) }
     public partial class TSummonFireSprite : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:457
-        private protected TSummonFireSprite(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonFireSprite(TECustomNode owner) : base(owner)
         {
             var call__60 = Aow.Units.AoWE.AoWE.SummonFireSpriteRStr;
             var call__61 = Aow.Units.AoWE.AoWE.TranslateRStr(call__60);
@@ -563,16 +530,13 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 10;
             FAIBasePriority = 200;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonFireSprite Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonFireSprite(context, owner));
     }
 
     // { TSummonBlackSpider (instance size 60, VMT 557E3DAC) }
     public partial class TSummonBlackSpider : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:475
-        private protected TSummonBlackSpider(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonBlackSpider(TECustomNode owner) : base(owner)
         {
             var call__62 = Aow.Units.AoWE.AoWE.SummonBlackSpiderRStr;
             var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(call__62);
@@ -591,16 +555,13 @@ namespace Aow.Units.SummonSpells
         {
             base.SetupSummonSpellTE(Event);
         }
-
-        public static new Aow.Units.SummonSpells.TSummonBlackSpider Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonBlackSpider(context, owner));
     }
 
     // { TSummonMermaid (instance size 60, VMT 557E3ED4) }
     public partial class TSummonMermaid : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:488
-        private protected TSummonMermaid(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSummonMermaid(TECustomNode owner) : base(owner)
         {
             var call__64 = Aow.Units.AoWE.AoWE.SummonMermaidRStr;
             var call__65 = Aow.Units.AoWE.AoWE.TranslateRStr(call__64);
@@ -613,9 +574,6 @@ namespace Aow.Units.SummonSpells
             FCastDuration = 5;
             FAIBasePriority = -1;
         }
-
-        public static new Aow.Units.SummonSpells.TSummonMermaid Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSummonMermaid(context, owner));
     }
 
     public static partial class SummonSpells
@@ -626,31 +584,31 @@ namespace Aow.Units.SummonSpells
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = AEngine.FGameSet.FSpellControl;
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.SummonSpells.TSummonSpellTE>()]);
-            var call__66 = Aow.Units.SummonSpells.TSummonSyron.Create(null);
+            var call__66 = new Aow.Units.SummonSpells.TSummonSyron(null);
             Control.RegisterSpell(call__66);
-            var call__67 = Aow.Units.SummonSpells.TSummonFrog.Create(null);
+            var call__67 = new Aow.Units.SummonSpells.TSummonFrog(null);
             Control.RegisterSpell(call__67);
-            var call__68 = Aow.Units.SummonSpells.TSummonBoar.Create(null);
+            var call__68 = new Aow.Units.SummonSpells.TSummonBoar(null);
             Control.RegisterSpell(call__68);
-            var call__69 = Aow.Units.SummonSpells.TSummonAirElemental.Create(null);
+            var call__69 = new Aow.Units.SummonSpells.TSummonAirElemental(null);
             Control.RegisterSpell(call__69);
-            var call__70 = Aow.Units.SummonSpells.TSummonEarthElemental.Create(null);
+            var call__70 = new Aow.Units.SummonSpells.TSummonEarthElemental(null);
             Control.RegisterSpell(call__70);
-            var call__71 = Aow.Units.SummonSpells.TSummonFireElemental.Create(null);
+            var call__71 = new Aow.Units.SummonSpells.TSummonFireElemental(null);
             Control.RegisterSpell(call__71);
-            var call__72 = Aow.Units.SummonSpells.TSummonWaterElemental.Create(null);
+            var call__72 = new Aow.Units.SummonSpells.TSummonWaterElemental(null);
             Control.RegisterSpell(call__72);
-            var call__73 = Aow.Units.SummonSpells.TSummonGoldDragon.Create(null);
+            var call__73 = new Aow.Units.SummonSpells.TSummonGoldDragon(null);
             Control.RegisterSpell(call__73);
-            var call__74 = Aow.Units.SummonSpells.TSummonBlackDragon.Create(null);
+            var call__74 = new Aow.Units.SummonSpells.TSummonBlackDragon(null);
             Control.RegisterSpell(call__74);
-            var call__75 = Aow.Units.SummonSpells.TSummonGreatEagle.Create(null);
+            var call__75 = new Aow.Units.SummonSpells.TSummonGreatEagle(null);
             Control.RegisterSpell(call__75);
-            var call__76 = Aow.Units.SummonSpells.TSummonFireSprite.Create(null);
+            var call__76 = new Aow.Units.SummonSpells.TSummonFireSprite(null);
             Control.RegisterSpell(call__76);
-            var call__77 = Aow.Units.SummonSpells.TSummonBlackSpider.Create(null);
+            var call__77 = new Aow.Units.SummonSpells.TSummonBlackSpider(null);
             Control.RegisterSpell(call__77);
-            var call__78 = Aow.Units.SummonSpells.TSummonMermaid.Create(null);
+            var call__78 = new Aow.Units.SummonSpells.TSummonMermaid(null);
             Control.RegisterSpell(call__78);
         }
 

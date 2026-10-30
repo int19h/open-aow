@@ -52,7 +52,7 @@ namespace Aow.Units.ManaCrystals
     // { TManaCrystals (instance size 36, VMT 557B494C): +$1C FAmount, +$20 FSize. }
     public partial class TManaCrystals : Aow.Units.ILTer.TILTerrainMO
     {
-        public TManaCrystals(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TManaCrystals(TECustomNode owner) : base(owner)
         {
             FSize = 2;
             FAmount = 0;
@@ -221,7 +221,7 @@ namespace Aow.Units.ManaCrystals
     // { TManaCrystalsResource (instance size 68, VMT 557B4B00) }
     public partial class TManaCrystalsResource : Aow.Units.ILTer.TILTerrainMOR
     {
-        public TManaCrystalsResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TManaCrystalsResource(TECustomNode owner) : base(owner)
         {}
 
         // ManaCrystals.pas:168
@@ -247,7 +247,8 @@ namespace Aow.Units.ManaCrystals
 
     public partial class TCrystalMagic : Aow.Units.AoWE.TPlayerMagicControl
     {
-        public TCrystalMagic(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TCrystalMagic(TECustomNode owner) : base(owner)
+        { }
 
         public int Mana { get => FMana; set => SetMana(value); }
     }

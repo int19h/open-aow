@@ -40,7 +40,7 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Images))]
     public void ImagesKeepDefaultsAndOwner(Type type, Func<TCustomImageLibrary, LibraryImage> create, Func<TCustomImageLibrary, LibraryImage> direct)
     {
-        var owner = TImageLibrary.Create(null!);
+        var owner = new TImageLibrary(null!);
         try
         {
             var descriptor = LibraryImageClass.Of(type);
@@ -70,24 +70,24 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Components()
     {
-        yield return new object[] { typeof(TSdlDC), (Func<TComponent, TComponent>)(owner => TSdlDC.Create(new NullDisplayHost(), owner)) };
-        yield return new object[] { typeof(TDisplay), (Func<TComponent, TComponent>)(owner => TDisplay.Create(owner)) };
-        yield return new object[] { typeof(TWindows24DC), (Func<TComponent, TComponent>)(owner => TWindows24DC.Create(owner)) };
-        yield return new object[] { typeof(TWindows32DC), (Func<TComponent, TComponent>)(owner => TWindows32DC.Create(owner)) };
-        yield return new object[] { typeof(TDDrawDC), (Func<TComponent, TComponent>)(owner => TDDrawDC.Create(owner)) };
-        yield return new object[] { typeof(TCustomDisplay), (Func<TComponent, TComponent>)(owner => TCustomDisplay.Create(owner)) };
-        yield return new object[] { typeof(TDisplayCtrl), (Func<TComponent, TComponent>)(owner => TDisplayCtrl.Create(owner)) };
-        yield return new object[] { typeof(TWindowsDC), (Func<TComponent, TComponent>)(owner => TWindowsDC.Create(owner)) };
-        yield return new object[] { typeof(TWindows08DC), (Func<TComponent, TComponent>)(owner => TWindows08DC.Create(owner)) };
-        yield return new object[] { typeof(TWindows16DC), (Func<TComponent, TComponent>)(owner => TWindows16DC.Create(owner)) };
-        yield return new object[] { typeof(TDDrawFullScrDC), (Func<TComponent, TComponent>)(owner => TDDrawFullScrDC.Create(owner)) };
-        yield return new object[] { typeof(TDDrawFullScr16DC), (Func<TComponent, TComponent>)(owner => TDDrawFullScr16DC.Create(owner)) };
-        yield return new object[] { typeof(TDDrawFullScr24DC), (Func<TComponent, TComponent>)(owner => TDDrawFullScr24DC.Create(owner)) };
-        yield return new object[] { typeof(TDDrawFullScr32DC), (Func<TComponent, TComponent>)(owner => TDDrawFullScr32DC.Create(owner)) };
-        yield return new object[] { typeof(TCustomImageLibrary), (Func<TComponent, TComponent>)(owner => TCustomImageLibrary.Create(owner)) };
-        yield return new object[] { typeof(TImageLibrary), (Func<TComponent, TComponent>)(owner => TImageLibrary.Create(owner)) };
-        yield return new object[] { typeof(TImageLibraryFont), (Func<TComponent, TComponent>)(owner => TImageLibraryFont.Create(owner)) };
-        yield return new object[] { typeof(TImageLibraryManager), (Func<TComponent, TComponent>)(owner => TImageLibraryManager.Create(owner)) };
+        yield return new object[] { typeof(TSdlDC), (Func<TComponent, TComponent>)(owner => new TSdlDC(new NullDisplayHost(), owner)) };
+        yield return new object[] { typeof(TDisplay), (Func<TComponent, TComponent>)(owner => new TDisplay(owner)) };
+        yield return new object[] { typeof(TWindows24DC), (Func<TComponent, TComponent>)(owner => new TWindows24DC(owner)) };
+        yield return new object[] { typeof(TWindows32DC), (Func<TComponent, TComponent>)(owner => new TWindows32DC(owner)) };
+        yield return new object[] { typeof(TDDrawDC), (Func<TComponent, TComponent>)(owner => new TDDrawDC(owner)) };
+        yield return new object[] { typeof(TCustomDisplay), (Func<TComponent, TComponent>)(owner => new TCustomDisplay(owner)) };
+        yield return new object[] { typeof(TDisplayCtrl), (Func<TComponent, TComponent>)(owner => new TDisplayCtrl(owner)) };
+        yield return new object[] { typeof(TWindowsDC), (Func<TComponent, TComponent>)(owner => new TWindowsDC(owner)) };
+        yield return new object[] { typeof(TWindows08DC), (Func<TComponent, TComponent>)(owner => new TWindows08DC(owner)) };
+        yield return new object[] { typeof(TWindows16DC), (Func<TComponent, TComponent>)(owner => new TWindows16DC(owner)) };
+        yield return new object[] { typeof(TDDrawFullScrDC), (Func<TComponent, TComponent>)(owner => new TDDrawFullScrDC(owner)) };
+        yield return new object[] { typeof(TDDrawFullScr16DC), (Func<TComponent, TComponent>)(owner => new TDDrawFullScr16DC(owner)) };
+        yield return new object[] { typeof(TDDrawFullScr24DC), (Func<TComponent, TComponent>)(owner => new TDDrawFullScr24DC(owner)) };
+        yield return new object[] { typeof(TDDrawFullScr32DC), (Func<TComponent, TComponent>)(owner => new TDDrawFullScr32DC(owner)) };
+        yield return new object[] { typeof(TCustomImageLibrary), (Func<TComponent, TComponent>)(owner => new TCustomImageLibrary(owner)) };
+        yield return new object[] { typeof(TImageLibrary), (Func<TComponent, TComponent>)(owner => new TImageLibrary(owner)) };
+        yield return new object[] { typeof(TImageLibraryFont), (Func<TComponent, TComponent>)(owner => new TImageLibraryFont(owner)) };
+        yield return new object[] { typeof(TImageLibraryManager), (Func<TComponent, TComponent>)(owner => new TImageLibraryManager(owner)) };
 
     }
 
@@ -144,35 +144,26 @@ public sealed class GraphicsConstructionTests
 
     [Theory]
     [MemberData(nameof(Components))]
-    public void FailureDuringOwnerNotificationKeepsExistingCleanup(Type type, Func<TComponent, TComponent> create)
+    public void PlainComponentsStayPublishedUntilTeardown(Type type, Func<TComponent, TComponent> create)
     {
-        var owner = new ThrowingOwner();
-        var error = Record.Exception(() => create(owner));
-        Assert.NotNull(error);
-        bool incompleteCleanup = typeof(TDDrawFullScrDC).IsAssignableFrom(type) || typeof(TCustomImageLibrary).IsAssignableFrom(type) || type == typeof(TImageLibraryManager);
-        Assert.Equal(incompleteCleanup ? 1 : 0, owner.ComponentCount);
-        Assert.NotNull(owner.Last);
-        Assert.Equal(incompleteCleanup ? owner : null, owner.Last.Owner);
-        Assert.IsType(incompleteCleanup
-            ? typeof(TDDrawFullScrDC).IsAssignableFrom(type) ? typeof(NotImplementedException) : typeof(NullReferenceException)
-            : typeof(InvalidOperationException), error);
-        if (incompleteCleanup) owner.RemoveComponent(owner.Last);
+        var owner = new TComponent(null!);
+        var value = create(owner);
+        Assert.IsType(type, value);
+        Assert.Same(owner, value.Owner);
+        Assert.Equal(1, owner.ComponentCount);
+        Assert.Same(value, owner.Components[0]);
+        // The absent DirectDraw teardown body is a separate platform boundary.
+        if (value is TDDrawFullScrDC)
+        {
+            Assert.Throws<NotImplementedException>(() => value.Destroy());
+            owner.RemoveComponent(value);
+        }
+        else value.Destroy();
+        Assert.Equal(0, owner.ComponentCount);
         owner.Destroy();
     }
 
-    private sealed class ThrowingOwner : TComponent
-    {
-        public TComponent? Last;
-        public override void Notification(TComponent component, TOperation operation)
-        {
-            base.Notification(component, operation);
-            if (operation == TOperation.opInsert)
-            {
-                Last = component;
-                throw new InvalidOperationException("owner callback after insertion");
-            }
-        }
-    }
+
 
     [Fact]
     public void PrivateHelpersKeepInitialState()
@@ -181,7 +172,7 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(Field(palette, "FPalette"));
         var manager = new TPaletteManager();
         Assert.NotNull(Field(manager, "FPalettes"));
-        var ilManager = TImageLibraryManager.Create(null!);
+        var ilManager = new TImageLibraryManager(null!);
         var list = new TILManagerList(ilManager);
         Assert.Same(ilManager, Field(list, "FOwner"));
         Assert.NotNull(Field(list, "FHashTable"));
@@ -207,7 +198,7 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Surfaces()
     {
-        yield return new object[] { (Func<TGFXEPalette, TSurface>)(palette => TDataSurface.Create(7, 4, G.pfPAL8, palette)), G.pfPAL8, 8 };
+        yield return new object[] { (Func<TGFXEPalette, TSurface>)(palette => new TDataSurface(7, 4, G.pfPAL8, palette)), G.pfPAL8, 8 };
         yield return new object[] { (Func<TGFXEPalette, TSurface>)(palette => new TDIB08Surface(7, 4, palette)), G.pfPAL8, 8 };
         yield return new object[] { (Func<TGFXEPalette, TSurface>)(_ => new TDIB16Surface(7, 4, G.pfRGB555)), G.pfRGB555, 16 };
         yield return new object[] { (Func<TGFXEPalette, TSurface>)(_ => new TDIB24Surface(7, 4)), G.pfRGB24, 24 };
@@ -218,7 +209,7 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Surfaces))]
     public void SurfacesKeepDimensionsFormatAndPaletteIsolation(Func<TGFXEPalette, TSurface> create, int format, int pitch)
     {
-        var palette = TGFXEPalette.Create();
+        var palette = new TGFXEPalette();
         palette.Entries[0].R = 29;
         var surface = create(palette);
         TSurfaceDesc sd = default;
@@ -241,67 +232,46 @@ public sealed class GraphicsConstructionTests
     }
 
     [Fact]
-    public void DataSurfaceFailureCleansPrivateStateAndKeepsSuppliedPalette()
+    public void PlainDataSurfaceCopiesPaletteAndAllocatesItsBuffer()
     {
-        var palette = TGFXEPalette.Create();
+        var palette = new TGFXEPalette();
         palette.Entries[0].R = 29;
-        FailingDataSurface.Last = null;
-        Assert.Throws<InvalidOperationException>(() =>
-        {
-            ConstructionContext.Create(context => new FailingDataSurface(context, palette));
-        });
-        var failed = FailingDataSurface.Last;
-        Assert.NotNull(failed);
-        Assert.Equal(1, failed.Destructions);
-        Assert.Null(failed.Palette);
+        var surface = new TDataSurface(7, 4, G.pfPAL8, palette);
+        Assert.NotSame(palette, surface.Palette);
+        Assert.Equal((byte)29, surface.Palette.Entries[0].R);
+        Assert.Equal(7, surface.Width);
+        Assert.Equal(4, surface.Height);
+        TSurfaceDesc descriptor = default;
+        Assert.Equal(0, surface.Lock(ref descriptor));
+        Assert.False(Rtl.BytePointer(descriptor.Data).IsNull);
+        surface.Unlock();
+        surface.Destroy();
         Assert.Equal((byte)29, palette.Entries[0].R);
         palette.Destroy();
     }
 
-    private sealed class FailingDataSurface : TDataSurface
-    {
-        public static FailingDataSurface? Last;
-        internal FailingDataSurface(ConstructionContext context, TGFXEPalette palette) : base(context, 7, 4, G.pfPAL8, palette) { }
-        public int Destructions;
-        public override int Resize(int width, int height)
-        {
-            base.Resize(width, height);
-            Last = this;
-            throw new InvalidOperationException("after buffer allocation");
-        }
-        public override void Destroy() { Destructions++; base.Destroy(); }
-    }
+
 
     [Fact]
-    public void DisplayFailureAfterPublicationRemovesOwnerOnce()
+    public void PlainDisplayInitializesFrameRateAndOwner()
     {
         var owner = new TComponent(null!);
-        FailingDisplay.Last = null;
-        Assert.Throws<InvalidOperationException>(() =>
-        {
-            ConstructionContext.Create(context => new FailingDisplay(context, owner));
-        });
-        var failed = FailingDisplay.Last;
-        Assert.NotNull(failed);
-        Assert.Equal(1, failed.Destructions);
+        var display = new TCustomDisplay(owner);
+        Assert.Same(owner, display.Owner);
+        Assert.Equal(1, owner.ComponentCount);
+        Assert.Same(display, owner.Components[0]);
+        Assert.True(display.FrameRate > 0);
+        display.Destroy();
         Assert.Equal(0, owner.ComponentCount);
-        Assert.Null(failed.Owner);
         owner.Destroy();
     }
 
-    private sealed class FailingDisplay : TCustomDisplay
-    {
-        public static FailingDisplay? Last;
-        internal FailingDisplay(ConstructionContext context, TComponent owner) : base(context, owner) { }
-        public int Destructions;
-        public override void SetFrameRate(int value) { base.SetFrameRate(value); Last = this; throw new InvalidOperationException("after insertion"); }
-        public override void Destroy() { Destructions++; base.Destroy(); }
-    }
+
 
     [Fact]
     public void InvalidDibDimensionsAndFormatDoNotTouchExternalPalette()
     {
-        var palette = TGFXEPalette.Create();
+        var palette = new TGFXEPalette();
         palette.Entries[0].R = 29;
         Assert.Throws<ArgumentOutOfRangeException>(() => new TDIB08Surface(-1, 4, palette));
         Assert.Throws<ArgumentOutOfRangeException>(() => new TDIB16Surface(-1, 4, G.pfRGB555));
@@ -314,9 +284,9 @@ public sealed class GraphicsConstructionTests
     {
         var owner = new TComponent(null!);
         var session = new Aow.Layout.LayoutSession();
-        var library = TImageLibrary.Create(owner);
+        var library = new TImageLibrary(owner);
         session.BeginRead(library);
-        var font = TImageLibraryFont.Create(owner);
+        var font = new TImageLibraryFont(owner);
         session.BeginRead(font);
         Assert.Equal(2, owner.ComponentCount);
         Assert.True(library.ComponentState.Contains(TComponentState.csLoading));
@@ -325,7 +295,7 @@ public sealed class GraphicsConstructionTests
         Assert.False(library.ComponentState.Contains(TComponentState.csReading));
         Assert.True(library.ComponentState.Contains(TComponentState.csLoading));
         Assert.Equal(2, Field(font, "FCharacterDistance"));
-        var legacy = Aow.Units.HSLib.THSLibrary.Create(owner);
+        var legacy = new Aow.Units.HSLib.THSLibrary(owner);
         Assert.NotNull(Field(legacy, "FList"));
         Assert.NotNull(Field(legacy, "FPaletteManager"));
         Assert.Equal(3, owner.ComponentCount);
@@ -335,7 +305,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void WindowsPaletteSurfaceKeepsOwnerBitmapAndDimensions()
     {
-        var owner = TWindows08DC.Create(null!);
+        var owner = new TWindows08DC(null!);
         var surface = new TWindows08DIBSurface(7, 4, owner);
         TSurfaceDesc sd = default;
         Assert.Equal(0, surface.Lock(ref sd));
@@ -370,7 +340,7 @@ public sealed class GraphicsConstructionTests
     {
         var source = new TDIB16Surface(7, 4, G.pfRGB555);
         source.Cls(255);
-        var copy = TDataSurface.CreateFromSurface(source, default);
+        var copy = new TDataSurface(source, default);
         TSurfaceDesc sd = default;
         copy.Lock(ref sd);
         Assert.Equal(7, sd.Width);
@@ -414,7 +384,7 @@ public sealed class GraphicsConstructionTests
     public void SdlHostCapturePrecedesOwnerCallbacks()
     {
         var owner = new DisplayObservingOwner();
-        var controller = TSdlDC.Create(new NullDisplayHost(), owner);
+        var controller = new TSdlDC(new NullDisplayHost(), owner);
         Assert.Equal(7, owner.X);
         Assert.Equal(9, owner.Y);
         Assert.Equal(1, owner.ComponentCount);

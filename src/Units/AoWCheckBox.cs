@@ -42,7 +42,8 @@ namespace Aow.Units.AoWCheckBox
 //     VMT (new): SetChecked }
     public partial class TAOWCheckBox : Aow.Units.AoWButton.TAOWBaseButton
     {
-        public TAOWCheckBox(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TAOWCheckBox(TComponent owner) : base(owner)
+        { }
 
         public Aow.Rtl.TNotifyEvent FOnDoubleClick;
         // AoWCheckBox.pas:51

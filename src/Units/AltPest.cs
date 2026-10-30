@@ -41,7 +41,7 @@ namespace Aow.Units.AltPest
     // { TAltarOfPestilence (instance size 68, no added fields, VMT 557D255C) }
     public partial class TAltarOfPestilence : Aow.Units.Altar.TAltar
     {
-        public TAltarOfPestilence(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarOfPestilence(TECustomNode owner) : base(owner)
         {}
 
         // AltPest.pas:36
@@ -60,7 +60,7 @@ namespace Aow.Units.AltPest
     // { TAltarOfPestilenceResource (instance size 116, no added fields, VMT 557D281C) }
     public partial class TAltarOfPestilenceResource : Aow.Units.Altar.TAltarResource
     {
-        public TAltarOfPestilenceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarOfPestilenceResource(TECustomNode owner) : base(owner)
         {
         }
 

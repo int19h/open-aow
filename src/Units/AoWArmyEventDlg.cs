@@ -62,7 +62,8 @@ namespace Aow.Units.AoWArmyEventDlg
 //     $78 completion callback; $80 army event; $84 frame; $88 visible unit indices. }
     public partial class TArmyEventDlg : Aow.Rtl.TDataModule
     {
-        public TArmyEventDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TArmyEventDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow ArmyEventWin;
         // { +0044 }

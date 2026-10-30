@@ -9,6 +9,7 @@ using Aow.Units.FMemStr;
 using static Aow.Units.FMemStr.FMemStr;
 using Aow.Units.ImageLib;
 using static Aow.Units.ImageLib.ImageLib;
+using Aow.Units.Engine;
 
 namespace Aow.Units.Engine
 {
@@ -4548,10 +4549,10 @@ namespace Aow.Units.Engine
     {
 
         // Engine.pas:2430
-        public TECustomNode(TECustomNode AOwner) : base(AOwner) { }
+        public TECustomNode(TECustomNode owner) : this(null, owner) { }
 
-        private protected TECustomNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner) { }
+        private protected TECustomNode(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        { }
 
         // Engine.pas:2666
         public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
@@ -5084,11 +5085,11 @@ namespace Aow.Units.Engine
             FDebugEvents = call__128;
             var call__129 = new Aow.Units.Engine.TEObjectClassList();
             FEClasses = call__129;
-            var call__130 = Aow.Units.Engine.TIntegerHashTable256.Create();
+            var call__130 = new Aow.Units.Engine.TIntegerHashTable256();
             FClassTable = call__130;
             var call__131 = new Aow.Units.Engine.TEObjectEditorList();
             FEditors = call__131;
-            var call__132 = Aow.Units.Engine.TEControlStyleNode.Create(this);
+            var call__132 = new Aow.Units.Engine.TEControlStyleNode(this);
             FControlNode = call__132;
             FControlNode.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
             var call__133 = new Aow.Rtl.TStringList();
@@ -5752,7 +5753,7 @@ namespace Aow.Units.Engine
 
         // Engine.pas:9489
         // { TEStorageStream }
-        public TEStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
+        public TEStorageStream(TStream AStream, TEngine AEngine)
         {
             FEngine = AEngine;
             FStream = AStream;
@@ -5843,10 +5844,8 @@ namespace Aow.Units.Engine
     {
         public new const int ClassID = 1024;
 
-        public TEResource(TECustomNode AOwner) : base(AOwner) { }
-
-        private protected TEResource(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner) { }
+        public TEResource(TECustomNode owner) : base(owner)
+        { }
 
         internal Aow.Units.Engine.TECustomNode FResourceList;
         internal int FResourceID;
@@ -5961,20 +5960,18 @@ namespace Aow.Units.Engine
     public partial class EDoublePrioriyID : Aow.Rtl.Exception
     {
         // SysUtils.pas:174
-        public static new Aow.Units.Engine.EDoublePrioriyID Create(Aow.Rtl.AnsiString Msg)
+        public EDoublePrioriyID(AnsiString Msg)
         {
-            return new Aow.Units.Engine.EDoublePrioriyID
-            {
-                Message = Msg
-            };
-        }
+    Message = Msg;
+}
     }
 
     // { Engine.TEBufferStream (instance size 20): the write stream's data buffer }
     public partial class TEBufferStream : Aow.Units.FMemStr.TFastMemoryStream
     {
         // System.pas:111
-        public TEBufferStream() { }
+        public TEBufferStream()
+        { }
     }
 
     public enum TCompressLevel : byte
@@ -6127,12 +6124,6 @@ namespace Aow.Units.Engine
                 F.Free();
             }
         }
-
-        // System.pas:111
-        public static Aow.Units.Engine.TCompressStream Create()
-        {
-            return new Aow.Units.Engine.TCompressStream();
-        }
     }
 
     // { Engine.TPlugIn (instance size 16): +4 FRefCount, +8 FEngines, +$C FCounts. A plug-in registers
@@ -6265,13 +6256,10 @@ namespace Aow.Units.Engine
     public partial class EPlugInMissing : Aow.Rtl.Exception
     {
         // SysUtils.pas:174
-        public static new Aow.Units.Engine.EPlugInMissing Create(Aow.Rtl.AnsiString Msg)
+        public EPlugInMissing(AnsiString Msg)
         {
-            return new Aow.Units.Engine.EPlugInMissing
-            {
-                Message = Msg
-            };
-        }
+    Message = Msg;
+}
     }
 
     // { Engine.TPlugInControl (instance size 16): +8 FEngine, +$C FUsedPlugIns; the names of the
@@ -6329,7 +6317,7 @@ namespace Aow.Units.Engine
                     else
                     {
                         var call__186 = FUsedPlugIns[I];
-                        var call__187 = Aow.Units.Engine.EPlugInMissing.Create((((AnsiString)"PlugIn Missing (") + call__186) + AnsiString.FromBytes(41));
+                        var call__187 = new Aow.Units.Engine.EPlugInMissing((((AnsiString)"PlugIn Missing (") + call__186) + AnsiString.FromBytes(41));
                         throw call__187;
                     }
                 }
@@ -6359,7 +6347,7 @@ namespace Aow.Units.Engine
 
         // Engine.pas:9252
         // { TPlugInControl }
-        public TPlugInControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPlugInControl(TECustomNode owner) : base(owner)
         {
             var call__191 = new Aow.Rtl.TStringList();
             FUsedPlugIns = call__191;
@@ -6554,8 +6542,7 @@ namespace Aow.Units.Engine
         // Engine.pas:2807
         public TENode(TECustomNode owner) : this(null, owner) { }
 
-        private protected TENode(ConstructionContext context, TECustomNode owner)
-            : base(context, owner)
+        private protected TENode(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var call__200 = new Aow.Units.Engine.TEObjectList();
             FChildren = call__200;
@@ -6991,7 +6978,7 @@ namespace Aow.Units.Engine
 
         // Engine.pas:1819
         // { TETimerNode }
-        public TETimerNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TETimerNode(TECustomNode owner) : base(owner)
         {
             int I = default;
             FCount = 0;
@@ -7211,16 +7198,7 @@ namespace Aow.Units.Engine
         // Engine.pas:7246
         public new const int ClassID = 265;
 
-        // Engine.pas:7205
-        public TEChangeNotifyNode(TECustomNode AOwner) : base(AOwner)
-        {
-            var call__244 = new Aow.Units.Engine.TEObjectList();
-            FChildren = call__244;
-            FUpdateCount = 0;
-        }
-
-        private protected TEChangeNotifyNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner)
+        public TEChangeNotifyNode(TECustomNode owner) : base(owner)
         {
             var call__244 = new Aow.Units.Engine.TEObjectList();
             FChildren = call__244;
@@ -8323,15 +8301,7 @@ namespace Aow.Units.Engine
     public partial class TEChangeNotifyEventList : Aow.Units.Engine.TEChangeNotifyNode
     {
 
-        // Engine.pas:8125
-        public TEChangeNotifyEventList(TECustomNode AOwner) : base(AOwner)
-        {
-            var call__274 = new Aow.Units.Engine.TEventList();
-            FEvents = call__274;
-        }
-
-        private protected TEChangeNotifyEventList(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner)
+        public TEChangeNotifyEventList(TECustomNode owner) : base(owner)
         {
             var call__274 = new Aow.Units.Engine.TEventList();
             FEvents = call__274;
@@ -8371,10 +8341,8 @@ namespace Aow.Units.Engine
     public partial class TEObjectEditor : Aow.Units.Engine.TEObject, Aow.Units.Engine.IEObjectEditorClass
     {
 
-        public TEObjectEditor(TECustomNode AOwner) : base(AOwner) { }
-
-        private protected TEObjectEditor(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner) { }
+        public TEObjectEditor(TECustomNode owner) : base(owner)
+        { }
 
         // Engine.pas:3036
         // { TEObjectEditor: stubs }
@@ -8517,12 +8485,6 @@ namespace Aow.Units.Engine
             Result = null;
             return Result;
         }
-
-        // System.pas:111
-        public static Aow.Units.Engine.TIntegerHashList Create()
-        {
-            return new Aow.Units.Engine.TIntegerHashList();
-        }
     }
 
     // { Engine.TIntegerHashTable (instance size 4): the abstract table interface }
@@ -8567,7 +8529,7 @@ namespace Aow.Units.Engine
                 byte end__276 = 255;
                 for (; I <= end__276; I += 1)
                 {
-                    var call__277 = Aow.Units.Engine.TIntegerHashList.Create();
+                    var call__277 = new Aow.Units.Engine.TIntegerHashList();
                     FLists[I] = call__277;
                 }
             }
@@ -8670,10 +8632,6 @@ namespace Aow.Units.Engine
             Result = (I << 8) + MinIndex;
             return Result;
         }
-
-        // Engine.pas:782
-        // Forwarding entry for TEngine.
-        public static Aow.Units.Engine.TIntegerHashTable256 Create() => new TIntegerHashTable256();
     }
 
     // { Engine.TStringHashList (instance size 16): THashList items whose key dword is a string }
@@ -8755,12 +8713,6 @@ namespace Aow.Units.Engine
                 while (!(I == 0));
             }
         }
-
-        // System.pas:111
-        public static Aow.Units.Engine.TStringHashList Create()
-        {
-            return new Aow.Units.Engine.TStringHashList();
-        }
     }
 
     // { Engine.TStringHashTable (instance size 4): the abstract table interface }
@@ -8806,7 +8758,7 @@ namespace Aow.Units.Engine
                 byte end__285 = 255;
                 for (; I <= end__285; I += 1)
                 {
-                    var call__286 = Aow.Units.Engine.TStringHashList.Create();
+                    var call__286 = new Aow.Units.Engine.TStringHashList();
                     FLists[I] = call__286;
                 }
             }
@@ -8918,10 +8870,10 @@ namespace Aow.Units.Engine
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:8222
         // { TEControlStyleObject }
-        public TEControlStyleObject(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+        public TEControlStyleObject(TECustomNode owner) : this(null, owner) { }
 
         // Engine.pas:8222
-        private protected TEControlStyleObject(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        private protected TEControlStyleObject(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             FControlStyle = base.GetControlStyle();
         }
@@ -8954,14 +8906,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8199
         public new const int ClassID = 257;
 
-        // Engine.pas:8193
-        public TEControlStyleNode(TECustomNode AOwner) : base(AOwner)
-        {
-            FControlStyle = base.GetControlStyle();
-        }
-
-        private protected TEControlStyleNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner)
+        public TEControlStyleNode(TECustomNode owner) : base(owner)
         {
             FControlStyle = base.GetControlStyle();
         }
@@ -8989,10 +8934,6 @@ namespace Aow.Units.Engine
             Aow.Rtl.Rtl.RwSet(ref FControlStyle, 1, 2, Stream.rwData, 0);
         }
 
-        // Engine.pas:841
-        // Forwarding entry for TEngine.
-        public static Aow.Units.Engine.TEControlStyleNode Create(Aow.Units.Engine.TECustomNode AOwner) => new TEControlStyleNode(AOwner);
-
     }
 
     // { Engine.TECustomOwner (instance size 20): +$C FEngine, +$10 FControlStyle. A node that knows
@@ -9005,8 +8946,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8250
         public TECustomOwner(TECustomNode owner) : this(null, owner) { }
 
-        private protected TECustomOwner(ConstructionContext context, TECustomNode owner)
-            : base(context, owner)
+        private protected TECustomOwner(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             FOwner = owner;
             FControlStyle = base.GetControlStyle();
@@ -9227,7 +9167,7 @@ namespace Aow.Units.Engine
 
         // Engine.pas:8650
         // { TEResourceEditSettings }
-        public TEResourceEditSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TEResourceEditSettings(TECustomNode owner) : base(owner)
         {
             var call__305 = new Aow.Rtl.TStringList();
             FEditors = call__305;
@@ -9320,14 +9260,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1478
         public new const int ClassID = 260;
 
-        // Engine.pas:1466
-        public TESortNode(TECustomNode AOwner) : base(AOwner)
-        {
-            FItems = [];
-        }
-
-        private protected TESortNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner)
+        public TESortNode(TECustomNode owner) : base(owner)
         {
             FItems = [];
         }
@@ -9505,10 +9438,8 @@ namespace Aow.Units.Engine
     {
         public new const int ClassID = 262;
 
-        public TEInverseSortNode(TECustomNode AOwner) : base(AOwner) { }
-
-        private protected TEInverseSortNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner) { }
+        public TEInverseSortNode(TECustomNode owner) : base(owner)
+        { }
 
         // Engine.pas:1635
         public override int AddSortChild(Aow.Units.Engine.TEObject Child, int SortValue)
@@ -9570,7 +9501,7 @@ namespace Aow.Units.Engine
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:1666
         // { TEControlStyleSortNode }
-        public TEControlStyleSortNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TEControlStyleSortNode(TECustomNode owner) : base(owner)
         {
             FControlStyle = base.GetControlStyle();
         }
@@ -9597,14 +9528,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1695
         public new const int ClassID = 263;
 
-        // Engine.pas:1689
-        public TEControlStyleInverseSortNode(TECustomNode AOwner) : base(AOwner)
-        {
-            FControlStyle = base.GetControlStyle();
-        }
-
-        private protected TEControlStyleInverseSortNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner)
+        public TEControlStyleInverseSortNode(TECustomNode owner) : base(owner)
         {
             FControlStyle = base.GetControlStyle();
         }
@@ -9635,10 +9559,8 @@ namespace Aow.Units.Engine
     public partial class TEReferenceNode : Aow.Units.Engine.TENode
     {
 
-        public TEReferenceNode(TECustomNode AOwner) : base(AOwner) { }
-
-        private protected TEReferenceNode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner) { }
+        public TEReferenceNode(TECustomNode owner) : base(owner)
+        { }
 
         // Engine.pas:8144
         // { TEReferenceNode }
@@ -9752,7 +9674,8 @@ namespace Aow.Units.Engine
     public partial class TEUser : Aow.Units.Engine.TEObject
     {
         // Engine.pas:2430
-        public TEUser(TECustomNode AOwner) : base(AOwner) { }
+        public TEUser(TECustomNode owner) : base(owner)
+        { }
 
         internal Aow.Units.Engine.TECustomNode FNode;
         // Engine.pas:7112
@@ -11008,10 +10931,8 @@ namespace Aow.Units.Engine
     {
         public new const int ClassID = 1025;
 
-        public TEResourceList(TECustomNode AOwner) : base(AOwner) { }
-
-        private protected TEResourceList(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner) { }
+        public TEResourceList(TECustomNode owner) : base(owner)
+        { }
 
         // Engine.pas:8573
         protected internal Aow.Units.Engine.TEResource GetResource(int Index)
@@ -11369,8 +11290,7 @@ namespace Aow.Units.Engine
 
         // Engine.pas:10611
         // { TEReadTextStorageStream }
-        public TEReadTextStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, int ASize)
-            : base(AStream, AEngine)
+        public TEReadTextStorageStream(TStream AStream, TEngine AEngine, int ASize) : base(AStream, AEngine)
         {
             FPath = (AnsiString)"";
             if (ASize <= 0)
@@ -11601,8 +11521,7 @@ namespace Aow.Units.Engine
 
         // Engine.pas:10335
         // { TEWriteTextStorageStream }
-        public TEWriteTextStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
-            : base(AStream, AEngine)
+        public TEWriteTextStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine)
         {
             FPath = (AnsiString)"";
             var call__356 = new Aow.Units.Engine.TEBufferStream();
@@ -11693,7 +11612,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((AnsiString)"Double priorityID found");
+                throw new Aow.Units.Engine.EDoublePrioriyID((AnsiString)"Double priorityID found");
             }
         }
 
@@ -11719,7 +11638,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((AnsiString)"Double priorityID found");
+                throw new Aow.Units.Engine.EDoublePrioriyID((AnsiString)"Double priorityID found");
             }
         }
 
@@ -11751,7 +11670,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((AnsiString)"Double priorityID found");
+                throw new Aow.Units.Engine.EDoublePrioriyID((AnsiString)"Double priorityID found");
             }
         }
 
@@ -11813,7 +11732,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((AnsiString)"Double priorityID found");
+                throw new Aow.Units.Engine.EDoublePrioriyID((AnsiString)"Double priorityID found");
             }
         }
 
@@ -11828,8 +11747,7 @@ namespace Aow.Units.Engine
         internal int FDataBase;
         // Engine.pas:9968
         // { TEReadStorageStream }
-        public TEReadStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
-            : base(AStream, AEngine)
+        public TEReadStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
         {
             var call__371 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__371;
@@ -12412,22 +12330,20 @@ namespace Aow.Units.Engine
         // Engine.pas:9592
         internal void PropertyExistError(int ID)
         {
-            throw Aow.Units.Engine.EDoublePrioriyID.Create((((((AnsiString)"PropertyID already in use (") + Aow.Rtl.Rtl.IntToStr(ID)) + ((AnsiString)" / ")) + ((AnsiString)TObject.ClassNameOf(this.GetType()))) + AnsiString.FromBytes(41));
+            throw new Aow.Units.Engine.EDoublePrioriyID((((((AnsiString)"PropertyID already in use (") + Aow.Rtl.Rtl.IntToStr(ID)) + ((AnsiString)" / ")) + ((AnsiString)TObject.ClassNameOf(this.GetType()))) + AnsiString.FromBytes(41));
         }
 
         // Engine.pas:9565
         // { TEWriteStorageStream }
         // Engine.pas:10489 TDebugWriteStream borrows the supplied stream as its buffer.
-        private protected TEWriteStorageStream(TStream stream, TEngine engine, TEBufferStream buffer)
-            : base(stream, engine)
+        private protected TEWriteStorageStream(TStream stream, TEngine engine, TEBufferStream buffer) : base(stream, engine)
         {
             FBuffer = buffer;
             FPropertyTable = new TPropertyTable();
             FPartial = false;
         }
 
-        public TEWriteStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
-            : base(AStream, AEngine)
+        public TEWriteStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
         {
             FEngine = AEngine;
             FStream = AStream;
@@ -12532,7 +12448,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((AnsiString)"PropertyID already in use");
+                throw new Aow.Units.Engine.EDoublePrioriyID((AnsiString)"PropertyID already in use");
             }
         }
 
@@ -12604,7 +12520,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((AnsiString)"PropertyID already in use");
+                throw new Aow.Units.Engine.EDoublePrioriyID((AnsiString)"PropertyID already in use");
             }
         }
 
@@ -12829,7 +12745,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((((AnsiString)"Double priorityID found (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
+                throw new Aow.Units.Engine.EDoublePrioriyID((((AnsiString)"Double priorityID found (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
             }
         }
 
@@ -12885,7 +12801,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((((AnsiString)"Double priorityID found (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
+                throw new Aow.Units.Engine.EDoublePrioriyID((((AnsiString)"Double priorityID found (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
             }
         }
 
@@ -12928,7 +12844,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((((((AnsiString)"Double priorityID found (") + ((AnsiString)TObject.ClassNameOf(Obj.GetType()))) + AnsiString.FromBytes(58)) + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
+                throw new Aow.Units.Engine.EDoublePrioriyID((((((AnsiString)"Double priorityID found (") + ((AnsiString)TObject.ClassNameOf(Obj.GetType()))) + AnsiString.FromBytes(58)) + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
             }
         }
 
@@ -12983,7 +12899,8 @@ namespace Aow.Units.Engine
         // Engine.pas:10489
         // { TDebugWriteStream }
         // Retained: The debug writer uses the supplied stream as FBuffer and skips the normal writer buffer allocation. Retire with a replacement-base storage protocol.
-        public TDebugWriteStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine) : base(AStream, AEngine, (TEBufferStream)AStream) { }
+        public TDebugWriteStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine, (TEBufferStream)AStream)
+        { }
 
         // Engine.pas:10499
         public override void Destroy()
@@ -13041,7 +12958,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((((AnsiString)"Double priorityID found (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
+                throw new Aow.Units.Engine.EDoublePrioriyID((((AnsiString)"Double priorityID found (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
             }
         }
 
@@ -13088,7 +13005,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((((AnsiString)"Double priorityID found (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
+                throw new Aow.Units.Engine.EDoublePrioriyID((((AnsiString)"Double priorityID found (") + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
             }
         }
 
@@ -13118,7 +13035,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Aow.Units.Engine.EDoublePrioriyID.Create((((((AnsiString)"Double priorityID found (") + ((AnsiString)TObject.ClassNameOf(Obj.GetType()))) + AnsiString.FromBytes(58)) + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
+                throw new Aow.Units.Engine.EDoublePrioriyID((((((AnsiString)"Double priorityID found (") + ((AnsiString)TObject.ClassNameOf(Obj.GetType()))) + AnsiString.FromBytes(58)) + Aow.Rtl.Rtl.IntToStr(ID)) + AnsiString.FromBytes(41));
             }
         }
 
@@ -13155,8 +13072,7 @@ namespace Aow.Units.Engine
     {
         // Engine.pas:10825
         // { TTranslateStorageStream }
-        public TTranslateStorageStream(Aow.Units.Engine.TEngine AEngine)
-            : base(null, AEngine)
+        public TTranslateStorageStream(TEngine AEngine) : base(null, AEngine)
         {
             var call__467 = new Aow.Units.Engine.TPropertyTable();
             FPropertyTable = call__467;
@@ -13290,8 +13206,8 @@ namespace Aow.Units.Engine
 //     comparison to come (smSetupCompare) }
     public partial class TSetupCompareStorageStream : Aow.Units.Engine.TEReadStorageStream
     {
-        public TSetupCompareStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine, bool APartial)
-            : base(AStream, AEngine, APartial) { }
+        public TSetupCompareStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine, APartial)
+        { }
 
         // Engine.pas:10911
         // { TSetupCompareStorageStream }
@@ -13322,8 +13238,8 @@ namespace Aow.Units.Engine
 
         // Engine.pas:10918
         // { TCompareStorageStream }
-        public TCompareStorageStream(Aow.Rtl.TStream AStream, Aow.Units.Engine.TEngine AEngine)
-            : base(AStream, AEngine, false) { }
+        public TCompareStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine, false)
+        { }
 
         // Engine.pas:10923
         public override void Destroy()

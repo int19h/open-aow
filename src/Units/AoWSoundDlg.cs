@@ -69,7 +69,8 @@ namespace Aow.Units.AoWSoundDlg
     // { TSoundDlg (size $12C, VMT 00420E44): $110 sound quality, $114 sound settings ($118 rate, $11C music, $11D DirectSound, $120 window, $124 SFX, $128 voices). }
     public partial class TSoundDlg : Aow.Rtl.TDataModule
     {
-        public TSoundDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TSoundDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

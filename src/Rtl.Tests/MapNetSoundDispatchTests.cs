@@ -30,18 +30,15 @@ public sealed class MapNetSoundDispatchTests
     }
 
     private sealed class SpecializedField(TECustomNode owner) : TMapField(owner);
-    private sealed class SpecializedLevel : TMapLevel
+    private sealed class SpecializedLevel(TECustomNode owner) : TMapLevel(owner)
     {
-        private SpecializedLevel(ConstructionContext context, TECustomNode owner) : base(context, owner) { }
-        internal static new SpecializedLevel Create(TECustomNode owner) =>
-            ConstructionContext.Create(owner, static (context, value) => new SpecializedLevel(context, value));
         public override EClass MapFieldClass() => EClass.Of<SpecializedField>();
     }
 
     static MapNetSoundDispatchTests()
     {
         EClass.Register<SpecializedField>(TMapField.ClassID, static owner => new SpecializedField(owner), 40);
-        EClass.Register<SpecializedLevel>(TMapLevel.ClassID, static owner => SpecializedLevel.Create(owner), 124);
+        EClass.Register<SpecializedLevel>(TMapLevel.ClassID, static owner => new SpecializedLevel(owner), 124);
     }
 
 
@@ -60,7 +57,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void DynamicFieldsKeepTheirExactTypeSizeAndCoordinates()
     {
-        var level = SpecializedLevel.Create(null!);
+        var level = new SpecializedLevel(null!);
         level.Lhx = 2;
         level.CreateMapFieldList(3, 2);
         Assert.Equal(40, level.FieldSize);

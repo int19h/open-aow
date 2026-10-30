@@ -57,7 +57,8 @@ namespace Aow.Units.AoWCampaignSettings
     // { TCampaignSettingsDlg (instance size 132, VMT 0041B1B0) }
     public partial class TCampaignSettingsDlg : Aow.Rtl.TDataModule
     {
-        public TCampaignSettingsDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TCampaignSettingsDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Rtl.TIvTranslator Translator;
         // { +0044 }

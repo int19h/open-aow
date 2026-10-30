@@ -41,7 +41,7 @@ namespace Aow.Units.Storms
     // { TStorm (instance size 64, VMT 557CB0BC): $3C player, $3D padding. }
     public partial class TStorm : Aow.Units.Animation.TAnimation
     {
-        public TStorm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TStorm(TECustomNode owner) : base(owner)
         {}
 
         public sbyte FPlayer;
@@ -155,7 +155,7 @@ namespace Aow.Units.Storms
     // { TBlastStorm (instance size 68, VMT 557CB260): $40 storm image library. }
     public partial class TBlastStorm : Aow.Units.Storms.TStorm
     {
-        public TBlastStorm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TBlastStorm(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.ImageLib.TCustomImageLibrary FStormImages;
@@ -342,7 +342,7 @@ namespace Aow.Units.Storms
     // { TIceStorm (instance size 68, VMT 557CB41C) }
     public partial class TIceStorm : Aow.Units.Storms.TBlastStorm
     {
-        public TIceStorm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TIceStorm(TECustomNode owner) : base(owner)
         {}
 
         // Storms.pas:363
@@ -430,7 +430,7 @@ namespace Aow.Units.Storms
     // { TDeathStorm (instance size 68, VMT 557CB5D8) }
     public partial class TDeathStorm : Aow.Units.Storms.TBlastStorm
     {
-        public TDeathStorm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDeathStorm(TECustomNode owner) : base(owner)
         {}
 
         // Storms.pas:492
@@ -477,7 +477,7 @@ namespace Aow.Units.Storms
     // { TDivineStorm (instance size 68, VMT 557CB794) }
     public partial class TDivineStorm : Aow.Units.Storms.TBlastStorm
     {
-        public TDivineStorm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDivineStorm(TECustomNode owner) : base(owner)
         {}
 
         // Storms.pas:608
@@ -524,7 +524,7 @@ namespace Aow.Units.Storms
     // { TLightningStorm (instance size 68, VMT 557CB958): $40 storm image library. }
     public partial class TLightningStorm : Aow.Units.Storms.TStorm
     {
-        public TLightningStorm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TLightningStorm(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 135739;
@@ -649,7 +649,7 @@ namespace Aow.Units.Storms
     // { TFireStorm (instance size 64, VMT 557CBB0C) }
     public partial class TFireStorm : Aow.Units.Storms.TStorm
     {
-        public TFireStorm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFireStorm(TECustomNode owner) : base(owner)
         {}
 
         // Storms.pas:517
@@ -817,7 +817,7 @@ namespace Aow.Units.Storms
     // { TPestilenceStorm (instance size 68, VMT 557CBCB8): $40 poison cloud resource. }
     public partial class TPestilenceStorm : Aow.Units.Storms.TStorm
     {
-        public TPestilenceStorm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPestilenceStorm(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 135745;
@@ -989,7 +989,7 @@ namespace Aow.Units.Storms
     // { TStormSpellTE (instance size 40, VMT 557CBE74): $20 storm, $24 X, $25 Y, $26 layer. }
     public partial class TStormSpellTE : Aow.Units.AoWE.TSpellTE
     {
-        public TStormSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TStormSpellTE(TECustomNode owner) : base(owner)
         {}
 
         // Storms.pas:730
@@ -1057,7 +1057,7 @@ namespace Aow.Units.Storms
         public Aow.Units.AoWE.TAbstractUnit FSource;
         // Storms.pas:762
         // { $38 }
-        private protected TStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TStormSpell(TECustomNode owner) : base(owner)
         {
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
         }
@@ -1312,19 +1312,13 @@ namespace Aow.Units.Storms
                     break;
             }
         }
-
-        // Storms.pas:151
-        public static new Aow.Units.Storms.TStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TStormSpell(context, owner));
-        }
     }
 
     // { TFireStormSpell (instance size 60, VMT 557CC060) }
     public partial class TFireStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:939
-        private TFireStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TFireStormSpell(TECustomNode owner) : base(owner)
         {
             var call__125 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireStormRStr);
             FSpellName = call__125;
@@ -1341,19 +1335,13 @@ namespace Aow.Units.Storms
             Result = new Aow.Units.Storms.TFireStorm(null);
             return Result;
         }
-
-        // Storms.pas:165
-        public static new Aow.Units.Storms.TFireStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireStormSpell(context, owner));
-        }
     }
 
     // { TDivineStormSpell (instance size 60, VMT 557CC180) }
     public partial class TDivineStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:954
-        private TDivineStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TDivineStormSpell(TECustomNode owner) : base(owner)
         {
             var call__126 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DivineStormRStr);
             FSpellName = call__126;
@@ -1370,19 +1358,13 @@ namespace Aow.Units.Storms
             Result = new Aow.Units.Storms.TDivineStorm(null);
             return Result;
         }
-
-        // Storms.pas:172
-        public static new Aow.Units.Storms.TDivineStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDivineStormSpell(context, owner));
-        }
     }
 
     // { TDeathStormSpell (instance size 60, VMT 557CC2A8) }
     public partial class TDeathStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:969
-        private TDeathStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TDeathStormSpell(TECustomNode owner) : base(owner)
         {
             var call__127 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeathStormRStr);
             FSpellName = call__127;
@@ -1399,19 +1381,13 @@ namespace Aow.Units.Storms
             Result = new Aow.Units.Storms.TDeathStorm(null);
             return Result;
         }
-
-        // Storms.pas:179
-        public static new Aow.Units.Storms.TDeathStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDeathStormSpell(context, owner));
-        }
     }
 
     // { TIceStormSpell (instance size 60, VMT 557CC3D0) }
     public partial class TIceStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:984
-        private TIceStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TIceStormSpell(TECustomNode owner) : base(owner)
         {
             var call__128 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.IceStormRStr);
             FSpellName = call__128;
@@ -1428,19 +1404,13 @@ namespace Aow.Units.Storms
             Result = new Aow.Units.Storms.TIceStorm(null);
             return Result;
         }
-
-        // Storms.pas:186
-        public static new Aow.Units.Storms.TIceStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TIceStormSpell(context, owner));
-        }
     }
 
     // { TLightningStormSpell (instance size 60, VMT 557CC4F0) }
     public partial class TLightningStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:1014
-        private TLightningStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TLightningStormSpell(TECustomNode owner) : base(owner)
         {
             var call__129 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LightningStormRStr);
             FSpellName = call__129;
@@ -1457,19 +1427,13 @@ namespace Aow.Units.Storms
             Result = new Aow.Units.Storms.TLightningStorm(null);
             return Result;
         }
-
-        // Storms.pas:193
-        public static new Aow.Units.Storms.TLightningStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLightningStormSpell(context, owner));
-        }
     }
 
     // { TPestilenceStormSpell (instance size 60, VMT 557CC620) }
     public partial class TPestilenceStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:999
-        private TPestilenceStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TPestilenceStormSpell(TECustomNode owner) : base(owner)
         {
             var call__130 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PestilenceRStr);
             FSpellName = call__130;
@@ -1486,12 +1450,6 @@ namespace Aow.Units.Storms
             Result = new Aow.Units.Storms.TPestilenceStorm(null);
             return Result;
         }
-
-        // Storms.pas:200
-        public static new Aow.Units.Storms.TPestilenceStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPestilenceStormSpell(context, owner));
-        }
     }
 
     public static partial class Storms
@@ -1502,17 +1460,17 @@ namespace Aow.Units.Storms
             Aow.Units.AoWE.TSpellControl Spells = default;
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TIceStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TDeathStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TDivineStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TFireStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TLightningStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TPestilenceStorm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Storms.TStormSpellTE>()]);
             Spells = ((Aow.Units.AoWE.TAoWEngine)AEngine).FGameSet.FSpellControl;
-            var call__131 = Aow.Units.Storms.TFireStormSpell.Create(null);
+            var call__131 = new Aow.Units.Storms.TFireStormSpell(null);
             Spells.RegisterSpell(call__131);
-            var call__132 = Aow.Units.Storms.TDeathStormSpell.Create(null);
+            var call__132 = new Aow.Units.Storms.TDeathStormSpell(null);
             Spells.RegisterSpell(call__132);
-            var call__133 = Aow.Units.Storms.TDivineStormSpell.Create(null);
+            var call__133 = new Aow.Units.Storms.TDivineStormSpell(null);
             Spells.RegisterSpell(call__133);
-            var call__134 = Aow.Units.Storms.TLightningStormSpell.Create(null);
+            var call__134 = new Aow.Units.Storms.TLightningStormSpell(null);
             Spells.RegisterSpell(call__134);
-            var call__135 = Aow.Units.Storms.TIceStormSpell.Create(null);
+            var call__135 = new Aow.Units.Storms.TIceStormSpell(null);
             Spells.RegisterSpell(call__135);
-            var call__136 = Aow.Units.Storms.TPestilenceStormSpell.Create(null);
+            var call__136 = new Aow.Units.Storms.TPestilenceStormSpell(null);
             Spells.RegisterSpell(call__136);
         }
 

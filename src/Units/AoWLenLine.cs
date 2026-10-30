@@ -45,7 +45,8 @@ namespace Aow.Units.AoWLenLine
     // { TAoWLenLine: instance size $118; $114 vertical line image library. }
     public partial class TAoWLenLine : Aow.Units.AoWControl.TAOWControl
     {
-        public TAoWLenLine(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TAoWLenLine(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILLine;
         // AoWLenLine.pas:36

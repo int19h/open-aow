@@ -43,7 +43,8 @@ namespace Aow.Units.aowIntGfxMod
     // { TIntGfxMod (instance size 252, VMT 004039E8) }
     public partial class TIntGfxMod : Aow.Rtl.TDataModule
     {
-        public TIntGfxMod(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TIntGfxMod(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL GenericT;
         // { +0044 }

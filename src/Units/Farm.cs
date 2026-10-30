@@ -45,7 +45,7 @@ namespace Aow.Units.Farm
     // { TFarm (instance size 72, VMT 557B281C): $44 FMode. }
     public partial class TFarm : Aow.Units.Crops.TPlayerCropStructure
     {
-        public TFarm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFarm(TECustomNode owner) : base(owner)
         {}
 
         // Farm.pas:54
@@ -232,7 +232,7 @@ namespace Aow.Units.Farm
     // { TFarmResource (instance size 120, VMT 557B2AC4) }
     public partial class TFarmResource : Aow.Units.Crops.TPlayerCropStructureResource
     {
-        public TFarmResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFarmResource(TECustomNode owner) : base(owner)
         {
             FClaimed = false;
             FRazeable = true;

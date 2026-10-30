@@ -41,46 +41,18 @@ internal static class SweepFailureFixture
         }
     }
 
-    internal static string Observe(string name, bool reject, int route)
+    internal static void CheckPlainState(string name, int route)
     {
-        var previousEngine = Game.AoWEngine;
-        var dictionary = EngineFixture.Engine.FDictionary;
-        Game.AoWEngine = EngineFixture.Engine;
-        Game.AoWEngine.FDictionary = null!;
-        var owner = new Owner(reject);
-        string error = "no failure";
-        Type type = typeof(TSpell).Assembly.GetType(name)!;
-        try
-        {
-            if (route == 0)
-            {
-                MethodInfo factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(TECustomNode)])!;
-                factory.Invoke(null, [owner]);
-            }
-            else if (route == 1) EClass.Of(type).Create(owner);
-            else if (route == 2) EClass.Of(type).Create(owner);
-            else
-            {
-                if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-                var engine = new TEngine(null!);
-                try
-                {
-                    EClass descriptor = EClass.Of(type);
-                    engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
-                    try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
-                    catch (Aow.Rtl.Exception) { }
-                    engine.RegisterEClasses([descriptor]);
-                    engine.CreateEObject(descriptor.ClassID, owner);
-                }
-                finally { engine.Destroy(); }
-            }
-        }
-        catch (System.Exception exception)
-        {
-            if (exception is TargetInvocationException { InnerException: { } inner }) exception = inner;
-            error = exception.GetType().FullName + ":" + exception.Message;
-        }
-        finally { EngineFixture.Engine.FDictionary = dictionary; Game.AoWEngine = previousEngine; }
-        return JsonSerializer.Serialize(new { Error = error, owner.Events, Count = owner.Members.Count, HasOwner = owner.Last?.Owner is not null });
+        var type = typeof(TSpell).Assembly.GetType(name)!;
+        using var fixture = new OrderingRecording.Fixture(type);
+        var owner = new Owner(false);
+        var value = OrderingRecording.Create(type, owner, route, fixture.Engine);
+        Assert.IsType(type, value);
+        Assert.Same(owner, value.Owner);
+        Assert.Same(value, Assert.Single(owner.Members));
+        Assert.Equal(["insert:True"], owner.Events);
+        value.Destroy();
+        Assert.Empty(owner.Members);
+        Assert.Equal(["insert:True", "remove:True"], owner.Events);
     }
 }

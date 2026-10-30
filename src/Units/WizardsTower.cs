@@ -39,7 +39,7 @@ namespace Aow.Units.WizardsTower
     // { TWizardsTower: size $38, VMT 557D5508; $30 generate, $31 spheres, $33 level, $34 spell ID. }
     public partial class TWizardsTower : Aow.Units.AoWE.TStructure
     {
-        public TWizardsTower(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TWizardsTower(TECustomNode owner) : base(owner)
         {
             FGenerateSpell = true;
             FMagicSpheres = Aow.Units.WizardsTower.WizardsTower.AllMagicSpheres;
@@ -425,7 +425,7 @@ namespace Aow.Units.WizardsTower
     // { TWizardsTowerResource: size $64, VMT 557D5774; no additional fields. }
     public partial class TWizardsTowerResource : Aow.Units.AoWE.TStructureResource
     {
-        public TWizardsTowerResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TWizardsTowerResource(TECustomNode owner) : base(owner)
         {}
 
         // WizardsTower.pas:263
@@ -455,7 +455,8 @@ namespace Aow.Units.WizardsTower
     public partial class TEnterWizardsTowerEventLog : Aow.Units.EventLog.TEventLog
     {
         // WizardsTower.pas:70
-        public TEnterWizardsTowerEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TEnterWizardsTowerEventLog(TECustomNode owner) : base(owner)
+        { }
 
         public Aow.Units.WizardsTower.TWizardsTower FTower;
         // WizardsTower.pas:73

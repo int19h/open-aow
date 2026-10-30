@@ -63,7 +63,8 @@ namespace Aow.Units.AoWPowerDlg
     // { TPowerDlg: size $AC; all fields are form components, $9C power allocation slider. VMT 0042B9B0. }
     public partial class TPowerDlg : Aow.Rtl.TDataModule
     {
-        public TPowerDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TPowerDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
         // { +0044 }

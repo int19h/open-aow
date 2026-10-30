@@ -67,7 +67,8 @@ namespace Aow.Units.AoWTitleScene
     // { TTitleScene (size $B4, VMT 004192F4): $64/$68 frame counters, $6C mouse button, $70/$74 mouse position, $78/$7C/$80 selected/pressed/hover button, $84 scene rectangle, $94/$95 redraw/credits, $98 credits, $9C/$A0 credit page/frame, $A4/$A8 intro flag/frame, $AC font. }
     public partial class TTitleScene : Aow.Rtl.TDataModule
     {
-        public TTitleScene(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TTitleScene(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.ImageLib.TImageLibrary TitleSceneIL;
         // { +0044 }

@@ -53,7 +53,7 @@ namespace Aow.Units.UnitIGrd
         public byte FReserved1E7;
         // UnitIGrd.pas:51
         // Retained: The Graphics.Color implementation is absent. Preserve the throw before semantic base initialization.
-        public TUnitIndexGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TUnitIndexGrid(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary Graphics.Color */
             throw new System.NotImplementedException();

@@ -63,7 +63,7 @@ namespace Aow.Units.HeroGrid
 
         // HeroGrid.pas:114
         // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public THeroGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public THeroGrid(TComponent owner) : base(owner)
         {
 
             DefaultColWidth = 155;

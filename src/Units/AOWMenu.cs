@@ -70,7 +70,7 @@ namespace Aow.Units.AOWMenu
         public Aow.Rtl.TRect FDrawItemRect;
         // AOWMenu.pas:102
         // { TAOWMenu }
-        public TAOWMenu(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWMenu(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;

@@ -56,7 +56,7 @@ public sealed class MapNetSoundConstructionTests
         var previous = (EClass?)engine.FClassTable.Find(meta.ClassID);
         if (previous is not null) engine.UnregisterEClasses([previous]);
         engine.RegisterEClasses([EClass.Of(type)]);
-        var direct = type == typeof(TMapLevel) ? TMapLevel.Create(argument)
+        var direct = type == typeof(TMapLevel) ? new TMapLevel(argument)
             : (TEObject)Activator.CreateInstance(type, [argument])!;
         TEObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
         try

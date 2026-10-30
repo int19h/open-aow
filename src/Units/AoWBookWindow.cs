@@ -76,7 +76,7 @@ namespace Aow.Units.AoWBookWindow
         }
 
         // AoWBookWindow.pas:44
-        public TAoWBookWindow(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAoWBookWindow(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Units.PageTurnCtrl.TPageTurnControl();
             FPageTurn = call__1;

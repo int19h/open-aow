@@ -37,7 +37,7 @@ namespace Aow.Units.Hill
     // { THillMO (instance size 20, VMT 55800AFC) }
     public partial class THillMO : Aow.Units.Terrain.TTerrainMO
     {
-        public THillMO(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THillMO(TECustomNode owner) : base(owner)
         {}
 
         // Hill.pas:39
@@ -51,7 +51,7 @@ namespace Aow.Units.Hill
     // { THillMOR (instance size 72, VMT 55800C98) }
     public partial class THillMOR : Aow.Units.Terrain.TTerrainMOR
     {
-        public THillMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THillMOR(TECustomNode owner) : base(owner)
         {}
 
         // Hill.pas:42

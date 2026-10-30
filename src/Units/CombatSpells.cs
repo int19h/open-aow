@@ -41,7 +41,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:447
         public new const int ClassID = 131778;
 
-        public TCombatSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TCombatSpellCA(TECustomNode owner) : base(owner)
+        { }
 
         public int FSpellID;
         public int FManaCost;
@@ -132,7 +133,8 @@ namespace Aow.Units.CombatSpells
 //     $0C source ID, $0D target ID, $10 casting mana, $14 success, $18 spell ID. }
     public partial class TExclusiveCombatSpellCA : Aow.Units.AoWE.TCombatAction
     {
-        public TExclusiveCombatSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TExclusiveCombatSpellCA(TECustomNode owner) : base(owner)
+        { }
 
         public byte FSourceID;
         public byte FTargetID;
@@ -262,7 +264,7 @@ namespace Aow.Units.CombatSpells
         }
 
         // CombatSpells.pas:557
-        public TMultiTargetCombatSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMultiTargetCombatSpellCA(TECustomNode owner) : base(owner)
         {
             var call__16 = new Aow.Units.Engine.TByteList();
             FTargetIDs = call__16;
@@ -371,7 +373,7 @@ namespace Aow.Units.CombatSpells
         // { $3C }
         public Aow.Units.FixedArray_byte_3 F_CombatSpell_3D;
         // CombatSpells.pas:632
-        private protected TCombatSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TCombatSpell(TECustomNode owner) : base(owner)
         {
             FSpellType = Aow.Units.AoWE.TSpellType.stCombat;
             FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
@@ -773,9 +775,6 @@ namespace Aow.Units.CombatSpells
                 A4.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
             }
         }
-
-        public static new Aow.Units.CombatSpells.TCombatSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCombatSpell(context, owner));
     }
 
     // { TSolarFlare (instance size 64, VMT 557F40BC):
@@ -783,7 +782,7 @@ namespace Aow.Units.CombatSpells
     public partial class TSolarFlare : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:845
-        private protected TSolarFlare(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSolarFlare(TECustomNode owner) : base(owner)
         {
             var call__87 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SolarFlareRStr);
             FSpellName = call__87;
@@ -795,9 +794,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TSolarFlare Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSolarFlare(context, owner));
     }
 
     // { TTurnUndeadSpellCA (instance size 32, VMT 557F41D0) }
@@ -806,7 +802,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:861
         public new const int ClassID = 131788;
 
-        public TTurnUndeadSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TTurnUndeadSpellCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:867
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -843,7 +840,7 @@ namespace Aow.Units.CombatSpells
     public partial class TTurnUndead : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:888
-        private protected TTurnUndead(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TTurnUndead(TECustomNode owner) : base(owner)
         {
             var call__93 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TurnUndeadRStr);
             FSpellName = call__93;
@@ -938,9 +935,6 @@ namespace Aow.Units.CombatSpells
                 A4.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
             }
         }
-
-        public static new Aow.Units.CombatSpells.TTurnUndead Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTurnUndead(context, owner));
     }
 
     // { TFastCombatHighPrayerCA (instance size 32, VMT 557F43DC) }
@@ -949,7 +943,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:937
         public new const int ClassID = 131783;
 
-        public TFastCombatHighPrayerCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TFastCombatHighPrayerCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:943
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -1008,7 +1003,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:976
         public new const int ClassID = 131786;
 
-        public TTacticalCombatHighPrayerCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TTacticalCombatHighPrayerCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:982
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -1034,7 +1030,7 @@ namespace Aow.Units.CombatSpells
     public partial class THighPrayer : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:996
-        private protected THighPrayer(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public THighPrayer(TECustomNode owner) : base(owner)
         {
             var call__118 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HighPrayerRStr);
             FSpellName = call__118;
@@ -1201,9 +1197,6 @@ namespace Aow.Units.CombatSpells
                 A4.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
             }
         }
-
-        public static new Aow.Units.CombatSpells.THighPrayer Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THighPrayer(context, owner));
     }
 
     // { TDeathRay (instance size 64, VMT 557F46E0):
@@ -1211,7 +1204,7 @@ namespace Aow.Units.CombatSpells
     public partial class TDeathRay : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1130
-        private protected TDeathRay(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TDeathRay(TECustomNode owner) : base(owner)
         {
             var call__132 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeathRayRStr);
             FSpellName = call__132;
@@ -1223,9 +1216,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TDeathRay Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDeathRay(context, owner));
     }
 
     // { TDiseaseCloud (instance size 64, VMT 557F47F0):
@@ -1233,7 +1223,7 @@ namespace Aow.Units.CombatSpells
     public partial class TDiseaseCloud : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1146
-        private protected TDiseaseCloud(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TDiseaseCloud(TECustomNode owner) : base(owner)
         {
             var call__134 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DiseaseCloudRStr);
             FSpellName = call__134;
@@ -1245,9 +1235,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TDiseaseCloud Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDiseaseCloud(context, owner));
     }
 
     // { TMindDecayCA (instance size 28, VMT 557F4908) }
@@ -1256,7 +1243,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1162
         public new const int ClassID = 131787;
 
-        public TMindDecayCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TMindDecayCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:1168
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -1308,7 +1296,7 @@ namespace Aow.Units.CombatSpells
     public partial class TMindDecay : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1190
-        private protected TMindDecay(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TMindDecay(TECustomNode owner) : base(owner)
         {
             var call__145 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MindDecayRStr);
             FSpellName = call__145;
@@ -1367,9 +1355,6 @@ namespace Aow.Units.CombatSpells
             Result = Action;
             return Result;
         }
-
-        public static new Aow.Units.CombatSpells.TMindDecay Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TMindDecay(context, owner));
     }
 
     // { TChainLightning (instance size 64, VMT 557F4AFC):
@@ -1377,7 +1362,7 @@ namespace Aow.Units.CombatSpells
     public partial class TChainLightning : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1224
-        private protected TChainLightning(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TChainLightning(TECustomNode owner) : base(owner)
         {
             var call__155 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ChainLightningRStr);
             FSpellName = call__155;
@@ -1390,9 +1375,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
         }
-
-        public static new Aow.Units.CombatSpells.TChainLightning Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TChainLightning(context, owner));
     }
 
     // { TColdBreath (instance size 64, VMT 557F4C18):
@@ -1400,7 +1382,7 @@ namespace Aow.Units.CombatSpells
     public partial class TColdBreath : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1241
-        private protected TColdBreath(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TColdBreath(TECustomNode owner) : base(owner)
         {
             var call__157 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ColdBreathRStr);
             FSpellName = call__157;
@@ -1412,9 +1394,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 4;
         }
-
-        public static new Aow.Units.CombatSpells.TColdBreath Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TColdBreath(context, owner));
     }
 
     // { TSlowCA (instance size 28, VMT 557F4D2C) }
@@ -1423,7 +1402,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1257
         public new const int ClassID = 131792;
 
-        public TSlowCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TSlowCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:1263
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -1458,7 +1438,7 @@ namespace Aow.Units.CombatSpells
     public partial class TSlow : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1284
-        private protected TSlow(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSlow(TECustomNode owner) : base(owner)
         {
             var call__164 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SlowRStr);
             FSpellName = call__164;
@@ -1506,9 +1486,6 @@ namespace Aow.Units.CombatSpells
             abilityDamageValues.TargetCost = 0;
             abilityDamageValues.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
         }
-
-        public static new Aow.Units.CombatSpells.TSlow Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSlow(context, owner));
     }
 
     // { TEntangleSpellCA (instance size 28, VMT 557F4F08) }
@@ -1517,7 +1494,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1328
         public new const int ClassID = 131784;
 
-        public TEntangleSpellCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TEntangleSpellCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:1334
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -1551,7 +1529,7 @@ namespace Aow.Units.CombatSpells
     public partial class TEntangle : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1352
-        private protected TEntangle(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TEntangle(TECustomNode owner) : base(owner)
         {
             var call__173 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EntangleRStr);
             FSpellName = call__173;
@@ -1629,9 +1607,6 @@ namespace Aow.Units.CombatSpells
                 A3.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
             }
         }
-
-        public static new Aow.Units.CombatSpells.TEntangle Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEntangle(context, owner));
     }
 
     // { TTremors (instance size 64, VMT 557F5100):
@@ -1639,7 +1614,7 @@ namespace Aow.Units.CombatSpells
     public partial class TTremors : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1404
-        private protected TTremors(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TTremors(TECustomNode owner) : base(owner)
         {
             // { Original leaves this spell name untranslated. }
             FSpellName = Aow.Units.AoWE.AoWE.TremorsRStr;
@@ -1652,9 +1627,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = unchecked((sbyte)-1);
             spellCombatInfo.Radius = 5;
         }
-
-        public static new Aow.Units.CombatSpells.TTremors Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTremors(context, owner));
     }
 
     // { TCallFlames (instance size 64, VMT 557F5210):
@@ -1662,7 +1634,7 @@ namespace Aow.Units.CombatSpells
     public partial class TCallFlames : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1421
-        private protected TCallFlames(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TCallFlames(TECustomNode owner) : base(owner)
         {
             var call__188 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CallFlamesRStr);
             FSpellName = call__188;
@@ -1675,9 +1647,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = 8;
             spellCombatInfo.Radius = 1;
         }
-
-        public static new Aow.Units.CombatSpells.TCallFlames Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCallFlames(context, owner));
     }
 
     // { TFireBreath (instance size 64, VMT 557F5324):
@@ -1685,7 +1654,7 @@ namespace Aow.Units.CombatSpells
     public partial class TFireBreath : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1438
-        private protected TFireBreath(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TFireBreath(TECustomNode owner) : base(owner)
         {
             var call__190 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireBreathRStr);
             FSpellName = call__190;
@@ -1698,9 +1667,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = 4;
             spellCombatInfo.Radius = 3;
         }
-
-        public static new Aow.Units.CombatSpells.TFireBreath Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireBreath(context, owner));
     }
 
     // { TSwarm (instance size 64, VMT 557F5438):
@@ -1708,7 +1674,7 @@ namespace Aow.Units.CombatSpells
     public partial class TSwarm : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1455
-        private protected TSwarm(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSwarm(TECustomNode owner) : base(owner)
         {
             var call__192 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SwarmRStr);
             FSpellName = call__192;
@@ -1721,9 +1687,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 5;
         }
-
-        public static new Aow.Units.CombatSpells.TSwarm Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSwarm(context, owner));
     }
 
     // { TGreatHail (instance size 64, VMT 557F5544):
@@ -1731,7 +1694,7 @@ namespace Aow.Units.CombatSpells
     public partial class TGreatHail : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1472
-        private protected TGreatHail(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TGreatHail(TECustomNode owner) : base(owner)
         {
             var call__194 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GreatHailRStr);
             FSpellName = call__194;
@@ -1744,9 +1707,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 2;
         }
-
-        public static new Aow.Units.CombatSpells.TGreatHail Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TGreatHail(context, owner));
     }
 
     // { TFireBall (instance size 64, VMT 557F5658):
@@ -1754,7 +1714,7 @@ namespace Aow.Units.CombatSpells
     public partial class TFireBall : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1489
-        private protected TFireBall(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TFireBall(TECustomNode owner) : base(owner)
         {
             var call__196 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireBallRStr);
             FSpellName = call__196;
@@ -1766,9 +1726,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TFireBall Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireBall(context, owner));
     }
 
     // { TGeyser (instance size 64, VMT 557F5768):
@@ -1776,7 +1733,7 @@ namespace Aow.Units.CombatSpells
     public partial class TGeyser : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1505
-        private protected TGeyser(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TGeyser(TECustomNode owner) : base(owner)
         {
             var call__198 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GeyserRStr);
             FSpellName = call__198;
@@ -1823,9 +1780,6 @@ namespace Aow.Units.CombatSpells
             Result = Action;
             return Result;
         }
-
-        public static new Aow.Units.CombatSpells.TGeyser Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TGeyser(context, owner));
     }
 
     // { TIceShards (instance size 64, VMT 557F5874):
@@ -1833,7 +1787,7 @@ namespace Aow.Units.CombatSpells
     public partial class TIceShards : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1537
-        private protected TIceShards(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TIceShards(TECustomNode owner) : base(owner)
         {
             var call__204 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.IceShardsRStr);
             FSpellName = call__204;
@@ -1845,9 +1799,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 3;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TIceShards Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TIceShards(context, owner));
     }
 
     // { TFrostBeams (instance size 64, VMT 557F5988):
@@ -1855,7 +1806,7 @@ namespace Aow.Units.CombatSpells
     public partial class TFrostBeams : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1553
-        private protected TFrostBeams(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TFrostBeams(TECustomNode owner) : base(owner)
         {
             var call__206 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FrostBeamsRStr);
             FSpellName = call__206;
@@ -1868,9 +1819,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
         }
-
-        public static new Aow.Units.CombatSpells.TFrostBeams Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFrostBeams(context, owner));
     }
 
     // { TVaporize (instance size 64, VMT 557F5A9C):
@@ -1878,7 +1826,7 @@ namespace Aow.Units.CombatSpells
     public partial class TVaporize : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1570
-        private protected TVaporize(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TVaporize(TECustomNode owner) : base(owner)
         {
             var call__208 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.VaporizeRStr);
             FSpellName = call__208;
@@ -1891,9 +1839,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TVaporize Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TVaporize(context, owner));
     }
 
     // { TFlamingArrow (instance size 64, VMT 557F5BAC):
@@ -1901,7 +1846,7 @@ namespace Aow.Units.CombatSpells
     public partial class TFlamingArrow : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1603
-        private protected TFlamingArrow(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TFlamingArrow(TECustomNode owner) : base(owner)
         {
             var call__210 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FlamingArrowRStr);
             FSpellName = call__210;
@@ -1913,9 +1858,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TFlamingArrow Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFlamingArrow(context, owner));
     }
 
     // { TStoning (instance size 64, VMT 557F5CC4):
@@ -1923,7 +1865,7 @@ namespace Aow.Units.CombatSpells
     public partial class TStoning : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1587
-        private protected TStoning(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TStoning(TECustomNode owner) : base(owner)
         {
             var call__212 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StoningRStr);
             FSpellName = call__212;
@@ -1935,9 +1877,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 6;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TStoning Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TStoning(context, owner));
     }
 
     // { TOoze (instance size 64, VMT 557F5DD4):
@@ -1945,7 +1884,7 @@ namespace Aow.Units.CombatSpells
     public partial class TOoze : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1619
-        private protected TOoze(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TOoze(TECustomNode owner) : base(owner)
         {
             var call__214 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.OozeRStr);
             FSpellName = call__214;
@@ -1973,9 +1912,6 @@ namespace Aow.Units.CombatSpells
             A3.TargetDamage = 0;
             A3.TargetCost = 0;
         }
-
-        public static new Aow.Units.CombatSpells.TOoze Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TOoze(context, owner));
     }
 
     // { TSacredWrath (instance size 64, VMT 557F5EDC):
@@ -1983,7 +1919,7 @@ namespace Aow.Units.CombatSpells
     public partial class TSacredWrath : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1649
-        private protected TSacredWrath(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSacredWrath(TECustomNode owner) : base(owner)
         {
             var call__218 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SacredWrathRStr);
             FSpellName = call__218;
@@ -1996,9 +1932,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = 8;
             spellCombatInfo.Radius = 3;
         }
-
-        public static new Aow.Units.CombatSpells.TSacredWrath Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSacredWrath(context, owner));
     }
 
     // { TFastCombatTerrorCA (instance size 32, VMT 557F5FF4) }
@@ -2007,7 +1940,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1666
         public new const int ClassID = 131777;
 
-        public TFastCombatTerrorCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TFastCombatTerrorCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:1672
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -2101,7 +2035,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1707
         public new const int ClassID = 131785;
 
-        public TTacticalCombatTerrorCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TTacticalCombatTerrorCA(TECustomNode owner) : base(owner)
+        { }
 
         public byte FSourceID;
         // { $0C }
@@ -2198,7 +2133,7 @@ namespace Aow.Units.CombatSpells
     public partial class TTerror : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1759
-        private protected TTerror(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TTerror(TECustomNode owner) : base(owner)
         {
             var call__251 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TerrorRStr);
             FSpellName = call__251;
@@ -2377,16 +2312,13 @@ namespace Aow.Units.CombatSpells
                 A4.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
             }
         }
-
-        public static new Aow.Units.CombatSpells.TTerror Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TTerror(context, owner));
     }
 
     // { TWindsOfFury (instance size 64, VMT 557F62E0): inherited $10 spell ID, $34 combat statistics, $3C damage mode. }
     public partial class TWindsOfFury : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1889
-        private protected TWindsOfFury(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TWindsOfFury(TECustomNode owner) : base(owner)
         {
             var call__272 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WindsOfFuryRStr);
             FSpellName = call__272;
@@ -2432,16 +2364,13 @@ namespace Aow.Units.CombatSpells
             Result = Action;
             return Result;
         }
-
-        public static new Aow.Units.CombatSpells.TWindsOfFury Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TWindsOfFury(context, owner));
     }
 
     // { TShockwave (instance size 64, VMT 557F63F8): inherited $10 spell ID, $34 combat statistics, $3C damage mode. }
     public partial class TShockwave : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1919
-        private protected TShockwave(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TShockwave(TECustomNode owner) : base(owner)
         {
             var call__278 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ShockwaveRStr);
             FSpellName = call__278;
@@ -2453,16 +2382,13 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
-
-        public static new Aow.Units.CombatSpells.TShockwave Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TShockwave(context, owner));
     }
 
     // { TSacrificialFlame (instance size 64, VMT 557F650C): inherited $10 spell ID, $34 combat statistics, $3C damage mode. }
     public partial class TSacrificialFlame : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1934
-        private protected TSacrificialFlame(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TSacrificialFlame(TECustomNode owner) : base(owner)
         {
             var call__280 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SacrificialFlameRStr);
             FSpellName = call__280;
@@ -2475,9 +2401,6 @@ namespace Aow.Units.CombatSpells
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
         }
-
-        public static new Aow.Units.CombatSpells.TSacrificialFlame Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSacrificialFlame(context, owner));
     }
 
     // { TRecallSpiritCA (instance size 28, VMT 557F662C): inherited $0C source ID, $0D target ID, $10 mana, $14 success, $18 spell ID. }
@@ -2486,7 +2409,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1950
         public new const int ClassID = 131781;
 
-        public TRecallSpiritCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TRecallSpiritCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:1953
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -2521,7 +2445,7 @@ namespace Aow.Units.CombatSpells
     public partial class TRecallSpirit : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1975
-        private protected TRecallSpirit(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TRecallSpirit(TECustomNode owner) : base(owner)
         {
             var call__285 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RecallSpiritRStr);
             FSpellName = call__285;
@@ -2571,9 +2495,6 @@ namespace Aow.Units.CombatSpells
                 A4.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
             }
         }
-
-        public static new Aow.Units.CombatSpells.TRecallSpirit Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TRecallSpirit(context, owner));
     }
 
     // { TAnimateDeadCA (instance size 28, VMT 557F6828): inherited $0C source ID, $0D target ID, $10 mana, $14 success, $18 spell ID. }
@@ -2582,7 +2503,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:2021
         public new const int ClassID = 131782;
 
-        public TAnimateDeadCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TAnimateDeadCA(TECustomNode owner) : base(owner)
+        { }
 
         // CombatSpells.pas:2024
         public override void Execute(Aow.Units.AoWE.TCombat A1)
@@ -2617,7 +2539,7 @@ namespace Aow.Units.CombatSpells
     public partial class TAnimateDead : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:2046
-        private protected TAnimateDead(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TAnimateDead(TECustomNode owner) : base(owner)
         {
             var call__290 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateDeadRStr);
             FSpellName = call__290;
@@ -2667,9 +2589,6 @@ namespace Aow.Units.CombatSpells
                 A4.DamageTypes = TSet<Aow.Units.AoWE.TDamageType>.Of();
             }
         }
-
-        public static new Aow.Units.CombatSpells.TAnimateDead Create(Aow.Units.Engine.TECustomNode AOwner)
-            => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAnimateDead(context, owner));
     }
 
     public static partial class CombatSpells
@@ -2680,65 +2599,65 @@ namespace Aow.Units.CombatSpells
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
             Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TCombatSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TFastCombatTerrorCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTacticalCombatTerrorCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TRecallSpiritCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TAnimateDeadCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TFastCombatHighPrayerCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTacticalCombatHighPrayerCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TEntangleSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TMindDecayCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TTurnUndeadSpellCA>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatSpells.TSlowCA>()]);
-            var call__292 = Aow.Units.CombatSpells.TSolarFlare.Create(null);
+            var call__292 = new Aow.Units.CombatSpells.TSolarFlare(null);
             Control.RegisterSpell(call__292);
-            var call__293 = Aow.Units.CombatSpells.TTurnUndead.Create(null);
+            var call__293 = new Aow.Units.CombatSpells.TTurnUndead(null);
             Control.RegisterSpell(call__293);
-            var call__294 = Aow.Units.CombatSpells.THighPrayer.Create(null);
+            var call__294 = new Aow.Units.CombatSpells.THighPrayer(null);
             Control.RegisterSpell(call__294);
-            var call__295 = Aow.Units.CombatSpells.TDeathRay.Create(null);
+            var call__295 = new Aow.Units.CombatSpells.TDeathRay(null);
             Control.RegisterSpell(call__295);
-            var call__296 = Aow.Units.CombatSpells.TDiseaseCloud.Create(null);
+            var call__296 = new Aow.Units.CombatSpells.TDiseaseCloud(null);
             Control.RegisterSpell(call__296);
-            var call__297 = Aow.Units.CombatSpells.TTerror.Create(null);
+            var call__297 = new Aow.Units.CombatSpells.TTerror(null);
             Control.RegisterSpell(call__297);
-            var call__298 = Aow.Units.CombatSpells.TMindDecay.Create(null);
+            var call__298 = new Aow.Units.CombatSpells.TMindDecay(null);
             Control.RegisterSpell(call__298);
-            var call__299 = Aow.Units.CombatSpells.TChainLightning.Create(null);
+            var call__299 = new Aow.Units.CombatSpells.TChainLightning(null);
             Control.RegisterSpell(call__299);
-            var call__300 = Aow.Units.CombatSpells.TColdBreath.Create(null);
+            var call__300 = new Aow.Units.CombatSpells.TColdBreath(null);
             Control.RegisterSpell(call__300);
-            var call__301 = Aow.Units.CombatSpells.TSlow.Create(null);
+            var call__301 = new Aow.Units.CombatSpells.TSlow(null);
             Control.RegisterSpell(call__301);
-            var call__302 = Aow.Units.CombatSpells.TEntangle.Create(null);
+            var call__302 = new Aow.Units.CombatSpells.TEntangle(null);
             Control.RegisterSpell(call__302);
-            var call__303 = Aow.Units.CombatSpells.TTremors.Create(null);
+            var call__303 = new Aow.Units.CombatSpells.TTremors(null);
             Control.RegisterSpell(call__303);
-            var call__304 = Aow.Units.CombatSpells.TCallFlames.Create(null);
+            var call__304 = new Aow.Units.CombatSpells.TCallFlames(null);
             Control.RegisterSpell(call__304);
-            var call__305 = Aow.Units.CombatSpells.TFireBreath.Create(null);
+            var call__305 = new Aow.Units.CombatSpells.TFireBreath(null);
             Control.RegisterSpell(call__305);
-            var call__306 = Aow.Units.CombatSpells.TSwarm.Create(null);
+            var call__306 = new Aow.Units.CombatSpells.TSwarm(null);
             Control.RegisterSpell(call__306);
-            var call__307 = Aow.Units.CombatSpells.TGreatHail.Create(null);
+            var call__307 = new Aow.Units.CombatSpells.TGreatHail(null);
             Control.RegisterSpell(call__307);
-            var call__308 = Aow.Units.CombatSpells.TFireBall.Create(null);
+            var call__308 = new Aow.Units.CombatSpells.TFireBall(null);
             Control.RegisterSpell(call__308);
-            var call__309 = Aow.Units.CombatSpells.TGeyser.Create(null);
+            var call__309 = new Aow.Units.CombatSpells.TGeyser(null);
             Control.RegisterSpell(call__309);
-            var call__310 = Aow.Units.CombatSpells.TIceShards.Create(null);
+            var call__310 = new Aow.Units.CombatSpells.TIceShards(null);
             Control.RegisterSpell(call__310);
-            var call__311 = Aow.Units.CombatSpells.TFrostBeams.Create(null);
+            var call__311 = new Aow.Units.CombatSpells.TFrostBeams(null);
             Control.RegisterSpell(call__311);
-            var call__312 = Aow.Units.CombatSpells.TVaporize.Create(null);
+            var call__312 = new Aow.Units.CombatSpells.TVaporize(null);
             Control.RegisterSpell(call__312);
-            var call__313 = Aow.Units.CombatSpells.TStoning.Create(null);
+            var call__313 = new Aow.Units.CombatSpells.TStoning(null);
             Control.RegisterSpell(call__313);
-            var call__314 = Aow.Units.CombatSpells.TFlamingArrow.Create(null);
+            var call__314 = new Aow.Units.CombatSpells.TFlamingArrow(null);
             Control.RegisterSpell(call__314);
-            var call__315 = Aow.Units.CombatSpells.TOoze.Create(null);
+            var call__315 = new Aow.Units.CombatSpells.TOoze(null);
             Control.RegisterSpell(call__315);
-            var call__316 = Aow.Units.CombatSpells.TSacredWrath.Create(null);
+            var call__316 = new Aow.Units.CombatSpells.TSacredWrath(null);
             Control.RegisterSpell(call__316);
-            var call__317 = Aow.Units.CombatSpells.TAnimateDead.Create(null);
+            var call__317 = new Aow.Units.CombatSpells.TAnimateDead(null);
             Control.RegisterSpell(call__317);
-            var call__318 = Aow.Units.CombatSpells.TRecallSpirit.Create(null);
+            var call__318 = new Aow.Units.CombatSpells.TRecallSpirit(null);
             Control.RegisterSpell(call__318);
-            var call__319 = Aow.Units.CombatSpells.TWindsOfFury.Create(null);
+            var call__319 = new Aow.Units.CombatSpells.TWindsOfFury(null);
             Control.RegisterSpell(call__319);
-            var call__320 = Aow.Units.CombatSpells.TShockwave.Create(null);
+            var call__320 = new Aow.Units.CombatSpells.TShockwave(null);
             Control.RegisterSpell(call__320);
-            var call__321 = Aow.Units.CombatSpells.TSacrificialFlame.Create(null);
+            var call__321 = new Aow.Units.CombatSpells.TSacrificialFlame(null);
             Control.RegisterSpell(call__321);
         }
 

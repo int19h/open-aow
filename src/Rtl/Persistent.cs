@@ -33,11 +33,7 @@ public class TComponent : TPersistent
     private List<TComponent>? freeNotifies;
     private AnsiString name;
     public TComponent(TComponent? owner = null) => owner?.InsertComponent(this);
-    protected TComponent(ConstructionContext context, TComponent? owner)
-    {
-        context?.Capture(this);
-        owner?.InsertComponent(this);
-    }
+
     public TComponent? Owner { get; private set; }
     public int Tag { get; set; }
     // The layout session sets the loading flags from outside the component.

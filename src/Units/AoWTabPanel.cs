@@ -44,7 +44,7 @@ namespace Aow.Units.AoWTabPanel
         public Aow.Rtl.TList FPanels;
         // AoWTabPanel.pas:62
         // { TAOWTabPanel }
-        public TAOWTabPanel(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWTabPanel(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;

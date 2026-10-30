@@ -43,7 +43,7 @@ namespace Aow.Units.IndependentAG
         public new const int ClassID = 136275;
 
         // IndependentAG.pas:137
-        public TGuardAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TGuardAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
@@ -65,7 +65,8 @@ namespace Aow.Units.IndependentAG
     // { TGuardAGC (instance size 368, VMT 557D7FB0) }
     public partial class TGuardAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TGuardAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TGuardAGC(TECustomNode owner) : base(owner)
+        { }
 
     }
 
@@ -85,7 +86,7 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:153
-        public TGuardAreaAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TGuardAreaAG(TECustomNode owner) : base(owner)
         {
             FGuardLocation.XYL = 16777215;
             FProcessPriority = 1;
@@ -108,7 +109,8 @@ namespace Aow.Units.IndependentAG
     // { TGuardAreaAGC (instance size 368, VMT 557D8204) }
     public partial class TGuardAreaAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TGuardAreaAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TGuardAreaAGC(TECustomNode owner) : base(owner)
+        { }
 
         // IndependentAG.pas:189
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)
@@ -314,7 +316,7 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:285
-        public TPatrolAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPatrolAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
@@ -339,7 +341,8 @@ namespace Aow.Units.IndependentAG
     // { TPatrolAGC (instance size 368, VMT 557D845C) }
     public partial class TPatrolAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TPatrolAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TPatrolAGC(TECustomNode owner) : base(owner)
+        { }
 
         // IndependentAG.pas:415
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)
@@ -737,7 +740,7 @@ namespace Aow.Units.IndependentAG
         public new const int ClassID = 136289;
 
         // IndependentAG.pas:544
-        public TRefugeAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRefugeAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
@@ -759,7 +762,8 @@ namespace Aow.Units.IndependentAG
     // { TRefugeAGC (instance size 368, VMT 557D86AC) }
     public partial class TRefugeAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TRefugeAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TRefugeAGC(TECustomNode owner) : base(owner)
+        { }
 
     }
 
@@ -770,7 +774,7 @@ namespace Aow.Units.IndependentAG
         public new const int ClassID = 136293;
 
         // IndependentAG.pas:560
-        public TRaidAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRaidAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
@@ -792,7 +796,8 @@ namespace Aow.Units.IndependentAG
     // { TRaidAGC (instance size 368, VMT 557D88F4) }
     public partial class TRaidAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TRaidAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TRaidAGC(TECustomNode owner) : base(owner)
+        { }
 
         // IndependentAG.pas:589
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)
@@ -842,7 +847,7 @@ namespace Aow.Units.IndependentAG
         public new const int ClassID = 136277;
 
         // IndependentAG.pas:643
-        public TScoutAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TScoutAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
@@ -864,7 +869,8 @@ namespace Aow.Units.IndependentAG
     // { TScoutAGC (instance size 368, VMT 557D8B3C) }
     public partial class TScoutAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TScoutAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TScoutAGC(TECustomNode owner) : base(owner)
+        { }
 
         // IndependentAG.pas:671
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)

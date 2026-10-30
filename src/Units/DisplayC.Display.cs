@@ -24,8 +24,8 @@ public partial class TCustomDisplay
         FramePresented?.Invoke(PresentedFrames);
     }
 
-    private protected TCustomDisplay(ConstructionContext context, TComponent owner) : base(context, owner)
-    {
+    public TCustomDisplay(TComponent owner) : base(owner)
+        {
         Width = Height = 100;
         FOptions = TSet<TDisplayOptionsElement>.Of(doAutoResizeBackSurface, doAutoSwapDC,
             doAutoStartUpdateFrameLoop, doAutoActivatePrimaryDC, doRestoreSurfacesOnSwap, doBltOnWMPAINT);
@@ -106,7 +106,7 @@ public partial class TCustomDisplay
             if (previous is not null && FOptions.Contains(doRestoreSurfacesOnSwap))
                 for (int i = 1; i <= (int)FBufferingScheme; i++)
                 {
-                    saved[i] = GFXE.TDataSurface.Create(0, 0, 0, null);
+                    saved[i] = new GFXE.TDataSurface(0, 0, 0, null);
                     saved[i].CaptureSurface(previous.GetSurface(i), default);
                 }
             DeactivateDC();

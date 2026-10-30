@@ -87,7 +87,7 @@ namespace Aow.Units.AoWVScroll
         public int FILIndexTab;
         // AoWVScroll.pas:130
         // { TAOWScrollBar }
-        public TAOWScrollBar(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWScrollBar(TComponent owner) : base(owner)
         {
             FSmallChange = 1;
             FLargeChange = 1;
@@ -539,7 +539,8 @@ namespace Aow.Units.AoWVScroll
 //     at the top and the increment button at the bottom }
     public partial class TAOWVScrollBar : Aow.Units.AoWVScroll.TAOWScrollBar
     {
-        public TAOWVScrollBar(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TAOWVScrollBar(TComponent owner) : base(owner)
+        { }
 
         // AoWVScroll.pas:408
         // { TAOWVScrollBar }

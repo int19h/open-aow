@@ -100,7 +100,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1933
         public new const int ClassID = 65793;
 
-        public TMapField(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMapField(TECustomNode owner) : base(owner)
         {
             FTerrainType = unchecked((sbyte)-1);
             FOverlayType = unchecked((sbyte)-1);
@@ -675,7 +675,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3162
-        public TMapContainer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMapContainer(TECustomNode owner) : base(owner)
         {
         }
 
@@ -842,7 +842,8 @@ namespace Aow.Units.HSEngine
 //     scene (THSMap); a sprite removed from it is made invisible. }
     public partial class TVisibilityList : Aow.Units.Engine.TEControlStyleInverseSortNode
     {
-        public TVisibilityList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TVisibilityList(TECustomNode owner) : base(owner)
+        { }
 
         // HSEngine.pas:3871
         public override void QuickClear()
@@ -889,42 +890,7 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 66048;
 
-        // HSMAP.PAS:14
         public THSMap(TECustomNode owner) : base(owner)
-        {
-            var call__33 = CreateMouse();
-            FMouse = call__33;
-            FMouse.FHSMap = this;
-            var call__34 = new Aow.Units.HSEngine.THexagonSpriteSelection(this);
-            FSelection = call__34;
-            FSelection.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__35 = new Aow.Units.HSEngine.TVisibilityList(this);
-            FStaticVisibleHS = call__35;
-            FStaticVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__36 = new Aow.Units.HSEngine.TVisibilityList(this);
-            FDynamicVisibleHS = call__36;
-            FDynamicVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__37 = new Aow.Units.HSEngine.TVisibilityList(this);
-            FStaticFixedVisibleHS = call__37;
-            FStaticFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__38 = new Aow.Units.HSEngine.TVisibilityList(this);
-            FDynamicFixedVisibleHS = call__38;
-            FDynamicFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__39 = new Aow.Units.Engine.TETimerNode(this);
-            FTimer = call__39;
-            var call__40 = new Aow.Units.Engine.TEventList();
-            FHSChangedEvents = call__40;
-            var call__41 = new Aow.Units.Engine.TEventList();
-            FTerrainChangedEvents = call__41;
-            var call__42 = new Aow.Units.Engine.TEventList();
-            FViewPortChangedEvents = call__42;
-            var call__43 = new Aow.Units.Engine.TEventList();
-            FNewFrameEvents = call__43;
-            var call__44 = new Aow.Units.Engine.TEventList();
-            FDestroyEvents = call__44;
-        }
-
-        private protected THSMap(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var call__33 = CreateMouse();
             FMouse = call__33;
@@ -2121,7 +2087,7 @@ namespace Aow.Units.HSEngine
 
             try
             {
-                Stream = Aow.Units.Engine.TCompressStream.Create();
+                Stream = new Aow.Units.Engine.TCompressStream();
                 try
                 {
                     Stream.LoadFromFile(FileName);
@@ -2177,7 +2143,7 @@ namespace Aow.Units.HSEngine
             FullName = Aow.Rtl.Rtl.ExpandFileName(FileName);
             try
             {
-                Stream = Aow.Units.Engine.TCompressStream.Create();
+                Stream = new Aow.Units.Engine.TCompressStream();
                 try
                 {
                     Stream.LoadFromFile(FullName);
@@ -2228,7 +2194,7 @@ namespace Aow.Units.HSEngine
                 Header.ClassID = call__107;
                 Header.Reserved = 0;
                 Header.ID = Aow.Units.HSEngine.HSEngine.HSMID;
-                Stream = Aow.Units.Engine.TCompressStream.Create();
+                Stream = new Aow.Units.Engine.TCompressStream();
                 FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esSavingHSM);
                 try
                 {
@@ -2452,7 +2418,7 @@ namespace Aow.Units.HSEngine
 
             try
             {
-                Stream = Aow.Units.Engine.TCompressStream.Create();
+                Stream = new Aow.Units.Engine.TCompressStream();
                 try
                 {
                     Stream.LoadFromFile(FileName);
@@ -2500,7 +2466,7 @@ namespace Aow.Units.HSEngine
             FullName = Aow.Rtl.Rtl.ExpandFileName(FileName);
             try
             {
-                Stream = Aow.Units.Engine.TCompressStream.Create();
+                Stream = new Aow.Units.Engine.TCompressStream();
                 try
                 {
                     Stream.LoadFromFile(FullName);
@@ -2559,7 +2525,7 @@ namespace Aow.Units.HSEngine
 
             try
             {
-                CStream = Aow.Units.Engine.TCompressStream.Create();
+                CStream = new Aow.Units.Engine.TCompressStream();
                 try
                 {
                     CStream.LoadFromStream(Stream);
@@ -2615,7 +2581,7 @@ namespace Aow.Units.HSEngine
                 Header.ClassID = call__125;
                 Header.Reserved = 0;
                 Header.ID = Aow.Units.HSEngine.HSEngine.HSMID;
-                CStream = Aow.Units.Engine.TCompressStream.Create();
+                CStream = new Aow.Units.Engine.TCompressStream();
                 FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esSavingHSM);
                 try
                 {
@@ -2685,11 +2651,10 @@ namespace Aow.Units.HSEngine
 //     the TMapField the sprite stands on (for the multi-hex sprites the field of the base hexagon). }
     public partial class THexagonSprite : Aow.Units.Engine.TEObject
     {
-        private protected THexagonSprite(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public THexagonSprite(TECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 65872;
-        public THexagonSprite(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // HXSPRITE.PAS:6
         // { HXSPRITE.PAS: THexagonSprite, THPBasedHS, TSingleHS, TFixedVisibleHS, TCustomFixedVisibleHS
@@ -3714,12 +3679,10 @@ namespace Aow.Units.HSEngine
 //     FStatus. }
     public partial class TMapObject : Aow.Units.HSEngine.THexagonSprite
     {
-        private protected TMapObject(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TMapObject(TECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 65878;
-
-        public TMapObject(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         protected internal Aow.Units.HSEngine.TMapObjectResource FResource;
         protected internal TSet<Aow.Units.HSEngine.TMapObjectStatusElement> FStatus;
@@ -4275,11 +4238,11 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65876;
 
-        public TMapObjectResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMapObjectResource(TECustomNode owner) : base(owner)
         {
             var call__190 = new Aow.Units.HSEngine.TTerrainList();
             FTerrainList = call__190;
-            var call__191 = Aow.Units.ImageLib.TImageLibrary.Create(null);
+            var call__191 = new Aow.Units.ImageLib.TImageLibrary(null);
             FImageLibrary = call__191;
             SetLevel(26);
         }
@@ -4643,7 +4606,8 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TMapObjectResourceList (instance size 20) }
     public partial class TMapObjectResourceList : Aow.Units.Engine.TEResourceList
     {
-        public TMapObjectResourceList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TMapObjectResourceList(TECustomNode owner) : base(owner)
+        { }
 
         // MAPOBJ.PAS:641
         // { TMapObjectResourceList }
@@ -5187,13 +5151,10 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:2837
         public new const int ClassID = 65794;
 
-        protected TMapLevel(ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TMapLevel(TECustomNode owner) : base(owner)
         {
             FMapFieldCID = 65793;
         }
-
-        public static TMapLevel Create(TECustomNode owner) =>
-            ConstructionContext.Create(owner, static (context, value) => new TMapLevel(context, value));
 
         protected internal int FLhx;
         protected internal int FWidth;
@@ -5320,7 +5281,7 @@ namespace Aow.Units.HSEngine
         internal Aow.Units.HSEngine.THexagonSprite FEventHS;
         // HSEngine.pas:3681
         // { THexagonSpriteSelection }
-        public THexagonSpriteSelection(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THexagonSpriteSelection(TECustomNode owner) : base(owner)
         {
             var call__220 = new Aow.Rtl.TList();
             FLocationHS = call__220;
@@ -5888,7 +5849,7 @@ namespace Aow.Units.HSEngine
         internal Aow.Units.HSEngine.THSMap FHSMap;
         // HSEngine.pas:4670
         // { THSMapViewer }
-        public THSMapViewer(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public THSMapViewer(TComponent owner) : base(owner)
         {
             FStaticSurfaceValid = false;
             FOnSceneChanged = null;
@@ -5970,7 +5931,7 @@ namespace Aow.Units.HSEngine
                             Flags = TSet<Aow.Units.GFXE.TDDSCreationFlagsElement>.Of(Aow.Units.GFXE.TDDSCreationFlagsElement.cfSystemMemory);
                         }
 
-                        var call__249 = Aow.Units.GFXE.TDDrawSurface.Create();
+                        var call__249 = new Aow.Units.GFXE.TDDrawSurface();
                         FStaticSurface = call__249;
                         var call__250 = Surface.GetPixelFormatID();
                         ((Aow.Units.GFXE.TDDrawSurface)FStaticSurface).CreateSurface(FSceneWidth, FSceneHeight, call__250, Flags);
@@ -5978,7 +5939,7 @@ namespace Aow.Units.HSEngine
                     else
                     {
                         var call__251 = Surface.GetPixelFormatID();
-                        var call__252 = Aow.Units.GFXE.TDataSurface.Create(FSceneWidth, FSceneHeight, call__251, null);
+                        var call__252 = new Aow.Units.GFXE.TDataSurface(FSceneWidth, FSceneHeight, call__251, null);
                         FStaticSurface = call__252;
                     }
                 }
@@ -6276,7 +6237,7 @@ namespace Aow.Units.HSEngine
 
         // HSEngine.pas:4489
         // { TMORTerrainControl }
-        public TMORTerrainControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMORTerrainControl(TECustomNode owner) : base(owner)
         {
             var call__268 = new Aow.Rtl.TList();
             FResources = call__268;
@@ -6509,14 +6470,16 @@ namespace Aow.Units.HSEngine
     // { HSEngine.THexagonControl (instance size 24): the hexagon resources of a set }
     public partial class THexagonControl : Aow.Units.HSEngine.TMORTerrainControl
     {
-        public THexagonControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public THexagonControl(TECustomNode owner) : base(owner)
+        { }
 
     }
 
     // { HSEngine.TRoadControl (instance size 24): the road resources of a set }
     public partial class TRoadControl : Aow.Units.HSEngine.TMORTerrainControl
     {
-        public TRoadControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TRoadControl(TECustomNode owner) : base(owner)
+        { }
 
     }
 
@@ -6558,7 +6521,7 @@ namespace Aow.Units.HSEngine
             var call__298 = new Aow.Units.Engine.TEResourceEditSettings(this);
             FResourceEditSettings = call__298;
             FResourceEditSettings.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
-            var call__299 = Aow.Units.ImageLib.TImageLibraryManager.Create(null);
+            var call__299 = new Aow.Units.ImageLib.TImageLibraryManager(null);
             FImageLibraryManager = call__299;
             var call__300 = new Aow.Units.Sound.TSFXManager(null);
             FSFXManager = call__300;
@@ -6726,7 +6689,7 @@ namespace Aow.Units.HSEngine
         internal Aow.Units.HSEngine.THSEngine FHSEngine;
         // HSEngine.pas:5381
         // { THexagonSpriteEngine }
-        private protected THexagonSpriteEngine(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public THexagonSpriteEngine(TComponent owner) : base(owner)
         {
             CreateEngine();
             if (FHSEngine != null)
@@ -6776,10 +6739,6 @@ namespace Aow.Units.HSEngine
 
         public Aow.Units.HSEngine.THSEngine HSEngine { get => FHSEngine; set => SetHSEngine(value); }
         public Aow.Rtl.AnsiString HSSetSearchPath { get => GetHSSetSearchPath(); set => SetHSSetSearchPath(value); }
-
-        // HSEngine.pas:839
-        public static THexagonSpriteEngine Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new THexagonSpriteEngine(context, owner));
     }
 
     // { HSEngine.TSingleHS (instance size 12): a sprite on one hexagon. +8 FStatus: bit 1 visible,
@@ -6787,7 +6746,7 @@ namespace Aow.Units.HSEngine
 //     set with Include does not give). }
     public partial class TSingleHS : Aow.Units.HSEngine.THexagonSprite
     {
-        public TSingleHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSingleHS(TECustomNode owner) : base(owner)
         {}
 
         internal byte FStatus;
@@ -6986,7 +6945,8 @@ namespace Aow.Units.HSEngine
 //     (not on a field). +8 FStatus: bit 1 visible. }
     public partial class TFixedVisibleHS : Aow.Units.HSEngine.THexagonSprite
     {
-        public TFixedVisibleHS(TECustomNode owner) : base(owner) { }
+        public TFixedVisibleHS(TECustomNode owner) : base(owner)
+        { }
 
         internal byte FStatus;
         // HXSPRITE.PAS:770
@@ -7045,7 +7005,8 @@ namespace Aow.Units.HSEngine
 //     it). TAbstractAoWHSMap (AoWEPACK) creates two and sets OnShow and ShowPriority. }
     public partial class TCustomFixedVisibleHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
-        public TCustomFixedVisibleHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TCustomFixedVisibleHS(TECustomNode owner) : base(owner)
+        { }
 
         internal int FShowPriority;
         internal Aow.Units.HSEngine.TOnShowHSEvent FOnShow;
@@ -7101,7 +7062,7 @@ namespace Aow.Units.HSEngine
         // { LibImgHS.PAS: TLibraryImageHS (include file of HSEngine.pas; the original Asserts name
 //   D:\GEngine\HSENGINE\inc\LibImgHS.PAS) }
         // { TLibraryImageHS }
-        public TLibraryImageHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TLibraryImageHS(TECustomNode owner) : base(owner)
         {
             FStatus = TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsMapIsOwner);
             SetLevel(26);
@@ -7381,7 +7342,7 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65874;
 
-        public THPBasedHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THPBasedHS(TECustomNode owner) : base(owner)
         {
             FXhp = -2147483648;
             FYhp = -2147483648;
@@ -7437,22 +7398,18 @@ namespace Aow.Units.HSEngine
     public partial class EMapObjectResourceMissing : Aow.Rtl.Exception
     {
         // SysUtils.pas:174
-        public static new Aow.Units.HSEngine.EMapObjectResourceMissing Create(Aow.Rtl.AnsiString Msg)
+        public EMapObjectResourceMissing(AnsiString Msg)
         {
-            return new Aow.Units.HSEngine.EMapObjectResourceMissing
-            {
-                Message = Msg
-            };
-        }
+    Message = Msg;
+}
     }
 
     // { HSEngine.TMultiHexMO (instance size 20): a map object that covers the hexagons of its terrain
 //     list around its main hexagon. +$10 FXhx, +$11 FYhx (the main hexagon, ids 3 and 4). }
     public partial class TMultiHexMO : Aow.Units.HSEngine.TMapObject
     {
-        public TMultiHexMO(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
-        private protected TMultiHexMO(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TMultiHexMO(TECustomNode owner) : base(owner)
         {}
 
         protected internal sbyte FXhx;
@@ -7988,7 +7945,7 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65877;
 
-        public TMultiHexMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMultiHexMOR(TECustomNode owner) : base(owner)
         {
             SetdXmainP(16);
             SetdYmainP(32);
@@ -8038,7 +7995,8 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65904;
 
-        public TAbstractHexagon(TECustomNode owner) : base(owner) { }
+        public TAbstractHexagon(TECustomNode owner) : base(owner)
+        { }
 
         // MAPOBJ.PAS:682
         public override byte GetLevel()
@@ -8205,7 +8163,7 @@ namespace Aow.Units.HSEngine
     {
 
 
-        public TAbstractHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAbstractHexagonResource(TECustomNode owner) : base(owner)
         {
             SetLevel(0);
         }
@@ -8243,14 +8201,15 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65905;
 
-        public TAbstractBorderHexagon(TECustomNode owner) : base(owner) { }
+        public TAbstractBorderHexagon(TECustomNode owner) : base(owner)
+        { }
 
     }
 
     // { HSEngine.TAbstractBorderHexagonResource (instance size 52) }
     public partial class TAbstractBorderHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
-        public TAbstractBorderHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAbstractBorderHexagonResource(TECustomNode owner) : base(owner)
         {}
 
 
@@ -8261,7 +8220,8 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65906;
 
-        public TAbstractRoad(TECustomNode owner) : base(owner) { }
+        public TAbstractRoad(TECustomNode owner) : base(owner)
+        { }
 
 
         // MAPOBJ.PAS:803
@@ -8376,7 +8336,7 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractRoadResource (instance size 52) }
     public partial class TAbstractRoadResource : Aow.Units.HSEngine.TMapObjectResource
     {
-        public TAbstractRoadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAbstractRoadResource(TECustomNode owner) : base(owner)
         {}
 
 
@@ -8919,7 +8879,8 @@ namespace Aow.Units.HSEngine
 //     and restores as one Word (the original reads word ptr [MapF+$14]) }
     public partial class TMapFieldTandO : Aow.Units.Engine.TECustomNode
     {
-        public TMapFieldTandO(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TMapFieldTandO(TECustomNode owner) : base(owner)
+        { }
 
         internal object FHSList;
         internal int FCounts;

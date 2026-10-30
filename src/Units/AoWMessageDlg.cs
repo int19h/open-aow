@@ -63,7 +63,8 @@ namespace Aow.Units.AoWMessageDlg
     // { TMessageDlg (size $BC, VMT 0040E4E8): $B0 completion event, $B8 retained message event. }
     public partial class TMessageDlg : Aow.Rtl.TDataModule
     {
-        public TMessageDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TMessageDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

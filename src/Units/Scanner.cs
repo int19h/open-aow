@@ -127,7 +127,7 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:116
-        public TScanner(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TScanner(TComponent owner) : base(owner)
         {
             FSteps = 1;
             FTLeft = -1;
@@ -264,10 +264,10 @@ namespace Aow.Units.Scanner
 
                     if (FMapSurface == null)
                     {
-                        var call__9 = Aow.Units.GFXE.TDataSurface.Create(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                        var call__9 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                         FObjectSurface = call__9;
                         FObjectSurface.Cls(65280);
-                        var call__10 = Aow.Units.GFXE.TDataSurface.Create(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                        var call__10 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                         FMapSurface = call__10;
                         FMapSurface.Lock(ref SD);
                         {

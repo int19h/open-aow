@@ -39,7 +39,7 @@ namespace Aow.Units.Pyramid
     // { TPyramid (instance size 64, no added fields, VMT 557C6D20) }
     public partial class TPyramid : Aow.Units.ItemExpS.TItemExplorationSite
     {
-        public TPyramid(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPyramid(TECustomNode owner) : base(owner)
         {}
 
         // Pyramid.pas:34
@@ -50,7 +50,7 @@ namespace Aow.Units.Pyramid
     // { TPyramidResource (instance size 104, no added fields, VMT 557C6F98) }
     public partial class TPyramidResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
-        public TPyramidResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPyramidResource(TECustomNode owner) : base(owner)
         {}
 
         // Pyramid.pas:40

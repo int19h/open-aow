@@ -52,7 +52,7 @@ namespace Aow.Units.Cave
     // { TCave (instance size 52, VMT 557B3018): +$30 FEntrance. }
     public partial class TCave : Aow.Units.AoWE.TStructure
     {
-        public TCave(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCave(TECustomNode owner) : base(owner)
         {
             FEntrance = Aow.Units.Cave.TCaveEntrance.ceDown;
         }
@@ -627,7 +627,7 @@ namespace Aow.Units.Cave
                 var call__77 = unchecked((byte)ArmyHS.FArmy.ValidateSelection(unchecked((byte)(byte)(255))));
                 if (call__76 != call__77)
                 {
-                    Log = Aow.Units.Cave.TEnterCaveEventLog.Create(null);
+                    Log = new Aow.Units.Cave.TEnterCaveEventLog(null);
                     Log.FCave = this;
                     var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SplitOnEnterCaveWarningRStr);
                     Log.FMessage.Text = call__78;
@@ -657,7 +657,7 @@ namespace Aow.Units.Cave
     // { TCaveResource (instance size 100, VMT 557B326C) }
     public partial class TCaveResource : Aow.Units.AoWE.TStructureResource
     {
-        public TCaveResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCaveResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = false;
             FConnectRoads = true;
@@ -693,10 +693,8 @@ namespace Aow.Units.Cave
     // { TEnterCaveEventLog (instance size 44, VMT 557B335C): +$28 FCave. }
     public partial class TEnterCaveEventLog : Aow.Units.EventLog.TMessageEventLog
     {
-        private TEnterCaveEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner) { }
-
-        public static new TEnterCaveEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
-            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEnterCaveEventLog(context, owner));
+        public TEnterCaveEventLog(TECustomNode owner) : base(owner)
+        { }
 
         public Aow.Units.Cave.TCave FCave;
         // Cave.pas:442
