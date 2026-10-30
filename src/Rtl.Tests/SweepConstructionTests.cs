@@ -417,8 +417,7 @@ public sealed class SweepConstructionTests
     private static TEObject Saved(Type type, TECustomNode owner)
     {
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-        var engine = new TEngine();
-        engine.Create__init(null!);
+        var engine = new TEngine(null!);
         try
         {
             var descriptor = EClass.Of(type);

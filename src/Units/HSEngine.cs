@@ -921,8 +921,11 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 66048;
 
+        // Raw base for TAoWHSMap field-injection fixtures and MovementChecks.RawCombatMap.
+        protected THSMap() { }
+
         // HSMAP.PAS:14
-        private void InitializeHSMap(Aow.Units.Engine.TECustomNode AOwner)
+        public THSMap(TECustomNode owner) : base(owner)
         {
             var call__33 = CreateMouse();
             FMouse = call__33;
@@ -956,17 +959,38 @@ namespace Aow.Units.HSEngine
             FDestroyEvents = call__44;
         }
 
-        // Raw allocation for TAbstractAoWHSMap and the ordered TAoWCombatMap chain.
-        protected THSMap() { }
-
-        public THSMap(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        private protected THSMap(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
-            InitializeHSMap(AOwner);
-        }
-
-        private protected THSMap(ConstructionContext context, TECustomNode AOwner) : base(context, AOwner)
-        {
-            InitializeHSMap(AOwner);
+            var call__33 = CreateMouse();
+            FMouse = call__33;
+            FMouse.FHSMap = this;
+            var call__34 = new Aow.Units.HSEngine.THexagonSpriteSelection(this);
+            FSelection = call__34;
+            FSelection.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__35 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FStaticVisibleHS = call__35;
+            FStaticVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__36 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FDynamicVisibleHS = call__36;
+            FDynamicVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__37 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FStaticFixedVisibleHS = call__37;
+            FStaticFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__38 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FDynamicFixedVisibleHS = call__38;
+            FDynamicFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__39 = new Aow.Units.Engine.TETimerNode(this);
+            FTimer = call__39;
+            var call__40 = new Aow.Units.Engine.TEventList();
+            FHSChangedEvents = call__40;
+            var call__41 = new Aow.Units.Engine.TEventList();
+            FTerrainChangedEvents = call__41;
+            var call__42 = new Aow.Units.Engine.TEventList();
+            FViewPortChangedEvents = call__42;
+            var call__43 = new Aow.Units.Engine.TEventList();
+            FNewFrameEvents = call__43;
+            var call__44 = new Aow.Units.Engine.TEventList();
+            FDestroyEvents = call__44;
         }
 
         internal Aow.Units.HSEngine.THSMapMouse FMouse;
@@ -1092,14 +1116,6 @@ namespace Aow.Units.HSEngine
             {
                 FMapContainer.Loaded();
             }
-        }
-
-        // HSMAP.PAS:14
-        // Retained for the ordered TAoWCombatMap chain owned by 9.3b-18.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeHSMap(AOwner);
         }
 
         // HSMAP.PAS:81
@@ -2107,9 +2123,11 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4926
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        // Raw base for TAoWEngine fixtures until CF-1.
+        protected THSEngine() { }
+
+        private protected THSEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
-            base.Create__init(AOwner);
             var call__97 = new Aow.Units.Engine.TEventList();
             FOnHSMLoaded = call__97;
             var call__98 = new Aow.Units.Engine.TEventList();
@@ -2708,21 +2726,8 @@ namespace Aow.Units.HSEngine
         public Aow.Units.Engine.TEventList OnHSSClose { get => FOnHSSClose; }
 
         // HSEngine.pas:803
-        public static new Aow.Units.HSEngine.THSEngine Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.THSEngine o = new Aow.Units.HSEngine.THSEngine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public static new THSEngine Create(TECustomNode owner) =>
+            ConstructionContext.Create(owner, static (context, owner) => new THSEngine(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEngine.Meta
         {
@@ -6667,7 +6672,12 @@ namespace Aow.Units.HSEngine
         public new const int ClassID = 66049;
 
         // HSEngine.pas:3348
-        private void InitializeHSSet(Aow.Units.Engine.TECustomNode AOwner)
+        // Raw base for TAoWHSSet field-injection fixtures until CF-1.
+        protected THSSet() { }
+
+        public THSSet(TECustomNode owner) : this(null, owner) { }
+
+        private protected THSSet(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var call__290 = GetControlStyle();
             SetControlStyle(call__290 + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csReserved2));
@@ -6695,14 +6705,6 @@ namespace Aow.Units.HSEngine
             FImageLibraryManager = call__299;
             var call__300 = new Aow.Units.Sound.TSFXManager(null);
             FSFXManager = call__300;
-        }
-
-        // Raw allocation for TAoWHSSet.
-        protected THSSet() { }
-
-        public THSSet(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeHSSet(AOwner);
         }
 
         internal TSet<Aow.Units.HSEngine.THSSetStatusElement> FStatus;
@@ -6762,15 +6764,6 @@ namespace Aow.Units.HSEngine
             Stream.rwEObject(FMapObjectResourceList, 5);
             Stream.rwEObject(FResourceEditSettings, 6);
             Stream.rwEObject(FPlugInControl, 7);
-        }
-
-        // HSEngine.pas:3348
-        // { THSSet }
-        // Retained: TAoWHSSet reads AoWEngine.StartupDirectory during the startup sequence owned by 9.3b-19.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeHSSet(AOwner);
         }
 
         // HSEngine.pas:3405

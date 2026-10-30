@@ -35,8 +35,7 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 2)
         {
             if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-            var engine = new TEngine();
-            engine.Create__init(null!);
+            var engine = new TEngine(null!);
             try
             {
                 engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
@@ -110,8 +109,7 @@ public sealed partial class AoWERuleConstructionTests
         Type type = typeof(TAbstractUnit).Assembly.GetType("Aow.Units.AoWE." + name)!;
         var meta = (TEObject.Meta)MetaRegistry.Of(type);
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-        var engine = new TEngine();
-        engine.Create__init(null!);
+        var engine = new TEngine(null!);
         TEObject source = CreateUnit(type, null!, 0);
         TEObject result = null!;
         var owner = new UnitOwner(false);

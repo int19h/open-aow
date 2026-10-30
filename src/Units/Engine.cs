@@ -4323,12 +4323,16 @@ namespace Aow.Units.Engine
         // Raw allocation for legacy descendant factories and Meta.NewInstance consumers.
         public TEObject() { }
 
-        protected TEObject(TECustomNode AOwner) : this(null, AOwner) { }
+        // The Delphi pre-inherited statements run after capture and before any inherited body.
+        private protected virtual void InitializeBeforeInherited() { }
 
-        private protected TEObject(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+        public TEObject(TECustomNode owner) : this(null, owner) { }
+
+        private protected TEObject(ConstructionContext context, TECustomNode owner)
         {
             context?.Capture(this);
-            InitializeOwner(AOwner);
+            InitializeBeforeInherited();
+            InitializeOwner(owner);
         }
 
         protected internal Aow.Units.Engine.TECustomNode FOwner;
@@ -5168,9 +5172,13 @@ namespace Aow.Units.Engine
 
         // Engine.pas:8728
         // { TEngine }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        // Raw base for TAoWEngine fixtures until CF-1.
+        protected TEngine() { }
+
+        public TEngine(TECustomNode owner) : this(null, owner) { }
+
+        private protected TEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
-            base.Create__init(AOwner);
             UpdateStartupDirectory();
             FOptions = TSet<Aow.Units.Engine.TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
             var call__128 = new Aow.Units.Engine.TEventList();
@@ -5722,22 +5730,6 @@ namespace Aow.Units.Engine
         public TSet<Aow.Units.Engine.TEngineModeElement> Options { get => FOptions; set => FOptions = value; }
 
         // Engine.pas:1126
-        public static new Aow.Units.Engine.TEngine Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TEngine o = new Aow.Units.Engine.TEngine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // Engine.pas:8756
@@ -6694,33 +6686,16 @@ namespace Aow.Units.Engine
         public TENode() { }
 
         // Engine.pas:2807
-        public TENode(TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeChildren();
-        }
+        public TENode(TECustomNode owner) : this(null, owner) { }
 
-        private protected TENode(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner)
-        {
-            InitializeChildren();
-        }
-
-        public Aow.Units.Engine.TEObjectList FChildren;
-        // Engine.pas:2807
-        // { TENode }
-        // Retained: TEngine and THSMap still call the legacy node body in 9.3b-18 and 9.3b-19.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeChildren();
-        }
-
-        // Engine.pas:2807
-        private void InitializeChildren()
+        private protected TENode(ConstructionContext context, TECustomNode owner)
+            : base(context, owner)
         {
             var call__200 = new Aow.Units.Engine.TEObjectList();
             FChildren = call__200;
         }
+
+        public Aow.Units.Engine.TEObjectList FChildren;
 
         // Engine.pas:2833
         public override void Clear()
@@ -7109,22 +7084,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:631
-        public static new Aow.Units.Engine.TENode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TENode o = new Aow.Units.Engine.TENode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:2861
@@ -9280,35 +9239,17 @@ namespace Aow.Units.Engine
         public TECustomOwner() { }
 
         // Engine.pas:8250
-        public TECustomOwner(TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeCustomOwner(AOwner);
-        }
+        public TECustomOwner(TECustomNode owner) : this(null, owner) { }
 
-        private protected TECustomOwner(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
-            : base(context, AOwner)
+        private protected TECustomOwner(ConstructionContext context, TECustomNode owner)
+            : base(context, owner)
         {
-            InitializeCustomOwner(AOwner);
+            FOwner = owner;
+            FControlStyle = base.GetControlStyle();
         }
 
         internal Aow.Units.Engine.TEngine FEngine;
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
-        // Engine.pas:8250
-        // { TECustomOwner }
-        // Retained: THSSet and TAoWHSSet still call the legacy owner body during engine startup in 9.3b-19.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeCustomOwner(AOwner);
-        }
-
-        // Engine.pas:8250
-        private void InitializeCustomOwner(TECustomNode AOwner)
-        {
-            FOwner = AOwner;
-            FControlStyle = base.GetControlStyle();
-        }
-
         // Engine.pas:8262
         public override Aow.Units.Engine.TEngine GetEngine()
         {
@@ -9356,22 +9297,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:855
-        public static new Aow.Units.Engine.TECustomOwner Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Engine.TECustomOwner o = new Aow.Units.Engine.TECustomOwner();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // Engine.pas:8257

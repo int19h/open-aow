@@ -79,6 +79,13 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTENode : TENode, IProbe
     {
+        // Replay the retired production bodies for the historical comparison.
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FChildren = new TEObjectList();
+        }
+
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -206,6 +213,13 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTEReferenceNode : TEReferenceNode, IProbe
     {
+        // Replay the retired production bodies for the historical comparison.
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FChildren = new TEObjectList();
+        }
+
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -246,6 +260,15 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTECustomOwner : TECustomOwner, IProbe
     {
+        // Replay the retired production bodies for the historical comparison.
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FChildren = new TEObjectList();
+            FOwner = owner;
+            FControlStyle = TSet<TEControlStyleElement>.Of(EngineUnit.csStored);
+        }
+
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -286,6 +309,15 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTEResourceList : TEResourceList, IProbe
     {
+        // Replay the retired production bodies for the historical comparison.
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FChildren = new TEObjectList();
+            FOwner = owner;
+            FControlStyle = TSet<TEControlStyleElement>.Of(EngineUnit.csStored);
+        }
+
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -329,6 +361,7 @@ public sealed class EngineBridgeConstructionTests
         public override void Create__init(TECustomNode owner)
         {
             base.Create__init(owner);
+            FChildren = new TEObjectList();
             FControlStyle = TSet<TEControlStyleElement>.Of(EngineUnit.csStored);
         }
         public int OwnerCalls { get; set; }

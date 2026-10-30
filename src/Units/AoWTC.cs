@@ -4573,8 +4573,6 @@ namespace Aow.Units.AoWTC
 //     $1C FPath; $20 FVariant; $24 FTargetX; $28 FTargetY; $2C FTarget; $34 FEffectType. }
     public partial class TfxHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
-        // TAoWCombatMap keeps this caller and its construction protocol.
-        public static new TfxHS Create(Aow.Units.Engine.TECustomNode AOwner) => new TfxHS(AOwner);
 
         public TfxHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -6695,8 +6693,6 @@ namespace Aow.Units.AoWTC
     // { TCItemHS (instance size 20, VMT 00412198) }
     public partial class TCItemHS : Aow.Units.AoWE.TItemHS
     {
-        // TAoWCombatMap keeps this caller and its construction protocol.
-        public static new TCItemHS Create(Aow.Units.Engine.TECustomNode AOwner) => new TCItemHS(AOwner);
 
         public TCItemHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -7531,8 +7527,6 @@ namespace Aow.Units.AoWTC
     // { TCombatMoveControl (instance size 488, VMT 00412AC4) }
     public partial class TCombatMoveControl : Aow.Units.AoWE.TMoveControl
     {
-        // TAoWCombatMap keeps this caller and its construction protocol.
-        public static TCombatMoveControl Create(Aow.Units.HSEngine.THSMap AOwner) => new TCombatMoveControl(AOwner);
 
         // Raw allocation for the MovementChecks tactical activation fixture.
         protected TCombatMoveControl() { }
@@ -10896,8 +10890,6 @@ namespace Aow.Units.AoWTC
     // { TAoWCombatMapMouse (instance size 80, VMT 004130DC) }
     public partial class TAoWCombatMapMouse : Aow.Units.AoWE.TAbstractAoWHSMapMouse
     {
-        // TAoWCombatMap keeps this caller and its construction protocol.
-        public static TAoWCombatMapMouse Create() => new TAoWCombatMapMouse();
 
         public TAoWCombatMapMouse() : base()
         {}
@@ -11005,12 +10997,16 @@ namespace Aow.Units.AoWTC
             FAI.Free();
         }
 
+        // AoWTC.pas:2189
+        private protected sealed override void InitializeBeforeInherited() => AoWTC.AoWCombatMap = this;
+
+        // Raw allocation for tools/oracle/MovementChecks/Program.cs RawCombatMap until CF-1.
+        protected TAoWCombatMap() { }
+
         // AoWTC.pas:2186
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAoWCombatMap(TECustomNode owner) : base(owner)
         {
             int I = default;
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap = this;
-            base.Create__init(AOwner);
             var call__2058 = new Aow.Units.AoWTC.TUnitPositionControl(null);
             FUnitPositions = call__2058;
             var call__2059 = new Aow.Units.Engine.TEventList();
@@ -11019,7 +11015,7 @@ namespace Aow.Units.AoWTC
             FPlayerChangedEvents = call__2060;
             var call__2061 = new Aow.Units.Engine.TEventList();
             FSeatedPlayerChangedEvents = call__2061;
-            var call__2062 = Aow.Units.AoWTC.TCombatMoveControl.Create(this);
+            var call__2062 = new Aow.Units.AoWTC.TCombatMoveControl(this);
             FMoveControl = call__2062;
             var call__2063 = new Aow.Units.Engine.TEventList();
             FSelectEvents = call__2063;
@@ -11070,7 +11066,7 @@ namespace Aow.Units.AoWTC
         public override Aow.Units.HSEngine.THSMapMouse CreateMouse()
         {
             Aow.Units.HSEngine.THSMapMouse Result = default;
-            Result = Aow.Units.AoWTC.TAoWCombatMapMouse.Create();
+            Result = new Aow.Units.AoWTC.TAoWCombatMapMouse();
             return Result;
         }
 
@@ -11294,7 +11290,7 @@ namespace Aow.Units.AoWTC
                 HS = (Aow.Units.AoWE.TItemHS)call__2101;
                 if (HS == null)
                 {
-                    HS = Aow.Units.AoWTC.TCItemHS.Create(null);
+                    HS = new Aow.Units.AoWTC.TCItemHS(null);
                     // { Original bug: a failed placement leaves the new item sprite allocated. }
                     var call__2102 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(HS, X, Y, L);
                     if (call__2102)
@@ -11751,7 +11747,7 @@ namespace Aow.Units.AoWTC
         public Aow.Units.AoWTC.TfxHS AddEffect(Aow.Units.AoWTC.TfxType EffectType)
         {
             Aow.Units.AoWTC.TfxHS Result = default;
-            Result = Aow.Units.AoWTC.TfxHS.Create(null);
+            Result = new Aow.Units.AoWTC.TfxHS(null);
             FEffects.Add(Result);
             Result.Activate();
             Result.FEffectType = EffectType;
@@ -11808,7 +11804,7 @@ namespace Aow.Units.AoWTC
         public void EndCombat(Aow.Rtl.TObject Sender)
         {
             Aow.Units.CombatTE.TTerminateCombatTE TE = default;
-            TE = Aow.Units.CombatTE.TTerminateCombatTE.Create(null);
+            TE = new Aow.Units.CombatTE.TTerminateCombatTE(null);
             Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.AddSystemEvent(TE);
             TE.Release();
         }
@@ -11904,21 +11900,6 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:484
-        public static new Aow.Units.AoWTC.TAoWCombatMap Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TAoWCombatMap o = new Aow.Units.AoWTC.TAoWCombatMap();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THSMap.Meta
         {

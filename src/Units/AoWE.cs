@@ -6267,7 +6267,7 @@ namespace Aow.Units.AoWE
         {
             var call__528 = new Aow.Units.Engine.TByteList();
             FRelations = call__528;
-            var call__529 = Aow.Units.Engine.TENode.Create(null);
+            var call__529 = new Aow.Units.Engine.TENode(null);
             FHistory = call__529;
         }
 
@@ -17084,20 +17084,32 @@ namespace Aow.Units.AoWE
 
     public partial class TAbstractAoWHSMap : Aow.Units.HSEngine.THSMap
     {
-        // Raw allocation for the ordered TAoWCombatMap route owned by 9.3b-18.
+        // Raw base for TAoWHSMap field-injection fixtures and MovementChecks.RawCombatMap.
         protected TAbstractAoWHSMap() { }
 
-        public TAbstractAoWHSMap(TECustomNode AOwner) : base(AOwner)
+        // AoWHSMap.PAS:366
+        public TAbstractAoWHSMap(TECustomNode owner) : base(owner)
         {
-            InitializeAbstractMap();
+            var call__1637 = new Aow.Units.Engine.TEventList();
+            FShowMessageEvents = call__1637;
+            var call__1638 = new Aow.Units.Engine.TEventList();
+            FMapChangedEvents = call__1638;
+            var call__1639 = new Aow.Units.Engine.TEventList();
+            FScannerIconsChangedEvents = call__1639;
+            var call__1640 = new Aow.Units.HSEngine.TCustomFixedVisibleHS(null);
+            FBackHexagonSelector = call__1640;
+            FBackHexagonSelector.OnShow = ShowBackHexagonSelector;
+            var call__1641 = new Aow.Units.HSEngine.TCustomFixedVisibleHS(null);
+            FFrontHexagonSelector = call__1641;
+            FFrontHexagonSelector.OnShow = ShowFrontHexagonSelector;
+            FHexagonSelectorVisible = false;
+            FExplorationEnabled = true;
+            FFogEnabled = true;
+            FSeatedPlayer = 1;
+            FFPS = 30;
         }
 
-        private protected TAbstractAoWHSMap(ConstructionContext context, TECustomNode AOwner) : base(context, AOwner)
-        {
-            InitializeAbstractMap();
-        }
-
-        private void InitializeAbstractMap()
+        private protected TAbstractAoWHSMap(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var call__1637 = new Aow.Units.Engine.TEventList();
             FShowMessageEvents = call__1637;
@@ -17170,14 +17182,6 @@ namespace Aow.Units.AoWE
             base.Destroy();
             FShowMessageEvents.Free();
             FMapChangedEvents.Free();
-        }
-
-        // AoWHSMap.PAS:366
-        // Retained for TAoWCombatMap and TAbstractAoWCombatMap in 9.3b-18.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeAbstractMap();
         }
 
         // AoWHSMap.PAS:396
@@ -17869,28 +17873,15 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // intf_P1_05.inc:125
-        public static new Aow.Units.AoWE.TAbstractAoWHSMap Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAbstractAoWHSMap o = new Aow.Units.AoWE.TAbstractAoWHSMap();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { conflict: procedure DrawSelectionRect(X, Y: Integer; const R: TRect; const SD: TSurfaceDesc); }
     // { TAbstractAoWCombatMap: size $E0; $D8/$DC combat event lists. VMT 5570E548. }
     public partial class TAbstractAoWCombatMap : Aow.Units.AoWE.TAbstractAoWHSMap
     {
+        // Raw base for tools/oracle/MovementChecks/Program.cs RawCombatMap.
+        protected TAbstractAoWCombatMap() { }
+
         public Aow.Units.Engine.TEventList FCombatStartedEvents;
         // { $D8 }
         public Aow.Units.Engine.TEventList FAbilityActivatedEvents;
@@ -17904,31 +17895,14 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:907
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAbstractAoWCombatMap(TECustomNode owner) : base(owner)
         {
-            base.Create__init(AOwner);
             var call__1682 = new Aow.Units.Engine.TEventList();
             FCombatStartedEvents = call__1682;
             var call__1683 = new Aow.Units.Engine.TEventList();
             FAbilityActivatedEvents = call__1683;
         }
 
-        // intf_P1_05.inc:177
-        public static new Aow.Units.AoWE.TAbstractAoWCombatMap Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAbstractAoWCombatMap o = new Aow.Units.AoWE.TAbstractAoWCombatMap();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TTutorialControl (instance size 12, VMT 5570E6E4) }
@@ -25818,7 +25792,7 @@ namespace Aow.Units.AoWE
         {
             var call__2273 = new Aow.Units.AoWE.TItemLibrary(null);
             FSystemLibrary = call__2273;
-            var call__2274 = Aow.Units.Engine.TENode.Create(null);
+            var call__2274 = new Aow.Units.Engine.TENode(null);
             FLibraries = call__2274;
         }
 
@@ -38797,7 +38771,7 @@ namespace Aow.Units.AoWE
         {
             var call__3220 = new Aow.Units.AoWE.THeroLibrary(null);
             FSystemLibrary = call__3220;
-            var call__3221 = Aow.Units.Engine.TENode.Create(null);
+            var call__3221 = new Aow.Units.Engine.TENode(null);
             FLibraries = call__3221;
         }
 
@@ -47812,7 +47786,7 @@ namespace Aow.Units.AoWE
         // { TStructureControl (instance size 20; $08 structures, $0C next ID, $10 city count). }
         public TStructureControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            var call__3910 = Aow.Units.Engine.TENode.Create(null);
+            var call__3910 = new Aow.Units.Engine.TENode(null);
             FStructures = call__3910;
             FNextID = 0;
         }
@@ -50227,10 +50201,12 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        // Named raw route for set-shaped field-injection fixtures until CF-1.
+        public TAoWHSSet() { }
+
+        private TAoWHSSet(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             Aow.Units.Engine.TBitList Enabled = default;
-            base.Create__init(AOwner);
             var call__4136 = new Aow.Units.HSEngine.TMapObjectResourceList(this);
             FCombatResources = call__4136;
             FCombatResources.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild));
@@ -50424,21 +50400,8 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_10.inc:44
-        public static new Aow.Units.AoWE.TAoWHSSet Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAoWHSSet o = new Aow.Units.AoWE.TAoWHSSet();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public static new TAoWHSSet Create(TECustomNode owner) =>
+            ConstructionContext.Create(owner, static (context, owner) => new TAoWHSSet(context, owner));
 
         public new partial class Meta : Aow.Units.HSEngine.THSSet.Meta
         {
@@ -57764,7 +57727,7 @@ namespace Aow.Units.AoWE
             FPlayers = call__4610;
             var call__4611 = new Aow.Units.AoWE.TCombatPartyList(null);
             FParties = call__4611;
-            var call__4612 = Aow.Units.Engine.TENode.Create(null);
+            var call__4612 = new Aow.Units.Engine.TENode(null);
             FCombatObjects = call__4612;
             var call__4613 = new Aow.Units.Engine.TByteList();
             FDefeatedLeaders = call__4613;
@@ -97057,8 +97020,8 @@ namespace Aow.Units.AoWE
             FRegistry.Free();
         }
 
-        // Army.PAS:5765
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        // Army.PAS:5767-5786
+        private protected sealed override void InitializeBeforeInherited()
         {
             // { Tried typed language selector; still differs. }
             Aow.Units.AoWE.AoWE.AoWEngine = this;
@@ -97103,7 +97066,14 @@ namespace Aow.Units.AoWE
             FDemo = false;
             var call__8511 = FRegistry.GetLanguage();
             FLanguage = unchecked((byte)unchecked((byte)call__8511));
-            base.Create__init(AOwner);
+        }
+
+        // Named raw route for engine-shaped fixtures until CF-1. No startup runs here.
+        public TAoWEngine() { }
+
+        // Army.PAS:5788-5817
+        private TAoWEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        {
             Options = Options - TSet<Aow.Units.Engine.TEngineModeElement>.Of(Aow.Units.Engine.TEngineModeElement.emVerifyEObjects);
             RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWHSSet>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWHSMap>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWMapLevel>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWCampaign>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWCampaignScenario>()]);
             RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TPlayer>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TRace>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnit>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TRaceResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitGFXResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TUnitHS>()]);
@@ -97602,21 +97572,8 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_08.inc:29
-        public static new Aow.Units.AoWE.TAoWEngine Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAoWEngine o = new Aow.Units.AoWE.TAoWEngine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public static new TAoWEngine Create(TECustomNode owner) =>
+            ConstructionContext.Create(owner, static (context, owner) => new TAoWEngine(context, owner));
 
         public new partial class Meta : Aow.Units.HSEngine.THSEngine.Meta
         {

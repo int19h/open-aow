@@ -60,8 +60,7 @@ internal static class SweepFailureFixture
             else
             {
                 if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-                var engine = new TEngine();
-                engine.Create__init(null!);
+                var engine = new TEngine(null!);
                 try
                 {
                     EClass descriptor = EClass.Of(type);

@@ -94,8 +94,7 @@ public sealed partial class SpellConstructionTests
     private static TEngine RegisteredEngine(Type type)
     {
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-        var engine = new TEngine();
-        engine.Create__init(null!);
+        var engine = new TEngine(null!);
         try { engine.RegisterEClasses([EClass.Of(type)]); }
         catch { engine.Destroy(); throw; }
         return engine;

@@ -53,7 +53,7 @@ public sealed class StorageStreamConstructionTests
     {
         using var memory = Memory([0x55, 0]);
         memory.Position = 1;
-        var engine = new TEngine();
+        var engine = new TEngine(null!);
         TEStorageStream stream;
         stream = kind switch
         {

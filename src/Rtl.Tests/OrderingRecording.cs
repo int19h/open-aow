@@ -66,8 +66,7 @@ internal static class OrderingRecording
             Game.AoWEngine = new TAoWEngine { FDictionary = new TAoWDictionary(null!) };
             Game.AoWHSMap = null!;
             if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-            Engine = new TEngine();
-            Engine.Create__init(null!);
+            Engine = new TEngine(null!);
             Engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
             foreach (var descriptor in EClass.All.Where(x => x.Type == type))
             {
