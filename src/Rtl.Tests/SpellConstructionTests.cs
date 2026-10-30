@@ -106,7 +106,7 @@ public sealed partial class SpellConstructionTests
 
     private static TEObject Create(Type type, TECustomNode owner, int route, TEngine? registered = null)
     {
-        var meta = (TEObject.Meta)MetaRegistry.Of(type);
+        var meta = EClass.Of(type);
         if (route == 0)
         {
             try
@@ -132,11 +132,11 @@ public sealed partial class SpellConstructionTests
                 throw;
             }
         }
-        if (registered is not null) return registered.CreateEObject(meta.ClassID(), owner);
+        if (registered is not null) return registered.CreateEObject(meta.ClassID, owner);
         var engine = RegisteredEngine(type);
         try
         {
-            return engine.CreateEObject(meta.ClassID(), owner);
+            return engine.CreateEObject(meta.ClassID, owner);
         }
         finally { engine.Destroy(); }
     }
@@ -203,7 +203,7 @@ public sealed partial class SpellConstructionTests
                     allocated.Add(value);
                     Assert.IsType(type, value);
                     Assert.Same(argument, value.Owner);
-                    Assert.Same(MetaRegistry.Of(type), value.ClassType);
+                    Assert.Same(Aow.Units.Engine.EClass.Of(type), value.EClass);
                     AssertRecorded(expected.GetProperty("State").GetString()!, SuccessSnapshot(value));
                     if (owned) AssertRecorded(expected.GetProperty("Observation").GetString()!, owner.Observations[^1]);
                     if (value is TSpell spell)
@@ -220,7 +220,6 @@ public sealed partial class SpellConstructionTests
                     }
                 }
             Assert.Equal(4, owner.Members.Count);
-            Assert.Throws<InvalidOperationException>(() => MetaRegistry.Of(type).NewInstance());
             Assert.DoesNotContain(type.GetConstructors(), constructor => constructor.GetParameters().Length == 0);
             if (expected.GetProperty("Failure").ValueKind == JsonValueKind.String)
                 Assert.DoesNotContain(type.GetConstructors(), constructor => constructor.GetParameters().Length != 0);

@@ -36,14 +36,13 @@ public sealed class EClassTests
     }
 
     [Fact]
-    public void RegistrationFollowsInheritanceAndTheMetaclassAgrees()
+    public void RegistrationFollowsInheritance()
     {
         var seen = new HashSet<EClass>();
         foreach (var eclass in EClass.All)
         {
             Assert.True(eclass.Parent is null || seen.Contains(eclass.Parent), eclass.ClassName);
             Assert.True(seen.Add(eclass));
-            Assert.Equal(eclass.ClassID, ((TEObject.Meta)MetaRegistry.Of(eclass.Type)).ClassID());
             Assert.True(eclass.InheritsFrom(typeof(TEObject)));
         }
         Assert.Same(EClass.Of<TAoWHSMap>(), EClass.Of(typeof(TAoWHSMap)));
@@ -136,8 +135,7 @@ public sealed class EClassTests
         try { Assert.IsType<TEResourceList>(split); }
         finally { split.Free(); }
         Assert.Throws<InvalidOperationException>(() => EClass.Of(typeof(Unregistered)));
-        Assert.Throws<ArgumentException>(() => EClass.Register(typeof(string), 1, static owner => new TEObject(null!), 0));
-        Assert.Throws<InvalidOperationException>(() => EClass.Register(typeof(TEObject), 80, static owner => new TEObject(null!), 8));
+        Assert.Throws<InvalidOperationException>(() => EClass.Register<TEObject>(80, static owner => new TEObject(null!), 8));
     }
 
     [Fact]

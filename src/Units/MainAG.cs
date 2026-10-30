@@ -121,17 +121,6 @@ namespace Aow.Units.MainAG
         // MainAG.pas:132
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbPassive;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // MainAG.pas:129
-            public override int ClassID() => Aow.Units.MainAG.TPassiveAG.ClassID;
-
-            // MainAG.pas:26
-            public new Aow.Units.MainAG.TPassiveAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainAG.TPassiveAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MainAG.TPassiveAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TPassiveAGC (instance size 368, VMT 557DA028) }
@@ -271,17 +260,6 @@ namespace Aow.Units.MainAG
         // MainAG.pas:250
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbFortify;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // MainAG.pas:247
-            public override int ClassID() => Aow.Units.MainAG.TFortifyAG.ClassID;
-
-            // MainAG.pas:44
-            public new Aow.Units.MainAG.TFortifyAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainAG.TFortifyAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MainAG.TFortifyAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TFortifyAGC (instance size 384, VMT 557DA268): $170 city location,
@@ -1109,17 +1087,6 @@ namespace Aow.Units.MainAG
         // MainAG.pas:732
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbSuicidal;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // MainAG.pas:729
-            public override int ClassID() => Aow.Units.MainAG.TSuicidalAG.ClassID;
-
-            // MainAG.pas:73
-            public new Aow.Units.MainAG.TSuicidalAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainAG.TSuicidalAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MainAG.TSuicidalAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TSuicidalAGC (instance size 368, VMT 557DA4A8) }
@@ -1233,17 +1200,6 @@ namespace Aow.Units.MainAG
         // MainAG.pas:804
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbTransport;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // MainAG.pas:801
-            public override int ClassID() => Aow.Units.MainAG.TTransportAG.ClassID;
-
-            // MainAG.pas:91
-            public new Aow.Units.MainAG.TTransportAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainAG.TTransportAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MainAG.TTransportAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TTransportAGC (instance size 368, VMT 557DA6F8) }

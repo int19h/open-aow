@@ -102,16 +102,6 @@ namespace Aow.Units.BorderHx
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TAbstractBorderHexagon.Meta
-        {
-            // BorderHx.pas:59
-            public override int ClassID() => Aow.Units.BorderHx.TBorderHexagon.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BorderHx.TBorderHexagon => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.BorderHx.TBorderHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BorderHx.TBorderHexagon)base.Create(AOwner);
-        }
     }
 
     // { BorderHx.TBorderHexagonResource (instance size 52) }
@@ -138,17 +128,6 @@ namespace Aow.Units.BorderHx
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // BorderHx.pas:102
-            // { TBorderHexagonResource }
-            public override int ClassID() => Aow.Units.BorderHx.TBorderHexagonResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BorderHx.TBorderHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1223
-            public new Aow.Units.BorderHx.TBorderHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BorderHx.TBorderHexagonResource)base.Create(AOwner);
-        }
     }
 
     public static partial class BorderHx

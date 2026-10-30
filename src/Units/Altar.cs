@@ -448,16 +448,6 @@ namespace Aow.Units.Altar
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
-        {
-            // Altar.pas:59
-            public override int ClassID() => Aow.Units.Altar.TAltar.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Altar.TAltar => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P1_09.inc:249
-            public new Aow.Units.Altar.TAltar Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Altar.TAltar)base.Create(AOwner);
-        }
     }
 
     // { TAltarResource (instance size 116, no added fields, VMT 557CEA6C) }
@@ -497,17 +487,6 @@ namespace Aow.Units.Altar
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
-        {
-            // Altar.pas:307
-            public override int ClassID() => Aow.Units.Altar.TAltarResource.ClassID;
-
-            // Altar.pas:49
-            public new Aow.Units.Altar.TAltarResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Altar.TAltarResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Altar.TAltarResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public enum TAltarMode : byte

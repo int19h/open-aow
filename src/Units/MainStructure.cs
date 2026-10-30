@@ -57,16 +57,6 @@ namespace Aow.Units.MainStructure
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.CombatStructure.TCombatStructure.Meta
-        {
-            // MainStructure.pas:37
-            public override int ClassID() => Aow.Units.MainStructure.TMainStructure.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MainStructure.TMainStructure => (Meta)MetaRegistry.Of(typeof(T));
-            // CombatStructure.pas:23
-            public new Aow.Units.MainStructure.TMainStructure Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainStructure.TMainStructure)base.Create(AOwner);
-        }
     }
 
     // { TMainStructureResource (instance size 72, VMT 004354CC) }
@@ -94,16 +84,6 @@ namespace Aow.Units.MainStructure
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
-        {
-            // MainStructure.pas:43
-            public override int ClassID() => Aow.Units.MainStructure.TMainStructureResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MainStructure.TMainStructureResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.MainStructure.TMainStructureResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainStructure.TMainStructureResource)base.Create(AOwner);
-        }
     }
 
     public static partial class MainStructure

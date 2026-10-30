@@ -93,17 +93,6 @@ namespace Aow.Units.AoWSetup
         {
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // AoWSetup.pas:254
-            public override int ClassID() => Aow.Units.AoWSetup.TSetupPackage.ClassID;
-
-            // AoWSetup.pas:40
-            public new Aow.Units.AoWSetup.TSetupPackage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TSetupPackage)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWSetup.TSetupPackage => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 8)]
@@ -147,16 +136,6 @@ namespace Aow.Units.AoWSetup
             Stream.rwInteger(ref FVersion, 24);
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // AoWSetup.pas:266
-            public override int ClassID() => Aow.Units.AoWSetup.TRemotePlayer.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWSetup.TRemotePlayer => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.AoWSetup.TRemotePlayer Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TRemotePlayer)base.Create(AOwner);
-        }
     }
 
     // { TRemotePlayerList (instance size 12, VMT 557DEA00) }
@@ -249,17 +228,6 @@ namespace Aow.Units.AoWSetup
             FLeader = call__1;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // AoWSetup.pas:312
-            public override int ClassID() => Aow.Units.AoWSetup.TPlayerSetupSettings.ClassID;
-
-            // AoWSetup.pas:76
-            public new Aow.Units.AoWSetup.TPlayerSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TPlayerSetupSettings)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWSetup.TPlayerSetupSettings => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TSetupSettings (instance size 68, VMT 557DEC54); $18/$1C CRCs, $20 day, $24 play mode, $28 victory, $29 independent AI, $2C seed, $30/$34 limits, $38 players, $3C connection, $3D tactical combat, $40 email game name. }
@@ -445,17 +413,6 @@ namespace Aow.Units.AoWSetup
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TENode.Meta
-        {
-            // AoWSetup.pas:356
-            public override int ClassID() => Aow.Units.AoWSetup.TSetupSettings.ClassID;
-
-            // AoWSetup.pas:107
-            public new Aow.Units.AoWSetup.TSetupSettings Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWSetup.TSetupSettings)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWSetup.TSetupSettings => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCustomizeLeaderControl (instance size 48, VMT 557DED7C) }

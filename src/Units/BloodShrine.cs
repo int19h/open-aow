@@ -63,13 +63,6 @@ namespace Aow.Units.BloodShrine
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Animation.TAnimation.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.BloodShrine.TBloodShrineAnimation => (Meta)MetaRegistry.Of(typeof(T));
-            // Animation.pas:43
-            public new Aow.Units.BloodShrine.TBloodShrineAnimation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BloodShrine.TBloodShrineAnimation)base.Create(AOwner);
-        }
     }
 
     // { TBloodShrine: size $30, VMT 557E2880; no additional fields. }
@@ -158,17 +151,6 @@ namespace Aow.Units.BloodShrine
         // BloodShrine.pas:26
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // BloodShrine.pas:65
-            public override int ClassID() => Aow.Units.BloodShrine.TBloodShrine.ClassID;
-
-            // BloodShrine.pas:26
-            public new Aow.Units.BloodShrine.TBloodShrine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BloodShrine.TBloodShrine)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BloodShrine.TBloodShrine => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TBloodShrineResource: size $64, VMT 557E2AEC; no additional fields. }
@@ -207,17 +189,6 @@ namespace Aow.Units.BloodShrine
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // BloodShrine.pas:116
-            public override int ClassID() => Aow.Units.BloodShrine.TBloodShrineResource.ClassID;
-
-            // BloodShrine.pas:36
-            public new Aow.Units.BloodShrine.TBloodShrineResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BloodShrine.TBloodShrineResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BloodShrine.TBloodShrineResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class BloodShrine

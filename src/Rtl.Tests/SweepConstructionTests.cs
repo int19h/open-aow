@@ -72,7 +72,6 @@ public sealed class SweepConstructionTests
             if (type.IsEnum) return Convert.ToInt64(item);
             if (type.IsPrimitive || item is string || item is decimal) return item;
             if (item is Type represented) return represented.FullName;
-            if (item is TObject.Meta meta) return meta.Type.FullName;
             if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
             if (!type.IsValueType)
             {
@@ -398,7 +397,7 @@ public sealed class SweepConstructionTests
             {
                 value = route == 1 ? EClass.Of(type).Create(owner!)
                     : route == 0 ? Direct(type, owner!)
-                    : route == 2 ? ((TEObject.Meta)MetaRegistry.Of(type)).Create(owner!)
+                    : route == 2 ? EClass.Of(type).Create(owner!)
                     : Saved(type, owner!);
                 Assert.IsType(type, value);
                 Assert.Same(owner, value.Owner);

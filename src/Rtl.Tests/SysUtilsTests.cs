@@ -86,7 +86,7 @@ public sealed class SysUtilsTests
         Assert.Equal((AnsiString)"abcdef", Format("%0:1:s", 7, (AnsiString)"abcdef"));
         Assert.Equal((AnsiString)"abc", Format("%:s", (AnsiString)"abc"));
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Assert.Throws<EConvertError>(() => Format(kind, 1.25));
-        foreach (TVarRec arg in new TVarRec[] { true, 1.25, new TObject(), (TObject.Meta?)null, TVarRec.Pointer(0) }) Assert.Throws<EConvertError>(() => Format("%s", arg));
+        foreach (TVarRec arg in new TVarRec[] { true, 1.25, new TObject(), TVarRec.Pointer(0) }) Assert.Throws<EConvertError>(() => Format("%s", arg));
         Assert.Throws<EConvertError>(() => Format("%p", 1));
         Assert.Throws<EConvertError>(() => Format("%d", (byte)'a'));
         Assert.Throws<EConvertError>(() => Format("%0:1:d", 7, (AnsiString)"abcdef"));

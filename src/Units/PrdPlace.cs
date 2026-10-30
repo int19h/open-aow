@@ -1322,17 +1322,6 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:51
 
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
-        {
-            // PrdPlace.pas:291
-            public override int ClassID() => Aow.Units.PrdPlace.TProductionPlace.ClassID;
-
-            // PrdPlace.pas:51
-            public new Aow.Units.PrdPlace.TProductionPlace Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PrdPlace.TProductionPlace)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.PrdPlace.TProductionPlace => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TProductionPlaceResource: size $78; $74 available unit indexes. VMT 557BD94C. }
@@ -1401,17 +1390,6 @@ namespace Aow.Units.PrdPlace
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
-        {
-            // PrdPlace.pas:718
-            public override int ClassID() => Aow.Units.PrdPlace.TProductionPlaceResource.ClassID;
-
-            // PrdPlace.pas:100
-            public new Aow.Units.PrdPlace.TProductionPlaceResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PrdPlace.TProductionPlaceResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.PrdPlace.TProductionPlaceResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TProductionPlaceEventLog: size $20; no added fields. VMT 557BDA5C. }
@@ -1451,16 +1429,6 @@ namespace Aow.Units.PrdPlace
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TProductionEventLog.Meta
-        {
-            // PrdPlace.pas:736
-            public override int ClassID() => Aow.Units.PrdPlace.TProductionPlaceEventLog.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.PrdPlace.TProductionPlaceEventLog => (Meta)MetaRegistry.Of(typeof(T));
-            // EventLog.pas:91
-            public new Aow.Units.PrdPlace.TProductionPlaceEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PrdPlace.TProductionPlaceEventLog)base.Create(AOwner);
-        }
     }
 
     public static partial class PrdPlace

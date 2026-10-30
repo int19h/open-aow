@@ -55,16 +55,6 @@ namespace Aow.Units.AltDeath
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Altar.TAltar.Meta
-        {
-            // AltDeath.pas:36
-            public override int ClassID() => Aow.Units.AltDeath.TAltarOfDeath.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AltDeath.TAltarOfDeath => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P1_09.inc:249
-            public new Aow.Units.AltDeath.TAltarOfDeath Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltDeath.TAltarOfDeath)base.Create(AOwner);
-        }
     }
 
     // { TAltarOfDeathResource (instance size 116, no added fields, VMT 557D234C) }
@@ -99,17 +89,6 @@ namespace Aow.Units.AltDeath
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
-        {
-            // AltDeath.pas:52
-            public override int ClassID() => Aow.Units.AltDeath.TAltarOfDeathResource.ClassID;
-
-            // AltDeath.pas:26
-            public new Aow.Units.AltDeath.TAltarOfDeathResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltDeath.TAltarOfDeathResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AltDeath.TAltarOfDeathResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class AltDeath

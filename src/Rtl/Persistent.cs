@@ -38,7 +38,6 @@ public class TComponent : TPersistent
         context?.Capture(this);
         owner?.InsertComponent(this);
     }
-    public new Meta ClassType => (Meta)base.ClassType;
     public TComponent? Owner { get; private set; }
     public int Tag { get; set; }
     // The layout session sets the loading flags from outside the component.

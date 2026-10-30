@@ -69,17 +69,6 @@ namespace Aow.Units.Arena
         // Arena.pas:23
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureTE.Meta
-        {
-            // Arena.pas:86
-            public override int ClassID() => Aow.Units.Arena.TArenaTE.ClassID;
-
-            // Arena.pas:23
-            public new Aow.Units.Arena.TArenaTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Arena.TArenaTE)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Arena.TArenaTE => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TArena (instance size 48, VMT 557D6240) }
@@ -373,16 +362,6 @@ namespace Aow.Units.Arena
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // Arena.pas:95
-            public override int ClassID() => Aow.Units.Arena.TArena.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Arena.TArena => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P1_09.inc:78
-            public new Aow.Units.Arena.TArena Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Arena.TArena)base.Create(AOwner);
-        }
     }
 
     // { TArenaResource (instance size 100, VMT 557D6498) }
@@ -418,17 +397,6 @@ namespace Aow.Units.Arena
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // Arena.pas:253
-            public override int ClassID() => Aow.Units.Arena.TArenaResource.ClassID;
-
-            // Arena.pas:45
-            public new Aow.Units.Arena.TArenaResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Arena.TArenaResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Arena.TArenaResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TEnterArenaEventLog: size $24; $18 FArena, $1C FSelection,

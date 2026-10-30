@@ -214,17 +214,6 @@ namespace Aow.Units.ItemExpS
         // ItemExpS.pas:32
 
 
-        public new partial class Meta : Aow.Units.ExploreS.TExplorationSite.Meta
-        {
-            // ItemExpS.pas:102
-            public override int ClassID() => Aow.Units.ItemExpS.TItemExplorationSite.ClassID;
-
-            // ItemExpS.pas:32
-            public new Aow.Units.ItemExpS.TItemExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ItemExpS.TItemExplorationSite)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ItemExpS.TItemExplorationSite => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { +204 }
@@ -269,17 +258,6 @@ namespace Aow.Units.ItemExpS
             Stream.rwString(ref FTitle, 22);
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // ItemExpS.pas:201
-            public override int ClassID() => Aow.Units.ItemExpS.TItemExplorationSiteEventLog.ClassID;
-
-            // ItemExpS.pas:53
-            public new Aow.Units.ItemExpS.TItemExplorationSiteEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ItemExpS.TItemExplorationSiteEventLog)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ItemExpS.TItemExplorationSiteEventLog => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TItemExplorationSiteResource (instance size 104, VMT 557C276C) }
@@ -291,16 +269,6 @@ namespace Aow.Units.ItemExpS
         // ItemExpS.pas:212
         public new const int ClassID = 132084;
 
-        public new partial class Meta : Aow.Units.ExploreS.TExplorationSiteResource.Meta
-        {
-            // ItemExpS.pas:212
-            public override int ClassID() => Aow.Units.ItemExpS.TItemExplorationSiteResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ItemExpS.TItemExplorationSiteResource => (Meta)MetaRegistry.Of(typeof(T));
-            // ExploreS.pas:61
-            public new Aow.Units.ItemExpS.TItemExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ItemExpS.TItemExplorationSiteResource)base.Create(AOwner);
-        }
     }
 
     public static partial class ItemExpS

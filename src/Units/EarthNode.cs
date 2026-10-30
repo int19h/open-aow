@@ -53,16 +53,6 @@ namespace Aow.Units.EarthNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
-        {
-            // EarthNode.pas:36
-            public override int ClassID() => Aow.Units.EarthNode.TEarthNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EarthNode.TEarthNode => (Meta)MetaRegistry.Of(typeof(T));
-            // PrdPlace.pas:51
-            public new Aow.Units.EarthNode.TEarthNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EarthNode.TEarthNode)base.Create(AOwner);
-        }
     }
 
     // { TEarthNodeResource (instance size 120, VMT 557BFD94) }
@@ -100,17 +90,6 @@ namespace Aow.Units.EarthNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
-        {
-            // EarthNode.pas:53
-            public override int ClassID() => Aow.Units.EarthNode.TEarthNodeResource.ClassID;
-
-            // EarthNode.pas:26
-            public new Aow.Units.EarthNode.TEarthNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EarthNode.TEarthNodeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EarthNode.TEarthNodeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class EarthNode

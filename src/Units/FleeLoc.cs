@@ -232,17 +232,6 @@ namespace Aow.Units.FleeLoc
         // FleeLoc.pas:27
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // FleeLoc.pas:76
-            public override int ClassID() => Aow.Units.FleeLoc.TFleeLocation.ClassID;
-
-            // FleeLoc.pas:27
-            public new Aow.Units.FleeLoc.TFleeLocation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FleeLoc.TFleeLocation)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FleeLoc.TFleeLocation => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TFleeLocationResource (instance size 52, VMT 00431048) }
@@ -270,16 +259,6 @@ namespace Aow.Units.FleeLoc
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // FleeLoc.pas:163
-            public override int ClassID() => Aow.Units.FleeLoc.TFleeLocationResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FleeLoc.TFleeLocationResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1124
-            public new Aow.Units.FleeLoc.TFleeLocationResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FleeLoc.TFleeLocationResource)base.Create(AOwner);
-        }
     }
 
     // { TMovementHS (instance size 16, VMT 00431140) }
@@ -320,16 +299,6 @@ namespace Aow.Units.FleeLoc
         // Engine.pas:524
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // FleeLoc.pas:172
-            public override int ClassID() => Aow.Units.FleeLoc.TMovementHS.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FleeLoc.TMovementHS => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.FleeLoc.TMovementHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FleeLoc.TMovementHS)base.Create(AOwner);
-        }
     }
 
     public static partial class FleeLoc

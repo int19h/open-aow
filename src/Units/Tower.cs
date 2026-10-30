@@ -175,16 +175,6 @@ namespace Aow.Units.Tower
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
-        {
-            // Tower.pas:55
-            public override int ClassID() => Aow.Units.Tower.TTower.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Tower.TTower => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P1_09.inc:249
-            public new Aow.Units.Tower.TTower Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Tower.TTower)base.Create(AOwner);
-        }
     }
 
     // { TTowerResource (instance size 116, VMT 557C3434): no additional fields. }
@@ -227,17 +217,6 @@ namespace Aow.Units.Tower
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
-        {
-            // Tower.pas:124
-            public override int ClassID() => Aow.Units.Tower.TTowerResource.ClassID;
-
-            // Tower.pas:35
-            public new Aow.Units.Tower.TTowerResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Tower.TTowerResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Tower.TTowerResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TTowerConstructionControl (instance size 8, VMT 557C352C) }
@@ -302,13 +281,6 @@ namespace Aow.Units.Tower
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Tower.TTowerConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.Tower.TTowerConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Tower.TTowerConstructionControl)base.Create(AOwner);
-        }
     }
 
     public static partial class Tower

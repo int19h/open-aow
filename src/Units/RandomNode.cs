@@ -45,16 +45,6 @@ namespace Aow.Units.RandomNode
         // RandomNode.pas:35
         public new const int ClassID = 133154;
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
-        {
-            // RandomNode.pas:35
-            public override int ClassID() => Aow.Units.RandomNode.TRandomNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.RandomNode.TRandomNode => (Meta)MetaRegistry.Of(typeof(T));
-            // PrdPlace.pas:51
-            public new Aow.Units.RandomNode.TRandomNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.RandomNode.TRandomNode)base.Create(AOwner);
-        }
     }
 
     // { TRandomNodeResource (instance size 120, VMT 5580B68C) }
@@ -89,17 +79,6 @@ namespace Aow.Units.RandomNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
-        {
-            // RandomNode.pas:46
-            public override int ClassID() => Aow.Units.RandomNode.TRandomNodeResource.ClassID;
-
-            // RandomNode.pas:25
-            public new Aow.Units.RandomNode.TRandomNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.RandomNode.TRandomNodeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.RandomNode.TRandomNodeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class RandomNode

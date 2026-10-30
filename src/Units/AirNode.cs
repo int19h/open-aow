@@ -53,16 +53,6 @@ namespace Aow.Units.AirNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
-        {
-            // AirNode.pas:37
-            public override int ClassID() => Aow.Units.AirNode.TAirNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AirNode.TAirNode => (Meta)MetaRegistry.Of(typeof(T));
-            // PrdPlace.pas:51
-            public new Aow.Units.AirNode.TAirNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AirNode.TAirNode)base.Create(AOwner);
-        }
     }
 
     // { TAirNodeResource (instance size 120, no added fields, VMT 557C10A4) }
@@ -101,17 +91,6 @@ namespace Aow.Units.AirNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
-        {
-            // AirNode.pas:55
-            public override int ClassID() => Aow.Units.AirNode.TAirNodeResource.ClassID;
-
-            // AirNode.pas:27
-            public new Aow.Units.AirNode.TAirNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AirNode.TAirNodeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AirNode.TAirNodeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class AirNode

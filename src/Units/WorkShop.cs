@@ -49,16 +49,6 @@ namespace Aow.Units.WorkShop
         // WorkShop.pas:36
         public new const int ClassID = 2229512;
 
-        public new partial class Meta : Aow.Units.CombatStructure.TCombatStructure.Meta
-        {
-            // WorkShop.pas:36
-            public override int ClassID() => Aow.Units.WorkShop.TWorkshop.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.WorkShop.TWorkshop => (Meta)MetaRegistry.Of(typeof(T));
-            // CombatStructure.pas:23
-            public new Aow.Units.WorkShop.TWorkshop Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WorkShop.TWorkshop)base.Create(AOwner);
-        }
     }
 
     // { TWorkshopResource (instance size 72, VMT 0043368C) }
@@ -86,16 +76,6 @@ namespace Aow.Units.WorkShop
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
-        {
-            // WorkShop.pas:39
-            public override int ClassID() => Aow.Units.WorkShop.TWorkshopResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.WorkShop.TWorkshopResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.WorkShop.TWorkshopResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WorkShop.TWorkshopResource)base.Create(AOwner);
-        }
     }
 
     public static partial class WorkShop

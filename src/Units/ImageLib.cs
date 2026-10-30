@@ -726,8 +726,6 @@ namespace Aow.Units.ImageLib
         public Aow.Units.GFXE.TGFXEPalette RemapPalette { get => GetRemapPalette(); }
         public bool Transparent { get => GetTransparent(); }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {}
 
     }
 
@@ -2427,7 +2425,6 @@ namespace Aow.Units.ImageLib
             return new Aow.Units.ImageLib.TGrabInfo();
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta {}
     }
 
     public delegate void TImagesGrabbedEvent(Aow.Units.ImageLib.TCustomImageLibrary GrabbedImages, Aow.Units.ImageLib.TGrabInfo UsedGrabInfo);
@@ -2966,8 +2963,6 @@ namespace Aow.Units.ImageLib
 
         public Aow.Units.ImageLib.TLibraryImage this[int Index] { get => GetImage(Index); }
 
-        public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
-        {}
     }
 
     // { ImageLib.TImage08 (instance size 76): the base of the 8 bit images. +$40 FOwnPalette (the
@@ -3319,8 +3314,6 @@ namespace Aow.Units.ImageLib
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
-        {}
     }
 
     // { ImageLib.TRLESprite08 (instance size 104): an 8 bit sprite, run length encoded (ClassID 2).
@@ -3711,8 +3704,6 @@ namespace Aow.Units.ImageLib
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
-        {}
     }
 
     // { ImageLib.TImage16 (instance size 72): the base of the 16 bit images (pfRGB565 or pfRGB555).
@@ -4441,8 +4432,6 @@ namespace Aow.Units.ImageLib
             }
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
-        {}
     }
 
     // { ImageLib.TTransparentPicture16 (instance size 84, ClassID $15): a TPicture16 shown
@@ -4468,8 +4457,6 @@ namespace Aow.Units.ImageLib
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TPicture16.Meta
-        {}
     }
 
     // { ImageLib.TSprite16 (instance size 108, ClassID $16): a 16 bit picture with a transparent
@@ -5040,8 +5027,6 @@ namespace Aow.Units.ImageLib
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
-        {}
     }
 
     // { ImageLib.TRLESprite16 (instance size 96, ClassID $11): a run length encoded 16 bit sprite.
@@ -5509,8 +5494,6 @@ namespace Aow.Units.ImageLib
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
-        {}
     }
 
     // { ImageLib.TTransparentRLESprite16 (instance size 96, ClassID $12): a TRLESprite16 shown
@@ -5536,8 +5519,6 @@ namespace Aow.Units.ImageLib
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TRLESprite16.Meta
-        {}
     }
 
     // { ImageLib.TBitMaskGrabInfo (instance size 28): +$18 Inverse (grab the non-transparent
@@ -5839,8 +5820,6 @@ namespace Aow.Units.ImageLib
             Aow.Units.ImageLib.ImageLib.ShowBitMask16((X + FXshift) + FMaskLeft, (Y + FYshift) + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TLibraryImage.Meta
-        {}
     }
 
     // { ImageLib.TShadow (instance size 88): a bit mask shown as a shadow, darkening the 16 bit
@@ -5907,8 +5886,6 @@ namespace Aow.Units.ImageLib
             }
         }
 
-        public new partial class Meta : Aow.Units.ImageLib.TBitMask.Meta
-        {}
     }
 
     // { ImageLib.TImageLibraryFont (instance size 100): an image library whose image N is the
@@ -8251,13 +8228,7 @@ namespace Aow.Units.ImageLib
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.ImageLib.TFrameTableList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     // { ImageLib.TImageSequence (instance size 56): an animation of the images of a library, one

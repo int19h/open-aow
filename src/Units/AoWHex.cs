@@ -337,17 +337,6 @@ namespace Aow.Units.AoWHex
         // AoWHex.pas:48
 
 
-        public new partial class Meta : Aow.Units.IsoHex.TLowerIsometricHexagon.Meta
-        {
-            // AoWHex.pas:275
-            public override int ClassID() => Aow.Units.AoWHex.TAoWWaterHexagon.ClassID;
-
-            // AoWHex.pas:48
-            public new Aow.Units.AoWHex.TAoWWaterHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWHex.TAoWWaterHexagon)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWHex.TAoWWaterHexagon => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TAoWWaterHexagonResource (instance size 56, VMT 5579A7A0) }
@@ -385,17 +374,6 @@ namespace Aow.Units.AoWHex
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.IsoHex.TLowerIsometricHexagonResource.Meta
-        {
-            // AoWHex.pas:452
-            public override int ClassID() => Aow.Units.AoWHex.TAoWWaterHexagonResource.ClassID;
-
-            // AoWHex.pas:58
-            public new Aow.Units.AoWHex.TAoWWaterHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWHex.TAoWWaterHexagonResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWHex.TAoWWaterHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 28)]

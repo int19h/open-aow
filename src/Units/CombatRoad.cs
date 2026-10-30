@@ -209,16 +209,6 @@ namespace Aow.Units.CombatRoad
             }
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
-        {
-            // CombatRoad.pas:51
-            public override int ClassID() => Aow.Units.CombatRoad.TCombatRoad.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatRoad.TCombatRoad => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.CombatRoad.TCombatRoad Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatRoad.TCombatRoad)base.Create(AOwner);
-        }
     }
 
     // { TCombatRoadResource (instance size 52, VMT 00410DA0) }
@@ -291,16 +281,6 @@ namespace Aow.Units.CombatRoad
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // CombatRoad.pas:133
-            public override int ClassID() => Aow.Units.CombatRoad.TCombatRoadResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatRoad.TCombatRoadResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1124
-            public new Aow.Units.CombatRoad.TCombatRoadResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatRoad.TCombatRoadResource)base.Create(AOwner);
-        }
     }
 
     public static partial class CombatRoad

@@ -117,17 +117,15 @@ public sealed class MapNetSoundFailureTests
 
     static MapNetSoundFailureTests()
     {
-        EClass.Register(typeof(FailingLevel), TMapLevel.ClassID, static owner => FailingLevel.Create(owner), 124);
-        MetaRegistry.Register(typeof(FailingLevel), new TMapLevel.Meta(), 124);
-        EClass.Register(typeof(FailingPublishedLevel), TMapLevel.ClassID, static owner => FailingPublishedLevel.Create(owner), 124);
-        MetaRegistry.Register(typeof(FailingPublishedLevel), new TMapLevel.Meta(), 124);
+        EClass.Register<FailingLevel>(TMapLevel.ClassID, static owner => FailingLevel.Create(owner), 124);
+        EClass.Register<FailingPublishedLevel>(TMapLevel.ClassID, static owner => FailingPublishedLevel.Create(owner), 124);
     }
 
     [Fact]
     public void FailedDynamicLevelDetachesBeforeCallerCleanup()
     {
         var owner = new Owner();
-        var error = Assert.Throws<InvalidDataException>(() => TMapLevel.Meta.Of<FailingLevel>().Create(owner));
+        var error = Assert.Throws<InvalidDataException>(() => EClass.Of<FailingLevel>().Create(owner));
         Assert.Equal("level", error.Message);
         Assert.Empty(owner.Members);
         Assert.Equal(["insert", "fail", "destroy", "remove"], owner.Events);

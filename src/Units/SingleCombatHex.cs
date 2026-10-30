@@ -72,16 +72,6 @@ namespace Aow.Units.SingleCombatHex
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TAbstractHexagon.Meta
-        {
-            // SingleCombatHex.pas:41
-            public override int ClassID() => Aow.Units.SingleCombatHex.TSingleCombatHexagon.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.SingleCombatHex.TSingleCombatHexagon => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.SingleCombatHex.TSingleCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SingleCombatHex.TSingleCombatHexagon)base.Create(AOwner);
-        }
     }
 
     // { TSingleCombatHexagonResource (instance size 52, VMT 00434FE8) }
@@ -133,16 +123,6 @@ namespace Aow.Units.SingleCombatHex
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // SingleCombatHex.pas:59
-            public override int ClassID() => Aow.Units.SingleCombatHex.TSingleCombatHexagonResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.SingleCombatHex.TSingleCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1223
-            public new Aow.Units.SingleCombatHex.TSingleCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SingleCombatHex.TSingleCombatHexagonResource)base.Create(AOwner);
-        }
     }
 
     public static partial class SingleCombatHex

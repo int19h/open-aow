@@ -652,17 +652,6 @@ namespace Aow.Units.Cave
         // Cave.pas:25
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // Cave.pas:160
-            public override int ClassID() => Aow.Units.Cave.TCave.ClassID;
-
-            // Cave.pas:25
-            public new Aow.Units.Cave.TCave Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Cave.TCave)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Cave.TCave => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCaveResource (instance size 100, VMT 557B326C) }
@@ -699,17 +688,6 @@ namespace Aow.Units.Cave
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // Cave.pas:436
-            public override int ClassID() => Aow.Units.Cave.TCaveResource.ClassID;
-
-            // Cave.pas:49
-            public new Aow.Units.Cave.TCaveResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Cave.TCaveResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Cave.TCaveResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TEnterCaveEventLog (instance size 44, VMT 557B335C): +$28 FCave. }

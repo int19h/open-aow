@@ -299,17 +299,6 @@ namespace Aow.Units.Bridge
         // Bridge.pas:18
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
-        {
-            // Bridge.pas:48
-            public override int ClassID() => Aow.Units.Bridge.TBridge.ClassID;
-
-            // Bridge.pas:18
-            public new Aow.Units.Bridge.TBridge Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Bridge.TBridge)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Bridge.TBridge => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Bridge.TBridgeResource (instance size 52) }
@@ -466,17 +455,6 @@ namespace Aow.Units.Bridge
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // Bridge.pas:205
-            public override int ClassID() => Aow.Units.Bridge.TBridgeResource.ClassID;
-
-            // Bridge.pas:28
-            public new Aow.Units.Bridge.TBridgeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Bridge.TBridgeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Bridge.TBridgeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class Bridge

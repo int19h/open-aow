@@ -45,16 +45,6 @@ namespace Aow.Units.Ruin
         // Ruin.pas:34
         public new const int ClassID = 131994;
 
-        public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSite.Meta
-        {
-            // Ruin.pas:34
-            public override int ClassID() => Aow.Units.Ruin.TRuin.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Ruin.TRuin => (Meta)MetaRegistry.Of(typeof(T));
-            // ItemExpS.pas:32
-            public new Aow.Units.Ruin.TRuin Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Ruin.TRuin)base.Create(AOwner);
-        }
     }
 
     // { TRuinResource (instance size 104, no added fields, VMT 557C6B68) }
@@ -82,16 +72,6 @@ namespace Aow.Units.Ruin
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
-        {
-            // Ruin.pas:40
-            public override int ClassID() => Aow.Units.Ruin.TRuinResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Ruin.TRuinResource => (Meta)MetaRegistry.Of(typeof(T));
-            // ExploreS.pas:61
-            public new Aow.Units.Ruin.TRuinResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Ruin.TRuinResource)base.Create(AOwner);
-        }
     }
 
     public static partial class Ruin

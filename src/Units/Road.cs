@@ -138,17 +138,6 @@ namespace Aow.Units.Road
         // Road.pas:18
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
-        {
-            // Road.pas:47
-            public override int ClassID() => Aow.Units.Road.TRoad.ClassID;
-
-            // Road.pas:18
-            public new Aow.Units.Road.TRoad Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Road.TRoad)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Road.TRoad => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Road.TRoadResource (instance size 52) }
@@ -259,16 +248,6 @@ namespace Aow.Units.Road
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // Road.pas:136
-            public override int ClassID() => Aow.Units.Road.TRoadResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Road.TRoadResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1124
-            public new Aow.Units.Road.TRoadResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Road.TRoadResource)base.Create(AOwner);
-        }
     }
 
     public static partial class Road

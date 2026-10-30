@@ -258,17 +258,6 @@ namespace Aow.Units.Mine
         // Mine.pas:25
 
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
-        {
-            // Mine.pas:82
-            public override int ClassID() => Aow.Units.Mine.TMine.ClassID;
-
-            // Mine.pas:25
-            public new Aow.Units.Mine.TMine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mine.TMine)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Mine.TMine => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TMineResource (instance size 116, VMT 557B42A8) }
@@ -309,17 +298,6 @@ namespace Aow.Units.Mine
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
-        {
-            // Mine.pas:200
-            public override int ClassID() => Aow.Units.Mine.TMineResource.ClassID;
-
-            // Mine.pas:41
-            public new Aow.Units.Mine.TMineResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mine.TMineResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Mine.TMineResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 21)]

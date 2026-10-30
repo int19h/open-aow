@@ -463,17 +463,6 @@ namespace Aow.Units.ReflectingPool
         // ReflectingPool.pas:20
 
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
-        {
-            // ReflectingPool.pas:58
-            public override int ClassID() => Aow.Units.ReflectingPool.TReflectingPool.ClassID;
-
-            // ReflectingPool.pas:20
-            public new Aow.Units.ReflectingPool.TReflectingPool Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ReflectingPool.TReflectingPool)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ReflectingPool.TReflectingPool => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TReflectingPoolResource (instance size 116, VMT 557D4B6C) }
@@ -512,17 +501,6 @@ namespace Aow.Units.ReflectingPool
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
-        {
-            // ReflectingPool.pas:266
-            public override int ClassID() => Aow.Units.ReflectingPool.TReflectingPoolResource.ClassID;
-
-            // ReflectingPool.pas:42
-            public new Aow.Units.ReflectingPool.TReflectingPoolResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ReflectingPool.TReflectingPoolResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ReflectingPool.TReflectingPoolResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class ReflectingPool

@@ -43,16 +43,6 @@ namespace Aow.Units.OverlayObject
         // OverlayObject.pas:36
         public new const int ClassID = 131228;
 
-        public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMO.Meta
-        {
-            // OverlayObject.pas:36
-            public override int ClassID() => Aow.Units.OverlayObject.TOverlayObject.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.OverlayObject.TOverlayObject => (Meta)MetaRegistry.Of(typeof(T));
-            // ILTer.pas:20
-            public new Aow.Units.OverlayObject.TOverlayObject Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.OverlayObject.TOverlayObject)base.Create(AOwner);
-        }
     }
 
     // { TOverlayObjectResource (instance size 72, VMT 557D3E30): $44 FOverlayType. }
@@ -91,16 +81,6 @@ namespace Aow.Units.OverlayObject
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMOR.Meta
-        {
-            // OverlayObject.pas:42
-            public override int ClassID() => Aow.Units.OverlayObject.TOverlayObjectResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.OverlayObject.TOverlayObjectResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.OverlayObject.TOverlayObjectResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.OverlayObject.TOverlayObjectResource)base.Create(AOwner);
-        }
     }
 
     public static partial class OverlayObject

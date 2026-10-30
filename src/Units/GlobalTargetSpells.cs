@@ -100,16 +100,6 @@ namespace Aow.Units.GlobalTargetSpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:401
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE)base.Create(AOwner);
-        }
     }
 
     // { TGlobalTargetSpell (instance size 60, VMT 5579CC9C).
@@ -391,20 +381,6 @@ namespace Aow.Units.GlobalTargetSpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:638
-            // { needs: the following AoWE drafts return values at the original call sites.
-//   The stack-argument shims discard their assembler EBP frame before tail calls. }
-            // { needs: Animation.TTwinkleAnimation.Setup has TImageSequence/TTwinkleMode
-//   arguments ($5579EA15-$5579EA1F); Animation is outside the interface exception. }
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TFreezeWaterTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TFreezeWaterTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TFreezeWaterTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TFreezeWaterTE)base.Create(AOwner);
-        }
     }
 
     // { TFreezeWater (instance size 60, VMT 5579CEC0) }
@@ -529,18 +505,6 @@ namespace Aow.Units.GlobalTargetSpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:839
-            // { needs: TFireControl.PlaceFire(X,Y,Layer:Integer; Create:Boolean): TFire,
-//   result consumed at $5579EDC3; GetSource returns TAbstractUnit at $5579EDE2. }
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TFireBarrierTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TFireBarrierTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TFireBarrierTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TFireBarrierTE)base.Create(AOwner);
-        }
     }
 
     // { draft }
@@ -705,16 +669,6 @@ namespace Aow.Units.GlobalTargetSpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:940
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TLevelTerrainTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TLevelTerrainTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TLevelTerrainTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TLevelTerrainTE)base.Create(AOwner);
-        }
     }
 
     // { draft }
@@ -876,16 +830,6 @@ namespace Aow.Units.GlobalTargetSpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:1036
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TRejuvenateTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TRejuvenateTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TRejuvenateTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TRejuvenateTE)base.Create(AOwner);
-        }
     }
 
     // { TRejuvenate (instance size 60, VMT 5579D514) }
@@ -1451,17 +1395,6 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:172
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // GlobalTargetSpells.pas:1220
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TWatcherHS.ClassID;
-
-            // GlobalTargetSpells.pas:172
-            public new Aow.Units.GlobalTargetSpells.TWatcherHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TWatcherHS)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TWatcherHS => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { draft }
@@ -1500,16 +1433,6 @@ namespace Aow.Units.GlobalTargetSpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:1476
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TWatcherTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TWatcherTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.TWatcherTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TWatcherTE)base.Create(AOwner);
-        }
     }
 
     // { TWatcher (instance size 60, VMT 5579DA04) }
@@ -1927,17 +1850,6 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:215
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:1559
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TTornadoTE.ClassID;
-
-            // GlobalTargetSpells.pas:215
-            public new Aow.Units.GlobalTargetSpells.TTornadoTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TTornadoTE)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TTornadoTE => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TTornado (instance size 60, VMT 5579DC10) }
@@ -2335,17 +2247,6 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:242
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:1905
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.TVortexTE.ClassID;
-
-            // GlobalTargetSpells.pas:242
-            public new Aow.Units.GlobalTargetSpells.TVortexTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.TVortexTE)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.TVortexTE => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TVortex (instance size 60, VMT 5579DE1C) }
@@ -2697,16 +2598,6 @@ namespace Aow.Units.GlobalTargetSpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // GlobalTargetSpells.pas:2138
-            public override int ClassID() => Aow.Units.GlobalTargetSpells.THealingShowersTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalTargetSpells.THealingShowersTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.GlobalTargetSpells.THealingShowersTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalTargetSpells.THealingShowersTE)base.Create(AOwner);
-        }
     }
 
     // { THealingShowers (instance size 60, VMT 5579E030) }

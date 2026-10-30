@@ -25,7 +25,7 @@ public sealed class ControlStyleConstructionTests
         var owner = new Owner();
         TECustomNode argument = owned ? owner : null!;
         Type type = kind switch { 0 => typeof(TEControlStyleObject), 1 => typeof(TEResourceEditSettings), _ => typeof(TPadControl) };
-        var meta = (TEObject.Meta)MetaRegistry.Of(type);
+        var meta = EClass.Of(type);
         if (kind == 2)
         {
             // The pad has the inherited ID 81, so isolate its class entry in this test engine.
@@ -38,18 +38,18 @@ public sealed class ControlStyleConstructionTests
             1 => new TEResourceEditSettings(argument),
             _ => (TEControlStyleObject)new TPadControl(argument)
         };
-        TEObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID(), argument)];
+        TEObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
         TEObject? copy = null;
         try
         {
-            Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassID());
+            Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassID);
             Assert.Equal(kind == 0 ? 12 : kind == 1 ? 16 : 20, meta.InstanceSize);
-            Assert.Same(meta, MetaRegistry.Of(type));
+            Assert.Same(meta, Aow.Units.Engine.EClass.Of(type));
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
-                Assert.Same(meta, value.ClassType);
+                Assert.Same(meta, value.EClass);
             }
             if (direct is TEResourceEditSettings settings)
                 settings.Editors.AddObject("Editor", Rtl.IntToObject(17));
@@ -70,7 +70,6 @@ public sealed class ControlStyleConstructionTests
                 Assert.NotNull(pad.FPadResources);
             }
             Assert.Equal(owned ? 3 : 0, owner.Members.Count);
-            Assert.Throws<InvalidOperationException>(() => meta.NewInstance());
         }
         finally
         {
@@ -106,7 +105,7 @@ public sealed class ControlStyleConstructionTests
     {
         using var fixture = new FlagFixture(loaded: true);
         Assert.Throws<NullReferenceException>(() => TFlagControl.Create(null!));
-        Assert.Throws<NullReferenceException>(() => TEObject.Meta.Of<TFlagControl>().Create(null!));
+        Assert.Throws<NullReferenceException>(() => EClass.Of<TFlagControl>().Create(null!));
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
     }
@@ -150,7 +149,7 @@ public sealed class ControlStyleConstructionTests
     }
 
     private static TFlagControl CreateFlag(TECustomNode owner, bool throughMeta) => throughMeta
-        ? (TFlagControl)TEObject.Meta.Of<TFlagControl>().Create(owner)
+        ? (TFlagControl)EClass.Of<TFlagControl>().Create(owner)
         : TFlagControl.Create(owner);
 
     [Theory]
@@ -233,7 +232,7 @@ public sealed class ControlStyleConstructionTests
         var engine = CreateEngine();
         var owner = new Owner();
         var existing = new TEObject(owner);
-        TEObject source = TEObject.Meta.Of<TEControlStyleObject>().Create(null!);
+        TEObject source = EClass.Of<TEControlStyleObject>().Create(null!);
         using var stream = new TruncatedStream();
         try
         {

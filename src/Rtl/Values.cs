@@ -10,7 +10,7 @@ public struct IntOrRef
     public readonly T? As<T>() => Ref is T value ? value : default;
 }
 
-public enum VarKind { Integer, Boolean, Char, Extended, String, Object, Class, Pointer, PChar }
+public enum VarKind { Integer, Boolean, Char, Extended, String, Object, Pointer, PChar }
 
 public struct TVarRec
 {
@@ -30,7 +30,6 @@ public struct TVarRec
     public static implicit operator TVarRec(string? value) => new() { Kind = VarKind.String, Str = AnsiString.FromBytes(Cp1252.Encode(value)) };
     public static implicit operator TVarRec(char value) => new() { Kind = VarKind.Char, Chr = Cp1252.Byte(value) };
     public static implicit operator TVarRec(TObject? value) => new() { Kind = VarKind.Object, Obj = value };
-    public static implicit operator TVarRec(TObject.Meta? value) => new() { Kind = VarKind.Class, Obj = value };
     public static implicit operator TVarRec(Ptr<byte> value) => new() { Kind = VarKind.PChar, Obj = value };
     public static TVarRec Pointer(uint value) => new() { Kind = VarKind.Pointer, Int = value };
 }

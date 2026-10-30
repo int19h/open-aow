@@ -120,16 +120,6 @@ namespace Aow.Units.CenterViewLoc
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // CenterViewLoc.pas:46
-            public override int ClassID() => Aow.Units.CenterViewLoc.TCenterViewLocation.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CenterViewLoc.TCenterViewLocation => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.CenterViewLoc.TCenterViewLocation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CenterViewLoc.TCenterViewLocation)base.Create(AOwner);
-        }
     }
 
     // { TCenterViewLocationResource (instance size 52, VMT 00435884) }
@@ -171,17 +161,6 @@ namespace Aow.Units.CenterViewLoc
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // CenterViewLoc.pas:91
-            public override int ClassID() => Aow.Units.CenterViewLoc.TCenterViewLocationResource.ClassID;
-
-            // CenterViewLoc.pas:34
-            public new Aow.Units.CenterViewLoc.TCenterViewLocationResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CenterViewLoc.TCenterViewLocationResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CenterViewLoc.TCenterViewLocationResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class CenterViewLoc

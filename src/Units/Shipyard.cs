@@ -59,16 +59,6 @@ namespace Aow.Units.Shipyard
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
-        {
-            // Shipyard.pas:49
-            public override int ClassID() => Aow.Units.Shipyard.TShipyard.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Shipyard.TShipyard => (Meta)MetaRegistry.Of(typeof(T));
-            // PrdPlace.pas:51
-            public new Aow.Units.Shipyard.TShipyard Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Shipyard.TShipyard)base.Create(AOwner);
-        }
     }
 
     // { TShipyardResource (instance size 120, no added fields, VMT 557C740C) }
@@ -107,17 +97,6 @@ namespace Aow.Units.Shipyard
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
-        {
-            // Shipyard.pas:72
-            public override int ClassID() => Aow.Units.Shipyard.TShipyardResource.ClassID;
-
-            // Shipyard.pas:29
-            public new Aow.Units.Shipyard.TShipyardResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Shipyard.TShipyardResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Shipyard.TShipyardResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TShipyardConstructionControl (instance size 8, no added fields, VMT 557C750C) }
@@ -203,13 +182,6 @@ namespace Aow.Units.Shipyard
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TConstructionControl.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Shipyard.TShipyardConstructionControl => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.Shipyard.TShipyardConstructionControl Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Shipyard.TShipyardConstructionControl)base.Create(AOwner);
-        }
     }
 
     public static partial class Shipyard

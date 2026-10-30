@@ -74,16 +74,6 @@ namespace Aow.Units.UnitSpells
         }
 
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // UnitSpells.pas:975
-            public override int ClassID() => Aow.Units.UnitSpells.TDispelMagicSpellCA.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.UnitSpells.TDispelMagicSpellCA => (Meta)MetaRegistry.Of(typeof(T));
-            public new Aow.Units.UnitSpells.TDispelMagicSpellCA Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (Aow.Units.UnitSpells.TDispelMagicSpellCA)base.Create(AOwner);
-        }
     }
 
     // { TDispelMagic (instance size 68, VMT 557E53F4): inherited $34 multiple targets,

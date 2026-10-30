@@ -4231,16 +4231,6 @@ namespace Aow.Units.AoWTC
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TAoWMapField.Meta
-        {
-            // AoWTC.pas:2158
-            public override int ClassID() => Aow.Units.AoWTC.TAoWCombatMapField.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TAoWCombatMapField => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:219
-            public new Aow.Units.AoWTC.TAoWCombatMapField Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TAoWCombatMapField)base.Create(AOwner);
-        }
     }
 
     // { TAoWCombatMapLevel (instance size 128, VMT 00411D98)
@@ -4267,16 +4257,6 @@ namespace Aow.Units.AoWTC
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TAoWMapLevel.Meta
-        {
-            // AoWTC.pas:2173
-            public override int ClassID() => Aow.Units.AoWTC.TAoWCombatMapLevel.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TAoWCombatMapLevel => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:312
-            public new Aow.Units.AoWTC.TAoWCombatMapLevel Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TAoWCombatMapLevel)base.Create(AOwner);
-        }
     }
 
     // { TRangedPathHS (instance size 32, VMT 00411EA8): $0C FMiscImages; $10 FTargetImages; $14 FFrame; $16 FFrameCount; $18 FSelection; $1C FRange. }
@@ -4556,16 +4536,6 @@ namespace Aow.Units.AoWTC
         // Engine.pas:524
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // AoWTC.pas:4846
-            public override int ClassID() => Aow.Units.AoWTC.TRangedPathHS.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TRangedPathHS => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.AoWTC.TRangedPathHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TRangedPathHS)base.Create(AOwner);
-        }
     }
 
     // { TfxHS (instance size 56, VMT 00412028)
@@ -6677,17 +6647,6 @@ namespace Aow.Units.AoWTC
         // AoWTC.pas:196
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // AoWTC.pas:5227
-            public override int ClassID() => Aow.Units.AoWTC.TfxHS.ClassID;
-
-            // AoWTC.pas:196
-            public new Aow.Units.AoWTC.TfxHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TfxHS)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TfxHS => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCItemHS (instance size 20, VMT 00412198) }
@@ -6890,17 +6849,6 @@ namespace Aow.Units.AoWTC
         // AoWTC.pas:223
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // AoWTC.pas:5016
-            public override int ClassID() => Aow.Units.AoWTC.TUnitPositionHS.ClassID;
-
-            // AoWTC.pas:223
-            public new Aow.Units.AoWTC.TUnitPositionHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TUnitPositionHS)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TUnitPositionHS => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCBloodHS (instance size 28, VMT 0041249C)
@@ -6968,17 +6916,6 @@ namespace Aow.Units.AoWTC
         // Engine.pas:524
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // AoWTC.pas:6388
-            // { $18 }
-            public override int ClassID() => Aow.Units.AoWTC.TCBloodHS.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TCBloodHS => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.AoWTC.TCBloodHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TCBloodHS)base.Create(AOwner);
-        }
     }
 
     // { TCCorpseHS (instance size 44, VMT 0041261C)
@@ -7255,17 +7192,6 @@ namespace Aow.Units.AoWTC
         // Engine.pas:524
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // AoWTC.pas:3973
-            // { $28 }
-            public override int ClassID() => Aow.Units.AoWTC.TCCorpseHS.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TCCorpseHS => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.AoWTC.TCCorpseHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TCCorpseHS)base.Create(AOwner);
-        }
     }
 
     // { TCOozeHS (instance size 12, VMT 0041279C)
@@ -7359,16 +7285,6 @@ namespace Aow.Units.AoWTC
         // Engine.pas:524
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // AoWTC.pas:4092
-            public override int ClassID() => Aow.Units.AoWTC.TCOozeHS.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TCOozeHS => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.AoWTC.TCOozeHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TCOozeHS)base.Create(AOwner);
-        }
     }
 
     // { TUnitPositionControl (instance size 12, VMT 00412918)
@@ -8932,16 +8848,6 @@ namespace Aow.Units.AoWTC
         // intf_P2_03.inc:74
 
 
-        public new partial class Meta : Aow.Units.AoWE.TUnitHS.Meta
-        {
-            // AoWTC.pas:3348
-            public override int ClassID() => Aow.Units.AoWTC.TTacticalCombatUnitHS.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TTacticalCombatUnitHS => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P2_03.inc:74
-            public new Aow.Units.AoWTC.TTacticalCombatUnitHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TTacticalCombatUnitHS)base.Create(AOwner);
-        }
     }
 
     // { TCombatUnitSelectionControl (instance size 60, VMT 00412EB4): $18 FPathInvalid;
@@ -11892,17 +11798,6 @@ namespace Aow.Units.AoWTC
 
         // AoWTC.pas:484
 
-        public new partial class Meta : Aow.Units.HSEngine.THSMap.Meta
-        {
-            // AoWTC.pas:2183
-            public override int ClassID() => Aow.Units.AoWTC.TAoWCombatMap.ClassID;
-
-            // AoWTC.pas:484
-            public new Aow.Units.AoWTC.TAoWCombatMap Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TAoWCombatMap)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TAoWCombatMap => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TTacticalCombat (instance size 80, VMT 00413314)
@@ -12069,16 +11964,6 @@ namespace Aow.Units.AoWTC
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // AoWTC.pas:5081
-            public override int ClassID() => Aow.Units.AoWTC.TTacticalCombat.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWTC.TTacticalCombat => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P3_02.inc:318
-            public new Aow.Units.AoWTC.TTacticalCombat Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TTacticalCombat)base.Create(AOwner);
-        }
     }
 
     // { TRndTacHsm (instance size 3708, VMT 0041340C)

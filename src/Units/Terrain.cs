@@ -70,17 +70,6 @@ namespace Aow.Units.Terrain
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
-        {
-            // Terrain.pas:327
-            public override int ClassID() => Aow.Units.Terrain.TTerrainMOR.ClassID;
-
-            // Terrain.pas:42
-            public new Aow.Units.Terrain.TTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Terrain.TTerrainMOR)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Terrain.TTerrainMOR => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Terrain.TTerrainMO (instance size 20) }
@@ -384,17 +373,6 @@ namespace Aow.Units.Terrain
         // Terrain.pas:19
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // Terrain.pas:65
-            public override int ClassID() => Aow.Units.Terrain.TTerrainMO.ClassID;
-
-            // Terrain.pas:19
-            public new Aow.Units.Terrain.TTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Terrain.TTerrainMO)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Terrain.TTerrainMO => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class Terrain

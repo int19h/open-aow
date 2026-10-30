@@ -32,39 +32,22 @@ public sealed class CoreTests
         finally { RandomizeSeed = null; SuppressRandomize = suppressed; RandSeed = previous; }
     }
     [Fact]
-    public void MetaclassesAndGeneratedUnit()
+    public void ObjectsAndGeneratedUnit()
     {
-        var meta = TSample.Meta.Of<TSampleChild>();
-        Assert.Same(meta, MetaRegistry.Of(typeof(TSampleChild)));
-        Assert.Same(meta, TObject.Meta.Of<TSampleChild>());
-        Assert.Equal(typeof(TSampleChild), meta.Type);
-        Assert.Equal("TSampleChild", meta.ClassName);
         Assert.Equal("TSampleChild", TObject.ClassNameOf(typeof(TSampleChild)));
-        Assert.Equal(12, meta.InstanceSize);
-        Assert.True(meta.InheritsFrom(typeof(TSample)));
-        Assert.False(meta.InheritsFrom(typeof(TFailingSample)));
-        Assert.Same(TSample.Meta.Of<TSample>(), meta.ClassParent);
-        var fresh = Assert.IsType<TSampleChild>(meta.NewInstance());
-        Assert.Equal(0, fresh.Value);
-        var next = meta.Create(3);
+        var fresh = new TSampleChild(0);
+        var next = new TSampleChild(3);
         Assert.Equal(fresh.InstanceId + 1, next.InstanceId);
         Assert.True(fresh.InstanceId >= 1);
         Assert.Equal(13, next.Value);
-        Assert.Same(meta, next.ClassType);
-        Assert.Equal(2, next.ClassType.ClassID());
+        Assert.Equal(2, next.ClassID);
         Assert.Throws<EAbstractError>(next.AbstractCall);
-        Assert.Throws<InvalidOperationException>(() => new TObject().ClassType);
-        Assert.Throws<InvalidOperationException>(() => TSample.Meta.Of<TSample>().ClassParent);
-        Assert.Throws<InvalidOperationException>(() => MetaRegistry.Register(typeof(TSample), new TSample.Meta(), () => new TSample(), 0));
-        Assert.Throws<InvalidOperationException>(() => MetaRegistry.Register(typeof(Unregistered), meta, () => new Unregistered(), 0));
-        Assert.Throws<ArgumentException>(() => MetaRegistry.Register(typeof(string), new TObject.Meta(), () => new TObject(), 0));
-        Assert.Throws<ArgumentOutOfRangeException>(() => MetaRegistry.Register(typeof(Unregistered), new TObject.Meta(), () => new Unregistered(), -1));
         TObject? nil = null;
         nil.Free();
         next.Free();
         Assert.True(next.Destroyed);
         new TObject().Destroy();
-        Assert.Throws<EInvalidOperation>(() => TSample.Meta.Of<TFailingSample>().Create(1));
+        Assert.Throws<EInvalidOperation>(() => TFailingSample.Create(1));
         Assert.True(TFailingSample.LastInstance!.Destroyed);
         var result = GeneratedStyleSample.Run();
         Assert.Equal(20, result.Value);
@@ -227,7 +210,7 @@ public sealed class CoreTests
         Assert.Null(nil.Ref);
         Assert.Equal(0, nil.Value);
         TVarRec integer = 4, chr = (byte)65, boolean = true, floating = 1.25;
-        TVarRec str = (AnsiString)"hello", instance = obj, cls = TSample.Meta.Of<TSample>();
+        TVarRec str = (AnsiString)"hello", instance = obj;
         Assert.Equal(VarKind.Integer, integer.Kind); Assert.Equal(4, integer.Int);
         Assert.Equal(VarKind.Char, chr.Kind); Assert.Equal(65, chr.Chr);
         TVarRec numericByte = (int)(byte)65;
@@ -236,7 +219,6 @@ public sealed class CoreTests
         Assert.Equal(VarKind.Extended, floating.Kind); Assert.Equal(1.25, floating.Ext);
         Assert.Equal(VarKind.String, str.Kind); Assert.Equal((AnsiString)"hello", str.Str);
         Assert.Equal(VarKind.Object, instance.Kind); Assert.Same(obj, instance.Obj);
-        Assert.Equal(VarKind.Class, cls.Kind); Assert.Same(TSample.Meta.Of<TSample>(), cls.Obj);
     }
 
     private enum WideFlag : byte { Low = 0, High = 63 }

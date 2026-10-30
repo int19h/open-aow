@@ -101,17 +101,6 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:732
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbSkirmish;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // BehaviorAG.pas:729
-            public override int ClassID() => Aow.Units.BehaviorAG.TSkirmishAG.ClassID;
-
-            // BehaviorAG.pas:45
-            public new Aow.Units.BehaviorAG.TSkirmishAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TSkirmishAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BehaviorAG.TSkirmishAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TSkirmishAGC (instance size 372, VMT 557DC690) }
@@ -233,17 +222,6 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:166
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbNormal;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // BehaviorAG.pas:163
-            public override int ClassID() => Aow.Units.BehaviorAG.TNormalAG.ClassID;
-
-            // BehaviorAG.pas:60
-            public new Aow.Units.BehaviorAG.TNormalAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TNormalAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BehaviorAG.TNormalAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TNormalAGC (instance size 372, VMT 557DC8E0) }
@@ -426,17 +404,6 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:280
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbDefensive;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // BehaviorAG.pas:277
-            public override int ClassID() => Aow.Units.BehaviorAG.TDefenderAG.ClassID;
-
-            // BehaviorAG.pas:75
-            public new Aow.Units.BehaviorAG.TDefenderAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TDefenderAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BehaviorAG.TDefenderAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TDefenderAGC (instance size 372, VMT 557DCB28) }
@@ -611,17 +578,6 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:393
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbAggressive;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // BehaviorAG.pas:390
-            public override int ClassID() => Aow.Units.BehaviorAG.TAggressorAG.ClassID;
-
-            // BehaviorAG.pas:90
-            public new Aow.Units.BehaviorAG.TAggressorAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TAggressorAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BehaviorAG.TAggressorAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TAggressorAGC (instance size 372, VMT 557DCD80) }
@@ -795,17 +751,6 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:505
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbExpand;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // BehaviorAG.pas:502
-            public override int ClassID() => Aow.Units.BehaviorAG.TExpanderAG.ClassID;
-
-            // BehaviorAG.pas:105
-            public new Aow.Units.BehaviorAG.TExpanderAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TExpanderAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BehaviorAG.TExpanderAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TExpanderAGC (instance size 372, VMT 557DCFD0) }
@@ -981,17 +926,6 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:619
         public static new Aow.Units.AoWE.TGroupBehavior Behavior => Aow.Units.AoWE.TGroupBehavior.gbScorch;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
-        {
-            // BehaviorAG.pas:616
-            public override int ClassID() => Aow.Units.BehaviorAG.TScorcherAG.ClassID;
-
-            // BehaviorAG.pas:120
-            public new Aow.Units.BehaviorAG.TScorcherAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TScorcherAG)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BehaviorAG.TScorcherAG => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TScorcherAGC (instance size 372, VMT 557DD220) }

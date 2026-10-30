@@ -97,17 +97,6 @@ namespace Aow.Units.House
             }
         }
 
-        public new partial class Meta : Aow.Units.CombatStructure.TCombatStructure.Meta
-        {
-            // House.pas:42
-            // { $2C }
-            public override int ClassID() => Aow.Units.House.THouse.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.House.THouse => (Meta)MetaRegistry.Of(typeof(T));
-            // CombatStructure.pas:23
-            public new Aow.Units.House.THouse Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.House.THouse)base.Create(AOwner);
-        }
     }
 
     // { THouseResource (instance size 72, VMT 00434728) }
@@ -135,16 +124,6 @@ namespace Aow.Units.House
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
-        {
-            // House.pas:145
-            public override int ClassID() => Aow.Units.House.THouseResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.House.THouseResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.House.THouseResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.House.THouseResource)base.Create(AOwner);
-        }
     }
 
     public static partial class House

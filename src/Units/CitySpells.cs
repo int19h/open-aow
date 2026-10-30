@@ -121,16 +121,6 @@ namespace Aow.Units.CitySpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
-        {
-            // CitySpells.pas:170
-            public override int ClassID() => Aow.Units.CitySpells.TCityTargetSpellTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CitySpells.TCityTargetSpellTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TCityTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TCityTargetSpellTE)base.Create(AOwner);
-        }
     }
 
     // { TCityTargetSpell (instance size 60, VMT 557AF4C8):
@@ -506,16 +496,6 @@ namespace Aow.Units.CitySpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.CitySpells.TCityTargetSpellTE.Meta
-        {
-            // CitySpells.pas:397
-            public override int ClassID() => Aow.Units.CitySpells.TTownGateTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CitySpells.TTownGateTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TTownGateTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TTownGateTE)base.Create(AOwner);
-        }
     }
 
     // { TTownGate (instance size 60, VMT 557AF6D4) }
@@ -816,16 +796,6 @@ namespace Aow.Units.CitySpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.CitySpells.TCityTargetSpellTE.Meta
-        {
-            // CitySpells.pas:551
-            public override int ClassID() => Aow.Units.CitySpells.TCityEnchantmentSpellTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CitySpells.TCityEnchantmentSpellTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TCityEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TCityEnchantmentSpellTE)base.Create(AOwner);
-        }
     }
 
     // { TCityEnchantmentSpell (instance size 80, VMT 557AF958): $3C enchantment ID,

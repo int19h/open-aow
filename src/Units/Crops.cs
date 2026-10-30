@@ -578,17 +578,6 @@ namespace Aow.Units.Crops
         // Crops.pas:27
 
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
-        {
-            // Crops.pas:284
-            public override int ClassID() => Aow.Units.Crops.TPlayerCropStructure.ClassID;
-
-            // Crops.pas:27
-            public new Aow.Units.Crops.TPlayerCropStructure Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crops.TPlayerCropStructure)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Crops.TPlayerCropStructure => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { draft }
@@ -634,16 +623,6 @@ namespace Aow.Units.Crops
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
-        {
-            // Crops.pas:599
-            public override int ClassID() => Aow.Units.Crops.TPlayerCropStructureResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Crops.TPlayerCropStructureResource => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P1_09.inc:300
-            public new Aow.Units.Crops.TPlayerCropStructureResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crops.TPlayerCropStructureResource)base.Create(AOwner);
-        }
     }
 
     // { TCrop (instance size 32, VMT 557A5A10): +$1C FCropOwner. }
@@ -875,17 +854,6 @@ namespace Aow.Units.Crops
         // Crops.pas:68
 
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
-        {
-            // Crops.pas:119
-            public override int ClassID() => Aow.Units.Crops.TCrop.ClassID;
-
-            // Crops.pas:68
-            public new Aow.Units.Crops.TCrop Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crops.TCrop)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Crops.TCrop => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { draft }
@@ -938,16 +906,6 @@ namespace Aow.Units.Crops
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
-        {
-            // Crops.pas:245
-            public override int ClassID() => Aow.Units.Crops.TCropResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Crops.TCropResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.Crops.TCropResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crops.TCropResource)base.Create(AOwner);
-        }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 25)]

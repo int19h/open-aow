@@ -30,7 +30,7 @@ public sealed partial class AoWERuleConstructionTests
 
     private static TAbstractUnit CreateUnit(Type type, TECustomNode owner, int route)
     {
-        var meta = (TEObject.Meta)MetaRegistry.Of(type);
+        var meta = EClass.Of(type);
         if (route == 1) return (TAbstractUnit)meta.Create(owner);
         if (route == 2)
         {
@@ -39,10 +39,10 @@ public sealed partial class AoWERuleConstructionTests
             try
             {
                 engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
-                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID())]); }
+                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
                 catch (Aow.Rtl.Exception) { }
                 engine.RegisterEClasses([EClass.Of(type)]);
-                return (TAbstractUnit)engine.CreateEObject(meta.ClassID(), owner);
+                return (TAbstractUnit)engine.CreateEObject(meta.ClassID, owner);
             }
             finally { engine.Destroy(); }
         }
@@ -87,7 +87,6 @@ public sealed partial class AoWERuleConstructionTests
             Assert.Equal(baseline.RootElement.GetProperty(name).GetString(), actual);
             Assert.Null(type.GetConstructor(Type.EmptyTypes));
             Assert.DoesNotContain(type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly), method => method.Name == "Create");
-            Assert.Throws<InvalidOperationException>(() => MetaRegistry.Of(type).NewInstance());
         }
         finally { Game.AoWHSMap = previous; }
     }
@@ -102,7 +101,7 @@ public sealed partial class AoWERuleConstructionTests
         var set = EngineFixture.Configure(TAoWHSSet.Create(null!), value => { value.FUnitResources = new TUnitResourceList(null!); value.FHeroResources = new THeroResourceList(null!); value.FAbilityControl = new TAbilityControl(null!); });
         Game.AoWHSSet = set;
         Type type = typeof(TAbstractUnit).Assembly.GetType("Aow.Units.AoWE." + name)!;
-        var meta = (TEObject.Meta)MetaRegistry.Of(type);
+        var meta = EClass.Of(type);
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
         var engine = new TEngine(null!);
         TEObject source = CreateUnit(type, null!, 0);
@@ -112,7 +111,7 @@ public sealed partial class AoWERuleConstructionTests
         try
         {
             engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
-            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID())]); }
+            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (Aow.Rtl.Exception) { }
             engine.RegisterEClasses([EClass.Of(type)]);
             if (source is TUnit unit) unit.FUnitResource = new TUnitResource(set.FUnitResources);

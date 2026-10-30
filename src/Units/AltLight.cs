@@ -55,16 +55,6 @@ namespace Aow.Units.AltLight
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Altar.TAltar.Meta
-        {
-            // AltLight.pas:36
-            public override int ClassID() => Aow.Units.AltLight.TAltarOfLightning.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AltLight.TAltarOfLightning => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P1_09.inc:249
-            public new Aow.Units.AltLight.TAltarOfLightning Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltLight.TAltarOfLightning)base.Create(AOwner);
-        }
     }
 
     // { TAltarOfLightningResource (instance size 116, no added fields, VMT 557D19B4) }
@@ -99,17 +89,6 @@ namespace Aow.Units.AltLight
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
-        {
-            // AltLight.pas:52
-            public override int ClassID() => Aow.Units.AltLight.TAltarOfLightningResource.ClassID;
-
-            // AltLight.pas:26
-            public new Aow.Units.AltLight.TAltarOfLightningResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltLight.TAltarOfLightningResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AltLight.TAltarOfLightningResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class AltLight

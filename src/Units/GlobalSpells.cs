@@ -782,17 +782,6 @@ namespace Aow.Units.GlobalSpells
         // GlobalSpells.pas:92
 
 
-        public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
-        {
-            // GlobalSpells.pas:564
-            public override int ClassID() => Aow.Units.GlobalSpells.TWarpPartyTE.ClassID;
-
-            // GlobalSpells.pas:92
-            public new Aow.Units.GlobalSpells.TWarpPartyTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalSpells.TWarpPartyTE)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalSpells.TWarpPartyTE => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TWarpParty (instance size 52, VMT 557E95CC): inherited $08 name, $10 ID,
@@ -1732,16 +1721,6 @@ namespace Aow.Units.GlobalSpells
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
-        {
-            // GlobalSpells.pas:745
-            public override int ClassID() => Aow.Units.GlobalSpells.TDisjunctionTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GlobalSpells.TDisjunctionTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.GlobalSpells.TDisjunctionTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalSpells.TDisjunctionTE)base.Create(AOwner);
-        }
     }
 
     // { TDisjunctionSpellCaster (instance size 28, VMT 557E9B00): $14 enchantment ID,

@@ -214,17 +214,6 @@ namespace Aow.Units.CombatFire
         // CombatFire.pas:26
 
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // CombatFire.pas:80
-            public override int ClassID() => Aow.Units.CombatFire.TCombatFire.ClassID;
-
-            // CombatFire.pas:26
-            public new Aow.Units.CombatFire.TCombatFire Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatFire.TCombatFire)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatFire.TCombatFire => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCombatFireResource (instance size 68, VMT 00406CA8) }
@@ -252,16 +241,6 @@ namespace Aow.Units.CombatFire
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
-        {
-            // CombatFire.pas:160
-            public override int ClassID() => Aow.Units.CombatFire.TCombatFireResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatFire.TCombatFireResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.CombatFire.TCombatFireResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatFire.TCombatFireResource)base.Create(AOwner);
-        }
     }
 
     public static partial class CombatFire

@@ -42,7 +42,7 @@ internal static class OrderingRecording
     {
         0 => Direct(type, owner),
         1 => EClass.Of(type).Create(owner!),
-        2 => ((TEObject.Meta)MetaRegistry.Of(type)).Create(owner!),
+        2 => EClass.Of(type).Create(owner!),
         _ => engine.CreateEObject(EClass.Of(type).ClassID, owner!)
     };
     internal sealed class Fixture : IDisposable
@@ -99,7 +99,6 @@ internal static class OrderingRecording
             if (type.IsEnum) return Convert.ToInt64(item);
             if (type.IsPrimitive || item is string || item is decimal) return item;
             if (item is Type represented) return represented.FullName;
-            if (item is TObject.Meta meta) return meta.Type.FullName;
             if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
             if (!type.IsValueType)
             {

@@ -45,16 +45,6 @@ namespace Aow.Units.BldGuild
         // BldGuild.pas:37
         public new const int ClassID = 133422;
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
-        {
-            // BldGuild.pas:37
-            public override int ClassID() => Aow.Units.BldGuild.TBuildersGuild.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BldGuild.TBuildersGuild => (Meta)MetaRegistry.Of(typeof(T));
-            // PrdPlace.pas:51
-            public new Aow.Units.BldGuild.TBuildersGuild Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BldGuild.TBuildersGuild)base.Create(AOwner);
-        }
     }
 
     // { TBuildersGuildResource (instance size 120, no added fields, VMT 557CA398) }
@@ -94,17 +84,6 @@ namespace Aow.Units.BldGuild
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
-        {
-            // BldGuild.pas:53
-            public override int ClassID() => Aow.Units.BldGuild.TBuildersGuildResource.ClassID;
-
-            // BldGuild.pas:26
-            public new Aow.Units.BldGuild.TBuildersGuildResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BldGuild.TBuildersGuildResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.BldGuild.TBuildersGuildResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class BldGuild

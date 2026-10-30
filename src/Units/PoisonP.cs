@@ -429,17 +429,6 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:28
 
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
-        {
-            // PoisonP.pas:87
-            public override int ClassID() => Aow.Units.PoisonP.TPoisonPlant.ClassID;
-
-            // PoisonP.pas:28
-            public new Aow.Units.PoisonP.TPoisonPlant Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PoisonP.TPoisonPlant)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.PoisonP.TPoisonPlant => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TPoisonPlantResource (instance size 68, VMT 557C3C68) }
@@ -467,16 +456,6 @@ namespace Aow.Units.PoisonP
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
-        {
-            // PoisonP.pas:293
-            public override int ClassID() => Aow.Units.PoisonP.TPoisonPlantResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.PoisonP.TPoisonPlantResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.PoisonP.TPoisonPlantResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PoisonP.TPoisonPlantResource)base.Create(AOwner);
-        }
     }
 
     // { TPoisonPlantSpellTE (instance size 36, VMT 557C3D68) }
@@ -575,16 +554,6 @@ namespace Aow.Units.PoisonP
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // PoisonP.pas:303
-            public override int ClassID() => Aow.Units.PoisonP.TPoisonPlantSpellTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.PoisonP.TPoisonPlantSpellTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.PoisonP.TPoisonPlantSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PoisonP.TPoisonPlantSpellTE)base.Create(AOwner);
-        }
     }
 
     // { TPoisonPlantSpell (instance size 60, VMT 557C3E48) }

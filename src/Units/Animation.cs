@@ -510,19 +510,7 @@ namespace Aow.Units.Animation
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // Animation.pas:143
-            public override int ClassID() => Aow.Units.Animation.TAnimation.ClassID;
 
-            // Animation.pas:43
-            public new Aow.Units.Animation.TAnimation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Animation.TAnimation)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Animation.TAnimation => (Meta)MetaRegistry.Of(typeof(T));
-        }
-
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     // { TAnimationTE: size $18; $10 state, $14 animation. VMT 557FB074. }
@@ -599,16 +587,6 @@ namespace Aow.Units.Animation
             FAnimation = Animation;
         }
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // Animation.pas:388
-            public override int ClassID() => Aow.Units.Animation.TAnimationTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Animation.TAnimationTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.Animation.TAnimationTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Animation.TAnimationTE)base.Create(AOwner);
-        }
     }
 
     // { TImageSequenceAnimation: size $50; $3C sequence, $40/$44 pixel offsets,
