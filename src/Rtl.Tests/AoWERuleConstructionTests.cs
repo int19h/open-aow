@@ -298,13 +298,10 @@ public sealed partial class AoWERuleConstructionTests
     }
 
     [Fact]
-    public void TacticalSelectorKeepsItsRawBaseAndVirtualFactoryOrder()
+    public void TacticalSelectorConstructorKeepsVirtualSettingsOrder()
     {
         using var fixture = new Fixture();
-        var raw = new Aow.Units.AoWTC.TCombatUnitSelectionControl();
-        Assert.Null(raw.FMoveControlSettings);
-        Assert.Null(raw.FMoveSettingsList);
-        var value = Aow.Units.AoWTC.TCombatUnitSelectionControl.Create();
+        var value = new Aow.Units.AoWTC.TCombatUnitSelectionControl();
         try
         {
             Assert.IsType<Aow.Units.AoWTC.TCombatMoveControlSettings>(value.FMoveControlSettings);

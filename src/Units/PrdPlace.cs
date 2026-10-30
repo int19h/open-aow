@@ -123,7 +123,7 @@ namespace Aow.Units.PrdPlace
                 Enchantment.FDispelResistance = unchecked((sbyte)(call__15 + 3));
             }
 
-            Log = Aow.Units.PrdPlace.TProductionPlaceEventLog.Create(null);
+            Log = new Aow.Units.PrdPlace.TProductionPlaceEventLog(null);
             Log.FPlayer = unchecked((sbyte)productionPlace.FPlayer);
             var call__16 = FSettings.FUnit.GetName();
             var call__17 = FProductionPlace.GetName();
@@ -146,7 +146,7 @@ namespace Aow.Units.PrdPlace
             Aow.Units.PrdPlace.TProductionPlaceEventLog Log = default;
             base.UnitResearched();
             var productionPlace = FProductionPlace;
-            Log = Aow.Units.PrdPlace.TProductionPlaceEventLog.Create(null);
+            Log = new Aow.Units.PrdPlace.TProductionPlaceEventLog(null);
             Log.FPlayer = unchecked((sbyte)productionPlace.FPlayer);
             var call__24 = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
             var call__25 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__24.FUnitIndex);
@@ -826,7 +826,7 @@ namespace Aow.Units.PrdPlace
 
             if ((((bool__85 && (OldPlayer == 0)) && !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting)) && Status.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated)) && !((Aow.Units.AoWE.TPlayerStructureResource)Resource).FClaimed)
             {
-                Log = Aow.Units.PrdPlace.TProductionPlaceEventLog.Create(null);
+                Log = new Aow.Units.PrdPlace.TProductionPlaceEventLog(null);
                 Log.FPlayer = unchecked((sbyte)NewPlayer);
                 var call__87 = EditName();
                 var call__88 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StructureCapturedRStr);
@@ -1417,6 +1417,8 @@ namespace Aow.Units.PrdPlace
     // { TProductionPlaceEventLog: size $20; no added fields. VMT 557BDA5C. }
     public partial class TProductionPlaceEventLog : Aow.Units.AoWE.TProductionEventLog
     {
+        public TProductionPlaceEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // PrdPlace.pas:736
         public new const int ClassID = 131835;
 
@@ -1447,23 +1449,6 @@ namespace Aow.Units.PrdPlace
             var call__165 = call__164.FindNoneTransparentHS(typeof(Aow.Units.PrdPlace.TProductionPlace));
             Result = (Aow.Units.PrdPlace.TProductionPlace)call__165;
             return Result;
-        }
-
-        // EventLog.pas:91
-        public static new Aow.Units.PrdPlace.TProductionPlaceEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PrdPlace.TProductionPlaceEventLog o = new Aow.Units.PrdPlace.TProductionPlaceEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TProductionEventLog.Meta

@@ -198,7 +198,7 @@ namespace Aow.Units.ManaCrystals
             var player = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(ArmyHS.FArmy.FPlayer));
             player.FMagicControl.SetMana(player.FMagicControl.FMana + FAmount);
 
-            Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+            Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
             Log.FPlayer = unchecked((sbyte)unchecked((byte)ArmyHS.FArmy.FPlayer));
             var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaCrystalsFoundRStr);
             var call__13 = Aow.Rtl.Rtl.Format(call__12, [Aow.Rtl.Rtl.IntToStr(FAmount)]);

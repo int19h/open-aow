@@ -715,6 +715,11 @@ namespace Aow.Units.Cave
     // { TEnterCaveEventLog (instance size 44, VMT 557B335C): +$28 FCave. }
     public partial class TEnterCaveEventLog : Aow.Units.EventLog.TMessageEventLog
     {
+        private TEnterCaveEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner) { }
+
+        public static new TEnterCaveEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TEnterCaveEventLog(context, owner));
+
         public Aow.Units.Cave.TCave FCave;
         // Cave.pas:442
         public override bool Yes()
@@ -728,22 +733,6 @@ namespace Aow.Units.Cave
         // Cave.pas:448
         public override bool No() => true;
 
-        // EventLog.pas:110
-        public static new Aow.Units.Cave.TEnterCaveEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Cave.TEnterCaveEventLog o = new Aow.Units.Cave.TEnterCaveEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TCaveEntrance : byte

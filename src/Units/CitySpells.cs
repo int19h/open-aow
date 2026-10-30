@@ -1346,7 +1346,7 @@ namespace Aow.Units.CitySpells
             int I = default;
             int Damage = default;
             Aow.Units.AoWE.TAbstractUnit AUnit = default;
-            Log = Aow.Units.AoWE.TArmyEventLog.Create(null);
+            Log = new Aow.Units.AoWE.TArmyEventLog(null);
             var call__134 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TownQuakeDamageRStr);
             Log.FArmyText = call__134;
             Log.FPlayer = unchecked((sbyte)Source.FPlayer);
@@ -1421,7 +1421,7 @@ namespace Aow.Units.CitySpells
             if (A3 == 0)
             {
                 TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
-                Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
                 Log.FPlayer = unchecked((sbyte)A2.FPlayer);
                 var call__143 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XCastRStr);
                 var call__144 = Aow.Rtl.Rtl.Format(call__143, [FSpellName]);
@@ -1531,7 +1531,7 @@ namespace Aow.Units.CitySpells
             if (A3 == 0)
             {
                 TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
-                Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
                 Log.FPlayer = unchecked((sbyte)A2.FPlayer);
                 var call__158 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AnimateRuinsRStr);
                 var call__159 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XCastRStr);

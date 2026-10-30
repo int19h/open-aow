@@ -178,7 +178,7 @@ namespace Aow.Units.Dungeon
             {
                 var call__7 = Owner.FindOwnedChild(131607);
                 Army = (Aow.Units.AoWE.TArmyHS)call__7;
-                Log = Aow.Units.Dungeon.TPrisonersJoinEventLog.Create(null);
+                Log = new Aow.Units.Dungeon.TPrisonersJoinEventLog(null);
                 var call__8 = GetXhx();
                 Log.FX = unchecked((sbyte)call__8);
                 var call__9 = GetYhx();
@@ -260,7 +260,7 @@ namespace Aow.Units.Dungeon
             Aow.Units.AoWE.TArmyInfoEventLog ArmyLog = default;
             Aow.Units.AoWE.THero Hero = default;
             Aow.Units.AoWE.TArmyHS Army = default;
-            LocationLog = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+            LocationLog = new Aow.Units.EventLog.TLocationTextEventLog(null);
             var call__21 = GetPlayer();
             LocationLog.FPlayer = unchecked((sbyte)call__21);
             var call__22 = GetName();
@@ -276,7 +276,7 @@ namespace Aow.Units.Dungeon
             var call__30 = GetXhx();
             Aow.Units.EventLog.EventLog.DistributeLocationEventLog(LocationLog, unchecked((sbyte)Player), unchecked((sbyte)call__30), unchecked((sbyte)call__28), unchecked((sbyte)call__29), false);
             LocationLog.Release();
-            ArmyLog = Aow.Units.AoWE.TArmyInfoEventLog.Create(null);
+            ArmyLog = new Aow.Units.AoWE.TArmyInfoEventLog(null);
             ArmyLog.FArmyView.Setup(FPrisoners, 255);
             var call__31 = GetXhx();
             ArmyLog.FArmyView.FX = unchecked((sbyte)call__31);
@@ -430,6 +430,8 @@ namespace Aow.Units.Dungeon
     // { TPrisonersJoinEventLog (instance size 64, VMT 557C58EC): $3C FX, $3D FY, $3E FL. }
     public partial class TPrisonersJoinEventLog : Aow.Units.AoWE.TJoinEventLog
     {
+        public TPrisonersJoinEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public sbyte FX;
         // { $3C }
         public sbyte FY;
@@ -513,22 +515,6 @@ namespace Aow.Units.Dungeon
             return Result;
         }
 
-        // intf_P5_02.inc:20
-        public static new Aow.Units.Dungeon.TPrisonersJoinEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Dungeon.TPrisonersJoinEventLog o = new Aow.Units.Dungeon.TPrisonersJoinEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TPrisonersMode : byte

@@ -341,7 +341,7 @@ namespace Aow.Units.Arena
             var call__30 = CanEnter(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
             if (call__30)
             {
-                Log = Aow.Units.Arena.TEnterArenaEventLog.Create(null);
+                Log = new Aow.Units.Arena.TEnterArenaEventLog(null);
                 Log.FArena = this;
                 var call__31 = FOwner.FindOwnedChild(131607);
                 Army = (Aow.Units.AoWE.TArmyHS)call__31;
@@ -435,6 +435,13 @@ namespace Aow.Units.Arena
 //     $1D FTrainable, $20 FUnitIDs. }
     public partial class TEnterArenaEventLog : Aow.Units.EventLog.TEventLog
     {
+        // Arena.pas:259
+        public TEnterArenaEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__36 = new Aow.Units.Engine.TIntegerList();
+            FUnitIDs = call__36;
+        }
+
         public Aow.Units.Arena.TArena FArena;
         public byte FSelection;
         public byte FTrainable;
@@ -445,14 +452,6 @@ namespace Aow.Units.Arena
         {
             FUnitIDs.Free();
             base.Destroy();
-        }
-
-        // Arena.pas:259
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__36 = new Aow.Units.Engine.TIntegerList();
-            FUnitIDs = call__36;
         }
 
         // Arena.pas:271
@@ -580,22 +579,6 @@ namespace Aow.Units.Arena
             return Result;
         }
 
-        // Arena.pas:61
-        public static new Aow.Units.Arena.TEnterArenaEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Arena.TEnterArenaEventLog o = new Aow.Units.Arena.TEnterArenaEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class Arena

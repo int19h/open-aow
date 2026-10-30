@@ -124,7 +124,7 @@ public partial class TArmyCombatMoveTE
                     Aow.Units.AoWE.AoWE.DistributeCombatEvent(Combat.FLogbook, true);
                     if (Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType && (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Defender))
                     {
-                        Log = Aow.Units.EventLog.TUserEventLog.Create(null);
+                        Log = new Aow.Units.EventLog.TUserEventLog(null);
                         Log.FData = this;
                         Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, RestoreHotSeatModeCallBack);
                         Log.Release();

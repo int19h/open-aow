@@ -189,7 +189,7 @@ namespace Aow.Units.City
                         var call__44 = GetPlayer();
                         var call__45 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FCity.FRace);
                         call__45.SetPlayerRelationValue(unchecked((sbyte)call__44), call__43 + -30);
-                        Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                        Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
                         var call__46 = GetPlayer();
                         Log.FPlayer = unchecked((sbyte)call__46);
                         var call__47 = FCity.GetName();
@@ -331,7 +331,7 @@ namespace Aow.Units.City
                 Valid = call__77 != null;
             }
 
-            Log = Aow.Units.City.TCityProductionEventLog.Create(null);
+            Log = new Aow.Units.City.TCityProductionEventLog(null);
             Log.FPlayer = unchecked((sbyte)City.FPlayer);
             var call__78 = FSettings.FUnit.GetName();
             var call__79 = FCity.GetName();
@@ -356,7 +356,7 @@ namespace Aow.Units.City
             Aow.Units.City.TCityProductionEventLog Log = default;
             base.UnitResearched();
             City = FCity;
-            Log = Aow.Units.City.TCityProductionEventLog.Create(null);
+            Log = new Aow.Units.City.TCityProductionEventLog(null);
             Log.FPlayer = unchecked((sbyte)City.FPlayer);
             var call__86 = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
             var call__87 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(call__86.FUnitIndex);
@@ -422,7 +422,7 @@ namespace Aow.Units.City
                         var call__102 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(FCity.FRace);
                         call__102.SetPlayerRelationValue(unchecked((sbyte)call__101), call__100 + 5);
                         ProductionDone();
-                        Log = Aow.Units.City.TCityProductionEventLog.Create(null);
+                        Log = new Aow.Units.City.TCityProductionEventLog(null);
                         var call__103 = GetPlayer();
                         Log.FPlayer = unchecked((sbyte)call__103);
                         var call__104 = FCity.GetName();
@@ -450,7 +450,7 @@ namespace Aow.Units.City
                                 break;
                         }
 
-                        Log = Aow.Units.City.TCityProductionEventLog.Create(null);
+                        Log = new Aow.Units.City.TCityProductionEventLog(null);
                         var call__111 = GetPlayer();
                         Log.FPlayer = unchecked((sbyte)call__111);
                         var call__112 = FCity.GetName();
@@ -476,7 +476,7 @@ namespace Aow.Units.City
                         break;
                     case Aow.Units.City.TCityAction.caLoot:
                         BeginUpdate();
-                        Log = Aow.Units.City.TCityProductionEventLog.Create(null);
+                        Log = new Aow.Units.City.TCityProductionEventLog(null);
                         var call__124 = GetPlayer();
                         Log.FPlayer = unchecked((sbyte)call__124);
                         var call__125 = FCity.GetName();
@@ -501,7 +501,7 @@ namespace Aow.Units.City
                         break;
                     case Aow.Units.City.TCityAction.caMigrate:
                         BeginUpdate();
-                        Log = Aow.Units.City.TCityProductionEventLog.Create(null);
+                        Log = new Aow.Units.City.TCityProductionEventLog(null);
                         var call__136 = GetPlayer();
                         Log.FPlayer = unchecked((sbyte)call__136);
                         var call__137 = FCity.GetName();
@@ -2219,7 +2219,7 @@ namespace Aow.Units.City
 
             if ((((bool__316 && (OldPlayer == 0)) && !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting)) && FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated)) && !((Aow.Units.City.TCityResource)FResource).FClaimed)
             {
-                Log = Aow.Units.City.TCityProductionEventLog.Create(null);
+                Log = new Aow.Units.City.TCityProductionEventLog(null);
                 Log.FPlayer = unchecked((sbyte)NewPlayer);
                 var call__318 = EditName();
                 var call__319 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StructureCapturedRStr);
@@ -3578,7 +3578,7 @@ namespace Aow.Units.City
                     if (Chance >= call__501)
                     {
                         MoveArmiesOutOfCity(TSet<Aow.Units.City.TMoveOutOfCitySelectionElement>.Of());
-                        Log = Aow.Units.City.TCityRebellionEventLog.Create(null);
+                        Log = new Aow.Units.City.TCityRebellionEventLog(null);
                         Log.FPlayer = unchecked((sbyte)FPlayer);
                         var call__502 = GetName();
                         Log.FCityName = call__502;
@@ -4301,7 +4301,7 @@ namespace Aow.Units.City
                         }
 
                         Armies.Free();
-                        Log = Aow.Units.EventLog.TLocationTextEventLog.Create(null);
+                        Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
                         Log.FPlayer = unchecked((sbyte)FPlayer);
                         var call__620 = GetName();
                         var call__621 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XOverthrownRStr);
@@ -4808,6 +4808,8 @@ namespace Aow.Units.City
 //     $20 FLhx, $24 FCityName. }
     public partial class TCityRebellionEventLog : Aow.Units.EventLog.TEventLog
     {
+        public TCityRebellionEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // City.pas:2675
         public new const int ClassID = 131346;
 
@@ -4890,23 +4892,6 @@ namespace Aow.Units.City
         public override void ViewLocation()
         {
             CenterViewTo(unchecked((sbyte)FXhx), unchecked((sbyte)FYhx), unchecked((sbyte)FLhx));
-        }
-
-        // EventLog.pas:56
-        public static new Aow.Units.City.TCityRebellionEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCityRebellionEventLog o = new Aow.Units.City.TCityRebellionEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -5758,6 +5743,8 @@ namespace Aow.Units.City
     // { TCityProductionEventLog (instance size 32, VMT 557A7C24) }
     public partial class TCityProductionEventLog : Aow.Units.AoWE.TProductionEventLog
     {
+        public TCityProductionEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // City.pas:3195
         public new const int ClassID = 131834;
 
@@ -5788,23 +5775,6 @@ namespace Aow.Units.City
             var call__751 = call__750.FindNoneTransparentHS(typeof(Aow.Units.City.TCity));
             Result = (Aow.Units.City.TCity)call__751;
             return Result;
-        }
-
-        // EventLog.pas:91
-        public static new Aow.Units.City.TCityProductionEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCityProductionEventLog o = new Aow.Units.City.TCityProductionEventLog();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TProductionEventLog.Meta
