@@ -16,6 +16,11 @@ A symbol the demand list adds later gets its entry here before it is implemented
 
 ### 1.1 TObject and the metaclass
 
+CF-3 retires the metaclass shim from the product. `TObject` retains instance identity, class-name
+lookup, destruction and freeing. Engine class identity and creation use `EClass`, and family
+descriptors use `Catalog<TKey, TValue>`. The historical code below documents the transpiler's
+reference output, which still emits `Meta` and diverges from the product source.
+
 ```csharp
 public class TObject
 {
