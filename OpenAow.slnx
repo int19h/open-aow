@@ -10,4 +10,5 @@
   <Project Path="src/Units/Aow.Units.csproj" />
   <Project Path="src/Rtl/Aow.Rtl.csproj" />
   <Project Path="src/Rtl.Tests/Aow.Rtl.Tests.csproj" />
+  <Project Path="src/Units.Tests/Aow.Units.Tests.csproj" />
 </Solution>

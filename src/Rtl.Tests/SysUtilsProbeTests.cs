@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using System.Text;
 using Xunit.Abstractions;
 using static Aow.Rtl.Rtl;
@@ -49,8 +48,7 @@ public sealed class SysUtilsProbeTests
             probe.Fact($"{a:X2} {b:X2}", expected);
         }
         string report = differences.ToString().Replace("\r\n", "\n", StringComparison.Ordinal);
-        string hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(report)));
-        output.WriteLine($"AnsiCompareText: {kinds.Values.Sum()} sign exceptions. {string.Join(", ", kinds.Select(k => $"{k.Key}={k.Value}"))}. SHA256={hash}");
+        output.WriteLine($"AnsiCompareText: {kinds.Values.Sum()} sign exceptions. {string.Join(", ", kinds.Select(k => $"{k.Key}={k.Value}"))}.");
         // A checked-in list fixes the precise allowed order exceptions, including both directions.
         string reportPath = Path.Combine(AppContext.BaseDirectory, "AnsiCompareText-order-exceptions.txt");
         Assert.Equal(File.ReadAllText(reportPath).Replace("\r\n", "\n", StringComparison.Ordinal), report);

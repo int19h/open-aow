@@ -13,7 +13,7 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Aow.Game" />
     <InternalsVisibleTo Include="Aow.Platform" />
-    <InternalsVisibleTo Include="Aow.Rtl.Tests" />
+    <InternalsVisibleTo Include="Aow.Units.Tests" />
     <!-- Keep unit declarations before their partial files to preserve initializer order. -->
     <Compile Include="*.cs" Exclude="*.*.cs" />
     <Compile Include="*.*.cs" />

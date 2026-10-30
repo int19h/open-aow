@@ -7,11 +7,27 @@ namespace Aow.Rtl.Tests;
 
 public sealed class ProbeFactAttribute : FactAttribute
 {
-    internal const string Root = @"D:\git\open-aow-private\tests\probes\expected";
-    public ProbeFactAttribute(string name)
+    internal static string Root => ResolveRoot(Environment.GetEnvironmentVariable("AOW_PRIVATE"), ProductRoot());
+
+    internal static string ResolveRoot(string? privateCheckout, string productCheckout) => Path.GetFullPath(Path.Combine(
+        string.IsNullOrWhiteSpace(privateCheckout)
+            ? Path.Combine(Path.GetDirectoryName(productCheckout)!, "open-aow-private")
+            : privateCheckout,
+        "tests", "probes", "expected"));
+
+    private static string ProductRoot()
     {
-        string path = Path.Combine(Root, name + ".txt");
-        if (!File.Exists(path)) Skip = $"Private Delphi fixture is absent: {path}";
+        for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory is not null; directory = directory.Parent)
+            if (File.Exists(Path.Combine(directory.FullName, "OpenAow.slnx"))) return directory.FullName;
+        return AppContext.BaseDirectory;
+    }
+
+    public ProbeFactAttribute(string name) : this(name, Root) { }
+
+    internal ProbeFactAttribute(string name, string root)
+    {
+        string path = Path.Combine(root, name + ".txt");
+        if (!File.Exists(path)) Skip = $"Private Delphi fixture is absent: {path}. Set AOW_PRIVATE to the private checkout. Fixture root: {root}";
     }
 }
 

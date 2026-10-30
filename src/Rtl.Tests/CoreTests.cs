@@ -4,8 +4,6 @@ using static Aow.Rtl.Rtl;
 using DelphiException = Aow.Rtl.Exception;
 using Assert = Xunit.Assert;
 
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
-
 namespace Aow.Rtl.Tests;
 
 public sealed class CoreTests

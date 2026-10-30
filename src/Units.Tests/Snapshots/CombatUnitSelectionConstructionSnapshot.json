@@ -1,0 +1,278 @@
+{
+  "fail0": {
+    "$jsonText": {
+      "State": {
+        "$jsonText": {
+          "$offset": 1,
+          "$type": "Aow.Units.AoWTC.TCombatUnitSelectionControl",
+          "TCombatUnitSelectionControl.FCursorFrame": 0,
+          "TCombatUnitSelectionControl.FCursorImage": 0,
+          "TCombatUnitSelectionControl.FMouseOverTarget": null,
+          "TCombatUnitSelectionControl.FObstacles": {
+            "$offset": 13,
+            "$type": "Aow.Rtl.TList",
+            "TList.count": 0,
+            "TList.items": []
+          },
+          "TCombatUnitSelectionControl.FPathInvalid": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWTC.AnonymousEnum_piMove, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TCombatUnitSelectionControl.FRangedPath": {
+            "$offset": 11,
+            "$type": "Aow.Units.aowFX.TXYZList",
+            "TXYZList.FList": {
+              "$offset": 12,
+              "$type": "Aow.Rtl.TList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+            }
+          },
+          "TCombatUnitSelectionControl.FRangedPathHS": {
+            "$offset": 14,
+            "$type": "Aow.Units.AoWTC.TRangedPathHS",
+            "TEObject.FOwner": null,
+            "TFixedVisibleHS.FStatus": 0,
+            "TRangedPathHS.FFrame": 0,
+            "TRangedPathHS.FFrameCount": 0,
+            "TRangedPathHS.FMiscImages": null,
+            "TRangedPathHS.FRange": 0,
+            "TRangedPathHS.FSelection": null,
+            "TRangedPathHS.FTargetImages": {
+              "$offset": -3,
+              "$type": "Aow.Units.ImageLib.TImageLibrary",
+              "TComponent.<ComponentState>k__BackingField": {
+                "$type": "Aow.Rtl.TSet`1[[Aow.Rtl.TComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "TSet`1.a": 0,
+                "TSet`1.b": 0,
+                "TSet`1.bounded": false,
+                "TSet`1.c": 0,
+                "TSet`1.d": 0,
+                "TSet`1.high": 0,
+                "TSet`1.low": 0
+              },
+              "TComponent.<Owner>k__BackingField": null,
+              "TComponent.<Tag>k__BackingField": 0,
+              "TComponent.children": [],
+              "TComponent.freeNotifies": null,
+              "TComponent.name": "",
+              "TCustomImageLibrary.FCapacity": 0,
+              "TCustomImageLibrary.FChangeLock": 0,
+              "TCustomImageLibrary.FCount": 0,
+              "TCustomImageLibrary.FDataOffset": 0,
+              "TCustomImageLibrary.FFileName": "",
+              "TCustomImageLibrary.FImages": {
+                "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "Ptr`1.Array": null,
+                "Ptr`1.Index": 0,
+                "Ptr`1.byteOffset": 0,
+                "Ptr`1.storage": null,
+                "Ptr`1.storageBytes": 0,
+                "Ptr`1.view": null
+              },
+              "TCustomImageLibrary.FLoadOnDemand": true,
+              "TCustomImageLibrary.FLoadedFileName": "",
+              "TCustomImageLibrary.FOnChange": null,
+              "TCustomImageLibrary.FPaletteManager": {
+                "$offset": -2,
+                "$type": "Aow.Units.ImageLib.TPaletteManager",
+                "TPaletteManager.FPalettes": {
+                  "$offset": -1,
+                  "$type": "Aow.Rtl.TList",
+                  "TList.count": 0,
+                  "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+                }
+              },
+              "TCustomImageLibrary.FReloading": false,
+              "TCustomImageLibrary.FStatus": {
+                "$type": "Aow.Rtl.TSet`1[[Aow.Units.ImageLib.TImageLibraryStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "TSet`1.a": 0,
+                "TSet`1.b": 0,
+                "TSet`1.bounded": false,
+                "TSet`1.c": 0,
+                "TSet`1.d": 0,
+                "TSet`1.high": 0,
+                "TSet`1.low": 0
+              }
+            },
+            "TRangedPathHS.F_RangedPathHS_1E": {
+              "$type": "Aow.Units.FixedArray_byte_2",
+              "FixedArray_byte_2.element0": 0
+            }
+          },
+          "TCombatUnitSelectionControl.FTargetImages": "$ref:$.TCombatUnitSelectionControl.FRangedPathHS.TRangedPathHS.FTargetImages",
+          "TCombatUnitSelectionControl.FTargetX": 0,
+          "TCombatUnitSelectionControl.FTargetY": 0,
+          "TCombatUnitSelectionControl.F_CombatUnitSelectionControl_19": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TMoveSelector.FCurrentMove": -1,
+          "TMoveSelector.FMap": null,
+          "TMoveSelector.FMoveControlSettings": {
+            "$offset": 2,
+            "$type": "Aow.Units.AoWTC.TCombatMoveControlSettings",
+            "TCombatMoveControlSettings.FMoveFlags": {
+              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWTC.TCombatMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet`1.a": 0,
+              "TSet`1.b": 0,
+              "TSet`1.bounded": false,
+              "TSet`1.c": 0,
+              "TSet`1.d": 0,
+              "TSet`1.high": 0,
+              "TSet`1.low": 0
+            },
+            "TCombatMoveControlSettings.F_CombatMoveControlSettings_1AD": {
+              "$type": "Aow.Units.FixedArray_byte_3",
+              "FixedArray_byte_3.element0": 0
+            },
+            "TEObject.FOwner": null,
+            "TMoveControlSettings.FArmyHS": null,
+            "TMoveControlSettings.FDestinationL": -1,
+            "TMoveControlSettings.FDestinationX": -1,
+            "TMoveControlSettings.FDestinationY": -1,
+            "TMoveControlSettings.FEvenOffsets": {
+              "$type": "Aow.Units.FixedArray_int_8",
+              "FixedArray_int_8.element0": 0
+            },
+            "TMoveControlSettings.FHeight": 0,
+            "TMoveControlSettings.FLevelCount": 0,
+            "TMoveControlSettings.FLevelData": [],
+            "TMoveControlSettings.FMode": {
+              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet`1.a": 0,
+              "TSet`1.b": 0,
+              "TSet`1.bounded": false,
+              "TSet`1.c": 0,
+              "TSet`1.d": 0,
+              "TSet`1.high": 0,
+              "TSet`1.low": 0
+            },
+            "TMoveControlSettings.FMovePointTable": {
+              "$type": "Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+              "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
+                "$type": "Aow.Units.FixedArray_sbyte_16",
+                "FixedArray_sbyte_16.element0": -1
+              }
+            },
+            "TMoveControlSettings.FMovePointsClear": false,
+            "TMoveControlSettings.FMovePointsLimit": 0,
+            "TMoveControlSettings.FMovePointsMax": 4095,
+            "TMoveControlSettings.FOddOffsets": {
+              "$type": "Aow.Units.FixedArray_int_8",
+              "FixedArray_int_8.element0": 0
+            },
+            "TMoveControlSettings.FPath": {
+              "$offset": 4,
+              "$type": "Aow.Units.AoWE.TMovepath",
+              "TXYLList.FCapacity": 0,
+              "TXYLList.FCount": 0,
+              "TXYLList.FDefault": {
+                "$type": "Aow.Units.HSEngine.TXYL",
+                "TXYL.Flag": 0,
+                "TXYL.L": -1,
+                "TXYL.X": -1,
+                "TXYL.XY": 65535,
+                "TXYL.XYL": 16777215,
+                "TXYL.Y": -1
+              },
+              "TXYLList.FList": []
+            },
+            "TMoveControlSettings.FPlayer": -1,
+            "TMoveControlSettings.FProcessedMapFields": {
+              "$offset": 3,
+              "$type": "Aow.Rtl.TList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+            },
+            "TMoveControlSettings.FRefCount": 1,
+            "TMoveControlSettings.FRowOffsets": [],
+            "TMoveControlSettings.FSelection": 0,
+            "TMoveControlSettings.FSourceL": -1,
+            "TMoveControlSettings.FSourceX": -1,
+            "TMoveControlSettings.FSourceY": -1,
+            "TMoveControlSettings.FStatus": 0,
+            "TMoveControlSettings.FSubMoveIndex": 0,
+            "TMoveControlSettings.FSubMoves": {
+              "$offset": 5,
+              "$type": "Aow.Units.AoWE.TSubMoveList",
+              "TENode.FChildren": {
+                "$offset": 6,
+                "$type": "Aow.Units.Engine.TEObjectList",
+                "TList.count": 0,
+                "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+              },
+              "TEObject.FOwner": null
+            },
+            "TMoveControlSettings.FTransporterArmy": null,
+            "TMoveControlSettings.FUnits": {
+              "$offset": 7,
+              "$type": "Aow.Units.AoWE.TUnitUserList",
+              "TEChangeNotifyNode.FChildren": {
+                "$offset": 8,
+                "$type": "Aow.Units.Engine.TEObjectList",
+                "TList.count": 0,
+                "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+              },
+              "TEChangeNotifyNode.FUpdateCount": 0,
+              "TEObject.FOwner": null
+            },
+            "TMoveControlSettings.FWidth": 0,
+            "TMoveControlSettings.F_MoveControlSettings_67": {
+              "$type": "Aow.Units.FixedArray_byte_1",
+              "FixedArray_byte_1.element0": 0
+            },
+            "TMoveControlSettings.F_MoveControlSettings_6D": {
+              "$type": "Aow.Units.FixedArray_byte_3",
+              "FixedArray_byte_3.element0": 0
+            },
+            "TMoveControlSettings.F_MoveControlSettings_94": {
+              "$type": "Aow.Units.FixedArray_byte_4",
+              "FixedArray_byte_4.element0": 0
+            }
+          },
+          "TMoveSelector.FMoveSettingsList": {
+            "$offset": 9,
+            "$type": "Aow.Units.AoWE.TMoveSettingsList",
+            "TENode.FChildren": {
+              "$offset": 10,
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+            },
+            "TEObject.FOwner": null
+          },
+          "TMoveSelector.FStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TMoveSelectorStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TMoveSelector.F_MoveSelector_15": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "Before": 0,
+      "After": 2
+    }
+  },
+  "fail1": {
+    "$jsonText": {
+      "State": "System.NullReferenceException:Object reference not set to an instance of an object.",
+      "Before": 0,
+      "After": 0
+    }
+  }
+}

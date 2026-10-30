@@ -5,20 +5,6 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EngineStartupBaseline.json" LogicalName="Aow.Rtl.Tests.EngineStartupBaseline.json" />
-    <EmbeddedResource Include="CombatMapConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.CombatMapConstructionBaseline.json" />
-    <EmbeddedResource Include="CombatUnitSelectionConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.CombatUnitSelectionConstructionBaseline.json" />
-    <EmbeddedResource Include="ArmySpriteConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.ArmySpriteConstructionBaseline.json" />
-    <EmbeddedResource Include="EventLogConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.EventLogConstructionBaseline.json" />
-    <EmbeddedResource Include="LeftoverConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.LeftoverConstructionBaseline.json" />
-    <EmbeddedResource Include="UiConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.UiConstructionBaseline.json" />
-    <EmbeddedResource Include="ImageClassBaseline.json" LogicalName="Aow.Rtl.Tests.ImageClassBaseline.json" />
-    <EmbeddedResource Include="SweepConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.SweepConstructionBaseline.json" />
-    <EmbeddedResource Include="UnitConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.UnitConstructionBaseline.json" />
-    <EmbeddedResource Include="RemainingConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.RemainingConstructionBaseline.json" />
-    <EmbeddedResource Include="AoWERuleConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.AoWERuleConstructionBaseline.json" />
-    <EmbeddedResource Include="SpellConstructionBaseline.json" LogicalName="Aow.Rtl.Tests.SpellConstructionBaseline.json" />
-    <EmbeddedResource Include="EClassBaseline.json" LogicalName="Aow.Rtl.Tests.EClassBaseline.json" />
     <None Update="AnsiCompareText-order-exceptions.txt" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
@@ -26,7 +12,6 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <ProjectReference Include="../Rtl/Aow.Rtl.csproj" />
-    <ProjectReference Include="../Units/Aow.Units.csproj" />
     <ProjectReference Include="../Platform/Aow.Platform.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>

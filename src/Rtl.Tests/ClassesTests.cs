@@ -4,8 +4,6 @@ using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;
 
-[Collection("Engine")]
-[EngineState]
 public sealed class ClassesTests
 {
     private sealed class Identical : TObject
@@ -80,7 +78,7 @@ public sealed class ClassesTests
     public void ComponentsValidateNamesAndExposeSourceParentHooks()
     {
         // CLASSES.PAS:6170..6329. Parent and child hooks are empty in TComponent itself.
-        var owner = EngineFixture.Configure(new TComponent(null!), value => { value.Name = "Root"; value.Tag = 42; });
+        var owner = new TComponent(null!) { Name = "Root", Tag = 42 };
         var first = new TComponent(owner) { Name = "A_1" };
         var second = new TComponent(owner) { Name = "B" };
         Assert.Same(owner, first.Owner); Assert.Same(owner, first.GetOwner());
@@ -99,7 +97,7 @@ public sealed class ClassesTests
         owner.DefineProperties(null); owner.Loaded();
         owner.RemoveComponent(first); Assert.Null(first.Owner); Assert.Equal(-1, first.ComponentIndex); first.ComponentIndex = 0;
         owner.InsertComponent(first); Assert.Equal(1, first.ComponentIndex);
-        var duplicate = EngineFixture.Configure(new TComponent(null!), value => { value.Name = "B"; }); Assert.Throws<EComponentError>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
+        var duplicate = new TComponent(null!) { Name = "B" }; Assert.Throws<EComponentError>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
         owner.DestroyComponents(); Assert.Equal(0, owner.ComponentCount); Assert.Null(first.Owner); Assert.Null(second.Owner);
         owner.Destroy(); duplicate.Destroy();
     }
