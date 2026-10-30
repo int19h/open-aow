@@ -550,16 +550,6 @@ namespace Aow.Units.CityWall
             FPlaySound = true;
         }
 
-        public new partial class Meta : Aow.Units.CombatILTer.TCombatILTerrain.Meta
-        {
-            // CityWall.pas:78
-            public override int ClassID() => Aow.Units.CityWall.TCityWall.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CityWall.TCityWall => (Meta)MetaRegistry.Of(typeof(T));
-            // ILTer.pas:20
-            public new Aow.Units.CityWall.TCityWall Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CityWall.TCityWall)base.Create(AOwner);
-        }
     }
 
     // { TCityWallResource (instance size 76, VMT 004051B4) }
@@ -597,16 +587,6 @@ namespace Aow.Units.CityWall
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.CombatILTer.TCombatILTerrainResource.Meta
-        {
-            // CityWall.pas:366
-            public override int ClassID() => Aow.Units.CityWall.TCityWallResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CityWall.TCityWallResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.CityWall.TCityWallResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CityWall.TCityWallResource)base.Create(AOwner);
-        }
     }
 
     // { TCityWallDoor (instance size 48, VMT 004052AC) }
@@ -802,16 +782,6 @@ namespace Aow.Units.CityWall
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.CityWall.TCityWall.Meta
-        {
-            // CityWall.pas:381
-            public override int ClassID() => Aow.Units.CityWall.TCityWallDoor.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CityWall.TCityWallDoor => (Meta)MetaRegistry.Of(typeof(T));
-            // ILTer.pas:20
-            public new Aow.Units.CityWall.TCityWallDoor Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CityWall.TCityWallDoor)base.Create(AOwner);
-        }
     }
 
     // { TCityWallDoorResource (instance size 76, VMT 00405460) }
@@ -839,16 +809,6 @@ namespace Aow.Units.CityWall
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.CityWall.TCityWallResource.Meta
-        {
-            // CityWall.pas:451
-            public override int ClassID() => Aow.Units.CityWall.TCityWallDoorResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CityWall.TCityWallDoorResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.CityWall.TCityWallDoorResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CityWall.TCityWallDoorResource)base.Create(AOwner);
-        }
     }
 
     public static partial class CityWall

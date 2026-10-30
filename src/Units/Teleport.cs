@@ -375,17 +375,6 @@ namespace Aow.Units.Teleport
         // Teleport.pas:26
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // Teleport.pas:105
-            public override int ClassID() => Aow.Units.Teleport.TTeleport.ClassID;
-
-            // Teleport.pas:26
-            public new Aow.Units.Teleport.TTeleport Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Teleport.TTeleport)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Teleport.TTeleport => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TTeleportResource (instance size 100, VMT 557A4C88) }
@@ -426,17 +415,6 @@ namespace Aow.Units.Teleport
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // Teleport.pas:299
-            public override int ClassID() => Aow.Units.Teleport.TTeleportResource.ClassID;
-
-            // Teleport.pas:45
-            public new Aow.Units.Teleport.TTeleportResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Teleport.TTeleportResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Teleport.TTeleportResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 28)]

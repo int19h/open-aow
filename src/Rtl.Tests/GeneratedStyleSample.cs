@@ -36,67 +36,40 @@ public struct TSampleRecord
     }
 }
 
-public partial class TSample : TObject
+public class TSample(int value) : TObject
 {
-    public int Value;
+    public int Value = value;
     public bool Destroyed;
-    public virtual void Create__init(int value) => Value = value;
+    public virtual int ClassID => 1;
     public virtual void AbstractCall() => throw EAbstractError.Create("Abstract Error");
     public override void Destroy() => Destroyed = true;
-    public new Meta ClassType => (Meta)base.ClassType;
-    public new class Meta : TObject.Meta
-    {
-        public virtual int ClassID() => 1;
-        public TSample Create(int value)
-        {
-            var instance = (TSample)NewInstance();
-            try { instance.Create__init(value); }
-            catch { instance.Destroy(); throw; }
-            return instance;
-        }
-        public static new Meta Of<T>() where T : TSample => (Meta)MetaRegistry.Of(typeof(T));
-    }
 }
 
-public partial class TSampleChild : TSample
+public sealed class TSampleChild(int value) : TSample(value + 10)
 {
-    public override void Create__init(int value)
-    {
-        base.Create__init(value);
-        Value += 10;
-    }
-    public new class Meta : TSample.Meta { public override int ClassID() => 2; }
+    public override int ClassID => 2;
 }
 
-public partial class TFailingSample : TSample
+public sealed class TFailingSample : TSample
 {
     public static TFailingSample? LastInstance;
-    public override void Create__init(int value)
+    private TFailingSample(ConstructionContext context, int value) : base(value)
     {
+        context.Capture(this);
         LastInstance = this;
         throw EInvalidOperation.Create("Constructor failure");
     }
-}
-
-public static class GeneratedMetaRegistry
-{
-    [ModuleInitializer]
-    public static void Register()
-    {
-        ProcessSafety.Initialize();
-        MetaRegistry.Register(typeof(TSample), new TSample.Meta(), () => new TSample(), 12);
-        MetaRegistry.Register(typeof(TSampleChild), new TSampleChild.Meta(), () => new TSampleChild(), 12);
-        MetaRegistry.Register(typeof(TFailingSample), new TSample.Meta(), () => new TFailingSample(), 12);
-    }
+    public static TFailingSample Create(int value) =>
+        ConstructionContext.Create(value, static (context, value) => new TFailingSample(context, value));
 }
 
 public static class GeneratedStyleSample
 {
     public static int TypedConstant = 7;
-    public static TSample.Meta ClassConstant = TSample.Meta.Of<TSampleChild>();
+    public static Func<int, TSample> ClassConstant = static value => new TSampleChild(value);
     public static TSampleRecord Run()
     {
-        var instance = ClassConstant.Create(TypedConstant);
+        var instance = ClassConstant(TypedConstant);
         try
         {
             var records = new TSampleRecord[3];
@@ -109,7 +82,7 @@ public static class GeneratedStyleSample
             ref var sampleRecord = ref records[1];
             sampleRecord.Flags = TSet<TFlag>.Of(TFlag.First).Range(TFlag.Second, TFlag.Third);
             sampleRecord.Name = "abcdef";
-            sampleRecord.Value += instance.ClassType.ClassID();
+            sampleRecord.Value += instance.ClassID;
             return records[1];
         }
         finally { instance.Free(); }

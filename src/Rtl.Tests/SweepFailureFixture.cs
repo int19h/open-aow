@@ -58,7 +58,7 @@ internal static class SweepFailureFixture
                 factory.Invoke(null, [owner]);
             }
             else if (route == 1) EClass.Of(type).Create(owner);
-            else if (route == 2) ((TEObject.Meta)MetaRegistry.Of(type)).Create(owner);
+            else if (route == 2) EClass.Of(type).Create(owner);
             else
             {
                 if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();

@@ -46,16 +46,6 @@ namespace Aow.Units.Hill
         // Terrain.pas:19
 
 
-        public new partial class Meta : Aow.Units.Terrain.TTerrainMO.Meta
-        {
-            // Hill.pas:39
-            public override int ClassID() => Aow.Units.Hill.THillMO.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Hill.THillMO => (Meta)MetaRegistry.Of(typeof(T));
-            // Terrain.pas:19
-            public new Aow.Units.Hill.THillMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Hill.THillMO)base.Create(AOwner);
-        }
     }
 
     // { THillMOR (instance size 72, VMT 55800C98) }
@@ -89,16 +79,6 @@ namespace Aow.Units.Hill
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Terrain.TTerrainMOR.Meta
-        {
-            // Hill.pas:42
-            public override int ClassID() => Aow.Units.Hill.THillMOR.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Hill.THillMOR => (Meta)MetaRegistry.Of(typeof(T));
-            // Terrain.pas:42
-            public new Aow.Units.Hill.THillMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Hill.THillMOR)base.Create(AOwner);
-        }
     }
 
     public static partial class Hill

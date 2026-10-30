@@ -542,17 +542,6 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:33
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // ExploreS.pas:90
-            public override int ClassID() => Aow.Units.ExploreS.TExplorationSite.ClassID;
-
-            // ExploreS.pas:33
-            public new Aow.Units.ExploreS.TExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ExploreS.TExplorationSite)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ExploreS.TExplorationSite => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TExplorationSiteResource (instance size 104, VMT 557C16C4):
@@ -607,17 +596,6 @@ namespace Aow.Units.ExploreS
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // ExploreS.pas:373
-            public override int ClassID() => Aow.Units.ExploreS.TExplorationSiteResource.ClassID;
-
-            // ExploreS.pas:61
-            public new Aow.Units.ExploreS.TExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ExploreS.TExplorationSiteResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ExploreS.TExplorationSiteResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public enum TDefendersMode : byte

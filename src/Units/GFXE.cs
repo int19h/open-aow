@@ -2687,7 +2687,6 @@ namespace Aow.Units.GFXE
             throw EAbstractError.Create("Abstract Error");
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta {}
 
     }
 
@@ -3159,7 +3158,6 @@ namespace Aow.Units.GFXE
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.GFXE.TImageFile.Meta {}
     }
 
     public delegate int Procedure_0(Ptr<Aow.Rtl.TGUID> lpGUID, Aow.Units.GFXE.IDirectDraw lplpDD, Aow.Rtl.IUnknown pUnkOuter);

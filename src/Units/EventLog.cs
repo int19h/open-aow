@@ -314,16 +314,6 @@ namespace Aow.Units.EventLog
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // EventLog.pas:713
-            public override int ClassID() => Aow.Units.EventLog.TTextEventLog.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EventLog.TTextEventLog => (Meta)MetaRegistry.Of(typeof(T));
-            // EventLog.pas:56
-            public new Aow.Units.EventLog.TTextEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TTextEventLog)base.Create(AOwner);
-        }
     }
 
     // { TLocationTextEventLog: size $20; $1C/$1D/$1E location. VMT 557FC664. }
@@ -386,17 +376,6 @@ namespace Aow.Units.EventLog
             FLhx = unchecked((sbyte)L);
         }
 
-        public new partial class Meta : Aow.Units.EventLog.TTextEventLog.Meta
-        {
-            // EventLog.pas:728
-            public override int ClassID() => Aow.Units.EventLog.TLocationTextEventLog.ClassID;
-
-            // EventLog.pas:91
-            public new Aow.Units.EventLog.TLocationTextEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TLocationTextEventLog)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EventLog.TLocationTextEventLog => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TMessageEventLog: size $28; $18 title, $20 message, $24 layout, $25 buttons, $26 pressed button. VMT 557FCD24. }
@@ -932,17 +911,6 @@ namespace Aow.Units.EventLog
             FEvents.RemoveChild(Event);
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // EventLog.pas:532
-            public override int ClassID() => Aow.Units.EventLog.TEventLogbook.ClassID;
-
-            // EventLog.pas:169
-            public new Aow.Units.EventLog.TEventLogbook Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TEventLogbook)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EventLog.TEventLogbook => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TUserEventLog (instance size 32, VMT 557FC474) }
@@ -979,16 +947,6 @@ namespace Aow.Units.EventLog
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // EventLog.pas:753
-            public override int ClassID() => Aow.Units.EventLog.TEndTurnEventLog.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EventLog.TEndTurnEventLog => (Meta)MetaRegistry.Of(typeof(T));
-            // EventLog.pas:56
-            public new Aow.Units.EventLog.TEndTurnEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TEndTurnEventLog)base.Create(AOwner);
-        }
     }
 
     // { TShowMessageEventLog: size $1C; $18 message. VMT 557FC85C. }
@@ -1020,17 +978,6 @@ namespace Aow.Units.EventLog
             Stream.rwStrings(FMessage, 20);
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // EventLog.pas:765
-            public override int ClassID() => Aow.Units.EventLog.TShowMessageEventLog.ClassID;
-
-            // EventLog.pas:206
-            public new Aow.Units.EventLog.TShowMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TShowMessageEventLog)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EventLog.TShowMessageEventLog => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TGameOverEventLog: size $20; $18 message, inherited $10 player. VMT 557FC95C. }
@@ -1132,17 +1079,6 @@ namespace Aow.Units.EventLog
             Aow.Units.AoWE.AoWE.AoWHSMap.GameOverEventHandled(unchecked((sbyte)FPlayer));
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // EventLog.pas:777
-            public override int ClassID() => Aow.Units.EventLog.TGameOverEventLog.ClassID;
-
-            // EventLog.pas:218
-            public new Aow.Units.EventLog.TGameOverEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TGameOverEventLog)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EventLog.TGameOverEventLog => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TNewDayEventLog: size $1C; inherited $18 text. VMT 557FCA54. }
@@ -1170,16 +1106,6 @@ namespace Aow.Units.EventLog
             }
         }
 
-        public new partial class Meta : Aow.Units.EventLog.TTextEventLog.Meta
-        {
-            // EventLog.pas:809
-            public override int ClassID() => Aow.Units.EventLog.TNewDayEventLog.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EventLog.TNewDayEventLog => (Meta)MetaRegistry.Of(typeof(T));
-            // EventLog.pas:56
-            public new Aow.Units.EventLog.TNewDayEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TNewDayEventLog)base.Create(AOwner);
-        }
     }
 
     // { TShowBookEventLog: size $18; no additional fields. VMT 557FCB48. }
@@ -1198,16 +1124,6 @@ namespace Aow.Units.EventLog
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // EventLog.pas:818
-            public override int ClassID() => Aow.Units.EventLog.TShowBookEventLog.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EventLog.TShowBookEventLog => (Meta)MetaRegistry.Of(typeof(T));
-            // EventLog.pas:56
-            public new Aow.Units.EventLog.TShowBookEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EventLog.TShowBookEventLog)base.Create(AOwner);
-        }
     }
 
     // { TTutorialMessageEventLog: size $24; inherited $18 message and $1C title. VMT 557FCF54. }

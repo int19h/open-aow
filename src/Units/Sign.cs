@@ -152,17 +152,6 @@ namespace Aow.Units.Sign
         // Sign.pas:24
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // Sign.pas:99
-            public override int ClassID() => Aow.Units.Sign.TSign.ClassID;
-
-            // Sign.pas:24
-            public new Aow.Units.Sign.TSign Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sign.TSign)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sign.TSign => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TSignResource (instance size 100, VMT 557A42EC) }
@@ -262,17 +251,6 @@ namespace Aow.Units.Sign
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // Sign.pas:159
-            public override int ClassID() => Aow.Units.Sign.TSignResource.ClassID;
-
-            // Sign.pas:37
-            public new Aow.Units.Sign.TSignResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sign.TSignResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sign.TSignResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TUpdateSignTE (instance size 24, VMT 557A43DC): +$10 FText, +$14 FXhx, +$15 FYhx, +$16 FLhx. }
@@ -338,17 +316,6 @@ namespace Aow.Units.Sign
         // Sign.pas:54
 
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // Sign.pas:202
-            public override int ClassID() => Aow.Units.Sign.TUpdateSignTE.ClassID;
-
-            // Sign.pas:54
-            public new Aow.Units.Sign.TUpdateSignTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sign.TUpdateSignTE)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sign.TUpdateSignTE => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 315)]

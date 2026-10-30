@@ -402,16 +402,6 @@ namespace Aow.Units.HolyG
             }
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
-        {
-            // HolyG.pas:92
-            public override int ClassID() => Aow.Units.HolyG.THolyGround.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HolyG.THolyGround => (Meta)MetaRegistry.Of(typeof(T));
-            // ILTer.pas:20
-            public new Aow.Units.HolyG.THolyGround Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HolyG.THolyGround)base.Create(AOwner);
-        }
     }
 
     // { THolyGroundResource (instance size 68, VMT 557C7B48) }
@@ -439,16 +429,6 @@ namespace Aow.Units.HolyG
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
-        {
-            // HolyG.pas:276
-            public override int ClassID() => Aow.Units.HolyG.THolyGroundResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HolyG.THolyGroundResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.HolyG.THolyGroundResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HolyG.THolyGroundResource)base.Create(AOwner);
-        }
     }
 
     // { THolyGroundSpellTE (instance size 36, VMT 557C7C40) }
@@ -536,16 +516,6 @@ namespace Aow.Units.HolyG
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // HolyG.pas:282
-            public override int ClassID() => Aow.Units.HolyG.THolyGroundSpellTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HolyG.THolyGroundSpellTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.HolyG.THolyGroundSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HolyG.THolyGroundSpellTE)base.Create(AOwner);
-        }
     }
 
     // { THolyGroundSpell (instance size 60, VMT 557C7D1C) }

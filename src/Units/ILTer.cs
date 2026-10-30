@@ -338,17 +338,6 @@ namespace Aow.Units.ILTer
         // ILTer.pas:20
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // ILTer.pas:79
-            public override int ClassID() => Aow.Units.ILTer.TILTerrainMO.ClassID;
-
-            // ILTer.pas:20
-            public new Aow.Units.ILTer.TILTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ILTer.TILTerrainMO)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ILTer.TILTerrainMO => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { ILTer.TILTerrainMOR (instance size 68) }
@@ -382,16 +371,6 @@ namespace Aow.Units.ILTer
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
-        {
-            // ILTer.pas:269
-            public override int ClassID() => Aow.Units.ILTer.TILTerrainMOR.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ILTer.TILTerrainMOR => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.ILTer.TILTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ILTer.TILTerrainMOR)base.Create(AOwner);
-        }
     }
 
     // { ILTer.TFixedILTerrainMO (instance size 28) }
@@ -483,17 +462,6 @@ namespace Aow.Units.ILTer
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
-        {
-            // ILTer.pas:285
-            // { TFixedILTerrainMO }
-            public override int ClassID() => Aow.Units.ILTer.TFixedILTerrainMO.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ILTer.TFixedILTerrainMO => (Meta)MetaRegistry.Of(typeof(T));
-            // ILTer.pas:20
-            public new Aow.Units.ILTer.TFixedILTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ILTer.TFixedILTerrainMO)base.Create(AOwner);
-        }
     }
 
     // { ILTer.TFixedILTerrainMOR (instance size 68) }
@@ -523,16 +491,6 @@ namespace Aow.Units.ILTer
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
-        {
-            // ILTer.pas:339
-            public override int ClassID() => Aow.Units.ILTer.TFixedILTerrainMOR.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ILTer.TFixedILTerrainMOR => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.ILTer.TFixedILTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ILTer.TFixedILTerrainMOR)base.Create(AOwner);
-        }
     }
 
     public static partial class ILTer

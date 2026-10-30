@@ -90,17 +90,6 @@ namespace Aow.Units.SmokeCloud
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // SmokeCloud.pas:99
-            public override int ClassID() => Aow.Units.SmokeCloud.TSmokeCloudEnchantment.ClassID;
-
-            // SmokeCloud.pas:21
-            public new Aow.Units.SmokeCloud.TSmokeCloudEnchantment Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SmokeCloud.TSmokeCloudEnchantment)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.SmokeCloud.TSmokeCloudEnchantment => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TSmokeCloud (instance size 36, VMT 5579C044): +$14 FPlayer, +$18 FTurnsRemaining,
@@ -465,17 +454,6 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:43
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // SmokeCloud.pas:187
-            public override int ClassID() => Aow.Units.SmokeCloud.TSmokeCloud.ClassID;
-
-            // SmokeCloud.pas:43
-            public new Aow.Units.SmokeCloud.TSmokeCloud Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SmokeCloud.TSmokeCloud)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.SmokeCloud.TSmokeCloud => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TSmokeCloudResource (instance size 68, VMT 5579C1E0) }
@@ -505,16 +483,6 @@ namespace Aow.Units.SmokeCloud
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
-        {
-            // SmokeCloud.pas:385
-            public override int ClassID() => Aow.Units.SmokeCloud.TSmokeCloudResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.SmokeCloud.TSmokeCloudResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.SmokeCloud.TSmokeCloudResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SmokeCloud.TSmokeCloudResource)base.Create(AOwner);
-        }
     }
 
     public struct TCloudSpellFields

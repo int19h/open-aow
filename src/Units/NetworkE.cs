@@ -214,17 +214,6 @@ namespace Aow.Units.NetworkE
 
         public int TokenCounter { get => FTokenCounter; set => FTokenCounter = value; }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // NetworkE.pas:950
-            public override int ClassID() => Aow.Units.NetworkE.TTokenEvent.ClassID;
-
-            // NetworkE.pas:230
-            public new Aow.Units.NetworkE.TTokenEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenEvent)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.NetworkE.TTokenEvent => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { NetworkE.TTokenEventList (instance size 12): +8 FList (stored with id 5), a reference node of
@@ -385,17 +374,6 @@ namespace Aow.Units.NetworkE
 
         public Aow.Units.NetworkE.TTokenEvent this[int Index] { get => GetEvent(Index); }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // NetworkE.pas:995
-            public override int ClassID() => Aow.Units.NetworkE.TTokenEventList.ClassID;
-
-            // NetworkE.pas:257
-            public new Aow.Units.NetworkE.TTokenEventList Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenEventList)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.NetworkE.TTokenEventList => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { NetworkE.TTokenControl (instance size 20): +4 FEvents, +8 FTokenManager, +$C FPlayer, +$10
@@ -2174,17 +2152,6 @@ namespace Aow.Units.NetworkE
 
         public Aow.Units.NetworkE.TTokenEventList TokenEvents { get => FTokenEvents; }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // NetworkE.pas:1100
-            public override int ClassID() => Aow.Units.NetworkE.TTokenPackage.ClassID;
-
-            // NetworkE.pas:244
-            public new Aow.Units.NetworkE.TTokenPackage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TTokenPackage)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.NetworkE.TTokenPackage => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { NetworkE.TTokenPackageDistributer (instance size 12): +4 FTokenManager, +8 FPC. Sends the token
@@ -2293,17 +2260,6 @@ namespace Aow.Units.NetworkE
 
         public TPassTokenTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // NetworkE.pas:1726
-            // { TPassTokenTE }
-            public override int ClassID() => Aow.Units.NetworkE.TPassTokenTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.NetworkE.TPassTokenTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.NetworkE.TPassTokenTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TPassTokenTE)base.Create(AOwner);
-        }
     }
 
     // { NetworkE.TSyncTE (instance size 20): +$10 FSyncValue (stored with id $14), the sync value of the
@@ -2338,17 +2294,6 @@ namespace Aow.Units.NetworkE
 
         public int SyncValue { get => FSyncValue; set => FSyncValue = value; }
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // NetworkE.pas:1733
-            // { TSyncTE }
-            public override int ClassID() => Aow.Units.NetworkE.TSyncTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.NetworkE.TSyncTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.NetworkE.TSyncTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.NetworkE.TSyncTE)base.Create(AOwner);
-        }
     }
 
     public static partial class NetworkE

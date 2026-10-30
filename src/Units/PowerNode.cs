@@ -251,17 +251,6 @@ namespace Aow.Units.PowerNode
         // PowerNode.pas:25
 
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
-        {
-            // PowerNode.pas:64
-            public override int ClassID() => Aow.Units.PowerNode.TPowerNode.ClassID;
-
-            // PowerNode.pas:25
-            public new Aow.Units.PowerNode.TPowerNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PowerNode.TPowerNode)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.PowerNode.TPowerNode => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TPowerNodeResource (instance size 116, VMT 557D027C) }
@@ -302,17 +291,6 @@ namespace Aow.Units.PowerNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
-        {
-            // PowerNode.pas:166
-            public override int ClassID() => Aow.Units.PowerNode.TPowerNodeResource.ClassID;
-
-            // PowerNode.pas:41
-            public new Aow.Units.PowerNode.TPowerNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PowerNode.TPowerNodeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.PowerNode.TPowerNodeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class PowerNode

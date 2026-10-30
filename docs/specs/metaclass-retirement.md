@@ -1,12 +1,13 @@
 # Metaclass retirement (milestone 9.4)
 
-Status 2026-10-30. Briefs 9.4-1 to 9.4-6 are merged (PRs #69 and #71). The constructor and
-registration form (`data/rewrite/construction-form.md` in the private repository) supersedes brief
-9.4-7: its briefs CF-2 and CF-3 delete the shim, `MetaRegistry.cs` becomes `ClassRegistry.cs`,
-`EClass.ClassName` is a `string`, and one catalog type replaces `Holder<T>`. The order is
-`data/rewrite/roadmap.md`.
+Status 2026-10-30. Complete through CF-3. Briefs 9.4-1 to 9.4-6, CF-2 and CF-3 retire the
+product shim. `src/Units/ClassRegistry.cs` registers every descriptor through the single
+`Catalog<TKey, TValue>` type. `EClass.ClassName` is a `string`. The class-id snapshot remains
+unchanged. The private transpiler still emits `Meta` in its reference tree, which diverges from
+the product source. The driver runs the full gate separately from this brief's build and tests.
+The construction form and roadmap in the private repository govern the final registration form.
 
-State: draft, Fable, 2026-10-29. Base: `main` at `bbdc15b` (9.3b-8 merged). Product paths are under
+Original specification: Fable, 2026-10-29. Base: `main` at `bbdc15b` (9.3b-8 merged). Product paths are under
 `D:/git/open-aow`, other paths under `D:/git/open-aow-private`. The milestone row reads: the engine's
 class registry carries creation by class id, generics with static abstract interface members carry
 the remaining class-side dispatch. Done measure: O3 holds and the shim's `Meta` type is deleted.
@@ -63,17 +64,17 @@ public sealed class EClass
     public int ClassID { get; }
     public int InstanceSize { get; }
     public EClass? Parent { get; }                 // the base class's descriptor, null at TEObject
-    public AnsiString ClassName => TObject.ClassNameOf(Type);
+    public string ClassName => TObject.ClassNameOf(Type);
     public TEObject Create(TECustomNode? owner) => create(owner);
     public bool InheritsFrom(Type type) => type.IsAssignableFrom(Type);
     public static EClass Of(Type type);            // one instance per type, throws when unregistered
     public static EClass Of<T>() where T : TEObject => Of(typeof(T));
-    public static EClass Register(Type type, int classId, Func<TECustomNode?, TEObject> create, int instanceSize);
+    public static EClass Register<T>(int classId, Func<TECustomNode?, T> create, int instanceSize) where T : TEObject;
 }
 ```
 
-Every `TEObject` descendant has one `EClass`, registered by the generated file (renamed
-`EClassRegistry.cs`) in inheritance order from a module initializer, as today. The id constant moves
+Every `TEObject` descendant has one `EClass`, registered by the hand-maintained
+`ClassRegistry.cs` in inheritance order from a module initializer, as today. The id constant moves
 from the `Meta.ClassID()` body into the class:
 
 ```csharp
@@ -82,7 +83,7 @@ public partial class TAoWHSMap : THSMap
     public new const int ClassID = 131089;         // Engine.pas:2461 spelling kept in the comment
 ```
 
-The registry line reads it statically, `EClass.Register(typeof(TFoo), TFoo.ClassID, static owner => new TFoo(owner), 16)`.
+The registry line reads it statically, `EClass.Register<TFoo>(TFoo.ClassID, static owner => new TFoo(owner), 16)`.
 C# resolves `TFoo.ClassID` to the nearest declaring ancestor, which is what an inherited Delphi
 class method returns, so an inherit-only class (`TAIBudgetManager`, `TEUser`, `TNewCombatRoundCA`)
 gets the ancestor's id and its own creation delegate. A class with a retained guarded factory
@@ -121,17 +122,28 @@ whose constructor runs the `TEObject` body with a null owner, then `hexagon = ow
 
 ### 2.3 Descriptor families with static abstract members
 
+CF-2 uses explicit `Register<T>()`, `Of<T>()`,
+`Of(Type)` and `All` over `Catalog<Type, TDescriptor>`. The catalog owns identity and rejects
+duplicate keys. `ClassRegistry` registers parents before children, then the family descriptors.
+It reserves subsequent blocks for kinds and format mappings when those features arrive.
+
 Where a list holds classes and reads them without an instance, the class declares statics through
-an interface and `Of<T>()` captures them once per type:
+an interface. Explicit registration captures the class-side values and publishes one descriptor:
 
 ```csharp
 public interface IAIPlayerActionClass { static abstract int Priority { get; } static abstract TSet<TAIPlayerProcessPhase> SupportedPhases { get; } }
 public sealed class AIPlayerActionClass
 {
-    public EClass Class { get; }  public int Priority { get; }  public TSet<TAIPlayerProcessPhase> SupportedPhases { get; }
-    public static AIPlayerActionClass Of<T>() where T : TAIPlayerAction, IAIPlayerActionClass => Holder<T>.Value;
-    public static AIPlayerActionClass Of(Type type);     // filled by Of<T>() from the generated registry, used by the instance property
-    private static class Holder<T> where T : TAIPlayerAction, IAIPlayerActionClass { public static readonly AIPlayerActionClass Value = new(EClass.Of<T>(), T.Priority, T.SupportedPhases); }
+    private static readonly Catalog<Type, AIPlayerActionClass> catalog = new("AI player action class");
+    public EClass Class { get; }
+    public int Priority => priority();
+    private readonly Func<int> priority;
+    public TSet<TAIPlayerProcessPhase> SupportedPhases { get; }
+    public static AIPlayerActionClass Register<T>() where T : TAIPlayerAction, IAIPlayerActionClass =>
+        catalog.Add(typeof(T), new AIPlayerActionClass(EClass.Of<T>(), static () => T.Priority, T.SupportedPhases));
+    public static AIPlayerActionClass Of<T>() where T : TAIPlayerAction, IAIPlayerActionClass => catalog[typeof(T)];
+    public static AIPlayerActionClass Of(Type type) => catalog[type];
+    public static IReadOnlyList<AIPlayerActionClass> All => catalog.All;
 }
 ```
 
@@ -196,7 +208,7 @@ unchanged counts, `dotnet build` with zero warnings and `dotnet test`. All start
 | 9.4-4 descriptor families in the engine closure | `TAIPlayerAction`, `TAIGroup`, `TEObjectEditor` through section 2.3 | the last class-side members on engine `Meta` types | a test registers and unregisters the group and action classes and checks list identity, the editor test drives `ItemGrid` through `EditorClass.Edit` |
 | 9.4-5 image library and image files | `TLibraryImage`, `TImageFile`, `TGrabInfo` descriptors, `GraphicsConstructionTests` on the descriptor | `LibraryImageCreation`, the image `Meta` types' members | frame fixtures hold, a test loads a library through `FindLibraryImageClass` and reads `ClassVersion` and `Name` for every registered image class against the snapshot |
 | 9.4-6 sound, component and the small targets | `TSoundSystem`, `TSample`, `TSampleData` descriptors with `SdlSoundSystem.cs` and `Sound.NullSound.cs`, `TListObject`, `TAIMoveExecuterControl`, the `TRegistrator` handlers, `TComponent.Meta` with `ClassesTests` | the non-engine `Meta` members, `TComponent.Meta` | the audio layer holds, the 9.3b-8 missing and corrupt sample tests pass through the descriptors, `Find("SDL")` and `Find("Galaxy")` return distinct descriptors over one type, the owner-removal fixture asserts through `new TComponent(owner)` |
-| 9.4-7 delete | every nested `Meta`, `Of<T>()`, typed `ClassType` accessor and `Meta.Create` factory, `MetaRegistry`, `TObject.Meta`, `TObject.ClassType`, `TVarRec` from `Meta`, the test fixtures (`GeneratedStyleSample`, `CoreTests` metaclass cases, the `Assert.Same(meta, value.ClassType)` assertions become `EClass` checks), `MetaRegistry.cs` renamed `EClassRegistry.cs` | the type | `grep -rn "\bMeta\b\|MetaRegistry\|ClassType\b\|NewInstance()" src` is empty, the snapshot test still passes, `docs/milestones.md` row 9.4 marked done with the report |
+| 9.4-7 delete | every nested `Meta`, `Of<T>()`, typed `ClassType` accessor and `Meta.Create` factory, `MetaRegistry`, `TObject.Meta`, `TObject.ClassType`, `TVarRec` from `Meta`, the test fixtures (`GeneratedStyleSample`, `CoreTests` metaclass cases, the `Assert.Same(meta, value.ClassType)` assertions become `EClass` checks), `MetaRegistry.cs` renamed `ClassRegistry.cs` | the type | `grep -rn "\bMeta\b\|MetaRegistry\|ClassType\b\|NewInstance()" src` is empty, the snapshot test still passes, `docs/milestones.md` row 9.4 marked done with the report |
 
 9.4-1 and 9.4-2 are sequential. 9.4-3 to 9.4-6 touch disjoint files after 9.4-2 and run in
 parallel worktrees, except that 9.4-3 and 9.4-4 both edit `AoWE.cs` and go in that order. 9.4-7
@@ -215,7 +227,7 @@ waits for all.
   layer and the frame fixtures, with the cache in place from 9.4-2.
 - Descriptor identity. `UnregisterEClasses`, `UnRegisterClasses`, `UnregisterAIGroupClasses`, the
   sound system `Find` and `OnHSMLoaded.Remove` rely on one object per class. Evidence: the
-  identity tests of 9.4-4 and 9.4-6, and `Holder<T>` as the only constructor of a family descriptor.
+  identity tests of 9.4-4 and 9.4-6, and one explicit catalog registration per family type.
 - Retained initializer families. Their guarded static factory is the delegate, so 9.4 never calls
   `NewInstance` on them. Evidence: 9.4-1 lists each with its delegate, and the 9.3b failure tests
   (dynamic level, sample data, `TArmyHS`) keep passing.
@@ -228,3 +240,19 @@ waits for all.
   `transpiler.md` 4.4.
 - In-flight merges. Starting 9.4-1 before 9.3b-9 to 9.3b-12 merge conflicts in `MetaRegistry.cs`
   and `Engine.cs` on every line. Evidence: the 9.4-1 brief names the merged commit it is based on.
+
+## 6. CF-3 report, 2026-10-30
+
+The product has 970 generic engine registrations in `ClassRegistry.cs`. The shim, its typed
+accessors and factories, and the `TVarRec` class case are deleted. The class-id snapshot is
+unchanged. The two construction fingerprint files change only for compiler-generated delegate
+names after the registry rename. All 12 recordings reproduce their original hashes when only
+those names are translated back.
+
+The build reports zero warnings and zero errors. The unit run reports 3020 passed, zero failed
+and zero skipped. The registry suite covers every engine class and descriptor family. Creation
+with a null owner returns the exact registered type for 968 entries. `TFlagControl` and
+`TDynamicIsometricHexagon` retain their existing null-owner rejection. Null-owner teardown of
+incomplete world objects and abstract nodes is recorded separately from creation identity.
+The source deletion scan is empty. The private registration census reports 970 generic lines
+and zero legacy forms. The driver runs O3 and the full gate separately.

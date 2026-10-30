@@ -227,16 +227,6 @@ namespace Aow.Units.Farm
             }
         }
 
-        public new partial class Meta : Aow.Units.Crops.TPlayerCropStructure.Meta
-        {
-            // Farm.pas:54
-            public override int ClassID() => Aow.Units.Farm.TFarm.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Farm.TFarm => (Meta)MetaRegistry.Of(typeof(T));
-            // Crops.pas:27
-            public new Aow.Units.Farm.TFarm Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Farm.TFarm)base.Create(AOwner);
-        }
     }
 
     // { TFarmResource (instance size 120, VMT 557B2AC4) }
@@ -278,17 +268,6 @@ namespace Aow.Units.Farm
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Crops.TPlayerCropStructureResource.Meta
-        {
-            // Farm.pas:151
-            public override int ClassID() => Aow.Units.Farm.TFarmResource.ClassID;
-
-            // Farm.pas:36
-            public new Aow.Units.Farm.TFarmResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Farm.TFarmResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Farm.TFarmResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class Farm

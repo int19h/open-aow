@@ -987,17 +987,6 @@ namespace Aow.Units.City
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // City.pas:2722
-            public override int ClassID() => Aow.Units.City.TCityEnchantment.ClassID;
-
-            // City.pas:98
-            public new Aow.Units.City.TCityEnchantment Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityEnchantment)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TCityEnchantment => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCity (instance size 120, VMT 557A73F0): $44 FMode, $45 FRace,
@@ -4675,17 +4664,6 @@ namespace Aow.Units.City
         // City.pas:138
 
 
-        public new partial class Meta : Aow.Units.Crops.TPlayerCropStructure.Meta
-        {
-            // City.pas:849
-            public override int ClassID() => Aow.Units.City.TCity.ClassID;
-
-            // City.pas:138
-            public new Aow.Units.City.TCity Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCity)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TCity => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCityResource (instance size 124, VMT 557A76AC): $78 FSize. }
@@ -4791,17 +4769,6 @@ namespace Aow.Units.City
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Crops.TPlayerCropStructureResource.Meta
-        {
-            // City.pas:2628
-            public override int ClassID() => Aow.Units.City.TCityResource.ClassID;
-
-            // City.pas:262
-            public new Aow.Units.City.TCityResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TCityResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCityRebellionEventLog (instance size 40, VMT 557A77A0): $18 FXhx, $1C FYhx,
@@ -4894,16 +4861,6 @@ namespace Aow.Units.City
             CenterViewTo(unchecked((sbyte)FXhx), unchecked((sbyte)FYhx), unchecked((sbyte)FLhx));
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // City.pas:2675
-            public override int ClassID() => Aow.Units.City.TCityRebellionEventLog.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TCityRebellionEventLog => (Meta)MetaRegistry.Of(typeof(T));
-            // EventLog.pas:56
-            public new Aow.Units.City.TCityRebellionEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityRebellionEventLog)base.Create(AOwner);
-        }
     }
 
     // { TAICityUpgradeBudget (instance size 56, VMT 557A78B4) }
@@ -4914,16 +4871,6 @@ namespace Aow.Units.City
 
         public TAICityUpgradeBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
-        public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
-        {
-            // City.pas:2775
-            public override int ClassID() => Aow.Units.City.TAICityUpgradeBudget.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TAICityUpgradeBudget => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.City.TAICityUpgradeBudget Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TAICityUpgradeBudget)base.Create(AOwner);
-        }
     }
 
     // { TAICityResearchBudget (instance size 56, VMT 557A7994) }
@@ -4934,16 +4881,6 @@ namespace Aow.Units.City
 
         public TAICityResearchBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
-        public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
-        {
-            // City.pas:2780
-            public override int ClassID() => Aow.Units.City.TAICityResearchBudget.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TAICityResearchBudget => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.City.TAICityResearchBudget Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TAICityResearchBudget)base.Create(AOwner);
-        }
     }
 
     // { TAICityFortifyBudget (instance size 56, VMT 557A7A74) }
@@ -4954,16 +4891,6 @@ namespace Aow.Units.City
 
         public TAICityFortifyBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
-        public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
-        {
-            // City.pas:2785
-            public override int ClassID() => Aow.Units.City.TAICityFortifyBudget.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TAICityFortifyBudget => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.City.TAICityFortifyBudget Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TAICityFortifyBudget)base.Create(AOwner);
-        }
     }
 
     // { TCityAIPA (instance size 48, VMT 557A7B54): $14 FCityCount,
@@ -5731,13 +5658,6 @@ namespace Aow.Units.City
         // { $2C }
         public static new int Priority => 13;
 
-        public new partial class Meta : Aow.Units.AoWE.TAIPlayerAction.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TCityAIPA => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.City.TCityAIPA Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityAIPA)base.Create(AOwner);
-        }
     }
 
     // { TCityProductionEventLog (instance size 32, VMT 557A7C24) }
@@ -5777,16 +5697,6 @@ namespace Aow.Units.City
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TProductionEventLog.Meta
-        {
-            // City.pas:3195
-            public override int ClassID() => Aow.Units.City.TCityProductionEventLog.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TCityProductionEventLog => (Meta)MetaRegistry.Of(typeof(T));
-            // EventLog.pas:91
-            public new Aow.Units.City.TCityProductionEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityProductionEventLog)base.Create(AOwner);
-        }
     }
 
     // { TRegistrator (instance size 4, VMT 557AF144): no added fields. }

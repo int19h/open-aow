@@ -193,17 +193,6 @@ namespace Aow.Units.Gems
         // Gems.pas:24
 
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
-        {
-            // Gems.pas:53
-            public override int ClassID() => Aow.Units.Gems.TGems.ClassID;
-
-            // Gems.pas:24
-            public new Aow.Units.Gems.TGems Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Gems.TGems)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Gems.TGems => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TGemsResource (instance size 68, VMT 557C4EF0): no additional fields. }
@@ -233,16 +222,6 @@ namespace Aow.Units.Gems
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
-        {
-            // Gems.pas:137
-            public override int ClassID() => Aow.Units.Gems.TGemsResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Gems.TGemsResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.Gems.TGemsResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Gems.TGemsResource)base.Create(AOwner);
-        }
     }
 
     public enum TGemsGenerateMode : byte

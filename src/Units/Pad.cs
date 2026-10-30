@@ -78,17 +78,6 @@ namespace Aow.Units.Pad
         // Pad.pas:20
 
 
-        public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMO.Meta
-        {
-            // Pad.pas:52
-            public override int ClassID() => Aow.Units.Pad.TPad.ClassID;
-
-            // Pad.pas:20
-            public new Aow.Units.Pad.TPad Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Pad.TPad)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Pad.TPad => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TPadResource (instance size 72, VMT 557FE864): $44 FPadSize. }
@@ -183,17 +172,6 @@ namespace Aow.Units.Pad
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMOR.Meta
-        {
-            // Pad.pas:76
-            public override int ClassID() => Aow.Units.Pad.TPadResource.ClassID;
-
-            // Pad.pas:32
-            public new Aow.Units.Pad.TPadResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Pad.TPadResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Pad.TPadResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class Pad

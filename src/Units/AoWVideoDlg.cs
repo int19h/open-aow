@@ -310,17 +310,6 @@ namespace Aow.Units.AoWVideoDlg
             FText = call__12;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // AoWVideoDlg.pas:264
-            public override int ClassID() => Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage.ClassID;
-
-            // AoWVideoDlg.pas:78
-            public new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TWMCampaignScenarioPageList (instance size 12, VMT 0040B8C4) }
@@ -415,17 +404,6 @@ namespace Aow.Units.AoWVideoDlg
             FPaths.Default = -1;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TAoWCampaignScenario.Meta
-        {
-            // AoWVideoDlg.pas:304
-            public override int ClassID() => Aow.Units.AoWVideoDlg.TWMCampaignScenario.ClassID;
-
-            // AoWVideoDlg.pas:109
-            public new Aow.Units.AoWVideoDlg.TWMCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaignScenario)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWVideoDlg.TWMCampaignScenario => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TWMCampaign: size $40; $34 faction, $38 state, $3C page. VMT 0040BA6C. }
@@ -499,17 +477,6 @@ namespace Aow.Units.AoWVideoDlg
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // AoWVideoDlg.pas:334
-            public override int ClassID() => Aow.Units.AoWVideoDlg.TWMCampaign.ClassID;
-
-            // AoWVideoDlg.pas:120
-            public new Aow.Units.AoWVideoDlg.TWMCampaign Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaign)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AoWVideoDlg.TWMCampaign => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class AoWVideoDlg

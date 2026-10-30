@@ -59,13 +59,6 @@ namespace Aow.Units.Spring
         // { needs: AnimationControlMode returns TAnimationControlMode in AL. }
         public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode() => Aow.Units.Spring.Spring.SpringMode;
 
-        public new partial class Meta : Aow.Units.Animation.TAnimation.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Spring.TSpringOfLifeAnimation => (Meta)MetaRegistry.Of(typeof(T));
-            // Animation.pas:43
-            public new Aow.Units.Spring.TSpringOfLifeAnimation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Spring.TSpringOfLifeAnimation)base.Create(AOwner);
-        }
     }
 
     // { TSpringOfLife (instance size 48, VMT 557A3A04) }
@@ -157,17 +150,6 @@ namespace Aow.Units.Spring
         // Spring.pas:27
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // Spring.pas:73
-            public override int ClassID() => Aow.Units.Spring.TSpringOfLife.ClassID;
-
-            // Spring.pas:27
-            public new Aow.Units.Spring.TSpringOfLife Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Spring.TSpringOfLife)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Spring.TSpringOfLife => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TSpringOfLifeResource (instance size 100, VMT 557A3C6C) }
@@ -205,17 +187,6 @@ namespace Aow.Units.Spring
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // Spring.pas:123
-            public override int ClassID() => Aow.Units.Spring.TSpringOfLifeResource.ClassID;
-
-            // Spring.pas:37
-            public new Aow.Units.Spring.TSpringOfLifeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Spring.TSpringOfLifeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Spring.TSpringOfLifeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public struct TSpringAnimationCallback

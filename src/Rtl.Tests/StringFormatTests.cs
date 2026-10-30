@@ -39,7 +39,7 @@ public sealed class StringFormatTests
         Same("%*:*s", 1, 2, "bc"); Same("%*d", false, 1); Same("%*d", "x", 1);
         Same("%0:1:s", 7, "abcdef"); Same("%:s", "abc");
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Same(kind, 1.25);
-        foreach (TVarRec arg in new TVarRec[] { true, 1.25, new TObject(), (TObject.Meta?)null, TVarRec.Pointer(0) }) Same("%s", arg);
+        foreach (TVarRec arg in new TVarRec[] { true, 1.25, new TObject(), TVarRec.Pointer(0) }) Same("%s", arg);
         Same("%p", 1); Same("%d", (byte)'a'); Same("%0:1:d", 7, "abcdef");
         Assert.Equal("A", Rtl.Format("%.0s", 'A'));
         Assert.Equal("abc", Rtl.Format("%s", "abc\0def"[..3]));

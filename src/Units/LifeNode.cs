@@ -53,16 +53,6 @@ namespace Aow.Units.LifeNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
-        {
-            // LifeNode.pas:37
-            public override int ClassID() => Aow.Units.LifeNode.TLifeNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.LifeNode.TLifeNode => (Meta)MetaRegistry.Of(typeof(T));
-            // PrdPlace.pas:51
-            public new Aow.Units.LifeNode.TLifeNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.LifeNode.TLifeNode)base.Create(AOwner);
-        }
     }
 
     // { TLifeNodeResource (instance size 120, no added fields, VMT 557C071C) }
@@ -101,17 +91,6 @@ namespace Aow.Units.LifeNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
-        {
-            // LifeNode.pas:55
-            public override int ClassID() => Aow.Units.LifeNode.TLifeNodeResource.ClassID;
-
-            // LifeNode.pas:27
-            public new Aow.Units.LifeNode.TLifeNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.LifeNode.TLifeNodeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.LifeNode.TLifeNodeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class LifeNode

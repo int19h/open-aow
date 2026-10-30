@@ -68,7 +68,6 @@ public sealed class RemainingConstructionTests
             if (type.IsEnum) return Convert.ToInt64(item);
             if (type.IsPrimitive || item is string || item is decimal) return item;
             if (item is Type represented) return represented.FullName;
-            if (item is TObject.Meta meta) return meta.Type.FullName;
             if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
             if (!type.IsValueType)
             {
@@ -209,25 +208,25 @@ public sealed class RemainingConstructionTests
     }
     private static TObject Create(Type type, TECustomNode owner, int route)
     {
-        if (route == 1) return ((TEObject.Meta)MetaRegistry.Of(type)).Create(owner);
+        if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
             if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
             var engine = new TEngine(null!);
             try
             {
-                var meta = (TEObject.Meta)MetaRegistry.Of(type);
+                var meta = EClass.Of(type);
                 engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
-                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID())]); }
+                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
                 catch (Aow.Rtl.Exception) { }
                 engine.RegisterEClasses([EClass.Of(type)]);
-                return engine.CreateEObject(meta.ClassID(), owner);
+                return engine.CreateEObject(meta.ClassID, owner);
             }
             finally { engine.Destroy(); }
         }
         if (route == 3)
         {
-            var meta = MetaRegistry.Of(type);
+            var meta = Aow.Units.Engine.EClass.Of(type);
             return (TObject)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
@@ -275,7 +274,6 @@ public sealed class RemainingConstructionTests
             Check(name, "owner" + ownerMode + "route" + route, string.Join("\n", states));
             Assert.StartsWith("success:", state);
         }
-        if (engineObject) Assert.Throws<InvalidOperationException>(() => MetaRegistry.Of(type).NewInstance());
         if (name.StartsWith("Aow.Units.Storms.", StringComparison.Ordinal)) Assert.Empty(type.GetConstructors());
     }
     [Fact]

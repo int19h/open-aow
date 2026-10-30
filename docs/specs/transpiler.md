@@ -394,6 +394,11 @@ open array constructor `[a, b]` as a collection expression. `array of const` bec
 
 ### 4.4 Classes and metaclasses
 
+CF-3 retires the product metaclass shim. The private transpiler continues to emit the historical
+`Meta` reference tree described below. Its output is a reference diff, not compilable replacement
+product source. Product creation and class-side dispatch use `EClass`, family descriptors and
+`Catalog<TKey, TValue>`, registered in the hand-maintained `src/Units/ClassRegistry.cs`.
+
 A class becomes `public partial class Name : Parent`. A class with no parent derives from the
 shim's `TObject`. Fields keep their names and become fields. Methods become methods. The partial
 keyword lets an override file add or replace members (section 8).

@@ -607,18 +607,6 @@ namespace Aow.Units.HSEngine
 
         public HNAccessor HN => new HNAccessor(this);
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-
-            // HSEngine.pas:1933
-            public override int ClassID() => Aow.Units.HSEngine.TMapField.ClassID;
-
-            // HSEngine.pas:219
-            public new Aow.Units.HSEngine.TMapField Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapField)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TMapField => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.TMapContainer (instance size 32): +$C FWidth, +$10 FHeight, +$14 FLevelCount, +$18
@@ -848,17 +836,6 @@ namespace Aow.Units.HSEngine
 
         public MapLevelsAccessor MapLevels => new MapLevelsAccessor(this);
 
-        public new partial class Meta : Aow.Units.Engine.TENode.Meta
-        {
-            // HSEngine.pas:3208
-            public override int ClassID() => Aow.Units.HSEngine.TMapContainer.ClassID;
-
-            // HSEngine.pas:354
-            public new Aow.Units.HSEngine.TMapContainer Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapContainer)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TMapContainer => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.TVisibilityList (instance size 28): the sorted list of the visible sprites of a
@@ -2061,17 +2038,6 @@ namespace Aow.Units.HSEngine
         public int MaxXhp { get => GetMaxXhp(); }
         public int MaxYhp { get => GetMaxYhp(); }
 
-        public new partial class Meta : Aow.Units.Engine.TENode.Meta
-        {
-            // HSMAP.PAS:66
-            public override int ClassID() => Aow.Units.HSEngine.THSMap.ClassID;
-
-            // HSEngine.pas:562
-            public new Aow.Units.HSEngine.THSMap Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THSMap)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.THSMap => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.THSEngine (instance size 88): +$34 FStatus, +$38 FHSSet, +$3C FHSMap,
@@ -2713,17 +2679,6 @@ namespace Aow.Units.HSEngine
         public static THSEngine Create(TECustomNode owner) =>
             ConstructionContext.Create(owner, static (context, owner) => new THSEngine(context, owner));
 
-        public new partial class Meta : Aow.Units.Engine.TEngine.Meta
-        {
-            // HSEngine.pas:4957
-            public override int ClassID() => Aow.Units.HSEngine.THSEngine.ClassID;
-
-            // HSEngine.pas:803
-            public new Aow.Units.HSEngine.THSEngine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THSEngine)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.THSEngine => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.THexagonSprite (instance size 8): the base of everything placed on the map. Owner is
@@ -3751,18 +3706,7 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // HXSPRITE.PAS:12
-            public override int ClassID() => Aow.Units.HSEngine.THexagonSprite.ClassID;
 
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.THexagonSprite => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.HSEngine.THexagonSprite Create(TECustomNode owner) => (Aow.Units.HSEngine.THexagonSprite)base.Create(owner);
-        }
-
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     // { HSEngine.TMapObject (instance size 16): a hexagon sprite drawn from a resource. +8 FResource
@@ -4321,17 +4265,6 @@ namespace Aow.Units.HSEngine
         public bool ResourceLinked { get => GetResourceLinked(); set => SetResourceLinked(value); }
         public TSet<Aow.Units.HSEngine.TMapObjectStatusElement> Status { get => FStatus; }
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // MAPOBJ.PAS:3
-            // { TMapObject }
-            public override int ClassID() => Aow.Units.HSEngine.TMapObject.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TMapObject => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.HSEngine.TMapObject Create(TECustomNode owner) => (Aow.Units.HSEngine.TMapObject)base.Create(owner);
-        }
     }
 
     // { HSEngine.TMapObjectResource (instance size 52): the resource of map objects. +$18 FEngine (set
@@ -4705,17 +4638,6 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEResource.Meta
-        {
-            // MAPOBJ.PAS:410
-            public override int ClassID() => Aow.Units.HSEngine.TMapObjectResource.ClassID;
-
-            // HSEngine.pas:1124
-            public new Aow.Units.HSEngine.TMapObjectResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapObjectResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TMapObjectResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.TMapObjectResourceList (instance size 20) }
@@ -5384,17 +5306,6 @@ namespace Aow.Units.HSEngine
 
         public FieldAccessor Field => new FieldAccessor(this);
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // HSEngine.pas:2837
-            public override int ClassID() => Aow.Units.HSEngine.TMapLevel.ClassID;
-
-            // HSEngine.pas:312
-            public new Aow.Units.HSEngine.TMapLevel Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapLevel)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TMapLevel => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.THexagonSpriteSelection (instance size 32): the selected sprites of a map. The
@@ -6805,17 +6716,6 @@ namespace Aow.Units.HSEngine
         public Aow.Rtl.TStringList OverlayTypes { get => FOverlayTypes; }
         public Aow.Rtl.TStringList DecorationTypes { get => FDecorationTypes; }
 
-        public new partial class Meta : Aow.Units.Engine.TECustomOwner.Meta
-        {
-            // HSEngine.pas:3394
-            public override int ClassID() => Aow.Units.HSEngine.THSSet.ClassID;
-
-            // HSEngine.pas:757
-            public new Aow.Units.HSEngine.THSSet Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THSSet)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.THSSet => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.THexagonSpriteEngine (instance size 60): +$38 FHSEngine. The component that creates
@@ -7472,17 +7372,6 @@ namespace Aow.Units.HSEngine
         public bool DestroyOnShow { get => GetDestroyOnShow(); set => SetDestroyOnShow(value); }
         public new byte Level { get => GetLevel(); set => SetLevel(value); }
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // LibImgHS.PAS:13
-            public override int ClassID() => Aow.Units.HSEngine.TLibraryImageHS.ClassID;
-
-            // HSEngine.pas:996
-            public new Aow.Units.HSEngine.TLibraryImageHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TLibraryImageHS)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TLibraryImageHS => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.THPBasedHS (instance size 24): a sprite placed at a pixel position. +8 FVisible,
@@ -7541,17 +7430,6 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
-        {
-            // HXSPRITE.PAS:607
-            public override int ClassID() => Aow.Units.HSEngine.THPBasedHS.ClassID;
-
-            // HSEngine.pas:1034
-            public new Aow.Units.HSEngine.THPBasedHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.THPBasedHS)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.THPBasedHS => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.EMapObjectResourceMissing (instance size 12): TMapObject.ReadWrite raises it when the
@@ -8153,17 +8031,6 @@ namespace Aow.Units.HSEngine
         public int dXmainP { get => FdXmainP; set => SetdXmainP(value); }
         public int dYmainP { get => FdYmainP; set => SetdYmainP(value); }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // MAPOBJ.PAS:1239
-            public override int ClassID() => Aow.Units.HSEngine.TMultiHexMOR.ClassID;
-
-            // HSEngine.pas:1194
-            public new Aow.Units.HSEngine.TMultiHexMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMultiHexMOR)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TMultiHexMOR => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { HSEngine.TAbstractHexagon (instance size 16): the base of the terrain hexagons }
@@ -8331,17 +8198,6 @@ namespace Aow.Units.HSEngine
         {
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // MAPOBJ.PAS:666
-            // { TAbstractHexagon }
-            public override int ClassID() => Aow.Units.HSEngine.TAbstractHexagon.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TAbstractHexagon => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.HSEngine.TAbstractHexagon Create(TECustomNode owner) => (Aow.Units.HSEngine.TAbstractHexagon)base.Create(owner);
-        }
     }
 
     // { HSEngine.TAbstractHexagonResource (instance size 52) }
@@ -8389,17 +8245,6 @@ namespace Aow.Units.HSEngine
 
         public TAbstractBorderHexagon(TECustomNode owner) : base(owner) { }
 
-        public new partial class Meta : Aow.Units.HSEngine.TAbstractHexagon.Meta
-        {
-            // MAPOBJ.PAS:791
-            // { TAbstractBorderHexagon }
-            public override int ClassID() => Aow.Units.HSEngine.TAbstractBorderHexagon.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TAbstractBorderHexagon => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.HSEngine.TAbstractBorderHexagon Create(TECustomNode owner) => (Aow.Units.HSEngine.TAbstractBorderHexagon)base.Create(owner);
-        }
     }
 
     // { HSEngine.TAbstractBorderHexagonResource (instance size 52) }
@@ -8526,17 +8371,6 @@ namespace Aow.Units.HSEngine
         {
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // MAPOBJ.PAS:798
-            // { TAbstractRoad }
-            public override int ClassID() => Aow.Units.HSEngine.TAbstractRoad.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TAbstractRoad => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.HSEngine.TAbstractRoad Create(TECustomNode owner) => (Aow.Units.HSEngine.TAbstractRoad)base.Create(owner);
-        }
     }
 
     // { HSEngine.TAbstractRoadResource (instance size 52) }
@@ -9062,13 +8896,7 @@ namespace Aow.Units.HSEngine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.HSEngine.TXYLList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     // { TMapContainer }

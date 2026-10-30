@@ -53,16 +53,6 @@ namespace Aow.Units.WaterNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
-        {
-            // WaterNode.pas:37
-            public override int ClassID() => Aow.Units.WaterNode.TWaterNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.WaterNode.TWaterNode => (Meta)MetaRegistry.Of(typeof(T));
-            // PrdPlace.pas:51
-            public new Aow.Units.WaterNode.TWaterNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WaterNode.TWaterNode)base.Create(AOwner);
-        }
     }
 
     // { TWaterNodeResource (instance size 120, no added fields, VMT 557C0BE0) }
@@ -101,17 +91,6 @@ namespace Aow.Units.WaterNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
-        {
-            // WaterNode.pas:55
-            public override int ClassID() => Aow.Units.WaterNode.TWaterNodeResource.ClassID;
-
-            // WaterNode.pas:27
-            public new Aow.Units.WaterNode.TWaterNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WaterNode.TWaterNodeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.WaterNode.TWaterNodeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class WaterNode

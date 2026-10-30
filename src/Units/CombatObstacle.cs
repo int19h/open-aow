@@ -318,16 +318,6 @@ namespace Aow.Units.CombatObstacle
             FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 41, unchecked((uint)(((Aow.Units.HSEngine.TMapField)Owner).Xhx + (((Aow.Units.HSEngine.TMapField)Owner).Yhx << 4))));
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // CombatObstacle.pas:94
-            public override int ClassID() => Aow.Units.CombatObstacle.TCombatObstacle.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatObstacle.TCombatObstacle => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.CombatObstacle.TCombatObstacle Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatObstacle.TCombatObstacle)base.Create(AOwner);
-        }
     }
 
     // { TCombatObstacleResource (instance size 68, VMT 00431D60) }
@@ -355,16 +345,6 @@ namespace Aow.Units.CombatObstacle
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
-        {
-            // CombatObstacle.pas:239
-            public override int ClassID() => Aow.Units.CombatObstacle.TCombatObstacleResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatObstacle.TCombatObstacleResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.CombatObstacle.TCombatObstacleResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatObstacle.TCombatObstacleResource)base.Create(AOwner);
-        }
     }
 
     public static partial class CombatObstacle

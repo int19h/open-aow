@@ -53,16 +53,6 @@ namespace Aow.Units.FireNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
-        {
-            // FireNode.pas:36
-            public override int ClassID() => Aow.Units.FireNode.TFireNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FireNode.TFireNode => (Meta)MetaRegistry.Of(typeof(T));
-            // PrdPlace.pas:51
-            public new Aow.Units.FireNode.TFireNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FireNode.TFireNode)base.Create(AOwner);
-        }
     }
 
     // { TFireNodeResource (instance size 120, VMT 557BF8D4) }
@@ -100,17 +90,6 @@ namespace Aow.Units.FireNode
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
-        {
-            // FireNode.pas:53
-            public override int ClassID() => Aow.Units.FireNode.TFireNodeResource.ClassID;
-
-            // FireNode.pas:26
-            public new Aow.Units.FireNode.TFireNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FireNode.TFireNodeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FireNode.TFireNodeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class FireNode

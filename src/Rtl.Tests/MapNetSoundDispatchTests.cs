@@ -40,10 +40,8 @@ public sealed class MapNetSoundDispatchTests
 
     static MapNetSoundDispatchTests()
     {
-        EClass.Register(typeof(SpecializedField), TMapField.ClassID, static owner => new SpecializedField(owner), 40);
-        MetaRegistry.Register(typeof(SpecializedField), new TMapField.Meta(), 40);
-        EClass.Register(typeof(SpecializedLevel), TMapLevel.ClassID, static owner => SpecializedLevel.Create(owner), 124);
-        MetaRegistry.Register(typeof(SpecializedLevel), new TMapLevel.Meta(), 124);
+        EClass.Register<SpecializedField>(TMapField.ClassID, static owner => new SpecializedField(owner), 40);
+        EClass.Register<SpecializedLevel>(TMapLevel.ClassID, static owner => SpecializedLevel.Create(owner), 124);
     }
 
 

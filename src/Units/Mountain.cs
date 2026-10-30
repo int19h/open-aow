@@ -168,16 +168,6 @@ namespace Aow.Units.Mountain
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Terrain.TTerrainMO.Meta
-        {
-            // Mountain.pas:101
-            public override int ClassID() => Aow.Units.Mountain.TMountainMO.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Mountain.TMountainMO => (Meta)MetaRegistry.Of(typeof(T));
-            // Terrain.pas:19
-            public new Aow.Units.Mountain.TMountainMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TMountainMO)base.Create(AOwner);
-        }
     }
 
     // { TMountainMOR (instance size 76, VMT 557A2814) }
@@ -207,16 +197,6 @@ namespace Aow.Units.Mountain
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Terrain.TTerrainMOR.Meta
-        {
-            // Mountain.pas:169
-            public override int ClassID() => Aow.Units.Mountain.TMountainMOR.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Mountain.TMountainMOR => (Meta)MetaRegistry.Of(typeof(T));
-            // Terrain.pas:42
-            public new Aow.Units.Mountain.TMountainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TMountainMOR)base.Create(AOwner);
-        }
     }
 
     // { TRaisedMountain (instance size 32, VMT 557A2940): $1C FMode,
@@ -352,16 +332,6 @@ namespace Aow.Units.Mountain
             }
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
-        {
-            // Mountain.pas:178
-            public override int ClassID() => Aow.Units.Mountain.TRaisedMountain.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Mountain.TRaisedMountain => (Meta)MetaRegistry.Of(typeof(T));
-            // ILTer.pas:20
-            public new Aow.Units.Mountain.TRaisedMountain Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TRaisedMountain)base.Create(AOwner);
-        }
     }
 
     // { TRaisedMountainResource (instance size 68, VMT 557A2AF4) }
@@ -389,16 +359,6 @@ namespace Aow.Units.Mountain
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
-        {
-            // Mountain.pas:249
-            public override int ClassID() => Aow.Units.Mountain.TRaisedMountainResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Mountain.TRaisedMountainResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.Mountain.TRaisedMountainResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TRaisedMountainResource)base.Create(AOwner);
-        }
     }
 
     // { TRaiseTerrainTE (instance size 36, VMT 557A2BF8) }
@@ -501,16 +461,6 @@ namespace Aow.Units.Mountain
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
-        {
-            // Mountain.pas:258
-            public override int ClassID() => Aow.Units.Mountain.TRaiseTerrainTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Mountain.TRaiseTerrainTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.Mountain.TRaiseTerrainTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TRaiseTerrainTE)base.Create(AOwner);
-        }
     }
 
     // { TRaiseTerrain (instance size 60, VMT 557A2CD0) }

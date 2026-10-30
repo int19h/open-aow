@@ -50,17 +50,6 @@ namespace Aow.Units.Merchant
         // Merchant.pas:18
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // Merchant.pas:38
-            public override int ClassID() => Aow.Units.Merchant.TMerchant.ClassID;
-
-            // Merchant.pas:18
-            public new Aow.Units.Merchant.TMerchant Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Merchant.TMerchant)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Merchant.TMerchant => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TMerchantResource (instance size 100, VMT 557C9EB4) }
@@ -98,17 +87,6 @@ namespace Aow.Units.Merchant
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // Merchant.pas:47
-            public override int ClassID() => Aow.Units.Merchant.TMerchantResource.ClassID;
-
-            // Merchant.pas:25
-            public new Aow.Units.Merchant.TMerchantResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Merchant.TMerchantResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Merchant.TMerchantResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class Merchant

@@ -188,17 +188,6 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:34
 
 
-        public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
-        {
-            // SummonSpells.pas:171
-            public override int ClassID() => Aow.Units.SummonSpells.TSummonSpellTE.ClassID;
-
-            // SummonSpells.pas:34
-            public new Aow.Units.SummonSpells.TSummonSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SummonSpells.TSummonSpellTE)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.SummonSpells.TSummonSpellTE => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TSummonSpell (instance size 60, VMT 557E3004): $34 FAIBasePriority, $38 FUnitIndices. }

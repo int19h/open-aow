@@ -3,7 +3,7 @@ using Aow.Rtl;
 namespace Aow.Units.Engine;
 
 // { The engine's class descriptor: one per TEObject descendant, registered in inheritance order by
-//   the generated registry from a module initializer. It carries the saved class id, the native
+//   ClassRegistry from a module initializer. It carries the saved class id, the native
 //   instance size, the parent descriptor and the creation delegate. Descriptors are not TObjects
 //   and registration allocates no instance. }
 public sealed class EClass
@@ -39,14 +39,10 @@ public sealed class EClass
     public static EClass Of(Type type) => catalog[type];
 
     public static EClass Register<T>(int classId, Func<TECustomNode, T> create, int instanceSize)
-        where T : TEObject => Register(typeof(T), classId, create, instanceSize);
-
-    public static EClass Register(Type type, int classId, Func<TECustomNode, TEObject> create, int instanceSize)
+        where T : TEObject
     {
-        ArgumentNullException.ThrowIfNull(type);
+        var type = typeof(T);
         ArgumentNullException.ThrowIfNull(create);
-        if (!typeof(TEObject).IsAssignableFrom(type))
-            throw new ArgumentException("An engine class descriptor represents a TEObject descendant.", nameof(type));
         ArgumentOutOfRangeException.ThrowIfNegative(instanceSize);
         var parent = type == typeof(TEObject) ? null : Of(type.BaseType);
         return catalog.Add(type, new EClass(type, classId, parent, create, instanceSize));

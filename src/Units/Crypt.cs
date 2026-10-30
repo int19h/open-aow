@@ -45,16 +45,6 @@ namespace Aow.Units.Crypt
         // Crypt.pas:34
         public new const int ClassID = 131850;
 
-        public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSite.Meta
-        {
-            // Crypt.pas:34
-            public override int ClassID() => Aow.Units.Crypt.TCrypt.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Crypt.TCrypt => (Meta)MetaRegistry.Of(typeof(T));
-            // ItemExpS.pas:32
-            public new Aow.Units.Crypt.TCrypt Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crypt.TCrypt)base.Create(AOwner);
-        }
     }
 
     // { TCryptResource (instance size 104, no added fields, VMT 557C6740) }
@@ -82,16 +72,6 @@ namespace Aow.Units.Crypt
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
-        {
-            // Crypt.pas:40
-            public override int ClassID() => Aow.Units.Crypt.TCryptResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Crypt.TCryptResource => (Meta)MetaRegistry.Of(typeof(T));
-            // ExploreS.pas:61
-            public new Aow.Units.Crypt.TCryptResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crypt.TCryptResource)base.Create(AOwner);
-        }
     }
 
     public static partial class Crypt

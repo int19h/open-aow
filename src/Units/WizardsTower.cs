@@ -420,17 +420,6 @@ namespace Aow.Units.WizardsTower
         // WizardsTower.pas:24
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // WizardsTower.pas:84
-            public override int ClassID() => Aow.Units.WizardsTower.TWizardsTower.ClassID;
-
-            // WizardsTower.pas:24
-            public new Aow.Units.WizardsTower.TWizardsTower Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WizardsTower.TWizardsTower)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.WizardsTower.TWizardsTower => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TWizardsTowerResource: size $64, VMT 557D5774; no additional fields. }
@@ -460,16 +449,6 @@ namespace Aow.Units.WizardsTower
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // WizardsTower.pas:263
-            public override int ClassID() => Aow.Units.WizardsTower.TWizardsTowerResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.WizardsTower.TWizardsTowerResource => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P1_09.inc:200
-            public new Aow.Units.WizardsTower.TWizardsTowerResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.WizardsTower.TWizardsTowerResource)base.Create(AOwner);
-        }
     }
 
     // { TEnterWizardsTowerEventLog: size $1C, VMT 557D587C; $18 tower. }

@@ -57,7 +57,6 @@ public sealed class UiConstructionTests
             if (type.IsEnum) return Convert.ToInt64(item);
             if (type.IsPrimitive || item is string || item is decimal) return item;
             if (item is Type represented) return represented.FullName;
-            if (item is TObject.Meta meta) return meta.Type.FullName;
             if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
             if (!type.IsValueType)
             {

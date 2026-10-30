@@ -559,13 +559,7 @@ namespace Aow.Units.Engine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TIntegerList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     public delegate int TByteSortCompare(byte Item1, byte Item2);
@@ -1090,13 +1084,7 @@ namespace Aow.Units.Engine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TByteList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     public delegate int TShortIntSortCompare(sbyte Item1, sbyte Item2);
@@ -1557,13 +1545,7 @@ namespace Aow.Units.Engine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TShortIntList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     public delegate int TWordSortCompare(ushort Item1, ushort Item2);
@@ -2025,13 +2007,7 @@ namespace Aow.Units.Engine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TWordList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     public partial class TBitList : Aow.Rtl.TPersistent
@@ -2491,13 +2467,7 @@ namespace Aow.Units.Engine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TBitList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     public partial class TEventList : Aow.Rtl.TPersistent
@@ -2857,13 +2827,7 @@ namespace Aow.Units.Engine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEventList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 8)]
@@ -3451,13 +3415,7 @@ namespace Aow.Units.Engine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TDoubleItemList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 16)]
@@ -4008,13 +3966,7 @@ namespace Aow.Units.Engine
             throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TQuadItemList => (Meta)MetaRegistry.Of(typeof(T));
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 8)]
@@ -4586,20 +4538,7 @@ namespace Aow.Units.Engine
         public Aow.Rtl.AnsiString EObjectPath { get => GetEObjectPath(); }
         public int LastMsg { get => GetLastMsg(); set => SetLastMsg(value); }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            // Engine.pas:2461
-            public virtual int ClassID() => Aow.Units.Engine.TEObject.ClassID;
 
-            // Engine.pas:524
-            // Creation goes through the engine class descriptor.
-            public Aow.Units.Engine.TEObject Create(Aow.Units.Engine.TECustomNode AOwner) => Aow.Units.Engine.EClass.Of(Type).Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEObject => (Meta)MetaRegistry.Of(typeof(T));
-        }
-
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     // { Engine.TECustomNode (instance size 8): children through an abstract list interface. Message ids
@@ -5690,17 +5629,6 @@ namespace Aow.Units.Engine
         public TSet<Aow.Units.Engine.TEngineModeElement> Options { get => FOptions; set => FOptions = value; }
 
         // Engine.pas:1126
-        public new partial class Meta : Aow.Units.Engine.TENode.Meta
-        {
-            // Engine.pas:8756
-            public override int ClassID() => Aow.Units.Engine.TEngine.ClassID;
-
-            // Engine.pas:1126
-            public new Aow.Units.Engine.TEngine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Engine.TEngine)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEngine => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TEStorageStream (instance size 36): the base of every storage stream. The rw* methods do
@@ -6010,20 +5938,7 @@ namespace Aow.Units.Engine
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // Engine.pas:8503
-            // { TEResource }
-            public override int ClassID() => Aow.Units.Engine.TEResource.ClassID;
 
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEResource => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.Engine.TEResource Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TEResource)base.Create(AOwner);
-        }
-
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     public struct TEMsg
@@ -7035,18 +6950,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:631
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // Engine.pas:2861
-            public override int ClassID() => Aow.Units.Engine.TENode.ClassID;
-
-            // Engine.pas:631
-            public new Aow.Units.Engine.TENode Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TENode)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TENode => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TETimerNode (instance size 56): +8 FTick, +$C FCount, +$10 FTimerLists[1..10]. Children
@@ -7300,14 +7203,6 @@ namespace Aow.Units.Engine
 
         public int Tick { get => FTick; }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // Engine.pas:1836
-            public override int ClassID() => Aow.Units.Engine.TETimerNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TETimerNode => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, +$C FUpdateCount; Changed on child changes. }
@@ -8422,18 +8317,6 @@ namespace Aow.Units.Engine
         // Engine.pas:680
 
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // Engine.pas:7246
-            public override int ClassID() => Aow.Units.Engine.TEChangeNotifyNode.ClassID;
-
-            // Engine.pas:680
-            public new Aow.Units.Engine.TEChangeNotifyNode Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TEChangeNotifyNode)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEChangeNotifyNode => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TEChangeNotifyEventList (instance size 20): +$10 FEvents, notified by Changed }
@@ -8503,16 +8386,7 @@ namespace Aow.Units.Engine
             Done(Aow.Units.Engine.TEditResult.erCancel, Obj);
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEObjectEditor => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.Engine.TEObjectEditor Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TEObjectEditor)base.Create(AOwner);
-        }
 
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     // { Engine.THashList (instance size 16): +4 FCount, +8 FCapacity, +$C FItems. The hash classes
@@ -9072,14 +8946,6 @@ namespace Aow.Units.Engine
             Aow.Rtl.Rtl.RwSet(ref FControlStyle, 1, 1, Stream.rwData, 0);
         }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // Engine.pas:8228
-            public override int ClassID() => Aow.Units.Engine.TEControlStyleObject.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEControlStyleObject => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TEControlStyleNode (instance size 16): +$C FControlStyle }
@@ -9127,18 +8993,6 @@ namespace Aow.Units.Engine
         // Forwarding entry for TEngine.
         public static Aow.Units.Engine.TEControlStyleNode Create(Aow.Units.Engine.TECustomNode AOwner) => new TEControlStyleNode(AOwner);
 
-        public new partial class Meta : Aow.Units.Engine.TENode.Meta
-        {
-            // Engine.pas:8199
-            public override int ClassID() => Aow.Units.Engine.TEControlStyleNode.ClassID;
-
-            // Engine.pas:841
-            public new Aow.Units.Engine.TEControlStyleNode Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TEControlStyleNode)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEControlStyleNode => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TECustomOwner (instance size 20): +$C FEngine, +$10 FControlStyle. A node that knows
@@ -9207,18 +9061,6 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:855
-        public new partial class Meta : Aow.Units.Engine.TENode.Meta
-        {
-            // Engine.pas:8257
-            public override int ClassID() => Aow.Units.Engine.TECustomOwner.ClassID;
-
-            // Engine.pas:855
-            public new Aow.Units.Engine.TECustomOwner Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TECustomOwner)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TECustomOwner => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TEObjectClassList (instance size 16): a TList of class references }
@@ -9465,14 +9307,6 @@ namespace Aow.Units.Engine
 
         public Aow.Rtl.TStringList Editors { get => FEditors; }
 
-        public new partial class Meta : Aow.Units.Engine.TEControlStyleObject.Meta
-        {
-            // Engine.pas:8662
-            public override int ClassID() => Aow.Units.Engine.TEResourceEditSettings.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEResourceEditSettings => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public struct TSortItem
@@ -9664,17 +9498,6 @@ namespace Aow.Units.Engine
         // Engine.pas:922
 
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // Engine.pas:1478
-            public override int ClassID() => Aow.Units.Engine.TESortNode.ClassID;
-
-            // Engine.pas:922
-            public new Aow.Units.Engine.TESortNode Create(Aow.Units.Engine.TECustomNode AOwner) => (TESortNode)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TESortNode => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TEInverseSortNode: the same, sorted the other way }
@@ -9736,18 +9559,6 @@ namespace Aow.Units.Engine
             FSorted = true;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TESortNode.Meta
-        {
-            // Engine.pas:1630
-            // { TEInverseSortNode }
-            public override int ClassID() => Aow.Units.Engine.TEInverseSortNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEInverseSortNode => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:922
-            public new Aow.Units.Engine.TEInverseSortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TEInverseSortNode)base.Create(AOwner);
-        }
     }
 
     // { Engine.TEControlStyleSortNode (instance size 28): +$18 FControlStyle }
@@ -9778,14 +9589,6 @@ namespace Aow.Units.Engine
             FControlStyle = Value;
         }
 
-        public new partial class Meta : Aow.Units.Engine.TESortNode.Meta
-        {
-            // Engine.pas:1672
-            public override int ClassID() => Aow.Units.Engine.TEControlStyleSortNode.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEControlStyleSortNode => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TEControlStyleInverseSortNode (instance size 28): +$18 FControlStyle }
@@ -9825,18 +9628,6 @@ namespace Aow.Units.Engine
         // Engine.pas:963
 
 
-        public new partial class Meta : Aow.Units.Engine.TEInverseSortNode.Meta
-        {
-            // Engine.pas:1695
-            public override int ClassID() => Aow.Units.Engine.TEControlStyleInverseSortNode.ClassID;
-
-            // Engine.pas:963
-            public new Aow.Units.Engine.TEControlStyleInverseSortNode Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TEControlStyleInverseSortNode)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEControlStyleInverseSortNode => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Engine.TEReferenceNode (instance size 12): a TENode that holds references to objects owned
@@ -11312,18 +11103,6 @@ namespace Aow.Units.Engine
 
         public ResourcesAccessor Resources => new ResourcesAccessor(this);
 
-        public new partial class Meta : Aow.Units.Engine.TECustomOwner.Meta
-        {
-            // Engine.pas:8568
-            // { TEResourceList }
-            public override int ClassID() => Aow.Units.Engine.TEResourceList.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Engine.TEResourceList => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:855
-            public new Aow.Units.Engine.TEResourceList Create(Aow.Units.Engine.TECustomNode AOwner)
-                => (TEResourceList)base.Create(AOwner);
-        }
     }
 
     // { Engine.TEComponent (instance size 56): +$24 FOnRegisterClasses (called from Loaded),

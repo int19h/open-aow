@@ -78,7 +78,6 @@ public sealed partial class AoWERuleConstructionTests
             if (type.IsEnum) return Convert.ToInt64(item);
             if (type.IsPrimitive || item is string || item is decimal) return item;
             if (item is Type represented) return represented.FullName;
-            if (item is TObject.Meta meta) return meta.Type.FullName;
             if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
             if (!type.IsValueType)
             {
@@ -134,25 +133,25 @@ public sealed partial class AoWERuleConstructionTests
     private static string Hash(string value) => Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(value)));
     private static TObject Create(Type type, TECustomNode owner, int route, Fixture fixture)
     {
-        if (route == 1) return ((TEObject.Meta)MetaRegistry.Of(type)).Create(owner);
+        if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
             if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
             var engine = new TEngine(null!);
             try
             {
-                var meta = (TEObject.Meta)MetaRegistry.Of(type);
+                var meta = EClass.Of(type);
                 engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
-                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID())]); }
+                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
                 catch (Aow.Rtl.Exception) { }
                 engine.RegisterEClasses([EClass.Of(type)]);
-                return engine.CreateEObject(meta.ClassID(), owner);
+                return engine.CreateEObject(meta.ClassID, owner);
             }
             finally { engine.Destroy(); }
         }
         if (route == 3)
         {
-            var meta = MetaRegistry.Of(type);
+            var meta = Aow.Units.Engine.EClass.Of(type);
             return (TObject)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
@@ -229,14 +228,13 @@ public sealed partial class AoWERuleConstructionTests
             var value = (TEObject)Create(type, null!, route, fixture);
             Assert.IsType(type, value);
             Assert.Null(value.Owner);
-            Assert.Same(MetaRegistry.Of(type), value.ClassType);
+            Assert.Same(Aow.Units.Engine.EClass.Of(type), value.EClass);
             string state = Snapshot(value);
             try { value.Destroy(); }
             catch (System.Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }
             expected ??= state;
             Assert.Equal(expected, state);
         }
-        Assert.Throws<InvalidOperationException>(() => MetaRegistry.Of(type).NewInstance());
     }
 
 

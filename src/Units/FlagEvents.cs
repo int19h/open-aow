@@ -269,17 +269,6 @@ namespace Aow.Units.FlagEvents
         // FlagEvents.pas:62
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // FlagEvents.pas:192
-            public override int ClassID() => Aow.Units.FlagEvents.TFlagMessageEvent.ClassID;
-
-            // FlagEvents.pas:62
-            public new Aow.Units.FlagEvents.TFlagMessageEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FlagEvents.TFlagMessageEvent)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FlagEvents.TFlagMessageEvent => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TFlagMessageEventResource (instance size 52, VMT 557D0D9C): no additional fields. }
@@ -307,16 +296,6 @@ namespace Aow.Units.FlagEvents
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // FlagEvents.pas:218
-            public override int ClassID() => Aow.Units.FlagEvents.TFlagMessageEventResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FlagEvents.TFlagMessageEventResource => (Meta)MetaRegistry.Of(typeof(T));
-            // FlagEvents.pas:46
-            public new Aow.Units.FlagEvents.TFlagMessageEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FlagEvents.TFlagMessageEventResource)base.Create(AOwner);
-        }
     }
 
     // { TTutorialMessageEvent (instance size 28, VMT 557D0EA0): +$18 FMessage. }
@@ -370,17 +349,6 @@ namespace Aow.Units.FlagEvents
         // FlagEvents.pas:81
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // FlagEvents.pas:245
-            public override int ClassID() => Aow.Units.FlagEvents.TTutorialMessageEvent.ClassID;
-
-            // FlagEvents.pas:81
-            public new Aow.Units.FlagEvents.TTutorialMessageEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FlagEvents.TTutorialMessageEvent)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FlagEvents.TTutorialMessageEvent => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TTutorialMessageEventResource (instance size 52, VMT 557D104C): no additional fields. }
@@ -408,16 +376,6 @@ namespace Aow.Units.FlagEvents
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // FlagEvents.pas:269
-            public override int ClassID() => Aow.Units.FlagEvents.TTutorialMessageEventResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.FlagEvents.TTutorialMessageEventResource => (Meta)MetaRegistry.Of(typeof(T));
-            // FlagEvents.pas:46
-            public new Aow.Units.FlagEvents.TTutorialMessageEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FlagEvents.TTutorialMessageEventResource)base.Create(AOwner);
-        }
     }
 
     public enum TFlagEventTriggerMode : byte

@@ -216,17 +216,6 @@ namespace Aow.Units.ManaCrystals
         // ManaCrystals.pas:28
 
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
-        {
-            // ManaCrystals.pas:80
-            public override int ClassID() => Aow.Units.ManaCrystals.TManaCrystals.ClassID;
-
-            // ManaCrystals.pas:28
-            public new Aow.Units.ManaCrystals.TManaCrystals Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ManaCrystals.TManaCrystals)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ManaCrystals.TManaCrystals => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TManaCrystalsResource (instance size 68, VMT 557B4B00) }
@@ -254,16 +243,6 @@ namespace Aow.Units.ManaCrystals
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
-        {
-            // ManaCrystals.pas:168
-            public override int ClassID() => Aow.Units.ManaCrystals.TManaCrystalsResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.ManaCrystals.TManaCrystalsResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.ManaCrystals.TManaCrystalsResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ManaCrystals.TManaCrystalsResource)base.Create(AOwner);
-        }
     }
 
     public partial class TCrystalMagic : Aow.Units.AoWE.TPlayerMagicControl

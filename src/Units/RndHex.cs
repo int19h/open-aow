@@ -71,17 +71,6 @@ namespace Aow.Units.RndHex
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Hexagon.THexagonResource.Meta
-        {
-            // RndHex.pas:28
-            // { TRndHexagonResource }
-            public override int ClassID() => Aow.Units.RndHex.TRndHexagonResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.RndHex.TRndHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
-            // Hexagon.pas:32
-            public new Aow.Units.RndHex.TRndHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.RndHex.TRndHexagonResource)base.Create(AOwner);
-        }
     }
 
     public static partial class RndHex

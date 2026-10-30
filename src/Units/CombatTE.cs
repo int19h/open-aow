@@ -126,16 +126,6 @@ namespace Aow.Units.CombatTE
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // CombatTE.pas:175
-            public override int ClassID() => Aow.Units.CombatTE.TCEndTurnTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatTE.TCEndTurnTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.CombatTE.TCEndTurnTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTE.TCEndTurnTE)base.Create(AOwner);
-        }
     }
 
     // { TCEndCombatTE (instance size 16, VMT 0040760C) }
@@ -196,16 +186,6 @@ namespace Aow.Units.CombatTE
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // CombatTE.pas:158
-            public override int ClassID() => Aow.Units.CombatTE.TCEndCombatTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatTE.TCEndCombatTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.CombatTE.TCEndCombatTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTE.TCEndCombatTE)base.Create(AOwner);
-        }
     }
 
     // { TCombatMoveTE (instance size 56, VMT 004076D4) }
@@ -777,16 +757,6 @@ namespace Aow.Units.CombatTE
         // intf_P5_07.inc:765
 
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // CombatTE.pas:206
-            public override int ClassID() => Aow.Units.CombatTE.TCombatMoveTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatTE.TCombatMoveTE => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P5_07.inc:765
-            public new Aow.Units.CombatTE.TCombatMoveTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTE.TCombatMoveTE)base.Create(AOwner);
-        }
     }
 
     // { TCMeleeMoveTE (instance size 64, VMT 004077C0) }
@@ -1146,17 +1116,6 @@ namespace Aow.Units.CombatTE
         // intf_P5_07.inc:765
 
 
-        public new partial class Meta : Aow.Units.CombatTE.TCombatMoveTE.Meta
-        {
-            // CombatTE.pas:451
-            // { $3C }
-            public override int ClassID() => Aow.Units.CombatTE.TCMeleeMoveTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatTE.TCMeleeMoveTE => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P5_07.inc:765
-            public new Aow.Units.CombatTE.TCMeleeMoveTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTE.TCMeleeMoveTE)base.Create(AOwner);
-        }
     }
 
     // { TCAbTouchMoveTE (instance size 108, VMT 004078AC) }
@@ -1791,16 +1750,6 @@ namespace Aow.Units.CombatTE
         // intf_P5_07.inc:765
 
 
-        public new partial class Meta : Aow.Units.CombatTE.TCombatMoveTE.Meta
-        {
-            // CombatTE.pas:624
-            public override int ClassID() => Aow.Units.CombatTE.TCAbTouchMoveTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatTE.TCAbTouchMoveTE => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P5_07.inc:765
-            public new Aow.Units.CombatTE.TCAbTouchMoveTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTE.TCAbTouchMoveTE)base.Create(AOwner);
-        }
     }
 
     // { TCAbRangedTE (instance size 60, VMT 0040799C) }
@@ -3902,16 +3851,6 @@ namespace Aow.Units.CombatTE
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // CombatTE.pas:917
-            public override int ClassID() => Aow.Units.CombatTE.TCAbRangedTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatTE.TCAbRangedTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.CombatTE.TCAbRangedTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTE.TCAbRangedTE)base.Create(AOwner);
-        }
     }
 
     // { TTerminateCombatTE (instance size 16, VMT 00407A64) }
@@ -3936,16 +3875,6 @@ namespace Aow.Units.CombatTE
         // NetworkE.pas:230
 
 
-        public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
-        {
-            // CombatTE.pas:149
-            public override int ClassID() => Aow.Units.CombatTE.TTerminateCombatTE.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatTE.TTerminateCombatTE => (Meta)MetaRegistry.Of(typeof(T));
-            // NetworkE.pas:230
-            public new Aow.Units.CombatTE.TTerminateCombatTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTE.TTerminateCombatTE)base.Create(AOwner);
-        }
     }
 
     public enum TTokenStep : byte

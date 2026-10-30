@@ -62,17 +62,6 @@ namespace Aow.Units.AltFire
         // AltFire.pas:19
 
 
-        public new partial class Meta : Aow.Units.Altar.TAltar.Meta
-        {
-            // AltFire.pas:42
-            public override int ClassID() => Aow.Units.AltFire.TAltarOfFire.ClassID;
-
-            // AltFire.pas:19
-            public new Aow.Units.AltFire.TAltarOfFire Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltFire.TAltarOfFire)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AltFire.TAltarOfFire => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TAltarOfFireResource (instance size 116, no added fields, VMT 557CF8B0) }
@@ -107,17 +96,6 @@ namespace Aow.Units.AltFire
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
-        {
-            // AltFire.pas:58
-            public override int ClassID() => Aow.Units.AltFire.TAltarOfFireResource.ClassID;
-
-            // AltFire.pas:27
-            public new Aow.Units.AltFire.TAltarOfFireResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltFire.TAltarOfFireResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AltFire.TAltarOfFireResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class AltFire

@@ -62,24 +62,24 @@ public sealed class EngineLeafConstructionTests
             0 => typeof(TEControlStyleSortNode), 1 => typeof(TETimerNode),
             2 => typeof(TEUser), _ => typeof(TPlugInControl)
         };
-        var meta = (TEObject.Meta)MetaRegistry.Of(type);
+        var meta = EClass.Of(type);
         engine.RegisterEClasses([EClass.Of(type)]);
         TEObject direct = kind switch
         {
             0 => new TEControlStyleSortNode(argument), 1 => new TETimerNode(argument),
             2 => new TEUser(argument), _ => new TPlugInControl(argument)
         };
-        TEObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID(), argument)];
+        TEObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
         TEObject? copy = null;
         try
         {
-            Assert.Equal(kind == 0 ? 261 : kind == 1 ? 264 : 80, meta.ClassID());
+            Assert.Equal(kind == 0 ? 261 : kind == 1 ? 264 : 80, meta.ClassID);
             Assert.Equal(kind switch { 0 => 28, 1 => 56, 2 => 12, _ => 16 }, meta.InstanceSize);
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
-                Assert.Same(meta, value.ClassType);
+                Assert.Same(meta, value.EClass);
                 AssertLeafState(value);
             }
             if (direct is TEControlStyleSortNode style)
@@ -100,7 +100,6 @@ public sealed class EngineLeafConstructionTests
             }
             Assert.Equal(owned ? 3 : 0, owner.Members.Count);
             Assert.Equal(owned ? 3 : 0, owner.ObservedBeforeLeafBody.Count);
-            Assert.Throws<InvalidOperationException>(() => meta.NewInstance());
         }
         finally
         {
@@ -166,8 +165,8 @@ public sealed class EngineLeafConstructionTests
     [Fact]
     public void SortStyleUsesTheNonvirtualInheritedStyleAndBothMetaclassFacades()
     {
-        var value = (TEControlStyleSortNode)TEControlStyleSortNode.Meta.Of<TEControlStyleSortNode>().Create(null!);
-        var other = (TEControlStyleSortNode)TESortNode.Meta.Of<TEControlStyleSortNode>().Create(null!);
+        var value = (TEControlStyleSortNode)EClass.Of<TEControlStyleSortNode>().Create(null!);
+        var other = (TEControlStyleSortNode)EClass.Of<TEControlStyleSortNode>().Create(null!);
         try { AssertLeafState(value); AssertLeafState(other); }
         finally { value.Destroy(); other.Destroy(); }
     }

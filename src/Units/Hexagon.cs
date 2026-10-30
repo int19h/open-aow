@@ -79,17 +79,6 @@ namespace Aow.Units.Hexagon
         {
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TAbstractHexagon.Meta
-        {
-            // Hexagon.pas:47
-            // { THexagon }
-            public override int ClassID() => Aow.Units.Hexagon.THexagon.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Hexagon.THexagon => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.Hexagon.THexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Hexagon.THexagon)base.Create(AOwner);
-        }
     }
 
     // { Hexagon.THexagonResource (instance size 56): +$34 FTransitionLibrary (HexTrans.ILB) }
@@ -237,17 +226,6 @@ namespace Aow.Units.Hexagon
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // Hexagon.pas:89
-            public override int ClassID() => Aow.Units.Hexagon.THexagonResource.ClassID;
-
-            // Hexagon.pas:32
-            public new Aow.Units.Hexagon.THexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Hexagon.THexagonResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Hexagon.THexagonResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class Hexagon

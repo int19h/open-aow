@@ -508,17 +508,6 @@ namespace Aow.Units.HxBridge
         // HxBridge.pas:25
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
-        {
-            // HxBridge.pas:84
-            public override int ClassID() => Aow.Units.HxBridge.THexagonBridge.ClassID;
-
-            // HxBridge.pas:25
-            public new Aow.Units.HxBridge.THexagonBridge Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HxBridge.THexagonBridge)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HxBridge.THexagonBridge => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { THexagonBridgeResource (instance size 52, VMT 5579967C) }
@@ -554,17 +543,6 @@ namespace Aow.Units.HxBridge
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // HxBridge.pas:348
-            public override int ClassID() => Aow.Units.HxBridge.THexagonBridgeResource.ClassID;
-
-            // HxBridge.pas:49
-            public new Aow.Units.HxBridge.THexagonBridgeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HxBridge.THexagonBridgeResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.HxBridge.THexagonBridgeResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 305)]

@@ -396,17 +396,6 @@ namespace Aow.Units.CombatStructure
         // CombatStructure.pas:23
 
 
-        public new partial class Meta : Aow.Units.CombatILTer.TCombatFixedILTerrain.Meta
-        {
-            // CombatStructure.pas:57
-            public override int ClassID() => Aow.Units.CombatStructure.TCombatStructure.ClassID;
-
-            // CombatStructure.pas:23
-            public new Aow.Units.CombatStructure.TCombatStructure Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatStructure.TCombatStructure)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatStructure.TCombatStructure => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TCombatStructureResource (instance size 72, VMT 00432750) }
@@ -434,16 +423,6 @@ namespace Aow.Units.CombatStructure
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.CombatILTer.TCombatFixedILTerrainResource.Meta
-        {
-            // CombatStructure.pas:256
-            public override int ClassID() => Aow.Units.CombatStructure.TCombatStructureResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.CombatStructure.TCombatStructureResource => (Meta)MetaRegistry.Of(typeof(T));
-            // HSEngine.pas:1194
-            public new Aow.Units.CombatStructure.TCombatStructureResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatStructure.TCombatStructureResource)base.Create(AOwner);
-        }
     }
 
     public static partial class CombatStructure

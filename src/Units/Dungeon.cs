@@ -351,17 +351,6 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:33
 
 
-        public new partial class Meta : Aow.Units.ExploreS.TExplorationSite.Meta
-        {
-            // Dungeon.pas:108
-            public override int ClassID() => Aow.Units.Dungeon.TDungeon.ClassID;
-
-            // Dungeon.pas:33
-            public new Aow.Units.Dungeon.TDungeon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Dungeon.TDungeon)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Dungeon.TDungeon => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TDungeonResource (instance size 108, VMT 557C57F0): $68 FPrisonerCollections. }
@@ -414,17 +403,6 @@ namespace Aow.Units.Dungeon
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.ExploreS.TExplorationSiteResource.Meta
-        {
-            // Dungeon.pas:280
-            public override int ClassID() => Aow.Units.Dungeon.TDungeonResource.ClassID;
-
-            // Dungeon.pas:53
-            public new Aow.Units.Dungeon.TDungeonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Dungeon.TDungeonResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Dungeon.TDungeonResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TPrisonersJoinEventLog (instance size 64, VMT 557C58EC): $3C FX, $3D FY, $3E FL. }

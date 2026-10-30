@@ -55,16 +55,6 @@ namespace Aow.Units.AltIce
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Altar.TAltar.Meta
-        {
-            // AltIce.pas:36
-            public override int ClassID() => Aow.Units.AltIce.TAltarOfIce.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AltIce.TAltarOfIce => (Meta)MetaRegistry.Of(typeof(T));
-            // intf_P1_09.inc:249
-            public new Aow.Units.AltIce.TAltarOfIce Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltIce.TAltarOfIce)base.Create(AOwner);
-        }
     }
 
     // { TAltarOfIceResource (instance size 116, no added fields, VMT 557CFDA0) }
@@ -99,17 +89,6 @@ namespace Aow.Units.AltIce
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
-        {
-            // AltIce.pas:52
-            public override int ClassID() => Aow.Units.AltIce.TAltarOfIceResource.ClassID;
-
-            // AltIce.pas:26
-            public new Aow.Units.AltIce.TAltarOfIceResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltIce.TAltarOfIceResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.AltIce.TAltarOfIceResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class AltIce

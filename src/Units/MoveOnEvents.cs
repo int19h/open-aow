@@ -247,14 +247,6 @@ namespace Aow.Units.MoveOnEvents
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
-        {
-            // MoveOnEvents.pas:48
-            public new Aow.Units.MoveOnEvents.TMoveOnEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MoveOnEvents.TMoveOnEventResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MoveOnEvents.TMoveOnEventResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TChangeSongMoveOnEvent (instance size 28, VMT 557D2CD0) }
@@ -294,16 +286,6 @@ namespace Aow.Units.MoveOnEvents
             SetTriggerPlayer(unchecked((sbyte)Player), false);
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // MoveOnEvents.pas:277
-            public override int ClassID() => Aow.Units.MoveOnEvents.TChangeSongMoveOnEvent.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MoveOnEvents.TChangeSongMoveOnEvent => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.MoveOnEvents.TChangeSongMoveOnEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MoveOnEvents.TChangeSongMoveOnEvent)base.Create(AOwner);
-        }
     }
 
     // { TChangeSongMoveOnEventResource (instance size 52, VMT 557D2E98) }
@@ -332,16 +314,6 @@ namespace Aow.Units.MoveOnEvents
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.MoveOnEvents.TMoveOnEventResource.Meta
-        {
-            // MoveOnEvents.pas:301
-            public override int ClassID() => Aow.Units.MoveOnEvents.TChangeSongMoveOnEventResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MoveOnEvents.TChangeSongMoveOnEventResource => (Meta)MetaRegistry.Of(typeof(T));
-            // MoveOnEvents.pas:48
-            public new Aow.Units.MoveOnEvents.TChangeSongMoveOnEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MoveOnEvents.TChangeSongMoveOnEventResource)base.Create(AOwner);
-        }
     }
 
     // { TPlaySampleMoveOnEvent (instance size 28, VMT 557D2FA8) }
@@ -376,16 +348,6 @@ namespace Aow.Units.MoveOnEvents
             SetTriggerPlayer(unchecked((sbyte)Player), false);
         }
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // MoveOnEvents.pas:307
-            public override int ClassID() => Aow.Units.MoveOnEvents.TPlaySampleMoveOnEvent.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MoveOnEvents.TPlaySampleMoveOnEvent => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.MoveOnEvents.TPlaySampleMoveOnEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MoveOnEvents.TPlaySampleMoveOnEvent)base.Create(AOwner);
-        }
     }
 
     // { TPlaySampleMoveOnEventResource (instance size 52, VMT 557D3170) }
@@ -414,16 +376,6 @@ namespace Aow.Units.MoveOnEvents
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.MoveOnEvents.TMoveOnEventResource.Meta
-        {
-            // MoveOnEvents.pas:328
-            public override int ClassID() => Aow.Units.MoveOnEvents.TPlaySampleMoveOnEventResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MoveOnEvents.TPlaySampleMoveOnEventResource => (Meta)MetaRegistry.Of(typeof(T));
-            // MoveOnEvents.pas:48
-            public new Aow.Units.MoveOnEvents.TPlaySampleMoveOnEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MoveOnEvents.TPlaySampleMoveOnEventResource)base.Create(AOwner);
-        }
     }
 
     // { TShowMessageMoveOnEvent (instance size 28, VMT 557D3280) }
@@ -476,17 +428,6 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:93
 
 
-        public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
-        {
-            // MoveOnEvents.pas:346
-            public override int ClassID() => Aow.Units.MoveOnEvents.TShowMessageMoveOnEvent.ClassID;
-
-            // MoveOnEvents.pas:93
-            public new Aow.Units.MoveOnEvents.TShowMessageMoveOnEvent Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MoveOnEvents.TShowMessageMoveOnEvent)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MoveOnEvents.TShowMessageMoveOnEvent => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TShowMessageMoveOnEventResource (instance size 52, VMT 557D3434) }
@@ -515,16 +456,6 @@ namespace Aow.Units.MoveOnEvents
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.MoveOnEvents.TMoveOnEventResource.Meta
-        {
-            // MoveOnEvents.pas:375
-            public override int ClassID() => Aow.Units.MoveOnEvents.TShowMessageMoveOnEventResource.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MoveOnEvents.TShowMessageMoveOnEventResource => (Meta)MetaRegistry.Of(typeof(T));
-            // MoveOnEvents.pas:48
-            public new Aow.Units.MoveOnEvents.TShowMessageMoveOnEventResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MoveOnEvents.TShowMessageMoveOnEventResource)base.Create(AOwner);
-        }
     }
 
     public static partial class MoveOnEvents

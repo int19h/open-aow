@@ -169,17 +169,6 @@ namespace Aow.Units.MagicSanctuary
         // MagicSanctuary.pas:33
 
 
-        public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
-        {
-            // MagicSanctuary.pas:124
-            public override int ClassID() => Aow.Units.MagicSanctuary.TMagicSanctuary.ClassID;
-
-            // MagicSanctuary.pas:33
-            public new Aow.Units.MagicSanctuary.TMagicSanctuary Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MagicSanctuary.TMagicSanctuary)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MagicSanctuary.TMagicSanctuary => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { TMagicSanctuaryResource (instance size 100, VMT 557D4464) }
@@ -219,17 +208,6 @@ namespace Aow.Units.MagicSanctuary
             return Result;
         }
 
-        public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
-        {
-            // MagicSanctuary.pas:160
-            public override int ClassID() => Aow.Units.MagicSanctuary.TMagicSanctuaryResource.ClassID;
-
-            // MagicSanctuary.pas:43
-            public new Aow.Units.MagicSanctuary.TMagicSanctuaryResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MagicSanctuary.TMagicSanctuaryResource)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MagicSanctuary.TMagicSanctuaryResource => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     public static partial class MagicSanctuary

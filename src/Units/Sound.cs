@@ -845,17 +845,6 @@ namespace Aow.Units.Sound
         public Aow.Rtl.TStringList Songs { get => FSongs; set => SetSongs(value); }
         public Aow.Rtl.TStringList SongNames { get => FSongNames; }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // Sound.pas:801
-            public override int ClassID() => Aow.Units.Sound.TSonglist.ClassID;
-
-            // Sound.pas:243
-            public new Aow.Units.Sound.TSonglist Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sound.TSonglist)base.Create(AOwner);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sound.TSonglist => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Sound.TSongPlayer (instance size 40): +4 FCurrentSong, +8 FStatus, +$C FSongs, +$10
@@ -1215,17 +1204,6 @@ namespace Aow.Units.Sound
 
         public Aow.Rtl.AnsiString FileName { get => FFileName; set => FFileName = value; }
 
-        public new partial class Meta : Aow.Units.Engine.TEObject.Meta
-        {
-            // Sound.pas:1022
-            // { TSFX }
-            public override int ClassID() => Aow.Units.Sound.TSFX.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sound.TSFX => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:524
-            public new Aow.Units.Sound.TSFX Create(TECustomNode owner) => (Aow.Units.Sound.TSFX)base.Create(owner);
-        }
     }
 
     // { Sound.TSFXSequence (instance size 16): +$C FID. A sound effect: its children are TSFX, one
@@ -1297,17 +1275,6 @@ namespace Aow.Units.Sound
 
         public SFXAccessor SFX => new SFXAccessor(this);
 
-        public new partial class Meta : Aow.Units.Engine.TENode.Meta
-        {
-            // Sound.pas:1047
-            // { TSFXSequence }
-            public override int ClassID() => Aow.Units.Sound.TSFXSequence.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sound.TSFXSequence => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:631
-            public new Aow.Units.Sound.TSFXSequence Create(TECustomNode owner) => (Aow.Units.Sound.TSFXSequence)base.Create(owner);
-        }
     }
 
     // { Sound.TSFXLibrary (instance size 12): the sound effects (TSFXSequence children) by ID. }
@@ -1438,17 +1405,6 @@ namespace Aow.Units.Sound
 
         public SFXSequencesAccessor SFXSequences => new SFXSequencesAccessor(this);
 
-        public new partial class Meta : Aow.Units.Engine.TENode.Meta
-        {
-            // Sound.pas:1083
-            // { TSFXLibrary }
-            public override int ClassID() => Aow.Units.Sound.TSFXLibrary.ClassID;
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sound.TSFXLibrary => (Meta)MetaRegistry.Of(typeof(T));
-            // Engine.pas:631
-            public new Aow.Units.Sound.TSFXLibrary Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sound.TSFXLibrary)base.Create(AOwner);
-        }
     }
 
     // { Sound.TSampleList (instance size 16): every TSample (ProcessSound updates them) }

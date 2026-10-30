@@ -52,21 +52,20 @@ public sealed class MapNetSoundConstructionTests
         var engine = new TEngine(null!);
         var owner = new Owner();
         TECustomNode argument = owned ? type == typeof(TMapContainer) ? new THSMap(null!) : owner : null!;
-        var meta = (TEObject.Meta)MetaRegistry.Of(type);
-        var previous = (EClass?)engine.FClassTable.Find(meta.ClassID());
+        var meta = EClass.Of(type);
+        var previous = (EClass?)engine.FClassTable.Find(meta.ClassID);
         if (previous is not null) engine.UnregisterEClasses([previous]);
         engine.RegisterEClasses([EClass.Of(type)]);
         var direct = type == typeof(TMapLevel) ? TMapLevel.Create(argument)
             : (TEObject)Activator.CreateInstance(type, [argument])!;
-        TEObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID(), argument)];
+        TEObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
         try
         {
-            Assert.Throws<InvalidOperationException>(() => meta.NewInstance());
             foreach (var value in values)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
-                Assert.Same(meta, value.ClassType);
+                Assert.Same(meta, value.EClass);
                 AssertState(value);
             }
             Assert.Equal(owned && type != typeof(TMapField) && type != typeof(TMapContainer) ? 3 : 0, owner.Members.Count);
