@@ -9,7 +9,7 @@ public static partial class Rtl
     public static string Format(string? format, params TVarRec[] args)
     {
         var result = new StringBuilder();
-        string text = format ?? "";
+        string text = RequireString(format);
         int next = 0;
         for (int i = 0; i < text.Length; i++)
         {

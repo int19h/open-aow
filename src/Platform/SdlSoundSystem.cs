@@ -4,7 +4,7 @@ using SoundApi = Aow.Units.Sound.Sound;
 
 namespace Aow.Platform;
 
-public class TSdlSoundSystem : TSoundSystem, ISoundSystemClass
+public class TSdlSoundSystem : TSoundSystem
 {
     private static bool muted = true, useOutput;
     private static TSdlSoundSystem? active;
@@ -21,16 +21,14 @@ public class TSdlSoundSystem : TSoundSystem, ISoundSystemClass
     {
         muted = mute || Environment.GetEnvironmentVariable("AOW_MUTE") == "1";
         useOutput = audioOutput;
-        if (SoundApi.SoundSystems.Find("SDL") is null) SoundApi.RegisterSoundSystem(SoundSystemClass.Of<TSdlSoundSystem>());
-        if (SoundApi.SoundSystems.Find("Galaxy") is null) SoundApi.RegisterSoundSystem(Aliases.Galaxy);
+        if (SoundApi.SoundSystems.Find("SDL") is null) SoundApi.RegisterSoundSystem(Descriptor);
+        if (SoundApi.SoundSystems.Find("Galaxy") is null) SoundApi.RegisterSoundSystem(Galaxy);
     }
     public static AnsiString Name => "SDL";
-    private static class Aliases
-    {
-        internal static readonly SoundSystemClass Galaxy = SoundSystemClass.Of<TSdlSoundSystem>().Alias("Galaxy");
-    }
-    public static SampleClass Samples { get; } = new(static data => SdlSample.Create(active!.Mixer, data));
-    public static SampleDataClass SampleData { get; } = new(SdlSampleData.Create, SdlSampleData.CreateEx);
+    public static SoundSystemClass Descriptor { get; } = new("SDL", static () => new TSdlSoundSystem());
+    public static SoundSystemClass Galaxy { get; } = new("Galaxy", static () => new TSdlSoundSystem());
+    public static SampleClass Samples { get; } = new("SdlSample", static data => SdlSample.Create(active!.Mixer, data));
+    public static SampleDataClass SampleData { get; } = new("SdlSampleData", SdlSampleData.Create, SdlSampleData.CreateEx);
     protected internal override SampleClass SampleClass() => Samples;
     protected internal override SampleDataClass SampleDataClass() => SampleData;
     protected internal override bool Activate(in TSoundSettings value)

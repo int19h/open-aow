@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Aow.Rtl.Tests")]
+using Aow.Rtl;
 
 namespace Aow.Units.Engine;
 
@@ -10,8 +8,7 @@ namespace Aow.Units.Engine;
 //   and registration allocates no instance. }
 public sealed class EClass
 {
-    private static readonly Dictionary<Type, EClass> entries = [];
-    private static readonly List<EClass> order = [];
+    private static readonly Catalog<Type, EClass> catalog = new("engine class");
     private readonly Func<TECustomNode, TEObject> create;
 
     private EClass(Type type, int classId, EClass parent, Func<TECustomNode, TEObject> create, int instanceSize)
@@ -35,20 +32,14 @@ public sealed class EClass
     public override string ToString() => ClassName;
 
     // Every registered descriptor in registration order.
-    public static IReadOnlyList<EClass> All
-    {
-        get { lock (entries) return order.ToArray(); }
-    }
+    public static IReadOnlyList<EClass> All => catalog.All;
 
     public static EClass Of<T>() where T : TEObject => Of(typeof(T));
 
-    public static EClass Of(Type type)
-    {
-        ArgumentNullException.ThrowIfNull(type);
-        lock (entries)
-            return entries.TryGetValue(type, out var found) ? found
-                : throw new InvalidOperationException($"Class {type} has no engine class descriptor.");
-    }
+    public static EClass Of(Type type) => catalog[type];
+
+    public static EClass Register<T>(int classId, Func<TECustomNode, T> create, int instanceSize)
+        where T : TEObject => Register(typeof(T), classId, create, instanceSize);
 
     public static EClass Register(Type type, int classId, Func<TECustomNode, TEObject> create, int instanceSize)
     {
@@ -57,15 +48,7 @@ public sealed class EClass
         if (!typeof(TEObject).IsAssignableFrom(type))
             throw new ArgumentException("An engine class descriptor represents a TEObject descendant.", nameof(type));
         ArgumentOutOfRangeException.ThrowIfNegative(instanceSize);
-        lock (entries)
-        {
-            if (entries.ContainsKey(type))
-                throw new InvalidOperationException("An engine class is registered once per type.");
-            var parent = type == typeof(TEObject) ? null : Of(type.BaseType);
-            var result = new EClass(type, classId, parent, create, instanceSize);
-            entries.Add(type, result);
-            order.Add(result);
-            return result;
-        }
+        var parent = type == typeof(TEObject) ? null : Of(type.BaseType);
+        return catalog.Add(type, new EClass(type, classId, parent, create, instanceSize));
     }
 }

@@ -4,4 +4,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Aow.Rtl.Tests" />
+    <InternalsVisibleTo Include="Aow.Units" />
+  </ItemGroup>
 </Project>

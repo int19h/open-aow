@@ -27,9 +27,9 @@ public sealed class SysUtilsTests
         Assert.Equal(default, StringOfChar(255, -1));
         Assert.Equal(AnsiString.FromBytes(255, 255), StringOfChar(255, 2));
         Assert.Equal((AnsiString)"'a''b\0c'", QuotedStr("a'b\0c"));
-        Assert.Equal((AnsiString)"''", QuotedStr(default));
+        Assert.Equal((AnsiString)"''", QuotedStr(default(AnsiString)));
         Assert.Equal(3, AnsiPos("\0b", "aa\0bb"));
-        Assert.Equal(0, AnsiPos(default, "aa"));
+        Assert.Equal(0, AnsiPos(default(AnsiString), "aa"));
         Assert.Equal(0, AnsiPos("z", "aa"));
     }
 
@@ -57,7 +57,7 @@ public sealed class SysUtilsTests
         Assert.Equal(128, CompareText("\xff", "\x7f"));
         Assert.Equal(0, AnsiCompareStr("\xad", "\0"));
         Assert.True(AnsiCompareStr("A", "a") < 0);
-        Assert.Equal(0, AnsiCompareText((AnsiString)"\xc0\x8a\x8c\x9f", "\xe0\x9a\x9c\xff"));
+        Assert.Equal(0, AnsiCompareText(AnsiString.FromBytes(0xc0, 0x8a, 0x8c, 0x9f), AnsiString.FromBytes(0xe0, 0x9a, 0x9c, 0xff)));
         Assert.True(AnsiCompareText("ab", "ABC") < 0);
         Assert.Equal((AnsiString)"a \0", TrimLeft("\t a \0"));
         Assert.Equal((AnsiString)"\0 a", TrimRight("\0 a\t\0"));

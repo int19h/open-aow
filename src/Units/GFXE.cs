@@ -2661,22 +2661,13 @@ namespace Aow.Units.GFXE
     public partial class TImageFile : Aow.Rtl.TObject, IImageFileClass
     {
         // GFXE.pas:693
-        public static Aow.Rtl.AnsiString GetName()
-        {
-            throw EAbstractError.Create("Abstract Error");
-        }
+        public static Aow.Rtl.AnsiString Name => throw EAbstractError.Create("Abstract Error");
 
         // GFXE.pas:694
-        public static Aow.Rtl.AnsiString GetExtension()
-        {
-            throw EAbstractError.Create("Abstract Error");
-        }
+        public static Aow.Rtl.AnsiString Extension => throw EAbstractError.Create("Abstract Error");
 
         // GFXE.pas:695
-        public static Aow.Rtl.AnsiString GetDescription()
-        {
-            throw EAbstractError.Create("Abstract Error");
-        }
+        public static Aow.Rtl.AnsiString Description => throw EAbstractError.Create("Abstract Error");
 
         // GFXE.pas:696
         public static int GetPixelFormatID(Aow.Rtl.AnsiString FileName)
@@ -3078,7 +3069,7 @@ namespace Aow.Units.GFXE
                 bool bool__152 = (I != Count);
                 if (bool__152)
                 {
-                    var call__153 = ((Aow.Units.GFXE.ImageFileClass)List[I]).GetExtension();
+                    var call__153 = ((Aow.Units.GFXE.ImageFileClass)List[I]).Extension;
                     bool__152 = (Aow.Rtl.Rtl.CompareText(call__153, Ext) != 0);
                 }
 
@@ -3139,20 +3130,10 @@ namespace Aow.Units.GFXE
     public partial class TBMPImageFile : Aow.Units.GFXE.TImageFile, IImageFileClass
     {
         // GFXE.pas:9043
-        public static new Aow.Rtl.AnsiString GetExtension()
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = (AnsiString)"BMP";
-            return Result;
-        }
+        public static new Aow.Rtl.AnsiString Extension => (AnsiString)"BMP";
 
         // GFXE.pas:9048
-        public static new Aow.Rtl.AnsiString GetDescription()
-        {
-            Aow.Rtl.AnsiString Result = default;
-            Result = (AnsiString)"Bitmap files (*.bmp)";
-            return Result;
-        }
+        public static new Aow.Rtl.AnsiString Description => (AnsiString)"Bitmap files (*.bmp)";
 
         // GFXE.pas:9053
         public static new int GetPixelFormatID(Aow.Rtl.AnsiString FileName)
@@ -3335,9 +3316,9 @@ namespace Aow.Units.GFXE
                     }
 
                     var call__62 = Aow.Units.GFXE.GFXE.ImageFileClassList.Classes[I];
-                    var call__63 = call__62.GetDescription();
+                    var call__63 = call__62.Description;
                     var call__64 = Aow.Units.GFXE.GFXE.ImageFileClassList.Classes[I];
-                    var call__65 = call__64.GetExtension();
+                    var call__65 = call__64.Extension;
                     Result = ((Result + call__63) + ((AnsiString)"|*.")) + call__65;
                 }
             }
@@ -3424,7 +3405,7 @@ namespace Aow.Units.GFXE
                 int end__74 = AClasses.Length - 1;
                 for (; I <= end__74; I += 1)
                 {
-                    var call__75 = AClasses[I].GetExtension();
+                    var call__75 = AClasses[I].Extension;
                     var call__76 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__75);
                     if (call__76 == null)
                     {
@@ -3432,7 +3413,7 @@ namespace Aow.Units.GFXE
                     }
                     else
                     {
-                        var call__77 = AClasses[I].GetExtension();
+                        var call__77 = AClasses[I].Extension;
                         var call__78 = Aow.Rtl.Exception.Create((((AnsiString)"ImageFile class with ") + call__77) + ((AnsiString)" extension is already registered"));
                         throw call__78;
                     }

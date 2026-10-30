@@ -2360,9 +2360,9 @@ namespace Aow.Units.ImageLib
         lmLoadFreeOnDemand = 2
     }
 
-    public partial class TGrabInfo : Aow.Rtl.TObject, IGrabInfoClass
+    public partial class TGrabInfo : Aow.Rtl.TObject
     {
-        static TGrabInfo IGrabInfoClass.Create() => new TGrabInfo();
+        public static GrabInfoClass Descriptor { get; } = new("TGrabInfo", static () => new TGrabInfo());
 
         public int TransparentColor;
         public bool FindRectangles;
@@ -2394,7 +2394,7 @@ namespace Aow.Units.ImageLib
         public virtual Aow.Units.ImageLib.GrabInfoClass GrabInfoClass()
         {
             Aow.Units.ImageLib.GrabInfoClass Result = default;
-            Result = Aow.Units.ImageLib.GrabInfoClass.Of<Aow.Units.ImageLib.TGrabInfo>();
+            Result = Descriptor;
             return Result;
         }
 
@@ -5542,9 +5542,9 @@ namespace Aow.Units.ImageLib
 
     // { ImageLib.TBitMaskGrabInfo (instance size 28): +$18 Inverse (grab the non-transparent
 //     rectangle with MinimizeInvTransparentRect). }
-    public partial class TBitMaskGrabInfo : Aow.Units.ImageLib.TGrabInfo, IGrabInfoClass
+    public partial class TBitMaskGrabInfo : Aow.Units.ImageLib.TGrabInfo
     {
-        static TGrabInfo IGrabInfoClass.Create() => new TBitMaskGrabInfo();
+        public static new GrabInfoClass Descriptor { get; } = new("TBitMaskGrabInfo", static () => new TBitMaskGrabInfo());
 
         public bool Inverse;
         // ImageLib.pas:4638
@@ -5566,7 +5566,7 @@ namespace Aow.Units.ImageLib
         public override Aow.Units.ImageLib.GrabInfoClass GrabInfoClass()
         {
             Aow.Units.ImageLib.GrabInfoClass Result = default;
-            Result = Aow.Units.ImageLib.GrabInfoClass.Of<Aow.Units.ImageLib.TBitMaskGrabInfo>();
+            Result = Descriptor;
             return Result;
         }
 

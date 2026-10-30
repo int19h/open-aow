@@ -44,6 +44,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void CompareUsesUnsignedBytesOverEveryPair()
     {
+        using var mode = new StringMode(false);
         for (int a = 0; a < 256; a++)
             for (int b = 0; b < 256; b++)
                 Assert.Equal(a - b, Cp1252.Compare(Cp1252.Text((byte)a), Cp1252.Text((byte)b)));
@@ -53,12 +54,13 @@ public sealed class Cp1252Tests
         Assert.Equal(0, Cp1252.Compare(null, ""));
         Assert.Equal(-1, Cp1252.Compare(null, "x"));
         Assert.Equal(1, Cp1252.Compare("x", null));
-        Assert.Equal(0, Cp1252.Compare("\u2603", "?"));
+        Assert.True(Cp1252.Compare("\u2603", "?") > 0);
     }
 
     [Fact]
     public void DecodeEncodeRoundTripsRandomBuffersIncludingEmbeddedZeros()
     {
+        using var mode = new StringMode(false);
         var random = new Random(9501);
         foreach (int length in new[] { 0, 1, 2, 3, 31, 256, 4096 })
         {
@@ -119,5 +121,121 @@ public sealed class Cp1252Tests
         }
         Assert.Equal("?", Rtl.Format("%s", '\u2603'));
         Assert.Equal("?", Rtl.Format("%s", "\u0080"));
+    }
+
+    [Fact]
+    public void OneEncoderMatchesTheFrozenMapForEveryCharAndEveryProducer()
+    {
+        var inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
+        string text = new(Enumerable.Range(0, char.MaxValue + 1).Select(i => (char)i).ToArray());
+        byte[] expected = text.Select(c => inverse.GetValueOrDefault(c, (byte)63)).ToArray();
+        string normalized = new(expected.Select(ExpectedChar).ToArray());
+        Assert.Equal(expected, Cp1252.Encode(text));
+        Assert.Equal(expected, Rtl.StringBytes((AnsiString)text).ToArray());
+        Assert.Equal(expected, Rtl.StringBytes(((TVarRec)text).Str).ToArray());
+        Assert.Equal(normalized, ((AnsiString)text).ToString());
+        Assert.Equal(normalized, Cp1252.Normalize(text));
+        Assert.Equal(normalized, Rtl.Format("%s", text));
+        Assert.Equal(normalized, Rtl.Format((AnsiString)"%s", text).ToString());
+        int changed = 0;
+        for (int i = 0; i <= char.MaxValue; i++)
+        {
+            char c = (char)i;
+            string single = c.ToString();
+            Assert.Equal(inverse.ContainsKey(c), Cp1252.IsMapped(c));
+            Assert.Equal(expected[i], Cp1252.Byte(c));
+            Assert.Equal(expected[i], ((AnsiString)single)[1]);
+            Assert.Equal(expected[i], ((TVarRec)c).Chr);
+            Assert.Equal(expected[i], ((TVarRec)single).Str[1]);
+            Assert.Equal(normalized[i].ToString(), Rtl.Format("%s", c));
+            Assert.Equal(normalized[i].ToString(), Rtl.Format((AnsiString)"%s", c).ToString());
+            Assert.Equal(normalized[i].ToString(), Cp1252.Normalize(single));
+
+            // The old shim accepted Latin-1 C1 escapes before consulting its CP1252 table.
+            byte oldShim = c <= 255 ? (byte)c : inverse.GetValueOrDefault(c, (byte)63);
+            bool correctedC1 = c is >= '\u0080' and <= '\u009f' && !inverse.ContainsKey(c);
+            Assert.Equal(correctedC1, oldShim != expected[i]);
+            if (correctedC1)
+            {
+                Assert.Equal((byte)63, expected[i]);
+                changed++;
+            }
+        }
+        Assert.Equal(27, changed);
+        Assert.Equal(256, text.Count(Cp1252.IsMapped));
+    }
+
+    [Fact]
+    public void EveryBytePairKeepsTheExistingRoutineOrder()
+    {
+        foreach (var (textCompare, byteCompare) in new[] {
+            ((Func<string?, string?, int>)Rtl.CompareStr, (Func<AnsiString, AnsiString, int>)Rtl.CompareStr),
+            (Rtl.CompareText, Rtl.CompareText), (Rtl.AnsiCompareStr, Rtl.AnsiCompareStr),
+            (Rtl.AnsiCompareText, Rtl.AnsiCompareText) })
+            for (int a = 0; a < 256; a++)
+                for (int b = 0; b < 256; b++)
+                    Assert.Equal(byteCompare(AnsiString.FromBytes((byte)a), AnsiString.FromBytes((byte)b)),
+                        textCompare(ExpectedChar((byte)a).ToString(), ExpectedChar((byte)b).ToString()));
+    }
+
+    [Fact]
+    public void UnmappedCharsKeepTheirCaseAndOrderAfterEveryMappedChar()
+    {
+        var mapped = Enumerable.Range(0, 256).Select(i => ExpectedChar((byte)i)).ToHashSet();
+        for (int i = 0; i <= char.MaxValue; i++)
+        {
+            char c = (char)i;
+            if (mapped.Contains(c)) continue;
+            string text = c.ToString();
+            Assert.Equal(text, Rtl.UpperCase(text));
+            Assert.Equal(text, Rtl.LowerCase(text));
+            Assert.Equal(text, Rtl.AnsiUpperCase(text));
+            Assert.Equal(text, Rtl.AnsiLowerCase(text));
+            foreach (Func<string?, string?, int> compare in new Func<string?, string?, int>[] {
+                Cp1252.Compare, Rtl.CompareStr, Rtl.CompareText, Rtl.AnsiCompareStr, Rtl.AnsiCompareText })
+            {
+                Assert.Equal(256 + c - 255, compare(text, "\u00ff"));
+                Assert.Equal(255 - 256 - c, compare("\u00ff", text));
+                Assert.Equal(0, compare(text, text));
+                if (i < char.MaxValue && !mapped.Contains((char)(i + 1)))
+                    Assert.Equal(-1, compare(text, ((char)(i + 1)).ToString()));
+            }
+        }
+        foreach (char c in mapped)
+            Assert.True(Cp1252.Compare(c.ToString(), "\u0080") < 0);
+    }
+
+    [Fact]
+    public void CompareAndComparerGiveAnInjectiveTotalOrderOutsideTheImage()
+    {
+        var random = new Random(95102);
+        string Next() => new(Enumerable.Range(0, random.Next(9)).Select(_ => (char)random.Next(65536)).ToArray());
+        var inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => i);
+        int Key(char c) => inverse.GetValueOrDefault(c, 256 + c);
+        int Expected(string a, string b)
+        {
+            for (int i = 0; i < Math.Min(a.Length, b.Length); i++)
+            {
+                int difference = Key(a[i]) - Key(b[i]);
+                if (difference != 0) return difference;
+            }
+            return a.Length - b.Length;
+        }
+        for (int run = 0; run < 4096; run++)
+        {
+            string a = Next();
+            string b = run % 3 == 0 ? new string(a.ToCharArray()) : run % 3 == 1 ? a + Next() : Next();
+            string c = Next();
+            int order = Cp1252.Compare(a, b);
+            Assert.Equal(Expected(a, b), order);
+            Assert.Equal(a == b, order == 0);
+            Assert.Equal(order, Rtl.CompareStr(a, b));
+            Assert.Equal(order, Cp1252.Comparer.Compare(a, b));
+            Assert.Equal(-order, Cp1252.Compare(b, a));
+            if (order <= 0 && Cp1252.Compare(b, c) <= 0) Assert.True(Cp1252.Compare(a, c) <= 0);
+        }
+        string[] values = ["\u0080", "?", "\u20ac", "\u00ff", "\u2603", "\u0081", "\ud800", "\0"];
+        string[] sorted = values.Order(Cp1252.Comparer).ToArray();
+        Assert.Equal(new[] { "\0", "?", "\u20ac", "\u0081", "\u00ff", "\u0080", "\u2603", "\ud800" }, sorted);
     }
 }

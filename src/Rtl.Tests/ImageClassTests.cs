@@ -9,6 +9,26 @@ namespace Aow.Rtl.Tests;
 
 public sealed class ImageClassTests
 {
+    private sealed class UnregisteredImage(TCustomImageLibrary owner) : Aow.Units.ImageLib.TLibraryImage(owner);
+    private sealed class UnregisteredImageFile : TImageFile;
+
+    [Fact]
+    public void ImageDescriptorsRequireExplicitRegistration()
+    {
+        Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of<UnregisteredImage>());
+        Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of(typeof(UnregisteredImage)));
+        Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of<UnregisteredImageFile>());
+        Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of(typeof(UnregisteredImageFile)));
+        Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Register<TPicture08>());
+        Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<TBMPImageFile>());
+        Assert.Equal("TPicture08", LibraryImageClass.Of<TPicture08>().ClassName);
+        var types = typeof(Aow.Units.ImageLib.TLibraryImage).Assembly.GetTypes();
+        Assert.Equal(types.Where(t => t.IsClass && typeof(ILibraryImageClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(),
+            LibraryImageClass.All.Where(c => c.Type.Assembly == typeof(Aow.Units.ImageLib.TLibraryImage).Assembly).Select(c => c.Type.FullName).Order());
+        Assert.Equal(types.Where(t => t.IsClass && typeof(IImageFileClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(),
+            ImageFileClass.All.Select(c => c.Type.FullName).Order());
+    }
+
     private sealed record Baseline(string Type, int ClassID, byte ClassVersion, string Name);
 
     [Fact]
@@ -81,8 +101,8 @@ public sealed class ImageClassTests
     [Fact]
     public void GrabInfoDescriptorCopiesTheRuntimeTypeAndAllFields()
     {
-        var descriptor = GrabInfoClass.Of<TBitMaskGrabInfo>();
-        Assert.Same(descriptor, GrabInfoClass.Of<TBitMaskGrabInfo>());
+        var descriptor = TBitMaskGrabInfo.Descriptor;
+        Assert.Equal("TBitMaskGrabInfo", descriptor.Name.ToString());
         var value = Assert.IsType<TBitMaskGrabInfo>(descriptor.Create());
         value.TransparentColor = 19;
         value.FindRectangles = true;
@@ -108,9 +128,11 @@ public sealed class ImageClassTests
         var descriptor = ImageFileClass.Of<TBMPImageFile>();
         Assert.Same(descriptor, ImageFileClass.Of<TBMPImageFile>());
         Assert.Equal(typeof(TBMPImageFile), descriptor.Type);
-        Assert.Equal("BMP", descriptor.GetExtension().ToString());
-        Assert.Equal("Bitmap files (*.bmp)", descriptor.GetDescription().ToString());
-        Assert.Throws<EAbstractError>(() => descriptor.GetName());
+        Assert.Same(descriptor, ImageFileClass.Of(typeof(TBMPImageFile)));
+        Assert.Equal("TBMPImageFile", descriptor.ClassName);
+        Assert.Equal("BMP", descriptor.Extension.ToString());
+        Assert.Equal("Bitmap files (*.bmp)", descriptor.Description.ToString());
+        Assert.Throws<EAbstractError>(() => descriptor.Name);
         var classes = new TImageFileClassList();
         classes.Add(descriptor);
         Assert.Same(descriptor, classes.FindClass(".bmp"));

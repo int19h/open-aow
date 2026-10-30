@@ -2,7 +2,7 @@ using Aow.Rtl;
 
 namespace Aow.Units.Sound;
 
-public sealed class NullSoundSystem : TSoundSystem, ISoundSystemClass
+public sealed class NullSoundSystem : TSoundSystem
 {
     private TSoundSettings settings;
     private int musicVolume, sfxVolume;
@@ -11,12 +11,13 @@ public sealed class NullSoundSystem : TSoundSystem, ISoundSystemClass
 
     public static void Install()
     {
-        Sound.RegisterSoundSystem(SoundSystemClass.Of<NullSoundSystem>());
+        Sound.RegisterSoundSystem(Descriptor);
         Sound.InitializeSoundSystem("Galaxy", default);
     }
 
     public static AnsiString Name => "Galaxy";
-    public static SampleClass Samples { get; } = new(NullSample.Create);
+    public static SoundSystemClass Descriptor { get; } = new("Galaxy", static () => new NullSoundSystem());
+    public static SampleClass Samples { get; } = new("NullSample", NullSample.Create);
     protected internal override SampleClass SampleClass() => Samples;
     protected internal override SampleDataClass SampleDataClass() => TSampleData.Descriptor;
     protected internal override bool Activate(in TSoundSettings value) { settings = value; FStatus = TSet<TSoundSystemStatusElement>.Of(TSoundSystemStatusElement.ssActivated); return true; }

@@ -273,7 +273,7 @@ public sealed class SystemTests
         Assert.Equal(-1, Assert.Throws<EHalt>(() => Halt(-1)).ExitCode);
         Assert.Equal((AnsiString)"broken (unit.pas, line 42)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, "broken", "unit.pas", 42)).Message);
         // SYSUTILS.PAS:5380 substitutes SAssertionFailed for an empty message.
-        Assert.Equal((AnsiString)"Assertion failed (unit.pas, line 1)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, default, "unit.pas", 1)).Message);
+        Assert.Equal((AnsiString)"Assertion failed (unit.pas, line 1)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, default(AnsiString), "unit.pas", 1)).Message);
         Rtl.Assert(true, "", "unit.pas", 1);
     }
 

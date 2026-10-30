@@ -163,7 +163,7 @@ public sealed class MapNetSoundFailureTests
         {
             var data = TSampleData.Create("reference");
             Assert.Equal(1, data.RefCount);
-            Assert.Throws<InvalidDataException>(() => new SampleClass(FailingSample.Create).Create(data));
+            Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).Create(data));
             Assert.Empty(SoundApi.SampleList.List.Take(SoundApi.SampleList.Count));
             Assert.Equal(1, data.RefCount);
             Assert.Same(data, SoundApi.SampleDataList.Find("reference"));
