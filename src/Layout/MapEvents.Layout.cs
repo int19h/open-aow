@@ -118,7 +118,7 @@ namespace Aow.Units.aowMapEvents
 
         private void Layout_TheMapShowMessage_11(TObject p0)
         {
-            TheMapShowMessage(ref Aow.Rtl.Ptr<Aow.Units.AoWE.TShowMessageInfo>.Unbox(p0).Value);
+            TheMapShowMessage(ref ((Aow.Units.AoWE.ShowMessageNotification)p0).Info);
         }
 
         private void Layout_TheMapHSChanged_12(TObject p0)
@@ -128,12 +128,12 @@ namespace Aow.Units.aowMapEvents
 
         private void Layout_TheMapMapChanged_13(TObject p0)
         {
-            TheMapMapChanged(ref Aow.Rtl.Ptr<Aow.Units.AoWE.TMapChangedInfo>.Unbox(p0).Value);
+            TheMapMapChanged(ref ((Aow.Units.AoWE.MapChangedNotification)p0).Info);
         }
 
         private void Layout_TheMapScannerIconsChanged_14(TObject p0)
         {
-            TheMapScannerIconsChanged(ref Aow.Rtl.Ptr<Aow.Units.AoWE.TMapChangedInfo>.Unbox(p0).Value);
+            TheMapScannerIconsChanged(ref ((Aow.Units.AoWE.MapChangedNotification)p0).Info);
         }
 
         private void Layout_TheMapCastSpell_15(TObject p0)
