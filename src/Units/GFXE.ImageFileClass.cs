@@ -4,9 +4,9 @@ namespace Aow.Units.GFXE;
 
 public interface IImageFileClass
 {
-    static abstract AnsiString GetName();
-    static abstract AnsiString GetExtension();
-    static abstract AnsiString GetDescription();
+    static abstract AnsiString Name { get; }
+    static abstract AnsiString Extension { get; }
+    static abstract AnsiString Description { get; }
     static abstract int GetPixelFormatID(AnsiString fileName);
     static abstract TSurface CreateSurface(AnsiString fileName);
     static abstract int LoadToSurfaceDesc(AnsiString fileName, ref TSurfaceDesc surface, int x, int y);
@@ -14,6 +14,7 @@ public interface IImageFileClass
 
 public sealed class ImageFileClass
 {
+    private static readonly Catalog<Type, ImageFileClass> catalog = new("image file class");
     private delegate int LoadImage(AnsiString fileName, ref TSurfaceDesc surface, int x, int y);
     private readonly Func<AnsiString> getName;
     private readonly Func<AnsiString> getExtension;
@@ -36,17 +37,17 @@ public sealed class ImageFileClass
     }
 
     public Type Type { get; }
-    public AnsiString GetName() => getName();
-    public AnsiString GetExtension() => getExtension();
-    public AnsiString GetDescription() => getDescription();
+    public string ClassName => TObject.ClassNameOf(Type);
+    public AnsiString Name => getName();
+    public AnsiString Extension => getExtension();
+    public AnsiString Description => getDescription();
     public int GetPixelFormatID(AnsiString fileName) => getPixelFormatID(fileName);
     public TSurface CreateSurface(AnsiString fileName) => createSurface(fileName);
     public int LoadToSurfaceDesc(AnsiString fileName, ref TSurfaceDesc surface, int x, int y) => loadToSurfaceDesc(fileName, ref surface, x, y);
-    public static ImageFileClass Of<T>() where T : TImageFile, IImageFileClass => Holder<T>.Value;
-
-    private static class Holder<T> where T : TImageFile, IImageFileClass
-    {
-        public static readonly ImageFileClass Value = new(typeof(T), T.GetName, T.GetExtension,
-            T.GetDescription, T.GetPixelFormatID, T.CreateSurface, T.LoadToSurfaceDesc);
-    }
+    public static ImageFileClass Register<T>() where T : TImageFile, IImageFileClass =>
+        catalog.Add(typeof(T), new ImageFileClass(typeof(T), static () => T.Name, static () => T.Extension,
+            static () => T.Description, T.GetPixelFormatID, T.CreateSurface, T.LoadToSurfaceDesc));
+    public static ImageFileClass Of<T>() where T : TImageFile, IImageFileClass => catalog[typeof(T)];
+    public static ImageFileClass Of(Type type) => catalog[type];
+    public static IReadOnlyList<ImageFileClass> All => catalog.All;
 }

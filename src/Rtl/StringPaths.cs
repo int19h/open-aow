@@ -11,13 +11,13 @@ public static partial class Rtl
 
     public static string ExtractFileName(string? name)
     {
-        name ??= "";
+        name = RequireString(name);
         return name[Delimiter(name)..];
     }
 
     public static string ExtractFileDrive(string? name)
     {
-        name ??= "";
+        name = RequireString(name);
         if (name.Length >= 2 && name[1] == ':') return name[..2];
         if (name.Length < 2 || name[0] != '\\' || name[1] != '\\') return "";
         int i = 3, separators = 0;
@@ -32,13 +32,13 @@ public static partial class Rtl
 
     public static string ExtractFilePath(string? name)
     {
-        name ??= "";
+        name = RequireString(name);
         return name[..Delimiter(name)];
     }
 
     public static string ExtractFileDir(string? name)
     {
-        name ??= "";
+        name = RequireString(name);
         int i = Delimiter(name);
         if (i > 1 && name[i - 1] == '\\' && name[i - 2] is not ('\\' or ':')) i--;
         return name[..i];
@@ -46,17 +46,21 @@ public static partial class Rtl
 
     public static string ExtractFileExt(string? name)
     {
-        name ??= "";
+        name = RequireString(name);
         int i = Delimiter(name, true);
         return i > 0 && name[i - 1] == '.' ? name[(i - 1)..] : "";
     }
 
     public static string ChangeFileExt(string? name, string? extension)
     {
-        name ??= "";
+        name = RequireString(name);
         int i = Delimiter(name, true);
-        return (i > 0 && name[i - 1] == '.' ? name[..(i - 1)] : name) + (extension ?? "");
+        return (i > 0 && name[i - 1] == '.' ? name[..(i - 1)] : name) + RequireString(extension);
     }
 
-    public static string ExpandFileName(string? name) => string.IsNullOrEmpty(name) ? "" : Files.ExpandPath(name);
+    public static string ExpandFileName(string? name)
+    {
+        name = RequireString(name);
+        return name.Length == 0 ? "" : Files.ExpandPath(name);
+    }
 }

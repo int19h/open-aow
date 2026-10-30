@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Concurrent;
+using Aow.Rtl;
 
 namespace Aow.Units.Engine;
 
@@ -12,12 +12,10 @@ public interface IEObjectEditorClass
     static abstract void Edit(TEObject Obj, TEngine AEngine, TEditDoneEvent Done);
 }
 
-// One descriptor per editor class: its engine descriptor, its editor class id and its Edit entry.
-// Holder<T> is the only constructor, so a type has one descriptor and the editor list compares by
-// reference.
+// One explicit registration per editor class keeps descriptor identity in the editor list.
 public sealed class EditorClass
 {
-    private static readonly ConcurrentDictionary<Type, EditorClass> byType = new();
+    private static readonly Catalog<Type, EditorClass> catalog = new("editor class");
     private readonly Action<TEObject, TEngine, TEditDoneEvent> edit;
 
     private EditorClass(EClass eclass, int editorClassId, Action<TEObject, TEngine, TEditDoneEvent> edit)
@@ -28,17 +26,13 @@ public sealed class EditorClass
     }
 
     public EClass Class { get; }
+    public string ClassName => Class.ClassName;
     public int EditorClassID { get; }
     public void Edit(TEObject Obj, TEngine AEngine, TEditDoneEvent Done) => edit(Obj, AEngine, Done);
 
-    public static EditorClass Of<T>() where T : TEObjectEditor, IEObjectEditorClass => Holder<T>.Value;
-
-    // The descriptor of a type known only at run time, read from the same Holder<T> as Of<T>().
-    public static EditorClass Of(Type type) => byType.GetOrAdd(type, static t =>
-        (EditorClass)typeof(Holder<>).MakeGenericType(t).GetField(nameof(Holder<TEObjectEditor>.Value))!.GetValue(null)!);
-
-    private static class Holder<T> where T : TEObjectEditor, IEObjectEditorClass
-    {
-        public static readonly EditorClass Value = new(EClass.Of<T>(), T.EditorClassID, static (obj, engine, done) => T.Edit(obj, engine, done));
-    }
+    public static EditorClass Register<T>() where T : TEObjectEditor, IEObjectEditorClass =>
+        catalog.Add(typeof(T), new EditorClass(EClass.Of<T>(), T.EditorClassID, static (obj, engine, done) => T.Edit(obj, engine, done)));
+    public static EditorClass Of<T>() where T : TEObjectEditor, IEObjectEditorClass => catalog[typeof(T)];
+    public static EditorClass Of(Type type) => catalog[type];
+    public static IReadOnlyList<EditorClass> All => catalog.All;
 }

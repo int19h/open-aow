@@ -182,6 +182,7 @@ public sealed class StringRoutineTests
     [Fact]
     public void NullArgumentsBehaveAsEmptyText()
     {
+        using var mode = new StringMode(false);
         Assert.Equal(0, Rtl.Length((string?)null));
         Assert.Equal("", Rtl.Copy((string?)null, 1, 3));
         Assert.Equal("", Rtl.Delete((string?)null, 1, 3));
@@ -220,6 +221,7 @@ public sealed class StringRoutineTests
     [Fact]
     public void AssertionMessagesMatchAnsiRoutine()
     {
+        using var mode = new StringMode(false);
         foreach (string text in new[] { "", "broken", "\u20ac" })
         {
             Rtl.Assert(true, text, "unit.pas", 42);

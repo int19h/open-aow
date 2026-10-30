@@ -152,4 +152,23 @@ public sealed class EClassTests
     private sealed class Unregistered : TEObject
     {
     }
+
+    private sealed class Registered(TECustomNode owner) : TEObject(owner);
+
+    [Fact]
+    public void GenericRegistrationUsesTheTypedFactoryAndPreservesTheEarlierSnapshot()
+    {
+        var previous = EClass.All;
+        var descriptor = EClass.Register<Registered>(TEObject.ClassID, static owner => new Registered(owner), 8);
+        Assert.Same(descriptor, EClass.Of<Registered>());
+        Assert.Same(descriptor, EClass.Of(typeof(Registered)));
+        Assert.Same(EClass.Of<TEObject>(), descriptor.Parent);
+        Assert.Equal(previous.Count + 1, EClass.All.Count);
+        Assert.Same(descriptor, EClass.All[^1]);
+        Assert.DoesNotContain(descriptor, previous);
+        var instance = descriptor.Create(null!);
+        try { Assert.IsType<Registered>(instance); }
+        finally { instance.Destroy(); }
+        Assert.Throws<InvalidOperationException>(() => EClass.Register<Registered>(0, static owner => new Registered(owner), 8));
+    }
 }

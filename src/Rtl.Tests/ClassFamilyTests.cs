@@ -14,6 +14,42 @@ namespace Aow.Rtl.Tests;
 // editors) that a list reads without an instance.
 public sealed class ClassFamilyTests
 {
+    private sealed class UnregisteredAction(TECustomNode owner) : TAIPlayerAction(owner);
+    private sealed class UnregisteredGroup(TECustomNode owner) : TAIGroup(owner);
+    private sealed class UnregisteredEditor(TECustomNode owner) : TEObjectEditor(owner);
+
+    [Fact]
+    public void UnregisteredTypesHaveNoFamilyDescriptor()
+    {
+        Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Of<UnregisteredAction>());
+        Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Of(typeof(UnregisteredAction)));
+        Assert.Throws<InvalidOperationException>(() => AIGroupClass.Of<UnregisteredGroup>());
+        Assert.Throws<InvalidOperationException>(() => AIGroupClass.Of(typeof(UnregisteredGroup)));
+        Assert.Throws<InvalidOperationException>(() => EditorClass.Of<UnregisteredEditor>());
+        Assert.Throws<InvalidOperationException>(() => EditorClass.Of(typeof(UnregisteredEditor)));
+    }
+
+    [Fact]
+    public void EachProductFamilyImplementorHasOneExplicitRegistration()
+    {
+        static void Verify(Type contract, IEnumerable<Type> registered)
+        {
+            var expected = typeof(TEObject).Assembly.GetTypes().Where(t => t.IsClass && contract.IsAssignableFrom(t)).Select(t => t.FullName).Order();
+            Assert.Equal(expected, registered.Where(t => t.Assembly == typeof(TEObject).Assembly).Select(t => t.FullName).Order());
+        }
+        Verify(typeof(IAIPlayerActionClass), AIPlayerActionClass.All.Select(c => c.Class.Type));
+        Verify(typeof(IAIGroupClass), AIGroupClass.All.Select(c => c.Class.Type));
+        Verify(typeof(IEObjectEditorClass), EditorClass.All.Select(c => c.Class.Type));
+        Assert.Throws<EAbstractError>(() => AIPlayerActionClass.Of<TAIPlayerAction>().Priority);
+        Assert.Throws<EAbstractError>(() => AIPlayerActionClass.Of<TStructureAIPA>().Priority);
+        Assert.Equal("TEndTurnAIPA", AIPlayerActionClass.Of<TEndTurnAIPA>().ClassName);
+        Assert.Equal("THuntAG", AIGroupClass.Of<THuntAG>().ClassName);
+        Assert.Equal("TEObjectEditor", EditorClass.Of<TEObjectEditor>().ClassName);
+        Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Register<TEndTurnAIPA>());
+        Assert.Throws<InvalidOperationException>(() => AIGroupClass.Register<THuntAG>());
+        Assert.Throws<InvalidOperationException>(() => EditorClass.Register<TEObjectEditor>());
+    }
+
     [Fact]
     public void ActionDescriptorsAreOnePerClassAndReadTheStatics()
     {
