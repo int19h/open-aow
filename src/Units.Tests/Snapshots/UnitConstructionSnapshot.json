@@ -1,0 +1,2079 @@
+{
+  "TAbstractUnit": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TAbstractUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TAbstractUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": "$owner"
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TAbstractUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null
+        }
+      },
+      "insert:2:0:0"
+    ]
+  },
+  "TAdjustableUnit": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TAdjustableUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TAdjustableUnit.FAttack": 4,
+          "TAdjustableUnit.FDamage": 3,
+          "TAdjustableUnit.FDefense": 2,
+          "TAdjustableUnit.FHitPoints": 5,
+          "TAdjustableUnit.FHits": 5,
+          "TAdjustableUnit.FImmunityTypes": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 256,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": true,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 9,
+            "TSet`1.low": 0
+          },
+          "TAdjustableUnit.FProtectionTypes": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAdjustableUnit.FResistance": 3,
+          "TAdjustableUnit.F_AdjustableUnit_46": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [
+            1,
+            0,
+            32
+          ],
+          "TCustomAbilityList.FAbilityCount": 22,
+          "TEObject.FOwner": null
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TAdjustableUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TAdjustableUnit.FAttack": 4,
+          "TAdjustableUnit.FDamage": 3,
+          "TAdjustableUnit.FDefense": 2,
+          "TAdjustableUnit.FHitPoints": 5,
+          "TAdjustableUnit.FHits": 5,
+          "TAdjustableUnit.FImmunityTypes": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 256,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": true,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 9,
+            "TSet`1.low": 0
+          },
+          "TAdjustableUnit.FProtectionTypes": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAdjustableUnit.FResistance": 3,
+          "TAdjustableUnit.F_AdjustableUnit_46": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [
+            1,
+            0,
+            32
+          ],
+          "TCustomAbilityList.FAbilityCount": 22,
+          "TEObject.FOwner": "$owner"
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TAdjustableUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TAdjustableUnit.FAttack": 4,
+          "TAdjustableUnit.FDamage": 3,
+          "TAdjustableUnit.FDefense": 2,
+          "TAdjustableUnit.FHitPoints": 5,
+          "TAdjustableUnit.FHits": 5,
+          "TAdjustableUnit.FImmunityTypes": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 256,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": true,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 9,
+            "TSet`1.low": 0
+          },
+          "TAdjustableUnit.FProtectionTypes": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAdjustableUnit.FResistance": 3,
+          "TAdjustableUnit.F_AdjustableUnit_46": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [
+            1,
+            0,
+            32
+          ],
+          "TCustomAbilityList.FAbilityCount": 22,
+          "TEObject.FOwner": null
+        }
+      },
+      "insert:2:0:0"
+    ]
+  },
+  "THero": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.THero",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.THero",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": "$owner",
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "insert:3:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.THero",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "insert:3:0:0"
+    ]
+  },
+  "THeroCastingViewP4": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.THeroCastingViewP4",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.THeroCastingViewP4",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": "$owner",
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "insert:3:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.THeroCastingViewP4",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "insert:3:0:0"
+    ]
+  },
+  "TLeader": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TLeader",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": "$ref:$.TLeader.FSpheres.TByteList.FList",
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TLeader.FSpherePicksMax": 5,
+          "TLeader.FSpheres": {
+            "$type": "Aow.Units.Engine.TByteList",
+            "TByteList.FCapacity": 0,
+            "TByteList.FCount": 0,
+            "TByteList.FDefault": 0,
+            "TByteList.FList": []
+          },
+          "TLeader.F_Leader_9D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TLeader",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": "$ref:$.TLeader.FSpheres.TByteList.FList",
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": "$owner",
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TLeader.FSpherePicksMax": 5,
+          "TLeader.FSpheres": {
+            "$type": "Aow.Units.Engine.TByteList",
+            "TByteList.FCapacity": 0,
+            "TByteList.FCount": 0,
+            "TByteList.FDefault": 0,
+            "TByteList.FList": []
+          },
+          "TLeader.F_Leader_9D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "insert:3:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TLeader",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": "$ref:$.TLeader.FSpheres.TByteList.FList",
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "THero.FCastSpellInstantly": false,
+          "THero.FCastingMana": 0,
+          "THero.FCastingPoints": 0,
+          "THero.FCastingProgress": 0,
+          "THero.FCastingSpellID": 0,
+          "THero.FDeathDay": 0,
+          "THero.FDeathPlayer": 0,
+          "THero.FExperience": 0,
+          "THero.FFaceIndex": 0,
+          "THero.FGender": 0,
+          "THero.FHeroItems": {
+            "$type": "Aow.Units.AoWE.THeroItems",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroItems.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FHeroName": "",
+          "THero.FHeroResource": null,
+          "THero.FHeroResourceIndex": -1,
+          "THero.FHeroStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FHitPoints": 0,
+          "THero.FInventory": {
+            "$type": "Aow.Units.AoWE.THeroInventory",
+            "TEChangeNotifyNode.FChildren": {
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null,
+            "THeroInventory.Hero": "$ref:$",
+            "TItemList.FOnChanged": null
+          },
+          "THero.FLevel": 1,
+          "THero.FLibraryID": -1,
+          "THero.FLibraryName": "",
+          "THero.FMode": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "THero.FMovePoints": 0,
+          "THero.FNickname": "",
+          "THero.FPowerSource": {
+            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "TEObject.FOwner": null,
+            "THeroPowerSource.FHero": "$ref:$"
+          },
+          "THero.FRace": 0,
+          "THero.FRegistered": false,
+          "THero.FUnitAttack": 0,
+          "THero.FUnitDamage": 0,
+          "THero.FUnitDefense": 0,
+          "THero.FUnitHits": 0,
+          "THero.FUnitMoves": 0,
+          "THero.FUnitResistance": 0,
+          "THero.FUpgradePending": false,
+          "THero.FUsedSkillPoints": 0,
+          "THero.F_Hero_4D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_56": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_5E": {
+            "$type": "Aow.Units.FixedArray_byte_2",
+            "FixedArray_byte_2.element0": 0
+          },
+          "THero.F_Hero_7B": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "THero.F_Hero_81": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "THero.F_Hero_99": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TLeader.FSpherePicksMax": 5,
+          "TLeader.FSpheres": {
+            "$type": "Aow.Units.Engine.TByteList",
+            "TByteList.FCapacity": 0,
+            "TByteList.FCount": 0,
+            "TByteList.FDefault": 0,
+            "TByteList.FList": []
+          },
+          "TLeader.F_Leader_9D": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          }
+        }
+      },
+      "insert:3:0:0"
+    ]
+  },
+  "TUnit": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "TUnit.FAbAttack": 0,
+          "TUnit.FAbDamage": 0,
+          "TUnit.FAbDefense": 0,
+          "TUnit.FAbResistance": 0,
+          "TUnit.FExperience": 0,
+          "TUnit.FHitPoints": 0,
+          "TUnit.FMovePoints": 0,
+          "TUnit.FUnitResource": null,
+          "TUnit.F_Unit_3F": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          }
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": "$owner",
+          "TUnit.FAbAttack": 0,
+          "TUnit.FAbDamage": 0,
+          "TUnit.FAbDefense": 0,
+          "TUnit.FAbResistance": 0,
+          "TUnit.FExperience": 0,
+          "TUnit.FHitPoints": 0,
+          "TUnit.FMovePoints": 0,
+          "TUnit.FUnitResource": null,
+          "TUnit.F_Unit_3F": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          }
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "TUnit.FAbAttack": 0,
+          "TUnit.FAbDamage": 0,
+          "TUnit.FAbDefense": 0,
+          "TUnit.FAbResistance": 0,
+          "TUnit.FExperience": 0,
+          "TUnit.FHitPoints": 0,
+          "TUnit.FMovePoints": 0,
+          "TUnit.FUnitResource": null,
+          "TUnit.F_Unit_3F": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          }
+        }
+      },
+      "insert:2:0:0"
+    ]
+  },
+  "TWallUnit": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TWallUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "TWallUnit.FHitPoints": 0,
+          "TWallUnit.FHits": 0,
+          "TWallUnit.FWallType": 0,
+          "TWallUnit.F_WallUnit_3F": 0
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TWallUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": "$owner",
+          "TWallUnit.FHitPoints": 0,
+          "TWallUnit.FHits": 0,
+          "TWallUnit.FWallType": 0,
+          "TWallUnit.F_WallUnit_3F": 0
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Units.AoWE.TWallUnit",
+          "TAbilityOwner.FAbilityData": null,
+          "TAbstractUnit.FDefensiveStrength": 0,
+          "TAbstractUnit.FGroup": null,
+          "TAbstractUnit.FGroupID": 0,
+          "TAbstractUnit.FMaxOffensiveStrength": 0,
+          "TAbstractUnit.FMoraleValue": 0,
+          "TAbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Units.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "TAbstractUnit.FPlayer": 0,
+          "TAbstractUnit.FRefCount": 1,
+          "TAbstractUnit.FUnitID": -1,
+          "TAbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet`1.a": 0,
+            "TSet`1.b": 0,
+            "TSet`1.bounded": false,
+            "TSet`1.c": 0,
+            "TSet`1.d": 0,
+            "TSet`1.high": 0,
+            "TSet`1.low": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_27": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_33": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TAbstractUnit.F_AbstractUnit_38": 0,
+          "TAbstractUnit.F_AbstractUnit_39": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TCustomAbilityList.FAbilityBits": [],
+          "TCustomAbilityList.FAbilityCount": 0,
+          "TEObject.FOwner": null,
+          "TWallUnit.FHitPoints": 0,
+          "TWallUnit.FHits": 0,
+          "TWallUnit.FWallType": 0,
+          "TWallUnit.F_WallUnit_3F": 0
+        }
+      },
+      "insert:2:0:0"
+    ]
+  }
+}

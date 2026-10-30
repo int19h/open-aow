@@ -1,0 +1,251 @@
+{
+  "owner0.route0": {
+    "$jsonText": {
+      "State": {
+        "$jsonText": {
+          "$offset": 1,
+          "$type": "Aow.Units.AoWE.TArmyHS",
+          "TArmyHS.FArmy": {
+            "$offset": 2,
+            "$type": "Aow.Units.AoWE.TArmy",
+            "TArmy.FConcealedUnits": 0,
+            "TArmy.FDestinationL": -1,
+            "TArmy.FDestinationX": -1,
+            "TArmy.FDestinationY": -1,
+            "TArmy.FIndependentRelation": -1,
+            "TArmy.FL": -1,
+            "TArmy.FMode": {
+              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet`1.a": 0,
+              "TSet`1.b": 0,
+              "TSet`1.bounded": false,
+              "TSet`1.c": 0,
+              "TSet`1.d": 0,
+              "TSet`1.high": 0,
+              "TSet`1.low": 0
+            },
+            "TArmy.FOldAIBehavior": 0,
+            "TArmy.FOnUpdate": null,
+            "TArmy.FPlayer": 0,
+            "TArmy.FStatus": {
+              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet`1.a": 0,
+              "TSet`1.b": 0,
+              "TSet`1.bounded": false,
+              "TSet`1.c": 0,
+              "TSet`1.d": 0,
+              "TSet`1.high": 0,
+              "TSet`1.low": 0
+            },
+            "TArmy.FUnfogRange": 0,
+            "TArmy.FUpkeep": 0,
+            "TArmy.FUserMode": {
+              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet`1.a": 0,
+              "TSet`1.b": 0,
+              "TSet`1.bounded": false,
+              "TSet`1.c": 0,
+              "TSet`1.d": 0,
+              "TSet`1.high": 0,
+              "TSet`1.low": 0
+            },
+            "TArmy.FVisibilityRanges": 0,
+            "TArmy.FX": -1,
+            "TArmy.FY": -1,
+            "TArmy.F_Army_19": {
+              "$type": "Aow.Units.FixedArray_byte_3",
+              "FixedArray_byte_3.element0": 0
+            },
+            "TArmy.F_Army_2B": {
+              "$type": "Aow.Units.FixedArray_byte_1",
+              "FixedArray_byte_1.element0": 0
+            },
+            "TEChangeNotifyNode.FChildren": {
+              "$offset": 3,
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null
+          },
+          "TArmyHS.FMoveSteps": 0,
+          "TArmyHS.FUnitIndex": 0,
+          "TArmyHS.FUnitYOffset": 0,
+          "TArmyHS.F_ArmyHS_23": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TEObject.FOwner": null,
+          "TUnitHS.FDirection": 3,
+          "TUnitHS.FFlagID": 0,
+          "TUnitHS.FMoveStep": -1,
+          "TUnitHS.FShadow": null,
+          "TUnitHS.FShowPriority": 1744830464,
+          "TUnitHS.FStatus": 0,
+          "TUnitHS.FUnitGFXResource": null,
+          "TUnitHS.F_UnitHS_09": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TUnitHS.F_UnitHS_17": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          }
+        }
+      },
+      "Events": null,
+      "Count": null,
+      "DestroyEntries": 0
+    }
+  },
+  "owner0.route1": {
+    "$sameAs": "owner0.route0"
+  },
+  "owner0.route2": {
+    "$sameAs": "owner0.route0"
+  },
+  "owner0.route3": {
+    "$sameAs": "owner0.route0"
+  },
+  "owner1.route0": {
+    "$jsonText": {
+      "State": {
+        "$jsonText": {
+          "$offset": 1,
+          "$type": "Aow.Units.AoWE.TArmyHS",
+          "TArmyHS.FArmy": {
+            "$offset": 2,
+            "$type": "Aow.Units.AoWE.TArmy",
+            "TArmy.FConcealedUnits": 0,
+            "TArmy.FDestinationL": -1,
+            "TArmy.FDestinationX": -1,
+            "TArmy.FDestinationY": -1,
+            "TArmy.FIndependentRelation": -1,
+            "TArmy.FL": -1,
+            "TArmy.FMode": {
+              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet`1.a": 0,
+              "TSet`1.b": 0,
+              "TSet`1.bounded": false,
+              "TSet`1.c": 0,
+              "TSet`1.d": 0,
+              "TSet`1.high": 0,
+              "TSet`1.low": 0
+            },
+            "TArmy.FOldAIBehavior": 0,
+            "TArmy.FOnUpdate": null,
+            "TArmy.FPlayer": 0,
+            "TArmy.FStatus": {
+              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet`1.a": 0,
+              "TSet`1.b": 0,
+              "TSet`1.bounded": false,
+              "TSet`1.c": 0,
+              "TSet`1.d": 0,
+              "TSet`1.high": 0,
+              "TSet`1.low": 0
+            },
+            "TArmy.FUnfogRange": 0,
+            "TArmy.FUpkeep": 0,
+            "TArmy.FUserMode": {
+              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet`1.a": 0,
+              "TSet`1.b": 0,
+              "TSet`1.bounded": false,
+              "TSet`1.c": 0,
+              "TSet`1.d": 0,
+              "TSet`1.high": 0,
+              "TSet`1.low": 0
+            },
+            "TArmy.FVisibilityRanges": 0,
+            "TArmy.FX": -1,
+            "TArmy.FY": -1,
+            "TArmy.F_Army_19": {
+              "$type": "Aow.Units.FixedArray_byte_3",
+              "FixedArray_byte_3.element0": 0
+            },
+            "TArmy.F_Army_2B": {
+              "$type": "Aow.Units.FixedArray_byte_1",
+              "FixedArray_byte_1.element0": 0
+            },
+            "TEChangeNotifyNode.FChildren": {
+              "$offset": 3,
+              "$type": "Aow.Units.Engine.TEObjectList",
+              "TList.count": 0,
+              "TList.items": []
+            },
+            "TEChangeNotifyNode.FUpdateCount": 0,
+            "TEObject.FOwner": null
+          },
+          "TArmyHS.FMoveSteps": 0,
+          "TArmyHS.FUnitIndex": 0,
+          "TArmyHS.FUnitYOffset": 0,
+          "TArmyHS.F_ArmyHS_23": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          },
+          "TEObject.FOwner": "$owner",
+          "TUnitHS.FDirection": 3,
+          "TUnitHS.FFlagID": 0,
+          "TUnitHS.FMoveStep": -1,
+          "TUnitHS.FShadow": null,
+          "TUnitHS.FShowPriority": 1744830464,
+          "TUnitHS.FStatus": 0,
+          "TUnitHS.FUnitGFXResource": null,
+          "TUnitHS.F_UnitHS_09": {
+            "$type": "Aow.Units.FixedArray_byte_3",
+            "FixedArray_byte_3.element0": 0
+          },
+          "TUnitHS.F_UnitHS_17": {
+            "$type": "Aow.Units.FixedArray_byte_1",
+            "FixedArray_byte_1.element0": 0
+          }
+        }
+      },
+      "Events": [
+        {
+          "$jsonText": {
+            "$offset": 1,
+            "$type": "Aow.Units.AoWE.TArmyHS",
+            "TArmyHS.FArmy": null,
+            "TArmyHS.FMoveSteps": 0,
+            "TArmyHS.FUnitIndex": 0,
+            "TArmyHS.FUnitYOffset": 0,
+            "TArmyHS.F_ArmyHS_23": {
+              "$type": "Aow.Units.FixedArray_byte_1",
+              "FixedArray_byte_1.element0": 0
+            },
+            "TEObject.FOwner": "$owner",
+            "TUnitHS.FDirection": 0,
+            "TUnitHS.FFlagID": 0,
+            "TUnitHS.FMoveStep": 0,
+            "TUnitHS.FShadow": null,
+            "TUnitHS.FShowPriority": 0,
+            "TUnitHS.FStatus": 0,
+            "TUnitHS.FUnitGFXResource": null,
+            "TUnitHS.F_UnitHS_09": {
+              "$type": "Aow.Units.FixedArray_byte_3",
+              "FixedArray_byte_3.element0": 0
+            },
+            "TUnitHS.F_UnitHS_17": {
+              "$type": "Aow.Units.FixedArray_byte_1",
+              "FixedArray_byte_1.element0": 0
+            }
+          }
+        }
+      ],
+      "Count": 1,
+      "DestroyEntries": 0
+    }
+  },
+  "owner1.route1": {
+    "$sameAs": "owner1.route0"
+  },
+  "owner1.route2": {
+    "$sameAs": "owner1.route0"
+  },
+  "owner1.route3": {
+    "$sameAs": "owner1.route0"
+  }
+}
