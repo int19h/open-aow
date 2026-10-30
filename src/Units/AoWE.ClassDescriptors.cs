@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using Aow.Rtl;
 using Aow.Units.Engine;
 
@@ -14,34 +13,31 @@ public interface IAIPlayerActionClass
     static abstract TSet<TAIPlayerProcessPhase> SupportedPhases { get; }
 }
 
-// One descriptor per action class. Holder<T> is the only constructor, so a type has one descriptor
-// and the registered list compares by reference.
+// One explicit registration per action class keeps descriptor identity in the game lists.
 public sealed class AIPlayerActionClass
 {
-    private static readonly ConcurrentDictionary<Type, AIPlayerActionClass> byType = new();
+    private static readonly Catalog<Type, AIPlayerActionClass> catalog = new("AI player action class");
+    private readonly Func<int> priority;
 
-    private AIPlayerActionClass(EClass eclass, int priority, TSet<TAIPlayerProcessPhase> supportedPhases)
+    private AIPlayerActionClass(EClass eclass, Func<int> priority, TSet<TAIPlayerProcessPhase> supportedPhases)
     {
         Class = eclass;
-        Priority = priority;
+        this.priority = priority;
         SupportedPhases = supportedPhases;
     }
 
     public EClass Class { get; }
-    public int Priority { get; }
+    public string ClassName => Class.ClassName;
+    // Abstract base actions register without invoking their abstract priority getter.
+    public int Priority => priority();
     public TSet<TAIPlayerProcessPhase> SupportedPhases { get; }
     public TAIPlayerAction Create(TECustomNode AOwner) => (TAIPlayerAction)Class.Create(AOwner);
 
-    public static AIPlayerActionClass Of<T>() where T : TAIPlayerAction, IAIPlayerActionClass => Holder<T>.Value;
-
-    // The descriptor of a type known only at run time, read from the same Holder<T> as Of<T>().
-    public static AIPlayerActionClass Of(Type type) => byType.GetOrAdd(type, static t =>
-        (AIPlayerActionClass)typeof(Holder<>).MakeGenericType(t).GetField(nameof(Holder<TAIPlayerAction>.Value))!.GetValue(null)!);
-
-    private static class Holder<T> where T : TAIPlayerAction, IAIPlayerActionClass
-    {
-        public static readonly AIPlayerActionClass Value = new(EClass.Of<T>(), T.Priority, T.SupportedPhases);
-    }
+    public static AIPlayerActionClass Register<T>() where T : TAIPlayerAction, IAIPlayerActionClass =>
+        catalog.Add(typeof(T), new AIPlayerActionClass(EClass.Of<T>(), static () => T.Priority, T.SupportedPhases));
+    public static AIPlayerActionClass Of<T>() where T : TAIPlayerAction, IAIPlayerActionClass => catalog[typeof(T)];
+    public static AIPlayerActionClass Of(Type type) => catalog[type];
+    public static IReadOnlyList<AIPlayerActionClass> All => catalog.All;
 }
 
 public partial class TAIPlayerAction
@@ -58,11 +54,10 @@ public interface IAIGroupClass
     static abstract TGroupBehavior Behavior { get; }
 }
 
-// One descriptor per group class. Holder<T> is the only constructor, so a type has one descriptor
-// and the registered list compares by reference.
+// One explicit registration per group class keeps descriptor identity in the game lists.
 public sealed class AIGroupClass
 {
-    private static readonly ConcurrentDictionary<Type, AIGroupClass> byType = new();
+    private static readonly Catalog<Type, AIGroupClass> catalog = new("AI group class");
 
     private AIGroupClass(EClass eclass, TGroupBehavior behavior)
     {
@@ -71,19 +66,15 @@ public sealed class AIGroupClass
     }
 
     public EClass Class { get; }
+    public string ClassName => Class.ClassName;
     public TGroupBehavior Behavior { get; }
     public TAIGroup Create(TECustomNode AOwner) => (TAIGroup)Class.Create(AOwner);
 
-    public static AIGroupClass Of<T>() where T : TAIGroup, IAIGroupClass => Holder<T>.Value;
-
-    // The descriptor of a type known only at run time, read from the same Holder<T> as Of<T>().
-    public static AIGroupClass Of(Type type) => byType.GetOrAdd(type, static t =>
-        (AIGroupClass)typeof(Holder<>).MakeGenericType(t).GetField(nameof(Holder<TAIGroup>.Value))!.GetValue(null)!);
-
-    private static class Holder<T> where T : TAIGroup, IAIGroupClass
-    {
-        public static readonly AIGroupClass Value = new(EClass.Of<T>(), T.Behavior);
-    }
+    public static AIGroupClass Register<T>() where T : TAIGroup, IAIGroupClass =>
+        catalog.Add(typeof(T), new AIGroupClass(EClass.Of<T>(), T.Behavior));
+    public static AIGroupClass Of<T>() where T : TAIGroup, IAIGroupClass => catalog[typeof(T)];
+    public static AIGroupClass Of(Type type) => catalog[type];
+    public static IReadOnlyList<AIGroupClass> All => catalog.All;
 }
 
 public partial class TAIGroup

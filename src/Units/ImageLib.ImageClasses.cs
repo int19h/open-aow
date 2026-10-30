@@ -1,8 +1,5 @@
 using Aow.Rtl;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Aow.Game")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Aow.Rtl.Tests")]
-
 namespace Aow.Units.ImageLib;
 
 public interface ILibraryImageClass
@@ -15,7 +12,7 @@ public interface ILibraryImageClass
 
 public sealed class LibraryImageClass
 {
-    private static readonly System.Collections.Concurrent.ConcurrentDictionary<Type, LibraryImageClass> entries = new();
+    private static readonly Catalog<Type, LibraryImageClass> catalog = new("library image class");
     private readonly Func<TCustomImageLibrary, TLibraryImage> create;
 
     private LibraryImageClass(Type type, int classID, byte classVersion, AnsiString name, Func<TCustomImageLibrary, TLibraryImage> create)
@@ -25,8 +22,6 @@ public sealed class LibraryImageClass
         ClassVersion = classVersion;
         Name = name;
         this.create = create;
-        if (!entries.TryAdd(type, this))
-            throw new InvalidOperationException($"Image class {type} is already registered.");
     }
 
     public Type Type { get; }
@@ -35,14 +30,11 @@ public sealed class LibraryImageClass
     public byte ClassVersion { get; }
     public AnsiString Name { get; }
     public TLibraryImage Create(TCustomImageLibrary owner) => create(owner);
-    public static LibraryImageClass Of<T>() where T : TLibraryImage, ILibraryImageClass => Holder<T>.Value;
-    public static LibraryImageClass Of(Type type) => entries.TryGetValue(type, out var value) ? value
-        : throw new InvalidOperationException($"Image class {type} is not registered.");
-
-    private static class Holder<T> where T : TLibraryImage, ILibraryImageClass
-    {
-        public static readonly LibraryImageClass Value = new(typeof(T), T.ClassID, T.ClassVersion, T.Name, T.Create);
-    }
+    public static LibraryImageClass Register<T>() where T : TLibraryImage, ILibraryImageClass =>
+        catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassID, T.ClassVersion, T.Name, T.Create));
+    public static LibraryImageClass Of<T>() where T : TLibraryImage, ILibraryImageClass => catalog[typeof(T)];
+    public static LibraryImageClass Of(Type type) => catalog[type];
+    public static IReadOnlyList<LibraryImageClass> All => catalog.All;
 
     public int GrabImages(in Aow.Units.GFXE.TSurfaceDesc SD, Aow.Units.ImageLib.TGrabInfo GrabInfo, Aow.Units.ImageLib.TCustomImageLibrary ImageLibrary, Aow.Units.ImageLib.TGrabProgressEvent OnProgress)
     {
@@ -120,20 +112,8 @@ public sealed class LibraryImageClass
     }
 }
 
-public interface IGrabInfoClass
+public sealed class GrabInfoClass(AnsiString name, Func<TGrabInfo> create)
 {
-    static abstract TGrabInfo Create();
-}
-
-public sealed class GrabInfoClass
-{
-    private readonly Func<TGrabInfo> create;
-    private GrabInfoClass(Type type, Func<TGrabInfo> create) { Type = type; this.create = create; }
-    public Type Type { get; }
+    public AnsiString Name { get; } = name;
     public TGrabInfo Create() => create();
-    public static GrabInfoClass Of<T>() where T : TGrabInfo, IGrabInfoClass => Holder<T>.Value;
-    private static class Holder<T> where T : TGrabInfo, IGrabInfoClass
-    {
-        public static readonly GrabInfoClass Value = new(typeof(T), T.Create);
-    }
 }
