@@ -294,18 +294,18 @@ namespace Aow.Units.PowerNode
         // PowerNode.pas:41
 
 
+        // PowerNode.pas:163
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PowerNodeRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // PowerNode.pas:166
             public override int ClassID() => Aow.Units.PowerNode.TPowerNodeResource.ClassID;
-
-            // PowerNode.pas:163
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PowerNodeRStr);
-                return Result;
-            }
 
             // PowerNode.pas:41
             public new Aow.Units.PowerNode.TPowerNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.PowerNode.TPowerNodeResource)base.Create(AOwner);

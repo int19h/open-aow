@@ -229,18 +229,18 @@ namespace Aow.Units.Hexagon
         // Hexagon.pas:32
 
 
+        // Hexagon.pas:107
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.HSEngine.HSEngine.HexagonStr;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // Hexagon.pas:89
             public override int ClassID() => Aow.Units.Hexagon.THexagonResource.ClassID;
-
-            // Hexagon.pas:107
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.HSEngine.HSEngine.HexagonStr;
-                return Result;
-            }
 
             // Hexagon.pas:32
             public new Aow.Units.Hexagon.THexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Hexagon.THexagonResource)base.Create(AOwner);

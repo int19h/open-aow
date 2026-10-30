@@ -223,20 +223,20 @@ namespace Aow.Units.Gems
             return Result;
         }
 
+        // Gems.pas:134
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__18 = Aow.Units.AoWE.AoWE.GoldRStr;
+            var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(call__18);
+            Result = call__19;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // Gems.pas:137
             public override int ClassID() => Aow.Units.Gems.TGemsResource.ClassID;
-
-            // Gems.pas:134
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__18 = Aow.Units.AoWE.AoWE.GoldRStr;
-                var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(call__18);
-                Result = call__19;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Gems.TGemsResource => (Meta)MetaRegistry.Of(typeof(T));

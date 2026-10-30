@@ -63,19 +63,19 @@ namespace Aow.Units.RndHex
             }
         }
 
+        // RndHex.pas:33
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Random Hexagon";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Hexagon.THexagonResource.Meta
         {
             // RndHex.pas:28
             // { TRndHexagonResource }
             public override int ClassID() => Aow.Units.RndHex.TRndHexagonResource.ClassID;
-
-            // RndHex.pas:33
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Random Hexagon";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.RndHex.TRndHexagonResource => (Meta)MetaRegistry.Of(typeof(T));

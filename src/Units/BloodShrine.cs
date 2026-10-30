@@ -55,16 +55,16 @@ namespace Aow.Units.BloodShrine
         // Animation.pas:43
 
 
+        // BloodShrine.pas:53
+        public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
+        {
+            TSet<Aow.Units.Animation.TAnimationControlModeElement> Result = default;
+            Result = TSet<Aow.Units.Animation.TAnimationControlModeElement>.Of(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame, Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Animation.TAnimation.Meta
         {
-            // BloodShrine.pas:53
-            public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
-            {
-                TSet<Aow.Units.Animation.TAnimationControlModeElement> Result = default;
-                Result = TSet<Aow.Units.Animation.TAnimationControlModeElement>.Of(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame, Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap);
-                return Result;
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.BloodShrine.TBloodShrineAnimation => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
@@ -197,20 +197,20 @@ namespace Aow.Units.BloodShrine
         // BloodShrine.pas:36
 
 
+        // BloodShrine.pas:119
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__16 = Aow.Units.AoWE.AoWE.BloodShrineRStr;
+            var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(call__16);
+            Result = call__17;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // BloodShrine.pas:116
             public override int ClassID() => Aow.Units.BloodShrine.TBloodShrineResource.ClassID;
-
-            // BloodShrine.pas:119
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__16 = Aow.Units.AoWE.AoWE.BloodShrineRStr;
-                var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(call__16);
-                Result = call__17;
-                return Result;
-            }
 
             // BloodShrine.pas:36
             public new Aow.Units.BloodShrine.TBloodShrineResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BloodShrine.TBloodShrineResource)base.Create(AOwner);

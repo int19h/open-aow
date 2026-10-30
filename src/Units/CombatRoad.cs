@@ -283,18 +283,18 @@ namespace Aow.Units.CombatRoad
             return Result;
         }
 
+        // CombatRoad.pas:136
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Road";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // CombatRoad.pas:133
             public override int ClassID() => Aow.Units.CombatRoad.TCombatRoadResource.ClassID;
-
-            // CombatRoad.pas:136
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Road";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatRoad.TCombatRoadResource => (Meta)MetaRegistry.Of(typeof(T));

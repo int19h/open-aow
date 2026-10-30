@@ -546,18 +546,18 @@ namespace Aow.Units.HxBridge
         // HxBridge.pas:49
 
 
+        // HxBridge.pas:343
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.HSEngine.HSEngine.BridgeStr;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // HxBridge.pas:348
             public override int ClassID() => Aow.Units.HxBridge.THexagonBridgeResource.ClassID;
-
-            // HxBridge.pas:343
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.HSEngine.HSEngine.BridgeStr;
-                return Result;
-            }
 
             // HxBridge.pas:49
             public new Aow.Units.HxBridge.THexagonBridgeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HxBridge.THexagonBridgeResource)base.Create(AOwner);

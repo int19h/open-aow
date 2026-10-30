@@ -91,18 +91,18 @@ namespace Aow.Units.AltDeath
         // AltDeath.pas:26
 
 
+        // AltDeath.pas:49
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfDeathRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltDeath.pas:52
             public override int ClassID() => Aow.Units.AltDeath.TAltarOfDeathResource.ClassID;
-
-            // AltDeath.pas:49
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfDeathRStr);
-                return Result;
-            }
 
             // AltDeath.pas:26
             public new Aow.Units.AltDeath.TAltarOfDeathResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltDeath.TAltarOfDeathResource)base.Create(AOwner);

@@ -99,18 +99,18 @@ namespace Aow.Units.AltFire
         // AltFire.pas:27
 
 
+        // AltFire.pas:55
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfFireRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltFire.pas:58
             public override int ClassID() => Aow.Units.AltFire.TAltarOfFireResource.ClassID;
-
-            // AltFire.pas:55
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfFireRStr);
-                return Result;
-            }
 
             // AltFire.pas:27
             public new Aow.Units.AltFire.TAltarOfFireResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltFire.TAltarOfFireResource)base.Create(AOwner);

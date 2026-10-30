@@ -426,18 +426,18 @@ namespace Aow.Units.CombatStructure
             return Result;
         }
 
+        // CombatStructure.pas:259
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Structure";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.CombatILTer.TCombatFixedILTerrainResource.Meta
         {
             // CombatStructure.pas:256
             public override int ClassID() => Aow.Units.CombatStructure.TCombatStructureResource.ClassID;
-
-            // CombatStructure.pas:259
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Structure";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatStructure.TCombatStructureResource => (Meta)MetaRegistry.Of(typeof(T));

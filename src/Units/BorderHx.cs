@@ -130,19 +130,19 @@ namespace Aow.Units.BorderHx
             return Result;
         }
 
+        // BorderHx.pas:107
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Border Hexagon";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // BorderHx.pas:102
             // { TBorderHexagonResource }
             public override int ClassID() => Aow.Units.BorderHx.TBorderHexagonResource.ClassID;
-
-            // BorderHx.pas:107
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Border Hexagon";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BorderHx.TBorderHexagonResource => (Meta)MetaRegistry.Of(typeof(T));

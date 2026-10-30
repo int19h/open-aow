@@ -468,20 +468,20 @@ namespace Aow.Units.PoisonC
             return Result;
         }
 
+        // PoisonC.pas:289
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__34 = Aow.Units.AoWE.AoWE.PoisonCloudRStr;
+            var call__35 = Aow.Units.AoWE.AoWE.TranslateRStr(call__34);
+            Result = call__35;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // PoisonC.pas:286
             public override int ClassID() => Aow.Units.PoisonC.TPoisonCloudResource.ClassID;
-
-            // PoisonC.pas:289
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__34 = Aow.Units.AoWE.AoWE.PoisonCloudRStr;
-                var call__35 = Aow.Units.AoWE.AoWE.TranslateRStr(call__34);
-                Result = call__35;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PoisonC.TPoisonCloudResource => (Meta)MetaRegistry.Of(typeof(T));

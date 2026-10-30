@@ -239,18 +239,18 @@ namespace Aow.Units.IsoCombatHex
             return Result;
         }
 
+        // IsoCombatHex.pas:111
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat ISO-Hex";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.IsoHex.TUpperIsometricHexagonResource.Meta
         {
             // IsoCombatHex.pas:108
             public override int ClassID() => Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource.ClassID;
-
-            // IsoCombatHex.pas:111
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat ISO-Hex";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));

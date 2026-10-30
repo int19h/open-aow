@@ -93,18 +93,18 @@ namespace Aow.Units.AirNode
         // AirNode.pas:27
 
 
+        // AirNode.pas:52
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AirNodeRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // AirNode.pas:55
             public override int ClassID() => Aow.Units.AirNode.TAirNodeResource.ClassID;
-
-            // AirNode.pas:52
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AirNodeRStr);
-                return Result;
-            }
 
             // AirNode.pas:27
             public new Aow.Units.AirNode.TAirNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AirNode.TAirNodeResource)base.Create(AOwner);

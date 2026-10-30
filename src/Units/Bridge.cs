@@ -433,9 +433,9 @@ namespace Aow.Units.Bridge
         }
 
         // Bridge.pas:253
-        public override Aow.Units.Engine.TEObjectEditor.Meta Editor()
+        public override Aow.Units.Engine.EditorClass Editor()
         {
-            Aow.Units.Engine.TEObjectEditor.Meta Result = default;
+            Aow.Units.Engine.EditorClass Result = default;
             var call__27 = FEngine.Editors.FindEditor(131445);
             Result = call__27;
             if (Result == null)
@@ -458,16 +458,16 @@ namespace Aow.Units.Bridge
         // Bridge.pas:28
 
 
+        // Bridge.pas:200
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.HSEngine.HSEngine.BridgeStr;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
-            // Bridge.pas:200
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.HSEngine.HSEngine.BridgeStr;
-                return Result;
-            }
-
             // Bridge.pas:205
             public override int ClassID() => Aow.Units.Bridge.TBridgeResource.ClassID;
 

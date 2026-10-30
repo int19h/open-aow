@@ -74,18 +74,18 @@ namespace Aow.Units.Ruin
             return Result;
         }
 
+        // Ruin.pas:37
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastleRuinRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
         {
             // Ruin.pas:40
             public override int ClassID() => Aow.Units.Ruin.TRuinResource.ClassID;
-
-            // Ruin.pas:37
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastleRuinRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Ruin.TRuinResource => (Meta)MetaRegistry.Of(typeof(T));

@@ -55,12 +55,12 @@ namespace Aow.Units.Spring
         // Animation.pas:43
 
 
+        // Spring.pas:59
+        // { needs: AnimationControlMode returns TAnimationControlMode in AL. }
+        public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode() => Aow.Units.Spring.Spring.SpringMode;
+
         public new partial class Meta : Aow.Units.Animation.TAnimation.Meta
         {
-            // Spring.pas:59
-            // { needs: AnimationControlMode returns TAnimationControlMode in AL. }
-            public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode() => Aow.Units.Spring.Spring.SpringMode;
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Spring.TSpringOfLifeAnimation => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
@@ -195,20 +195,20 @@ namespace Aow.Units.Spring
         // Spring.pas:37
 
 
+        // Spring.pas:126
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__15 = Aow.Units.AoWE.AoWE.SpringOfLifeRStr;
+            var call__16 = Aow.Units.AoWE.AoWE.TranslateRStr(call__15);
+            Result = call__16;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Spring.pas:123
             public override int ClassID() => Aow.Units.Spring.TSpringOfLifeResource.ClassID;
-
-            // Spring.pas:126
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__15 = Aow.Units.AoWE.AoWE.SpringOfLifeRStr;
-                var call__16 = Aow.Units.AoWE.AoWE.TranslateRStr(call__15);
-                Result = call__16;
-                return Result;
-            }
 
             // Spring.pas:37
             public new Aow.Units.Spring.TSpringOfLifeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Spring.TSpringOfLifeResource)base.Create(AOwner);

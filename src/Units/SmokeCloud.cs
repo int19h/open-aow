@@ -495,20 +495,20 @@ namespace Aow.Units.SmokeCloud
             return Result;
         }
 
+        // SmokeCloud.pas:388
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__33 = Aow.Units.AoWE.AoWE.SmokeCloudRStr;
+            var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(call__33);
+            Result = call__34;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // SmokeCloud.pas:385
             public override int ClassID() => Aow.Units.SmokeCloud.TSmokeCloudResource.ClassID;
-
-            // SmokeCloud.pas:388
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__33 = Aow.Units.AoWE.AoWE.SmokeCloudRStr;
-                var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(call__33);
-                Result = call__34;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.SmokeCloud.TSmokeCloudResource => (Meta)MetaRegistry.Of(typeof(T));

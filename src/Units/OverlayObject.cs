@@ -81,20 +81,20 @@ namespace Aow.Units.OverlayObject
             return Result;
         }
 
+        // OverlayObject.pas:39
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__1 = Aow.Units.AoWE.AoWE.OverlayObjectRStr;
+            var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
+            Result = call__2;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMOR.Meta
         {
             // OverlayObject.pas:42
             public override int ClassID() => Aow.Units.OverlayObject.TOverlayObjectResource.ClassID;
-
-            // OverlayObject.pas:39
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__1 = Aow.Units.AoWE.AoWE.OverlayObjectRStr;
-                var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
-                Result = call__2;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.OverlayObject.TOverlayObjectResource => (Meta)MetaRegistry.Of(typeof(T));

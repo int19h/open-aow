@@ -117,14 +117,6 @@ namespace Aow.Units.IsoHex
             // IsoHex.pas:214
             public override int ClassID() => Aow.Units.IsoHex.TIsometricHexagon.ClassID;
 
-            // IsoHex.pas:219
-            public virtual Aow.Units.IsoHex.TDynamicIsometricHexagon.Meta DynamicIsometricHexagonClass()
-            {
-                Aow.Units.IsoHex.TDynamicIsometricHexagon.Meta Result = default;
-                Result = Aow.Units.IsoHex.TDynamicIsometricHexagon.Meta.Of<Aow.Units.IsoHex.TDynamicIsometricHexagon>();
-                return Result;
-            }
-
             // IsoHex.pas:50
             public new Aow.Units.IsoHex.TIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TIsometricHexagon)base.Create(AOwner);
 
@@ -150,15 +142,6 @@ namespace Aow.Units.IsoHex
             return Result;
         }
 
-        // IsoHex.pas:109
-        // { TDynamicIsometricHexagon }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(null);
-            FOwner = AOwner;
-            ((Aow.Units.HSEngine.TMapField)AOwner.Owner).AddHS(this, 0);
-        }
-
         // IsoHex.pas:161
         public override void SetVisible(bool Value)
         {
@@ -180,35 +163,18 @@ namespace Aow.Units.IsoHex
             return Result;
         }
 
-        // IsoHex.pas:24
-        public static new Aow.Units.IsoHex.TDynamicIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
+        // IsoHex.pas:141
+        public override TSet<Aow.Units.HSEngine.TControlModeElement> ControlMode()
         {
-            Aow.Units.IsoHex.TDynamicIsometricHexagon o = new Aow.Units.IsoHex.TDynamicIsometricHexagon();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            TSet<Aow.Units.HSEngine.TControlModeElement> Result = default;
+            Result = TSet<Aow.Units.HSEngine.TControlModeElement>.Of();
+            return Result;
         }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // IsoHex.pas:126
             public override int ClassID() => Aow.Units.IsoHex.TDynamicIsometricHexagon.ClassID;
-
-            // IsoHex.pas:141
-            public override TSet<Aow.Units.HSEngine.TControlModeElement> ControlMode()
-            {
-                TSet<Aow.Units.HSEngine.TControlModeElement> Result = default;
-                Result = TSet<Aow.Units.HSEngine.TControlModeElement>.Of();
-                return Result;
-            }
 
             // IsoHex.pas:24
             public new Aow.Units.IsoHex.TDynamicIsometricHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.IsoHex.TDynamicIsometricHexagon)base.Create(AOwner);
@@ -375,19 +341,19 @@ namespace Aow.Units.IsoHex
             return Result;
         }
 
+        // IsoHex.pas:448
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.HSEngine.HSEngine.UpperIsometricHexagonStr;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.IsoHex.TIsometricHexagonResource.Meta
         {
             // IsoHex.pas:438
             // { TUpperIsometricHexagonResource }
             public override int ClassID() => Aow.Units.IsoHex.TUpperIsometricHexagonResource.ClassID;
-
-            // IsoHex.pas:448
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.HSEngine.HSEngine.UpperIsometricHexagonStr;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TUpperIsometricHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -435,19 +401,19 @@ namespace Aow.Units.IsoHex
             return Result;
         }
 
+        // IsoHex.pas:576
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.HSEngine.HSEngine.LowerIsometricHexagonStr;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.IsoHex.TIsometricHexagonResource.Meta
         {
             // IsoHex.pas:571
             // { TLowerIsometricHexagonResource }
             public override int ClassID() => Aow.Units.IsoHex.TLowerIsometricHexagonResource.ClassID;
-
-            // IsoHex.pas:576
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.HSEngine.HSEngine.LowerIsometricHexagonStr;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.IsoHex.TLowerIsometricHexagonResource => (Meta)MetaRegistry.Of(typeof(T));

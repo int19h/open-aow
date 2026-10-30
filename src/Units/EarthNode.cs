@@ -92,18 +92,18 @@ namespace Aow.Units.EarthNode
         // EarthNode.pas:26
 
 
+        // EarthNode.pas:50
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EarthNodeRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // EarthNode.pas:53
             public override int ClassID() => Aow.Units.EarthNode.TEarthNodeResource.ClassID;
-
-            // EarthNode.pas:50
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EarthNodeRStr);
-                return Result;
-            }
 
             // EarthNode.pas:26
             public new Aow.Units.EarthNode.TEarthNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.EarthNode.TEarthNodeResource)base.Create(AOwner);

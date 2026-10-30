@@ -459,18 +459,18 @@ namespace Aow.Units.PoisonP
             return Result;
         }
 
+        // PoisonP.pas:288
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PoisonPlantRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // PoisonP.pas:293
             public override int ClassID() => Aow.Units.PoisonP.TPoisonPlantResource.ClassID;
-
-            // PoisonP.pas:288
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PoisonPlantRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.PoisonP.TPoisonPlantResource => (Meta)MetaRegistry.Of(typeof(T));

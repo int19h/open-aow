@@ -504,18 +504,18 @@ namespace Aow.Units.ReflectingPool
         // ReflectingPool.pas:42
 
 
+        // ReflectingPool.pas:263
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ReflectingPoolRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // ReflectingPool.pas:266
             public override int ClassID() => Aow.Units.ReflectingPool.TReflectingPoolResource.ClassID;
-
-            // ReflectingPool.pas:263
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ReflectingPoolRStr);
-                return Result;
-            }
 
             // ReflectingPool.pas:42
             public new Aow.Units.ReflectingPool.TReflectingPoolResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ReflectingPool.TReflectingPoolResource)base.Create(AOwner);

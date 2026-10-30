@@ -169,7 +169,7 @@ namespace Aow.Units.ItemExpS
                 // { Original parses the formatted text as CSV. }
                 var call__14 = Aow.Units.AoWE.AoWE.ItemsExploredRStr;
                 var call__15 = Aow.Units.AoWE.AoWE.TranslateRStr(call__14);
-                var call__16 = FResource.ClassType.ResourceEditName();
+                var call__16 = FResource.ResourceEditName();
                 var call__17 = Aow.Rtl.Rtl.Format(call__15, [call__16]);
                 Log.FMessages.CommaText = call__17;
                 Log.Execute(false, Aow.Units.EventLog.TExecuteTrigger.etEvent, null);

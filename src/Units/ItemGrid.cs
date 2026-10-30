@@ -167,7 +167,7 @@ namespace Aow.Units.ItemGrid
             Item = call__6;
             Aow.Units.AoWE.AoWE.AoWEngine.ActivateEObject(Item);
             var call__7 = Item.Editor();
-            ((Aow.Units.Engine.TEObjectEditor.Meta)call__7).Edit(Item, Aow.Units.AoWE.AoWE.AoWEngine, EditItemDone);
+            call__7.Edit(Item, Aow.Units.AoWE.AoWE.AoWEngine, EditItemDone);
         }
 
         // ItemGrid.pas:265

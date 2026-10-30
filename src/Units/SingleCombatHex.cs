@@ -125,18 +125,18 @@ namespace Aow.Units.SingleCombatHex
             return Result;
         }
 
+        // SingleCombatHex.pas:62
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Single Hexagon";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // SingleCombatHex.pas:59
             public override int ClassID() => Aow.Units.SingleCombatHex.TSingleCombatHexagonResource.ClassID;
-
-            // SingleCombatHex.pas:62
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Single Hexagon";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.SingleCombatHex.TSingleCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));

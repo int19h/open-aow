@@ -438,18 +438,18 @@ namespace Aow.Units.CombatTerrain
             return Result;
         }
 
+        // CombatTerrain.pas:307
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Terrain";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Terrain.TTerrainMOR.Meta
         {
             // CombatTerrain.pas:301
             public override int ClassID() => Aow.Units.CombatTerrain.TCombatTerrainResource.ClassID;
-
-            // CombatTerrain.pas:307
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Terrain";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatTerrain.TCombatTerrainResource => (Meta)MetaRegistry.Of(typeof(T));

@@ -142,14 +142,15 @@ namespace Aow.Units.Storms
             return Result;
         }
 
+        // Storms.pas:39
+        // { +134 }
+        public virtual Aow.Rtl.AnsiString Name()
+        {
+            throw EAbstractError.Create("Abstract Error");
+        }
+
         public new partial class Meta : Aow.Units.Animation.TAnimation.Meta
         {
-            // Storms.pas:39
-            // { +134 }
-            public virtual Aow.Rtl.AnsiString Name()
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
         }
 
         public new Meta ClassType => (Meta)base.ClassType;
@@ -420,18 +421,18 @@ namespace Aow.Units.Storms
         // Animation.pas:43
 
 
+        // Storms.pas:368
+        public override Aow.Rtl.AnsiString Name()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.IceStormRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:363
             public override int ClassID() => Aow.Units.Storms.TIceStorm.ClassID;
-
-            // Storms.pas:368
-            public override Aow.Rtl.AnsiString Name()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.IceStormRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TIceStorm => (Meta)MetaRegistry.Of(typeof(T));
@@ -477,18 +478,18 @@ namespace Aow.Units.Storms
         // Animation.pas:43
 
 
+        // Storms.pas:497
+        public override Aow.Rtl.AnsiString Name()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeathStormRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:492
             public override int ClassID() => Aow.Units.Storms.TDeathStorm.ClassID;
-
-            // Storms.pas:497
-            public override Aow.Rtl.AnsiString Name()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeathStormRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TDeathStorm => (Meta)MetaRegistry.Of(typeof(T));
@@ -534,18 +535,18 @@ namespace Aow.Units.Storms
         // Animation.pas:43
 
 
+        // Storms.pas:613
+        public override Aow.Rtl.AnsiString Name()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DivineStormRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:608
             public override int ClassID() => Aow.Units.Storms.TDivineStorm.ClassID;
-
-            // Storms.pas:613
-            public override Aow.Rtl.AnsiString Name()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DivineStormRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TDivineStorm => (Meta)MetaRegistry.Of(typeof(T));
@@ -669,19 +670,19 @@ namespace Aow.Units.Storms
         // Animation.pas:43
 
 
+        // Storms.pas:424
+        public override Aow.Rtl.AnsiString Name()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LightningStormRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:419
             // { $40 }
             public override int ClassID() => Aow.Units.Storms.TLightningStorm.ClassID;
-
-            // Storms.pas:424
-            public override Aow.Rtl.AnsiString Name()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LightningStormRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TLightningStorm => (Meta)MetaRegistry.Of(typeof(T));
@@ -848,18 +849,18 @@ namespace Aow.Units.Storms
         // Animation.pas:43
 
 
+        // Storms.pas:522
+        public override Aow.Rtl.AnsiString Name()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireStormRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:517
             public override int ClassID() => Aow.Units.Storms.TFireStorm.ClassID;
-
-            // Storms.pas:522
-            public override Aow.Rtl.AnsiString Name()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireStormRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TFireStorm => (Meta)MetaRegistry.Of(typeof(T));
@@ -1030,19 +1031,19 @@ namespace Aow.Units.Storms
         // Animation.pas:43
 
 
+        // Storms.pas:639
+        public override Aow.Rtl.AnsiString Name()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PestilenceStormRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Storms.TStorm.Meta
         {
             // Storms.pas:634
             // { $40 }
             public override int ClassID() => Aow.Units.Storms.TPestilenceStorm.ClassID;
-
-            // Storms.pas:639
-            public override Aow.Rtl.AnsiString Name()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PestilenceStormRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Storms.TPestilenceStorm => (Meta)MetaRegistry.Of(typeof(T));
@@ -1253,7 +1254,7 @@ namespace Aow.Units.Storms
                 Selection.FSourceY = Y;
                 Selection.FSourceL = L;
                 Aow.Units.AoWE.AoWE.AoWHSMap.MakeVisible(X, Y, L, 5);
-                var call__107 = FTargetStorm.ClassType.Name();
+                var call__107 = FTargetStorm.Name();
                 var call__108 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelectTargetLocationForXOnMapRStr);
                 var call__109 = Aow.Rtl.Rtl.Format(call__108, [call__107]);
                 Selection.FText.Text = call__109;

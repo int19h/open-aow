@@ -81,18 +81,18 @@ namespace Aow.Units.RandomNode
         // RandomNode.pas:25
 
 
+        // RandomNode.pas:43
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RandomNodeRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // RandomNode.pas:46
             public override int ClassID() => Aow.Units.RandomNode.TRandomNodeResource.ClassID;
-
-            // RandomNode.pas:43
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RandomNodeRStr);
-                return Result;
-            }
 
             // RandomNode.pas:25
             public new Aow.Units.RandomNode.TRandomNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.RandomNode.TRandomNodeResource)base.Create(AOwner);

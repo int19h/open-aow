@@ -7911,7 +7911,7 @@ namespace Aow.Units.ImageLib
             int Result = default;
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             Result = FList[Index];
@@ -7947,7 +7947,7 @@ namespace Aow.Units.ImageLib
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -7963,7 +7963,7 @@ namespace Aow.Units.ImageLib
         {
             if ((NewCapacity < FCount) || (NewCapacity > 134217727))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -7978,7 +7978,7 @@ namespace Aow.Units.ImageLib
         {
             if ((NewCount < 0) || (NewCount > 134217727))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -8045,7 +8045,7 @@ namespace Aow.Units.ImageLib
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -8061,12 +8061,12 @@ namespace Aow.Units.ImageLib
             int Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -8118,7 +8118,7 @@ namespace Aow.Units.ImageLib
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -8152,7 +8152,7 @@ namespace Aow.Units.ImageLib
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -8323,14 +8323,14 @@ namespace Aow.Units.ImageLib
             return new Aow.Units.ImageLib.TFrameTableList();
         }
 
+        // ImageLib.pas:9401
+        public static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // ImageLib.pas:9401
-            public virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.ImageLib.TFrameTableList => (Meta)MetaRegistry.Of(typeof(T));
         }

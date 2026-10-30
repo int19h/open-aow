@@ -268,20 +268,20 @@ namespace Aow.Units.Farm
         // Farm.pas:36
 
 
+        // Farm.pas:146
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__17 = Aow.Units.AoWE.AoWE.FarmRStr;
+            var call__18 = Aow.Units.AoWE.AoWE.TranslateRStr(call__17);
+            Result = call__18;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructureResource.Meta
         {
             // Farm.pas:151
             public override int ClassID() => Aow.Units.Farm.TFarmResource.ClassID;
-
-            // Farm.pas:146
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__17 = Aow.Units.AoWE.AoWE.FarmRStr;
-                var call__18 = Aow.Units.AoWE.AoWE.TranslateRStr(call__17);
-                Result = call__18;
-                return Result;
-            }
 
             // Farm.pas:36
             public new Aow.Units.Farm.TFarmResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Farm.TFarmResource)base.Create(AOwner);

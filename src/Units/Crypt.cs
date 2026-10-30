@@ -74,18 +74,18 @@ namespace Aow.Units.Crypt
             return Result;
         }
 
+        // Crypt.pas:37
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CryptRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
         {
             // Crypt.pas:40
             public override int ClassID() => Aow.Units.Crypt.TCryptResource.ClassID;
-
-            // Crypt.pas:37
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CryptRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Crypt.TCryptResource => (Meta)MetaRegistry.Of(typeof(T));

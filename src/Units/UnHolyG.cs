@@ -433,20 +433,20 @@ namespace Aow.Units.UnHolyG
             return Result;
         }
 
+        // UnHolyG.pas:273
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__49 = Aow.Units.AoWE.AoWE.UnholyGroundRStr;
+            var call__50 = Aow.Units.AoWE.AoWE.TranslateRStr(call__49);
+            Result = call__50;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // UnHolyG.pas:278
             public override int ClassID() => Aow.Units.UnHolyG.TUnHolyGroundResource.ClassID;
-
-            // UnHolyG.pas:273
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__49 = Aow.Units.AoWE.AoWE.UnholyGroundRStr;
-                var call__50 = Aow.Units.AoWE.AoWE.TranslateRStr(call__49);
-                Result = call__50;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.UnHolyG.TUnHolyGroundResource => (Meta)MetaRegistry.Of(typeof(T));

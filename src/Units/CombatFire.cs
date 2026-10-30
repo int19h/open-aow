@@ -244,18 +244,18 @@ namespace Aow.Units.CombatFire
             return Result;
         }
 
+        // CombatFire.pas:163
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Fire";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // CombatFire.pas:160
             public override int ClassID() => Aow.Units.CombatFire.TCombatFireResource.ClassID;
-
-            // CombatFire.pas:163
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Fire";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatFire.TCombatFireResource => (Meta)MetaRegistry.Of(typeof(T));

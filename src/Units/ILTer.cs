@@ -391,19 +391,19 @@ namespace Aow.Units.ILTer
             return Result;
         }
 
+        // ILTer.pas:264
+        // { TILTerrainMOR }
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"ImageLibrary Terrain";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // ILTer.pas:269
             public override int ClassID() => Aow.Units.ILTer.TILTerrainMOR.ClassID;
-
-            // ILTer.pas:264
-            // { TILTerrainMOR }
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"ImageLibrary Terrain";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ILTer.TILTerrainMOR => (Meta)MetaRegistry.Of(typeof(T));
@@ -532,19 +532,19 @@ namespace Aow.Units.ILTer
             return Result;
         }
 
+        // ILTer.pas:334
+        // { TFixedILTerrainMOR }
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Fixed ImageLibrary Terrain";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // ILTer.pas:339
             public override int ClassID() => Aow.Units.ILTer.TFixedILTerrainMOR.ClassID;
-
-            // ILTer.pas:334
-            // { TFixedILTerrainMOR }
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Fixed ImageLibrary Terrain";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ILTer.TFixedILTerrainMOR => (Meta)MetaRegistry.Of(typeof(T));

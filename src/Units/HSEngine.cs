@@ -3755,18 +3755,18 @@ namespace Aow.Units.HSEngine
         public bool EditMode { get => GetEditMode(); set => SetEditMode(value); }
         public int ShowPriority { get => GetShowPriority(); }
 
+        // HXSPRITE.PAS:77
+        public virtual TSet<Aow.Units.HSEngine.TControlModeElement> ControlMode()
+        {
+            TSet<Aow.Units.HSEngine.TControlModeElement> Result = default;
+            Result = TSet<Aow.Units.HSEngine.TControlModeElement>.Of();
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // HXSPRITE.PAS:12
             public override int ClassID() => Aow.Units.HSEngine.THexagonSprite.ClassID;
-
-            // HXSPRITE.PAS:77
-            public virtual TSet<Aow.Units.HSEngine.TControlModeElement> ControlMode()
-            {
-                TSet<Aow.Units.HSEngine.TControlModeElement> Result = default;
-                Result = TSet<Aow.Units.HSEngine.TControlModeElement>.Of();
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.THexagonSprite => (Meta)MetaRegistry.Of(typeof(T));
@@ -4260,7 +4260,7 @@ namespace Aow.Units.HSEngine
             Aow.Rtl.AnsiString Result = default;
             if (FResource.FName == ((AnsiString)""))
             {
-                var call__181 = FResource.ClassType.ResourceEditName();
+                var call__181 = FResource.ResourceEditName();
                 Result = call__181;
             }
             else
@@ -4726,18 +4726,18 @@ namespace Aow.Units.HSEngine
         public byte Level { get => FLevel; set => SetLevel(value); }
         public Aow.Rtl.AnsiString Name { get => FName; set => FName = value; }
 
+        // MAPOBJ.PAS:415
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Engine.TEResource.Meta
         {
             // MAPOBJ.PAS:410
             public override int ClassID() => Aow.Units.HSEngine.TMapObjectResource.ClassID;
-
-            // MAPOBJ.PAS:415
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"";
-                return Result;
-            }
 
             // HSEngine.pas:1124
             public new Aow.Units.HSEngine.TMapObjectResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.HSEngine.TMapObjectResource)base.Create(AOwner);
@@ -8755,7 +8755,7 @@ namespace Aow.Units.HSEngine
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -8771,7 +8771,7 @@ namespace Aow.Units.HSEngine
         {
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -8786,7 +8786,7 @@ namespace Aow.Units.HSEngine
         {
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -8903,7 +8903,7 @@ namespace Aow.Units.HSEngine
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -8919,12 +8919,12 @@ namespace Aow.Units.HSEngine
             Aow.Units.HSEngine.TXYL Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -9015,7 +9015,7 @@ namespace Aow.Units.HSEngine
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -9049,7 +9049,7 @@ namespace Aow.Units.HSEngine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -9185,14 +9185,14 @@ namespace Aow.Units.HSEngine
 
         public Aow.Units.HSEngine.TXYL[] List { get => FList; }
 
+        // HSEngine.pas:1640
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // HSEngine.pas:1640
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.HSEngine.TXYLList => (Meta)MetaRegistry.Of(typeof(T));
         }

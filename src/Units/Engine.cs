@@ -81,7 +81,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -97,7 +97,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -112,7 +112,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -260,7 +260,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -276,12 +276,12 @@ namespace Aow.Units.Engine
             int Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -333,7 +333,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -367,7 +367,7 @@ namespace Aow.Units.Engine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -553,14 +553,14 @@ namespace Aow.Units.Engine
         public Aow.Rtl.AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
         public int[] List { get => FList; }
 
+        // Engine.pas:3310
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Engine.pas:3310
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TIntegerList => (Meta)MetaRegistry.Of(typeof(T));
         }
@@ -596,7 +596,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -612,7 +612,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -627,7 +627,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -780,7 +780,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -796,12 +796,12 @@ namespace Aow.Units.Engine
             byte Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = unchecked((byte)FList[Index1]);
@@ -853,7 +853,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -887,7 +887,7 @@ namespace Aow.Units.Engine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = unchecked((byte)Get(CurIndex));
@@ -1084,14 +1084,14 @@ namespace Aow.Units.Engine
         public Aow.Rtl.AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
         public byte[] List { get => FList; }
 
+        // Engine.pas:3645
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Engine.pas:3645
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TByteList => (Meta)MetaRegistry.Of(typeof(T));
         }
@@ -1127,7 +1127,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -1143,7 +1143,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -1158,7 +1158,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -1248,7 +1248,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -1264,12 +1264,12 @@ namespace Aow.Units.Engine
             sbyte Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = unchecked((sbyte)FList[Index1]);
@@ -1321,7 +1321,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -1355,7 +1355,7 @@ namespace Aow.Units.Engine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = unchecked((sbyte)Get(CurIndex));
@@ -1551,14 +1551,14 @@ namespace Aow.Units.Engine
 
         public sbyte[] List { get => FList; }
 
+        // Engine.pas:3992
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Engine.pas:3992
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TShortIntList => (Meta)MetaRegistry.Of(typeof(T));
         }
@@ -1594,7 +1594,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -1610,7 +1610,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -1625,7 +1625,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -1715,7 +1715,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -1731,12 +1731,12 @@ namespace Aow.Units.Engine
             ushort Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = unchecked((ushort)FList[Index1]);
@@ -1788,7 +1788,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -1822,7 +1822,7 @@ namespace Aow.Units.Engine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = unchecked((ushort)Get(CurIndex));
@@ -2019,14 +2019,14 @@ namespace Aow.Units.Engine
 
         public ushort[] List { get => FList; }
 
+        // Engine.pas:4303
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Engine.pas:4303
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TWordList => (Meta)MetaRegistry.Of(typeof(T));
         }
@@ -2046,7 +2046,7 @@ namespace Aow.Units.Engine
             int I = default;
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             NewCapacity = (NewCapacity + 31) & ~31;
@@ -2078,7 +2078,7 @@ namespace Aow.Units.Engine
             int OldCount = default;
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -2262,7 +2262,7 @@ namespace Aow.Units.Engine
             int I = default;
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -2286,12 +2286,12 @@ namespace Aow.Units.Engine
             bool Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = Get(Index1);
@@ -2356,7 +2356,7 @@ namespace Aow.Units.Engine
             int I = default;
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -2403,7 +2403,7 @@ namespace Aow.Units.Engine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -2485,14 +2485,14 @@ namespace Aow.Units.Engine
         public int BitsSet { get => GetBitsSet(); }
         public int BitsCleared { get => GetBitsCleared(); }
 
+        // Engine.pas:4613
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Engine.pas:4613
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TBitList => (Meta)MetaRegistry.Of(typeof(T));
         }
@@ -2527,7 +2527,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -2543,7 +2543,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -2560,7 +2560,7 @@ namespace Aow.Units.Engine
             int OldCount = default;
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -2661,7 +2661,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -2677,12 +2677,12 @@ namespace Aow.Units.Engine
             Aow.Rtl.TNotifyEvent Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -2736,7 +2736,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -2770,7 +2770,7 @@ namespace Aow.Units.Engine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -2851,14 +2851,14 @@ namespace Aow.Units.Engine
 
         public Aow.Rtl.TNotifyEvent[] List { get => FList; }
 
+        // Engine.pas:4896
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Engine.pas:4896
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEventList => (Meta)MetaRegistry.Of(typeof(T));
         }
@@ -2903,7 +2903,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -2919,7 +2919,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -2934,7 +2934,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -3040,7 +3040,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -3056,12 +3056,12 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TDoubleItem Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -3149,7 +3149,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -3183,7 +3183,7 @@ namespace Aow.Units.Engine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -3445,14 +3445,14 @@ namespace Aow.Units.Engine
 
         public Aow.Units.Engine.TDoubleItem[] List { get => FList; }
 
+        // Engine.pas:5107
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Engine.pas:5107
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TDoubleItemList => (Meta)MetaRegistry.Of(typeof(T));
         }
@@ -3501,7 +3501,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -3517,7 +3517,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -3532,7 +3532,7 @@ namespace Aow.Units.Engine
         {
             if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
             {
-                ClassType.Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -3640,7 +3640,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -3656,12 +3656,12 @@ namespace Aow.Units.Engine
             Aow.Units.Engine.TQuadInteger Item = default;
             if ((Index1 < 0) || (Index1 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
             if ((Index2 < 0) || (Index2 >= FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -3785,7 +3785,7 @@ namespace Aow.Units.Engine
         {
             if ((Index < 0) || (Index > FCount))
             {
-                ClassType.Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error((AnsiString)"List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -3819,7 +3819,7 @@ namespace Aow.Units.Engine
             {
                 if ((NewIndex < 0) || (NewIndex >= FCount))
                 {
-                    ClassType.Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -4002,14 +4002,14 @@ namespace Aow.Units.Engine
 
         public Aow.Units.Engine.TQuadInteger[] List { get => FList; }
 
+        // Engine.pas:5505
+        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        {
+            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+        }
+
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            // Engine.pas:5505
-            protected internal virtual void Error(Aow.Rtl.AnsiString Msg, int Data)
-            {
-                throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TQuadItemList => (Meta)MetaRegistry.Of(typeof(T));
         }
@@ -4497,9 +4497,9 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2466
-        public virtual Aow.Units.Engine.TEObjectEditor.Meta Editor()
+        public virtual Aow.Units.Engine.EditorClass Editor()
         {
-            Aow.Units.Engine.TEObjectEditor.Meta Result = default;
+            Aow.Units.Engine.EditorClass Result = default;
             Aow.Units.Engine.TEngine E = default;
             Result = null;
             E = GetEngine();
@@ -4513,7 +4513,7 @@ namespace Aow.Units.Engine
 
             if (Result == null)
             {
-                Result = Aow.Units.Engine.TEObjectEditor.Meta.Of<Aow.Units.Engine.TEObjectEditor>();
+                Result = Aow.Units.Engine.EditorClass.Of<Aow.Units.Engine.TEObjectEditor>();
             }
 
             return Result;
@@ -5899,17 +5899,24 @@ namespace Aow.Units.Engine
     }
 
     // { Engine.TEObjectEditorList (instance size 16) }
-    public partial class TEObjectEditorList : Aow.Units.Engine.TEObjectClassList
+    // { Engine.TEObjectEditorList: the editor descriptors an engine registers, one per editor class id
+    //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
+    public partial class TEObjectEditorList : Aow.Rtl.TObject
     {
+        private readonly System.Collections.Generic.List<Aow.Units.Engine.EditorClass> FList = new();
+
+        public int Count { get => FList.Count; }
+        public Aow.Units.Engine.EditorClass this[int Index] { get => FList[Index]; }
+
         // Engine.pas:8356
         // { TEObjectEditorList }
-        public void RegisterClass(Aow.Units.Engine.TEObjectEditor.Meta AClass)
+        public void RegisterClass(Aow.Units.Engine.EditorClass AClass)
         {
-            var call__161 = AClass.EditorClassID();
+            var call__161 = AClass.EditorClassID;
             var call__162 = FindEditor(call__161);
             if (call__162 == null)
             {
-                Add(AClass);
+                FList.Add(AClass);
             }
             else
             {
@@ -5918,9 +5925,9 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8364
-        public Aow.Units.Engine.TEObjectEditor.Meta FindEditor(int AClassID)
+        public Aow.Units.Engine.EditorClass FindEditor(int AClassID)
         {
-            Aow.Units.Engine.TEObjectEditor.Meta Result = default;
+            Aow.Units.Engine.EditorClass Result = default;
             int I = default;
             I = 0;
             while (true)
@@ -5928,10 +5935,9 @@ namespace Aow.Units.Engine
                 bool bool__163 = (I != Count);
                 if (bool__163)
                 {
-                    var call__164 = ((Aow.Units.Engine.TEObjectEditor.Meta)List[I]).EditorClassID();
+                    var call__164 = FList[I].EditorClassID;
                     bool__163 = (AClassID != call__164);
                 }
-
                 if (!bool__163)
                     break;
                 {
@@ -5941,7 +5947,7 @@ namespace Aow.Units.Engine
 
             if (I != Count)
             {
-                Result = (Aow.Units.Engine.TEObjectEditor.Meta)List[I];
+                Result = FList[I];
             }
             else
             {
@@ -6050,19 +6056,19 @@ namespace Aow.Units.Engine
         public int ResourceID { get => FResourceID; set => FResourceID = value; }
         public Aow.Units.ImageLib.TLibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
+        // Engine.pas:8508
+        public virtual Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)TObject.ClassNameOf(GetType());
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:8503
             // { TEResource }
             public override int ClassID() => Aow.Units.Engine.TEResource.ClassID;
-
-            // Engine.pas:8508
-            public virtual Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)this.ClassName;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -8638,7 +8644,7 @@ namespace Aow.Units.Engine
     // { Engine.TEObjectEditor (instance size 8): editors are classes looked up by the class id of the
 //     object (TEObject.Editor); everything is called on the class. The base editor edits nothing:
 //     Edit reports a cancel at once. }
-    public partial class TEObjectEditor : Aow.Units.Engine.TEObject
+    public partial class TEObjectEditor : Aow.Units.Engine.TEObject, Aow.Units.Engine.IEObjectEditorClass
     {
         // Raw allocation for TEObjectEditor.Meta.NewInstance and legacy descendant factories.
         public TEObjectEditor() { }
@@ -8649,23 +8655,18 @@ namespace Aow.Units.Engine
         private protected TEObjectEditor(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
             : base(context, AOwner) { }
 
+        // Engine.pas:3036
+        // { TEObjectEditor: stubs }
+        public static int EditorClassID => 0;
+
+        // Engine.pas:3041
+        public static void Edit(Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TEngine AEngine, Aow.Units.Engine.TEditDoneEvent Done)
+        {
+            Done(Aow.Units.Engine.TEditResult.erCancel, Obj);
+        }
+
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
-            // Engine.pas:3036
-            // { TEObjectEditor: stubs }
-            public virtual int EditorClassID()
-            {
-                int Result = default;
-                Result = 0;
-                return Result;
-            }
-
-            // Engine.pas:3041
-            public virtual void Edit(Aow.Units.Engine.TEObject Obj, Aow.Units.Engine.TEngine AEngine, Aow.Units.Engine.TEditDoneEvent Done)
-            {
-                Done(Aow.Units.Engine.TEditResult.erCancel, Obj);
-            }
-
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEObjectEditor => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524

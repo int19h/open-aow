@@ -127,18 +127,18 @@ namespace Aow.Units.House
             return Result;
         }
 
+        // House.pas:148
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat House";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
         {
             // House.pas:145
             public override int ClassID() => Aow.Units.House.THouseResource.ClassID;
-
-            // House.pas:148
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat House";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.House.THouseResource => (Meta)MetaRegistry.Of(typeof(T));

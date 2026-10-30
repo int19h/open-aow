@@ -91,18 +91,18 @@ namespace Aow.Units.AltIce
         // AltIce.pas:26
 
 
+        // AltIce.pas:49
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfIceRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltIce.pas:52
             public override int ClassID() => Aow.Units.AltIce.TAltarOfIceResource.ClassID;
-
-            // AltIce.pas:49
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AltarOfIceRStr);
-                return Result;
-            }
 
             // AltIce.pas:26
             public new Aow.Units.AltIce.TAltarOfIceResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltIce.TAltarOfIceResource)base.Create(AOwner);

@@ -253,18 +253,18 @@ namespace Aow.Units.CombatILTer
             return Result;
         }
 
+        // CombatILTer.pas:178
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat ILTerrain";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // CombatILTer.pas:175
             public override int ClassID() => Aow.Units.CombatILTer.TCombatILTerrainResource.ClassID;
-
-            // CombatILTer.pas:178
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat ILTerrain";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatILTer.TCombatILTerrainResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -381,18 +381,18 @@ namespace Aow.Units.CombatILTer
             return Result;
         }
 
+        // CombatILTer.pas:230
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat FixedILTerrain";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.CombatILTer.TCombatILTerrainResource.Meta
         {
             // CombatILTer.pas:227
             public override int ClassID() => Aow.Units.CombatILTer.TCombatFixedILTerrainResource.ClassID;
-
-            // CombatILTer.pas:230
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat FixedILTerrain";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatILTer.TCombatFixedILTerrainResource => (Meta)MetaRegistry.Of(typeof(T));

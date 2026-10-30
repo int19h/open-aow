@@ -80,18 +80,18 @@ namespace Aow.Units.Townhall
             return Result;
         }
 
+        // Townhall.pas:42
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Townhall";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
         {
             // Townhall.pas:39
             public override int ClassID() => Aow.Units.Townhall.TTownhallResource.ClassID;
-
-            // Townhall.pas:42
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Townhall";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Townhall.TTownhallResource => (Meta)MetaRegistry.Of(typeof(T));

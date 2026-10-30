@@ -197,20 +197,20 @@ namespace Aow.Units.Mountain
             return Result;
         }
 
+        // Mountain.pas:172
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__12 = Aow.Units.AoWE.AoWE.MountainRStr;
+            var call__13 = Aow.Units.AoWE.AoWE.TranslateRStr(call__12);
+            Result = call__13;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.Terrain.TTerrainMOR.Meta
         {
             // Mountain.pas:169
             public override int ClassID() => Aow.Units.Mountain.TMountainMOR.ClassID;
-
-            // Mountain.pas:172
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__12 = Aow.Units.AoWE.AoWE.MountainRStr;
-                var call__13 = Aow.Units.AoWE.AoWE.TranslateRStr(call__12);
-                Result = call__13;
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Mountain.TMountainMOR => (Meta)MetaRegistry.Of(typeof(T));
@@ -381,18 +381,18 @@ namespace Aow.Units.Mountain
             return Result;
         }
 
+        // Mountain.pas:252
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaisedMountainRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // Mountain.pas:249
             public override int ClassID() => Aow.Units.Mountain.TRaisedMountainResource.ClassID;
-
-            // Mountain.pas:252
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaisedMountainRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Mountain.TRaisedMountainResource => (Meta)MetaRegistry.Of(typeof(T));

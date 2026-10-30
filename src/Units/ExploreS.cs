@@ -599,18 +599,18 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:61
 
 
+        // ExploreS.pas:370
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // ExploreS.pas:373
             public override int ClassID() => Aow.Units.ExploreS.TExplorationSiteResource.ClassID;
-
-            // ExploreS.pas:370
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"";
-                return Result;
-            }
 
             // ExploreS.pas:61
             public new Aow.Units.ExploreS.TExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ExploreS.TExplorationSiteResource)base.Create(AOwner);

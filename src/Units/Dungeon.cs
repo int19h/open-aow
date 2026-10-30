@@ -406,18 +406,18 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:53
 
 
+        // Dungeon.pas:277
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DungeonRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ExploreS.TExplorationSiteResource.Meta
         {
             // Dungeon.pas:280
             public override int ClassID() => Aow.Units.Dungeon.TDungeonResource.ClassID;
-
-            // Dungeon.pas:277
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DungeonRStr);
-                return Result;
-            }
 
             // Dungeon.pas:53
             public new Aow.Units.Dungeon.TDungeonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Dungeon.TDungeonResource)base.Create(AOwner);

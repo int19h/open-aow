@@ -97,7 +97,7 @@ public partial class TMultiLevelAbility
         var data = (TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID);
         if (data == null)
         {
-            data = (TMultiLevelAbilityData)ClassType.AbilityDataClass().Create(null);
+            data = (TMultiLevelAbilityData)AbilityDataClass().Create(null);
             data.FLevelAbilityID = unchecked((ushort)FAbilityID);
             data.FLevel = 1;
             SetAb(owner, FAbilityID, 1);

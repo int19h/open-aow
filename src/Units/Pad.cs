@@ -120,9 +120,9 @@ namespace Aow.Units.Pad
 
 
         // Pad.pas:101
-        public override Aow.Units.Engine.TEObjectEditor.Meta Editor()
+        public override Aow.Units.Engine.EditorClass Editor()
         {
-            Aow.Units.Engine.TEObjectEditor.Meta Result = default;
+            Aow.Units.Engine.EditorClass Result = default;
             var call__1 = Engine.Editors.FindEditor(131335);
             Result = call__1;
             if (Result == null)
@@ -175,18 +175,18 @@ namespace Aow.Units.Pad
         // Pad.pas:32
 
 
+        // Pad.pas:79
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Pad";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMOR.Meta
         {
             // Pad.pas:76
             public override int ClassID() => Aow.Units.Pad.TPadResource.ClassID;
-
-            // Pad.pas:79
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Pad";
-                return Result;
-            }
 
             // Pad.pas:32
             public new Aow.Units.Pad.TPadResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Pad.TPadResource)base.Create(AOwner);

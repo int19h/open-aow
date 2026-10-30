@@ -88,20 +88,20 @@ namespace Aow.Units.Merchant
         // Merchant.pas:25
 
 
+        // Merchant.pas:50
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            var call__1 = Aow.Units.AoWE.AoWE.MerchantRStr;
+            var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
+            Result = call__2;
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Merchant.pas:47
             public override int ClassID() => Aow.Units.Merchant.TMerchantResource.ClassID;
-
-            // Merchant.pas:50
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                var call__1 = Aow.Units.AoWE.AoWE.MerchantRStr;
-                var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
-                Result = call__2;
-                return Result;
-            }
 
             // Merchant.pas:25
             public new Aow.Units.Merchant.TMerchantResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Merchant.TMerchantResource)base.Create(AOwner);

@@ -262,18 +262,18 @@ namespace Aow.Units.FleeLoc
             return Result;
         }
 
+        // FleeLoc.pas:166
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Combat Flee Location";
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // FleeLoc.pas:163
             public override int ClassID() => Aow.Units.FleeLoc.TFleeLocationResource.ClassID;
-
-            // FleeLoc.pas:166
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Combat Flee Location";
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FleeLoc.TFleeLocationResource => (Meta)MetaRegistry.Of(typeof(T));

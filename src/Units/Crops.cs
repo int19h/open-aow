@@ -930,18 +930,18 @@ namespace Aow.Units.Crops
             return Result;
         }
 
+        // Crops.pas:254
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CropRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // Crops.pas:245
             public override int ClassID() => Aow.Units.Crops.TCropResource.ClassID;
-
-            // Crops.pas:254
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CropRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Crops.TCropResource => (Meta)MetaRegistry.Of(typeof(T));

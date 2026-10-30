@@ -431,18 +431,18 @@ namespace Aow.Units.HolyG
             return Result;
         }
 
+        // HolyG.pas:273
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyGroundRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // HolyG.pas:276
             public override int ClassID() => Aow.Units.HolyG.THolyGroundResource.ClassID;
-
-            // HolyG.pas:273
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyGroundRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.HolyG.THolyGroundResource => (Meta)MetaRegistry.Of(typeof(T));

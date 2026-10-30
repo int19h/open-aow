@@ -74,18 +74,18 @@ namespace Aow.Units.MonsterL
             return Result;
         }
 
+        // MonsterL.pas:37
+        public override Aow.Rtl.AnsiString ResourceEditName()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MonsterLairRStr);
+            return Result;
+        }
+
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
         {
             // MonsterL.pas:40
             public override int ClassID() => Aow.Units.MonsterL.TMonsterlairResource.ClassID;
-
-            // MonsterL.pas:37
-            public override Aow.Rtl.AnsiString ResourceEditName()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MonsterLairRStr);
-                return Result;
-            }
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MonsterL.TMonsterlairResource => (Meta)MetaRegistry.Of(typeof(T));
