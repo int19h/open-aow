@@ -1,7 +1,3 @@
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Aow.Rtl.Tests")]
-
 namespace Aow.Rtl;
 
 // One context belongs to one allocation. Capture in the common root before semantic work.

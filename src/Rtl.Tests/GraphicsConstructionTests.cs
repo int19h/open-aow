@@ -386,7 +386,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void VirtualOwnerCallSeesBaseDefaultsBeforeDerivedBody()
     {
-        LibraryImageClass.Of<ObservedImage>();
+        LibraryImageClass.Register<ObservedImage>();
         var image = new ObservedImage(null!);
         Assert.Equal(0, image.SeenDerivedValue);
         Assert.Equal(-1, image.SeenPosition);

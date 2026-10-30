@@ -48,7 +48,7 @@ namespace Aow.Units.Sound
 //     +$C FCallBack, +$14 FStatus. One playing sound effect, in SampleList. }
     public partial class TSample : Aow.Rtl.TObject
     {
-        public static SampleClass Descriptor { get; } = new(Create);
+        public static SampleClass Descriptor { get; } = new("TSample", Create);
 
         internal int FDelay;
         internal Aow.Units.Sound.TSampleData FSampleData;
@@ -242,7 +242,7 @@ namespace Aow.Units.Sound
 //     file, in SampleDataList while it is loaded; Create counts the first reference. }
     public partial class TSampleData : Aow.Rtl.TObject
     {
-        public static SampleDataClass Descriptor { get; } = new(Create, CreateEx);
+        public static SampleDataClass Descriptor { get; } = new("TSampleData", Create, CreateEx);
 
         internal Aow.Rtl.AnsiString FName;
         internal int FRefCount;

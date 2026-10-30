@@ -188,11 +188,10 @@ public sealed class MapNetSoundDispatchTests
         var sdl = SoundApi.SoundSystems.Find("SDL");
         var galaxy = SoundApi.SoundSystems.Find("Galaxy");
         Assert.NotSame(sdl, galaxy);
-        Assert.Equal(typeof(TSdlSoundSystem), sdl.Type);
-        Assert.Equal(sdl.Type, galaxy.Type);
         Assert.Equal("SDL", sdl.Name.ToString());
         Assert.Equal("Galaxy", galaxy.Name.ToString());
-        Assert.Same(sdl, SoundSystemClass.Of<TSdlSoundSystem>());
+        Assert.Same(sdl, TSdlSoundSystem.Descriptor);
+        Assert.Same(galaxy, TSdlSoundSystem.Galaxy);
         Assert.Same(sdl, SoundApi.SoundSystems.Find("sdl"));
         Assert.Same(galaxy, SoundApi.SoundSystems.Find("GALAXY"));
         TSdlSoundSystem.Install(mute: true, audioOutput: false);
@@ -252,7 +251,7 @@ public sealed class MapNetSoundDispatchTests
         using var state = new SoundState();
         SoundApi.SoundSystems.Clear();
         NullSoundSystem.Install();
-        var system = SoundSystemClass.Of<NullSoundSystem>().Create();
+        var system = NullSoundSystem.Descriptor.Create();
         Assert.IsType<NullSoundSystem>(system);
         Assert.Equal(1, system.FRefCount);
         var data = TSampleData.Create("silent");
