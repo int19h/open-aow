@@ -17,7 +17,7 @@ namespace Aow.Units.AoWMessageDlg
         {
             session.Begin(this);
             Name = "MessageDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -84,7 +84,7 @@ namespace Aow.Units.AoWMessageDlg
             TitleLbl.Text = "########";
             TitleLbl.TextColor = 0;
             session.EndRead(TitleLbl);
-            YesNoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            YesNoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(YesNoPnl);
             YesNoPnl.Name = "YesNoPnl";
             YesNoPnl.Visible = false;
@@ -343,7 +343,7 @@ namespace Aow.Units.AoWMessageDlg
             OKBtn.WinWidth = 130;
             OKBtn.OnClick = Layout_OKBtnClick_3;
             session.EndRead(OKBtn);
-            OKPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            OKPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(OKPnl);
             OKPnl.Name = "OKPnl";
             OKPnl.Visible = false;
@@ -371,7 +371,7 @@ namespace Aow.Units.AoWMessageDlg
             OKPnl.MinWidth = 0;
             OKPnl.MinHeight = 0;
             session.EndRead(OKPnl);
-            OKCancelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            OKCancelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(OKCancelPnl);
             OKCancelPnl.Name = "OKCancelPnl";
             OKCancelPnl.Visible = false;
@@ -461,7 +461,7 @@ namespace Aow.Units.AoWMessageDlg
             CancelBtn.WinWidth = 105;
             CancelBtn.OnClick = Layout_CancelBtnClick_5;
             session.EndRead(CancelBtn);
-            MessageMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            MessageMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(MessageMemo);
             MessageMemo.Name = "MessageMemo";
             MessageMemo.Priority = 0;
@@ -532,7 +532,7 @@ namespace Aow.Units.AoWMessageDlg
             MessageMemoSB.ILIndexBack = 101;
             MessageMemoSB.ILIndexTab = 98;
             session.EndRead(MessageMemoSB);
-            YesNoCancelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            YesNoCancelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(YesNoCancelPnl);
             YesNoCancelPnl.Name = "YesNoCancelPnl";
             YesNoCancelPnl.Priority = 100;
@@ -652,7 +652,7 @@ namespace Aow.Units.AoWMessageDlg
             CancelBtn2.WinWidth = 105;
             CancelBtn2.OnClick = Layout_CancelBtnClick_5;
             session.EndRead(CancelBtn2);
-            MemoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MemoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MemoPnl);
             MemoPnl.Name = "MemoPnl";
             MemoPnl.Visible = false;
@@ -680,7 +680,7 @@ namespace Aow.Units.AoWMessageDlg
             MemoPnl.MinWidth = 0;
             MemoPnl.MinHeight = 0;
             session.EndRead(MemoPnl);
-            HeaderMemoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            HeaderMemoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(HeaderMemoPnl);
             HeaderMemoPnl.Name = "HeaderMemoPnl";
             HeaderMemoPnl.Priority = 90;
@@ -707,7 +707,7 @@ namespace Aow.Units.AoWMessageDlg
             HeaderMemoPnl.MinWidth = 0;
             HeaderMemoPnl.MinHeight = 0;
             session.EndRead(HeaderMemoPnl);
-            HeaderMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            HeaderMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(HeaderMemo);
             HeaderMemo.Name = "HeaderMemo";
             HeaderMemo.Priority = 0;

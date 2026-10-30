@@ -1,0 +1,8 @@
+{
+  "0": "{\"error\":\"System.NullReferenceException\",\"Message\":\"Object reference not set to an instance of an object.\",\"owner\":1,\"subscriptions\":0,\"events\":[]}",
+  "1": "{\"error\":\"System.NullReferenceException\",\"Message\":\"Object reference not set to an instance of an object.\",\"owner\":1,\"subscriptions\":0,\"events\":[]}",
+  "2": "{\"error\":\"System.InvalidOperationException\",\"Message\":\"after acquisition\",\"owner\":0,\"subscriptions\":0,\"events\":[\"engine acquired\",\"component destroyed\",\"engine destroyed\"]}",
+  "3": "{\"error\":\"System.InvalidOperationException\",\"Message\":\"after acquisition\",\"owner\":0,\"subscriptions\":0,\"events\":[\"game engine borrowed\",\"component destroyed\"]}",
+  "4": "{\"error\":\"System.InvalidOperationException\",\"Message\":\"after clear\",\"owner\":0,\"subscriptions\":0,\"events\":[\"clear\",\"component destroyed\",\"clear\"]}",
+  "5": "{\"error\":\"System.NullReferenceException\",\"Message\":\"Object reference not set to an instance of an object.\",\"owner\":1,\"subscriptions\":0,\"events\":[\"clear\",\"component destroyed\"]}"
+}

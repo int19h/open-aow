@@ -19,7 +19,7 @@ namespace Aow.Units.FastCombatWin
             Name = "FastCombatWindow";
             LayoutOnCreate = Layout_FastCombatWindowCreate_0;
             LayoutOnDestroy = Layout_FastCombatWindowDestroy_1;
-            FCWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            FCWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(FCWin);
             FCWin.Name = "FCWin";
             FCWin.OnKeyDown = FCWinKeyDown;
@@ -66,7 +66,7 @@ namespace Aow.Units.FastCombatWin
             FCWin.WinHeight = 460;
             FCWin.Dockable = false;
             session.EndRead(FCWin);
-            LNamePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LNamePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LNamePnl);
             LNamePnl.Name = "LNamePnl";
             LNamePnl.Priority = 0;
@@ -116,7 +116,7 @@ namespace Aow.Units.FastCombatWin
             LSideLbl.Text = "######";
             LSideLbl.TextColor = 16777215;
             session.EndRead(LSideLbl);
-            RNamePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RNamePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RNamePnl);
             RNamePnl.Name = "RNamePnl";
             RNamePnl.Priority = 0;
@@ -166,7 +166,7 @@ namespace Aow.Units.FastCombatWin
             RSideLbl.Text = "#####";
             RSideLbl.TextColor = 16777215;
             session.EndRead(RSideLbl);
-            LCtrlPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LCtrlPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LCtrlPnl);
             LCtrlPnl.Name = "LCtrlPnl";
             LCtrlPnl.Priority = 0;
@@ -193,7 +193,7 @@ namespace Aow.Units.FastCombatWin
             LCtrlPnl.MinWidth = 0;
             LCtrlPnl.MinHeight = 0;
             session.EndRead(LCtrlPnl);
-            RCtrlPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RCtrlPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RCtrlPnl);
             RCtrlPnl.Name = "RCtrlPnl";
             RCtrlPnl.Priority = 0;
@@ -395,7 +395,7 @@ namespace Aow.Units.FastCombatWin
             CloseBut.WinWidth = 73;
             CloseBut.OnClick = Layout_CloseButClick_3;
             session.EndRead(CloseBut);
-            Party1Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Party1Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Party1Pnl);
             Party1Pnl.Name = "Party1Pnl";
             Party1Pnl.Priority = 0;
@@ -479,7 +479,7 @@ namespace Aow.Units.FastCombatWin
             Part1Dead.Animate = false;
             Part1Dead.AnimFrameDelay = 0;
             session.EndRead(Part1Dead);
-            Party2Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Party2Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Party2Pnl);
             Party2Pnl.Name = "Party2Pnl";
             Party2Pnl.Priority = 0;
@@ -563,7 +563,7 @@ namespace Aow.Units.FastCombatWin
             Party2Dead.Animate = false;
             Party2Dead.AnimFrameDelay = 0;
             session.EndRead(Party2Dead);
-            Party3Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Party3Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Party3Pnl);
             Party3Pnl.Name = "Party3Pnl";
             Party3Pnl.Priority = 0;
@@ -647,7 +647,7 @@ namespace Aow.Units.FastCombatWin
             Party3Dead.Animate = false;
             Party3Dead.AnimFrameDelay = 0;
             session.EndRead(Party3Dead);
-            Party4Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Party4Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Party4Pnl);
             Party4Pnl.Name = "Party4Pnl";
             Party4Pnl.Priority = 0;
@@ -731,7 +731,7 @@ namespace Aow.Units.FastCombatWin
             Party4Dead.Animate = false;
             Party4Dead.AnimFrameDelay = 0;
             session.EndRead(Party4Dead);
-            Party5Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Party5Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Party5Pnl);
             Party5Pnl.Name = "Party5Pnl";
             Party5Pnl.Priority = 0;
@@ -815,7 +815,7 @@ namespace Aow.Units.FastCombatWin
             Party5Dead.Animate = false;
             Party5Dead.AnimFrameDelay = 0;
             session.EndRead(Party5Dead);
-            Party6Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Party6Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Party6Pnl);
             Party6Pnl.Name = "Party6Pnl";
             Party6Pnl.Priority = 0;
@@ -899,7 +899,7 @@ namespace Aow.Units.FastCombatWin
             Party6Dead.Animate = false;
             Party6Dead.AnimFrameDelay = 0;
             session.EndRead(Party6Dead);
-            Party7Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Party7Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Party7Pnl);
             Party7Pnl.Name = "Party7Pnl";
             Party7Pnl.Priority = 0;
@@ -983,7 +983,7 @@ namespace Aow.Units.FastCombatWin
             Party7Dead.Animate = false;
             Party7Dead.AnimFrameDelay = 0;
             session.EndRead(Party7Dead);
-            LSidePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LSidePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LSidePnl);
             LSidePnl.Name = "LSidePnl";
             LSidePnl.Priority = 0;
@@ -1010,7 +1010,7 @@ namespace Aow.Units.FastCombatWin
             LSidePnl.MinWidth = 0;
             LSidePnl.MinHeight = 0;
             session.EndRead(LSidePnl);
-            RSidePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RSidePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RSidePnl);
             RSidePnl.Name = "RSidePnl";
             RSidePnl.Priority = 0;
@@ -1037,7 +1037,7 @@ namespace Aow.Units.FastCombatWin
             RSidePnl.MinWidth = 0;
             RSidePnl.MinHeight = 0;
             session.EndRead(RSidePnl);
-            FightPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            FightPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(FightPnl);
             FightPnl.Name = "FightPnl";
             FightPnl.Priority = 0;

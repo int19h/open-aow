@@ -70,9 +70,8 @@ namespace Aow.Units.PlugInM
 
         // PlugInM.pas:46
         // { TPlugInManager }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TPlugInManager(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__4 = new Aow.Rtl.TStringList();
             FPlugIns = call__4;
             FPlugInExtension = (AnsiString)"dpl";
@@ -172,23 +171,6 @@ namespace Aow.Units.PlugInM
 
         [Published]
         public Aow.Units.PlugInM.TLoadPlugInEvent OnLoadPlugIn { get => FOnLoadPlugIn; set => FOnLoadPlugIn = value; }
-
-        // PlugInM.pas:28
-        public static Aow.Units.PlugInM.TPlugInManager Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.PlugInM.TPlugInManager o = new Aow.Units.PlugInM.TPlugInManager();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class PlugInM

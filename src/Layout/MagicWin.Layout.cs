@@ -17,7 +17,7 @@ namespace Aow.Units.AoWMagic
         {
             session.Begin(this);
             Name = "MagicWin";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -114,7 +114,7 @@ namespace Aow.Units.AoWMagic
             OWTitleIc.Animate = false;
             OWTitleIc.AnimFrameDelay = 0;
             session.EndRead(OWTitleIc);
-            HeaderTab = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            HeaderTab = new Aow.Units.AoWTabPanel.TAOWTabPanel(this);
             session.BeginRead(HeaderTab);
             HeaderTab.Name = "HeaderTab";
             HeaderTab.Priority = 1000;
@@ -207,7 +207,7 @@ namespace Aow.Units.AoWMagic
             OWLPillar.ILIndexLine = 0;
             OWLPillar.ILIndexTexture = 0;
             session.EndRead(OWLPillar);
-            T1Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T1Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T1Pnl);
             T1Pnl.Name = "T1Pnl";
             T1Pnl.Priority = 1;
@@ -280,7 +280,7 @@ namespace Aow.Units.AoWMagic
             ResLbl.Text = "Research Points";
             ResLbl.TextColor = 9415072;
             session.EndRead(ResLbl);
-            T2Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2Pnl);
             T2Pnl.Name = "T2Pnl";
             T2Pnl.Visible = false;
@@ -308,7 +308,7 @@ namespace Aow.Units.AoWMagic
             T2Pnl.MinWidth = 0;
             T2Pnl.MinHeight = 0;
             session.EndRead(T2Pnl);
-            T2LBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2LBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2LBPnl);
             T2LBPnl.Name = "T2LBPnl";
             T2LBPnl.Priority = 0;
@@ -335,7 +335,7 @@ namespace Aow.Units.AoWMagic
             T2LBPnl.MinWidth = 0;
             T2LBPnl.MinHeight = 0;
             session.EndRead(T2LBPnl);
-            EnchantmentList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            EnchantmentList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(EnchantmentList);
             EnchantmentList.Name = "EnchantmentList";
             EnchantmentList.OnMouseDown = EnchantmentListMouseDown;
@@ -402,7 +402,7 @@ namespace Aow.Units.AoWMagic
             EnchantmentSortBtn.WinWidth = 160;
             EnchantmentSortBtn.OnClick = Layout_EnchantmentSortBtnClick_6;
             session.EndRead(EnchantmentSortBtn);
-            UpkeepList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            UpkeepList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(UpkeepList);
             UpkeepList.Name = "UpkeepList";
             UpkeepList.OnMouseDown = EnchantmentListMouseDown;
@@ -469,7 +469,7 @@ namespace Aow.Units.AoWMagic
             UpkeepSortBtn.WinWidth = 77;
             UpkeepSortBtn.OnClick = Layout_UpkeepSortBtnClick_8;
             session.EndRead(UpkeepSortBtn);
-            BindingList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            BindingList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(BindingList);
             BindingList.Name = "BindingList";
             BindingList.OnMouseDown = EnchantmentListMouseDown;
@@ -536,7 +536,7 @@ namespace Aow.Units.AoWMagic
             BindingSortBtn.WinWidth = 186;
             BindingSortBtn.OnClick = Layout_BindingSortBtnClick_10;
             session.EndRead(BindingSortBtn);
-            ResPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ResPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ResPnl);
             ResPnl.Name = "ResPnl";
             ResPnl.Priority = 1;
@@ -609,7 +609,7 @@ namespace Aow.Units.AoWMagic
             NetMamaLbl.Text = "Net Mana Income";
             NetMamaLbl.TextColor = 9415072;
             session.EndRead(NetMamaLbl);
-            NetManaPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NetManaPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NetManaPnl);
             NetManaPnl.Name = "NetManaPnl";
             NetManaPnl.Priority = 0;
@@ -636,7 +636,7 @@ namespace Aow.Units.AoWMagic
             NetManaPnl.MinWidth = 0;
             NetManaPnl.MinHeight = 0;
             session.EndRead(NetManaPnl);
-            T3Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T3Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T3Pnl);
             T3Pnl.Name = "T3Pnl";
             T3Pnl.Visible = false;
@@ -664,7 +664,7 @@ namespace Aow.Units.AoWMagic
             T3Pnl.MinWidth = 0;
             T3Pnl.MinHeight = 0;
             session.EndRead(T3Pnl);
-            T3LBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T3LBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T3LBPnl);
             T3LBPnl.Name = "T3LBPnl";
             T3LBPnl.Priority = 0;
@@ -691,7 +691,7 @@ namespace Aow.Units.AoWMagic
             T3LBPnl.MinWidth = 0;
             T3LBPnl.MinHeight = 0;
             session.EndRead(T3LBPnl);
-            GlobalEnchantmentList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            GlobalEnchantmentList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(GlobalEnchantmentList);
             GlobalEnchantmentList.Name = "GlobalEnchantmentList";
             GlobalEnchantmentList.OnMouseDown = GlobalEnchantmentMouseDown;
@@ -757,7 +757,7 @@ namespace Aow.Units.AoWMagic
             GlobalEnchantmentSortBtn.WinWidth = 160;
             GlobalEnchantmentSortBtn.OnClick = Layout_GlobalEnchantmentSortBtnClick_12;
             session.EndRead(GlobalEnchantmentSortBtn);
-            GlobalUpkeepList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            GlobalUpkeepList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(GlobalUpkeepList);
             GlobalUpkeepList.Name = "GlobalUpkeepList";
             GlobalUpkeepList.OnMouseDown = GlobalEnchantmentMouseDown;
@@ -823,7 +823,7 @@ namespace Aow.Units.AoWMagic
             GlobalUpkeepSortBtn.WinWidth = 77;
             GlobalUpkeepSortBtn.OnClick = Layout_GlobalUpkeepSortBtnClick_14;
             session.EndRead(GlobalUpkeepSortBtn);
-            GlobalNameList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            GlobalNameList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(GlobalNameList);
             GlobalNameList.Name = "GlobalNameList";
             GlobalNameList.OnMouseDown = GlobalEnchantmentMouseDown;
@@ -889,7 +889,7 @@ namespace Aow.Units.AoWMagic
             GlobalNameSortBtn.WinWidth = 186;
             GlobalNameSortBtn.OnClick = Layout_GlobalNameSortBtnClick_16;
             session.EndRead(GlobalNameSortBtn);
-            RightPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RightPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RightPnl);
             RightPnl.Name = "RightPnl";
             RightPnl.Priority = 0;
@@ -1084,7 +1084,7 @@ namespace Aow.Units.AoWMagic
             SpellClass.Text = "##########";
             SpellClass.TextColor = 9415072;
             session.EndRead(SpellClass);
-            SpellPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SpellPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SpellPnl);
             SpellPnl.Name = "SpellPnl";
             SpellPnl.Priority = 10;
@@ -1278,7 +1278,7 @@ namespace Aow.Units.AoWMagic
             PowerLbl.Text = "Power Base";
             PowerLbl.TextColor = 9415072;
             session.EndRead(PowerLbl);
-            PowePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PowePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PowePnl);
             PowePnl.Name = "PowePnl";
             PowePnl.Priority = 1;
@@ -1305,7 +1305,7 @@ namespace Aow.Units.AoWMagic
             PowePnl.MinWidth = 0;
             PowePnl.MinHeight = 0;
             session.EndRead(PowePnl);
-            LeftPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LeftPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LeftPnl);
             LeftPnl.Name = "LeftPnl";
             LeftPnl.Priority = 0;
@@ -1332,7 +1332,7 @@ namespace Aow.Units.AoWMagic
             LeftPnl.MinWidth = 0;
             LeftPnl.MinHeight = 0;
             session.EndRead(LeftPnl);
-            NonePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NonePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NonePnl);
             NonePnl.Name = "NonePnl";
             NonePnl.Priority = 0;
@@ -1382,7 +1382,7 @@ namespace Aow.Units.AoWMagic
             NoneMsg.Text = "No spell is being researched";
             NoneMsg.TextColor = 9415072;
             session.EndRead(NoneMsg);
-            T4Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T4Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T4Pnl);
             T4Pnl.Name = "T4Pnl";
             T4Pnl.Visible = false;
@@ -1410,7 +1410,7 @@ namespace Aow.Units.AoWMagic
             T4Pnl.MinWidth = 0;
             T4Pnl.MinHeight = 0;
             session.EndRead(T4Pnl);
-            T4LBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T4LBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T4LBPnl);
             T4LBPnl.Name = "T4LBPnl";
             T4LBPnl.Priority = 0;
@@ -1437,7 +1437,7 @@ namespace Aow.Units.AoWMagic
             T4LBPnl.MinWidth = 0;
             T4LBPnl.MinHeight = 0;
             session.EndRead(T4LBPnl);
-            PowerValueList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            PowerValueList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(PowerValueList);
             PowerValueList.Name = "PowerValueList";
             PowerValueList.OnMouseDown = PowerValueListMouseDown;
@@ -1504,7 +1504,7 @@ namespace Aow.Units.AoWMagic
             PowerValueSortBtn.WinWidth = 78;
             PowerValueSortBtn.OnClick = Layout_PowerValueSortBtnClick_24;
             session.EndRead(PowerValueSortBtn);
-            PowerSourceList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            PowerSourceList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(PowerSourceList);
             PowerSourceList.Name = "PowerSourceList";
             PowerSourceList.OnMouseDown = PowerValueListMouseDown;
@@ -1571,7 +1571,7 @@ namespace Aow.Units.AoWMagic
             PowerSourceSortBtn.WinWidth = 344;
             PowerSourceSortBtn.OnClick = Layout_PowerSourceSortBtnClick_26;
             session.EndRead(PowerSourceSortBtn);
-            T2BottonPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2BottonPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2BottonPnl);
             T2BottonPnl.Name = "T2BottonPnl";
             T2BottonPnl.Priority = 0;
@@ -1712,7 +1712,7 @@ namespace Aow.Units.AoWMagic
             PowerSB.ILIndexBack = 101;
             PowerSB.ILIndexTab = 98;
             session.EndRead(PowerSB);
-            T3BottomPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T3BottomPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T3BottomPnl);
             T3BottomPnl.Name = "T3BottomPnl";
             T3BottomPnl.Priority = 0;
@@ -1739,7 +1739,7 @@ namespace Aow.Units.AoWMagic
             T3BottomPnl.MinWidth = 0;
             T3BottomPnl.MinHeight = 0;
             session.EndRead(T3BottomPnl);
-            LeftFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LeftFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LeftFr);
             LeftFr.Name = "LeftFr";
             LeftFr.Priority = 10;
@@ -1766,7 +1766,7 @@ namespace Aow.Units.AoWMagic
             LeftFr.MinWidth = 0;
             LeftFr.MinHeight = 0;
             session.EndRead(LeftFr);
-            T2ButtonPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2ButtonPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2ButtonPnl);
             T2ButtonPnl.Name = "T2ButtonPnl";
             T2ButtonPnl.Priority = 0;
@@ -1793,7 +1793,7 @@ namespace Aow.Units.AoWMagic
             T2ButtonPnl.MinWidth = 0;
             T2ButtonPnl.MinHeight = 0;
             session.EndRead(T2ButtonPnl);
-            T3ButtonPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T3ButtonPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T3ButtonPnl);
             T3ButtonPnl.Name = "T3ButtonPnl";
             T3ButtonPnl.Priority = 0;

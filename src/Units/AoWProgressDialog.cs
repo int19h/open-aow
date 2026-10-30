@@ -51,6 +51,8 @@ namespace Aow.Units.AoWProgressDialog
     // { TProgressDialog (instance size 108, VMT 004131A0) }
     public partial class TProgressDialog : Aow.Rtl.TDataModule
     {
+        public TProgressDialog(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWLabel.TAOWLabel Title;
         // { +0044 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;

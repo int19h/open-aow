@@ -42,6 +42,8 @@ namespace Aow.Units.AoWCheckBox
 //     VMT (new): SetChecked }
     public partial class TAOWCheckBox : Aow.Units.AoWButton.TAOWBaseButton
     {
+        public TAOWCheckBox(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Rtl.TNotifyEvent FOnDoubleClick;
         // AoWCheckBox.pas:51
         public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)

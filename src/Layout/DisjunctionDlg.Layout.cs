@@ -165,7 +165,7 @@ namespace Aow.Units.AoWDisjunctionDlg
             CastBtn.WinWidth = 120;
             CastBtn.OnClick = Layout_CastBtnClick_1;
             session.EndRead(CastBtn);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -256,7 +256,7 @@ namespace Aow.Units.AoWDisjunctionDlg
             DisjunctionChanceLbl.Text = "Disjunction Chance";
             DisjunctionChanceLbl.TextColor = 9402970;
             session.EndRead(DisjunctionChanceLbl);
-            DisjunctionChancePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DisjunctionChancePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DisjunctionChancePnl);
             DisjunctionChancePnl.Name = "DisjunctionChancePnl";
             DisjunctionChancePnl.Priority = 0;
@@ -329,7 +329,7 @@ namespace Aow.Units.AoWDisjunctionDlg
             DisjunctionManaLbl.Text = "Disjunction Mana";
             DisjunctionManaLbl.TextColor = 9402970;
             session.EndRead(DisjunctionManaLbl);
-            DisjunctionManaPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DisjunctionManaPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DisjunctionManaPnl);
             DisjunctionManaPnl.Name = "DisjunctionManaPnl";
             DisjunctionManaPnl.Priority = 0;
@@ -356,7 +356,7 @@ namespace Aow.Units.AoWDisjunctionDlg
             DisjunctionManaPnl.MinWidth = 0;
             DisjunctionManaPnl.MinHeight = 0;
             session.EndRead(DisjunctionManaPnl);
-            T4LBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T4LBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T4LBPnl);
             T4LBPnl.Name = "T4LBPnl";
             T4LBPnl.Priority = 0;
@@ -383,7 +383,7 @@ namespace Aow.Units.AoWDisjunctionDlg
             T4LBPnl.MinWidth = 0;
             T4LBPnl.MinHeight = 0;
             session.EndRead(T4LBPnl);
-            OwnerList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            OwnerList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(OwnerList);
             OwnerList.Name = "OwnerList";
             OwnerList.Priority = 10;
@@ -417,7 +417,7 @@ namespace Aow.Units.AoWDisjunctionDlg
             OwnerList.ItemHeight = 17;
             OwnerList.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(OwnerList);
-            EnchantmentList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            EnchantmentList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(EnchantmentList);
             EnchantmentList.Name = "EnchantmentList";
             EnchantmentList.Priority = 20;
@@ -655,7 +655,7 @@ namespace Aow.Units.AoWDisjunctionDlg
             created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
             created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
             session.EndRead(created__Translator);
-            MapViewPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MapViewPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MapViewPnl);
             MapViewPnl.Name = "MapViewPnl";
             MapViewPnl.Priority = 1;

@@ -70,6 +70,8 @@ namespace Aow.Units.AoWArmyInfoDlg
 //     $9C unit-info window open; $A0 completion callback; $A8 army-info event. }
     public partial class TArmyInfoDlg : Aow.Rtl.TDataModule
     {
+        public TArmyInfoDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
         // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame U1;

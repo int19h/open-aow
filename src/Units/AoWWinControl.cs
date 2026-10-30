@@ -82,9 +82,8 @@ namespace Aow.Units.AoWWinControl
         public bool FDockable;
         // AoWWinControl.pas:103
         // { TAOWWindowControl }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWWindowControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FOldCursor = -2;
             FWindowCursor = -2;
         }
@@ -361,23 +360,6 @@ namespace Aow.Units.AoWWinControl
 
         [Published]
         public Aow.Rtl.TNotifyEvent OnExit { get => FOnExit; set => FOnExit = value; }
-
-        // AoWWinControl.pas:78
-        public static new Aow.Units.AoWWinControl.TAOWWindowControl Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWWinControl.TAOWWindowControl o = new Aow.Units.AoWWinControl.TAOWWindowControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate void TAoWOnDrawSurface(Aow.Units.AoWWinControl.TAOWWindowControl Sender, Aow.Units.GFXE.TSurface Surface, int Left, int Top);

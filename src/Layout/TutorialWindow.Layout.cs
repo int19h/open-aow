@@ -17,7 +17,7 @@ namespace Aow.Units.AoWTutorialWin
         {
             session.Begin(this);
             Name = "TutorialWindow";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -61,7 +61,7 @@ namespace Aow.Units.AoWTutorialWin
             Dlg.WinHeight = 262;
             Dlg.Dockable = false;
             session.EndRead(Dlg);
-            MessageMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            MessageMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(MessageMemo);
             MessageMemo.Name = "MessageMemo";
             MessageMemo.Priority = 200;
@@ -130,7 +130,7 @@ namespace Aow.Units.AoWTutorialWin
             Close.WinWidth = 140;
             Close.OnClick = Layout_CloseClick_1;
             session.EndRead(Close);
-            HeaderMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            HeaderMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(HeaderMemo);
             HeaderMemo.Name = "HeaderMemo";
             HeaderMemo.Priority = 200;

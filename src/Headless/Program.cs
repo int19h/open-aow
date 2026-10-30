@@ -150,7 +150,7 @@ internal static class Program
             CheckTodos();
             if (saves.Count == 0) Save(map.FPlayerControl);
             map.UpdateFPS(animationFps);
-            var viewer = Aow.Units.HSEngine.THSMapViewer.Create(null!);
+            var viewer = new Aow.Units.HSEngine.THSMapViewer(null!);
             viewer.HSMap = map;
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;

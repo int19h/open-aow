@@ -70,6 +70,8 @@ namespace Aow.Units.AoWLeaderSetup
 //     $2E4 working leader, $2E8 selected sort, $2EC available sort. VMT 00414BE0. }
     public partial class TLeaderSetupWin : Aow.Rtl.TDataModule
     {
+        public TLeaderSetupWin(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWListBox.TAOWListBox SelectedAbilities;
         // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel Phase2Pnl;

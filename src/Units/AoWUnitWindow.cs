@@ -81,6 +81,8 @@ namespace Aow.Units.AoWUnitWindow
 //     $22C blink delay; $230 cursor image; $234/$238 ground offset/count; $23C show info. }
     public partial class TUnitWindow : Aow.Rtl.TDataModule
     {
+        public TUnitWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow UnitWin;
         // { +0044 }
         public Aow.Units.AoWImage.TAOWImage UnitFrameLeft;

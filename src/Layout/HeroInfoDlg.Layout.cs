@@ -17,7 +17,7 @@ namespace Aow.Units.AoWHeroInfoDlg
         {
             session.Begin(this);
             Name = "HeroInfoDlg";
-            UnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitPnl);
             UnitPnl.Name = "UnitPnl";
             UnitPnl.Priority = 1;
@@ -341,7 +341,7 @@ namespace Aow.Units.AoWHeroInfoDlg
             BCeltL.ILIndexLine = 55;
             BCeltL.ILIndexTexture = 0;
             session.EndRead(BCeltL);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -484,7 +484,7 @@ namespace Aow.Units.AoWHeroInfoDlg
             DetailsLbl.Text = "Click on the unit(s) for details";
             DetailsLbl.TextColor = 2831663;
             session.EndRead(DetailsLbl);
-            Message = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            Message = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(Message);
             Message.Name = "Message";
             Message.Priority = 0;

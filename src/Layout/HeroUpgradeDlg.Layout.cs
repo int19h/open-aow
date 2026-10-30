@@ -17,7 +17,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         {
             session.Begin(this);
             Name = "HeroUpgradeDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -383,7 +383,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             TCelt.Animate = false;
             TCelt.AnimFrameDelay = 0;
             session.EndRead(TCelt);
-            UpgradePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpgradePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpgradePnl);
             UpgradePnl.Name = "UpgradePnl";
             UpgradePnl.Priority = 2000;
@@ -456,7 +456,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             SkillPointsLbl.Text = "Skill Points left to spend";
             SkillPointsLbl.TextColor = 13165253;
             session.EndRead(SkillPointsLbl);
-            AvailableAbilities = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            AvailableAbilities = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(AvailableAbilities);
             AvailableAbilities.Name = "AvailableAbilities";
             AvailableAbilities.OnMouseDown = AvailableAbilitiesMouseDown;
@@ -529,7 +529,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             AvailableAbilitiesSB.ILIndexBack = 79;
             AvailableAbilitiesSB.ILIndexTab = 76;
             session.EndRead(AvailableAbilitiesSB);
-            SelectedAbilities = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            SelectedAbilities = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(SelectedAbilities);
             SelectedAbilities.Name = "SelectedAbilities";
             SelectedAbilities.OnMouseDown = SelectedAbilitiesMouseDown;
@@ -664,7 +664,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             AvailableAbilityCostSort.WinWidth = 44;
             AvailableAbilityCostSort.OnClick = Layout_AvailableAbilityCostSortClick_8;
             session.EndRead(AvailableAbilityCostSort);
-            AvailableAbilitiesCost = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            AvailableAbilitiesCost = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(AvailableAbilitiesCost);
             AvailableAbilitiesCost.Name = "AvailableAbilitiesCost";
             AvailableAbilitiesCost.OnMouseDown = AvailableAbilitiesMouseDown;
@@ -829,7 +829,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             FaceFrame.Animate = false;
             FaceFrame.AnimFrameDelay = 0;
             session.EndRead(FaceFrame);
-            UnitName = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            UnitName = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(UnitName);
             UnitName.Name = "UnitName";
             UnitName.Priority = 0;
@@ -861,7 +861,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             UnitName.ILIndex = 12;
             UnitName.PassWordChar = (byte)0;
             session.EndRead(UnitName);
-            Alignment = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            Alignment = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(Alignment);
             Alignment.Name = "Alignment";
             Alignment.Priority = 0;
@@ -893,7 +893,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             Alignment.ILIndex = 12;
             Alignment.PassWordChar = (byte)0;
             session.EndRead(Alignment);
-            TopPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TopPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TopPnl);
             TopPnl.Name = "TopPnl";
             TopPnl.Priority = 2000;
@@ -920,7 +920,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             TopPnl.MinWidth = 0;
             TopPnl.MinHeight = 0;
             session.EndRead(TopPnl);
-            StatisicsPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            StatisicsPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(StatisicsPnl);
             StatisicsPnl.Name = "StatisicsPnl";
             StatisicsPnl.Priority = 9999;
@@ -993,7 +993,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             AttLbl.Text = "Attack";
             AttLbl.TextColor = 9402970;
             session.EndRead(AttLbl);
-            AttPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            AttPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(AttPnl);
             AttPnl.Name = "AttPnl";
             AttPnl.Priority = 0;
@@ -1066,7 +1066,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             DamLbl.Text = "Damage";
             DamLbl.TextColor = 9402970;
             session.EndRead(DamLbl);
-            DamPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DamPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DamPnl);
             DamPnl.Name = "DamPnl";
             DamPnl.Priority = 0;
@@ -1139,7 +1139,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             DefLbl.Text = "Defense";
             DefLbl.TextColor = 9402970;
             session.EndRead(DefLbl);
-            DefPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DefPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DefPnl);
             DefPnl.Name = "DefPnl";
             DefPnl.Priority = 0;
@@ -1212,7 +1212,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             ResLbl.Text = "Resistance";
             ResLbl.TextColor = 9402970;
             session.EndRead(ResLbl);
-            ResPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ResPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ResPnl);
             ResPnl.Name = "ResPnl";
             ResPnl.Priority = 0;
@@ -1285,7 +1285,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             HitLbl.Text = "Hits";
             HitLbl.TextColor = 9402970;
             session.EndRead(HitLbl);
-            HitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            HitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(HitPnl);
             HitPnl.Name = "HitPnl";
             HitPnl.Priority = 0;
@@ -1358,7 +1358,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             MovLbl.Text = "Moves";
             MovLbl.TextColor = 9402970;
             session.EndRead(MovLbl);
-            MovPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MovPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MovPnl);
             MovPnl.Name = "MovPnl";
             MovPnl.Priority = 0;
@@ -2496,7 +2496,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             SelectedAbilitiesCostSort.WinWidth = 47;
             SelectedAbilitiesCostSort.OnClick = Layout_SelectedAbilitiesCostSortClick_25;
             session.EndRead(SelectedAbilitiesCostSort);
-            SelectedAbilitiesCost = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            SelectedAbilitiesCost = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(SelectedAbilitiesCost);
             SelectedAbilitiesCost.Name = "SelectedAbilitiesCost";
             SelectedAbilitiesCost.OnMouseDown = SelectedAbilitiesMouseDown;
@@ -2531,7 +2531,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             SelectedAbilitiesCost.ItemHeight = 17;
             SelectedAbilitiesCost.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(SelectedAbilitiesCost);
-            InfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            InfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(InfoPnl);
             InfoPnl.Name = "InfoPnl";
             InfoPnl.Priority = 2000;

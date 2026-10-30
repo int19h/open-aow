@@ -17,7 +17,7 @@ namespace Aow.Units.AoWRealm
         {
             session.Begin(this);
             Name = "RealmWin";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -115,7 +115,7 @@ namespace Aow.Units.AoWRealm
             OWTitleIc.Animate = false;
             OWTitleIc.AnimFrameDelay = 0;
             session.EndRead(OWTitleIc);
-            HeaderTab = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            HeaderTab = new Aow.Units.AoWTabPanel.TAOWTabPanel(this);
             session.BeginRead(HeaderTab);
             HeaderTab.Name = "HeaderTab";
             HeaderTab.Priority = 1000;
@@ -152,7 +152,7 @@ namespace Aow.Units.AoWRealm
             HeaderTab.ILIndexUp = 70;
             HeaderTab.BorderHeightSelected = 7;
             session.EndRead(HeaderTab);
-            T1Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T1Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T1Pnl);
             T1Pnl.Name = "T1Pnl";
             T1Pnl.Priority = 1;
@@ -179,7 +179,7 @@ namespace Aow.Units.AoWRealm
             T1Pnl.MinWidth = 0;
             T1Pnl.MinHeight = 0;
             session.EndRead(T1Pnl);
-            T2Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2Pnl);
             T2Pnl.Name = "T2Pnl";
             T2Pnl.Visible = false;
@@ -207,7 +207,7 @@ namespace Aow.Units.AoWRealm
             T2Pnl.MinWidth = 0;
             T2Pnl.MinHeight = 0;
             session.EndRead(T2Pnl);
-            T2LBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T2LBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T2LBPnl);
             T2LBPnl.Name = "T2LBPnl";
             T2LBPnl.Priority = 0;
@@ -234,7 +234,7 @@ namespace Aow.Units.AoWRealm
             T2LBPnl.MinWidth = 0;
             T2LBPnl.MinHeight = 0;
             session.EndRead(T2LBPnl);
-            T3Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T3Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T3Pnl);
             T3Pnl.Name = "T3Pnl";
             T3Pnl.Visible = false;
@@ -262,7 +262,7 @@ namespace Aow.Units.AoWRealm
             T3Pnl.MinWidth = 0;
             T3Pnl.MinHeight = 0;
             session.EndRead(T3Pnl);
-            T3LBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T3LBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T3LBPnl);
             T3LBPnl.Name = "T3LBPnl";
             T3LBPnl.Priority = 0;
@@ -323,7 +323,7 @@ namespace Aow.Units.AoWRealm
             Minimize.WinWidth = 15;
             Minimize.OnClick = Layout_OWMinIconClick_4;
             session.EndRead(Minimize);
-            T4Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T4Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T4Pnl);
             T4Pnl.Name = "T4Pnl";
             T4Pnl.Visible = false;
@@ -353,7 +353,7 @@ namespace Aow.Units.AoWRealm
             T4Pnl.MinWidth = 0;
             T4Pnl.MinHeight = 0;
             session.EndRead(T4Pnl);
-            T4LBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T4LBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T4LBPnl);
             T4LBPnl.Name = "T4LBPnl";
             T4LBPnl.Priority = 0;
@@ -380,7 +380,7 @@ namespace Aow.Units.AoWRealm
             T4LBPnl.MinWidth = 0;
             T4LBPnl.MinHeight = 0;
             session.EndRead(T4LBPnl);
-            T2NameLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2NameLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2NameLB);
             T2NameLB.Name = "T2NameLB";
             T2NameLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -416,7 +416,7 @@ namespace Aow.Units.AoWRealm
             T2NameLB.ItemHeight = 17;
             T2NameLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(T2NameLB);
-            T2RaceLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2RaceLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2RaceLB);
             T2RaceLB.Name = "T2RaceLB";
             T2RaceLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -452,7 +452,7 @@ namespace Aow.Units.AoWRealm
             T2RaceLB.ItemHeight = 17;
             T2RaceLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(T2RaceLB);
-            T2IncomeLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2IncomeLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2IncomeLB);
             T2IncomeLB.Name = "T2IncomeLB";
             T2IncomeLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -488,7 +488,7 @@ namespace Aow.Units.AoWRealm
             T2IncomeLB.ItemHeight = 17;
             T2IncomeLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(T2IncomeLB);
-            T2LevelLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2LevelLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2LevelLB);
             T2LevelLB.Name = "T2LevelLB";
             T2LevelLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -524,7 +524,7 @@ namespace Aow.Units.AoWRealm
             T2LevelLB.ItemHeight = 17;
             T2LevelLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(T2LevelLB);
-            T2WallLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2WallLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2WallLB);
             T2WallLB.Name = "T2WallLB";
             T2WallLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -561,7 +561,7 @@ namespace Aow.Units.AoWRealm
             T2WallLB.ItemHeight = 17;
             T2WallLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(T2WallLB);
-            T2SizeLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2SizeLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2SizeLB);
             T2SizeLB.Name = "T2SizeLB";
             T2SizeLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -597,7 +597,7 @@ namespace Aow.Units.AoWRealm
             T2SizeLB.ItemHeight = 17;
             T2SizeLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(T2SizeLB);
-            T2EncLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2EncLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2EncLB);
             T2EncLB.Name = "T2EncLB";
             T2EncLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -878,7 +878,7 @@ namespace Aow.Units.AoWRealm
             T2SEnc.WinWidth = 47;
             T2SEnc.OnClick = Layout_T2SEncClick_12;
             session.EndRead(T2SEnc);
-            T2ActLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2ActLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2ActLB);
             T2ActLB.Name = "T2ActLB";
             T2ActLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -950,7 +950,7 @@ namespace Aow.Units.AoWRealm
             T2SAct.WinWidth = 26;
             T2SAct.OnClick = Layout_T2SActClick_13;
             session.EndRead(T2SAct);
-            T2RelLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2RelLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2RelLB);
             T2RelLB.Name = "T2RelLB";
             T2RelLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -1022,7 +1022,7 @@ namespace Aow.Units.AoWRealm
             T2SRel.WinWidth = 26;
             T2SRel.OnClick = Layout_T2SRelClick_14;
             session.EndRead(T2SRel);
-            T2MorLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T2MorLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T2MorLB);
             T2MorLB.Name = "T2MorLB";
             T2MorLB.OnMouseDown = Layout_CityListMouseDown_5;
@@ -1131,7 +1131,7 @@ namespace Aow.Units.AoWRealm
             CitySB.ILIndexBack = 101;
             CitySB.ILIndexTab = 98;
             session.EndRead(CitySB);
-            T3Name = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T3Name = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T3Name);
             T3Name.Name = "T3Name";
             T3Name.OnMouseDown = Layout_PlacesListMouseDown_17;
@@ -1202,7 +1202,7 @@ namespace Aow.Units.AoWRealm
             T3SName.WinWidth = 209;
             T3SName.OnClick = Layout_T3SNameClick_18;
             session.EndRead(T3SName);
-            T3ActLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T3ActLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T3ActLB);
             T3ActLB.Name = "T3ActLB";
             T3ActLB.OnMouseDown = Layout_PlacesListMouseDown_17;
@@ -1338,7 +1338,7 @@ namespace Aow.Units.AoWRealm
             UnitFr.ILIndexLine = 0;
             UnitFr.ILIndexTexture = 0;
             session.EndRead(UnitFr);
-            UnitGg = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            UnitGg = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(UnitGg);
             UnitGg.Name = "UnitGg";
             UnitGg.Visible = false;
@@ -1368,7 +1368,7 @@ namespace Aow.Units.AoWRealm
             UnitGg.ILIndexTNormal = 4;
             UnitGg.ILIndexTSelected = 5;
             session.EndRead(UnitGg);
-            Unit1LB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            Unit1LB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(Unit1LB);
             Unit1LB.Name = "Unit1LB";
             Unit1LB.Priority = 0;
@@ -1404,7 +1404,7 @@ namespace Aow.Units.AoWRealm
             Unit1LB.ItemHeight = 60;
             Unit1LB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(Unit1LB);
-            Unit2LB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            Unit2LB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(Unit2LB);
             Unit2LB.Name = "Unit2LB";
             Unit2LB.Tag = 1;
@@ -1441,7 +1441,7 @@ namespace Aow.Units.AoWRealm
             Unit2LB.ItemHeight = 60;
             Unit2LB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(Unit2LB);
-            Unit3LB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            Unit3LB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(Unit3LB);
             Unit3LB.Name = "Unit3LB";
             Unit3LB.Tag = 2;
@@ -1478,7 +1478,7 @@ namespace Aow.Units.AoWRealm
             Unit3LB.ItemHeight = 60;
             Unit3LB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(Unit3LB);
-            Unit4LB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            Unit4LB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(Unit4LB);
             Unit4LB.Name = "Unit4LB";
             Unit4LB.Tag = 3;
@@ -1515,7 +1515,7 @@ namespace Aow.Units.AoWRealm
             Unit4LB.ItemHeight = 60;
             Unit4LB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(Unit4LB);
-            Unit5LB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            Unit5LB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(Unit5LB);
             Unit5LB.Name = "Unit5LB";
             Unit5LB.Tag = 4;
@@ -1552,7 +1552,7 @@ namespace Aow.Units.AoWRealm
             Unit5LB.ItemHeight = 60;
             Unit5LB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(Unit5LB);
-            Unit6LB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            Unit6LB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(Unit6LB);
             Unit6LB.Name = "Unit6LB";
             Unit6LB.Tag = 5;
@@ -1589,7 +1589,7 @@ namespace Aow.Units.AoWRealm
             Unit6LB.ItemHeight = 60;
             Unit6LB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(Unit6LB);
-            Unit7LB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            Unit7LB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(Unit7LB);
             Unit7LB.Name = "Unit7LB";
             Unit7LB.Tag = 6;
@@ -1626,7 +1626,7 @@ namespace Aow.Units.AoWRealm
             Unit7LB.ItemHeight = 60;
             Unit7LB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(Unit7LB);
-            Unit8LB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            Unit8LB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(Unit8LB);
             Unit8LB.Name = "Unit8LB";
             Unit8LB.Tag = 7;
@@ -1701,7 +1701,7 @@ namespace Aow.Units.AoWRealm
             PartySb.ILIndexBack = 101;
             PartySb.ILIndexTab = 98;
             session.EndRead(PartySb);
-            HeroPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            HeroPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(HeroPnl);
             HeroPnl.Name = "HeroPnl";
             HeroPnl.Visible = false;
@@ -1729,7 +1729,7 @@ namespace Aow.Units.AoWRealm
             HeroPnl.MinWidth = 0;
             HeroPnl.MinHeight = 0;
             session.EndRead(HeroPnl);
-            T5MainPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T5MainPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T5MainPnl);
             T5MainPnl.Name = "T5MainPnl";
             T5MainPnl.Priority = 0;
@@ -1756,7 +1756,7 @@ namespace Aow.Units.AoWRealm
             T5MainPnl.MinWidth = 0;
             T5MainPnl.MinHeight = 0;
             session.EndRead(T5MainPnl);
-            T5Name = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T5Name = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T5Name);
             T5Name.Name = "T5Name";
             T5Name.OnMouseDown = HeroListMouseDown;
@@ -1792,7 +1792,7 @@ namespace Aow.Units.AoWRealm
             T5Name.ItemHeight = 17;
             T5Name.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(T5Name);
-            T5Health = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T5Health = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T5Health);
             T5Health.Name = "T5Health";
             T5Health.OnMouseDown = HeroListMouseDown;
@@ -1828,7 +1828,7 @@ namespace Aow.Units.AoWRealm
             T5Health.ItemHeight = 17;
             T5Health.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(T5Health);
-            T5Level = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            T5Level = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(T5Level);
             T5Level.Name = "T5Level";
             T5Level.OnMouseDown = HeroListMouseDown;
@@ -1969,7 +1969,7 @@ namespace Aow.Units.AoWRealm
             T5SLevel.WinWidth = 54;
             T5SLevel.OnClick = Layout_T5SLevelClick_24;
             session.EndRead(T5SLevel);
-            T5HeroInf = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T5HeroInf = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T5HeroInf);
             T5HeroInf.Name = "T5HeroInf";
             T5HeroInf.OnDraw = T5HeroInfDraw;
@@ -1997,7 +1997,7 @@ namespace Aow.Units.AoWRealm
             T5HeroInf.MinWidth = 0;
             T5HeroInf.MinHeight = 0;
             session.EndRead(T5HeroInf);
-            T5LBFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T5LBFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T5LBFr);
             T5LBFr.Name = "T5LBFr";
             T5LBFr.Priority = 0;
@@ -2092,7 +2092,7 @@ namespace Aow.Units.AoWRealm
             HeroSB.ILIndexBack = 101;
             HeroSB.ILIndexTab = 98;
             session.EndRead(HeroSB);
-            TotalPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TotalPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TotalPnl);
             TotalPnl.Name = "TotalPnl";
             TotalPnl.Priority = 3000;
@@ -2119,7 +2119,7 @@ namespace Aow.Units.AoWRealm
             TotalPnl.MinWidth = 0;
             TotalPnl.MinHeight = 0;
             session.EndRead(TotalPnl);
-            IncomePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            IncomePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(IncomePnl);
             IncomePnl.Name = "IncomePnl";
             IncomePnl.Priority = 3000;
@@ -2146,7 +2146,7 @@ namespace Aow.Units.AoWRealm
             IncomePnl.MinWidth = 0;
             IncomePnl.MinHeight = 0;
             session.EndRead(IncomePnl);
-            IncomeMem = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            IncomeMem = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(IncomeMem);
             IncomeMem.Name = "IncomeMem";
             IncomeMem.Priority = 0;
@@ -2180,7 +2180,7 @@ namespace Aow.Units.AoWRealm
             IncomeMem.ColorChangeChar = (byte)0;
             IncomeMem.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(IncomeMem);
-            IncomeBtm = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            IncomeBtm = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(IncomeBtm);
             IncomeBtm.Name = "IncomeBtm";
             IncomeBtm.Priority = 3000;
@@ -2290,7 +2290,7 @@ namespace Aow.Units.AoWRealm
             Income.Masked = true;
             Income.TextColor = 9415072;
             session.EndRead(Income);
-            UpkeepPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpkeepPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpkeepPnl);
             UpkeepPnl.Name = "UpkeepPnl";
             UpkeepPnl.Priority = 3000;
@@ -2317,7 +2317,7 @@ namespace Aow.Units.AoWRealm
             UpkeepPnl.MinWidth = 0;
             UpkeepPnl.MinHeight = 0;
             session.EndRead(UpkeepPnl);
-            UpkeepMem = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            UpkeepMem = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(UpkeepMem);
             UpkeepMem.Name = "UpkeepMem";
             UpkeepMem.Priority = 0;
@@ -2351,7 +2351,7 @@ namespace Aow.Units.AoWRealm
             UpkeepMem.ColorChangeChar = (byte)0;
             UpkeepMem.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(UpkeepMem);
-            UpkeepBtm = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpkeepBtm = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpkeepBtm);
             UpkeepBtm.Name = "UpkeepBtm";
             UpkeepBtm.Priority = 3000;
@@ -2506,7 +2506,7 @@ namespace Aow.Units.AoWRealm
             NetInc.Masked = true;
             NetInc.TextColor = 9415072;
             session.EndRead(NetInc);
-            TotalBtm = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TotalBtm = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TotalBtm);
             TotalBtm.Name = "TotalBtm";
             TotalBtm.Priority = 3000;
@@ -2578,7 +2578,7 @@ namespace Aow.Units.AoWRealm
             Treasury.Masked = true;
             Treasury.TextColor = 9415072;
             session.EndRead(Treasury);
-            TreasuryPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TreasuryPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TreasuryPnl);
             TreasuryPnl.Name = "TreasuryPnl";
             TreasuryPnl.Priority = 3000;
@@ -2605,7 +2605,7 @@ namespace Aow.Units.AoWRealm
             TreasuryPnl.MinWidth = 0;
             TreasuryPnl.MinHeight = 0;
             session.EndRead(TreasuryPnl);
-            IncomeValue = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            IncomeValue = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(IncomeValue);
             IncomeValue.Name = "IncomeValue";
             IncomeValue.Priority = 5;
@@ -2639,7 +2639,7 @@ namespace Aow.Units.AoWRealm
             IncomeValue.ColorChangeChar = (byte)0;
             IncomeValue.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taRight;
             session.EndRead(IncomeValue);
-            UpkeepValue = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            UpkeepValue = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(UpkeepValue);
             UpkeepValue.Name = "UpkeepValue";
             UpkeepValue.Priority = 5;
@@ -2701,7 +2701,7 @@ namespace Aow.Units.AoWRealm
             GoldAnim.Animate = true;
             GoldAnim.AnimFrameDelay = 2;
             session.EndRead(GoldAnim);
-            PicPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PicPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PicPnl);
             PicPnl.Name = "PicPnl";
             PicPnl.Priority = 3000;

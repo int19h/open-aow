@@ -17,7 +17,7 @@ namespace Aow.Units.AoWArmyInfoDlg
         {
             session.Begin(this);
             Name = "ArmyInfoDlg";
-            UnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitPnl);
             UnitPnl.Name = "UnitPnl";
             UnitPnl.Priority = 1;
@@ -426,7 +426,7 @@ namespace Aow.Units.AoWArmyInfoDlg
             BCeltL.ILIndexLine = 55;
             BCeltL.ILIndexTexture = 0;
             session.EndRead(BCeltL);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -525,7 +525,7 @@ namespace Aow.Units.AoWArmyInfoDlg
             UnitLine2.ILIndexLine = 55;
             UnitLine2.ILIndexTexture = 0;
             session.EndRead(UnitLine2);
-            Message = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            Message = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(Message);
             Message.Name = "Message";
             Message.Priority = 0;

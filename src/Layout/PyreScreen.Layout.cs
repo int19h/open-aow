@@ -17,7 +17,7 @@ namespace Aow.Units.AOWPyreScrn
         {
             session.Begin(this);
             Name = "PyreScreen";
-            DeadPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DeadPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DeadPnl);
             DeadPnl.Name = "DeadPnl";
             DeadPnl.OnMouseDown = DeadPnlMouseDown;

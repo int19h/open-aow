@@ -74,7 +74,7 @@ namespace Aow.Units.AoWTitleScene
             Window.Dockable = false;
             Window.OnDrawSurfaceEx = WindowDrawSurfaceEx;
             session.EndRead(Window);
-            LegalNotice = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            LegalNotice = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(LegalNotice);
             LegalNotice.Name = "LegalNotice";
             LegalNotice.Priority = 0;

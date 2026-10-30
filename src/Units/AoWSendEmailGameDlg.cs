@@ -64,6 +64,8 @@ namespace Aow.Units.AoWSendEmailGameDlg
 //     (instance size 172, VMT 0044D054) }
     public partial class TSendEmailGameDlg : Aow.Rtl.TDataModule
     {
+        public TSendEmailGameDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;

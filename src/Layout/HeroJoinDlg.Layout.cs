@@ -19,7 +19,7 @@ namespace Aow.Units.AoWHeroJoinDlg
             Name = "HeroJoinDlg";
             LayoutOnCreate = Layout_HeroJoinDlgCreate_0;
             LayoutOnDestroy = Layout_HeroJoinDlgDestroy_1;
-            UnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitPnl);
             UnitPnl.Name = "UnitPnl";
             UnitPnl.Priority = 1;
@@ -405,7 +405,7 @@ namespace Aow.Units.AoWHeroJoinDlg
             LeftBtn.WinWidth = 112;
             LeftBtn.OnClick = Layout_LeftBtnClick_5;
             session.EndRead(LeftBtn);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -548,7 +548,7 @@ namespace Aow.Units.AoWHeroJoinDlg
             DetailsLbl.Text = "Click on the unit(s) for details";
             DetailsLbl.TextColor = 2831663;
             session.EndRead(DetailsLbl);
-            JoinMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            JoinMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(JoinMemo);
             JoinMemo.Name = "JoinMemo";
             JoinMemo.Priority = 0;

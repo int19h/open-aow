@@ -75,6 +75,8 @@ namespace Aow.Units.AoWItemsFoundDlg
     // { TItemsFoundDlg: size $B0; $A0 item offset, $A4 completion event, $AC item event. VMT 0044C8D0. }
     public partial class TItemsFoundDlg : Aow.Rtl.TDataModule
     {
+        public TItemsFoundDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;

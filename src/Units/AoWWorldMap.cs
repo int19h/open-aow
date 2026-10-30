@@ -81,6 +81,8 @@ namespace Aow.Units.AoWWorldMap
     // { TWorldMap: size $16C; $13C star image, $140/$144 brightness, $148/$14C path animation, $150/$154 pawn timing, $158 hover, $15C context, $160 completion event, $168 book action. VMT 0041B5B8. }
     public partial class TWorldMap : Aow.Rtl.TDataModule
     {
+        public TWorldMap(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWMemo.TAOWMemo MemoL;
         // { +0044 }
         public Aow.Units.AoWImage.TAOWImage PicR;

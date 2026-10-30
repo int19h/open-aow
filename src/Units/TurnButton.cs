@@ -67,9 +67,8 @@ namespace Aow.Units.TurnButton
         public int FAnimationFrame;
         // TurnButton.pas:54
         // { $140 }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWTurnButton(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FFrameOffset = 11;
         }
 
@@ -286,23 +285,6 @@ namespace Aow.Units.TurnButton
 
         [Published]
         public bool Checked { get => FButtonChecked; set => FButtonChecked = value; }
-
-        // TurnButton.pas:31
-        public static new Aow.Units.TurnButton.TAOWTurnButton Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.TurnButton.TAOWTurnButton o = new Aow.Units.TurnButton.TAOWTurnButton();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TButtonType : byte

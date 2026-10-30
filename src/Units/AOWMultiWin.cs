@@ -77,6 +77,8 @@ namespace Aow.Units.AOWMultiWin
     // { TMultiWindow (instance size $F4, VMT 0042A6C4): $EC pending map, $F0 menu animation height. }
     public partial class TMultiWindow : Aow.Rtl.TDataModule
     {
+        public TMultiWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWPanel.TAOWPanel JoinPnl;
         // { +0044 }
         public Aow.Units.AoWListBox.TAOWListBox GamesLB;

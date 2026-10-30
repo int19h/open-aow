@@ -17,7 +17,7 @@ namespace Aow.Units.aowHelpWin
         {
             session.Begin(this);
             Name = "HelpWindow";
-            HelpWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            HelpWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(HelpWin);
             HelpWin.Name = "HelpWin";
             HelpWin.Visible = false;
@@ -354,7 +354,7 @@ namespace Aow.Units.aowHelpWin
             HelpSB.ILIndexBack = 101;
             HelpSB.ILIndexTab = 98;
             session.EndRead(HelpSB);
-            HeaderMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            HeaderMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(HeaderMemo);
             HeaderMemo.Name = "HeaderMemo";
             HeaderMemo.Priority = 200;
@@ -388,7 +388,7 @@ namespace Aow.Units.aowHelpWin
             HeaderMemo.ColorChangeChar = (byte)0;
             HeaderMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
             session.EndRead(HeaderMemo);
-            HelpMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            HelpMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(HelpMemo);
             HelpMemo.Name = "HelpMemo";
             HelpMemo.Priority = 200;

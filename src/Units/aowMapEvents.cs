@@ -147,6 +147,8 @@ namespace Aow.Units.aowMapEvents
     // { TMapEvents (instance size $48, VMT 0044E554); $44 map control. }
     public partial class TMapEvents : Aow.Rtl.TDataModule
     {
+        public TMapEvents(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.MapCtrl.TAoWMapControl TheMap;
         // aowMapEvents.pas:93
         // { +0044 }

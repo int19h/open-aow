@@ -17,7 +17,7 @@ namespace Aow.Units.AoWSelFactionWin
         {
             session.Begin(this);
             Name = "SelFactionWin";
-            FactionPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            FactionPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(FactionPnl);
             FactionPnl.Name = "FactionPnl";
             FactionPnl.OnMouseMove = FactionPnlMouseMove;
@@ -71,7 +71,7 @@ namespace Aow.Units.AoWSelFactionWin
             TopLbl.Text = "Choose a Faction";
             TopLbl.TextColor = 0;
             session.EndRead(TopLbl);
-            LightPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LightPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LightPnl);
             LightPnl.Name = "LightPnl";
             LightPnl.OnMouseDown = LightPnlMouseDown;
@@ -100,7 +100,7 @@ namespace Aow.Units.AoWSelFactionWin
             LightPnl.MinWidth = 0;
             LightPnl.MinHeight = 0;
             session.EndRead(LightPnl);
-            LText = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            LText = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(LText);
             LText.Name = "LText";
             LText.Visible = false;
@@ -239,7 +239,7 @@ namespace Aow.Units.AoWSelFactionWin
             LSphere.Animate = false;
             LSphere.AnimFrameDelay = 0;
             session.EndRead(LSphere);
-            DarkPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DarkPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DarkPnl);
             DarkPnl.Name = "DarkPnl";
             DarkPnl.OnMouseDown = DarkPnlMouseDown;
@@ -356,7 +356,7 @@ namespace Aow.Units.AoWSelFactionWin
             LName.Text = "The Keepers";
             LName.TextColor = 0;
             session.EndRead(LName);
-            DText = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            DText = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(DText);
             DText.Name = "DText";
             DText.Visible = false;

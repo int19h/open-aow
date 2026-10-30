@@ -45,9 +45,8 @@ namespace Aow.Units.HSLib
 
         // HSLib.pas:279
         // { THSLibrary }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        private protected THSLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__3 = new Aow.Rtl.TList();
             FList = call__3;
         }
@@ -101,21 +100,8 @@ namespace Aow.Units.HSLib
         public Aow.Units.HSEngine.THexagonSpriteEngine Engine { get => FEngine; set => SetEngine(value); }
 
         // HSLib.pas:60
-        public static new Aow.Units.HSLib.THSLibrary Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.HSLib.THSLibrary o = new Aow.Units.HSLib.THSLibrary();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public static new THSLibrary Create(Aow.Rtl.TComponent AOwner) =>
+            ConstructionContext.Create(AOwner, static (context, owner) => new THSLibrary(context, owner));
     }
 
     // { HSLib.TLibraryHS (instance size 44): a library image shown at a pixel position of the map.

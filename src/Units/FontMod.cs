@@ -41,6 +41,8 @@ namespace Aow.Units.FontMod
     // { TFontModule (instance size 116, VMT 0040380C) }
     public partial class TFontModule : Aow.Rtl.TDataModule
     {
+        public TFontModule(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.ImageLib.TImageLibraryFont Age8;
         // { +0044 }
         public Aow.Units.ImageLib.TImageLibraryFont Age10;

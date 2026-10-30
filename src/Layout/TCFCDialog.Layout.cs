@@ -17,7 +17,7 @@ namespace Aow.Units.TCFCDlg
         {
             session.Begin(this);
             Name = "TCFCDialog";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -435,7 +435,7 @@ namespace Aow.Units.TCFCDlg
             FCchk.RadioIndex = 1;
             FCchk.OnDoubleClick = FCchkDoubleClick;
             session.EndRead(FCchk);
-            MapViewPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MapViewPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MapViewPnl);
             MapViewPnl.Name = "MapViewPnl";
             MapViewPnl.Visible = false;

@@ -35,9 +35,8 @@ namespace Aow.Units.AoWWindow
     {
         // AoWWindow.pas:54
         // { TAOWWindow }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWWindow(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FUseManagerBorders = true;
         }
 
@@ -906,23 +905,6 @@ namespace Aow.Units.AoWWindow
 
         [Published]
         public bool Dockable { get => FDockable; set => FDockable = value; }
-
-        // AoWWindow.pas:20
-        public static new Aow.Units.AoWWindow.TAOWWindow Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWWindow.TAOWWindow o = new Aow.Units.AoWWindow.TAOWWindow();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWWindow

@@ -61,6 +61,8 @@ namespace Aow.Units.AOWTitleWindow
     // { TTitleWindow: size $5C; $54 splash timer, $58 splash stage. VMT 00429864. }
     public partial class TTitleWindow : Aow.Rtl.TDataModule
     {
+        public TTitleWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow TitleWin;
         // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel TitlePnl;

@@ -19,7 +19,7 @@ namespace Aow.Units.AoWFileDialog
             Name = "FileDlgWindow";
             LayoutOnCreate = Layout_FileDlgWindowCreate_0;
             LayoutOnDestroy = Layout_FileDlgWindowDestroy_1;
-            FileDialog = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            FileDialog = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(FileDialog);
             FileDialog.Name = "FileDialog";
             FileDialog.OnKeyDown = FileDialogKeyDown;
@@ -177,7 +177,7 @@ namespace Aow.Units.AoWFileDialog
             Title.Text = "Open";
             Title.TextColor = 0;
             session.EndRead(Title);
-            FileLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            FileLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(FileLB);
             FileLB.Name = "FileLB";
             FileLB.Priority = 0;
@@ -213,7 +213,7 @@ namespace Aow.Units.AoWFileDialog
             FileLB.ItemHeight = 17;
             FileLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(FileLB);
-            FileName = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            FileName = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(FileName);
             FileName.Name = "FileName";
             FileName.Priority = 1000;
@@ -268,7 +268,7 @@ namespace Aow.Units.AoWFileDialog
             ScenLbl.Text = "Scenario Info";
             ScenLbl.TextColor = 0;
             session.EndRead(ScenLbl);
-            DriveCmb = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            DriveCmb = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(DriveCmb);
             DriveCmb.Name = "DriveCmb";
             DriveCmb.Priority = 2000;
@@ -544,7 +544,7 @@ namespace Aow.Units.AoWFileDialog
             LPlayersI.Animate = false;
             LPlayersI.AnimFrameDelay = 0;
             session.EndRead(LPlayersI);
-            LSavedInfo = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LSavedInfo = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LSavedInfo);
             LSavedInfo.Name = "LSavedInfo";
             LSavedInfo.Priority = 0;
@@ -918,7 +918,7 @@ namespace Aow.Units.AoWFileDialog
             SPlayersI.Animate = false;
             SPlayersI.AnimFrameDelay = 0;
             session.EndRead(SPlayersI);
-            NewInfo = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NewInfo = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NewInfo);
             NewInfo.Name = "NewInfo";
             NewInfo.Priority = 10;
@@ -1090,7 +1090,7 @@ namespace Aow.Units.AoWFileDialog
             STowns.Text = "##";
             STowns.TextColor = 9415072;
             session.EndRead(STowns);
-            NewPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NewPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NewPnl);
             NewPnl.Name = "NewPnl";
             NewPnl.Priority = 0;
@@ -1117,7 +1117,7 @@ namespace Aow.Units.AoWFileDialog
             NewPnl.MinWidth = 0;
             NewPnl.MinHeight = 0;
             session.EndRead(NewPnl);
-            SaveLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            SaveLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(SaveLB);
             SaveLB.Name = "SaveLB";
             SaveLB.Priority = 30;
@@ -1153,7 +1153,7 @@ namespace Aow.Units.AoWFileDialog
             SaveLB.ItemHeight = 17;
             SaveLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(SaveLB);
-            SFileName = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            SFileName = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(SFileName);
             SFileName.Name = "SFileName";
             SFileName.Priority = 1000;
@@ -1210,7 +1210,7 @@ namespace Aow.Units.AoWFileDialog
             SavedInfo.Text = "Saved Game Info";
             SavedInfo.TextColor = 0;
             session.EndRead(SavedInfo);
-            SavePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SavePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SavePnl);
             SavePnl.Name = "SavePnl";
             SavePnl.Priority = 0;
@@ -1237,7 +1237,7 @@ namespace Aow.Units.AoWFileDialog
             SavePnl.MinWidth = 0;
             SavePnl.MinHeight = 0;
             session.EndRead(SavePnl);
-            DateLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            DateLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(DateLB);
             DateLB.Name = "DateLB";
             DateLB.Priority = 20;
@@ -1370,7 +1370,7 @@ namespace Aow.Units.AoWFileDialog
             NSBar.ILIndexBack = 101;
             NSBar.ILIndexTab = 98;
             session.EndRead(NSBar);
-            DriveFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            DriveFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(DriveFr);
             DriveFr.Name = "DriveFr";
             DriveFr.Priority = 10;
@@ -1397,7 +1397,7 @@ namespace Aow.Units.AoWFileDialog
             DriveFr.MinWidth = 0;
             DriveFr.MinHeight = 0;
             session.EndRead(DriveFr);
-            TopPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TopPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TopPnl);
             TopPnl.Name = "TopPnl";
             TopPnl.Priority = 0;
@@ -1424,7 +1424,7 @@ namespace Aow.Units.AoWFileDialog
             TopPnl.MinWidth = 0;
             TopPnl.MinHeight = 0;
             session.EndRead(TopPnl);
-            PathFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PathFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PathFr);
             PathFr.Name = "PathFr";
             PathFr.Priority = 0;
@@ -1451,7 +1451,7 @@ namespace Aow.Units.AoWFileDialog
             PathFr.MinWidth = 0;
             PathFr.MinHeight = 0;
             session.EndRead(PathFr);
-            PathEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            PathEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(PathEdit);
             PathEdit.Name = "PathEdit";
             PathEdit.Priority = 1000;
@@ -1482,7 +1482,7 @@ namespace Aow.Units.AoWFileDialog
             PathEdit.ILIndex = 15;
             PathEdit.PassWordChar = (byte)0;
             session.EndRead(PathEdit);
-            NewLBFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NewLBFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NewLBFr);
             NewLBFr.Name = "NewLBFr";
             NewLBFr.Priority = 10;
@@ -1509,7 +1509,7 @@ namespace Aow.Units.AoWFileDialog
             NewLBFr.MinWidth = 0;
             NewLBFr.MinHeight = 0;
             session.EndRead(NewLBFr);
-            NewInfo1 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NewInfo1 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NewInfo1);
             NewInfo1.Name = "NewInfo1";
             NewInfo1.Priority = 0;
@@ -1536,7 +1536,7 @@ namespace Aow.Units.AoWFileDialog
             NewInfo1.MinWidth = 0;
             NewInfo1.MinHeight = 0;
             session.EndRead(NewInfo1);
-            NewInfo2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NewInfo2 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NewInfo2);
             NewInfo2.Name = "NewInfo2";
             NewInfo2.Priority = 0;
@@ -1563,7 +1563,7 @@ namespace Aow.Units.AoWFileDialog
             NewInfo2.MinWidth = 0;
             NewInfo2.MinHeight = 0;
             session.EndRead(NewInfo2);
-            NewInfo3 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            NewInfo3 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(NewInfo3);
             NewInfo3.Name = "NewInfo3";
             NewInfo3.Priority = 0;
@@ -1590,7 +1590,7 @@ namespace Aow.Units.AoWFileDialog
             NewInfo3.MinWidth = 0;
             NewInfo3.MinHeight = 0;
             session.EndRead(NewInfo3);
-            SaveLBFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SaveLBFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SaveLBFr);
             SaveLBFr.Name = "SaveLBFr";
             SaveLBFr.Priority = 10;
@@ -1654,7 +1654,7 @@ namespace Aow.Units.AoWFileDialog
             SSBar.ILIndexBack = 101;
             SSBar.ILIndexTab = 98;
             session.EndRead(SSBar);
-            SavedInfo1 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SavedInfo1 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SavedInfo1);
             SavedInfo1.Name = "SavedInfo1";
             SavedInfo1.Priority = 0;
@@ -1681,7 +1681,7 @@ namespace Aow.Units.AoWFileDialog
             SavedInfo1.MinWidth = 0;
             SavedInfo1.MinHeight = 0;
             session.EndRead(SavedInfo1);
-            SavedInfo2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SavedInfo2 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SavedInfo2);
             SavedInfo2.Name = "SavedInfo2";
             SavedInfo2.Priority = 0;
@@ -1708,7 +1708,7 @@ namespace Aow.Units.AoWFileDialog
             SavedInfo2.MinWidth = 0;
             SavedInfo2.MinHeight = 0;
             session.EndRead(SavedInfo2);
-            SavedInfo3 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SavedInfo3 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SavedInfo3);
             SavedInfo3.Name = "SavedInfo3";
             SavedInfo3.Priority = 0;
@@ -1735,7 +1735,7 @@ namespace Aow.Units.AoWFileDialog
             SavedInfo3.MinWidth = 0;
             SavedInfo3.MinHeight = 0;
             session.EndRead(SavedInfo3);
-            SavedInfo4 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SavedInfo4 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SavedInfo4);
             SavedInfo4.Name = "SavedInfo4";
             SavedInfo4.Priority = 0;

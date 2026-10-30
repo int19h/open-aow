@@ -17,7 +17,7 @@ namespace Aow.Units.AoWPasswordDlg
         {
             session.Begin(this);
             Name = "PasswordDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -167,7 +167,7 @@ namespace Aow.Units.AoWPasswordDlg
             TCeltLineL.Animate = false;
             TCeltLineL.AnimFrameDelay = 0;
             session.EndRead(TCeltLineL);
-            OKCancelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            OKCancelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(OKCancelPnl);
             OKCancelPnl.Name = "OKCancelPnl";
             OKCancelPnl.Priority = 100;
@@ -279,7 +279,7 @@ namespace Aow.Units.AoWPasswordDlg
             PasswordLbl.Text = "######";
             PasswordLbl.TextColor = 0;
             session.EndRead(PasswordLbl);
-            PasswordEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            PasswordEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(PasswordEdit);
             PasswordEdit.Name = "PasswordEdit";
             PasswordEdit.Priority = 99999;

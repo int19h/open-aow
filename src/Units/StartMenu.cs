@@ -47,6 +47,8 @@ namespace Aow.Units.StartMenu
     // { TStartMenu: instance size $258; $254 whole-menu image library. }
     public partial class TStartMenu : Aow.Units.AOWMenu.TAOWMenu
     {
+        public TStartMenu(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.ImageLib.TImageLibrary FILWholeMenu;
         // StartMenu.pas:30
         // { $254 }

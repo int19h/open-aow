@@ -60,6 +60,8 @@ namespace Aow.Units.AoWUnitBanner
 //     $44..80 published labels, popup and ability-list controls. }
     public partial class TUnitBanner : Aow.Rtl.TDataModule
     {
+        public TUnitBanner(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWLabel.TAOWLabel UnitNameLbl;
         // { +0044 }
         public Aow.Units.AoWImage.TAOWImage AttackIcon;

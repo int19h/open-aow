@@ -17,7 +17,7 @@ namespace Aow.Units.AoWPInfoWin
         {
             session.Begin(this);
             Name = "PInfoW";
-            PInfoWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            PInfoWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(PInfoWin);
             PInfoWin.Name = "PInfoWin";
             PInfoWin.Visible = false;
@@ -147,7 +147,7 @@ namespace Aow.Units.AoWPInfoWin
             SIcon.Animate = false;
             SIcon.AnimFrameDelay = 0;
             session.EndRead(SIcon);
-            EventList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            EventList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(EventList);
             EventList.Name = "EventList";
             EventList.OnMouseDown = EventListMouseDown;
@@ -261,7 +261,7 @@ namespace Aow.Units.AoWPInfoWin
             RShield.Animate = false;
             RShield.AnimFrameDelay = 0;
             session.EndRead(RShield);
-            EventFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            EventFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(EventFr);
             EventFr.Name = "EventFr";
             EventFr.Priority = 0;
@@ -325,7 +325,7 @@ namespace Aow.Units.AoWPInfoWin
             EventSB.ILIndexBack = 101;
             EventSB.ILIndexTab = 98;
             session.EndRead(EventSB);
-            PInfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PInfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PInfoPnl);
             PInfoPnl.Name = "PInfoPnl";
             PInfoPnl.Priority = 50000;
@@ -389,7 +389,7 @@ namespace Aow.Units.AoWPInfoWin
             LeaderCB.Checked = false;
             LeaderCB.RadioIndex = 1;
             session.EndRead(LeaderCB);
-            FaceFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            FaceFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(FaceFr);
             FaceFr.Name = "FaceFr";
             FaceFr.OnMouseDown = FaceFrMouseDown;
@@ -441,7 +441,7 @@ namespace Aow.Units.AoWPInfoWin
             EventLbl.Text = "Event History";
             EventLbl.TextColor = 0;
             session.EndRead(EventLbl);
-            ShieldFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ShieldFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ShieldFr);
             ShieldFr.Name = "ShieldFr";
             ShieldFr.Priority = 0;
@@ -468,7 +468,7 @@ namespace Aow.Units.AoWPInfoWin
             ShieldFr.MinWidth = 0;
             ShieldFr.MinHeight = 0;
             session.EndRead(ShieldFr);
-            TurnFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TurnFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TurnFr);
             TurnFr.Name = "TurnFr";
             TurnFr.Priority = 0;
@@ -495,7 +495,7 @@ namespace Aow.Units.AoWPInfoWin
             TurnFr.MinWidth = 0;
             TurnFr.MinHeight = 0;
             session.EndRead(TurnFr);
-            InfoFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            InfoFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(InfoFr);
             InfoFr.Name = "InfoFr";
             InfoFr.Priority = 0;

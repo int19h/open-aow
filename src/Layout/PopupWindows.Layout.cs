@@ -64,7 +64,7 @@ namespace Aow.Units.AoWPWindows
             StartMenu.SubMenuShowDelay = 5;
             StartMenu.WinHeight = 0;
             session.EndRead(StartMenu);
-            OverViewsMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            OverViewsMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(OverViewsMenu);
             OverViewsMenu.Name = "OverViewsMenu";
             OverViewsMenu.Visible = false;
@@ -108,7 +108,7 @@ namespace Aow.Units.AoWPWindows
             OverViewsMenu.OnSelect = Layout_OverViewsMenuSelect_0;
             OverViewsMenu.WinHeight = 0;
             session.EndRead(OverViewsMenu);
-            SettingsMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            SettingsMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(SettingsMenu);
             SettingsMenu.Name = "SettingsMenu";
             SettingsMenu.Visible = false;
@@ -156,7 +156,7 @@ namespace Aow.Units.AoWPWindows
             SettingsMenu.OnSelect = Layout_SettingsMenuSelect_1;
             SettingsMenu.WinHeight = 112;
             session.EndRead(SettingsMenu);
-            EndMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            EndMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(EndMenu);
             EndMenu.Name = "EndMenu";
             EndMenu.Visible = false;
@@ -202,7 +202,7 @@ namespace Aow.Units.AoWPWindows
             EndMenu.OnSelect = Layout_EndMenuSelect_2;
             EndMenu.WinHeight = 92;
             session.EndRead(EndMenu);
-            DiskMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            DiskMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(DiskMenu);
             DiskMenu.Name = "DiskMenu";
             DiskMenu.Visible = false;
@@ -303,7 +303,7 @@ namespace Aow.Units.AoWPWindows
             created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
             created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
             session.EndRead(created__Translator);
-            HelpMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            HelpMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(HelpMenu);
             HelpMenu.Name = "HelpMenu";
             HelpMenu.Visible = false;
@@ -349,7 +349,7 @@ namespace Aow.Units.AoWPWindows
             HelpMenu.OnSelect = Layout_HelpMenuSelect_4;
             HelpMenu.WinHeight = 0;
             session.EndRead(HelpMenu);
-            TCOVMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            TCOVMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(TCOVMenu);
             TCOVMenu.Name = "TCOVMenu";
             TCOVMenu.Visible = false;
@@ -393,7 +393,7 @@ namespace Aow.Units.AoWPWindows
             TCOVMenu.OnSelect = Layout_OverViewsMenuSelect_0;
             TCOVMenu.WinHeight = 0;
             session.EndRead(TCOVMenu);
-            TCDiskMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            TCDiskMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(TCDiskMenu);
             TCDiskMenu.Name = "TCDiskMenu";
             TCDiskMenu.Visible = false;
@@ -437,7 +437,7 @@ namespace Aow.Units.AoWPWindows
             TCDiskMenu.OnSelect = Layout_DiskMenuSelect_3;
             TCDiskMenu.WinHeight = 0;
             session.EndRead(TCDiskMenu);
-            TCHelpMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            TCHelpMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(TCHelpMenu);
             TCHelpMenu.Name = "TCHelpMenu";
             TCHelpMenu.Visible = false;
@@ -483,7 +483,7 @@ namespace Aow.Units.AoWPWindows
             TCHelpMenu.OnSelect = Layout_HelpMenuSelect_4;
             TCHelpMenu.WinHeight = 0;
             session.EndRead(TCHelpMenu);
-            TCSettingsMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            TCSettingsMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(TCSettingsMenu);
             TCSettingsMenu.Name = "TCSettingsMenu";
             TCSettingsMenu.Visible = false;
@@ -531,7 +531,7 @@ namespace Aow.Units.AoWPWindows
             TCSettingsMenu.OnSelect = Layout_SettingsMenuSelect_1;
             TCSettingsMenu.WinHeight = 0;
             session.EndRead(TCSettingsMenu);
-            TCEndMenu = Aow.Units.AOWMenu.TAOWMenu.Create(this);
+            TCEndMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
             session.BeginRead(TCEndMenu);
             TCEndMenu.Name = "TCEndMenu";
             TCEndMenu.Visible = false;

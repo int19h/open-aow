@@ -57,6 +57,8 @@ namespace Aow.Units.AoWIntroScene
     // { TIntroScene: size $5C; $4C sound buffer, $50 buffer size, $54 DirectSound, $58 stream position. VMT 00451F68. }
     public partial class TIntroScene : Aow.Rtl.TDataModule
     {
+        public TIntroScene(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AowUserWindow.TAoWUserWindow Window;
         // { +0044 }
         public Aow.Rtl.TVideoPlayer VideoPlayer;

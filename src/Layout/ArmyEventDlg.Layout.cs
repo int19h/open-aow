@@ -19,7 +19,7 @@ namespace Aow.Units.AoWArmyEventDlg
             Name = "ArmyEventDlg";
             LayoutOnCreate = Layout_ArmyEventDlgCreate_0;
             LayoutOnDestroy = Layout_ArmyEventDlgDestroy_1;
-            ArmyEventWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            ArmyEventWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(ArmyEventWin);
             ArmyEventWin.Name = "ArmyEventWin";
             ArmyEventWin.OnKeyDown = ArmyEventWinKeyDown;
@@ -91,7 +91,7 @@ namespace Aow.Units.AoWArmyEventDlg
             BGoldSq.ILIndexLine = 0;
             BGoldSq.ILIndexTexture = 0;
             session.EndRead(BGoldSq);
-            UnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitPnl);
             UnitPnl.Name = "UnitPnl";
             UnitPnl.OnUpdate = Layout_UnitPnlUpdate_3;

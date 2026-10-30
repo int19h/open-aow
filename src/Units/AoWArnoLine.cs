@@ -62,9 +62,8 @@ namespace Aow.Units.AoWArnoLine
         }
 
         // AoWArnoLine.pas:41
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAoWArnoLine(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = Aow.Units.AOWInterfaceImgLib.TInterfaceIL.Create(this);
             FLineLibrary = call__1;
         }
@@ -167,23 +166,6 @@ namespace Aow.Units.AoWArnoLine
 
         [Published]
         public Aow.Units.ImageLib.TLibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
-
-        // AoWArnoLine.pas:24
-        public static new Aow.Units.AoWArnoLine.TAoWArnoLine Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWArnoLine.TAoWArnoLine o = new Aow.Units.AoWArnoLine.TAoWArnoLine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWArnoLine

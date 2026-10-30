@@ -76,9 +76,8 @@ namespace Aow.Units.AoWComboBox
         public Aow.Rtl.TRect FDrawItemRect;
         // AoWComboBox.pas:114
         // { TAOWComboBox }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWComboBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;
             FItems.OnChange = OnChangeText;
@@ -856,23 +855,6 @@ namespace Aow.Units.AoWComboBox
 
         [Published]
         public Aow.Rtl.TNotifyEvent OnClose { get => FOnClose; set => FOnClose = value; }
-
-        // AoWComboBox.pas:58
-        public static new Aow.Units.AoWComboBox.TAOWComboBox Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWComboBox.TAOWComboBox o = new Aow.Units.AoWComboBox.TAOWComboBox();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWComboBox

@@ -17,7 +17,7 @@ namespace Aow.Units.AoWMsgReceiveDlg
         {
             session.Begin(this);
             Name = "MsgReceiveDlg";
-            MsgReceiveWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            MsgReceiveWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(MsgReceiveWin);
             MsgReceiveWin.Name = "MsgReceiveWin";
             MsgReceiveWin.Visible = false;
@@ -61,7 +61,7 @@ namespace Aow.Units.AoWMsgReceiveDlg
             MsgReceiveWin.WinHeight = 262;
             MsgReceiveWin.Dockable = false;
             session.EndRead(MsgReceiveWin);
-            MessageMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            MessageMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(MessageMemo);
             MessageMemo.Name = "MessageMemo";
             MessageMemo.Priority = 200;
@@ -232,7 +232,7 @@ namespace Aow.Units.AoWMsgReceiveDlg
             RShield.Animate = false;
             RShield.AnimFrameDelay = 0;
             session.EndRead(RShield);
-            HeaderMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            HeaderMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(HeaderMemo);
             HeaderMemo.Name = "HeaderMemo";
             HeaderMemo.Priority = 200;

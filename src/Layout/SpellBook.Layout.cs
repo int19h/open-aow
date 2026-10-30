@@ -42,7 +42,7 @@ namespace Aow.Units.AoWSpellBook
             LeftHeader.Text = "Global Spells";
             LeftHeader.TextColor = 5908276;
             session.EndRead(LeftHeader);
-            LeftSpellPage = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LeftSpellPage = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LeftSpellPage);
             LeftSpellPage.Name = "LeftSpellPage";
             LeftSpellPage.Visible = false;
@@ -70,7 +70,7 @@ namespace Aow.Units.AoWSpellBook
             LeftSpellPage.MinWidth = 0;
             LeftSpellPage.MinHeight = 0;
             session.EndRead(LeftSpellPage);
-            S1Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            S1Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(S1Pnl);
             S1Pnl.Name = "S1Pnl";
             S1Pnl.Priority = 1000;
@@ -143,7 +143,7 @@ namespace Aow.Units.AoWSpellBook
             S1Class.Text = "####";
             S1Class.TextColor = 5908276;
             session.EndRead(S1Class);
-            S1Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            S1Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(S1Memo);
             S1Memo.Name = "S1Memo";
             S1Memo.Priority = 0;
@@ -229,7 +229,7 @@ namespace Aow.Units.AoWSpellBook
             S1Icn.Animate = false;
             S1Icn.AnimFrameDelay = 0;
             session.EndRead(S1Icn);
-            S2Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            S2Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(S2Pnl);
             S2Pnl.Name = "S2Pnl";
             S2Pnl.Tag = 1;
@@ -305,7 +305,7 @@ namespace Aow.Units.AoWSpellBook
             S2Class.Text = "####";
             S2Class.TextColor = 5908276;
             session.EndRead(S2Class);
-            S2Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            S2Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(S2Memo);
             S2Memo.Name = "S2Memo";
             S2Memo.Tag = 1;
@@ -394,7 +394,7 @@ namespace Aow.Units.AoWSpellBook
             S2Icn.Animate = false;
             S2Icn.AnimFrameDelay = 0;
             session.EndRead(S2Icn);
-            S3Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            S3Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(S3Pnl);
             S3Pnl.Name = "S3Pnl";
             S3Pnl.Tag = 2;
@@ -470,7 +470,7 @@ namespace Aow.Units.AoWSpellBook
             S3Class.Text = "####";
             S3Class.TextColor = 5908276;
             session.EndRead(S3Class);
-            S3Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            S3Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(S3Memo);
             S3Memo.Name = "S3Memo";
             S3Memo.Tag = 2;
@@ -559,7 +559,7 @@ namespace Aow.Units.AoWSpellBook
             S3Icn.Animate = false;
             S3Icn.AnimFrameDelay = 0;
             session.EndRead(S3Icn);
-            S4Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            S4Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(S4Pnl);
             S4Pnl.Name = "S4Pnl";
             S4Pnl.Tag = 3;
@@ -635,7 +635,7 @@ namespace Aow.Units.AoWSpellBook
             S4Class.Text = "####";
             S4Class.TextColor = 5908276;
             session.EndRead(S4Class);
-            S4Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            S4Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(S4Memo);
             S4Memo.Name = "S4Memo";
             S4Memo.Tag = 3;
@@ -747,7 +747,7 @@ namespace Aow.Units.AoWSpellBook
             RightHeader.Text = "Global Spells";
             RightHeader.TextColor = 1254460;
             session.EndRead(RightHeader);
-            RightSpellPage = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RightSpellPage = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RightSpellPage);
             RightSpellPage.Name = "RightSpellPage";
             RightSpellPage.Visible = false;
@@ -775,7 +775,7 @@ namespace Aow.Units.AoWSpellBook
             RightSpellPage.MinWidth = 0;
             RightSpellPage.MinHeight = 0;
             session.EndRead(RightSpellPage);
-            S5Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            S5Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(S5Pnl);
             S5Pnl.Name = "S5Pnl";
             S5Pnl.Tag = 4;
@@ -851,7 +851,7 @@ namespace Aow.Units.AoWSpellBook
             S5Class.Text = "####";
             S5Class.TextColor = 5908276;
             session.EndRead(S5Class);
-            S5Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            S5Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(S5Memo);
             S5Memo.Name = "S5Memo";
             S5Memo.Tag = 4;
@@ -940,7 +940,7 @@ namespace Aow.Units.AoWSpellBook
             S5Icn.Animate = false;
             S5Icn.AnimFrameDelay = 0;
             session.EndRead(S5Icn);
-            S6Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            S6Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(S6Pnl);
             S6Pnl.Name = "S6Pnl";
             S6Pnl.Tag = 5;
@@ -1016,7 +1016,7 @@ namespace Aow.Units.AoWSpellBook
             S6Class.Text = "####";
             S6Class.TextColor = 5908276;
             session.EndRead(S6Class);
-            S6Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            S6Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(S6Memo);
             S6Memo.Name = "S6Memo";
             S6Memo.Tag = 5;
@@ -1105,7 +1105,7 @@ namespace Aow.Units.AoWSpellBook
             S6Icn.Animate = false;
             S6Icn.AnimFrameDelay = 0;
             session.EndRead(S6Icn);
-            S7Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            S7Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(S7Pnl);
             S7Pnl.Name = "S7Pnl";
             S7Pnl.Tag = 6;
@@ -1181,7 +1181,7 @@ namespace Aow.Units.AoWSpellBook
             S7Class.Text = "####";
             S7Class.TextColor = 5908276;
             session.EndRead(S7Class);
-            S7Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            S7Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(S7Memo);
             S7Memo.Name = "S7Memo";
             S7Memo.Tag = 6;
@@ -1270,7 +1270,7 @@ namespace Aow.Units.AoWSpellBook
             S7Icn.Animate = false;
             S7Icn.AnimFrameDelay = 0;
             session.EndRead(S7Icn);
-            S8Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            S8Pnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(S8Pnl);
             S8Pnl.Name = "S8Pnl";
             S8Pnl.Tag = 7;
@@ -1346,7 +1346,7 @@ namespace Aow.Units.AoWSpellBook
             S8Class.Text = "####";
             S8Class.TextColor = 5908276;
             session.EndRead(S8Class);
-            S8Memo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            S8Memo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(S8Memo);
             S8Memo.Name = "S8Memo";
             S8Memo.Tag = 7;
@@ -1961,7 +1961,7 @@ namespace Aow.Units.AoWSpellBook
             S8Btn.WinWidth = 254;
             S8Btn.OnClick = SelectSpellBtnClick;
             session.EndRead(S8Btn);
-            CastingPage = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CastingPage = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CastingPage);
             CastingPage.Name = "CastingPage";
             CastingPage.Visible = false;
@@ -1989,7 +1989,7 @@ namespace Aow.Units.AoWSpellBook
             CastingPage.MinWidth = 0;
             CastingPage.MinHeight = 0;
             session.EndRead(CastingPage);
-            CastingPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CastingPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CastingPnl);
             CastingPnl.Name = "CastingPnl";
             CastingPnl.Visible = false;
@@ -2063,7 +2063,7 @@ namespace Aow.Units.AoWSpellBook
             CastingClass.Text = "###########";
             CastingClass.TextColor = 5908276;
             session.EndRead(CastingClass);
-            CastingMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            CastingMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(CastingMemo);
             CastingMemo.Name = "CastingMemo";
             CastingMemo.Priority = 0;
@@ -2149,7 +2149,7 @@ namespace Aow.Units.AoWSpellBook
             CastingIcn.Animate = false;
             CastingIcn.AnimFrameDelay = 0;
             session.EndRead(CastingIcn);
-            LeftInfoPage = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LeftInfoPage = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LeftInfoPage);
             LeftInfoPage.Name = "LeftInfoPage";
             LeftInfoPage.Priority = 0;
@@ -2282,7 +2282,7 @@ namespace Aow.Units.AoWSpellBook
             Sel4.WinWidth = 52;
             Sel4.OnClick = Layout_Sel1Click_9;
             session.EndRead(Sel4);
-            SelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SelPnl);
             SelPnl.Name = "SelPnl";
             SelPnl.Priority = 10;
@@ -2661,7 +2661,7 @@ namespace Aow.Units.AoWSpellBook
             Face.Animate = false;
             Face.AnimFrameDelay = 0;
             session.EndRead(Face);
-            Dlg = Aow.Units.AoWBookWindow.TAoWBookWindow.Create(this);
+            Dlg = new Aow.Units.AoWBookWindow.TAoWBookWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -2730,7 +2730,7 @@ namespace Aow.Units.AoWSpellBook
             NoneCastingLbl.Text = "None";
             NoneCastingLbl.TextColor = 5908276;
             session.EndRead(NoneCastingLbl);
-            ResearchPage = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ResearchPage = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ResearchPage);
             ResearchPage.Name = "ResearchPage";
             ResearchPage.Priority = 0;
@@ -2803,7 +2803,7 @@ namespace Aow.Units.AoWSpellBook
             ResearchClass.Text = "#########";
             ResearchClass.TextColor = 5908276;
             session.EndRead(ResearchClass);
-            ResearchMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ResearchMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ResearchMemo);
             ResearchMemo.Name = "ResearchMemo";
             ResearchMemo.Priority = 0;
@@ -2935,7 +2935,7 @@ namespace Aow.Units.AoWSpellBook
             ResearchNone.Text = "None";
             ResearchNone.TextColor = 5908276;
             session.EndRead(ResearchNone);
-            ResearchPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ResearchPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ResearchPnl);
             ResearchPnl.Name = "ResearchPnl";
             ResearchPnl.Priority = 0;
@@ -2985,7 +2985,7 @@ namespace Aow.Units.AoWSpellBook
             ResearchLbl.Text = "Currently Researching:";
             ResearchLbl.TextColor = 1254460;
             session.EndRead(ResearchLbl);
-            RightInfoPage = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RightInfoPage = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RightInfoPage);
             RightInfoPage.Name = "RightInfoPage";
             RightInfoPage.Priority = 0;

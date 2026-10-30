@@ -67,6 +67,8 @@ namespace Aow.Units.aowTCMapEvents
     // { TTCMapEvents (instance size 76, VMT 00458004) }
     public partial class TTCMapEvents : Aow.Rtl.TDataModule
     {
+        public TTCMapEvents(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.CMapCtrl.TAoWCombatMapControl TCMap;
         // { +0044 }
         public int FChatHeight;

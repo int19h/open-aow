@@ -17,7 +17,7 @@ namespace Aow.Units.AoWPOP3Dlg
         {
             session.Begin(this);
             Name = "POP3Dlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -269,7 +269,7 @@ namespace Aow.Units.AoWPOP3Dlg
             EmailGameFoundLbl.Text = "Email games found:";
             EmailGameFoundLbl.TextColor = 0;
             session.EndRead(EmailGameFoundLbl);
-            FoundEmailGames = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            FoundEmailGames = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(FoundEmailGames);
             FoundEmailGames.Name = "FoundEmailGames";
             FoundEmailGames.Priority = 9999;
@@ -303,7 +303,7 @@ namespace Aow.Units.AoWPOP3Dlg
             FoundEmailGames.ItemHeight = 17;
             FoundEmailGames.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(FoundEmailGames);
-            ExitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ExitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ExitPnl);
             ExitPnl.Name = "ExitPnl";
             ExitPnl.Visible = false;
@@ -362,7 +362,7 @@ namespace Aow.Units.AoWPOP3Dlg
             Exit2Btn.WinWidth = 115;
             Exit2Btn.OnClick = Layout_ExitBtnClick_2;
             session.EndRead(Exit2Btn);
-            StartExitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            StartExitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(StartExitPnl);
             StartExitPnl.Name = "StartExitPnl";
             StartExitPnl.Priority = 100;
@@ -451,7 +451,7 @@ namespace Aow.Units.AoWPOP3Dlg
             ExitBtn.WinWidth = 115;
             ExitBtn.OnClick = Layout_ExitBtnClick_2;
             session.EndRead(ExitBtn);
-            LocalEmailAddressEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            LocalEmailAddressEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(LocalEmailAddressEdit);
             LocalEmailAddressEdit.Name = "LocalEmailAddressEdit";
             LocalEmailAddressEdit.Priority = 0;
@@ -533,7 +533,7 @@ namespace Aow.Units.AoWPOP3Dlg
             TitleIcon.Animate = false;
             TitleIcon.AnimFrameDelay = 0;
             session.EndRead(TitleIcon);
-            EditPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            EditPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(EditPnl);
             EditPnl.Name = "EditPnl";
             EditPnl.Priority = 100;
@@ -560,7 +560,7 @@ namespace Aow.Units.AoWPOP3Dlg
             EditPnl.MinWidth = 0;
             EditPnl.MinHeight = 0;
             session.EndRead(EditPnl);
-            ModePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ModePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ModePnl);
             ModePnl.Name = "ModePnl";
             ModePnl.Priority = 3000;

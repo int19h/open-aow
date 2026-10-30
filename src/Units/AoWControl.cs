@@ -36,9 +36,8 @@ namespace Aow.Units.AoWControl
         public Aow.Units.AOWToolTip.TAOWToolTip FToolTip;
         // AoWControl.pas:46
         // { TAOWControl }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FToolTipText = call__1;
             FCaptureInput = true;
@@ -287,23 +286,6 @@ namespace Aow.Units.AoWControl
 
         [Published]
         public Aow.Rtl.TStringList ToolTipText { get => FToolTipText; set => SetToolStrings(value); }
-
-        // AoWControl.pas:21
-        public static new Aow.Units.AoWControl.TAOWControl Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWControl.TAOWControl o = new Aow.Units.AoWControl.TAOWControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWControl

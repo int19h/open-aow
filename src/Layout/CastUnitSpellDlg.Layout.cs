@@ -17,7 +17,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         {
             session.Begin(this);
             Name = "CastUnitSpellDlg";
-            Unit1Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit1Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit1Gge);
             Unit1Gge.Name = "Unit1Gge";
             Unit1Gge.Visible = false;
@@ -47,7 +47,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             Unit1Gge.ILIndexTNormal = 4;
             Unit1Gge.ILIndexTSelected = 5;
             session.EndRead(Unit1Gge);
-            Unit2Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit2Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit2Gge);
             Unit2Gge.Name = "Unit2Gge";
             Unit2Gge.Visible = false;
@@ -77,7 +77,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             Unit2Gge.ILIndexTNormal = 4;
             Unit2Gge.ILIndexTSelected = 5;
             session.EndRead(Unit2Gge);
-            Unit3Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit3Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit3Gge);
             Unit3Gge.Name = "Unit3Gge";
             Unit3Gge.Visible = false;
@@ -107,7 +107,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             Unit3Gge.ILIndexTNormal = 4;
             Unit3Gge.ILIndexTSelected = 5;
             session.EndRead(Unit3Gge);
-            Unit4Gge = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit4Gge = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit4Gge);
             Unit4Gge.Name = "Unit4Gge";
             Unit4Gge.Visible = false;
@@ -137,7 +137,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             Unit4Gge.ILIndexTNormal = 4;
             Unit4Gge.ILIndexTSelected = 5;
             session.EndRead(Unit4Gge);
-            Unit5Gg = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit5Gg = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit5Gg);
             Unit5Gg.Name = "Unit5Gg";
             Unit5Gg.Visible = false;
@@ -167,7 +167,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             Unit5Gg.ILIndexTNormal = 4;
             Unit5Gg.ILIndexTSelected = 5;
             session.EndRead(Unit5Gg);
-            Unit6Gg = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit6Gg = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit6Gg);
             Unit6Gg.Name = "Unit6Gg";
             Unit6Gg.Visible = false;
@@ -197,7 +197,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             Unit6Gg.ILIndexTNormal = 4;
             Unit6Gg.ILIndexTSelected = 5;
             session.EndRead(Unit6Gg);
-            Unit7Gg = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit7Gg = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit7Gg);
             Unit7Gg.Name = "Unit7Gg";
             Unit7Gg.Visible = false;
@@ -227,7 +227,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             Unit7Gg.ILIndexTNormal = 4;
             Unit7Gg.ILIndexTSelected = 5;
             session.EndRead(Unit7Gg);
-            Unit8Gg = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Unit8Gg = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Unit8Gg);
             Unit8Gg.Name = "Unit8Gg";
             Unit8Gg.Visible = false;
@@ -404,7 +404,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             CancelBut.WinWidth = 128;
             CancelBut.OnClick = Layout_CloseClick_1;
             session.EndRead(CancelBut);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnUpdate = Layout_DlgUpdate_2;
@@ -472,7 +472,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             SelectLbl.Text = "Select Unit(s)";
             SelectLbl.TextColor = 16777215;
             session.EndRead(SelectLbl);
-            UnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitPnl);
             UnitPnl.Name = "UnitPnl";
             UnitPnl.Priority = 1;
@@ -499,7 +499,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             UnitPnl.MinWidth = 0;
             UnitPnl.MinHeight = 0;
             session.EndRead(UnitPnl);
-            TopPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TopPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TopPnl);
             TopPnl.Name = "TopPnl";
             TopPnl.Priority = 0;
@@ -1084,7 +1084,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
             AoWFrame1.ILIndexLine = 55;
             AoWFrame1.ILIndexTexture = 0;
             session.EndRead(AoWFrame1);
-            SelectionInfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SelectionInfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SelectionInfoPnl);
             SelectionInfoPnl.Name = "SelectionInfoPnl";
             SelectionInfoPnl.Priority = 1;
