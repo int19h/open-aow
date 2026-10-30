@@ -921,8 +921,11 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 66048;
 
+        // Raw base for TAoWHSMap field-injection fixtures and MovementChecks.RawCombatMap.
+        protected THSMap() { }
+
         // HSMAP.PAS:14
-        private void InitializeHSMap(Aow.Units.Engine.TECustomNode AOwner)
+        public THSMap(TECustomNode owner) : base(owner)
         {
             var call__33 = CreateMouse();
             FMouse = call__33;
@@ -956,17 +959,38 @@ namespace Aow.Units.HSEngine
             FDestroyEvents = call__44;
         }
 
-        // Raw allocation for TAbstractAoWHSMap and the ordered TAoWCombatMap chain.
-        protected THSMap() { }
-
-        public THSMap(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        private protected THSMap(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
-            InitializeHSMap(AOwner);
-        }
-
-        private protected THSMap(ConstructionContext context, TECustomNode AOwner) : base(context, AOwner)
-        {
-            InitializeHSMap(AOwner);
+            var call__33 = CreateMouse();
+            FMouse = call__33;
+            FMouse.FHSMap = this;
+            var call__34 = new Aow.Units.HSEngine.THexagonSpriteSelection(this);
+            FSelection = call__34;
+            FSelection.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__35 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FStaticVisibleHS = call__35;
+            FStaticVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__36 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FDynamicVisibleHS = call__36;
+            FDynamicVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__37 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FStaticFixedVisibleHS = call__37;
+            FStaticFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__38 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FDynamicFixedVisibleHS = call__38;
+            FDynamicFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            var call__39 = new Aow.Units.Engine.TETimerNode(this);
+            FTimer = call__39;
+            var call__40 = new Aow.Units.Engine.TEventList();
+            FHSChangedEvents = call__40;
+            var call__41 = new Aow.Units.Engine.TEventList();
+            FTerrainChangedEvents = call__41;
+            var call__42 = new Aow.Units.Engine.TEventList();
+            FViewPortChangedEvents = call__42;
+            var call__43 = new Aow.Units.Engine.TEventList();
+            FNewFrameEvents = call__43;
+            var call__44 = new Aow.Units.Engine.TEventList();
+            FDestroyEvents = call__44;
         }
 
         internal Aow.Units.HSEngine.THSMapMouse FMouse;
@@ -1092,14 +1116,6 @@ namespace Aow.Units.HSEngine
             {
                 FMapContainer.Loaded();
             }
-        }
-
-        // HSMAP.PAS:14
-        // Retained for the ordered TAoWCombatMap chain owned by 9.3b-18.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeHSMap(AOwner);
         }
 
         // HSMAP.PAS:81

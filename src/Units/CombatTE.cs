@@ -3917,8 +3917,6 @@ namespace Aow.Units.CombatTE
     // { TTerminateCombatTE (instance size 16, VMT 00407A64) }
     public partial class TTerminateCombatTE : Aow.Units.NetworkE.TTokenEvent
     {
-        // TAoWCombatMap keeps this caller and its construction protocol.
-        public static new TTerminateCombatTE Create(Aow.Units.Engine.TECustomNode AOwner) => new TTerminateCombatTE(AOwner);
 
         public TTerminateCombatTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}

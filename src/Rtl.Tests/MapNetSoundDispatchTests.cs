@@ -38,18 +38,6 @@ public sealed class MapNetSoundDispatchTests
         }
     }
 
-    private sealed class LegacyMap : THSMap
-    {
-        internal int MouseCalls;
-        public override THSMapMouse CreateMouse()
-        {
-            Assert.Null(FSelection);
-            Assert.Null(FTimer);
-            MouseCalls++;
-            return new THSMapMouse();
-        }
-    }
-
     private sealed class SpecializedField(TECustomNode owner) : TMapField(owner);
     private sealed class SpecializedLevel : TMapLevel
     {
@@ -84,18 +72,14 @@ public sealed class MapNetSoundDispatchTests
     }
 
     [Fact]
-    public void BothMapRoutesKeepVirtualMouseCreationAtTheSamePosition()
+    public void MapConstructorKeepsVirtualMouseCreationBeforeChildren()
     {
         var converted = new ConvertedMap(null!);
-        var legacy = new LegacyMap();
-        legacy.Create__init(null!);
         Assert.Equal(1, converted.MouseCalls);
-        Assert.Equal(1, legacy.MouseCalls);
         Assert.Same(converted, converted.Mouse.FHSMap);
-        Assert.Same(legacy, legacy.Mouse.FHSMap);
-        Assert.Equal(converted.Count, legacy.Count);
+        Assert.NotNull(converted.FSelection);
+        Assert.NotNull(converted.FTimer);
         converted.Destroy();
-        legacy.Destroy();
     }
 
     [Fact]
