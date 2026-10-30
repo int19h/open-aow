@@ -68,71 +68,41 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWDisjunctionDlg
 {
-    // { TDisjunctionDlg (instance size $B0, VMT 0043285C): $A4 caster, $A8 sort order, $AC..$AE map location. }
+    // caster, sort order, map location
     public partial class TDisjunctionDlg : Aow.Rtl.TDataModule
     {
         public TDisjunctionDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton CastBtn;
-        // { +0054 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel DisjunctionChance;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel DisjunctionChanceLbl;
-        // { +0060 }
         public Aow.Units.AoWPanel.TAOWPanel DisjunctionChancePnl;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel DisjunctionMana;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel DisjunctionManaLbl;
-        // { +006C }
         public Aow.Units.AoWPanel.TAOWPanel DisjunctionManaPnl;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel T4LBPnl;
-        // { +0074 }
         public Aow.Units.AoWListBox.TAOWListBox OwnerList;
-        // { +0078 }
         public Aow.Units.AoWListBox.TAOWListBox EnchantmentList;
-        // { +007C }
         public Aow.Units.AoWButton.TAOWButton Sort;
-        // { +0080 }
         public Aow.Units.AoWButton.TAOWButton SortEnchantment;
-        // { +0084 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar EnchantmentsScrollBar;
-        // { +0088 }
         public Aow.Units.AoWLabel.TAOWLabel Spell;
-        // { +008C }
         public Aow.Units.AoWHScroll.TAOWHScrollBar ChanceSlider;
-        // { +0090 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0094 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0098 }
         public Aow.Units.AoWPanel.TAOWPanel MapViewPnl;
-        // { +009C }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox MapView;
-        // { +00A0 }
         public Aow.Units.GlobalSpells.TDisjunctionSpellCaster FCaster;
-        // { $A4 }
         public int FSortOrder;
-        // { $A8 }
         public sbyte FMapX;
-        // { $AC }
         public sbyte FMapY;
-        // { $AD }
         public sbyte FMapL;
-        // { $AE }
-        public Aow.Units.FixedArray_byte_1 F_DisjunctionDlg_AF;
         // AoWDisjunctionDlg.pas:179
         public void ClearCaster()
         {

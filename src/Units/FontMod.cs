@@ -38,34 +38,22 @@ using static Aow.Units.BorderHx.BorderHx;
 
 namespace Aow.Units.FontMod
 {
-    // { TFontModule (instance size 116, VMT 0040380C) }
     public partial class TFontModule : Aow.Rtl.TDataModule
     {
         public TFontModule(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.ImageLib.TImageLibraryFont Age8;
-        // { +0044 }
         public Aow.Units.ImageLib.TImageLibraryFont Age10;
-        // { +0048 }
         public Aow.Units.ImageLib.TImageLibraryFont Age16s;
-        // { +004C }
         public Aow.Units.ImageLib.TImageLibraryFont Age10s;
-        // { +0050 }
         public Aow.Units.ImageLib.TImageLibraryFont Age8s;
-        // { +0054 }
         public Aow.Units.ImageLib.TImageLibraryFont Sessis14G;
-        // { +0058 }
         public Aow.Units.ImageLib.TImageLibraryFont AoW15WhiteGrey;
-        // { +005C }
         public Aow.Units.ImageLib.TImageLibraryFont AoW15BlackBrown;
-        // { +0060 }
         public Aow.Units.ImageLib.TImageLibraryFont Age10LB;
-        // { +0064 }
         public Aow.Units.ImageLib.TImageLibraryFont Age10b;
-        // { +0068 }
         public Aow.Units.ImageLib.TImageLibraryFont Age10bs;
-        // { +006C }
         public Aow.Units.ImageLib.TImageLibraryFont TBarNumber;
     }
 

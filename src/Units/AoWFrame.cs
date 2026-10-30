@@ -40,10 +40,8 @@ namespace Aow.Units.AoWFrame
         frVertLine = 3
     }
 
-    // { AoWFrame.TAoWFrame (instance size 308). Fields: +$114 FFrameType, +$118 FILFrame, +$11C
-//     FILTexture, +$120 FILLine, +$124 FILIndexFrame, +$128 FILIndexLine, +$12C FILIndexTexture,
-//     +$130 FPopupMenu.
-//     VMT (new): SetILFrame, SetILTexture, SetILLine }
+    // Fields: FFrameType, FILFrame, FILTexture, FILLine, FILIndexFrame, FILIndexLine,
+    // FILIndexTexture, FPopupMenu
     public partial class TAoWFrame : Aow.Units.AoWControl.TAOWControl
     {
         public TAoWFrame(TComponent owner) : base(owner)
@@ -58,7 +56,6 @@ namespace Aow.Units.AoWFrame
         public int FILIndexTexture;
         public Aow.Units.AOWMenu.TAOWMenu FPopupMenu;
         // AoWFrame.pas:63
-        // { TAoWFrame }
         public override void Validate()
         {
             if (FILFrame != null)
@@ -220,7 +217,6 @@ namespace Aow.Units.AoWFrame
         // AoWFrame.pas:202
         public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            // { Tried Self identity, receiver scope and local/field staging; register/stack allocation still differs. }
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
             if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))

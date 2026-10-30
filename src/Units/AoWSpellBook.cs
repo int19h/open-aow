@@ -64,271 +64,144 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWSpellBook
 {
-    // { TSpellBook (instance size $248, VMT 0042DDA8): $220 mode, $221 page kind, $222 spell type, $224 spells, $228 page, $22C hero, $230 activation, $234 researched spell, $238 callback, $240 event, $244 saved player pages. }
+    // mode, page kind, spell type, spells, page, hero, activation, researched spell, callback,
+    // event, saved player pages
     public partial class TSpellBook : Aow.Rtl.TDataModule
     {
         public TSpellBook(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWLabel.TAOWLabel LeftHeader;
-        // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel LeftSpellPage;
-        // { +0048 }
         public Aow.Units.AoWPanel.TAOWPanel S1Pnl;
-        // { +004C }
         public Aow.Units.AoWLabel.TAOWLabel S1Spell;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel S1Class;
-        // { +0054 }
         public Aow.Units.AoWMemo.TAOWMemo S1Memo;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel S1Cost;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage S1Icn;
-        // { +0060 }
         public Aow.Units.AoWPanel.TAOWPanel S2Pnl;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel S2Spell;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel S2Class;
-        // { +006C }
         public Aow.Units.AoWMemo.TAOWMemo S2Memo;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel S2Cost;
-        // { +0074 }
         public Aow.Units.AoWImage.TAOWImage S2Icn;
-        // { +0078 }
         public Aow.Units.AoWPanel.TAOWPanel S3Pnl;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel S3Spell;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel S3Class;
-        // { +0084 }
         public Aow.Units.AoWMemo.TAOWMemo S3Memo;
-        // { +0088 }
         public Aow.Units.AoWLabel.TAOWLabel S3Cost;
-        // { +008C }
         public Aow.Units.AoWImage.TAOWImage S3Icn;
-        // { +0090 }
         public Aow.Units.AoWPanel.TAOWPanel S4Pnl;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel S4Spell;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel S4Class;
-        // { +009C }
         public Aow.Units.AoWMemo.TAOWMemo S4Memo;
-        // { +00A0 }
         public Aow.Units.AoWLabel.TAOWLabel S4Cost;
-        // { +00A4 }
         public Aow.Units.AoWImage.TAOWImage S4Icn;
-        // { +00A8 }
         public Aow.Units.AoWLabel.TAOWLabel RightHeader;
-        // { +00AC }
         public Aow.Units.AoWPanel.TAOWPanel RightSpellPage;
-        // { +00B0 }
         public Aow.Units.AoWPanel.TAOWPanel S5Pnl;
-        // { +00B4 }
         public Aow.Units.AoWLabel.TAOWLabel S5Spell;
-        // { +00B8 }
         public Aow.Units.AoWLabel.TAOWLabel S5Class;
-        // { +00BC }
         public Aow.Units.AoWMemo.TAOWMemo S5Memo;
-        // { +00C0 }
         public Aow.Units.AoWLabel.TAOWLabel S5Cost;
-        // { +00C4 }
         public Aow.Units.AoWImage.TAOWImage S5Icn;
-        // { +00C8 }
         public Aow.Units.AoWPanel.TAOWPanel S6Pnl;
-        // { +00CC }
         public Aow.Units.AoWLabel.TAOWLabel S6Spell;
-        // { +00D0 }
         public Aow.Units.AoWLabel.TAOWLabel S6Class;
-        // { +00D4 }
         public Aow.Units.AoWMemo.TAOWMemo S6Memo;
-        // { +00D8 }
         public Aow.Units.AoWLabel.TAOWLabel S6Cost;
-        // { +00DC }
         public Aow.Units.AoWImage.TAOWImage S6Icn;
-        // { +00E0 }
         public Aow.Units.AoWPanel.TAOWPanel S7Pnl;
-        // { +00E4 }
         public Aow.Units.AoWLabel.TAOWLabel S7Spell;
-        // { +00E8 }
         public Aow.Units.AoWLabel.TAOWLabel S7Class;
-        // { +00EC }
         public Aow.Units.AoWMemo.TAOWMemo S7Memo;
-        // { +00F0 }
         public Aow.Units.AoWLabel.TAOWLabel S7Cost;
-        // { +00F4 }
         public Aow.Units.AoWImage.TAOWImage S7Icn;
-        // { +00F8 }
         public Aow.Units.AoWPanel.TAOWPanel S8Pnl;
-        // { +00FC }
         public Aow.Units.AoWLabel.TAOWLabel S8Spell;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel S8Class;
-        // { +0104 }
         public Aow.Units.AoWMemo.TAOWMemo S8Memo;
-        // { +0108 }
         public Aow.Units.AoWLabel.TAOWLabel S8Cost;
-        // { +010C }
         public Aow.Units.AoWImage.TAOWImage S8Icn;
-        // { +0110 }
         public Aow.Units.AoWButton.TAOWButton S1Btn;
-        // { +0114 }
         public Aow.Units.AoWLabel.TAOWLabel CurrentPointsLbl;
-        // { +0118 }
         public Aow.Units.AoWLabel.TAOWLabel Line;
-        // { +011C }
         public Aow.Units.AoWLabel.TAOWLabel CastingPointsMaxLbl;
-        // { +0120 }
         public Aow.Units.AoWButton.TAOWButton GlobalBtn;
-        // { +0124 }
         public Aow.Units.AoWButton.TAOWButton UnitBtn;
-        // { +0128 }
         public Aow.Units.AoWButton.TAOWButton CombatBtn;
-        // { +012C }
         public Aow.Units.AoWButton.TAOWButton InfoBtn;
-        // { +0130 }
         public Aow.Units.AoWButton.TAOWButton PrevBtn;
-        // { +0134 }
         public Aow.Units.AoWButton.TAOWButton NextBtn;
-        // { +0138 }
         public Aow.Units.AoWButton.TAOWButton Cancel;
-        // { +013C }
         public Aow.Units.AoWButton.TAOWButton S2Btn;
-        // { +0140 }
         public Aow.Units.AoWButton.TAOWButton S3Btn;
-        // { +0144 }
         public Aow.Units.AoWButton.TAOWButton S4Btn;
-        // { +0148 }
         public Aow.Units.AoWButton.TAOWButton S5btn;
-        // { +014C }
         public Aow.Units.AoWButton.TAOWButton S6Btn;
-        // { +0150 }
         public Aow.Units.AoWButton.TAOWButton S7Btn;
-        // { +0154 }
         public Aow.Units.AoWButton.TAOWButton S8Btn;
-        // { +0158 }
         public Aow.Units.AoWPanel.TAOWPanel CastingPage;
-        // { +015C }
         public Aow.Units.AoWPanel.TAOWPanel CastingPnl;
-        // { +0160 }
         public Aow.Units.AoWLabel.TAOWLabel CastingSpell;
-        // { +0164 }
         public Aow.Units.AoWLabel.TAOWLabel CastingClass;
-        // { +0168 }
         public Aow.Units.AoWMemo.TAOWMemo CastingMemo;
-        // { +016C }
         public Aow.Units.AoWLabel.TAOWLabel CastingCost;
-        // { +0170 }
         public Aow.Units.AoWImage.TAOWImage CastingIcn;
-        // { +0174 }
         public Aow.Units.AoWPanel.TAOWPanel LeftInfoPage;
-        // { +0178 }
         public Aow.Units.AoWLabel.TAOWLabel CastingStatus;
-        // { +017C }
         public Aow.Units.AoWLabel.TAOWLabel CastingPointsLbl;
-        // { +0180 }
         public Aow.Units.AoWButton.TAOWButton CastingBtn;
-        // { +0184 }
         public Aow.Units.AoWButton.TAOWButton Sel4;
-        // { +0188 }
         public Aow.Units.AoWPanel.TAOWPanel SelPnl;
-        // { +018C }
         public Aow.Units.AoWButton.TAOWButton Sel3;
-        // { +0190 }
         public Aow.Units.AoWButton.TAOWButton Sel2;
-        // { +0194 }
         public Aow.Units.AoWButton.TAOWButton Sel1;
-        // { +0198 }
         public Aow.Units.AoWButton.TAOWButton Sel5;
-        // { +019C }
         public Aow.Units.AoWButton.TAOWButton Sel6;
-        // { +01A0 }
         public Aow.Units.AoWButton.TAOWButton Sel7;
-        // { +01A4 }
         public Aow.Units.AoWLabel.TAOWLabel SelLbl;
-        // { +01A8 }
         public Aow.Units.AoWLabel.TAOWLabel SpellBookLbl;
-        // { +01AC }
         public Aow.Units.AoWLabel.TAOWLabel NameLbl;
-        // { +01B0 }
         public Aow.Units.AoWLabel.TAOWLabel ManaPoolLbl;
-        // { +01B4 }
         public Aow.Units.AoWLabel.TAOWLabel CastingLbl;
-        // { +01B8 }
         public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        // { +01BC }
         public Aow.Units.AoWImage.TAOWImage Face;
-        // { +01C0 }
         public Aow.Units.AoWBookWindow.TAoWBookWindow Dlg;
-        // { +01C4 }
         public Aow.Units.AoWLabel.TAOWLabel NoneCastingLbl;
-        // { +01C8 }
         public Aow.Units.AoWPanel.TAOWPanel ResearchPage;
-        // { +01CC }
         public Aow.Units.AoWLabel.TAOWLabel ResearchName;
-        // { +01D0 }
         public Aow.Units.AoWLabel.TAOWLabel ResearchClass;
-        // { +01D4 }
         public Aow.Units.AoWMemo.TAOWMemo ResearchMemo;
-        // { +01D8 }
         public Aow.Units.AoWLabel.TAOWLabel ResearchCost;
-        // { +01DC }
         public Aow.Units.AoWImage.TAOWImage ResearchIcn;
-        // { +01E0 }
         public Aow.Units.AoWLabel.TAOWLabel ResearchStatus;
-        // { +01E4 }
         public Aow.Units.AoWLabel.TAOWLabel ResearchNone;
-        // { +01E8 }
         public Aow.Units.AoWPanel.TAOWPanel ResearchPnl;
-        // { +01EC }
         public Aow.Units.AoWLabel.TAOWLabel ResearchLbl;
-        // { +01F0 }
         public Aow.Units.AoWPanel.TAOWPanel RightInfoPage;
-        // { +01F4 }
         public Aow.Units.AoWLabel.TAOWLabel ManaInfo;
-        // { +01F8 }
         public Aow.Units.AoWImage.TAOWImage Sep;
-        // { +01FC }
         public Aow.Units.AoWLabel.TAOWLabel ResearchPointsLbl;
-        // { +0200 }
         public Aow.Units.AoWLabel.TAOWLabel ResearchManaPoolLbl;
-        // { +0204 }
         public Aow.Units.AoWLabel.TAOWLabel RManaInfo;
-        // { +0208 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +020C }
         public Aow.Units.AoWLabel.TAOWLabel ResearchBookLbl;
-        // { +0210 }
         public Aow.Units.AoWButton.TAOWButton CancelResearchBtn;
-        // { +0214 }
         public Aow.Units.AoWButton.TAOWButton CancelCastingBtn;
-        // { +0218 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +021C }
         public byte FMode;
-        // { $220: world casting, combat casting, research, researched }
+        // world casting, combat casting, research, researched
         public byte FPageKind;
-        // { $221: information or spell list }
+        // information or spell list
         public Aow.Units.AoWE.TSpellType FSpellType;
-        // { $222 }
-        public byte FReserved223;
         public Aow.Units.AoWE.TSpellList FSpells;
-        // { $224 }
         public int FPage;
-        // { $228 }
         public Aow.Units.AoWE.THero FHero;
-        // { $22C }
         public Aow.Units.AoWE.TActivateAbilityInfo FActivation;
-        // { $230 }
         public int FResearchedSpell;
-        // { $234 }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $238 }
         public Aow.Units.AoWE.TPlayerMagicEventLog FEvent;
-        // { $240 }
         public Aow.Units.Engine.TDoubleItemList FPlayerPages;
         // AoWSpellBook.pas:393
         public void FinishDialog()

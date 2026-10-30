@@ -28,11 +28,10 @@ namespace Aow.Units.AOWToolTip
 {
     // { The AOWToolTip unit of aowInt.dpl: TAOWToolTip, the small window that TAOWControl shows with a
 //   control's tool tip text after the mouse rested on it for ToolTipDelay updates. }
-    // { AOWToolTip.TAOWToolTip (instance size 564). Fields: +$1EC FItems, +$1F0 FOnDrawItem, +$1F8
-//     FToolTipStatic, +$1FC FToolTipDelay, +$200 FShowDuration, +$204 FItemHeight, +$208 FShowing,
-//     +$20C FControlRect (the control on the screen; the tip shows at its bottom right), +$21C
-//     FItemIndex, +$220 FItemRect (the line being drawn, for OnDrawItem), +$230 FLines (Items
-//     broken into lines that fit) }
+    // Fields: FItems, FOnDrawItem, FToolTipStatic, FToolTipDelay, FShowDuration, FItemHeight,
+    // FShowing, FControlRect (the control on the screen. the tip shows at its bottom right),
+    // FItemIndex, FItemRect (the line being drawn, for OnDrawItem), FLines (Items broken into lines
+    // that fit)
     public partial class TAOWToolTip : Aow.Units.AoWWinGeneric.TAOWGenericWindow
     {
         public Aow.Rtl.TStringList FItems;
@@ -47,7 +46,6 @@ namespace Aow.Units.AOWToolTip
         public Aow.Rtl.TRect FItemRect;
         public Aow.Rtl.TStringList FLines;
         // AOWToolTip.pas:62
-        // { TAOWToolTip }
         public TAOWToolTip(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();

@@ -60,53 +60,33 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.TCFCDlg
 {
-    // { TTCFCDialog: size $98; $8C combat request, $90 completion event. VMT 00439834. }
+    // combat request, completion event
     public partial class TTCFCDialog : Aow.Rtl.TDataModule
     {
         public TTCFCDialog(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel DTitle;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel DMessage;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton FightBtn;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0054 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel Tactical;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel Automatic;
-        // { +0070 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox TCchk;
-        // { +0074 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox FCchk;
-        // { +0078 }
         public Aow.Units.AoWPanel.TAOWPanel MapViewPnl;
-        // { +007C }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox MapView;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage InfoSep;
-        // { +0084 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0088 }
         public Aow.Units.AoWE.TCombatTypeRequestEventLog FRequest;
-        // { $8C }
         public Aow.Rtl.TNotifyEvent FOnDone;
         // TCFCDlg.pas:119
-        // { $90 }
         public void Finish()
         {
             Aow.Rtl.TNotifyEvent Done = default;

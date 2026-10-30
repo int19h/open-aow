@@ -18,7 +18,7 @@ namespace Aow.Units.E2CampaignSupport
     {
         // E2CampaignSupport.pas:17
         // { AoWE.htAll }
-        // { Original campaign access routines, 0040BBB8, 0040BDE4 and 0040BF1C. }
+        // Original campaign access routines. and
         public static Aow.Units.AoWVideoDlg.TWMCampaignScenario GetCampaignScenario(Aow.Units.AoWVideoDlg.TWMCampaign Campaign, int Index)
         {
             Aow.Units.AoWVideoDlg.TWMCampaignScenario Result = default;

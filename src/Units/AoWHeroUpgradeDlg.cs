@@ -68,218 +68,115 @@ using static Aow.Units.AoWExeForms.AoWExeForms;
 
 namespace Aow.Units.AoWHeroUpgradeDlg
 {
-    // { THeroUpgradeDlg: size $1E0; $1C4 close callback, $1CC referenced hero,
-//     $1D0/$1D4 list sort orders, $1D8 live hero, $1DC editable copy. VMT 004458C8. }
+    // close callback, referenced hero, list sort orders, live hero, editable copy
     public partial class THeroUpgradeDlg : Aow.Rtl.TDataModule
     {
         public THeroUpgradeDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton Done;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage CeltM;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage CeltL;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage CeltR;
-        // { +0068 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +006C }
         public Aow.Units.AoWImage.TAOWImage TCelt;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel UpgradePnl;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel HeaderLbl;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel SkillPointsLbl;
-        // { +007C }
         public Aow.Units.AoWListBox.TAOWListBox AvailableAbilities;
-        // { +0080 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AvailableAbilitiesSB;
-        // { +0084 }
         public Aow.Units.AoWListBox.TAOWListBox SelectedAbilities;
-        // { +0088 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar SelectedAbilitiesSB;
-        // { +008C }
         public Aow.Units.AoWButton.TAOWButton SelectedAbilitiesSort;
-        // { +0090 }
         public Aow.Units.AoWButton.TAOWButton AvailableAbilityCostSort;
-        // { +0094 }
         public Aow.Units.AoWListBox.TAOWListBox AvailableAbilitiesCost;
-        // { +0098 }
         public Aow.Units.AoWButton.TAOWButton AvailableAbilitiesSort;
-        // { +009C }
         public Aow.Units.AoWButton.TAOWButton AddAbilityBtn;
-        // { +00A0 }
         public Aow.Units.AoWButton.TAOWButton RemoveBtn;
-        // { +00A4 }
         public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        // { +00A8 }
         public Aow.Units.AoWEdit.TAOWEdit UnitName;
-        // { +00AC }
         public Aow.Units.AoWEdit.TAOWEdit Alignment;
-        // { +00B0 }
         public Aow.Units.AoWPanel.TAOWPanel TopPnl;
-        // { +00B4 }
         public Aow.Units.AoWPanel.TAOWPanel StatisicsPnl;
-        // { +00B8 }
         public Aow.Units.AoWLabel.TAOWLabel AttValue;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel AttLbl;
-        // { +00C0 }
         public Aow.Units.AoWPanel.TAOWPanel AttPnl;
-        // { +00C4 }
         public Aow.Units.AoWLabel.TAOWLabel DamValue;
-        // { +00C8 }
         public Aow.Units.AoWLabel.TAOWLabel DamLbl;
-        // { +00CC }
         public Aow.Units.AoWPanel.TAOWPanel DamPnl;
-        // { +00D0 }
         public Aow.Units.AoWLabel.TAOWLabel DefValue;
-        // { +00D4 }
         public Aow.Units.AoWLabel.TAOWLabel DefLbl;
-        // { +00D8 }
         public Aow.Units.AoWPanel.TAOWPanel DefPnl;
-        // { +00DC }
         public Aow.Units.AoWLabel.TAOWLabel ResValue;
-        // { +00E0 }
         public Aow.Units.AoWLabel.TAOWLabel ResLbl;
-        // { +00E4 }
         public Aow.Units.AoWPanel.TAOWPanel ResPnl;
-        // { +00E8 }
         public Aow.Units.AoWLabel.TAOWLabel HitValue;
-        // { +00EC }
         public Aow.Units.AoWLabel.TAOWLabel HitLbl;
-        // { +00F0 }
         public Aow.Units.AoWPanel.TAOWPanel HitPnl;
-        // { +00F4 }
         public Aow.Units.AoWLabel.TAOWLabel MovValue;
-        // { +00F8 }
         public Aow.Units.AoWLabel.TAOWLabel MovLbl;
-        // { +00FC }
         public Aow.Units.AoWPanel.TAOWPanel MovPnl;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel AttI;
-        // { +0104 }
         public Aow.Units.AoWLabel.TAOWLabel DamI;
-        // { +0108 }
         public Aow.Units.AoWLabel.TAOWLabel DefI;
-        // { +010C }
         public Aow.Units.AoWLabel.TAOWLabel ResI;
-        // { +0110 }
         public Aow.Units.AoWLabel.TAOWLabel HitI;
-        // { +0114 }
         public Aow.Units.AoWLabel.TAOWLabel MovI;
-        // { +0118 }
         public Aow.Units.AoWLabel.TAOWLabel AttA;
-        // { +011C }
         public Aow.Units.AoWLabel.TAOWLabel DamA;
-        // { +0120 }
         public Aow.Units.AoWLabel.TAOWLabel DefA;
-        // { +0124 }
         public Aow.Units.AoWLabel.TAOWLabel ResA;
-        // { +0128 }
         public Aow.Units.AoWLabel.TAOWLabel HitA;
-        // { +012C }
         public Aow.Units.AoWLabel.TAOWLabel MovA;
-        // { +0130 }
         public Aow.Units.AoWLabel.TAOWLabel AttP;
-        // { +0134 }
         public Aow.Units.AoWLabel.TAOWLabel DamP;
-        // { +0138 }
         public Aow.Units.AoWLabel.TAOWLabel DefP;
-        // { +013C }
         public Aow.Units.AoWLabel.TAOWLabel ResP;
-        // { +0140 }
         public Aow.Units.AoWLabel.TAOWLabel HitP;
-        // { +0144 }
         public Aow.Units.AoWLabel.TAOWLabel MovP;
-        // { +0148 }
         public Aow.Units.AoWLabel.TAOWLabel AttB;
-        // { +014C }
         public Aow.Units.AoWLabel.TAOWLabel DamB;
-        // { +0150 }
         public Aow.Units.AoWLabel.TAOWLabel DefB;
-        // { +0154 }
         public Aow.Units.AoWLabel.TAOWLabel ResB;
-        // { +0158 }
         public Aow.Units.AoWLabel.TAOWLabel HitB;
-        // { +015C }
         public Aow.Units.AoWLabel.TAOWLabel MovB;
-        // { +0160 }
         public Aow.Units.AoWButton.TAOWButton AttUp;
-        // { +0164 }
         public Aow.Units.AoWButton.TAOWButton AttDn;
-        // { +0168 }
         public Aow.Units.AoWButton.TAOWButton DamUp;
-        // { +016C }
         public Aow.Units.AoWButton.TAOWButton DamDn;
-        // { +0170 }
         public Aow.Units.AoWButton.TAOWButton DefUp;
-        // { +0174 }
         public Aow.Units.AoWButton.TAOWButton DefDn;
-        // { +0178 }
         public Aow.Units.AoWButton.TAOWButton ResUp;
-        // { +017C }
         public Aow.Units.AoWButton.TAOWButton ResDn;
-        // { +0180 }
         public Aow.Units.AoWButton.TAOWButton HitUp;
-        // { +0184 }
         public Aow.Units.AoWButton.TAOWButton HitDn;
-        // { +0188 }
         public Aow.Units.AoWButton.TAOWButton MovUp;
-        // { +018C }
         public Aow.Units.AoWButton.TAOWButton MovDn;
-        // { +0190 }
         public Aow.Units.AoWImage.TAOWImage AttIc;
-        // { +0194 }
         public Aow.Units.AoWImage.TAOWImage DamIcn;
-        // { +0198 }
         public Aow.Units.AoWImage.TAOWImage DefIc;
-        // { +019C }
         public Aow.Units.AoWImage.TAOWImage ResIc;
-        // { +01A0 }
         public Aow.Units.AoWImage.TAOWImage HitIc;
-        // { +01A4 }
         public Aow.Units.AoWImage.TAOWImage MovIc;
-        // { +01A8 }
         public Aow.Units.AoWButton.TAOWButton SelectedAbilitiesCostSort;
-        // { +01AC }
         public Aow.Units.AoWListBox.TAOWListBox SelectedAbilitiesCost;
-        // { +01B0 }
         public Aow.Units.AoWPanel.TAOWPanel InfoPnl;
-        // { +01B4 }
         public Aow.Units.AoWLabel.TAOWLabel LevelLbl;
-        // { +01B8 }
         public Aow.Units.AoWLabel.TAOWLabel SkillPoints;
-        // { +01BC }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +01C0 }
         public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
-        // { $1C4 }
         public Aow.Units.AoWE.THeroUpgradeEventLog FReferencedHero;
-        // { $1CC }
         public int FSelectedSort;
-        // { $1D0 }
         public int FAvailableSort;
-        // { $1D4 }
         public Aow.Units.AoWE.THero FHero;
-        // { $1D8 }
         public Aow.Units.AoWE.THero FEditedHero;
         // AoWHeroUpgradeDlg.pas:287
-        // { $1DC }
         public void ClearHero()
         {
             Aow.Units.EventLog.TExecuteDoneEvent OnClose = default;

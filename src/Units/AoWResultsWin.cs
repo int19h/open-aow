@@ -72,90 +72,51 @@ using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
 
 namespace Aow.Units.AoWResultsWin
 {
-    // { TResultsWin (size $108, VMT 004279A8): $100 player indices, $104 checkbox controls. }
+    // player indices, checkbox controls
     public partial class TResultsWin : Aow.Rtl.TDataModule
     {
         public TResultsWin(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWCheckBox.TAOWCheckBox P1CB;
-        // { +0044 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P2CB;
-        // { +0048 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P3CB;
-        // { +004C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P4CB;
-        // { +0050 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P5CB;
-        // { +0054 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P6CB;
-        // { +0058 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P7CB;
-        // { +005C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P8CB;
-        // { +0060 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P9CB;
-        // { +0064 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P10CB;
-        // { +0068 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P11CB;
-        // { +006C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P12CB;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel StrLbl;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel TurnLbl;
-        // { +0078 }
         public Aow.Units.AoWMemo.TAOWMemo ResNames;
-        // { +007C }
         public Aow.Units.AoWMemo.TAOWMemo ResValues;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel SideLbl;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage Axis;
-        // { +0088 }
         public Aow.Units.AoWButton.TAOWButton ExitBtn;
-        // { +008C }
         public Aow.Units.AoWImage.TAOWImage FaceGrid;
-        // { +0090 }
         public Aow.Units.AoWButton.TAOWButton LoadBtn;
-        // { +0094 }
         public Aow.Units.AoWButton.TAOWButton ContinueBtn;
-        // { +0098 }
         public Aow.Units.AoWPanel.TAOWPanel ResultsPnl;
-        // { +009C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox StrengthCB;
-        // { +00A0 }
         public Aow.Units.AoWPanel.TAOWPanel AgendaPnl;
-        // { +00A4 }
         public Aow.Units.AoWLabel.TAOWLabel StrengthLbl;
-        // { +00A8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox GoldCB;
-        // { +00AC }
         public Aow.Units.AoWLabel.TAOWLabel GoldLbl;
-        // { +00B0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox ArmiesCB;
-        // { +00B4 }
         public Aow.Units.AoWLabel.TAOWLabel ArmiesLbl;
-        // { +00B8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox HeroesCB;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel HeroesLbl;
-        // { +00C0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox StructuresCB;
-        // { +00C4 }
         public Aow.Units.AoWLabel.TAOWLabel StructuresLbl;
-        // { +00C8 }
         public Aow.Units.AoWLabel.TAOWLabel KeyMax;
-        // { +00CC }
         public Aow.Units.AoWLabel.TAOWLabel KeyMin;
-        // { +00D0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox ManaCB;
-        // { +00D4 }
         public Aow.Units.AoWLabel.TAOWLabel ManaLbl;
-        // { +00D8 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +00DC }
         public int FMaxTurns;
         public int FMaxGold;
         public int FMaxMana;
@@ -164,12 +125,9 @@ namespace Aow.Units.AoWResultsWin
         public int FMaxHeroes;
         public int FMaxStructures;
         public int FMaxStrength;
-        // { $E0..$FC }
         public Aow.Units.Engine.TByteList FPlayers;
-        // { $100 }
         public Aow.Rtl.TList FControls;
         // AoWResultsWin.pas:93
-        // { $104 }
         public void UpdateSelection()
         {
             int I = default;
@@ -550,7 +508,6 @@ namespace Aow.Units.AoWResultsWin
         }
 
         // AoWResultsWin.pas:288
-        // { draft }
         public void ResultsWinDestroy()
         {
             FPlayers.Free();
@@ -558,7 +515,6 @@ namespace Aow.Units.AoWResultsWin
         }
 
         // AoWResultsWin.pas:294
-        // { draft }
         public void ContinueBtnClick()
         {
             Aow.Units.E1GameFlow.E1GameFlow.FinishPyre(Aow.Units.AOWPyreScrn.AOWPyreScrn.PyreScreen);
@@ -585,7 +541,6 @@ namespace Aow.Units.AoWResultsWin
         }
 
         // AoWResultsWin.pas:313
-        // { draft }
         public void ExitBtnClick()
         {
             ResultsPnl.Visible = false;
@@ -593,14 +548,12 @@ namespace Aow.Units.AoWResultsWin
         }
 
         // AoWResultsWin.pas:319
-        // { draft }
         public void ResultsPnlUpdate()
         {
             Aow.Units.AOWPyreScrn.AOWPyreScrn.PyreScreen.DeadPnlUpdate();
         }
 
         // AoWResultsWin.pas:324
-        // { draft }
         public void AxisDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             DrawGraphs(Surface);
@@ -613,14 +566,12 @@ namespace Aow.Units.AoWResultsWin
         }
 
         // AoWResultsWin.pas:334
-        // { draft }
         public void ResultsPnlShow()
         {
             UpdateSelection();
         }
 
         // AoWResultsWin.pas:339
-        // { draft }
         public void P1CBPreDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Rtl.TRect R = default;

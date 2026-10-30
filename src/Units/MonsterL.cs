@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.MonsterL
 {
-    // { TMonsterlair (instance size 64, no added fields, VMT 557C2D24) }
     public partial class TMonsterlair : Aow.Units.ItemExpS.TItemExplorationSite
     {
         public TMonsterlair(TECustomNode owner) : base(owner)
@@ -47,7 +46,6 @@ namespace Aow.Units.MonsterL
 
     }
 
-    // { TMonsterlairResource (instance size 104, no added fields, VMT 557C2FA4) }
     public partial class TMonsterlairResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
         public TMonsterlairResource(TECustomNode owner) : base(owner)

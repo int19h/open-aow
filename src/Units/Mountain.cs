@@ -45,7 +45,6 @@ namespace Aow.Units.Mountain
         rmRaising = 0
     }
 
-    // { TMountainMO (instance size 20, VMT 557A266C) }
     public partial class TMountainMO : Aow.Units.AoWTer.TAoWTerrain
     {
         public TMountainMO(TECustomNode owner) : base(owner)
@@ -170,7 +169,6 @@ namespace Aow.Units.Mountain
 
     }
 
-    // { TMountainMOR (instance size 76, VMT 557A2814) }
     public partial class TMountainMOR : Aow.Units.AoWTer.TAoWTerrainResource
     {
         public TMountainMOR(TECustomNode owner) : base(owner)
@@ -199,8 +197,7 @@ namespace Aow.Units.Mountain
 
     }
 
-    // { TRaisedMountain (instance size 32, VMT 557A2940): $1C FMode,
-//     $1D FPlayer, $1E FDuration, $1F FOriginalOverlay. }
+    // FMode, FPlayer, FDuration, FOriginalOverlay
     public partial class TRaisedMountain : Aow.Units.ILTer.TILTerrainMO
     {
         public TRaisedMountain(TECustomNode owner) : base(owner)
@@ -210,14 +207,10 @@ namespace Aow.Units.Mountain
         public new const int ClassID = 131434;
 
         public TSet<Aow.Units.Mountain.AnonymousEnum_rmRaising> FMode;
-        // { $1C }
         public sbyte FPlayer;
-        // { $1D }
         public sbyte FDuration;
-        // { $1E }
         public sbyte FOriginalOverlay;
         // Mountain.pas:181
-        // { $1F }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -334,7 +327,6 @@ namespace Aow.Units.Mountain
 
     }
 
-    // { TRaisedMountainResource (instance size 68, VMT 557A2AF4) }
     public partial class TRaisedMountainResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TRaisedMountainResource(TECustomNode owner) : base(owner)
@@ -361,7 +353,6 @@ namespace Aow.Units.Mountain
 
     }
 
-    // { TRaiseTerrainTE (instance size 36, VMT 557A2BF8) }
     public partial class TRaiseTerrainTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public TRaiseTerrainTE(TECustomNode owner) : base(owner)
@@ -463,7 +454,6 @@ namespace Aow.Units.Mountain
 
     }
 
-    // { TRaiseTerrain (instance size 60, VMT 557A2CD0) }
     public partial class TRaiseTerrain : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         public TRaiseTerrain(TECustomNode owner) : base(owner)

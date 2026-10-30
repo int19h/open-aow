@@ -40,7 +40,7 @@ using static Aow.Units.PassiveAb.PassiveAb;
 
 namespace Aow.Units.PrdPlace
 {
-    // { TProductionPlaceControl: size $2C; $28 production place. VMT 557BD4D0. }
+    // production place
     public partial class TProductionPlaceControl : Aow.Units.AoWE.TProductionControl
     {
         public TProductionPlaceControl(TECustomNode owner) : base(owner)
@@ -48,7 +48,6 @@ namespace Aow.Units.PrdPlace
 
         public Aow.Units.PrdPlace.TProductionPlace FProductionPlace;
         // PrdPlace.pas:238
-        // { $28 }
         public override bool ExecuteProduction(Aow.Units.AoWE.TProductionItem Item)
         {
             bool Result = default;
@@ -350,8 +349,7 @@ namespace Aow.Units.PrdPlace
 
     }
 
-    // { TProductionPlace: size $4C; $3C power source, $40 income source, $44 production
-//     control, $48 razed state, $49 defender level, $4A padding. VMT 557BD68C. }
+    // power source, income source, production control, razed state, defender level
     public partial class TProductionPlace : Aow.Units.AoWE.TPlayerStructure
     {
         public TProductionPlace(TECustomNode owner) : base(owner)
@@ -379,16 +377,10 @@ namespace Aow.Units.PrdPlace
         public new const int ClassID = 132026;
 
         public Aow.Units.AoWE.TPlayerStructurePowerSource FPowerSource;
-        // { $3C }
         public Aow.Units.AoWE.TPlayerStructureIncomeSource FIncomeSource;
-        // { $40 }
         public Aow.Units.PrdPlace.TProductionPlaceControl FProductionControl;
-        // { $44 }
         public byte FRazedState;
-        // { $48 }
         public byte FDefenderLevel;
-        // { $49 }
-        public Aow.Units.FixedArray_byte_2 F_ProductionPlace_4A;
         // PrdPlace.pas:283
         public override void Destroy()
         {
@@ -505,7 +497,7 @@ namespace Aow.Units.PrdPlace
                 FRazedState = 0;
             }
 
-            // { 557BE592: refresh after either state change. }
+            // refresh after either state change
             var call__57 = GetTerrainTypeImage(FTerrainType);
             FImageIndex = call__57;
         }
@@ -1325,7 +1317,7 @@ namespace Aow.Units.PrdPlace
 
     }
 
-    // { TProductionPlaceResource: size $78; $74 available unit indexes. VMT 557BD94C. }
+    // available unit indexes
     public partial class TProductionPlaceResource : Aow.Units.AoWE.TPlayerStructureResource
     {
         public TProductionPlaceResource(TECustomNode owner) : base(owner)
@@ -1341,7 +1333,6 @@ namespace Aow.Units.PrdPlace
 
         public Aow.Units.AoWE.TUnitIndexList FUnits;
         // PrdPlace.pas:709
-        // { $74 }
         public override void Destroy()
         {
             FUnits.Free();
@@ -1393,7 +1384,6 @@ namespace Aow.Units.PrdPlace
 
     }
 
-    // { TProductionPlaceEventLog: size $20; no added fields. VMT 557BDA5C. }
     public partial class TProductionPlaceEventLog : Aow.Units.AoWE.TProductionEventLog
     {
         public TProductionPlaceEventLog(TECustomNode owner) : base(owner)

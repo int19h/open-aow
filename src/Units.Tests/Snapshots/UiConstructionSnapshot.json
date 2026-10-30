@@ -12,10 +12,6 @@
             "TChatWindow.ChatSB": null,
             "TChatWindow.ChatWin": null,
             "TChatWindow.FScrollPending": false,
-            "TChatWindow.F_ChatWindow_71": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TChatWindow.IWTitle": null,
             "TChatWindow.Min": null,
             "TChatWindow.NSBar": null,
@@ -57,10 +53,6 @@
             "TChatWindow.ChatSB": null,
             "TChatWindow.ChatWin": null,
             "TChatWindow.FScrollPending": false,
-            "TChatWindow.F_ChatWindow_71": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TChatWindow.IWTitle": null,
             "TChatWindow.Min": null,
             "TChatWindow.NSBar": null,
@@ -97,10 +89,6 @@
               "TChatWindow.ChatSB": null,
               "TChatWindow.ChatWin": null,
               "TChatWindow.FScrollPending": false,
-              "TChatWindow.F_ChatWindow_71": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TChatWindow.IWTitle": null,
               "TChatWindow.Min": null,
               "TChatWindow.NSBar": null,
@@ -176,10 +164,6 @@
             "TControlWin.Emp8Chk": null,
             "TControlWin.Emp8Fr": null,
             "TControlWin.FSelection": 0,
-            "TControlWin.F_ControlWin_179": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TControlWin.Help": null,
             "TControlWin.MoraleMask": null,
             "TControlWin.MoveIcon": null,
@@ -287,10 +271,6 @@
             "TControlWin.Emp8Chk": null,
             "TControlWin.Emp8Fr": null,
             "TControlWin.FSelection": 0,
-            "TControlWin.F_ControlWin_179": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TControlWin.Help": null,
             "TControlWin.MoraleMask": null,
             "TControlWin.MoveIcon": null,
@@ -393,10 +373,6 @@
               "TControlWin.Emp8Chk": null,
               "TControlWin.Emp8Fr": null,
               "TControlWin.FSelection": 0,
-              "TControlWin.F_ControlWin_179": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TControlWin.Help": null,
               "TControlWin.MoraleMask": null,
               "TControlWin.MoveIcon": null,
@@ -495,14 +471,6 @@
             "TDWin.Dialog": null,
             "TDWin.FAction": 0,
             "TDWin.FSkipCombatChoice": false,
-            "TDWin.F_DWin_A5": {
-              "$type": "Aow.Units.FixedArray_byte_8",
-              "FixedArray_byte_8.element0": 0
-            },
-            "TDWin.F_DWin_AE": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "TDWin.FrameLbl": null,
             "TDWin.SIcon": null,
             "TDWin.SignBLine": null,
@@ -558,14 +526,6 @@
             "TDWin.Dialog": null,
             "TDWin.FAction": 0,
             "TDWin.FSkipCombatChoice": false,
-            "TDWin.F_DWin_A5": {
-              "$type": "Aow.Units.FixedArray_byte_8",
-              "FixedArray_byte_8.element0": 0
-            },
-            "TDWin.F_DWin_AE": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "TDWin.FrameLbl": null,
             "TDWin.SIcon": null,
             "TDWin.SignBLine": null,
@@ -616,14 +576,6 @@
               "TDWin.Dialog": null,
               "TDWin.FAction": 0,
               "TDWin.FSkipCombatChoice": false,
-              "TDWin.F_DWin_A5": {
-                "$type": "Aow.Units.FixedArray_byte_8",
-                "FixedArray_byte_8.element0": 0
-              },
-              "TDWin.F_DWin_AE": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              },
               "TDWin.FrameLbl": null,
               "TDWin.SIcon": null,
               "TDWin.SignBLine": null,
@@ -3949,10 +3901,6 @@
             "TArmyInfoDlg.FEvent": null,
             "TArmyInfoDlg.FOnClose": null,
             "TArmyInfoDlg.FUnitInfoShown": false,
-            "TArmyInfoDlg.F_ArmyInfoDlg_9D": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TArmyInfoDlg.FaceFrame": null,
             "TArmyInfoDlg.HeaderLbl": null,
             "TArmyInfoDlg.Message": null,
@@ -4007,10 +3955,6 @@
             "TArmyInfoDlg.FEvent": null,
             "TArmyInfoDlg.FOnClose": null,
             "TArmyInfoDlg.FUnitInfoShown": false,
-            "TArmyInfoDlg.F_ArmyInfoDlg_9D": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TArmyInfoDlg.FaceFrame": null,
             "TArmyInfoDlg.HeaderLbl": null,
             "TArmyInfoDlg.Message": null,
@@ -4060,10 +4004,6 @@
               "TArmyInfoDlg.FEvent": null,
               "TArmyInfoDlg.FOnClose": null,
               "TArmyInfoDlg.FUnitInfoShown": false,
-              "TArmyInfoDlg.F_ArmyInfoDlg_9D": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TArmyInfoDlg.FaceFrame": null,
               "TArmyInfoDlg.HeaderLbl": null,
               "TArmyInfoDlg.Message": null,
@@ -5097,10 +5037,6 @@
               "TPageTurnControl.FMode": 0,
               "TPageTurnControl.FPosition": 0,
               "TPageTurnControl.FRadius": 0,
-              "TPageTurnControl.FReserved15": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TPageTurnControl.FScale": 0.5,
               "TPageTurnControl.FShade": 2,
               "TPageTurnControl.FShadow": 0,
@@ -5335,10 +5271,6 @@
               "TPageTurnControl.FMode": 0,
               "TPageTurnControl.FPosition": 0,
               "TPageTurnControl.FRadius": 0,
-              "TPageTurnControl.FReserved15": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TPageTurnControl.FScale": 0.5,
               "TPageTurnControl.FShade": 2,
               "TPageTurnControl.FShadow": 0,
@@ -6379,10 +6311,6 @@
             "TCampaignJoinDlg.FScrollPosition": 0,
             "TCampaignJoinDlg.FScrollText": null,
             "TCampaignJoinDlg.FStage": 0,
-            "TCampaignJoinDlg.F_CampaignJoinDlg_69": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCampaignJoinDlg.LeaderTypeMsg": null,
             "TCampaignJoinDlg.LeaderTypePnl": null,
             "TCampaignJoinDlg.ScrollTextDB": null,
@@ -6429,10 +6357,6 @@
             "TCampaignJoinDlg.FScrollPosition": 0,
             "TCampaignJoinDlg.FScrollText": null,
             "TCampaignJoinDlg.FStage": 0,
-            "TCampaignJoinDlg.F_CampaignJoinDlg_69": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCampaignJoinDlg.LeaderTypeMsg": null,
             "TCampaignJoinDlg.LeaderTypePnl": null,
             "TCampaignJoinDlg.ScrollTextDB": null,
@@ -6474,10 +6398,6 @@
               "TCampaignJoinDlg.FScrollPosition": 0,
               "TCampaignJoinDlg.FScrollText": null,
               "TCampaignJoinDlg.FStage": 0,
-              "TCampaignJoinDlg.F_CampaignJoinDlg_69": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TCampaignJoinDlg.LeaderTypeMsg": null,
               "TCampaignJoinDlg.LeaderTypePnl": null,
               "TCampaignJoinDlg.ScrollTextDB": null,
@@ -6659,14 +6579,6 @@
             "TCampaignTransferDlg.FRightKind": 0,
             "TCampaignTransferDlg.FRightSelection": 0,
             "TCampaignTransferDlg.FRightUnit": 0,
-            "TCampaignTransferDlg.F_CampaignTransferDlg_1C1": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TCampaignTransferDlg.F_CampaignTransferDlg_1C9": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCampaignTransferDlg.GoldLeftLbl": null,
             "TCampaignTransferDlg.GoldSlider": null,
             "TCampaignTransferDlg.LGoldImg": null,
@@ -6795,14 +6707,6 @@
             "TCampaignTransferDlg.FRightKind": 0,
             "TCampaignTransferDlg.FRightSelection": 0,
             "TCampaignTransferDlg.FRightUnit": 0,
-            "TCampaignTransferDlg.F_CampaignTransferDlg_1C1": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TCampaignTransferDlg.F_CampaignTransferDlg_1C9": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCampaignTransferDlg.GoldLeftLbl": null,
             "TCampaignTransferDlg.GoldSlider": null,
             "TCampaignTransferDlg.LGoldImg": null,
@@ -6926,14 +6830,6 @@
               "TCampaignTransferDlg.FRightKind": 0,
               "TCampaignTransferDlg.FRightSelection": 0,
               "TCampaignTransferDlg.FRightUnit": 0,
-              "TCampaignTransferDlg.F_CampaignTransferDlg_1C1": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
-              "TCampaignTransferDlg.F_CampaignTransferDlg_1C9": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TCampaignTransferDlg.GoldLeftLbl": null,
               "TCampaignTransferDlg.GoldSlider": null,
               "TCampaignTransferDlg.LGoldImg": null,
@@ -7620,10 +7516,6 @@
             "TCityJoinDlg.FDone": null,
             "TCityJoinDlg.FEvent": null,
             "TCityJoinDlg.FRace": 0,
-            "TCityJoinDlg.FReserved81": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCityJoinDlg.Memo": null,
             "TCityJoinDlg.TCeltLineL": null,
             "TCityJoinDlg.Title": null,
@@ -7671,10 +7563,6 @@
             "TCityJoinDlg.FDone": null,
             "TCityJoinDlg.FEvent": null,
             "TCityJoinDlg.FRace": 0,
-            "TCityJoinDlg.FReserved81": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCityJoinDlg.Memo": null,
             "TCityJoinDlg.TCeltLineL": null,
             "TCityJoinDlg.Title": null,
@@ -7717,10 +7605,6 @@
               "TCityJoinDlg.FDone": null,
               "TCityJoinDlg.FEvent": null,
               "TCityJoinDlg.FRace": 0,
-              "TCityJoinDlg.FReserved81": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TCityJoinDlg.Memo": null,
               "TCityJoinDlg.TCeltLineL": null,
               "TCityJoinDlg.Title": null,
@@ -7925,16 +7809,8 @@
             "TCityScreen.FPreview": null,
             "TCityScreen.FProductionIndex": 0,
             "TCityScreen.FQueueIndex": 0,
-            "TCityScreen.FReserved2CD": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCityScreen.FViewX": 0,
             "TCityScreen.FViewY": 0,
-            "TCityScreen.F_CityScreen_2C1": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCityScreen.IEPicFr": null,
             "TCityScreen.IEPnl": null,
             "TCityScreen.IEVSB": null,
@@ -8130,16 +8006,8 @@
             "TCityScreen.FPreview": null,
             "TCityScreen.FProductionIndex": 0,
             "TCityScreen.FQueueIndex": 0,
-            "TCityScreen.FReserved2CD": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCityScreen.FViewX": 0,
             "TCityScreen.FViewY": 0,
-            "TCityScreen.F_CityScreen_2C1": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TCityScreen.IEPicFr": null,
             "TCityScreen.IEPnl": null,
             "TCityScreen.IEVSB": null,
@@ -8330,16 +8198,8 @@
               "TCityScreen.FPreview": null,
               "TCityScreen.FProductionIndex": 0,
               "TCityScreen.FQueueIndex": 0,
-              "TCityScreen.FReserved2CD": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TCityScreen.FViewX": 0,
               "TCityScreen.FViewY": 0,
-              "TCityScreen.F_CityScreen_2C1": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TCityScreen.IEPicFr": null,
               "TCityScreen.IEPnl": null,
               "TCityScreen.IEVSB": null,
@@ -9904,10 +9764,6 @@
             "TDisjunctionDlg.FMapX": 0,
             "TDisjunctionDlg.FMapY": 0,
             "TDisjunctionDlg.FSortOrder": 0,
-            "TDisjunctionDlg.F_DisjunctionDlg_AF": {
-              "$type": "Aow.Units.FixedArray_byte_1",
-              "FixedArray_byte_1.element0": 0
-            },
             "TDisjunctionDlg.MapView": null,
             "TDisjunctionDlg.MapViewPnl": null,
             "TDisjunctionDlg.OwnerList": null,
@@ -9966,10 +9822,6 @@
             "TDisjunctionDlg.FMapX": 0,
             "TDisjunctionDlg.FMapY": 0,
             "TDisjunctionDlg.FSortOrder": 0,
-            "TDisjunctionDlg.F_DisjunctionDlg_AF": {
-              "$type": "Aow.Units.FixedArray_byte_1",
-              "FixedArray_byte_1.element0": 0
-            },
             "TDisjunctionDlg.MapView": null,
             "TDisjunctionDlg.MapViewPnl": null,
             "TDisjunctionDlg.OwnerList": null,
@@ -10023,10 +9875,6 @@
               "TDisjunctionDlg.FMapX": 0,
               "TDisjunctionDlg.FMapY": 0,
               "TDisjunctionDlg.FSortOrder": 0,
-              "TDisjunctionDlg.F_DisjunctionDlg_AF": {
-                "$type": "Aow.Units.FixedArray_byte_1",
-                "FixedArray_byte_1.element0": 0
-              },
               "TDisjunctionDlg.MapView": null,
               "TDisjunctionDlg.MapViewPnl": null,
               "TDisjunctionDlg.OwnerList": null,
@@ -12894,10 +12742,6 @@
             "THeroInfoDlg.FArmyInfo": null,
             "THeroInfoDlg.FDetailsOpen": false,
             "THeroInfoDlg.FDone": null,
-            "THeroInfoDlg.F_HeroInfoDlg_99": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "THeroInfoDlg.FaceFrame": null,
             "THeroInfoDlg.HeroLevel": null,
             "THeroInfoDlg.HeroName": null,
@@ -12948,10 +12792,6 @@
             "THeroInfoDlg.FArmyInfo": null,
             "THeroInfoDlg.FDetailsOpen": false,
             "THeroInfoDlg.FDone": null,
-            "THeroInfoDlg.F_HeroInfoDlg_99": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "THeroInfoDlg.FaceFrame": null,
             "THeroInfoDlg.HeroLevel": null,
             "THeroInfoDlg.HeroName": null,
@@ -12997,10 +12837,6 @@
               "THeroInfoDlg.FArmyInfo": null,
               "THeroInfoDlg.FDetailsOpen": false,
               "THeroInfoDlg.FDone": null,
-              "THeroInfoDlg.F_HeroInfoDlg_99": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "THeroInfoDlg.FaceFrame": null,
               "THeroInfoDlg.HeroLevel": null,
               "THeroInfoDlg.HeroName": null,
@@ -13053,10 +12889,6 @@
             "THeroJoinDlg.FDone": null,
             "THeroJoinDlg.FFaceUnit": null,
             "THeroJoinDlg.FJoinEvent": null,
-            "THeroJoinDlg.FReserved": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "THeroJoinDlg.FSelection": 0,
             "THeroJoinDlg.FUnits": null,
             "THeroJoinDlg.FaceFrame": null,
@@ -13114,10 +12946,6 @@
             "THeroJoinDlg.FDone": null,
             "THeroJoinDlg.FFaceUnit": null,
             "THeroJoinDlg.FJoinEvent": null,
-            "THeroJoinDlg.FReserved": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "THeroJoinDlg.FSelection": 0,
             "THeroJoinDlg.FUnits": null,
             "THeroJoinDlg.FaceFrame": null,
@@ -13170,10 +12998,6 @@
               "THeroJoinDlg.FDone": null,
               "THeroJoinDlg.FFaceUnit": null,
               "THeroJoinDlg.FJoinEvent": null,
-              "THeroJoinDlg.FReserved": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              },
               "THeroJoinDlg.FSelection": 0,
               "THeroJoinDlg.FUnits": null,
               "THeroJoinDlg.FaceFrame": null,
@@ -17513,10 +17337,6 @@
             "TPOP3Dlg.ExitBtn": null,
             "TPOP3Dlg.ExitPnl": null,
             "TPOP3Dlg.FCheckDelay": 0,
-            "TPOP3Dlg.FReservedA1": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TPOP3Dlg.FSearching": false,
             "TPOP3Dlg.FoundEmailGames": null,
             "TPOP3Dlg.LocalEmailAddressEdit": null,
@@ -17571,10 +17391,6 @@
             "TPOP3Dlg.ExitBtn": null,
             "TPOP3Dlg.ExitPnl": null,
             "TPOP3Dlg.FCheckDelay": 0,
-            "TPOP3Dlg.FReservedA1": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TPOP3Dlg.FSearching": false,
             "TPOP3Dlg.FoundEmailGames": null,
             "TPOP3Dlg.LocalEmailAddressEdit": null,
@@ -17624,10 +17440,6 @@
               "TPOP3Dlg.ExitBtn": null,
               "TPOP3Dlg.ExitPnl": null,
               "TPOP3Dlg.FCheckDelay": 0,
-              "TPOP3Dlg.FReservedA1": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TPOP3Dlg.FSearching": false,
               "TPOP3Dlg.FoundEmailGames": null,
               "TPOP3Dlg.LocalEmailAddressEdit": null,
@@ -18276,10 +18088,6 @@
             "TPartyJoinDlg.FDone": null,
             "TPartyJoinDlg.FFaceUnit": null,
             "TPartyJoinDlg.FJoinEvent": null,
-            "TPartyJoinDlg.FReserved": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "TPartyJoinDlg.FSelection": 0,
             "TPartyJoinDlg.FUnits": null,
             "TPartyJoinDlg.FaceFrame": null,
@@ -18341,10 +18149,6 @@
             "TPartyJoinDlg.FDone": null,
             "TPartyJoinDlg.FFaceUnit": null,
             "TPartyJoinDlg.FJoinEvent": null,
-            "TPartyJoinDlg.FReserved": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "TPartyJoinDlg.FSelection": 0,
             "TPartyJoinDlg.FUnits": null,
             "TPartyJoinDlg.FaceFrame": null,
@@ -18401,10 +18205,6 @@
               "TPartyJoinDlg.FDone": null,
               "TPartyJoinDlg.FFaceUnit": null,
               "TPartyJoinDlg.FJoinEvent": null,
-              "TPartyJoinDlg.FReserved": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              },
               "TPartyJoinDlg.FSelection": 0,
               "TPartyJoinDlg.FUnits": null,
               "TPartyJoinDlg.FaceFrame": null,
@@ -18767,10 +18567,6 @@
             "TProductionScreen.FQueueIndex": 0,
             "TProductionScreen.FViewX": 0,
             "TProductionScreen.FViewY": 0,
-            "TProductionScreen.F_ProductionScreen_1F5": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TProductionScreen.IIPnl": null,
             "TProductionScreen.IIVSB": null,
             "TProductionScreen.IPPicFr": null,
@@ -18913,10 +18709,6 @@
             "TProductionScreen.FQueueIndex": 0,
             "TProductionScreen.FViewX": 0,
             "TProductionScreen.FViewY": 0,
-            "TProductionScreen.F_ProductionScreen_1F5": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TProductionScreen.IIPnl": null,
             "TProductionScreen.IIVSB": null,
             "TProductionScreen.IPPicFr": null,
@@ -19054,10 +18846,6 @@
               "TProductionScreen.FQueueIndex": 0,
               "TProductionScreen.FViewX": 0,
               "TProductionScreen.FViewY": 0,
-              "TProductionScreen.F_ProductionScreen_1F5": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TProductionScreen.IIPnl": null,
               "TProductionScreen.IIVSB": null,
               "TProductionScreen.IPPicFr": null,
@@ -19651,10 +19439,6 @@
             "TRelWindow.FSelectedIndex": 0,
             "TRelWindow.FSelectedPlayer": 0,
             "TRelWindow.FSelectedRace": 0,
-            "TRelWindow.F_RelWindow_2A5": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TRelWindow.FaceFr": null,
             "TRelWindow.FaceShadow": null,
             "TRelWindow.IIExitBtn": null,
@@ -19841,10 +19625,6 @@
             "TRelWindow.FSelectedIndex": 0,
             "TRelWindow.FSelectedPlayer": 0,
             "TRelWindow.FSelectedRace": 0,
-            "TRelWindow.F_RelWindow_2A5": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TRelWindow.FaceFr": null,
             "TRelWindow.FaceShadow": null,
             "TRelWindow.IIExitBtn": null,
@@ -20026,10 +19806,6 @@
               "TRelWindow.FSelectedIndex": 0,
               "TRelWindow.FSelectedPlayer": 0,
               "TRelWindow.FSelectedRace": 0,
-              "TRelWindow.F_RelWindow_2A5": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TRelWindow.FaceFr": null,
               "TRelWindow.FaceShadow": null,
               "TRelWindow.IIExitBtn": null,
@@ -20434,10 +20210,6 @@
             "TSMTPDlg.FFinished": false,
             "TSMTPDlg.FProgress": 0,
             "TSMTPDlg.FThread": null,
-            "TSMTPDlg.F_SMTPDlg_B1": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TSMTPDlg.FailedMemo": null,
             "TSMTPDlg.FailedPnl": null,
             "TSMTPDlg.IMSMessage": null,
@@ -20494,10 +20266,6 @@
             "TSMTPDlg.FFinished": false,
             "TSMTPDlg.FProgress": 0,
             "TSMTPDlg.FThread": null,
-            "TSMTPDlg.F_SMTPDlg_B1": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TSMTPDlg.FailedMemo": null,
             "TSMTPDlg.FailedPnl": null,
             "TSMTPDlg.IMSMessage": null,
@@ -20549,10 +20317,6 @@
               "TSMTPDlg.FFinished": false,
               "TSMTPDlg.FProgress": 0,
               "TSMTPDlg.FThread": null,
-              "TSMTPDlg.F_SMTPDlg_B1": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TSMTPDlg.FailedMemo": null,
               "TSMTPDlg.FailedPnl": null,
               "TSMTPDlg.IMSMessage": null,
@@ -20604,18 +20368,6 @@
             "TmsMessage.FHeader": null,
             "TmsMessage.FIncludeHeader": false,
             "TmsMessage.FRecipients": null,
-            "TmsMessage.FReserved12A": {
-              "$type": "Aow.Units.FixedArray_byte_10",
-              "FixedArray_byte_10.element0": 0
-            },
-            "TmsMessage.FReserved138": {
-              "$type": "Aow.Units.FixedArray_byte_260",
-              "FixedArray_byte_260.element0": 0
-            },
-            "TmsMessage.FReserved240": {
-              "$type": "Aow.Units.FixedArray_byte_12",
-              "FixedArray_byte_12.element0": 0
-            },
             "TmsMessage.FSubject": ""
           }
         }
@@ -20653,18 +20405,6 @@
             "TmsMessage.FHeader": null,
             "TmsMessage.FIncludeHeader": false,
             "TmsMessage.FRecipients": null,
-            "TmsMessage.FReserved12A": {
-              "$type": "Aow.Units.FixedArray_byte_10",
-              "FixedArray_byte_10.element0": 0
-            },
-            "TmsMessage.FReserved138": {
-              "$type": "Aow.Units.FixedArray_byte_260",
-              "FixedArray_byte_260.element0": 0
-            },
-            "TmsMessage.FReserved240": {
-              "$type": "Aow.Units.FixedArray_byte_12",
-              "FixedArray_byte_12.element0": 0
-            },
             "TmsMessage.FSubject": ""
           }
         }
@@ -20697,18 +20437,6 @@
               "TmsMessage.FHeader": null,
               "TmsMessage.FIncludeHeader": false,
               "TmsMessage.FRecipients": null,
-              "TmsMessage.FReserved12A": {
-                "$type": "Aow.Units.FixedArray_byte_10",
-                "FixedArray_byte_10.element0": 0
-              },
-              "TmsMessage.FReserved138": {
-                "$type": "Aow.Units.FixedArray_byte_260",
-                "FixedArray_byte_260.element0": 0
-              },
-              "TmsMessage.FReserved240": {
-                "$type": "Aow.Units.FixedArray_byte_12",
-                "FixedArray_byte_12.element0": 0
-              },
               "TmsMessage.FSubject": ""
             }
           }
@@ -20743,15 +20471,7 @@
             "TmsSMTP.<OnError>k__BackingField": null,
             "TmsSMTP.<OnProgress>k__BackingField": null,
             "TmsSMTP.FHost": "",
-            "TmsSMTP.FMessage": null,
-            "TmsSMTP.FReserved274": {
-              "$type": "Aow.Units.FixedArray_byte_8",
-              "FixedArray_byte_8.element0": 0
-            },
-            "TmsSMTP.FReserved28": {
-              "$type": "Aow.Units.FixedArray_byte_584",
-              "FixedArray_byte_584.element0": 0
-            }
+            "TmsSMTP.FMessage": null
           }
         }
       },
@@ -20785,15 +20505,7 @@
             "TmsSMTP.<OnError>k__BackingField": null,
             "TmsSMTP.<OnProgress>k__BackingField": null,
             "TmsSMTP.FHost": "",
-            "TmsSMTP.FMessage": null,
-            "TmsSMTP.FReserved274": {
-              "$type": "Aow.Units.FixedArray_byte_8",
-              "FixedArray_byte_8.element0": 0
-            },
-            "TmsSMTP.FReserved28": {
-              "$type": "Aow.Units.FixedArray_byte_584",
-              "FixedArray_byte_584.element0": 0
-            }
+            "TmsSMTP.FMessage": null
           }
         }
       },
@@ -20822,15 +20534,7 @@
               "TmsSMTP.<OnError>k__BackingField": null,
               "TmsSMTP.<OnProgress>k__BackingField": null,
               "TmsSMTP.FHost": "",
-              "TmsSMTP.FMessage": null,
-              "TmsSMTP.FReserved274": {
-                "$type": "Aow.Units.FixedArray_byte_8",
-                "FixedArray_byte_8.element0": 0
-              },
-              "TmsSMTP.FReserved28": {
-                "$type": "Aow.Units.FixedArray_byte_584",
-                "FixedArray_byte_584.element0": 0
-              }
+              "TmsSMTP.FMessage": null
             }
           }
         ]
@@ -21003,10 +20707,6 @@
             "TScenSetup.FPingDelay": 0,
             "TScenSetup.FSetupControl": null,
             "TScenSetup.FValidateDelay": 0,
-            "TScenSetup.F_ScenSetup_345": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TScenSetup.FileNameLbl": null,
             "TScenSetup.HostNameLbl": null,
             "TScenSetup.LFr": null,
@@ -21229,10 +20929,6 @@
             "TScenSetup.FPingDelay": 0,
             "TScenSetup.FSetupControl": null,
             "TScenSetup.FValidateDelay": 0,
-            "TScenSetup.F_ScenSetup_345": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TScenSetup.FileNameLbl": null,
             "TScenSetup.HostNameLbl": null,
             "TScenSetup.LFr": null,
@@ -21450,10 +21146,6 @@
               "TScenSetup.FPingDelay": 0,
               "TScenSetup.FSetupControl": null,
               "TScenSetup.FValidateDelay": 0,
-              "TScenSetup.F_ScenSetup_345": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TScenSetup.FileNameLbl": null,
               "TScenSetup.HostNameLbl": null,
               "TScenSetup.LFr": null,
@@ -21977,15 +21669,7 @@
               "TRemotePlayer.FName": "",
               "TRemotePlayer.FPreferredRace": 255,
               "TRemotePlayer.FRemoteID": 0,
-              "TRemotePlayer.FVersion": 0,
-              "TRemotePlayer.F_RemotePlayer_12": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              }
-            },
-            "TSetupControl.FReserved26": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
+              "TRemotePlayer.FVersion": 0
             },
             "TSetupControl.FSettings": {
               "$type": "Aow.Units.AoWSetup.TSetupSettings",
@@ -22023,15 +21707,7 @@
               "TSetupSettings.FSetCRC": 0,
               "TSetupSettings.FTacticalCombatAvailability": 1,
               "TSetupSettings.FTurnTime": 0,
-              "TSetupSettings.FVictoryCondition": 0,
-              "TSetupSettings.F_SetupSettings_2B": {
-                "$type": "Aow.Units.FixedArray_byte_1",
-                "FixedArray_byte_1.element0": 0
-              },
-              "TSetupSettings.F_SetupSettings_3F": {
-                "$type": "Aow.Units.FixedArray_byte_1",
-                "FixedArray_byte_1.element0": 0
-              }
+              "TSetupSettings.FVictoryCondition": 0
             },
             "TSetupControl.FStatus": {
               "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWSetup.TSetupStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -22100,15 +21776,7 @@
               "TRemotePlayer.FName": "",
               "TRemotePlayer.FPreferredRace": 255,
               "TRemotePlayer.FRemoteID": 0,
-              "TRemotePlayer.FVersion": 0,
-              "TRemotePlayer.F_RemotePlayer_12": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              }
-            },
-            "TSetupControl.FReserved26": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
+              "TRemotePlayer.FVersion": 0
             },
             "TSetupControl.FSettings": {
               "$type": "Aow.Units.AoWSetup.TSetupSettings",
@@ -22146,15 +21814,7 @@
               "TSetupSettings.FSetCRC": 0,
               "TSetupSettings.FTacticalCombatAvailability": 1,
               "TSetupSettings.FTurnTime": 0,
-              "TSetupSettings.FVictoryCondition": 0,
-              "TSetupSettings.F_SetupSettings_2B": {
-                "$type": "Aow.Units.FixedArray_byte_1",
-                "FixedArray_byte_1.element0": 0
-              },
-              "TSetupSettings.F_SetupSettings_3F": {
-                "$type": "Aow.Units.FixedArray_byte_1",
-                "FixedArray_byte_1.element0": 0
-              }
+              "TSetupSettings.FVictoryCondition": 0
             },
             "TSetupControl.FStatus": {
               "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWSetup.TSetupStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -22212,10 +21872,6 @@
               "TSetupControl.FOnSynchronize": null,
               "TSetupControl.FPhase": 0,
               "TSetupControl.FRemotePlayer": null,
-              "TSetupControl.FReserved26": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              },
               "TSetupControl.FSettings": null,
               "TSetupControl.FStatus": {
                 "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWSetup.TSetupStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -22562,7 +22218,6 @@
             "TSpellBook.FPageKind": 0,
             "TSpellBook.FPlayerPages": null,
             "TSpellBook.FResearchedSpell": 0,
-            "TSpellBook.FReserved223": 0,
             "TSpellBook.FSpellType": 0,
             "TSpellBook.FSpells": null,
             "TSpellBook.Face": null,
@@ -22724,7 +22379,6 @@
             "TSpellBook.FPageKind": 0,
             "TSpellBook.FPlayerPages": null,
             "TSpellBook.FResearchedSpell": 0,
-            "TSpellBook.FReserved223": 0,
             "TSpellBook.FSpellType": 0,
             "TSpellBook.FSpells": null,
             "TSpellBook.Face": null,
@@ -22881,7 +22535,6 @@
               "TSpellBook.FPageKind": 0,
               "TSpellBook.FPlayerPages": null,
               "TSpellBook.FResearchedSpell": 0,
-              "TSpellBook.FReserved223": 0,
               "TSpellBook.FSpellType": 0,
               "TSpellBook.FSpells": null,
               "TSpellBook.Face": null,
@@ -23150,10 +22803,6 @@
             "TTBWindow.FIndicatorFrame": 0,
             "TTBWindow.FIndicatorStep": 0,
             "TTBWindow.FWorldClockDelay": 0,
-            "TTBWindow.F_TBWindow_142": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "TTBWindow.InfoBtn": null,
             "TTBWindow.OV2Btn": null,
             "TTBWindow.OVButton": null,
@@ -23248,10 +22897,6 @@
             "TTBWindow.FIndicatorFrame": 0,
             "TTBWindow.FIndicatorStep": 0,
             "TTBWindow.FWorldClockDelay": 0,
-            "TTBWindow.F_TBWindow_142": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "TTBWindow.InfoBtn": null,
             "TTBWindow.OV2Btn": null,
             "TTBWindow.OVButton": null,
@@ -23341,10 +22986,6 @@
               "TTBWindow.FIndicatorFrame": 0,
               "TTBWindow.FIndicatorStep": 0,
               "TTBWindow.FWorldClockDelay": 0,
-              "TTBWindow.F_TBWindow_142": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              },
               "TTBWindow.InfoBtn": null,
               "TTBWindow.OV2Btn": null,
               "TTBWindow.OVButton": null,
@@ -24351,7 +23992,6 @@
             },
             "TTitleScene.FPressedButton": 0,
             "TTitleScene.FRedrawBackground": false,
-            "TTitleScene.FReserved60": 0,
             "TTitleScene.FSceneRect": {
               "$type": "Aow.Rtl.TRect",
               "TRect.Bottom": 0,
@@ -24363,14 +24003,6 @@
             "TTitleScene.FShowCredits": false,
             "TTitleScene.FShowIntro": false,
             "TTitleScene.FTotalFrame": 0,
-            "TTitleScene.F_TitleScene_6D": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TTitleScene.F_TitleScene_96": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "TTitleScene.LegalNotice": null,
             "TTitleScene.NameLbl": null,
             "TTitleScene.StrLbl": null,
@@ -24426,7 +24058,6 @@
             },
             "TTitleScene.FPressedButton": 0,
             "TTitleScene.FRedrawBackground": false,
-            "TTitleScene.FReserved60": 0,
             "TTitleScene.FSceneRect": {
               "$type": "Aow.Rtl.TRect",
               "TRect.Bottom": 0,
@@ -24438,14 +24069,6 @@
             "TTitleScene.FShowCredits": false,
             "TTitleScene.FShowIntro": false,
             "TTitleScene.FTotalFrame": 0,
-            "TTitleScene.F_TitleScene_6D": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TTitleScene.F_TitleScene_96": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
             "TTitleScene.LegalNotice": null,
             "TTitleScene.NameLbl": null,
             "TTitleScene.StrLbl": null,
@@ -24496,7 +24119,6 @@
               },
               "TTitleScene.FPressedButton": 0,
               "TTitleScene.FRedrawBackground": false,
-              "TTitleScene.FReserved60": 0,
               "TTitleScene.FSceneRect": {
                 "$type": "Aow.Rtl.TRect",
                 "TRect.Bottom": 0,
@@ -24508,14 +24130,6 @@
               "TTitleScene.FShowCredits": false,
               "TTitleScene.FShowIntro": false,
               "TTitleScene.FTotalFrame": 0,
-              "TTitleScene.F_TitleScene_6D": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
-              "TTitleScene.F_TitleScene_96": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              },
               "TTitleScene.LegalNotice": null,
               "TTitleScene.NameLbl": null,
               "TTitleScene.StrLbl": null,
@@ -24990,14 +24604,6 @@
               "TP2UnitShowInfo.Looped": false,
               "TP2UnitShowInfo.Overlays__image": 0
             },
-            "TUnitWindow.F_UnitWindow_221": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TUnitWindow.F_UnitWindow_229": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TUnitWindow.FrLSh": null,
             "TUnitWindow.FrRSh": null,
             "TUnitWindow.Gnd1": null,
@@ -25162,14 +24768,6 @@
               "TP2UnitShowInfo.Looped": false,
               "TP2UnitShowInfo.Overlays__image": 0
             },
-            "TUnitWindow.F_UnitWindow_221": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TUnitWindow.F_UnitWindow_229": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TUnitWindow.FrLSh": null,
             "TUnitWindow.FrRSh": null,
             "TUnitWindow.Gnd1": null,
@@ -25328,14 +24926,6 @@
                 "TP2UnitShowInfo.Frame": 0,
                 "TP2UnitShowInfo.Looped": false,
                 "TP2UnitShowInfo.Overlays__image": 0
-              },
-              "TUnitWindow.F_UnitWindow_221": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
-              "TUnitWindow.F_UnitWindow_229": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
               },
               "TUnitWindow.FrLSh": null,
               "TUnitWindow.FrRSh": null,
@@ -26312,7 +25902,6 @@
             "TVideoDialog.FDisplayWidth": 0,
             "TVideoDialog.FFullScreen": 0,
             "TVideoDialog.FModeChanged": false,
-            "TVideoDialog.FReserved92": 0,
             "TVideoDialog.FSceneHeight": 0,
             "TVideoDialog.FSceneWidth": 0,
             "TVideoDialog.ResCB": null,
@@ -26369,7 +25958,6 @@
             "TVideoDialog.FDisplayWidth": 0,
             "TVideoDialog.FFullScreen": 0,
             "TVideoDialog.FModeChanged": false,
-            "TVideoDialog.FReserved92": 0,
             "TVideoDialog.FSceneHeight": 0,
             "TVideoDialog.FSceneWidth": 0,
             "TVideoDialog.ResCB": null,
@@ -26421,7 +26009,6 @@
               "TVideoDialog.FDisplayWidth": 0,
               "TVideoDialog.FFullScreen": 0,
               "TVideoDialog.FModeChanged": false,
-              "TVideoDialog.FReserved92": 0,
               "TVideoDialog.FSceneHeight": 0,
               "TVideoDialog.FSceneWidth": 0,
               "TVideoDialog.ResCB": null,
@@ -27393,20 +26980,6 @@
             "TGeneral.FProductionControl": null,
             "TGeneral.FProductionPlace": null,
             "TGeneral.FRealmVisible": false,
-            "TGeneral.FReserved4D": {
-              "$type": "Aow.Units.FixedArray_byte_11",
-              "FixedArray_byte_11.element0": 0
-            },
-            "TGeneral.FReserved5B": false,
-            "TGeneral.FReserved5C": false,
-            "TGeneral.FReserved62": false,
-            "TGeneral.FReserved63": false,
-            "TGeneral.FReserved64": false,
-            "TGeneral.FReserved66": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
-            "TGeneral.FReserved74": 0,
             "TGeneral.FScannerVisible": false,
             "TGeneral.FSelectedUnit": null,
             "TGeneral.FSelectedUnits": {
@@ -27427,11 +27000,6 @@
             },
             "TGeneral.FUnitVisible": false,
             "TGeneral.FWindowsHidden": false,
-            "TGeneral.F_General_80": 0,
-            "TGeneral.F_General_C8": {
-              "$type": "Aow.Units.FixedArray_byte_4",
-              "FixedArray_byte_4.element0": 0
-            },
             "TGeneral.Manager": null,
             "TGeneral.ToolTip": null
           }
@@ -27478,20 +27046,6 @@
             "TGeneral.FProductionControl": null,
             "TGeneral.FProductionPlace": null,
             "TGeneral.FRealmVisible": false,
-            "TGeneral.FReserved4D": {
-              "$type": "Aow.Units.FixedArray_byte_11",
-              "FixedArray_byte_11.element0": 0
-            },
-            "TGeneral.FReserved5B": false,
-            "TGeneral.FReserved5C": false,
-            "TGeneral.FReserved62": false,
-            "TGeneral.FReserved63": false,
-            "TGeneral.FReserved64": false,
-            "TGeneral.FReserved66": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
-            },
-            "TGeneral.FReserved74": 0,
             "TGeneral.FScannerVisible": false,
             "TGeneral.FSelectedUnit": null,
             "TGeneral.FSelectedUnits": {
@@ -27512,11 +27066,6 @@
             },
             "TGeneral.FUnitVisible": false,
             "TGeneral.FWindowsHidden": false,
-            "TGeneral.F_General_80": 0,
-            "TGeneral.F_General_C8": {
-              "$type": "Aow.Units.FixedArray_byte_4",
-              "FixedArray_byte_4.element0": 0
-            },
             "TGeneral.Manager": null,
             "TGeneral.ToolTip": null
           }
@@ -27558,20 +27107,6 @@
               "TGeneral.FProductionControl": null,
               "TGeneral.FProductionPlace": null,
               "TGeneral.FRealmVisible": false,
-              "TGeneral.FReserved4D": {
-                "$type": "Aow.Units.FixedArray_byte_11",
-                "FixedArray_byte_11.element0": 0
-              },
-              "TGeneral.FReserved5B": false,
-              "TGeneral.FReserved5C": false,
-              "TGeneral.FReserved62": false,
-              "TGeneral.FReserved63": false,
-              "TGeneral.FReserved64": false,
-              "TGeneral.FReserved66": {
-                "$type": "Aow.Units.FixedArray_byte_2",
-                "FixedArray_byte_2.element0": 0
-              },
-              "TGeneral.FReserved74": 0,
               "TGeneral.FScannerVisible": false,
               "TGeneral.FSelectedUnit": null,
               "TGeneral.FSelectedUnits": {
@@ -27592,11 +27127,6 @@
               },
               "TGeneral.FUnitVisible": false,
               "TGeneral.FWindowsHidden": false,
-              "TGeneral.F_General_80": 0,
-              "TGeneral.F_General_C8": {
-                "$type": "Aow.Units.FixedArray_byte_4",
-                "FixedArray_byte_4.element0": 0
-              },
               "TGeneral.Manager": null,
               "TGeneral.ToolTip": null
             }
@@ -28264,14 +27794,6 @@
             "TWorldMap.FStarImage": 0,
             "TWorldMap.FStarIntensity": 0,
             "TWorldMap.FStarStep": 0,
-            "TWorldMap.F_WorldMap_159": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TWorldMap.F_WorldMap_169": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TWorldMap.Flowershire": null,
             "TWorldMap.Frame": null,
             "TWorldMap.Goblins": null,
@@ -28375,14 +27897,6 @@
             "TWorldMap.FStarImage": 0,
             "TWorldMap.FStarIntensity": 0,
             "TWorldMap.FStarStep": 0,
-            "TWorldMap.F_WorldMap_159": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TWorldMap.F_WorldMap_169": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TWorldMap.Flowershire": null,
             "TWorldMap.Frame": null,
             "TWorldMap.Goblins": null,
@@ -28481,14 +27995,6 @@
               "TWorldMap.FStarImage": 0,
               "TWorldMap.FStarIntensity": 0,
               "TWorldMap.FStarStep": 0,
-              "TWorldMap.F_WorldMap_159": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
-              "TWorldMap.F_WorldMap_169": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TWorldMap.Flowershire": null,
               "TWorldMap.Frame": null,
               "TWorldMap.Goblins": null,
@@ -29276,18 +28782,6 @@
             "TFastCombatWindow.FRightOpacity": 0,
             "TFastCombatWindow.FRightShield": 0,
             "TFastCombatWindow.FViewer": null,
-            "TFastCombatWindow.F_FastCombatWindow_125": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TFastCombatWindow.F_FastCombatWindow_139": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TFastCombatWindow.F_FastCombatWindow_141": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TFastCombatWindow.FastLbl": null,
             "TFastCombatWindow.FightPnl": null,
             "TFastCombatWindow.FinalView": null,
@@ -29386,18 +28880,6 @@
             "TFastCombatWindow.FRightOpacity": 0,
             "TFastCombatWindow.FRightShield": 0,
             "TFastCombatWindow.FViewer": null,
-            "TFastCombatWindow.F_FastCombatWindow_125": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TFastCombatWindow.F_FastCombatWindow_139": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TFastCombatWindow.F_FastCombatWindow_141": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TFastCombatWindow.FastLbl": null,
             "TFastCombatWindow.FightPnl": null,
             "TFastCombatWindow.FinalView": null,
@@ -29491,18 +28973,6 @@
               "TFastCombatWindow.FRightOpacity": 0,
               "TFastCombatWindow.FRightShield": 0,
               "TFastCombatWindow.FViewer": null,
-              "TFastCombatWindow.F_FastCombatWindow_125": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
-              "TFastCombatWindow.F_FastCombatWindow_139": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
-              "TFastCombatWindow.F_FastCombatWindow_141": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TFastCombatWindow.FastLbl": null,
               "TFastCombatWindow.FightPnl": null,
               "TFastCombatWindow.FinalView": null,
@@ -30557,7 +30027,6 @@
             "TScanner.FPreviousHeight": 0,
             "TScanner.FPreviousWidth": 0,
             "TScanner.FReserved138": false,
-            "TScanner.FReserved16C": 0,
             "TScanner.FSteps": 1,
             "TScanner.FTHeight": -1,
             "TScanner.FTLeft": -1,
@@ -30711,7 +30180,6 @@
             "TScanner.FPreviousHeight": 0,
             "TScanner.FPreviousWidth": 0,
             "TScanner.FReserved138": false,
-            "TScanner.FReserved16C": 0,
             "TScanner.FSteps": 1,
             "TScanner.FTHeight": -1,
             "TScanner.FTLeft": -1,
@@ -30825,7 +30293,6 @@
               "TScanner.FPreviousHeight": 0,
               "TScanner.FPreviousWidth": 0,
               "TScanner.FReserved138": false,
-              "TScanner.FReserved16C": 0,
               "TScanner.FSteps": 0,
               "TScanner.FTHeight": 0,
               "TScanner.FTLeft": 0,
@@ -32382,10 +31849,6 @@
             "TSetupEvents.<LayoutOnCreate>k__BackingField": null,
             "TSetupEvents.DPlay": null,
             "TSetupEvents.FLobbyGame": false,
-            "TSetupEvents.FReserved4D": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TSetupEvents.SetupControl": null
           }
         }
@@ -32419,10 +31882,6 @@
             "TSetupEvents.<LayoutOnCreate>k__BackingField": null,
             "TSetupEvents.DPlay": null,
             "TSetupEvents.FLobbyGame": false,
-            "TSetupEvents.FReserved4D": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
             "TSetupEvents.SetupControl": null
           }
         }
@@ -32451,10 +31910,6 @@
               "TSetupEvents.<LayoutOnCreate>k__BackingField": null,
               "TSetupEvents.DPlay": null,
               "TSetupEvents.FLobbyGame": false,
-              "TSetupEvents.FReserved4D": {
-                "$type": "Aow.Units.FixedArray_byte_3",
-                "FixedArray_byte_3.element0": 0
-              },
               "TSetupEvents.SetupControl": null
             }
           }

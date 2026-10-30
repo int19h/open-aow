@@ -36,18 +36,13 @@ using static Aow.Units.UnitIGrd.UnitIGrd;
 
 namespace Aow.Units.PlayerBox
 {
-    // { TPlayerComboBox (instance size 372, VMT 55800248) }
     public partial class TPlayerComboBox : Aow.Rtl.TComboBox
     {
         public sbyte FPlayerIndex;
-        // { +$170 }
         public bool FAllowNone;
-        // { +$171 }
         public bool FAllowIndependent;
-        // { +$172 }
         public bool FAllowRandom;
         // PlayerBox.pas:87
-        // { +$173 }
         public override void Loaded()
         {
             base.Loaded();
@@ -60,21 +55,21 @@ namespace Aow.Units.PlayerBox
         // PlayerBox.pas:52
         public void GenerateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // PlayerBox.pas:72
         public void SetPlayerIndex(sbyte Value)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // PlayerBox.pas:80
         protected internal override void Change()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -88,7 +83,6 @@ namespace Aow.Units.PlayerBox
         public bool AllowRandom { get => FAllowRandom; set => FAllowRandom = value; }
     }
 
-    // { needs: missing AoWE.PlayerRStr }
     public struct TObjectFields
     {
         public Aow.Units.FixedArray_object_512 Fields;

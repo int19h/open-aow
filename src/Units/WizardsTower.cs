@@ -36,7 +36,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.WizardsTower
 {
-    // { TWizardsTower: size $38, VMT 557D5508; $30 generate, $31 spheres, $33 level, $34 spell ID. }
+    // generate, spheres, level, spell ID
     public partial class TWizardsTower : Aow.Units.AoWE.TStructure
     {
         public TWizardsTower(TECustomNode owner) : base(owner)
@@ -50,14 +50,10 @@ namespace Aow.Units.WizardsTower
         public new const int ClassID = 133278;
 
         public bool FGenerateSpell;
-        // { $30 }
         public TSet<Aow.Units.AoWE.TMagicSphere> FMagicSpheres;
-        // { $31 }
         public byte FSpellLevel;
-        // { $33 }
         public int FSpellID;
         // WizardsTower.pas:87
-        // { $34 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -422,7 +418,6 @@ namespace Aow.Units.WizardsTower
 
     }
 
-    // { TWizardsTowerResource: size $64, VMT 557D5774; no additional fields. }
     public partial class TWizardsTowerResource : Aow.Units.AoWE.TStructureResource
     {
         public TWizardsTowerResource(TECustomNode owner) : base(owner)
@@ -451,7 +446,7 @@ namespace Aow.Units.WizardsTower
 
     }
 
-    // { TEnterWizardsTowerEventLog: size $1C, VMT 557D587C; $18 tower. }
+    // tower
     public partial class TEnterWizardsTowerEventLog : Aow.Units.EventLog.TEventLog
     {
         // WizardsTower.pas:70
@@ -460,7 +455,6 @@ namespace Aow.Units.WizardsTower
 
         public Aow.Units.WizardsTower.TWizardsTower FTower;
         // WizardsTower.pas:73
-        // { $18 }
         public override void Destroy()
         {
             base.Destroy();

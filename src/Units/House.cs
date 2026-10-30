@@ -46,7 +46,6 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.House
 {
-    // { THouse (instance size 48, VMT 00434584) }
     public partial class THouse : Aow.Units.CombatStructure.TCombatStructure
     {
         public THouse(TECustomNode owner) : base(owner)
@@ -55,7 +54,6 @@ namespace Aow.Units.House
         public new const int ClassID = 2229522;
 
         public int FRace;
-        // { $28 }
         public int FFlagID;
         // House.pas:45
         public override void Activate()
@@ -99,7 +97,6 @@ namespace Aow.Units.House
 
     }
 
-    // { THouseResource (instance size 72, VMT 00434728) }
     public partial class THouseResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
         public THouseResource(TECustomNode owner) : base(owner)

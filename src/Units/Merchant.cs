@@ -34,7 +34,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Merchant
 {
-    // { TMerchant (instance size 48, VMT 557C9C54) }
     public partial class TMerchant : Aow.Units.AoWE.TStructure
     {
         public TMerchant(TECustomNode owner) : base(owner)
@@ -52,7 +51,6 @@ namespace Aow.Units.Merchant
 
     }
 
-    // { TMerchantResource (instance size 100, VMT 557C9EB4) }
     public partial class TMerchantResource : Aow.Units.AoWE.TStructureResource
     {
         public TMerchantResource(TECustomNode owner) : base(owner)

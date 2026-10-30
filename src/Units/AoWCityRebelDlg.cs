@@ -62,44 +62,28 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWCityRebelDlg
 {
-    // { TCityRebelDlg (instance size $84, VMT 00436E98).
-//     $78 completion callback; $80 city-rebellion event. }
+    // completion callback. city-rebellion event
     public partial class TCityRebelDlg : Aow.Rtl.TDataModule
     {
         public TCityRebelDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow RebelWin;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0050 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton CenterBut;
-        // { +0058 }
         public Aow.Units.AoWButton.TAOWButton CloseBut;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage RebelBG;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel CityNameLabel;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel AOWLabel2;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel AOWLabel3;
-        // { +006C }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +0070 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0074 }
         public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
-        // { $78 }
         public Aow.Units.City.TCityRebellionEventLog FEvent;
         // AoWCityRebelDlg.pas:49
-        // { $80 }
         public void ClearEvent()
         {
             Aow.Units.City.TCityRebellionEventLog Event = default;
@@ -127,24 +111,20 @@ namespace Aow.Units.AoWCityRebelDlg
         }
 
         // AoWCityRebelDlg.pas:66
-        // { draft }
         public void CenterButClick()
         {
-            // { Tried with/local receiver; explicit location receiver; no exact match. }
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
             var cityRebellionEventLog = FEvent;
             Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
         }
 
         // AoWCityRebelDlg.pas:72
-        // { draft }
         public void RebelWinHide()
         {
             ClearEvent();
         }
 
         // AoWCityRebelDlg.pas:77
-        // { draft }
         public void RebelWinKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if ((Key == 27) || (Key == 32))

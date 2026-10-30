@@ -60,215 +60,112 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWCampaignTransferDlg
 {
-    // { TCampaignTransferDlg (instance size $1D0, VMT 0040C058).
-//     $1A8/$1AC hero scroll; $1B0/$1B4 unit scroll; $1B8/$1BC item scroll;
-//     $1C0/$1C4 left selection kind/index; $1C8/$1CC right selection kind/index. }
+    // hero scroll. unit scroll. item scroll. left selection kind/index. right selection kind/index
     public partial class TCampaignTransferDlg : Aow.Rtl.TDataModule
     {
         public TCampaignTransferDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWCheckBox.TAOWCheckBox LHero1;
-        // { +0044 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LHero2;
-        // { +0048 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LHero3;
-        // { +004C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LHero4;
-        // { +0050 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LItem1;
-        // { +0054 }
         public Aow.Units.AoWPanel.TAOWPanel LItemPnl;
-        // { +0058 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LItem2;
-        // { +005C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LItem3;
-        // { +0060 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LItem4;
-        // { +0064 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LUnit1;
-        // { +0068 }
         public Aow.Units.AoWPanel.TAOWPanel LUnitPnl;
-        // { +006C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LUnit2;
-        // { +0070 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LUnit3;
-        // { +0074 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LUnit4;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel Available;
-        // { +007C }
         public Aow.Units.AoWBookWindow.TAoWBookWindow TransBookWin;
-        // { +0080 }
         public Aow.Units.AoWButton.TAOWButton BookStart;
-        // { +0084 }
         public Aow.Units.AoWButton.TAOWButton Cancel;
-        // { +0088 }
         public Aow.Units.AoWPanel.TAOWPanel PnlL;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0090 }
         public Aow.Units.AoWPanel.TAOWPanel PnlR;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel TransferPointsLbl;
-        // { +0098 }
         public Aow.Units.AoWButton.TAOWButton AddBtn;
-        // { +009C }
         public Aow.Units.AoWLabel.TAOWLabel LGoldLbl;
-        // { +00A0 }
         public Aow.Units.AoWLabel.TAOWLabel GoldLeftLbl;
-        // { +00A4 }
         public Aow.Units.AoWLabel.TAOWLabel LManaLbl;
-        // { +00A8 }
         public Aow.Units.AoWLabel.TAOWLabel ManaLeftLbl;
-        // { +00AC }
         public Aow.Units.AoWLabel.TAOWLabel Next;
-        // { +00B0 }
         public Aow.Units.AoWFrame.TAoWFrame LSep1;
-        // { +00B4 }
         public Aow.Units.AoWImage.TAOWImage LHeroImgL;
-        // { +00B8 }
         public Aow.Units.AoWPanel.TAOWPanel LHeroPnl;
-        // { +00BC }
         public Aow.Units.AoWImage.TAOWImage LItemImgL;
-        // { +00C0 }
         public Aow.Units.AoWImage.TAOWImage LUnitImgL;
-        // { +00C4 }
         public Aow.Units.AoWImage.TAOWImage LHeroImgR;
-        // { +00C8 }
         public Aow.Units.AoWImage.TAOWImage LItemImgR;
-        // { +00CC }
         public Aow.Units.AoWImage.TAOWImage LUnitImgR;
-        // { +00D0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RHero1;
-        // { +00D4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RHero2;
-        // { +00D8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RHero3;
-        // { +00DC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RHero4;
-        // { +00E0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RItem1;
-        // { +00E4 }
         public Aow.Units.AoWPanel.TAOWPanel RItemPnl;
-        // { +00E8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RItem2;
-        // { +00EC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RItem3;
-        // { +00F0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RItem4;
-        // { +00F4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RUnit1;
-        // { +00F8 }
         public Aow.Units.AoWPanel.TAOWPanel RUnitPnl;
-        // { +00FC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RUnit2;
-        // { +0100 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RUnit3;
-        // { +0104 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RUnit4;
-        // { +0108 }
         public Aow.Units.AoWImage.TAOWImage RHeroImgL;
-        // { +010C }
         public Aow.Units.AoWPanel.TAOWPanel RHeroPnl;
-        // { +0110 }
         public Aow.Units.AoWImage.TAOWImage RItemImgL;
-        // { +0114 }
         public Aow.Units.AoWImage.TAOWImage RUnitImgL;
-        // { +0118 }
         public Aow.Units.AoWImage.TAOWImage RHeroImgR;
-        // { +011C }
         public Aow.Units.AoWImage.TAOWImage RItemImgR;
-        // { +0120 }
         public Aow.Units.AoWImage.TAOWImage RUnitImgR;
-        // { +0124 }
         public Aow.Units.AoWFrame.TAoWFrame RSep1;
-        // { +0128 }
         public Aow.Units.AoWButton.TAOWButton RemoveBtn;
-        // { +012C }
         public Aow.Units.AoWFrame.TAoWFrame LSep2;
-        // { +0130 }
         public Aow.Units.AoWFrame.TAoWFrame RSep2;
-        // { +0134 }
         public Aow.Units.AoWHScroll.TAOWHScrollBar GoldSlider;
-        // { +0138 }
         public Aow.Units.AoWHScroll.TAOWHScrollBar ManaSlider;
-        // { +013C }
         public Aow.Units.AoWButton.TAOWButton LHeroLB;
-        // { +0140 }
         public Aow.Units.AoWButton.TAOWButton AutoBtn;
-        // { +0144 }
         public Aow.Units.AoWButton.TAOWButton LItemLB;
-        // { +0148 }
         public Aow.Units.AoWButton.TAOWButton LUnitLB;
-        // { +014C }
         public Aow.Units.AoWButton.TAOWButton LHeroRB;
-        // { +0150 }
         public Aow.Units.AoWButton.TAOWButton LItemRB;
-        // { +0154 }
         public Aow.Units.AoWButton.TAOWButton LUnitRB;
-        // { +0158 }
         public Aow.Units.AoWButton.TAOWButton RHeroLB;
-        // { +015C }
         public Aow.Units.AoWButton.TAOWButton RItemLB;
-        // { +0160 }
         public Aow.Units.AoWButton.TAOWButton RUnitLB;
-        // { +0164 }
         public Aow.Units.AoWButton.TAOWButton RHeroRB;
-        // { +0168 }
         public Aow.Units.AoWButton.TAOWButton RItemRB;
-        // { +016C }
         public Aow.Units.AoWButton.TAOWButton RUnitRB;
-        // { +0170 }
         public Aow.Units.AoWImage.TAOWImage CostImg;
-        // { +0174 }
         public Aow.Units.AoWPanel.TAOWPanel CostPnl;
-        // { +0178 }
         public Aow.Units.AoWLabel.TAOWLabel CostLbl;
-        // { +017C }
         public Aow.Units.AoWImage.TAOWImage LGoldImg;
-        // { +0180 }
         public Aow.Units.AoWImage.TAOWImage LManaImg;
-        // { +0184 }
         public Aow.Units.AoWLabel.TAOWLabel TGoldLbl;
-        // { +0188 }
         public Aow.Units.AoWLabel.TAOWLabel TransferGoldLbl;
-        // { +018C }
         public Aow.Units.AoWLabel.TAOWLabel TManaLbl;
-        // { +0190 }
         public Aow.Units.AoWLabel.TAOWLabel TransferManaLbl;
-        // { +0194 }
         public Aow.Units.AoWImage.TAOWImage RGoldImg;
-        // { +0198 }
         public Aow.Units.AoWImage.TAOWImage RManaImg;
-        // { +019C }
         public Aow.Units.AoWImage.TAOWImage ResBackG;
-        // { +01A0 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +01A4 }
         public int FLeftHero;
-        // { $1A8 }
         public int FRightHero;
-        // { $1AC }
         public int FLeftUnit;
-        // { $1B0 }
         public int FRightUnit;
-        // { $1B4 }
         public int FLeftItem;
-        // { $1B8 }
         public int FRightItem;
-        // { $1BC }
         public byte FLeftKind;
-        // { $1C0 }
-        public Aow.Units.FixedArray_byte_3 F_CampaignTransferDlg_1C1;
         public int FLeftSelection;
-        // { $1C4 }
         public byte FRightKind;
-        // { $1C8 }
-        public Aow.Units.FixedArray_byte_3 F_CampaignTransferDlg_1C9;
         public int FRightSelection;
         // AoWCampaignTransferDlg.pas:683
-        // { $1CC }
         public void UpdateControls()
         {
             Aow.Units.AoWE.TAoWCampaignTransferSettings S = default;
@@ -360,7 +257,6 @@ namespace Aow.Units.AoWCampaignTransferDlg
         }
 
         // AoWCampaignTransferDlg.pas:181
-        // { draft }
         public void CancelClick()
         {
             TransBookWin.Visible = false;
@@ -372,7 +268,6 @@ namespace Aow.Units.AoWCampaignTransferDlg
         }
 
         // AoWCampaignTransferDlg.pas:190
-        // { draft }
         public void GoldSliderChange(Aow.Rtl.TObject Sender)
         {
             var aoWCampaignTransferSettings = Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FTransferSettings;

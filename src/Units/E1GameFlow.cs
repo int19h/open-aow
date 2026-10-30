@@ -213,7 +213,7 @@ namespace Aow.Units.E1GameFlow
         // E1GameFlow.pas:118
         public static void ShowMultiplayer(Aow.Units.AOWMultiWin.TMultiWindow Dialog, Aow.Rtl.AnsiString Name)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.DisConnect */
+            /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

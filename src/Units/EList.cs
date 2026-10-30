@@ -8,9 +8,8 @@ using System.Runtime.CompilerServices;
 
 namespace Aow.Units.EList
 {
-    // { EList.TListObject (instance size 4): no fields. TObjectList.LoadFromStream constructs
-//     items with their ordinary constructor. The stream methods are empty here and overridden
-//     by the items. }
+    // no fields. TObjectList.LoadFromStream constructs items with their ordinary constructor. The
+    // stream methods are empty here and overridden by the items
     public partial class TListObject : Aow.Rtl.TObject
     {
         // EList.pas:50
@@ -25,8 +24,8 @@ namespace Aow.Units.EList
 
     }
 
-    // { EList.TObjectList (instance size 16): a TList that owns its TListObjects. A slot may be nil;
-//     the stream format is the count followed by a nil flag per slot and the item's own data. }
+    // a TList that owns its TListObjects. A slot can be nil. the stream format is the count
+    // followed by a nil flag per slot and the item's own data
     public partial class TObjectList : Aow.Rtl.TList
     {
         // EList.pas:66
@@ -54,7 +53,6 @@ namespace Aow.Units.EList
         }
 
         // EList.pas:60
-        // { TObjectList }
         public override void Destroy()
         {
             DestroyItems();

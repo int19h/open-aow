@@ -66,65 +66,38 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWArmyInfoDlg
 {
-    // { TArmyInfoDlg (instance size $AC, VMT 004475A0).
-//     $9C unit-info window open; $A0 completion callback; $A8 army-info event. }
+    // unit-info window open. completion callback. army-info event
     public partial class TArmyInfoDlg : Aow.Rtl.TDataModule
     {
         public TArmyInfoDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame U1;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame U2;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame U4;
-        // { +0050 }
         public Aow.Units.AoWFrame.TAoWFrame U5;
-        // { +0054 }
         public Aow.Units.AoWFrame.TAoWFrame U3;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame U6;
-        // { +005C }
         public Aow.Units.AoWFrame.TAoWFrame U7;
-        // { +0060 }
         public Aow.Units.AoWFrame.TAoWFrame U8;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton CloseBtn;
-        // { +0068 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +006C }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0074 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0078 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +007C }
         public Aow.Units.AoWFrame.TAoWFrame UnitLine1;
-        // { +0080 }
         public Aow.Units.AoWFrame.TAoWFrame UnitLine2;
-        // { +0084 }
         public Aow.Units.AoWMemo.TAOWMemo Message;
-        // { +0088 }
         public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel DetailsLbl;
-        // { +0090 }
         public Aow.Units.AoWLabel.TAOWLabel HeaderLbl;
-        // { +0094 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0098 }
         public bool FUnitInfoShown;
-        // { $9C }
-        public Aow.Units.FixedArray_byte_3 F_ArmyInfoDlg_9D;
         public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
-        // { $A0 }
         public Aow.Units.AoWE.TArmyInfoEventLog FEvent;
         // AoWArmyInfoDlg.pas:63
-        // { $A8 }
         public void DrawUnit(int Index, in Aow.Rtl.TRect R, ref Aow.Units.GFXE.TSurfaceDesc SD)
         {
             Aow.Rtl.TRect SaveRect = default;
@@ -202,7 +175,6 @@ namespace Aow.Units.AoWArmyInfoDlg
         }
 
         // AoWArmyInfoDlg.pas:115
-        // { draft }
         public void CloseClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -210,7 +182,6 @@ namespace Aow.Units.AoWArmyInfoDlg
         }
 
         // AoWArmyInfoDlg.pas:121
-        // { draft }
         public void U1MouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             ;
@@ -283,7 +254,6 @@ namespace Aow.Units.AoWArmyInfoDlg
         }
 
         // AoWArmyInfoDlg.pas:166
-        // { draft }
         public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if ((Key == 27) || (Key == 32))

@@ -66,68 +66,40 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWArenaDlg
 {
-    // { TArenaDlg (instance size $B4, VMT 0044BDA8).
-//     $A8 arena event; $AC completion callback. }
+    // arena event. completion callback
     public partial class TArenaDlg : Aow.Rtl.TDataModule
     {
         public TArenaDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWButton.TAOWButton SelectBtn;
-        // { +0044 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +004C }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0054 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0058 }
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel MapViewPnl;
-        // { +0060 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U1;
-        // { +0064 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U2;
-        // { +0068 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U3;
-        // { +006C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U4;
-        // { +0070 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U5;
-        // { +0074 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U6;
-        // { +0078 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U7;
-        // { +007C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox U8;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage DecoL;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage DecoR;
-        // { +0088 }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +008C }
         public Aow.Units.AoWPanel.TAOWPanel SelectionInfoPnl;
-        // { +0090 }
         public Aow.Units.AoWLabel.TAOWLabel SelectionInfoLbl;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel SelectionLbl;
-        // { +0098 }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox MapView;
-        // { +009C }
         public Aow.Units.AoWImage.TAOWImage InfoSep;
-        // { +00A0 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +00A4 }
         public Aow.Units.Arena.TEnterArenaEventLog FEvent;
-        // { $A8 }
         public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
         // AoWArenaDlg.pas:104
-        // { $AC }
         public void DrawUnit(int Index, int X, int Y, ref Aow.Units.GFXE.TSurfaceDesc SD)
         {
             Aow.Rtl.TRect SaveRect = default;
@@ -201,7 +173,6 @@ namespace Aow.Units.AoWArenaDlg
         }
 
         // AoWArenaDlg.pas:158
-        // { draft }
         public void SelectBtnClick()
         {
             Aow.Rtl.AnsiString Reason = default;
@@ -218,7 +189,6 @@ namespace Aow.Units.AoWArenaDlg
         }
 
         // AoWArenaDlg.pas:170
-        // { draft }
         public void U1Change(Aow.Rtl.TObject Sender)
         {
             Aow.Rtl.AnsiString Reason = default;
@@ -286,7 +256,6 @@ namespace Aow.Units.AoWArenaDlg
         }
 
         // AoWArenaDlg.pas:206
-        // { draft }
         public void MapViewDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
         {
             int X = default;
@@ -330,13 +299,11 @@ namespace Aow.Units.AoWArenaDlg
         }
 
         // AoWArenaDlg.pas:229
-        // { draft }
         public void DlgDrawBack()
         {
         }
 
         // AoWArenaDlg.pas:232
-        // { draft }
         public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if (Key == 27)
@@ -351,7 +318,7 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:90
         public static void ShowArena(Aow.Units.AoWArenaDlg.TArenaDlg Dialog, Aow.Units.Arena.TEnterArenaEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
-            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\AoWArenaDlg.pas", 94);
+            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArenaDlg.pas", 94);
             Aow.Units.AoWArenaDlg.AoWArenaDlg.ResetArena(Dialog);
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;

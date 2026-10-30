@@ -45,8 +45,7 @@ namespace Aow.Units.UnHolyG
         hgSummoning = 0
     }
 
-    // { TUnHolyGround (instance size 32, VMT 557C8B10): $1C FMode, $1D FPlayer,
-//     $1E FDuration, $1F FOriginalOverlay. }
+    // FMode, FPlayer, FDuration, FOriginalOverlay
     public partial class TUnHolyGround : Aow.Units.ILTer.TILTerrainMO
     {
         public TUnHolyGround(TECustomNode owner) : base(owner)
@@ -56,14 +55,10 @@ namespace Aow.Units.UnHolyG
         public new const int ClassID = 131985;
 
         public TSet<Aow.Units.UnHolyG.AnonymousEnum_hgSummoning> FMode;
-        // { $1C }
         public sbyte FPlayer;
-        // { $1D }
         public sbyte FDuration;
-        // { $1E }
         public sbyte FOriginalOverlay;
         // UnHolyG.pas:204
-        // { $1F }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -406,7 +401,6 @@ namespace Aow.Units.UnHolyG
 
     }
 
-    // { TUnHolyGroundResource (instance size 68, VMT 557C8CC0) }
     public partial class TUnHolyGroundResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TUnHolyGroundResource(TECustomNode owner) : base(owner)
@@ -435,7 +429,6 @@ namespace Aow.Units.UnHolyG
 
     }
 
-    // { TUnholyGroundSpellTE (instance size 36, VMT 557C8DC0) }
     public partial class TUnholyGroundSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
         public TUnholyGroundSpellTE(TECustomNode owner) : base(owner)
@@ -528,7 +521,6 @@ namespace Aow.Units.UnHolyG
 
     }
 
-    // { TUnholyGroundSpell (instance size 60, VMT 557C8EA4) }
     public partial class TUnholyGroundSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
         public TUnholyGroundSpell(TECustomNode owner) : base(owner)

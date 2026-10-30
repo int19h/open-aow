@@ -2,10 +2,10 @@ using Aow.Rtl;
 
 namespace Aow.Units.Engine;
 
-// { The engine's class descriptor: one per TEObject descendant, registered in inheritance order by
-//   ClassRegistry from a module initializer. It carries the saved class id, the native
-//   instance size, the parent descriptor and the creation delegate. Descriptors are not TObjects
-//   and registration allocates no instance. }
+// The engine's class descriptor: one per TEObject descendant, registered in inheritance order by
+// ClassRegistry from a module initializer. It carries the saved class id, the native instance size,
+// the parent descriptor and the creation delegate. Descriptors are not TObjects and registration
+// allocates no instance
 public sealed class EClass
 {
     private static readonly Catalog<Type, EClass> catalog = new("engine class");

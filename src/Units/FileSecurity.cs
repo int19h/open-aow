@@ -105,14 +105,14 @@ namespace Aow.Units.FileSecurity
         // FileSecurity.pas:63
         public static bool WriteSecurityData(Aow.Rtl.AnsiString FileName, in Aow.Units.FileSecurity.TSecurityData Data)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.CreateFile */
+            /* TODO: Implement Windows.CreateFile in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // FileSecurity.pas:99
         public static bool RemoveSecurityData(Aow.Rtl.AnsiString FileName)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.CreateFile */
+            /* TODO: Implement Windows.CreateFile in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

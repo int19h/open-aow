@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Spring
 {
-    // { TSpringOfLifeAnimation (instance size 60, VMT 557A3858) }
     public partial class TSpringOfLifeAnimation : Aow.Units.Animation.TAnimation
     {
         public TSpringOfLifeAnimation(TECustomNode owner) : base(owner)
@@ -56,12 +55,10 @@ namespace Aow.Units.Spring
 
 
         // Spring.pas:59
-        // { needs: AnimationControlMode returns TAnimationControlMode in AL. }
         public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode() => Aow.Units.Spring.Spring.SpringMode;
 
     }
 
-    // { TSpringOfLife (instance size 48, VMT 557A3A04) }
     public partial class TSpringOfLife : Aow.Units.AoWE.TStructure
     {
         public TSpringOfLife(TECustomNode owner) : base(owner)
@@ -152,7 +149,6 @@ namespace Aow.Units.Spring
 
     }
 
-    // { TSpringOfLifeResource (instance size 100, VMT 557A3C6C) }
     public partial class TSpringOfLifeResource : Aow.Units.AoWE.TStructureResource
     {
         public TSpringOfLifeResource(TECustomNode owner) : base(owner)

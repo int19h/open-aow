@@ -49,7 +49,6 @@ using static Aow.Units.CombatSpells.CombatSpells;
 namespace Aow.Units.CombatTE
 {
     // { ot=1 }
-    // { TCEndTurnTE (instance size 16, VMT 00407548) }
     public partial class TCEndTurnTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TCEndTurnTE(TECustomNode owner) : base(owner)
@@ -128,7 +127,6 @@ namespace Aow.Units.CombatTE
 
     }
 
-    // { TCEndCombatTE (instance size 16, VMT 0040760C) }
     public partial class TCEndCombatTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TCEndCombatTE(TECustomNode owner) : base(owner)
@@ -188,7 +186,6 @@ namespace Aow.Units.CombatTE
 
     }
 
-    // { TCombatMoveTE (instance size 56, VMT 004076D4) }
     public partial class TCombatMoveTE : Aow.Units.AoWE.TMoveTE
     {
         public TCombatMoveTE(TECustomNode owner) : base(owner)
@@ -198,23 +195,14 @@ namespace Aow.Units.CombatTE
         public new const int ClassID = 2236416;
 
         public Aow.Units.AoWTC.TTacticalCombatUnit FUnit;
-        // { $1C }
         public int FDelay;
-        // { $20 }
         public Aow.Rtl.TList FObjects;
-        // { $24 }
         public Aow.Units.AoWTC.TTacticalCombatUnit FPreviousUnit;
-        // { $28 }
         public Aow.Units.AoWTC.TTacticalCombatUnit FFreeStrikeUnit;
-        // { $2C }
         public sbyte FNeighbour;
-        // { $30 }
         public Aow.Units.CombatTE.TTokenStep FStep;
-        // { $31 }
-        public Aow.Units.FixedArray_byte_2 F_CombatMoveTE_32;
         public Aow.Units.AoWE.TStrikeCA FStrike;
         // CombatTE.pas:214
-        // { $34 }
         public override void Destroy()
         {
             if (FObjects != null)
@@ -664,7 +652,6 @@ namespace Aow.Units.CombatTE
         }
 
         // CombatTE.pas:253
-        // { $70 }
         public Aow.Units.AoWE.TMoveStatus ExecuteDefaultMove()
         {
             Aow.Units.AoWE.TMoveStatus Result = default;
@@ -759,7 +746,6 @@ namespace Aow.Units.CombatTE
 
     }
 
-    // { TCMeleeMoveTE (instance size 64, VMT 004077C0) }
     public partial class TCMeleeMoveTE : Aow.Units.CombatTE.TCombatMoveTE
     {
         public TCMeleeMoveTE(TECustomNode owner) : base(owner)
@@ -768,7 +754,6 @@ namespace Aow.Units.CombatTE
         public new const int ClassID = 2236417;
 
         public Aow.Units.AoWE.TMeleeRound FMeleeRound;
-        // { $38 }
         public int FStrikeIndex;
         // CombatTE.pas:454
         public override Aow.Units.AoWE.TMoveStatus LastMove()
@@ -1118,7 +1103,6 @@ namespace Aow.Units.CombatTE
 
     }
 
-    // { TCAbTouchMoveTE (instance size 108, VMT 004078AC) }
     public partial class TCAbTouchMoveTE : Aow.Units.CombatTE.TCombatMoveTE
     {
         public TCAbTouchMoveTE(TECustomNode owner) : base(owner)
@@ -1128,35 +1112,20 @@ namespace Aow.Units.CombatTE
         public new const int ClassID = 2236418;
 
         public Aow.Units.AoWTC.TfxHS FEffect;
-        // { $38 }
         public int FAbilityID;
-        // { $3C }
         public Aow.Units.AoWE.TPossessCA FPossessAction;
-        // { $40 }
         public Aow.Units.AoWE.TEntangleCA FEntangleAction;
-        // { $44 }
         public Aow.Units.AoWE.TWebCA FWebAction;
-        // { $48 }
         public Aow.Units.AoWE.TTurnUndeadCA FTurnUndeadAction;
-        // { $4C }
         public Aow.Units.AoWE.THealingCA FHealingAction;
-        // { $50 }
         public Aow.Units.AoWE.TCommandCA FCommandAction;
-        // { $54 }
         public Aow.Units.AoWE.TInvokeDeathCA FDeathAction;
-        // { $58 }
         public Aow.Units.AoWE.TDispelMagicAbilityCA FDispelAction;
-        // { $5C }
         public Aow.Units.AoWTC.TfxType FEffectType;
-        // { $60 }
         public bool FSuccessful;
-        // { $61 }
-        public Aow.Units.FixedArray_byte_2 F_CAbTouchMoveTE_62;
         public int FDamage;
-        // { $64 }
         public Aow.Units.CityWall.TCityWall FWall;
         // CombatTE.pas:627
-        // { $68 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -1752,7 +1721,6 @@ namespace Aow.Units.CombatTE
 
     }
 
-    // { TCAbRangedTE (instance size 60, VMT 0040799C) }
     public partial class TCAbRangedTE : Aow.Units.NetworkE.TTokenEvent
     {
         public TCAbRangedTE(TECustomNode owner) : base(owner)
@@ -1762,33 +1730,19 @@ namespace Aow.Units.CombatTE
         public new const int ClassID = 2236419;
 
         public Aow.Units.AoWTC.TTacticalCombatUnit FUnit;
-        // { $10 }
         public int FAbilityID;
-        // { $14 }
         public int FSpellID;
-        // { $18 }
         public ushort FSourceX;
-        // { $1C }
         public ushort FSourceY;
-        // { $1E }
         public ushort FTargetX;
-        // { $20 }
         public ushort FTargetY;
-        // { $22 }
         public Aow.Units.AoWTC.TfxType FEffectType;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_CAbRangedTE_25;
         public int FStrikeCount;
-        // { $28 }
         public Aow.Rtl.TObject FSound;
-        // { $2C }
         public int FDelay;
-        // { $30 }
         public int FStrikeIndex;
-        // { $34 }
         public int FState;
         // CombatTE.pas:920
-        // { $38 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -3853,7 +3807,6 @@ namespace Aow.Units.CombatTE
 
     }
 
-    // { TTerminateCombatTE (instance size 16, VMT 00407A64) }
     public partial class TTerminateCombatTE : Aow.Units.NetworkE.TTokenEvent
     {
 

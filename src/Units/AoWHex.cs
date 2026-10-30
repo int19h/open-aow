@@ -36,8 +36,7 @@ using static Aow.Units.AoWReg.AoWReg;
 
 namespace Aow.Units.AoWHex
 {
-    // { TAoWHexagon (instance size 20, VMT 5579A1D0): inherited +$10 transition
-//     images [0..2], +$13 side flags. }
+    // inherited transition images [0.2], side flags
     public partial class TAoWHexagon : Aow.Units.Hexagon.THexagon
     {
         public TAoWHexagon(TECustomNode owner) : base(owner)
@@ -275,7 +274,6 @@ namespace Aow.Units.AoWHex
         }
     }
 
-    // { TAoWHexagonResource (instance size 56, VMT 5579A364) }
     public partial class TAoWHexagonResource : Aow.Units.Hexagon.THexagonResource
     {
         public TAoWHexagonResource(TECustomNode owner) : base(owner)
@@ -297,7 +295,6 @@ namespace Aow.Units.AoWHex
         }
     }
 
-    // { TAoWBorderHexagon (instance size 16, VMT 5579A458) }
     public partial class TAoWBorderHexagon : Aow.Units.BorderHx.TBorderHexagon
     {
         public TAoWBorderHexagon(TECustomNode owner) : base(owner)
@@ -313,8 +310,7 @@ namespace Aow.Units.AoWHex
         }
     }
 
-    // { TAoWWaterHexagon (instance size 32, VMT 5579A5F8): +$18 FAnimationFrame,
-//     +$19 FAnimationIndex, +$1A..$1F FShoreTerrain[1..6]. }
+    // FAnimationFrame, FAnimationIndex, FShoreTerrain[1.6]
     public partial class TAoWWaterHexagon : Aow.Units.IsoHex.TLowerIsometricHexagon
     {
         public TAoWWaterHexagon(TECustomNode owner) : base(owner)
@@ -339,7 +335,6 @@ namespace Aow.Units.AoWHex
 
     }
 
-    // { TAoWWaterHexagonResource (instance size 56, VMT 5579A7A0) }
     public partial class TAoWWaterHexagonResource : Aow.Units.IsoHex.TLowerIsometricHexagonResource
     {
         public TAoWWaterHexagonResource(TECustomNode owner) : base(owner)
@@ -385,8 +380,6 @@ namespace Aow.Units.AoWHex
         public int Flags;
     }
 
-    // { needs: IsoHex private FDynamic +$10, FOpenSides +$14, FSides +$15,
-//     and resource FDynamicLevel +$34. Preserve the original storage locally. }
     public struct TIsoFields
     {
         public Aow.Units.FixedArray_byte_16 Reserved;
@@ -413,8 +406,6 @@ namespace Aow.Units.AoWHex
         public byte Flags;
     }
 
-    // { needs: Hexagon.THexagon transition fields (+$10..$13) and
-//     THexagonResource.FTransitionLibrary (+$34) are private in the recovered unit. }
     [StructLayout(LayoutKind.Explicit, Size = 20)]
     public struct THexagonFields
     {

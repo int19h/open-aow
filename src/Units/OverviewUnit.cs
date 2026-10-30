@@ -42,7 +42,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.OverviewUnit
 {
-    // { TOverviewUnitHS (instance size 32, VMT 0043765C): $1C FUnit. }
+    // FUnit
     public partial class TOverviewUnitHS : Aow.Units.AoWE.TUnitHS
     {
         public TOverviewUnitHS(TECustomNode owner) : base(owner)
@@ -50,7 +50,6 @@ namespace Aow.Units.OverviewUnit
 
         public Aow.Units.AoWE.TAbstractUnit FUnit;
         // OverviewUnit.pas:31
-        // { $1C }
         public override void Destroy()
         {
             SetU(null);

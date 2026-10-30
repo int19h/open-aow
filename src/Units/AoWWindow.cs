@@ -27,14 +27,12 @@ namespace Aow.Units.AoWWindow
     // { The AoWWindow unit of aowInt.dpl: TAOWWindow, the ordinary window of the window manager. It
 //   draws its frame and texture, can be dragged by its title area (DragHeight) and resized by its
 //   borders, and keeps itself inside the window manager's screen and borders. }
-    // { AoWWindow.TAOWWindow (instance size 492): no fields of its own. It uses the dragging fields of
-//     TAOWWindowControl: FDragging (0 none, 1 dragging, 2 resizing), FDragX and FDragY (the
-//     mouse's offset from the edge being moved), FResizingX and FResizingY (0 none, 1 the left or
-//     top edge, 2 the right or bottom edge). }
+    // no fields of its own. It uses the dragging fields of TAOWWindowControl: FDragging (0 none, 1
+    // dragging, 2 resizing), FDragX and FDragY (the mouse's offset from the edge being moved),
+    // FResizingX and FResizingY (0 none, 1 the left or top edge, 2 the right or bottom edge)
     public partial class TAOWWindow : Aow.Units.AoWWinGeneric.TAOWGenericWindow
     {
         // AoWWindow.pas:54
-        // { TAOWWindow }
         public TAOWWindow(TComponent owner) : base(owner)
         {
             FUseManagerBorders = true;
@@ -300,7 +298,6 @@ namespace Aow.Units.AoWWindow
         // { ReAlign: a centered window is centered between the window manager's borders }
         public override void ReAlign()
         {
-            // { Tried Self/manager casts, receiver scope and pointer-cell view; border reuse still differs. }
             base.ReAlign();
             if (FUseManagerBorders)
             {

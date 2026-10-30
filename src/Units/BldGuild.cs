@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.BldGuild
 {
-    // { TBuildersGuild (instance size 76, no added fields, VMT 557CA0DC) }
     public partial class TBuildersGuild : Aow.Units.PrdPlace.TProductionPlace
     {
         public TBuildersGuild(TECustomNode owner) : base(owner)
@@ -47,7 +46,6 @@ namespace Aow.Units.BldGuild
 
     }
 
-    // { TBuildersGuildResource (instance size 120, no added fields, VMT 557CA398) }
     public partial class TBuildersGuildResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
         public TBuildersGuildResource(TECustomNode owner) : base(owner)

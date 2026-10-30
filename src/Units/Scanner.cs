@@ -45,72 +45,41 @@ using static Aow.Units.AoWE.AoWE;
 namespace Aow.Units.Scanner
 {
     // { ot=1 }
-    // { TScanner: instance size $184; $114 half-row inset, $118/$11C/$120 libraries,
-//     $124 icons, $128..$134 viewport, $13C change event, $144 update steps,
-//     $148 map, $14C frame library, $150 frame index, $154/$158 map dimensions,
-//     $15C level, $160 icons drawn, $164/$168 previous size,
-//     $170 drawable height, $174/$178 terrain/icon surfaces, $17C update step, $180 incremental. }
+    // half-row inset, libraries, icons, viewport, change event, update steps, map, frame library,
+    // frame index, map dimensions, level, icons drawn, previous size, drawable height, terrain/icon
+    // surfaces, update step, incremental
     public partial class TScanner : Aow.Units.AoWControl.TAOWControl
     {
         public int FHalfRowInset;
-        // { $114 }
         public Aow.Units.ImageLib.TImageLibrary FTilesImageLib;
-        // { $118 }
         public Aow.Units.ImageLib.TImageLibrary FHighlightImageLib;
-        // { $11C }
         public Aow.Units.ImageLib.TImageLibrary FFogImageLib;
-        // { $120 }
         public Aow.Units.ImageLib.TImageLibrary FObjectsImageLib;
-        // { $124 }
         public int FTTop;
-        // { $128 }
         public int FTHeight;
-        // { $12C }
         public int FTLeft;
-        // { $130 }
         public int FTWidth;
-        // { $134 }
         public bool FReserved138;
         public bool FBuildings;
-        // { $139 }
         public bool FArmies;
-        // { $13A }
         public bool FNaturals;
-        // { $13B }
         public Aow.Rtl.TNotifyEvent FOnMapPositionChange;
-        // { $13C }
         public int FSteps;
-        // { $144 }
         public Aow.Units.AoWE.TAbstractAoWHSMap FMap;
-        // { $148 }
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILFrame;
-        // { $14C }
         public int FILIndexFrame;
-        // { $150 }
         public int FMapWidth;
-        // { $154 }
         public int FMapHeight;
-        // { $158 }
         public Aow.Units.HSEngine.TMapLevel FLevel;
-        // { $15C }
         public bool FObjectsDrawn;
-        // { $160 }
         public int FPreviousWidth;
-        // { $164 }
         public int FPreviousHeight;
-        // { $168 }
-        public int FReserved16C;
         public int FDrawableHeight;
-        // { $170 }
         public Aow.Units.GFXE.TSurface FMapSurface;
-        // { $174 }
         public Aow.Units.GFXE.TSurface FObjectSurface;
-        // { $178 }
         public int FUpdateStep;
-        // { $17C }
         public bool FIncremental;
         // Scanner.pas:126
-        // { $180 }
         public override void Destroy()
         {
             if (FMapSurface != null)
@@ -544,7 +513,6 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:226
-        // { draft }
         public int GetOverlay(int X, int Y)
         {
             int Result = default;
@@ -601,7 +569,6 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:246
-        // { draft }
         public byte GetExplored(int X, int Y)
         {
             byte Result = default;
@@ -671,7 +638,6 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:280
-        // { draft }
         public int GetObject(int X, int Y)
         {
             int Result = default;
@@ -705,7 +671,6 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:295
-        // { draft }
         public void SetImgLib(Aow.Units.ImageLib.TImageLibrary Value)
         {
             FTilesImageLib = Value;
@@ -1038,7 +1003,6 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:443
-        // { draft body }
         public void DrawObjects()
         {
             int ImageIndex = default;

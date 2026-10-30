@@ -64,38 +64,24 @@ using static Aow.Units.aowHelpWin.aowHelpWin;
 
 namespace Aow.Units.AoWSWindow
 {
-    // { TSWindow (instance size 116, VMT 004519A0) }
     public partial class TSWindow : Aow.Rtl.TDataModule
     {
         public TSWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow ScannerWindow;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame ScannerFrame;
-        // { +0048 }
         public Aow.Units.AoWTabPanel.TAOWTabPanel ScannerTab;
-        // { +004C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox BuildingCheck;
-        // { +0050 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox ArmyCheck;
-        // { +0054 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox NaturalCheck;
-        // { +0058 }
         public Aow.Units.Scanner.TScanner Scanner;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage STitleIcon;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel STitleLabel;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton SMinIcon;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton Help;
-        // { +006C }
         public Aow.Rtl.TIvTranslator Translator;
         // AoWSWindow.pas:51
-        // { $45B2A0 }
-        // { +0070 }
         public void ScannerTabChange()
         {
             if (Aow.Units.AoWE.AoWE.AoWHSMap != null)

@@ -34,8 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.CombatSpells
 {
-    // { TCombatSpellCA (instance size 32, VMT 557F3CC8):
-//     $18 spell ID, $1C casting mana; source and target IDs inherited at $0D/$0E. }
+    // spell ID, casting mana. source and target IDs inherited
     public partial class TCombatSpellCA : Aow.Units.AoWE.TDamageCA
     {
         // CombatSpells.pas:447
@@ -129,8 +128,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TExclusiveCombatSpellCA (instance size 28, VMT 557F3DB8):
-//     $0C source ID, $0D target ID, $10 casting mana, $14 success, $18 spell ID. }
+    // source ID, target ID, casting mana, success, spell ID
     public partial class TExclusiveCombatSpellCA : Aow.Units.AoWE.TCombatAction
     {
         public TExclusiveCombatSpellCA(TECustomNode owner) : base(owner)
@@ -138,10 +136,8 @@ namespace Aow.Units.CombatSpells
 
         public byte FSourceID;
         public byte FTargetID;
-        public Aow.Units.FixedArray_byte_2 F_ExclusiveCombatSpellCA_0E;
         public int FManaCost;
         public bool FSucceeded;
-        public Aow.Units.FixedArray_byte_3 F_ExclusiveCombatSpellCA_15;
         public int FSpellID;
         // CombatSpells.pas:502
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
@@ -234,16 +230,13 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TMultiTargetCombatSpellCA (instance size 32, VMT 557F3EAC):
-//     $0C source ID, $10 target byte list, $14 casting mana, $18 success, $1C spell ID. }
+    // source ID, target byte list, casting mana, success, spell ID
     public partial class TMultiTargetCombatSpellCA : Aow.Units.AoWE.TCombatAction
     {
         public byte FSourceID;
-        public Aow.Units.FixedArray_byte_3 F_MultiTargetCombatSpellCA_0D;
         public Aow.Units.Engine.TByteList FTargetIDs;
         public int FManaCost;
         public bool FSucceeded;
-        public Aow.Units.FixedArray_byte_3 F_MultiTargetCombatSpellCA_19;
         public int FSpellID;
         // CombatSpells.pas:563
         public override void Destroy()
@@ -362,16 +355,11 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TCombatSpell (instance size 64, VMT 557F3FA4):
-//     $34 combat statistics (attack, damage, types, repeats, range, radius, targets);
-//     $3C damage mode, $3D padding. }
+    // combat statistics (attack, damage, types, repeats, range, radius, targets). damage mode
     public partial class TCombatSpell : Aow.Units.AoWE.TSpell
     {
         public Aow.Units.AoWE.TSpellCombatInfo FCombatInfo;
-        // { $34 }
         public byte FDamageMode;
-        // { $3C }
-        public Aow.Units.FixedArray_byte_3 F_CombatSpell_3D;
         // CombatSpells.pas:632
         public TCombatSpell(TECustomNode owner) : base(owner)
         {
@@ -777,8 +765,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TSolarFlare (instance size 64, VMT 557F40BC):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TSolarFlare : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:845
@@ -796,7 +783,6 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TTurnUndeadSpellCA (instance size 32, VMT 557F41D0) }
     public partial class TTurnUndeadSpellCA : Aow.Units.CombatSpells.TCombatSpellCA
     {
         // CombatSpells.pas:861
@@ -835,8 +821,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TTurnUndead (instance size 64, VMT 557F42C8):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TTurnUndead : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:888
@@ -937,7 +922,6 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TFastCombatHighPrayerCA (instance size 32, VMT 557F43DC) }
     public partial class TFastCombatHighPrayerCA : Aow.Units.CombatSpells.TMultiTargetCombatSpellCA
     {
         // CombatSpells.pas:937
@@ -997,7 +981,6 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TTacticalCombatHighPrayerCA (instance size 28, VMT 557F44D0) }
     public partial class TTacticalCombatHighPrayerCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
         // CombatSpells.pas:976
@@ -1025,8 +1008,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { THighPrayer (instance size 64, VMT 557F45CC):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class THighPrayer : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:996
@@ -1199,8 +1181,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TDeathRay (instance size 64, VMT 557F46E0):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TDeathRay : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1130
@@ -1218,8 +1199,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TDiseaseCloud (instance size 64, VMT 557F47F0):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TDiseaseCloud : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1146
@@ -1237,7 +1217,6 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TMindDecayCA (instance size 28, VMT 557F4908) }
     public partial class TMindDecayCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
         // CombatSpells.pas:1162
@@ -1291,8 +1270,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TMindDecay (instance size 64, VMT 557F49E8):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TMindDecay : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1190
@@ -1357,8 +1335,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TChainLightning (instance size 64, VMT 557F4AFC):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TChainLightning : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1224
@@ -1377,8 +1354,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TColdBreath (instance size 64, VMT 557F4C18):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TColdBreath : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1241
@@ -1396,7 +1372,6 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TSlowCA (instance size 28, VMT 557F4D2C) }
     public partial class TSlowCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
         // CombatSpells.pas:1257
@@ -1433,8 +1408,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TSlow (instance size 64, VMT 557F4E00):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TSlow : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1284
@@ -1488,7 +1462,6 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TEntangleSpellCA (instance size 28, VMT 557F4F08) }
     public partial class TEntangleSpellCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
         // CombatSpells.pas:1328
@@ -1524,8 +1497,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TEntangle (instance size 64, VMT 557F4FF0):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TEntangle : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1352
@@ -1609,8 +1581,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TTremors (instance size 64, VMT 557F5100):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TTremors : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1404
@@ -1629,8 +1600,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TCallFlames (instance size 64, VMT 557F5210):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TCallFlames : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1421
@@ -1649,8 +1619,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TFireBreath (instance size 64, VMT 557F5324):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TFireBreath : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1438
@@ -1669,8 +1638,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TSwarm (instance size 64, VMT 557F5438):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TSwarm : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1455
@@ -1689,8 +1657,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TGreatHail (instance size 64, VMT 557F5544):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TGreatHail : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1472
@@ -1709,8 +1676,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TFireBall (instance size 64, VMT 557F5658):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TFireBall : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1489
@@ -1728,8 +1694,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TGeyser (instance size 64, VMT 557F5768):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TGeyser : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1505
@@ -1782,8 +1747,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TIceShards (instance size 64, VMT 557F5874):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TIceShards : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1537
@@ -1801,8 +1765,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TFrostBeams (instance size 64, VMT 557F5988):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TFrostBeams : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1553
@@ -1821,8 +1784,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TVaporize (instance size 64, VMT 557F5A9C):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TVaporize : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1570
@@ -1841,8 +1803,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TFlamingArrow (instance size 64, VMT 557F5BAC):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TFlamingArrow : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1603
@@ -1860,8 +1821,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TStoning (instance size 64, VMT 557F5CC4):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TStoning : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1587
@@ -1879,8 +1839,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TOoze (instance size 64, VMT 557F5DD4):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TOoze : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1619
@@ -1914,8 +1873,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TSacredWrath (instance size 64, VMT 557F5EDC):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TSacredWrath : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1649
@@ -1934,7 +1892,6 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TFastCombatTerrorCA (instance size 32, VMT 557F5FF4) }
     public partial class TFastCombatTerrorCA : Aow.Units.CombatSpells.TMultiTargetCombatSpellCA
     {
         // CombatSpells.pas:1666
@@ -2028,8 +1985,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TTacticalCombatTerrorCA (instance size 24, VMT 557F60E0):
-//     $0C source ID, $0D target ID, $10 casting mana, $14 success. }
+    // source ID, target ID, casting mana, success
     public partial class TTacticalCombatTerrorCA : Aow.Units.AoWE.TCombatAction
     {
         // CombatSpells.pas:1707
@@ -2039,15 +1995,9 @@ namespace Aow.Units.CombatSpells
         { }
 
         public byte FSourceID;
-        // { $0C }
         public byte FTargetID;
-        // { $0D }
-        public Aow.Units.FixedArray_byte_2 F_TacticalCombatTerrorCA_0E;
         public int FManaCost;
-        // { $10 }
         public bool FSucceeded;
-        // { $14 }
-        public Aow.Units.FixedArray_byte_3 F_TacticalCombatTerrorCA_15;
         // CombatSpells.pas:1713
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -2128,8 +2078,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TTerror (instance size 64, VMT 557F61D4):
-//     inherited $34 combat statistics, $3C damage mode. }
+    // inherited combat statistics, damage mode
     public partial class TTerror : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1759
@@ -2314,7 +2263,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TWindsOfFury (instance size 64, VMT 557F62E0): inherited $10 spell ID, $34 combat statistics, $3C damage mode. }
+    // inherited spell ID, combat statistics, damage mode
     public partial class TWindsOfFury : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1889
@@ -2366,7 +2315,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TShockwave (instance size 64, VMT 557F63F8): inherited $10 spell ID, $34 combat statistics, $3C damage mode. }
+    // inherited spell ID, combat statistics, damage mode
     public partial class TShockwave : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1919
@@ -2384,7 +2333,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TSacrificialFlame (instance size 64, VMT 557F650C): inherited $10 spell ID, $34 combat statistics, $3C damage mode. }
+    // inherited spell ID, combat statistics, damage mode
     public partial class TSacrificialFlame : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1934
@@ -2403,7 +2352,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TRecallSpiritCA (instance size 28, VMT 557F662C): inherited $0C source ID, $0D target ID, $10 mana, $14 success, $18 spell ID. }
+    // inherited source ID, target ID, mana, success, spell ID
     public partial class TRecallSpiritCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
         // CombatSpells.pas:1950
@@ -2441,7 +2390,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TRecallSpirit (instance size 64, VMT 557F6710): inherited $10 spell ID, $34 combat statistics, $3C damage mode. }
+    // inherited spell ID, combat statistics, damage mode
     public partial class TRecallSpirit : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:1975
@@ -2497,7 +2446,7 @@ namespace Aow.Units.CombatSpells
         }
     }
 
-    // { TAnimateDeadCA (instance size 28, VMT 557F6828): inherited $0C source ID, $0D target ID, $10 mana, $14 success, $18 spell ID. }
+    // inherited source ID, target ID, mana, success, spell ID
     public partial class TAnimateDeadCA : Aow.Units.CombatSpells.TExclusiveCombatSpellCA
     {
         // CombatSpells.pas:2021
@@ -2535,7 +2484,7 @@ namespace Aow.Units.CombatSpells
 
     }
 
-    // { TAnimateDead (instance size 64, VMT 557F690C): inherited $10 spell ID, $34 combat statistics, $3C damage mode. }
+    // inherited spell ID, combat statistics, damage mode
     public partial class TAnimateDead : Aow.Units.CombatSpells.TCombatSpell
     {
         // CombatSpells.pas:2046

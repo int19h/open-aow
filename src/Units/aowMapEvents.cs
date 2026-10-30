@@ -144,7 +144,7 @@ using static Aow.Units.AoWUnitWindow.AoWUnitWindow;
 
 namespace Aow.Units.aowMapEvents
 {
-    // { TMapEvents (instance size $48, VMT 0044E554); $44 map control. }
+    // map control
     public partial class TMapEvents : Aow.Rtl.TDataModule
     {
         public TMapEvents(TComponent owner) : base(owner)
@@ -152,7 +152,6 @@ namespace Aow.Units.aowMapEvents
 
         public Aow.Units.MapCtrl.TAoWMapControl TheMap;
         // aowMapEvents.pas:93
-        // { +0044 }
         public void TheMapActivateAbility(Aow.Units.AoWE.TActivateAbilityInfo Request)
         {
             if (Request.FAbilityID == 52)
@@ -310,7 +309,6 @@ namespace Aow.Units.aowMapEvents
         }
 
         // aowMapEvents.pas:187
-        // { draft }
         public void TheMapEndTurn(sbyte Player, bool Cancelled)
         {
             bool bool__6 = (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Player);
@@ -610,7 +608,6 @@ namespace Aow.Units.aowMapEvents
         }
 
         // aowMapEvents.pas:290
-        // { draft }
         public void TheMapGemsChanged(sbyte Player)
         {
             bool Update = default;
@@ -675,7 +672,6 @@ namespace Aow.Units.aowMapEvents
         }
 
         // aowMapEvents.pas:323
-        // { draft }
         public void TheMapIncomeChanged(sbyte Player)
         {
             bool Update = default;
@@ -854,12 +850,11 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:1026
         public void TheMapPlayerTerminated(sbyte Player)
         {
-            /* TODO(T-shim) Platform or editor boundary aowDPlayComp.DisConnect */
+            /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // aowMapEvents.pas:409
-        // { $44FA8D }
         public void TheMapSeatedPlayerChanged(sbyte Player)
         {
             if (Player == -1)
@@ -912,7 +907,6 @@ namespace Aow.Units.aowMapEvents
         }
 
         // aowMapEvents.pas:440
-        // { draft }
         public void TheMapShowMessage(ref Aow.Units.AoWE.TShowMessageInfo Info)
         {
             Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TBMessEdit.TextColor = Info.Color;
@@ -987,7 +981,6 @@ namespace Aow.Units.aowMapEvents
         }
 
         // aowMapEvents.pas:484
-        // { draft }
         public void TheMapItemsSelected(Aow.Units.AoWE.TItemHS Items)
         {
             Aow.Units.AoWInfoWin.AoWInfoWin.ShowItemSelection(Aow.Units.AoWInfoWin.AoWInfoWin.IWindow, Items);
@@ -1057,14 +1050,12 @@ namespace Aow.Units.aowMapEvents
         }
 
         // aowMapEvents.pas:515
-        // { draft }
         public void TheMapDiplomaticChange()
         {
             Aow.Units.aowMapEvents.aowMapEvents.RefreshRelations(Aow.Units.E1Globals.E1Globals.RelWindow);
         }
 
         // aowMapEvents.pas:518
-        // { draft }
         public void TheMapStructureDblClick(Aow.Units.AoWE.TStructure Structure)
         {
             if (Structure == Aow.Units.AoWWinMan.AoWWinMan.General.FStructure)
@@ -1164,7 +1155,6 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:942
         public static void ShowTargetSelection(Aow.Units.AoWTargetSelection.TTargetSelectionDlg Dialog, Aow.Units.AoWE.TTargetSelectionControl Control, Aow.Units.AoWE.TTargetSelectionChange Change)
         {
-            // { Tried enum case and original range-first branch; no exact match. }
             if (Change == Aow.Units.AoWE.TTargetSelectionChange.tscActivated)
             {
                 Dialog.HeaderLbl.Text = Control.FTitle;

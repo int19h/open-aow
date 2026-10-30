@@ -38,8 +38,7 @@ namespace Aow.Units.AoWCheckBox
 //   (Checked) on a left click; with a RadioIndex above 0 it is a radio button, which only turns
 //   on, and its window turns off the other radio buttons of the group (RadioChange). A right
 //   click opens its PopupMenu at the mouse, kept inside the window manager. }
-    // { AoWCheckBox.TAOWCheckBox (instance size 320). Fields: +$138 FOnDoubleClick.
-//     VMT (new): SetChecked }
+    // Fields: FOnDoubleClick
     public partial class TAOWCheckBox : Aow.Units.AoWButton.TAOWBaseButton
     {
         public TAOWCheckBox(TComponent owner) : base(owner)
@@ -166,7 +165,6 @@ namespace Aow.Units.AoWCheckBox
         }
 
         // AoWCheckBox.pas:38
-        // { TAOWCheckBox }
         public virtual void SetChecked(bool Value)
         {
             if (Value != FChecked)

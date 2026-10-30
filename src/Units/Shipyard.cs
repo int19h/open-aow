@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Shipyard
 {
-    // { TShipyard (instance size 76, no added fields, VMT 557C715C) }
     public partial class TShipyard : Aow.Units.PrdPlace.TProductionPlace
     {
         public TShipyard(TECustomNode owner) : base(owner)
@@ -61,7 +60,6 @@ namespace Aow.Units.Shipyard
 
     }
 
-    // { TShipyardResource (instance size 120, no added fields, VMT 557C740C) }
     public partial class TShipyardResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
         public TShipyardResource(TECustomNode owner) : base(owner)
@@ -99,7 +97,6 @@ namespace Aow.Units.Shipyard
 
     }
 
-    // { TShipyardConstructionControl (instance size 8, no added fields, VMT 557C750C) }
     public partial class TShipyardConstructionControl : Aow.Units.AoWE.TStructureConstructionControl
     {
         public TShipyardConstructionControl(TECustomNode owner) : base(owner)
@@ -188,10 +185,8 @@ namespace Aow.Units.Shipyard
     public static partial class Shipyard
     {
         // Shipyard.pas:125
-        // { conflict: function StructureResource: TStructureResource; override; }
         public static void RegisterShipyard(Aow.Units.Engine.TEngine AEngine)
         {
-            // { conflict: procedure RegisterShipyard; }
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Shipyard.TShipyard>(), Aow.Units.Engine.EClass.Of<Aow.Units.Shipyard.TShipyardResource>()]);
             var call__8 = new Aow.Units.Shipyard.TShipyardConstructionControl(null);
             var call__9 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(125);

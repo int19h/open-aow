@@ -16,8 +16,7 @@ using static Aow.Units.HSEngine.HSEngine;
 
 namespace Aow.Units.Terrain
 {
-    // { Terrain.TTerrainMOR (instance size 72): +$44 FDecorationType (-1 none), +$45 FTerrainType;
-//     persisted as ids $12 and $11 }
+    // FDecorationType (-1 none), FTerrainType. persisted as ids $12 and $11
     public partial class TTerrainMOR : Aow.Units.HSEngine.TMultiHexMOR
     {
         public TTerrainMOR(TECustomNode owner) : base(owner)
@@ -45,7 +44,6 @@ namespace Aow.Units.Terrain
         }
 
         // Terrain.pas:299
-        // { TTerrainMOR }
 
 
         // Terrain.pas:322
@@ -72,7 +70,6 @@ namespace Aow.Units.Terrain
 
     }
 
-    // { Terrain.TTerrainMO (instance size 20) }
     public partial class TTerrainMO : Aow.Units.HSEngine.TMultiHexMO
     {
         public TTerrainMO(TECustomNode owner) : base(owner)
@@ -83,7 +80,6 @@ namespace Aow.Units.Terrain
         public new const int ClassID = 131430;
 
         // Terrain.pas:60
-        // { TTerrainMO }
 
 
         // Terrain.pas:179

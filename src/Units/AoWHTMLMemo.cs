@@ -49,9 +49,8 @@ namespace Aow.Units.AoWHTMLMemo
         aRight = 2
     }
 
-    // { AoWHTMLMemo.TChangeInfo (instance size 32): a style change in the text. +4 FHeight (the line
-//     height), +8 FColor, +$C FFont (the font file, '' for the current font), +$10 FAlign, +$14
-//     FPos (the character of the line where it starts), +$18 FLine, +$1C FSpacing }
+    // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for
+    // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
     public partial class TChangeInfo : Aow.Rtl.TObject
     {
         public int FHeight;
@@ -63,12 +62,11 @@ namespace Aow.Units.AoWHTMLMemo
         public int FSpacing;
     }
 
-    // { AoWHTMLMemo.TaowHTMLMemo (instance size 548). Fields: +$1EC F1EC (a list that is created and
-//     freed only), +$1F0 FChanges (TChangeInfo), +$1F4 FLines (the wrapped lines), +$1F8 FItems
-//     (the text), +$1FC FVScrollBar, +$200 FFilename, +$204 FScrollWidth, +$208 FBackDrawn (the
-//     back surface holds the text), +$20C FImages (the background textures), +$210 FTopItem (the
-//     first pixel row shown), +$214 FFonts (the fonts loaded, TImageLibraryFont), +$218 FAOWWindow,
-//     +$21C FTextWidth, +$220 FTextHeight (the size of the back surface). }
+    // Fields: F1EC (a list that is created and freed only), FChanges (TChangeInfo), FLines (the
+    // wrapped lines), FItems (the text), FVScrollBar, FFilename, FScrollWidth, FBackDrawn (the back
+    // surface holds the text), FImages (the background textures), FTopItem (the first pixel row
+    // shown), FFonts (the fonts loaded, TImageLibraryFont), FAOWWindow, FTextWidth, FTextHeight
+    // (the size of the back surface)
     public partial class TaowHTMLMemo : Aow.Units.AoWBaseWin.TAOWBaseWindow
     {
         public Aow.Rtl.TList F1EC;
@@ -86,7 +84,6 @@ namespace Aow.Units.AoWHTMLMemo
         public int FTextWidth;
         public int FTextHeight;
         // AoWHTMLMemo.pas:93
-        // { TaowHTMLMemo }
         public TaowHTMLMemo(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
@@ -701,7 +698,6 @@ namespace Aow.Units.AoWHTMLMemo
         public override void Update()
         {
             Aow.Rtl.TRect R = default;
-            // { Tried Self/field casts, receiver scope and receiver/local staging; Self/temporary registers still differ. }
             if (FVisible)
             {
                 bool bool__36 = (FVScrollBar != null);
@@ -748,7 +744,6 @@ namespace Aow.Units.AoWHTMLMemo
         // AoWHTMLMemo.pas:122
         public override void InvalidateRect(int Index, ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
         {
-            // { Tried Self cast, receiver scope and rectangle rebase; extra receiver/rectangle saves remain. }
             if (FValid && FVisible)
             {
                 AddDrawRect(ref ARect, Sender);
@@ -781,7 +776,6 @@ namespace Aow.Units.AoWHTMLMemo
             int Line = default;
             Aow.Units.AoWHTMLMemo.TChangeInfo CI = default;
             Aow.Units.AoWComp.TaowRect R = default;
-            // { Tried Self identity, receiver scope and local/field staging; register/stack allocation still differs. }
             try
             {
                 if (FValid && FVisible)
@@ -1055,7 +1049,6 @@ namespace Aow.Units.AoWHTMLMemo
         // AoWHTMLMemo.pas:145
         public void SetVScroll(Aow.Units.AoWVScroll.TAOWVScrollBar Value)
         {
-            // { Tried parameter identity, with and typed/TObject locals; original scrollbar save still differs. }
             if (Value != FVScrollBar)
             {
                 FVScrollBar = Value;

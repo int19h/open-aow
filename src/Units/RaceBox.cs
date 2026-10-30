@@ -34,22 +34,15 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.RaceBox
 {
-    // { TRaceBox (instance size 384, VMT 558006C8) }
     public partial class TRaceBox : Aow.Rtl.TComboBox
     {
         public Aow.Rtl.TNotifyEvent FOnGenerateItems;
-        // { +$170 }
         public sbyte FRace;
-        // { +$178 }
         public bool FAllowRandom;
-        // { +$179 }
         public bool FAllowNone;
-        // { +$17A }
         public bool FSelectableOnly;
-        // { +$17B }
         public Aow.Units.AoWE.TRaceList FRaces;
         // RaceBox.pas:98
-        // { +$17C }
         public override void Loaded()
         {
             base.Loaded();
@@ -60,28 +53,28 @@ namespace Aow.Units.RaceBox
 
         public TRaceBox(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
+            /* TODO: Implement StdCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // RaceBox.pas:58
         public void GenerateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // RaceBox.pas:77
         public void SetRace(sbyte Value)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // RaceBox.pas:85
         protected internal override void Change()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

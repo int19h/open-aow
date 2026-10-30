@@ -37,8 +37,7 @@ using static Aow.Units.AoWE.AoWE;
 namespace Aow.Units.Altar
 {
     // { ot=1 }
-    // { TAltar (instance size 68): $3C FStorm, $40 FMode, $41 FRechargeDays;
-//     $42..$43 alignment padding. VMT 557CE7C4. }
+    // FStorm, FMode, FRechargeDays
     public partial class TAltar : Aow.Units.AoWE.TPlayerStructure
     {
         public TAltar(TECustomNode owner) : base(owner)
@@ -48,13 +47,9 @@ namespace Aow.Units.Altar
         public new const int ClassID = 132081;
 
         public Aow.Units.Storms.TStorm FStorm;
-        // { $3C }
         public Aow.Units.Altar.TAltarMode FMode;
-        // { $40 }
         public byte FRechargeDays;
         // Altar.pas:226
-        // { $41 }
-        // { $42..$43 alignment padding }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -450,7 +445,6 @@ namespace Aow.Units.Altar
 
     }
 
-    // { TAltarResource (instance size 116, no added fields, VMT 557CEA6C) }
     public partial class TAltarResource : Aow.Units.AoWE.TPlayerStructureResource
     {
         public TAltarResource(TECustomNode owner) : base(owner)

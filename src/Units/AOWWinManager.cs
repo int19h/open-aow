@@ -22,14 +22,11 @@ namespace Aow.Units.AOWWinManager
 //   owns the windows (its children, sorted by priority), draws the background and foreground
 //   textures and the windows into the display surface, keeps the dirty rectangles of the whole
 //   screen and passes the mouse and keyboard input to the windows from the top down. }
-    // { AOWWinManager.TAOWWinManager (instance size 316). Fields: +$104 FForegroundTexture, +$108
-//     FBackgroundTexture, +$10C FOverlayPriority (windows below it get no input), +$110
-//     FNewOverlayPriority (applied by Draw), +$114 FBorderLeft, +$118 FBorderTop, +$11C
-//     FBorderRight, +$120 FBorderBottom, +$124 FOldCursor (the cursor before CheckMouseMove), +$126
-//     FDefaultCursor (the cursor when no window claims the mouse), +$128 FOnChangeCursor, +$130
-//     FILIndexTBack, +$134 FILIndexTFore, +$138 FDrawOverlay (draw the foreground texture over
-//     the windows below the overlay priority).
-//     VMT (new): SetILTB, SetILTF }
+    // Fields: FForegroundTexture, FBackgroundTexture, FOverlayPriority (windows below it get no
+    // input), FNewOverlayPriority (applied by Draw), FBorderLeft, FBorderTop, FBorderRight,
+    // FBorderBottom, FOldCursor (the cursor before CheckMouseMove), FDefaultCursor (the cursor when
+    // no window claims the mouse), FOnChangeCursor, FILIndexTBack, FILIndexTFore, FDrawOverlay
+    // (draw the foreground texture over the windows below the overlay priority)
     public partial class TAOWWinManager : Aow.Units.AoWComp.TAoWComponent
     {
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FForegroundTexture;
@@ -47,7 +44,6 @@ namespace Aow.Units.AOWWinManager
         public int FILIndexTFore;
         public bool FDrawOverlay;
         // AOWWinManager.pas:81
-        // { TAOWWinManager }
         public TAOWWinManager(TComponent owner) : base(owner)
         {
             FWinHeight = 480;
@@ -130,7 +126,6 @@ namespace Aow.Units.AOWWinManager
             int I = default;
             Aow.Units.AoWComp.TAoWComponent C = default;
             Aow.Rtl.TRect R = default;
-            // { Tried Self identity, receiver scope and local/field staging; register/stack allocation still differs. }
             if (FValid && FVisible)
             {
                 bool bool__5 = (Sender == null);
@@ -191,7 +186,6 @@ namespace Aow.Units.AOWWinManager
             bool WasValid = default;
             Aow.Units.GFXE.TSurfaceDesc SD = default;
             Aow.Rtl.TRect R = default;
-            // { Tried Self identity, receiver scope and local/field staging; register/stack allocation still differs. }
             try
             {
                 Setup();

@@ -38,7 +38,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.SummonSpells
 {
-    // { TSummonSpellTE (instance size 36, VMT 557E2F28): $20 FUnitIndices. }
+    // FUnitIndices
     public partial class TSummonSpellTE : Aow.Units.AoWE.TSpellTE
     {
         // SummonSpells.pas:171
@@ -46,7 +46,6 @@ namespace Aow.Units.SummonSpells
 
         public Aow.Units.AoWE.TUnitIndexList FUnitIndices;
         // SummonSpells.pas:165
-        // { $20 }
         public override void Destroy()
         {
             FUnitIndices.Free();
@@ -190,15 +189,13 @@ namespace Aow.Units.SummonSpells
 
     }
 
-    // { TSummonSpell (instance size 60, VMT 557E3004): $34 FAIBasePriority, $38 FUnitIndices. }
+    // FAIBasePriority, FUnitIndices
     public partial class TSummonSpell : Aow.Units.AoWE.TSpell
     {
 
         public int FAIBasePriority;
-        // { $34 }
         public Aow.Units.AoWE.TUnitIndexList FUnitIndices;
         // SummonSpells.pas:249
-        // { $38 }
         public override void Destroy()
         {
             FUnitIndices.Free();
@@ -324,7 +321,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonSyron (instance size 60, VMT 557E3120) }
     public partial class TSummonSyron : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:328
@@ -343,7 +339,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonFrog (instance size 60, VMT 557E323C) }
     public partial class TSummonFrog : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:341
@@ -362,7 +357,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonBoar (instance size 60, VMT 557E3354) }
     public partial class TSummonBoar : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:354
@@ -380,7 +374,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonAirElemental (instance size 60, VMT 557E346C) }
     public partial class TSummonAirElemental : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:366
@@ -399,7 +392,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonEarthElemental (instance size 60, VMT 557E3594) }
     public partial class TSummonEarthElemental : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:379
@@ -418,7 +410,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonFireElemental (instance size 60, VMT 557E36C0) }
     public partial class TSummonFireElemental : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:392
@@ -437,7 +428,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonWaterElemental (instance size 60, VMT 557E37EC) }
     public partial class TSummonWaterElemental : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:405
@@ -456,7 +446,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonGoldDragon (instance size 60, VMT 557E3918) }
     public partial class TSummonGoldDragon : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:418
@@ -475,7 +464,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonBlackDragon (instance size 60, VMT 557E3A3C) }
     public partial class TSummonBlackDragon : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:431
@@ -494,7 +482,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonGreatEagle (instance size 60, VMT 557E3B64) }
     public partial class TSummonGreatEagle : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:444
@@ -513,7 +500,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonFireSprite (instance size 60, VMT 557E3C88) }
     public partial class TSummonFireSprite : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:457
@@ -532,7 +518,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonBlackSpider (instance size 60, VMT 557E3DAC) }
     public partial class TSummonBlackSpider : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:475
@@ -557,7 +542,6 @@ namespace Aow.Units.SummonSpells
         }
     }
 
-    // { TSummonMermaid (instance size 60, VMT 557E3ED4) }
     public partial class TSummonMermaid : Aow.Units.SummonSpells.TSummonSpell
     {
         // SummonSpells.pas:488

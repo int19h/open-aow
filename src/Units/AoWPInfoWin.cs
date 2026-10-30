@@ -66,59 +66,35 @@ using static Aow.Units.aowHelpWin.aowHelpWin;
 
 namespace Aow.Units.AoWPInfoWin
 {
-    // { TPInfoW (instance size 160, VMT 00422EC8) }
     public partial class TPInfoW : Aow.Rtl.TDataModule
     {
         public TPInfoW(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow PInfoWin;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton Min;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel IWTitle;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage SIcon;
-        // { +0050 }
         public Aow.Units.AoWListBox.TAOWListBox EventList;
-        // { +0054 }
         public Aow.Units.AoWLabel.TAOWLabel LeadL;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel Turn;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage RShield;
-        // { +0060 }
         public Aow.Units.AoWPanel.TAOWPanel EventFr;
-        // { +0064 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar EventSB;
-        // { +0068 }
         public Aow.Units.AoWPanel.TAOWPanel PInfoPnl;
-        // { +006C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LeaderCB;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel FaceFr;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel EventLbl;
-        // { +0078 }
         public Aow.Units.AoWPanel.TAOWPanel ShieldFr;
-        // { +007C }
         public Aow.Units.AoWPanel.TAOWPanel TurnFr;
-        // { +0080 }
         public Aow.Units.AoWPanel.TAOWPanel InfoFr;
-        // { +0084 }
         public Aow.Units.AoWLabel.TAOWLabel Player;
-        // { +0088 }
         public Aow.Units.AoWLabel.TAOWLabel Race;
-        // { +008C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox RaceCB;
-        // { +0090 }
         public Aow.Units.AoWButton.TAOWButton Center;
-        // { +0094 }
         public Aow.Units.AoWButton.TAOWButton Help;
-        // { +0098 }
         public Aow.Rtl.TIvTranslator Translator;
         // AoWPInfoWin.pas:173
-        // { +009C }
         public void UpdatePlayer()
         {
             int RaceIndex = default;

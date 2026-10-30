@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.WaterNode
 {
-    // { TWaterNode (instance size 76, no added fields, VMT 557C092C) }
     public partial class TWaterNode : Aow.Units.PrdPlace.TProductionPlace
     {
         public TWaterNode(TECustomNode owner) : base(owner)
@@ -55,7 +54,6 @@ namespace Aow.Units.WaterNode
 
     }
 
-    // { TWaterNodeResource (instance size 120, no added fields, VMT 557C0BE0) }
     public partial class TWaterNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
         public TWaterNodeResource(TECustomNode owner) : base(owner)

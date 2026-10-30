@@ -56,39 +56,25 @@ using static Aow.Units.AoWWindow.AoWWindow;
 
 namespace Aow.Units.AoWPasswordDlg
 {
-    // { TPasswordDlg (instance size 124, VMT 0044DEA4) }
     public partial class TPasswordDlg : Aow.Rtl.TDataModule
     {
         public TPasswordDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0054 }
         public Aow.Units.AoWPanel.TAOWPanel OKCancelPnl;
-        // { +0058 }
         public Aow.Units.AoWButton.TAOWButton OKBtn;
-        // { +005C }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel PasswordLbl;
-        // { +0064 }
         public Aow.Units.AoWEdit.TAOWEdit PasswordEdit;
-        // { +0068 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +006C }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $70 }
         public Aow.Units.EventLog.TPasswordEventLog FPasswordEvent;
         // AoWPasswordDlg.pas:43
-        // { $78 }
         public void Finish()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;

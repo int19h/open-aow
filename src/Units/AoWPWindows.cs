@@ -70,39 +70,26 @@ using static Aow.Units.E3EventDialogs.E3EventDialogs;
 
 namespace Aow.Units.AoWPWindows
 {
-    // { TPopupWindows: size $78; $44..$74 published menu components. VMT 00427450. }
+    // published menu components
     public partial class TPopupWindows : Aow.Rtl.TDataModule
     {
         public TPopupWindows(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.StartMenu.TStartMenu StartMenu;
-        // { +0044 }
         public Aow.Units.AOWMenu.TAOWMenu OverViewsMenu;
-        // { +0048 }
         public Aow.Units.AOWMenu.TAOWMenu SettingsMenu;
-        // { +004C }
         public Aow.Units.AOWMenu.TAOWMenu EndMenu;
-        // { +0050 }
         public Aow.Units.AOWMenu.TAOWMenu DiskMenu;
-        // { +0054 }
         public Aow.Units.StartMenu.TStartMenu TCStartMenu;
-        // { +0058 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +005C }
         public Aow.Units.AOWMenu.TAOWMenu HelpMenu;
-        // { +0060 }
         public Aow.Units.AOWMenu.TAOWMenu TCOVMenu;
-        // { +0064 }
         public Aow.Units.AOWMenu.TAOWMenu TCDiskMenu;
-        // { +0068 }
         public Aow.Units.AOWMenu.TAOWMenu TCHelpMenu;
-        // { +006C }
         public Aow.Units.AOWMenu.TAOWMenu TCSettingsMenu;
-        // { +0070 }
         public Aow.Units.AOWMenu.TAOWMenu TCEndMenu;
         // AoWPWindows.pas:61
-        // { +0074 }
         public void SettingsMenuSelect(Aow.Units.AOWMenu.TAOWMenu Sender)
         {
             switch (Sender.FSelectedItem)
@@ -179,7 +166,7 @@ namespace Aow.Units.AoWPWindows
         // AoWPWindows.pas:107
         public void HelpMenuSelect(Aow.Units.AOWMenu.TAOWMenu Sender)
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.Handle */
+            /* TODO: Implement Forms.Handle in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }

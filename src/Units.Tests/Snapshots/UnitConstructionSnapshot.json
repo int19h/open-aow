@@ -27,19 +27,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null
@@ -72,19 +60,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": "$owner"
@@ -117,19 +93,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null
@@ -166,19 +130,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TAdjustableUnit.FAttack": 4,
           "TAdjustableUnit.FDamage": 3,
           "TAdjustableUnit.FDefense": 2,
@@ -205,10 +157,6 @@
             "TSet`1.low": 0
           },
           "TAdjustableUnit.FResistance": 3,
-          "TAdjustableUnit.F_AdjustableUnit_46": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [
             1,
             0,
@@ -245,19 +193,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TAdjustableUnit.FAttack": 4,
           "TAdjustableUnit.FDamage": 3,
           "TAdjustableUnit.FDefense": 2,
@@ -284,10 +220,6 @@
             "TSet`1.low": 0
           },
           "TAdjustableUnit.FResistance": 3,
-          "TAdjustableUnit.F_AdjustableUnit_46": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [
             1,
             0,
@@ -324,19 +256,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TAdjustableUnit.FAttack": 4,
           "TAdjustableUnit.FDamage": 3,
           "TAdjustableUnit.FDefense": 2,
@@ -363,10 +283,6 @@
             "TSet`1.low": 0
           },
           "TAdjustableUnit.FResistance": 3,
-          "TAdjustableUnit.F_AdjustableUnit_46": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [
             1,
             0,
@@ -407,19 +323,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
@@ -500,31 +404,7 @@
           "THero.FUnitMoves": 0,
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
-          "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          }
+          "THero.FUsedSkillPoints": 0
         }
       },
       "",
@@ -554,19 +434,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": "$owner",
@@ -647,31 +515,7 @@
           "THero.FUnitMoves": 0,
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
-          "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          }
+          "THero.FUsedSkillPoints": 0
         }
       },
       "insert:3:0:0",
@@ -701,19 +545,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
@@ -794,31 +626,7 @@
           "THero.FUnitMoves": 0,
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
-          "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          }
+          "THero.FUsedSkillPoints": 0
         }
       },
       "insert:3:0:0"
@@ -852,19 +660,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
@@ -945,31 +741,7 @@
           "THero.FUnitMoves": 0,
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
-          "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          }
+          "THero.FUsedSkillPoints": 0
         }
       },
       "",
@@ -999,19 +771,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": "$owner",
@@ -1092,31 +852,7 @@
           "THero.FUnitMoves": 0,
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
-          "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          }
+          "THero.FUsedSkillPoints": 0
         }
       },
       "insert:3:0:0",
@@ -1146,19 +882,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
@@ -1239,31 +963,7 @@
           "THero.FUnitMoves": 0,
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
-          "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          }
+          "THero.FUsedSkillPoints": 0
         }
       },
       "insert:3:0:0"
@@ -1297,19 +997,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": "$ref:$.TLeader.FSpheres.TByteList.FList",
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
@@ -1391,30 +1079,6 @@
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
           "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TLeader.FSpherePicksMax": 5,
           "TLeader.FSpheres": {
             "$type": "Aow.Units.Engine.TByteList",
@@ -1422,10 +1086,6 @@
             "TByteList.FCount": 0,
             "TByteList.FDefault": 0,
             "TByteList.FList": []
-          },
-          "TLeader.F_Leader_9D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
           }
         }
       },
@@ -1456,19 +1116,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": "$ref:$.TLeader.FSpheres.TByteList.FList",
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": "$owner",
@@ -1550,30 +1198,6 @@
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
           "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TLeader.FSpherePicksMax": 5,
           "TLeader.FSpheres": {
             "$type": "Aow.Units.Engine.TByteList",
@@ -1581,10 +1205,6 @@
             "TByteList.FCount": 0,
             "TByteList.FDefault": 0,
             "TByteList.FList": []
-          },
-          "TLeader.F_Leader_9D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
           }
         }
       },
@@ -1615,19 +1235,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": "$ref:$.TLeader.FSpheres.TByteList.FList",
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
@@ -1709,30 +1317,6 @@
           "THero.FUnitResistance": 0,
           "THero.FUpgradePending": false,
           "THero.FUsedSkillPoints": 0,
-          "THero.F_Hero_4D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_56": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_5E": {
-            "$type": "Aow.Units.FixedArray_byte_2",
-            "FixedArray_byte_2.element0": 0
-          },
-          "THero.F_Hero_7B": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "THero.F_Hero_81": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
-          "THero.F_Hero_99": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TLeader.FSpherePicksMax": 5,
           "TLeader.FSpheres": {
             "$type": "Aow.Units.Engine.TByteList",
@@ -1740,10 +1324,6 @@
             "TByteList.FCount": 0,
             "TByteList.FDefault": 0,
             "TByteList.FList": []
-          },
-          "TLeader.F_Leader_9D": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
           }
         }
       },
@@ -1778,19 +1358,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
@@ -1801,11 +1369,7 @@
           "TUnit.FExperience": 0,
           "TUnit.FHitPoints": 0,
           "TUnit.FMovePoints": 0,
-          "TUnit.FUnitResource": null,
-          "TUnit.F_Unit_3F": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          }
+          "TUnit.FUnitResource": null
         }
       },
       "",
@@ -1835,19 +1399,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": "$owner",
@@ -1858,11 +1410,7 @@
           "TUnit.FExperience": 0,
           "TUnit.FHitPoints": 0,
           "TUnit.FMovePoints": 0,
-          "TUnit.FUnitResource": null,
-          "TUnit.F_Unit_3F": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          }
+          "TUnit.FUnitResource": null
         }
       },
       "insert:2:0:0",
@@ -1892,19 +1440,7 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
@@ -1915,11 +1451,7 @@
           "TUnit.FExperience": 0,
           "TUnit.FHitPoints": 0,
           "TUnit.FMovePoints": 0,
-          "TUnit.FUnitResource": null,
-          "TUnit.F_Unit_3F": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          }
+          "TUnit.FUnitResource": null
         }
       },
       "insert:2:0:0"
@@ -1953,26 +1485,13 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
           "TWallUnit.FHitPoints": 0,
           "TWallUnit.FHits": 0,
-          "TWallUnit.FWallType": 0,
-          "TWallUnit.F_WallUnit_3F": 0
+          "TWallUnit.FWallType": 0
         }
       },
       "",
@@ -2002,26 +1521,13 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": "$owner",
           "TWallUnit.FHitPoints": 0,
           "TWallUnit.FHits": 0,
-          "TWallUnit.FWallType": 0,
-          "TWallUnit.F_WallUnit_3F": 0
+          "TWallUnit.FWallType": 0
         }
       },
       "insert:2:0:0",
@@ -2051,26 +1557,13 @@
             "TSet`1.high": 0,
             "TSet`1.low": 0
           },
-          "TAbstractUnit.F_AbstractUnit_27": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
-          "TAbstractUnit.F_AbstractUnit_33": {
-            "$type": "Aow.Units.FixedArray_byte_1",
-            "FixedArray_byte_1.element0": 0
-          },
           "TAbstractUnit.F_AbstractUnit_38": 0,
-          "TAbstractUnit.F_AbstractUnit_39": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TCustomAbilityList.FAbilityBits": [],
           "TCustomAbilityList.FAbilityCount": 0,
           "TEObject.FOwner": null,
           "TWallUnit.FHitPoints": 0,
           "TWallUnit.FHits": 0,
-          "TWallUnit.FWallType": 0,
-          "TWallUnit.F_WallUnit_3F": 0
+          "TWallUnit.FWallType": 0
         }
       },
       "insert:2:0:0"

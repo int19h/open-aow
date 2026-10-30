@@ -42,7 +42,6 @@ using static Aow.Units.CombatHex.CombatHex;
 
 namespace Aow.Units.CombatILTer
 {
-    // { TCombatILTerrainShadow (instance size 12, VMT 004041E4) }
     public partial class TCombatILTerrainShadow : Aow.Units.HSEngine.THexagonSprite
     {
         public TCombatILTerrainShadow(TECustomNode owner) : base(owner)
@@ -50,7 +49,6 @@ namespace Aow.Units.CombatILTer
 
         public Aow.Units.CombatILTer.TCombatILTerrain FTerrain;
         // CombatILTer.pas:82
-        // { $08 }
         public override int GetShowPriority()
         {
             int Result = default;
@@ -69,7 +67,6 @@ namespace Aow.Units.CombatILTer
 
     }
 
-    // { TCombatILTerrain (instance size 32, VMT 00404378) }
     public partial class TCombatILTerrain : Aow.Units.ILTer.TILTerrainMO
     {
         public TCombatILTerrain(TECustomNode owner) : base(owner)
@@ -80,7 +77,6 @@ namespace Aow.Units.CombatILTer
 
         public Aow.Units.CombatILTer.TCombatILTerrainShadow FShadow;
         // CombatILTer.pas:99
-        // { $1C }
         public override void Destroy()
         {
             DestroyShadow();
@@ -160,7 +156,6 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:87
-        // { +138 }
         public sbyte GetDefense()
         {
             sbyte Result = default;
@@ -213,7 +208,6 @@ namespace Aow.Units.CombatILTer
 
     }
 
-    // { TCombatILTerrainResource (instance size 72, VMT 00404538) }
     public partial class TCombatILTerrainResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TCombatILTerrainResource(TECustomNode owner) : base(owner)
@@ -223,10 +217,7 @@ namespace Aow.Units.CombatILTer
         public new const int ClassID = 2228535;
 
         public sbyte FBurnValue;
-        // { $44 }
         public sbyte FDefense;
-        // { $45 }
-        public Aow.Units.FixedArray_byte_2 F_CombatILTerrainResource_46;
         // CombatILTer.pas:181
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -253,7 +244,6 @@ namespace Aow.Units.CombatILTer
 
     }
 
-    // { TCombatFixedILTerrain (instance size 32, VMT 00404644) }
     public partial class TCombatFixedILTerrain : Aow.Units.CombatILTer.TCombatILTerrain
     {
         public TCombatFixedILTerrain(TECustomNode owner) : base(owner)
@@ -334,7 +324,6 @@ namespace Aow.Units.CombatILTer
 
     }
 
-    // { TCombatFixedILTerrainResource (instance size 72, VMT 0040480C) }
     public partial class TCombatFixedILTerrainResource : Aow.Units.CombatILTer.TCombatILTerrainResource
     {
         public TCombatFixedILTerrainResource(TECustomNode owner) : base(owner)

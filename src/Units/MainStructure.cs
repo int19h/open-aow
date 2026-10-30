@@ -40,7 +40,6 @@ using static Aow.Units.CombatStructure.CombatStructure;
 
 namespace Aow.Units.MainStructure
 {
-    // { TMainStructure (instance size 40, VMT 00435310) }
     public partial class TMainStructure : Aow.Units.CombatStructure.TCombatStructure
     {
         public TMainStructure(TECustomNode owner) : base(owner)
@@ -59,7 +58,6 @@ namespace Aow.Units.MainStructure
 
     }
 
-    // { TMainStructureResource (instance size 72, VMT 004354CC) }
     public partial class TMainStructureResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
         public TMainStructureResource(TECustomNode owner) : base(owner)

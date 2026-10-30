@@ -42,26 +42,18 @@ using static Aow.Units.PageTurnCtrl.PageTurnCtrl;
 
 namespace Aow.Units.AoWBookWindow
 {
-    // { TAoWBookWindow: instance size $208; $1EC completion event, $1F4 first frame,
-//     $1F5 previous surface validity, $1F8 page turn, $1FC animating,
-//     $200 saved page surface, $204 page-turn mode. }
+    // completion event, first frame, previous surface validity, page turn, animating, saved page
+    // surface, page-turn mode
     public partial class TAoWBookWindow : Aow.Units.AoWWindow.TAOWWindow
     {
         public Aow.Rtl.TNotifyEvent FOnAnimationComplete;
-        // { $1EC }
         public bool FFirstAnimationFrame;
-        // { $1F4 }
         public bool FPreviousSurfaceValid;
-        // { $1F5 }
         public Aow.Units.PageTurnCtrl.TPageTurnControl FPageTurn;
-        // { $1F8 }
         public bool FAnimating;
-        // { $1FC }
         public Aow.Units.GFXE.TSurface FPageSurface;
-        // { $200 }
         public Aow.Units.PageTurnCtrl.TPageTurnMode FPageTurnMode;
         // AoWBookWindow.pas:50
-        // { $204 }
         public override void Destroy()
         {
             Aow.Units.GFXE.TSurface S = default;

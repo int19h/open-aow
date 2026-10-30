@@ -66,52 +66,32 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWWizardsTowerDlg
 {
-    // { TWizardsTowerDlg (instance size $94, VMT 0044B6EC).
-//     $88 completion callback; $90 tower-entry event. }
+    // completion callback. tower-entry event
     public partial class TWizardsTowerDlg : Aow.Rtl.TDataModule
     {
         public TWizardsTowerDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton BuyBtn;
-        // { +0058 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel ResearchPnl;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel SpellName;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage SpellIcn;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel SpellClass;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel SpellCost;
-        // { +0070 }
         public Aow.Units.AoWMemo.TAOWMemo ResearchMemo;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel PriceLbl;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel OfferText;
-        // { +007C }
         public Aow.Units.AoWPanel.TAOWPanel PicPnl;
-        // { +0080 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0084 }
         public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
-        // { $88 }
         public Aow.Units.WizardsTower.TEnterWizardsTowerEventLog FEvent;
         // AoWWizardsTowerDlg.pas:54
-        // { $90 }
         public void ClearEvent()
         {
             Aow.Units.WizardsTower.TEnterWizardsTowerEventLog Event = default;
@@ -142,7 +122,6 @@ namespace Aow.Units.AoWWizardsTowerDlg
         }
 
         // AoWWizardsTowerDlg.pas:73
-        // { draft }
         public void BuyBtnClick()
         {
             Aow.Rtl.AnsiString Reason = default;
@@ -159,14 +138,12 @@ namespace Aow.Units.AoWWizardsTowerDlg
         }
 
         // AoWWizardsTowerDlg.pas:82
-        // { draft }
         public void DlgHide()
         {
             ClearEvent();
         }
 
         // AoWWizardsTowerDlg.pas:87
-        // { draft }
         public void SpellIcnDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
         {
             Aow.Units.AoWE.TSpell S = default;

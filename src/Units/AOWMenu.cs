@@ -34,17 +34,14 @@ namespace Aow.Units.AOWMenu
 //   bar (OwnerMenuBar and OwnerItem) or of another menu (OwnerMenu: a submenu), places itself under
 //   the bar's item when it is shown, highlights the item under the mouse and shows the submenus of
 //   the highlighted item after SubMenuShowDelay updates. }
-    // { AOWMenu.TAOWMenu (instance size 596). Fields: +$1EC FPopupOwner, +$1F0 FILIndexTSelected,
-//     +$1F4 FMenuLeft, +$1F8 FMenuTop (SetWinLeft and SetWinTop store the position here while the
-//     menu is hidden), +$1FC FShowPending (SetVisible was called while hidden), +$200 FSelectedItem
-//     (the item clicked last, -1 for none; read by OnSelect), +$204 FILTextureSelected, +$208
-//     FItems, +$20C FItemTypes (never created: SetITStrings fails, original bug), +$210 FOnDrawItem,
-//     +$218 FItemHeight, +$21C FOwnerMenuBar, +$220 FOwnerMenu, +$224 FSubMenuShowDelay, +$228
-//     FOnSelect, +$230 FHighlighted (the item under the mouse, -1 for none), +$234 FSubMenuItem (the
-//     item whose submenus are shown), +$238 FSubMenus (sorted by priority), +$23C FShowDelay
-//     (updates since the highlight moved), +$240 FDrawItem, +$244 FDrawItemRect (the item drawn
-//     last, for OnDrawItem).
-//     VMT (new): SetMenu, SetMenuBar, SetILTSel }
+    // Fields: FPopupOwner, FILIndexTSelected, FMenuLeft, FMenuTop (SetWinLeft and SetWinTop store
+    // the position here while the menu is hidden), FShowPending (SetVisible was called while
+    // hidden), FSelectedItem (the item clicked last, -1 for none. read by OnSelect),
+    // FILTextureSelected, FItems, FItemTypes (never created: SetITStrings fails, original bug),
+    // FOnDrawItem, FItemHeight, FOwnerMenuBar, FOwnerMenu, FSubMenuShowDelay, FOnSelect,
+    // FHighlighted (the item under the mouse, -1 for none), FSubMenuItem (the item whose submenus
+    // are shown), FSubMenus (sorted by priority), FShowDelay (updates since the highlight moved),
+    // FDrawItem, FDrawItemRect (the item drawn last, for OnDrawItem)
     public partial class TAOWMenu : Aow.Units.AoWWinGeneric.TAOWGenericWindow
     {
         public Aow.Units.AoWComp.TAoWComponent FPopupOwner;
@@ -69,7 +66,6 @@ namespace Aow.Units.AOWMenu
         public int FDrawItem;
         public Aow.Rtl.TRect FDrawItemRect;
         // AOWMenu.pas:102
-        // { TAOWMenu }
         public TAOWMenu(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
@@ -387,7 +383,6 @@ namespace Aow.Units.AOWMenu
             Aow.Units.AOWMenuBar.TAOWMenuBar Bar = default;
             Aow.Units.AoWBaseWin.TAOWBaseWindow W = default;
             Aow.Units.AOWMenuBar.TAOWMenuBar MB = default;
-            // { Tried Self/menu identities and receiver scope; owner temporaries still differ. }
             if (Value != FVisible)
             {
                 if (FHidden)

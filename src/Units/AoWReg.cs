@@ -33,14 +33,13 @@ using static Aow.Units.BorderHx.BorderHx;
 namespace Aow.Units.AoWReg
 {
     // { ot=1 }
-    // { TAoWRegistry: instance size $18, inherited TRegistry fields $00..$17;
-//     no additional fields. VMT 55703984. }
+    // inherited TRegistry fields
     public partial class TAoWRegistry : Aow.Rtl.TRegistry
     {
         // AoWReg.pas:128
         public void AssociateAoWMap(Aow.Rtl.AnsiString Executable)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.RootKey */
+            /* TODO: Implement Registry.RootKey in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -276,7 +275,7 @@ namespace Aow.Units.AoWReg
         // AoWReg.pas:312
         public void SetDeveloper(bool Value)
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.DeleteValue */
+            /* TODO: Implement Registry.DeleteValue in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -843,7 +842,7 @@ namespace Aow.Units.AoWReg
         // AoWReg.pas:791
         public void RegisterDPlayLobbyServer()
         {
-            /* TODO(T-shim) Platform or editor boundary Registry.RootKey */
+            /* TODO: Implement Registry.RootKey in the platform or editor service. */
             throw new System.NotImplementedException();
         }
     }
@@ -899,13 +898,12 @@ namespace Aow.Units.AoWReg
 
     public static partial class AoWReg
     {
-        // { AoWReg registry settings from AoWEPACK.dpl, recovered against Delphi 3.02.
-//   Remaining draft routines are marked below. }
+        // AoWReg registry settings from AoWEPACK.dpl, recovered against Delphi 3.02
         public static Aow.Rtl.TGUID ID_AOWAPP = (AnsiString)"{3205D060-4FF5-11D3-811F-0050042E6D24}";
         // AoWReg.pas:811
         public static bool ValidAoWCD(byte Drive)
         {
-            /* TODO(T-shim) Platform or editor boundary Windows.GetDriveType */
+            /* TODO: Implement Windows.GetDriveType in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -916,7 +914,7 @@ namespace Aow.Units.AoWReg
         // { The shipped GOG binary patches the drive scan to True followed by 54 NOPs. }
         public static bool GuaranteeAoWCD(Aow.Rtl.AnsiString FirstMessage, Aow.Rtl.AnsiString RetryMessage)
         {
-            /* TODO(T-shim) Platform or editor boundary Dialogs.MessageDlg */
+            /* TODO: Implement Dialogs.MessageDlg in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

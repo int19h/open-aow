@@ -64,7 +64,7 @@ namespace Aow.Units.City
     }
 
     // { ot=1 }
-    // { TCityProductionControl (instance size 44, VMT 557A6D34): $28 FCity. }
+    // FCity
     public partial class TCityProductionControl : Aow.Units.AoWE.TProductionControl
     {
         public TCityProductionControl(TECustomNode owner) : base(owner)
@@ -72,7 +72,6 @@ namespace Aow.Units.City
 
         public Aow.Units.City.TCity FCity;
         // City.pas:573
-        // { $28 }
         public override void ExecuteCancelProduction()
         {
             if (FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
@@ -378,7 +377,6 @@ namespace Aow.Units.City
         // City.pas:639
         public override void Update()
         {
-            // { Unmatched: tried identity assignment to Self; Pointer identity assignment to Self; zero-shift receiver before field access (5 variants total). }
             base.Update();
             if (FUpdateCount == 0)
             {
@@ -679,25 +677,18 @@ namespace Aow.Units.City
 
     }
 
-    // { TCityOverlayHS (instance size 28, VMT 557A6EFC): $0C FCity,
-//     $10 FModeStartFrame, $14 FMode, $15 FShellAnimation, $18 FShellEndFrame. }
+    // FCity, FModeStartFrame, FMode, FShellAnimation, FShellEndFrame
     public partial class TCityOverlayHS : Aow.Units.HSEngine.TSingleHS
     {
         public TCityOverlayHS(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.City.TCity FCity;
-        // { $0C }
         public int FModeStartFrame;
-        // { $10 }
         public Aow.Units.City.TCityOverlayMode FMode;
-        // { $14 }
         public Aow.Units.City.AnonymousEnum_saSetup FShellAnimation;
-        // { $15 }
-        public Aow.Units.FixedArray_byte_2 F_CityOverlayHS_16;
         public int FShellEndFrame;
         // City.pas:718
-        // { $18 }
         public override int GetShowPriority()
         {
             int Result = default;
@@ -857,23 +848,17 @@ namespace Aow.Units.City
 
     }
 
-    // { TMigrationItem (instance size 20, VMT 557A7084): $08 FRace, $0C FTime, $10 FRelation. }
+    // FRace, FTime, FRelation
     public partial class TMigrationItem : Aow.Units.Engine.TEObject
     {
         public TMigrationItem(TECustomNode owner) : base(owner)
         { }
 
         public sbyte FRace;
-        // { $08 }
-        public Aow.Units.FixedArray_byte_3 FReserved09;
         public int FTime;
-        // { $0C }
         public Aow.Units.AoWE.TStatus FRelation;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 FReserved11;
     }
 
-    // { TMigrationList (instance size 12, VMT 557A7148) }
     public partial class TMigrationList : Aow.Units.Engine.TENode
     {
         public TMigrationList(TECustomNode owner) : base(owner)
@@ -889,18 +874,15 @@ namespace Aow.Units.City
 
     }
 
-    // { TCityEnchantment (instance size 44, VMT 557A7294): $24 FEnchantmentID, $28 FEnchantmentLocation. }
+    // FEnchantmentID, FEnchantmentLocation
     public partial class TCityEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // City.pas:2722
         public new const int ClassID = 131820;
 
         public new Aow.Units.City.TCityEnchantmentID FEnchantmentID;
-        // { $24 }
-        public Aow.Units.FixedArray_byte_3 F_CityEnchantment_25;
         public Aow.Units.HSEngine.TXYL FEnchantmentLocation;
         // City.pas:2727
-        // { $28 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -992,10 +974,9 @@ namespace Aow.Units.City
 
     }
 
-    // { TCity (instance size 120, VMT 557A73F0): $44 FMode, $45 FRace,
-//     $48 FName, $4C FWallType, $4D FUpgradeLevel, $50 FProduction,
-//     $54 FFlagID, $58 FEnchantmentList, $5C FEnchantments, $60 FOverlay, $64 FEnchantmentsVisible,
-//     $68 FWallBackImage, $6C FWallFrontImage, $70 FCityImage, $74 FDefendersMode. }
+    // FMode, FRace, FName, FWallType, FUpgradeLevel, FProduction, FFlagID, FEnchantmentList,
+    // FEnchantments, FOverlay, FEnchantmentsVisible, FWallBackImage, FWallFrontImage, FCityImage,
+    // FDefendersMode
     public partial class TCity : Aow.Units.Crops.TPlayerCropStructure
     {
         public TCity(TECustomNode owner) : base(owner)
@@ -1020,42 +1001,20 @@ namespace Aow.Units.City
         public new const int ClassID = 131336;
 
         public TSet<Aow.Units.City.TCityModeElement> FMode;
-        // { $44 }
         public sbyte FRace;
-        // { $45 }
-        public Aow.Units.FixedArray_byte_2 F_City_46;
         public Aow.Rtl.AnsiString FName;
-        // { $48 }
         public byte FWallType;
-        // { $4C }
         public byte FUpgradeLevel;
-        // { $4D }
-        public Aow.Units.FixedArray_byte_2 F_City_4E;
         public Aow.Units.City.TCityProductionControl FProduction;
-        // { $50 }
         public new byte FFlagID;
-        // { $54 }
-        public Aow.Units.FixedArray_byte_3 F_City_55;
         public Aow.Units.AoWE.TGlobalEnchantmentList FEnchantmentList;
-        // { $58 }
         public TSet<Aow.Units.City.TCityEnchantmentID> FEnchantments;
-        // { $5C }
-        // { conflict: FEnchantmentIDs: TCityEnchantmentIDs; }
-        public Aow.Units.FixedArray_byte_3 F_City_5D;
         public Aow.Units.City.TCityOverlayHS FOverlay;
-        // { $60 }
         public bool FEnchantmentsVisible;
-        // { $64 }
-        public Aow.Units.FixedArray_byte_3 F_City_65;
         public Aow.Units.ImageLib.TLibraryImage FWallBackImage;
-        // { $68 }
         public Aow.Units.ImageLib.TLibraryImage FWallFrontImage;
-        // { $6C }
         public Aow.Units.ImageLib.TLibraryImage FCityImage;
-        // { $70 }
         public Aow.Units.City.TDefendersGenerateMode FDefendersMode;
-        // { $74 }
-        public Aow.Units.FixedArray_byte_3 F_City_75;
         // City.pas:839
         public override void Destroy()
         {
@@ -1199,7 +1158,6 @@ namespace Aow.Units.City
         // City.pas:2378
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
         {
-            // { Unmatched: tried owned-player color branch before independent-player branch. }
             bool bool__207 = (Msg.MsgID == 4364);
             if (bool__207)
             {
@@ -2140,7 +2098,6 @@ namespace Aow.Units.City
         // City.pas:2225
         public override void FinalizeCombat(Aow.Units.AoWE.TCombat Combat)
         {
-            // { Unmatched: tried Pointer identity assignment to Combat; explicit combat local; zero-shift combat identity assignment (5 variants total). }
             if ((Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crVictory) || (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crNoDefenders))
             {
                 var combatData = Combat.FCombatData;
@@ -4096,7 +4053,6 @@ namespace Aow.Units.City
         // City.pas:2085
         public void SetName(Aow.Rtl.AnsiString Name)
         {
-            // { Unmatched: tried identity assignment to Self; Pointer identity assignment to Self; zero-shift receiver before field access (5 variants total). }
             FName = Name;
             Update();
         }
@@ -4664,7 +4620,7 @@ namespace Aow.Units.City
 
     }
 
-    // { TCityResource (instance size 124, VMT 557A76AC): $78 FSize. }
+    // FSize
     public partial class TCityResource : Aow.Units.Crops.TPlayerCropStructureResource
     {
         public TCityResource(TECustomNode owner) : base(owner)
@@ -4676,8 +4632,6 @@ namespace Aow.Units.City
         public new const int ClassID = 131337;
 
         public byte FSize;
-        // { $78 }
-        public Aow.Units.FixedArray_byte_3 F_CityResource_79;
         // City.pas:2622
 
 
@@ -4769,8 +4723,7 @@ namespace Aow.Units.City
 
     }
 
-    // { TCityRebellionEventLog (instance size 40, VMT 557A77A0): $18 FXhx, $1C FYhx,
-//     $20 FLhx, $24 FCityName. }
+    // FXhx, FYhx, FLhx, FCityName
     public partial class TCityRebellionEventLog : Aow.Units.EventLog.TEventLog
     {
         public TCityRebellionEventLog(TECustomNode owner) : base(owner)
@@ -4780,14 +4733,10 @@ namespace Aow.Units.City
         public new const int ClassID = 131346;
 
         public int FXhx;
-        // { $18 }
         public int FYhx;
-        // { $1C }
         public int FLhx;
-        // { $20 }
         public Aow.Rtl.AnsiString FCityName;
         // City.pas:2680
-        // { $24 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -4862,7 +4811,6 @@ namespace Aow.Units.City
 
     }
 
-    // { TAICityUpgradeBudget (instance size 56, VMT 557A78B4) }
     public partial class TAICityUpgradeBudget : Aow.Units.AoWE.TAIBudget
     {
         // City.pas:2775
@@ -4873,7 +4821,6 @@ namespace Aow.Units.City
 
     }
 
-    // { TAICityResearchBudget (instance size 56, VMT 557A7994) }
     public partial class TAICityResearchBudget : Aow.Units.AoWE.TAIBudget
     {
         // City.pas:2780
@@ -4884,7 +4831,6 @@ namespace Aow.Units.City
 
     }
 
-    // { TAICityFortifyBudget (instance size 56, VMT 557A7A74) }
     public partial class TAICityFortifyBudget : Aow.Units.AoWE.TAIBudget
     {
         // City.pas:2785
@@ -4895,19 +4841,15 @@ namespace Aow.Units.City
 
     }
 
-    // { TCityAIPA (instance size 48, VMT 557A7B54): $14 FCityCount,
-//     $18..$24 FProductionLevelCounts, $28 FMaxProductionLevel, $2C FProductionRatio. }
+    // FCityCount, FProductionLevelCounts, FMaxProductionLevel, FProductionRatio
     public partial class TCityAIPA : Aow.Units.AoWE.TAIPlayerAction, Aow.Units.AoWE.IAIPlayerActionClass
     {
         public TCityAIPA(TECustomNode owner) : base(owner)
         { }
 
         public int FCityCount;
-        // { $14 }
         public Aow.Units.FixedArray_int_4 FProductionLevelCounts;
-        // { $18..$24 }
         public int FMaxProductionLevel;
-        // { $28 }
         public float FProductionRatio;
         // City.pas:3130
         public override bool Process()
@@ -5658,12 +5600,10 @@ namespace Aow.Units.City
         }
 
         // City.pas:2790
-        // { $2C }
         public static new int Priority => 13;
 
     }
 
-    // { TCityProductionEventLog (instance size 32, VMT 557A7C24) }
     public partial class TCityProductionEventLog : Aow.Units.AoWE.TProductionEventLog
     {
         public TCityProductionEventLog(TECustomNode owner) : base(owner)
@@ -5703,7 +5643,6 @@ namespace Aow.Units.City
 
     }
 
-    // { TRegistrator (instance size 4, VMT 557AF144): no added fields. }
     public partial class TRegistrator : Aow.Rtl.TObject
     {
         // City.pas:3306
@@ -5955,7 +5894,7 @@ namespace Aow.Units.City
         }
 
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_9 TCityActionRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_9.From([(AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)""]);
-        // { export $558E8DEC }
+        // export
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_7 TCivilStatusRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_7.From([(AnsiString)"Unruly", (AnsiString)"Unrest", (AnsiString)"Stable", (AnsiString)"Content", (AnsiString)"Cheerful", (AnsiString)"Oppressed", (AnsiString)"Slavery"]);
         public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_4 TCityEnchantmentIDRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_4.From([(AnsiString)"Fountain Of Life", (AnsiString)"Gold Rush", (AnsiString)"Anti Magic Shell", (AnsiString)"Warmonger"]);
         public static Aow.Units.FixedArray_byte_4 UpgradePrices = Aow.Units.FixedArray_byte_4.From([250, 250, 250, 250]);

@@ -68,150 +68,81 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.FastCombatWin
 {
-    // { TFastCombatWindow (size $154, VMT 00434CD4): $124 phase, $128 phase frame, $12C animation frame, $134/$138 and $13C/$140 shield indices/opacities, $144 combat viewer, $148 completion event, $150 retained event. }
+    // phase, phase frame, animation frame, and shield indices/opacities, combat viewer, completion
+    // event, retained event
     public partial class TFastCombatWindow : Aow.Rtl.TDataModule
     {
         public TFastCombatWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow FCWin;
-        // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel LNamePnl;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel LSideLbl;
-        // { +004C }
         public Aow.Units.AoWPanel.TAOWPanel RNamePnl;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel RSideLbl;
-        // { +0054 }
         public Aow.Units.AoWPanel.TAOWPanel LCtrlPnl;
-        // { +0058 }
         public Aow.Units.AoWPanel.TAOWPanel RCtrlPnl;
-        // { +005C }
         public Aow.Units.AoWCheckBox.TAOWCheckBox PlayBtn2;
-        // { +0060 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox PauseBtn2;
-        // { +0064 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox StartBtn;
-        // { +0068 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox EndBtn;
-        // { +006C }
         public Aow.Units.AoWButton.TAOWButton CloseBut;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel Party1Pnl;
-        // { +0074 }
         public Aow.Units.AoWImage.TAOWImage Party1Bg;
-        // { +0078 }
         public Aow.Units.AoWImage.TAOWImage Part1Dead;
-        // { +007C }
         public Aow.Units.AoWPanel.TAOWPanel Party2Pnl;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage Party2Bg;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage Party2Dead;
-        // { +0088 }
         public Aow.Units.AoWPanel.TAOWPanel Party3Pnl;
-        // { +008C }
         public Aow.Units.AoWImage.TAOWImage Party3Bg;
-        // { +0090 }
         public Aow.Units.AoWImage.TAOWImage Party3Dead;
-        // { +0094 }
         public Aow.Units.AoWPanel.TAOWPanel Party4Pnl;
-        // { +0098 }
         public Aow.Units.AoWImage.TAOWImage Party4Bg;
-        // { +009C }
         public Aow.Units.AoWImage.TAOWImage Party4Dead;
-        // { +00A0 }
         public Aow.Units.AoWPanel.TAOWPanel Party5Pnl;
-        // { +00A4 }
         public Aow.Units.AoWImage.TAOWImage Party5Bg;
-        // { +00A8 }
         public Aow.Units.AoWImage.TAOWImage Party5Dead;
-        // { +00AC }
         public Aow.Units.AoWPanel.TAOWPanel Party6Pnl;
-        // { +00B0 }
         public Aow.Units.AoWImage.TAOWImage Party6Bg;
-        // { +00B4 }
         public Aow.Units.AoWImage.TAOWImage Party6Dead;
-        // { +00B8 }
         public Aow.Units.AoWPanel.TAOWPanel Party7Pnl;
-        // { +00BC }
         public Aow.Units.AoWImage.TAOWImage Party7Bg;
-        // { +00C0 }
         public Aow.Units.AoWImage.TAOWImage Party7Dead;
-        // { +00C4 }
         public Aow.Units.AoWPanel.TAOWPanel LSidePnl;
-        // { +00C8 }
         public Aow.Units.AoWPanel.TAOWPanel RSidePnl;
-        // { +00CC }
         public Aow.Units.AoWPanel.TAOWPanel FightPnl;
-        // { +00D0 }
         public Aow.Units.AoWImage.TAOWImage LShield;
-        // { +00D4 }
         public Aow.Units.AoWImage.TAOWImage RShield;
-        // { +00D8 }
         public Aow.Units.AoWButton.TAOWButton InitialView;
-        // { +00DC }
         public Aow.Units.AoWButton.TAOWButton FinalView;
-        // { +00E0 }
         public Aow.Units.AoWButton.TAOWButton PlayBtn;
-        // { +00E4 }
         public Aow.Units.AoWButton.TAOWButton PauseBtn;
-        // { +00E8 }
         public Aow.Units.AoWHScroll.TAOWHScrollBar SequencePositionSld;
-        // { +00EC }
         public Aow.Units.AoWHScroll.TAOWHScrollBar SequenceSpeedSld;
-        // { +00F0 }
         public Aow.Units.ImageLib.TImageLibrary GlowAnimation;
-        // { +00F4 }
         public Aow.Units.AoWImage.TAOWImage GlowImage;
-        // { +00F8 }
         public Aow.Units.AoWButton.TAOWButton PrevSeqBtn;
-        // { +00FC }
         public Aow.Units.AoWButton.TAOWButton NextSeqBtn;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel StartLBl;
-        // { +0104 }
         public Aow.Units.AoWLabel.TAOWLabel FastLbl;
-        // { +0108 }
         public Aow.Units.AoWLabel.TAOWLabel SlowLbl;
-        // { +010C }
         public Aow.Units.AoWLabel.TAOWLabel EndLbl;
-        // { +0110 }
         public Aow.Units.AoWLabel.TAOWLabel ModeLbl;
-        // { +0114 }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox LShieldUser;
-        // { +0118 }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox RShieldUser;
-        // { +011C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0120 }
         public byte FPhase;
-        // { $124 }
-        public Aow.Units.FixedArray_byte_3 F_FastCombatWindow_125;
         public int FPhaseFrame;
-        // { $128 }
         public int FAnimationFrame;
-        // { $12C }
         public Aow.Units.AoWE.TCombatLogbook FLogbook;
-        // { $130; 0043534B }
         public int FLeftShield;
-        // { $134 }
         public byte FLeftOpacity;
-        // { $138 }
-        public Aow.Units.FixedArray_byte_3 F_FastCombatWindow_139;
         public int FRightShield;
-        // { $13C }
         public byte FRightOpacity;
-        // { $140 }
-        public Aow.Units.FixedArray_byte_3 F_FastCombatWindow_141;
         public Aow.Units.AoWE.TCombatViewer FViewer;
-        // { $144 }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $148 }
         public Aow.Units.EventLog.TEventLog FEvent;
         // FastCombatWin.pas:231
-        // { $150 }
         public void GetPartyPosition(int Index, ref int X, ref int Y)
         {
             switch (Index)
@@ -584,7 +515,6 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:549
-        // { 00435268 }
         public void SetPhase(byte Phase)
         {
             FPhase = unchecked((byte)Phase);
@@ -612,7 +542,6 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:405
-        // { draft }
         public void FCWinDrawSurface(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurface Surface, int Left, int Top)
         {
             Aow.Units.GFXE.TSurfaceDesc SD = default;
@@ -758,7 +687,6 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:479
-        // { draft }
         public void FinalViewClick()
         {
             Aow.Units.AoWE.TCombatViewer Viewer = default;
@@ -774,7 +702,6 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:492
-        // { draft }
         public void PauseBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -785,7 +712,6 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:498
-        // { draft }
         public void PlayBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -796,7 +722,6 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:504
-        // { draft }
         public void SequencePositionSldChange()
         {
             Aow.Units.AoWE.TCombatViewer Viewer = default;
@@ -809,7 +734,6 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:516
-        // { draft }
         public void SequenceSpeedSldChange()
         {
             if (FViewer != null)
@@ -819,10 +743,8 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:521
-        // { draft }
         public void LShieldUserDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
-            // { Tried with/local receiver; Sender Pointer identity; derived Sender and base component view; no exact match. }
             if (FLeftOpacity == 100)
             {
                 var call__46 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields[FLeftShield];
@@ -838,7 +760,6 @@ namespace Aow.Units.FastCombatWin
         // FastCombatWin.pas:530
         public void RShieldUserDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
-            // { Tried with/local receiver; Sender Pointer identity; derived Sender and base component view; no exact match. }
             if (FRightOpacity == 100)
             {
                 var call__48 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields[FRightShield];
@@ -858,7 +779,6 @@ namespace Aow.Units.FastCombatWin
         }
 
         // FastCombatWin.pas:544
-        // { draft }
         public void FCWinKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if ((Key == 27) || (Key == 32))
@@ -873,7 +793,7 @@ namespace Aow.Units.FastCombatWin
         // FastCombatWin.pas:124
         public static void ShowCombatEvent(Aow.Units.FastCombatWin.TFastCombatWindow Dialog, Aow.Units.AoWE.TCombatEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
-            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoW\\FastCombatWin.pas", 159);
+            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "FastCombatWin.pas", 159);
             Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();

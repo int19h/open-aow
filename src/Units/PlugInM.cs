@@ -9,9 +9,8 @@ using System.Runtime.CompilerServices;
 namespace Aow.Units.PlugInM
 {
     public delegate void TLoadPlugInEvent(Aow.Rtl.TObject Sender, Aow.Rtl.AnsiString FileName);
-    // { PlugInM.TPlugInManager (instance size 60): +$24 FPlugIns (file names, Objects the package
-//     handles), +$28 FPlugInsLoaded, +$2C FPlugInDirectory, +$30 FPlugInExtension ('dpl'),
-//     +$34 FOnLoadPlugIn. }
+    // FPlugIns (file names, Objects the package handles), FPlugInsLoaded, FPlugInDirectory,
+    // FPlugInExtension ('dpl'), FOnLoadPlugIn
     public partial class TPlugInManager : Aow.Rtl.TComponent
     {
         internal Aow.Rtl.TStringList FPlugIns;
@@ -69,7 +68,6 @@ namespace Aow.Units.PlugInM
         }
 
         // PlugInM.pas:46
-        // { TPlugInManager }
         public TPlugInManager(TComponent owner) : base(owner)
         {
             var call__4 = new Aow.Rtl.TStringList();
@@ -113,7 +111,7 @@ namespace Aow.Units.PlugInM
                             FOnLoadPlugIn(this, call__9);
                         }
 
-                        /* TODO(T-5.4) Native Delphi packages have no managed loader */
+                        /* TODO: Implement the native Delphi package loader. */
                         throw new System.NotImplementedException();
                         FPlugInsLoaded = true;
                     }
@@ -141,7 +139,7 @@ namespace Aow.Units.PlugInM
                         var call__15 = this.FPlugIns.Objects[I];
                         if (call__15 != null)
                         {
-                            /* TODO(T-5.4) Native Delphi packages have no managed loader */
+                            /* TODO: Implement the native Delphi package loader. */
                             throw new System.NotImplementedException();
                             this.FPlugIns.Objects[I] = null;
                         }

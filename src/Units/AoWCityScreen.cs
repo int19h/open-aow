@@ -76,348 +76,179 @@ using static Aow.Units.OverviewUnit.OverviewUnit;
 
 namespace Aow.Units.AoWCityScreen
 {
-    // { TCityScreen: size $2DC; $2B0 city, $2B4 preview, $2B8/$2BC view, $2C0 action,
-//     $2C4 production, $2C8 queue, $2CC mode, $2D0 migrations, $2D4 sort, $2D8 images. VMT 00439F68. }
+    // city, preview, view, action, production, queue, mode, migrations, sort, images
     public partial class TCityScreen : Aow.Rtl.TDataModule
     {
         public TCityScreen(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        // { +0048 }
         public Aow.Units.AoWListBox.TAOWListBox UAbilitiesLB;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage UAttackIcon;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage UDefenseIcon;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage UMovesIcon;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage UDamageIcon;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage UResistanceIcon;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage UHitsIcon;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel UAttack;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel UDefense;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel UMoves;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel UDamage;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel UResistance;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel UHits;
-        // { +007C }
         public Aow.Units.AoWPanel.TAOWPanel UStatPnl;
-        // { +0080 }
         public Aow.Units.AoWPanel.TAOWPanel UStatP1;
-        // { +0084 }
         public Aow.Units.AoWPanel.TAOWPanel UStatP2;
-        // { +0088 }
         public Aow.Units.AoWLabel.TAOWLabel UAlignment;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel ULevel;
-        // { +0090 }
         public Aow.Units.AoWPanel.TAOWPanel UPicturePnl;
-        // { +0094 }
         public Aow.Units.AoWPanel.TAOWPanel UCostPnl;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel StructName;
-        // { +009C }
         public Aow.Units.AoWLabel.TAOWLabel CostLbl;
-        // { +00A0 }
         public Aow.Units.AoWLabel.TAOWLabel UCost;
-        // { +00A4 }
         public Aow.Units.AoWLabel.TAOWLabel UnitLbl;
-        // { +00A8 }
         public Aow.Units.AoWLabel.TAOWLabel TurnsLbl;
-        // { +00AC }
         public Aow.Units.AoWLabel.TAOWLabel UTurns;
-        // { +00B0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P1CB;
-        // { +00B4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P2CB;
-        // { +00B8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P3CB;
-        // { +00BC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P4CB;
-        // { +00C0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P5CB;
-        // { +00C4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P6CB;
-        // { +00C8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P7CB;
-        // { +00CC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P8CB;
-        // { +00D0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P9CB;
-        // { +00D4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P10CB;
-        // { +00D8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P11CB;
-        // { +00DC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox P12CB;
-        // { +00E0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox B4CB;
-        // { +00E4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox B5CB;
-        // { +00E8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox B6CB;
-        // { +00EC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox B1CB;
-        // { +00F0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox B2CB;
-        // { +00F4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox B3CB;
-        // { +00F8 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar T2SBar;
-        // { +00FC }
         public Aow.Units.AoWPanel.TAOWPanel AbilPnl;
-        // { +0100 }
         public Aow.Units.AoWPanel.TAOWPanel UpgradePnl;
-        // { +0104 }
         public Aow.Units.AoWLabel.TAOWLabel UpgradeLbl;
-        // { +0108 }
         public Aow.Units.AoWPanel.TAOWPanel UpgradeMemoFr;
-        // { +010C }
         public Aow.Units.AoWMemo.TAOWMemo UpgradeMemo;
-        // { +0110 }
         public Aow.Units.AoWPanel.TAOWPanel RightPnl;
-        // { +0114 }
         public Aow.Units.AoWPanel.TAOWPanel QueuePnl;
-        // { +0118 }
         public Aow.Units.AoWImage.TAOWImage Oval;
-        // { +011C }
         public Aow.Units.AoWImage.TAOWImage ShadowL;
-        // { +0120 }
         public Aow.Units.AoWImage.TAOWImage ShadowR;
-        // { +0124 }
         public Aow.Units.AoWButton.TAOWButton CityBtn3;
-        // { +0128 }
         public Aow.Units.AoWButton.TAOWButton CityBtn1;
-        // { +012C }
         public Aow.Units.AoWListBox.TAOWListBox QueueLB;
-        // { +0130 }
         public Aow.Units.AoWPanel.TAOWPanel ActivityPnl;
-        // { +0134 }
         public Aow.Units.AoWPanel.TAOWPanel InfoPnl2;
-        // { +0138 }
         public Aow.Units.AoWLabel.TAOWLabel ActiveAction;
-        // { +013C }
         public Aow.Units.AoWLabel.TAOWLabel ActiveActionTurns;
-        // { +0140 }
         public Aow.Units.AoWImage.TAOWImage SepBar;
-        // { +0144 }
         public Aow.Units.AoWPanel.TAOWPanel ActivityPnl2;
-        // { +0148 }
         public Aow.Units.AOWGauge.TAoWGauge ActiveActionTurnsBar;
-        // { +014C }
         public Aow.Units.AoWButton.TAOWButton CityBtn2;
-        // { +0150 }
         public Aow.Units.AoWPanel.TAOWPanel InfoPnl;
-        // { +0154 }
         public Aow.Units.AoWPanel.TAOWPanel IPPnl;
-        // { +0158 }
         public Aow.Units.AoWFrame.TAoWFrame IPPicFr;
-        // { +015C }
         public Aow.Units.AoWMemo.TAOWMemo PopulationMemo;
-        // { +0160 }
         public Aow.Units.AoWMemo.TAOWMemo PopulationHdr;
-        // { +0164 }
         public Aow.Units.AoWPanel.TAOWPanel IIPnl;
-        // { +0168 }
         public Aow.Units.AoWFrame.TAoWFrame IIPicFr;
-        // { +016C }
         public Aow.Units.AoWMemo.TAOWMemo IncomeMemo;
-        // { +0170 }
         public Aow.Units.AoWMemo.TAOWMemo IncomeHdr;
-        // { +0174 }
         public Aow.Units.AoWPanel.TAOWPanel IEPnl;
-        // { +0178 }
         public Aow.Units.AoWFrame.TAoWFrame IEPicFr;
-        // { +017C }
         public Aow.Units.AoWMemo.TAOWMemo EnhancementsMemo;
-        // { +0180 }
         public Aow.Units.AoWMemo.TAOWMemo EnhancementsHdr;
-        // { +0184 }
         public Aow.Units.AoWPanel.TAOWPanel CurrentInfo;
-        // { +0188 }
         public Aow.Units.AoWFrame.TAoWFrame RPillar;
-        // { +018C }
         public Aow.Units.AoWFrame.TAoWFrame LPillar;
-        // { +0190 }
         public Aow.Units.AoWPanel.TAOWPanel QueueInfo;
-        // { +0194 }
         public Aow.Units.AoWLabel.TAOWLabel QueueLbl;
-        // { +0198 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LoopQueueBox;
-        // { +019C }
         public Aow.Units.AoWLabel.TAOWLabel RepeatLbl;
-        // { +01A0 }
         public Aow.Units.AoWPanel.TAOWPanel ActiveActionPnl;
-        // { +01A4 }
         public Aow.Units.AoWImage.TAOWImage CurrentActionImage;
-        // { +01A8 }
         public Aow.Units.AoWImage.TAOWImage RacePortrait;
-        // { +01AC }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +01B0 }
         public Aow.Units.AoWImage.TAOWImage BlackBg;
-        // { +01B4 }
         public Aow.Units.AoWImage.TAOWImage BlackBg2;
-        // { +01B8 }
         public Aow.Units.AoWPanel.TAOWPanel UPictureFramePnl;
-        // { +01BC }
         public Aow.Units.AoWPanel.TAOWPanel UStatFr1;
-        // { +01C0 }
         public Aow.Units.AoWPanel.TAOWPanel UStatFr2;
-        // { +01C4 }
         public Aow.Units.AoWPanel.TAOWPanel UInfoFr;
-        // { +01C8 }
         public Aow.Units.AoWPanel.TAOWPanel CostFr;
-        // { +01CC }
         public Aow.Units.AoWPanel.TAOWPanel TurnsFr;
-        // { +01D0 }
         public Aow.Units.AoWPanel.TAOWPanel UpgPicPnl;
-        // { +01D4 }
         public Aow.Units.AoWImage.TAOWImage UpgradePic;
-        // { +01D8 }
         public Aow.Units.AoWPanel.TAOWPanel UpgPicFr;
-        // { +01DC }
         public Aow.Units.AoWPanel.TAOWPanel UpgCostPnl;
-        // { +01E0 }
         public Aow.Units.AoWLabel.TAOWLabel UpgCostLbl;
-        // { +01E4 }
         public Aow.Units.AoWLabel.TAOWLabel UpgradeCost;
-        // { +01E8 }
         public Aow.Units.AoWLabel.TAOWLabel UpgTurnsLbl;
-        // { +01EC }
         public Aow.Units.AoWLabel.TAOWLabel UpgradeTurns;
-        // { +01F0 }
         public Aow.Units.AoWPanel.TAOWPanel UpgCostFr;
-        // { +01F4 }
         public Aow.Units.AoWPanel.TAOWPanel UpgTurnsFr;
-        // { +01F8 }
         public Aow.Units.AoWPanel.TAOWPanel MigratePnl;
-        // { +01FC }
         public Aow.Units.AoWLabel.TAOWLabel NewRaceLbl;
-        // { +0200 }
         public Aow.Units.AoWPanel.TAOWPanel MigrateMainFr;
-        // { +0204 }
         public Aow.Units.AoWPanel.TAOWPanel MigPicPnl;
-        // { +0208 }
         public Aow.Units.AoWImage.TAOWImage MigratePic;
-        // { +020C }
         public Aow.Units.AoWPanel.TAOWPanel MigPicFr;
-        // { +0210 }
         public Aow.Units.AoWPanel.TAOWPanel MigCostPnl;
-        // { +0214 }
         public Aow.Units.AoWLabel.TAOWLabel MigCostLbl;
-        // { +0218 }
         public Aow.Units.AoWLabel.TAOWLabel MigrateCost;
-        // { +021C }
         public Aow.Units.AoWLabel.TAOWLabel MigTurnsLbl;
-        // { +0220 }
         public Aow.Units.AoWLabel.TAOWLabel MigrateTurns;
-        // { +0224 }
         public Aow.Units.AoWPanel.TAOWPanel MigCostFr;
-        // { +0228 }
         public Aow.Units.AoWPanel.TAOWPanel MigTurnsFr;
-        // { +022C }
         public Aow.Units.AoWListBox.TAOWListBox MigrationRaceLB;
-        // { +0230 }
         public Aow.Units.AoWListBox.TAOWListBox MigrationRelationLB;
-        // { +0234 }
         public Aow.Units.AoWListBox.TAOWListBox MigrationTurnsLB;
-        // { +0238 }
         public Aow.Units.AoWButton.TAOWButton SortMigrationRaces;
-        // { +023C }
         public Aow.Units.AoWButton.TAOWButton SortMigrationTurns;
-        // { +0240 }
         public Aow.Units.AoWButton.TAOWButton SortMigrationRelation;
-        // { +0244 }
         public Aow.Units.AoWPanel.TAOWPanel T3LBPnl;
-        // { +0248 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar MigrationSB;
-        // { +024C }
         public Aow.Units.AoWLabel.TAOWLabel T3RaceLbl;
-        // { +0250 }
         public Aow.Units.AoWLabel.TAOWLabel CurrentRace;
-        // { +0254 }
         public Aow.Units.AoWLabel.TAOWLabel T3RelLbl;
-        // { +0258 }
         public Aow.Units.AoWLabel.TAOWLabel CurrentRelation;
-        // { +025C }
         public Aow.Units.AoWPanel.TAOWPanel CurrentRacePnl;
-        // { +0260 }
         public Aow.Units.AoWPanel.TAOWPanel CurrentRaceFr;
-        // { +0264 }
         public Aow.Units.AoWLabel.TAOWLabel CurrentRaceLbl;
-        // { +0268 }
         public Aow.Units.AoWPanel.TAOWPanel UpgBtm;
-        // { +026C }
         public Aow.Units.AoWLabel.TAOWLabel UpgradeInfo;
-        // { +0270 }
         public Aow.Units.AoWImage.TAOWImage RelIcn;
-        // { +0274 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar QueueVSB;
-        // { +0278 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar IPVSB;
-        // { +027C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar IIVSB;
-        // { +0280 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar IEVSB;
-        // { +0284 }
         public Aow.Units.AoWMemo.TAOWMemo IncomeGoldMemo;
-        // { +0288 }
         public Aow.Units.AoWLabel.TAOWLabel Migrate;
-        // { +028C }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox UFace;
-        // { +0290 }
         public Aow.Units.AoWPanel.TAOWPanel MigrateInfoPnl;
-        // { +0294 }
         public Aow.Units.AoWLabel.TAOWLabel MigrateInfo;
-        // { +0298 }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox MapView;
-        // { +029C }
         public Aow.Units.AoWImage.TAOWImage InfoSep;
-        // { +02A0 }
         public Aow.Units.AoWButton.TAOWButton PNext;
-        // { +02A4 }
         public Aow.Units.AoWButton.TAOWButton PPrev;
-        // { +02A8 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +02AC }
         public Aow.Units.City.TCity FCity;
-        // { $2B0 }
         public Aow.Units.AoWTC.TAoWCombatMap FPreview;
-        // { $2B4 }
         public int FViewX;
-        // { $2B8 }
         public int FViewY;
-        // { $2BC }
         public Aow.Units.City.TCityAction FAction;
-        // { $2C0 }
-        public Aow.Units.FixedArray_byte_3 F_CityScreen_2C1;
         public int FProductionIndex;
-        // { $2C4 }
         public int FQueueIndex;
-        // { $2C8 }
         public byte FMode;
-        // { $2CC }
-        public Aow.Units.FixedArray_byte_3 FReserved2CD;
         public Aow.Units.City.TMigrationList FMigrations;
-        // { $2D0 }
         public int FMigrationSort;
-        // { $2D4 }
         public Aow.Units.Engine.TIntegerList FImages;
         // AoWCityScreen.pas:748
-        // { $2D8 }
         public void FreePreview()
         {
             if (FPreview != null)
@@ -1136,7 +967,6 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:1207
         public void CityChanged(Aow.Rtl.TObject Sender)
         {
-            // { Tried with dialog and original hide-first branch; named dialog and hide-first branch; hide-first branch and explicit window view; no exact match. }
             if (Dlg.Visible && (Sender == FCity))
             {
                 if (FCity.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)

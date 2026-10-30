@@ -19,8 +19,8 @@ namespace Aow.Units.Hexagon
     // { The Hexagon unit of HSEPack.dpl: the plain terrain hexagon (THexagon, ClassID $20152) drawn from
 //   the first image of its resource's image library, with the transitions to the neighbour terrain
 //   on three sides from HexTrans.ILB (THexagonResource, ClassID $20153). }
-    // { Hexagon.THexagon (instance size 20): +$10 FTransitions (the transition image of the sides 0..2),
-//     +$13 FTransitionSides (bits 0..2: the sides with a transition, bits 3..5: the shifted variants) }
+    // FTransitions (the transition image of the sides 0.2), FTransitionSides (bits 0.2: the sides
+    // with a transition, bits 3.5: the shifted variants)
     public partial class THexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
         public THexagon(TECustomNode owner) : base(owner)
@@ -81,7 +81,7 @@ namespace Aow.Units.Hexagon
 
     }
 
-    // { Hexagon.THexagonResource (instance size 56): +$34 FTransitionLibrary (HexTrans.ILB) }
+    // FTransitionLibrary (HexTrans.ILB)
     public partial class THexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
         public THexagonResource(TECustomNode owner) : base(owner)
@@ -94,7 +94,6 @@ namespace Aow.Units.Hexagon
 
         protected internal Aow.Units.ImageLib.TCustomImageLibrary FTransitionLibrary;
         // Hexagon.pas:83
-        // { THexagonResource }
 
 
         // Hexagon.pas:99

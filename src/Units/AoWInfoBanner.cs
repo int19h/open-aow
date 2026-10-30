@@ -46,21 +46,16 @@ using static Aow.Units.AoWVScroll.AoWVScroll;
 
 namespace Aow.Units.AoWInfoBanner
 {
-    // { TInfoBanner (instance size 84, VMT 00406F44) }
     public partial class TInfoBanner : Aow.Rtl.TDataModule
     {
         public TInfoBanner(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWLabel.TAOWLabel HeaderLbl;
-        // { +0044 }
         public Aow.Units.AoWMemo.TAOWMemo InfoMemo;
-        // { +0048 }
         public Aow.Units.AOWMenu.TAOWMenu BannerPopup;
-        // { +004C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar InfoMemoSB;
         // AoWInfoBanner.pas:35
-        // { +0050 }
         public void ShowInfo(Aow.Rtl.AnsiString Header, Aow.Rtl.TStrings Description)
         {
             HeaderLbl.Text = Header;
@@ -69,7 +64,6 @@ namespace Aow.Units.AoWInfoBanner
         }
 
         // AoWInfoBanner.pas:41
-        // { 0040701C }
         public void BannerPopupMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             if (Button == Aow.Rtl.TMouseButton.mbRight)

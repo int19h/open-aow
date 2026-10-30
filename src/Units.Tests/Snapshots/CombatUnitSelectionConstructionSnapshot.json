@@ -100,19 +100,11 @@
                 "TSet`1.high": 0,
                 "TSet`1.low": 0
               }
-            },
-            "TRangedPathHS.F_RangedPathHS_1E": {
-              "$type": "Aow.Units.FixedArray_byte_2",
-              "FixedArray_byte_2.element0": 0
             }
           },
           "TCombatUnitSelectionControl.FTargetImages": "$ref:$.TCombatUnitSelectionControl.FRangedPathHS.TRangedPathHS.FTargetImages",
           "TCombatUnitSelectionControl.FTargetX": 0,
           "TCombatUnitSelectionControl.FTargetY": 0,
-          "TCombatUnitSelectionControl.F_CombatUnitSelectionControl_19": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
-          },
           "TMoveSelector.FCurrentMove": -1,
           "TMoveSelector.FMap": null,
           "TMoveSelector.FMoveControlSettings": {
@@ -127,10 +119,6 @@
               "TSet`1.d": 0,
               "TSet`1.high": 0,
               "TSet`1.low": 0
-            },
-            "TCombatMoveControlSettings.F_CombatMoveControlSettings_1AD": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
             },
             "TEObject.FOwner": null,
             "TMoveControlSettings.FArmyHS": null,
@@ -223,19 +211,7 @@
               "TEChangeNotifyNode.FUpdateCount": 0,
               "TEObject.FOwner": null
             },
-            "TMoveControlSettings.FWidth": 0,
-            "TMoveControlSettings.F_MoveControlSettings_67": {
-              "$type": "Aow.Units.FixedArray_byte_1",
-              "FixedArray_byte_1.element0": 0
-            },
-            "TMoveControlSettings.F_MoveControlSettings_6D": {
-              "$type": "Aow.Units.FixedArray_byte_3",
-              "FixedArray_byte_3.element0": 0
-            },
-            "TMoveControlSettings.F_MoveControlSettings_94": {
-              "$type": "Aow.Units.FixedArray_byte_4",
-              "FixedArray_byte_4.element0": 0
-            }
+            "TMoveControlSettings.FWidth": 0
           },
           "TMoveSelector.FMoveSettingsList": {
             "$offset": 9,
@@ -257,10 +233,6 @@
             "TSet`1.d": 0,
             "TSet`1.high": 0,
             "TSet`1.low": 0
-          },
-          "TMoveSelector.F_MoveSelector_15": {
-            "$type": "Aow.Units.FixedArray_byte_3",
-            "FixedArray_byte_3.element0": 0
           }
         }
       },

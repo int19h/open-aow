@@ -33,14 +33,11 @@ namespace Aow.Units.AoWEdit
 //   part after FFirstChar fits, shows a blinking cursor character while it has the input focus
 //   (FRedraw), takes the focus on a click and loses it on a click outside, and handles the
 //   cursor keys, Delete, Backspace, Return and Ctrl+V (paste the clipboard text). }
-    // { AoWEdit.TAOWEdit (instance size 336). Fields: +$114 FMaxChars (0: no limit), +$118
-//     FCursorChar, +$119 FPassWordChar (#0: show the text), +$11C FCursorShown (the blink state of
-//     the cursor), +$120 FBlinkDelay (updates between two blinks), +$124 FBlinkCount, +$128
-//     FShownChars (the characters from FFirstChar to the end), +$12C FFirstChar (the first
-//     character shown), +$130 FEditable, +$134 FILEdit, +$138 FOnExit, +$140 FOnReturn, +$148
-//     FILIndex, +$14C FCursorPos (the cursor position counted from FFirstChar). FRedraw (+$94)
-//     is the input focus.
-//     VMT (new): SetILEdit }
+    // Fields: FMaxChars (0: no limit), FCursorChar, FPassWordChar (#0: show the text), FCursorShown
+    // (the blink state of the cursor), FBlinkDelay (updates between two blinks), FBlinkCount,
+    // FShownChars (the characters from FFirstChar to the end), FFirstChar (the first character
+    // shown), FEditable, FILEdit, FOnExit, FOnReturn, FILIndex, FCursorPos (the cursor position
+    // counted from FFirstChar). FRedraw is the input focus
     public partial class TAOWEdit : Aow.Units.AoWControl.TAOWControl
     {
         public int FMaxChars;
@@ -58,7 +55,6 @@ namespace Aow.Units.AoWEdit
         public int FILIndex;
         public int FCursorPos;
         // AoWEdit.pas:79
-        // { TAOWEdit }
         public TAOWEdit(TComponent owner) : base(owner)
         {
             FCursorChar = 124;

@@ -60,64 +60,38 @@ using static Aow.Units.AoWSMTPDlg.AoWSMTPDlg;
 
 namespace Aow.Units.AoWSendEmailGameDlg
 {
-    // { TSendEmailGameDlg: callback $A0, send event $A8.
-//     (instance size 172, VMT 0044D054) }
+    // callback, send event
     public partial class TSendEmailGameDlg : Aow.Rtl.TDataModule
     {
         public TSendEmailGameDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel OKCancelPnl;
-        // { +0060 }
         public Aow.Units.AoWButton.TAOWButton OKBtn;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton ExitBtn;
-        // { +0068 }
         public Aow.Units.AoWEdit.TAOWEdit EmailAddressEdit;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel SeletModeInfoLbl;
-        // { +0070 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox ManualChk;
-        // { +0074 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox AutomatedChk;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel ManualLbl;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel AutomatedLbl;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel RecipientNameLbl;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0088 }
         public Aow.Units.AoWPanel.TAOWPanel ModePnl;
-        // { +008C }
         public Aow.Units.AoWPanel.TAOWPanel ModePnlin;
-        // { +0090 }
         public Aow.Units.AoWPanel.TAOWPanel EditPnl;
-        // { +0094 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0098 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +009C }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $A0 }
         public Aow.Units.AoWE.TSendEmailGameEventLog FSendEvent;
         // AoWSendEmailGameDlg.pas:63
-        // { $A8 }
         public void FinishDialog()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;
@@ -177,7 +151,6 @@ namespace Aow.Units.AoWSendEmailGameDlg
         }
 
         // AoWSendEmailGameDlg.pas:107
-        // { draft }
         public void OKBtnClick()
         {
             if (AutomatedChk.Checked)
@@ -194,7 +167,6 @@ namespace Aow.Units.AoWSendEmailGameDlg
         }
 
         // AoWSendEmailGameDlg.pas:114
-        // { draft }
         public void ExitBtnClick()
         {
             FSendEvent.FMode = 2;
@@ -202,7 +174,6 @@ namespace Aow.Units.AoWSendEmailGameDlg
         }
 
         // AoWSendEmailGameDlg.pas:120
-        // { draft }
         public void EmailAddressEditChange()
         {
             var call__9 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
@@ -210,7 +181,6 @@ namespace Aow.Units.AoWSendEmailGameDlg
         }
 
         // AoWSendEmailGameDlg.pas:125
-        // { draft }
         public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if (Key == 27)

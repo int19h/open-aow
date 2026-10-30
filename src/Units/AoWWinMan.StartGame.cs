@@ -69,7 +69,7 @@ public static partial class AoWWinMan
         RealmWin.Dlg.Visible = false;
         aowMapEvents.aowMapEvents.MapEvents.TheMapArmyDeselected(null);
         aowMapEvents.aowMapEvents.MapEvents.TheMapStructureDeselected(null);
-        // The original call at 00455194 targets the indicator sizing routine at 00457508.
+        // The original call at targets the indicator sizing routine
         TBWindow.UpdatePlayerIndicator();
         PInfoW.UpdatePlayer();
         if (AoWHSMap.Status.Contains(HSEngine.THSMapStatusElement.msActivated))

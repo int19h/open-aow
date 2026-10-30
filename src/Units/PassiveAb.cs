@@ -34,9 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.PassiveAb
 {
-    // { TVisionAbility (instance size 48, VMT 557B502C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type;
-//     $28 maximum level, $2C level costs. }
+    // inherited name, ability ID, selection types, ability type. maximum level, level costs
     public partial class TVisionAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // PassiveAb.pas:461
@@ -78,8 +76,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { THolyChampionAbility (instance size 40, VMT 557B51B8):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class THolyChampionAbility : Aow.Units.AoWE.TEnhancementAbility
     {
         // PassiveAb.pas:484
@@ -105,8 +102,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TUnholyChampionAbility (instance size 40, VMT 557B534C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TUnholyChampionAbility : Aow.Units.AoWE.TEnhancementAbility
     {
         // PassiveAb.pas:499
@@ -132,8 +128,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TNaturesBlessingAbility (instance size 44, VMT 557B54E4):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type; $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type. duration mode
     public partial class TNaturesBlessingAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:514
@@ -187,7 +182,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { THighPrayerBlessingAbility (instance size 44; $08 name, $0C ID, $20 selection types, $24 ability type, $28 duration mode; VMT 557B5684) }
+    // (name, ID, selection types, ability type, duration mode.)
     public partial class THighPrayerBlessingAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:1267
@@ -218,9 +213,8 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TCrusaderAbility (instance size 44, VMT 557B582C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type,
-//     $28 duration mode; duration data $0C countdown, $0D player index. }
+    // inherited name, ability ID, selection types, ability type, duration mode. duration data
+    // countdown, player index
     public partial class TCrusaderAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:703
@@ -267,8 +261,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TBloodlustAbility (instance size 44, VMT 557B59C0):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type; $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type. duration mode
     public partial class TBloodlustAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:546
@@ -307,8 +300,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TPoisonedAbility (instance size 44, VMT 557B5B58):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type; $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type. duration mode
     public partial class TPoisonedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:571
@@ -355,8 +347,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TDecayAbility (instance size 44, VMT 557B5CEC):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type, $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type, duration mode
     public partial class TDecayAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:844
@@ -393,9 +384,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TWebbedAbility (instance size 44, VMT 557B5E7C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type,
-//     $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type, duration mode
     public partial class TWebbedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:736
@@ -426,8 +415,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TStunnedAbility (instance size 44, VMT 557B600C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type, $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type, duration mode
     public partial class TStunnedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:793
@@ -458,8 +446,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TBurningAbility (instance size 44, VMT 557B619C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type, $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type, duration mode
     public partial class TBurningAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:756
@@ -519,8 +506,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TVertigoAbility (instance size 44, VMT 557B632C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type, $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type, duration mode
     public partial class TVertigoAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:952
@@ -559,8 +545,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TCursedAbility (instance size 44, VMT 557B64BC):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type, $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type, duration mode
     public partial class TCursedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:981
@@ -617,8 +602,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { THolyFear (instance size 44, VMT 557B664C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type, $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type, duration mode
     public partial class THolyFear : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:816
@@ -659,8 +643,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TPanickedAbility (instance size 44, VMT 557B67D4):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type, $28 duration mode. }
+    // inherited name, ability ID, selection types, ability type, duration mode
     public partial class TPanickedAbility : Aow.Units.AoWE.TDurationAbility
     {
         // PassiveAb.pas:874
@@ -688,8 +671,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TWallClimbingAbility (instance size 40, VMT 557B6968):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TWallClimbingAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:922
@@ -710,8 +692,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TPassWallAbility (instance size 40, VMT 557B6AFC):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TPassWallAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:937
@@ -732,8 +713,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TResurrectedAbility (instance size 40, VMT 557B6C88):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TResurrectedAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:892
@@ -747,8 +727,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TAnimatedAbility (instance size 40, VMT 557B6E18):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TAnimatedAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:902
@@ -762,8 +741,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TCombatResurrectedAbility (instance size 40, VMT 557B6FA4):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TCombatResurrectedAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         // PassiveAb.pas:912
@@ -777,7 +755,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TMarksmanshipAbility (instance size 48; $28 maximum level, $2C level costs; VMT 557B7144) }
+    // (maximum level, level costs.)
     public partial class TMarksmanshipAbility : Aow.Units.AoWE.TMultiLevelAbility
     {
         // PassiveAb.pas:1384
@@ -822,12 +800,10 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TMovementAbility (instance size 44; $28 FMoveTypes; VMT 557B72DC) }
+    // (FMoveTypes.)
     public partial class TMovementAbility : Aow.Units.AoWE.TAdjustableAbility
     {
         public TSet<Aow.Units.AoWE.TMoveType> FMoveTypes;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 F_MovementAbility_29;
         // PassiveAb.pas:1409
         public TMovementAbility(TECustomNode owner) : base(owner)
         {
@@ -861,12 +837,10 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TImmunityAbility (instance size 44; $28 FImmunityTypes; VMT 557B7468) }
+    // (FImmunityTypes.)
     public partial class TImmunityAbility : Aow.Units.AoWE.TEnhancementAbility
     {
         public TSet<Aow.Units.AoWE.TDamageType> FImmunityTypes;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_2 F_ImmunityAbility_2A;
         // PassiveAb.pas:1428
         public TImmunityAbility(TECustomNode owner) : base(owner)
         {
@@ -899,12 +873,10 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TProtectionAbility (instance size 44; $28 FProtectionTypes; VMT 557B75F4) }
+    // (FProtectionTypes.)
     public partial class TProtectionAbility : Aow.Units.AoWE.TEnhancementAbility
     {
         public TSet<Aow.Units.AoWE.TDamageType> FProtectionTypes;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_2 F_ProtectionAbility_2A;
         // PassiveAb.pas:1446
         public TProtectionAbility(TECustomNode owner) : base(owner)
         {
@@ -921,8 +893,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TEntangledAbility (instance size 40, VMT 557B7784):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TEntangledAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:620
@@ -968,8 +939,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TFrozenAbility (instance size 40, VMT 557B7928):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TFrozenAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:649
@@ -1016,8 +986,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TTurnedUndeadAbility (instance size 40, VMT 557B7AC4):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TTurnedUndeadAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:679
@@ -1055,8 +1024,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { THasteAbility (instance size 40, VMT 557B7C6C):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class THasteAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1021
@@ -1068,8 +1036,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TStoneSkinAbility (instance size 40, VMT 557B7E08):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TStoneSkinAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1029
@@ -1107,8 +1074,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TEnchantedWeaponAbility (instance size 40, VMT 557B7FAC):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TEnchantedWeaponAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1073
@@ -1149,8 +1115,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TSummonedAbility (instance size 40, VMT 557B8158):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TSummonedAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1100
@@ -1262,8 +1227,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TFuryAbility (instance size 40, VMT 557B82F8):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TFuryAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1160
@@ -1304,8 +1268,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TFreeMovementAbility (instance size 40, VMT 557B8490):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TFreeMovementAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1187
@@ -1317,8 +1280,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { THolyChampionEnchantment (instance size 40, VMT 557B8638):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class THolyChampionEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1195
@@ -1330,8 +1292,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TUnholyChampionEnchantment (instance size 40, VMT 557B87E8):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TUnholyChampionEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1203
@@ -1343,7 +1304,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TConcealmentEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B899C) }
+    // (name, ID, selection types, ability type.)
     public partial class TConcealmentEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1287
@@ -1355,7 +1316,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TFireAuraEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B8B48) }
+    // (name, ID, selection types, ability type.)
     public partial class TFireAuraEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1294
@@ -1388,7 +1349,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TWaterWalkingEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B8CF0) }
+    // (name, ID, selection types, ability type.)
     public partial class TWaterWalkingEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1315
@@ -1421,7 +1382,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TWindWalkingEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B8EA0) }
+    // (name, ID, selection types, ability type.)
     public partial class TWindWalkingEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1336
@@ -1454,7 +1415,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TLiquidFormEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B904C) }
+    // (name, ID, selection types, ability type.)
     public partial class TLiquidFormEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1357
@@ -1500,8 +1461,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TBlessedEnchantment (instance size 40, VMT 557B91F8):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TBlessedEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1211
@@ -1560,7 +1520,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TDarkGiftEnchantment (instance size 40; $08 name, $0C ID, $20 selection types, $24 ability type; VMT 557B939C) }
+    // (name, ID, selection types, ability type.)
     public partial class TDarkGiftEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1249
@@ -1593,8 +1553,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TFireProtectionEnchantment (instance size 40, VMT 557B9544):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TFireProtectionEnchantment : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:1054
@@ -1624,8 +1583,7 @@ namespace Aow.Units.PassiveAb
         }
     }
 
-    // { TSlowEnchantmentAbility (instance size 40, VMT 557B96F8):
-//     inherited $08 name, $0C ability ID, $20 selection types, $24 ability type. }
+    // inherited name, ability ID, selection types, ability type
     public partial class TSlowEnchantmentAbility : Aow.Units.AoWE.TUnitEnchantmentAbility
     {
         // PassiveAb.pas:601

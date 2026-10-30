@@ -44,8 +44,8 @@ namespace Aow.Units.Sound
         scDone = 1
     }
 
-    // { Sound.TSample (instance size 24): +4 FDelay (Update ticks before it plays), +8 FSampleData,
-//     +$C FCallBack, +$14 FStatus. One playing sound effect, in SampleList. }
+    // FDelay (Update ticks before it plays), FSampleData, FCallBack, FStatus. One playing sound
+    // effect, in SampleList
     public partial class TSample : Aow.Rtl.TObject
     {
         public static SampleClass Descriptor { get; } = new("TSample", Create);
@@ -131,7 +131,6 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:727
-        // { TSample }
         protected TSample(ConstructionContext context, TSampleData ASampleData)
         {
             context.Capture(this);
@@ -197,8 +196,7 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSongStatus (instance size 8): +4 FFileName. What BackupSongStatus saves; the sound
-//     system adds its own position. }
+    // FFileName. What BackupSongStatus saves. the sound system adds its own position
     public partial class TSongStatus : Aow.Rtl.TObject
     {
         protected internal Aow.Rtl.AnsiString FFileName;
@@ -238,8 +236,8 @@ namespace Aow.Units.Sound
         public int SampleVoices;
     }
 
-    // { Sound.TSampleData (instance size 12): +4 FName, +8 FRefCount. The sound data of one wave
-//     file, in SampleDataList while it is loaded; Create counts the first reference. }
+    // FName, FRefCount. The sound data of one wave file, in SampleDataList while it is loaded.
+    // Create counts the first reference
     public partial class TSampleData : Aow.Rtl.TObject
     {
         public static SampleDataClass Descriptor { get; } = new("TSampleData", Create, CreateEx);
@@ -247,7 +245,6 @@ namespace Aow.Units.Sound
         internal Aow.Rtl.AnsiString FName;
         internal int FRefCount;
         // Sound.pas:674
-        // { TSampleData }
         protected TSampleData(ConstructionContext context, AnsiString Name)
         {
             context.Capture(this);
@@ -302,8 +299,8 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSoundSystem (instance size 12): +4 FRefCount, +8 FStatus. The abstract sound system;
-//     GetName is a class function (RegisterSoundSystem calls it on the class). }
+    // FRefCount, FStatus. The abstract sound system. GetName is a class function
+    // (RegisterSoundSystem calls it on the class)
     public partial class TSoundSystem : Aow.Rtl.TObject
     {
         protected internal int FRefCount;
@@ -375,7 +372,6 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1152
-        // { TSoundSystem }
         public TSoundSystem()
         {
             FRefCount = 1;
@@ -503,20 +499,19 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSFXList (instance size 44): the wave files TSFXManager found }
+    // the wave files TSFXManager found
     public partial class TSFXList : Aow.Rtl.TStringList
     {
 
     }
 
-    // { Sound.TSFXManager (instance size 44): +$24 FSearchPath, +$28 FSFX. ExecutePathSearch lists
-//     every wave file under a directory (with its subdirectories) relative to the search path. }
+    // FSearchPath, FSFX. ExecutePathSearch lists every wave file under a directory (with its
+    // subdirectories) relative to the search path
     public partial class TSFXManager : Aow.Rtl.TComponent
     {
         internal Aow.Rtl.AnsiString FSearchPath;
         internal Aow.Units.Sound.TSFXList FSFX;
         // Sound.pas:407
-        // { TSFXManager }
         public TSFXManager(TComponent owner) : base(owner)
         {
             var call__3 = new Aow.Units.Sound.TSFXList();
@@ -605,8 +600,7 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSFXManagerComboBox (instance size 384): +$170 FSFXManager, +$174 FSubDirectory, +$178
-//     FSkipDirectories (';'-separated), +$17C FEmptySFXName. }
+    // FSFXManager, FSubDirectory, FSkipDirectories ('.'-separated), FEmptySFXName
     public partial class TSFXManagerComboBox : Aow.Rtl.TComboBox
     {
         internal Aow.Units.Sound.TSFXManager FSFXManager;
@@ -614,7 +608,6 @@ namespace Aow.Units.Sound
         internal Aow.Rtl.AnsiString FSkipDirectories;
         internal Aow.Rtl.AnsiString FEmptySFXName;
         // Sound.pas:472
-        // { TSFXManagerComboBox }
         internal void SetSFXManager(Aow.Units.Sound.TSFXManager Value)
         {
             FSFXManager = Value;
@@ -634,14 +627,14 @@ namespace Aow.Units.Sound
         // Sound.pas:491
         internal Aow.Rtl.AnsiString GetSFXName()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // Sound.pas:499
         internal void SetSFXName(Aow.Rtl.AnsiString Value)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -649,7 +642,7 @@ namespace Aow.Units.Sound
 
         public TSFXManagerComboBox(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
+            /* TODO: Implement StdCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -658,7 +651,7 @@ namespace Aow.Units.Sound
 //   those in SkipDirectories, after EmptySFXName. }
         public void GenerateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -677,8 +670,7 @@ namespace Aow.Units.Sound
         public Aow.Rtl.AnsiString EmptySFXName { get => FEmptySFXName; set => FEmptySFXName = value; }
     }
 
-    // { Sound.TSFXManagerListBox (instance size 356): +$154 FSFXManager, +$158 FSubDirectory, +$15C
-//     FSkipDirectories, +$160 FEmptySFXName. The same as the combo box. }
+    // FSFXManager, FSubDirectory, FSkipDirectories, FEmptySFXName. The same as the combo box
     public partial class TSFXManagerListBox : Aow.Rtl.TListBox
     {
         internal Aow.Units.Sound.TSFXManager FSFXManager;
@@ -686,7 +678,6 @@ namespace Aow.Units.Sound
         internal Aow.Rtl.AnsiString FSkipDirectories;
         internal Aow.Rtl.AnsiString FEmptySFXName;
         // Sound.pas:566
-        // { TSFXManagerListBox }
         internal void SetSFXManager(Aow.Units.Sound.TSFXManager Value)
         {
             FSFXManager = Value;
@@ -706,14 +697,14 @@ namespace Aow.Units.Sound
         // Sound.pas:586
         internal Aow.Rtl.AnsiString GetSFXName()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.ItemIndex */
+            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // Sound.pas:594
         internal void SetSFXName(Aow.Rtl.AnsiString Value)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -721,14 +712,14 @@ namespace Aow.Units.Sound
 
         public TSFXManagerListBox(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
+            /* TODO: Implement StdCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // Sound.pas:611
         public void GenerateItems()
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Items */
+            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -747,8 +738,7 @@ namespace Aow.Units.Sound
         public Aow.Rtl.AnsiString EmptySFXName { get => FEmptySFXName; set => FEmptySFXName = value; }
     }
 
-    // { Sound.TSonglist (instance size 16): +8 FSongs, +$C FSongNames (the titles, from the
-//     files). An engine object with a list of music files. }
+    // FSongs, FSongNames (the titles, from the files). An engine object with a list of music files
     public partial class TSonglist : Aow.Units.Engine.TEObject
     {
         // Sound.pas:801
@@ -807,7 +797,6 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:786
-        // { TSonglist }
 
 
         // Sound.pas:794
@@ -847,9 +836,8 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSongPlayer (instance size 40): +4 FCurrentSong, +8 FStatus, +$C FSongs, +$10
-//     FSongNames, +$14 FCurrentIndex, +$18 FOnSongChange, +$20 FBackup (Pause), +$24
-//     FPauseCount. Plays the songs in turn (Update starts the next one). }
+    // FCurrentSong, FStatus, FSongs, FSongNames, FCurrentIndex, FOnSongChange, FBackup (Pause),
+    // FPauseCount. Plays the songs in turn (Update starts the next one)
     public partial class TSongPlayer : Aow.Rtl.TObject
     {
         internal Aow.Rtl.AnsiString FCurrentSong;
@@ -934,7 +922,6 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:854
-        // { TSongPlayer }
         public TSongPlayer()
         {
             var call__21 = new Aow.Rtl.TStringList();
@@ -1166,7 +1153,7 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSFX (instance size 12): +8 FFileName. One wave file of a sequence. }
+    // FFileName. One wave file of a sequence
     public partial class TSFX : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 2162689;
@@ -1207,8 +1194,7 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSFXSequence (instance size 16): +$C FID. A sound effect: its children are TSFX, one
-//     of them plays (at random). }
+    // FID. A sound effect: its children are TSFX, one of them plays (at random)
     public partial class TSFXSequence : Aow.Units.Engine.TENode
     {
         public new const int ClassID = 2162690;
@@ -1279,7 +1265,7 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSFXLibrary (instance size 12): the sound effects (TSFXSequence children) by ID. }
+    // the sound effects (TSFXSequence children) by ID
     public partial class TSFXLibrary : Aow.Units.Engine.TENode
     {
         public new const int ClassID = 2162691;
@@ -1410,11 +1396,10 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSampleList (instance size 16): every TSample (ProcessSound updates them) }
+    // every TSample (ProcessSound updates them)
     public partial class TSampleList : Aow.Rtl.TList
     {
         // Sound.pas:710
-        // { TSampleList }
         public override void Destroy()
         {
             Clear();
@@ -1439,11 +1424,10 @@ namespace Aow.Units.Sound
 
     }
 
-    // { Sound.TSampleDataList (instance size 16): the loaded TSampleData }
+    // the loaded TSampleData
     public partial class TSampleDataList : Aow.Rtl.TList
     {
         // Sound.pas:659
-        // { TSampleDataList }
         public Aow.Units.Sound.TSampleData Find(Aow.Rtl.AnsiString Name)
         {
             Aow.Units.Sound.TSampleData Result = default;
@@ -1479,11 +1463,10 @@ namespace Aow.Units.Sound
         internal Aow.Units.Engine.TEObjectList FChildren;
     }
 
-    // { Sound.TSoundSystemList (instance size 16): the registered sound system classes }
+    // the registered sound system classes
     public partial class TSoundSystemList : Aow.Rtl.TList
     {
         // Sound.pas:1293
-        // { TSoundSystemList }
         public Aow.Units.Sound.SoundSystemClass Find(Aow.Rtl.AnsiString Name)
         {
             Aow.Units.Sound.SoundSystemClass Result = default;

@@ -64,52 +64,32 @@ using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
 
 namespace Aow.Units.AoWTitleScene
 {
-    // { TTitleScene (size $B4, VMT 004192F4): $64/$68 frame counters, $6C mouse button, $70/$74 mouse position, $78/$7C/$80 selected/pressed/hover button, $84 scene rectangle, $94/$95 redraw/credits, $98 credits, $9C/$A0 credit page/frame, $A4/$A8 intro flag/frame, $AC font. }
+    // frame counters, mouse button, mouse position, selected/pressed/hover button, scene rectangle,
+    // redraw/credits, credits, credit page/frame, intro flag/frame, font
     public partial class TTitleScene : Aow.Rtl.TDataModule
     {
         public TTitleScene(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.ImageLib.TImageLibrary TitleSceneIL;
-        // { +0044 }
         public Aow.Units.AowUserWindow.TAoWUserWindow Window;
-        // { +0048 }
         public Aow.Units.AoWMemo.TAOWMemo LegalNotice;
-        // { +004C }
         public Aow.Units.AoWLabel.TAOWLabel StrLbl;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel NameLbl;
-        // { +0054 }
         public Aow.Units.AoWLabel.TAOWLabel Copyright;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel Version;
-        // { +005C }
-        public int FReserved60;
         public int FFrame;
         public int FTotalFrame;
-        // { $60, $64, $68 }
         public Aow.Rtl.TMouseButton FMouseButton;
-        // { $6C }
-        public Aow.Units.FixedArray_byte_3 F_TitleScene_6D;
         public int FMouseX;
-        // { $70 }
         public int FMouseY;
-        // { $74 }
         public int FSelectedButton;
-        // { $78 }
         public int FPressedButton;
-        // { $7C }
         public int FHoverButton;
-        // { $80 }
         public Aow.Rtl.TRect FSceneRect;
-        // { $84 }
         public bool FRedrawBackground;
-        // { $94 }
         public bool FShowCredits;
-        // { $95 }
-        public Aow.Units.FixedArray_byte_2 F_TitleScene_96;
         public Aow.Rtl.TList FCredits;
-        // { $98 }
         public int FCreditPage;
         public int FCreditFrame;
         public bool FShowIntro;
@@ -118,8 +98,6 @@ namespace Aow.Units.AoWTitleScene
         public Aow.Units.ImageLib.TImageLibraryFont FFont;
         public Aow.Units.ImageLib.TImageLibraryFont FCreditsFont;
         // AoWTitleScene.pas:103
-        // { $9C, $A0, $A4, $A8, $AC, $B0 }
-        // { conflict: FShadowFont: TImageLibraryFont; }
         public void DrawCredits(ref Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             int X = default;
@@ -755,7 +733,6 @@ namespace Aow.Units.AoWTitleScene
         }
 
         // AoWTitleScene.pas:462
-        // { draft }
         public void WindowMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             FMouseX = X;

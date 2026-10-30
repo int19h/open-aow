@@ -42,19 +42,14 @@ using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 
 namespace Aow.Units.AoWArnoLine
 {
-    // { TAoWArnoLine: instance size $124; $114 top, $118 middle, $11C bottom,
-//     $120 copied line image library. }
+    // top, middle, bottom, copied line image library
     public partial class TAoWArnoLine : Aow.Units.AoWControl.TAOWControl
     {
         public Aow.Units.ImageLib.TLibraryImage FImageTop;
-        // { $114 }
         public Aow.Units.ImageLib.TLibraryImage FImageMiddle;
-        // { $118 }
         public Aow.Units.ImageLib.TLibraryImage FImageBottom;
-        // { $11C }
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FLineLibrary;
         // AoWArnoLine.pas:47
-        // { $120 }
         public override void Destroy()
         {
             FLineLibrary.Free();

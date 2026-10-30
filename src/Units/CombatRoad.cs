@@ -42,7 +42,6 @@ using static Aow.Units.CombatTerrain.CombatTerrain;
 
 namespace Aow.Units.CombatRoad
 {
-    // { TCombatRoad (instance size 24, VMT 00410C0C) }
     public partial class TCombatRoad : Aow.Units.HSEngine.TAbstractRoad
     {
         public TCombatRoad(TECustomNode owner) : base(owner)
@@ -52,8 +51,7 @@ namespace Aow.Units.CombatRoad
         public new const int ClassID = 2229506;
 
         public Aow.Units.FixedArray_byte_7 FImages;
-        // { $10 main image, $11..$16 neighbour images }
-        public byte FReserved17;
+        // main image, neighbour images
         // CombatRoad.pas:108
         public override void NeighbourTerrainChanged(int HN, in Aow.Units.HSEngine.THSTerrainInfo Msg)
         {
@@ -211,7 +209,6 @@ namespace Aow.Units.CombatRoad
 
     }
 
-    // { TCombatRoadResource (instance size 52, VMT 00410DA0) }
     public partial class TCombatRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
         public TCombatRoadResource(TECustomNode owner) : base(owner)

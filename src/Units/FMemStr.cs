@@ -11,7 +11,7 @@ namespace Aow.Units.FMemStr
     // { The game's FMemStr unit (Enginep.dpl), written for Delphi 3.02 and compared with the original code
 //   by tools/match.py. TFastMemoryStream is Delphi 3's TMemoryStream with a direct Position field, a
 //   32/128-byte capacity granularity and one-, two- and four-byte fast paths in Read and Write. }
-    // { FMemStr.TFastMemoryStream (instance size 20): +4 FMemory, +8 FSize, +$C FPosition, +$10 FCapacity }
+    // FMemory, FSize, FPosition, FCapacity
     public partial class TFastMemoryStream : Aow.Rtl.TStream
     {
         internal byte[] FMemory = [];

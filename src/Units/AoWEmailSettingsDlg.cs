@@ -54,51 +54,31 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AoWEmailSettingsDlg
 {
-    // { TEmailSettingsDlg (instance size 144, VMT 0040EBE8) }
     public partial class TEmailSettingsDlg : Aow.Rtl.TDataModule
     {
         public TEmailSettingsDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel OKCancelPnl;
-        // { +0060 }
         public Aow.Units.AoWButton.TAOWButton OKBtn;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel LocalEmailAddressLbl;
-        // { +006C }
         public Aow.Units.AoWEdit.TAOWEdit LocalEmailAddressEdit;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel SMTPServerLbl;
-        // { +0074 }
         public Aow.Units.AoWEdit.TAOWEdit SMTPServerEdit;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel AttachmentDirectoryLbl;
-        // { +007C }
         public Aow.Units.AoWEdit.TAOWEdit AttachmentDirectoryEdit;
-        // { +0080 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0088 }
         public Aow.Rtl.TIvTranslator Translator;
         // AoWEmailSettingsDlg.pas:49
-        // { +008C }
         public void OKBtnClick(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);

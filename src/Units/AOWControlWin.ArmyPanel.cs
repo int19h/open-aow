@@ -9,8 +9,8 @@ namespace Aow.Units.AOWControlWin;
 
 public partial class TControlWin
 {
-    // Original AoW.exe 004055E6 loads the three-space string at 00405D94.
-    // The recovered UpdateArmy source has one space at all eight labels.
+    // Original AoW.exe loads the three-space string. The recovered UpdateArmy source has one space
+    // at all eight labels
     public static AnsiString UnitMoveText(int points) => "   " + Aow.Rtl.Rtl.IntToStr(points);
 
     public void UpdateArmy()

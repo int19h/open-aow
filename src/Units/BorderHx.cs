@@ -19,7 +19,6 @@ namespace Aow.Units.BorderHx
     // { The BorderHx unit of HSEPack.dpl: the border hexagon (TBorderHexagon, ClassID $20557) drawn at
 //   level 11 over the map edge; it also adds itself to the hexagon above (HN 1) of its map field.
 //   TBorderHexagonResource has ClassID $20558. }
-    // { BorderHx.TBorderHexagon (instance size 16) }
     public partial class TBorderHexagon : Aow.Units.HSEngine.TAbstractBorderHexagon
     {
         public TBorderHexagon(TECustomNode owner) : base(owner)
@@ -29,7 +28,6 @@ namespace Aow.Units.BorderHx
         public new const int ClassID = 132439;
 
         // BorderHx.pas:39
-        // { TBorderHexagon }
         public override void SetOwner(Aow.Units.Engine.TECustomNode AOwner)
         {
             Aow.Units.Engine.TECustomNode OldField = default;
@@ -104,7 +102,6 @@ namespace Aow.Units.BorderHx
 
     }
 
-    // { BorderHx.TBorderHexagonResource (instance size 52) }
     public partial class TBorderHexagonResource : Aow.Units.HSEngine.TAbstractBorderHexagonResource
     {
         public TBorderHexagonResource(TECustomNode owner) : base(owner)

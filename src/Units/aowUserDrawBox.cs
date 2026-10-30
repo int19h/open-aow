@@ -32,14 +32,13 @@ namespace Aow.Units.aowUserDrawBox
 {
     // { The aowUserDrawBox unit of aowInt.dpl: TaowUserDrawBox, an empty control that its owner draws
 //   in OnPreDraw and OnDraw; its mouse events get coordinates relative to the control. }
-    // { aowUserDrawBox.TaowUserDrawBox (instance size 276): no fields of its own }
+    // no fields of its own
     public partial class TaowUserDrawBox : Aow.Units.AoWControl.TAOWControl
     {
         public TaowUserDrawBox(TComponent owner) : base(owner)
         { }
 
         // aowUserDrawBox.pas:34
-        // { TaowUserDrawBox }
         public override void Validate()
         {
             FValid = true;

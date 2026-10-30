@@ -32,43 +32,26 @@ using static Aow.Units.BorderHx.BorderHx;
 
 namespace Aow.Units.PageTurnCtrl
 {
-    // { TPageTurnControl (instance size 2228, VMT 55809D40) }
     public partial class TPageTurnControl : Aow.Rtl.TObject
     {
         public float FScale;
-        // { +$04 }
         public float FShade;
-        // { +$08 }
         public float FHalfWidth;
-        // { +$0C }
         public int FSpeed;
-        // { +$10 }
         public Aow.Units.PageTurnCtrl.TPageTurnMode FMode;
-        // { +$14 }
-        public Aow.Units.FixedArray_byte_3 FReserved15;
         public int FWidth;
-        // { +$18 }
         public int FHeight;
-        // { +$1C }
         public Aow.Units.GFXE.TSurfaceDesc FSource1;
-        // { +$20 }
         public int FSourceX1;
         public int FSourceY1;
-        // { +$5C, +$60 }
         public Aow.Units.GFXE.TSurfaceDesc FSource2;
-        // { +$64 }
         public int FSourceX2;
         public int FSourceY2;
-        // { +$A0, +$A4 }
         public Aow.Units.FixedArray_float_512 FInvCos;
-        // { +$A8 }
         public float FRadius;
-        // { +$8A8 }
         public float FShadow;
-        // { +$8AC }
         public int FPosition;
         // PageTurnCtrl.pas:51
-        // { +$8B0 }
         public TPageTurnControl()
         {
             ;
@@ -90,7 +73,7 @@ namespace Aow.Units.PageTurnCtrl
         public float GetInvCos(float Value)
         {
             float Result = default;
-            Aow.Rtl.Rtl.Assert((((double)Value) >= -1) && (((double)Value) <= 1), (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\PageTurnCtrl.pas", 85);
+            Aow.Rtl.Rtl.Assert((((double)Value) >= -1) && (((double)Value) <= 1), (AnsiString)"", "PageTurnCtrl.pas", 85);
             if (((double)Value) >= 0)
             {
                 Result = FInvCos[Aow.Rtl.Rtl.Round(((double)Value) * 511)];

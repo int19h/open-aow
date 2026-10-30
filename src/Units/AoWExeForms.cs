@@ -65,26 +65,20 @@ namespace Aow.Units.AoWExeForms
         // { Shared executable form instances used by E2. These are the original global form
 //   references; no forms are constructed by the byte-match host. }
         public static Aow.Units.AoWScenSetup.TScenSetup ScenSetup;
-        // { $45B068 }
         public static Aow.Units.AoWSoundDlg.TSoundDlg SoundDlg;
-        // { $45B07C }
         public static Aow.Units.AOWMultiWin.TMultiWindow MultiWindow;
-        // { $45B240 }
         public static Aow.Units.AoWMagic.TMagicWin MagicWin;
-        // { $45B054; 00404F58 }
         public static Aow.Units.AoWTBWindow.TTBWindow TBWindow;
         public static Aow.Units.AoWSpellBook.TSpellBook SpellBook;
         public static Aow.Units.AOWChatWin.TChatWindow ChatWindow;
         // { MWindow is declared in AOWMWindow. }
         public static Aow.Units.FontMod.TFontModule FontModule;
-        // { $45B1A8 }
         public static Aow.Units.AoWTCScanner.TTCScanner TCScanner;
         public static Aow.Units.AoWConstructDlg.TConstructDlg ConstructDlg;
         public static Aow.Units.AoWDisjunctionDlg.TDisjunctionDlg DisjunctionDlg;
         // AoWExeForms.pas:69
         public static void SetVideoMode(Aow.Units.AoWVideoDlg.TVideoDialog Dialog, Aow.Units.AoWVideoDlg.TScreenMode FullScreen)
         {
-            // { conflict: procedure SetVideoMode(Dialog: TVideoDialog; FullScreen: Byte); }
             if (FullScreen != Dialog.FFullScreen)
             {
                 Dialog.FFullScreen = FullScreen;
@@ -93,7 +87,6 @@ namespace Aow.Units.AoWExeForms
         }
 
         // AoWExeForms.pas:79
-        // { conflict: procedure SetVideoMode(Dialog: TVideoDialog; FullScreen: Byte); }
         public static void SetVideoSize(Aow.Units.AoWVideoDlg.TVideoDialog Dialog, int Width, int Height)
         {
             Dialog.FDisplayWidth = Width;

@@ -54,45 +54,28 @@ using static Aow.Units.AoWWindow.AoWWindow;
 
 namespace Aow.Units.AoWCampaignSettings
 {
-    // { TCampaignSettingsDlg (instance size 132, VMT 0041B1B0) }
     public partial class TCampaignSettingsDlg : Aow.Rtl.TDataModule
     {
         public TCampaignSettingsDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0044 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton OKBtn;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel DifficultyLevelLbl;
-        // { +0060 }
         public Aow.Units.AoWComboBox.TAOWComboBox DifficultyLevelCB;
-        // { +0064 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar CombatResolveModeSB;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel TurnModeLbl;
-        // { +006C }
         public Aow.Units.AoWComboBox.TAOWComboBox TurnModeCB;
-        // { +0070 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AOWVScrollBar1;
-        // { +0074 }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +007C }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
         // AoWCampaignSettings.pas:45
-        // { +0080 }
         public void DlgShow(Aow.Rtl.TObject Sender)
         {
             Aow.Units.AoWE.TCampaignDifficultyLevel Level = default;

@@ -42,8 +42,7 @@ namespace Aow.Units.EventLog
     }
 
     // { ot=1 }
-    // { TEventLog: size $18; $08 day, $0C unique ID, $10 player,
-//     $14 reference count. VMT 557FC1C8. }
+    // day, unique ID, player, reference count
     public partial class TEventLog : Aow.Units.Engine.TEObject
     {
 
@@ -53,15 +52,10 @@ namespace Aow.Units.EventLog
         }
 
         public int FDay = Aow.Units.AoWE.AoWE.AoWHSMap is { } map ? map.FDay : 0;
-        // { $08 }
         public int FID;
-        // { $0C }
         public sbyte FPlayer = Aow.Units.AoWE.AoWE.AoWHSMap is { } map ? unchecked((sbyte)map.FCurrentPlayer) : (sbyte)0;
-        // { $10 }
-        public Aow.Units.FixedArray_byte_3 F_EventLog_11;
         public int FRefCount;
         // EventLog.pas:334
-        // { $14 }
         public override void SetOwner(Aow.Units.Engine.TECustomNode AOwner)
         {
             if (FRefCount != 0)
@@ -117,7 +111,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:376
-        // { $04C }
         public virtual int GetTextColor()
         {
             int Result = default;
@@ -144,7 +137,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:386
-        // { $050 }
         public virtual int GetLeftIcon()
         {
             int Result = default;
@@ -169,7 +161,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:393
-        // { $054 }
         public virtual int GetMiddleIcon()
         {
             int Result = default;
@@ -178,7 +169,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:398
-        // { $058 }
         public virtual int GetRightIcon()
         {
             int Result = default;
@@ -187,7 +177,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:366
-        // { $05C }
         public virtual bool GetVisible()
         {
             bool Result = default;
@@ -196,7 +185,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:425
-        // { $060 }
         public virtual void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
         {
             X = unchecked((sbyte)-1);
@@ -205,14 +193,12 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:444
-        // { $064 }
         public virtual void PlayLoggedSFX(Aow.Units.EventLog.TEventLogbook A1)
         {
             Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
         }
 
         // EventLog.pas:449
-        // { $068 }
         public virtual void NotifyLogged(Aow.Units.EventLog.TEventLogbook A1)
         {
             bool bool__7 = (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == A1.FPlayer);
@@ -229,11 +215,9 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:403
-        // { $06C }
         public virtual bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
             bool Result = default;
-            // { Tried Self identity, Pointer identity, typed with; still differs. }
             if ((Trigger == Aow.Units.EventLog.TExecuteTrigger.etUser) || (((Trigger == Aow.Units.EventLog.TExecuteTrigger.etEvent) || ((Trigger == Aow.Units.EventLog.TExecuteTrigger.etNewTurn) && Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType)) && (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == FPlayer)))
             {
                 Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
@@ -267,7 +251,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:419
-        // { +074 }
         public void CenterViewTo(sbyte X, sbyte Y, sbyte L)
         {
             Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(X, Y, L);
@@ -276,7 +259,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TTextEventLog: size $1C; $18 text. VMT 557FC564. }
+    // text
     public partial class TTextEventLog : Aow.Units.EventLog.TEventLog
     {
         public TTextEventLog(TECustomNode owner) : base(owner)
@@ -287,7 +270,6 @@ namespace Aow.Units.EventLog
 
         public Aow.Rtl.AnsiString FText;
         // EventLog.pas:716
-        // { $18 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -312,7 +294,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TLocationTextEventLog: size $20; $1C/$1D/$1E location. VMT 557FC664. }
+    // location
     public partial class TLocationTextEventLog : Aow.Units.EventLog.TTextEventLog
     {
         // EventLog.pas:725
@@ -327,12 +309,8 @@ namespace Aow.Units.EventLog
         public new const int ClassID = 131816;
 
         public sbyte FXhx;
-        // { $1C }
         public sbyte FYhx;
-        // { $1D }
         public sbyte FLhx;
-        // { $1E }
-        public Aow.Units.FixedArray_byte_1 F_LocationTextEventLog_1F;
         // EventLog.pas:731
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -374,7 +352,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TMessageEventLog: size $28; $18 title, $20 message, $24 layout, $25 buttons, $26 pressed button. VMT 557FCD24. }
+    // title, message, layout, buttons, pressed button
     public partial class TMessageEventLog : Aow.Units.EventLog.TEventLog
     {
         // EventLog.pas:824
@@ -390,18 +368,11 @@ namespace Aow.Units.EventLog
         }
 
         public Aow.Rtl.AnsiString FTitle;
-        // { $18 }
         public Aow.Rtl.AnsiString FHeader;
-        // { $1C; 0040E89C }
         public Aow.Rtl.TStrings FMessage;
-        // { $20 }
         public Aow.Units.EventLog.TMessageEventLogLayout FLayout;
-        // { $24 }
         public Aow.Units.EventLog.TMessageEventLogButtons FButtons;
-        // { $25 }
         public Aow.Units.EventLog.TPressedEventLogButton FPressedButton;
-        // { $26 }
-        public Aow.Units.FixedArray_byte_1 F_MessageEventLog_27;
         // EventLog.pas:832
         public override void Destroy()
         {
@@ -429,7 +400,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:845
-        // { $078; 557FE1A8 }
         public virtual bool Cancel()
         {
             bool Result = default;
@@ -439,7 +409,6 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:848
-        // { $07C; 557FE1B0 }
         public virtual bool Yes()
         {
             bool Result = default;
@@ -459,7 +428,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { THelpMessageEventLog: size $24; $18 message, $1C help title, $20 mode. VMT 557FCE44. }
+    // message, help title, mode
     public partial class THelpMessageEventLog : Aow.Units.EventLog.TEventLog
     {
         // EventLog.pas:860
@@ -473,12 +442,8 @@ namespace Aow.Units.EventLog
         }
 
         public Aow.Rtl.TStringList FMessage;
-        // { $18 }
         public Aow.Rtl.AnsiString FHelpFileName;
-        // { $1C }
         public byte FMode;
-        // { $20 }
-        public Aow.Units.FixedArray_byte_3 F_HelpMessageEventLog_21;
         // EventLog.pas:868
         public override void Destroy()
         {
@@ -488,12 +453,11 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TExecuteEventLogCallBackList: size $08; $04 list of $10-byte callback records. VMT 557FC130. }
+    // list of -byte callback records
     public partial class TExecuteEventLogCallBackList : Aow.Rtl.TObject
     {
         public System.Collections.Generic.List<TExecuteEventLogInfo> FList = [];
         // EventLog.pas:283
-        // { $04 }
         public override void Destroy()
         {
             Clear();
@@ -547,17 +511,15 @@ namespace Aow.Units.EventLog
         // EventLog.pas:133
     }
 
-    // { TEventLogList: size $18; $0C update count, $10 changed callback. VMT 557FC2B0. }
+    // update count, changed callback
     public partial class TEventLogList : Aow.Units.Engine.TENode
     {
         public TEventLogList(TECustomNode owner) : base(owner)
         { }
 
         public int FUpdateCount;
-        // { $0C }
         public Aow.Rtl.TNotifyEvent FOnChanged;
         // EventLog.pas:481
-        // { $10 }
         public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             int I = default;
@@ -706,7 +668,7 @@ namespace Aow.Units.EventLog
         // Engine.pas:631
     }
 
-    // { TEventLogbook: size $14; $08 events, $0C player, $10 next ID. VMT 557FC3B0. }
+    // events, player, next ID
     public partial class TEventLogbook : Aow.Units.Engine.TEObject
     {
         // EventLog.pas:532
@@ -714,13 +676,9 @@ namespace Aow.Units.EventLog
 
 
         public Aow.Units.EventLog.TEventLogList FEvents;
-        // { $08 }
         public sbyte FPlayer;
-        // { $0C }
-        public Aow.Units.FixedArray_byte_3 FReserved0D;
         public int FNextID;
         // EventLog.pas:529
-        // { $10 }
         public override void Destroy()
         {
             FEvents.Free();
@@ -885,11 +843,10 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:600
-        // { conflict: function FindFirstLogEx(ClassID, Player, Day: Integer): Integer; }
         public void AddEvent(Aow.Units.EventLog.TEventLog Event)
         {
             var call__29 = Aow.Units.AoWE.AoWE.AoWHSMap.GetSynchronised();
-            Aow.Rtl.Rtl.Assert(call__29, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\EventLog.pas", 704);
+            Aow.Rtl.Rtl.Assert(call__29, (AnsiString)"", "EventLog.pas", 704);
             Event.SetOwner(FEvents);
             var call__30 = CreateUniqueID();
             Event.FID = call__30;
@@ -904,18 +861,14 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TUserEventLog (instance size 32, VMT 557FC474) }
     public partial class TUserEventLog : Aow.Units.EventLog.TEventLog
     {
         public TUserEventLog(TECustomNode owner) : base(owner)
         { }
 
         public Aow.Rtl.TObject FData;
-        public Aow.Units.FixedArray_byte_4 FReserved1C;
     }
 
-    // { $18; 55749C0D }
-    // { TEndTurnEventLog: size $18; no additional fields. VMT 557FC764. }
     public partial class TEndTurnEventLog : Aow.Units.EventLog.TEventLog
     {
         public TEndTurnEventLog(TECustomNode owner) : base(owner)
@@ -942,7 +895,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TShowMessageEventLog: size $1C; $18 message. VMT 557FC85C. }
+    // message
     public partial class TShowMessageEventLog : Aow.Units.EventLog.TEventLog
     {
         // EventLog.pas:759
@@ -957,7 +910,6 @@ namespace Aow.Units.EventLog
 
         public Aow.Rtl.TStringList FMessage;
         // EventLog.pas:762
-        // { $18 }
         public override void Destroy()
         {
             FMessage.Free();
@@ -973,7 +925,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TGameOverEventLog: size $20; $18 message, inherited $10 player. VMT 557FC95C. }
+    // message, inherited player
     public partial class TGameOverEventLog : Aow.Units.EventLog.TEventLog
     {
         // EventLog.pas:771
@@ -987,10 +939,7 @@ namespace Aow.Units.EventLog
         public new const int ClassID = 131812;
 
         public Aow.Rtl.TStringList FMessage;
-        // { $18 }
         public sbyte FTargetPlayer;
-        // { $1C; 55776744 }
-        public Aow.Units.FixedArray_byte_3 F_GameOverEventLog_1D;
         // EventLog.pas:774
         public override void Destroy()
         {
@@ -1035,7 +984,6 @@ namespace Aow.Units.EventLog
         public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
             bool Result = default;
-            // { Tried Self identity, Pointer identity, typed with; still differs. }
             switch (Trigger)
             {
                 case Aow.Units.EventLog.TExecuteTrigger.etUser:
@@ -1074,7 +1022,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TNewDayEventLog: size $1C; inherited $18 text. VMT 557FCA54. }
+    // inherited text
     public partial class TNewDayEventLog : Aow.Units.EventLog.TTextEventLog
     {
         public TNewDayEventLog(TECustomNode owner) : base(owner)
@@ -1102,7 +1050,6 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TShowBookEventLog: size $18; no additional fields. VMT 557FCB48. }
     public partial class TShowBookEventLog : Aow.Units.EventLog.TEventLog
     {
         public TShowBookEventLog(TECustomNode owner) : base(owner)
@@ -1121,7 +1068,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TTutorialMessageEventLog: size $24; inherited $18 message and $1C title. VMT 557FCF54. }
+    // inherited message and title
     public partial class TTutorialMessageEventLog : Aow.Units.EventLog.THelpMessageEventLog
     {
         // EventLog.pas:871
@@ -1133,11 +1080,10 @@ namespace Aow.Units.EventLog
 
     }
 
-    // { TSaveGameEventLog: size $2C; $1C directory, $20 default name, $24 file name, $28 title. VMT 557FD0A4. }
+    // directory, default name, file name, title
     public partial class TSaveGameEventLog : Aow.Units.EventLog.TEventLog
     {
         // EventLog.pas:874
-        // { $28 }
         public TSaveGameEventLog(TECustomNode owner) : base(owner)
         {
             var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SaveRStr);
@@ -1146,19 +1092,14 @@ namespace Aow.Units.EventLog
         }
 
         public TSet<Aow.Units.EventLog.TSaveGameEventLogModeElement> FMode;
-        // { $18 }
-        public Aow.Units.FixedArray_byte_3 FReserved19;
         public Aow.Rtl.AnsiString FDirectory;
-        // { $1C }
         public Aow.Rtl.AnsiString FDefaultName;
-        // { $20 }
         public Aow.Rtl.AnsiString FFileName;
-        // { $24 }
         public Aow.Rtl.AnsiString FTitle;
 
     }
 
-    // { TPasswordEventLog: size $28; $18 password, $1C title, $20 prompt, $24 button. VMT 557FD1C4. }
+    // password, title, prompt, button
     public partial class TPasswordEventLog : Aow.Units.EventLog.TEventLog
     {
         // EventLog.pas:877
@@ -1173,14 +1114,9 @@ namespace Aow.Units.EventLog
         }
 
         public Aow.Rtl.AnsiString FPassword;
-        // { $18; 557563E0 }
         public Aow.Rtl.AnsiString FTitle;
-        // { $1C }
         public Aow.Rtl.AnsiString FPrompt;
-        // { $20 }
         public Aow.Units.EventLog.TPressedEventLogButton FPressedButton;
-        // { $24; 557563EA }
-        public Aow.Units.FixedArray_byte_3 F_PasswordEventLog_25;
 
     }
 

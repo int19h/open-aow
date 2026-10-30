@@ -24,14 +24,13 @@ namespace Aow.Units.AoWWinGeneric
 {
     // { The AoWWinGeneric unit of aowInt.dpl: TAOWGenericWindow, the base window class that publishes
 //   the window manager's settings (the ancestor of TAOWWindow, TAOWToolTip and TAOWMenu). }
-    // { AoWWinGeneric.TAOWGenericWindow (instance size 492): no fields of its own }
+    // no fields of its own
     public partial class TAOWGenericWindow : Aow.Units.AoWBaseWin.TAOWBaseWindow
     {
         public TAOWGenericWindow(TComponent owner) : base(owner)
         { }
 
         // AoWWinGeneric.pas:39
-        // { TAOWGenericWindow }
         public override void Destroy()
         {
             FBuffer.Free();

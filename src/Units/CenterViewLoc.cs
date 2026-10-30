@@ -42,7 +42,6 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CenterViewLoc
 {
-    // { TCenterViewLocation (instance size 16, VMT 004356E0) }
     public partial class TCenterViewLocation : Aow.Units.HSEngine.TMapObject
     {
         public TCenterViewLocation(TECustomNode owner) : base(owner)
@@ -122,7 +121,6 @@ namespace Aow.Units.CenterViewLoc
 
     }
 
-    // { TCenterViewLocationResource (instance size 52, VMT 00435884) }
     public partial class TCenterViewLocationResource : Aow.Units.HSEngine.TMapObjectResource
     {
         public TCenterViewLocationResource(TECustomNode owner) : base(owner)

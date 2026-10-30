@@ -34,8 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.PoisonC
 {
-    // { TPoisonCloud (instance size 32, VMT 557CA640): $14 FPlayer,
-//     $18 FTurnsRemaining, $1C FDrifting, $1D FDirection, $1E FUpdated. }
+    // FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated
     public partial class TPoisonCloud : Aow.Units.HSEngine.TMultiHexMO
     {
         public TPoisonCloud(TECustomNode owner) : base(owner)
@@ -47,12 +46,10 @@ namespace Aow.Units.PoisonC
         public new const int ClassID = 135743;
 
         public sbyte FPlayer;
-        public Aow.Units.FixedArray_byte_3 F_PoisonCloud_15;
         public int FTurnsRemaining;
         public bool FDrifting;
         public byte FDirection;
         public bool FUpdated;
-        public byte FReserved1F;
         // PoisonC.pas:149
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -440,7 +437,6 @@ namespace Aow.Units.PoisonC
 
     }
 
-    // { TPoisonCloudResource (instance size 68, VMT 557CA7E0) }
     public partial class TPoisonCloudResource : Aow.Units.HSEngine.TMultiHexMOR
     {
         public TPoisonCloudResource(TECustomNode owner) : base(owner)

@@ -46,7 +46,7 @@ namespace Aow.Units.SmokeCloud
         ce7 = 7
     }
 
-    // { TSmokeCloudEnchantment (instance size 40, VMT 5579BF2C): +$24 FCloud. }
+    // FCloud
     public partial class TSmokeCloudEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
         // SmokeCloud.pas:99
@@ -64,7 +64,6 @@ namespace Aow.Units.SmokeCloud
         public override Aow.Rtl.AnsiString GetName()
         {
             Aow.Rtl.AnsiString Result = default;
-            // { needs: the base GetName parameter is a hidden string result pointer. }
             var call__1 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(74);
             Result = call__1.FSpellName;
             return Result;
@@ -92,8 +91,8 @@ namespace Aow.Units.SmokeCloud
 
     }
 
-    // { TSmokeCloud (instance size 36, VMT 5579C044): +$14 FPlayer, +$18 FTurnsRemaining,
-//     +$1C FDrifting, +$1D FDirection, +$1E FUpdated, +$1F FVisibleForSeatedPlayer, +$20 FEnchantment. }
+    // FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated, FVisibleForSeatedPlayer,
+    // FEnchantment
     public partial class TSmokeCloud : Aow.Units.HSEngine.TMultiHexMO
     {
         public TSmokeCloud(TECustomNode owner) : base(owner)
@@ -109,7 +108,6 @@ namespace Aow.Units.SmokeCloud
         public new const int ClassID = 135746;
 
         public sbyte FPlayer;
-        public Aow.Units.FixedArray_byte_3 FReserved;
         public int FTurnsRemaining;
         public bool FDrifting;
         public byte FDirection;
@@ -456,7 +454,6 @@ namespace Aow.Units.SmokeCloud
 
     }
 
-    // { TSmokeCloudResource (instance size 68, VMT 5579C1E0) }
     public partial class TSmokeCloudResource : Aow.Units.HSEngine.TMultiHexMOR
     {
         public TSmokeCloudResource(TECustomNode owner) : base(owner)

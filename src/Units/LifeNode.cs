@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.LifeNode
 {
-    // { TLifeNode (instance size 76, no added fields, VMT 557C046C) }
     public partial class TLifeNode : Aow.Units.PrdPlace.TProductionPlace
     {
         public TLifeNode(TECustomNode owner) : base(owner)
@@ -55,7 +54,6 @@ namespace Aow.Units.LifeNode
 
     }
 
-    // { TLifeNodeResource (instance size 120, no added fields, VMT 557C071C) }
     public partial class TLifeNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
         public TLifeNodeResource(TECustomNode owner) : base(owner)

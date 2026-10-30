@@ -39,7 +39,7 @@ namespace Aow.Units.PowerNode
         pnsRazed = 0
     }
 
-    // { TPowerNode: size $44; $3C FState, $40 FPowerSource. }
+    // FState, FPowerSource
     public partial class TPowerNode : Aow.Units.AoWE.TPlayerStructure
     {
         public TPowerNode(TECustomNode owner) : base(owner)
@@ -53,7 +53,6 @@ namespace Aow.Units.PowerNode
         public new const int ClassID = 131482;
 
         public TSet<Aow.Units.PowerNode.TPowerNodeStateElement> FState;
-        public Aow.Units.FixedArray_byte_3 FReserved3D;
         public Aow.Units.AoWE.TPlayerStructurePowerSource FPowerSource;
         // PowerNode.pas:58
         public override void Destroy()
@@ -253,7 +252,6 @@ namespace Aow.Units.PowerNode
 
     }
 
-    // { TPowerNodeResource (instance size 116, VMT 557D027C) }
     public partial class TPowerNodeResource : Aow.Units.AoWE.TPlayerStructureResource
     {
         public TPowerNodeResource(TECustomNode owner) : base(owner)

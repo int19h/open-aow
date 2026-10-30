@@ -60,50 +60,31 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWCityJoinDlg
 {
-    // { TCityJoinDlg (size $90, VMT 004371B4): $80 race, $84 completion event, $8C retained negotiation event. }
+    // race, completion event, retained negotiation event
     public partial class TCityJoinDlg : Aow.Rtl.TDataModule
     {
         public TCityJoinDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel ApproachLbl;
-        // { +0048 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame CeltFrame;
-        // { +0050 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0054 }
         public Aow.Units.AoWMemo.TAOWMemo Memo;
-        // { +0058 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +005C }
         public Aow.Units.AoWButton.TAOWButton AttackBtn;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton AcceptBtn;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel WhatLbl;
-        // { +0070 }
         public Aow.Units.AoWArnoLine.TAoWArnoLine CityPicLine;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton CloseBtn;
-        // { +0078 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +007C }
         public sbyte FRace;
-        // { $80 }
-        public Aow.Units.FixedArray_byte_3 FReserved81;
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $84 }
         public Aow.Units.AoWE.TNegotiateRequestEventLog FEvent;
         // AoWCityJoinDlg.pas:55
-        // { $8C }
         public void FinishDialog()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;
@@ -124,7 +105,6 @@ namespace Aow.Units.AoWCityJoinDlg
         }
 
         // AoWCityJoinDlg.pas:69
-        // { 004373A8 }
         public void AcceptBtnClick()
         {
             Aow.Rtl.AnsiString Reason = default;
@@ -141,7 +121,6 @@ namespace Aow.Units.AoWCityJoinDlg
         }
 
         // AoWCityJoinDlg.pas:78
-        // { draft }
         public void AttackBtnClick()
         {
             Aow.Rtl.AnsiString Reason = default;
@@ -158,7 +137,6 @@ namespace Aow.Units.AoWCityJoinDlg
         }
 
         // AoWCityJoinDlg.pas:87
-        // { draft }
         public void CancelBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -166,7 +144,6 @@ namespace Aow.Units.AoWCityJoinDlg
         }
 
         // AoWCityJoinDlg.pas:93
-        // { draft }
         public void DlgDrawBack(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Units.ImageLib.TLibraryImage Face = default;
@@ -186,7 +163,6 @@ namespace Aow.Units.AoWCityJoinDlg
         }
 
         // AoWCityJoinDlg.pas:107
-        // { draft }
         public void CloseBtnClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -194,7 +170,6 @@ namespace Aow.Units.AoWCityJoinDlg
         }
 
         // AoWCityJoinDlg.pas:113
-        // { draft }
         public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if (Key == 27)

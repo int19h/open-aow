@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.FireNode
 {
-    // { TFireNode (instance size 76, VMT 557BF624) }
     public partial class TFireNode : Aow.Units.PrdPlace.TProductionPlace
     {
         public TFireNode(TECustomNode owner) : base(owner)
@@ -55,7 +54,6 @@ namespace Aow.Units.FireNode
 
     }
 
-    // { TFireNodeResource (instance size 120, VMT 557BF8D4) }
     public partial class TFireNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
         public TFireNodeResource(TECustomNode owner) : base(owner)

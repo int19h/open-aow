@@ -104,197 +104,105 @@ using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
 
 namespace Aow.Units.AoWInfoWin
 {
-    // { TIWindow: size $1B4; $1B0 item bag. VMT 00441930. }
+    // item bag
     public partial class TIWindow : Aow.Rtl.TDataModule
     {
         public TIWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow InfoWin;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton Min;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +004C }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0050 }
         public Aow.Units.AoWImage.TAOWImage SIcon;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton MainBtn;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame CeltFrame;
-        // { +005C }
         public Aow.Units.AoWArnoLine.TAoWArnoLine StructLine;
-        // { +0060 }
         public Aow.Units.AoWLabel.TAOWLabel StructNameLbl;
-        // { +0064 }
         public Aow.Units.AoWPanel.TAOWPanel ProductionPlacePnl;
-        // { +0068 }
         public Aow.Units.AoWPanel.TAOWPanel NamePnl;
-        // { +006C }
         public Aow.Units.AoWMemo.TAOWMemo ActiveActionMemo;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel SignPnl;
-        // { +0074 }
         public Aow.Units.AoWMemo.TAOWMemo SignText;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel SignLbl;
-        // { +007C }
         public Aow.Units.AoWFrame.TAoWFrame SignTLine;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage SignTDecoL;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage SignTDecoR;
-        // { +0088 }
         public Aow.Units.AoWFrame.TAoWFrame SignBLine;
-        // { +008C }
         public Aow.Units.AoWImage.TAOWImage SignBDecoL;
-        // { +0090 }
         public Aow.Units.AoWImage.TAOWImage SingBDemoR;
-        // { +0094 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar SignTextSB;
-        // { +0098 }
         public Aow.Units.AoWPanel.TAOWPanel CityPanel;
-        // { +009C }
         public Aow.Units.AoWLabel.TAOWLabel CityRaceLbl;
-        // { +00A0 }
         public Aow.Units.AoWPanel.TAOWPanel CityBorderPnl;
-        // { +00A4 }
         public Aow.Units.AoWImage.TAOWImage ProdOrb;
-        // { +00A8 }
         public Aow.Units.AoWPanel.TAOWPanel SingleButPnl;
-        // { +00AC }
         public Aow.Units.AoWMemo.TAOWMemo SBmemo;
-        // { +00B0 }
         public Aow.Units.AoWPanel.TAOWPanel AltarPnl;
-        // { +00B4 }
         public Aow.Units.AOWGauge.TAoWGauge Bar;
-        // { +00B8 }
         public Aow.Units.AoWLabel.TAOWLabel ChargeLbl;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel GemLbl;
-        // { +00C0 }
         public Aow.Units.AoWLabel.TAOWLabel ChargePcntLbl;
-        // { +00C4 }
         public Aow.Units.AoWImage.TAOWImage T2GemI;
-        // { +00C8 }
         public Aow.Units.AoWImage.TAOWImage T2TurnI;
-        // { +00CC }
         public Aow.Units.AoWLabel.TAOWLabel DayLbl;
-        // { +00D0 }
         public Aow.Units.AoWImage.TAOWImage LShield;
-        // { +00D4 }
         public Aow.Units.AoWPanel.TAOWPanel NotYoursPnl;
-        // { +00D8 }
         public Aow.Units.AoWMemo.TAOWMemo NotYoursMemo;
-        // { +00DC }
         public Aow.Units.AoWLabel.TAOWLabel Ownerlbl;
-        // { +00E0 }
         public Aow.Units.AoWLabel.TAOWLabel OwnerRaceLbl;
-        // { +00E4 }
         public Aow.Units.AoWLabel.TAOWLabel ProdOrbTurnsLbl;
-        // { +00E8 }
         public Aow.Units.AoWLabel.TAOWLabel orLbl;
-        // { +00EC }
         public Aow.Units.AoWPanel.TAOWPanel AltarInfoPnl;
-        // { +00F0 }
         public Aow.Units.AoWImage.TAOWImage ProdOrbTime;
-        // { +00F4 }
         public Aow.Units.AoWButton.TAOWButton Center;
-        // { +00F8 }
         public Aow.Units.AoWPanel.TAOWPanel ConstructionPnl;
-        // { +00FC }
         public Aow.Units.AoWMemo.TAOWMemo ConstructionMemo;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel UnderConstructionLbl;
-        // { +0104 }
         public Aow.Units.AoWLabel.TAOWLabel ConstructionDaysLeftLbl;
-        // { +0108 }
         public Aow.Units.AoWPanel.TAOWPanel RazePnl;
-        // { +010C }
         public Aow.Units.AoWImage.TAOWImage RazeBg;
-        // { +0110 }
         public Aow.Units.AoWButton.TAOWButton RazeBtn;
-        // { +0114 }
         public Aow.Units.AoWLabel.TAOWLabel CivilStatusLbl;
-        // { +0118 }
         public Aow.Units.AoWImage.TAOWImage RaceRelationIcon;
-        // { +011C }
         public Aow.Units.AoWLabel.TAOWLabel CityIncomeLbl;
-        // { +0120 }
         public Aow.Units.AoWImage.TAOWImage GoldIcn;
-        // { +0124 }
         public Aow.Units.AoWImage.TAOWImage UgradeI;
-        // { +0128 }
         public Aow.Units.AoWLabel.TAOWLabel CityLevelLbl;
-        // { +012C }
         public Aow.Units.AoWPanel.TAOWPanel InfoPnl;
-        // { +0130 }
         public Aow.Units.AoWPanel.TAOWPanel ProductionPlaceInfoPnl;
-        // { +0134 }
         public Aow.Units.AoWImage.TAOWImage IncomeTypeIcon;
-        // { +0138 }
         public Aow.Units.AoWLabel.TAOWLabel IncomeValueLbl;
-        // { +013C }
         public Aow.Units.AoWMemo.TAOWMemo ActiveCityActionMemo;
-        // { +0140 }
         public Aow.Units.AoWLabel.TAOWLabel CostToFireLbl;
-        // { +0144 }
         public Aow.Units.AoWLabel.TAOWLabel CurrentActivityLbl;
-        // { +0148 }
         public Aow.Units.AoWLabel.TAOWLabel IncomeLbl;
-        // { +014C }
         public Aow.Units.AoWLabel.TAOWLabel ProductionWarningLbl;
-        // { +0150 }
         public Aow.Units.AoWLabel.TAOWLabel CurrentActivityWarningLbl;
-        // { +0154 }
         public Aow.Units.AoWPanel.TAOWPanel IncomePnl;
-        // { +0158 }
         public Aow.Units.AoWPanel.TAOWPanel IncomInfoPnl;
-        // { +015C }
         public Aow.Units.AoWImage.TAOWImage IncomeTypeImage;
-        // { +0160 }
         public Aow.Units.AoWLabel.TAOWLabel IncomeAmountLbl;
-        // { +0164 }
         public Aow.Units.AoWLabel.TAOWLabel IncomeTextLbl;
-        // { +0168 }
         public Aow.Units.AoWMemo.TAOWMemo IncomeMemo;
-        // { +016C }
         public Aow.Units.AoWPanel.TAOWPanel ItemPnl;
-        // { +0170 }
         public Aow.Units.AoWLabel.TAOWLabel ItemsInBagLbl;
-        // { +0174 }
         public Aow.Units.AoWListBox.TAOWListBox ItembagLB;
-        // { +0178 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar ItembagSB;
-        // { +017C }
         public Aow.Units.AoWMemo.TAOWMemo ItemBagMemo;
-        // { +0180 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar SBSB;
-        // { +0184 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar NotYoursMemoSB;
-        // { +0188 }
         public Aow.Units.AoWPanel.TAOWPanel ExplorationSitePnl;
-        // { +018C }
         public Aow.Units.AoWMemo.TAOWMemo ESMemo;
-        // { +0190 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar ESSB;
-        // { +0194 }
         public Aow.Units.AoWLabel.TAOWLabel ESLbl;
-        // { +0198 }
         public Aow.Units.AoWLabel.TAOWLabel ESStatusLbl;
-        // { +019C }
         public Aow.Units.AoWButton.TAOWButton Help;
-        // { +01A0 }
         public Aow.Units.AoWLabel.TAOWLabel PopulationRaceLbl;
-        // { +01A4 }
         public Aow.Units.AoWLabel.TAOWLabel PopulationLbl;
-        // { +01A8 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +01AC }
         public Aow.Units.AoWE.TItemHS FItemBag;
         // AoWInfoWin.pas:137
-        // { $1B0; 0044252F }
         public void InfoWinResize()
         {
             this.InfoWin.Alignment.RightOffset = (this.InfoWin.FWinManager.WinWidth - this.InfoWin.WinLeft) - this.InfoWin.WinWidth;
@@ -333,7 +241,6 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:165
         public void CenterClick()
         {
-            // { Tried direct item-bag coordinate paths; no exact match. }
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
             if (FItemBag != null)
             {

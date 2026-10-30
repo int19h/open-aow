@@ -36,7 +36,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Arena
 {
-    // { TArenaTE: size $2C; $28 FUnitIDs. }
+    // FUnitIDs
     public partial class TArenaTE : Aow.Units.AoWE.TStructureTE
     {
         public TArenaTE(TECustomNode owner) : base(owner)
@@ -71,7 +71,6 @@ namespace Aow.Units.Arena
 
     }
 
-    // { TArena (instance size 48, VMT 557D6240) }
     public partial class TArena : Aow.Units.AoWE.TStructure
     {
         public TArena(TECustomNode owner) : base(owner)
@@ -186,7 +185,6 @@ namespace Aow.Units.Arena
         // Arena.pas:116
         public void ExecuteTrainUnit(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
-            // { Unmatched: tried Pointer identity assignment to unit; Pointer cast branch receivers; explicit incoming unit local. }
             if (AUnit is Aow.Units.AoWE.THero)
             {
                 var hero = (Aow.Units.AoWE.THero)AUnit;
@@ -364,7 +362,6 @@ namespace Aow.Units.Arena
 
     }
 
-    // { TArenaResource (instance size 100, VMT 557D6498) }
     public partial class TArenaResource : Aow.Units.AoWE.TStructureResource
     {
         public TArenaResource(TECustomNode owner) : base(owner)
@@ -399,8 +396,7 @@ namespace Aow.Units.Arena
 
     }
 
-    // { TEnterArenaEventLog: size $24; $18 FArena, $1C FSelection,
-//     $1D FTrainable, $20 FUnitIDs. }
+    // FArena, FSelection, FTrainable, FUnitIDs
     public partial class TEnterArenaEventLog : Aow.Units.EventLog.TEventLog
     {
         // Arena.pas:259
@@ -413,7 +409,6 @@ namespace Aow.Units.Arena
         public Aow.Units.Arena.TArena FArena;
         public byte FSelection;
         public byte FTrainable;
-        public Aow.Units.FixedArray_byte_2 FReserved1E;
         public Aow.Units.Engine.TIntegerList FUnitIDs;
         // Arena.pas:265
         public override void Destroy()

@@ -60,30 +60,22 @@ using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
 
 namespace Aow.Units.AOWPyreScrn
 {
-    // { TPyreScreen (instance size $6C, VMT 004290B0): $64 game-over event, $68 animation frame. }
+    // game-over event, animation frame
     public partial class TPyreScreen : Aow.Rtl.TDataModule
     {
         public TPyreScreen(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWPanel.TAOWPanel DeadPnl;
-        // { +0044 }
         public Aow.Units.AoWImage.TAOWImage PyreTop;
-        // { +0048 }
         public Aow.Units.AoWImage.TAOWImage LeaderFaceFr;
-        // { +004C }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox PyreAnimation;
-        // { +0050 }
         public Aow.Rtl.TObject FAnimation;
         public Aow.Units.Sound.TSongStatus FSavedSongStatus;
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $54, $58, $5C; 004293AC }
-        // { conflict: FFire: TSample; FSongStatus: TSongStatus; }
         public Aow.Units.EventLog.TGameOverEventLog FGameOverEvent;
-        // { $64 }
         public int FAnimationFrame;
         // AOWPyreScrn.pas:114
-        // { $68 }
         public void ClearFire()
         {
             if (FAnimation != null)
@@ -144,7 +136,6 @@ namespace Aow.Units.AOWPyreScrn
         }
 
         // AOWPyreScrn.pas:51
-        // { draft }
         public void DeadPnlMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             FinishScreen();
@@ -183,7 +174,6 @@ namespace Aow.Units.AOWPyreScrn
         }
 
         // AOWPyreScrn.pas:77
-        // { draft }
         public void PyreAnimationDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
         {
             int X = default;

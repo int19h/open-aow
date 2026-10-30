@@ -34,64 +34,41 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.UnitIDlg
 {
-    // { TUnitInfoDlg (instance size 564, VMT 557FF1B8) }
     public partial class TUnitInfoDlg : Aow.Rtl.TForm
     {
         public Aow.Rtl.TButton OKBtn;
-        // { +$1DC }
         public Aow.Rtl.TPanel NamePnl;
-        // { +$1E0 }
         public Aow.Rtl.TPanel Panel5;
-        // { +$1E4 }
         public Aow.Rtl.TPanel Panel4;
-        // { +$1E8 }
         public Aow.Rtl.TMemo AbilitiesMemo;
-        // { +$1EC }
         public Aow.Rtl.TPanel Panel3;
-        // { +$1F0 }
         public Aow.Rtl.TImage Image10;
-        // { +$1F4 }
         public Aow.Rtl.TImage Image9;
-        // { +$1F8 }
         public Aow.Rtl.TImage Image8;
-        // { +$1FC }
         public Aow.Rtl.TImage Image7;
-        // { +$200 }
         public Aow.Rtl.TImage Image6;
-        // { +$204 }
         public Aow.Rtl.TLabel AttackLbl;
-        // { +$208 }
         public Aow.Rtl.TLabel DefenseLbl;
-        // { +$20C }
         public Aow.Rtl.TLabel DamageLbl;
-        // { +$210 }
         public Aow.Rtl.TLabel ResistanceLbl;
-        // { +$214 }
         public Aow.Rtl.TLabel HitPointLbl;
-        // { +$218 }
         public Aow.Rtl.TPanel Panel1;
-        // { +$21C }
         public Aow.Rtl.TButton CloseBtn;
-        // { +$220 }
         public Aow.Rtl.TPanel AlignmentPnl;
-        // { +$224 }
         public Aow.Rtl.TImage Image1;
-        // { +$228 }
         public Aow.Rtl.TLabel MovesLbl;
-        // { +$22C }
         public Aow.Rtl.TIvTranslator Translator;
         // UnitIDlg.pas:104
-        // { +$230 }
         public int ShowUnit(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Caption */
+            /* TODO: Implement StdCtrls.Caption in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitIDlg.pas:120
         public int ShowUnitResource(Aow.Units.AoWE.TUnitResource Resource)
         {
-            /* TODO(T-shim) Platform or editor boundary StdCtrls.Caption */
+            /* TODO: Implement StdCtrls.Caption in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -166,42 +143,36 @@ namespace Aow.Units.UnitIDlg
         }
 
         // UnitIDlg.pas:64
-        // { +$C0 }
         public virtual sbyte GetDefense()
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // UnitIDlg.pas:65
-        // { +$C4 }
         public virtual sbyte GetDamage()
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // UnitIDlg.pas:66
-        // { +$C8 }
         public virtual sbyte GetResistance()
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // UnitIDlg.pas:67
-        // { +$CC }
         public virtual sbyte GetHits()
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // UnitIDlg.pas:68
-        // { +$D0 }
         public virtual sbyte GetMoves()
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // UnitIDlg.pas:69
-        // { +$D4 }
         public virtual void SlotD8()
         {
             throw EAbstractError.Create("Abstract Error");
@@ -256,7 +227,6 @@ namespace Aow.Units.UnitIDlg
         }
 
         // UnitIDlg.pas:78
-        // { +$F8 }
         public virtual Aow.Units.AoWE.TAlignment GetAlignment()
         {
             throw EAbstractError.Create("Abstract Error");

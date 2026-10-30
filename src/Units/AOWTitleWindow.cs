@@ -58,25 +58,19 @@ using static Aow.Units.AoWSelFactionWin.AoWSelFactionWin;
 
 namespace Aow.Units.AOWTitleWindow
 {
-    // { TTitleWindow: size $5C; $54 splash timer, $58 splash stage. VMT 00429864. }
+    // splash timer, splash stage
     public partial class TTitleWindow : Aow.Rtl.TDataModule
     {
         public TTitleWindow(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow TitleWin;
-        // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel TitlePnl;
-        // { +0048 }
         public Aow.Units.AoWPanel.TAOWPanel SplashPnl;
-        // { +004C }
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL DemoIL;
-        // { +0050 }
         public int FSplashTimer;
-        // { $54 }
         public int FSplashStage;
         // AOWTitleWindow.pas:66
-        // { $58; 00429C2C }
         public void HideSplash()
         {
             DemoIL.ReleaseDiscardableImageData();
@@ -111,7 +105,7 @@ namespace Aow.Units.AOWTitleWindow
         // AOWTitleWindow.pas:105
         public void NextSplash()
         {
-            /* TODO(T-shim) Platform or editor boundary Forms.Close */
+            /* TODO: Implement Forms.Close in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

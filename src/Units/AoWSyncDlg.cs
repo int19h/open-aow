@@ -54,43 +54,27 @@ using static Aow.Units.aowSetupEvents.aowSetupEvents;
 
 namespace Aow.Units.AoWSyncDlg
 {
-    // { TSynchronizeDlg (instance size 128, VMT 00413334) }
     public partial class TSynchronizeDlg : Aow.Rtl.TDataModule
     {
         public TSynchronizeDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltB;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel BottomMsg;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage LShield;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerName;
-        // { +0054 }
         public Aow.Units.AoWLabel.TAOWLabel InfoMsg;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerRace;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel Turn;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage RShield;
-        // { +0064 }
         public Aow.Units.AoWFrame.TAoWFrame BlueFr;
-        // { +0068 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +006C }
         public Aow.Units.AoWImage.TAOWImage TCeltLineR;
-        // { +0070 }
         public Aow.Units.AoWPanel.TAOWPanel NewTPnl;
-        // { +0074 }
         public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        // { +0078 }
         public Aow.Rtl.TIvTranslator Translator;
         // AoWSyncDlg.pas:45
-        // { +007C }
         public Aow.Units.AoWSetup.TPlayerSetupSettings GetPlayerSetup()
         {
             Aow.Units.AoWSetup.TPlayerSetupSettings Result = default;

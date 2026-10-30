@@ -24,17 +24,13 @@ namespace Aow.Units.AoWWinControl
         winBlank = 3
     }
 
-    // { AoWWinControl.TAOWWindowControl (instance size 464). Fields: +$104 FModal, +$108
-//     FOnDrawSurface, +$110 FOnPreDrawSurface, +$118 FDragging, +$11C FDragX, +$120 FDragY, +$124
-//     FDraggable, +$128 FResizable, +$12C FResizingX, +$12D FResizingY, +$130 FOnResize, +$138
-//     FOnInternalResize, +$140 FDragHeight, +$144 FOverlapTopCorners, +$146 FOldCursor, +$148
-//     FWindowCursor, +$14C FOnChangeCursor, +$154 FMinWidth, +$158 FMinHeight, +$15C FMaxWidth, +$160
-//     FMaxHeight, +$164 FInResizeArea, +$165 FWindowType, +$168 FILFrame, +$16C FILTexture, +$170
-//     FUseManagerBorders, +$174 FFrameLeft, +$178 FFrameTop, +$17C FFrameRight, +$180 FFrameBottom,
-//     +$184 FMaskColor, +$188 FUseVMem, +$18C FBackSurface, +$190 (unused), +$194 FBackRect, +$1A4
-//     (unused), +$1A8 FOnDrawBack, +$1B0 FOnEnter, +$1B8 FOnExit, +$1C0 FMouseInside, +$1C4
-//     FILIndexFrame, +$1C8 FILIndexTexture, +$1CC FDockable.
-//     VMT (new): DetachMenuBar, Blt }
+    // Fields: FModal, FOnDrawSurface, FOnPreDrawSurface, FDragging, FDragX, FDragY, FDraggable,
+    // FResizable, FResizingX, FResizingY, FOnResize, FOnInternalResize, FDragHeight,
+    // FOverlapTopCorners, FOldCursor, FWindowCursor, FOnChangeCursor, FMinWidth, FMinHeight,
+    // FMaxWidth, FMaxHeight, FInResizeArea, FWindowType, FILFrame, FILTexture, FUseManagerBorders,
+    // FFrameLeft, FFrameTop, FFrameRight, FFrameBottom, FMaskColor, FUseVMem, FBackSurface,
+    // (unused), FBackRect, (unused), FOnDrawBack, FOnEnter, FOnExit, FMouseInside, FILIndexFrame,
+    // FILIndexTexture, FDockable
     public partial class TAOWWindowControl : Aow.Units.AoWComp.TAoWComponent
     {
         public bool FModal;
@@ -81,7 +77,6 @@ namespace Aow.Units.AoWWinControl
         public int FILIndexTexture;
         public bool FDockable;
         // AoWWinControl.pas:103
-        // { TAOWWindowControl }
         public TAOWWindowControl(TComponent owner) : base(owner)
         {
             FOldCursor = -2;

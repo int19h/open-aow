@@ -66,356 +66,184 @@ using static Aow.Units.E2Globals.E2Globals;
 
 namespace Aow.Units.AoWLeaderSetup
 {
-    // { TLeaderSetupWin: size $2F0; $2D8 setup control, $2DC phase, $2E0 fixed spheres,
-//     $2E4 working leader, $2E8 selected sort, $2EC available sort. VMT 00414BE0. }
+    // setup control, phase, fixed spheres, working leader, selected sort, available sort
     public partial class TLeaderSetupWin : Aow.Rtl.TDataModule
     {
         public TLeaderSetupWin(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWListBox.TAOWListBox SelectedAbilities;
-        // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel Phase2Pnl;
-        // { +0048 }
         public Aow.Units.AoWPanel.TAOWPanel LMainPnl;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton NextBtn;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton DefaultBtn;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton ClearBtn;
-        // { +0058 }
         public Aow.Units.AoWButton.TAOWButton PrevBtn;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel EditStatisticsPnl;
-        // { +0060 }
         public Aow.Units.AoWListBox.TAOWListBox AvailableAbilities;
-        // { +0064 }
         public Aow.Units.AoWLabel.TAOWLabel AttValue;
-        // { +0068 }
         public Aow.Units.AoWLabel.TAOWLabel AttLbl;
-        // { +006C }
         public Aow.Units.AoWPanel.TAOWPanel AttPnl;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel DamValue;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel DamLbl;
-        // { +0078 }
         public Aow.Units.AoWPanel.TAOWPanel DamPnl;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel DefValue;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel DefLbl;
-        // { +0084 }
         public Aow.Units.AoWPanel.TAOWPanel DefPnl;
-        // { +0088 }
         public Aow.Units.AoWLabel.TAOWLabel ResValue;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel ResLbl;
-        // { +0090 }
         public Aow.Units.AoWPanel.TAOWPanel ResPnl;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel HitValue;
-        // { +0098 }
         public Aow.Units.AoWLabel.TAOWLabel HitLbl;
-        // { +009C }
         public Aow.Units.AoWPanel.TAOWPanel HitPnl;
-        // { +00A0 }
         public Aow.Units.AoWLabel.TAOWLabel MovValue;
-        // { +00A4 }
         public Aow.Units.AoWLabel.TAOWLabel MovLbl;
-        // { +00A8 }
         public Aow.Units.AoWPanel.TAOWPanel MovPnl;
-        // { +00AC }
         public Aow.Units.AoWLabel.TAOWLabel AttI;
-        // { +00B0 }
         public Aow.Units.AoWLabel.TAOWLabel DamI;
-        // { +00B4 }
         public Aow.Units.AoWLabel.TAOWLabel DefI;
-        // { +00B8 }
         public Aow.Units.AoWLabel.TAOWLabel ResI;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel HitI;
-        // { +00C0 }
         public Aow.Units.AoWLabel.TAOWLabel MovI;
-        // { +00C4 }
         public Aow.Units.AoWLabel.TAOWLabel AttA;
-        // { +00C8 }
         public Aow.Units.AoWLabel.TAOWLabel DamA;
-        // { +00CC }
         public Aow.Units.AoWLabel.TAOWLabel DefA;
-        // { +00D0 }
         public Aow.Units.AoWLabel.TAOWLabel ResA;
-        // { +00D4 }
         public Aow.Units.AoWLabel.TAOWLabel HitA;
-        // { +00D8 }
         public Aow.Units.AoWLabel.TAOWLabel MovA;
-        // { +00DC }
         public Aow.Units.AoWLabel.TAOWLabel AttP;
-        // { +00E0 }
         public Aow.Units.AoWLabel.TAOWLabel DamP;
-        // { +00E4 }
         public Aow.Units.AoWLabel.TAOWLabel DefP;
-        // { +00E8 }
         public Aow.Units.AoWLabel.TAOWLabel ResP;
-        // { +00EC }
         public Aow.Units.AoWLabel.TAOWLabel HitP;
-        // { +00F0 }
         public Aow.Units.AoWLabel.TAOWLabel MovP;
-        // { +00F4 }
         public Aow.Units.AoWLabel.TAOWLabel AttB;
-        // { +00F8 }
         public Aow.Units.AoWLabel.TAOWLabel DamB;
-        // { +00FC }
         public Aow.Units.AoWLabel.TAOWLabel DefB;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel ResB;
-        // { +0104 }
         public Aow.Units.AoWLabel.TAOWLabel HitB;
-        // { +0108 }
         public Aow.Units.AoWLabel.TAOWLabel MovB;
-        // { +010C }
         public Aow.Units.AoWLabel.TAOWLabel SkillPointsLbl;
-        // { +0110 }
         public Aow.Units.AoWImage.TAOWImage UAttIcn;
-        // { +0114 }
         public Aow.Units.AoWImage.TAOWImage UDefIcn;
-        // { +0118 }
         public Aow.Units.AoWImage.TAOWImage UMovIcn;
-        // { +011C }
         public Aow.Units.AoWImage.TAOWImage UDamIcn;
-        // { +0120 }
         public Aow.Units.AoWImage.TAOWImage UResIcn;
-        // { +0124 }
         public Aow.Units.AoWImage.TAOWImage UHitIcn;
-        // { +0128 }
         public Aow.Units.AoWLabel.TAOWLabel UAttack;
-        // { +012C }
         public Aow.Units.AoWLabel.TAOWLabel UDefense;
-        // { +0130 }
         public Aow.Units.AoWLabel.TAOWLabel UMoves;
-        // { +0134 }
         public Aow.Units.AoWLabel.TAOWLabel UDamage;
-        // { +0138 }
         public Aow.Units.AoWLabel.TAOWLabel UResistance;
-        // { +013C }
         public Aow.Units.AoWLabel.TAOWLabel UHits;
-        // { +0140 }
         public Aow.Units.AoWPanel.TAOWPanel StatPnl;
-        // { +0144 }
         public Aow.Units.AoWListBox.TAOWListBox UAbilities;
-        // { +0148 }
         public Aow.Units.AoWPanel.TAOWPanel AbilityPnl;
-        // { +014C }
         public Aow.Units.AoWPanel.TAOWPanel UStatP1;
-        // { +0150 }
         public Aow.Units.AoWPanel.TAOWPanel UStatP2;
-        // { +0154 }
         public Aow.Units.AoWLabel.TAOWLabel LeaderName;
-        // { +0158 }
         public Aow.Units.AoWImage.TAOWImage ShieldL;
-        // { +015C }
         public Aow.Units.AoWImage.TAOWImage ShieldR;
-        // { +0160 }
         public Aow.Units.AoWPanel.TAOWPanel ButtonPnl;
-        // { +0164 }
         public Aow.Units.AoWPanel.TAOWPanel LeftPnl;
-        // { +0168 }
         public Aow.Units.AoWPanel.TAOWPanel RightPnl;
-        // { +016C }
         public Aow.Units.AoWLabel.TAOWLabel LeaderStatsLbl;
-        // { +0170 }
         public Aow.Units.AoWLabel.TAOWLabel LeaderAbilLbl;
-        // { +0174 }
         public Aow.Units.AoWLabel.TAOWLabel FullAbilLbl;
-        // { +0178 }
         public Aow.Units.AoWButton.TAOWButton RemoveAbility;
-        // { +017C }
         public Aow.Units.AoWButton.TAOWButton AddAbility;
-        // { +0180 }
         public Aow.Units.AoWImage.TAOWImage MainFace;
-        // { +0184 }
         public Aow.Units.AoWPanel.TAOWPanel Phase1Pnl;
-        // { +0188 }
         public Aow.Units.AoWImage.TAOWImage Face4;
-        // { +018C }
         public Aow.Units.AoWImage.TAOWImage Face5;
-        // { +0190 }
         public Aow.Units.AoWImage.TAOWImage Face6;
-        // { +0194 }
         public Aow.Units.AoWImage.TAOWImage Face7;
-        // { +0198 }
         public Aow.Units.AoWImage.TAOWImage Face3;
-        // { +019C }
         public Aow.Units.AoWImage.TAOWImage Face2;
-        // { +01A0 }
         public Aow.Units.AoWImage.TAOWImage Face1;
-        // { +01A4 }
         public Aow.Units.AoWEdit.TAOWEdit NameEdit;
-        // { +01A8 }
         public Aow.Units.AoWLabel.TAOWLabel NameLbl;
-        // { +01AC }
         public Aow.Units.AoWLabel.TAOWLabel FaceLbl;
-        // { +01B0 }
         public Aow.Units.AoWLabel.TAOWLabel RaceLbl;
-        // { +01B4 }
         public Aow.Units.AoWLabel.TAOWLabel Phase1Header;
-        // { +01B8 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar UAbilSB;
-        // { +01BC }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AvailableAbilitiesLB;
-        // { +01C0 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar SelectedAbilitiesLB;
-        // { +01C4 }
         public Aow.Units.AoWPanel.TAOWPanel Phase3Pnl;
-        // { +01C8 }
         public Aow.Units.AoWLabel.TAOWLabel SpheresLbl;
-        // { +01CC }
         public Aow.Units.AoWButton.TAOWButton SelDeath;
-        // { +01D0 }
         public Aow.Units.AoWPanel.TAOWPanel SpherePnl;
-        // { +01D4 }
         public Aow.Units.AoWButton.TAOWButton SelLife;
-        // { +01D8 }
         public Aow.Units.AoWButton.TAOWButton SelFire;
-        // { +01DC }
         public Aow.Units.AoWButton.TAOWButton SelEarth;
-        // { +01E0 }
         public Aow.Units.AoWButton.TAOWButton SelAir;
-        // { +01E4 }
         public Aow.Units.AoWButton.TAOWButton SelWater;
-        // { +01E8 }
         public Aow.Units.AoWLabel.TAOWLabel LifeLbl;
-        // { +01EC }
         public Aow.Units.AoWButton.TAOWButton Sel4;
-        // { +01F0 }
         public Aow.Units.AoWPanel.TAOWPanel SphereSelectionPnl;
-        // { +01F4 }
         public Aow.Units.AoWButton.TAOWButton Sel3;
-        // { +01F8 }
         public Aow.Units.AoWButton.TAOWButton Sel2;
-        // { +01FC }
         public Aow.Units.AoWButton.TAOWButton Sel1;
-        // { +0200 }
         public Aow.Units.AoWButton.TAOWButton Sel5;
-        // { +0204 }
         public Aow.Units.AoWButton.TAOWButton Sel6;
-        // { +0208 }
         public Aow.Units.AoWButton.TAOWButton Sel7;
-        // { +020C }
         public Aow.Units.AoWLabel.TAOWLabel DeathLbl;
-        // { +0210 }
         public Aow.Units.AoWLabel.TAOWLabel EarthLbl;
-        // { +0214 }
         public Aow.Units.AoWLabel.TAOWLabel WaterLbl;
-        // { +0218 }
         public Aow.Units.AoWLabel.TAOWLabel FireLbl;
-        // { +021C }
         public Aow.Units.AoWLabel.TAOWLabel AirLbl;
-        // { +0220 }
         public Aow.Units.AoWLabel.TAOWLabel SelectedSpheresLbl;
-        // { +0224 }
         public Aow.Units.AoWButton.TAOWButton FaceNextBtn;
-        // { +0228 }
         public Aow.Units.AoWButton.TAOWButton FacePrevBtn;
-        // { +022C }
         public Aow.Units.AoWLabel.TAOWLabel LeaderLbl;
-        // { +0230 }
         public Aow.Units.AoWLabel.TAOWLabel SideNameLbl;
-        // { +0234 }
         public Aow.Units.AoWListBox.TAOWListBox SelectedAbilitiesCost;
-        // { +0238 }
         public Aow.Units.AoWListBox.TAOWListBox AvailableAbilitiesCost;
-        // { +023C }
         public Aow.Units.AoWButton.TAOWButton AttUp;
-        // { +0240 }
         public Aow.Units.AoWButton.TAOWButton AttDn;
-        // { +0244 }
         public Aow.Units.AoWButton.TAOWButton DamUp;
-        // { +0248 }
         public Aow.Units.AoWButton.TAOWButton DamDn;
-        // { +024C }
         public Aow.Units.AoWButton.TAOWButton DefUp;
-        // { +0250 }
         public Aow.Units.AoWButton.TAOWButton DefDn;
-        // { +0254 }
         public Aow.Units.AoWButton.TAOWButton ResUp;
-        // { +0258 }
         public Aow.Units.AoWButton.TAOWButton ResDn;
-        // { +025C }
         public Aow.Units.AoWButton.TAOWButton HitUp;
-        // { +0260 }
         public Aow.Units.AoWButton.TAOWButton HitDn;
-        // { +0264 }
         public Aow.Units.AoWButton.TAOWButton MovUp;
-        // { +0268 }
         public Aow.Units.AoWButton.TAOWButton MovDn;
-        // { +026C }
         public Aow.Units.AoWImage.TAOWImage AttIc;
-        // { +0270 }
         public Aow.Units.AoWImage.TAOWImage DamIcn;
-        // { +0274 }
         public Aow.Units.AoWImage.TAOWImage DefIc;
-        // { +0278 }
         public Aow.Units.AoWImage.TAOWImage ResIc;
-        // { +027C }
         public Aow.Units.AoWImage.TAOWImage HitIc;
-        // { +0280 }
         public Aow.Units.AoWImage.TAOWImage MovIc;
-        // { +0284 }
         public Aow.Units.AoWButton.TAOWButton SBase;
-        // { +0288 }
         public Aow.Units.AoWButton.TAOWButton SExtra;
-        // { +028C }
         public Aow.Units.AoWButton.TAOWButton SFinal;
-        // { +0290 }
         public Aow.Units.AoWButton.TAOWButton SelectedAbilitiesSort;
-        // { +0294 }
         public Aow.Units.AoWButton.TAOWButton SelectedAbilitiesCostSort;
-        // { +0298 }
         public Aow.Units.AoWButton.TAOWButton AvailableAbilitiesSort;
-        // { +029C }
         public Aow.Units.AoWButton.TAOWButton AvailableAbilitiesCostSort;
-        // { +02A0 }
         public Aow.Units.AoWFrame.TAoWFrame MainFaceFr;
-        // { +02A4 }
         public Aow.Units.AoWFrame.TAoWFrame FFr1;
-        // { +02A8 }
         public Aow.Units.AoWFrame.TAoWFrame FFr7;
-        // { +02AC }
         public Aow.Units.AoWFrame.TAoWFrame FFr2;
-        // { +02B0 }
         public Aow.Units.AoWFrame.TAoWFrame FFr6;
-        // { +02B4 }
         public Aow.Units.AoWFrame.TAoWFrame FFr3;
-        // { +02B8 }
         public Aow.Units.AoWFrame.TAoWFrame FFr5;
-        // { +02BC }
         public Aow.Units.AoWFrame.TAoWFrame FFr4;
-        // { +02C0 }
         public Aow.Units.AoWLabel.TAOWLabel Phase2Header;
-        // { +02C4 }
         public Aow.Units.AoWLabel.TAOWLabel Phase3Header;
-        // { +02C8 }
         public Aow.Units.AoWPanel.TAOWPanel LeaderPnl;
-        // { +02CC }
         public Aow.Units.AoWComboBox.TAOWComboBox RaceCB;
-        // { +02D0 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +02D4 }
         public Aow.Units.AoWE.TLeaderSetupControl FSetup;
-        // { $2D8 }
         public int FPhase;
-        // { $2DC }
         public int FFixedSpheres;
-        // { $2E0 }
         public Aow.Units.AoWE.TLeader FLeader;
-        // { $2E4 }
         public int FSelectedSort;
-        // { $2E8 }
         public int FAvailableSort;
         // AoWLeaderSetup.pas:1050
-        // { $2EC }
         public void Execute(Aow.Units.AoWE.TLeaderSetupControl Control)
         {
             int I = default;

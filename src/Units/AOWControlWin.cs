@@ -66,170 +66,90 @@ using static Aow.Units.aowHelpWin.aowHelpWin;
 
 namespace Aow.Units.AOWControlWin
 {
-    // { TControlWin (instance size $17C, VMT 00404910).
-//     $44..174 published controls; $178 inverted army selection mask. }
+    // published controls. inverted army selection mask
     public partial class TControlWin : Aow.Rtl.TDataModule
     {
         public TControlWin(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow ControlWindow;
-        // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel CWTitle;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton CWMinIcon;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame Unit1Frame;
-        // { +0050 }
         public Aow.Units.AoWFrame.TAoWFrame Unit2Frame;
-        // { +0054 }
         public Aow.Units.AoWFrame.TAoWFrame Unit3Frame;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame Unit4Frame;
-        // { +005C }
         public Aow.Units.AoWFrame.TAoWFrame Unit5Frame;
-        // { +0060 }
         public Aow.Units.AoWFrame.TAoWFrame Unit6Frame;
-        // { +0064 }
         public Aow.Units.AoWFrame.TAoWFrame Unit7Frame;
-        // { +0068 }
         public Aow.Units.AoWFrame.TAoWFrame Unit8Frame;
-        // { +006C }
         public Aow.Units.AoWImage.TAOWImage CTitleIcon;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel MovesLbl;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel PartyStatusLbl;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +007C }
         public Aow.Units.AoWImage.TAOWImage U1MIcon;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage U2MIcon;
-        // { +0084 }
         public Aow.Units.AoWImage.TAOWImage U3MIcon;
-        // { +0088 }
         public Aow.Units.AoWImage.TAOWImage U4MIcon;
-        // { +008C }
         public Aow.Units.AoWImage.TAOWImage U5MIcon;
-        // { +0090 }
         public Aow.Units.AoWImage.TAOWImage U6MIcon;
-        // { +0094 }
         public Aow.Units.AoWImage.TAOWImage U7MIcon;
-        // { +0098 }
         public Aow.Units.AoWImage.TAOWImage U8MIcon;
-        // { +009C }
         public Aow.Units.AoWImage.TAOWImage MoraleMask;
-        // { +00A0 }
         public Aow.Units.AoWImage.TAOWImage MoveIcon;
-        // { +00A4 }
         public Aow.Units.AoWPanel.TAOWPanel PartyT1Pnl;
-        // { +00A8 }
         public Aow.Units.AoWPanel.TAOWPanel PartyBPnl;
-        // { +00AC }
         public Aow.Units.AoWPanel.TAOWPanel PartyT2Pnl;
-        // { +00B0 }
         public Aow.Units.AoWPanel.TAOWPanel PartyT3Pnl;
-        // { +00B4 }
         public Aow.Units.AoWPanel.TAOWPanel PartyT4Pnl;
-        // { +00B8 }
         public Aow.Units.AOWGauge.TAoWGauge Unit1Gge;
-        // { +00BC }
         public Aow.Units.AOWGauge.TAoWGauge Unit2Gge;
-        // { +00C0 }
         public Aow.Units.AOWGauge.TAoWGauge Unit3Gge;
-        // { +00C4 }
         public Aow.Units.AOWGauge.TAoWGauge Unit4Gge;
-        // { +00C8 }
         public Aow.Units.AOWGauge.TAoWGauge Unit5Gge;
-        // { +00CC }
         public Aow.Units.AOWGauge.TAoWGauge Unit6Gge;
-        // { +00D0 }
         public Aow.Units.AOWGauge.TAoWGauge Unit7Gge;
-        // { +00D4 }
         public Aow.Units.AOWGauge.TAoWGauge Unit8Gge;
-        // { +00D8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Unit1Chk;
-        // { +00DC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Unit2Chk;
-        // { +00E0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Unit3Chk;
-        // { +00E4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Unit5Chk;
-        // { +00E8 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Unit6Chk;
-        // { +00EC }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Unit7Chk;
-        // { +00F0 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Unit4Chk;
-        // { +00F4 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox Unit8Chk;
-        // { +00F8 }
         public Aow.Units.AoWFrame.TAoWFrame Emp1Fr;
-        // { +00FC }
         public Aow.Units.AoWFrame.TAoWFrame Emp2Fr;
-        // { +0100 }
         public Aow.Units.AoWFrame.TAoWFrame Emp3Fr;
-        // { +0104 }
         public Aow.Units.AoWFrame.TAoWFrame Emp4Fr;
-        // { +0108 }
         public Aow.Units.AoWFrame.TAoWFrame Emp5Fr;
-        // { +010C }
         public Aow.Units.AoWFrame.TAoWFrame Emp6Fr;
-        // { +0110 }
         public Aow.Units.AoWFrame.TAoWFrame Emp7Fr;
-        // { +0114 }
         public Aow.Units.AoWFrame.TAoWFrame Emp8Fr;
-        // { +0118 }
         public Aow.Units.AoWFrame.TAoWFrame Emp1Chk;
-        // { +011C }
         public Aow.Units.AoWFrame.TAoWFrame Emp2Chk;
-        // { +0120 }
         public Aow.Units.AoWFrame.TAoWFrame Emp3Chk;
-        // { +0124 }
         public Aow.Units.AoWFrame.TAoWFrame Emp4Chk;
-        // { +0128 }
         public Aow.Units.AoWFrame.TAoWFrame Emp5Chk;
-        // { +012C }
         public Aow.Units.AoWFrame.TAoWFrame Emp6Chk;
-        // { +0130 }
         public Aow.Units.AoWFrame.TAoWFrame Emp7Chk;
-        // { +0134 }
         public Aow.Units.AoWFrame.TAoWFrame Emp8Chk;
-        // { +0138 }
         public Aow.Units.AoWPanel.TAOWPanel PartyIPnl;
-        // { +013C }
         public Aow.Units.AoWLabel.TAOWLabel PartyILbl;
-        // { +0140 }
         public Aow.Units.AoWButton.TAOWButton Center;
-        // { +0144 }
         public Aow.Units.AoWButton.TAOWButton Help;
-        // { +0148 }
         public Aow.Units.AoWButton.TAOWButton PPrev;
-        // { +014C }
         public Aow.Units.AoWButton.TAOWButton PMove;
-        // { +0150 }
         public Aow.Units.AoWButton.TAOWButton PNext;
-        // { +0154 }
         public Aow.Units.AoWPanel.TAOWPanel PControlPnl;
-        // { +0158 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox PGuard;
-        // { +015C }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame2;
-        // { +0160 }
         public Aow.Units.AoWPanel.TAOWPanel PartyB2Pbl;
-        // { +0164 }
         public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        // { +0168 }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +016C }
         public Aow.Units.AoWLabel.TAOWLabel PartyActionLbl1;
-        // { +0170 }
         public Aow.Units.AoWLabel.TAOWLabel PartyActionLbl2;
-        // { +0174 }
         public byte FSelection;
-        // { $178 }
-        public Aow.Units.FixedArray_byte_3 F_ControlWin_179;
         // AOWControlWin.pas:294
         public void DrawUnit(int Index, in Aow.Rtl.TRect R, ref Aow.Units.GFXE.TSurfaceDesc SD)
         {
@@ -268,7 +188,6 @@ namespace Aow.Units.AOWControlWin
         }
 
         // AOWControlWin.pas:312
-        // { 00405D98 }
         public void CWMinIconClick()
         {
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
@@ -276,7 +195,6 @@ namespace Aow.Units.AOWControlWin
         }
 
         // AOWControlWin.pas:318
-        // { draft }
         public void CloseClick(Aow.Rtl.TObject Sender)
         {
             if (Sender != null)
@@ -296,7 +214,6 @@ namespace Aow.Units.AOWControlWin
         }
 
         // AOWControlWin.pas:333
-        // { draft }
         public void Unit1FrameMouseDown(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             Aow.Units.AoWE.TAbstractUnit U = default;
@@ -382,7 +299,6 @@ namespace Aow.Units.AOWControlWin
         }
 
         // AOWControlWin.pas:375
-        // { draft }
         public void CheckEnd()
         {
             var call__23 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetSelection();
@@ -482,7 +398,6 @@ namespace Aow.Units.AOWControlWin
         }
 
         // AOWControlWin.pas:407
-        // { draft }
         public void Unit1ChkMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
             if (Button == Aow.Rtl.TMouseButton.mbRight)
@@ -496,7 +411,6 @@ namespace Aow.Units.AOWControlWin
         // AOWControlWin.pas:415
         public void CenterClick()
         {
-            // { Tried direct coordinate paths; no exact match. }
             Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
             var army = Aow.Units.AoWWinMan.AoWWinMan.General.FUnitList;
             Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(army.FX, army.FY, army.FL);
@@ -506,7 +420,6 @@ namespace Aow.Units.AOWControlWin
         }
 
         // AOWControlWin.pas:422
-        // { draft }
         public void Unit1FramePreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SurfDesc)
         {
             Aow.Rtl.TRect SaveRect = default;
@@ -528,28 +441,24 @@ namespace Aow.Units.AOWControlWin
         }
 
         // AOWControlWin.pas:442
-        // { draft }
         public void PPrevClick()
         {
             Aow.Units.AoWE.AoWE.AoWHSMap.SelectPrevArmy();
         }
 
         // AOWControlWin.pas:447
-        // { draft }
         public void PNextClick()
         {
             Aow.Units.AoWE.AoWE.AoWHSMap.SelectNextArmy();
         }
 
         // AOWControlWin.pas:452
-        // { draft }
         public void PMoveClick()
         {
             Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.ExecuteMove();
         }
 
         // AOWControlWin.pas:457
-        // { draft }
         public void PGuardChange()
         {
             if (PGuard.Checked)
@@ -571,7 +480,6 @@ namespace Aow.Units.AOWControlWin
 
     public static partial class AOWControlWin
     {
-        // { draft }
         public static Aow.Units.AOWControlWin.TControlWin ControlWin;
     }
 }

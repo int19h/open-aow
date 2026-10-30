@@ -38,14 +38,12 @@ using static Aow.Units.Animation.Animation;
 
 namespace Aow.Units.GlobalSpells
 {
-    // { TConcealAreaHS (instance size 24, VMT 557E8FBC): $0C/$0D/$0E
-//     X/Y/layer, $0F padding, $10 explored hexagons, $14 animation frame. }
+    // X/Y/layer explored hexagons, animation frame
     public partial class TConcealAreaHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
         public sbyte FX;
         public sbyte FY;
         public sbyte FLayer;
-        public Aow.Units.FixedArray_byte_1 F_ConcealAreaHS_0F;
         public Aow.Units.Engine.TIntegerList FHexagons;
         public int FFrame;
         // GlobalSpells.pas:205
@@ -56,7 +54,6 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:199
-        // { needs: pointer and Boolean results on the shared procedure drafts. }
         public TConcealAreaHS(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Units.Engine.TIntegerList();
@@ -178,8 +175,7 @@ namespace Aow.Units.GlobalSpells
 
     }
 
-    // { draft }
-    // { TConcealArea (instance size 52, VMT 557E9144): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type. }
+    // inherited name, spell ID, mana, sphere, level, type
     public partial class TConcealArea : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:286
@@ -374,14 +370,12 @@ namespace Aow.Units.GlobalSpells
         }
     }
 
-    // { TBirdsViewHS (instance size 24, VMT 557E925C): $0C/$0D/$0E
-//     X/Y/layer, $0F padding, $10 unexplored hexagons, $14 animation frame. }
+    // X/Y/layer unexplored hexagons, animation frame
     public partial class TBirdsViewHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
         public sbyte FX;
         public sbyte FY;
         public sbyte FLayer;
-        public Aow.Units.FixedArray_byte_1 F_BirdsViewHS_0F;
         public Aow.Units.Engine.TIntegerList FHexagons;
         public int FFrame;
         // GlobalSpells.pas:412
@@ -510,9 +504,7 @@ namespace Aow.Units.GlobalSpells
 
     }
 
-    // { draft }
-    // { TBirdsView (instance size 52, VMT 557E93E0): inherited $08 name, $10 spell ID,
-//     $14 mana, $20 sphere, $21 level, $22 spell type. }
+    // inherited name, spell ID, mana, sphere, level, spell type
     public partial class TBirdsView : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:489
@@ -611,17 +603,15 @@ namespace Aow.Units.GlobalSpells
         }
     }
 
-    // { TWarpPartyTE (instance size 40, VMT 557E94F4): $20 army ID, $24 packed destination. }
+    // army ID, packed destination
     public partial class TWarpPartyTE : Aow.Units.AoWE.TSpellTE
     {
         // GlobalSpells.pas:564
         public new const int ClassID = 135948;
 
         public Aow.Units.AoWE.TArmyID FArmyID;
-        // { $20 }
         public Aow.Units.HSEngine.TXYL FWarpLocation;
         // GlobalSpells.pas:558
-        // { $24 }
         public override void Destroy()
         {
             FArmyID.Free();
@@ -778,8 +768,7 @@ namespace Aow.Units.GlobalSpells
 
     }
 
-    // { TWarpParty (instance size 52, VMT 557E95CC): inherited $08 name, $10 ID,
-//     $14 mana, $20 sphere, $21 level, $22 spell type. }
+    // inherited name, ID, mana, sphere, level, spell type
     public partial class TWarpParty : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:632
@@ -989,7 +978,7 @@ namespace Aow.Units.GlobalSpells
         }
     }
 
-    // { TResurrectHero (instance size 52, VMT 557E96E0): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
+    // inherited name, spell ID, mana, sphere, level, type, sounds, images
     public partial class TResurrectHero : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:980
@@ -1165,7 +1154,7 @@ namespace Aow.Units.GlobalSpells
         }
     }
 
-    // { TAnimateHero (instance size 52, VMT 557E97FC): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
+    // inherited name, spell ID, mana, sphere, level, type, sounds, images
     public partial class TAnimateHero : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:1080
@@ -1346,7 +1335,7 @@ namespace Aow.Units.GlobalSpells
         }
     }
 
-    // { TCallHero (instance size 52, VMT 557E9914): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
+    // inherited name, spell ID, mana, sphere, level, type, sounds, images
     public partial class TCallHero : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:1184
@@ -1597,7 +1586,7 @@ namespace Aow.Units.GlobalSpells
         }
     }
 
-    // { TDisjunctionTE (instance size 40, VMT 557E9A24): $20 dispel chance, $24 enchantment ID. }
+    // dispel chance, enchantment ID
     public partial class TDisjunctionTE : Aow.Units.AoWE.TSpellTE
     {
         public TDisjunctionTE(TECustomNode owner) : base(owner)
@@ -1607,10 +1596,8 @@ namespace Aow.Units.GlobalSpells
         public new const int ClassID = 135961;
 
         public int FDispelChance;
-        // { $20 }
         public int FEnchantmentID;
         // GlobalSpells.pas:750
-        // { $24 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -1706,15 +1693,12 @@ namespace Aow.Units.GlobalSpells
 
     }
 
-    // { TDisjunctionSpellCaster (instance size 28, VMT 557E9B00): $14 enchantment ID,
-//     $18 dispel chance; inherited $08 spell ID, $0C source unit ID, $10 references. }
+    // enchantment ID, dispel chance. inherited spell ID, source unit ID, references
     public partial class TDisjunctionSpellCaster : Aow.Units.AoWE.TSpellCaster
     {
         public int FEnchantmentID;
-        // { $14 }
         public int FDispelChance;
         // GlobalSpells.pas:806
-        // { $18 }
         public TDisjunctionSpellCaster(TECustomNode owner) : base(owner)
         {
             FDispelChance = 50;
@@ -1916,7 +1900,7 @@ namespace Aow.Units.GlobalSpells
 
     }
 
-    // { TDisjunction (instance size 52, VMT 557E9BE4): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
+    // inherited name, spell ID, mana, sphere, level, type, sounds, images
     public partial class TDisjunction : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:931
@@ -2005,7 +1989,7 @@ namespace Aow.Units.GlobalSpells
         }
     }
 
-    // { TCrusade (instance size 52, VMT 557E9CFC): inherited $08 name, $10 spell ID, $14 mana, $20 sphere, $21 level, $22 type, $28 sounds, $2C images. }
+    // inherited name, spell ID, mana, sphere, level, type, sounds, images
     public partial class TCrusade : Aow.Units.AoWE.TSpell
     {
         // GlobalSpells.pas:1302

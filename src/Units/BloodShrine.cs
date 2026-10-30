@@ -36,7 +36,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.BloodShrine
 {
-    // { TBloodShrineAnimation: size $3C, VMT 557E26D0; no additional fields. }
     public partial class TBloodShrineAnimation : Aow.Units.Animation.TAnimation
     {
         public TBloodShrineAnimation(TECustomNode owner) : base(owner)
@@ -65,7 +64,6 @@ namespace Aow.Units.BloodShrine
 
     }
 
-    // { TBloodShrine: size $30, VMT 557E2880; no additional fields. }
     public partial class TBloodShrine : Aow.Units.AoWE.TStructure
     {
         public TBloodShrine(TECustomNode owner) : base(owner)
@@ -153,7 +151,6 @@ namespace Aow.Units.BloodShrine
 
     }
 
-    // { TBloodShrineResource: size $64, VMT 557E2AEC; no additional fields. }
     public partial class TBloodShrineResource : Aow.Units.AoWE.TStructureResource
     {
         public TBloodShrineResource(TECustomNode owner) : base(owner)

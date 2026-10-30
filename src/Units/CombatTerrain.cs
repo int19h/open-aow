@@ -42,7 +42,6 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CombatTerrain
 {
-    // { TCombatTerrainShadow (instance size 12, VMT 0040FB0C) }
     public partial class TCombatTerrainShadow : Aow.Units.HSEngine.THexagonSprite
     {
         public TCombatTerrainShadow(TECustomNode owner) : base(owner)
@@ -50,7 +49,6 @@ namespace Aow.Units.CombatTerrain
 
         public Aow.Units.CombatTerrain.TCombatTerrain FTerrain;
         // CombatTerrain.pas:72
-        // { $08 }
         public override int GetShowPriority()
         {
             int Result = default;
@@ -69,7 +67,6 @@ namespace Aow.Units.CombatTerrain
 
     }
 
-    // { TCombatTerrain (instance size 36, VMT 0040FCA0) }
     public partial class TCombatTerrain : Aow.Units.Terrain.TTerrainMO
     {
         public TCombatTerrain(TECustomNode owner) : base(owner)
@@ -79,15 +76,10 @@ namespace Aow.Units.CombatTerrain
         public new const int ClassID = 2228582;
 
         public Aow.Units.CombatTerrain.TCombatTerrainShadow FShadow;
-        // { $14 }
         public int FHitPoints;
-        // { $18 }
         public bool FDamaged;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 F_CombatTerrain_1D;
         public int FDefense;
         // CombatTerrain.pas:85
-        // { $20 }
         public override void Destroy()
         {
             DestroyShadow();
@@ -393,7 +385,6 @@ namespace Aow.Units.CombatTerrain
 
     }
 
-    // { TCombatTerrainResource (instance size 76, VMT 0040FE54) }
     public partial class TCombatTerrainResource : Aow.Units.Terrain.TTerrainMOR
     {
         public TCombatTerrainResource(TECustomNode owner) : base(owner)
@@ -403,14 +394,10 @@ namespace Aow.Units.CombatTerrain
         public new const int ClassID = 2228583;
 
         public sbyte FBurnValue;
-        // { $48; AoWEd 0040B0AB }
         public sbyte FDefense;
-        // { $49 }
         public byte FHitPoints;
-        // { $4A; AoWEd 0040B0C2 }
         public bool FMeleeTarget;
         // CombatTerrain.pas:310
-        // { $4B; AoWEd 0040B0D6 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);

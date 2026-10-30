@@ -49,7 +49,7 @@ namespace Aow.Units.Cave
     }
 
     // { ot=1 }
-    // { TCave (instance size 52, VMT 557B3018): +$30 FEntrance. }
+    // FEntrance
     public partial class TCave : Aow.Units.AoWE.TStructure
     {
         public TCave(TECustomNode owner) : base(owner)
@@ -61,7 +61,6 @@ namespace Aow.Units.Cave
         public new const int ClassID = 131966;
 
         public Aow.Units.Cave.TCaveEntrance FEntrance;
-        public Aow.Units.FixedArray_byte_3 F_Cave_31;
         // Cave.pas:134
         public override void Destroy()
         {
@@ -654,7 +653,6 @@ namespace Aow.Units.Cave
 
     }
 
-    // { TCaveResource (instance size 100, VMT 557B326C) }
     public partial class TCaveResource : Aow.Units.AoWE.TStructureResource
     {
         public TCaveResource(TECustomNode owner) : base(owner)
@@ -690,7 +688,7 @@ namespace Aow.Units.Cave
 
     }
 
-    // { TEnterCaveEventLog (instance size 44, VMT 557B335C): +$28 FCave. }
+    // FCave
     public partial class TEnterCaveEventLog : Aow.Units.EventLog.TMessageEventLog
     {
         public TEnterCaveEventLog(TECustomNode owner) : base(owner)
@@ -762,7 +760,7 @@ namespace Aow.Units.Cave
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Cave.TCave>(), Aow.Units.Engine.EClass.Of<Aow.Units.Cave.TCaveResource>()]);
         }
 
-        // { Original AoWE resource initialization table $55798BC0..$557990E4. }
+        // Original AoWE resource initialization table
         public static Aow.Rtl.AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
         public static readonly Aow.Rtl.AnsiString CaveNoWarRStr = (AnsiString)"Not at war with the %s";
 

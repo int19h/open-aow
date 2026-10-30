@@ -16,8 +16,7 @@ using static Aow.Units.HSEngine.HSEngine;
 
 namespace Aow.Units.HSLib
 {
-    // { HSLib.THSLibrary (instance size 92): +$50 FList (the TLibraryHS it created), +$54 FHSEngine,
-//     +$58 FEngine }
+    // FList (the TLibraryHS it created), FHSEngine, FEngine
     public partial class THSLibrary : Aow.Units.ImageLib.TImageLibrary
     {
         internal Aow.Rtl.TList FList;
@@ -44,7 +43,6 @@ namespace Aow.Units.HSLib
         }
 
         // HSLib.pas:279
-        // { THSLibrary }
         public THSLibrary(TComponent owner) : base(owner)
         {
             var call__3 = new Aow.Rtl.TList();
@@ -100,10 +98,9 @@ namespace Aow.Units.HSLib
         public Aow.Units.HSEngine.THexagonSpriteEngine Engine { get => FEngine; set => SetEngine(value); }
     }
 
-    // { HSLib.TLibraryHS (instance size 44): a library image shown at a pixel position of the map.
-//     +$18 FMapContainer, +$1C FLevel (the show level, 30 by default), +$20 FImage, +$24
-//     FDestroyOnShow, +$28 FLibrary (the THSLibrary that created it). FXhp = Low(Integer) means not
-//     placed. }
+    // a library image shown at a pixel position of the map. FMapContainer, FLevel (the show level,
+    // 30 by default), FImage, FDestroyOnShow, FLibrary (the THSLibrary that created it). FXhp =
+    // Low(Integer) means not placed
     public partial class TLibraryHS : Aow.Units.HSEngine.THPBasedHS
     {
         public TLibraryHS(TECustomNode owner) : base(owner)
@@ -117,7 +114,6 @@ namespace Aow.Units.HSLib
         internal bool FDestroyOnShow;
         internal Aow.Units.HSLib.THSLibrary FLibrary;
         // HSLib.pas:75
-        // { TLibraryHS }
 
 
         // HSLib.pas:81

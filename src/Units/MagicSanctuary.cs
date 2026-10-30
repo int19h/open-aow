@@ -34,8 +34,7 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.MagicSanctuary
 {
-    // { TMagicSanctuaryOverlayHS (instance size 20, VMT 557D404C):
-//     $0C FStructure; $10 FFadeEndFrame. }
+    // FStructure. FFadeEndFrame
     public partial class TMagicSanctuaryOverlayHS : Aow.Units.HSEngine.TSingleHS
     {
         public TMagicSanctuaryOverlayHS(TECustomNode owner) : base(owner)
@@ -44,10 +43,8 @@ namespace Aow.Units.MagicSanctuary
         }
 
         public Aow.Units.MagicSanctuary.TMagicSanctuary FStructure;
-        // { $0C }
         public int FFadeEndFrame;
         // MagicSanctuary.pas:67
-        // { $10 }
 
 
         // MagicSanctuary.pas:73
@@ -109,7 +106,7 @@ namespace Aow.Units.MagicSanctuary
 
     }
 
-    // { TMagicSanctuary (instance size 52, VMT 557D41F4): $30 FOverlayHS. }
+    // FOverlayHS
     public partial class TMagicSanctuary : Aow.Units.AoWE.TStructure
     {
         public TMagicSanctuary(TECustomNode owner) : base(owner)
@@ -124,7 +121,6 @@ namespace Aow.Units.MagicSanctuary
 
         public Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS FOverlayHS;
         // MagicSanctuary.pas:117
-        // { $30 }
         public override void Destroy()
         {
             Aow.Units.AoWE.AoWE.AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
@@ -171,7 +167,6 @@ namespace Aow.Units.MagicSanctuary
 
     }
 
-    // { TMagicSanctuaryResource (instance size 100, VMT 557D4464) }
     public partial class TMagicSanctuaryResource : Aow.Units.AoWE.TStructureResource
     {
         public TMagicSanctuaryResource(TECustomNode owner) : base(owner)

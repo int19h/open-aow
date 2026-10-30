@@ -44,50 +44,30 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CMapCtrl
 {
-    // { TAoWCombatMapControl: size $C4; event methods occupy $24..$C3. VMT 00435F38. }
+    // event methods occupy
     public partial class TAoWCombatMapControl : Aow.Rtl.TComponent
     {
         public Aow.Units.CMapCtrl.TSelectHSEvent FOnSelected;
-        // { $24 }
         public Aow.Units.CMapCtrl.TSelectHSEvent FOnDeselected;
-        // { $2C }
         public Aow.Rtl.TNotifyEvent FOnActivateHSM;
-        // { $34 }
         public Aow.Rtl.TNotifyEvent FOnDeactivateHSM;
-        // { $3C }
         public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnIncomeChanged;
-        // { $44 }
         public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnUpkeepChanged;
-        // { $4C }
         public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnGemsChanged;
-        // { $54 }
         public Aow.Units.CMapCtrl.TShowMessageEvent FOnShowMessage;
-        // { $5C }
         public Aow.Units.CMapCtrl.TTurnChangedEvent FOnTurnChanged;
-        // { $64 }
         public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnPlayerChanged;
-        // { $6C }
         public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnSeatedPlayerChanged;
-        // { $74 }
         public Aow.Units.CMapCtrl.TOnExecuteEventLogEvent FOnExecuteEventLog;
-        // { $7C }
         public Aow.Units.CMapCtrl.TMapChangedEvent FOnMapChanged;
-        // { $84 }
         public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnLogbookChanged;
-        // { $8C }
         public Aow.Rtl.TNotifyEvent FOnActivateMap;
-        // { $94 }
         public Aow.Rtl.TNotifyEvent FOnDeActivateMap;
-        // { $9C }
         public Aow.Units.CMapCtrl.TSelectHSEvent FOnMouseOverTarget;
-        // { $A4 }
         public Aow.Units.CMapCtrl.TSelectHSEvent FOnUnitChanged;
-        // { $AC }
         public Aow.Units.CMapCtrl.TCastCombatSpellEvent FOnCastSpell;
-        // { $B4 }
         public Aow.Units.CMapCtrl.TActivateCombatAbilityEvent FOnActivateAbility;
         // CMapCtrl.pas:117
-        // { $BC }
         public override void Destroy()
         {
             if (Aow.Units.AoWE.AoWE.AoWEngine != null)

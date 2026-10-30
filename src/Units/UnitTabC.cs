@@ -36,20 +36,16 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.UnitTabC
 {
-    // { TUnitTabControl (instance size 336, VMT 55800EA4):
-//     $140 selection control, $144 unit index grid, $148 selection event. }
+    // selection control, unit index grid, selection event
     public partial class TUnitTabControl : Aow.Rtl.TTabControl
     {
         public Aow.Units.AoWE.TUnitSelectionControl FSelectionControl;
-        // { $140 }
         public Aow.Units.UnitIGrd.TUnitIndexGrid FUnitIndexGrid;
-        // { $144 }
         public Aow.Units.UnitTabC.TOnSelectUnitEvent FOnSelectUnit;
         // UnitTabC.pas:42
-        // { $148 }
         public override void Destroy()
         {
-            /* TODO(T-shim) Platform or editor boundary ComCtrls.Destroy */
+            /* TODO: Implement ComCtrls.Destroy in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -57,14 +53,14 @@ namespace Aow.Units.UnitTabC
 
         public TUnitTabControl(TComponent owner) : base(owner)
         {
-            /* TODO(T-shim) Platform or editor boundary ComCtrls.Create */
+            /* TODO: Implement ComCtrls.Create in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitTabC.pas:48
         protected internal override void Change()
         {
-            /* TODO(T-shim) Platform or editor boundary ComCtrls.Change */
+            /* TODO: Implement ComCtrls.Change in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -103,14 +99,14 @@ namespace Aow.Units.UnitTabC
         // UnitTabC.pas:76
         public void UpdateUnitIndexGrid()
         {
-            /* TODO(T-shim) Platform or editor boundary ComCtrls.TabIndex */
+            /* TODO: Implement ComCtrls.TabIndex in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // UnitTabC.pas:105
         public void UpdateSelection()
         {
-            /* TODO(T-shim) Platform or editor boundary ComCtrls.Tabs */
+            /* TODO: Implement ComCtrls.Tabs in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 

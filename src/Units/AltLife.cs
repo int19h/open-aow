@@ -38,7 +38,6 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AltLife
 {
-    // { TAltarOfLife (instance size 68, no added fields, VMT 557D1BCC) }
     public partial class TAltarOfLife : Aow.Units.Altar.TAltar
     {
         public TAltarOfLife(TECustomNode owner) : base(owner)
@@ -57,7 +56,6 @@ namespace Aow.Units.AltLife
 
     }
 
-    // { TAltarOfLifeResource (instance size 116, no added fields, VMT 557D1E84) }
     public partial class TAltarOfLifeResource : Aow.Units.Altar.TAltarResource
     {
         public TAltarOfLifeResource(TECustomNode owner) : base(owner)

@@ -39,7 +39,7 @@ namespace Aow.Units.Tower
         tsRazed = 0
     }
 
-    // { TTower (instance size 64, VMT 557C31A8): $3C FState, bit 0 razed. }
+    // FState, bit 0 razed
     public partial class TTower : Aow.Units.AoWE.TPlayerStructure
     {
         public TTower(TECustomNode owner) : base(owner)
@@ -49,7 +49,6 @@ namespace Aow.Units.Tower
         public new const int ClassID = 132158;
 
         public TSet<Aow.Units.Tower.TTowerStateElement> FState;
-        public Aow.Units.FixedArray_byte_3 F_Tower_3D;
         // Tower.pas:96
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -177,7 +176,6 @@ namespace Aow.Units.Tower
 
     }
 
-    // { TTowerResource (instance size 116, VMT 557C3434): no additional fields. }
     public partial class TTowerResource : Aow.Units.AoWE.TPlayerStructureResource
     {
         public TTowerResource(TECustomNode owner) : base(owner)
@@ -219,7 +217,6 @@ namespace Aow.Units.Tower
 
     }
 
-    // { TTowerConstructionControl (instance size 8, VMT 557C352C) }
     public partial class TTowerConstructionControl : Aow.Units.AoWE.TStructureConstructionControl
     {
         public TTowerConstructionControl(TECustomNode owner) : base(owner)
@@ -268,7 +265,6 @@ namespace Aow.Units.Tower
         public override Aow.Units.AoWE.TStructureResource StructureResource(Aow.Units.AoWE.TAbstractUnit AUnit)
         {
             Aow.Units.AoWE.TStructureResource Result = default;
-            // { conflict: function TTowerConstructionControl.StructureResource: TStructureResource; }
             var call__25 = Aow.Units.AoWE.AoWE.AoWHSSet.MapObjectResourceList.FindChild(132159);
             Result = (Aow.Units.AoWE.TStructureResource)call__25;
             return Result;
@@ -287,7 +283,6 @@ namespace Aow.Units.Tower
     public static partial class Tower
     {
         // Tower.pas:159
-        // { conflict: function StructureResource: TStructureResource; override; }
         public static void RegisterTower(Aow.Units.Engine.TEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Tower.TTower>(), Aow.Units.Engine.EClass.Of<Aow.Units.Tower.TTowerResource>()]);

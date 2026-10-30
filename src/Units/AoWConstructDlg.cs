@@ -58,55 +58,34 @@ using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWConstructDlg
 {
-    // { TConstructDlg: size $98; $94 activation request. VMT 00431368. }
+    // activation request
     public partial class TConstructDlg : Aow.Rtl.TDataModule
     {
         public TConstructDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +0044 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0050 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        // { +0054 }
         public Aow.Units.AoWButton.TAOWButton ConstructBtn;
-        // { +0058 }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +005C }
         public Aow.Units.AoWPanel.TAOWPanel ConstructPnl;
-        // { +0060 }
         public Aow.Units.AoWListBox.TAOWListBox ConstructionList;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton SortConstructionsBtn;
-        // { +0068 }
         public Aow.Units.AoWButton.TAOWButton SortConstructionCostBtn;
-        // { +006C }
         public Aow.Units.AoWListBox.TAOWListBox ConstructionCostList;
-        // { +0070 }
         public Aow.Units.AoWListBox.TAOWListBox ConstructionTurnsList;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton SortConstructionTurnsBtn;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel AOWLabel1;
-        // { +007C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar ConSB;
-        // { +0080 }
         public Aow.Units.AoWImage.TAOWImage CeltM;
-        // { +0084 }
         public Aow.Units.AoWButton.TAOWButton AOWButton2;
-        // { +0088 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar T4VSB;
-        // { +008C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +0090 }
         public Aow.Units.AoWE.TActivateAbilityInfo FRequest;
         // AoWConstructDlg.pas:117
-        // { $94 }
         public void Execute(Aow.Units.AoWE.TActivateAbilityInfo Request)
         {
             if (FRequest != null)

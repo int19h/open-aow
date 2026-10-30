@@ -34,30 +34,21 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.HeroGrid
 {
-    // { THeroGrid (instance size 496, VMT 558012E8); $1DC indices, $1E0 heroes, $1E4 show level, $1E6 show status, $1E8 stream, $1EC sort. }
+    // indices, heroes, show level, show status, stream, sort
     public partial class THeroGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
         public Aow.Units.Engine.TIntegerList FIndices;
-        // { +$1DC }
         public Aow.Units.AoWE.THeroList FHeroes;
-        // { +$1E0 }
         public bool FShowLevel;
-        // { $1E4 }
         public bool FEditable;
-        // { $1E5; AoWEd 00424B1C/00424BEA }
         public bool FShowStatus;
-        // { $1E6 }
         public bool FUnplacedOnly;
-        // { +$1E7 }
         public Aow.Rtl.TMemoryStream FStream;
-        // { +$1E8 }
         public byte FSort;
-        // { +$1EC }
-        public Aow.Units.FixedArray_byte_3 FReserved1ED;
         // HeroGrid.pas:126
         public override void Destroy()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Destroy */
+            /* TODO: Implement Grids.Destroy in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -80,7 +71,7 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:226
         protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Canvas */
+            /* TODO: Implement Controls.Canvas in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -124,7 +115,7 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:151
         public Aow.Units.AoWE.THero GetSelectedHero()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -148,14 +139,14 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:172
         public void SortHeroes(byte Mode)
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
         // HeroGrid.pas:183
         public void UpdateHeroes()
         {
-            /* TODO(T-shim) Platform or editor boundary Controls.Invalidate */
+            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
@@ -202,11 +193,10 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:320
         public void DeleteSelectedHero()
         {
-            /* TODO(T-shim) Platform or editor boundary Grids.Col */
+            /* TODO: Implement Grids.Col in the platform or editor service. */
             throw new System.NotImplementedException();
         }
 
-        // { AoWEd 00424BEA }
         [Published]
         public bool EditHeroEnabled { get => FEditable; set => FEditable = value; }
 

@@ -41,32 +41,21 @@ using static Aow.Units.AoWControl.AoWControl;
 namespace Aow.Units.TurnButton
 {
     // { ot=1 }
-    // { TAOWTurnButton: instance size $144; $114 library, $118 current player, $11C last player,
-//     $120 animating, $124 animation phase, $128 frame offset, $12C done event,
-//     $134 change event, $13C checked, $140 animation frame. }
+    // library, current player, last player, animating, animation phase, frame offset, done event,
+    // change event, checked, animation frame
     public partial class TAOWTurnButton : Aow.Units.AoWControl.TAOWControl
     {
         public Aow.Units.ImageLib.TImageLibrary FImageLib;
-        // { $114 }
         public int FCurPlayer;
-        // { $118 }
         public int FLastPlayer;
-        // { $11C }
         public bool FAnimating;
-        // { $120 }
         public int FAnimationPhase;
-        // { $124 }
         public int FFrameOffset;
-        // { $128 }
         public Aow.Rtl.TNotifyEvent FOnAnimDone;
-        // { $12C }
         public Aow.Rtl.TNotifyEvent FOnPlayerChange;
-        // { $134 }
         public bool FButtonChecked;
-        // { $13C }
         public int FAnimationFrame;
         // TurnButton.pas:54
-        // { $140 }
         public TAOWTurnButton(TComponent owner) : base(owner)
         {
             FFrameOffset = 11;

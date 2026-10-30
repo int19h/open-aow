@@ -74,149 +74,81 @@ using static Aow.Units.AoWInfoBanner.AoWInfoBanner;
 
 namespace Aow.Units.AoWTCUnit
 {
-    // { TTCUnit (instance size $154, VMT 00433494); components $44..$150. }
+    // components
     public partial class TTCUnit : Aow.Rtl.TDataModule
     {
         public TTCUnit(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow TCUnitWin;
-        // { +0044 }
         public Aow.Units.AoWImage.TAOWImage SIcon;
-        // { +0048 }
         public Aow.Units.AoWButton.TAOWButton Min;
-        // { +004C }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel IWTitle;
-        // { +0054 }
         public Aow.Units.AoWImage.TAOWImage UAttackIcon;
-        // { +0058 }
         public Aow.Units.AoWImage.TAOWImage UDefenseIcon;
-        // { +005C }
         public Aow.Units.AoWImage.TAOWImage UMovesIcon;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage UDamageIcon;
-        // { +0064 }
         public Aow.Units.AoWImage.TAOWImage UResistanceIcon;
-        // { +0068 }
         public Aow.Units.AoWImage.TAOWImage UHitsIcon;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel UAttack;
-        // { +0070 }
         public Aow.Units.AoWLabel.TAOWLabel UDefense;
-        // { +0074 }
         public Aow.Units.AoWLabel.TAOWLabel UMoves;
-        // { +0078 }
         public Aow.Units.AoWLabel.TAOWLabel UDamage;
-        // { +007C }
         public Aow.Units.AoWLabel.TAOWLabel UResistance;
-        // { +0080 }
         public Aow.Units.AoWLabel.TAOWLabel UHits;
-        // { +0084 }
         public Aow.Units.AoWMemo.TAOWMemo UnitName;
-        // { +0088 }
         public Aow.Units.AoWPanel.TAOWPanel UStatPnl;
-        // { +008C }
         public Aow.Units.AoWListBox.TAOWListBox UAbilLB;
-        // { +0090 }
         public Aow.Units.AoWLabel.TAOWLabel AbilNameLbl;
-        // { +0094 }
         public Aow.Units.AoWPanel.TAOWPanel TCUnitPnl;
-        // { +0098 }
         public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        // { +009C }
         public Aow.Units.AoWMemo.TAOWMemo AUnitName;
-        // { +00A0 }
         public Aow.Units.AoWListBox.TAOWListBox USelAbilLb;
-        // { +00A4 }
         public Aow.Units.AoWPanel.TAOWPanel TCAbilPnl;
-        // { +00A8 }
         public Aow.Units.AoWImage.TAOWImage AbilAtt;
-        // { +00AC }
         public Aow.Units.AoWLabel.TAOWLabel AbilAttLbl;
-        // { +00B0 }
         public Aow.Units.AoWPanel.TAOWPanel AbilStatBox;
-        // { +00B4 }
         public Aow.Units.AoWListBox.TAOWListBox AbilStat;
-        // { +00B8 }
         public Aow.Units.AoWImage.TAOWImage AbilDam;
-        // { +00BC }
         public Aow.Units.AoWLabel.TAOWLabel AbilDamLbl;
-        // { +00C0 }
         public Aow.Units.AoWLabel.TAOWLabel TargetLbl;
-        // { +00C4 }
         public Aow.Units.AoWLabel.TAOWLabel TargetULbl;
-        // { +00C8 }
         public Aow.Units.AoWPanel.TAOWPanel TargetSelPnl;
-        // { +00CC }
         public Aow.Units.AoWPanel.TAOWPanel NoTargetPnl;
-        // { +00D0 }
         public Aow.Units.AoWMemo.TAOWMemo TargetMessage;
-        // { +00D4 }
         public Aow.Units.AOWGauge.TAoWGauge UnitHits;
-        // { +00D8 }
         public Aow.Units.AOWGauge.TAoWGauge UnitMana;
-        // { +00DC }
         public Aow.Units.AoWImage.TAOWImage CelticCross;
-        // { +00E0 }
         public Aow.Units.AoWPanel.TAOWPanel UStatP1;
-        // { +00E4 }
         public Aow.Units.AoWPanel.TAOWPanel UStatP2;
-        // { +00E8 }
         public Aow.Units.AoWImage.TAOWImage AAttackIcon;
-        // { +00EC }
         public Aow.Units.AoWImage.TAOWImage ADefenseIcon;
-        // { +00F0 }
         public Aow.Units.AoWImage.TAOWImage AMovesIcon;
-        // { +00F4 }
         public Aow.Units.AoWImage.TAOWImage ADamageIcon;
-        // { +00F8 }
         public Aow.Units.AoWImage.TAOWImage AResistanceIcon;
-        // { +00FC }
         public Aow.Units.AoWImage.TAOWImage AHitsIcons;
-        // { +0100 }
         public Aow.Units.AoWLabel.TAOWLabel AAttack;
-        // { +0104 }
         public Aow.Units.AoWLabel.TAOWLabel ADefense;
-        // { +0108 }
         public Aow.Units.AoWLabel.TAOWLabel AMoves;
-        // { +010C }
         public Aow.Units.AoWLabel.TAOWLabel ADamage;
-        // { +0110 }
         public Aow.Units.AoWLabel.TAOWLabel AResistance;
-        // { +0114 }
         public Aow.Units.AoWLabel.TAOWLabel AHits;
-        // { +0118 }
         public Aow.Units.AoWPanel.TAOWPanel AStatPnl;
-        // { +011C }
         public Aow.Units.AoWPanel.TAOWPanel AStatP1;
-        // { +0120 }
         public Aow.Units.AoWPanel.TAOWPanel AStatP2;
-        // { +0124 }
         public Aow.Units.AoWButton.TAOWButton Center;
-        // { +0128 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AbilSB;
-        // { +012C }
         public Aow.Units.AoWVScroll.TAOWVScrollBar UAbilSB;
-        // { +0130 }
         public Aow.Units.AoWVScroll.TAOWVScrollBar AOWVScrollBar1;
-        // { +0134 }
         public Aow.Units.AoWPanel.TAOWPanel AbilFr;
-        // { +0138 }
         public Aow.Units.AoWPanel.TAOWPanel ANameFr;
-        // { +013C }
         public Aow.Units.AoWPanel.TAOWPanel TargerFr;
-        // { +0140 }
         public Aow.Units.AoWPanel.TAOWPanel TNamePnl;
-        // { +0144 }
         public Aow.Units.AoWPanel.TAOWPanel UnitFr;
-        // { +0148 }
         public Aow.Units.aowUserDrawBox.TaowUserDrawBox UnitBox;
-        // { +014C }
         public Aow.Rtl.TIvTranslator Translator;
         // AoWTCUnit.pas:106
-        // { +0150 }
         public void TCUnitWinResize()
         {
             this.TCUnitWin.Alignment.RightOffset = (this.TCUnitWin.WinManager.WinWidth - this.TCUnitWin.WinLeft) - this.TCUnitWin.WinWidth;
@@ -320,7 +252,6 @@ namespace Aow.Units.AoWTCUnit
         // AoWTCUnit.pas:168
         public void UAbilLBMouseMove(Aow.Rtl.TObject Sender, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            // { Tried reload final movement operand through global; no exact match. }
             if (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null)
             {
                 var call__16 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.GetPlayer();

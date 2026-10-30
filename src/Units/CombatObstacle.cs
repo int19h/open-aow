@@ -42,7 +42,6 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CombatObstacle
 {
-    // { TCombatObstacleShadow (instance size 12, VMT 00431888) }
     public partial class TCombatObstacleShadow : Aow.Units.HSEngine.THexagonSprite
     {
         public TCombatObstacleShadow(TECustomNode owner) : base(owner)
@@ -50,7 +49,6 @@ namespace Aow.Units.CombatObstacle
 
         public Aow.Units.CombatObstacle.TCombatObstacle FObstacle;
         // CombatObstacle.pas:74
-        // { $08 }
         public override int GetShowPriority()
         {
             int Result = default;
@@ -69,7 +67,6 @@ namespace Aow.Units.CombatObstacle
 
     }
 
-    // { TCombatObstacleOverlay (instance size 12, VMT 00431A20) }
     public partial class TCombatObstacleOverlay : Aow.Units.HSEngine.THexagonSprite
     {
         public TCombatObstacleOverlay(TECustomNode owner) : base(owner)
@@ -77,7 +74,6 @@ namespace Aow.Units.CombatObstacle
 
         public Aow.Units.CombatObstacle.TCombatObstacle FObstacle;
         // CombatObstacle.pas:84
-        // { $08 }
         public override int GetShowPriority()
         {
             int Result = default;
@@ -96,7 +92,6 @@ namespace Aow.Units.CombatObstacle
 
     }
 
-    // { TCombatObstacle (instance size 28, VMT 00431BB8) }
     public partial class TCombatObstacle : Aow.Units.HSEngine.TMultiHexMO
     {
         public TCombatObstacle(TECustomNode owner) : base(owner)
@@ -106,10 +101,8 @@ namespace Aow.Units.CombatObstacle
         public new const int ClassID = 2229546;
 
         public Aow.Units.CombatObstacle.TCombatObstacleShadow FShadow;
-        // { $14 }
         public Aow.Units.CombatObstacle.TCombatObstacleOverlay FOverlay;
         // CombatObstacle.pas:97
-        // { $18 }
         public override void Destroy()
         {
             DestroyShadow();
@@ -320,7 +313,6 @@ namespace Aow.Units.CombatObstacle
 
     }
 
-    // { TCombatObstacleResource (instance size 68, VMT 00431D60) }
     public partial class TCombatObstacleResource : Aow.Units.HSEngine.TMultiHexMOR
     {
         public TCombatObstacleResource(TECustomNode owner) : base(owner)

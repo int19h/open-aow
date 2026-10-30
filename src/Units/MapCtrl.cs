@@ -36,102 +36,55 @@ using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.MapCtrl
 {
-    // { TAoWMapControl (instance size 404, VMT 55804D8C) }
     public partial class TAoWMapControl : Aow.Rtl.TComponent
     {
         public Aow.Units.MapCtrl.TMapObjectEvent FOnSelectArmy;
-        // { +$24 }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnDeselectArmy;
-        // { +$2C }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnDblClickArmy;
-        // { +$34 }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnArmyChanged;
-        // { +$3C }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnArmyDestroyed;
-        // { +$44 }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnSelectStructure;
-        // { +$4C }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnDeselectStructure;
-        // { +$54 }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnDblClickStructure;
-        // { +$5C }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnStructureChanged;
-        // { +$64 }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnStructureDestroyed;
-        // { +$6C }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnSelectItem;
-        // { +$74 }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnDeselectItem;
-        // { +$7C }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnUnitChanged;
-        // { +$84 }
         public Aow.Units.MapCtrl.TMapObjectEvent FOnUnitDestroyed;
-        // { +$8C }
         public Aow.Rtl.TNotifyEvent FOnActivateAbility;
-        // { +$94 }
         public Aow.Rtl.TNotifyEvent FOnDiplomaticChange;
-        // { +$9C }
         public Aow.Rtl.TNotifyEvent FOnActivateHSM;
-        // { +$A4 }
         public Aow.Rtl.TNotifyEvent FOnDeactivateHSM;
-        // { +$AC }
         public Aow.Units.MapCtrl.TMapPlayerEvent FOnIncomeChanged;
-        // { +$B4 }
         public Aow.Units.MapCtrl.TMapPlayerEvent FOnUpkeepChanged;
-        // { +$BC }
         public Aow.Units.MapCtrl.TMapPlayerEvent FOnGemsChanged;
-        // { +$C4 }
         public Aow.Units.MapCtrl.TMapPlayerEvent FOnPlayerMagicChanged;
-        // { +$CC }
         public Aow.Rtl.TNotifyEvent FOnGlobalMagicChanged;
-        // { +$D4 }
         public Aow.Rtl.TNotifyEvent FOnShowMessage;
-        // { +$DC }
         public Aow.Units.MapCtrl.TMapDayEvent FOnChangeDay;
-        // { +$E4 }
         public Aow.Rtl.TNotifyEvent FOnNewTurn;
-        // { +$EC }
         public Aow.Units.MapCtrl.TMapPlayerEvent FOnPlayerChanged;
-        // { +$F4 }
         public Aow.Units.MapCtrl.TMapPlayerEvent FOnSeatedPlayerChanged;
-        // { +$FC }
         public Aow.Rtl.TNotifyEvent FOnCombatEvent;
-        // { +$104 }
         public Aow.Units.MapCtrl.TMapExecuteLogEvent FOnExecuteEventLog;
-        // { +$10C }
         public Aow.Rtl.TNotifyEvent FOnMapChanged;
-        // { +$114 }
         public Aow.Rtl.TNotifyEvent FOnScannerIconsChanged;
-        // { +$11C }
         public Aow.Rtl.TNotifyEvent FOnMapSettingsChanged;
-        // { +$124 }
         public Aow.Units.MapCtrl.TMapPlayerEvent FOnLogbookChanged;
-        // { +$12C }
         public Aow.Rtl.TNotifyEvent FOnGameOver;
-        // { +$134 }
         public Aow.Units.MapCtrl.TMapPlayerEvent FOnGameTerminated;
-        // { +$13C }
         public Aow.Rtl.TNotifyEvent FOnPlayerTerminated;
-        // { +$144 }
         public Aow.Rtl.TNotifyEvent FOnActivateCombatMap;
-        // { +$14C }
         public Aow.Rtl.TNotifyEvent FOnDeactivateCombatMap;
-        // { +$154 }
         public Aow.Units.MapCtrl.TMapTargetEvent FOnTargetSelectionChange;
-        // { +$15C }
         public Aow.Rtl.TNotifyEvent FOnViewPortChange;
-        // { +$164 }
         public Aow.Rtl.TNotifyEvent FOnCastSpell;
-        // { +$16C }
         public Aow.Units.MapCtrl.TMapEndTurnEvent FOnEndTurn;
-        // { +$174 }
         public Aow.Rtl.TNotifyEvent FOnRelationsChanged;
-        // { +$17C }
         public Aow.Rtl.TNotifyEvent FOnExitGameEvent;
-        // { +$184 }
         public Aow.Rtl.TNotifyEvent FOnHSChanged;
         // MapCtrl.pas:186
-        // { +$18C }
         public override void Destroy()
         {
             if (Aow.Units.AoWE.AoWE.AoWEngine != null)
@@ -150,7 +103,6 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:174
         public TAoWMapControl(TComponent owner) : base(owner)
         {
-            // { needs: ValidateAoWEngine returns Boolean; its implementation declaration is still a procedure. }
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
                 Aow.Units.AoWE.AoWE.AoWEngine.FOnHSMLoaded.Add(ActivateHSM);

@@ -20,8 +20,7 @@ namespace Aow.Units.Bridge
 {
     // { The Bridge unit of HSEPack.dpl: a bridge over water (TBridge, ClassID $20174, an overlay at level
 //   10) whose image is chosen from the roads and shores around it (TBridgeResource, ClassID $20175). }
-    // { Bridge.TBridge (instance size 20): +$10 FTransitions (two bits per side HN 1..6: 0 none, 1 a
-//     road, 2 the shore the bridge reaches) }
+    // FTransitions (two bits per side HN 1.6: 0 none, 1 a road, 2 the shore the bridge reaches)
     public partial class TBridge : Aow.Units.HSEngine.TAbstractRoad
     {
         public TBridge(TECustomNode owner) : base(owner)
@@ -33,7 +32,6 @@ namespace Aow.Units.Bridge
 
         internal ushort FTransitions;
         // Bridge.pas:43
-        // { TBridge }
 
 
         // Bridge.pas:53
@@ -54,7 +52,6 @@ namespace Aow.Units.Bridge
             Aow.Units.HSEngine.TMapField MapField = default;
             Aow.Units.HSEngine.THexagonSprite OldRoad = default;
             Aow.Units.HSEngine.TMapField OldOwner = default;
-            // { Tried identity assignment, receiver scope and object/result casts; road register still differs. }
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
             OldRoad = MapField.FindHS(typeof(Aow.Units.HSEngine.TAbstractRoad));
             if (OldRoad != null)
@@ -301,7 +298,6 @@ namespace Aow.Units.Bridge
 
     }
 
-    // { Bridge.TBridgeResource (instance size 52) }
     public partial class TBridgeResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
         public TBridgeResource(TECustomNode owner) : base(owner)
@@ -313,7 +309,6 @@ namespace Aow.Units.Bridge
         public new const int ClassID = 131445;
 
         // Bridge.pas:189
-        // { TBridgeResource }
 
 
         // Bridge.pas:195

@@ -54,25 +54,18 @@ namespace Aow.Units.AGCPlugins
     }
 
     // { ot=1 }
-    // { TAIGroupRazeControl: size $2C, VMT 557D70AC; fields $1C control, $20 mode,
-//     $21 damage types, $24 structure factor, $28 city factor. }
+    // fields control, mode, damage types, structure factor, city factor
     public partial class TAIGroupRazeControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         public TAIGroupRazeControl(TECustomNode owner) : base(owner)
         { }
 
         public Aow.Units.AoWE.TAIGroupControl FControl;
-        // { $1C }
         public TSet<Aow.Units.AGCPlugins.TAIGroupRazeControlModeElement> FMode;
-        // { $20 }
         public TSet<Aow.Units.AoWE.TDamageType> FDamageTypes;
-        // { $21 }
-        public byte FReserved23;
         public float FStructureStrengthFactor;
-        // { $24 }
         public float FCityStrengthFactor;
         // AGCPlugins.pas:101
-        // { $28 }
         public override bool Activate(Aow.Units.AoWE.TAIGroupControl Control)
         {
             bool Result = default;
@@ -199,29 +192,18 @@ namespace Aow.Units.AGCPlugins
 
     }
 
-    // { TAIGroupDefendTargetSelector: size $3C, VMT 557D71EC; $1C control,
-//     $20 selector, $24 targets, $28 mode, $2C path step, $30 radius, $34 damage, $38 factor. }
+    // control, selector, targets, mode, path step, radius, damage, factor
     public partial class TAIGroupDefendTargetSelector : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         public Aow.Units.AoWE.TAIGroupControl FControl;
-        // { $1C }
         public Aow.Units.AoWE.TAIMoveTargetSelector FSelector;
-        // { $20 }
         public Aow.Units.AoWE.TAIGroupControlTargetList FTargets;
-        // { $24 }
         public TSet<Aow.Units.AGCPlugins.TAIGroupDefendTargetSelectorModeElement> FMode;
-        // { $28 }
-        public Aow.Units.FixedArray_byte_3 FReserved29;
         public int FPathStep;
-        // { $2C }
         public int FBattleFieldRadius;
-        // { $30 }
         public TSet<Aow.Units.AoWE.TDamageType> FDamageTypes;
-        // { $34 }
-        public Aow.Units.FixedArray_byte_2 FReserved36;
         public float FMovePointsFactor;
         // AGCPlugins.pas:164
-        // { $38 }
         public override void Destroy()
         {
             FSelector.Free();
@@ -253,7 +235,6 @@ namespace Aow.Units.AGCPlugins
         public override bool Process()
         {
             bool Result = default;
-            // { Unmatched: tried typed control and scoped move-executer receivers. }
             switch (FState)
             {
                 case 0:
@@ -433,20 +414,14 @@ namespace Aow.Units.AGCPlugins
 
     }
 
-    // { TAIGroupWanderControl: size $2C, VMT 557D7334; $1C mode, $20 move limit,
-//     $24 move settings, $28 control. }
+    // mode, move limit, move settings, control
     public partial class TAIGroupWanderControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
         public TSet<Aow.Units.AGCPlugins.TAIGroupWanderModeElement> FMode;
-        // { $1C }
-        public Aow.Units.FixedArray_byte_3 FReserved1D;
         public int FMovePointsMax;
-        // { $20 }
         public Aow.Units.AoWE.TMoveControlSettings FMoveSettings;
-        // { $24 }
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // AGCPlugins.pas:303
-        // { $28 }
         public override void Destroy()
         {
             FMoveSettings.Release();

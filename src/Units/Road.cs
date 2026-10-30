@@ -18,8 +18,8 @@ namespace Aow.Units.Road
 {
     // { The Road unit of HSEPack.dpl: a road on a hexagon (TRoad, ClassID $20164) whose image is chosen
 //   from the roads on the six neighbour hexagons (TRoadResource, ClassID $20165). }
-    // { Road.TRoad (instance size 20): +$10 FTransitions (bit HN-1: a road on the neighbour HN; the
-//     pairs 2+6 and 3+5 become bits 7 and 6) }
+    // FTransitions (bit HN-1: a road on the neighbour HN. the pairs 2+6 and 3+5 become bits 7 and
+    // 6)
     public partial class TRoad : Aow.Units.HSEngine.TAbstractRoad
     {
         public TRoad(TECustomNode owner) : base(owner)
@@ -31,7 +31,6 @@ namespace Aow.Units.Road
 
         protected internal byte FTransitions;
         // Road.pas:42
-        // { TRoad }
 
 
         // Road.pas:52
@@ -49,7 +48,6 @@ namespace Aow.Units.Road
             bool Result = default;
             Aow.Units.HSEngine.TMapField MapField = default;
             Aow.Units.HSEngine.THexagonSprite OldRoad = default;
-            // { Tried Boolean staging/cast, receiver scope and TObject road; result allocation still differs. }
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
             OldRoad = MapField.FindOwnedHS(typeof(Aow.Units.HSEngine.TAbstractRoad));
             if (OldRoad != null)
@@ -140,7 +138,6 @@ namespace Aow.Units.Road
 
     }
 
-    // { Road.TRoadResource (instance size 52) }
     public partial class TRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
         public TRoadResource(TECustomNode owner) : base(owner)
@@ -150,7 +147,6 @@ namespace Aow.Units.Road
         public new const int ClassID = 131429;
 
         // Road.pas:126
-        // { TRoadResource }
         public override int ResourceUserClassID()
         {
             int Result = default;

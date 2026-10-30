@@ -18,9 +18,8 @@ using static Aow.Units.BorderHx.BorderHx;
 
 namespace Aow.Units.IsoHex
 {
-    // { IsoHex.TIsometricHexagon (instance size 24): +$10 FDynamic, +$14 FOpenSides (bit HN-1: the
-//     neighbour HN is no hexagon of this kind), +$15 FSides (bits 0..5: the neighbour HN has another
-//     terrain, bits 6..7: the image variant) }
+    // FDynamic, FOpenSides (bit HN-1: the neighbour HN is no hexagon of this kind), FSides (bits
+    // 0.5: the neighbour HN has another terrain, bits 6.7: the image variant)
     public partial class TIsometricHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
         public TIsometricHexagon(TECustomNode owner) : base(owner)
@@ -49,7 +48,6 @@ namespace Aow.Units.IsoHex
         }
 
         // IsoHex.pas:198
-        // { TIsometricHexagon }
 
 
         // IsoHex.pas:224
@@ -115,8 +113,8 @@ namespace Aow.Units.IsoHex
 
     }
 
-    // { IsoHex.TDynamicIsometricHexagon (instance size 8): owned by its TIsometricHexagon (FOwner set
-//     directly, so it is not added as a child) and shown from the map field of that hexagon }
+    // owned by its TIsometricHexagon (FOwner set directly, so it is not added as a child) and shown
+    // from the map field of that hexagon
     public partial class TDynamicIsometricHexagon : Aow.Units.HSEngine.THexagonSprite
     {
         // IsoHex.pas:126
@@ -161,7 +159,7 @@ namespace Aow.Units.IsoHex
 
     }
 
-    // { IsoHex.TIsometricHexagonResource (instance size 56): +$34 FDynamicLevel (26) }
+    // FDynamicLevel (26)
     public partial class TIsometricHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
         public TIsometricHexagonResource(TECustomNode owner) : base(owner)
@@ -175,7 +173,6 @@ namespace Aow.Units.IsoHex
 
         protected internal byte FDynamicLevel;
         // IsoHex.pas:262
-        // { TIsometricHexagonResource }
 
 
         // IsoHex.pas:302
@@ -231,7 +228,6 @@ namespace Aow.Units.IsoHex
 
     }
 
-    // { IsoHex.TUpperIsometricHexagon (instance size 24) }
     public partial class TUpperIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
     {
         public TUpperIsometricHexagon(TECustomNode owner) : base(owner)
@@ -279,7 +275,6 @@ namespace Aow.Units.IsoHex
 
     }
 
-    // { IsoHex.TUpperIsometricHexagonResource (instance size 56) }
     public partial class TUpperIsometricHexagonResource : Aow.Units.IsoHex.TIsometricHexagonResource
     {
         public TUpperIsometricHexagonResource(TECustomNode owner) : base(owner)
@@ -306,7 +301,6 @@ namespace Aow.Units.IsoHex
 
     }
 
-    // { IsoHex.TLowerIsometricHexagon (instance size 24) }
     public partial class TLowerIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
     {
         public TLowerIsometricHexagon(TECustomNode owner) : base(owner)
@@ -317,7 +311,6 @@ namespace Aow.Units.IsoHex
 
     }
 
-    // { IsoHex.TLowerIsometricHexagonResource (instance size 56) }
     public partial class TLowerIsometricHexagonResource : Aow.Units.IsoHex.TIsometricHexagonResource
     {
         public TLowerIsometricHexagonResource(TECustomNode owner) : base(owner)

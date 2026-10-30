@@ -49,7 +49,7 @@ namespace Aow.Units.ManaCrystals
         public byte Kind;
     }
 
-    // { TManaCrystals (instance size 36, VMT 557B494C): +$1C FAmount, +$20 FSize. }
+    // FAmount, FSize
     public partial class TManaCrystals : Aow.Units.ILTer.TILTerrainMO
     {
         public TManaCrystals(TECustomNode owner) : base(owner)
@@ -63,7 +63,6 @@ namespace Aow.Units.ManaCrystals
 
         public int FAmount;
         public byte FSize;
-        public Aow.Units.FixedArray_byte_3 F_ManaCrystals_21;
         // ManaCrystals.pas:83
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
@@ -88,7 +87,6 @@ namespace Aow.Units.ManaCrystals
         // ManaCrystals.pas:148
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
         {
-            // { Unmatched: tried record cast of dereferenced AI info pointer; zero-shift AI info address; untyped pointer var argument rejected by compiler; restored. }
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4354)
             {
@@ -218,7 +216,6 @@ namespace Aow.Units.ManaCrystals
 
     }
 
-    // { TManaCrystalsResource (instance size 68, VMT 557B4B00) }
     public partial class TManaCrystalsResource : Aow.Units.ILTer.TILTerrainMOR
     {
         public TManaCrystalsResource(TECustomNode owner) : base(owner)

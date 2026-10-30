@@ -51,21 +51,16 @@ namespace Aow.Units.AoWSetup
         pssLoaded = 3
     }
 
-    // { TSetupPackage (instance size 24, VMT 557DE814) }
     public partial class TSetupPackage : Aow.Units.Engine.TEObject
     {
         // AoWSetup.pas:254
         public new const int ClassID = 131681;
 
         public int FMessageID;
-        // { +$08 }
         public int FParam2;
-        // { +$0C }
         public int FParam1;
-        // { +$10 }
         public Aow.Units.Engine.TEObject FData;
         // AoWSetup.pas:245
-        // { +$14 }
         public override void Destroy()
         {
             Aow.Units.Engine.TEObject Data = default;
@@ -106,7 +101,6 @@ namespace Aow.Units.AoWSetup
         public int Flags;
     }
 
-    // { TRemotePlayer (instance size 24, VMT 557DE92C) }
     public partial class TRemotePlayer : Aow.Units.Engine.TEObject
     {
         // AoWSetup.pas:266
@@ -116,17 +110,11 @@ namespace Aow.Units.AoWSetup
         { }
 
         public Aow.Rtl.AnsiString FName;
-        // { +$08 }
         public int FRemoteID;
-        // { +$0C }
         public byte FPreferredRace;
-        // { +$10 }
         public Aow.Units.AoWSetup.TMapValidationInfo FMapValidation;
-        // { +$11 }
-        public Aow.Units.FixedArray_byte_2 F_RemotePlayer_12;
         public int FVersion;
         // AoWSetup.pas:269
-        // { +$14 }
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
@@ -139,7 +127,6 @@ namespace Aow.Units.AoWSetup
 
     }
 
-    // { TRemotePlayerList (instance size 12, VMT 557DEA00) }
     public partial class TRemotePlayerList : Aow.Units.Engine.TENode
     {
         public TRemotePlayerList(TECustomNode owner) : base(owner)
@@ -175,31 +162,22 @@ namespace Aow.Units.AoWSetup
 
     }
 
-    // { TPlayerSetupSettings (instance size 40, VMT 557DEB70); $08/$10 behaviors, $18 race, $19 status, $1C leader, $20 player, $21 behavior, $24 email. }
+    // behaviors, race, status, leader, player, behavior, email
     public partial class TPlayerSetupSettings : Aow.Units.Engine.TEObject
     {
         // AoWSetup.pas:312
         public new const int ClassID = 131683;
 
         public Aow.Units.AoWSetup.TSetupPlayerBehavior FBehavior;
-        // { +$08 }
         public Aow.Units.AoWSetup.TSetupPlayerBehavior FOriginalBehavior;
-        // { +$10 }
         public sbyte FRace;
-        // { $18; AoW.exe 00413613 }
+        // AoW.exe
         public TSet<Aow.Units.AoWSetup.TPlayerSetupStatusElement> FStatus;
-        // { +$19 }
-        public Aow.Units.FixedArray_byte_2 F_PlayerSetupSettings_1A;
         public Aow.Units.AoWE.TLeader FLeader;
-        // { +$1C }
         public byte FPlayerID;
-        // { +$20 }
         public byte FBehaviorMode;
-        // { +$21 }
-        public Aow.Units.FixedArray_byte_2 F_PlayerSetupSettings_22;
         public Aow.Rtl.AnsiString FEmailAddress;
         // AoWSetup.pas:305
-        // { $24; 557E0C29 }
         public override void Destroy()
         {
             FLeader.Free();
@@ -232,7 +210,8 @@ namespace Aow.Units.AoWSetup
 
     }
 
-    // { TSetupSettings (instance size 68, VMT 557DEC54); $18/$1C CRCs, $20 day, $24 play mode, $28 victory, $29 independent AI, $2C seed, $30/$34 limits, $38 players, $3C connection, $3D tactical combat, $40 email game name. }
+    // CRCs, day, play mode, victory, independent AI, seed, limits, players, connection, tactical
+    // combat, email game name
     public partial class TSetupSettings : Aow.Units.Engine.TENode
     {
         // AoWSetup.pas:356
@@ -240,48 +219,26 @@ namespace Aow.Units.AoWSetup
 
         public int FHostRemoteID;
         public Aow.Rtl.AnsiString FFileName;
-        // { +$10 }
         public Aow.Rtl.AnsiString FMapName;
-        // { +$14 }
         public int FMapCRC;
-        // { $18 }
         public int FSetCRC;
-        // { $1C }
         public int FMapDay;
-        // { $20 }
         public byte FPlayMode;
-        // { $24 }
         public bool FExplorationEnabled;
-        // { +$25 }
         public bool FLeadersOnMap;
-        // { +$26 }
         public bool FAlliedVictory;
-        // { +$27 }
         public byte FVictoryCondition;
-        // { $28 }
         public byte FIndependentAIMode;
-        // { $29 }
         public bool FCustomizeLeaders;
-        // { +$2A }
-        public Aow.Units.FixedArray_byte_1 F_SetupSettings_2B;
         public int FRandomSeed;
-        // { $2C }
         public int FDayLimit;
-        // { $30 }
         public int FTurnTime;
-        // { $34 }
         public Aow.Units.AoWSetup.TRemotePlayerList FRemotePlayers;
-        // { +$38 }
         public byte FConnectionType;
-        // { $3C }
         public byte FTacticalCombatAvailability;
-        // { $3D }
         public bool FAlwaysViewTC;
-        // { +$3E }
-        public Aow.Units.FixedArray_byte_1 F_SetupSettings_3F;
         public Aow.Rtl.AnsiString FEmailGameName;
         // AoWSetup.pas:334
-        // { $40; 557E0C66 }
         public override void Destroy()
         {
             FRemotePlayers.Free();
@@ -417,62 +374,39 @@ namespace Aow.Units.AoWSetup
 
     }
 
-    // { TCustomizeLeaderControl (instance size 48, VMT 557DED7C) }
     public partial class TCustomizeLeaderControl : Aow.Units.AoWE.TLeaderSetupControl
     {
         public TCustomizeLeaderControl(TECustomNode owner) : base(owner)
         { }
 
         public Aow.Units.AoWSetup.TSetupControl FSetupControl;
-        // { +$28 }
         public int FPlayerIndex;
         // intf_P1_03.inc:99
 
     }
 
-    // { TSetupControl (instance size 160, VMT 557DF040) }
     public partial class TSetupControl : Aow.Rtl.TComponent
     {
         public TSet<Aow.Units.AoWSetup.TSetupStatusElement> FStatus;
-        // { +$24 }
         public Aow.Units.AoWSetup.TSetupPhase FPhase;
-        // { +$25 }
-        public Aow.Units.FixedArray_byte_2 FReserved26;
         public Aow.Units.AoWSetup.TSetupSettings FSettings;
-        // { +$28 }
         public Aow.Rtl.TMemoryStream FStream;
-        // { +$2C }
         public int FUpdateCount;
-        // { +$30 }
         public Aow.Units.AoWSetup.TRemotePlayer FRemotePlayer;
-        // { +$34 }
         public Aow.Units.AoWSetup.TSetupControlEvent FOnSettingChanged;
-        // { +$38 }
         public Aow.Units.AoWSetup.TLoadMapEvent FOnLoadMap;
-        // { +$40 }
         public Aow.Units.AoWSetup.TSetupControlEvent FOnSetupMap;
-        // { +$48 }
         public Aow.Units.AoWSetup.TSetupControlEvent FOnStart;
-        // { +$50 }
         public Aow.Units.AoWSetup.TSetupControlEvent FOnAbort;
-        // { +$58 }
         public Aow.Units.AoWSetup.TCustomizeLeaderEvent FOnCustomizeLeader;
-        // { +$60 }
         public Aow.Units.AoWSetup.TSetupControlEvent FOnSynchronize;
-        // { +$68 }
         public Aow.Units.AoWSetup.TSetupControlEvent FOnPlayerSetupDone;
-        // { +$70 }
         public Aow.Units.AoWSetup.TEjectPlayerEvent FOnEjectPlayer;
-        // { +$78 }
         public Aow.Units.AoWSetup.TIncompatibleVersionEvent FOnIncompatibleVersion;
-        // { +$80 }
         public Aow.Units.NetworkE.TSendDataEvent FOnSendData;
-        // { +$88 }
         public Aow.Units.AoWSetup.TSendMapEvent FOnSendMap;
-        // { +$90 }
         public Aow.Units.AoWSetup.TSetupControlEvent FOnSendingMaps;
         // AoWSetup.pas:448
-        // { +$98 }
         public override void Destroy()
         {
             FSettings.Free();
@@ -482,7 +416,6 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:436
-        // { needs: TLeaderSetupControl.Done returns Boolean (557DF7EA); its draft is a procedure. }
         public TSetupControl(TComponent owner) : base(owner)
         {
             var call__3 = new Aow.Units.AoWSetup.TSetupSettings(null);
@@ -1637,7 +1570,6 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:916
-        // { draft }
         public void Disconnect()
         {
             SendHostMessage(2, null, FRemotePlayer.FRemoteID, 0);
@@ -1683,7 +1615,7 @@ namespace Aow.Units.AoWSetup
         public void ResetPlayerSettings(int Index)
         {
             var call__132 = GetHost();
-            Aow.Rtl.Rtl.Assert(call__132, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\AoWSetup.pas", 1278);
+            Aow.Rtl.Rtl.Assert(call__132, (AnsiString)"", "AoWSetup.pas", 1278);
             if (!GetRemote())
             {
                 var call__133 = FSettings.GetSettings(Index);
@@ -1720,7 +1652,7 @@ namespace Aow.Units.AoWSetup
             int Race = default;
             bool Again = default;
             var call__140 = GetHost();
-            Aow.Rtl.Rtl.Assert(call__140, (AnsiString)"", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\AoWSetup.pas", 1292);
+            Aow.Rtl.Rtl.Assert(call__140, (AnsiString)"", "AoWSetup.pas", 1292);
             Again = true;
             Result = false;
             while (Again)
@@ -2635,17 +2567,14 @@ namespace Aow.Units.AoWSetup
     public delegate void TSendMapEvent(Aow.Units.AoWSetup.TSetupControl SetupControl, object Data, int Size, int Recipient);
     public partial class TLeaderSetupView : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_8 Reserved04;
         public Aow.Units.AoWE.TLeader OriginalLeader;
         public TSet<byte> Options;
-        public Aow.Units.FixedArray_byte_3 Reserved11;
         public Aow.Units.AoWE.TLeader Leader;
         public Aow.Units.Engine.TIntegerList Races;
     }
 
     public partial class TSetupHeroView : Aow.Rtl.TObject
     {
-        public Aow.Units.FixedArray_byte_92 Reserved;
         public Aow.Rtl.AnsiString Name;
     }
 

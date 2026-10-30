@@ -64,76 +64,43 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWPartyJoin
 {
-    // { TPartyJoinDlg: done callback $A4, join event $AC, details flag $B0, selection mask, unit list $B4, face unit $B8.
-//     (instance size 188, VMT 00437734) }
+    // done callback, join event, details flag, selection mask, unit list, face unit
     public partial class TPartyJoinDlg : Aow.Rtl.TDataModule
     {
         public TPartyJoinDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame U1;
-        // { +0048 }
         public Aow.Units.AoWFrame.TAoWFrame U2;
-        // { +004C }
         public Aow.Units.AoWFrame.TAoWFrame U4;
-        // { +0050 }
         public Aow.Units.AoWFrame.TAoWFrame U5;
-        // { +0054 }
         public Aow.Units.AoWFrame.TAoWFrame U3;
-        // { +0058 }
         public Aow.Units.AoWFrame.TAoWFrame U6;
-        // { +005C }
         public Aow.Units.AoWFrame.TAoWFrame U7;
-        // { +0060 }
         public Aow.Units.AoWFrame.TAoWFrame U8;
-        // { +0064 }
         public Aow.Units.AoWButton.TAOWButton MiddleBtn;
-        // { +0068 }
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        // { +006C }
         public Aow.Units.AoWLabel.TAOWLabel Title;
-        // { +0070 }
         public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        // { +0074 }
         public Aow.Units.AoWButton.TAOWButton RightBtn;
-        // { +0078 }
         public Aow.Units.AoWButton.TAOWButton LeftBtn;
-        // { +007C }
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        // { +0080 }
         public Aow.Units.AoWFrame.TAoWFrame UnitLine1;
-        // { +0084 }
         public Aow.Units.AoWFrame.TAoWFrame UnitLine2;
-        // { +0088 }
         public Aow.Units.AoWMemo.TAOWMemo JoinMemo;
-        // { +008C }
         public Aow.Units.AoWLabel.TAOWLabel Header;
-        // { +0090 }
         public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        // { +0094 }
         public Aow.Units.AoWLabel.TAOWLabel DetailsLbl;
-        // { +0098 }
         public Aow.Units.AoWButton.TAOWButton Close;
-        // { +009C }
         public Aow.Rtl.TIvTranslator Translator;
-        // { +00A0 }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $A4 }
         public Aow.Units.AoWE.TJoinEventLog FJoinEvent;
-        // { $AC }
         public bool FDetailsOpen;
-        // { $B0 }
         public byte FSelection;
-        public Aow.Units.FixedArray_byte_2 FReserved;
-        // { $B1 }
         public Aow.Units.AoWE.TUnitUserList FUnits;
-        // { $B4 }
         public Aow.Units.AoWE.TAbstractUnit FFaceUnit;
         // AoWPartyJoin.pas:73
-        // { draft }
-        // { $B8 }
         public bool ValidateJoin()
         {
             bool Result = default;
@@ -222,14 +189,12 @@ namespace Aow.Units.AoWPartyJoin
         }
 
         // AoWPartyJoin.pas:132
-        // { draft }
         public void PartyJoinDlgDestroy()
         {
             FUnits.Free();
         }
 
         // AoWPartyJoin.pas:137
-        // { draft }
         public void LeftBtnClick()
         {
             Aow.Rtl.AnsiString Reason = default;
@@ -249,7 +214,6 @@ namespace Aow.Units.AoWPartyJoin
         }
 
         // AoWPartyJoin.pas:149
-        // { draft }
         public void MiddleBtnClick()
         {
             Aow.Rtl.AnsiString Reason = default;
@@ -269,7 +233,6 @@ namespace Aow.Units.AoWPartyJoin
         }
 
         // AoWPartyJoin.pas:161
-        // { draft }
         public void RightBtnClick()
         {
             if (ValidateJoin())
@@ -280,7 +243,6 @@ namespace Aow.Units.AoWPartyJoin
         }
 
         // AoWPartyJoin.pas:170
-        // { draft }
         public void CloseClick()
         {
             if (ValidateJoin())
@@ -291,7 +253,6 @@ namespace Aow.Units.AoWPartyJoin
         }
 
         // AoWPartyJoin.pas:179
-        // { draft }
         public void FaceFramePreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Rtl.TRect R = default;
@@ -314,7 +275,6 @@ namespace Aow.Units.AoWPartyJoin
         }
 
         // AoWPartyJoin.pas:194
-        // { draft }
         public void U1PreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
         {
             Aow.Rtl.TRect R = default;
@@ -330,10 +290,8 @@ namespace Aow.Units.AoWPartyJoin
         }
 
         // AoWPartyJoin.pas:211
-        // { draft }
         public void U1MouseDown(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
         {
-            // { Tried with/local receiver; Sender Pointer identity; opaque Sender plus Self pointer identity; no exact match. }
             if (ValidateJoin())
             {
                 var call__14 = FUnits.GetCount();
@@ -352,14 +310,12 @@ namespace Aow.Units.AoWPartyJoin
         }
 
         // AoWPartyJoin.pas:226
-        // { draft }
         public void DlgHide()
         {
             FinishDialog();
         }
 
         // AoWPartyJoin.pas:231
-        // { draft }
         public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
         {
             if (Key == 27)

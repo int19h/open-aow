@@ -56,45 +56,28 @@ using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWNewTurnDialog
 {
-    // { TNewTurnDlg: done callback $78, new-turn event $80.
-//     (instance size 132, VMT 004391B0) }
+    // done callback, new-turn event
     public partial class TNewTurnDlg : Aow.Rtl.TDataModule
     {
         public TNewTurnDlg(TComponent owner) : base(owner)
         { }
 
         public Aow.Units.AoWWindow.TAOWWindow NewTDlg;
-        // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame TCeltB;
-        // { +0048 }
         public Aow.Units.AoWLabel.TAOWLabel ClickMsg;
-        // { +004C }
         public Aow.Units.AoWImage.TAOWImage LShield;
-        // { +0050 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerName;
-        // { +0054 }
         public Aow.Units.AoWLabel.TAOWLabel TurnMsg;
-        // { +0058 }
         public Aow.Units.AoWLabel.TAOWLabel PlayerRace;
-        // { +005C }
         public Aow.Units.AoWLabel.TAOWLabel Turn;
-        // { +0060 }
         public Aow.Units.AoWImage.TAOWImage RShield;
-        // { +0064 }
         public Aow.Units.AoWFrame.TAoWFrame BlueFr;
-        // { +0068 }
         public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        // { +006C }
         public Aow.Units.AoWImage.TAOWImage TCeltLineR;
-        // { +0070 }
         public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        // { +0074 }
         public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        // { $78 }
         public Aow.Units.AoWE.TNewTurnEventLog FNewTurn;
         // AoWNewTurnDialog.pas:50
-        // { draft }
-        // { $80 }
         public void FinishDialog()
         {
             Aow.Units.EventLog.TExecuteDoneEvent Done = default;

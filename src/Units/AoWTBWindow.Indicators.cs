@@ -4,7 +4,7 @@ namespace Aow.Units.AoWTBWindow;
 
 public partial class TTBWindow
 {
-    // Original 00457508 writes Alignment.RightOffset (+$1C) and FAligned (+$2D).
+    // Original writes Alignment.RightOffset and FAligned
     public void UpdatePlayerIndicator()
     {
         int count = 0;
@@ -16,7 +16,7 @@ public partial class TTBWindow
         TBMessEdit.FAligned = false;
     }
 
-    // The companion routine at 00457584 sizes the tactical indicator and message field.
+    // The companion routine at sizes the tactical indicator and message field
     public void UpdateCombatPlayerIndicator()
     {
         int count = AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count;
