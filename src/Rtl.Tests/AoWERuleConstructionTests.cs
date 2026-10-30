@@ -35,7 +35,7 @@ public sealed partial class AoWERuleConstructionTests
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
         internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
-        internal readonly TAoWHSMap Map = new();
+        internal readonly TAoWHSMap Map = new(default(RawAoWERuleConstruction));
         internal Fixture()
         {
             var set = new TAoWHSSet();

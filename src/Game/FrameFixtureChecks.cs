@@ -11,6 +11,8 @@ namespace Aow.Game;
 
 internal static class FrameFixtureChecks
 {
+    private sealed class RawWorldMap : TAoWHSMap { }
+
     public static int Run()
     {
         int checks = 0;
@@ -62,7 +64,7 @@ internal static class FrameFixtureChecks
             players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });
             players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psTerminated });
             players.FChildren.Add(new TPlayer { FStatus = TPlayerStatus.psPlaying });
-            GameState.AoWHSMap = new() { FPlayers = players };
+            GameState.AoWHSMap = new RawWorldMap { FPlayers = players };
             var bar = new Aow.Units.AoWTBWindow.TTBWindow(null)
             {
                 PInd = new(null) { FAligned = true },

@@ -211,8 +211,10 @@ public class TIToolServices : TObject
 
 public class THandleStream : TStream
 {
+    // TFastLoadFileStream supplies its own managed file stream and skips handle setup.
+    protected THandleStream() { }
     public int Handle { get; protected set; }
-    public void Create__init(int handle) => Handle = handle;
+    public THandleStream(int handle) => Handle = handle;
     public override int Read(Span<byte> buffer) => throw new NotImplementedException("HandleStream.Read");
     public override int Write(ReadOnlySpan<byte> buffer) => throw new NotImplementedException("HandleStream.Write");
     public override int Seek(int offset, int origin) => throw new NotImplementedException("HandleStream.Seek");

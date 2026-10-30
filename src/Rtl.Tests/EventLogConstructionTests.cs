@@ -106,7 +106,7 @@ public sealed class EventLogConstructionTests
             bool guarded = new[] { "TMessageEventLog", "THelpMessageEventLog", "TTutorialMessageEventLog", "TSaveGameEventLog", "TPasswordEventLog", "TEnterCaveEventLog", "TPlayerConnectionEventLog", "TRazeStructureEventLog", "TRestartGameEventLog", "TFlagMessageEventLog" }.Contains(type.Name);
             if (fail == 1 && !guarded) continue;
             using var fixture = new OrderingRecording.Fixture(type);
-            if (mapped == 1) Game.AoWHSMap = new TAoWHSMap { FDay = 7, FCurrentPlayer = unchecked((sbyte)200) };
+            if (mapped == 1) Game.AoWHSMap = new TAoWHSMap(default(RawAoWERuleConstruction)) { FDay = 7, FCurrentPlayer = unchecked((sbyte)200) };
             if (fail == 1) { Game.AoWEngine.FDictionary.Destroy(); Game.AoWEngine.FDictionary = null!; }
             var owner = owned == 1 ? new Owner() : null;
             int origin = new TObject().InstanceId;
@@ -122,7 +122,7 @@ public sealed class EventLogConstructionTests
             catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
             Assert.Equal(fail == 0, value is not null);
             actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail{fail}", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.FRefCount }));
-            Game.AoWHSMap = new TAoWHSMap { FStatus = TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msDestroying) };
+            Game.AoWHSMap = new TAoWHSMap(default(RawAoWERuleConstruction)) { FStatus = TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msDestroying) };
             if (owner is not null) value?.AddRef();
             value?.Destroy();
             owner?.Destroy();

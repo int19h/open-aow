@@ -13,17 +13,9 @@ public static partial class Engine
 public partial class TECopyComponent : TComponent
 {
     private TEObjectList objects = null!;
-    public override void Create__init(TComponent? owner)
+    public TECopyComponent(TComponent? owner) : base(owner)
     {
-        base.Create__init(owner);
         objects = new TEObjectList();
-    }
-    public static TECopyComponent Create(TComponent? owner)
-    {
-        var result = new TECopyComponent();
-        try { result.Create__init(owner); }
-        catch { result.Destroy(); throw; }
-        return result;
     }
     public override void Destroy() { objects.Free(); base.Destroy(); }
     public IndexedProperty<int, TEObject> EObjects => new(i => objects.EObjects[i], (i, value) => objects.EObjects[i] = value);

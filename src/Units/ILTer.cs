@@ -40,11 +40,7 @@ namespace Aow.Units.ILTer
         protected internal sbyte FTerrainType;
         // ILTer.pas:73
         // { TILTerrainMO }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeTerrainMO();
-        }
+
 
         private void InitializeTerrainMO()
         {

@@ -52,6 +52,7 @@ namespace Aow.Units.UnitIGrd
         // { $1E6 }
         public byte FReserved1E7;
         // UnitIGrd.pas:51
+        // Retained: The Graphics.Color implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Graphics.Color */

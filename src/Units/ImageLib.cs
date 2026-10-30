@@ -1211,12 +1211,6 @@ namespace Aow.Units.ImageLib
             InitializeLibrary();
         }
 
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeLibrary();
-        }
-
         private void InitializeLibrary()
         {
             var call__40 = new Aow.Units.ImageLib.TPaletteManager();
@@ -5358,7 +5352,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:3090
         // { The sprites take their transparent color from TGrabInfo +$C (declared Reserved in the core),
 //   not from TransparentColor (+4, the color GetSurfaceRectangles separates the images with).
-// 
+//
 //   GrabImage encodes the rows into FData, which grows in 4 KB steps; FDataSize stays 0 until the
 //   end, so every word added past the first step reallocates (an original inefficiency). }
         public override bool GrabImage(in Aow.Units.GFXE.TSurfaceDesc SD, in Aow.Rtl.TRect R, Aow.Units.ImageLib.TGrabInfo GrabInfo)
@@ -6245,6 +6239,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:6504
         // { TCustomImageLibraryPanel }
+        // Retained: The ExtCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary ExtCtrls.Create */
@@ -6452,6 +6447,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:6594
         // { TCustomImageDrawGrid }
+        // Retained: The Grids.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Grids.Create */
@@ -7136,6 +7132,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8386
+        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
@@ -7227,6 +7224,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8476
+        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
         public override void Create__init(Aow.Rtl.TComponent AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */

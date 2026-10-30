@@ -159,6 +159,13 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTEChangeNotifyNode : TEChangeNotifyNode, IProbe
     {
+        // Replay the retired production initializer for the historical comparison.
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FChildren = new TEObjectList();
+            FUpdateCount = 0;
+        }
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -319,6 +326,11 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTEControlStyleNode : TEControlStyleNode, IProbe
     {
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FControlStyle = TSet<TEControlStyleElement>.Of(EngineUnit.csStored);
+        }
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -359,6 +371,13 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTEChangeNotifyEventList : TEChangeNotifyEventList, IProbe
     {
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FChildren = new TEObjectList();
+            FUpdateCount = 0;
+            FEvents = new TEventList();
+        }
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -439,6 +458,11 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTEInverseSortNode : TEInverseSortNode, IProbe
     {
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FItems = [];
+        }
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -479,6 +503,12 @@ public sealed class EngineBridgeConstructionTests
 
     private sealed class LegacyTEControlStyleInverseSortNode : TEControlStyleInverseSortNode, IProbe
     {
+        public override void Create__init(TECustomNode owner)
+        {
+            base.Create__init(owner);
+            FItems = [];
+            FControlStyle = TSet<TEControlStyleElement>.Of(EngineUnit.csStored);
+        }
         public int OwnerCalls { get; set; }
         public int StyleCalls { get; set; }
         public int References { get; set; }
@@ -762,7 +792,7 @@ public sealed class EngineBridgeConstructionTests
     [InlineData(10)]
     public void ReferenceOwnerClearsBeforeAddRefAndKeepsTheLegacyCount(int kind)
     {
-        var owner = TEReferenceNode.Create(null!);
+        var owner = new TEReferenceNode(null!);
         TEObject converted = Converted(kind, owner, 0);
         TEObject legacy = RawLegacy(kind);
         legacy.Create__init(owner);

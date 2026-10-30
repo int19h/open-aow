@@ -53,7 +53,7 @@ public sealed class ArmySpriteConstructionTests
             }
             Assert.Equal(owned != 2, value is not null);
             actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-            Game.AoWHSMap = new TAoWHSMap { FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying) };
+            Game.AoWHSMap = new TAoWHSMap(default(RawAoWERuleConstruction)) { FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying) };
             value?.SetOwner(null!);
             value?.Destroy();
             if (owned == 2) owner!.Members.Clear();
@@ -83,7 +83,7 @@ public sealed class ArmySpriteConstructionTests
         }
         finally
         {
-            Game.AoWHSMap = new TAoWHSMap { FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying) };
+            Game.AoWHSMap = new TAoWHSMap(default(RawAoWERuleConstruction)) { FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying) };
             loaded?.Destroy();
             source.Destroy();
         }

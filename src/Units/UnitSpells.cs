@@ -1542,7 +1542,7 @@ namespace Aow.Units.UnitSpells
 
             if (bool__147)
             {
-                Event = Aow.Units.AoWE.TUnitSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TUnitSpellTE(null);
                 var call__150 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(59);
                 Event.Initialize(FCasterSpellID, Source, null, call__150.FBaseManaCost);
                 Event.FTargetUnitIDs.Add(FTargetUnitID);

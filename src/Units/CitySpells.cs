@@ -60,6 +60,8 @@ namespace Aow.Units.CitySpells
 //     $20 packed target coordinates; $24 target owner. }
     public partial class TCityTargetSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        public TCityTargetSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // CitySpells.pas:170
         public new const int ClassID = 135949;
 
@@ -117,21 +119,7 @@ namespace Aow.Units.CitySpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.CitySpells.TCityTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TCityTargetSpellTE o = new Aow.Units.CitySpells.TCityTargetSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
@@ -399,7 +387,7 @@ namespace Aow.Units.CitySpells
         public virtual Aow.Units.CitySpells.TCityTargetSpellTE CreateTE()
         {
             Aow.Units.CitySpells.TCityTargetSpellTE Result = default;
-            Result = Aow.Units.CitySpells.TCityTargetSpellTE.Create(null);
+            Result = new Aow.Units.CitySpells.TCityTargetSpellTE(null);
             return Result;
         }
 
@@ -465,6 +453,8 @@ namespace Aow.Units.CitySpells
     // { TTownGateTE (instance size 48, VMT 557AF604): $28 army ID; $2C destination coordinates. }
     public partial class TTownGateTE : Aow.Units.CitySpells.TCityTargetSpellTE
     {
+        public TTownGateTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // CitySpells.pas:397
         public new const int ClassID = 135950;
 
@@ -514,21 +504,7 @@ namespace Aow.Units.CitySpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.CitySpells.TTownGateTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TTownGateTE o = new Aow.Units.CitySpells.TTownGateTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.CitySpells.TCityTargetSpellTE.Meta
         {
@@ -705,7 +681,7 @@ namespace Aow.Units.CitySpells
         public override Aow.Units.CitySpells.TCityTargetSpellTE CreateTE()
         {
             Aow.Units.CitySpells.TCityTargetSpellTE Result = default;
-            Result = Aow.Units.CitySpells.TTownGateTE.Create(null);
+            Result = new Aow.Units.CitySpells.TTownGateTE(null);
             return Result;
         }
 
@@ -832,25 +808,13 @@ namespace Aow.Units.CitySpells
     // { TCityEnchantmentSpellTE (instance size 40, VMT 557AF800) }
     public partial class TCityEnchantmentSpellTE : Aow.Units.CitySpells.TCityTargetSpellTE
     {
+        public TCityEnchantmentSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // CitySpells.pas:551
         public new const int ClassID = 131821;
 
         // NetworkE.pas:230
-        public static new Aow.Units.CitySpells.TCityEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CitySpells.TCityEnchantmentSpellTE o = new Aow.Units.CitySpells.TCityEnchantmentSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.CitySpells.TCityTargetSpellTE.Meta
         {
@@ -1056,7 +1020,7 @@ namespace Aow.Units.CitySpells
         public override Aow.Units.CitySpells.TCityTargetSpellTE CreateTE()
         {
             Aow.Units.CitySpells.TCityTargetSpellTE Result = default;
-            Result = Aow.Units.CitySpells.TCityEnchantmentSpellTE.Create(null);
+            Result = new Aow.Units.CitySpells.TCityEnchantmentSpellTE(null);
             return Result;
         }
 

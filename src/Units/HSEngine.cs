@@ -244,11 +244,7 @@ namespace Aow.Units.HSEngine
 
         // HSEngine.pas:1898
         // { TMapField }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeMapField(AOwner);
-        }
+
 
         // HSEngine.pas:1943
         public override Aow.Units.Engine.TEObject GetChild(int Index)
@@ -968,6 +964,11 @@ namespace Aow.Units.HSEngine
             InitializeHSMap(AOwner);
         }
 
+        private protected THSMap(ConstructionContext context, TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeHSMap(AOwner);
+        }
+
         internal Aow.Units.HSEngine.THSMapMouse FMouse;
         internal Aow.Units.HSEngine.TMapContainer FMapContainer;
         internal Aow.Units.HSEngine.THSEngine FEngine;
@@ -1094,6 +1095,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:14
+        // Retained for the ordered TAoWCombatMap chain owned by 9.3b-18.
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
@@ -4456,11 +4458,6 @@ namespace Aow.Units.HSEngine
 
         // MAPOBJ.PAS:383
         // { TMapObjectResource }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeMapObjectResource(AOwner);
-        }
 
 
         // MAPOBJ.PAS:620
@@ -4880,9 +4877,6 @@ namespace Aow.Units.HSEngine
             MapLevelClassID = 65794;
         }
 
-        // Raw allocation for TAoWNewHSMapSettings and TAoWNewCombatMapSettings.
-        protected TNewHSMapSettings(bool raw) { }
-
         public TNewHSMapSettings()
         {
             InitializeNewHSMapSettings();
@@ -4904,10 +4898,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:2802
         // { TNewHSMapSettings }
         // { +1C }
-        public void Create__init_TNewHSMapSettings()
-        {
-            InitializeNewHSMapSettings();
-        }
+
 
     }
 
@@ -5342,14 +5333,6 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        // HSEngine.pas:2815
-        // { TMapLevel }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeMapLevel(AOwner);
-        }
-
         // HSEngine.pas:2913
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
@@ -5646,9 +5629,6 @@ namespace Aow.Units.HSEngine
             Reset();
         }
 
-        // Raw allocation for TAbstractAoWHSMapMouse.
-        protected THSMapMouse(bool raw) { }
-
         public THSMapMouse()
         {
             InitializeHSMapMouse();
@@ -5672,10 +5652,7 @@ namespace Aow.Units.HSEngine
         internal bool FCursorVisible;
         // HSEngine.pas:3475
         // { THSMapMouse }
-        public void Create__init_THSMapMouse()
-        {
-            InitializeHSMapMouse();
-        }
+
 
         // HSEngine.pas:3486
         public override void Destroy()
@@ -6789,6 +6766,7 @@ namespace Aow.Units.HSEngine
 
         // HSEngine.pas:3348
         // { THSSet }
+        // Retained: TAoWHSSet reads AoWEngine.StartupDirectory during the startup sequence owned by 9.3b-19.
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
@@ -7174,7 +7152,7 @@ namespace Aow.Units.HSEngine
     {
         // Raw allocation for the TFixedVisibleHS metaclass entry.
         public TFixedVisibleHS() { }
-        protected TFixedVisibleHS(TECustomNode owner) : base(owner) { }
+        public TFixedVisibleHS(TECustomNode owner) : base(owner) { }
 
         internal byte FStatus;
         // HXSPRITE.PAS:770
@@ -7611,11 +7589,7 @@ namespace Aow.Units.HSEngine
 
         // HXSPRITE.PAS:599
         // { THPBasedHS }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeHPBasedHS(AOwner);
-        }
+
 
         // HXSPRITE.PAS:612
         public override void SetVisible(bool Value)
@@ -8245,11 +8219,6 @@ namespace Aow.Units.HSEngine
 
         // MAPOBJ.PAS:1232
         // { TMultiHexMOR }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeMultiHexMOR(AOwner);
-        }
 
 
         // MAPOBJ.PAS:1244
@@ -9220,6 +9189,8 @@ namespace Aow.Units.HSEngine
 //     and restores as one Word (the original reads word ptr [MapF+$14]) }
     public partial class TMapFieldTandO : Aow.Units.Engine.TECustomNode
     {
+        public TMapFieldTandO(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         internal object FHSList;
         internal int FCounts;
         internal int FXYL;
