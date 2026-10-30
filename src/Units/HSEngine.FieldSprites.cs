@@ -328,7 +328,7 @@ public partial class TMapField
     public THexagonSprite FindNoneTransparentHSCID(int classId)
     {
         for (int i = 0; i < FCount; i++)
-            if (FHSList[i].ClassType.ClassID() == classId && FHSList[i].GetTerrain(directions[i]) >= 0) return FHSList[i];
+            if (FHSList[i].EClass.ClassID == classId && FHSList[i].GetTerrain(directions[i]) >= 0) return FHSList[i];
         return null;
     }
 }

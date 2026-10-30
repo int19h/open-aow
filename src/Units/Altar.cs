@@ -41,6 +41,12 @@ namespace Aow.Units.Altar
 //     $42..$43 alignment padding. VMT 557CE7C4. }
     public partial class TAltar : Aow.Units.AoWE.TPlayerStructure
     {
+        public TAltar(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Altar.pas:59
+        public new const int ClassID = 132081;
+
         public Aow.Units.Storms.TStorm FStorm;
         // { $3C }
         public Aow.Units.Altar.TAltarMode FMode;
@@ -445,47 +451,32 @@ namespace Aow.Units.Altar
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
             // Altar.pas:59
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132081;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Altar.TAltar.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Altar.TAltar => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:249
-            public new Aow.Units.Altar.TAltar Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Altar.TAltar o = (Aow.Units.Altar.TAltar)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Altar.TAltar Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Altar.TAltar)base.Create(AOwner);
         }
     }
 
     // { TAltarResource (instance size 116, no added fields, VMT 557CEA6C) }
     public partial class TAltarResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        // Altar.pas:294
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAltarResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FClaimed = false;
             FRazeable = true;
             FRazeDefenderBudget = 150;
             FRebuildGold = 50;
             FRebuildDays = 2;
         }
+
+        // Altar.pas:307
+        public new const int ClassID = 132082;
+
+        // Altar.pas:294
+
 
         // Altar.pas:310
         public override int ResourceUserClassID()
@@ -496,31 +487,12 @@ namespace Aow.Units.Altar
         }
 
         // Altar.pas:49
-        public static new Aow.Units.Altar.TAltarResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Altar.TAltarResource o = new Aow.Units.Altar.TAltarResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // Altar.pas:307
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132082;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Altar.TAltarResource.ClassID;
 
             // Altar.pas:304
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -531,21 +503,7 @@ namespace Aow.Units.Altar
             }
 
             // Altar.pas:49
-            public new Aow.Units.Altar.TAltarResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Altar.TAltarResource o = (Aow.Units.Altar.TAltarResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Altar.TAltarResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Altar.TAltarResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Altar.TAltarResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -564,7 +522,7 @@ namespace Aow.Units.Altar
         // Altar.pas:313
         public static void RegisterAltar(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Altar.TAltar>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Altar.TAltarResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Altar.TAltar>(), Aow.Units.Engine.EClass.Of<Aow.Units.Altar.TAltarResource>()]);
         }
 
         public static void Initialize()

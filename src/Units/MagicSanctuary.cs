@@ -38,16 +38,17 @@ namespace Aow.Units.MagicSanctuary
 //     $0C FStructure; $10 FFadeEndFrame. }
     public partial class TMagicSanctuaryOverlayHS : Aow.Units.HSEngine.TSingleHS
     {
+        public TMagicSanctuaryOverlayHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FFadeEndFrame = -1;
+        }
+
         public Aow.Units.MagicSanctuary.TMagicSanctuary FStructure;
         // { $0C }
         public int FFadeEndFrame;
         // MagicSanctuary.pas:67
         // { $10 }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FFadeEndFrame = -1;
-        }
+
 
         // MagicSanctuary.pas:73
         public override int GetShowPriority()
@@ -105,26 +106,22 @@ namespace Aow.Units.MagicSanctuary
         }
 
         // MagicSanctuary.pas:22
-        public static new Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS o = new Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMagicSanctuary (instance size 52, VMT 557D41F4): $30 FOverlayHS. }
     public partial class TMagicSanctuary : Aow.Units.AoWE.TStructure
     {
+        public TMagicSanctuary(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__4 = new Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS(null);
+            FOverlayHS = call__4;
+            FOverlayHS.FStructure = this;
+        }
+
+        // MagicSanctuary.pas:124
+        public new const int ClassID = 133274;
+
         public Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS FOverlayHS;
         // MagicSanctuary.pas:117
         // { $30 }
@@ -136,13 +133,7 @@ namespace Aow.Units.MagicSanctuary
         }
 
         // MagicSanctuary.pas:110
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__4 = Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS.Create(null);
-            FOverlayHS = call__4;
-            FOverlayHS.FStructure = this;
-        }
+
 
         // MagicSanctuary.pas:136
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
@@ -176,48 +167,15 @@ namespace Aow.Units.MagicSanctuary
         }
 
         // MagicSanctuary.pas:33
-        public static new Aow.Units.MagicSanctuary.TMagicSanctuary Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.MagicSanctuary.TMagicSanctuary o = new Aow.Units.MagicSanctuary.TMagicSanctuary();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // MagicSanctuary.pas:124
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133274;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MagicSanctuary.TMagicSanctuary.ClassID;
 
             // MagicSanctuary.pas:33
-            public new Aow.Units.MagicSanctuary.TMagicSanctuary Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.MagicSanctuary.TMagicSanctuary o = (Aow.Units.MagicSanctuary.TMagicSanctuary)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.MagicSanctuary.TMagicSanctuary Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MagicSanctuary.TMagicSanctuary)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MagicSanctuary.TMagicSanctuary => (Meta)MetaRegistry.Of(typeof(T));
@@ -227,14 +185,18 @@ namespace Aow.Units.MagicSanctuary
     // { TMagicSanctuaryResource (instance size 100, VMT 557D4464) }
     public partial class TMagicSanctuaryResource : Aow.Units.AoWE.TStructureResource
     {
-        // MagicSanctuary.pas:149
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TMagicSanctuaryResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = false;
             FRazeable = false;
             FConnectRoads = false;
         }
+
+        // MagicSanctuary.pas:160
+        public new const int ClassID = 133275;
+
+        // MagicSanctuary.pas:149
+
 
         // MagicSanctuary.pas:163
         public override int ResourceUserClassID()
@@ -245,31 +207,12 @@ namespace Aow.Units.MagicSanctuary
         }
 
         // MagicSanctuary.pas:43
-        public static new Aow.Units.MagicSanctuary.TMagicSanctuaryResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.MagicSanctuary.TMagicSanctuaryResource o = new Aow.Units.MagicSanctuary.TMagicSanctuaryResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // MagicSanctuary.pas:160
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 133275;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MagicSanctuary.TMagicSanctuaryResource.ClassID;
 
             // MagicSanctuary.pas:157
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -282,21 +225,7 @@ namespace Aow.Units.MagicSanctuary
             }
 
             // MagicSanctuary.pas:43
-            public new Aow.Units.MagicSanctuary.TMagicSanctuaryResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.MagicSanctuary.TMagicSanctuaryResource o = (Aow.Units.MagicSanctuary.TMagicSanctuaryResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.MagicSanctuary.TMagicSanctuaryResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MagicSanctuary.TMagicSanctuaryResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MagicSanctuary.TMagicSanctuaryResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -308,7 +237,7 @@ namespace Aow.Units.MagicSanctuary
         // MagicSanctuary.pas:166
         public static void RegisterMagicSanctuary(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MagicSanctuary.TMagicSanctuary>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MagicSanctuary.TMagicSanctuaryResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MagicSanctuary.TMagicSanctuary>(), Aow.Units.Engine.EClass.Of<Aow.Units.MagicSanctuary.TMagicSanctuaryResource>()]);
         }
 
         public static void Initialize()

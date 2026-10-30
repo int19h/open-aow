@@ -45,6 +45,12 @@ namespace Aow.Units.CombatRoad
     // { TCombatRoad (instance size 24, VMT 00410C0C) }
     public partial class TCombatRoad : Aow.Units.HSEngine.TAbstractRoad
     {
+        public TCombatRoad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CombatRoad.pas:51
+        public new const int ClassID = 2229506;
+
         public Aow.Units.FixedArray_byte_7 FImages;
         // { $10 main image, $11..$16 neighbour images }
         public byte FReserved17;
@@ -206,37 +212,24 @@ namespace Aow.Units.CombatRoad
         public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
         {
             // CombatRoad.pas:51
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229506;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatRoad.TCombatRoad.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatRoad.TCombatRoad => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.CombatRoad.TCombatRoad Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatRoad.TCombatRoad o = (Aow.Units.CombatRoad.TCombatRoad)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatRoad.TCombatRoad Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatRoad.TCombatRoad)base.Create(AOwner);
         }
     }
 
     // { TCombatRoadResource (instance size 52, VMT 00410DA0) }
     public partial class TCombatRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
+        public TCombatRoadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CombatRoad.pas:133
+        public new const int ClassID = 2229507;
+
         // CombatRoad.pas:144
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
@@ -293,12 +286,7 @@ namespace Aow.Units.CombatRoad
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // CombatRoad.pas:133
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229507;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatRoad.TCombatRoadResource.ClassID;
 
             // CombatRoad.pas:136
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -311,21 +299,7 @@ namespace Aow.Units.CombatRoad
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatRoad.TCombatRoadResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1124
-            public new Aow.Units.CombatRoad.TCombatRoadResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatRoad.TCombatRoadResource o = (Aow.Units.CombatRoad.TCombatRoadResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatRoad.TCombatRoadResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatRoad.TCombatRoadResource)base.Create(AOwner);
         }
     }
 
@@ -334,7 +308,7 @@ namespace Aow.Units.CombatRoad
         // CombatRoad.pas:162
         public static void RegisterCombatRoad(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatRoad.TCombatRoadResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatRoad.TCombatRoad>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatRoad.TCombatRoadResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatRoad.TCombatRoad>()]);
         }
 
         public static void Initialize()

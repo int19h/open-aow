@@ -280,7 +280,7 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:291
         public void ActivateHSM(Aow.Rtl.TObject Map)
         {
-            if (((Aow.Units.Engine.TEObject)Map).ClassType.ClassID() == 131089)
+            if (((Aow.Units.Engine.TEObject)Map).EClass.ClassID == 131089)
             {
                 LinkToHSM();
                 if (FOnActivateHSM != null)
@@ -293,7 +293,7 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:300
         public void DeactivateHSM(Aow.Rtl.TObject Map)
         {
-            if (((Aow.Units.Engine.TEObject)Map).ClassType.ClassID() == 131089)
+            if (((Aow.Units.Engine.TEObject)Map).EClass.ClassID == 131089)
             {
                 if (FOnDeactivateHSM != null)
                 {

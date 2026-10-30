@@ -45,6 +45,9 @@ namespace Aow.Units.CombatTerrain
     // { TCombatTerrainShadow (instance size 12, VMT 0040FB0C) }
     public partial class TCombatTerrainShadow : Aow.Units.HSEngine.THexagonSprite
     {
+        public TCombatTerrainShadow(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.CombatTerrain.TCombatTerrain FTerrain;
         // CombatTerrain.pas:72
         // { $08 }
@@ -63,26 +66,18 @@ namespace Aow.Units.CombatTerrain
         }
 
         // Engine.pas:524
-        public static new Aow.Units.CombatTerrain.TCombatTerrainShadow Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatTerrain.TCombatTerrainShadow o = new Aow.Units.CombatTerrain.TCombatTerrainShadow();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCombatTerrain (instance size 36, VMT 0040FCA0) }
     public partial class TCombatTerrain : Aow.Units.Terrain.TTerrainMO
     {
+        public TCombatTerrain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CombatTerrain.pas:82
+        public new const int ClassID = 2228582;
+
         public Aow.Units.CombatTerrain.TCombatTerrainShadow FShadow;
         // { $14 }
         public int FHitPoints;
@@ -371,7 +366,7 @@ namespace Aow.Units.CombatTerrain
 
                 if ((Aow.Units.AoWE.AoWE.AoWHSMap == null) || Aow.Units.AoWE.AoWE.AoWHSMap.FShowUnitShadows)
                 {
-                    var call__47 = Aow.Units.CombatTerrain.TCombatTerrainShadow.Create(null);
+                    var call__47 = new Aow.Units.CombatTerrain.TCombatTerrainShadow(null);
                     FShadow = call__47;
                     FShadow.FTerrain = this;
                 }
@@ -399,37 +394,24 @@ namespace Aow.Units.CombatTerrain
         public new partial class Meta : Aow.Units.Terrain.TTerrainMO.Meta
         {
             // CombatTerrain.pas:82
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228582;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatTerrain.TCombatTerrain.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatTerrain.TCombatTerrain => (Meta)MetaRegistry.Of(typeof(T));
             // Terrain.pas:19
-            public new Aow.Units.CombatTerrain.TCombatTerrain Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatTerrain.TCombatTerrain o = (Aow.Units.CombatTerrain.TCombatTerrain)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatTerrain.TCombatTerrain Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTerrain.TCombatTerrain)base.Create(AOwner);
         }
     }
 
     // { TCombatTerrainResource (instance size 76, VMT 0040FE54) }
     public partial class TCombatTerrainResource : Aow.Units.Terrain.TTerrainMOR
     {
+        public TCombatTerrainResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CombatTerrain.pas:301
+        public new const int ClassID = 2228583;
+
         public sbyte FBurnValue;
         // { $48; AoWEd 0040B0AB }
         public sbyte FDefense;
@@ -459,12 +441,7 @@ namespace Aow.Units.CombatTerrain
         public new partial class Meta : Aow.Units.Terrain.TTerrainMOR.Meta
         {
             // CombatTerrain.pas:301
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228583;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatTerrain.TCombatTerrainResource.ClassID;
 
             // CombatTerrain.pas:307
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -477,21 +454,7 @@ namespace Aow.Units.CombatTerrain
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatTerrain.TCombatTerrainResource => (Meta)MetaRegistry.Of(typeof(T));
             // Terrain.pas:42
-            public new Aow.Units.CombatTerrain.TCombatTerrainResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatTerrain.TCombatTerrainResource o = (Aow.Units.CombatTerrain.TCombatTerrainResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatTerrain.TCombatTerrainResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatTerrain.TCombatTerrainResource)base.Create(AOwner);
         }
     }
 
@@ -500,7 +463,7 @@ namespace Aow.Units.CombatTerrain
         // CombatTerrain.pas:319
         public static void RegisterCombatTerrain(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatTerrain.TCombatTerrain>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatTerrain.TCombatTerrainResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatTerrain.TCombatTerrain>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatTerrain.TCombatTerrainResource>()]);
         }
 
         public static void Initialize()

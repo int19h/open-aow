@@ -39,40 +39,33 @@ namespace Aow.Units.Ruin
     // { TRuin (instance size 64, no added fields, VMT 557C68FC) }
     public partial class TRuin : Aow.Units.ItemExpS.TItemExplorationSite
     {
+        public TRuin(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Ruin.pas:34
+        public new const int ClassID = 131994;
+
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSite.Meta
         {
             // Ruin.pas:34
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131994;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Ruin.TRuin.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Ruin.TRuin => (Meta)MetaRegistry.Of(typeof(T));
             // ItemExpS.pas:32
-            public new Aow.Units.Ruin.TRuin Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Ruin.TRuin o = (Aow.Units.Ruin.TRuin)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Ruin.TRuin Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Ruin.TRuin)base.Create(AOwner);
         }
     }
 
     // { TRuinResource (instance size 104, no added fields, VMT 557C6B68) }
     public partial class TRuinResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
+        public TRuinResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Ruin.pas:40
+        public new const int ClassID = 131995;
+
         // Ruin.pas:43
         public override int ResourceUserClassID()
         {
@@ -84,12 +77,7 @@ namespace Aow.Units.Ruin
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
         {
             // Ruin.pas:40
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131995;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Ruin.TRuinResource.ClassID;
 
             // Ruin.pas:37
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -102,21 +90,7 @@ namespace Aow.Units.Ruin
             public static new Meta Of<T>()
                 where T : Aow.Units.Ruin.TRuinResource => (Meta)MetaRegistry.Of(typeof(T));
             // ExploreS.pas:61
-            public new Aow.Units.Ruin.TRuinResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Ruin.TRuinResource o = (Aow.Units.Ruin.TRuinResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Ruin.TRuinResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Ruin.TRuinResource)base.Create(AOwner);
         }
     }
 
@@ -125,7 +99,7 @@ namespace Aow.Units.Ruin
         // Ruin.pas:46
         public static void RegisterRuin(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Ruin.TRuin>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Ruin.TRuinResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Ruin.TRuin>(), Aow.Units.Engine.EClass.Of<Aow.Units.Ruin.TRuinResource>()]);
         }
 
         public static void Initialize()

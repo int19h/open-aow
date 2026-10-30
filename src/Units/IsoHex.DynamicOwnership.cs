@@ -37,7 +37,7 @@ public partial class TIsometricHexagon
         {
             if (FDynamic == null)
             {
-                var dynamic = (TDynamicIsometricHexagon)ClassType.DynamicIsometricHexagonClass().NewInstance();
+                var dynamic = new TDynamicIsometricHexagon();
                 dynamic.Attach(this);
                 FDynamic = dynamic;
             }

@@ -48,6 +48,12 @@ namespace Aow.Units.Mountain
     // { TMountainMO (instance size 20, VMT 557A266C) }
     public partial class TMountainMO : Aow.Units.AoWTer.TAoWTerrain
     {
+        public TMountainMO(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Mountain.pas:101
+        public new const int ClassID = 131432;
+
         // Mountain.pas:104
         public override sbyte GetOverlay(int Index)
         {
@@ -101,7 +107,7 @@ namespace Aow.Units.Mountain
                     {
                         MapField = MapContainer.GetField(X, Y, Lhx);
                         HS = MapField.GetMaxLevelNoneTransparentHS();
-                        if ((HS != null) && (HS.ClassType.ClassID() == 131432))
+                        if ((HS != null) && (HS.EClass.ClassID == 131432))
                         {
                             var call__5 = List.Overlay[I];
                             var call__6 = ValidMountainOverlap(MapField, unchecked((sbyte)call__5));
@@ -146,7 +152,7 @@ namespace Aow.Units.Mountain
                     break;
                 {
                     HS = (Aow.Units.HSEngine.TMapObject)MapField.HSList[I];
-                    if (HS.ClassType.ClassID() == 131432)
+                    if (HS.EClass.ClassID == 131432)
                     {
                         var call__10 = MapField.GetHNofHS(HS);
                         var call__11 = HS.Resource.TerrainList.Overlay[call__10];
@@ -165,37 +171,24 @@ namespace Aow.Units.Mountain
         public new partial class Meta : Aow.Units.Terrain.TTerrainMO.Meta
         {
             // Mountain.pas:101
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131432;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Mountain.TMountainMO.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Mountain.TMountainMO => (Meta)MetaRegistry.Of(typeof(T));
             // Terrain.pas:19
-            public new Aow.Units.Mountain.TMountainMO Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Mountain.TMountainMO o = (Aow.Units.Mountain.TMountainMO)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Mountain.TMountainMO Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TMountainMO)base.Create(AOwner);
         }
     }
 
     // { TMountainMOR (instance size 76, VMT 557A2814) }
     public partial class TMountainMOR : Aow.Units.AoWTer.TAoWTerrainResource
     {
+        public TMountainMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Mountain.pas:169
+        public new const int ClassID = 131433;
+
         // Mountain.pas:175
         public override int ResourceUserClassID()
         {
@@ -207,12 +200,7 @@ namespace Aow.Units.Mountain
         public new partial class Meta : Aow.Units.Terrain.TTerrainMOR.Meta
         {
             // Mountain.pas:169
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131433;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Mountain.TMountainMOR.ClassID;
 
             // Mountain.pas:172
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -227,21 +215,7 @@ namespace Aow.Units.Mountain
             public static new Meta Of<T>()
                 where T : Aow.Units.Mountain.TMountainMOR => (Meta)MetaRegistry.Of(typeof(T));
             // Terrain.pas:42
-            public new Aow.Units.Mountain.TMountainMOR Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Mountain.TMountainMOR o = (Aow.Units.Mountain.TMountainMOR)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Mountain.TMountainMOR Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TMountainMOR)base.Create(AOwner);
         }
     }
 
@@ -249,6 +223,12 @@ namespace Aow.Units.Mountain
 //     $1D FPlayer, $1E FDuration, $1F FOriginalOverlay. }
     public partial class TRaisedMountain : Aow.Units.ILTer.TILTerrainMO
     {
+        public TRaisedMountain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Mountain.pas:178
+        public new const int ClassID = 131434;
+
         public TSet<Aow.Units.Mountain.AnonymousEnum_rmRaising> FMode;
         // { $1C }
         public sbyte FPlayer;
@@ -375,37 +355,24 @@ namespace Aow.Units.Mountain
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
             // Mountain.pas:178
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131434;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Mountain.TRaisedMountain.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Mountain.TRaisedMountain => (Meta)MetaRegistry.Of(typeof(T));
             // ILTer.pas:20
-            public new Aow.Units.Mountain.TRaisedMountain Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Mountain.TRaisedMountain o = (Aow.Units.Mountain.TRaisedMountain)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Mountain.TRaisedMountain Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TRaisedMountain)base.Create(AOwner);
         }
     }
 
     // { TRaisedMountainResource (instance size 68, VMT 557A2AF4) }
     public partial class TRaisedMountainResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TRaisedMountainResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Mountain.pas:249
+        public new const int ClassID = 131435;
+
         // Mountain.pas:255
         public override int ResourceUserClassID()
         {
@@ -417,12 +384,7 @@ namespace Aow.Units.Mountain
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // Mountain.pas:249
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131435;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Mountain.TRaisedMountainResource.ClassID;
 
             // Mountain.pas:252
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -435,27 +397,19 @@ namespace Aow.Units.Mountain
             public static new Meta Of<T>()
                 where T : Aow.Units.Mountain.TRaisedMountainResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.Mountain.TRaisedMountainResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Mountain.TRaisedMountainResource o = (Aow.Units.Mountain.TRaisedMountainResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Mountain.TRaisedMountainResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TRaisedMountainResource)base.Create(AOwner);
         }
     }
 
     // { TRaiseTerrainTE (instance size 36, VMT 557A2BF8) }
     public partial class TRaiseTerrainTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TRaiseTerrainTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Mountain.pas:258
+        public new const int ClassID = 135946;
+
         // Mountain.pas:317
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
         {
@@ -502,7 +456,7 @@ namespace Aow.Units.Mountain
                         {
                             I -= 1;
                             Resource = (Aow.Units.HSEngine.TMapObjectResource)Resources.List[I];
-                            var call__35 = Resource.ClassType.ClassID();
+                            var call__35 = Resource.EClass.ClassID;
                             bool bool__36 = (call__35 == 131435);
                             if (bool__36)
                             {
@@ -526,7 +480,7 @@ namespace Aow.Units.Mountain
                             if (call__39)
                             {
                                 Mountain.FMode = Mountain.FMode + TSet<Aow.Units.Mountain.AnonymousEnum_rmRaising>.Of(Aow.Units.Mountain.AnonymousEnum_rmRaising.rmRaising);
-                                Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                                Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                                 var call__40 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(19);
                                 var call__41 = call__40.FCastImages.ImageSequences[0];
                                 Anim.SetImageSequence(call__41);
@@ -545,60 +499,25 @@ namespace Aow.Units.Mountain
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.Mountain.TRaiseTerrainTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Mountain.TRaiseTerrainTE o = new Aow.Units.Mountain.TRaiseTerrainTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // Mountain.pas:258
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135946;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Mountain.TRaiseTerrainTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Mountain.TRaiseTerrainTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.Mountain.TRaiseTerrainTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Mountain.TRaiseTerrainTE o = (Aow.Units.Mountain.TRaiseTerrainTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Mountain.TRaiseTerrainTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Mountain.TRaiseTerrainTE)base.Create(AOwner);
         }
     }
 
     // { TRaiseTerrain (instance size 60, VMT 557A2CD0) }
     public partial class TRaiseTerrain : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
-        // Mountain.pas:327
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TRaiseTerrain(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaiseTerrainRStr);
             FSpellName = call__43;
             FSpellID = 19;
@@ -607,6 +526,14 @@ namespace Aow.Units.Mountain
             FMagicSphere = Aow.Units.AoWE.TMagicSphere.msEarth;
             FAboveGroundOnly = true;
         }
+
+        public static new TRaiseTerrain Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TRaiseTerrain(context, owner));
+        }
+
+        // Mountain.pas:327
+
 
         // Mountain.pas:364
         public override void SetupTargetSelection(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TTargetSelectionControl A2)
@@ -629,7 +556,7 @@ namespace Aow.Units.Mountain
         {
             bool Result = default;
             Aow.Units.Mountain.TRaiseTerrainTE Event = default;
-            Event = Aow.Units.Mountain.TRaiseTerrainTE.Create(null);
+            Event = new Aow.Units.Mountain.TRaiseTerrainTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__45 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -689,21 +616,7 @@ namespace Aow.Units.Mountain
         }
 
         // Mountain.pas:77
-        public static new Aow.Units.Mountain.TRaiseTerrain Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Mountain.TRaiseTerrain o = new Aow.Units.Mountain.TRaiseTerrain();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -724,7 +637,7 @@ namespace Aow.Units.Mountain
         // Mountain.pas:384
         public static void RegisterMountain(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TMountainMO>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TMountainMOR>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TRaiseTerrainTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TRaisedMountain>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TRaisedMountainResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TMountainMO>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TMountainMOR>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TRaiseTerrainTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TRaisedMountain>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TRaisedMountainResource>()]);
             var call__52 = Aow.Units.Mountain.TRaiseTerrain.Create(null);
             ((Aow.Units.AoWE.TAoWEngine)AEngine).FGameSet.FSpellControl.RegisterSpell(call__52);
         }
@@ -732,7 +645,7 @@ namespace Aow.Units.Mountain
         // Mountain.pas:390
         public static void UnRegisterMountain(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TMountainMO>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TMountainMOR>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TRaiseTerrainTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TRaisedMountain>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Mountain.TRaisedMountainResource>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TMountainMO>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TMountainMOR>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TRaiseTerrainTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TRaisedMountain>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mountain.TRaisedMountainResource>()]);
             // { Original unregisters spell 12, although Raise Terrain registers as spell 19. }
             ((Aow.Units.AoWE.TAoWEngine)AEngine).FGameSet.FSpellControl.UnregisterSpellID(12);
         }

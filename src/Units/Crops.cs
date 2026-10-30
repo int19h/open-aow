@@ -38,6 +38,19 @@ namespace Aow.Units.Crops
 //     +$3D FChangingCrops, +$40 FIncomeSource. }
     public partial class TPlayerCropStructure : Aow.Units.AoWE.TPlayerStructure
     {
+        public TPlayerCropStructure(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TPlayerCropStructure(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            FChangingCrops = false;
+            var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
+            FIncomeSource = call__1;
+            FIncomeSource.Setup(this);
+        }
+
+        // Crops.pas:284
+        public new const int ClassID = 131918;
+
         public byte FIncome;
         public bool FChangingCrops;
         public Aow.Units.FixedArray_byte_2 FReserved3E;
@@ -50,14 +63,7 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:270
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FChangingCrops = false;
-            var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
-            FIncomeSource = call__1;
-            FIncomeSource.Setup(this);
-        }
+
 
         // Crops.pas:528
         public override void NeighbourTerrainChanged(int HN, in Aow.Units.HSEngine.THSTerrainInfo Info)
@@ -570,48 +576,15 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:27
-        public static new Aow.Units.Crops.TPlayerCropStructure Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Crops.TPlayerCropStructure o = new Aow.Units.Crops.TPlayerCropStructure();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
             // Crops.pas:284
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131918;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Crops.TPlayerCropStructure.ClassID;
 
             // Crops.pas:27
-            public new Aow.Units.Crops.TPlayerCropStructure Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Crops.TPlayerCropStructure o = (Aow.Units.Crops.TPlayerCropStructure)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Crops.TPlayerCropStructure Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crops.TPlayerCropStructure)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Crops.TPlayerCropStructure => (Meta)MetaRegistry.Of(typeof(T));
@@ -622,6 +595,12 @@ namespace Aow.Units.Crops
     // { TPlayerCropStructureResource (instance size 120, VMT 557A58FC): +$74 FCropLocations. }
     public partial class TPlayerCropStructureResource : Aow.Units.AoWE.TPlayerStructureResource
     {
+        public TPlayerCropStructureResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Crops.pas:599
+        public new const int ClassID = 131919;
+
         public Aow.Units.Engine.TWordList FCropLocations;
         // Crops.pas:592
         public override void Destroy()
@@ -658,37 +637,25 @@ namespace Aow.Units.Crops
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // Crops.pas:599
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131919;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Crops.TPlayerCropStructureResource.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Crops.TPlayerCropStructureResource => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:300
-            public new Aow.Units.Crops.TPlayerCropStructureResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Crops.TPlayerCropStructureResource o = (Aow.Units.Crops.TPlayerCropStructureResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Crops.TPlayerCropStructureResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crops.TPlayerCropStructureResource)base.Create(AOwner);
         }
     }
 
     // { TCrop (instance size 32, VMT 557A5A10): +$1C FCropOwner. }
     public partial class TCrop : Aow.Units.ILTer.TILTerrainMO
     {
+        public TCrop(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
+        // Crops.pas:119
+        public new const int ClassID = 131946;
+
         public Aow.Units.Crops.TPlayerCropStructure FCropOwner;
         // Crops.pas:114
         public override void Destroy()
@@ -697,10 +664,7 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:109
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // Crops.pas:151
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -909,48 +873,15 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:68
-        public static new Aow.Units.Crops.TCrop Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Crops.TCrop o = new Aow.Units.Crops.TCrop();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
             // Crops.pas:119
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131946;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Crops.TCrop.ClassID;
 
             // Crops.pas:68
-            public new Aow.Units.Crops.TCrop Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Crops.TCrop o = (Aow.Units.Crops.TCrop)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Crops.TCrop Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crops.TCrop)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Crops.TCrop => (Meta)MetaRegistry.Of(typeof(T));
@@ -961,6 +892,12 @@ namespace Aow.Units.Crops
     // { TCropResource (instance size 68, VMT 557A5BB0) }
     public partial class TCropResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TCropResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Crops.pas:245
+        public new const int ClassID = 131947;
+
         // Crops.pas:251
         public override int ResourceUserClassID()
         {
@@ -979,7 +916,7 @@ namespace Aow.Units.Crops
         public Aow.Units.Crops.TCrop PlaceCrop(sbyte X, sbyte Y, sbyte L, Aow.Units.Crops.TPlayerCropStructure CropOwner)
         {
             Aow.Units.Crops.TCrop Result = default;
-            Result = Aow.Units.Crops.TCrop.Create(null);
+            Result = new Aow.Units.Crops.TCrop(null);
             Result.SetResource(this);
             Result.ResourceLinked = true;
             Result.FCropOwner = CropOwner;
@@ -996,12 +933,7 @@ namespace Aow.Units.Crops
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // Crops.pas:245
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131947;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Crops.TCropResource.ClassID;
 
             // Crops.pas:254
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -1014,21 +946,7 @@ namespace Aow.Units.Crops
             public static new Meta Of<T>()
                 where T : Aow.Units.Crops.TCropResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.Crops.TCropResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Crops.TCropResource o = (Aow.Units.Crops.TCropResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Crops.TCropResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Crops.TCropResource)base.Create(AOwner);
         }
     }
 
@@ -1048,8 +966,8 @@ namespace Aow.Units.Crops
         // Crops.pas:615
         public static void RegisterCrops(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Crops.TCrop>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Crops.TCropResource>()]);
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Crops.TPlayerCropStructure>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Crops.TPlayerCropStructureResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Crops.TCrop>(), Aow.Units.Engine.EClass.Of<Aow.Units.Crops.TCropResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Crops.TPlayerCropStructure>(), Aow.Units.Engine.EClass.Of<Aow.Units.Crops.TPlayerCropStructureResource>()]);
         }
 
         public static void Initialize()

@@ -39,6 +39,9 @@ namespace Aow.Units.BloodShrine
     // { TBloodShrineAnimation: size $3C, VMT 557E26D0; no additional fields. }
     public partial class TBloodShrineAnimation : Aow.Units.Animation.TAnimation
     {
+        public TBloodShrineAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // BloodShrine.pas:56
         public override void NewFrame()
         {
@@ -50,21 +53,7 @@ namespace Aow.Units.BloodShrine
         }
 
         // Animation.pas:43
-        public static new Aow.Units.BloodShrine.TBloodShrineAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BloodShrine.TBloodShrineAnimation o = new Aow.Units.BloodShrine.TBloodShrineAnimation();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Animation.TAnimation.Meta
         {
@@ -79,32 +68,22 @@ namespace Aow.Units.BloodShrine
             public static new Meta Of<T>()
                 where T : Aow.Units.BloodShrine.TBloodShrineAnimation => (Meta)MetaRegistry.Of(typeof(T));
             // Animation.pas:43
-            public new Aow.Units.BloodShrine.TBloodShrineAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BloodShrine.TBloodShrineAnimation o = (Aow.Units.BloodShrine.TBloodShrineAnimation)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BloodShrine.TBloodShrineAnimation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BloodShrine.TBloodShrineAnimation)base.Create(AOwner);
         }
     }
 
     // { TBloodShrine: size $30, VMT 557E2880; no additional fields. }
     public partial class TBloodShrine : Aow.Units.AoWE.TStructure
     {
-        // BloodShrine.pas:62
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TBloodShrine(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
+
+        // BloodShrine.pas:65
+        public new const int ClassID = 131376;
+
+        // BloodShrine.pas:62
+
 
         // BloodShrine.pas:103
         public override void ArmyPlaced(Aow.Units.AoWE.TArmyHS A1)
@@ -164,7 +143,7 @@ namespace Aow.Units.BloodShrine
             var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.Visible(unchecked((sbyte)call__11), unchecked((sbyte)call__10), unchecked((sbyte)call__9), 0);
             if (call__12)
             {
-                Anim = Aow.Units.BloodShrine.TBloodShrineAnimation.Create(null);
+                Anim = new Aow.Units.BloodShrine.TBloodShrineAnimation(null);
                 R = Aow.Rtl.Rtl.Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
@@ -177,48 +156,15 @@ namespace Aow.Units.BloodShrine
         }
 
         // BloodShrine.pas:26
-        public static new Aow.Units.BloodShrine.TBloodShrine Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BloodShrine.TBloodShrine o = new Aow.Units.BloodShrine.TBloodShrine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // BloodShrine.pas:65
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131376;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.BloodShrine.TBloodShrine.ClassID;
 
             // BloodShrine.pas:26
-            public new Aow.Units.BloodShrine.TBloodShrine Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BloodShrine.TBloodShrine o = (Aow.Units.BloodShrine.TBloodShrine)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BloodShrine.TBloodShrine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BloodShrine.TBloodShrine)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BloodShrine.TBloodShrine => (Meta)MetaRegistry.Of(typeof(T));
@@ -228,13 +174,17 @@ namespace Aow.Units.BloodShrine
     // { TBloodShrineResource: size $64, VMT 557E2AEC; no additional fields. }
     public partial class TBloodShrineResource : Aow.Units.AoWE.TStructureResource
     {
-        // BloodShrine.pas:109
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TBloodShrineResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = true;
             FConnectRoads = false;
         }
+
+        // BloodShrine.pas:116
+        public new const int ClassID = 131377;
+
+        // BloodShrine.pas:109
+
 
         // BloodShrine.pas:122
         public override int ResourceUserClassID()
@@ -245,31 +195,12 @@ namespace Aow.Units.BloodShrine
         }
 
         // BloodShrine.pas:36
-        public static new Aow.Units.BloodShrine.TBloodShrineResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BloodShrine.TBloodShrineResource o = new Aow.Units.BloodShrine.TBloodShrineResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // BloodShrine.pas:116
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131377;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.BloodShrine.TBloodShrineResource.ClassID;
 
             // BloodShrine.pas:119
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -282,21 +213,7 @@ namespace Aow.Units.BloodShrine
             }
 
             // BloodShrine.pas:36
-            public new Aow.Units.BloodShrine.TBloodShrineResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BloodShrine.TBloodShrineResource o = (Aow.Units.BloodShrine.TBloodShrineResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BloodShrine.TBloodShrineResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BloodShrine.TBloodShrineResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BloodShrine.TBloodShrineResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -308,7 +225,7 @@ namespace Aow.Units.BloodShrine
         // BloodShrine.pas:125
         public static void RegisterBloodShrine(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.BloodShrine.TBloodShrine>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.BloodShrine.TBloodShrineResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.BloodShrine.TBloodShrine>(), Aow.Units.Engine.EClass.Of<Aow.Units.BloodShrine.TBloodShrineResource>()]);
         }
 
         public static void Initialize()

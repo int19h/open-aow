@@ -163,15 +163,15 @@ public sealed partial class SpellConstructionTests
     [InlineData(typeof(Aow.Units.UnHolyG.TUnholyGroundSpell))]
     [InlineData(typeof(Aow.Units.Mountain.TRaiseTerrain))]
     [InlineData(typeof(Aow.Units.PoisonP.TPoisonPlantSpell))]
-    public void OutsideGlobalTargetDescendantsKeepTheirRawBaseAndLegacyInitializer(Type type)
+    public void ConvertedGlobalTargetDescendantsUseCompletedConstruction(Type type)
     {
         using var fixture = new Fixture();
         var owner = new Owner();
-        var raw = (TSpell)Activator.CreateInstance(type)!;
-        Assert.Null(raw.FSpellText);
         int before = new TObject().InstanceId;
-        raw.Create__init(owner);
-        Assert.Equal(5, new TObject().InstanceId - before);
+        var raw = (TSpell)EClass.Of(type).Create(owner);
+        Assert.IsType(type, raw);
+        Assert.NotNull(raw.FSpellText);
+        Assert.Equal(6, new TObject().InstanceId - before);
         try
         {
             Assert.Same(raw, Assert.Single(owner.Members));

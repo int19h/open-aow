@@ -22,13 +22,17 @@ namespace Aow.Units.Road
 //     pairs 2+6 and 3+5 become bits 7 and 6) }
     public partial class TRoad : Aow.Units.HSEngine.TAbstractRoad
     {
+        public TRoad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
+        // Road.pas:47
+        public new const int ClassID = 131428;
+
         protected internal byte FTransitions;
         // Road.pas:42
         // { TRoad }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // Road.pas:52
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
@@ -132,48 +136,15 @@ namespace Aow.Units.Road
         }
 
         // Road.pas:18
-        public static new Aow.Units.Road.TRoad Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Road.TRoad o = new Aow.Units.Road.TRoad();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
         {
             // Road.pas:47
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131428;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Road.TRoad.ClassID;
 
             // Road.pas:18
-            public new Aow.Units.Road.TRoad Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Road.TRoad o = (Aow.Units.Road.TRoad)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Road.TRoad Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Road.TRoad)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Road.TRoad => (Meta)MetaRegistry.Of(typeof(T));
@@ -183,6 +154,12 @@ namespace Aow.Units.Road
     // { Road.TRoadResource (instance size 52) }
     public partial class TRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
+        public TRoadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Road.pas:136
+        public new const int ClassID = 131429;
+
         // Road.pas:126
         // { TRoadResource }
         public override int ResourceUserClassID()
@@ -285,31 +262,12 @@ namespace Aow.Units.Road
             }
 
             // Road.pas:136
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131429;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Road.TRoadResource.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Road.TRoadResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1124
-            public new Aow.Units.Road.TRoadResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Road.TRoadResource o = (Aow.Units.Road.TRoadResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Road.TRoadResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Road.TRoadResource)base.Create(AOwner);
         }
     }
 
@@ -318,7 +276,7 @@ namespace Aow.Units.Road
         // Road.pas:177
         public static void RegisterRoad(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Road.TRoad>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Road.TRoadResource>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Road.TRoad>(), Aow.Units.Engine.EClass.Of<Aow.Units.Road.TRoadResource>()]);
         }
     }
 }

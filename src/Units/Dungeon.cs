@@ -74,6 +74,16 @@ namespace Aow.Units.Dungeon
     // { TDungeon (instance size 64, VMT 557C557C): $38 FPrisoners, $3C FPrisonersMode. }
     public partial class TDungeon : Aow.Units.ExploreS.TExplorationSite
     {
+        public TDungeon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FPrisonersMode = Aow.Units.Dungeon.TPrisonersMode.pmNormal;
+            var call__5 = new Aow.Units.Dungeon.TPrisonersArmy(null);
+            FPrisoners = call__5;
+        }
+
+        // Dungeon.pas:108
+        public new const int ClassID = 131882;
+
         public Aow.Units.Dungeon.TPrisonersArmy FPrisoners;
         // { $38 }
         public Aow.Units.Dungeon.TPrisonersMode FPrisonersMode;
@@ -95,13 +105,7 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:95
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FPrisonersMode = Aow.Units.Dungeon.TPrisonersMode.pmNormal;
-            var call__5 = new Aow.Units.Dungeon.TPrisonersArmy(null);
-            FPrisoners = call__5;
-        }
+
 
         // Dungeon.pas:249
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -345,48 +349,15 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:33
-        public static new Aow.Units.Dungeon.TDungeon Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Dungeon.TDungeon o = new Aow.Units.Dungeon.TDungeon();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ExploreS.TExplorationSite.Meta
         {
             // Dungeon.pas:108
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131882;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Dungeon.TDungeon.ClassID;
 
             // Dungeon.pas:33
-            public new Aow.Units.Dungeon.TDungeon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Dungeon.TDungeon o = (Aow.Units.Dungeon.TDungeon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Dungeon.TDungeon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Dungeon.TDungeon)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Dungeon.TDungeon => (Meta)MetaRegistry.Of(typeof(T));
@@ -396,6 +367,15 @@ namespace Aow.Units.Dungeon
     // { TDungeonResource (instance size 108, VMT 557C57F0): $68 FPrisonerCollections. }
     public partial class TDungeonResource : Aow.Units.ExploreS.TExplorationSiteResource
     {
+        public TDungeonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__63 = new Aow.Units.AoWE.TUnitIndexListCollection();
+            FPrisonerCollections = call__63;
+        }
+
+        // Dungeon.pas:280
+        public new const int ClassID = 131883;
+
         public Aow.Units.AoWE.TUnitIndexListCollection FPrisonerCollections;
         // Dungeon.pas:271
         // { $68 }
@@ -413,12 +393,7 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:265
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__63 = new Aow.Units.AoWE.TUnitIndexListCollection();
-            FPrisonerCollections = call__63;
-        }
+
 
         // Dungeon.pas:283
         public override int ResourceUserClassID()
@@ -429,31 +404,12 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:53
-        public static new Aow.Units.Dungeon.TDungeonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Dungeon.TDungeonResource o = new Aow.Units.Dungeon.TDungeonResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ExploreS.TExplorationSiteResource.Meta
         {
             // Dungeon.pas:280
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131883;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Dungeon.TDungeonResource.ClassID;
 
             // Dungeon.pas:277
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -464,21 +420,7 @@ namespace Aow.Units.Dungeon
             }
 
             // Dungeon.pas:53
-            public new Aow.Units.Dungeon.TDungeonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Dungeon.TDungeonResource o = (Aow.Units.Dungeon.TDungeonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Dungeon.TDungeonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Dungeon.TDungeonResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Dungeon.TDungeonResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -603,7 +545,7 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:329
         public static void RegisterDungeon(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Dungeon.TDungeon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Dungeon.TDungeonResource>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Dungeon.TDungeon>(), Aow.Units.Engine.EClass.Of<Aow.Units.Dungeon.TDungeonResource>()]);
         }
 
         public static void Initialize()

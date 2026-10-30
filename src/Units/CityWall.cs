@@ -51,6 +51,12 @@ namespace Aow.Units.CityWall
     // { TCityWall (instance size 48, VMT 00405008) }
     public partial class TCityWall : Aow.Units.CombatILTer.TCombatILTerrain
     {
+        public TCityWall(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CityWall.pas:78
+        public new const int ClassID = 2229508;
+
         public int FHitPoints;
         // { $20 }
         public int FDamageImage;
@@ -547,37 +553,24 @@ namespace Aow.Units.CityWall
         public new partial class Meta : Aow.Units.CombatILTer.TCombatILTerrain.Meta
         {
             // CityWall.pas:78
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229508;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CityWall.TCityWall.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CityWall.TCityWall => (Meta)MetaRegistry.Of(typeof(T));
             // ILTer.pas:20
-            public new Aow.Units.CityWall.TCityWall Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CityWall.TCityWall o = (Aow.Units.CityWall.TCityWall)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CityWall.TCityWall Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CityWall.TCityWall)base.Create(AOwner);
         }
     }
 
     // { TCityWallResource (instance size 76, VMT 004051B4) }
     public partial class TCityWallResource : Aow.Units.CombatILTer.TCombatILTerrainResource
     {
+        public TCityWallResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CityWall.pas:366
+        public new const int ClassID = 2229509;
+
         public byte FDirection;
         // { $48 }
         public Aow.Units.FixedArray_byte_3 F_CityWallResource_49;
@@ -599,12 +592,7 @@ namespace Aow.Units.CityWall
         public new partial class Meta : Aow.Units.CombatILTer.TCombatILTerrainResource.Meta
         {
             // CityWall.pas:366
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229509;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CityWall.TCityWallResource.ClassID;
 
             // CityWall.pas:375
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -617,27 +605,19 @@ namespace Aow.Units.CityWall
             public static new Meta Of<T>()
                 where T : Aow.Units.CityWall.TCityWallResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.CityWall.TCityWallResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CityWall.TCityWallResource o = (Aow.Units.CityWall.TCityWallResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CityWall.TCityWallResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CityWall.TCityWallResource)base.Create(AOwner);
         }
     }
 
     // { TCityWallDoor (instance size 48, VMT 004052AC) }
     public partial class TCityWallDoor : Aow.Units.CityWall.TCityWall
     {
+        public TCityWallDoor(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CityWall.pas:381
+        public new const int ClassID = 2229510;
+
         // CityWall.pas:428
         public override sbyte GetOverlay(int Index)
         {
@@ -825,37 +805,24 @@ namespace Aow.Units.CityWall
         public new partial class Meta : Aow.Units.CityWall.TCityWall.Meta
         {
             // CityWall.pas:381
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229510;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CityWall.TCityWallDoor.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CityWall.TCityWallDoor => (Meta)MetaRegistry.Of(typeof(T));
             // ILTer.pas:20
-            public new Aow.Units.CityWall.TCityWallDoor Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CityWall.TCityWallDoor o = (Aow.Units.CityWall.TCityWallDoor)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CityWall.TCityWallDoor Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CityWall.TCityWallDoor)base.Create(AOwner);
         }
     }
 
     // { TCityWallDoorResource (instance size 76, VMT 00405460) }
     public partial class TCityWallDoorResource : Aow.Units.CityWall.TCityWallResource
     {
+        public TCityWallDoorResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CityWall.pas:451
+        public new const int ClassID = 2229511;
+
         // CityWall.pas:457
         public override int ResourceUserClassID()
         {
@@ -867,12 +834,7 @@ namespace Aow.Units.CityWall
         public new partial class Meta : Aow.Units.CityWall.TCityWallResource.Meta
         {
             // CityWall.pas:451
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229511;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CityWall.TCityWallDoorResource.ClassID;
 
             // CityWall.pas:454
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -885,21 +847,7 @@ namespace Aow.Units.CityWall
             public static new Meta Of<T>()
                 where T : Aow.Units.CityWall.TCityWallDoorResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.CityWall.TCityWallDoorResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CityWall.TCityWallDoorResource o = (Aow.Units.CityWall.TCityWallDoorResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CityWall.TCityWallDoorResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CityWall.TCityWallDoorResource)base.Create(AOwner);
         }
     }
 
@@ -908,7 +856,7 @@ namespace Aow.Units.CityWall
         // CityWall.pas:460
         public static void RegisterCityWall(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CityWall.TCityWall>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CityWall.TCityWallResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CityWall.TCityWallDoor>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CityWall.TCityWallDoorResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CityWall.TCityWall>(), Aow.Units.Engine.EClass.Of<Aow.Units.CityWall.TCityWallResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CityWall.TCityWallDoor>(), Aow.Units.Engine.EClass.Of<Aow.Units.CityWall.TCityWallDoorResource>()]);
         }
 
         public static void Initialize()

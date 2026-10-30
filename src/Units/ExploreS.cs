@@ -73,6 +73,16 @@ namespace Aow.Units.ExploreS
 //     $30 FDefendersMode, $34 FDefenders. }
     public partial class TExplorationSite : Aow.Units.AoWE.TStructure
     {
+        public TExplorationSite(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FDefendersMode = Aow.Units.ExploreS.TDefendersMode.dmNormal;
+            var call__5 = new Aow.Units.ExploreS.TDefendersArmy(null);
+            FDefenders = call__5;
+        }
+
+        // ExploreS.pas:90
+        public new const int ClassID = 132033;
+
         public Aow.Units.ExploreS.TDefendersMode FDefendersMode;
         public Aow.Units.FixedArray_byte_3 F_ExplorationSite_31;
         public Aow.Units.ExploreS.TDefendersArmy FDefenders;
@@ -92,13 +102,7 @@ namespace Aow.Units.ExploreS
         }
 
         // ExploreS.pas:77
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FDefendersMode = Aow.Units.ExploreS.TDefendersMode.dmNormal;
-            var call__5 = new Aow.Units.ExploreS.TDefendersArmy(null);
-            FDefenders = call__5;
-        }
+
 
         // ExploreS.pas:351
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -536,48 +540,15 @@ namespace Aow.Units.ExploreS
         }
 
         // ExploreS.pas:33
-        public static new Aow.Units.ExploreS.TExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ExploreS.TExplorationSite o = new Aow.Units.ExploreS.TExplorationSite();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // ExploreS.pas:90
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132033;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ExploreS.TExplorationSite.ClassID;
 
             // ExploreS.pas:33
-            public new Aow.Units.ExploreS.TExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ExploreS.TExplorationSite o = (Aow.Units.ExploreS.TExplorationSite)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ExploreS.TExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ExploreS.TExplorationSite)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ExploreS.TExplorationSite => (Meta)MetaRegistry.Of(typeof(T));
@@ -588,6 +559,16 @@ namespace Aow.Units.ExploreS
 //     $64 FDefenderCollections, the available defender army compositions. }
     public partial class TExplorationSiteResource : Aow.Units.AoWE.TStructureResource
     {
+        public TExplorationSiteResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__51 = new Aow.Units.AoWE.TUnitIndexListCollection();
+            FDefenderCollections = call__51;
+            FTerrainBound = false;
+        }
+
+        // ExploreS.pas:373
+        public new const int ClassID = 132034;
+
         public Aow.Units.AoWE.TUnitIndexListCollection FDefenderCollections;
         // ExploreS.pas:364
         // { $64 }
@@ -605,13 +586,7 @@ namespace Aow.Units.ExploreS
         }
 
         // ExploreS.pas:357
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__51 = new Aow.Units.AoWE.TUnitIndexListCollection();
-            FDefenderCollections = call__51;
-            FTerrainBound = false;
-        }
+
 
         // ExploreS.pas:382
         public override int ResourceUserClassID()
@@ -622,31 +597,12 @@ namespace Aow.Units.ExploreS
         }
 
         // ExploreS.pas:61
-        public static new Aow.Units.ExploreS.TExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ExploreS.TExplorationSiteResource o = new Aow.Units.ExploreS.TExplorationSiteResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // ExploreS.pas:373
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132034;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ExploreS.TExplorationSiteResource.ClassID;
 
             // ExploreS.pas:370
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -657,21 +613,7 @@ namespace Aow.Units.ExploreS
             }
 
             // ExploreS.pas:61
-            public new Aow.Units.ExploreS.TExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ExploreS.TExplorationSiteResource o = (Aow.Units.ExploreS.TExplorationSiteResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ExploreS.TExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ExploreS.TExplorationSiteResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ExploreS.TExplorationSiteResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -692,7 +634,7 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:385
         public static void RegisterExplorationSite(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ExploreS.TExplorationSite>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ExploreS.TExplorationSiteResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.ExploreS.TExplorationSite>(), Aow.Units.Engine.EClass.Of<Aow.Units.ExploreS.TExplorationSiteResource>()]);
         }
 
         public static void Initialize()

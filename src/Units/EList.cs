@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 namespace Aow.Units.EList
 {
     // { EList.TListObject (instance size 4): no fields. TObjectList.LoadFromStream constructs
-//     items through its metaclass factory. The stream methods are empty here and overridden
+//     items with their ordinary constructor. The stream methods are empty here and overridden
 //     by the items. }
     public partial class TListObject : Aow.Rtl.TObject
     {
@@ -23,14 +23,6 @@ namespace Aow.Units.EList
         {
         }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            // EList.pas:22
-            public Aow.Units.EList.TListObject Create() => (Aow.Units.EList.TListObject)NewInstance();
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.EList.TListObject => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { EList.TObjectList (instance size 16): a TList that owns its TListObjects. A slot may be nil;
@@ -89,7 +81,7 @@ namespace Aow.Units.EList
         }
 
         // EList.pas:89
-        public void LoadFromStream(Aow.Rtl.TStream Stream, Aow.Units.EList.TListObject.Meta AClass)
+        public void LoadFromStream(Aow.Rtl.TStream Stream)
         {
             int N = default;
             bool IsNil = default;
@@ -105,7 +97,7 @@ namespace Aow.Units.EList
                     Stream.Read(Aow.Rtl.Bytes.Of(ref IsNil, 1));
                     if (!IsNil)
                     {
-                        Obj = AClass.Create();
+                        Obj = new Aow.Units.EList.TListObject();
                         Obj.LoadFromStream(Stream);
                         Add(Obj);
                     }

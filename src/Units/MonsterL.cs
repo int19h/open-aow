@@ -39,40 +39,33 @@ namespace Aow.Units.MonsterL
     // { TMonsterlair (instance size 64, no added fields, VMT 557C2D24) }
     public partial class TMonsterlair : Aow.Units.ItemExpS.TItemExplorationSite
     {
+        public TMonsterlair(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // MonsterL.pas:34
+        public new const int ClassID = 131886;
+
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSite.Meta
         {
             // MonsterL.pas:34
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131886;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MonsterL.TMonsterlair.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MonsterL.TMonsterlair => (Meta)MetaRegistry.Of(typeof(T));
             // ItemExpS.pas:32
-            public new Aow.Units.MonsterL.TMonsterlair Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.MonsterL.TMonsterlair o = (Aow.Units.MonsterL.TMonsterlair)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.MonsterL.TMonsterlair Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MonsterL.TMonsterlair)base.Create(AOwner);
         }
     }
 
     // { TMonsterlairResource (instance size 104, no added fields, VMT 557C2FA4) }
     public partial class TMonsterlairResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
+        public TMonsterlairResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // MonsterL.pas:40
+        public new const int ClassID = 131887;
+
         // MonsterL.pas:43
         public override int ResourceUserClassID()
         {
@@ -84,12 +77,7 @@ namespace Aow.Units.MonsterL
         public new partial class Meta : Aow.Units.ItemExpS.TItemExplorationSiteResource.Meta
         {
             // MonsterL.pas:40
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131887;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MonsterL.TMonsterlairResource.ClassID;
 
             // MonsterL.pas:37
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -102,21 +90,7 @@ namespace Aow.Units.MonsterL
             public static new Meta Of<T>()
                 where T : Aow.Units.MonsterL.TMonsterlairResource => (Meta)MetaRegistry.Of(typeof(T));
             // ExploreS.pas:61
-            public new Aow.Units.MonsterL.TMonsterlairResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.MonsterL.TMonsterlairResource o = (Aow.Units.MonsterL.TMonsterlairResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.MonsterL.TMonsterlairResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MonsterL.TMonsterlairResource)base.Create(AOwner);
         }
     }
 
@@ -125,7 +99,7 @@ namespace Aow.Units.MonsterL
         // MonsterL.pas:46
         public static void RegisterMonsterlair(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MonsterL.TMonsterlair>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MonsterL.TMonsterlairResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MonsterL.TMonsterlair>(), Aow.Units.Engine.EClass.Of<Aow.Units.MonsterL.TMonsterlairResource>()]);
         }
 
         public static void Initialize()

@@ -121,30 +121,18 @@ public sealed class ClassesTests
         Assert.True(leaf.ComponentState.Contains(TComponentState.csDestroying)); tree.Destroy();
     }
 
-    private sealed class CreatedComponent : TComponent
-    {
-        internal static CreatedComponent? Last;
-        internal bool Destroyed;
-        internal bool Fail;
-        public override void Create__init(TComponent? owner)
-        {
-            Last = this; base.Create__init(owner); if (Fail) throw new EInvalidOperation("constructor failed");
-        }
-        public override void Destroy() { Destroyed = true; base.Destroy(); }
-    }
-
     [Fact]
-    public void ComponentMetaclassRunsVirtualInitializerAndCleansUpFailures()
+    public void ComponentConstructorInsertsAndDestroyRemovesOwnerMembership()
     {
-        MetaRegistry.Register(typeof(CreatedComponent), new TComponent.Meta(), () => new CreatedComponent(), 0);
-        var meta = TComponent.Meta.Of<CreatedComponent>(); var owner = new TComponent();
-        var instance = (CreatedComponent)meta.Create(owner); Assert.Same(owner, instance.Owner); Assert.Same(meta, instance.ClassType); instance.Destroy(); Assert.True(instance.Destroyed);
-        var failing = new FailureMeta();
-        Assert.Throws<EInvalidOperation>(() => failing.Create(owner)); Assert.True(CreatedComponent.Last!.Destroyed); Assert.Equal(0, owner.ComponentCount); owner.Destroy();
-    }
-    private sealed class FailureMeta : TComponent.Meta
-    {
-        public override TObject NewInstance() => new CreatedComponent { Fail = true };
+        var owner = new TComponent();
+        var instance = new TComponent(owner);
+        Assert.Same(owner, instance.Owner);
+        Assert.Equal(1, owner.ComponentCount);
+        Assert.Same(instance, owner.Components[0]);
+        instance.Destroy();
+        Assert.Null(instance.Owner);
+        Assert.Equal(0, owner.ComponentCount);
+        owner.Destroy();
     }
 
     private class PublishedBase : TComponent

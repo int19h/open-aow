@@ -70,6 +70,17 @@ namespace Aow.Units.Animation
 //     $34 tag, $38 map. VMT 557FAEA0. }
     public partial class TAnimation : Aow.Units.HSEngine.THexagonSprite
     {
+        public TAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FAnimationLevel = 26;
+        }
+
+        // Raw allocation for FinishedAnimation in remaining-todos.
+        protected TAnimation() { }
+
+        // Animation.pas:143
+        public new const int ClassID = 131815;
+
         public sbyte FXhx;
         // { $08 }
         public sbyte FYhx;
@@ -127,11 +138,7 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:127
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FAnimationLevel = 26;
-        }
+
 
         // Animation.pas:194
         public override byte GetLevel()
@@ -496,31 +503,12 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:43
-        public static new Aow.Units.Animation.TAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Animation.TAnimation o = new Aow.Units.Animation.TAnimation();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // Animation.pas:143
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131815;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Animation.TAnimation.ClassID;
 
             // Animation.pas:159
             public virtual TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
@@ -531,21 +519,7 @@ namespace Aow.Units.Animation
             }
 
             // Animation.pas:43
-            public new Aow.Units.Animation.TAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Animation.TAnimation o = (Aow.Units.Animation.TAnimation)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Animation.TAnimation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Animation.TAnimation)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Animation.TAnimation => (Meta)MetaRegistry.Of(typeof(T));
@@ -557,6 +531,12 @@ namespace Aow.Units.Animation
     // { TAnimationTE: size $18; $10 state, $14 animation. VMT 557FB074. }
     public partial class TAnimationTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public TAnimationTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Animation.pas:388
+        public new const int ClassID = 135433;
+
         public Aow.Units.Animation.TAnimationTEState FState;
         // { $10 }
         public Aow.Units.Animation.TAnimation FAnimation;
@@ -625,31 +605,12 @@ namespace Aow.Units.Animation
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
             // Animation.pas:388
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135433;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Animation.TAnimationTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Animation.TAnimationTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.Animation.TAnimationTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Animation.TAnimationTE o = (Aow.Units.Animation.TAnimationTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Animation.TAnimationTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Animation.TAnimationTE)base.Create(AOwner);
         }
     }
 
@@ -657,6 +618,13 @@ namespace Aow.Units.Animation
 //     $48 last frame, $4C loop flag. VMT 557FB13C. }
     public partial class TImageSequenceAnimation : Aow.Units.Animation.TAnimation
     {
+        public TImageSequenceAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FFrameCount = -1;
+            FXhpOffset = 0;
+            FYhpOffset = 0;
+        }
+
         public Aow.Units.ImageLib.TImageSequence FImageSequence;
         // { $3C }
         public int FXhpOffset;
@@ -669,13 +637,7 @@ namespace Aow.Units.Animation
         // { $4C }
         public Aow.Units.FixedArray_byte_3 F_ImageSequenceAnimation_4D;
         // Animation.pas:424
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FFrameCount = -1;
-            FXhpOffset = 0;
-            FYhpOffset = 0;
-        }
+
 
         // Animation.pas:493
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
@@ -807,27 +769,18 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:98
-        public static new Aow.Units.Animation.TImageSequenceAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Animation.TImageSequenceAnimation o = new Aow.Units.Animation.TImageSequenceAnimation();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TTwinkleAnimation: size $54; $3C sequence, $40 particle count, $44 radius,
 //     $48 lifetime, $4C random start delay, $50 mode. VMT 557FB340. }
     public partial class TTwinkleAnimation : Aow.Units.Animation.TAnimation
     {
+        public TTwinkleAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FAnimationLevel = 28;
+        }
+
         public Aow.Units.ImageLib.TImageSequence FImageSequence;
         // { $3C }
         public int FCount;
@@ -841,11 +794,7 @@ namespace Aow.Units.Animation
         public TSet<Aow.Units.Animation.TTwinkleModeElement> FMode;
         // Animation.pas:532
         // { $50 }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FAnimationLevel = 28;
-        }
+
 
         // Animation.pas:538
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
@@ -938,21 +887,7 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:117
-        public static new Aow.Units.Animation.TTwinkleAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Animation.TTwinkleAnimation o = new Aow.Units.Animation.TTwinkleAnimation();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public delegate void TShowAnimationEvent(Aow.Units.Animation.TAnimation Animation, int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc);

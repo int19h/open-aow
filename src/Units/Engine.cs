@@ -4313,6 +4313,13 @@ namespace Aow.Units.Engine
     // { Engine.TEObject (instance size 8): +4 FOwner. }
     public partial class TEObject : Aow.Rtl.TObject
     {
+        // Engine.pas:2461
+        public const int ClassID = 80;
+
+        private Aow.Units.Engine.EClass eclass;
+        // The engine class descriptor of the instance's exact type, read once and cached.
+        public Aow.Units.Engine.EClass EClass => eclass ??= Aow.Units.Engine.EClass.Of(GetType());
+
         // Raw allocation for legacy descendant factories and Meta.NewInstance consumers.
         public TEObject() { }
 
@@ -4455,8 +4462,8 @@ namespace Aow.Units.Engine
             Aow.Rtl.TMemoryStream S1 = default;
             Aow.Rtl.TMemoryStream S2 = default;
             Result = false;
-            var call__74 = ClassType.ClassID();
-            var call__75 = Obj.ClassType.ClassID();
+            var call__74 = EClass.ClassID;
+            var call__75 = Obj.EClass.ClassID;
             if (call__74 != call__75)
             {
                 return Result;
@@ -4493,22 +4500,14 @@ namespace Aow.Units.Engine
         public virtual Aow.Units.Engine.TEObjectEditor.Meta Editor()
         {
             Aow.Units.Engine.TEObjectEditor.Meta Result = default;
-            Aow.Rtl.TObject.Meta C = default;
             Aow.Units.Engine.TEngine E = default;
             Result = null;
-            C = this.ClassType;
             E = GetEngine();
             if (E != null)
             {
-                while ((C.Type != typeof(Aow.Units.Engine.TEObject)) && (Result == null))
+                for (var C = EClass; (C.Type != typeof(Aow.Units.Engine.TEObject)) && (Result == null); C = C.Parent)
                 {
-                    var call__81 = ((Aow.Units.Engine.TEObject.Meta)C).ClassID();
-                    var call__82 = E.FEditors.FindEditor(call__81);
-                    Result = call__82;
-                    if (Result == null)
-                    {
-                        C = C.ClassParent;
-                    }
+                    Result = E.FEditors.FindEditor(C.ClassID);
                 }
             }
 
@@ -4583,7 +4582,7 @@ namespace Aow.Units.Engine
             {
                 AEngine.WriteEObject(S, this, null);
                 S.Position = 0;
-                Result = ((Aow.Units.Engine.TEObject.Meta)this.ClassType).Create(null);
+                Result = EClass.Create(null);
                 AEngine.ReadEObject(S, Result, null);
             }
             finally
@@ -4617,34 +4616,12 @@ namespace Aow.Units.Engine
 
         public new partial class Meta : Aow.Rtl.TObject.Meta
         {
-            internal Func<TECustomNode, TEObject> CompletedCreation;
-
             // Engine.pas:2461
-            public virtual int ClassID()
-            {
-                int Result = default;
-                Result = 80;
-                return Result;
-            }
+            public virtual int ClassID() => Aow.Units.Engine.TEObject.ClassID;
 
             // Engine.pas:524
-            public Aow.Units.Engine.TEObject Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                if (CompletedCreation is { } create)
-                    return create(AOwner);
-                Aow.Units.Engine.TEObject o = (Aow.Units.Engine.TEObject)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            // Creation goes through the engine class descriptor.
+            public Aow.Units.Engine.TEObject Create(Aow.Units.Engine.TECustomNode AOwner) => Aow.Units.Engine.EClass.Of(Type).Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEObject => (Meta)MetaRegistry.Of(typeof(T));
@@ -4961,7 +4938,7 @@ namespace Aow.Units.Engine
                 {
                     var call__110 = Children[I];
                     C = call__110;
-                    if ((C != null) && (C.ClassType.ClassID() == AClassID))
+                    if ((C != null) && (C.EClass.ClassID == AClassID))
                     {
                         C.Destroy();
                         N += 1;
@@ -5034,7 +5011,7 @@ namespace Aow.Units.Engine
                 {
                     var call__118 = Children[I];
                     C = call__118;
-                    Found = (C != null) && (C.ClassType.ClassID() == AClassID);
+                    Found = (C != null) && (C.EClass.ClassID == AClassID);
                     I += 1;
                 }
             }
@@ -5078,7 +5055,7 @@ namespace Aow.Units.Engine
                     bool bool__122 = (C != null) && (C.Owner == this);
                     if (bool__122)
                     {
-                        var call__123 = C.ClassType.ClassID();
+                        var call__123 = C.EClass.ClassID;
                         bool__122 = (AClassID == call__123);
                     }
 
@@ -5147,6 +5124,9 @@ namespace Aow.Units.Engine
 //     +$28 FDebugEvents, +$2C FStartupDirectory, +$31 FOptions. Every engine is in the Engines list. }
     public partial class TEngine : Aow.Units.Engine.TENode
     {
+        // Engine.pas:8756
+        public new const int ClassID = 17;
+
         internal int FMsgCount;
         internal Aow.Units.Engine.TEObjectClassList FEClasses;
         internal Aow.Units.Engine.TIntegerHashTable256 FClassTable;
@@ -5207,7 +5187,7 @@ namespace Aow.Units.Engine
             var call__133 = new Aow.Rtl.TStringList();
             FDebugIDs = call__133;
             FDebugIDs.AddObject(Aow.Units.Engine.Engine.UserStr, Aow.Rtl.Rtl.IntToObject((int)-1));
-            RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Engine.TEControlStyleObject>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Engine.TEControlStyleNode>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Engine.TECustomOwner>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Engine.TEResourceEditSettings>()]);
+            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Engine.TEControlStyleObject>(), Aow.Units.Engine.EClass.Of<Aow.Units.Engine.TEControlStyleNode>(), Aow.Units.Engine.EClass.Of<Aow.Units.Engine.TECustomOwner>(), Aow.Units.Engine.EClass.Of<Aow.Units.Engine.TEResourceEditSettings>()]);
             Aow.Units.Engine.Engine.Engines.Add(this);
         }
 
@@ -5241,20 +5221,20 @@ namespace Aow.Units.Engine
         public virtual Aow.Units.Engine.TEObject CreateEObject(int AClassID, Aow.Units.Engine.TECustomNode AOwner)
         {
             Aow.Units.Engine.TEObject Result = default;
-            Aow.Units.Engine.TEObject.Meta C = default;
+            Aow.Units.Engine.EClass C = default;
             C = GetEClass(AClassID);
             Result = C.Create(AOwner);
             return Result;
         }
 
         // Engine.pas:8860
-        public virtual Aow.Units.Engine.TEObject.Meta GetEClass(int AClassID)
+        public virtual Aow.Units.Engine.EClass GetEClass(int AClassID)
         {
-            Aow.Units.Engine.TEObject.Meta Result = default;
+            Aow.Units.Engine.EClass Result = default;
             object P = default;
             var call__136 = FClassTable.Find(AClassID);
             P = call__136;
-            Result = (Aow.Units.Engine.TEObject.Meta)P;
+            Result = (Aow.Units.Engine.EClass)P;
             if (Result == null)
             {
                 throw Aow.Rtl.Exception.Create((((AnsiString)"Unregistered E-ClassID found (") + Aow.Rtl.Rtl.IntToStr(AClassID)) + AnsiString.FromBytes(41));
@@ -5336,7 +5316,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8835
-        public void RegisterEClasses(ReadOnlySpan<Aow.Units.Engine.TEObject.Meta> AClasses)
+        public void RegisterEClasses(ReadOnlySpan<Aow.Units.Engine.EClass> AClasses)
         {
             int I = default;
             {
@@ -5349,7 +5329,7 @@ namespace Aow.Units.Engine
                         VerifyEObjectClass(AClasses[I]);
                     }
 
-                    var call__139 = AClasses[I].ClassID();
+                    var call__139 = AClasses[I].ClassID;
                     var call__140 = FClassTable.Find(call__139);
                     if (call__140 != null)
                     {
@@ -5357,14 +5337,14 @@ namespace Aow.Units.Engine
                     }
 
                     FEClasses.Add(AClasses[I]);
-                    var call__141 = AClasses[I].ClassID();
+                    var call__141 = AClasses[I].ClassID;
                     FClassTable.Add(AClasses[I], call__141);
                 }
             }
         }
 
         // Engine.pas:8849
-        public void UnregisterEClasses(ReadOnlySpan<Aow.Units.Engine.TEObject.Meta> AClasses)
+        public void UnregisterEClasses(ReadOnlySpan<Aow.Units.Engine.EClass> AClasses)
         {
             int I = default;
             {
@@ -5373,7 +5353,7 @@ namespace Aow.Units.Engine
                 for (; I <= end__142; I += 1)
                 {
                     FEClasses.Remove(AClasses[I]);
-                    var call__143 = AClasses[I].ClassID();
+                    var call__143 = AClasses[I].ClassID;
                     FClassTable.Delete(call__143);
                 }
             }
@@ -5392,7 +5372,7 @@ namespace Aow.Units.Engine
                 for (; I <= end__144; I += 1)
                 {
                     var call__145 = FEClasses[I];
-                    var call__146 = ((Aow.Units.Engine.TEObject.Meta)call__145).InheritsFrom(AClass);
+                    var call__146 = ((Aow.Units.Engine.EClass)call__145).InheritsFrom(AClass);
                     if (call__146)
                     {
                         var call__147 = FEClasses[I];
@@ -5761,29 +5741,10 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // Engine.pas:8756
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 17;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEngine.ClassID;
 
             // Engine.pas:1126
-            public new Aow.Units.Engine.TEngine Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Engine.TEngine o = (Aow.Units.Engine.TEngine)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Engine.TEngine Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Engine.TEngine)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEngine => (Meta)MetaRegistry.Of(typeof(T));
@@ -5996,6 +5957,8 @@ namespace Aow.Units.Engine
 //     integers are persisted (ids 1..3) }
     public partial class TEResource : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 1024;
+
         // Raw allocation for TEResource.Meta.NewInstance and legacy descendant factories.
         public TEResource() { }
 
@@ -6091,12 +6054,7 @@ namespace Aow.Units.Engine
         {
             // Engine.pas:8503
             // { TEResource }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 1024;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEResource.ClassID;
 
             // Engine.pas:8508
             public virtual Aow.Rtl.AnsiString ResourceEditName()
@@ -6628,7 +6586,7 @@ namespace Aow.Units.Engine
                 bool bool__193 = (List[I] != null);
                 if (bool__193)
                 {
-                    var call__194 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
+                    var call__194 = ((Aow.Units.Engine.TEObject)List[I]).EClass.ClassID;
                     bool__193 = (AClassID == call__194);
                 }
 
@@ -6661,7 +6619,7 @@ namespace Aow.Units.Engine
                 bool bool__195 = (List[I] != null);
                 if (bool__195)
                 {
-                    var call__196 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
+                    var call__196 = ((Aow.Units.Engine.TEObject)List[I]).EClass.ClassID;
                     bool__195 = (AClassID == call__196);
                 }
 
@@ -6714,7 +6672,7 @@ namespace Aow.Units.Engine
                 bool bool__198 = (List[I] == null);
                 if (!bool__198)
                 {
-                    var call__199 = ((Aow.Units.Engine.TEObject)List[I]).ClassType.ClassID();
+                    var call__199 = ((Aow.Units.Engine.TEObject)List[I]).EClass.ClassID;
                     bool__198 = (AClassID == call__199);
                 }
 
@@ -6737,6 +6695,9 @@ namespace Aow.Units.Engine
     // { Engine.TENode (instance size 12): +8 FChildren }
     public partial class TENode : Aow.Units.Engine.TECustomNode
     {
+        // Engine.pas:2861
+        public new const int ClassID = 256;
+
         // Raw allocation for TENode.Meta.NewInstance and legacy descendant factories.
         public TENode() { }
 
@@ -7091,7 +7052,7 @@ namespace Aow.Units.Engine
             while (!Found && (I < FChildren.Count))
             {
                 C = (Aow.Units.Engine.TEObject)FChildren.List[I];
-                Found = (C != null) && (AClassID == C.ClassType.ClassID());
+                Found = (C != null) && (AClassID == C.EClass.ClassID);
                 I += 1;
             }
 
@@ -7142,7 +7103,7 @@ namespace Aow.Units.Engine
                     bool bool__233 = (C != null);
                     if (bool__233)
                     {
-                        var call__234 = C.ClassType.ClassID();
+                        var call__234 = C.EClass.ClassID;
                         bool__233 = (AClassID == call__234);
                     }
 
@@ -7174,12 +7135,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:2861
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 256;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TENode.ClassID;
 
             // Engine.pas:631
             public new Aow.Units.Engine.TENode Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -7194,6 +7150,9 @@ namespace Aow.Units.Engine
 //     sit in one of ten lists and get TimerEvent every tick, every second tick, ... every tenth. }
     public partial class TETimerNode : Aow.Units.Engine.TECustomNode
     {
+        // Engine.pas:1836
+        public new const int ClassID = 264;
+
         internal int FTick;
         internal int FCount;
         internal Aow.Units.FixedArray_Aow_Rtl_TList_10 FTimerLists;
@@ -7441,12 +7400,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:1836
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 264;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TETimerNode.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TETimerNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -7456,6 +7410,9 @@ namespace Aow.Units.Engine
     // { Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, +$C FUpdateCount; Changed on child changes. }
     public partial class TEChangeNotifyNode : Aow.Units.Engine.TECustomNode
     {
+        // Engine.pas:7246
+        public new const int ClassID = 265;
+
         // Raw allocation for TEChangeNotifyNode.Meta.NewInstance and legacy descendant factories.
         public TEChangeNotifyNode() { }
 
@@ -8541,7 +8498,7 @@ namespace Aow.Units.Engine
             while (!Found && (I < FChildren.Count))
             {
                 C = (Aow.Units.Engine.TEObject)FChildren.List[I];
-                Found = (C != null) && (AClassID == C.ClassType.ClassID());
+                Found = (C != null) && (AClassID == C.EClass.ClassID);
                 I += 1;
             }
 
@@ -8593,12 +8550,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:7246
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 265;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEChangeNotifyNode.ClassID;
 
             // Engine.pas:680
             public new Aow.Units.Engine.TEChangeNotifyNode Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -9274,6 +9226,9 @@ namespace Aow.Units.Engine
     // { Engine.TEControlStyleObject (instance size 12): +8 FControlStyle }
     public partial class TEControlStyleObject : Aow.Units.Engine.TEObject
     {
+        // Engine.pas:8228
+        public new const int ClassID = 81;
+
         // Raw base route for TFlagControl in private tests/probes/remaining-todos/Program.cs.
         protected TEControlStyleObject() { }
 
@@ -9311,12 +9266,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:8228
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 81;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEControlStyleObject.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEControlStyleObject => (Meta)MetaRegistry.Of(typeof(T));
@@ -9326,6 +9276,9 @@ namespace Aow.Units.Engine
     // { Engine.TEControlStyleNode (instance size 16): +$C FControlStyle }
     public partial class TEControlStyleNode : Aow.Units.Engine.TENode
     {
+        // Engine.pas:8199
+        public new const int ClassID = 257;
+
         // Raw allocation for TEControlStyleNode.Meta.NewInstance and legacy descendant factories.
         public TEControlStyleNode() { }
 
@@ -9397,12 +9350,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // Engine.pas:8199
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 257;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEControlStyleNode.ClassID;
 
             // Engine.pas:841
             public new Aow.Units.Engine.TEControlStyleNode Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -9417,6 +9365,9 @@ namespace Aow.Units.Engine
 //     its engine: message $20000008 (TEngine.ActivateEObject) carries the engine in the message. }
     public partial class TECustomOwner : Aow.Units.Engine.TENode
     {
+        // Engine.pas:8257
+        public new const int ClassID = 259;
+
         // Raw allocation for TECustomOwner.Meta.NewInstance and legacy descendant factories.
         public TECustomOwner() { }
 
@@ -9515,12 +9466,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TENode.Meta
         {
             // Engine.pas:8257
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 259;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TECustomOwner.ClassID;
 
             // Engine.pas:855
             public new Aow.Units.Engine.TECustomOwner Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -9536,18 +9482,18 @@ namespace Aow.Units.Engine
     {
         // Engine.pas:8296
         // { TEObjectClassList }
-        protected internal Aow.Units.Engine.TEObject.Meta GetEClass(int Index)
+        protected internal Aow.Units.Engine.EClass GetEClass(int Index)
         {
-            Aow.Units.Engine.TEObject.Meta Result = default;
+            Aow.Units.Engine.EClass Result = default;
             var call__290 = this[Index];
-            Result = (Aow.Units.Engine.TEObject.Meta)call__290;
+            Result = (Aow.Units.Engine.EClass)call__290;
             return Result;
         }
 
         // Engine.pas:8301
-        public Aow.Units.Engine.TEObject.Meta FindClass(int AClassID)
+        public Aow.Units.Engine.EClass FindClass(int AClassID)
         {
-            Aow.Units.Engine.TEObject.Meta Result = default;
+            Aow.Units.Engine.EClass Result = default;
             int I = default;
             bool Found = default;
             I = 0;
@@ -9555,7 +9501,7 @@ namespace Aow.Units.Engine
             while (!Found && (I < Count))
             {
                 var call__291 = this[I];
-                var call__292 = ((Aow.Units.Engine.TEObject.Meta)call__291).ClassID();
+                var call__292 = ((Aow.Units.Engine.EClass)call__291).ClassID;
                 Found = AClassID == call__292;
                 I += 1;
             }
@@ -9563,7 +9509,7 @@ namespace Aow.Units.Engine
             if (Found)
             {
                 var call__293 = this[I - 1];
-                Result = (Aow.Units.Engine.TEObject.Meta)call__293;
+                Result = (Aow.Units.Engine.EClass)call__293;
             }
             else
             {
@@ -9584,7 +9530,7 @@ namespace Aow.Units.Engine
             while (!Found && (I < Count))
             {
                 var call__294 = this[I];
-                var call__295 = ((Aow.Units.Engine.TEObject.Meta)call__294).ClassID();
+                var call__295 = ((Aow.Units.Engine.EClass)call__294).ClassID;
                 Found = AClassID == call__295;
                 I += 1;
             }
@@ -9602,9 +9548,9 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8331
-        public Aow.Units.Engine.TEObject.Meta GetClass(int AClassID)
+        public Aow.Units.Engine.EClass GetClass(int AClassID)
         {
-            Aow.Units.Engine.TEObject.Meta Result = default;
+            Aow.Units.Engine.EClass Result = default;
             Result = FindClass(AClassID);
             if (Result == null)
             {
@@ -9615,14 +9561,14 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8338
-        public void RegisterClass(Aow.Units.Engine.TEObject.Meta AClass)
+        public void RegisterClass(Aow.Units.Engine.EClass AClass)
         {
-            var call__296 = AClass.ClassID();
+            var call__296 = AClass.ClassID;
             var call__297 = FindClass(call__296);
             bool bool__298 = (call__297 == null);
             if (bool__298)
             {
-                var call__299 = AClass.ClassID();
+                var call__299 = AClass.ClassID;
                 bool__298 = (call__299 != 0);
             }
 
@@ -9637,10 +9583,10 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8346
-        public void UnregisterClass(Aow.Units.Engine.TEObject.Meta AClass)
+        public void UnregisterClass(Aow.Units.Engine.EClass AClass)
         {
             int I = default;
-            var call__300 = AClass.ClassID();
+            var call__300 = AClass.ClassID;
             var call__301 = FindClassIndex(call__300);
             I = call__301;
             if (I != -1)
@@ -9651,7 +9597,7 @@ namespace Aow.Units.Engine
 
         public sealed class EClassesAccessor(Aow.Units.Engine.TEObjectClassList target)
         {
-            public Aow.Units.Engine.TEObject.Meta this[int Index] { get => target.GetEClass(Index); }
+            public Aow.Units.Engine.EClass this[int Index] { get => target.GetEClass(Index); }
         }
 
         public EClassesAccessor EClasses => new EClassesAccessor(this);
@@ -9660,6 +9606,9 @@ namespace Aow.Units.Engine
     // { Engine.TEResourceEditSettings (instance size 16): +$C FEditors, editor names with ids }
     public partial class TEResourceEditSettings : Aow.Units.Engine.TEControlStyleObject
     {
+        // Engine.pas:8662
+        public new const int ClassID = 1026;
+
         internal Aow.Rtl.TStringList FEditors;
         // Engine.pas:8677
         internal int GetUniqueEditID()
@@ -9775,12 +9724,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TEControlStyleObject.Meta
         {
             // Engine.pas:8662
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 1026;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEResourceEditSettings.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEResourceEditSettings => (Meta)MetaRegistry.Of(typeof(T));
@@ -9795,6 +9739,9 @@ namespace Aow.Units.Engine
 
     public partial class TESortNode : Aow.Units.Engine.TECustomNode
     {
+        // Engine.pas:1478
+        public new const int ClassID = 260;
+
         // Raw allocation for TESortNode.Create, Meta.NewInstance and legacy inverse-sort descendants.
         public TESortNode() { }
 
@@ -10008,12 +9955,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Engine.pas:1478
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 260;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TESortNode.ClassID;
 
             // Engine.pas:922
             public new Aow.Units.Engine.TESortNode Create(Aow.Units.Engine.TECustomNode AOwner) => (TESortNode)base.Create(AOwner);
@@ -10026,6 +9968,8 @@ namespace Aow.Units.Engine
     // { Engine.TEInverseSortNode: the same, sorted the other way }
     public partial class TEInverseSortNode : Aow.Units.Engine.TESortNode
     {
+        public new const int ClassID = 262;
+
         // Raw allocation for TEInverseSortNode.Meta.NewInstance and legacy descendant factories.
         public TEInverseSortNode() { }
 
@@ -10088,12 +10032,7 @@ namespace Aow.Units.Engine
         {
             // Engine.pas:1630
             // { TEInverseSortNode }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 262;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEInverseSortNode.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEInverseSortNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -10106,6 +10045,9 @@ namespace Aow.Units.Engine
     // { Engine.TEControlStyleSortNode (instance size 28): +$18 FControlStyle }
     public partial class TEControlStyleSortNode : Aow.Units.Engine.TESortNode
     {
+        // Engine.pas:1672
+        public new const int ClassID = 261;
+
         internal TSet<Aow.Units.Engine.TEControlStyleElement> FControlStyle;
         // Engine.pas:1666
         // { TEControlStyleSortNode }
@@ -10131,12 +10073,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TESortNode.Meta
         {
             // Engine.pas:1672
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 261;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEControlStyleSortNode.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEControlStyleSortNode => (Meta)MetaRegistry.Of(typeof(T));
@@ -10146,6 +10083,9 @@ namespace Aow.Units.Engine
     // { Engine.TEControlStyleInverseSortNode (instance size 28): +$18 FControlStyle }
     public partial class TEControlStyleInverseSortNode : Aow.Units.Engine.TEInverseSortNode
     {
+        // Engine.pas:1695
+        public new const int ClassID = 263;
+
         // Raw allocation for TEControlStyleInverseSortNode.Meta.NewInstance and legacy descendant factories.
         public TEControlStyleInverseSortNode() { }
 
@@ -10210,12 +10150,7 @@ namespace Aow.Units.Engine
         public new partial class Meta : Aow.Units.Engine.TEInverseSortNode.Meta
         {
             // Engine.pas:1695
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 263;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEControlStyleInverseSortNode.ClassID;
 
             // Engine.pas:963
             public new Aow.Units.Engine.TEControlStyleInverseSortNode Create(Aow.Units.Engine.TECustomNode AOwner)
@@ -11619,6 +11554,8 @@ namespace Aow.Units.Engine
     // { Engine.TEResourceList (instance size 20): resources with unique ids }
     public partial class TEResourceList : Aow.Units.Engine.TECustomOwner
     {
+        public new const int ClassID = 1025;
+
         // Raw allocation for TEResourceList.Meta.NewInstance and legacy descendant factories.
         public TEResourceList() { }
 
@@ -11722,12 +11659,7 @@ namespace Aow.Units.Engine
         {
             // Engine.pas:8568
             // { TEResourceList }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 1025;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Engine.TEResourceList.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Engine.TEResourceList => (Meta)MetaRegistry.Of(typeof(T));
@@ -12095,7 +12027,7 @@ namespace Aow.Units.Engine
                 Continue = true;
                 if (FOnError != null)
                 {
-                    var call__343 = Obj.ClassType.ClassID();
+                    var call__343 = Obj.EClass.ClassID;
                     FOnError(this, (((AnsiString)"Error reading object (cid:") + Aow.Rtl.Rtl.IntToStr(call__343)) + AnsiString.FromBytes(41), ref Continue);
                 }
 
@@ -12313,7 +12245,7 @@ namespace Aow.Units.Engine
                     Continue = true;
                     if (FOnError != null)
                     {
-                        var call__360 = Obj.ClassType.ClassID();
+                        var call__360 = Obj.EClass.ClassID;
                         FOnError(this, (((AnsiString)"Error writing object (cid:") + Aow.Rtl.Rtl.IntToStr(call__360)) + AnsiString.FromBytes(41), ref Continue);
                     }
 
@@ -13409,7 +13341,7 @@ namespace Aow.Units.Engine
                 O = Obj;
                 if (O != null)
                 {
-                    AClassID = O.ClassType.ClassID();
+                    AClassID = O.EClass.ClassID;
                 }
                 else
                 {
@@ -13637,7 +13569,7 @@ namespace Aow.Units.Engine
                 O = Obj;
                 if (O != null)
                 {
-                    AClassID = O.ClassType.ClassID();
+                    AClassID = O.EClass.ClassID;
                 }
                 else
                 {
@@ -13873,7 +13805,7 @@ namespace Aow.Units.Engine
                 // { the original leaves Continue uninitialized here }
                 if (FOnError != null)
                 {
-                    var call__468 = Obj.ClassType.ClassID();
+                    var call__468 = Obj.EClass.ClassID;
                     FOnError(this, (((AnsiString)"Error reading object (cid:") + Aow.Rtl.Rtl.IntToStr(call__468)) + AnsiString.FromBytes(41), ref Continue);
                 }
 
@@ -14795,7 +14727,7 @@ namespace Aow.Units.Engine
                 while (!Found && (I < Aow.Units.Engine.Engine.Engines.Count))
                 {
                     var call__528 = Aow.Units.Engine.Engine.Engines[I];
-                    var call__529 = ((Aow.Units.Engine.TEngine)call__528).ClassType.ClassID();
+                    var call__529 = ((Aow.Units.Engine.TEngine)call__528).EClass.ClassID;
                     Found = AClassID == call__529;
                     I += 1;
                 }

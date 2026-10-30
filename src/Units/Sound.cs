@@ -48,6 +48,8 @@ namespace Aow.Units.Sound
 //     +$C FCallBack, +$14 FStatus. One playing sound effect, in SampleList. }
     public partial class TSample : Aow.Rtl.TObject
     {
+        public static SampleClass Descriptor { get; } = new(Create);
+
         internal int FDelay;
         internal Aow.Units.Sound.TSampleData FSampleData;
         internal Aow.Units.Sound.TSampleCallBack FCallBack;
@@ -193,17 +195,6 @@ namespace Aow.Units.Sound
         public static TSample Create(TSampleData data) =>
             ConstructionContext.Create(data, static (context, value) => new TSample(context, value));
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            // Sound.pas:89
-            private readonly Func<TSampleData, TSample> create;
-            public Meta() : this(TSample.Create) { }
-            public Meta(Func<TSampleData, TSample> create) => this.create = create;
-            public TSample Create(TSampleData data) => create(data);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sound.TSample => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Sound.TSongStatus (instance size 8): +4 FFileName. What BackupSongStatus saves; the sound
@@ -251,6 +242,8 @@ namespace Aow.Units.Sound
 //     file, in SampleDataList while it is loaded; Create counts the first reference. }
     public partial class TSampleData : Aow.Rtl.TObject
     {
+        public static SampleDataClass Descriptor { get; } = new(Create, CreateEx);
+
         internal Aow.Rtl.AnsiString FName;
         internal int FRefCount;
         // Sound.pas:674
@@ -307,26 +300,6 @@ namespace Aow.Units.Sound
             ConstructionContext.Create((format, data, size), static (context, value) =>
                 new TSampleData(context, value.format, value.data, value.size));
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            // Sound.pas:60
-            public delegate TSampleData MemoryCreation(in TWaveFormatEx format, object data, int size);
-            private readonly Func<AnsiString, TSampleData> create;
-            private readonly MemoryCreation createEx;
-            public Meta() : this(TSampleData.Create, TSampleData.CreateEx) { }
-            public Meta(Func<AnsiString, TSampleData> create, MemoryCreation createEx)
-            {
-                this.create = create;
-                this.createEx = createEx;
-            }
-            public TSampleData Create(AnsiString name) => create(name);
-
-            // Sound.pas:61
-            public TSampleData CreateEx(in TWaveFormatEx format, object data, int size) => createEx(format, data, size);
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sound.TSampleData => (Meta)MetaRegistry.Of(typeof(T));
-        }
     }
 
     // { Sound.TSoundSystem (instance size 12): +4 FRefCount, +8 FStatus. The abstract sound system;
@@ -336,13 +309,13 @@ namespace Aow.Units.Sound
         protected internal int FRefCount;
         protected internal TSet<Aow.Units.Sound.TSoundSystemStatusElement> FStatus;
         // Sound.pas:115
-        protected internal virtual Aow.Units.Sound.TSample.Meta SampleClass()
+        protected internal virtual Aow.Units.Sound.SampleClass SampleClass()
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // Sound.pas:116
-        protected internal virtual Aow.Units.Sound.TSampleData.Meta SampleDataClass()
+        protected internal virtual Aow.Units.Sound.SampleDataClass SampleDataClass()
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -528,22 +501,6 @@ namespace Aow.Units.Sound
         public bool SFXEnabled { get => GetSFXEnabled(); }
         public bool MusicEnabled { get => GetMusicEnabled(); }
 
-        public new partial class Meta : Aow.Rtl.TObject.Meta
-        {
-            // Sound.pas:114
-            protected internal virtual Aow.Rtl.AnsiString GetName()
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
-
-            // Sound.pas:127
-            public TSoundSystem Create() => (TSoundSystem)NewInstance();
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.Sound.TSoundSystem => (Meta)MetaRegistry.Of(typeof(T));
-        }
-
-        public new Meta ClassType => (Meta)base.ClassType;
     }
 
     // { Sound.TSFXList (instance size 44): the wave files TSFXManager found }
@@ -827,6 +784,9 @@ namespace Aow.Units.Sound
 //     files). An engine object with a list of music files. }
     public partial class TSonglist : Aow.Units.Engine.TEObject
     {
+        // Sound.pas:801
+        public new const int ClassID = 2162692;
+
         // Sound.pas:786
         private void InitializeSonglist(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -934,12 +894,7 @@ namespace Aow.Units.Sound
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // Sound.pas:801
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2162692;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sound.TSonglist.ClassID;
 
             // Sound.pas:243
             public new Aow.Units.Sound.TSonglist Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Sound.TSonglist)base.Create(AOwner);
@@ -1271,6 +1226,8 @@ namespace Aow.Units.Sound
     // { Sound.TSFX (instance size 12): +8 FFileName. One wave file of a sequence. }
     public partial class TSFX : Aow.Units.Engine.TEObject
     {
+        public new const int ClassID = 2162689;
+
         public TSFX(TECustomNode owner) : base(owner) { }
 
         internal Aow.Rtl.AnsiString FFileName;
@@ -1308,12 +1265,7 @@ namespace Aow.Units.Sound
         {
             // Sound.pas:1022
             // { TSFX }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2162689;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sound.TSFX.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sound.TSFX => (Meta)MetaRegistry.Of(typeof(T));
@@ -1326,6 +1278,8 @@ namespace Aow.Units.Sound
 //     of them plays (at random). }
     public partial class TSFXSequence : Aow.Units.Engine.TENode
     {
+        public new const int ClassID = 2162690;
+
         public TSFXSequence(TECustomNode owner) : base(owner) { }
 
         internal int FID;
@@ -1393,12 +1347,7 @@ namespace Aow.Units.Sound
         {
             // Sound.pas:1047
             // { TSFXSequence }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2162690;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sound.TSFXSequence.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sound.TSFXSequence => (Meta)MetaRegistry.Of(typeof(T));
@@ -1410,6 +1359,8 @@ namespace Aow.Units.Sound
     // { Sound.TSFXLibrary (instance size 12): the sound effects (TSFXSequence children) by ID. }
     public partial class TSFXLibrary : Aow.Units.Engine.TENode
     {
+        public new const int ClassID = 2162691;
+
         public TSFXLibrary(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         // Sound.pas:1088
@@ -1537,12 +1488,7 @@ namespace Aow.Units.Sound
         {
             // Sound.pas:1083
             // { TSFXLibrary }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2162691;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Sound.TSFXLibrary.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Sound.TSFXLibrary => (Meta)MetaRegistry.Of(typeof(T));
@@ -1622,9 +1568,9 @@ namespace Aow.Units.Sound
     {
         // Sound.pas:1293
         // { TSoundSystemList }
-        public Aow.Units.Sound.TSoundSystem.Meta Find(Aow.Rtl.AnsiString Name)
+        public Aow.Units.Sound.SoundSystemClass Find(Aow.Rtl.AnsiString Name)
         {
-            Aow.Units.Sound.TSoundSystem.Meta Result = default;
+            Aow.Units.Sound.SoundSystemClass Result = default;
             int I = default;
             I = 0;
             while (true)
@@ -1632,7 +1578,7 @@ namespace Aow.Units.Sound
                 bool bool__82 = (I != Count);
                 if (bool__82)
                 {
-                    var call__83 = ((Aow.Units.Sound.TSoundSystem.Meta)List[I]).GetName();
+                    var call__83 = ((Aow.Units.Sound.SoundSystemClass)List[I]).Name;
                     bool__82 = (Aow.Rtl.Rtl.CompareText(Name, call__83) != 0);
                 }
 
@@ -1645,7 +1591,7 @@ namespace Aow.Units.Sound
 
             if (I != Count)
             {
-                Result = (Aow.Units.Sound.TSoundSystem.Meta)List[I];
+                Result = (Aow.Units.Sound.SoundSystemClass)List[I];
             }
             else
             {
@@ -1867,14 +1813,14 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1306
-        public static void RegisterSoundSystem(Aow.Units.Sound.TSoundSystem.Meta AClass)
+        public static void RegisterSoundSystem(Aow.Units.Sound.SoundSystemClass AClass)
         {
             if (Aow.Units.Sound.Sound.SoundSystems == null)
             {
                 Aow.Units.Sound.Sound.SoundSystems = new Aow.Units.Sound.TSoundSystemList();
             }
 
-            var call__74 = AClass.GetName();
+            var call__74 = AClass.Name;
             var call__75 = Aow.Units.Sound.Sound.SoundSystems.Find(call__74);
             if (call__75 == null)
             {
@@ -1882,7 +1828,7 @@ namespace Aow.Units.Sound
             }
             else
             {
-                var call__76 = AClass.GetName();
+                var call__76 = AClass.Name;
                 var call__77 = Aow.Rtl.Exception.Create((((AnsiString)"Sound System with name: ") + call__76) + ((AnsiString)" already registered"));
                 throw call__77;
             }
@@ -1893,14 +1839,14 @@ namespace Aow.Units.Sound
         public static bool InitializeSoundSystem(Aow.Rtl.AnsiString Name, in Aow.Units.Sound.TSoundSettings Settings)
         {
             bool Result = default;
-            Aow.Units.Sound.TSoundSystem.Meta C = default;
+            Aow.Units.Sound.SoundSystemClass C = default;
             Result = true;
             if (Name == ((AnsiString)""))
             {
                 if (Aow.Units.Sound.Sound.SoundSystems.Count != 0)
                 {
                     var call__78 = Aow.Units.Sound.Sound.SoundSystems[0];
-                    C = (Aow.Units.Sound.TSoundSystem.Meta)call__78;
+                    C = (Aow.Units.Sound.SoundSystemClass)call__78;
                 }
                 else
                 {
@@ -2300,13 +2246,13 @@ namespace Aow.Units.Sound
         // Sound.pas:1547
         public static void RegisterSoundEngineClasses(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFXSequence>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFXLibrary>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFX>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFXSequence>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFXLibrary>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFX>()]);
         }
 
         // Sound.pas:1552
         public static void UnregisterSoundEngineClasses(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFXSequence>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFXLibrary>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Sound.TSFX>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFXSequence>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFXLibrary>(), Aow.Units.Engine.EClass.Of<Aow.Units.Sound.TSFX>()]);
         }
 
         // Sound.pas:1557

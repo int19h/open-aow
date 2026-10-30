@@ -60,6 +60,9 @@ namespace Aow.Units.CitySpells
 //     $20 packed target coordinates; $24 target owner. }
     public partial class TCityTargetSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        // CitySpells.pas:170
+        public new const int ClassID = 135949;
+
         public Aow.Units.HSEngine.TXYL FTargetLocation;
         // { $20 }
         public sbyte FTargetPlayer;
@@ -133,31 +136,12 @@ namespace Aow.Units.CitySpells
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // CitySpells.pas:170
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135949;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CitySpells.TCityTargetSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CitySpells.TCityTargetSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TCityTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CitySpells.TCityTargetSpellTE o = (Aow.Units.CitySpells.TCityTargetSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CitySpells.TCityTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TCityTargetSpellTE)base.Create(AOwner);
         }
     }
 
@@ -272,7 +256,7 @@ namespace Aow.Units.CitySpells
                     if (bool__11)
                     {
                         // { Original passes the city layer before the radius. }
-                        A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__14 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                         var call__15 = call__14.FCastImages.ImageSequences[0];
                         A.SetImageSequence(call__15);
@@ -481,6 +465,9 @@ namespace Aow.Units.CitySpells
     // { TTownGateTE (instance size 48, VMT 557AF604): $28 army ID; $2C destination coordinates. }
     public partial class TTownGateTE : Aow.Units.CitySpells.TCityTargetSpellTE
     {
+        // CitySpells.pas:397
+        public new const int ClassID = 135950;
+
         public Aow.Units.AoWE.TArmyID FArmyID;
         // { $28 }
         public Aow.Units.HSEngine.TXYL FTeleportLocation;
@@ -546,31 +533,12 @@ namespace Aow.Units.CitySpells
         public new partial class Meta : Aow.Units.CitySpells.TCityTargetSpellTE.Meta
         {
             // CitySpells.pas:397
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135950;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CitySpells.TTownGateTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CitySpells.TTownGateTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TTownGateTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CitySpells.TTownGateTE o = (Aow.Units.CitySpells.TTownGateTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CitySpells.TTownGateTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TTownGateTE)base.Create(AOwner);
         }
     }
 
@@ -658,7 +626,7 @@ namespace Aow.Units.CitySpells
                 var call__62 = call__61.FCastImages.ImageSequences[0];
                 if (call__62 != null)
                 {
-                    A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__63 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                     var call__64 = call__63.FCastImages.ImageSequences[0];
                     A.SetImageSequence(call__64);
@@ -672,7 +640,7 @@ namespace Aow.Units.CitySpells
                 var call__66 = call__65.FCastImages.ImageSequences[0];
                 if (call__66 != null)
                 {
-                    A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__67 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                     var call__68 = call__67.FCastImages.ImageSequences[0];
                     A.SetImageSequence(call__68);
@@ -864,6 +832,9 @@ namespace Aow.Units.CitySpells
     // { TCityEnchantmentSpellTE (instance size 40, VMT 557AF800) }
     public partial class TCityEnchantmentSpellTE : Aow.Units.CitySpells.TCityTargetSpellTE
     {
+        // CitySpells.pas:551
+        public new const int ClassID = 131821;
+
         // NetworkE.pas:230
         public static new Aow.Units.CitySpells.TCityEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -884,31 +855,12 @@ namespace Aow.Units.CitySpells
         public new partial class Meta : Aow.Units.CitySpells.TCityTargetSpellTE.Meta
         {
             // CitySpells.pas:551
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131821;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CitySpells.TCityEnchantmentSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CitySpells.TCityEnchantmentSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.CitySpells.TCityEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CitySpells.TCityEnchantmentSpellTE o = (Aow.Units.CitySpells.TCityEnchantmentSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CitySpells.TCityEnchantmentSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CitySpells.TCityEnchantmentSpellTE)base.Create(AOwner);
         }
     }
 
@@ -1151,7 +1103,7 @@ namespace Aow.Units.CitySpells
             if (A3 == 0)
             {
                 TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
-                A = Aow.Units.Animation.TAnimation.Create(null);
+                A = new Aow.Units.Animation.TAnimation(null);
                 A.FAnimationLevel = 27;
                 A.FOnShow = ShowFountain;
                 A.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
@@ -1486,7 +1438,7 @@ namespace Aow.Units.CitySpells
                 var call__149 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
                 if (call__149 != null)
                 {
-                    A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__150 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
                     A.SetImageSequence(call__150);
                     A.SetXhpOffset(A.FXhpOffset - 16);
@@ -1599,7 +1551,7 @@ namespace Aow.Units.CitySpells
                 var call__167 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
                 if (call__167 != null)
                 {
-                    A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__168 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
                     A.SetImageSequence(call__168);
                     A.SetXhpOffset(A.FXhpOffset - 16);
@@ -1685,7 +1637,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:988
         public static void RegisterCitySpells(Aow.Units.AoWE.TAoWEngine A1)
         {
-            A1.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TTownGateTE>()]);
+            A1.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TTownGateTE>()]);
             var spellControl = A1.FGameSet.FSpellControl;
             var call__185 = Aow.Units.CitySpells.TAnarchy.Create(null);
             spellControl.RegisterSpell(call__185);
@@ -1708,7 +1660,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:1004
         public static void UnregisterCitySpells(Aow.Units.AoWE.TAoWEngine A1)
         {
-            A1.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CitySpells.TTownGateTE>()]);
+            A1.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TCityEnchantmentSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TCityTargetSpellTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.CitySpells.TTownGateTE>()]);
             var spellControl = A1.FGameSet.FSpellControl;
             spellControl.UnregisterSpellID(72);
             // { Original leaves Town Quake ($47) registered. }

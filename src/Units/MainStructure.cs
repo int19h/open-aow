@@ -43,6 +43,12 @@ namespace Aow.Units.MainStructure
     // { TMainStructure (instance size 40, VMT 00435310) }
     public partial class TMainStructure : Aow.Units.CombatStructure.TCombatStructure
     {
+        public TMainStructure(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // MainStructure.pas:37
+        public new const int ClassID = 2229532;
+
         // MainStructure.pas:40
         public override int GetTerrainTypeImage(int TerrainType)
         {
@@ -54,37 +60,24 @@ namespace Aow.Units.MainStructure
         public new partial class Meta : Aow.Units.CombatStructure.TCombatStructure.Meta
         {
             // MainStructure.pas:37
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229532;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MainStructure.TMainStructure.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.MainStructure.TMainStructure => (Meta)MetaRegistry.Of(typeof(T));
             // CombatStructure.pas:23
-            public new Aow.Units.MainStructure.TMainStructure Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.MainStructure.TMainStructure o = (Aow.Units.MainStructure.TMainStructure)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.MainStructure.TMainStructure Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainStructure.TMainStructure)base.Create(AOwner);
         }
     }
 
     // { TMainStructureResource (instance size 72, VMT 004354CC) }
     public partial class TMainStructureResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
+        public TMainStructureResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // MainStructure.pas:43
+        public new const int ClassID = 2229533;
+
         // MainStructure.pas:49
         public override int ResourceUserClassID()
         {
@@ -96,12 +89,7 @@ namespace Aow.Units.MainStructure
         public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
         {
             // MainStructure.pas:43
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229533;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MainStructure.TMainStructureResource.ClassID;
 
             // MainStructure.pas:46
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -114,21 +102,7 @@ namespace Aow.Units.MainStructure
             public static new Meta Of<T>()
                 where T : Aow.Units.MainStructure.TMainStructureResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.MainStructure.TMainStructureResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.MainStructure.TMainStructureResource o = (Aow.Units.MainStructure.TMainStructureResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.MainStructure.TMainStructureResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.MainStructure.TMainStructureResource)base.Create(AOwner);
         }
     }
 
@@ -137,7 +111,7 @@ namespace Aow.Units.MainStructure
         // MainStructure.pas:52
         public static void RegisterMainStructure(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MainStructure.TMainStructureResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MainStructure.TMainStructure>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MainStructure.TMainStructureResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.MainStructure.TMainStructure>()]);
         }
 
         public static void Initialize()

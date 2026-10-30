@@ -39,6 +39,12 @@ namespace Aow.Units.LifeNode
     // { TLifeNode (instance size 76, no added fields, VMT 557C046C) }
     public partial class TLifeNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TLifeNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // LifeNode.pas:37
+        public new const int ClassID = 131953;
+
         // LifeNode.pas:40
         public override Aow.Units.AoWE.TMagicSphere GetMagicSphere()
         {
@@ -50,46 +56,31 @@ namespace Aow.Units.LifeNode
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlace.Meta
         {
             // LifeNode.pas:37
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131953;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.LifeNode.TLifeNode.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.LifeNode.TLifeNode => (Meta)MetaRegistry.Of(typeof(T));
             // PrdPlace.pas:51
-            public new Aow.Units.LifeNode.TLifeNode Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.LifeNode.TLifeNode o = (Aow.Units.LifeNode.TLifeNode)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.LifeNode.TLifeNode Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.LifeNode.TLifeNode)base.Create(AOwner);
         }
     }
 
     // { TLifeNodeResource (instance size 120, no added fields, VMT 557C071C) }
     public partial class TLifeNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        // LifeNode.pas:43
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TLifeNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FRazeDefenderBudget = 200;
             FTerrainBound = false;
             FRebuildGold = 25;
             FRebuildDays = 2;
         }
+
+        // LifeNode.pas:55
+        public new const int ClassID = 131954;
+
+        // LifeNode.pas:43
+
 
         // LifeNode.pas:58
         public override int ResourceUserClassID()
@@ -100,31 +91,12 @@ namespace Aow.Units.LifeNode
         }
 
         // LifeNode.pas:27
-        public static new Aow.Units.LifeNode.TLifeNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.LifeNode.TLifeNodeResource o = new Aow.Units.LifeNode.TLifeNodeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {
             // LifeNode.pas:55
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131954;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.LifeNode.TLifeNodeResource.ClassID;
 
             // LifeNode.pas:52
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -135,21 +107,7 @@ namespace Aow.Units.LifeNode
             }
 
             // LifeNode.pas:27
-            public new Aow.Units.LifeNode.TLifeNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.LifeNode.TLifeNodeResource o = (Aow.Units.LifeNode.TLifeNodeResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.LifeNode.TLifeNodeResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.LifeNode.TLifeNodeResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.LifeNode.TLifeNodeResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -161,7 +119,7 @@ namespace Aow.Units.LifeNode
         // LifeNode.pas:61
         public static void RegisterLifeNode(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.LifeNode.TLifeNode>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.LifeNode.TLifeNodeResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.LifeNode.TLifeNode>(), Aow.Units.Engine.EClass.Of<Aow.Units.LifeNode.TLifeNodeResource>()]);
         }
 
         public static void Initialize()

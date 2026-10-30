@@ -37,6 +37,9 @@ namespace Aow.Units.AoWRoad
     // { TAoWRoad (instance size 20, VMT 5579B6FC) }
     public partial class TAoWRoad : Aow.Units.Road.TRoad
     {
+        public TAoWRoad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWRoad.pas:35
         public override void UpdateTransitions()
         {
@@ -115,7 +118,7 @@ namespace Aow.Units.AoWRoad
         // AoWRoad.pas:76
         public static void RegisterAoWRoad(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWRoad.TAoWRoad>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Road.TRoadResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWRoad.TAoWRoad>(), Aow.Units.Engine.EClass.Of<Aow.Units.Road.TRoadResource>()]);
         }
 
         public static void Initialize()

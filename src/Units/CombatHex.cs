@@ -49,6 +49,11 @@ namespace Aow.Units.CombatHex
     // { TCombatHexagon (instance size 20, VMT 0040340C) }
     public partial class TCombatHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
+        public TCombatHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        public new const int ClassID = 2229504;
+
         public byte FImageVariant;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 FTransitions;
@@ -300,37 +305,23 @@ namespace Aow.Units.CombatHex
         {
             // CombatHex.pas:70
             // { $11..$13 }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229504;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatHex.TCombatHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatHex.TCombatHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.CombatHex.TCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatHex.TCombatHexagon o = (Aow.Units.CombatHex.TCombatHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatHex.TCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatHex.TCombatHexagon)base.Create(AOwner);
         }
     }
 
     // { TCombatHexagonResource (instance size 56, VMT 004035A8) }
     public partial class TCombatHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
+        public TCombatHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        public new const int ClassID = 2229505;
+
         public Aow.Units.ImageLib.TCustomImageLibrary FTransitionLibrary;
         // CombatHex.pas:194
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -406,12 +397,7 @@ namespace Aow.Units.CombatHex
         {
             // CombatHex.pas:185
             // { $34 }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229505;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatHex.TCombatHexagonResource.ClassID;
 
             // CombatHex.pas:188
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -424,27 +410,19 @@ namespace Aow.Units.CombatHex
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatHex.TCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1223
-            public new Aow.Units.CombatHex.TCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatHex.TCombatHexagonResource o = (Aow.Units.CombatHex.TCombatHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatHex.TCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatHex.TCombatHexagonResource)base.Create(AOwner);
         }
     }
 
     // { TWaterCombatHexagon (instance size 32, VMT 004036A8) }
     public partial class TWaterCombatHexagon : Aow.Units.AoWHex.TAoWWaterHexagon
     {
+        public TWaterCombatHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CombatHex.pas:219
+        public new const int ClassID = 2229655;
+
         // CombatHex.pas:216
         public override Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
         {
@@ -456,37 +434,24 @@ namespace Aow.Units.CombatHex
         public new partial class Meta : Aow.Units.AoWHex.TAoWWaterHexagon.Meta
         {
             // CombatHex.pas:219
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229655;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatHex.TWaterCombatHexagon.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatHex.TWaterCombatHexagon => (Meta)MetaRegistry.Of(typeof(T));
             // AoWHex.pas:48
-            public new Aow.Units.CombatHex.TWaterCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatHex.TWaterCombatHexagon o = (Aow.Units.CombatHex.TWaterCombatHexagon)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatHex.TWaterCombatHexagon Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatHex.TWaterCombatHexagon)base.Create(AOwner);
         }
     }
 
     // { TWaterCombatHexagonResource (instance size 56, VMT 00403854) }
     public partial class TWaterCombatHexagonResource : Aow.Units.AoWHex.TAoWWaterHexagonResource
     {
+        public TWaterCombatHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // CombatHex.pas:222
+        public new const int ClassID = 2229656;
+
         // CombatHex.pas:228
         public override int ResourceUserClassID()
         {
@@ -506,12 +471,7 @@ namespace Aow.Units.CombatHex
         public new partial class Meta : Aow.Units.AoWHex.TAoWWaterHexagonResource.Meta
         {
             // CombatHex.pas:222
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229656;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.CombatHex.TWaterCombatHexagonResource.ClassID;
 
             // CombatHex.pas:225
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -524,21 +484,7 @@ namespace Aow.Units.CombatHex
             public static new Meta Of<T>()
                 where T : Aow.Units.CombatHex.TWaterCombatHexagonResource => (Meta)MetaRegistry.Of(typeof(T));
             // AoWHex.pas:58
-            public new Aow.Units.CombatHex.TWaterCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.CombatHex.TWaterCombatHexagonResource o = (Aow.Units.CombatHex.TWaterCombatHexagonResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.CombatHex.TWaterCombatHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.CombatHex.TWaterCombatHexagonResource)base.Create(AOwner);
         }
     }
 
@@ -547,7 +493,7 @@ namespace Aow.Units.CombatHex
         // CombatHex.pas:234
         public static void RegisterCombatHexagon(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatHex.TCombatHexagonResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatHex.TCombatHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatHex.TWaterCombatHexagon>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.CombatHex.TWaterCombatHexagonResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatHex.TCombatHexagonResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatHex.TCombatHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatHex.TWaterCombatHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatHex.TWaterCombatHexagonResource>()]);
         }
 
         public static Aow.Units.FixedArray_byte_3 TransitionNeighbours = Aow.Units.FixedArray_byte_3.From([6, 1, 2]);

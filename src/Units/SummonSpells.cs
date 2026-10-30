@@ -41,6 +41,9 @@ namespace Aow.Units.SummonSpells
     // { TSummonSpellTE (instance size 36, VMT 557E2F28): $20 FUnitIndices. }
     public partial class TSummonSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        // SummonSpells.pas:171
+        public new const int ClassID = 135947;
+
         public Aow.Units.AoWE.TUnitIndexList FUnitIndices;
         // SummonSpells.pas:165
         // { $20 }
@@ -144,7 +147,7 @@ namespace Aow.Units.SummonSpells
                     var call__15 = call__14.FCastImages.ImageSequences[0];
                     if (call__15 != null)
                     {
-                        Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__16 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                         var call__17 = call__16.FCastImages.ImageSequences[0];
                         Anim.SetImageSequence(call__17);
@@ -203,29 +206,10 @@ namespace Aow.Units.SummonSpells
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // SummonSpells.pas:171
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135947;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.SummonSpells.TSummonSpellTE.ClassID;
 
             // SummonSpells.pas:34
-            public new Aow.Units.SummonSpells.TSummonSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.SummonSpells.TSummonSpellTE o = (Aow.Units.SummonSpells.TSummonSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.SummonSpells.TSummonSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SummonSpells.TSummonSpellTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.SummonSpells.TSummonSpellTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -669,7 +653,7 @@ namespace Aow.Units.SummonSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = AEngine.FGameSet.FSpellControl;
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.SummonSpells.TSummonSpellTE>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.SummonSpells.TSummonSpellTE>()]);
             var call__66 = Aow.Units.SummonSpells.TSummonSyron.Create(null);
             Control.RegisterSpell(call__66);
             var call__67 = Aow.Units.SummonSpells.TSummonFrog.Create(null);
@@ -703,7 +687,7 @@ namespace Aow.Units.SummonSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = AEngine.FGameSet.FSpellControl;
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.SummonSpells.TSummonSpellTE>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.SummonSpells.TSummonSpellTE>()]);
             Control.UnregisterSpellID(24);
             Control.UnregisterSpellID(22);
             Control.UnregisterSpellID(31);

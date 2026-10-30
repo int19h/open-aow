@@ -56,6 +56,16 @@ namespace Aow.Units.ItemExpS
     // { TItemExplorationSite (instance size 64, VMT 557C23BC): $38 FItemCount, $3C FItems. }
     public partial class TItemExplorationSite : Aow.Units.ExploreS.TExplorationSite
     {
+        public TItemExplorationSite(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1 = new Aow.Units.ItemExpS.TExplorationSiteItemList(null);
+            FItems = call__1;
+            FItemCount = 2;
+        }
+
+        // ItemExpS.pas:102
+        public new const int ClassID = 132083;
+
         public byte FItemCount;
         // { $38; 0 user-defined, 4 random }
         public Aow.Units.FixedArray_byte_3 F_ItemExplorationSite_39;
@@ -78,13 +88,7 @@ namespace Aow.Units.ItemExpS
         }
 
         // ItemExpS.pas:88
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1 = new Aow.Units.ItemExpS.TExplorationSiteItemList(null);
-            FItems = call__1;
-            FItemCount = 2;
-        }
+
 
         // ItemExpS.pas:114
         public override void Activate()
@@ -208,48 +212,15 @@ namespace Aow.Units.ItemExpS
         }
 
         // ItemExpS.pas:32
-        public static new Aow.Units.ItemExpS.TItemExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ItemExpS.TItemExplorationSite o = new Aow.Units.ItemExpS.TItemExplorationSite();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ExploreS.TExplorationSite.Meta
         {
             // ItemExpS.pas:102
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132083;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ItemExpS.TItemExplorationSite.ClassID;
 
             // ItemExpS.pas:32
-            public new Aow.Units.ItemExpS.TItemExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ItemExpS.TItemExplorationSite o = (Aow.Units.ItemExpS.TItemExplorationSite)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ItemExpS.TItemExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ItemExpS.TItemExplorationSite)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ItemExpS.TItemExplorationSite => (Meta)MetaRegistry.Of(typeof(T));
@@ -261,6 +232,9 @@ namespace Aow.Units.ItemExpS
 //     $18 FItemIDs, $1C FMessages, $20 FTitle, $24 FLocation. }
     public partial class TItemExplorationSiteEventLog : Aow.Units.EventLog.TEventLog
     {
+        // ItemExpS.pas:201
+        public new const int ClassID = 132085;
+
         public Aow.Units.Engine.TIntegerList FItemIDs;
         // { $18 }
         public Aow.Rtl.TStringList FMessages;
@@ -316,29 +290,10 @@ namespace Aow.Units.ItemExpS
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // ItemExpS.pas:201
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132085;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ItemExpS.TItemExplorationSiteEventLog.ClassID;
 
             // ItemExpS.pas:53
-            public new Aow.Units.ItemExpS.TItemExplorationSiteEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ItemExpS.TItemExplorationSiteEventLog o = (Aow.Units.ItemExpS.TItemExplorationSiteEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ItemExpS.TItemExplorationSiteEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ItemExpS.TItemExplorationSiteEventLog)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ItemExpS.TItemExplorationSiteEventLog => (Meta)MetaRegistry.Of(typeof(T));
@@ -348,34 +303,21 @@ namespace Aow.Units.ItemExpS
     // { TItemExplorationSiteResource (instance size 104, VMT 557C276C) }
     public partial class TItemExplorationSiteResource : Aow.Units.ExploreS.TExplorationSiteResource
     {
+        public TItemExplorationSiteResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // ItemExpS.pas:212
+        public new const int ClassID = 132084;
+
         public new partial class Meta : Aow.Units.ExploreS.TExplorationSiteResource.Meta
         {
             // ItemExpS.pas:212
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132084;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.ItemExpS.TItemExplorationSiteResource.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.ItemExpS.TItemExplorationSiteResource => (Meta)MetaRegistry.Of(typeof(T));
             // ExploreS.pas:61
-            public new Aow.Units.ItemExpS.TItemExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.ItemExpS.TItemExplorationSiteResource o = (Aow.Units.ItemExpS.TItemExplorationSiteResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.ItemExpS.TItemExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.ItemExpS.TItemExplorationSiteResource)base.Create(AOwner);
         }
     }
 
@@ -384,7 +326,7 @@ namespace Aow.Units.ItemExpS
         // ItemExpS.pas:215
         public static void RegisterItemExplorationSite(Aow.Units.Engine.TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.ItemExpS.TItemExplorationSiteEventLog>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.ItemExpS.TItemExplorationSiteEventLog>()]);
         }
 
         public static void Initialize()

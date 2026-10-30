@@ -41,53 +41,44 @@ namespace Aow.Units.AltLight
     // { TAltarOfLightning (instance size 68, no added fields, VMT 557D16F4) }
     public partial class TAltarOfLightning : Aow.Units.Altar.TAltar
     {
+        public TAltarOfLightning(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // AltLight.pas:36
+        public new const int ClassID = 131645;
+
         // AltLight.pas:39
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
             Aow.Units.Storms.TStorm Result = default;
-            Result = Aow.Units.Storms.TLightningStorm.Create(null);
+            Result = new Aow.Units.Storms.TLightningStorm(null);
             return Result;
         }
 
         public new partial class Meta : Aow.Units.Altar.TAltar.Meta
         {
             // AltLight.pas:36
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131645;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltLight.TAltarOfLightning.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltLight.TAltarOfLightning => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:249
-            public new Aow.Units.AltLight.TAltarOfLightning Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltLight.TAltarOfLightning o = (Aow.Units.AltLight.TAltarOfLightning)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltLight.TAltarOfLightning Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltLight.TAltarOfLightning)base.Create(AOwner);
         }
     }
 
     // { TAltarOfLightningResource (instance size 116, no added fields, VMT 557D19B4) }
     public partial class TAltarOfLightningResource : Aow.Units.Altar.TAltarResource
     {
-        // AltLight.pas:44
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAltarOfLightningResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
+
+        // AltLight.pas:52
+        public new const int ClassID = 131646;
+
+        // AltLight.pas:44
+
 
         // AltLight.pas:55
         public override int ResourceUserClassID()
@@ -98,31 +89,12 @@ namespace Aow.Units.AltLight
         }
 
         // AltLight.pas:26
-        public static new Aow.Units.AltLight.TAltarOfLightningResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltLight.TAltarOfLightningResource o = new Aow.Units.AltLight.TAltarOfLightningResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltLight.pas:52
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131646;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltLight.TAltarOfLightningResource.ClassID;
 
             // AltLight.pas:49
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -133,21 +105,7 @@ namespace Aow.Units.AltLight
             }
 
             // AltLight.pas:26
-            public new Aow.Units.AltLight.TAltarOfLightningResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltLight.TAltarOfLightningResource o = (Aow.Units.AltLight.TAltarOfLightningResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltLight.TAltarOfLightningResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltLight.TAltarOfLightningResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltLight.TAltarOfLightningResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -159,7 +117,7 @@ namespace Aow.Units.AltLight
         // AltLight.pas:58
         public static void RegisterAltarOfLightning(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltLight.TAltarOfLightning>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltLight.TAltarOfLightningResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AltLight.TAltarOfLightning>(), Aow.Units.Engine.EClass.Of<Aow.Units.AltLight.TAltarOfLightningResource>()]);
         }
 
         public static void Initialize()

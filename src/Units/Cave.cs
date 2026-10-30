@@ -52,6 +52,14 @@ namespace Aow.Units.Cave
     // { TCave (instance size 52, VMT 557B3018): +$30 FEntrance. }
     public partial class TCave : Aow.Units.AoWE.TStructure
     {
+        public TCave(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FEntrance = Aow.Units.Cave.TCaveEntrance.ceDown;
+        }
+
+        // Cave.pas:160
+        public new const int ClassID = 131966;
+
         public Aow.Units.Cave.TCaveEntrance FEntrance;
         public Aow.Units.FixedArray_byte_3 F_Cave_31;
         // Cave.pas:134
@@ -99,11 +107,7 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:128
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FEntrance = Aow.Units.Cave.TCaveEntrance.ceDown;
-        }
+
 
         // Cave.pas:273
         public override sbyte GetOverlay(int Index)
@@ -646,48 +650,15 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:25
-        public static new Aow.Units.Cave.TCave Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Cave.TCave o = new Aow.Units.Cave.TCave();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
             // Cave.pas:160
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131966;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Cave.TCave.ClassID;
 
             // Cave.pas:25
-            public new Aow.Units.Cave.TCave Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Cave.TCave o = (Aow.Units.Cave.TCave)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Cave.TCave Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Cave.TCave)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Cave.TCave => (Meta)MetaRegistry.Of(typeof(T));
@@ -697,13 +668,17 @@ namespace Aow.Units.Cave
     // { TCaveResource (instance size 100, VMT 557B326C) }
     public partial class TCaveResource : Aow.Units.AoWE.TStructureResource
     {
-        // Cave.pas:426
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TCaveResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = false;
             FConnectRoads = true;
         }
+
+        // Cave.pas:436
+        public new const int ClassID = 131967;
+
+        // Cave.pas:426
+
 
         // Cave.pas:439
         public override int ResourceUserClassID()
@@ -714,31 +689,12 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:49
-        public static new Aow.Units.Cave.TCaveResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Cave.TCaveResource o = new Aow.Units.Cave.TCaveResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
             // Cave.pas:436
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131967;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Cave.TCaveResource.ClassID;
 
             // Cave.pas:433
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -749,21 +705,7 @@ namespace Aow.Units.Cave
             }
 
             // Cave.pas:49
-            public new Aow.Units.Cave.TCaveResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Cave.TCaveResource o = (Aow.Units.Cave.TCaveResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Cave.TCaveResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Cave.TCaveResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Cave.TCaveResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -852,7 +794,7 @@ namespace Aow.Units.Cave
         // Cave.pas:451
         public static void RegisterCave(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Cave.TCave>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Cave.TCaveResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Cave.TCave>(), Aow.Units.Engine.EClass.Of<Aow.Units.Cave.TCaveResource>()]);
         }
 
         // { Original AoWE resource initialization table $55798BC0..$557990E4. }

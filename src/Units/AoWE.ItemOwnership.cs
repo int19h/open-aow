@@ -4,9 +4,8 @@ namespace Aow.Units.AoWE;
 
 public partial class TItemHS
 {
-    public override void Create__init(TECustomNode owner)
+    public TItemHS(TECustomNode owner) : base(owner)
     {
-        base.Create__init(owner);
         FItems = new TItemHSList(null);
         FItems.Sprite = this;
         FItems.FOnChanged = ItemsChanged;

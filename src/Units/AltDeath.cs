@@ -41,53 +41,44 @@ namespace Aow.Units.AltDeath
     // { TAltarOfDeath (instance size 68, no added fields, VMT 557D2094) }
     public partial class TAltarOfDeath : Aow.Units.Altar.TAltar
     {
+        public TAltarOfDeath(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // AltDeath.pas:36
+        public new const int ClassID = 131637;
+
         // AltDeath.pas:39
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
             Aow.Units.Storms.TStorm Result = default;
-            Result = Aow.Units.Storms.TDeathStorm.Create(null);
+            Result = new Aow.Units.Storms.TDeathStorm(null);
             return Result;
         }
 
         public new partial class Meta : Aow.Units.Altar.TAltar.Meta
         {
             // AltDeath.pas:36
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131637;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltDeath.TAltarOfDeath.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltDeath.TAltarOfDeath => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:249
-            public new Aow.Units.AltDeath.TAltarOfDeath Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltDeath.TAltarOfDeath o = (Aow.Units.AltDeath.TAltarOfDeath)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltDeath.TAltarOfDeath Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltDeath.TAltarOfDeath)base.Create(AOwner);
         }
     }
 
     // { TAltarOfDeathResource (instance size 116, no added fields, VMT 557D234C) }
     public partial class TAltarOfDeathResource : Aow.Units.Altar.TAltarResource
     {
-        // AltDeath.pas:44
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAltarOfDeathResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
+
+        // AltDeath.pas:52
+        public new const int ClassID = 131638;
+
+        // AltDeath.pas:44
+
 
         // AltDeath.pas:55
         public override int ResourceUserClassID()
@@ -98,31 +89,12 @@ namespace Aow.Units.AltDeath
         }
 
         // AltDeath.pas:26
-        public static new Aow.Units.AltDeath.TAltarOfDeathResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltDeath.TAltarOfDeathResource o = new Aow.Units.AltDeath.TAltarOfDeathResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltDeath.pas:52
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131638;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltDeath.TAltarOfDeathResource.ClassID;
 
             // AltDeath.pas:49
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -133,21 +105,7 @@ namespace Aow.Units.AltDeath
             }
 
             // AltDeath.pas:26
-            public new Aow.Units.AltDeath.TAltarOfDeathResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltDeath.TAltarOfDeathResource o = (Aow.Units.AltDeath.TAltarOfDeathResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltDeath.TAltarOfDeathResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltDeath.TAltarOfDeathResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltDeath.TAltarOfDeathResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -159,7 +117,7 @@ namespace Aow.Units.AltDeath
         // AltDeath.pas:58
         public static void RegisterAltarOfDeath(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltDeath.TAltarOfDeath>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltDeath.TAltarOfDeathResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AltDeath.TAltarOfDeath>(), Aow.Units.Engine.EClass.Of<Aow.Units.AltDeath.TAltarOfDeathResource>()]);
         }
 
         public static void Initialize()

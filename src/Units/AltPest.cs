@@ -41,53 +41,44 @@ namespace Aow.Units.AltPest
     // { TAltarOfPestilence (instance size 68, no added fields, VMT 557D255C) }
     public partial class TAltarOfPestilence : Aow.Units.Altar.TAltar
     {
+        public TAltarOfPestilence(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // AltPest.pas:36
+        public new const int ClassID = 131852;
+
         // AltPest.pas:39
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
             Aow.Units.Storms.TStorm Result = default;
-            Result = Aow.Units.Storms.TPestilenceStorm.Create(null);
+            Result = new Aow.Units.Storms.TPestilenceStorm(null);
             return Result;
         }
 
         public new partial class Meta : Aow.Units.Altar.TAltar.Meta
         {
             // AltPest.pas:36
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131852;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltPest.TAltarOfPestilence.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltPest.TAltarOfPestilence => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:249
-            public new Aow.Units.AltPest.TAltarOfPestilence Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltPest.TAltarOfPestilence o = (Aow.Units.AltPest.TAltarOfPestilence)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltPest.TAltarOfPestilence Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltPest.TAltarOfPestilence)base.Create(AOwner);
         }
     }
 
     // { TAltarOfPestilenceResource (instance size 116, no added fields, VMT 557D281C) }
     public partial class TAltarOfPestilenceResource : Aow.Units.Altar.TAltarResource
     {
-        // AltPest.pas:44
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAltarOfPestilenceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
+
+        // AltPest.pas:52
+        public new const int ClassID = 131853;
+
+        // AltPest.pas:44
+
 
         // AltPest.pas:55
         public override int ResourceUserClassID()
@@ -98,31 +89,12 @@ namespace Aow.Units.AltPest
         }
 
         // AltPest.pas:26
-        public static new Aow.Units.AltPest.TAltarOfPestilenceResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltPest.TAltarOfPestilenceResource o = new Aow.Units.AltPest.TAltarOfPestilenceResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltPest.pas:52
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131853;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltPest.TAltarOfPestilenceResource.ClassID;
 
             // AltPest.pas:49
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -133,21 +105,7 @@ namespace Aow.Units.AltPest
             }
 
             // AltPest.pas:26
-            public new Aow.Units.AltPest.TAltarOfPestilenceResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltPest.TAltarOfPestilenceResource o = (Aow.Units.AltPest.TAltarOfPestilenceResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltPest.TAltarOfPestilenceResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltPest.TAltarOfPestilenceResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltPest.TAltarOfPestilenceResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -159,7 +117,7 @@ namespace Aow.Units.AltPest
         // AltPest.pas:58
         public static void RegisterAltarOfPestilence(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltPest.TAltarOfPestilence>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltPest.TAltarOfPestilenceResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AltPest.TAltarOfPestilence>(), Aow.Units.Engine.EClass.Of<Aow.Units.AltPest.TAltarOfPestilenceResource>()]);
         }
 
         public static void Initialize()

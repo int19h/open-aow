@@ -42,7 +42,7 @@ public sealed partial class AoWERuleConstructionTests
                 engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
                 try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID())]); }
                 catch (Aow.Rtl.Exception) { }
-                engine.RegisterEClasses([meta]);
+                engine.RegisterEClasses([EClass.Of(type)]);
                 return (TAbstractUnit)engine.CreateEObject(meta.ClassID(), owner);
             }
             finally { engine.Destroy(); }
@@ -121,7 +121,7 @@ public sealed partial class AoWERuleConstructionTests
             engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID())]); }
             catch (Aow.Rtl.Exception) { }
-            engine.RegisterEClasses([meta]);
+            engine.RegisterEClasses([EClass.Of(type)]);
             if (source is TUnit unit) unit.FUnitResource = new TUnitResource(set.FUnitResources);
             if (source is THero hero) hero.FExperience = 1;
             if (source is TAdjustableUnit adjustable) adjustable.SetAbCount(0);

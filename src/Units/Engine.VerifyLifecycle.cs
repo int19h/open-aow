@@ -4,7 +4,7 @@ namespace Aow.Units.Engine;
 
 public partial class TEngine
 {
-    public bool VerifyEObjectClass(TEObject.Meta type)
+    public bool VerifyEObjectClass(EClass type)
     {
         // The native allocator byte total has no corresponding managed heap measure.
         // Exercise the same constructor and destructor without comparing GC generations.

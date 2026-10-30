@@ -49,6 +49,9 @@ namespace Aow.Units.SmokeCloud
     // { TSmokeCloudEnchantment (instance size 40, VMT 5579BF2C): +$24 FCloud. }
     public partial class TSmokeCloudEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
+        // SmokeCloud.pas:99
+        public new const int ClassID = 135748;
+
         public Aow.Units.SmokeCloud.TSmokeCloud FCloud;
         // SmokeCloud.pas:91
         public TSmokeCloudEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -90,12 +93,7 @@ namespace Aow.Units.SmokeCloud
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // SmokeCloud.pas:99
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135748;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.SmokeCloud.TSmokeCloudEnchantment.ClassID;
 
             // SmokeCloud.pas:21
             public new Aow.Units.SmokeCloud.TSmokeCloudEnchantment Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SmokeCloud.TSmokeCloudEnchantment)base.Create(AOwner);
@@ -109,6 +107,18 @@ namespace Aow.Units.SmokeCloud
 //     +$1C FDrifting, +$1D FDirection, +$1E FUpdated, +$1F FVisibleForSeatedPlayer, +$20 FEnchantment. }
     public partial class TSmokeCloud : Aow.Units.HSEngine.TMultiHexMO
     {
+        public TSmokeCloud(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__6 = new Aow.Units.SmokeCloud.TSmokeCloudEnchantment(null);
+            FEnchantment = call__6;
+            FEnchantment.FCloud = this;
+            FVisibleForSeatedPlayer = false;
+            FDrifting = false;
+        }
+
+        // SmokeCloud.pas:187
+        public new const int ClassID = 135746;
+
         public sbyte FPlayer;
         public Aow.Units.FixedArray_byte_3 FReserved;
         public int FTurnsRemaining;
@@ -136,15 +146,7 @@ namespace Aow.Units.SmokeCloud
         }
 
         // SmokeCloud.pas:172
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__6 = new Aow.Units.SmokeCloud.TSmokeCloudEnchantment(null);
-            FEnchantment = call__6;
-            FEnchantment.FCloud = this;
-            FVisibleForSeatedPlayer = false;
-            FDrifting = false;
-        }
+
 
         // SmokeCloud.pas:373
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -461,48 +463,15 @@ namespace Aow.Units.SmokeCloud
         }
 
         // SmokeCloud.pas:43
-        public static new Aow.Units.SmokeCloud.TSmokeCloud Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.SmokeCloud.TSmokeCloud o = new Aow.Units.SmokeCloud.TSmokeCloud();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
             // SmokeCloud.pas:187
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135746;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.SmokeCloud.TSmokeCloud.ClassID;
 
             // SmokeCloud.pas:43
-            public new Aow.Units.SmokeCloud.TSmokeCloud Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.SmokeCloud.TSmokeCloud o = (Aow.Units.SmokeCloud.TSmokeCloud)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.SmokeCloud.TSmokeCloud Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SmokeCloud.TSmokeCloud)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.SmokeCloud.TSmokeCloud => (Meta)MetaRegistry.Of(typeof(T));
@@ -512,6 +481,12 @@ namespace Aow.Units.SmokeCloud
     // { TSmokeCloudResource (instance size 68, VMT 5579C1E0) }
     public partial class TSmokeCloudResource : Aow.Units.HSEngine.TMultiHexMOR
     {
+        public TSmokeCloudResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // SmokeCloud.pas:385
+        public new const int ClassID = 135747;
+
         // SmokeCloud.pas:391
         public override int ResourceUserClassID()
         {
@@ -523,12 +498,7 @@ namespace Aow.Units.SmokeCloud
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
             // SmokeCloud.pas:385
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135747;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.SmokeCloud.TSmokeCloudResource.ClassID;
 
             // SmokeCloud.pas:388
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -543,21 +513,7 @@ namespace Aow.Units.SmokeCloud
             public static new Meta Of<T>()
                 where T : Aow.Units.SmokeCloud.TSmokeCloudResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.SmokeCloud.TSmokeCloudResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.SmokeCloud.TSmokeCloudResource o = (Aow.Units.SmokeCloud.TSmokeCloudResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.SmokeCloud.TSmokeCloudResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.SmokeCloud.TSmokeCloudResource)base.Create(AOwner);
         }
     }
 
@@ -581,7 +537,7 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:394
         public static void RegisterSmokeCloud(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.SmokeCloud.TSmokeCloud>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.SmokeCloud.TSmokeCloudResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.SmokeCloud.TSmokeCloudEnchantment>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.SmokeCloud.TSmokeCloud>(), Aow.Units.Engine.EClass.Of<Aow.Units.SmokeCloud.TSmokeCloudResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.SmokeCloud.TSmokeCloudEnchantment>()]);
         }
 
         public static void Initialize()

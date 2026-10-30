@@ -682,6 +682,9 @@ namespace Aow.Units.City
 //     $10 FModeStartFrame, $14 FMode, $15 FShellAnimation, $18 FShellEndFrame. }
     public partial class TCityOverlayHS : Aow.Units.HSEngine.TSingleHS
     {
+        public TCityOverlayHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.City.TCity FCity;
         // { $0C }
         public int FModeStartFrame;
@@ -850,21 +853,7 @@ namespace Aow.Units.City
         }
 
         // Engine.pas:524
-        public static new Aow.Units.City.TCityOverlayHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCityOverlayHS o = new Aow.Units.City.TCityOverlayHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMigrationItem (instance size 20, VMT 557A7084): $08 FRace, $0C FTime, $10 FRelation. }
@@ -900,6 +889,9 @@ namespace Aow.Units.City
     // { TCityEnchantment (instance size 44, VMT 557A7294): $24 FEnchantmentID, $28 FEnchantmentLocation. }
     public partial class TCityEnchantment : Aow.Units.AoWE.TGlobalEnchantment
     {
+        // City.pas:2722
+        public new const int ClassID = 131820;
+
         public new Aow.Units.City.TCityEnchantmentID FEnchantmentID;
         // { $24 }
         public Aow.Units.FixedArray_byte_3 F_CityEnchantment_25;
@@ -998,12 +990,7 @@ namespace Aow.Units.City
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // City.pas:2722
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131820;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.City.TCityEnchantment.ClassID;
 
             // City.pas:98
             public new Aow.Units.City.TCityEnchantment Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityEnchantment)base.Create(AOwner);
@@ -1019,6 +1006,32 @@ namespace Aow.Units.City
 //     $68 FWallBackImage, $6C FWallFrontImage, $70 FCityImage, $74 FDefendersMode. }
     public partial class TCity : Aow.Units.Crops.TPlayerCropStructure
     {
+        private protected TCity(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            var call__197 = new Aow.Units.City.TCityProductionControl(null);
+            FProduction = call__197;
+            FProduction.FCity = this;
+            FDefendersMode = Aow.Units.City.TDefendersGenerateMode.dgAverage;
+            FRace = unchecked((sbyte)-1);
+            var call__198 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NonameRStr);
+            FName = call__198;
+            FUpgradeLevel = 1;
+            var call__199 = new Aow.Units.City.TCityOverlayHS(null);
+            FOverlay = call__199;
+            FOverlay.FCity = this;
+            var call__200 = new Aow.Units.AoWE.TGlobalEnchantmentList(null);
+            FEnchantmentList = call__200;
+            FEnchantmentsVisible = false;
+        }
+
+        public static new TCity Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCity(context, owner));
+        }
+
+        // City.pas:849
+        public new const int ClassID = 131336;
+
         public TSet<Aow.Units.City.TCityModeElement> FMode;
         // { $44 }
         public sbyte FRace;
@@ -1086,24 +1099,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:824
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__197 = new Aow.Units.City.TCityProductionControl(null);
-            FProduction = call__197;
-            FProduction.FCity = this;
-            FDefendersMode = Aow.Units.City.TDefendersGenerateMode.dgAverage;
-            FRace = unchecked((sbyte)-1);
-            var call__198 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NonameRStr);
-            FName = call__198;
-            FUpgradeLevel = 1;
-            var call__199 = Aow.Units.City.TCityOverlayHS.Create(null);
-            FOverlay = call__199;
-            FOverlay.FCity = this;
-            var call__200 = new Aow.Units.AoWE.TGlobalEnchantmentList(null);
-            FEnchantmentList = call__200;
-            FEnchantmentsVisible = false;
-        }
+
 
         // City.pas:2191
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -2725,7 +2721,7 @@ namespace Aow.Units.City
                         var call__378 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(call__377, call__375, call__373, unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
                         if (call__378)
                         {
-                            Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                             var call__379 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(47);
                             var call__380 = call__379.FImageSequences.ImageSequences[0];
                             Animation.SetImageSequence(call__380);
@@ -4677,48 +4673,15 @@ namespace Aow.Units.City
         }
 
         // City.pas:138
-        public static new Aow.Units.City.TCity Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCity o = new Aow.Units.City.TCity();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructure.Meta
         {
             // City.pas:849
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131336;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.City.TCity.ClassID;
 
             // City.pas:138
-            public new Aow.Units.City.TCity Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TCity o = (Aow.Units.City.TCity)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TCity Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCity)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TCity => (Meta)MetaRegistry.Of(typeof(T));
@@ -4728,15 +4691,19 @@ namespace Aow.Units.City
     // { TCityResource (instance size 124, VMT 557A76AC): $78 FSize. }
     public partial class TCityResource : Aow.Units.Crops.TPlayerCropStructureResource
     {
+        public TCityResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRazeable = true;
+        }
+
+        // City.pas:2628
+        public new const int ClassID = 131337;
+
         public byte FSize;
         // { $78 }
         public Aow.Units.FixedArray_byte_3 F_CityResource_79;
         // City.pas:2622
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRazeable = true;
-        }
+
 
         // City.pas:2669
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -4812,31 +4779,12 @@ namespace Aow.Units.City
         }
 
         // City.pas:262
-        public static new Aow.Units.City.TCityResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCityResource o = new Aow.Units.City.TCityResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructureResource.Meta
         {
             // City.pas:2628
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131337;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.City.TCityResource.ClassID;
 
             // City.pas:2633
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -4849,21 +4797,7 @@ namespace Aow.Units.City
             }
 
             // City.pas:262
-            public new Aow.Units.City.TCityResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TCityResource o = (Aow.Units.City.TCityResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TCityResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TCityResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -4874,6 +4808,9 @@ namespace Aow.Units.City
 //     $20 FLhx, $24 FCityName. }
     public partial class TCityRebellionEventLog : Aow.Units.EventLog.TEventLog
     {
+        // City.pas:2675
+        public new const int ClassID = 131346;
+
         public int FXhx;
         // { $18 }
         public int FYhx;
@@ -4975,48 +4912,27 @@ namespace Aow.Units.City
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // City.pas:2675
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131346;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.City.TCityRebellionEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TCityRebellionEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:56
-            public new Aow.Units.City.TCityRebellionEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TCityRebellionEventLog o = (Aow.Units.City.TCityRebellionEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TCityRebellionEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityRebellionEventLog)base.Create(AOwner);
         }
     }
 
     // { TAICityUpgradeBudget (instance size 56, VMT 557A78B4) }
     public partial class TAICityUpgradeBudget : Aow.Units.AoWE.TAIBudget
     {
+        // City.pas:2775
+        public new const int ClassID = 131349;
+
         public TAICityUpgradeBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
             // City.pas:2775
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131349;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.City.TAICityUpgradeBudget.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TAICityUpgradeBudget => (Meta)MetaRegistry.Of(typeof(T));
@@ -5028,17 +4944,15 @@ namespace Aow.Units.City
     // { TAICityResearchBudget (instance size 56, VMT 557A7994) }
     public partial class TAICityResearchBudget : Aow.Units.AoWE.TAIBudget
     {
+        // City.pas:2780
+        public new const int ClassID = 131350;
+
         public TAICityResearchBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
             // City.pas:2780
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131350;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.City.TAICityResearchBudget.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TAICityResearchBudget => (Meta)MetaRegistry.Of(typeof(T));
@@ -5050,17 +4964,15 @@ namespace Aow.Units.City
     // { TAICityFortifyBudget (instance size 56, VMT 557A7A74) }
     public partial class TAICityFortifyBudget : Aow.Units.AoWE.TAIBudget
     {
+        // City.pas:2785
+        public new const int ClassID = 131351;
+
         public TAICityFortifyBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
             // City.pas:2785
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131351;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.City.TAICityFortifyBudget.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TAICityFortifyBudget => (Meta)MetaRegistry.Of(typeof(T));
@@ -5851,6 +5763,9 @@ namespace Aow.Units.City
     // { TCityProductionEventLog (instance size 32, VMT 557A7C24) }
     public partial class TCityProductionEventLog : Aow.Units.AoWE.TProductionEventLog
     {
+        // City.pas:3195
+        public new const int ClassID = 131834;
+
         // City.pas:3205
         public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
         {
@@ -5900,51 +5815,27 @@ namespace Aow.Units.City
         public new partial class Meta : Aow.Units.AoWE.TProductionEventLog.Meta
         {
             // City.pas:3195
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131834;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.City.TCityProductionEventLog.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TCityProductionEventLog => (Meta)MetaRegistry.Of(typeof(T));
             // EventLog.pas:91
-            public new Aow.Units.City.TCityProductionEventLog Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TCityProductionEventLog o = (Aow.Units.City.TCityProductionEventLog)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TCityProductionEventLog Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityProductionEventLog)base.Create(AOwner);
         }
     }
 
     // { TRegistrator (instance size 4, VMT 557AF144): no added fields. }
     public partial class TRegistrator : Aow.Rtl.TObject
     {
-        public new partial class Meta : Aow.Rtl.TObject.Meta
+        // City.pas:3306
+        public static void MapLoaded(Aow.Rtl.TObject Sender)
         {
-            // City.pas:3306
-            public void MapLoaded(Aow.Rtl.TObject Sender)
+            if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
-                {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.City.TCityAIPA>()]);
-                }
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIPlayerActionManager.RegisterClasses([Aow.Units.AoWE.TAIPlayerAction.Meta.Of<Aow.Units.City.TCityAIPA>()]);
             }
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.City.TRegistrator => (Meta)MetaRegistry.Of(typeof(T));
         }
+
     }
 
     public enum TCivilStatus : byte
@@ -6133,7 +6024,7 @@ namespace Aow.Units.City
                     {
                         var call__761 = P.FStructures.GetStructure(I);
                         Structure = call__761;
-                        var call__762 = Structure.ClassType.ClassID();
+                        var call__762 = Structure.EClass.ClassID;
                         if ((call__762 == 131336) && (Structure.FPlayer == Player))
                         {
                             Result += 1;
@@ -6168,7 +6059,7 @@ namespace Aow.Units.City
                     {
                         var call__765 = P.FStructures.GetStructure(I);
                         Structure = call__765;
-                        var call__766 = Structure.ClassType.ClassID();
+                        var call__766 = Structure.EClass.ClassID;
                         if ((call__766 == 131336) && (Structure.FPlayer == Player))
                         {
                             Result += ((Aow.Units.City.TCity)Structure).FIncome;
@@ -6265,8 +6156,8 @@ namespace Aow.Units.City
         {
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.City.TCityEnchantment>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.City.TCity>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.City.TCityResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.City.TCityRebellionEventLog>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.City.TAICityUpgradeBudget>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.City.TAICityResearchBudget>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.City.TAICityFortifyBudget>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.City.TCityProductionEventLog>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.City.TRegistrator.Meta.Of<Aow.Units.City.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.City.TCityEnchantment>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TCity>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TCityResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TCityRebellionEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TAICityUpgradeBudget>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TAICityResearchBudget>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TAICityFortifyBudget>(), Aow.Units.Engine.EClass.Of<Aow.Units.City.TCityProductionEventLog>()]);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.City.TRegistrator.MapLoaded);
             }
         }
 
@@ -6274,7 +6165,7 @@ namespace Aow.Units.City
         {
             if (Aow.Units.AoWE.AoWE.AoWEngine != null)
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.City.TRegistrator.Meta.Of<Aow.Units.City.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.City.TRegistrator.MapLoaded);
             }
         }
     }

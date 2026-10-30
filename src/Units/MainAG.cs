@@ -41,6 +41,9 @@ namespace Aow.Units.MainAG
     // { TPassiveAG (instance size 80, VMT 557D9ED8) }
     public partial class TPassiveAG : Aow.Units.AoWE.TAIGroup
     {
+        // MainAG.pas:129
+        public new const int ClassID = 136280;
+
         // MainAG.pas:122
         public TPassiveAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -110,12 +113,7 @@ namespace Aow.Units.MainAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // MainAG.pas:129
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136280;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MainAG.TPassiveAG.ClassID;
 
             // MainAG.pas:135
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -229,7 +227,7 @@ namespace Aow.Units.MainAG
                     bool bool__18 = (FGroup.FGroupID != Group.FGroupID);
                     if (bool__18)
                     {
-                        var call__19 = Group.ClassType.ClassID();
+                        var call__19 = Group.EClass.ClassID;
                         bool__18 = (call__19 == 136280);
                     }
 
@@ -257,6 +255,9 @@ namespace Aow.Units.MainAG
     // { TFortifyAG (instance size 80, VMT 557DA118) }
     public partial class TFortifyAG : Aow.Units.AoWE.TAIGroup
     {
+        // MainAG.pas:247
+        public new const int ClassID = 136281;
+
         // MainAG.pas:240
         public TFortifyAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -267,12 +268,7 @@ namespace Aow.Units.MainAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // MainAG.pas:247
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136281;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MainAG.TFortifyAG.ClassID;
 
             // MainAG.pas:253
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -1102,6 +1098,9 @@ namespace Aow.Units.MainAG
     // { TSuicidalAG (instance size 80, VMT 557DA358) }
     public partial class TSuicidalAG : Aow.Units.AoWE.TAIGroup
     {
+        // MainAG.pas:729
+        public new const int ClassID = 136276;
+
         // MainAG.pas:722
         public TSuicidalAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -1112,12 +1111,7 @@ namespace Aow.Units.MainAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // MainAG.pas:729
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136276;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MainAG.TSuicidalAG.ClassID;
 
             // MainAG.pas:735
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -1227,6 +1221,9 @@ namespace Aow.Units.MainAG
     // { TTransportAG (instance size 80, VMT 557DA5A0) }
     public partial class TTransportAG : Aow.Units.AoWE.TAIGroup
     {
+        // MainAG.pas:801
+        public new const int ClassID = 136295;
+
         // MainAG.pas:796
         public override void Destroy()
         {
@@ -1243,12 +1240,7 @@ namespace Aow.Units.MainAG
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
         {
             // MainAG.pas:801
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 136295;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.MainAG.TTransportAG.ClassID;
 
             // MainAG.pas:807
             public override Aow.Units.AoWE.TAIGroupControl.Meta GroupControlClass()
@@ -1405,20 +1397,15 @@ namespace Aow.Units.MainAG
     // { TRegistrator (instance size 4): no fields; map-load registration callback. }
     public partial class TRegistrator : Aow.Rtl.TObject
     {
-        public new partial class Meta : Aow.Rtl.TObject.Meta
+        // MainAG.pas:115
+        public static void MapLoaded(Aow.Rtl.TObject Sender)
         {
-            // MainAG.pas:115
-            public void MapLoaded(Aow.Rtl.TObject Sender)
+            if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
             {
-                if (Sender == Aow.Units.AoWE.AoWE.AoWHSMap)
-                {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TPassiveAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TSuicidalAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TFortifyAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TTransportAG>()]);
-                }
+                Aow.Units.AoWE.AoWE.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TPassiveAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TSuicidalAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TFortifyAG>(), Aow.Units.AoWE.TAIGroup.Meta.Of<Aow.Units.MainAG.TTransportAG>()]);
             }
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.MainAG.TRegistrator => (Meta)MetaRegistry.Of(typeof(T));
         }
+
     }
 
     public static partial class MainAG
@@ -1450,8 +1437,8 @@ namespace Aow.Units.MainAG
         {
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MainAG.TSuicidalAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MainAG.TFortifyAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MainAG.TPassiveAG>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.MainAG.TTransportAG>()]);
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.MainAG.TRegistrator.Meta.Of<Aow.Units.MainAG.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MainAG.TSuicidalAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.MainAG.TFortifyAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.MainAG.TPassiveAG>(), Aow.Units.Engine.EClass.Of<Aow.Units.MainAG.TTransportAG>()]);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(Aow.Units.MainAG.TRegistrator.MapLoaded);
             }
         }
 
@@ -1459,7 +1446,7 @@ namespace Aow.Units.MainAG
         {
             if (Aow.Units.AoWE.AoWE.AoWEngine != null)
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.MainAG.TRegistrator.Meta.Of<Aow.Units.MainAG.TRegistrator>().MapLoaded);
+                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(Aow.Units.MainAG.TRegistrator.MapLoaded);
             }
         }
     }

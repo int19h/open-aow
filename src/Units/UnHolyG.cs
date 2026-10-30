@@ -49,6 +49,12 @@ namespace Aow.Units.UnHolyG
 //     $1E FDuration, $1F FOriginalOverlay. }
     public partial class TUnHolyGround : Aow.Units.ILTer.TILTerrainMO
     {
+        public TUnHolyGround(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // UnHolyG.pas:93
+        public new const int ClassID = 131985;
+
         public TSet<Aow.Units.UnHolyG.AnonymousEnum_hgSummoning> FMode;
         // { $1C }
         public sbyte FPlayer;
@@ -401,37 +407,24 @@ namespace Aow.Units.UnHolyG
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
             // UnHolyG.pas:93
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131985;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.UnHolyG.TUnHolyGround.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.UnHolyG.TUnHolyGround => (Meta)MetaRegistry.Of(typeof(T));
             // ILTer.pas:20
-            public new Aow.Units.UnHolyG.TUnHolyGround Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.UnHolyG.TUnHolyGround o = (Aow.Units.UnHolyG.TUnHolyGround)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.UnHolyG.TUnHolyGround Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.UnHolyG.TUnHolyGround)base.Create(AOwner);
         }
     }
 
     // { TUnHolyGroundResource (instance size 68, VMT 557C8CC0) }
     public partial class TUnHolyGroundResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TUnHolyGroundResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // UnHolyG.pas:278
+        public new const int ClassID = 131986;
+
         // UnHolyG.pas:283
         public override int ResourceUserClassID()
         {
@@ -443,12 +436,7 @@ namespace Aow.Units.UnHolyG
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // UnHolyG.pas:278
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131986;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.UnHolyG.TUnHolyGroundResource.ClassID;
 
             // UnHolyG.pas:273
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -463,27 +451,19 @@ namespace Aow.Units.UnHolyG
             public static new Meta Of<T>()
                 where T : Aow.Units.UnHolyG.TUnHolyGroundResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.UnHolyG.TUnHolyGroundResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.UnHolyG.TUnHolyGroundResource o = (Aow.Units.UnHolyG.TUnHolyGroundResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.UnHolyG.TUnHolyGroundResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.UnHolyG.TUnHolyGroundResource)base.Create(AOwner);
         }
     }
 
     // { TUnholyGroundSpellTE (instance size 36, VMT 557C8DC0) }
     public partial class TUnholyGroundSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TUnholyGroundSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // UnHolyG.pas:288
+        public new const int ClassID = 135943;
+
         // UnHolyG.pas:340
         public override bool Process(Aow.Units.AoWE.TAbstractUnit A1, int A2)
         {
@@ -541,7 +521,7 @@ namespace Aow.Units.UnHolyG
                         if (call__61)
                         {
                             Ground.FMode = TSet<Aow.Units.UnHolyG.AnonymousEnum_hgSummoning>.Of(Aow.Units.UnHolyG.AnonymousEnum_hgSummoning.hgSummoning);
-                            Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                             var call__62 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
                             var call__63 = call__62.FCastImages.ImageSequences[0];
                             Anim.SetImageSequence(call__63);
@@ -564,60 +544,25 @@ namespace Aow.Units.UnHolyG
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.UnHolyG.TUnholyGroundSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnHolyG.TUnholyGroundSpellTE o = new Aow.Units.UnHolyG.TUnholyGroundSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
             // UnHolyG.pas:288
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135943;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.UnHolyG.TUnholyGroundSpellTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.UnHolyG.TUnholyGroundSpellTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.UnHolyG.TUnholyGroundSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.UnHolyG.TUnholyGroundSpellTE o = (Aow.Units.UnHolyG.TUnholyGroundSpellTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.UnHolyG.TUnholyGroundSpellTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.UnHolyG.TUnholyGroundSpellTE)base.Create(AOwner);
         }
     }
 
     // { TUnholyGroundSpell (instance size 60, VMT 557C8EA4) }
     public partial class TUnholyGroundSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
-        // UnHolyG.pas:349
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TUnholyGroundSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__65 = Aow.Units.AoWE.AoWE.UnholyGroundsRStr;
             var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(call__65);
             FSpellName = call__66;
@@ -627,6 +572,14 @@ namespace Aow.Units.UnHolyG
             FMagicSphere = Aow.Units.AoWE.TMagicSphere.msDeath;
             FAboveGroundOnly = false;
         }
+
+        public static new TUnholyGroundSpell Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnholyGroundSpell(context, owner));
+        }
+
+        // UnHolyG.pas:349
+
 
         // UnHolyG.pas:383
         public override void SetupTargetSelection(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TTargetSelectionControl A2)
@@ -649,7 +602,7 @@ namespace Aow.Units.UnHolyG
         {
             bool Result = default;
             Aow.Units.UnHolyG.TUnholyGroundSpellTE Event = default;
-            Event = Aow.Units.UnHolyG.TUnholyGroundSpellTE.Create(null);
+            Event = new Aow.Units.UnHolyG.TUnholyGroundSpellTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -708,21 +661,7 @@ namespace Aow.Units.UnHolyG
         }
 
         // UnHolyG.pas:62
-        public static new Aow.Units.UnHolyG.TUnholyGroundSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnHolyG.TUnholyGroundSpell o = new Aow.Units.UnHolyG.TUnholyGroundSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public static partial class UnHolyG
@@ -730,7 +669,7 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:404
         public static void RegisterUnHolyGround(Aow.Units.AoWE.TAoWEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnHolyGround>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnHolyGroundResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnholyGroundSpellTE>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnHolyGround>(), Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnHolyGroundResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnholyGroundSpellTE>()]);
             var call__75 = Aow.Units.UnHolyG.TUnholyGroundSpell.Create(null);
             AEngine.FGameSet.FSpellControl.RegisterSpell(call__75);
         }
@@ -738,7 +677,7 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:410
         public static void UnRegisterUnholyGround(Aow.Units.AoWE.TAoWEngine AEngine)
         {
-            AEngine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnHolyGround>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnHolyGroundResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.UnHolyG.TUnholyGroundSpellTE>()]);
+            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnHolyGround>(), Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnHolyGroundResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnholyGroundSpellTE>()]);
             AEngine.FGameSet.FSpellControl.UnregisterSpellID(14);
         }
 

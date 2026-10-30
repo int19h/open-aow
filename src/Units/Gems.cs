@@ -40,6 +40,15 @@ namespace Aow.Units.Gems
     // { TGems (instance size 36, VMT 557C4D54): $1C FAmount, $20 FGenerateMode. }
     public partial class TGems : Aow.Units.ILTer.TILTerrainMO
     {
+        public TGems(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FGenerateMode = Aow.Units.Gems.TGemsGenerateMode.gmNormal;
+            FAmount = 0;
+        }
+
+        // Gems.pas:53
+        public new const int ClassID = 132014;
+
         public int FAmount;
         public Aow.Units.Gems.TGemsGenerateMode FGenerateMode;
         public Aow.Units.FixedArray_byte_3 F_Gems_21;
@@ -52,12 +61,7 @@ namespace Aow.Units.Gems
         }
 
         // Gems.pas:46
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FGenerateMode = Aow.Units.Gems.TGemsGenerateMode.gmNormal;
-            FAmount = 0;
-        }
+
 
         // Gems.pas:93
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -187,48 +191,15 @@ namespace Aow.Units.Gems
         }
 
         // Gems.pas:24
-        public static new Aow.Units.Gems.TGems Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Gems.TGems o = new Aow.Units.Gems.TGems();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
             // Gems.pas:53
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132014;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Gems.TGems.ClassID;
 
             // Gems.pas:24
-            public new Aow.Units.Gems.TGems Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Gems.TGems o = (Aow.Units.Gems.TGems)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Gems.TGems Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Gems.TGems)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Gems.TGems => (Meta)MetaRegistry.Of(typeof(T));
@@ -238,6 +209,12 @@ namespace Aow.Units.Gems
     // { TGemsResource (instance size 68, VMT 557C4EF0): no additional fields. }
     public partial class TGemsResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TGemsResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Gems.pas:137
+        public new const int ClassID = 132015;
+
         // Gems.pas:140
         public override int ResourceUserClassID()
         {
@@ -249,12 +226,7 @@ namespace Aow.Units.Gems
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMOR.Meta
         {
             // Gems.pas:137
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132015;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Gems.TGemsResource.ClassID;
 
             // Gems.pas:134
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -269,21 +241,7 @@ namespace Aow.Units.Gems
             public static new Meta Of<T>()
                 where T : Aow.Units.Gems.TGemsResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.Gems.TGemsResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Gems.TGemsResource o = (Aow.Units.Gems.TGemsResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Gems.TGemsResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Gems.TGemsResource)base.Create(AOwner);
         }
     }
 
@@ -301,7 +259,7 @@ namespace Aow.Units.Gems
         // Gems.pas:143
         public static void RegisterGems(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Gems.TGems>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Gems.TGemsResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Gems.TGems>(), Aow.Units.Engine.EClass.Of<Aow.Units.Gems.TGemsResource>()]);
         }
 
         public static void Initialize()

@@ -41,63 +41,34 @@ namespace Aow.Units.AltFire
     // { TAltarOfFire (instance size 68, no added fields, VMT 557CF5F8) }
     public partial class TAltarOfFire : Aow.Units.Altar.TAltar
     {
-        // AltFire.pas:37
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAltarOfFire(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
+
+        // AltFire.pas:42
+        public new const int ClassID = 131642;
+
+        // AltFire.pas:37
+
 
         // AltFire.pas:45
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
             Aow.Units.Storms.TStorm Result = default;
-            Result = Aow.Units.Storms.TFireStorm.Create(null);
+            Result = new Aow.Units.Storms.TFireStorm(null);
             return Result;
         }
 
         // AltFire.pas:19
-        public static new Aow.Units.AltFire.TAltarOfFire Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltFire.TAltarOfFire o = new Aow.Units.AltFire.TAltarOfFire();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltar.Meta
         {
             // AltFire.pas:42
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131642;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltFire.TAltarOfFire.ClassID;
 
             // AltFire.pas:19
-            public new Aow.Units.AltFire.TAltarOfFire Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltFire.TAltarOfFire o = (Aow.Units.AltFire.TAltarOfFire)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltFire.TAltarOfFire Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltFire.TAltarOfFire)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltFire.TAltarOfFire => (Meta)MetaRegistry.Of(typeof(T));
@@ -107,11 +78,15 @@ namespace Aow.Units.AltFire
     // { TAltarOfFireResource (instance size 116, no added fields, VMT 557CF8B0) }
     public partial class TAltarOfFireResource : Aow.Units.Altar.TAltarResource
     {
-        // AltFire.pas:50
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAltarOfFireResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
+
+        // AltFire.pas:58
+        public new const int ClassID = 131643;
+
+        // AltFire.pas:50
+
 
         // AltFire.pas:61
         public override int ResourceUserClassID()
@@ -122,31 +97,12 @@ namespace Aow.Units.AltFire
         }
 
         // AltFire.pas:27
-        public static new Aow.Units.AltFire.TAltarOfFireResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltFire.TAltarOfFireResource o = new Aow.Units.AltFire.TAltarOfFireResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {
             // AltFire.pas:58
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 131643;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AltFire.TAltarOfFireResource.ClassID;
 
             // AltFire.pas:55
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -157,21 +113,7 @@ namespace Aow.Units.AltFire
             }
 
             // AltFire.pas:27
-            public new Aow.Units.AltFire.TAltarOfFireResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AltFire.TAltarOfFireResource o = (Aow.Units.AltFire.TAltarOfFireResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AltFire.TAltarOfFireResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AltFire.TAltarOfFireResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AltFire.TAltarOfFireResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -183,7 +125,7 @@ namespace Aow.Units.AltFire
         // AltFire.pas:64
         public static void RegisterAltarOfFire(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltFire.TAltarOfFire>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AltFire.TAltarOfFireResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AltFire.TAltarOfFire>(), Aow.Units.Engine.EClass.Of<Aow.Units.AltFire.TAltarOfFireResource>()]);
         }
 
         public static void Initialize()

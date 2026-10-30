@@ -136,13 +136,8 @@ namespace Aow.Units.AoWTC
 //     Inherited $04 Width; $08 Height; $0C Levels; $10 HSSFileName; $14 HSMapClassID; $1C MapLevelClassID. }
     public partial class TAoWNewCombatMapSettings : Aow.Units.HSEngine.TNewHSMapSettings
     {
-        // Legacy factory runs the split base body after raw allocation.
-        public TAoWNewCombatMapSettings() : base(true) { }
-
-        // AoWTC.pas:2147
-        public void Create__init_TAoWNewCombatMapSettings()
+        public TAoWNewCombatMapSettings() : base()
         {
-            base.Create__init_TNewHSMapSettings();
             HSMapClassID = 2228480;
             MapLevelClassID = 2228482;
             Width = 65;
@@ -151,22 +146,12 @@ namespace Aow.Units.AoWTC
             HSSFileName = Aow.Units.AoWE.AoWE.AoWEngine.HSSFileName;
         }
 
-        // AoWTC.pas:70
-        public static Aow.Units.AoWTC.TAoWNewCombatMapSettings Create()
-        {
-            Aow.Units.AoWTC.TAoWNewCombatMapSettings o = new Aow.Units.AoWTC.TAoWNewCombatMapSettings();
-            try
-            {
-                o.Create__init_TAoWNewCombatMapSettings();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
+        // AoWTC.pas:2147
+
+
+        // AoWTC.pas:70
+
     }
 
     // { TaiMove (instance size 32, VMT 00411BC0)
@@ -4227,6 +4212,12 @@ namespace Aow.Units.AoWTC
 //     Inherited world-map field layout; no additional fields. }
     public partial class TAoWCombatMapField : Aow.Units.AoWE.TAoWMapField
     {
+        public TAoWCombatMapField(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // AoWTC.pas:2158
+        public new const int ClassID = 2228481;
+
         // AoWTC.pas:2163
         public sbyte GetDefenseValue()
         {
@@ -4243,31 +4234,12 @@ namespace Aow.Units.AoWTC
         public new partial class Meta : Aow.Units.AoWE.TAoWMapField.Meta
         {
             // AoWTC.pas:2158
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228481;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TAoWCombatMapField.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TAoWCombatMapField => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:219
-            public new Aow.Units.AoWTC.TAoWCombatMapField Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TAoWCombatMapField o = (Aow.Units.AoWTC.TAoWCombatMapField)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TAoWCombatMapField Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TAoWCombatMapField)base.Create(AOwner);
         }
     }
 
@@ -4275,49 +4247,47 @@ namespace Aow.Units.AoWTC
 //     Inherited world-map level layout; no additional fields. }
     public partial class TAoWCombatMapLevel : Aow.Units.AoWE.TAoWMapLevel
     {
-        // AoWTC.pas:2178
-        public override Aow.Units.Engine.TEObject.Meta MapFieldClass()
+        private protected TAoWCombatMapLevel(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {}
+
+        public static new TAoWCombatMapLevel Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.Engine.TEObject.Meta Result = default;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAoWCombatMapLevel(context, owner));
+        }
+
+        // AoWTC.pas:2173
+        public new const int ClassID = 2228482;
+
+        // AoWTC.pas:2178
+        public override Aow.Units.Engine.EClass MapFieldClass()
+        {
+            Aow.Units.Engine.EClass Result = default;
             // { Original uses the world-map field class. }
-            Result = Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWE.TAoWMapField>();
+            Result = Aow.Units.Engine.EClass.Of<Aow.Units.AoWE.TAoWMapField>();
             return Result;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAoWMapLevel.Meta
         {
             // AoWTC.pas:2173
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228482;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TAoWCombatMapLevel.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TAoWCombatMapLevel => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:312
-            public new Aow.Units.AoWTC.TAoWCombatMapLevel Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TAoWCombatMapLevel o = (Aow.Units.AoWTC.TAoWCombatMapLevel)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TAoWCombatMapLevel Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TAoWCombatMapLevel)base.Create(AOwner);
         }
     }
 
     // { TRangedPathHS (instance size 32, VMT 00411EA8): $0C FMiscImages; $10 FTargetImages; $14 FFrame; $16 FFrameCount; $18 FSelection; $1C FRange. }
     public partial class TRangedPathHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
+        public TRangedPathHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // AoWTC.pas:4846
+        public new const int ClassID = 2228485;
+
         public Aow.Units.ImageLib.TCustomImageLibrary FMiscImages;
         // { $0C }
         public Aow.Units.ImageLib.TCustomImageLibrary FTargetImages;
@@ -4584,50 +4554,17 @@ namespace Aow.Units.AoWTC
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWTC.TRangedPathHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TRangedPathHS o = new Aow.Units.AoWTC.TRangedPathHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // AoWTC.pas:4846
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228485;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TRangedPathHS.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TRangedPathHS => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWTC.TRangedPathHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TRangedPathHS o = (Aow.Units.AoWTC.TRangedPathHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TRangedPathHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TRangedPathHS)base.Create(AOwner);
         }
     }
 
@@ -4636,6 +4573,19 @@ namespace Aow.Units.AoWTC
 //     $1C FPath; $20 FVariant; $24 FTargetX; $28 FTargetY; $2C FTarget; $34 FEffectType. }
     public partial class TfxHS : Aow.Units.HSEngine.TFixedVisibleHS
     {
+        // TAoWCombatMap keeps this caller and its construction protocol.
+        public static new TfxHS Create(Aow.Units.Engine.TECustomNode AOwner) => new TfxHS(AOwner);
+
+        public TfxHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__824 = new Aow.Units.aowFX.TXYZList();
+            FPath = call__824;
+            FFrame = -1;
+        }
+
+        // AoWTC.pas:5227
+        public new const int ClassID = 2228486;
+
         public bool FDone;
         // { $0C }
         public bool FCancelled;
@@ -4675,13 +4625,7 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:5214
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__824 = new Aow.Units.aowFX.TXYZList();
-            FPath = call__824;
-            FFrame = -1;
-        }
+
 
         // AoWTC.pas:5239
         public override int GetShowPriority()
@@ -6733,48 +6677,15 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:196
-        public static new Aow.Units.AoWTC.TfxHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TfxHS o = new Aow.Units.AoWTC.TfxHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // AoWTC.pas:5227
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228486;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TfxHS.ClassID;
 
             // AoWTC.pas:196
-            public new Aow.Units.AoWTC.TfxHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TfxHS o = (Aow.Units.AoWTC.TfxHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TfxHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TfxHS)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TfxHS => (Meta)MetaRegistry.Of(typeof(T));
@@ -6784,6 +6695,12 @@ namespace Aow.Units.AoWTC
     // { TCItemHS (instance size 20, VMT 00412198) }
     public partial class TCItemHS : Aow.Units.AoWE.TItemHS
     {
+        // TAoWCombatMap keeps this caller and its construction protocol.
+        public static new TCItemHS Create(Aow.Units.Engine.TECustomNode AOwner) => new TCItemHS(AOwner);
+
+        public TCItemHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWTC.pas:2586
         public override void Deactivate()
         {
@@ -6811,7 +6728,7 @@ namespace Aow.Units.AoWTC
                 ItemHS = (Aow.Units.AoWE.TItemHS)call__1309;
                 if (ItemHS == null)
                 {
-                    ItemHS = Aow.Units.AoWE.TItemHS.Create(null);
+                    ItemHS = new Aow.Units.AoWE.TItemHS(null);
                     Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(ItemHS, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FX, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FY, Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FL);
                 }
 
@@ -6830,27 +6747,23 @@ namespace Aow.Units.AoWTC
         }
 
         // intf_P2_04.inc:216
-        public static new Aow.Units.AoWTC.TCItemHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TCItemHS o = new Aow.Units.AoWTC.TCItemHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TUnitPositionHS (instance size 28, VMT 00412314)
 //     $0C FPosition; $0D FIndex; $10 FImageIndex; $14 FImages; $18 FDirection. }
     public partial class TUnitPositionHS : Aow.Units.HSEngine.TSingleHS
     {
+        public TUnitPositionHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FPosition = 0;
+            FIndex = 0;
+            FDirection = 1;
+        }
+
+        // AoWTC.pas:5016
+        public new const int ClassID = 2228483;
+
         public sbyte FPosition;
         // { $0C }
         public sbyte FIndex;
@@ -6873,13 +6786,7 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:5008
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FPosition = 0;
-            FIndex = 0;
-            FDirection = 1;
-        }
+
 
         // AoWTC.pas:5021
         public override byte GetLevel()
@@ -6985,48 +6892,15 @@ namespace Aow.Units.AoWTC
         }
 
         // AoWTC.pas:223
-        public static new Aow.Units.AoWTC.TUnitPositionHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TUnitPositionHS o = new Aow.Units.AoWTC.TUnitPositionHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // AoWTC.pas:5016
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228483;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TUnitPositionHS.ClassID;
 
             // AoWTC.pas:223
-            public new Aow.Units.AoWTC.TUnitPositionHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TUnitPositionHS o = (Aow.Units.AoWTC.TUnitPositionHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TUnitPositionHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TUnitPositionHS)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TUnitPositionHS => (Meta)MetaRegistry.Of(typeof(T));
@@ -7037,6 +6911,11 @@ namespace Aow.Units.AoWTC
 //     $10 FFrame; $14 FOffsetX; $18 FOffsetY. }
     public partial class TCBloodHS : Aow.Units.HSEngine.TSingleHS
     {
+        public TCBloodHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        public new const int ClassID = 2228487;
+
         public Aow.Units.FixedArray_byte_4 F_CBloodHS_0C;
         public int FFrame;
         // { $10 }
@@ -7091,51 +6970,18 @@ namespace Aow.Units.AoWTC
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWTC.TCBloodHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TCBloodHS o = new Aow.Units.AoWTC.TCBloodHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // AoWTC.pas:6388
             // { $18 }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228487;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TCBloodHS.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TCBloodHS => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWTC.TCBloodHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TCBloodHS o = (Aow.Units.AoWTC.TCBloodHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TCBloodHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TCBloodHS)base.Create(AOwner);
         }
     }
 
@@ -7143,6 +6989,11 @@ namespace Aow.Units.AoWTC
 //     $0C FUnit; $10 FUnitGFX; $18 FFrame; $1C FOffsetX; $20 FOffsetY; $24 FSequenceIndex; $28 FSequenceFrame. }
     public partial class TCCorpseHS : Aow.Units.HSEngine.TSingleHS
     {
+        public TCCorpseHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        public new const int ClassID = 2228488;
+
         public Aow.Units.AoWTC.TTacticalCombatUnit FUnit;
         // { $0C }
         public Aow.Units.AoWE.TUnitGFXResource FUnitGFX;
@@ -7356,7 +7207,7 @@ namespace Aow.Units.AoWTC
                         var call__1372 = FUnit.GetEnabled();
                         if (call__1372)
                         {
-                            UnitHS = Aow.Units.AoWTC.TTacticalCombatUnitHS.Create(null);
+                            UnitHS = new Aow.Units.AoWTC.TTacticalCombatUnitHS(null);
                             UnitHS.Initialize(FUnit);
                             var call__1373 = Aow.Rtl.Rtl.Random(6);
                             UnitHS.SetDirection(unchecked((byte)(call__1373 + 1)));
@@ -7406,51 +7257,18 @@ namespace Aow.Units.AoWTC
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWTC.TCCorpseHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TCCorpseHS o = new Aow.Units.AoWTC.TCCorpseHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // AoWTC.pas:3973
             // { $28 }
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228488;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TCCorpseHS.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TCCorpseHS => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWTC.TCCorpseHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TCCorpseHS o = (Aow.Units.AoWTC.TCCorpseHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TCCorpseHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TCCorpseHS)base.Create(AOwner);
         }
     }
 
@@ -7458,6 +7276,12 @@ namespace Aow.Units.AoWTC
 //     Inherited single-hexagon sprite layout; no additional fields. }
     public partial class TCOozeHS : Aow.Units.HSEngine.TSingleHS
     {
+        public TCOozeHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // AoWTC.pas:4092
+        public new const int ClassID = 2228489;
+
         // AoWTC.pas:4097
         public override sbyte GetOverlay(int HN)
         {
@@ -7537,50 +7361,17 @@ namespace Aow.Units.AoWTC
         }
 
         // Engine.pas:524
-        public static new Aow.Units.AoWTC.TCOozeHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TCOozeHS o = new Aow.Units.AoWTC.TCOozeHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // AoWTC.pas:4092
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228489;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TCOozeHS.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TCOozeHS => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.AoWTC.TCOozeHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TCOozeHS o = (Aow.Units.AoWTC.TCOozeHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TCOozeHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TCOozeHS)base.Create(AOwner);
         }
     }
 
@@ -7627,7 +7418,7 @@ namespace Aow.Units.AoWTC
                     HS = (Aow.Units.AoWTC.TUnitPositionHS)call__1390;
                     if (HS == null)
                     {
-                        HS = Aow.Units.AoWTC.TUnitPositionHS.Create(null);
+                        HS = new Aow.Units.AoWTC.TUnitPositionHS(null);
                         var call__1391 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(HS, X, Y, L);
                         if (!call__1391)
                         {
@@ -7740,6 +7531,14 @@ namespace Aow.Units.AoWTC
     // { TCombatMoveControl (instance size 488, VMT 00412AC4) }
     public partial class TCombatMoveControl : Aow.Units.AoWE.TMoveControl
     {
+        // TAoWCombatMap keeps this caller and its construction protocol.
+        public static TCombatMoveControl Create(Aow.Units.HSEngine.THSMap AOwner) => new TCombatMoveControl(AOwner);
+
+        // Raw allocation for the MovementChecks tactical activation fixture.
+        protected TCombatMoveControl() { }
+
+        public TCombatMoveControl(Aow.Units.HSEngine.THSMap AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWTC.TTacticalCombatUnitHS FUnitHS;
         // { $1E0 }
         public TSet<Aow.Units.AoWTC.TCombatMoveModeElement> FMoveFlags;
@@ -7754,21 +7553,7 @@ namespace Aow.Units.AoWTC
         }
 
         // intf_P5_01.inc:120
-        public static Aow.Units.AoWTC.TCombatMoveControl Create(Aow.Units.HSEngine.THSMap AOwner)
-        {
-            Aow.Units.AoWTC.TCombatMoveControl o = new Aow.Units.AoWTC.TCombatMoveControl();
-            try
-            {
-                o.Create__init_TMoveControl(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TTacticalCombatUnit (instance size 104, VMT 00412B4C)
@@ -7889,7 +7674,7 @@ namespace Aow.Units.AoWTC
                         {
                             var call__1412 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
                             var call__1413 = call__1412.Field[X, Y];
-                            var call__1414 = Aow.Units.AoWTC.TCBloodHS.Create(call__1413);
+                            var call__1414 = new Aow.Units.AoWTC.TCBloodHS(call__1413);
                             Blood = call__1414;
                             Blood.Activate();
                             var call__1415 = Aow.Rtl.Rtl.Random(32);
@@ -7978,7 +7763,7 @@ namespace Aow.Units.AoWTC
                             var call__1445 = FUnitHS.GetXhx();
                             var call__1446 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
                             var call__1447 = call__1446.Field[call__1445, call__1444];
-                            var call__1448 = Aow.Units.AoWTC.TCCorpseHS.Create(call__1447);
+                            var call__1448 = new Aow.Units.AoWTC.TCCorpseHS(call__1447);
                             Corpse = call__1448;
                             Corpse.FUnitGFX = FUnitHS.FUnitGFXResource;
                             var call__1449 = Corpse.FUnitGFX.FSequences.ImageSequences[30];
@@ -8105,6 +7890,15 @@ namespace Aow.Units.AoWTC
 //     $38 FSelectedSpell; $3C FCombatAbilityCount; $40 FAbilities; $44 FBusy. }
     public partial class TTacticalCombatUnitHS : Aow.Units.AoWE.TUnitHS
     {
+        public TTacticalCombatUnitHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Raw allocation for RawTacticalSprite in MovementChecks.
+        protected TTacticalCombatUnitHS() { }
+
+        // AoWTC.pas:3348
+        public new const int ClassID = 2228484;
+
         public Aow.Units.AoWTC.TTacticalCombatUnit FUnit;
         // { $1C }
         // { conflict: FCombatUnit: TTacticalCombatUnit; }
@@ -9148,50 +8942,17 @@ namespace Aow.Units.AoWTC
         }
 
         // intf_P2_03.inc:74
-        public static new Aow.Units.AoWTC.TTacticalCombatUnitHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWTC.TTacticalCombatUnitHS o = new Aow.Units.AoWTC.TTacticalCombatUnitHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TUnitHS.Meta
         {
             // AoWTC.pas:3348
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228484;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TTacticalCombatUnitHS.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TTacticalCombatUnitHS => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P2_03.inc:74
-            public new Aow.Units.AoWTC.TTacticalCombatUnitHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TTacticalCombatUnitHS o = (Aow.Units.AoWTC.TTacticalCombatUnitHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TTacticalCombatUnitHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TTacticalCombatUnitHS)base.Create(AOwner);
         }
     }
 
@@ -9563,7 +9324,7 @@ namespace Aow.Units.AoWTC
                             var call__1720 = FMoveSettingsList.GetMoveSettings(I);
                             if (call__1720.FPath.Count > 1)
                             {
-                                Movement = Aow.Units.FleeLoc.TMovementHS.Create(null);
+                                Movement = new Aow.Units.FleeLoc.TMovementHS(null);
                                 var call__1721 = FMoveSettingsList.GetMoveSettings(I);
                                 var call__1722 = FMoveSettingsList.GetMoveSettings(I);
                                 var call__1723 = call__1722.FPath[call__1721.FPath.Count - 1];
@@ -9573,7 +9334,7 @@ namespace Aow.Units.AoWTC
                                 Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(Movement, call__1726.X, call__1723.Y, 0);
                                 Movement.FEnabled = true;
                                 Temporary.Add(Movement);
-                                Movement = Aow.Units.FleeLoc.TMovementHS.Create(null);
+                                Movement = new Aow.Units.FleeLoc.TMovementHS(null);
                                 var call__1727 = FMoveSettingsList.GetMoveSettings(I);
                                 var call__1728 = call__1727.FPath[0];
                                 var call__1729 = FMoveSettingsList.GetMoveSettings(I);
@@ -10125,7 +9886,7 @@ namespace Aow.Units.AoWTC
             FRangedPath = call__1834;
             var call__1835 = new Aow.Rtl.TList();
             FObstacles = call__1835;
-            var call__1836 = Aow.Units.AoWTC.TRangedPathHS.Create(null);
+            var call__1836 = new Aow.Units.AoWTC.TRangedPathHS(null);
             FRangedPathHS = call__1836;
             FRangedPathHS.Activate();
             var call__1837 = Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"TargHex.ILB");
@@ -11155,22 +10916,14 @@ namespace Aow.Units.AoWTC
     // { TAoWCombatMapMouse (instance size 80, VMT 004130DC) }
     public partial class TAoWCombatMapMouse : Aow.Units.AoWE.TAbstractAoWHSMapMouse
     {
-        // intf_P1_05.inc:68
-        public static new Aow.Units.AoWTC.TAoWCombatMapMouse Create()
-        {
-            Aow.Units.AoWTC.TAoWCombatMapMouse o = new Aow.Units.AoWTC.TAoWCombatMapMouse();
-            try
-            {
-                o.Create__init_TAbstractAoWHSMapMouse();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
+        // TAoWCombatMap keeps this caller and its construction protocol.
+        public static TAoWCombatMapMouse Create() => new TAoWCombatMapMouse();
 
-            return o;
-        }
+        public TAoWCombatMapMouse() : base()
+        {}
+
+        // intf_P1_05.inc:68
+
     }
 
     // { TAoWCombatMap (instance size 312, VMT 00413184)
@@ -11181,6 +10934,9 @@ namespace Aow.Units.AoWTC
 //     $12A FPositionStatus; $134 FRound. }
     public partial class TAoWCombatMap : Aow.Units.AoWE.TAbstractAoWCombatMap
     {
+        // AoWTC.pas:2183
+        public new const int ClassID = 2228480;
+
         public Aow.Units.AoWTC.TTacticalCombatPlayerList FPlayers;
         // { $E0 }
         public Aow.Units.AoWTC.TTacticalCombat FCombat;
@@ -12187,29 +11943,10 @@ namespace Aow.Units.AoWTC
         public new partial class Meta : Aow.Units.HSEngine.THSMap.Meta
         {
             // AoWTC.pas:2183
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228480;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TAoWCombatMap.ClassID;
 
             // AoWTC.pas:484
-            public new Aow.Units.AoWTC.TAoWCombatMap Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWTC.TAoWCombatMap o = (Aow.Units.AoWTC.TAoWCombatMap)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWTC.TAoWCombatMap Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWTC.TAoWCombatMap)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TAoWCombatMap => (Meta)MetaRegistry.Of(typeof(T));
@@ -12220,6 +11957,9 @@ namespace Aow.Units.AoWTC
 //     Inherited combat layout; $4C FHostPlayer. }
     public partial class TTacticalCombat : Aow.Units.AoWE.TCombat
     {
+        // AoWTC.pas:5081
+        public new const int ClassID = 2228496;
+
         public TTacticalCombat(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public sbyte FHostPlayer;
@@ -12380,12 +12120,7 @@ namespace Aow.Units.AoWTC
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWTC.pas:5081
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228496;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.AoWTC.TTacticalCombat.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWTC.TTacticalCombat => (Meta)MetaRegistry.Of(typeof(T));
@@ -12594,7 +12329,7 @@ namespace Aow.Units.AoWTC
 
             if (Structure != null)
             {
-                switch (Structure.ClassType.ClassID())
+                switch (Structure.EClass.ClassID)
                 {
                     case 131336:
                         FileName = FileName + AnsiString.FromBytes(48);
@@ -13815,7 +13550,7 @@ namespace Aow.Units.AoWTC
                         J = call__2361.X;
                         var call__2362 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I);
                         Temp = call__2362.Y;
-                        ItemHS = Aow.Units.AoWTC.TCItemHS.Create(null);
+                        ItemHS = new Aow.Units.AoWTC.TCItemHS(null);
                         var call__2363 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(ItemHS, J, Temp, 0);
                         if (call__2363)
                         {
@@ -13843,7 +13578,7 @@ namespace Aow.Units.AoWTC
             int HN = default;
             int NX = default;
             int NY = default;
-            UnitHS = Aow.Units.AoWTC.TTacticalCombatUnitHS.Create(null);
+            UnitHS = new Aow.Units.AoWTC.TTacticalCombatUnitHS(null);
             var call__2365 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FSides[(int)Side].GetObjects(Index);
             UnitHS.Initialize((Aow.Units.AoWTC.TTacticalCombatUnit)call__2365);
             if (UnitHS.FUnit.FPositionGroup == FHomePosition)
@@ -14699,7 +14434,7 @@ namespace Aow.Units.AoWTC
         // { conflict: procedure MakeRangedPath(Side: TCombatSideIndex; Height, Step, Arc: Smallint; X1, Y1, X2, Y2: Smallint; OffsetX, OffsetY: Smallint; Mode: Boolean; var Path: TXYZList; var Obstacles: TList); }
         public static void RegisterAoWTCClasses(Aow.Units.Engine.TEngine AEngine)
         {
-            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWTC.TAoWCombatMap>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWTC.TAoWCombatMapLevel>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWTC.TUnitPositionHS>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.AoWTC.TTacticalCombat>()]);
+            Aow.Units.AoWE.AoWE.AoWEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.AoWTC.TAoWCombatMap>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWTC.TAoWCombatMapLevel>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWTC.TUnitPositionHS>(), Aow.Units.Engine.EClass.Of<Aow.Units.AoWTC.TTacticalCombat>()]);
         }
 
         // AoWTC.pas:6596

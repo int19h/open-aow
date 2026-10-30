@@ -42,6 +42,12 @@ namespace Aow.Units.Tower
     // { TTower (instance size 64, VMT 557C31A8): $3C FState, bit 0 razed. }
     public partial class TTower : Aow.Units.AoWE.TPlayerStructure
     {
+        public TTower(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Tower.pas:55
+        public new const int ClassID = 132158;
+
         public TSet<Aow.Units.Tower.TTowerStateElement> FState;
         public Aow.Units.FixedArray_byte_3 F_Tower_3D;
         // Tower.pas:96
@@ -172,41 +178,20 @@ namespace Aow.Units.Tower
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
             // Tower.pas:55
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132158;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Tower.TTower.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Tower.TTower => (Meta)MetaRegistry.Of(typeof(T));
             // intf_P1_09.inc:249
-            public new Aow.Units.Tower.TTower Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Tower.TTower o = (Aow.Units.Tower.TTower)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Tower.TTower Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Tower.TTower)base.Create(AOwner);
         }
     }
 
     // { TTowerResource (instance size 116, VMT 557C3434): no additional fields. }
     public partial class TTowerResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        // Tower.pas:110
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TTowerResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = true;
             FClaimed = false;
             FRazeable = true;
@@ -214,6 +199,12 @@ namespace Aow.Units.Tower
             FRebuildGold = 25;
             FRebuildDays = 2;
         }
+
+        // Tower.pas:124
+        public new const int ClassID = 132159;
+
+        // Tower.pas:110
+
 
         // Tower.pas:127
         public override int ResourceUserClassID()
@@ -224,31 +215,12 @@ namespace Aow.Units.Tower
         }
 
         // Tower.pas:35
-        public static new Aow.Units.Tower.TTowerResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Tower.TTowerResource o = new Aow.Units.Tower.TTowerResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {
             // Tower.pas:124
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 132159;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Tower.TTowerResource.ClassID;
 
             // Tower.pas:121
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -261,21 +233,7 @@ namespace Aow.Units.Tower
             }
 
             // Tower.pas:35
-            public new Aow.Units.Tower.TTowerResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Tower.TTowerResource o = (Aow.Units.Tower.TTowerResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Tower.TTowerResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Tower.TTowerResource)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Tower.TTowerResource => (Meta)MetaRegistry.Of(typeof(T));
@@ -359,7 +317,7 @@ namespace Aow.Units.Tower
         // { conflict: function StructureResource: TStructureResource; override; }
         public static void RegisterTower(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Tower.TTower>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Tower.TTowerResource>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Tower.TTower>(), Aow.Units.Engine.EClass.Of<Aow.Units.Tower.TTowerResource>()]);
             var call__26 = new Aow.Units.Tower.TTowerConstructionControl(null);
             var call__27 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(125);
             ((Aow.Units.AoWE.TConstructAbility)call__27).RegisterConstructionControl(call__26);

@@ -47,6 +47,13 @@ namespace Aow.Units.FleeLoc
     // { TFleeLocation (instance size 28, VMT 00430EB4) }
     public partial class TFleeLocation : Aow.Units.HSEngine.TMapObject
     {
+        public TFleeLocation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
+        // FleeLoc.pas:76
+        public new const int ClassID = 2229544;
+
         public bool FHighlighted;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_FleeLocation_11;
@@ -55,10 +62,7 @@ namespace Aow.Units.FleeLoc
         public int FAlphaStep;
         // FleeLoc.pas:71
         // { $18 }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // FleeLoc.pas:82
         public override int GetShowPriority()
@@ -226,48 +230,15 @@ namespace Aow.Units.FleeLoc
         }
 
         // FleeLoc.pas:27
-        public static new Aow.Units.FleeLoc.TFleeLocation Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.FleeLoc.TFleeLocation o = new Aow.Units.FleeLoc.TFleeLocation();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
             // FleeLoc.pas:76
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229544;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FleeLoc.TFleeLocation.ClassID;
 
             // FleeLoc.pas:27
-            public new Aow.Units.FleeLoc.TFleeLocation Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FleeLoc.TFleeLocation o = (Aow.Units.FleeLoc.TFleeLocation)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FleeLoc.TFleeLocation Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FleeLoc.TFleeLocation)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FleeLoc.TFleeLocation => (Meta)MetaRegistry.Of(typeof(T));
@@ -277,6 +248,12 @@ namespace Aow.Units.FleeLoc
     // { TFleeLocationResource (instance size 52, VMT 00431048) }
     public partial class TFleeLocationResource : Aow.Units.HSEngine.TMapObjectResource
     {
+        public TFleeLocationResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // FleeLoc.pas:163
+        public new const int ClassID = 2229545;
+
         // FleeLoc.pas:169
         public override int ResourceUserClassID()
         {
@@ -288,12 +265,7 @@ namespace Aow.Units.FleeLoc
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {
             // FleeLoc.pas:163
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229545;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FleeLoc.TFleeLocationResource.ClassID;
 
             // FleeLoc.pas:166
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -306,27 +278,19 @@ namespace Aow.Units.FleeLoc
             public static new Meta Of<T>()
                 where T : Aow.Units.FleeLoc.TFleeLocationResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1124
-            public new Aow.Units.FleeLoc.TFleeLocationResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FleeLoc.TFleeLocationResource o = (Aow.Units.FleeLoc.TFleeLocationResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FleeLoc.TFleeLocationResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FleeLoc.TFleeLocationResource)base.Create(AOwner);
         }
     }
 
     // { TMovementHS (instance size 16, VMT 00431140) }
     public partial class TMovementHS : Aow.Units.HSEngine.TSingleHS
     {
+        public TMovementHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // FleeLoc.pas:172
+        public new const int ClassID = 2228490;
+
         public bool FEnabled;
         // { $0C }
         public Aow.Units.FixedArray_byte_3 F_MovementHS_0D;
@@ -354,50 +318,17 @@ namespace Aow.Units.FleeLoc
         }
 
         // Engine.pas:524
-        public static new Aow.Units.FleeLoc.TMovementHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.FleeLoc.TMovementHS o = new Aow.Units.FleeLoc.TMovementHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
             // FleeLoc.pas:172
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2228490;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.FleeLoc.TMovementHS.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.FleeLoc.TMovementHS => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.FleeLoc.TMovementHS Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.FleeLoc.TMovementHS o = (Aow.Units.FleeLoc.TMovementHS)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.FleeLoc.TMovementHS Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.FleeLoc.TMovementHS)base.Create(AOwner);
         }
     }
 
@@ -406,7 +337,7 @@ namespace Aow.Units.FleeLoc
         // FleeLoc.pas:191
         public static void RegisterFleeLocation(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FleeLoc.TFleeLocationResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FleeLoc.TFleeLocation>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.FleeLoc.TMovementHS>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.FleeLoc.TFleeLocationResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.FleeLoc.TFleeLocation>(), Aow.Units.Engine.EClass.Of<Aow.Units.FleeLoc.TMovementHS>()]);
         }
 
         public static void Initialize()

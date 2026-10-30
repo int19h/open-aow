@@ -45,40 +45,33 @@ namespace Aow.Units.Townhall
     // { TTownhall (instance size 40, VMT 004341F8) }
     public partial class TTownhall : Aow.Units.CombatStructure.TCombatStructure
     {
+        public TTownhall(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Townhall.pas:36
+        public new const int ClassID = 2229520;
+
         public new partial class Meta : Aow.Units.CombatStructure.TCombatStructure.Meta
         {
             // Townhall.pas:36
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229520;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Townhall.TTownhall.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.Townhall.TTownhall => (Meta)MetaRegistry.Of(typeof(T));
             // CombatStructure.pas:23
-            public new Aow.Units.Townhall.TTownhall Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Townhall.TTownhall o = (Aow.Units.Townhall.TTownhall)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Townhall.TTownhall Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Townhall.TTownhall)base.Create(AOwner);
         }
     }
 
     // { TTownhallResource (instance size 72, VMT 004343A4) }
     public partial class TTownhallResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
+        public TTownhallResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Townhall.pas:39
+        public new const int ClassID = 2229521;
+
         // Townhall.pas:45
         public override int ResourceUserClassID()
         {
@@ -90,12 +83,7 @@ namespace Aow.Units.Townhall
         public new partial class Meta : Aow.Units.CombatStructure.TCombatStructureResource.Meta
         {
             // Townhall.pas:39
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 2229521;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.Townhall.TTownhallResource.ClassID;
 
             // Townhall.pas:42
             public override Aow.Rtl.AnsiString ResourceEditName()
@@ -108,21 +96,7 @@ namespace Aow.Units.Townhall
             public static new Meta Of<T>()
                 where T : Aow.Units.Townhall.TTownhallResource => (Meta)MetaRegistry.Of(typeof(T));
             // HSEngine.pas:1194
-            public new Aow.Units.Townhall.TTownhallResource Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.Townhall.TTownhallResource o = (Aow.Units.Townhall.TTownhallResource)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.Townhall.TTownhallResource Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.Townhall.TTownhallResource)base.Create(AOwner);
         }
     }
 
@@ -131,7 +105,7 @@ namespace Aow.Units.Townhall
         // Townhall.pas:48
         public static void RegisterTownhall(Aow.Units.Engine.TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Townhall.TTownhallResource>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.Townhall.TTownhall>()]);
+            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Townhall.TTownhallResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.Townhall.TTownhall>()]);
         }
 
         public static void Initialize()

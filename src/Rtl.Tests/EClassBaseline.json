@@ -1,0 +1,4852 @@
+{
+  "Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AGCPlugins.TAIGroupRazeControl": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AGCPlugins.TAIGroupWanderControl": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AirNode.TAirNode": {
+    "id": 133454,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.AirNode.TAirNodeResource": {
+    "id": 133455,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.AltDeath.TAltarOfDeath": {
+    "id": 131637,
+    "size": 68,
+    "parent": "Aow.Units.Altar.TAltar"
+  },
+  "Aow.Units.AltDeath.TAltarOfDeathResource": {
+    "id": 131638,
+    "size": 116,
+    "parent": "Aow.Units.Altar.TAltarResource"
+  },
+  "Aow.Units.AltFire.TAltarOfFire": {
+    "id": 131642,
+    "size": 68,
+    "parent": "Aow.Units.Altar.TAltar"
+  },
+  "Aow.Units.AltFire.TAltarOfFireResource": {
+    "id": 131643,
+    "size": 116,
+    "parent": "Aow.Units.Altar.TAltarResource"
+  },
+  "Aow.Units.AltIce.TAltarOfIce": {
+    "id": 131659,
+    "size": 68,
+    "parent": "Aow.Units.Altar.TAltar"
+  },
+  "Aow.Units.AltIce.TAltarOfIceResource": {
+    "id": 131660,
+    "size": 116,
+    "parent": "Aow.Units.Altar.TAltarResource"
+  },
+  "Aow.Units.AltLife.TAltarOfLife": {
+    "id": 131635,
+    "size": 68,
+    "parent": "Aow.Units.Altar.TAltar"
+  },
+  "Aow.Units.AltLife.TAltarOfLifeResource": {
+    "id": 131636,
+    "size": 116,
+    "parent": "Aow.Units.Altar.TAltarResource"
+  },
+  "Aow.Units.AltLight.TAltarOfLightning": {
+    "id": 131645,
+    "size": 68,
+    "parent": "Aow.Units.Altar.TAltar"
+  },
+  "Aow.Units.AltLight.TAltarOfLightningResource": {
+    "id": 131646,
+    "size": 116,
+    "parent": "Aow.Units.Altar.TAltarResource"
+  },
+  "Aow.Units.AltPest.TAltarOfPestilence": {
+    "id": 131852,
+    "size": 68,
+    "parent": "Aow.Units.Altar.TAltar"
+  },
+  "Aow.Units.AltPest.TAltarOfPestilenceResource": {
+    "id": 131853,
+    "size": 116,
+    "parent": "Aow.Units.Altar.TAltarResource"
+  },
+  "Aow.Units.Altar.TAltar": {
+    "id": 132081,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TPlayerStructure"
+  },
+  "Aow.Units.Altar.TAltarResource": {
+    "id": 132082,
+    "size": 116,
+    "parent": "Aow.Units.AoWE.TPlayerStructureResource"
+  },
+  "Aow.Units.Animation.TAnimation": {
+    "id": 131815,
+    "size": 60,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.Animation.TAnimationTE": {
+    "id": 135433,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.Animation.TImageSequenceAnimation": {
+    "id": 131815,
+    "size": 80,
+    "parent": "Aow.Units.Animation.TAnimation"
+  },
+  "Aow.Units.Animation.TTwinkleAnimation": {
+    "id": 131815,
+    "size": 84,
+    "parent": "Aow.Units.Animation.TAnimation"
+  },
+  "Aow.Units.AoWE.TAIBudget": {
+    "id": 131740,
+    "size": 56,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIBudgetList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAIBudgetManager": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAICastSpellAction": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAICastSpellActionList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAIExecuter": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIGroup": {
+    "id": 136272,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TUnitUserList"
+  },
+  "Aow.Units.AoWE.TAIGroupControl": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIGroupControlPlugin": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIGroupControlTarget": {
+    "id": 80,
+    "size": 76,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIGroupControlTargetList": {
+    "id": 256,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEReferenceNode"
+  },
+  "Aow.Units.AoWE.TAIGroupCooperationControl": {
+    "id": 80,
+    "size": 148,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AoWE.TAIGroupDefenseControl": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AoWE.TAIGroupList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAIGroupManager": {
+    "id": 256,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAIGroupList"
+  },
+  "Aow.Units.AoWE.TAIGroupProduction": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIGroupProductionControl": {
+    "id": 80,
+    "size": 192,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AoWE.TAIGroupProductionList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAIGroupProductionLocation": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIGroupProductionLocationList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEReferenceNode"
+  },
+  "Aow.Units.AoWE.TAIGroupRecruitControl": {
+    "id": 80,
+    "size": 152,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AoWE.TAIGroupTargetFinder": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AoWE.TAIGroupTargetSelector": {
+    "id": 80,
+    "size": 136,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AoWE.TAIGroupUnitProduction": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIGroupUnitProductionList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEReferenceNode"
+  },
+  "Aow.Units.AoWE.TAIMoveControl": {
+    "id": 80,
+    "size": 544,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIMoveControlSettings": {
+    "id": 80,
+    "size": 360,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIMoveExecuter": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIMoveExecuterArmy": {
+    "id": 256,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TAIMoveExecuterUnitList"
+  },
+  "Aow.Units.AoWE.TAIMoveExecuterArmyList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAIMoveExecuterControl": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIMoveExecuterMove": {
+    "id": 256,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TAIMoveExecuterUnitList"
+  },
+  "Aow.Units.AoWE.TAIMoveExecuterMoveQueue": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAIMoveExecuterUnit": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIMoveExecuterUnitList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAIMoveTargetSelector": {
+    "id": 80,
+    "size": 592,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIPlayerAction": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIPlayerActionList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAIPlayerActionManager": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIPlayerControl": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIProductionLocationFinder": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AoWE.TAIRecruitmentGroup": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAIRecruitmentGroupFinder": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TAIGroupControlPlugin"
+  },
+  "Aow.Units.AoWE.TAIRecruitmentGroupList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEReferenceNode"
+  },
+  "Aow.Units.AoWE.TAISavingsBudget": {
+    "id": 131741,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TAIBudget"
+  },
+  "Aow.Units.AoWE.TAITransporterBudget": {
+    "id": 131742,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TAIBudget"
+  },
+  "Aow.Units.AoWE.TAbility": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAbilityControl": {
+    "id": 80,
+    "size": 32,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAbilityData": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAbilityList": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TCustomAbilityList"
+  },
+  "Aow.Units.AoWE.TAbilityOwner": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TCustomAbilityList"
+  },
+  "Aow.Units.AoWE.TAbstractAoWCombatMap": {
+    "id": 66048,
+    "size": 224,
+    "parent": "Aow.Units.AoWE.TAbstractAoWHSMap"
+  },
+  "Aow.Units.AoWE.TAbstractAoWHSMap": {
+    "id": 66048,
+    "size": 216,
+    "parent": "Aow.Units.HSEngine.THSMap"
+  },
+  "Aow.Units.AoWE.TAbstractUnit": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TAbilityOwner"
+  },
+  "Aow.Units.AoWE.TAbstractUnitResource": {
+    "id": 1024,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEResource"
+  },
+  "Aow.Units.AoWE.TActivateAbilityInfo": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAdjacentArmy": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAdjacentArmyList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAdjacentMEC": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TAIMoveExecuterControl"
+  },
+  "Aow.Units.AoWE.TAdjustableAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAbility"
+  },
+  "Aow.Units.AoWE.TAdjustableUnit": {
+    "id": 80,
+    "size": 72,
+    "parent": "Aow.Units.AoWE.TAbstractUnit"
+  },
+  "Aow.Units.AoWE.TAoWCampaign": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAoWCampaignScenario": {
+    "id": 131588,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAoWCampaignScenarioList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TAoWCampaignTransferSettings": {
+    "id": 80,
+    "size": 80,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAoWEngine": {
+    "id": 131073,
+    "size": 128,
+    "parent": "Aow.Units.HSEngine.THSEngine"
+  },
+  "Aow.Units.AoWE.TAoWHSMap": {
+    "id": 131089,
+    "size": 1052,
+    "parent": "Aow.Units.AoWE.TAbstractAoWHSMap"
+  },
+  "Aow.Units.AoWE.TAoWHSMapKeyboard": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAoWHSSet": {
+    "id": 131088,
+    "size": 160,
+    "parent": "Aow.Units.HSEngine.THSSet"
+  },
+  "Aow.Units.AoWE.TAoWMapCampaignSettings": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TAoWMapField": {
+    "id": 131090,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TMapField"
+  },
+  "Aow.Units.AoWE.TAoWMapLevel": {
+    "id": 131091,
+    "size": 128,
+    "parent": "Aow.Units.HSEngine.TMapLevel"
+  },
+  "Aow.Units.AoWE.TAoWMapObjectEditor": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObjectEditor"
+  },
+  "Aow.Units.AoWE.TArmy": {
+    "id": 131606,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TUnitList"
+  },
+  "Aow.Units.AoWE.TArmyCombatMoveTE": {
+    "id": 135426,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TMoveArmyTE"
+  },
+  "Aow.Units.AoWE.TArmyCombineMoveTE": {
+    "id": 135427,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TMoveArmyTE"
+  },
+  "Aow.Units.AoWE.TArmyDefaultMoveTE": {
+    "id": 135428,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TMoveArmyTE"
+  },
+  "Aow.Units.AoWE.TArmyEventLog": {
+    "id": 131608,
+    "size": 52,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TArmyHS": {
+    "id": 131607,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TUnitHS"
+  },
+  "Aow.Units.AoWE.TArmyHSList": {
+    "id": 265,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEChangeNotifyEventList"
+  },
+  "Aow.Units.AoWE.TArmyID": {
+    "id": 131616,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TArmyInfoEventLog": {
+    "id": 131817,
+    "size": 52,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TArmyList": {
+    "id": 265,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEChangeNotifyEventList"
+  },
+  "Aow.Units.AoWE.TArmyNegotiateMoveTE": {
+    "id": 135430,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TMoveArmyTE"
+  },
+  "Aow.Units.AoWE.TArmyView": {
+    "id": 131609,
+    "size": 96,
+    "parent": "Aow.Units.AoWE.TArmy"
+  },
+  "Aow.Units.AoWE.TAutoProduceAIPA": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TBoltsAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TRangedAttackAbility"
+  },
+  "Aow.Units.AoWE.TBreathAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TRangedAttackAbility"
+  },
+  "Aow.Units.AoWE.TBudgetManagerAIPA": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TBuildRoadsControl": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TConstructionControl"
+  },
+  "Aow.Units.AoWE.TCastSpellAIPA": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TCastingPointsReturnViewP4": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TDurationReturnView"
+  },
+  "Aow.Units.AoWE.TChangeGlobalMagicTE": {
+    "id": 135446,
+    "size": 28,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TChangePlayerMagicTE": {
+    "id": 135445,
+    "size": 28,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TChangePlayerSettingsTE": {
+    "id": 135974,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TCharmAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TCommandAbility"
+  },
+  "Aow.Units.AoWE.TCharmedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TCommandedAbility"
+  },
+  "Aow.Units.AoWE.TCheatTE": {
+    "id": 131829,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TCombat": {
+    "id": 80,
+    "size": 76,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TCombatAction": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TCombatActionList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEReferenceNode"
+  },
+  "Aow.Units.AoWE.TCombatData": {
+    "id": 131747,
+    "size": 84,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TCombatEventLog": {
+    "id": 131810,
+    "size": 28,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TCombatFlowControlTE": {
+    "id": 135448,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TCombatLogbook": {
+    "id": 131749,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TCombatObject": {
+    "id": 80,
+    "size": 76,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TCombatObjectTurnDoneCA": {
+    "id": 131772,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.AoWE.TCombatParty": {
+    "id": 131746,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TCombatPartyList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TCombatPlayer": {
+    "id": 131744,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TCombatPlayerList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TCombatRestoreHotseatEventLog": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TCombatSide": {
+    "id": 256,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TCombatSpellCaster": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TCombatTypeRequestEventLog": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TCombatUnit": {
+    "id": 131745,
+    "size": 92,
+    "parent": "Aow.Units.AoWE.TCombatObject"
+  },
+  "Aow.Units.AoWE.TCombatWall": {
+    "id": 131759,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TCombatObject"
+  },
+  "Aow.Units.AoWE.TCommandAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TCommandAbilityData": {
+    "id": 131755,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAbilityData"
+  },
+  "Aow.Units.AoWE.TCommandCA": {
+    "id": 131763,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.TCommandedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TCommandedAbilityData": {
+    "id": 131757,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TAbilityData"
+  },
+  "Aow.Units.AoWE.TConstructAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TConstructStructureTE": {
+    "id": 135962,
+    "size": 28,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TConstructionControl": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TConstructionControlList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TCosmeticSurgeryAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.AoWE.TCosmeticSurgeryEnchantment": {
+    "id": 135964,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TUnitEnchantment"
+  },
+  "Aow.Units.AoWE.TCustomAbilityList": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TDamageCA": {
+    "id": 131761,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.TDamageEffectCA": {
+    "id": 131762,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.TDefaultMEC": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAIMoveExecuterControl"
+  },
+  "Aow.Units.AoWE.TDiplomacyAIPA": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TDiplomaticAction": {
+    "id": 131666,
+    "size": 48,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TDiplomaticActionEventLog": {
+    "id": 131347,
+    "size": 28,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TDiplomaticActionList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEReferenceNode"
+  },
+  "Aow.Units.AoWE.TDiplomaticActionTE": {
+    "id": 135432,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TDiplomaticRelationHistoryItem": {
+    "id": 131354,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TDiplomaticRelationHistoryList": {
+    "id": 131355,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TDisbandUnitTE": {
+    "id": 135447,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TDispelMagicAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TDispelMagicAbilityCA": {
+    "id": 131775,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TDispelMagicCA"
+  },
+  "Aow.Units.AoWE.TDispelMagicAbilityData": {
+    "id": 131789,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TAbilityData"
+  },
+  "Aow.Units.AoWE.TDispelMagicAbilityTE": {
+    "id": 131827,
+    "size": 32,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TDispelMagicCA": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.TDominateAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TCommandAbility"
+  },
+  "Aow.Units.AoWE.TDominatedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TCommandedAbility"
+  },
+  "Aow.Units.AoWE.TDurationAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TDurationAbilityData": {
+    "id": 139266,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAbilityData"
+  },
+  "Aow.Units.AoWE.TDurationReturnView": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TAbility"
+  },
+  "Aow.Units.AoWE.TEmailGame": {
+    "id": 136960,
+    "size": 32,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TEmailGameControl": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TEmailGameList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TEnchantment": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TEnchantmentList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TEndTurnAIPA": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TEndTurnTE": {
+    "id": 135425,
+    "size": 28,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TEnhancementAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TEntangleAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TEntangleCA": {
+    "id": 131774,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.TExternalPowerSource": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.AoWE.TPowerSource"
+  },
+  "Aow.Units.AoWE.TFaceResource": {
+    "id": 131696,
+    "size": 44,
+    "parent": "Aow.Units.Engine.TEResource"
+  },
+  "Aow.Units.AoWE.TFaceResourceList": {
+    "id": 1025,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEResourceList"
+  },
+  "Aow.Units.AoWE.TFastCombat": {
+    "id": 131760,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TCombat"
+  },
+  "Aow.Units.AoWE.TFastCombatParty": {
+    "id": 131746,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TCombatParty"
+  },
+  "Aow.Units.AoWE.TFastCombatUnit": {
+    "id": 131791,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TCombatUnit"
+  },
+  "Aow.Units.AoWE.TFire": {
+    "id": 132990,
+    "size": 44,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.AoWE.TFireResource": {
+    "id": 132991,
+    "size": 72,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.AoWE.TFlagControl": {
+    "id": 81,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEControlStyleObject"
+  },
+  "Aow.Units.AoWE.TFlameThrowingAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TBreathAbility"
+  },
+  "Aow.Units.AoWE.TFleeCA": {
+    "id": 131776,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.AoWE.TFrozenWaterHS": {
+    "id": 131436,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.AoWE.TGameOverTE": {
+    "id": 135441,
+    "size": 20,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TGlobalEnchantment": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TGlobalEnchantmentEventLog": {
+    "id": 131819,
+    "size": 36,
+    "parent": "Aow.Units.EventLog.TLocationTextEventLog"
+  },
+  "Aow.Units.AoWE.TGlobalEnchantmentList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TGlobalMagicControl": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TGroupControl": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TGroupControlAIPA": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TGroupControlLoopAIPA": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TGuardAreaGC": {
+    "id": 136192,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TGroupControl"
+  },
+  "Aow.Units.AoWE.TGuardGC": {
+    "id": 136194,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TGroupControl"
+  },
+  "Aow.Units.AoWE.THealingAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.THealingAbilityData": {
+    "id": 131758,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TAbilityData"
+  },
+  "Aow.Units.AoWE.THealingCA": {
+    "id": 131773,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.THealingTE": {
+    "id": 131826,
+    "size": 32,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.THero": {
+    "id": 131632,
+    "size": 156,
+    "parent": "Aow.Units.AoWE.TAbstractUnit"
+  },
+  "Aow.Units.AoWE.THeroCastingViewP4": {
+    "id": 131632,
+    "size": 156,
+    "parent": "Aow.Units.AoWE.THero"
+  },
+  "Aow.Units.AoWE.THeroControl": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.THeroEmergeEventLog": {
+    "id": 131832,
+    "size": 44,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.THeroInventory": {
+    "id": 265,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TItemList"
+  },
+  "Aow.Units.AoWE.THeroItems": {
+    "id": 265,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TItemList"
+  },
+  "Aow.Units.AoWE.THeroJoinEventLog": {
+    "id": 131828,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TJoinEventLog"
+  },
+  "Aow.Units.AoWE.THeroLibrary": {
+    "id": 256,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.THeroList"
+  },
+  "Aow.Units.AoWE.THeroLibraryManager": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.THeroList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEReferenceNode"
+  },
+  "Aow.Units.AoWE.THeroPowerSource": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.AoWE.TPowerSource"
+  },
+  "Aow.Units.AoWE.THeroResource": {
+    "id": 131633,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TAbstractUnitResource"
+  },
+  "Aow.Units.AoWE.THeroResourceAbilityOwner": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAbilityOwner"
+  },
+  "Aow.Units.AoWE.THeroResourceList": {
+    "id": 1025,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEResourceList"
+  },
+  "Aow.Units.AoWE.THeroUpdateTE": {
+    "id": 135429,
+    "size": 32,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.THeroUpgradeEventLog": {
+    "id": 131825,
+    "size": 36,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.THeroUpgradeTE": {
+    "id": 135965,
+    "size": 32,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.THuntAG": {
+    "id": 136288,
+    "size": 84,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.AoWE.THuntAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.AoWE.TIncomeSource": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TIncomeSourceList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TInitializeAIPA": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TInvokeDeathAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TInvokeDeathCA": {
+    "id": 131780,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.TItem": {
+    "id": 131688,
+    "size": 76,
+    "parent": "Aow.Units.AoWE.TAbilityOwner"
+  },
+  "Aow.Units.AoWE.TItemControl": {
+    "id": 80,
+    "size": 32,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TItemGFX": {
+    "id": 131689,
+    "size": 48,
+    "parent": "Aow.Units.Engine.TEResource"
+  },
+  "Aow.Units.AoWE.TItemGFXList": {
+    "id": 1025,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEResourceList"
+  },
+  "Aow.Units.AoWE.TItemHS": {
+    "id": 131697,
+    "size": 20,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.AoWE.TItemHSList": {
+    "id": 265,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TItemList"
+  },
+  "Aow.Units.AoWE.TItemLibrary": {
+    "id": 265,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TItemList"
+  },
+  "Aow.Units.AoWE.TItemLibraryManager": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TItemList": {
+    "id": 265,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEChangeNotifyNode"
+  },
+  "Aow.Units.AoWE.TItemTE": {
+    "id": 131698,
+    "size": 28,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TJoinEventLog": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TLeader": {
+    "id": 131634,
+    "size": 164,
+    "parent": "Aow.Units.AoWE.THero"
+  },
+  "Aow.Units.AoWE.TLeaderSetupControl": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TLeadershipAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TMultiLevelAbility"
+  },
+  "Aow.Units.AoWE.TLeadershipAbilityData": {
+    "id": 131790,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TMultiLevelAbilityData"
+  },
+  "Aow.Units.AoWE.TMoveArmyTE": {
+    "id": 135424,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TMoveTE"
+  },
+  "Aow.Units.AoWE.TMoveControlSettings": {
+    "id": 80,
+    "size": 428,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TMoveSettings": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TMoveSettingsList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TMoveTE": {
+    "id": 1361,
+    "size": 28,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TMoveTarget": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TMoveTargetList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEReferenceNode"
+  },
+  "Aow.Units.AoWE.TMoveWallCA": {
+    "id": 131767,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.AoWE.TMultiLevelAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TMultiLevelAbilityData": {
+    "id": 139265,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TAbilityData"
+  },
+  "Aow.Units.AoWE.TMultiMoveTE": {
+    "id": 135442,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TNegotiateRequestEventLog": {
+    "id": 131814,
+    "size": 84,
+    "parent": "Aow.Units.AoWE.TJoinEventLog"
+  },
+  "Aow.Units.AoWE.TNegotiateTE": {
+    "id": 135431,
+    "size": 60,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TNewCombatRoundCA": {
+    "id": 131771,
+    "size": 12,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.AoWE.TNewCombatTurnCA": {
+    "id": 131770,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.AoWE.TNewTurnEventLog": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TP1AbilityNameView": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TP1AbilityView": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TP1OwnerView": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TP3NodeAccess": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TP5EventLogABI": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TPBEMPlayerControl": {
+    "id": 131667,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TTurnPlayerControl"
+  },
+  "Aow.Units.AoWE.TPBEMPlayerSettings": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TPadControl": {
+    "id": 81,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEControlStyleObject"
+  },
+  "Aow.Units.AoWE.TPassiveGC": {
+    "id": 136199,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TGroupControl"
+  },
+  "Aow.Units.AoWE.TPatrolGC": {
+    "id": 136193,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TGroupControl"
+  },
+  "Aow.Units.AoWE.TPlayer": {
+    "id": 131104,
+    "size": 220,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TPlayerConnectionEventLog": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.EventLog.TMessageEventLog"
+  },
+  "Aow.Units.AoWE.TPlayerControl": {
+    "id": 80,
+    "size": 32,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TPlayerDiplomaticRelations": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TPlayerList": {
+    "id": 257,
+    "size": 32,
+    "parent": "Aow.Units.Engine.TEControlStyleNode"
+  },
+  "Aow.Units.AoWE.TPlayerMagicControl": {
+    "id": 80,
+    "size": 76,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TPlayerMagicEventLog": {
+    "id": 131824,
+    "size": 44,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TPlayerStatistics": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TPlayerStructure": {
+    "id": 131916,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.AoWE.TPlayerStructureIncomeSource": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.AoWE.TIncomeSource"
+  },
+  "Aow.Units.AoWE.TPlayerStructureList": {
+    "id": 265,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEChangeNotifyEventList"
+  },
+  "Aow.Units.AoWE.TPlayerStructurePowerSource": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.AoWE.TPowerSource"
+  },
+  "Aow.Units.AoWE.TPlayerStructureResource": {
+    "id": 131917,
+    "size": 116,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.AoWE.TPossessAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TPossessCA": {
+    "id": 131765,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.TPossessedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TPossessAbility"
+  },
+  "Aow.Units.AoWE.TPossessedAbilityData": {
+    "id": 131797,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TAbilityData"
+  },
+  "Aow.Units.AoWE.TPowerSource": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TPowerSourceList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TProcessEventlogAIPA": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TProductionControl": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TProductionEventLog": {
+    "id": 131833,
+    "size": 32,
+    "parent": "Aow.Units.EventLog.TLocationTextEventLog"
+  },
+  "Aow.Units.AoWE.TProductionItem": {
+    "id": 131735,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TProductionQueue": {
+    "id": 256,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TProductionSettings": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TProductionTE": {
+    "id": 131736,
+    "size": 40,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TRace": {
+    "id": 131586,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TRaceList": {
+    "id": 257,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEControlStyleNode"
+  },
+  "Aow.Units.AoWE.TRaceResource": {
+    "id": 131585,
+    "size": 72,
+    "parent": "Aow.Units.Engine.TEResource"
+  },
+  "Aow.Units.AoWE.TRaceResourceList": {
+    "id": 1025,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEResourceList"
+  },
+  "Aow.Units.AoWE.TRangedAttackAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TRangedAttackCA": {
+    "id": 131753,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TDamageCA"
+  },
+  "Aow.Units.AoWE.TRazeStructureEventLog": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.EventLog.TMessageEventLog"
+  },
+  "Aow.Units.AoWE.TRebuildConstructionControl": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TConstructionControl"
+  },
+  "Aow.Units.AoWE.TRefugeGC": {
+    "id": 136208,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TGroupControl"
+  },
+  "Aow.Units.AoWE.TResearchSpellAIPA": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TRestartGameEventLog": {
+    "id": 131831,
+    "size": 40,
+    "parent": "Aow.Units.EventLog.TMessageEventLog"
+  },
+  "Aow.Units.AoWE.TRoundAttackAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TSMTPEventLog": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TSaveGameTE": {
+    "id": 135444,
+    "size": 20,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TScoutGC": {
+    "id": 136196,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TGroupControl"
+  },
+  "Aow.Units.AoWE.TSeduceAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TCommandAbility"
+  },
+  "Aow.Units.AoWE.TSeducedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TCommandedAbility"
+  },
+  "Aow.Units.AoWE.TSelfDestructAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TSelfDestructCA": {
+    "id": 131764,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TDamageCA"
+  },
+  "Aow.Units.AoWE.TSendEmailGameEventLog": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TSimultaniousPlayerControl": {
+    "id": 131665,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TPlayerControl"
+  },
+  "Aow.Units.AoWE.TSingleTargetCA": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.AoWE.TSpell": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TSpellCastEventLog": {
+    "id": 131823,
+    "size": 32,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.AoWE.TSpellCaster": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TSpellCastingAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TMultiLevelAbility"
+  },
+  "Aow.Units.AoWE.TSpellControl": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TSpellTE": {
+    "id": 135936,
+    "size": 32,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TSpellTECallViewP4": {
+    "id": 1361,
+    "size": 16,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TStartupSongList": {
+    "id": 2162692,
+    "size": 16,
+    "parent": "Aow.Units.Sound.TSonglist"
+  },
+  "Aow.Units.AoWE.TStrikeAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TStrikeCA": {
+    "id": 131754,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TDamageCA"
+  },
+  "Aow.Units.AoWE.TStrikeEnhancementAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TStructure": {
+    "id": 131914,
+    "size": 48,
+    "parent": "Aow.Units.ILTer.TFixedILTerrainMO"
+  },
+  "Aow.Units.AoWE.TStructureAIPA": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.AoWE.TStructureConstructionControl": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TConstructionControl"
+  },
+  "Aow.Units.AoWE.TStructureControl": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TStructurePhase1AIPA": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TStructureAIPA"
+  },
+  "Aow.Units.AoWE.TStructurePhase2AIPA": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TStructureAIPA"
+  },
+  "Aow.Units.AoWE.TStructureResource": {
+    "id": 131915,
+    "size": 100,
+    "parent": "Aow.Units.ILTer.TFixedILTerrainMOR"
+  },
+  "Aow.Units.AoWE.TStructureShadow": {
+    "id": 65872,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.AoWE.TStructureTE": {
+    "id": 135440,
+    "size": 40,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TSubMove": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TSubMoveList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TSuicidalGC": {
+    "id": 136195,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TGroupControl"
+  },
+  "Aow.Units.AoWE.TTerminatePlayerTE": {
+    "id": 131836,
+    "size": 32,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.AoWE.TTextControl": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TTextControlItem": {
+    "id": 131738,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TTouchAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TTransportAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TMultiLevelAbility"
+  },
+  "Aow.Units.AoWE.TTransportMEC": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TAIMoveExecuterControl"
+  },
+  "Aow.Units.AoWE.TTurnInfo": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TTurnInfoItem": {
+    "id": 131739,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TTurnPlayerControl": {
+    "id": 131664,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TPlayerControl"
+  },
+  "Aow.Units.AoWE.TTurnUndeadAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TTurnUndeadCA": {
+    "id": 131769,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TDamageCA"
+  },
+  "Aow.Units.AoWE.TTutorialControl": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TUnit": {
+    "id": 131603,
+    "size": 72,
+    "parent": "Aow.Units.AoWE.TAbstractUnit"
+  },
+  "Aow.Units.AoWE.TUnitControl": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TUnitControlCallViewP4": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TUnitControl"
+  },
+  "Aow.Units.AoWE.TUnitEnchantment": {
+    "id": 135951,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TEnchantment"
+  },
+  "Aow.Units.AoWE.TUnitEnchantmentAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.AoWE.TUnitEnchantmentAbilityData": {
+    "id": 131756,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAbilityData"
+  },
+  "Aow.Units.AoWE.TUnitGFXResource": {
+    "id": 131600,
+    "size": 72,
+    "parent": "Aow.Units.Engine.TEResource"
+  },
+  "Aow.Units.AoWE.TUnitGFXResourceList": {
+    "id": 1025,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEResourceList"
+  },
+  "Aow.Units.AoWE.TUnitHS": {
+    "id": 131604,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.AoWE.TUnitList": {
+    "id": 265,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEChangeNotifyNode"
+  },
+  "Aow.Units.AoWE.TUnitProduction": {
+    "id": 131737,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWE.TUnitProductionList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWE.TUnitResource": {
+    "id": 131602,
+    "size": 84,
+    "parent": "Aow.Units.AoWE.TAbstractUnitResource"
+  },
+  "Aow.Units.AoWE.TUnitResourceAbilityOwner": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAbilityOwner"
+  },
+  "Aow.Units.AoWE.TUnitResourceList": {
+    "id": 1025,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEResourceList"
+  },
+  "Aow.Units.AoWE.TUnitSelectorAAI": {
+    "id": 80,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TActivateAbilityInfo"
+  },
+  "Aow.Units.AoWE.TUnitShadowHS": {
+    "id": 65872,
+    "size": 12,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.AoWE.TUnitSpell": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.AoWE.TUnitSpellCA": {
+    "id": 131779,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.AoWE.TUnitSpellCaster": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TSpellCaster"
+  },
+  "Aow.Units.AoWE.TUnitSpellTE": {
+    "id": 135944,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpellTE"
+  },
+  "Aow.Units.AoWE.TUnitUserList": {
+    "id": 265,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TUnitList"
+  },
+  "Aow.Units.AoWE.TUpdateHeaderCA": {
+    "id": 131766,
+    "size": 16,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.AoWE.TWallCrushingAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TWallUnit": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.AoWE.TAbstractUnit"
+  },
+  "Aow.Units.AoWE.TWebAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TTouchAbility"
+  },
+  "Aow.Units.AoWE.TWebCA": {
+    "id": 131768,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TSingleTargetCA"
+  },
+  "Aow.Units.AoWE.TWorldFXHS": {
+    "id": 65872,
+    "size": 40,
+    "parent": "Aow.Units.HSEngine.TFixedVisibleHS"
+  },
+  "Aow.Units.AoWHex.TAoWBorderHexagon": {
+    "id": 132439,
+    "size": 16,
+    "parent": "Aow.Units.BorderHx.TBorderHexagon"
+  },
+  "Aow.Units.AoWHex.TAoWHexagon": {
+    "id": 131410,
+    "size": 20,
+    "parent": "Aow.Units.Hexagon.THexagon"
+  },
+  "Aow.Units.AoWHex.TAoWHexagonResource": {
+    "id": 131411,
+    "size": 56,
+    "parent": "Aow.Units.Hexagon.THexagonResource"
+  },
+  "Aow.Units.AoWHex.TAoWWaterHexagon": {
+    "id": 132925,
+    "size": 32,
+    "parent": "Aow.Units.IsoHex.TLowerIsometricHexagon"
+  },
+  "Aow.Units.AoWHex.TAoWWaterHexagonResource": {
+    "id": 132926,
+    "size": 56,
+    "parent": "Aow.Units.IsoHex.TLowerIsometricHexagonResource"
+  },
+  "Aow.Units.AoWRoad.TAoWRoad": {
+    "id": 131428,
+    "size": 20,
+    "parent": "Aow.Units.Road.TRoad"
+  },
+  "Aow.Units.AoWSetup.TCustomizeLeaderControl": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TLeaderSetupControl"
+  },
+  "Aow.Units.AoWSetup.TPlayerSetupSettings": {
+    "id": 131683,
+    "size": 40,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWSetup.TRemotePlayer": {
+    "id": 131682,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWSetup.TRemotePlayerList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWSetup.TSetupPackage": {
+    "id": 131681,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWSetup.TSetupSettings": {
+    "id": 131680,
+    "size": 68,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.AoWTC.TAoWCombatMap": {
+    "id": 2228480,
+    "size": 312,
+    "parent": "Aow.Units.AoWE.TAbstractAoWCombatMap"
+  },
+  "Aow.Units.AoWTC.TAoWCombatMapField": {
+    "id": 2228481,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TAoWMapField"
+  },
+  "Aow.Units.AoWTC.TAoWCombatMapLevel": {
+    "id": 2228482,
+    "size": 128,
+    "parent": "Aow.Units.AoWE.TAoWMapLevel"
+  },
+  "Aow.Units.AoWTC.TCBloodHS": {
+    "id": 2228487,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.AoWTC.TCCorpseHS": {
+    "id": 2228488,
+    "size": 44,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.AoWTC.TCItemHS": {
+    "id": 131697,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TItemHS"
+  },
+  "Aow.Units.AoWTC.TCOozeHS": {
+    "id": 2228489,
+    "size": 12,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.AoWTC.TCombatMoveControlSettings": {
+    "id": 80,
+    "size": 432,
+    "parent": "Aow.Units.AoWE.TMoveControlSettings"
+  },
+  "Aow.Units.AoWTC.TRangedPathHS": {
+    "id": 2228485,
+    "size": 32,
+    "parent": "Aow.Units.HSEngine.TFixedVisibleHS"
+  },
+  "Aow.Units.AoWTC.TTacticalCombat": {
+    "id": 2228496,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TCombat"
+  },
+  "Aow.Units.AoWTC.TTacticalCombatPlayer": {
+    "id": 131744,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TCombatPlayer"
+  },
+  "Aow.Units.AoWTC.TTacticalCombatUnit": {
+    "id": 131745,
+    "size": 104,
+    "parent": "Aow.Units.AoWE.TCombatUnit"
+  },
+  "Aow.Units.AoWTC.TTacticalCombatUnitHS": {
+    "id": 2228484,
+    "size": 72,
+    "parent": "Aow.Units.AoWE.TUnitHS"
+  },
+  "Aow.Units.AoWTC.TUnitPositionControl": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWTC.TUnitPositionHS": {
+    "id": 2228483,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.AoWTC.TfxHS": {
+    "id": 2228486,
+    "size": 56,
+    "parent": "Aow.Units.HSEngine.TFixedVisibleHS"
+  },
+  "Aow.Units.AoWTer.TAoWTerrain": {
+    "id": 131430,
+    "size": 20,
+    "parent": "Aow.Units.Terrain.TTerrainMO"
+  },
+  "Aow.Units.AoWTer.TAoWTerrainResource": {
+    "id": 131431,
+    "size": 76,
+    "parent": "Aow.Units.Terrain.TTerrainMOR"
+  },
+  "Aow.Units.AoWVideoDlg.TWMCampaign": {
+    "id": 2248704,
+    "size": 64,
+    "parent": "Aow.Units.AoWE.TAoWCampaign"
+  },
+  "Aow.Units.AoWVideoDlg.TWMCampaignScenario": {
+    "id": 2248705,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TAoWCampaignScenario"
+  },
+  "Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage": {
+    "id": 2248706,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.Arena.TArena": {
+    "id": 133276,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.Arena.TArenaResource": {
+    "id": 133277,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.Arena.TArenaTE": {
+    "id": 133294,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TStructureTE"
+  },
+  "Aow.Units.Arena.TEnterArenaEventLog": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.BehaviorAG.TAbstractBehaviorAG": {
+    "id": 136272,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.BehaviorAG.TAbstractBehaviorAGC": {
+    "id": 80,
+    "size": 372,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.BehaviorAG.TAggressorAG": {
+    "id": 136279,
+    "size": 80,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAG"
+  },
+  "Aow.Units.BehaviorAG.TAggressorAGC": {
+    "id": 80,
+    "size": 372,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAGC"
+  },
+  "Aow.Units.BehaviorAG.TDefenderAG": {
+    "id": 136278,
+    "size": 80,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAG"
+  },
+  "Aow.Units.BehaviorAG.TDefenderAGC": {
+    "id": 80,
+    "size": 372,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAGC"
+  },
+  "Aow.Units.BehaviorAG.TExpanderAG": {
+    "id": 136290,
+    "size": 80,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAG"
+  },
+  "Aow.Units.BehaviorAG.TExpanderAGC": {
+    "id": 80,
+    "size": 372,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAGC"
+  },
+  "Aow.Units.BehaviorAG.TNormalAG": {
+    "id": 136292,
+    "size": 80,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAG"
+  },
+  "Aow.Units.BehaviorAG.TNormalAGC": {
+    "id": 80,
+    "size": 372,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAGC"
+  },
+  "Aow.Units.BehaviorAG.TScorcherAG": {
+    "id": 136291,
+    "size": 80,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAG"
+  },
+  "Aow.Units.BehaviorAG.TScorcherAGC": {
+    "id": 80,
+    "size": 372,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAGC"
+  },
+  "Aow.Units.BehaviorAG.TSkirmishAG": {
+    "id": 136294,
+    "size": 80,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAG"
+  },
+  "Aow.Units.BehaviorAG.TSkirmishAGC": {
+    "id": 80,
+    "size": 372,
+    "parent": "Aow.Units.BehaviorAG.TAbstractBehaviorAGC"
+  },
+  "Aow.Units.BldGuild.TBuildersGuild": {
+    "id": 133422,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.BldGuild.TBuildersGuildResource": {
+    "id": 133423,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.BloodShrine.TBloodShrine": {
+    "id": 131376,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.BloodShrine.TBloodShrineAnimation": {
+    "id": 131815,
+    "size": 60,
+    "parent": "Aow.Units.Animation.TAnimation"
+  },
+  "Aow.Units.BloodShrine.TBloodShrineResource": {
+    "id": 131377,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.BorderHx.TBorderHexagon": {
+    "id": 132439,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.TAbstractBorderHexagon"
+  },
+  "Aow.Units.BorderHx.TBorderHexagonResource": {
+    "id": 132440,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TAbstractBorderHexagonResource"
+  },
+  "Aow.Units.Bridge.TBridge": {
+    "id": 131444,
+    "size": 20,
+    "parent": "Aow.Units.HSEngine.TAbstractRoad"
+  },
+  "Aow.Units.Bridge.TBridgeResource": {
+    "id": 131445,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TAbstractRoadResource"
+  },
+  "Aow.Units.Cave.TCave": {
+    "id": 131966,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.Cave.TCaveResource": {
+    "id": 131967,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.Cave.TEnterCaveEventLog": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.EventLog.TMessageEventLog"
+  },
+  "Aow.Units.CenterViewLoc.TCenterViewLocation": {
+    "id": 2233640,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.TMapObject"
+  },
+  "Aow.Units.CenterViewLoc.TCenterViewLocationResource": {
+    "id": 2233641,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TMapObjectResource"
+  },
+  "Aow.Units.City.TAICityFortifyBudget": {
+    "id": 131351,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TAIBudget"
+  },
+  "Aow.Units.City.TAICityResearchBudget": {
+    "id": 131350,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TAIBudget"
+  },
+  "Aow.Units.City.TAICityUpgradeBudget": {
+    "id": 131349,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TAIBudget"
+  },
+  "Aow.Units.City.TCity": {
+    "id": 131336,
+    "size": 120,
+    "parent": "Aow.Units.Crops.TPlayerCropStructure"
+  },
+  "Aow.Units.City.TCityAIPA": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TAIPlayerAction"
+  },
+  "Aow.Units.City.TCityEnchantment": {
+    "id": 131820,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.City.TCityOverlayHS": {
+    "id": 65872,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.City.TCityProductionControl": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TProductionControl"
+  },
+  "Aow.Units.City.TCityProductionEventLog": {
+    "id": 131834,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TProductionEventLog"
+  },
+  "Aow.Units.City.TCityRebellionEventLog": {
+    "id": 131346,
+    "size": 40,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.City.TCityResource": {
+    "id": 131337,
+    "size": 124,
+    "parent": "Aow.Units.Crops.TPlayerCropStructureResource"
+  },
+  "Aow.Units.City.TMigrationItem": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.City.TMigrationList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.CitySpells.TAnarchy": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.CitySpells.TCityTargetSpell"
+  },
+  "Aow.Units.CitySpells.TAnimateRuins": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.CitySpells.TCityTargetSpell"
+  },
+  "Aow.Units.CitySpells.TAntiMagicShell": {
+    "id": 80,
+    "size": 80,
+    "parent": "Aow.Units.CitySpells.TCityEnchantmentSpell"
+  },
+  "Aow.Units.CitySpells.TCityEnchantmentSpell": {
+    "id": 80,
+    "size": 80,
+    "parent": "Aow.Units.CitySpells.TCityTargetSpell"
+  },
+  "Aow.Units.CitySpells.TCityEnchantmentSpellTE": {
+    "id": 131821,
+    "size": 40,
+    "parent": "Aow.Units.CitySpells.TCityTargetSpellTE"
+  },
+  "Aow.Units.CitySpells.TCityTargetSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.CitySpells.TCityTargetSpellTE": {
+    "id": 135949,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TSpellTE"
+  },
+  "Aow.Units.CitySpells.TFountainOfLife": {
+    "id": 80,
+    "size": 80,
+    "parent": "Aow.Units.CitySpells.TCityEnchantmentSpell"
+  },
+  "Aow.Units.CitySpells.TGoldRush": {
+    "id": 80,
+    "size": 80,
+    "parent": "Aow.Units.CitySpells.TCityEnchantmentSpell"
+  },
+  "Aow.Units.CitySpells.TTownGate": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.CitySpells.TCityTargetSpell"
+  },
+  "Aow.Units.CitySpells.TTownGateTE": {
+    "id": 135950,
+    "size": 48,
+    "parent": "Aow.Units.CitySpells.TCityTargetSpellTE"
+  },
+  "Aow.Units.CitySpells.TTownQuake": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.CitySpells.TCityTargetSpell"
+  },
+  "Aow.Units.CitySpells.TWarmonger": {
+    "id": 80,
+    "size": 80,
+    "parent": "Aow.Units.CitySpells.TCityEnchantmentSpell"
+  },
+  "Aow.Units.CityWall.TCityWall": {
+    "id": 2229508,
+    "size": 48,
+    "parent": "Aow.Units.CombatILTer.TCombatILTerrain"
+  },
+  "Aow.Units.CityWall.TCityWallDoor": {
+    "id": 2229510,
+    "size": 48,
+    "parent": "Aow.Units.CityWall.TCityWall"
+  },
+  "Aow.Units.CityWall.TCityWallDoorResource": {
+    "id": 2229511,
+    "size": 76,
+    "parent": "Aow.Units.CityWall.TCityWallResource"
+  },
+  "Aow.Units.CityWall.TCityWallResource": {
+    "id": 2229509,
+    "size": 76,
+    "parent": "Aow.Units.CombatILTer.TCombatILTerrainResource"
+  },
+  "Aow.Units.CombatFire.TCombatFire": {
+    "id": 2229578,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.CombatFire.TCombatFireResource": {
+    "id": 2229579,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.CombatHex.TCombatHexagon": {
+    "id": 2229504,
+    "size": 20,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagon"
+  },
+  "Aow.Units.CombatHex.TCombatHexagonResource": {
+    "id": 2229505,
+    "size": 56,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagonResource"
+  },
+  "Aow.Units.CombatHex.TWaterCombatHexagon": {
+    "id": 2229655,
+    "size": 32,
+    "parent": "Aow.Units.AoWHex.TAoWWaterHexagon"
+  },
+  "Aow.Units.CombatHex.TWaterCombatHexagonResource": {
+    "id": 2229656,
+    "size": 56,
+    "parent": "Aow.Units.AoWHex.TAoWWaterHexagonResource"
+  },
+  "Aow.Units.CombatILTer.TCombatFixedILTerrain": {
+    "id": 2228536,
+    "size": 32,
+    "parent": "Aow.Units.CombatILTer.TCombatILTerrain"
+  },
+  "Aow.Units.CombatILTer.TCombatFixedILTerrainResource": {
+    "id": 2228537,
+    "size": 72,
+    "parent": "Aow.Units.CombatILTer.TCombatILTerrainResource"
+  },
+  "Aow.Units.CombatILTer.TCombatILTerrain": {
+    "id": 2228534,
+    "size": 32,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.CombatILTer.TCombatILTerrainResource": {
+    "id": 2228535,
+    "size": 72,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.CombatILTer.TCombatILTerrainShadow": {
+    "id": 65872,
+    "size": 12,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.CombatObstacle.TCombatObstacle": {
+    "id": 2229546,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TMultiHexMO"
+  },
+  "Aow.Units.CombatObstacle.TCombatObstacleOverlay": {
+    "id": 65872,
+    "size": 12,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.CombatObstacle.TCombatObstacleResource": {
+    "id": 2229547,
+    "size": 68,
+    "parent": "Aow.Units.HSEngine.TMultiHexMOR"
+  },
+  "Aow.Units.CombatObstacle.TCombatObstacleShadow": {
+    "id": 65872,
+    "size": 12,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.CombatRoad.TCombatRoad": {
+    "id": 2229506,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TAbstractRoad"
+  },
+  "Aow.Units.CombatRoad.TCombatRoadResource": {
+    "id": 2229507,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TAbstractRoadResource"
+  },
+  "Aow.Units.CombatSpells.TAnimateDead": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TAnimateDeadCA": {
+    "id": 131782,
+    "size": 28,
+    "parent": "Aow.Units.CombatSpells.TExclusiveCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TCallFlames": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TChainLightning": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TColdBreath": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TCombatSpell": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.CombatSpells.TCombatSpellCA": {
+    "id": 131778,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TDamageCA"
+  },
+  "Aow.Units.CombatSpells.TDeathRay": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TDiseaseCloud": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TEntangle": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TEntangleSpellCA": {
+    "id": 131784,
+    "size": 28,
+    "parent": "Aow.Units.CombatSpells.TExclusiveCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TExclusiveCombatSpellCA": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.CombatSpells.TFastCombatHighPrayerCA": {
+    "id": 131783,
+    "size": 32,
+    "parent": "Aow.Units.CombatSpells.TMultiTargetCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TFastCombatTerrorCA": {
+    "id": 131777,
+    "size": 32,
+    "parent": "Aow.Units.CombatSpells.TMultiTargetCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TFireBall": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TFireBreath": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TFlamingArrow": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TFrostBeams": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TGeyser": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TGreatHail": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.THighPrayer": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TIceShards": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TMindDecay": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TMindDecayCA": {
+    "id": 131787,
+    "size": 28,
+    "parent": "Aow.Units.CombatSpells.TExclusiveCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TMultiTargetCombatSpellCA": {
+    "id": 80,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.CombatSpells.TOoze": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TRecallSpirit": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TRecallSpiritCA": {
+    "id": 131781,
+    "size": 28,
+    "parent": "Aow.Units.CombatSpells.TExclusiveCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TSacredWrath": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TSacrificialFlame": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TShockwave": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TSlow": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TSlowCA": {
+    "id": 131792,
+    "size": 28,
+    "parent": "Aow.Units.CombatSpells.TExclusiveCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TSolarFlare": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TStoning": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TSwarm": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TTacticalCombatHighPrayerCA": {
+    "id": 131786,
+    "size": 28,
+    "parent": "Aow.Units.CombatSpells.TExclusiveCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TTacticalCombatTerrorCA": {
+    "id": 131785,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TCombatAction"
+  },
+  "Aow.Units.CombatSpells.TTerror": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TTremors": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TTurnUndead": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TTurnUndeadSpellCA": {
+    "id": 131788,
+    "size": 32,
+    "parent": "Aow.Units.CombatSpells.TCombatSpellCA"
+  },
+  "Aow.Units.CombatSpells.TVaporize": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatSpells.TWindsOfFury": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.CombatSpells.TCombatSpell"
+  },
+  "Aow.Units.CombatStructure.TCombatStructure": {
+    "id": 2229510,
+    "size": 40,
+    "parent": "Aow.Units.CombatILTer.TCombatFixedILTerrain"
+  },
+  "Aow.Units.CombatStructure.TCombatStructureResource": {
+    "id": 2229511,
+    "size": 72,
+    "parent": "Aow.Units.CombatILTer.TCombatFixedILTerrainResource"
+  },
+  "Aow.Units.CombatTE.TCAbRangedTE": {
+    "id": 2236419,
+    "size": 60,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.CombatTE.TCAbTouchMoveTE": {
+    "id": 2236418,
+    "size": 108,
+    "parent": "Aow.Units.CombatTE.TCombatMoveTE"
+  },
+  "Aow.Units.CombatTE.TCEndCombatTE": {
+    "id": 2236421,
+    "size": 16,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.CombatTE.TCEndTurnTE": {
+    "id": 2236420,
+    "size": 16,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.CombatTE.TCMeleeMoveTE": {
+    "id": 2236417,
+    "size": 64,
+    "parent": "Aow.Units.CombatTE.TCombatMoveTE"
+  },
+  "Aow.Units.CombatTE.TCombatMoveTE": {
+    "id": 2236416,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TMoveTE"
+  },
+  "Aow.Units.CombatTE.TTerminateCombatTE": {
+    "id": 2236422,
+    "size": 16,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.CombatTerrain.TCombatTerrain": {
+    "id": 2228582,
+    "size": 36,
+    "parent": "Aow.Units.Terrain.TTerrainMO"
+  },
+  "Aow.Units.CombatTerrain.TCombatTerrainResource": {
+    "id": 2228583,
+    "size": 76,
+    "parent": "Aow.Units.Terrain.TTerrainMOR"
+  },
+  "Aow.Units.CombatTerrain.TCombatTerrainShadow": {
+    "id": 65872,
+    "size": 12,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.Crops.TCrop": {
+    "id": 131946,
+    "size": 32,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.Crops.TCropResource": {
+    "id": 131947,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.Crops.TPlayerCropStructure": {
+    "id": 131918,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TPlayerStructure"
+  },
+  "Aow.Units.Crops.TPlayerCropStructureResource": {
+    "id": 131919,
+    "size": 120,
+    "parent": "Aow.Units.AoWE.TPlayerStructureResource"
+  },
+  "Aow.Units.Crypt.TCrypt": {
+    "id": 131850,
+    "size": 64,
+    "parent": "Aow.Units.ItemExpS.TItemExplorationSite"
+  },
+  "Aow.Units.Crypt.TCryptResource": {
+    "id": 131851,
+    "size": 104,
+    "parent": "Aow.Units.ItemExpS.TItemExplorationSiteResource"
+  },
+  "Aow.Units.DeathNode.TDeathNode": {
+    "id": 132270,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.DeathNode.TDeathNodeResource": {
+    "id": 132271,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.Dungeon.TDungeon": {
+    "id": 131882,
+    "size": 64,
+    "parent": "Aow.Units.ExploreS.TExplorationSite"
+  },
+  "Aow.Units.Dungeon.TDungeonResource": {
+    "id": 131883,
+    "size": 108,
+    "parent": "Aow.Units.ExploreS.TExplorationSiteResource"
+  },
+  "Aow.Units.Dungeon.TPrisonersArmy": {
+    "id": 131606,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TArmy"
+  },
+  "Aow.Units.Dungeon.TPrisonersJoinEventLog": {
+    "id": 80,
+    "size": 64,
+    "parent": "Aow.Units.AoWE.TJoinEventLog"
+  },
+  "Aow.Units.EarthNode.TEarthNode": {
+    "id": 132302,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.EarthNode.TEarthNodeResource": {
+    "id": 132303,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.Engine.TEChangeNotifyEventList": {
+    "id": 265,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEChangeNotifyNode"
+  },
+  "Aow.Units.Engine.TEChangeNotifyNode": {
+    "id": 265,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.Engine.TEControlStyleInverseSortNode": {
+    "id": 263,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEInverseSortNode"
+  },
+  "Aow.Units.Engine.TEControlStyleNode": {
+    "id": 257,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.Engine.TEControlStyleObject": {
+    "id": 81,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.Engine.TEControlStyleSortNode": {
+    "id": 261,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TESortNode"
+  },
+  "Aow.Units.Engine.TECustomNode": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.Engine.TECustomOwner": {
+    "id": 259,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.Engine.TEInverseSortNode": {
+    "id": 262,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TESortNode"
+  },
+  "Aow.Units.Engine.TENode": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.Engine.TEObject": {
+    "id": 80,
+    "size": 8,
+    "parent": null
+  },
+  "Aow.Units.Engine.TEObjectEditor": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.Engine.TEReferenceNode": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.Engine.TEResource": {
+    "id": 1024,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.Engine.TEResourceEditSettings": {
+    "id": 1026,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEControlStyleObject"
+  },
+  "Aow.Units.Engine.TEResourceList": {
+    "id": 1025,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TECustomOwner"
+  },
+  "Aow.Units.Engine.TESortNode": {
+    "id": 260,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.Engine.TETimerNode": {
+    "id": 264,
+    "size": 56,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.Engine.TEUser": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.Engine.TEngine": {
+    "id": 17,
+    "size": 52,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.Engine.TPlugInControl": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.EventLog.TEndTurnEventLog": {
+    "id": 131811,
+    "size": 24,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.TEventLog": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.EventLog.TEventLogList": {
+    "id": 256,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.EventLog.TEventLogbook": {
+    "id": 131808,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.EventLog.TGameOverEventLog": {
+    "id": 131812,
+    "size": 32,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.THelpMessageEventLog": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.TLocationTextEventLog": {
+    "id": 131816,
+    "size": 32,
+    "parent": "Aow.Units.EventLog.TTextEventLog"
+  },
+  "Aow.Units.EventLog.TMessageEventLog": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.TNewDayEventLog": {
+    "id": 131813,
+    "size": 28,
+    "parent": "Aow.Units.EventLog.TTextEventLog"
+  },
+  "Aow.Units.EventLog.TPasswordEventLog": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.TSaveGameEventLog": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.TShowBookEventLog": {
+    "id": 131818,
+    "size": 24,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.TShowMessageEventLog": {
+    "id": 131830,
+    "size": 28,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.TTextEventLog": {
+    "id": 131809,
+    "size": 28,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.EventLog.TTutorialMessageEventLog": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.EventLog.THelpMessageEventLog"
+  },
+  "Aow.Units.EventLog.TUserEventLog": {
+    "id": 80,
+    "size": 32,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.ExploreS.TDefendersArmy": {
+    "id": 131606,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TArmy"
+  },
+  "Aow.Units.ExploreS.TExplorationSite": {
+    "id": 132033,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.ExploreS.TExplorationSiteResource": {
+    "id": 132034,
+    "size": 104,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.Farm.TFarm": {
+    "id": 131950,
+    "size": 72,
+    "parent": "Aow.Units.Crops.TPlayerCropStructure"
+  },
+  "Aow.Units.Farm.TFarmResource": {
+    "id": 131951,
+    "size": 120,
+    "parent": "Aow.Units.Crops.TPlayerCropStructureResource"
+  },
+  "Aow.Units.FireNode.TFireNode": {
+    "id": 132062,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.FireNode.TFireNodeResource": {
+    "id": 132063,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.FlagEvents.TFlagEvent": {
+    "id": 65878,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TMapObject"
+  },
+  "Aow.Units.FlagEvents.TFlagEventResource": {
+    "id": 65876,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TMapObjectResource"
+  },
+  "Aow.Units.FlagEvents.TFlagMessageEvent": {
+    "id": 132461,
+    "size": 32,
+    "parent": "Aow.Units.FlagEvents.TFlagEvent"
+  },
+  "Aow.Units.FlagEvents.TFlagMessageEventLog": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.EventLog.THelpMessageEventLog"
+  },
+  "Aow.Units.FlagEvents.TFlagMessageEventResource": {
+    "id": 132462,
+    "size": 52,
+    "parent": "Aow.Units.FlagEvents.TFlagEventResource"
+  },
+  "Aow.Units.FlagEvents.TTutorialMessageEvent": {
+    "id": 132459,
+    "size": 28,
+    "parent": "Aow.Units.FlagEvents.TFlagEvent"
+  },
+  "Aow.Units.FlagEvents.TTutorialMessageEventResource": {
+    "id": 132460,
+    "size": 52,
+    "parent": "Aow.Units.FlagEvents.TFlagEventResource"
+  },
+  "Aow.Units.FleeLoc.TFleeLocation": {
+    "id": 2229544,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TMapObject"
+  },
+  "Aow.Units.FleeLoc.TFleeLocationResource": {
+    "id": 2229545,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TMapObjectResource"
+  },
+  "Aow.Units.FleeLoc.TMovementHS": {
+    "id": 2228490,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.Gems.TGems": {
+    "id": 132014,
+    "size": 36,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.Gems.TGemsResource": {
+    "id": 132015,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TAirMastery": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TAirMasteryEnchantment": {
+    "id": 135966,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TDeathMastery": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TDeathMasteryEnchantment": {
+    "id": 135968,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TEarthMastery": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TEarthMasteryEnchantment": {
+    "id": 135970,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TEnchantedRoads": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TEnchantedRoadsEnchantment": {
+    "id": 135955,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TFireMastery": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TFireMasteryEnchantment": {
+    "id": 135969,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TFlood": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TFloodControl": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TFloodEnchantment": {
+    "id": 135960,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpellTE": {
+    "id": 135954,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TSpellTE"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.THarmony": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.THarmonyEnchantment": {
+    "id": 135958,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.THatred": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.THatredEnchantment": {
+    "id": 135957,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TLifeMastery": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TLifeMasteryEnchantment": {
+    "id": 135967,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TPowerLeak": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TPowerLeakEnchantment": {
+    "id": 135959,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TSpellWard": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TSpellWardEnchantment": {
+    "id": 135971,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TWaterMastery": {
+    "id": 80,
+    "size": 56,
+    "parent": "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpell"
+  },
+  "Aow.Units.GlobalEnchantmentSpells.TWaterMasteryEnchantment": {
+    "id": 135956,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalSpells.TAnimateHero": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalSpells.TBirdsView": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalSpells.TBirdsViewHS": {
+    "id": 65872,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TFixedVisibleHS"
+  },
+  "Aow.Units.GlobalSpells.TCallHero": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalSpells.TConcealArea": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalSpells.TConcealAreaHS": {
+    "id": 65872,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TFixedVisibleHS"
+  },
+  "Aow.Units.GlobalSpells.TCrusade": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalSpells.TDisjunction": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalSpells.TDisjunctionSpellCaster": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TSpellCaster"
+  },
+  "Aow.Units.GlobalSpells.TDisjunctionTE": {
+    "id": 135961,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TSpellTE"
+  },
+  "Aow.Units.GlobalSpells.TResurrectHero": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalSpells.TWarpParty": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalSpells.TWarpPartyTE": {
+    "id": 135948,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.TFireBarrier": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TFireBarrierTE": {
+    "id": 135940,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.TFreezeWater": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TFreezeWaterTE": {
+    "id": 135939,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellCalls": {
+    "id": 80,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE": {
+    "id": 135976,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.THealingShowers": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.THealingShowersTE": {
+    "id": 135975,
+    "size": 40,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.TLevelTerrain": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TLevelTerrainTE": {
+    "id": 135945,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.TRejuvenate": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TRejuvenateTE": {
+    "id": 135952,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.TSmokeCloudSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TTornado": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TTornadoTE": {
+    "id": 135972,
+    "size": 48,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.TVortex": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TVortexTE": {
+    "id": 135973,
+    "size": 48,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.GlobalTargetSpells.TWatcher": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.GlobalTargetSpells.TWatcherEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.GlobalTargetSpells.TWatcherHS": {
+    "id": 132989,
+    "size": 32,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.GlobalTargetSpells.TWatcherTE": {
+    "id": 135963,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.HSEngine.TAbstractBorderHexagon": {
+    "id": 65905,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagon"
+  },
+  "Aow.Units.HSEngine.TAbstractBorderHexagonResource": {
+    "id": 65876,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagonResource"
+  },
+  "Aow.Units.HSEngine.TAbstractHexagon": {
+    "id": 65904,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.TMapObject"
+  },
+  "Aow.Units.HSEngine.TAbstractHexagonResource": {
+    "id": 65876,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TMapObjectResource"
+  },
+  "Aow.Units.HSEngine.TAbstractRoad": {
+    "id": 65906,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.TMapObject"
+  },
+  "Aow.Units.HSEngine.TAbstractRoadResource": {
+    "id": 65876,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TMapObjectResource"
+  },
+  "Aow.Units.HSEngine.TCustomFixedVisibleHS": {
+    "id": 65872,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TFixedVisibleHS"
+  },
+  "Aow.Units.HSEngine.TFixedVisibleHS": {
+    "id": 65872,
+    "size": 12,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.HSEngine.THPBasedHS": {
+    "id": 65874,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.HSEngine.THSEngine": {
+    "id": 65537,
+    "size": 88,
+    "parent": "Aow.Units.Engine.TEngine"
+  },
+  "Aow.Units.HSEngine.THSMap": {
+    "id": 66048,
+    "size": 164,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.HSEngine.THSSet": {
+    "id": 66049,
+    "size": 72,
+    "parent": "Aow.Units.Engine.TECustomOwner"
+  },
+  "Aow.Units.HSEngine.THexagonControl": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TMORTerrainControl"
+  },
+  "Aow.Units.HSEngine.THexagonSprite": {
+    "id": 65872,
+    "size": 8,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.HSEngine.THexagonSpriteSelection": {
+    "id": 257,
+    "size": 32,
+    "parent": "Aow.Units.Engine.TEControlStyleNode"
+  },
+  "Aow.Units.HSEngine.TLibraryImageHS": {
+    "id": 65875,
+    "size": 32,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.HSEngine.TMORTerrainControl": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.HSEngine.TMapContainer": {
+    "id": 65795,
+    "size": 32,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.HSEngine.TMapField": {
+    "id": 65793,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.HSEngine.TMapFieldTandO": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.HSEngine.TMapLevel": {
+    "id": 65794,
+    "size": 124,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.HSEngine.TMapObject": {
+    "id": 65878,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.HSEngine.TMapObjectResource": {
+    "id": 65876,
+    "size": 52,
+    "parent": "Aow.Units.Engine.TEResource"
+  },
+  "Aow.Units.HSEngine.TMapObjectResourceList": {
+    "id": 1025,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEResourceList"
+  },
+  "Aow.Units.HSEngine.TMultiHexMO": {
+    "id": 65878,
+    "size": 20,
+    "parent": "Aow.Units.HSEngine.TMapObject"
+  },
+  "Aow.Units.HSEngine.TMultiHexMOR": {
+    "id": 65877,
+    "size": 68,
+    "parent": "Aow.Units.HSEngine.TMapObjectResource"
+  },
+  "Aow.Units.HSEngine.TRoadControl": {
+    "id": 80,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TMORTerrainControl"
+  },
+  "Aow.Units.HSEngine.TSingleHS": {
+    "id": 65872,
+    "size": 12,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.HSEngine.TVisibilityList": {
+    "id": 263,
+    "size": 28,
+    "parent": "Aow.Units.Engine.TEControlStyleInverseSortNode"
+  },
+  "Aow.Units.HSLib.TLibraryHS": {
+    "id": 65874,
+    "size": 44,
+    "parent": "Aow.Units.HSEngine.THPBasedHS"
+  },
+  "Aow.Units.Hexagon.THexagon": {
+    "id": 131410,
+    "size": 20,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagon"
+  },
+  "Aow.Units.Hexagon.THexagonResource": {
+    "id": 131411,
+    "size": 56,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagonResource"
+  },
+  "Aow.Units.Hill.THillMO": {
+    "id": 131432,
+    "size": 20,
+    "parent": "Aow.Units.Terrain.TTerrainMO"
+  },
+  "Aow.Units.Hill.THillMOR": {
+    "id": 131433,
+    "size": 72,
+    "parent": "Aow.Units.Terrain.TTerrainMOR"
+  },
+  "Aow.Units.HolyG.THolyGround": {
+    "id": 131987,
+    "size": 32,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.HolyG.THolyGroundResource": {
+    "id": 131988,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.HolyG.THolyGroundSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.HolyG.THolyGroundSpellTE": {
+    "id": 135942,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.House.THouse": {
+    "id": 2229522,
+    "size": 48,
+    "parent": "Aow.Units.CombatStructure.TCombatStructure"
+  },
+  "Aow.Units.House.THouseResource": {
+    "id": 2229523,
+    "size": 72,
+    "parent": "Aow.Units.CombatStructure.TCombatStructureResource"
+  },
+  "Aow.Units.HxBridge.THexagonBridge": {
+    "id": 133242,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TAbstractRoad"
+  },
+  "Aow.Units.HxBridge.THexagonBridgeResource": {
+    "id": 133243,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TAbstractRoadResource"
+  },
+  "Aow.Units.ILTer.TFixedILTerrainMO": {
+    "id": 131464,
+    "size": 28,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.ILTer.TFixedILTerrainMOR": {
+    "id": 131465,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.ILTer.TILTerrainMO": {
+    "id": 131462,
+    "size": 28,
+    "parent": "Aow.Units.HSEngine.TMultiHexMO"
+  },
+  "Aow.Units.ILTer.TILTerrainMOR": {
+    "id": 131463,
+    "size": 68,
+    "parent": "Aow.Units.HSEngine.TMultiHexMOR"
+  },
+  "Aow.Units.IndependentAG.TGuardAG": {
+    "id": 136275,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.IndependentAG.TGuardAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.IndependentAG.TGuardAreaAG": {
+    "id": 136273,
+    "size": 84,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.IndependentAG.TGuardAreaAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.IndependentAG.TPatrolAG": {
+    "id": 136274,
+    "size": 96,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.IndependentAG.TPatrolAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.IndependentAG.TRaidAG": {
+    "id": 136293,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.IndependentAG.TRaidAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.IndependentAG.TRefugeAG": {
+    "id": 136289,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.IndependentAG.TRefugeAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.IndependentAG.TScoutAG": {
+    "id": 136277,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.IndependentAG.TScoutAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.IsoCombatHex.TIsometricCombatHexagon": {
+    "id": 2229514,
+    "size": 24,
+    "parent": "Aow.Units.IsoHex.TUpperIsometricHexagon"
+  },
+  "Aow.Units.IsoCombatHex.TIsometricCombatHexagonResource": {
+    "id": 2229515,
+    "size": 56,
+    "parent": "Aow.Units.IsoHex.TUpperIsometricHexagonResource"
+  },
+  "Aow.Units.IsoHex.TDynamicIsometricHexagon": {
+    "id": 131439,
+    "size": 8,
+    "parent": "Aow.Units.HSEngine.THexagonSprite"
+  },
+  "Aow.Units.IsoHex.TIsometricHexagon": {
+    "id": 131437,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagon"
+  },
+  "Aow.Units.IsoHex.TIsometricHexagonResource": {
+    "id": 131438,
+    "size": 56,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagonResource"
+  },
+  "Aow.Units.IsoHex.TLowerIsometricHexagon": {
+    "id": 131442,
+    "size": 24,
+    "parent": "Aow.Units.IsoHex.TIsometricHexagon"
+  },
+  "Aow.Units.IsoHex.TLowerIsometricHexagonResource": {
+    "id": 131443,
+    "size": 56,
+    "parent": "Aow.Units.IsoHex.TIsometricHexagonResource"
+  },
+  "Aow.Units.IsoHex.TUpperIsometricHexagon": {
+    "id": 131440,
+    "size": 24,
+    "parent": "Aow.Units.IsoHex.TIsometricHexagon"
+  },
+  "Aow.Units.IsoHex.TUpperIsometricHexagonResource": {
+    "id": 131441,
+    "size": 56,
+    "parent": "Aow.Units.IsoHex.TIsometricHexagonResource"
+  },
+  "Aow.Units.ItemExpS.TExplorationSiteItemList": {
+    "id": 265,
+    "size": 24,
+    "parent": "Aow.Units.AoWE.TItemList"
+  },
+  "Aow.Units.ItemExpS.TItemExplorationSite": {
+    "id": 132083,
+    "size": 64,
+    "parent": "Aow.Units.ExploreS.TExplorationSite"
+  },
+  "Aow.Units.ItemExpS.TItemExplorationSiteEventLog": {
+    "id": 132085,
+    "size": 40,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.ItemExpS.TItemExplorationSiteResource": {
+    "id": 132084,
+    "size": 104,
+    "parent": "Aow.Units.ExploreS.TExplorationSiteResource"
+  },
+  "Aow.Units.ItemGrid.TItemListView": {
+    "id": 265,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEChangeNotifyNode"
+  },
+  "Aow.Units.LifeNode.TLifeNode": {
+    "id": 131953,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.LifeNode.TLifeNodeResource": {
+    "id": 131954,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.MagicSanctuary.TMagicSanctuary": {
+    "id": 133274,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS": {
+    "id": 65872,
+    "size": 20,
+    "parent": "Aow.Units.HSEngine.TSingleHS"
+  },
+  "Aow.Units.MagicSanctuary.TMagicSanctuaryResource": {
+    "id": 133275,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.MainAG.TFortifyAG": {
+    "id": 136281,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.MainAG.TFortifyAGC": {
+    "id": 80,
+    "size": 384,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.MainAG.TPassiveAG": {
+    "id": 136280,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.MainAG.TPassiveAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.MainAG.TSuicidalAG": {
+    "id": 136276,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.MainAG.TSuicidalAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.MainAG.TTransportAG": {
+    "id": 136295,
+    "size": 80,
+    "parent": "Aow.Units.AoWE.TAIGroup"
+  },
+  "Aow.Units.MainAG.TTransportAGC": {
+    "id": 80,
+    "size": 368,
+    "parent": "Aow.Units.AoWE.TAIGroupControl"
+  },
+  "Aow.Units.MainStructure.TMainStructure": {
+    "id": 2229532,
+    "size": 40,
+    "parent": "Aow.Units.CombatStructure.TCombatStructure"
+  },
+  "Aow.Units.MainStructure.TMainStructureResource": {
+    "id": 2229533,
+    "size": 72,
+    "parent": "Aow.Units.CombatStructure.TCombatStructureResource"
+  },
+  "Aow.Units.ManaCrystals.TCrystalMagic": {
+    "id": 80,
+    "size": 76,
+    "parent": "Aow.Units.AoWE.TPlayerMagicControl"
+  },
+  "Aow.Units.ManaCrystals.TManaCrystals": {
+    "id": 132030,
+    "size": 36,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.ManaCrystals.TManaCrystalsResource": {
+    "id": 132031,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.Merchant.TMerchant": {
+    "id": 131338,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.Merchant.TMerchantResource": {
+    "id": 131339,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.Mine.TMine": {
+    "id": 131962,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TPlayerStructure"
+  },
+  "Aow.Units.Mine.TMineResource": {
+    "id": 131963,
+    "size": 116,
+    "parent": "Aow.Units.AoWE.TPlayerStructureResource"
+  },
+  "Aow.Units.MonsterL.TMonsterlair": {
+    "id": 131886,
+    "size": 64,
+    "parent": "Aow.Units.ItemExpS.TItemExplorationSite"
+  },
+  "Aow.Units.MonsterL.TMonsterlairResource": {
+    "id": 131887,
+    "size": 104,
+    "parent": "Aow.Units.ItemExpS.TItemExplorationSiteResource"
+  },
+  "Aow.Units.Mountain.TMountainMO": {
+    "id": 131432,
+    "size": 20,
+    "parent": "Aow.Units.AoWTer.TAoWTerrain"
+  },
+  "Aow.Units.Mountain.TMountainMOR": {
+    "id": 131433,
+    "size": 76,
+    "parent": "Aow.Units.AoWTer.TAoWTerrainResource"
+  },
+  "Aow.Units.Mountain.TRaiseTerrain": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.Mountain.TRaiseTerrainTE": {
+    "id": 135946,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.Mountain.TRaisedMountain": {
+    "id": 131434,
+    "size": 32,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.Mountain.TRaisedMountainResource": {
+    "id": 131435,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.MoveOnEvents.TChangeSongMoveOnEvent": {
+    "id": 132427,
+    "size": 28,
+    "parent": "Aow.Units.MoveOnEvents.TMoveOnEvent"
+  },
+  "Aow.Units.MoveOnEvents.TChangeSongMoveOnEventResource": {
+    "id": 132428,
+    "size": 52,
+    "parent": "Aow.Units.MoveOnEvents.TMoveOnEventResource"
+  },
+  "Aow.Units.MoveOnEvents.TMoveOnEvent": {
+    "id": 65878,
+    "size": 24,
+    "parent": "Aow.Units.HSEngine.TMapObject"
+  },
+  "Aow.Units.MoveOnEvents.TMoveOnEventResource": {
+    "id": 65876,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TMapObjectResource"
+  },
+  "Aow.Units.MoveOnEvents.TPlaySampleMoveOnEvent": {
+    "id": 132445,
+    "size": 28,
+    "parent": "Aow.Units.MoveOnEvents.TMoveOnEvent"
+  },
+  "Aow.Units.MoveOnEvents.TPlaySampleMoveOnEventResource": {
+    "id": 132446,
+    "size": 52,
+    "parent": "Aow.Units.MoveOnEvents.TMoveOnEventResource"
+  },
+  "Aow.Units.MoveOnEvents.TShowMessageMoveOnEvent": {
+    "id": 132429,
+    "size": 28,
+    "parent": "Aow.Units.MoveOnEvents.TMoveOnEvent"
+  },
+  "Aow.Units.MoveOnEvents.TShowMessageMoveOnEventResource": {
+    "id": 132430,
+    "size": 52,
+    "parent": "Aow.Units.MoveOnEvents.TMoveOnEventResource"
+  },
+  "Aow.Units.NetworkE.TDataPackage": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.NetworkE.TENodeView": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.NetworkE.TPassTokenTE": {
+    "id": 1364,
+    "size": 16,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.NetworkE.TPlayerCommunicationSettings": {
+    "id": 80,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.NetworkE.TPlayerCommunicationSettingsList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.NetworkE.TPlayerCommunicator": {
+    "id": 80,
+    "size": 36,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.NetworkE.TSyncTE": {
+    "id": 1365,
+    "size": 20,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.NetworkE.TTokenEvent": {
+    "id": 1361,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.NetworkE.TTokenEventList": {
+    "id": 1362,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.NetworkE.TTokenPackage": {
+    "id": 1360,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TDataPackage"
+  },
+  "Aow.Units.OverlayObject.TOverlayObject": {
+    "id": 131228,
+    "size": 28,
+    "parent": "Aow.Units.ILTer.TFixedILTerrainMO"
+  },
+  "Aow.Units.OverlayObject.TOverlayObjectResource": {
+    "id": 131229,
+    "size": 72,
+    "parent": "Aow.Units.ILTer.TFixedILTerrainMOR"
+  },
+  "Aow.Units.OverviewUnit.TOverviewUnitHS": {
+    "id": 131604,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TUnitHS"
+  },
+  "Aow.Units.Pad.TPad": {
+    "id": 131334,
+    "size": 32,
+    "parent": "Aow.Units.ILTer.TFixedILTerrainMO"
+  },
+  "Aow.Units.Pad.TPadResource": {
+    "id": 131335,
+    "size": 72,
+    "parent": "Aow.Units.ILTer.TFixedILTerrainMOR"
+  },
+  "Aow.Units.PassiveAb.TAnimatedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.PassiveAb.TBlessedEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TBloodlustAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TBurningAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TCombatResurrectedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.PassiveAb.TConcealmentEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TCrusaderAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TCursedAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TDarkGiftEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TDecayAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TEnchantedWeaponAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TEntangledAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TFireAuraEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TFireProtectionEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TFreeMovementAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TFrozenAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TFuryAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.THasteAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.THighPrayerBlessingAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.THolyChampionAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TEnhancementAbility"
+  },
+  "Aow.Units.PassiveAb.THolyChampionEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.THolyFear": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TImmunityAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TEnhancementAbility"
+  },
+  "Aow.Units.PassiveAb.TLiquidFormEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TMarksmanshipAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TMultiLevelAbility"
+  },
+  "Aow.Units.PassiveAb.TMovementAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.PassiveAb.TNaturesBlessingAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TPanickedAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TPassWallAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.PassiveAb.TPoisonedAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TProtectionAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TEnhancementAbility"
+  },
+  "Aow.Units.PassiveAb.TResurrectedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.PassiveAb.TSlowEnchantmentAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TStoneSkinAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TStunnedAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TSummonedAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TTurnedUndeadAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TUnholyChampionAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TEnhancementAbility"
+  },
+  "Aow.Units.PassiveAb.TUnholyChampionEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TVertigoAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TVisionAbility": {
+    "id": 80,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TMultiLevelAbility"
+  },
+  "Aow.Units.PassiveAb.TWallClimbingAbility": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TAdjustableAbility"
+  },
+  "Aow.Units.PassiveAb.TWaterWalkingEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PassiveAb.TWebbedAbility": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TDurationAbility"
+  },
+  "Aow.Units.PassiveAb.TWindWalkingEnchantment": {
+    "id": 80,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TUnitEnchantmentAbility"
+  },
+  "Aow.Units.PoisonC.TPoisonCloud": {
+    "id": 135743,
+    "size": 32,
+    "parent": "Aow.Units.HSEngine.TMultiHexMO"
+  },
+  "Aow.Units.PoisonC.TPoisonCloudResource": {
+    "id": 135744,
+    "size": 68,
+    "parent": "Aow.Units.HSEngine.TMultiHexMOR"
+  },
+  "Aow.Units.PoisonP.TPoisonPlant": {
+    "id": 131998,
+    "size": 32,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.PoisonP.TPoisonPlantResource": {
+    "id": 131999,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.PoisonP.TPoisonPlantSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.PoisonP.TPoisonPlantSpellTE": {
+    "id": 135941,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.PowerNode.TPowerNode": {
+    "id": 131482,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TPlayerStructure"
+  },
+  "Aow.Units.PowerNode.TPowerNodeResource": {
+    "id": 131483,
+    "size": 116,
+    "parent": "Aow.Units.AoWE.TPlayerStructureResource"
+  },
+  "Aow.Units.PrdPlace.TProductionPlace": {
+    "id": 132026,
+    "size": 76,
+    "parent": "Aow.Units.AoWE.TPlayerStructure"
+  },
+  "Aow.Units.PrdPlace.TProductionPlaceControl": {
+    "id": 80,
+    "size": 44,
+    "parent": "Aow.Units.AoWE.TProductionControl"
+  },
+  "Aow.Units.PrdPlace.TProductionPlaceEventLog": {
+    "id": 131835,
+    "size": 32,
+    "parent": "Aow.Units.AoWE.TProductionEventLog"
+  },
+  "Aow.Units.PrdPlace.TProductionPlaceResource": {
+    "id": 132027,
+    "size": 120,
+    "parent": "Aow.Units.AoWE.TPlayerStructureResource"
+  },
+  "Aow.Units.Pyramid.TPyramid": {
+    "id": 131982,
+    "size": 64,
+    "parent": "Aow.Units.ItemExpS.TItemExplorationSite"
+  },
+  "Aow.Units.Pyramid.TPyramidResource": {
+    "id": 131983,
+    "size": 104,
+    "parent": "Aow.Units.ItemExpS.TItemExplorationSiteResource"
+  },
+  "Aow.Units.RandomNode.TRandomNode": {
+    "id": 133154,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.RandomNode.TRandomNodeResource": {
+    "id": 133155,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.ReflectingPool.TReflectingPool": {
+    "id": 132670,
+    "size": 64,
+    "parent": "Aow.Units.AoWE.TPlayerStructure"
+  },
+  "Aow.Units.ReflectingPool.TReflectingPoolResource": {
+    "id": 132671,
+    "size": 116,
+    "parent": "Aow.Units.AoWE.TPlayerStructureResource"
+  },
+  "Aow.Units.RndHex.TRndHexagonResource": {
+    "id": 131412,
+    "size": 56,
+    "parent": "Aow.Units.Hexagon.THexagonResource"
+  },
+  "Aow.Units.Road.TRoad": {
+    "id": 131428,
+    "size": 20,
+    "parent": "Aow.Units.HSEngine.TAbstractRoad"
+  },
+  "Aow.Units.Road.TRoadResource": {
+    "id": 131429,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TAbstractRoadResource"
+  },
+  "Aow.Units.Ruin.TRuin": {
+    "id": 131994,
+    "size": 64,
+    "parent": "Aow.Units.ItemExpS.TItemExplorationSite"
+  },
+  "Aow.Units.Ruin.TRuinResource": {
+    "id": 131995,
+    "size": 104,
+    "parent": "Aow.Units.ItemExpS.TItemExplorationSiteResource"
+  },
+  "Aow.Units.Shipyard.TShipyard": {
+    "id": 132286,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.Shipyard.TShipyardConstructionControl": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TStructureConstructionControl"
+  },
+  "Aow.Units.Shipyard.TShipyardResource": {
+    "id": 132287,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.Sign.TSign": {
+    "id": 131330,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.Sign.TSignResource": {
+    "id": 131331,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.Sign.TUpdateSignTE": {
+    "id": 131343,
+    "size": 24,
+    "parent": "Aow.Units.NetworkE.TTokenEvent"
+  },
+  "Aow.Units.SingleCombatHex.TSingleCombatHexagon": {
+    "id": 2229534,
+    "size": 16,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagon"
+  },
+  "Aow.Units.SingleCombatHex.TSingleCombatHexagonResource": {
+    "id": 2229535,
+    "size": 52,
+    "parent": "Aow.Units.HSEngine.TAbstractHexagonResource"
+  },
+  "Aow.Units.SmokeCloud.TSmokeCloud": {
+    "id": 135746,
+    "size": 36,
+    "parent": "Aow.Units.HSEngine.TMultiHexMO"
+  },
+  "Aow.Units.SmokeCloud.TSmokeCloudEnchantment": {
+    "id": 135748,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TGlobalEnchantment"
+  },
+  "Aow.Units.SmokeCloud.TSmokeCloudResource": {
+    "id": 135747,
+    "size": 68,
+    "parent": "Aow.Units.HSEngine.TMultiHexMOR"
+  },
+  "Aow.Units.Sound.TENodeAccess": {
+    "id": 80,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TECustomNode"
+  },
+  "Aow.Units.Sound.TSFX": {
+    "id": 2162689,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.Sound.TSFXLibrary": {
+    "id": 2162691,
+    "size": 12,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.Sound.TSFXSequence": {
+    "id": 2162690,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TENode"
+  },
+  "Aow.Units.Sound.TSonglist": {
+    "id": 2162692,
+    "size": 16,
+    "parent": "Aow.Units.Engine.TEObject"
+  },
+  "Aow.Units.Spring.TSpringOfLife": {
+    "id": 131328,
+    "size": 48,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.Spring.TSpringOfLifeAnimation": {
+    "id": 131815,
+    "size": 60,
+    "parent": "Aow.Units.Animation.TAnimation"
+  },
+  "Aow.Units.Spring.TSpringOfLifeResource": {
+    "id": 131329,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.Storms.TBlastStorm": {
+    "id": 131815,
+    "size": 68,
+    "parent": "Aow.Units.Storms.TStorm"
+  },
+  "Aow.Units.Storms.TDeathStorm": {
+    "id": 135741,
+    "size": 68,
+    "parent": "Aow.Units.Storms.TBlastStorm"
+  },
+  "Aow.Units.Storms.TDeathStormSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.Storms.TStormSpell"
+  },
+  "Aow.Units.Storms.TDivineStorm": {
+    "id": 135740,
+    "size": 68,
+    "parent": "Aow.Units.Storms.TBlastStorm"
+  },
+  "Aow.Units.Storms.TDivineStormSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.Storms.TStormSpell"
+  },
+  "Aow.Units.Storms.TFireStorm": {
+    "id": 135742,
+    "size": 64,
+    "parent": "Aow.Units.Storms.TStorm"
+  },
+  "Aow.Units.Storms.TFireStormSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.Storms.TStormSpell"
+  },
+  "Aow.Units.Storms.TIceStorm": {
+    "id": 135738,
+    "size": 68,
+    "parent": "Aow.Units.Storms.TBlastStorm"
+  },
+  "Aow.Units.Storms.TIceStormSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.Storms.TStormSpell"
+  },
+  "Aow.Units.Storms.TLightningStorm": {
+    "id": 135739,
+    "size": 68,
+    "parent": "Aow.Units.Storms.TStorm"
+  },
+  "Aow.Units.Storms.TLightningStormSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.Storms.TStormSpell"
+  },
+  "Aow.Units.Storms.TPestilenceStorm": {
+    "id": 135745,
+    "size": 68,
+    "parent": "Aow.Units.Storms.TStorm"
+  },
+  "Aow.Units.Storms.TPestilenceStormSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.Storms.TStormSpell"
+  },
+  "Aow.Units.Storms.TStorm": {
+    "id": 131815,
+    "size": 64,
+    "parent": "Aow.Units.Animation.TAnimation"
+  },
+  "Aow.Units.Storms.TStormSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.Storms.TStormSpellTE": {
+    "id": 135937,
+    "size": 40,
+    "parent": "Aow.Units.AoWE.TSpellTE"
+  },
+  "Aow.Units.SummonSpells.TSummonAirElemental": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonBlackDragon": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonBlackSpider": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonBoar": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonEarthElemental": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonFireElemental": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonFireSprite": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonFrog": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonGoldDragon": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonGreatEagle": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonMermaid": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.AoWE.TSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonSpellTE": {
+    "id": 135947,
+    "size": 36,
+    "parent": "Aow.Units.AoWE.TSpellTE"
+  },
+  "Aow.Units.SummonSpells.TSummonSyron": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.SummonSpells.TSummonWaterElemental": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.SummonSpells.TSummonSpell"
+  },
+  "Aow.Units.Teleport.TTeleport": {
+    "id": 131332,
+    "size": 52,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.Teleport.TTeleportResource": {
+    "id": 131333,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.Terrain.TTerrainMO": {
+    "id": 131430,
+    "size": 20,
+    "parent": "Aow.Units.HSEngine.TMultiHexMO"
+  },
+  "Aow.Units.Terrain.TTerrainMOR": {
+    "id": 131431,
+    "size": 72,
+    "parent": "Aow.Units.HSEngine.TMultiHexMOR"
+  },
+  "Aow.Units.Tower.TTower": {
+    "id": 132158,
+    "size": 64,
+    "parent": "Aow.Units.AoWE.TPlayerStructure"
+  },
+  "Aow.Units.Tower.TTowerConstructionControl": {
+    "id": 80,
+    "size": 8,
+    "parent": "Aow.Units.AoWE.TStructureConstructionControl"
+  },
+  "Aow.Units.Tower.TTowerResource": {
+    "id": 132159,
+    "size": 116,
+    "parent": "Aow.Units.AoWE.TPlayerStructureResource"
+  },
+  "Aow.Units.Townhall.TTownhall": {
+    "id": 2229520,
+    "size": 40,
+    "parent": "Aow.Units.CombatStructure.TCombatStructure"
+  },
+  "Aow.Units.Townhall.TTownhallResource": {
+    "id": 2229521,
+    "size": 72,
+    "parent": "Aow.Units.CombatStructure.TCombatStructureResource"
+  },
+  "Aow.Units.UnHolyG.TUnHolyGround": {
+    "id": 131985,
+    "size": 32,
+    "parent": "Aow.Units.ILTer.TILTerrainMO"
+  },
+  "Aow.Units.UnHolyG.TUnHolyGroundResource": {
+    "id": 131986,
+    "size": 68,
+    "parent": "Aow.Units.ILTer.TILTerrainMOR"
+  },
+  "Aow.Units.UnHolyG.TUnholyGroundSpell": {
+    "id": 80,
+    "size": 60,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell"
+  },
+  "Aow.Units.UnHolyG.TUnholyGroundSpellTE": {
+    "id": 135943,
+    "size": 36,
+    "parent": "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE"
+  },
+  "Aow.Units.UnitIDlg.TUnitView": {
+    "id": 80,
+    "size": 20,
+    "parent": "Aow.Units.AoWE.TAbilityOwner"
+  },
+  "Aow.Units.UnitSpells.TBless": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TConcealment": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TCosmeticSurgery": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TSpellCaster"
+  },
+  "Aow.Units.UnitSpells.TDarkGift": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TDispelMagic": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TDispelMagicSpellCA": {
+    "id": 131793,
+    "size": 28,
+    "parent": "Aow.Units.AoWE.TDispelMagicCA"
+  },
+  "Aow.Units.UnitSpells.TEnchantWeapon": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TFireAura": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TFreeMovement": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TFury": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.THaste": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.THealingWater": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.THolyChampion": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TLiquidForm": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TRemedy": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TStoneSkin": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TUnholyChampion": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TWaterWalking": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.UnitSpells.TWindWalking": {
+    "id": 80,
+    "size": 68,
+    "parent": "Aow.Units.AoWE.TUnitSpell"
+  },
+  "Aow.Units.WaterNode.TWaterNode": {
+    "id": 132275,
+    "size": 76,
+    "parent": "Aow.Units.PrdPlace.TProductionPlace"
+  },
+  "Aow.Units.WaterNode.TWaterNodeResource": {
+    "id": 132276,
+    "size": 120,
+    "parent": "Aow.Units.PrdPlace.TProductionPlaceResource"
+  },
+  "Aow.Units.WizardsTower.TEnterWizardsTowerEventLog": {
+    "id": 80,
+    "size": 28,
+    "parent": "Aow.Units.EventLog.TEventLog"
+  },
+  "Aow.Units.WizardsTower.TWizardsTower": {
+    "id": 133278,
+    "size": 56,
+    "parent": "Aow.Units.AoWE.TStructure"
+  },
+  "Aow.Units.WizardsTower.TWizardsTowerResource": {
+    "id": 133279,
+    "size": 100,
+    "parent": "Aow.Units.AoWE.TStructureResource"
+  },
+  "Aow.Units.WorkShop.TWorkshop": {
+    "id": 2229512,
+    "size": 40,
+    "parent": "Aow.Units.CombatStructure.TCombatStructure"
+  },
+  "Aow.Units.WorkShop.TWorkshopResource": {
+    "id": 2229513,
+    "size": 72,
+    "parent": "Aow.Units.CombatStructure.TCombatStructureResource"
+  }
+}

@@ -373,7 +373,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__36)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__39 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__39.AddEvent(Event);
@@ -628,7 +628,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__53)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__56.AddEvent(Event);
@@ -650,6 +650,9 @@ namespace Aow.Units.GlobalSpells
     // { TWarpPartyTE (instance size 40, VMT 557E94F4): $20 army ID, $24 packed destination. }
     public partial class TWarpPartyTE : Aow.Units.AoWE.TSpellTE
     {
+        // GlobalSpells.pas:564
+        public new const int ClassID = 135948;
+
         public Aow.Units.AoWE.TArmyID FArmyID;
         // { $20 }
         public Aow.Units.HSEngine.TXYL FWarpLocation;
@@ -747,7 +750,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__67)
             {
-                Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                 var call__70 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                 var call__71 = call__70.FCastImages.ImageSequences[0];
                 Animation.SetImageSequence(call__71);
@@ -764,7 +767,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__72)
             {
-                Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                 var call__75 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                 var call__76 = call__75.FCastImages.ImageSequences[0];
                 Animation.SetImageSequence(call__76);
@@ -827,29 +830,10 @@ namespace Aow.Units.GlobalSpells
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // GlobalSpells.pas:564
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135948;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalSpells.TWarpPartyTE.ClassID;
 
             // GlobalSpells.pas:92
-            public new Aow.Units.GlobalSpells.TWarpPartyTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalSpells.TWarpPartyTE o = (Aow.Units.GlobalSpells.TWarpPartyTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalSpells.TWarpPartyTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalSpells.TWarpPartyTE)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalSpells.TWarpPartyTE => (Meta)MetaRegistry.Of(typeof(T));
@@ -1104,7 +1088,7 @@ namespace Aow.Units.GlobalSpells
             {
                 A2.GetLocation(ref X, ref Y, ref Layer);
                 Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
-                Animation = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TTwinkleAnimation(null);
                 var call__116 = FCastImages.GetImageSequence(0);
                 Animation.Setup(call__116, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
                 Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, X, Y, Layer);
@@ -1230,7 +1214,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__143)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__146 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__146.AddEvent(Event);
@@ -1283,7 +1267,7 @@ namespace Aow.Units.GlobalSpells
             {
                 A2.GetLocation(ref X, ref Y, ref Layer);
                 Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
-                Animation = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TTwinkleAnimation(null);
                 var call__148 = FCastImages.GetImageSequence(0);
                 Animation.Setup(call__148, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
                 Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, X, Y, Layer);
@@ -1414,7 +1398,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__176)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__179 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__179.AddEvent(Event);
@@ -1497,7 +1481,7 @@ namespace Aow.Units.GlobalSpells
                     var call__190 = call__189.FCastImages.GetImageSequence(0);
                     if (call__190 != null)
                     {
-                        Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__191 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                         var call__192 = call__191.FCastImages.GetImageSequence(0);
                         Animation.SetImageSequence(call__192);
@@ -1511,7 +1495,7 @@ namespace Aow.Units.GlobalSpells
                     var call__194 = call__193.FCastImages.GetImageSequence(0);
                     if (call__194 != null)
                     {
-                        Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__195 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                         var call__196 = call__195.FCastImages.GetImageSequence(0);
                         Animation.SetImageSequence(call__196);
@@ -1595,7 +1579,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__219)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__222 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__222.AddEvent(Event);
@@ -1690,6 +1674,9 @@ namespace Aow.Units.GlobalSpells
     // { TDisjunctionTE (instance size 40, VMT 557E9A24): $20 dispel chance, $24 enchantment ID. }
     public partial class TDisjunctionTE : Aow.Units.AoWE.TSpellTE
     {
+        // GlobalSpells.pas:745
+        public new const int ClassID = 135961;
+
         public int FDispelChance;
         // { $20 }
         public int FEnchantmentID;
@@ -1743,7 +1730,7 @@ namespace Aow.Units.GlobalSpells
             Enchantment = call__235;
             A1.GetLocation(ref X, ref Y, ref Layer);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A1.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
-            Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+            Twinkle = new Aow.Units.Animation.TTwinkleAnimation(null);
             var call__236 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(51);
             var call__237 = call__236.FCastImages.ImageSequences[0];
             Twinkle.Setup(call__237, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmExpand, Aow.Units.Animation.TTwinkleModeElement.tmExplode), FEventMana + 50, 192, 50, 30);
@@ -1805,31 +1792,12 @@ namespace Aow.Units.GlobalSpells
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
             // GlobalSpells.pas:745
-            public override int ClassID()
-            {
-                int Result = default;
-                Result = 135961;
-                return Result;
-            }
+            public override int ClassID() => Aow.Units.GlobalSpells.TDisjunctionTE.ClassID;
 
             public static new Meta Of<T>()
                 where T : Aow.Units.GlobalSpells.TDisjunctionTE => (Meta)MetaRegistry.Of(typeof(T));
             // NetworkE.pas:230
-            public new Aow.Units.GlobalSpells.TDisjunctionTE Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.GlobalSpells.TDisjunctionTE o = (Aow.Units.GlobalSpells.TDisjunctionTE)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.GlobalSpells.TDisjunctionTE Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.GlobalSpells.TDisjunctionTE)base.Create(AOwner);
         }
     }
 
@@ -2294,7 +2262,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__296)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__299 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__299.AddEvent(Event);
@@ -2338,7 +2306,7 @@ namespace Aow.Units.GlobalSpells
                     if (call__307 != null)
                     {
                         // { Original uses Warp Party's images for Crusade parties. }
-                        Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__308 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(34);
                         var call__309 = call__308.FCastImages.GetImageSequence(0);
                         Animation.SetImageSequence(call__309);
@@ -2383,7 +2351,7 @@ namespace Aow.Units.GlobalSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
-            Engine.RegisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
+            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
             var call__313 = Aow.Units.GlobalSpells.TConcealArea.Create(null);
             Control.RegisterSpell(call__313);
             var call__314 = Aow.Units.GlobalSpells.TBirdsView.Create(null);
@@ -2407,7 +2375,7 @@ namespace Aow.Units.GlobalSpells
         {
             Aow.Units.AoWE.TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
-            Engine.UnregisterEClasses([Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.TEObject.Meta.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
+            Engine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TWarpPartyTE>(), Aow.Units.Engine.EClass.Of<Aow.Units.GlobalSpells.TDisjunctionTE>()]);
             Control.UnregisterSpellID(1);
             Control.UnregisterSpellID(2);
             Control.UnregisterSpellID(34);
