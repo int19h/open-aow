@@ -49,6 +49,8 @@ namespace Aow.Units.AoWInfoBanner
     // { TInfoBanner (instance size 84, VMT 00406F44) }
     public partial class TInfoBanner : Aow.Rtl.TDataModule
     {
+        public TInfoBanner(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWLabel.TAOWLabel HeaderLbl;
         // { +0044 }
         public Aow.Units.AoWMemo.TAOWMemo InfoMemo;

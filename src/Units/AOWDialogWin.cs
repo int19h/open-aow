@@ -67,6 +67,8 @@ namespace Aow.Units.AOWDialogWin
     // { TDWin (instance size 176, VMT 00450334) }
     public partial class TDWin : Aow.Rtl.TDataModule
     {
+        public TDWin(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dialog;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel DTitle;

@@ -70,6 +70,8 @@ namespace Aow.Units.AoWWizardsTowerDlg
 //     $88 completion callback; $90 tower-entry event. }
     public partial class TWizardsTowerDlg : Aow.Rtl.TDataModule
     {
+        public TWizardsTowerDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWImage.TAOWImage TitleIcon;
         // { +0044 }
         public Aow.Units.AoWButton.TAOWButton Close;

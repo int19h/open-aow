@@ -33,6 +33,8 @@ namespace Aow.Units.AoWHScroll
     // { AoWHScroll.TAOWHScrollBar (instance size 380): no fields of its own }
     public partial class TAOWHScrollBar : Aow.Units.AoWVScroll.TAOWScrollBar
     {
+        public TAOWHScrollBar(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         // AoWHScroll.pas:31
         // { TAOWHScrollBar }
         // { SetSize: as TAOWVScrollBar.SetSize across; the track length is not kept above zero here }

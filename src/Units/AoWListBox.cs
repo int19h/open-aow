@@ -78,9 +78,8 @@ namespace Aow.Units.AoWListBox
         public int F188;
         // AoWListBox.pas:107
         // { TAOWListBox }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWListBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;
             FItems.OnChange = OnChangeText;
@@ -745,23 +744,6 @@ namespace Aow.Units.AoWListBox
 
         [Published]
         public Aow.Units.AoWComp.TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
-
-        // AoWListBox.pas:53
-        public static new Aow.Units.AoWListBox.TAOWListBox Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWListBox.TAOWListBox o = new Aow.Units.AoWListBox.TAOWListBox();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWListBox

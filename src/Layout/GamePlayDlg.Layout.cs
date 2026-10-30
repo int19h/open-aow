@@ -17,7 +17,7 @@ namespace Aow.Units.AoWGamePlayDlg
         {
             session.Begin(this);
             Name = "GamePlayDlg";
-            GamePlayDlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            GamePlayDlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(GamePlayDlg);
             GamePlayDlg.Name = "GamePlayDlg";
             GamePlayDlg.OnKeyDown = GamePlayDlgKeyDown;
@@ -377,7 +377,7 @@ namespace Aow.Units.AoWGamePlayDlg
             siLbl.Text = "Skip Intro";
             siLbl.TextColor = 9415072;
             session.EndRead(siLbl);
-            Tab1 = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            Tab1 = new Aow.Units.AoWTabPanel.TAOWTabPanel(this);
             session.BeginRead(Tab1);
             Tab1.Name = "Tab1";
             Tab1.Priority = 3000;
@@ -411,7 +411,7 @@ namespace Aow.Units.AoWGamePlayDlg
             Tab1.ILIndexUp = 70;
             Tab1.BorderHeightSelected = 7;
             session.EndRead(Tab1);
-            Pnl1 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Pnl1 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Pnl1);
             Pnl1.Name = "Pnl1";
             Pnl1.Priority = 0;
@@ -438,7 +438,7 @@ namespace Aow.Units.AoWGamePlayDlg
             Pnl1.MinWidth = 0;
             Pnl1.MinHeight = 0;
             session.EndRead(Pnl1);
-            Pnl2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Pnl2 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Pnl2);
             Pnl2.Name = "Pnl2";
             Pnl2.Visible = false;
@@ -489,7 +489,7 @@ namespace Aow.Units.AoWGamePlayDlg
             GamePasswordLbl.Text = "Game password:";
             GamePasswordLbl.TextColor = 0;
             session.EndRead(GamePasswordLbl);
-            PasswordEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            PasswordEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(PasswordEdit);
             PasswordEdit.Name = "PasswordEdit";
             PasswordEdit.Priority = 10;
@@ -520,7 +520,7 @@ namespace Aow.Units.AoWGamePlayDlg
             PasswordEdit.ILIndex = 15;
             PasswordEdit.PassWordChar = (byte)42;
             session.EndRead(PasswordEdit);
-            CombatResolveModeCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            CombatResolveModeCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(CombatResolveModeCB);
             CombatResolveModeCB.Name = "CombatResolveModeCB";
             CombatResolveModeCB.Tag = 8;
@@ -1301,7 +1301,7 @@ namespace Aow.Units.AoWGamePlayDlg
             ChangePasswordBtn.WinWidth = 90;
             ChangePasswordBtn.OnClick = Layout_ChangePasswordBtnClick_0;
             session.EndRead(ChangePasswordBtn);
-            MovementSpeedCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            MovementSpeedCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(MovementSpeedCB);
             MovementSpeedCB.Name = "MovementSpeedCB";
             MovementSpeedCB.Tag = 8;
@@ -1485,7 +1485,7 @@ namespace Aow.Units.AoWGamePlayDlg
             CombLbl.Text = "Combat";
             CombLbl.TextColor = 9415072;
             session.EndRead(CombLbl);
-            CombFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CombFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CombFr);
             CombFr.Name = "CombFr";
             CombFr.Priority = 10;
@@ -1512,7 +1512,7 @@ namespace Aow.Units.AoWGamePlayDlg
             CombFr.MinWidth = 0;
             CombFr.MinHeight = 0;
             session.EndRead(CombFr);
-            CombPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CombPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CombPnl);
             CombPnl.Name = "CombPnl";
             CombPnl.Priority = 0;
@@ -1562,7 +1562,7 @@ namespace Aow.Units.AoWGamePlayDlg
             Movelbl.Text = "Movement";
             Movelbl.TextColor = 9415072;
             session.EndRead(Movelbl);
-            MovFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MovFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MovFr);
             MovFr.Name = "MovFr";
             MovFr.Priority = 10;
@@ -1589,7 +1589,7 @@ namespace Aow.Units.AoWGamePlayDlg
             MovFr.MinWidth = 0;
             MovFr.MinHeight = 0;
             session.EndRead(MovFr);
-            BtmPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            BtmPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(BtmPnl);
             BtmPnl.Name = "BtmPnl";
             BtmPnl.Priority = 0;
@@ -1616,7 +1616,7 @@ namespace Aow.Units.AoWGamePlayDlg
             BtmPnl.MinWidth = 0;
             BtmPnl.MinHeight = 0;
             session.EndRead(BtmPnl);
-            MovPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MovPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MovPnl);
             MovPnl.Name = "MovPnl";
             MovPnl.Priority = 0;
@@ -1643,7 +1643,7 @@ namespace Aow.Units.AoWGamePlayDlg
             MovPnl.MinWidth = 0;
             MovPnl.MinHeight = 0;
             session.EndRead(MovPnl);
-            AOWPanel1 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            AOWPanel1 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(AOWPanel1);
             AOWPanel1.Name = "AOWPanel1";
             AOWPanel1.Priority = 0;

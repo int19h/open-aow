@@ -63,6 +63,8 @@ namespace Aow.Units.TCFCDlg
     // { TTCFCDialog: size $98; $8C combat request, $90 completion event. VMT 00439834. }
     public partial class TTCFCDialog : Aow.Rtl.TDataModule
     {
+        public TTCFCDialog(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel DTitle;

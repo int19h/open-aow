@@ -61,6 +61,8 @@ namespace Aow.Units.AoWTargetSelection
     // { TTargetSelectionDlg (instance size 132, VMT 004445D8) }
     public partial class TTargetSelectionDlg : Aow.Rtl.TDataModule
     {
+        public TTargetSelectionDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame CeltFrame;

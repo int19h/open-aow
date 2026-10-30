@@ -19,7 +19,7 @@ namespace Aow.Units.AoWPartyJoin
             Name = "PartyJoinDlg";
             LayoutOnCreate = Layout_PartyJoinDlgCreate_0;
             LayoutOnDestroy = Layout_PartyJoinDlgDestroy_1;
-            UnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitPnl);
             UnitPnl.Name = "UnitPnl";
             UnitPnl.Priority = 1;
@@ -456,7 +456,7 @@ namespace Aow.Units.AoWPartyJoin
             LeftBtn.WinWidth = 120;
             LeftBtn.OnClick = Layout_LeftBtnClick_5;
             session.EndRead(LeftBtn);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -555,7 +555,7 @@ namespace Aow.Units.AoWPartyJoin
             UnitLine2.ILIndexLine = 55;
             UnitLine2.ILIndexTexture = 0;
             session.EndRead(UnitLine2);
-            JoinMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            JoinMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(JoinMemo);
             JoinMemo.Name = "JoinMemo";
             JoinMemo.Priority = 0;

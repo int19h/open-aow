@@ -65,6 +65,8 @@ namespace Aow.Units.AoWVideoDlg
     // { TVideoDialog: size $A4; $90 full screen, $91 change flag, $9C/$A0 display size. VMT 0040ADD4. }
     public partial class TVideoDialog : Aow.Rtl.TDataModule
     {
+        public TVideoDialog(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWButton.TAOWButton CloseBut;

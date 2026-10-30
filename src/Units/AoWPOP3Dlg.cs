@@ -65,6 +65,8 @@ namespace Aow.Units.AoWPOP3Dlg
     // { TPOP3Dlg (instance size 168, VMT 00429ECC) }
     public partial class TPOP3Dlg : Aow.Rtl.TDataModule
     {
+        public TPOP3Dlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;

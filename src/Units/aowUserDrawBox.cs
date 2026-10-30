@@ -35,6 +35,8 @@ namespace Aow.Units.aowUserDrawBox
     // { aowUserDrawBox.TaowUserDrawBox (instance size 276): no fields of its own }
     public partial class TaowUserDrawBox : Aow.Units.AoWControl.TAOWControl
     {
+        public TaowUserDrawBox(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         // aowUserDrawBox.pas:34
         // { TaowUserDrawBox }
         public override void Validate()

@@ -87,9 +87,8 @@ namespace Aow.Units.AoWHTMLMemo
         public int FTextHeight;
         // AoWHTMLMemo.pas:93
         // { TaowHTMLMemo }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TaowHTMLMemo(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FLines = call__1;
             var call__2 = new Aow.Rtl.TStringList();
@@ -1161,23 +1160,6 @@ namespace Aow.Units.AoWHTMLMemo
 
         [Published]
         public int MaskColor { get => FMaskColor; set => FMaskColor = value; }
-
-        // AoWHTMLMemo.pas:60
-        public static new Aow.Units.AoWHTMLMemo.TaowHTMLMemo Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWHTMLMemo.TaowHTMLMemo o = new Aow.Units.AoWHTMLMemo.TaowHTMLMemo();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWHTMLMemo

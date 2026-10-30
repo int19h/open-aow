@@ -19,7 +19,7 @@ namespace Aow.Units.AoWProdScreen
             Name = "ProductionScreen";
             LayoutOnCreate = Layout_ProductionScreenCreate_0;
             LayoutOnDestroy = Layout_ProductionScreenDestroy_1;
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -64,7 +64,7 @@ namespace Aow.Units.AoWProdScreen
             Dlg.WinHeight = 432;
             Dlg.Dockable = false;
             session.EndRead(Dlg);
-            UnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitPnl);
             UnitPnl.Name = "UnitPnl";
             UnitPnl.Priority = 2000;
@@ -91,7 +91,7 @@ namespace Aow.Units.AoWProdScreen
             UnitPnl.MinWidth = 0;
             UnitPnl.MinHeight = 0;
             session.EndRead(UnitPnl);
-            UAbilitiesLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            UAbilitiesLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(UAbilitiesLB);
             UAbilitiesLB.Name = "UAbilitiesLB";
             UAbilitiesLB.OnMouseDown = UAbilitiesLBMouseDown;
@@ -435,7 +435,7 @@ namespace Aow.Units.AoWProdScreen
             UHits.Text = "50/50";
             UHits.TextColor = 9415072;
             session.EndRead(UHits);
-            UStatPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UStatPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UStatPnl);
             UStatPnl.Name = "UStatPnl";
             UStatPnl.Priority = 20;
@@ -462,7 +462,7 @@ namespace Aow.Units.AoWProdScreen
             UStatPnl.MinWidth = 0;
             UStatPnl.MinHeight = 0;
             session.EndRead(UStatPnl);
-            UStatP1 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UStatP1 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UStatP1);
             UStatP1.Name = "UStatP1";
             UStatP1.Priority = 1000;
@@ -489,7 +489,7 @@ namespace Aow.Units.AoWProdScreen
             UStatP1.MinWidth = 0;
             UStatP1.MinHeight = 0;
             session.EndRead(UStatP1);
-            UStatP2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UStatP2 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UStatP2);
             UStatP2.Name = "UStatP2";
             UStatP2.Priority = 1000;
@@ -562,7 +562,7 @@ namespace Aow.Units.AoWProdScreen
             ULevel.Text = "#####";
             ULevel.TextColor = 9415072;
             session.EndRead(ULevel);
-            UPicturePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UPicturePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UPicturePnl);
             UPicturePnl.Name = "UPicturePnl";
             UPicturePnl.Priority = 20;
@@ -589,7 +589,7 @@ namespace Aow.Units.AoWProdScreen
             UPicturePnl.MinWidth = 0;
             UPicturePnl.MinHeight = 0;
             session.EndRead(UPicturePnl);
-            UCostPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UCostPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UCostPnl);
             UCostPnl.Name = "UCostPnl";
             UCostPnl.Priority = 20;
@@ -1006,7 +1006,7 @@ namespace Aow.Units.AoWProdScreen
             T2SBar.ILIndexBack = 93;
             T2SBar.ILIndexTab = 90;
             session.EndRead(T2SBar);
-            AbilPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            AbilPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(AbilPnl);
             AbilPnl.Name = "AbilPnl";
             AbilPnl.Priority = 10000;
@@ -1033,7 +1033,7 @@ namespace Aow.Units.AoWProdScreen
             AbilPnl.MinWidth = 0;
             AbilPnl.MinHeight = 0;
             session.EndRead(AbilPnl);
-            UpgradePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpgradePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpgradePnl);
             UpgradePnl.Name = "UpgradePnl";
             UpgradePnl.Visible = false;
@@ -1084,7 +1084,7 @@ namespace Aow.Units.AoWProdScreen
             UpgradeLbl.Text = "######";
             UpgradeLbl.TextColor = 9415072;
             session.EndRead(UpgradeLbl);
-            UpgradeMemoFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpgradeMemoFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpgradeMemoFr);
             UpgradeMemoFr.Name = "UpgradeMemoFr";
             UpgradeMemoFr.Priority = 20;
@@ -1111,7 +1111,7 @@ namespace Aow.Units.AoWProdScreen
             UpgradeMemoFr.MinWidth = 0;
             UpgradeMemoFr.MinHeight = 0;
             session.EndRead(UpgradeMemoFr);
-            UpgradeMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            UpgradeMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(UpgradeMemo);
             UpgradeMemo.Name = "UpgradeMemo";
             UpgradeMemo.Priority = 0;
@@ -1145,7 +1145,7 @@ namespace Aow.Units.AoWProdScreen
             UpgradeMemo.ColorChangeChar = (byte)0;
             UpgradeMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(UpgradeMemo);
-            RightPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RightPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RightPnl);
             RightPnl.Name = "RightPnl";
             RightPnl.Priority = 30000;
@@ -1172,7 +1172,7 @@ namespace Aow.Units.AoWProdScreen
             RightPnl.MinWidth = 0;
             RightPnl.MinHeight = 0;
             session.EndRead(RightPnl);
-            QueuePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            QueuePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(QueuePnl);
             QueuePnl.Name = "QueuePnl";
             QueuePnl.Priority = 5000;
@@ -1345,7 +1345,7 @@ namespace Aow.Units.AoWProdScreen
             MainBtn1.WinWidth = 153;
             MainBtn1.OnClick = MainBtn1Click;
             session.EndRead(MainBtn1);
-            QueueLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            QueueLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(QueueLB);
             QueueLB.Name = "QueueLB";
             QueueLB.Priority = 1000;
@@ -1383,7 +1383,7 @@ namespace Aow.Units.AoWProdScreen
             QueueLB.ItemHeight = 11;
             QueueLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(QueueLB);
-            ActivityPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ActivityPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ActivityPnl);
             ActivityPnl.Name = "ActivityPnl";
             ActivityPnl.Priority = 50000;
@@ -1410,7 +1410,7 @@ namespace Aow.Units.AoWProdScreen
             ActivityPnl.MinWidth = 0;
             ActivityPnl.MinHeight = 0;
             session.EndRead(ActivityPnl);
-            InfoPnl2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            InfoPnl2 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(InfoPnl2);
             InfoPnl2.Name = "InfoPnl2";
             InfoPnl2.Priority = 5000;
@@ -1511,7 +1511,7 @@ namespace Aow.Units.AoWProdScreen
             SepBar.Animate = false;
             SepBar.AnimFrameDelay = 0;
             session.EndRead(SepBar);
-            ActivityPnl2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ActivityPnl2 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ActivityPnl2);
             ActivityPnl2.Name = "ActivityPnl2";
             ActivityPnl2.Visible = false;
@@ -1539,7 +1539,7 @@ namespace Aow.Units.AoWProdScreen
             ActivityPnl2.MinWidth = 0;
             ActivityPnl2.MinHeight = 0;
             session.EndRead(ActivityPnl2);
-            ActiveActionTurnsBar = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            ActiveActionTurnsBar = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(ActiveActionTurnsBar);
             ActiveActionTurnsBar.Name = "ActiveActionTurnsBar";
             ActiveActionTurnsBar.Priority = 0;
@@ -1600,7 +1600,7 @@ namespace Aow.Units.AoWProdScreen
             MainBtn2.WinWidth = 153;
             MainBtn2.OnClick = Layout_MainBtn2Click_4;
             session.EndRead(MainBtn2);
-            InfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            InfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(InfoPnl);
             InfoPnl.Name = "InfoPnl";
             InfoPnl.Visible = false;
@@ -1628,7 +1628,7 @@ namespace Aow.Units.AoWProdScreen
             InfoPnl.MinWidth = 0;
             InfoPnl.MinHeight = 0;
             session.EndRead(InfoPnl);
-            IPPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            IPPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(IPPnl);
             IPPnl.Name = "IPPnl";
             IPPnl.Priority = 3000;
@@ -1682,7 +1682,7 @@ namespace Aow.Units.AoWProdScreen
             IPPicFr.ILIndexLine = 0;
             IPPicFr.ILIndexTexture = 67;
             session.EndRead(IPPicFr);
-            PlaceInfoMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            PlaceInfoMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(PlaceInfoMemo);
             PlaceInfoMemo.Name = "PlaceInfoMemo";
             PlaceInfoMemo.Priority = 0;
@@ -1716,7 +1716,7 @@ namespace Aow.Units.AoWProdScreen
             PlaceInfoMemo.ColorChangeChar = (byte)0;
             PlaceInfoMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(PlaceInfoMemo);
-            IIPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            IIPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(IIPnl);
             IIPnl.Name = "IIPnl";
             IIPnl.Priority = 3000;
@@ -1770,7 +1770,7 @@ namespace Aow.Units.AoWProdScreen
             IncomePicture.ILIndexLine = 0;
             IncomePicture.ILIndexTexture = 60;
             session.EndRead(IncomePicture);
-            IncomeMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            IncomeMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(IncomeMemo);
             IncomeMemo.Name = "IncomeMemo";
             IncomeMemo.Priority = 0;
@@ -1804,7 +1804,7 @@ namespace Aow.Units.AoWProdScreen
             IncomeMemo.ColorChangeChar = (byte)0;
             IncomeMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(IncomeMemo);
-            IncomeHdr = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            IncomeHdr = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(IncomeHdr);
             IncomeHdr.Name = "IncomeHdr";
             IncomeHdr.Priority = 0;
@@ -1838,7 +1838,7 @@ namespace Aow.Units.AoWProdScreen
             IncomeHdr.ColorChangeChar = (byte)0;
             IncomeHdr.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(IncomeHdr);
-            CurrentInfo = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CurrentInfo = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CurrentInfo);
             CurrentInfo.Name = "CurrentInfo";
             CurrentInfo.Priority = 3000;
@@ -1919,7 +1919,7 @@ namespace Aow.Units.AoWProdScreen
             LPillar.ILIndexLine = 61;
             LPillar.ILIndexTexture = 0;
             session.EndRead(LPillar);
-            QueueInfo = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            QueueInfo = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(QueueInfo);
             QueueInfo.Name = "QueueInfo";
             QueueInfo.Priority = 3000;
@@ -2024,7 +2024,7 @@ namespace Aow.Units.AoWProdScreen
             RepeatLbl.Text = "Repeat";
             RepeatLbl.TextColor = 6783862;
             session.EndRead(RepeatLbl);
-            ActiveActionPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ActiveActionPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ActiveActionPnl);
             ActiveActionPnl.Name = "ActiveActionPnl";
             ActiveActionPnl.Priority = 3000;
@@ -2135,7 +2135,7 @@ namespace Aow.Units.AoWProdScreen
             BlackBg2.Animate = false;
             BlackBg2.AnimFrameDelay = 0;
             session.EndRead(BlackBg2);
-            UPictureFramePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UPictureFramePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UPictureFramePnl);
             UPictureFramePnl.Name = "UPictureFramePnl";
             UPictureFramePnl.Priority = 20;
@@ -2162,7 +2162,7 @@ namespace Aow.Units.AoWProdScreen
             UPictureFramePnl.MinWidth = 0;
             UPictureFramePnl.MinHeight = 0;
             session.EndRead(UPictureFramePnl);
-            UStatFr1 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UStatFr1 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UStatFr1);
             UStatFr1.Name = "UStatFr1";
             UStatFr1.Priority = 20;
@@ -2189,7 +2189,7 @@ namespace Aow.Units.AoWProdScreen
             UStatFr1.MinWidth = 0;
             UStatFr1.MinHeight = 0;
             session.EndRead(UStatFr1);
-            UStatFr2 = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UStatFr2 = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UStatFr2);
             UStatFr2.Name = "UStatFr2";
             UStatFr2.Priority = 20;
@@ -2216,7 +2216,7 @@ namespace Aow.Units.AoWProdScreen
             UStatFr2.MinWidth = 0;
             UStatFr2.MinHeight = 0;
             session.EndRead(UStatFr2);
-            UInfoFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UInfoFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UInfoFr);
             UInfoFr.Name = "UInfoFr";
             UInfoFr.Priority = 20;
@@ -2243,7 +2243,7 @@ namespace Aow.Units.AoWProdScreen
             UInfoFr.MinWidth = 0;
             UInfoFr.MinHeight = 0;
             session.EndRead(UInfoFr);
-            CostFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            CostFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(CostFr);
             CostFr.Name = "CostFr";
             CostFr.Priority = 20;
@@ -2270,7 +2270,7 @@ namespace Aow.Units.AoWProdScreen
             CostFr.MinWidth = 0;
             CostFr.MinHeight = 0;
             session.EndRead(CostFr);
-            TurnsFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TurnsFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TurnsFr);
             TurnsFr.Name = "TurnsFr";
             TurnsFr.Priority = 20;
@@ -2297,7 +2297,7 @@ namespace Aow.Units.AoWProdScreen
             TurnsFr.MinWidth = 0;
             TurnsFr.MinHeight = 0;
             session.EndRead(TurnsFr);
-            UpgPicPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpgPicPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpgPicPnl);
             UpgPicPnl.Name = "UpgPicPnl";
             UpgPicPnl.Priority = 20;
@@ -2352,7 +2352,7 @@ namespace Aow.Units.AoWProdScreen
             UpgradePic.Animate = false;
             UpgradePic.AnimFrameDelay = 0;
             session.EndRead(UpgradePic);
-            UpgPicFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpgPicFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpgPicFr);
             UpgPicFr.Name = "UpgPicFr";
             UpgPicFr.Priority = 20;
@@ -2379,7 +2379,7 @@ namespace Aow.Units.AoWProdScreen
             UpgPicFr.MinWidth = 0;
             UpgPicFr.MinHeight = 0;
             session.EndRead(UpgPicFr);
-            UpgCostPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpgCostPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpgCostPnl);
             UpgCostPnl.Name = "UpgCostPnl";
             UpgCostPnl.Priority = 20;
@@ -2498,7 +2498,7 @@ namespace Aow.Units.AoWProdScreen
             UpgradeTurns.Text = "###";
             UpgradeTurns.TextColor = 9415072;
             session.EndRead(UpgradeTurns);
-            UpgCostFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpgCostFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpgCostFr);
             UpgCostFr.Name = "UpgCostFr";
             UpgCostFr.Priority = 20;
@@ -2525,7 +2525,7 @@ namespace Aow.Units.AoWProdScreen
             UpgCostFr.MinWidth = 0;
             UpgCostFr.MinHeight = 0;
             session.EndRead(UpgCostFr);
-            UpgTurnsFr = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpgTurnsFr = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpgTurnsFr);
             UpgTurnsFr.Name = "UpgTurnsFr";
             UpgTurnsFr.Priority = 20;
@@ -2696,7 +2696,7 @@ namespace Aow.Units.AoWProdScreen
             IIVSB.ILIndexBack = 93;
             IIVSB.ILIndexTab = 90;
             session.EndRead(IIVSB);
-            IncomeValuesMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            IncomeValuesMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(IncomeValuesMemo);
             IncomeValuesMemo.Name = "IncomeValuesMemo";
             IncomeValuesMemo.Priority = 0;

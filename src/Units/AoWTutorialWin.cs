@@ -53,6 +53,8 @@ namespace Aow.Units.AoWTutorialWin
     // { TTutorialWindow (instance size $68, VMT 0044E1C0): $5C done callback, $64 retained event. }
     public partial class TTutorialWindow : Aow.Rtl.TDataModule
     {
+        public TTutorialWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWMemo.TAOWMemo MessageMemo;

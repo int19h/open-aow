@@ -164,7 +164,7 @@ namespace Aow.Units.AoWUnitSelDlg
             CancelBtn.WinWidth = 128;
             CancelBtn.OnClick = Layout_CloseClick_1;
             session.EndRead(CancelBtn);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -208,7 +208,7 @@ namespace Aow.Units.AoWUnitSelDlg
             Dlg.WinHeight = 236;
             Dlg.Dockable = false;
             session.EndRead(Dlg);
-            UnitPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UnitPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UnitPnl);
             UnitPnl.Name = "UnitPnl";
             UnitPnl.Priority = 1;
@@ -235,7 +235,7 @@ namespace Aow.Units.AoWUnitSelDlg
             UnitPnl.MinWidth = 0;
             UnitPnl.MinHeight = 0;
             session.EndRead(UnitPnl);
-            SourcePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SourcePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SourcePnl);
             SourcePnl.Name = "SourcePnl";
             SourcePnl.Priority = 1;
@@ -668,7 +668,7 @@ namespace Aow.Units.AoWUnitSelDlg
             AoWFrame1.ILIndexLine = 55;
             AoWFrame1.ILIndexTexture = 0;
             session.EndRead(AoWFrame1);
-            SelectionInfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SelectionInfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SelectionInfoPnl);
             SelectionInfoPnl.Name = "SelectionInfoPnl";
             SelectionInfoPnl.Priority = 1;

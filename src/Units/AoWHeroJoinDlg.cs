@@ -68,6 +68,8 @@ namespace Aow.Units.AoWHeroJoinDlg
 //     (instance size 172, VMT 004382E8) }
     public partial class THeroJoinDlg : Aow.Rtl.TDataModule
     {
+        public THeroJoinDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
         // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame U1;

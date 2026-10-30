@@ -82,6 +82,8 @@ namespace Aow.Units.AoWProdScreen
 //     $1F0 queue, $1F4 mode, $1F8 preview, $1FC images. VMT 0043E654. }
     public partial class TProductionScreen : Aow.Rtl.TDataModule
     {
+        public TProductionScreen(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;

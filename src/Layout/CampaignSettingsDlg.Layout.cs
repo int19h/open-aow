@@ -26,7 +26,7 @@ namespace Aow.Units.AoWCampaignSettings
             created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
             created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
             session.EndRead(created__Translator);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -236,7 +236,7 @@ namespace Aow.Units.AoWCampaignSettings
             DifficultyLevelLbl.Text = "Difficulty Level:";
             DifficultyLevelLbl.TextColor = 16777215;
             session.EndRead(DifficultyLevelLbl);
-            DifficultyLevelCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            DifficultyLevelCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(DifficultyLevelCB);
             DifficultyLevelCB.Name = "DifficultyLevelCB";
             DifficultyLevelCB.Tag = 8;
@@ -333,7 +333,7 @@ namespace Aow.Units.AoWCampaignSettings
             TurnModeLbl.Text = "Turn Mode:";
             TurnModeLbl.TextColor = 16777215;
             session.EndRead(TurnModeLbl);
-            TurnModeCB = Aow.Units.AoWComboBox.TAOWComboBox.Create(this);
+            TurnModeCB = new Aow.Units.AoWComboBox.TAOWComboBox(this);
             session.BeginRead(TurnModeCB);
             TurnModeCB.Name = "TurnModeCB";
             TurnModeCB.Tag = 8;

@@ -127,9 +127,8 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:116
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TScanner(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FSteps = 1;
             FTLeft = -1;
             FTTop = -1;
@@ -1204,23 +1203,6 @@ namespace Aow.Units.Scanner
 
         [Published]
         public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
-
-        // Scanner.pas:53
-        public static new Aow.Units.Scanner.TScanner Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.Scanner.TScanner o = new Aow.Units.Scanner.TScanner();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public enum TOType : byte

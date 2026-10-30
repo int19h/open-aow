@@ -91,6 +91,8 @@ namespace Aow.Units.AoWRealm
     // { TRealmWin (instance size 412, VMT 004484F0) }
     public partial class TRealmWin : Aow.Rtl.TDataModule
     {
+        public TRealmWin(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel OWTitle;

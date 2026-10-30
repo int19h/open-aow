@@ -73,6 +73,8 @@ namespace Aow.Units.AoWGamePlayDlg
     // { TGamePlayDlg (size $134, VMT 0042200C): $130 pending password. }
     public partial class TGamePlayDlg : Aow.Rtl.TDataModule
     {
+        public TGamePlayDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow GamePlayDlg;
         // { +0044 }
         public Aow.Units.AoWButton.TAOWButton CancelBtn;

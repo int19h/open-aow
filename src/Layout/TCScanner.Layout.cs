@@ -17,7 +17,7 @@ namespace Aow.Units.AoWTCScanner
         {
             session.Begin(this);
             Name = "TCScanner";
-            TCScannerWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            TCScannerWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(TCScannerWin);
             TCScannerWin.Name = "TCScannerWin";
             TCScannerWin.Visible = false;
@@ -89,7 +89,7 @@ namespace Aow.Units.AoWTCScanner
             ScannerFr.ILIndexLine = 0;
             ScannerFr.ILIndexTexture = 0;
             session.EndRead(ScannerFr);
-            Scanner = Aow.Units.Scanner.TScanner.Create(this);
+            Scanner = new Aow.Units.Scanner.TScanner(this);
             session.BeginRead(Scanner);
             Scanner.Name = "Scanner";
             Scanner.Priority = 5;

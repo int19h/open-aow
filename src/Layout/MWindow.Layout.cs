@@ -18,7 +18,7 @@ namespace Aow.Units.AOWMWindow
             session.Begin(this);
             Name = "MWindow";
             LayoutOnCreate = Layout_MWindowCreate_0;
-            MapWindow = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            MapWindow = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(MapWindow);
             MapWindow.Name = "MapWindow";
             MapWindow.OnMouseDown = Layout_MapWindowMouseDown_1;
@@ -69,7 +69,7 @@ namespace Aow.Units.AOWMWindow
             MapWindow.WinHeight = 432;
             MapWindow.Dockable = false;
             session.EndRead(MapWindow);
-            MapViewer = Aow.Units.HSEngine.THSMapViewer.Create(this);
+            MapViewer = new Aow.Units.HSEngine.THSMapViewer(this);
             session.BeginRead(MapViewer);
             MapViewer.Name = "MapViewer";
             MapViewer.OnSceneChanged = Layout_MapViewerSceneChanged_7;

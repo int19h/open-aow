@@ -44,9 +44,8 @@ namespace Aow.Units.AoWTabPanel
         public Aow.Rtl.TList FPanels;
         // AoWTabPanel.pas:62
         // { TAOWTabPanel }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWTabPanel(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;
             FItems.OnChange = OnChangeText;
@@ -353,23 +352,6 @@ namespace Aow.Units.AoWTabPanel
 
         [Published]
         public int BorderHeightSelected { get => FBorderHeightSelected; set => FBorderHeightSelected = value; }
-
-        // AoWTabPanel.pas:27
-        public static new Aow.Units.AoWTabPanel.TAOWTabPanel Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AoWTabPanel.TAOWTabPanel o = new Aow.Units.AoWTabPanel.TAOWTabPanel();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AoWTabPanel

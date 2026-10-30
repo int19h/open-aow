@@ -18,7 +18,7 @@ namespace Aow.Units.AoWWorldMap
             session.Begin(this);
             Name = "WorldMap";
             LayoutOnCreate = Layout_WorldMapCreate_0;
-            MemoL = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            MemoL = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(MemoL);
             MemoL.Name = "MemoL";
             MemoL.Priority = 500;
@@ -80,7 +80,7 @@ namespace Aow.Units.AoWWorldMap
             PicR.Animate = false;
             PicR.AnimFrameDelay = 0;
             session.EndRead(PicR);
-            WorldPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            WorldPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(WorldPnl);
             WorldPnl.Name = "WorldPnl";
             WorldPnl.OnMouseMove = Layout_WorldPnlMouseMove_1;
@@ -445,7 +445,7 @@ namespace Aow.Units.AoWWorldMap
             LabelL.Masked = true;
             LabelL.TextColor = 0;
             session.EndRead(LabelL);
-            MemoR = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            MemoR = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(MemoR);
             MemoR.Name = "MemoR";
             MemoR.Priority = 500;
@@ -529,7 +529,7 @@ namespace Aow.Units.AoWWorldMap
             PicL.Animate = false;
             PicL.AnimFrameDelay = 0;
             session.EndRead(PicL);
-            BookWin = Aow.Units.AoWBookWindow.TAoWBookWindow.Create(this);
+            BookWin = new Aow.Units.AoWBookWindow.TAoWBookWindow(this);
             session.BeginRead(BookWin);
             BookWin.Name = "BookWin";
             BookWin.OnUpdate = Layout_BookWinUpdate_14;
@@ -576,7 +576,7 @@ namespace Aow.Units.AoWWorldMap
             BookWin.Dockable = false;
             BookWin.OnAnimDone = Layout_BookWinAnimDone_17;
             session.EndRead(BookWin);
-            InfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            InfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(InfoPnl);
             InfoPnl.Name = "InfoPnl";
             InfoPnl.Visible = false;
@@ -1341,7 +1341,7 @@ namespace Aow.Units.AoWWorldMap
             AlliesLnl.Text = "-Allies-";
             AlliesLnl.TextColor = 14211288;
             session.EndRead(AlliesLnl);
-            Frame = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            Frame = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(Frame);
             Frame.Name = "Frame";
             Frame.Priority = 0;

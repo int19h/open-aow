@@ -17,7 +17,7 @@ namespace Aow.Units.AOWDialogWin
         {
             session.Begin(this);
             Name = "DWin";
-            Dialog = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dialog = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dialog);
             Dialog.Name = "Dialog";
             Dialog.OnKeyDown = DialogKeyDown;
@@ -136,7 +136,7 @@ namespace Aow.Units.AOWDialogWin
             DButton.WinWidth = 140;
             DButton.OnClick = DButtonClick;
             session.EndRead(DButton);
-            DebugWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            DebugWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(DebugWin);
             DebugWin.Name = "DebugWin";
             DebugWin.Visible = false;
@@ -278,7 +278,7 @@ namespace Aow.Units.AOWDialogWin
             DebugDfrTitle.Text = "Framerate:";
             DebugDfrTitle.TextColor = 16777215;
             session.EndRead(DebugDfrTitle);
-            DebugMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            DebugMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(DebugMemo);
             DebugMemo.Name = "DebugMemo";
             DebugMemo.Priority = 0;
@@ -348,7 +348,7 @@ namespace Aow.Units.AOWDialogWin
             DMemoScroll.ILIndexBack = 7;
             DMemoScroll.ILIndexTab = 4;
             session.EndRead(DMemoScroll);
-            okPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            okPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(okPnl);
             okPnl.Name = "okPnl";
             okPnl.Visible = false;
@@ -376,7 +376,7 @@ namespace Aow.Units.AOWDialogWin
             okPnl.MinWidth = 0;
             okPnl.MinHeight = 0;
             session.EndRead(okPnl);
-            yesPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            yesPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(yesPnl);
             yesPnl.Name = "yesPnl";
             yesPnl.Priority = 100;

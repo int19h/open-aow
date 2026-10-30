@@ -45,6 +45,8 @@ namespace Aow.Units.AoWButton
 //     VMT (new): SetILButton, SetILIcon, SetILUIndex, SetILDIndex, SetILHIndex }
     public partial class TAOWBaseButton : Aow.Units.AoWControl.TAOWControl
     {
+        public TAOWBaseButton(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public int FBorderHeightSelected;
         public Aow.Units.AoWComp.TButtonType FButtonType;
         public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILButton;
@@ -325,6 +327,8 @@ namespace Aow.Units.AoWButton
     // { AoWButton.TAOWButton (instance size 320). Fields: +$138 FOnClick }
     public partial class TAOWButton : Aow.Units.AoWButton.TAOWBaseButton
     {
+        public TAOWButton(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Rtl.TNotifyEvent FOnClick;
         // AoWButton.pas:239
         // { TAOWButton }

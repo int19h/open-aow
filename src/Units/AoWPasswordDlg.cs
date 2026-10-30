@@ -59,6 +59,8 @@ namespace Aow.Units.AoWPasswordDlg
     // { TPasswordDlg (instance size 124, VMT 0044DEA4) }
     public partial class TPasswordDlg : Aow.Rtl.TDataModule
     {
+        public TPasswordDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
         public Aow.Units.AoWLabel.TAOWLabel TitleLbl;

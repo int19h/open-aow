@@ -70,9 +70,8 @@ namespace Aow.Units.AOWMenu
         public Aow.Rtl.TRect FDrawItemRect;
         // AOWMenu.pas:102
         // { TAOWMenu }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWMenu(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;
             FItems.OnChange = OnChangeText;
@@ -1122,23 +1121,6 @@ namespace Aow.Units.AOWMenu
 
         [Published]
         public Aow.Rtl.TNotifyEvent OnSelect { get => FOnSelect; set => FOnSelect = value; }
-
-        // AOWMenu.pas:50
-        public static new Aow.Units.AOWMenu.TAOWMenu Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AOWMenu.TAOWMenu o = new Aow.Units.AOWMenu.TAOWMenu();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AOWMenu

@@ -48,9 +48,8 @@ namespace Aow.Units.AOWMenuBar
         public bool F130;
         // AOWMenuBar.pas:65
         // { TAOWMenuBar }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWMenuBar(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;
             FItems.OnChange = OnChangeText;
@@ -392,23 +391,6 @@ namespace Aow.Units.AOWMenuBar
 
         [Published]
         public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
-
-        // AOWMenuBar.pas:29
-        public static new Aow.Units.AOWMenuBar.TAOWMenuBar Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AOWMenuBar.TAOWMenuBar o = new Aow.Units.AOWMenuBar.TAOWMenuBar();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AOWMenuBar

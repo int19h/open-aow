@@ -77,6 +77,8 @@ namespace Aow.Units.AoWTCUnit
     // { TTCUnit (instance size $154, VMT 00433494); components $44..$150. }
     public partial class TTCUnit : Aow.Rtl.TDataModule
     {
+        public TTCUnit(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow TCUnitWin;
         // { +0044 }
         public Aow.Units.AoWImage.TAOWImage SIcon;

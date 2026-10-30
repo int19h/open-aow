@@ -6045,9 +6045,8 @@ namespace Aow.Units.HSEngine
         internal Aow.Units.HSEngine.THSMap FHSMap;
         // HSEngine.pas:4670
         // { THSMapViewer }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public THSMapViewer(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FStaticSurfaceValid = false;
             FOnSceneChanged = null;
         }
@@ -6386,23 +6385,6 @@ namespace Aow.Units.HSEngine
 
         [Published]
         public Aow.Rtl.TNotifyEvent OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
-
-        // HSEngine.pas:668
-        public static Aow.Units.HSEngine.THSMapViewer Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.HSEngine.THSMapViewer o = new Aow.Units.HSEngine.THSMapViewer();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { HSEngine.TMORTerrainControl (instance size 24): +8 FHSEngine, +$C FTries, +$10 FResources,
@@ -6927,9 +6909,8 @@ namespace Aow.Units.HSEngine
         internal Aow.Units.HSEngine.THSEngine FHSEngine;
         // HSEngine.pas:5381
         // { THexagonSpriteEngine }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        private protected THexagonSpriteEngine(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             CreateEngine();
             if (FHSEngine != null)
             {
@@ -6980,21 +6961,8 @@ namespace Aow.Units.HSEngine
         public Aow.Rtl.AnsiString HSSetSearchPath { get => GetHSSetSearchPath(); set => SetHSSetSearchPath(value); }
 
         // HSEngine.pas:839
-        public static Aow.Units.HSEngine.THexagonSpriteEngine Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.HSEngine.THexagonSpriteEngine o = new Aow.Units.HSEngine.THexagonSpriteEngine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public static THexagonSpriteEngine Create(Aow.Rtl.TComponent AOwner) =>
+            ConstructionContext.Create(AOwner, static (context, owner) => new THexagonSpriteEngine(context, owner));
     }
 
     // { HSEngine.TSingleHS (instance size 12): a sprite on one hexagon. +8 FStatus: bit 1 visible,

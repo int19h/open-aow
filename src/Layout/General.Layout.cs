@@ -19,7 +19,7 @@ namespace Aow.Units.AoWWinMan
             Name = "General";
             LayoutOnCreate = Layout_GeneralCreate_0;
             LayoutOnDestroy = Layout_GeneralDestroy_1;
-            Manager = Aow.Units.AOWWinManager.TAOWWinManager.Create(this);
+            Manager = new Aow.Units.AOWWinManager.TAOWWinManager(this);
             session.BeginRead(Manager);
             Manager.Name = "Manager";
             Manager.OnKeyDown = ManagerKeyDown;
@@ -40,7 +40,7 @@ namespace Aow.Units.AoWWinMan
             Manager.BorderBottom = 48;
             Manager.DrawOverlay = true;
             session.EndRead(Manager);
-            ToolTip = Aow.Units.AOWToolTip.TAOWToolTip.Create(this);
+            ToolTip = new Aow.Units.AOWToolTip.TAOWToolTip(this);
             session.BeginRead(ToolTip);
             ToolTip.Name = "ToolTip";
             ToolTip.Visible = false;

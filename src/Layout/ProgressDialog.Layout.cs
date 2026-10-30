@@ -116,7 +116,7 @@ namespace Aow.Units.AoWProgressDialog
             StatusLbl.Masked = false;
             StatusLbl.TextColor = 16777215;
             session.EndRead(StatusLbl);
-            ProgDlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            ProgDlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(ProgDlg);
             ProgDlg.Name = "ProgDlg";
             ProgDlg.Visible = false;
@@ -159,7 +159,7 @@ namespace Aow.Units.AoWProgressDialog
             ProgDlg.WinHeight = 150;
             ProgDlg.Dockable = false;
             session.EndRead(ProgDlg);
-            Bar = Aow.Units.AOWGauge.TAoWGauge.Create(this);
+            Bar = new Aow.Units.AOWGauge.TAoWGauge(this);
             session.BeginRead(Bar);
             Bar.Name = "Bar";
             Bar.Priority = 0;

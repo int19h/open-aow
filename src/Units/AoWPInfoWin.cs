@@ -69,6 +69,8 @@ namespace Aow.Units.AoWPInfoWin
     // { TPInfoW (instance size 160, VMT 00422EC8) }
     public partial class TPInfoW : Aow.Rtl.TDataModule
     {
+        public TPInfoW(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWWindow.TAOWWindow PInfoWin;
         // { +0044 }
         public Aow.Units.AoWButton.TAOWButton Min;

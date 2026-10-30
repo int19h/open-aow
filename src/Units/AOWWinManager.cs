@@ -48,9 +48,8 @@ namespace Aow.Units.AOWWinManager
         public bool FDrawOverlay;
         // AOWWinManager.pas:81
         // { TAOWWinManager }
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TAOWWinManager(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FWinHeight = 480;
             FWinWidth = 640;
             FOldCursor = -2;
@@ -861,23 +860,6 @@ namespace Aow.Units.AOWWinManager
 
         [Published]
         public bool DrawOverlay { get => FDrawOverlay; set => FDrawOverlay = value; }
-
-        // AOWWinManager.pas:39
-        public static new Aow.Units.AOWWinManager.TAOWWinManager Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AOWWinManager.TAOWWinManager o = new Aow.Units.AOWWinManager.TAOWWinManager();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AOWWinManager

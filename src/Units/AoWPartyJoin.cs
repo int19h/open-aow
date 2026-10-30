@@ -68,6 +68,8 @@ namespace Aow.Units.AoWPartyJoin
 //     (instance size 188, VMT 00437734) }
     public partial class TPartyJoinDlg : Aow.Rtl.TDataModule
     {
+        public TPartyJoinDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
         // { +0044 }
         public Aow.Units.AoWFrame.TAoWFrame U1;

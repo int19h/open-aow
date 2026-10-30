@@ -19,7 +19,7 @@ namespace Aow.Units.AoWVideoDlg
             Name = "VideoDialog";
             LayoutOnCreate = Layout_VideoDlgWindowCreate_0;
             LayoutOnDestroy = Layout_VideoDlgWindowDestroy_1;
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -341,7 +341,7 @@ namespace Aow.Units.AoWVideoDlg
             TCeltLL.Animate = false;
             TCeltLL.AnimFrameDelay = 0;
             session.EndRead(TCeltLL);
-            DisplayModesLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            DisplayModesLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(DisplayModesLB);
             DisplayModesLB.Name = "DisplayModesLB";
             DisplayModesLB.Priority = 1000;
@@ -469,7 +469,7 @@ namespace Aow.Units.AoWVideoDlg
             ApplyBtn.WinWidth = 136;
             ApplyBtn.OnClick = Layout_ApplyBtnClick_4;
             session.EndRead(ApplyBtn);
-            T3LBPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            T3LBPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(T3LBPnl);
             T3LBPnl.Name = "T3LBPnl";
             T3LBPnl.Priority = 0;

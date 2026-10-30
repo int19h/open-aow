@@ -17,7 +17,7 @@ namespace Aow.Units.AoWEmailSettingsDlg
         {
             session.Begin(this);
             Name = "EmailSettingsDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -222,7 +222,7 @@ namespace Aow.Units.AoWEmailSettingsDlg
             AOWImage2.Animate = false;
             AOWImage2.AnimFrameDelay = 0;
             session.EndRead(AOWImage2);
-            OKCancelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            OKCancelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(OKCancelPnl);
             OKCancelPnl.Name = "OKCancelPnl";
             OKCancelPnl.Priority = 100;
@@ -334,7 +334,7 @@ namespace Aow.Units.AoWEmailSettingsDlg
             LocalEmailAddressLbl.Text = "Local email address:";
             LocalEmailAddressLbl.TextColor = 16777215;
             session.EndRead(LocalEmailAddressLbl);
-            LocalEmailAddressEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            LocalEmailAddressEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(LocalEmailAddressEdit);
             LocalEmailAddressEdit.Name = "LocalEmailAddressEdit";
             LocalEmailAddressEdit.Priority = 0;
@@ -388,7 +388,7 @@ namespace Aow.Units.AoWEmailSettingsDlg
             SMTPServerLbl.Text = "SMTP Server:";
             SMTPServerLbl.TextColor = 16777215;
             session.EndRead(SMTPServerLbl);
-            SMTPServerEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            SMTPServerEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(SMTPServerEdit);
             SMTPServerEdit.Name = "SMTPServerEdit";
             SMTPServerEdit.Priority = 0;
@@ -442,7 +442,7 @@ namespace Aow.Units.AoWEmailSettingsDlg
             AttachmentDirectoryLbl.Text = "Attachment Directory:";
             AttachmentDirectoryLbl.TextColor = 16777215;
             session.EndRead(AttachmentDirectoryLbl);
-            AttachmentDirectoryEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            AttachmentDirectoryEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(AttachmentDirectoryEdit);
             AttachmentDirectoryEdit.Name = "AttachmentDirectoryEdit";
             AttachmentDirectoryEdit.Priority = 0;

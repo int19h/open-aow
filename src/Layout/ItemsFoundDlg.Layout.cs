@@ -17,7 +17,7 @@ namespace Aow.Units.AoWItemsFoundDlg
         {
             session.Begin(this);
             Name = "ItemsFoundDlg";
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -85,7 +85,7 @@ namespace Aow.Units.AoWItemsFoundDlg
             TitleLbl.Text = "########";
             TitleLbl.TextColor = 0;
             session.EndRead(TitleLbl);
-            PickupPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PickupPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PickupPnl);
             PickupPnl.Name = "PickupPnl";
             PickupPnl.Priority = 100;
@@ -343,7 +343,7 @@ namespace Aow.Units.AoWItemsFoundDlg
             CloseBtn2.WinWidth = 130;
             CloseBtn2.OnClick = Layout_CloseBtn2Click_2;
             session.EndRead(CloseBtn2);
-            OKPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            OKPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(OKPnl);
             OKPnl.Name = "OKPnl";
             OKPnl.Visible = false;
@@ -371,7 +371,7 @@ namespace Aow.Units.AoWItemsFoundDlg
             OKPnl.MinWidth = 0;
             OKPnl.MinHeight = 0;
             session.EndRead(OKPnl);
-            MessageMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            MessageMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(MessageMemo);
             MessageMemo.Name = "MessageMemo";
             MessageMemo.Priority = 0;
@@ -448,7 +448,7 @@ namespace Aow.Units.AoWItemsFoundDlg
             MessageMemoSB.ILIndexBack = 101;
             MessageMemoSB.ILIndexTab = 98;
             session.EndRead(MessageMemoSB);
-            MemoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MemoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MemoPnl);
             MemoPnl.Name = "MemoPnl";
             MemoPnl.Priority = 90;

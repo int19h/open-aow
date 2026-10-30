@@ -19,7 +19,7 @@ namespace Aow.Units.AoWRelations
             Name = "RelWindow";
             LayoutOnCreate = Layout_RelWindowCreate_0;
             LayoutOnDestroy = Layout_RelWindowDestroy_1;
-            RelWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            RelWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(RelWin);
             RelWin.Name = "RelWin";
             RelWin.OnKeyDown = RelWinKeyDown;
@@ -155,7 +155,7 @@ namespace Aow.Units.AoWRelations
             MExitBtn.WinWidth = 180;
             MExitBtn.OnClick = Layout_ExitClick_3;
             session.EndRead(MExitBtn);
-            RelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RelPnl);
             RelPnl.Name = "RelPnl";
             RelPnl.Priority = 0;
@@ -182,7 +182,7 @@ namespace Aow.Units.AoWRelations
             RelPnl.MinWidth = 0;
             RelPnl.MinHeight = 0;
             session.EndRead(RelPnl);
-            RIncomingPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RIncomingPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RIncomingPnl);
             RIncomingPnl.Name = "RIncomingPnl";
             RIncomingPnl.Visible = false;
@@ -1065,7 +1065,7 @@ namespace Aow.Units.AoWRelations
             FaceShadow.Animate = false;
             FaceShadow.AnimFrameDelay = 0;
             session.EndRead(FaceShadow);
-            MMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            MMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(MMemo);
             MMemo.Name = "MMemo";
             MMemo.Priority = 9999;
@@ -1158,7 +1158,7 @@ namespace Aow.Units.AoWRelations
             MIcon.Animate = false;
             MIcon.AnimFrameDelay = 0;
             session.EndRead(MIcon);
-            RMsgEditPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RMsgEditPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RMsgEditPnl);
             RMsgEditPnl.Name = "RMsgEditPnl";
             RMsgEditPnl.Visible = false;
@@ -1186,7 +1186,7 @@ namespace Aow.Units.AoWRelations
             RMsgEditPnl.MinWidth = 0;
             RMsgEditPnl.MinHeight = 0;
             session.EndRead(RMsgEditPnl);
-            RSBribePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RSBribePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RSBribePnl);
             RSBribePnl.Name = "RSBribePnl";
             RSBribePnl.Priority = 10;
@@ -1250,7 +1250,7 @@ namespace Aow.Units.AoWRelations
             SScroll.ILIndexBack = 101;
             SScroll.ILIndexTab = 98;
             session.EndRead(SScroll);
-            SMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            SMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(SMemo);
             SMemo.Name = "SMemo";
             SMemo.Priority = 0;
@@ -1330,7 +1330,7 @@ namespace Aow.Units.AoWRelations
             SBGoldSlid.ILIndexBack = 80;
             SBGoldSlid.ILIndexTab = 83;
             session.EndRead(SBGoldSlid);
-            ActionPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ActionPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ActionPnl);
             ActionPnl.Name = "ActionPnl";
             ActionPnl.Priority = 10;
@@ -1357,7 +1357,7 @@ namespace Aow.Units.AoWRelations
             ActionPnl.MinWidth = 0;
             ActionPnl.MinHeight = 0;
             session.EndRead(ActionPnl);
-            LInfoPlayerPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LInfoPlayerPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LInfoPlayerPnl);
             LInfoPlayerPnl.Name = "LInfoPlayerPnl";
             LInfoPlayerPnl.Priority = 0;
@@ -1384,7 +1384,7 @@ namespace Aow.Units.AoWRelations
             LInfoPlayerPnl.MinWidth = 0;
             LInfoPlayerPnl.MinHeight = 0;
             session.EndRead(LInfoPlayerPnl);
-            RNewActionPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RNewActionPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RNewActionPnl);
             RNewActionPnl.Name = "RNewActionPnl";
             RNewActionPnl.Visible = false;
@@ -1469,7 +1469,7 @@ namespace Aow.Units.AoWRelations
             APlayer.Masked = true;
             APlayer.TextColor = 2566452;
             session.EndRead(APlayer);
-            LInfoRacePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LInfoRacePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LInfoRacePnl);
             LInfoRacePnl.Name = "LInfoRacePnl";
             LInfoRacePnl.Visible = false;
@@ -2600,7 +2600,7 @@ namespace Aow.Units.AoWRelations
             ASelect.WinWidth = 91;
             ASelect.OnClick = Layout_ASelectClick_8;
             session.EndRead(ASelect);
-            ActionsLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            ActionsLB = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(ActionsLB);
             ActionsLB.Name = "ActionsLB";
             ActionsLB.Priority = 0;
@@ -2671,7 +2671,7 @@ namespace Aow.Units.AoWRelations
             ActionSB.ILIndexBack = 101;
             ActionSB.ILIndexTab = 98;
             session.EndRead(ActionSB);
-            LBActionsPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            LBActionsPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(LBActionsPnl);
             LBActionsPnl.Name = "LBActionsPnl";
             LBActionsPnl.Priority = 10;
@@ -2778,7 +2778,7 @@ namespace Aow.Units.AoWRelations
             PIRelLbl.Text = "Race Relation:";
             PIRelLbl.TextColor = 9415072;
             session.EndRead(PIRelLbl);
-            PIRelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PIRelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PIRelPnl);
             PIRelPnl.Name = "PIRelPnl";
             PIRelPnl.Visible = false;
@@ -2940,7 +2940,7 @@ namespace Aow.Units.AoWRelations
             PlStatLbl.Text = "Status:";
             PlStatLbl.TextColor = 9415072;
             session.EndRead(PlStatLbl);
-            PIStatPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PIStatPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PIStatPnl);
             PIStatPnl.Name = "PIStatPnl";
             PIStatPnl.Priority = 10;
@@ -2990,7 +2990,7 @@ namespace Aow.Units.AoWRelations
             PlStatV.Text = "####";
             PlStatV.TextColor = 9415072;
             session.EndRead(PlStatV);
-            PTypePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PTypePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PTypePnl);
             PTypePnl.Name = "PTypePnl";
             PTypePnl.Priority = 10;
@@ -3017,7 +3017,7 @@ namespace Aow.Units.AoWRelations
             PTypePnl.MinWidth = 0;
             PTypePnl.MinHeight = 0;
             session.EndRead(PTypePnl);
-            PIFrame = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            PIFrame = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(PIFrame);
             PIFrame.Name = "PIFrame";
             PIFrame.Priority = 10;
@@ -3044,7 +3044,7 @@ namespace Aow.Units.AoWRelations
             PIFrame.MinWidth = 0;
             PIFrame.MinHeight = 0;
             session.EndRead(PIFrame);
-            RIFrame = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RIFrame = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RIFrame);
             RIFrame.Name = "RIFrame";
             RIFrame.Priority = 10;
@@ -3071,7 +3071,7 @@ namespace Aow.Units.AoWRelations
             RIFrame.MinWidth = 0;
             RIFrame.MinHeight = 0;
             session.EndRead(RIFrame);
-            RIRelPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RIRelPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RIRelPnl);
             RIRelPnl.Name = "RIRelPnl";
             RIRelPnl.Priority = 10;
@@ -3098,7 +3098,7 @@ namespace Aow.Units.AoWRelations
             RIRelPnl.MinWidth = 0;
             RIRelPnl.MinHeight = 0;
             session.EndRead(RIRelPnl);
-            RAlignPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RAlignPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RAlignPnl);
             RAlignPnl.Name = "RAlignPnl";
             RAlignPnl.Priority = 10;
@@ -3262,7 +3262,7 @@ namespace Aow.Units.AoWRelations
             MBGoldIcn.Animate = false;
             MBGoldIcn.AnimFrameDelay = 0;
             session.EndRead(MBGoldIcn);
-            MBGoldPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MBGoldPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MBGoldPnl);
             MBGoldPnl.Name = "MBGoldPnl";
             MBGoldPnl.Priority = 10;
@@ -3289,7 +3289,7 @@ namespace Aow.Units.AoWRelations
             MBGoldPnl.MinWidth = 0;
             MBGoldPnl.MinHeight = 0;
             session.EndRead(MBGoldPnl);
-            MBManaPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            MBManaPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(MBManaPnl);
             MBManaPnl.Name = "MBManaPnl";
             MBManaPnl.Priority = 10;
@@ -3577,7 +3577,7 @@ namespace Aow.Units.AoWRelations
             SBGoldIcn.Animate = false;
             SBGoldIcn.AnimFrameDelay = 0;
             session.EndRead(SBGoldIcn);
-            SBGold = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SBGold = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SBGold);
             SBGold.Name = "SBGold";
             SBGold.Priority = 10;
@@ -3604,7 +3604,7 @@ namespace Aow.Units.AoWRelations
             SBGold.MinWidth = 0;
             SBGold.MinHeight = 0;
             session.EndRead(SBGold);
-            SBMana = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SBMana = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SBMana);
             SBMana.Name = "SBMana";
             SBMana.Priority = 10;
@@ -3932,7 +3932,7 @@ namespace Aow.Units.AoWRelations
             BribeHeaderLbl.Text = "Offer Peace";
             BribeHeaderLbl.TextColor = 0;
             session.EndRead(BribeHeaderLbl);
-            RMsgRecPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            RMsgRecPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(RMsgRecPnl);
             RMsgRecPnl.Name = "RMsgRecPnl";
             RMsgRecPnl.Visible = false;
@@ -3960,7 +3960,7 @@ namespace Aow.Units.AoWRelations
             RMsgRecPnl.MinWidth = 0;
             RMsgRecPnl.MinHeight = 0;
             session.EndRead(RMsgRecPnl);
-            RMMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            RMMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(RMMemo);
             RMMemo.Name = "RMMemo";
             RMMemo.Priority = 0;
@@ -4122,7 +4122,7 @@ namespace Aow.Units.AoWRelations
             RMExitBtn.WinWidth = 191;
             RMExitBtn.OnClick = Layout_ExitClick_3;
             session.EndRead(RMExitBtn);
-            IncommingInfoPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            IncommingInfoPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(IncommingInfoPnl);
             IncommingInfoPnl.Name = "IncommingInfoPnl";
             IncommingInfoPnl.Visible = false;
@@ -4253,7 +4253,7 @@ namespace Aow.Units.AoWRelations
             IRScroll.ILIndexBack = 47;
             IRScroll.ILIndexTab = 44;
             session.EndRead(IRScroll);
-            IIMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            IIMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(IIMemo);
             IIMemo.Name = "IIMemo";
             IIMemo.Priority = 9999;

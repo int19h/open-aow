@@ -34,7 +34,12 @@ public class TComponent : TPersistent
     private AnsiString name;
     // CLASSES.PAS TComponent.Create.
     public TComponent() { }
-    public TComponent(TComponent? owner) => Create__init(owner);
+    public TComponent(TComponent? owner) => InitializeComponentOwner(owner);
+    protected TComponent(ConstructionContext context, TComponent? owner)
+    {
+        context.Capture(this);
+        InitializeComponentOwner(owner);
+    }
     public virtual void Create__init(TComponent? owner) => InitializeComponentOwner(owner);
     protected void InitializeComponentOwner(TComponent? owner) => owner?.InsertComponent(this);
     public new Meta ClassType => (Meta)base.ClassType;

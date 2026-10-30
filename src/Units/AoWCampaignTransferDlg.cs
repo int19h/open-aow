@@ -65,6 +65,8 @@ namespace Aow.Units.AoWCampaignTransferDlg
 //     $1C0/$1C4 left selection kind/index; $1C8/$1CC right selection kind/index. }
     public partial class TCampaignTransferDlg : Aow.Rtl.TDataModule
     {
+        public TCampaignTransferDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWCheckBox.TAOWCheckBox LHero1;
         // { +0044 }
         public Aow.Units.AoWCheckBox.TAOWCheckBox LHero2;

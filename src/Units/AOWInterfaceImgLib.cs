@@ -20,6 +20,8 @@ namespace Aow.Units.AOWInterfaceImgLib
     // { AOWInterfaceImgLib.TInterfaceIL (instance size 80): no fields or virtual methods of its own }
     public partial class TInterfaceIL : Aow.Units.ImageLib.TImageLibrary
     {
+        private protected TInterfaceIL(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
+
         // AOWInterfaceImgLib.pas:34
         // { TInterfaceIL }
         // { CheckIL returns Self when the library holds the Count images from Index on, else nil after a
@@ -365,21 +367,8 @@ namespace Aow.Units.AOWInterfaceImgLib
         }
 
         // ImageLib.pas:111
-        public static new Aow.Units.AOWInterfaceImgLib.TInterfaceIL Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.AOWInterfaceImgLib.TInterfaceIL o = new Aow.Units.AOWInterfaceImgLib.TInterfaceIL();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public static new TInterfaceIL Create(Aow.Rtl.TComponent AOwner) =>
+            ConstructionContext.Create(AOwner, static (context, owner) => new TInterfaceIL(context, owner));
     }
 
     public static partial class AOWInterfaceImgLib

@@ -17,7 +17,7 @@ namespace Aow.Units.AOWChatWin
         {
             session.Begin(this);
             Name = "ChatWindow";
-            ChatWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            ChatWin = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(ChatWin);
             ChatWin.Name = "ChatWin";
             ChatWin.Visible = false;
@@ -64,7 +64,7 @@ namespace Aow.Units.AOWChatWin
             ChatWin.WinHeight = 160;
             ChatWin.Dockable = false;
             session.EndRead(ChatWin);
-            ChatMemo = Aow.Units.AoWMemo.TAOWMemo.Create(this);
+            ChatMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
             session.BeginRead(ChatMemo);
             ChatMemo.Name = "ChatMemo";
             ChatMemo.OnUpdate = Layout_ChatMemoUpdate_3;
@@ -99,7 +99,7 @@ namespace Aow.Units.AOWChatWin
             ChatMemo.ColorChangeChar = (byte)0;
             ChatMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
             session.EndRead(ChatMemo);
-            ChatEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            ChatEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(ChatEdit);
             ChatEdit.Name = "ChatEdit";
             ChatEdit.Priority = 0;
@@ -131,7 +131,7 @@ namespace Aow.Units.AOWChatWin
             ChatEdit.OnReturn = Layout_ChatEditReturn_4;
             ChatEdit.PassWordChar = (byte)0;
             session.EndRead(ChatEdit);
-            PlayerList = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            PlayerList = new Aow.Units.AoWListBox.TAOWListBox(this);
             session.BeginRead(PlayerList);
             PlayerList.Name = "PlayerList";
             PlayerList.Priority = 0;
@@ -250,7 +250,7 @@ namespace Aow.Units.AOWChatWin
             Min.WinWidth = 15;
             Min.OnClick = Layout_MinClick_6;
             session.EndRead(Min);
-            ChatPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ChatPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ChatPnl);
             ChatPnl.Name = "ChatPnl";
             ChatPnl.Priority = 0;

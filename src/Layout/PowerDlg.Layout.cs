@@ -191,7 +191,7 @@ namespace Aow.Units.AoWPowerDlg
             SetBtn.WinWidth = 120;
             SetBtn.OnClick = Layout_SetBtnClick_1;
             session.EndRead(SetBtn);
-            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.OnKeyDown = DlgKeyDown;
@@ -281,7 +281,7 @@ namespace Aow.Units.AoWPowerDlg
             NetMamaLbl.Text = "Net Mana Income";
             NetMamaLbl.TextColor = 9402970;
             session.EndRead(NetMamaLbl);
-            UpkeePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            UpkeePnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(UpkeePnl);
             UpkeePnl.Name = "UpkeePnl";
             UpkeePnl.Priority = 0;
@@ -354,7 +354,7 @@ namespace Aow.Units.AoWPowerDlg
             SpellName.Text = "Lightning Storm";
             SpellName.TextColor = 9402970;
             session.EndRead(SpellName);
-            ResearchPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ResearchPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ResearchPnl);
             ResearchPnl.Name = "ResearchPnl";
             ResearchPnl.Priority = 0;
@@ -381,7 +381,7 @@ namespace Aow.Units.AoWPowerDlg
             ResearchPnl.MinWidth = 0;
             ResearchPnl.MinHeight = 0;
             session.EndRead(ResearchPnl);
-            SliderPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            SliderPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(SliderPnl);
             SliderPnl.Name = "SliderPnl";
             SliderPnl.Priority = 0;
@@ -500,7 +500,7 @@ namespace Aow.Units.AoWPowerDlg
             Research.Text = "20";
             Research.TextColor = 16777215;
             session.EndRead(Research);
-            ManaPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ManaPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ManaPnl);
             ManaPnl.Name = "ManaPnl";
             ManaPnl.Priority = 1000;
@@ -527,7 +527,7 @@ namespace Aow.Units.AoWPowerDlg
             ManaPnl.MinWidth = 0;
             ManaPnl.MinHeight = 0;
             session.EndRead(ManaPnl);
-            ResPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            ResPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(ResPnl);
             ResPnl.Name = "ResPnl";
             ResPnl.Priority = 1000;

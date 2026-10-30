@@ -17,7 +17,7 @@ namespace Aow.Units.AoWTBWindow
         {
             session.Begin(this);
             Name = "TBWindow";
-            TaskWindow = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            TaskWindow = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(TaskWindow);
             TaskWindow.Name = "TaskWindow";
             TaskWindow.Visible = false;
@@ -94,7 +94,7 @@ namespace Aow.Units.AoWTBWindow
             TBNextButton.WinWidth = 26;
             TBNextButton.OnClick = Layout_TBNextButtonClick_0;
             session.EndRead(TBNextButton);
-            StartMenuBar = Aow.Units.AOWMenuBar.TAOWMenuBar.Create(this);
+            StartMenuBar = new Aow.Units.AOWMenuBar.TAOWMenuBar(this);
             session.BeginRead(StartMenuBar);
             StartMenuBar.Name = "StartMenuBar";
             StartMenuBar.Priority = 50;
@@ -132,7 +132,7 @@ namespace Aow.Units.AoWTBWindow
             StartMenuBar.ILIndexDown = 8;
             StartMenuBar.ILIndexUp = 11;
             session.EndRead(StartMenuBar);
-            TBMessEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            TBMessEdit = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(TBMessEdit);
             TBMessEdit.Name = "TBMessEdit";
             TBMessEdit.Priority = 5;
@@ -219,7 +219,7 @@ namespace Aow.Units.AoWTBWindow
             WGTLbl.Masked = true;
             WGTLbl.TextColor = 0;
             session.EndRead(WGTLbl);
-            TurnButton = Aow.Units.TurnButton.TAOWTurnButton.Create(this);
+            TurnButton = new Aow.Units.TurnButton.TAOWTurnButton(this);
             session.BeginRead(TurnButton);
             TurnButton.Name = "TurnButton";
             TurnButton.Priority = 5;
@@ -499,7 +499,7 @@ namespace Aow.Units.AoWTBWindow
             ChatBtn.WinWidth = 70;
             ChatBtn.OnClick = Layout_ChatBtnClick_9;
             session.EndRead(ChatBtn);
-            TaskPanel = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TaskPanel = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TaskPanel);
             TaskPanel.Name = "TaskPanel";
             TaskPanel.Priority = 5;
@@ -526,7 +526,7 @@ namespace Aow.Units.AoWTBWindow
             TaskPanel.MinWidth = 0;
             TaskPanel.MinHeight = 0;
             session.EndRead(TaskPanel);
-            WGIPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            WGIPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(WGIPnl);
             WGIPnl.Name = "WGIPnl";
             WGIPnl.Priority = 10;
@@ -723,7 +723,7 @@ namespace Aow.Units.AoWTBWindow
             CurP.Animate = false;
             CurP.AnimFrameDelay = 0;
             session.EndRead(CurP);
-            TBWorld = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TBWorld = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TBWorld);
             TBWorld.Name = "TBWorld";
             TBWorld.OnUpdate = TBWorldUpdate;
@@ -785,7 +785,7 @@ namespace Aow.Units.AoWTBWindow
             TCNextBtn.WinWidth = 26;
             TCNextBtn.OnClick = Layout_TCNextBtnClick_11;
             session.EndRead(TCNextBtn);
-            TCStartBar = Aow.Units.AOWMenuBar.TAOWMenuBar.Create(this);
+            TCStartBar = new Aow.Units.AOWMenuBar.TAOWMenuBar(this);
             session.BeginRead(TCStartBar);
             TCStartBar.Name = "TCStartBar";
             TCStartBar.Priority = 50;
@@ -823,7 +823,7 @@ namespace Aow.Units.AoWTBWindow
             TCStartBar.ILIndexDown = 8;
             TCStartBar.ILIndexUp = 11;
             session.EndRead(TCStartBar);
-            TCMsg = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            TCMsg = new Aow.Units.AoWEdit.TAOWEdit(this);
             session.BeginRead(TCMsg);
             TCMsg.Name = "TCMsg";
             TCMsg.Priority = 5;
@@ -859,7 +859,7 @@ namespace Aow.Units.AoWTBWindow
             TCMsg.ILIndex = 5;
             TCMsg.PassWordChar = (byte)0;
             session.EndRead(TCMsg);
-            TCTurnButton = Aow.Units.TurnButton.TAOWTurnButton.Create(this);
+            TCTurnButton = new Aow.Units.TurnButton.TAOWTurnButton(this);
             session.BeginRead(TCTurnButton);
             TCTurnButton.Name = "TCTurnButton";
             TCTurnButton.Priority = 5;
@@ -1131,7 +1131,7 @@ namespace Aow.Units.AoWTBWindow
             TCCurP.Animate = false;
             TCCurP.AnimFrameDelay = 0;
             session.EndRead(TCCurP);
-            TBCombat = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TBCombat = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TBCombat);
             TBCombat.Name = "TBCombat";
             TBCombat.OnUpdate = TBCombatUpdate;
@@ -1160,7 +1160,7 @@ namespace Aow.Units.AoWTBWindow
             TBCombat.MinWidth = 0;
             TBCombat.MinHeight = 0;
             session.EndRead(TBCombat);
-            TCPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TCPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TCPnl);
             TCPnl.Name = "TCPnl";
             TCPnl.Priority = 5;
@@ -1224,7 +1224,7 @@ namespace Aow.Units.AoWTBWindow
             TCChatBtn.WinWidth = 70;
             TCChatBtn.OnClick = Layout_ChatBtnClick_9;
             session.EndRead(TCChatBtn);
-            WGoldPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            WGoldPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(WGoldPnl);
             WGoldPnl.Name = "WGoldPnl";
             WGoldPnl.Priority = 100;
@@ -1325,7 +1325,7 @@ namespace Aow.Units.AoWTBWindow
             WMTLbl.Masked = true;
             WMTLbl.TextColor = 0;
             session.EndRead(WMTLbl);
-            WMIPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            WMIPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(WMIPnl);
             WMIPnl.Name = "WMIPnl";
             WMIPnl.Priority = 10;
@@ -1352,7 +1352,7 @@ namespace Aow.Units.AoWTBWindow
             WMIPnl.MinWidth = 0;
             WMIPnl.MinHeight = 0;
             session.EndRead(WMIPnl);
-            WManaPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            WManaPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(WManaPnl);
             WManaPnl.Name = "WManaPnl";
             WManaPnl.Priority = 100;
@@ -1485,7 +1485,7 @@ namespace Aow.Units.AoWTBWindow
             TGIcn.Animate = false;
             TGIcn.AnimFrameDelay = 0;
             session.EndRead(TGIcn);
-            TGIPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TGIPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TGIPnl);
             TGIPnl.Name = "TGIPnl";
             TGIPnl.Priority = 10;
@@ -1512,7 +1512,7 @@ namespace Aow.Units.AoWTBWindow
             TGIPnl.MinWidth = 0;
             TGIPnl.MinHeight = 0;
             session.EndRead(TGIPnl);
-            TGoldPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TGoldPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TGoldPnl);
             TGoldPnl.Name = "TGoldPnl";
             TGoldPnl.Priority = 100;
@@ -1645,7 +1645,7 @@ namespace Aow.Units.AoWTBWindow
             TWMIcn.Animate = false;
             TWMIcn.AnimFrameDelay = 0;
             session.EndRead(TWMIcn);
-            TMIPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TMIPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TMIPnl);
             TMIPnl.Name = "TMIPnl";
             TMIPnl.Priority = 10;
@@ -1672,7 +1672,7 @@ namespace Aow.Units.AoWTBWindow
             TMIPnl.MinWidth = 0;
             TMIPnl.MinHeight = 0;
             session.EndRead(TMIPnl);
-            TManaPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            TManaPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
             session.BeginRead(TManaPnl);
             TManaPnl.Name = "TManaPnl";
             TManaPnl.Priority = 100;

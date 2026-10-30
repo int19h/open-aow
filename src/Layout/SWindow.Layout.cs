@@ -17,7 +17,7 @@ namespace Aow.Units.AoWSWindow
         {
             session.Begin(this);
             Name = "SWindow";
-            ScannerWindow = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            ScannerWindow = new Aow.Units.AoWWindow.TAOWWindow(this);
             session.BeginRead(ScannerWindow);
             ScannerWindow.Name = "ScannerWindow";
             ScannerWindow.Visible = false;
@@ -89,7 +89,7 @@ namespace Aow.Units.AoWSWindow
             ScannerFrame.ILIndexLine = 0;
             ScannerFrame.ILIndexTexture = 0;
             session.EndRead(ScannerFrame);
-            ScannerTab = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            ScannerTab = new Aow.Units.AoWTabPanel.TAOWTabPanel(this);
             session.BeginRead(ScannerTab);
             ScannerTab.Name = "ScannerTab";
             ScannerTab.OnMouseDown = ScannerTabMouseDown;
@@ -232,7 +232,7 @@ namespace Aow.Units.AoWSWindow
             NaturalCheck.OnChange = Layout_NaturalCheckChange_4;
             NaturalCheck.RadioIndex = 0;
             session.EndRead(NaturalCheck);
-            Scanner = Aow.Units.Scanner.TScanner.Create(this);
+            Scanner = new Aow.Units.Scanner.TScanner(this);
             session.BeginRead(Scanner);
             Scanner.Name = "Scanner";
             Scanner.Priority = 5;
