@@ -20,6 +20,11 @@ namespace Aow.Units.Terrain
 //     persisted as ids $12 and $11 }
     public partial class TTerrainMOR : Aow.Units.HSEngine.TMultiHexMOR
     {
+        public TTerrainMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FDecorationType = unchecked((sbyte)-1);
+        }
+
         // Terrain.pas:327
         public new const int ClassID = 131431;
 
@@ -41,11 +46,7 @@ namespace Aow.Units.Terrain
 
         // Terrain.pas:299
         // { TTerrainMOR }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FDecorationType = unchecked((sbyte)-1);
-        }
+
 
         // Terrain.pas:322
         public override int ResourceUserClassID()
@@ -59,21 +60,7 @@ namespace Aow.Units.Terrain
         public byte TerrainType { get => FTerrainType; set => FTerrainType = value; }
 
         // Terrain.pas:42
-        public static new Aow.Units.Terrain.TTerrainMOR Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Terrain.TTerrainMOR o = new Aow.Units.Terrain.TTerrainMOR();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMultiHexMOR.Meta
         {
@@ -99,15 +86,19 @@ namespace Aow.Units.Terrain
     // { Terrain.TTerrainMO (instance size 20) }
     public partial class TTerrainMO : Aow.Units.HSEngine.TMultiHexMO
     {
+        public TTerrainMO(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
+        // Raw allocation for SearchTerrain in MovementChecks.
+        protected TTerrainMO() { }
+
         // Terrain.pas:65
         public new const int ClassID = 131430;
 
         // Terrain.pas:60
         // { TTerrainMO }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // Terrain.pas:179
         public override bool CanChangeTerrain(in Aow.Units.HSEngine.THSSenderInfo Info)
@@ -394,21 +385,7 @@ namespace Aow.Units.Terrain
         }
 
         // Terrain.pas:19
-        public static new Aow.Units.Terrain.TTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Terrain.TTerrainMO o = new Aow.Units.Terrain.TTerrainMO();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {

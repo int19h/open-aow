@@ -39,6 +39,9 @@ namespace Aow.Units.Shipyard
     // { TShipyard (instance size 76, no added fields, VMT 557C715C) }
     public partial class TShipyard : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TShipyard(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Shipyard.pas:49
         public new const int ClassID = 132286;
 
@@ -71,18 +74,19 @@ namespace Aow.Units.Shipyard
     // { TShipyardResource (instance size 120, no added fields, VMT 557C740C) }
     public partial class TShipyardResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        // Shipyard.pas:72
-        public new const int ClassID = 132287;
-
-        // Shipyard.pas:60
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TShipyardResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = false;
             FRazeDefenderBudget = 150;
             FRebuildGold = 25;
             FRebuildDays = 2;
         }
+
+        // Shipyard.pas:72
+        public new const int ClassID = 132287;
+
+        // Shipyard.pas:60
+
 
         // Shipyard.pas:75
         public override int ResourceUserClassID()
@@ -93,21 +97,7 @@ namespace Aow.Units.Shipyard
         }
 
         // Shipyard.pas:29
-        public static new Aow.Units.Shipyard.TShipyardResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Shipyard.TShipyardResource o = new Aow.Units.Shipyard.TShipyardResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {

@@ -43,6 +43,9 @@ namespace Aow.Units.WorkShop
     // { TWorkshop (instance size 40, VMT 004334E0) }
     public partial class TWorkshop : Aow.Units.CombatStructure.TCombatStructure
     {
+        public TWorkshop(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // WorkShop.pas:36
         public new const int ClassID = 2229512;
 
@@ -61,6 +64,9 @@ namespace Aow.Units.WorkShop
     // { TWorkshopResource (instance size 72, VMT 0043368C) }
     public partial class TWorkshopResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
+        public TWorkshopResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // WorkShop.pas:39
         public new const int ClassID = 2229513;
 

@@ -42,6 +42,13 @@ namespace Aow.Units.PowerNode
     // { TPowerNode: size $44; $3C FState, $40 FPowerSource. }
     public partial class TPowerNode : Aow.Units.AoWE.TPlayerStructure
     {
+        public TPowerNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1 = new Aow.Units.AoWE.TPlayerStructurePowerSource(null);
+            FPowerSource = call__1;
+            FPowerSource.Setup(this);
+        }
+
         // PowerNode.pas:64
         public new const int ClassID = 131482;
 
@@ -63,13 +70,7 @@ namespace Aow.Units.PowerNode
         }
 
         // PowerNode.pas:51
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1 = new Aow.Units.AoWE.TPlayerStructurePowerSource(null);
-            FPowerSource = call__1;
-            FPowerSource.Setup(this);
-        }
+
 
         // PowerNode.pas:131
         public override void Activate()
@@ -248,21 +249,7 @@ namespace Aow.Units.PowerNode
         }
 
         // PowerNode.pas:25
-        public static new Aow.Units.PowerNode.TPowerNode Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PowerNode.TPowerNode o = new Aow.Units.PowerNode.TPowerNode();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
@@ -280,13 +267,8 @@ namespace Aow.Units.PowerNode
     // { TPowerNodeResource (instance size 116, VMT 557D027C) }
     public partial class TPowerNodeResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        // PowerNode.pas:166
-        public new const int ClassID = 131483;
-
-        // PowerNode.pas:152
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TPowerNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = false;
             FClaimed = false;
             FRazeDefenderBudget = 200;
@@ -294,6 +276,12 @@ namespace Aow.Units.PowerNode
             FRebuildGold = 50;
             FRebuildDays = 2;
         }
+
+        // PowerNode.pas:166
+        public new const int ClassID = 131483;
+
+        // PowerNode.pas:152
+
 
         // PowerNode.pas:169
         public override int ResourceUserClassID()
@@ -304,21 +292,7 @@ namespace Aow.Units.PowerNode
         }
 
         // PowerNode.pas:41
-        public static new Aow.Units.PowerNode.TPowerNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PowerNode.TPowerNodeResource o = new Aow.Units.PowerNode.TPowerNodeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {

@@ -23,6 +23,9 @@ namespace Aow.Units.Hexagon
 //     +$13 FTransitionSides (bits 0..2: the sides with a transition, bits 3..5: the shifted variants) }
     public partial class THexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
+        public THexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public new const int ClassID = 131410;
 
         protected internal Aow.Units.FixedArray_byte_3 FTransitions;
@@ -92,17 +95,18 @@ namespace Aow.Units.Hexagon
     // { Hexagon.THexagonResource (instance size 56): +$34 FTransitionLibrary (HexTrans.ILB) }
     public partial class THexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
+        public THexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            SetLevel(0);
+        }
+
         // Hexagon.pas:89
         public new const int ClassID = 131411;
 
         protected internal Aow.Units.ImageLib.TCustomImageLibrary FTransitionLibrary;
         // Hexagon.pas:83
         // { THexagonResource }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            SetLevel(0);
-        }
+
 
         // Hexagon.pas:99
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -223,21 +227,7 @@ namespace Aow.Units.Hexagon
         }
 
         // Hexagon.pas:32
-        public static new Aow.Units.Hexagon.THexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Hexagon.THexagonResource o = new Aow.Units.Hexagon.THexagonResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {

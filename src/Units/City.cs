@@ -682,6 +682,9 @@ namespace Aow.Units.City
 //     $10 FModeStartFrame, $14 FMode, $15 FShellAnimation, $18 FShellEndFrame. }
     public partial class TCityOverlayHS : Aow.Units.HSEngine.TSingleHS
     {
+        public TCityOverlayHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.City.TCity FCity;
         // { $0C }
         public int FModeStartFrame;
@@ -850,21 +853,7 @@ namespace Aow.Units.City
         }
 
         // Engine.pas:524
-        public static new Aow.Units.City.TCityOverlayHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCityOverlayHS o = new Aow.Units.City.TCityOverlayHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMigrationItem (instance size 20, VMT 557A7084): $08 FRace, $0C FTime, $10 FRelation. }
@@ -1017,6 +1006,29 @@ namespace Aow.Units.City
 //     $68 FWallBackImage, $6C FWallFrontImage, $70 FCityImage, $74 FDefendersMode. }
     public partial class TCity : Aow.Units.Crops.TPlayerCropStructure
     {
+        private protected TCity(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            var call__197 = new Aow.Units.City.TCityProductionControl(null);
+            FProduction = call__197;
+            FProduction.FCity = this;
+            FDefendersMode = Aow.Units.City.TDefendersGenerateMode.dgAverage;
+            FRace = unchecked((sbyte)-1);
+            var call__198 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NonameRStr);
+            FName = call__198;
+            FUpgradeLevel = 1;
+            var call__199 = new Aow.Units.City.TCityOverlayHS(null);
+            FOverlay = call__199;
+            FOverlay.FCity = this;
+            var call__200 = new Aow.Units.AoWE.TGlobalEnchantmentList(null);
+            FEnchantmentList = call__200;
+            FEnchantmentsVisible = false;
+        }
+
+        public static new TCity Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TCity(context, owner));
+        }
+
         // City.pas:849
         public new const int ClassID = 131336;
 
@@ -1087,24 +1099,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:824
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__197 = new Aow.Units.City.TCityProductionControl(null);
-            FProduction = call__197;
-            FProduction.FCity = this;
-            FDefendersMode = Aow.Units.City.TDefendersGenerateMode.dgAverage;
-            FRace = unchecked((sbyte)-1);
-            var call__198 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NonameRStr);
-            FName = call__198;
-            FUpgradeLevel = 1;
-            var call__199 = Aow.Units.City.TCityOverlayHS.Create(null);
-            FOverlay = call__199;
-            FOverlay.FCity = this;
-            var call__200 = new Aow.Units.AoWE.TGlobalEnchantmentList(null);
-            FEnchantmentList = call__200;
-            FEnchantmentsVisible = false;
-        }
+
 
         // City.pas:2191
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -2726,7 +2721,7 @@ namespace Aow.Units.City
                         var call__378 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(call__377, call__375, call__373, unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
                         if (call__378)
                         {
-                            Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                             var call__379 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(47);
                             var call__380 = call__379.FImageSequences.ImageSequences[0];
                             Animation.SetImageSequence(call__380);
@@ -4678,21 +4673,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:138
-        public static new Aow.Units.City.TCity Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCity o = new Aow.Units.City.TCity();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructure.Meta
         {
@@ -4710,6 +4691,11 @@ namespace Aow.Units.City
     // { TCityResource (instance size 124, VMT 557A76AC): $78 FSize. }
     public partial class TCityResource : Aow.Units.Crops.TPlayerCropStructureResource
     {
+        public TCityResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FRazeable = true;
+        }
+
         // City.pas:2628
         public new const int ClassID = 131337;
 
@@ -4717,11 +4703,7 @@ namespace Aow.Units.City
         // { $78 }
         public Aow.Units.FixedArray_byte_3 F_CityResource_79;
         // City.pas:2622
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FRazeable = true;
-        }
+
 
         // City.pas:2669
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -4797,21 +4779,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:262
-        public static new Aow.Units.City.TCityResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCityResource o = new Aow.Units.City.TCityResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructureResource.Meta
         {

@@ -39,6 +39,9 @@ namespace Aow.Units.Crypt
     // { TCrypt (instance size 64, no added fields, VMT 557C64D0) }
     public partial class TCrypt : Aow.Units.ItemExpS.TItemExplorationSite
     {
+        public TCrypt(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Crypt.pas:34
         public new const int ClassID = 131850;
 
@@ -57,6 +60,9 @@ namespace Aow.Units.Crypt
     // { TCryptResource (instance size 104, no added fields, VMT 557C6740) }
     public partial class TCryptResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
+        public TCryptResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Crypt.pas:40
         public new const int ClassID = 131851;
 

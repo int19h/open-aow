@@ -39,6 +39,13 @@ namespace Aow.Units.WizardsTower
     // { TWizardsTower: size $38, VMT 557D5508; $30 generate, $31 spheres, $33 level, $34 spell ID. }
     public partial class TWizardsTower : Aow.Units.AoWE.TStructure
     {
+        public TWizardsTower(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FGenerateSpell = true;
+            FMagicSpheres = Aow.Units.WizardsTower.WizardsTower.AllMagicSpheres;
+            FSpellLevel = 2;
+        }
+
         // WizardsTower.pas:84
         public new const int ClassID = 133278;
 
@@ -61,13 +68,7 @@ namespace Aow.Units.WizardsTower
         }
 
         // WizardsTower.pas:76
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FGenerateSpell = true;
-            FMagicSpheres = Aow.Units.WizardsTower.WizardsTower.AllMagicSpheres;
-            FSpellLevel = 2;
-        }
+
 
         // WizardsTower.pas:196
         public override Aow.Units.NetworkE.TExecuteResult ExecuteTE(Aow.Units.AoWE.TStructureTE A1, Aow.Units.NetworkE.TTokenExecuter Executer)
@@ -417,21 +418,7 @@ namespace Aow.Units.WizardsTower
         }
 
         // WizardsTower.pas:24
-        public static new Aow.Units.WizardsTower.TWizardsTower Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.WizardsTower.TWizardsTower o = new Aow.Units.WizardsTower.TWizardsTower();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
@@ -449,6 +436,9 @@ namespace Aow.Units.WizardsTower
     // { TWizardsTowerResource: size $64, VMT 557D5774; no additional fields. }
     public partial class TWizardsTowerResource : Aow.Units.AoWE.TStructureResource
     {
+        public TWizardsTowerResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // WizardsTower.pas:263
         public new const int ClassID = 133279;
 

@@ -49,6 +49,9 @@ namespace Aow.Units.CombatHex
     // { TCombatHexagon (instance size 20, VMT 0040340C) }
     public partial class TCombatHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
+        public TCombatHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public new const int ClassID = 2229504;
 
         public byte FImageVariant;
@@ -314,6 +317,9 @@ namespace Aow.Units.CombatHex
     // { TCombatHexagonResource (instance size 56, VMT 004035A8) }
     public partial class TCombatHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
+        public TCombatHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public new const int ClassID = 2229505;
 
         public Aow.Units.ImageLib.TCustomImageLibrary FTransitionLibrary;
@@ -411,6 +417,9 @@ namespace Aow.Units.CombatHex
     // { TWaterCombatHexagon (instance size 32, VMT 004036A8) }
     public partial class TWaterCombatHexagon : Aow.Units.AoWHex.TAoWWaterHexagon
     {
+        public TWaterCombatHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatHex.pas:219
         public new const int ClassID = 2229655;
 
@@ -437,6 +446,9 @@ namespace Aow.Units.CombatHex
     // { TWaterCombatHexagonResource (instance size 56, VMT 00403854) }
     public partial class TWaterCombatHexagonResource : Aow.Units.AoWHex.TAoWWaterHexagonResource
     {
+        public TWaterCombatHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatHex.pas:222
         public new const int ClassID = 2229656;
 

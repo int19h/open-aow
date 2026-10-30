@@ -45,6 +45,9 @@ namespace Aow.Units.CombatILTer
     // { TCombatILTerrainShadow (instance size 12, VMT 004041E4) }
     public partial class TCombatILTerrainShadow : Aow.Units.HSEngine.THexagonSprite
     {
+        public TCombatILTerrainShadow(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.CombatILTer.TCombatILTerrain FTerrain;
         // CombatILTer.pas:82
         // { $08 }
@@ -63,26 +66,15 @@ namespace Aow.Units.CombatILTer
         }
 
         // Engine.pas:524
-        public static new Aow.Units.CombatILTer.TCombatILTerrainShadow Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatILTer.TCombatILTerrainShadow o = new Aow.Units.CombatILTer.TCombatILTerrainShadow();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCombatILTerrain (instance size 32, VMT 00404378) }
     public partial class TCombatILTerrain : Aow.Units.ILTer.TILTerrainMO
     {
+        public TCombatILTerrain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatILTer.pas:105
         public new const int ClassID = 2228534;
 
@@ -212,7 +204,7 @@ namespace Aow.Units.CombatILTer
 
                 if ((Aow.Units.AoWE.AoWE.AoWHSMap == null) || Aow.Units.AoWE.AoWE.AoWHSMap.FShowUnitShadows)
                 {
-                    var call__5 = Aow.Units.CombatILTer.TCombatILTerrainShadow.Create(null);
+                    var call__5 = new Aow.Units.CombatILTer.TCombatILTerrainShadow(null);
                     FShadow = call__5;
                     FShadow.FTerrain = this;
                 }
@@ -234,6 +226,9 @@ namespace Aow.Units.CombatILTer
     // { TCombatILTerrainResource (instance size 72, VMT 00404538) }
     public partial class TCombatILTerrainResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TCombatILTerrainResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatILTer.pas:175
         public new const int ClassID = 2228535;
 
@@ -281,6 +276,9 @@ namespace Aow.Units.CombatILTer
     // { TCombatFixedILTerrain (instance size 32, VMT 00404644) }
     public partial class TCombatFixedILTerrain : Aow.Units.CombatILTer.TCombatILTerrain
     {
+        public TCombatFixedILTerrain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatILTer.pas:191
         public new const int ClassID = 2228536;
 
@@ -369,6 +367,9 @@ namespace Aow.Units.CombatILTer
     // { TCombatFixedILTerrainResource (instance size 72, VMT 0040480C) }
     public partial class TCombatFixedILTerrainResource : Aow.Units.CombatILTer.TCombatILTerrainResource
     {
+        public TCombatFixedILTerrainResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatILTer.pas:227
         public new const int ClassID = 2228537;
 

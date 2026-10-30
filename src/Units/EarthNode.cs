@@ -39,6 +39,9 @@ namespace Aow.Units.EarthNode
     // { TEarthNode (instance size 76, VMT 557BFAE0) }
     public partial class TEarthNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TEarthNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // EarthNode.pas:36
         public new const int ClassID = 132302;
 
@@ -65,17 +68,18 @@ namespace Aow.Units.EarthNode
     // { TEarthNodeResource (instance size 120, VMT 557BFD94) }
     public partial class TEarthNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        // EarthNode.pas:53
-        public new const int ClassID = 132303;
-
-        // EarthNode.pas:42
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TEarthNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FRazeDefenderBudget = 200;
             FRebuildGold = 35;
             FRebuildDays = 2;
         }
+
+        // EarthNode.pas:53
+        public new const int ClassID = 132303;
+
+        // EarthNode.pas:42
+
 
         // EarthNode.pas:56
         public override int ResourceUserClassID()
@@ -86,21 +90,7 @@ namespace Aow.Units.EarthNode
         }
 
         // EarthNode.pas:26
-        public static new Aow.Units.EarthNode.TEarthNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.EarthNode.TEarthNodeResource o = new Aow.Units.EarthNode.TEarthNodeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {

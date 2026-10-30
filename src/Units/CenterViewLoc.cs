@@ -45,6 +45,9 @@ namespace Aow.Units.CenterViewLoc
     // { TCenterViewLocation (instance size 16, VMT 004356E0) }
     public partial class TCenterViewLocation : Aow.Units.HSEngine.TMapObject
     {
+        public TCenterViewLocation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CenterViewLoc.pas:46
         public new const int ClassID = 2233640;
 
@@ -132,15 +135,16 @@ namespace Aow.Units.CenterViewLoc
     // { TCenterViewLocationResource (instance size 52, VMT 00435884) }
     public partial class TCenterViewLocationResource : Aow.Units.HSEngine.TMapObjectResource
     {
+        public TCenterViewLocationResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            SetLevel(27);
+        }
+
         // CenterViewLoc.pas:91
         public new const int ClassID = 2233641;
 
         // CenterViewLoc.pas:85
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            SetLevel(27);
-        }
+
 
         // CenterViewLoc.pas:102
         public override int ResourceUserClassID()
@@ -157,21 +161,7 @@ namespace Aow.Units.CenterViewLoc
         }
 
         // CenterViewLoc.pas:34
-        public static new Aow.Units.CenterViewLoc.TCenterViewLocationResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CenterViewLoc.TCenterViewLocationResource o = new Aow.Units.CenterViewLoc.TCenterViewLocationResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {

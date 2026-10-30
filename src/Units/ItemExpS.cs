@@ -56,6 +56,13 @@ namespace Aow.Units.ItemExpS
     // { TItemExplorationSite (instance size 64, VMT 557C23BC): $38 FItemCount, $3C FItems. }
     public partial class TItemExplorationSite : Aow.Units.ExploreS.TExplorationSite
     {
+        public TItemExplorationSite(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1 = new Aow.Units.ItemExpS.TExplorationSiteItemList(null);
+            FItems = call__1;
+            FItemCount = 2;
+        }
+
         // ItemExpS.pas:102
         public new const int ClassID = 132083;
 
@@ -81,13 +88,7 @@ namespace Aow.Units.ItemExpS
         }
 
         // ItemExpS.pas:88
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1 = new Aow.Units.ItemExpS.TExplorationSiteItemList(null);
-            FItems = call__1;
-            FItemCount = 2;
-        }
+
 
         // ItemExpS.pas:114
         public override void Activate()
@@ -211,21 +212,7 @@ namespace Aow.Units.ItemExpS
         }
 
         // ItemExpS.pas:32
-        public static new Aow.Units.ItemExpS.TItemExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ItemExpS.TItemExplorationSite o = new Aow.Units.ItemExpS.TItemExplorationSite();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ExploreS.TExplorationSite.Meta
         {
@@ -316,6 +303,9 @@ namespace Aow.Units.ItemExpS
     // { TItemExplorationSiteResource (instance size 104, VMT 557C276C) }
     public partial class TItemExplorationSiteResource : Aow.Units.ExploreS.TExplorationSiteResource
     {
+        public TItemExplorationSiteResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // ItemExpS.pas:212
         public new const int ClassID = 132084;
 

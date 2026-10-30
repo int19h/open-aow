@@ -146,7 +146,7 @@ public partial class TArmyCombatMoveTE
 
                 if (bool__6647)
                 {
-                    Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__6652 = Aow.Units.AoWE.AoWE.AoWHSSet.FImageSequences.ImageSequences[22];
                     Anim.SetImageSequence(call__6652);
                     var call__6653 = FPath[0];

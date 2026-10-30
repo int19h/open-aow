@@ -39,6 +39,9 @@ namespace Aow.Units.Spring
     // { TSpringOfLifeAnimation (instance size 60, VMT 557A3858) }
     public partial class TSpringOfLifeAnimation : Aow.Units.Animation.TAnimation
     {
+        public TSpringOfLifeAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Spring.pas:64
         public override void NewFrame()
         {
@@ -50,21 +53,7 @@ namespace Aow.Units.Spring
         }
 
         // Animation.pas:43
-        public static new Aow.Units.Spring.TSpringOfLifeAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Spring.TSpringOfLifeAnimation o = new Aow.Units.Spring.TSpringOfLifeAnimation();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Animation.TAnimation.Meta
         {
@@ -82,14 +71,15 @@ namespace Aow.Units.Spring
     // { TSpringOfLife (instance size 48, VMT 557A3A04) }
     public partial class TSpringOfLife : Aow.Units.AoWE.TStructure
     {
+        public TSpringOfLife(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // Spring.pas:73
         public new const int ClassID = 131328;
 
         // Spring.pas:70
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // Spring.pas:111
         public override void ArmyPlaced(Aow.Units.AoWE.TArmyHS A1)
@@ -152,7 +142,7 @@ namespace Aow.Units.Spring
             var call__11 = Aow.Units.AoWE.AoWE.AoWHSMap.Visible(unchecked((sbyte)call__10), unchecked((sbyte)call__9), unchecked((sbyte)call__8), 0);
             if (call__11)
             {
-                Anim = Aow.Units.Spring.TSpringOfLifeAnimation.Create(null);
+                Anim = new Aow.Units.Spring.TSpringOfLifeAnimation(null);
                 R = Aow.Rtl.Rtl.Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
@@ -165,21 +155,7 @@ namespace Aow.Units.Spring
         }
 
         // Spring.pas:27
-        public static new Aow.Units.Spring.TSpringOfLife Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Spring.TSpringOfLife o = new Aow.Units.Spring.TSpringOfLife();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
@@ -197,15 +173,16 @@ namespace Aow.Units.Spring
     // { TSpringOfLifeResource (instance size 100, VMT 557A3C6C) }
     public partial class TSpringOfLifeResource : Aow.Units.AoWE.TStructureResource
     {
+        public TSpringOfLifeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FTerrainBound = false;
+        }
+
         // Spring.pas:123
         public new const int ClassID = 131329;
 
         // Spring.pas:117
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FTerrainBound = false;
-        }
+
 
         // Spring.pas:129
         public override int ResourceUserClassID()
@@ -216,21 +193,7 @@ namespace Aow.Units.Spring
         }
 
         // Spring.pas:37
-        public static new Aow.Units.Spring.TSpringOfLifeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Spring.TSpringOfLifeResource o = new Aow.Units.Spring.TSpringOfLifeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {

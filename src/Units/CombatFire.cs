@@ -49,6 +49,10 @@ namespace Aow.Units.CombatFire
     // { TCombatFire (instance size 28, VMT 00406B24) }
     public partial class TCombatFire : Aow.Units.HSEngine.TSingleHS
     {
+        public TCombatFire(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // CombatFire.pas:80
         public new const int ClassID = 2229578;
 
@@ -68,10 +72,7 @@ namespace Aow.Units.CombatFire
         }
 
         // CombatFire.pas:60
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // CombatFire.pas:119
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -211,21 +212,7 @@ namespace Aow.Units.CombatFire
         }
 
         // CombatFire.pas:26
-        public static new Aow.Units.CombatFire.TCombatFire Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatFire.TCombatFire o = new Aow.Units.CombatFire.TCombatFire();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
@@ -243,6 +230,9 @@ namespace Aow.Units.CombatFire
     // { TCombatFireResource (instance size 68, VMT 00406CA8) }
     public partial class TCombatFireResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TCombatFireResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatFire.pas:160
         public new const int ClassID = 2229579;
 
@@ -362,7 +352,7 @@ namespace Aow.Units.CombatFire
 
                         if (CanBurn)
                         {
-                            Fire = Aow.Units.CombatFire.TCombatFire.Create(null);
+                            Fire = new Aow.Units.CombatFire.TCombatFire(null);
                             var call__39 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(Fire, Xhx, Yhx, 0);
                             if (!call__39)
                             {

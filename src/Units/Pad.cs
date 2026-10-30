@@ -37,6 +37,11 @@ namespace Aow.Units.Pad
     // { TPad (instance size 32, VMT 557FE6C8): $1C FPadActive. }
     public partial class TPad : Aow.Units.ILTer.TFixedILTerrainMO
     {
+        public TPad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FPadActive = true;
+        }
+
         // Pad.pas:52
         public new const int ClassID = 131334;
 
@@ -44,11 +49,7 @@ namespace Aow.Units.Pad
         // { $1C }
         public Aow.Units.FixedArray_byte_3 FReserved1D;
         // Pad.pas:46
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FPadActive = true;
-        }
+
 
         // Pad.pas:55
         public override bool CanSelect(int Xhp, int Yhp)
@@ -75,21 +76,7 @@ namespace Aow.Units.Pad
         }
 
         // Pad.pas:20
-        public static new Aow.Units.Pad.TPad Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Pad.TPad o = new Aow.Units.Pad.TPad();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMO.Meta
         {
@@ -107,6 +94,11 @@ namespace Aow.Units.Pad
     // { TPadResource (instance size 72, VMT 557FE864): $44 FPadSize. }
     public partial class TPadResource : Aow.Units.ILTer.TFixedILTerrainMOR
     {
+        public TPadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            SetLevel(10);
+        }
+
         // Pad.pas:76
         public new const int ClassID = 131335;
 
@@ -125,11 +117,7 @@ namespace Aow.Units.Pad
         }
 
         // Pad.pas:63
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            SetLevel(10);
-        }
+
 
         // Pad.pas:101
         public override Aow.Units.Engine.TEObjectEditor.Meta Editor()
@@ -185,21 +173,7 @@ namespace Aow.Units.Pad
         }
 
         // Pad.pas:32
-        public static new Aow.Units.Pad.TPadResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Pad.TPadResource o = new Aow.Units.Pad.TPadResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMOR.Meta
         {

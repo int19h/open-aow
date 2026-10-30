@@ -23,6 +23,16 @@ namespace Aow.Units.ILTer
     // { ILTer.TILTerrainMO (instance size 28): +$14 FImageIndex, +$18 FTerrainType }
     public partial class TILTerrainMO : Aow.Units.HSEngine.TMultiHexMO
     {
+        public TILTerrainMO(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TILTerrainMO(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            InitializeTerrainMO();
+        }
+
+        // Raw allocation for TFire.
+        protected TILTerrainMO() { }
+
         // ILTer.pas:79
         public new const int ClassID = 131462;
 
@@ -33,8 +43,14 @@ namespace Aow.Units.ILTer
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeTerrainMO();
+        }
+
+        private void InitializeTerrainMO()
+        {
             FTerrainType = unchecked((sbyte)-1);
         }
+
 
         // ILTer.pas:164
         public override sbyte GetTerrain(int Index)
@@ -335,21 +351,7 @@ namespace Aow.Units.ILTer
         public sbyte TerrainType { get => FTerrainType; }
 
         // ILTer.pas:20
-        public static new Aow.Units.ILTer.TILTerrainMO Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ILTer.TILTerrainMO o = new Aow.Units.ILTer.TILTerrainMO();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
@@ -367,6 +369,12 @@ namespace Aow.Units.ILTer
     // { ILTer.TILTerrainMOR (instance size 68) }
     public partial class TILTerrainMOR : Aow.Units.HSEngine.TMultiHexMOR
     {
+        public TILTerrainMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Raw allocation for TFireResource.
+        protected TILTerrainMOR() { }
+
         // ILTer.pas:269
         public new const int ClassID = 131463;
 
@@ -407,6 +415,12 @@ namespace Aow.Units.ILTer
     // { ILTer.TFixedILTerrainMO (instance size 28) }
     public partial class TFixedILTerrainMO : Aow.Units.ILTer.TILTerrainMO
     {
+        public TFixedILTerrainMO(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TFixedILTerrainMO(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {}
+
+
         public new const int ClassID = 131464;
 
         // ILTer.pas:295
@@ -503,6 +517,10 @@ namespace Aow.Units.ILTer
     // { ILTer.TFixedILTerrainMOR (instance size 68) }
     public partial class TFixedILTerrainMOR : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TFixedILTerrainMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+
         // ILTer.pas:339
         public new const int ClassID = 131465;
 

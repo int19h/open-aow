@@ -39,6 +39,9 @@ namespace Aow.Units.BloodShrine
     // { TBloodShrineAnimation: size $3C, VMT 557E26D0; no additional fields. }
     public partial class TBloodShrineAnimation : Aow.Units.Animation.TAnimation
     {
+        public TBloodShrineAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // BloodShrine.pas:56
         public override void NewFrame()
         {
@@ -50,21 +53,7 @@ namespace Aow.Units.BloodShrine
         }
 
         // Animation.pas:43
-        public static new Aow.Units.BloodShrine.TBloodShrineAnimation Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BloodShrine.TBloodShrineAnimation o = new Aow.Units.BloodShrine.TBloodShrineAnimation();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Animation.TAnimation.Meta
         {
@@ -86,14 +75,15 @@ namespace Aow.Units.BloodShrine
     // { TBloodShrine: size $30, VMT 557E2880; no additional fields. }
     public partial class TBloodShrine : Aow.Units.AoWE.TStructure
     {
+        public TBloodShrine(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // BloodShrine.pas:65
         public new const int ClassID = 131376;
 
         // BloodShrine.pas:62
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // BloodShrine.pas:103
         public override void ArmyPlaced(Aow.Units.AoWE.TArmyHS A1)
@@ -153,7 +143,7 @@ namespace Aow.Units.BloodShrine
             var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.Visible(unchecked((sbyte)call__11), unchecked((sbyte)call__10), unchecked((sbyte)call__9), 0);
             if (call__12)
             {
-                Anim = Aow.Units.BloodShrine.TBloodShrineAnimation.Create(null);
+                Anim = new Aow.Units.BloodShrine.TBloodShrineAnimation(null);
                 R = Aow.Rtl.Rtl.Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
@@ -166,21 +156,7 @@ namespace Aow.Units.BloodShrine
         }
 
         // BloodShrine.pas:26
-        public static new Aow.Units.BloodShrine.TBloodShrine Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BloodShrine.TBloodShrine o = new Aow.Units.BloodShrine.TBloodShrine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
@@ -198,16 +174,17 @@ namespace Aow.Units.BloodShrine
     // { TBloodShrineResource: size $64, VMT 557E2AEC; no additional fields. }
     public partial class TBloodShrineResource : Aow.Units.AoWE.TStructureResource
     {
+        public TBloodShrineResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FTerrainBound = true;
+            FConnectRoads = false;
+        }
+
         // BloodShrine.pas:116
         public new const int ClassID = 131377;
 
         // BloodShrine.pas:109
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FTerrainBound = true;
-            FConnectRoads = false;
-        }
+
 
         // BloodShrine.pas:122
         public override int ResourceUserClassID()
@@ -218,21 +195,7 @@ namespace Aow.Units.BloodShrine
         }
 
         // BloodShrine.pas:36
-        public static new Aow.Units.BloodShrine.TBloodShrineResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BloodShrine.TBloodShrineResource o = new Aow.Units.BloodShrine.TBloodShrineResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {

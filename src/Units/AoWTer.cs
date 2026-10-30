@@ -37,6 +37,12 @@ namespace Aow.Units.AoWTer
     // { TAoWTerrain (instance size 20, VMT 5579BA1C) }
     public partial class TAoWTerrain : Aow.Units.Terrain.TTerrainMO
     {
+        public TAoWTerrain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Raw allocation for BurnTerrain in MovementChecks.
+        protected TAoWTerrain() { }
+
         // AoWTer.pas:89
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
@@ -118,6 +124,9 @@ namespace Aow.Units.AoWTer
     // { TAoWTerrainResource (instance size 76, VMT 5579BBC0): +$48 FMapFieldResponse (stream id 20). }
     public partial class TAoWTerrainResource : Aow.Units.Terrain.TTerrainMOR
     {
+        public TAoWTerrainResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public int FMapFieldResponse;
         // AoWTer.pas:116
         public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)

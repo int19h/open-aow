@@ -24,16 +24,17 @@ namespace Aow.Units.Bridge
 //     road, 2 the shore the bridge reaches) }
     public partial class TBridge : Aow.Units.HSEngine.TAbstractRoad
     {
+        public TBridge(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // Bridge.pas:48
         public new const int ClassID = 131444;
 
         internal ushort FTransitions;
         // Bridge.pas:43
         // { TBridge }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // Bridge.pas:53
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
@@ -296,21 +297,7 @@ namespace Aow.Units.Bridge
         }
 
         // Bridge.pas:18
-        public static new Aow.Units.Bridge.TBridge Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Bridge.TBridge o = new Aow.Units.Bridge.TBridge();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
         {
@@ -328,16 +315,17 @@ namespace Aow.Units.Bridge
     // { Bridge.TBridgeResource (instance size 52) }
     public partial class TBridgeResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
+        public TBridgeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            SetLevel(10);
+        }
+
         // Bridge.pas:205
         public new const int ClassID = 131445;
 
         // Bridge.pas:189
         // { TBridgeResource }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            SetLevel(10);
-        }
+
 
         // Bridge.pas:195
         public override int ResourceUserClassID()
@@ -468,21 +456,7 @@ namespace Aow.Units.Bridge
         }
 
         // Bridge.pas:28
-        public static new Aow.Units.Bridge.TBridgeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Bridge.TBridgeResource o = new Aow.Units.Bridge.TBridgeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {

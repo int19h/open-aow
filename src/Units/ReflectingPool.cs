@@ -37,6 +37,11 @@ namespace Aow.Units.ReflectingPool
     // { TReflectingPool: size $40; $3C FCenterFrame (-1 when inactive). }
     public partial class TReflectingPool : Aow.Units.AoWE.TPlayerStructure
     {
+        public TReflectingPool(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FCenterFrame = -1;
+        }
+
         // ReflectingPool.pas:58
         public new const int ClassID = 132670;
 
@@ -48,11 +53,7 @@ namespace Aow.Units.ReflectingPool
         }
 
         // ReflectingPool.pas:52
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FCenterFrame = -1;
-        }
+
 
         // ReflectingPool.pas:241
         public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
@@ -460,21 +461,7 @@ namespace Aow.Units.ReflectingPool
         }
 
         // ReflectingPool.pas:20
-        public static new Aow.Units.ReflectingPool.TReflectingPool Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ReflectingPool.TReflectingPool o = new Aow.Units.ReflectingPool.TReflectingPool();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
@@ -492,18 +479,19 @@ namespace Aow.Units.ReflectingPool
     // { TReflectingPoolResource (instance size 116, VMT 557D4B6C) }
     public partial class TReflectingPoolResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        // ReflectingPool.pas:266
-        public new const int ClassID = 132671;
-
-        // ReflectingPool.pas:254
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TReflectingPoolResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = true;
             FConnectRoads = false;
             FClaimed = false;
             FRazeable = false;
         }
+
+        // ReflectingPool.pas:266
+        public new const int ClassID = 132671;
+
+        // ReflectingPool.pas:254
+
 
         // ReflectingPool.pas:269
         public override int ResourceUserClassID()
@@ -514,21 +502,7 @@ namespace Aow.Units.ReflectingPool
         }
 
         // ReflectingPool.pas:42
-        public static new Aow.Units.ReflectingPool.TReflectingPoolResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ReflectingPool.TReflectingPoolResource o = new Aow.Units.ReflectingPool.TReflectingPoolResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {

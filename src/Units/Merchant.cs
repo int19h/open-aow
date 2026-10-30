@@ -37,31 +37,18 @@ namespace Aow.Units.Merchant
     // { TMerchant (instance size 48, VMT 557C9C54) }
     public partial class TMerchant : Aow.Units.AoWE.TStructure
     {
+        public TMerchant(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // Merchant.pas:38
         public new const int ClassID = 131338;
 
         // Merchant.pas:35
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // Merchant.pas:18
-        public static new Aow.Units.Merchant.TMerchant Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Merchant.TMerchant o = new Aow.Units.Merchant.TMerchant();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
@@ -79,15 +66,16 @@ namespace Aow.Units.Merchant
     // { TMerchantResource (instance size 100, VMT 557C9EB4) }
     public partial class TMerchantResource : Aow.Units.AoWE.TStructureResource
     {
+        public TMerchantResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FTerrainBound = false;
+        }
+
         // Merchant.pas:47
         public new const int ClassID = 131339;
 
         // Merchant.pas:41
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FTerrainBound = false;
-        }
+
 
         // Merchant.pas:53
         public override int ResourceUserClassID()
@@ -98,21 +86,7 @@ namespace Aow.Units.Merchant
         }
 
         // Merchant.pas:25
-        public static new Aow.Units.Merchant.TMerchantResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Merchant.TMerchantResource o = new Aow.Units.Merchant.TMerchantResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {

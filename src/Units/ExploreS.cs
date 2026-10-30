@@ -73,6 +73,13 @@ namespace Aow.Units.ExploreS
 //     $30 FDefendersMode, $34 FDefenders. }
     public partial class TExplorationSite : Aow.Units.AoWE.TStructure
     {
+        public TExplorationSite(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FDefendersMode = Aow.Units.ExploreS.TDefendersMode.dmNormal;
+            var call__5 = new Aow.Units.ExploreS.TDefendersArmy(null);
+            FDefenders = call__5;
+        }
+
         // ExploreS.pas:90
         public new const int ClassID = 132033;
 
@@ -95,13 +102,7 @@ namespace Aow.Units.ExploreS
         }
 
         // ExploreS.pas:77
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FDefendersMode = Aow.Units.ExploreS.TDefendersMode.dmNormal;
-            var call__5 = new Aow.Units.ExploreS.TDefendersArmy(null);
-            FDefenders = call__5;
-        }
+
 
         // ExploreS.pas:351
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -539,21 +540,7 @@ namespace Aow.Units.ExploreS
         }
 
         // ExploreS.pas:33
-        public static new Aow.Units.ExploreS.TExplorationSite Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ExploreS.TExplorationSite o = new Aow.Units.ExploreS.TExplorationSite();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
@@ -572,6 +559,13 @@ namespace Aow.Units.ExploreS
 //     $64 FDefenderCollections, the available defender army compositions. }
     public partial class TExplorationSiteResource : Aow.Units.AoWE.TStructureResource
     {
+        public TExplorationSiteResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__51 = new Aow.Units.AoWE.TUnitIndexListCollection();
+            FDefenderCollections = call__51;
+            FTerrainBound = false;
+        }
+
         // ExploreS.pas:373
         public new const int ClassID = 132034;
 
@@ -592,13 +586,7 @@ namespace Aow.Units.ExploreS
         }
 
         // ExploreS.pas:357
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__51 = new Aow.Units.AoWE.TUnitIndexListCollection();
-            FDefenderCollections = call__51;
-            FTerrainBound = false;
-        }
+
 
         // ExploreS.pas:382
         public override int ResourceUserClassID()
@@ -609,21 +597,7 @@ namespace Aow.Units.ExploreS
         }
 
         // ExploreS.pas:61
-        public static new Aow.Units.ExploreS.TExplorationSiteResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ExploreS.TExplorationSiteResource o = new Aow.Units.ExploreS.TExplorationSiteResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {

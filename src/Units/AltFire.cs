@@ -41,39 +41,26 @@ namespace Aow.Units.AltFire
     // { TAltarOfFire (instance size 68, no added fields, VMT 557CF5F8) }
     public partial class TAltarOfFire : Aow.Units.Altar.TAltar
     {
+        public TAltarOfFire(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // AltFire.pas:42
         public new const int ClassID = 131642;
 
         // AltFire.pas:37
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // AltFire.pas:45
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
             Aow.Units.Storms.TStorm Result = default;
-            Result = Aow.Units.Storms.TFireStorm.Create(null);
+            Result = new Aow.Units.Storms.TFireStorm(null);
             return Result;
         }
 
         // AltFire.pas:19
-        public static new Aow.Units.AltFire.TAltarOfFire Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltFire.TAltarOfFire o = new Aow.Units.AltFire.TAltarOfFire();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltar.Meta
         {
@@ -91,14 +78,15 @@ namespace Aow.Units.AltFire
     // { TAltarOfFireResource (instance size 116, no added fields, VMT 557CF8B0) }
     public partial class TAltarOfFireResource : Aow.Units.Altar.TAltarResource
     {
+        public TAltarOfFireResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // AltFire.pas:58
         public new const int ClassID = 131643;
 
         // AltFire.pas:50
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // AltFire.pas:61
         public override int ResourceUserClassID()
@@ -109,21 +97,7 @@ namespace Aow.Units.AltFire
         }
 
         // AltFire.pas:27
-        public static new Aow.Units.AltFire.TAltarOfFireResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltFire.TAltarOfFireResource o = new Aow.Units.AltFire.TAltarOfFireResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {

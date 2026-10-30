@@ -39,6 +39,9 @@ namespace Aow.Units.RandomNode
     // { TRandomNode (instance size 76, VMT 5580B3D8) }
     public partial class TRandomNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TRandomNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // RandomNode.pas:35
         public new const int ClassID = 133154;
 
@@ -57,14 +60,15 @@ namespace Aow.Units.RandomNode
     // { TRandomNodeResource (instance size 120, VMT 5580B68C) }
     public partial class TRandomNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
+        public TRandomNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // RandomNode.pas:46
         public new const int ClassID = 133155;
 
         // RandomNode.pas:38
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // RandomNode.pas:49
         public override int ResourceUserClassID()
@@ -75,21 +79,7 @@ namespace Aow.Units.RandomNode
         }
 
         // RandomNode.pas:25
-        public static new Aow.Units.RandomNode.TRandomNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.RandomNode.TRandomNodeResource o = new Aow.Units.RandomNode.TRandomNodeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {

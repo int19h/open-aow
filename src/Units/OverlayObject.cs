@@ -37,6 +37,9 @@ namespace Aow.Units.OverlayObject
     // { TOverlayObject (instance size 28, VMT 557D3C78) }
     public partial class TOverlayObject : Aow.Units.ILTer.TFixedILTerrainMO
     {
+        public TOverlayObject(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // OverlayObject.pas:36
         public new const int ClassID = 131228;
 
@@ -55,6 +58,9 @@ namespace Aow.Units.OverlayObject
     // { TOverlayObjectResource (instance size 72, VMT 557D3E30): $44 FOverlayType. }
     public partial class TOverlayObjectResource : Aow.Units.ILTer.TFixedILTerrainMOR
     {
+        public TOverlayObjectResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // OverlayObject.pas:42
         public new const int ClassID = 131229;
 

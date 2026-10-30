@@ -256,7 +256,7 @@ namespace Aow.Units.CitySpells
                     if (bool__11)
                     {
                         // { Original passes the city layer before the radius. }
-                        A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__14 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                         var call__15 = call__14.FCastImages.ImageSequences[0];
                         A.SetImageSequence(call__15);
@@ -626,7 +626,7 @@ namespace Aow.Units.CitySpells
                 var call__62 = call__61.FCastImages.ImageSequences[0];
                 if (call__62 != null)
                 {
-                    A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__63 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                     var call__64 = call__63.FCastImages.ImageSequences[0];
                     A.SetImageSequence(call__64);
@@ -640,7 +640,7 @@ namespace Aow.Units.CitySpells
                 var call__66 = call__65.FCastImages.ImageSequences[0];
                 if (call__66 != null)
                 {
-                    A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__67 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                     var call__68 = call__67.FCastImages.ImageSequences[0];
                     A.SetImageSequence(call__68);
@@ -1103,7 +1103,7 @@ namespace Aow.Units.CitySpells
             if (A3 == 0)
             {
                 TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
-                A = Aow.Units.Animation.TAnimation.Create(null);
+                A = new Aow.Units.Animation.TAnimation(null);
                 A.FAnimationLevel = 27;
                 A.FOnShow = ShowFountain;
                 A.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
@@ -1438,7 +1438,7 @@ namespace Aow.Units.CitySpells
                 var call__149 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
                 if (call__149 != null)
                 {
-                    A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__150 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
                     A.SetImageSequence(call__150);
                     A.SetXhpOffset(A.FXhpOffset - 16);
@@ -1551,7 +1551,7 @@ namespace Aow.Units.CitySpells
                 var call__167 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
                 if (call__167 != null)
                 {
-                    A = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    A = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__168 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
                     A.SetImageSequence(call__168);
                     A.SetXhpOffset(A.FXhpOffset - 16);

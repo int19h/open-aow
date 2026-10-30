@@ -40,6 +40,9 @@ namespace Aow.Units.AoWHex
 //     images [0..2], +$13 side flags. }
     public partial class TAoWHexagon : Aow.Units.Hexagon.THexagon
     {
+        public TAoWHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWHex.pas:119
         public override void ChangeTerrain(in Aow.Units.HSEngine.THSTerrainInfo Msg)
         {
@@ -275,6 +278,9 @@ namespace Aow.Units.AoWHex
     // { TAoWHexagonResource (instance size 56, VMT 5579A364) }
     public partial class TAoWHexagonResource : Aow.Units.Hexagon.THexagonResource
     {
+        public TAoWHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWHex.pas:254
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {
@@ -294,6 +300,9 @@ namespace Aow.Units.AoWHex
     // { TAoWBorderHexagon (instance size 16, VMT 5579A458) }
     public partial class TAoWBorderHexagon : Aow.Units.BorderHx.TBorderHexagon
     {
+        public TAoWBorderHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWHex.pas:261
         public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
         {
@@ -308,6 +317,14 @@ namespace Aow.Units.AoWHex
 //     +$19 FAnimationIndex, +$1A..$1F FShoreTerrain[1..6]. }
     public partial class TAoWWaterHexagon : Aow.Units.IsoHex.TLowerIsometricHexagon
     {
+        public TAoWWaterHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__20 = Aow.Rtl.Rtl.Random(20);
+            FAnimationFrame = unchecked((sbyte)(-1 - call__20));
+            var call__21 = Aow.Rtl.Rtl.Random(4);
+            this.FSides = unchecked((byte)(this.FSides | (call__21 << 6)));
+        }
+
         // AoWHex.pas:275
         public new const int ClassID = 132925;
 
@@ -315,31 +332,10 @@ namespace Aow.Units.AoWHex
         public byte FAnimationIndex;
         public Aow.Units.FixedArray_byte_6 FShoreTerrain;
         // AoWHex.pas:268
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__20 = Aow.Rtl.Rtl.Random(20);
-            FAnimationFrame = unchecked((sbyte)(-1 - call__20));
-            var call__21 = Aow.Rtl.Rtl.Random(4);
-            this.FSides = unchecked((byte)(this.FSides | (call__21 << 6)));
-        }
+
 
         // AoWHex.pas:48
-        public static new Aow.Units.AoWHex.TAoWWaterHexagon Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWHex.TAoWWaterHexagon o = new Aow.Units.AoWHex.TAoWWaterHexagon();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.IsoHex.TLowerIsometricHexagon.Meta
         {
@@ -357,15 +353,16 @@ namespace Aow.Units.AoWHex
     // { TAoWWaterHexagonResource (instance size 56, VMT 5579A7A0) }
     public partial class TAoWWaterHexagonResource : Aow.Units.IsoHex.TLowerIsometricHexagonResource
     {
+        public TAoWWaterHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            this.FDynamicLevel = 23;
+        }
+
         // AoWHex.pas:452
         public new const int ClassID = 132926;
 
         // AoWHex.pas:446
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            this.FDynamicLevel = 23;
-        }
+
 
         // AoWHex.pas:458
         public override int ResourceUserClassID()
@@ -376,21 +373,7 @@ namespace Aow.Units.AoWHex
         }
 
         // AoWHex.pas:58
-        public static new Aow.Units.AoWHex.TAoWWaterHexagonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWHex.TAoWWaterHexagonResource o = new Aow.Units.AoWHex.TAoWWaterHexagonResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.IsoHex.TLowerIsometricHexagonResource.Meta
         {

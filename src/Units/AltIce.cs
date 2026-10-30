@@ -41,6 +41,9 @@ namespace Aow.Units.AltIce
     // { TAltarOfIce (instance size 68, no added fields, VMT 557CFAF0) }
     public partial class TAltarOfIce : Aow.Units.Altar.TAltar
     {
+        public TAltarOfIce(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AltIce.pas:36
         public new const int ClassID = 131659;
 
@@ -48,7 +51,7 @@ namespace Aow.Units.AltIce
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
             Aow.Units.Storms.TStorm Result = default;
-            Result = Aow.Units.Storms.TIceStorm.Create(null);
+            Result = new Aow.Units.Storms.TIceStorm(null);
             return Result;
         }
 
@@ -67,14 +70,15 @@ namespace Aow.Units.AltIce
     // { TAltarOfIceResource (instance size 116, no added fields, VMT 557CFDA0) }
     public partial class TAltarOfIceResource : Aow.Units.Altar.TAltarResource
     {
+        public TAltarOfIceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // AltIce.pas:52
         public new const int ClassID = 131660;
 
         // AltIce.pas:44
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // AltIce.pas:55
         public override int ResourceUserClassID()
@@ -85,21 +89,7 @@ namespace Aow.Units.AltIce
         }
 
         // AltIce.pas:26
-        public static new Aow.Units.AltIce.TAltarOfIceResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltIce.TAltarOfIceResource o = new Aow.Units.AltIce.TAltarOfIceResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {

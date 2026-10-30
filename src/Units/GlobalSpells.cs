@@ -373,7 +373,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__36)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__39 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__39.AddEvent(Event);
@@ -628,7 +628,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__53)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__56.AddEvent(Event);
@@ -750,7 +750,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__67)
             {
-                Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                 var call__70 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                 var call__71 = call__70.FCastImages.ImageSequences[0];
                 Animation.SetImageSequence(call__71);
@@ -767,7 +767,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__72)
             {
-                Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                 var call__75 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                 var call__76 = call__75.FCastImages.ImageSequences[0];
                 Animation.SetImageSequence(call__76);
@@ -1088,7 +1088,7 @@ namespace Aow.Units.GlobalSpells
             {
                 A2.GetLocation(ref X, ref Y, ref Layer);
                 Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
-                Animation = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TTwinkleAnimation(null);
                 var call__116 = FCastImages.GetImageSequence(0);
                 Animation.Setup(call__116, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
                 Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, X, Y, Layer);
@@ -1214,7 +1214,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__143)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__146 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__146.AddEvent(Event);
@@ -1267,7 +1267,7 @@ namespace Aow.Units.GlobalSpells
             {
                 A2.GetLocation(ref X, ref Y, ref Layer);
                 Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
-                Animation = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TTwinkleAnimation(null);
                 var call__148 = FCastImages.GetImageSequence(0);
                 Animation.Setup(call__148, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
                 Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, X, Y, Layer);
@@ -1398,7 +1398,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__176)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__179 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__179.AddEvent(Event);
@@ -1481,7 +1481,7 @@ namespace Aow.Units.GlobalSpells
                     var call__190 = call__189.FCastImages.GetImageSequence(0);
                     if (call__190 != null)
                     {
-                        Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__191 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                         var call__192 = call__191.FCastImages.GetImageSequence(0);
                         Animation.SetImageSequence(call__192);
@@ -1495,7 +1495,7 @@ namespace Aow.Units.GlobalSpells
                     var call__194 = call__193.FCastImages.GetImageSequence(0);
                     if (call__194 != null)
                     {
-                        Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__195 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                         var call__196 = call__195.FCastImages.GetImageSequence(0);
                         Animation.SetImageSequence(call__196);
@@ -1579,7 +1579,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__219)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__222 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__222.AddEvent(Event);
@@ -1730,7 +1730,7 @@ namespace Aow.Units.GlobalSpells
             Enchantment = call__235;
             A1.GetLocation(ref X, ref Y, ref Layer);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A1.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
-            Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+            Twinkle = new Aow.Units.Animation.TTwinkleAnimation(null);
             var call__236 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(51);
             var call__237 = call__236.FCastImages.ImageSequences[0];
             Twinkle.Setup(call__237, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmExpand, Aow.Units.Animation.TTwinkleModeElement.tmExplode), FEventMana + 50, 192, 50, 30);
@@ -2262,7 +2262,7 @@ namespace Aow.Units.GlobalSpells
 
             if (bool__296)
             {
-                Event = Aow.Units.AoWE.TSpellTE.Create(null);
+                Event = new Aow.Units.AoWE.TSpellTE(null);
                 Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
                 var call__299 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
                 call__299.AddEvent(Event);
@@ -2306,7 +2306,7 @@ namespace Aow.Units.GlobalSpells
                     if (call__307 != null)
                     {
                         // { Original uses Warp Party's images for Crusade parties. }
-                        Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__308 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(34);
                         var call__309 = call__308.FCastImages.GetImageSequence(0);
                         Animation.SetImageSequence(call__309);

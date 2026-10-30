@@ -38,6 +38,11 @@ namespace Aow.Units.PoisonC
 //     $18 FTurnsRemaining, $1C FDrifting, $1D FDirection, $1E FUpdated. }
     public partial class TPoisonCloud : Aow.Units.HSEngine.TMultiHexMO
     {
+        public TPoisonCloud(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FDrifting = false;
+        }
+
         // PoisonC.pas:64
         public new const int ClassID = 135743;
 
@@ -59,11 +64,7 @@ namespace Aow.Units.PoisonC
         }
 
         // PoisonC.pas:58
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FDrifting = false;
-        }
+
 
         // PoisonC.pas:275
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -435,21 +436,7 @@ namespace Aow.Units.PoisonC
         }
 
         // PoisonC.pas:27
-        public static new Aow.Units.PoisonC.TPoisonCloud Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PoisonC.TPoisonCloud o = new Aow.Units.PoisonC.TPoisonCloud();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
@@ -467,6 +454,9 @@ namespace Aow.Units.PoisonC
     // { TPoisonCloudResource (instance size 68, VMT 557CA7E0) }
     public partial class TPoisonCloudResource : Aow.Units.HSEngine.TMultiHexMOR
     {
+        public TPoisonCloudResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // PoisonC.pas:286
         public new const int ClassID = 135744;
 

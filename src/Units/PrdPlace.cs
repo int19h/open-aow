@@ -353,6 +353,27 @@ namespace Aow.Units.PrdPlace
 //     control, $48 razed state, $49 defender level, $4A padding. VMT 557BD68C. }
     public partial class TProductionPlace : Aow.Units.AoWE.TPlayerStructure
     {
+        public TProductionPlace(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__48 = CreateProductionControl();
+            FProductionControl = call__48;
+            FProductionControl.FProductionPlace = this;
+            if (GetMagicSphere() == Aow.Units.AoWE.TMagicSphere.msNone)
+            {
+                var call__49 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
+                FIncomeSource = call__49;
+                FIncomeSource.Setup(this);
+                FDefenderLevel = 2;
+            }
+            else
+            {
+                var call__50 = new Aow.Units.AoWE.TPlayerStructurePowerSource(null);
+                FPowerSource = call__50;
+                FPowerSource.Setup(this);
+                FDefenderLevel = 3;
+            }
+        }
+
         // PrdPlace.pas:291
         public new const int ClassID = 132026;
 
@@ -386,27 +407,7 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:264
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__48 = CreateProductionControl();
-            FProductionControl = call__48;
-            FProductionControl.FProductionPlace = this;
-            if (GetMagicSphere() == Aow.Units.AoWE.TMagicSphere.msNone)
-            {
-                var call__49 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
-                FIncomeSource = call__49;
-                FIncomeSource.Setup(this);
-                FDefenderLevel = 2;
-            }
-            else
-            {
-                var call__50 = new Aow.Units.AoWE.TPlayerStructurePowerSource(null);
-                FPowerSource = call__50;
-                FPowerSource.Setup(this);
-                FDefenderLevel = 3;
-            }
-        }
+
 
         // PrdPlace.pas:352
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -1121,7 +1122,7 @@ namespace Aow.Units.PrdPlace
                         var call__137 = Aow.Units.AoWE.AoWE.AoWHSMap.Visible(unchecked((sbyte)call__136), unchecked((sbyte)call__135), unchecked((sbyte)ArmyHS.Lhx), 0);
                         if (call__137)
                         {
-                            Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                             var call__138 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(29);
                             var call__139 = call__138.FCastImages.GetImageSequence(0);
                             Animation.SetImageSequence(call__139);
@@ -1319,21 +1320,7 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:51
-        public static new Aow.Units.PrdPlace.TProductionPlace Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PrdPlace.TProductionPlace o = new Aow.Units.PrdPlace.TProductionPlace();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
@@ -1351,6 +1338,14 @@ namespace Aow.Units.PrdPlace
     // { TProductionPlaceResource: size $78; $74 available unit indexes. VMT 557BD94C. }
     public partial class TProductionPlaceResource : Aow.Units.AoWE.TPlayerStructureResource
     {
+        public TProductionPlaceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FClaimed = false;
+            var call__162 = new Aow.Units.AoWE.TUnitIndexList();
+            FUnits = call__162;
+            FRazeable = true;
+        }
+
         // PrdPlace.pas:718
         public new const int ClassID = 132027;
 
@@ -1371,14 +1366,7 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:701
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FClaimed = false;
-            var call__162 = new Aow.Units.AoWE.TUnitIndexList();
-            FUnits = call__162;
-            FRazeable = true;
-        }
+
 
         // PrdPlace.pas:724
         public override Aow.Units.Engine.TEObjectEditor.Meta Editor()
@@ -1403,21 +1391,7 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:100
-        public static new Aow.Units.PrdPlace.TProductionPlaceResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PrdPlace.TProductionPlaceResource o = new Aow.Units.PrdPlace.TProductionPlaceResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {

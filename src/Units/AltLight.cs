@@ -41,6 +41,9 @@ namespace Aow.Units.AltLight
     // { TAltarOfLightning (instance size 68, no added fields, VMT 557D16F4) }
     public partial class TAltarOfLightning : Aow.Units.Altar.TAltar
     {
+        public TAltarOfLightning(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AltLight.pas:36
         public new const int ClassID = 131645;
 
@@ -48,7 +51,7 @@ namespace Aow.Units.AltLight
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
             Aow.Units.Storms.TStorm Result = default;
-            Result = Aow.Units.Storms.TLightningStorm.Create(null);
+            Result = new Aow.Units.Storms.TLightningStorm(null);
             return Result;
         }
 
@@ -67,14 +70,15 @@ namespace Aow.Units.AltLight
     // { TAltarOfLightningResource (instance size 116, no added fields, VMT 557D19B4) }
     public partial class TAltarOfLightningResource : Aow.Units.Altar.TAltarResource
     {
+        public TAltarOfLightningResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // AltLight.pas:52
         public new const int ClassID = 131646;
 
         // AltLight.pas:44
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // AltLight.pas:55
         public override int ResourceUserClassID()
@@ -85,21 +89,7 @@ namespace Aow.Units.AltLight
         }
 
         // AltLight.pas:26
-        public static new Aow.Units.AltLight.TAltarOfLightningResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltLight.TAltarOfLightningResource o = new Aow.Units.AltLight.TAltarOfLightningResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {

@@ -2739,11 +2739,14 @@ namespace Aow.Units.HSEngine
 //     the TMapField the sprite stands on (for the multi-hex sprites the field of the base hexagon). }
     public partial class THexagonSprite : Aow.Units.Engine.TEObject
     {
+        private protected THexagonSprite(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        { }
+
         public new const int ClassID = 65872;
 
         // Raw allocation for the legacy sprite factories and IsoHex Attach protocol.
         public THexagonSprite() { }
-        public THexagonSprite(TECustomNode owner) : base(owner) { }
+        public THexagonSprite(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // HXSPRITE.PAS:6
         // { HXSPRITE.PAS: THexagonSprite, THPBasedHS, TSingleHS, TFixedVisibleHS, TCustomFixedVisibleHS
@@ -3779,9 +3782,12 @@ namespace Aow.Units.HSEngine
 //     FStatus. }
     public partial class TMapObject : Aow.Units.HSEngine.THexagonSprite
     {
+        private protected TMapObject(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        { }
+
         public new const int ClassID = 65878;
 
-        public TMapObject(TECustomNode owner) : base(owner) { }
+        public TMapObject(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // Raw allocation for TMultiHexMO and TCenterViewLocation.
         public TMapObject() { }
@@ -4455,6 +4461,7 @@ namespace Aow.Units.HSEngine
             base.Create__init(AOwner);
             InitializeMapObjectResource(AOwner);
         }
+
 
         // MAPOBJ.PAS:620
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -6995,6 +7002,12 @@ namespace Aow.Units.HSEngine
 //     set with Include does not give). }
     public partial class TSingleHS : Aow.Units.HSEngine.THexagonSprite
     {
+        public TSingleHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Raw allocation for TFrozenWaterHS, TWatcherHS.
+        protected TSingleHS() { }
+
         internal byte FStatus;
         // HXSPRITE.PAS:640
         // { TSingleHS }
@@ -7692,6 +7705,14 @@ namespace Aow.Units.HSEngine
 //     list around its main hexagon. +$10 FXhx, +$11 FYhx (the main hexagon, ids 3 and 4). }
     public partial class TMultiHexMO : Aow.Units.HSEngine.TMapObject
     {
+        public TMultiHexMO(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TMultiHexMO(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {}
+
+        // Raw allocation for TILTerrainMO, TTerrainMO.
+        protected TMultiHexMO() { }
+
         protected internal sbyte FXhx;
         protected internal sbyte FYhx;
         // MAPOBJ.PAS:923
@@ -8262,6 +8283,7 @@ namespace Aow.Units.HSEngine
             InitializeMultiHexMOR(AOwner);
         }
 
+
         // MAPOBJ.PAS:1244
         public virtual void SetdXmainP(int Value)
         {
@@ -8484,8 +8506,6 @@ namespace Aow.Units.HSEngine
             SetLevel(0);
         }
 
-        // Raw allocation for TIsometricHexagonResource.
-        protected TAbstractHexagonResource() { }
 
         public TAbstractHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -8494,11 +8514,7 @@ namespace Aow.Units.HSEngine
 
         // MAPOBJ.PAS:770
         // { TAbstractHexagonResource }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeAbstractHexagonResource(AOwner);
-        }
+
 
         // MAPOBJ.PAS:781
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -8550,6 +8566,10 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractBorderHexagonResource (instance size 52) }
     public partial class TAbstractBorderHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
+        public TAbstractBorderHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+
     }
 
     // { HSEngine.TAbstractRoad (instance size 16): the base of roads and bridges }
@@ -8559,8 +8579,6 @@ namespace Aow.Units.HSEngine
 
         public TAbstractRoad(TECustomNode owner) : base(owner) { }
 
-        // Raw allocation for TRoad and TBridge.
-        public TAbstractRoad() { }
 
         // MAPOBJ.PAS:803
         public override byte GetLevel()
@@ -8685,6 +8703,10 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractRoadResource (instance size 52) }
     public partial class TAbstractRoadResource : Aow.Units.HSEngine.TMapObjectResource
     {
+        public TAbstractRoadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+
         // MAPOBJ.PAS:874
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
         {

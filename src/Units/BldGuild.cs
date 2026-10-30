@@ -39,6 +39,9 @@ namespace Aow.Units.BldGuild
     // { TBuildersGuild (instance size 76, no added fields, VMT 557CA0DC) }
     public partial class TBuildersGuild : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TBuildersGuild(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // BldGuild.pas:37
         public new const int ClassID = 133422;
 
@@ -57,19 +60,20 @@ namespace Aow.Units.BldGuild
     // { TBuildersGuildResource (instance size 120, no added fields, VMT 557CA398) }
     public partial class TBuildersGuildResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        // BldGuild.pas:53
-        public new const int ClassID = 133423;
-
-        // BldGuild.pas:40
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TBuildersGuildResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = true;
             FClaimed = false;
             FRazeDefenderBudget = 75;
             FRebuildGold = 25;
             FRebuildDays = 1;
         }
+
+        // BldGuild.pas:53
+        public new const int ClassID = 133423;
+
+        // BldGuild.pas:40
+
 
         // BldGuild.pas:56
         public override int ResourceUserClassID()
@@ -80,21 +84,7 @@ namespace Aow.Units.BldGuild
         }
 
         // BldGuild.pas:26
-        public static new Aow.Units.BldGuild.TBuildersGuildResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BldGuild.TBuildersGuildResource o = new Aow.Units.BldGuild.TBuildersGuildResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {

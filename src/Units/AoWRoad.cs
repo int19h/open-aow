@@ -37,6 +37,9 @@ namespace Aow.Units.AoWRoad
     // { TAoWRoad (instance size 20, VMT 5579B6FC) }
     public partial class TAoWRoad : Aow.Units.Road.TRoad
     {
+        public TAoWRoad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AoWRoad.pas:35
         public override void UpdateTransitions()
         {
