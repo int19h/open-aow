@@ -45,7 +45,7 @@ namespace Aow.Units.MainAG
         public new const int ClassID = 136280;
 
         // MainAG.pas:122
-        public TPassiveAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPassiveAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 0;
             FRecruitmentPriority = 1;
@@ -126,7 +126,8 @@ namespace Aow.Units.MainAG
     // { TPassiveAGC (instance size 368, VMT 557DA028) }
     public partial class TPassiveAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TPassiveAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TPassiveAGC(TECustomNode owner) : base(owner)
+        { }
 
         // MainAG.pas:199
         public override void ProcessStates()
@@ -243,7 +244,7 @@ namespace Aow.Units.MainAG
         public new const int ClassID = 136281;
 
         // MainAG.pas:240
-        public TFortifyAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFortifyAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 15;
             FRecruitmentPriority = 0;
@@ -282,7 +283,7 @@ namespace Aow.Units.MainAG
         }
 
         // MainAG.pas:256
-        public TFortifyAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFortifyAGC(TECustomNode owner) : base(owner)
         {
             var call__23 = new Aow.Units.AoWE.TAIGroupTargetSelector(null);
             FTargetSelector = call__23;
@@ -1070,7 +1071,7 @@ namespace Aow.Units.MainAG
         public new const int ClassID = 136276;
 
         // MainAG.pas:722
-        public TSuicidalAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSuicidalAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
@@ -1092,7 +1093,8 @@ namespace Aow.Units.MainAG
     // { TSuicidalAGC (instance size 368, VMT 557DA4A8) }
     public partial class TSuicidalAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TSuicidalAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TSuicidalAGC(TECustomNode owner) : base(owner)
+        { }
 
         // MainAG.pas:750
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)
@@ -1183,7 +1185,7 @@ namespace Aow.Units.MainAG
         }
 
         // MainAG.pas:789
-        public TTransportAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTransportAG(TECustomNode owner) : base(owner)
         {
             FProcessPriority = 2;
             FRecruitmentPriority = 20;
@@ -1205,7 +1207,8 @@ namespace Aow.Units.MainAG
     // { TTransportAGC (instance size 368, VMT 557DA6F8) }
     public partial class TTransportAGC : Aow.Units.AoWE.TAIGroupControl
     {
-        public TTransportAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TTransportAGC(TECustomNode owner) : base(owner)
+        { }
 
         // MainAG.pas:822
         public override void MoveExecuterDone(Aow.Rtl.TObject Sender)

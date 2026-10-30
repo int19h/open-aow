@@ -205,7 +205,7 @@ public sealed class ClassFamilyTests
     public void IsometricHexagonBuildsItsDynamicSpriteInOneConstructor()
     {
         var map = new THSMap(null!);
-        var level = TMapLevel.Create(map);
+        var level = new TMapLevel(map);
         try
         {
             level.CreateMapFieldList(3, 3);
@@ -246,7 +246,7 @@ public sealed class ClassFamilyTests
     public void WaterHexagonReadsTheShoreOfItsOpenSides()
     {
         var map = new THSMap(null!);
-        var level = TMapLevel.Create(map);
+        var level = new TMapLevel(map);
         try
         {
             level.CreateMapFieldList(3, 3);

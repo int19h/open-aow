@@ -39,7 +39,7 @@ namespace Aow.Units.Arena
     // { TArenaTE: size $2C; $28 FUnitIDs. }
     public partial class TArenaTE : Aow.Units.AoWE.TStructureTE
     {
-        public TArenaTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TArenaTE(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Units.Engine.TIntegerList();
             FUnitIDs = call__1;
@@ -74,7 +74,7 @@ namespace Aow.Units.Arena
     // { TArena (instance size 48, VMT 557D6240) }
     public partial class TArena : Aow.Units.AoWE.TStructure
     {
-        public TArena(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TArena(TECustomNode owner) : base(owner)
         {}
 
         // Arena.pas:95
@@ -367,7 +367,7 @@ namespace Aow.Units.Arena
     // { TArenaResource (instance size 100, VMT 557D6498) }
     public partial class TArenaResource : Aow.Units.AoWE.TStructureResource
     {
-        public TArenaResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TArenaResource(TECustomNode owner) : base(owner)
         {
             FCastsShadow = true;
         }
@@ -404,7 +404,7 @@ namespace Aow.Units.Arena
     public partial class TEnterArenaEventLog : Aow.Units.EventLog.TEventLog
     {
         // Arena.pas:259
-        public TEnterArenaEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TEnterArenaEventLog(TECustomNode owner) : base(owner)
         {
             var call__36 = new Aow.Units.Engine.TIntegerList();
             FUnitIDs = call__36;

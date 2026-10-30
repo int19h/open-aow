@@ -52,7 +52,7 @@ namespace Aow.Units.AOWGauge
         public int FILIndexTSelected;
         // AOWGauge.pas:69
         // { TAoWGauge }
-        public TAoWGauge(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAoWGauge(TComponent owner) : base(owner)
         {
             FMax = 1;
         }

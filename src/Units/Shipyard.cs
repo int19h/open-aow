@@ -39,7 +39,7 @@ namespace Aow.Units.Shipyard
     // { TShipyard (instance size 76, no added fields, VMT 557C715C) }
     public partial class TShipyard : Aow.Units.PrdPlace.TProductionPlace
     {
-        public TShipyard(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TShipyard(TECustomNode owner) : base(owner)
         {}
 
         // Shipyard.pas:49
@@ -64,7 +64,7 @@ namespace Aow.Units.Shipyard
     // { TShipyardResource (instance size 120, no added fields, VMT 557C740C) }
     public partial class TShipyardResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        public TShipyardResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TShipyardResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = false;
             FRazeDefenderBudget = 150;
@@ -102,7 +102,8 @@ namespace Aow.Units.Shipyard
     // { TShipyardConstructionControl (instance size 8, no added fields, VMT 557C750C) }
     public partial class TShipyardConstructionControl : Aow.Units.AoWE.TStructureConstructionControl
     {
-        public TShipyardConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TShipyardConstructionControl(TECustomNode owner) : base(owner)
+        { }
 
         // Shipyard.pas:93
         public override void GetInfo(Aow.Units.AoWE.TAbstractUnit AUnit, ref Aow.Rtl.AnsiString Text, ref int Gold, ref int Days)

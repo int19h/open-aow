@@ -61,7 +61,8 @@ namespace Aow.Units.aowSetupEvents
     // { TSetupEvents (instance size 80, VMT 0041375C) }
     public partial class TSetupEvents : Aow.Rtl.TDataModule
     {
-        public TSetupEvents(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TSetupEvents(TComponent owner) : base(owner)
+        { }
 
         public Aow.Rtl.TGDPlay DPlay;
         // { +0044 }

@@ -39,7 +39,7 @@ namespace Aow.Units.BldGuild
     // { TBuildersGuild (instance size 76, no added fields, VMT 557CA0DC) }
     public partial class TBuildersGuild : Aow.Units.PrdPlace.TProductionPlace
     {
-        public TBuildersGuild(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TBuildersGuild(TECustomNode owner) : base(owner)
         {}
 
         // BldGuild.pas:37
@@ -50,7 +50,7 @@ namespace Aow.Units.BldGuild
     // { TBuildersGuildResource (instance size 120, no added fields, VMT 557CA398) }
     public partial class TBuildersGuildResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        public TBuildersGuildResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TBuildersGuildResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = true;
             FClaimed = false;

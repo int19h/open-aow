@@ -75,7 +75,8 @@ namespace Aow.Units.AoWItemsFoundDlg
     // { TItemsFoundDlg: size $B0; $A0 item offset, $A4 completion event, $AC item event. VMT 0044C8D0. }
     public partial class TItemsFoundDlg : Aow.Rtl.TDataModule
     {
-        public TItemsFoundDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TItemsFoundDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }
@@ -225,7 +226,7 @@ namespace Aow.Units.AoWItemsFoundDlg
                 Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected = 2;
                 if (Aow.Units.AoWE.AoWE.AoWHSMap.FGameType == Aow.Units.AoWE.TGameType.gtTutorial)
                 {
-                    Event = Aow.Units.EventLog.TTutorialMessageEventLog.Create(null);
+                    Event = new Aow.Units.EventLog.TTutorialMessageEventLog(null);
                     var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TutorialRStr);
                     Event.FHelpFileName = call__6;
                     var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FTextControl.FindID(55);

@@ -75,7 +75,8 @@ namespace Aow.Units.AoWResultsWin
     // { TResultsWin (size $108, VMT 004279A8): $100 player indices, $104 checkbox controls. }
     public partial class TResultsWin : Aow.Rtl.TDataModule
     {
-        public TResultsWin(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TResultsWin(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWCheckBox.TAOWCheckBox P1CB;
         // { +0044 }

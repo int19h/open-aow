@@ -35,7 +35,7 @@ namespace Aow.Units.AoWWindow
     {
         // AoWWindow.pas:54
         // { TAOWWindow }
-        public TAOWWindow(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWWindow(TComponent owner) : base(owner)
         {
             FUseManagerBorders = true;
         }

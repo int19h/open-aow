@@ -83,7 +83,8 @@ namespace Aow.Units.AoWTBWindow
     // { TTBWindow (size $144, VMT 00456CAC): $134/$138 indicator frame/step, $13C/$13E world/combat clock delays, $140 chat flash countdown. }
     public partial class TTBWindow : Aow.Rtl.TDataModule
     {
-        public TTBWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TTBWindow(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow TaskWindow;
         // { +0044 }

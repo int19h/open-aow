@@ -104,7 +104,7 @@ namespace Aow.Units.CMapCtrl
         }
 
         // CMapCtrl.pas:107
-        private protected TAoWCombatMapControl(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TAoWCombatMapControl(TComponent owner) : base(owner)
         {
             if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
             {
@@ -511,10 +511,6 @@ namespace Aow.Units.CMapCtrl
 
         [Published]
         public Aow.Units.CMapCtrl.TActivateCombatAbilityEvent OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
-
-        // CMapCtrl.pas:54
-        public static TAoWCombatMapControl Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TAoWCombatMapControl(context, owner));
     }
 
     public delegate void TOnMessageEvent(ref Aow.Units.Engine.TEMsg EMsg);

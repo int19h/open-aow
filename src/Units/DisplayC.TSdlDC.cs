@@ -7,13 +7,8 @@ using static Aow.Units.DisplayC.TDisplayCtrlStatusElement;
 namespace Aow.Units.DisplayC;
 
 // The primary constructor captures host before the base inserts this component.
-public sealed class TSdlDC(IDisplayHost host, ConstructionContext context, TComponent owner) : TDisplayCtrl(context, owner)
+public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDisplayCtrl(owner)
 {
-    public TSdlDC(IDisplayHost host) : this(host, null, null) { }
-
-    public static TSdlDC Create(IDisplayHost host, TComponent owner = null) =>
-        ConstructionContext.Create((host, owner), static (context, args) => new TSdlDC(args.host, context, args.owner));
-
     private readonly TSurface[] surfaces = new TSurface[3];
     private readonly Ptr<TRect> primaryRegion = Ptr<TRect>.Alloc(1);
     public override void SetPrimarySurfaceRgn(in TRect region) { FPrimarySurfaceRgn = region; primaryRegion.Value = region; }

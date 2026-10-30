@@ -27,7 +27,8 @@ namespace Aow.Units.AoWWinGeneric
     // { AoWWinGeneric.TAOWGenericWindow (instance size 492): no fields of its own }
     public partial class TAOWGenericWindow : Aow.Units.AoWBaseWin.TAOWBaseWindow
     {
-        public TAOWGenericWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TAOWGenericWindow(TComponent owner) : base(owner)
+        { }
 
         // AoWWinGeneric.pas:39
         // { TAOWGenericWindow }

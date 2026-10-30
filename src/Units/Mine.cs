@@ -38,7 +38,7 @@ namespace Aow.Units.Mine
 //     +$40 FIncomeSource. }
     public partial class TMine : Aow.Units.AoWE.TPlayerStructure
     {
-        public TMine(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMine(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
             FIncomeSource = call__1;
@@ -263,7 +263,7 @@ namespace Aow.Units.Mine
     // { TMineResource (instance size 116, VMT 557B42A8) }
     public partial class TMineResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        public TMineResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMineResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = false;
             FClaimed = false;

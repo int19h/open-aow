@@ -41,7 +41,7 @@ namespace Aow.Units.AltDeath
     // { TAltarOfDeath (instance size 68, no added fields, VMT 557D2094) }
     public partial class TAltarOfDeath : Aow.Units.Altar.TAltar
     {
-        public TAltarOfDeath(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarOfDeath(TECustomNode owner) : base(owner)
         {}
 
         // AltDeath.pas:36
@@ -60,7 +60,7 @@ namespace Aow.Units.AltDeath
     // { TAltarOfDeathResource (instance size 116, no added fields, VMT 557D234C) }
     public partial class TAltarOfDeathResource : Aow.Units.Altar.TAltarResource
     {
-        public TAltarOfDeathResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarOfDeathResource(TECustomNode owner) : base(owner)
         {
         }
 

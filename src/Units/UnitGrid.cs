@@ -60,7 +60,7 @@ namespace Aow.Units.UnitGrid
 
         // UnitGrid.pas:50
         // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public TUnitGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TUnitGrid(TComponent owner) : base(owner)
         {
 
             var call__1 = new Aow.Rtl.TMemoryStream();

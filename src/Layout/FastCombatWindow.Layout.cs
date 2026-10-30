@@ -1332,7 +1332,7 @@ namespace Aow.Units.FastCombatWin
             SequenceSpeedSld.ILIndexBack = 25;
             SequenceSpeedSld.ILIndexTab = 28;
             session.EndRead(SequenceSpeedSld);
-            GlowAnimation = Aow.Units.ImageLib.TImageLibrary.Create(this);
+            GlowAnimation = new Aow.Units.ImageLib.TImageLibrary(this);
             session.BeginRead(GlowAnimation);
             GlowAnimation.Name = "GlowAnimation";
             GlowAnimation.LoadOnDemand = true;

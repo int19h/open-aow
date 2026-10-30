@@ -43,7 +43,7 @@ namespace Aow.Units.MainStructure
     // { TMainStructure (instance size 40, VMT 00435310) }
     public partial class TMainStructure : Aow.Units.CombatStructure.TCombatStructure
     {
-        public TMainStructure(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMainStructure(TECustomNode owner) : base(owner)
         {}
 
         // MainStructure.pas:37
@@ -62,7 +62,7 @@ namespace Aow.Units.MainStructure
     // { TMainStructureResource (instance size 72, VMT 004354CC) }
     public partial class TMainStructureResource : Aow.Units.CombatStructure.TCombatStructureResource
     {
-        public TMainStructureResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMainStructureResource(TECustomNode owner) : base(owner)
         {}
 
         // MainStructure.pas:43

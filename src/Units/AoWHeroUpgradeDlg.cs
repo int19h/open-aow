@@ -72,7 +72,8 @@ namespace Aow.Units.AoWHeroUpgradeDlg
 //     $1D0/$1D4 list sort orders, $1D8 live hero, $1DC editable copy. VMT 004458C8. }
     public partial class THeroUpgradeDlg : Aow.Rtl.TDataModule
     {
-        public THeroUpgradeDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public THeroUpgradeDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

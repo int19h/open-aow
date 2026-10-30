@@ -48,7 +48,7 @@ namespace Aow.Units.AOWToolTip
         public Aow.Rtl.TStringList FLines;
         // AOWToolTip.pas:62
         // { TAOWToolTip }
-        public TAOWToolTip(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWToolTip(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FLines = call__1;

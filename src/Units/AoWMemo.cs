@@ -91,7 +91,7 @@ namespace Aow.Units.AoWMemo
         public Aow.Rtl.TStringList FLines;
         // AoWMemo.pas:126
         // { TAOWMemo }
-        public TAOWMemo(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWMemo(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FLines = call__1;

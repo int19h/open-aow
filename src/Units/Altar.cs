@@ -41,7 +41,7 @@ namespace Aow.Units.Altar
 //     $42..$43 alignment padding. VMT 557CE7C4. }
     public partial class TAltar : Aow.Units.AoWE.TPlayerStructure
     {
-        public TAltar(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltar(TECustomNode owner) : base(owner)
         {}
 
         // Altar.pas:59
@@ -453,7 +453,7 @@ namespace Aow.Units.Altar
     // { TAltarResource (instance size 116, no added fields, VMT 557CEA6C) }
     public partial class TAltarResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        public TAltarResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarResource(TECustomNode owner) : base(owner)
         {
             FClaimed = false;
             FRazeable = true;

@@ -39,7 +39,7 @@ namespace Aow.Units.MoveOnEvents
     // { TMoveOnEvent (instance size 24, VMT 557D2A34) }
     public partial class TMoveOnEvent : Aow.Units.HSEngine.TMapObject
     {
-        public TMoveOnEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMoveOnEvent(TECustomNode owner) : base(owner)
         {}
 
         public byte FRadius;
@@ -222,7 +222,7 @@ namespace Aow.Units.MoveOnEvents
     // { TMoveOnEventResource (instance size 52, VMT 557D2BD4) }
     public partial class TMoveOnEventResource : Aow.Units.HSEngine.TMapObjectResource
     {
-        public TMoveOnEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMoveOnEventResource(TECustomNode owner) : base(owner)
         {
             Level = 27;
         }
@@ -252,7 +252,7 @@ namespace Aow.Units.MoveOnEvents
     // { TChangeSongMoveOnEvent (instance size 28, VMT 557D2CD0) }
     public partial class TChangeSongMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
     {
-        public TChangeSongMoveOnEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TChangeSongMoveOnEvent(TECustomNode owner) : base(owner)
         {}
 
         // MoveOnEvents.pas:277
@@ -291,7 +291,7 @@ namespace Aow.Units.MoveOnEvents
     // { TChangeSongMoveOnEventResource (instance size 52, VMT 557D2E98) }
     public partial class TChangeSongMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
     {
-        public TChangeSongMoveOnEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TChangeSongMoveOnEventResource(TECustomNode owner) : base(owner)
         {}
 
         // MoveOnEvents.pas:301
@@ -319,7 +319,7 @@ namespace Aow.Units.MoveOnEvents
     // { TPlaySampleMoveOnEvent (instance size 28, VMT 557D2FA8) }
     public partial class TPlaySampleMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
     {
-        public TPlaySampleMoveOnEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPlaySampleMoveOnEvent(TECustomNode owner) : base(owner)
         {}
 
         // MoveOnEvents.pas:307
@@ -353,7 +353,7 @@ namespace Aow.Units.MoveOnEvents
     // { TPlaySampleMoveOnEventResource (instance size 52, VMT 557D3170) }
     public partial class TPlaySampleMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
     {
-        public TPlaySampleMoveOnEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPlaySampleMoveOnEventResource(TECustomNode owner) : base(owner)
         {}
 
         // MoveOnEvents.pas:328
@@ -381,7 +381,7 @@ namespace Aow.Units.MoveOnEvents
     // { TShowMessageMoveOnEvent (instance size 28, VMT 557D3280) }
     public partial class TShowMessageMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
     {
-        public TShowMessageMoveOnEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TShowMessageMoveOnEvent(TECustomNode owner) : base(owner)
         {
             var call__6 = new Aow.Rtl.TStringList();
             FMessage = call__6;
@@ -433,7 +433,7 @@ namespace Aow.Units.MoveOnEvents
     // { TShowMessageMoveOnEventResource (instance size 52, VMT 557D3434) }
     public partial class TShowMessageMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
     {
-        public TShowMessageMoveOnEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TShowMessageMoveOnEventResource(TECustomNode owner) : base(owner)
         {}
 
         // MoveOnEvents.pas:375

@@ -55,7 +55,8 @@ namespace Aow.Units.AOWMWindow
     // { TMWindow: size $70; $5C saved map rectangle, $6D/$6F saved alignment. VMT 00450C38. }
     public partial class TMWindow : Aow.Rtl.TDataModule
     {
-        public TMWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TMWindow(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow MapWindow;
         // { +0044 }

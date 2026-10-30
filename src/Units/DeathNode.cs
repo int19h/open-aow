@@ -39,7 +39,7 @@ namespace Aow.Units.DeathNode
     // { TDeathNode (instance size 76, VMT 557BFFA4) }
     public partial class TDeathNode : Aow.Units.PrdPlace.TProductionPlace
     {
-        public TDeathNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDeathNode(TECustomNode owner) : base(owner)
         {}
 
         // DeathNode.pas:37
@@ -58,7 +58,7 @@ namespace Aow.Units.DeathNode
     // { TDeathNodeResource (instance size 120, VMT 557C0258) }
     public partial class TDeathNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        public TDeathNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDeathNodeResource(TECustomNode owner) : base(owner)
         {
             FRazeDefenderBudget = 200;
             FRebuildGold = 25;

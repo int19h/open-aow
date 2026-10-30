@@ -55,7 +55,7 @@ namespace Aow.Units.UnitTabC
 
         // UnitTabC.pas:35
 
-        public TUnitTabControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TUnitTabControl(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary ComCtrls.Create */
             throw new System.NotImplementedException();

@@ -43,7 +43,8 @@ namespace Aow.Units.PrdPlace
     // { TProductionPlaceControl: size $2C; $28 production place. VMT 557BD4D0. }
     public partial class TProductionPlaceControl : Aow.Units.AoWE.TProductionControl
     {
-        public TProductionPlaceControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TProductionPlaceControl(TECustomNode owner) : base(owner)
+        { }
 
         public Aow.Units.PrdPlace.TProductionPlace FProductionPlace;
         // PrdPlace.pas:238
@@ -353,7 +354,7 @@ namespace Aow.Units.PrdPlace
 //     control, $48 razed state, $49 defender level, $4A padding. VMT 557BD68C. }
     public partial class TProductionPlace : Aow.Units.AoWE.TPlayerStructure
     {
-        public TProductionPlace(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TProductionPlace(TECustomNode owner) : base(owner)
         {
             var call__48 = CreateProductionControl();
             FProductionControl = call__48;
@@ -1327,7 +1328,7 @@ namespace Aow.Units.PrdPlace
     // { TProductionPlaceResource: size $78; $74 available unit indexes. VMT 557BD94C. }
     public partial class TProductionPlaceResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        public TProductionPlaceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TProductionPlaceResource(TECustomNode owner) : base(owner)
         {
             FClaimed = false;
             var call__162 = new Aow.Units.AoWE.TUnitIndexList();
@@ -1395,7 +1396,8 @@ namespace Aow.Units.PrdPlace
     // { TProductionPlaceEventLog: size $20; no added fields. VMT 557BDA5C. }
     public partial class TProductionPlaceEventLog : Aow.Units.AoWE.TProductionEventLog
     {
-        public TProductionPlaceEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TProductionPlaceEventLog(TECustomNode owner) : base(owner)
+        { }
 
         // PrdPlace.pas:736
         public new const int ClassID = 131835;

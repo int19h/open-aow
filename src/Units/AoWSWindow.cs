@@ -67,7 +67,8 @@ namespace Aow.Units.AoWSWindow
     // { TSWindow (instance size 116, VMT 004519A0) }
     public partial class TSWindow : Aow.Rtl.TDataModule
     {
-        public TSWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TSWindow(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow ScannerWindow;
         // { +0044 }

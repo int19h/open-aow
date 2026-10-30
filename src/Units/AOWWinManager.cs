@@ -48,7 +48,7 @@ namespace Aow.Units.AOWWinManager
         public bool FDrawOverlay;
         // AOWWinManager.pas:81
         // { TAOWWinManager }
-        public TAOWWinManager(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWWinManager(TComponent owner) : base(owner)
         {
             FWinHeight = 480;
             FWinWidth = 640;

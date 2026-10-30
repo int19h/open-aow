@@ -9,6 +9,7 @@ using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
 using Aow.Units.HashTabU;
 using static Aow.Units.HashTabU.HashTabU;
+using Aow.Units.ImageLib;
 
 namespace Aow.Units.ImageLib
 {
@@ -373,14 +374,14 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:1596
         // { TLibraryImage }
-        public TLibraryImage(Aow.Units.ImageLib.TCustomImageLibrary AOwner)
+        public TLibraryImage(TCustomImageLibrary owner)
         {
             FDataPosition = -1;
             FReloadingEnabled = false;
             FLoadMode = Aow.Units.ImageLib.TLoadMode.lmLoadOnDemand;
             FShowInfo.ShowMode = Aow.Units.ImageLib.TShowMode.smOpaque;
             FShowInfo.BlendMode = Aow.Units.ImageLib.TBlendMode.bmAlpha;
-            SetOwner(AOwner);
+            SetOwner(owner);
         }
 
         // ImageLib.pas:1979
@@ -680,7 +681,7 @@ namespace Aow.Units.ImageLib
         public virtual Aow.Units.ImageLib.TGrabInfo CreateGrabInfo()
         {
             Aow.Units.ImageLib.TGrabInfo Result = default;
-            Result = Aow.Units.ImageLib.TGrabInfo.Create();
+            Result = new Aow.Units.ImageLib.TGrabInfo();
             return Result;
         }
 
@@ -741,7 +742,7 @@ namespace Aow.Units.ImageLib
         // { TLibraryImagePalette }
         public TLibraryImagePalette()
         {
-            var call__16 = Aow.Units.GFXE.TGFXEPalette.Create();
+            var call__16 = new Aow.Units.GFXE.TGFXEPalette();
             FPalette = call__16;
         }
 
@@ -780,7 +781,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (FRemapPalette == null)
                     {
-                        var call__17 = Aow.Units.GFXE.TGFXEPalette.Create();
+                        var call__17 = new Aow.Units.GFXE.TGFXEPalette();
                         FRemapPalette = call__17;
                     }
 
@@ -804,7 +805,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (FRemapPalette == null)
                     {
-                        var call__18 = Aow.Units.GFXE.TGFXEPalette.Create();
+                        var call__18 = new Aow.Units.GFXE.TGFXEPalette();
                         FRemapPalette = call__18;
                     }
 
@@ -1015,8 +1016,6 @@ namespace Aow.Units.ImageLib
 //     data starts in the file), +$40 FCapacity, +$44 FCount, +$48 FImages, +$4C FPaletteManager. }
     public partial class TCustomImageLibrary : Aow.Rtl.TComponent
     {
-        public static TCustomImageLibrary Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TCustomImageLibrary(context, owner));
 
 
         internal TSet<Aow.Units.ImageLib.TImageLibraryStatusElement> FStatus;
@@ -1197,7 +1196,7 @@ namespace Aow.Units.ImageLib
             throw new System.NotImplementedException();
         }
 
-        private protected TCustomImageLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TCustomImageLibrary(TComponent owner) : base(owner)
         {
             var call__40 = new Aow.Units.ImageLib.TPaletteManager();
             FPaletteManager = call__40;
@@ -2343,10 +2342,8 @@ namespace Aow.Units.ImageLib
     public partial class TImageLibrary : Aow.Units.ImageLib.TCustomImageLibrary
     {
 
-        private protected TImageLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
-
-        public static new TImageLibrary Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TImageLibrary(context, owner));
+        public TImageLibrary(TComponent owner) : base(owner)
+        { }
 
 
     }
@@ -2417,12 +2414,6 @@ namespace Aow.Units.ImageLib
             }
 
             return Result;
-        }
-
-        // System.pas:111
-        public static Aow.Units.ImageLib.TGrabInfo Create()
-        {
-            return new Aow.Units.ImageLib.TGrabInfo();
         }
 
     }
@@ -2527,7 +2518,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:1286
         // { TImageNode }
-        public TImageNode(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
+        public TImageNode(TCustomImageLibrary owner) : base(owner)
         {
             FFileName = (AnsiString)"(multi images)";
         }
@@ -2975,7 +2966,8 @@ namespace Aow.Units.ImageLib
     {
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImage08(owner);
 
-        public TImage08(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+        public TImage08(TCustomImageLibrary owner) : base(owner)
+        { }
 
         internal bool FOwnPalette;
         internal Aow.Units.ImageLib.TLibraryImagePalette FImagePalette;
@@ -3130,7 +3122,8 @@ namespace Aow.Units.ImageLib
         static Aow.Rtl.AnsiString ILibraryImageClass.Name => (AnsiString)"Picture (08bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TPicture08(owner);
 
-        public TPicture08(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+        public TPicture08(TCustomImageLibrary owner) : base(owner)
+        { }
 
         internal int FPitch;
         internal Ptr<byte> FBuffer;
@@ -3328,7 +3321,8 @@ namespace Aow.Units.ImageLib
         static Aow.Rtl.AnsiString ILibraryImageClass.Name => (AnsiString)"RLE Sprite (08bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TRLESprite08(owner);
 
-        public TRLESprite08(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+        public TRLESprite08(TCustomImageLibrary owner) : base(owner)
+        { }
 
         internal int FTransparentColor;
         internal int FReserved;
@@ -3717,7 +3711,7 @@ namespace Aow.Units.ImageLib
         internal int FStoredPixelFormatID;
         // ImageLib.pas:2098
         // { TImage16 }
-        public TImage16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
+        public TImage16(TCustomImageLibrary owner) : base(owner)
         {
         }
 
@@ -3768,7 +3762,8 @@ namespace Aow.Units.ImageLib
         static Aow.Rtl.AnsiString ILibraryImageClass.Name => (AnsiString)"Picture (16bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TPicture16(owner);
 
-        public TPicture16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+        public TPicture16(TCustomImageLibrary owner) : base(owner)
+        { }
 
         internal int FPitch;
         internal Ptr<byte> FBuffer;
@@ -4444,7 +4439,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:2845
         // { TTransparentPicture16 }
-        public TTransparentPicture16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
+        public TTransparentPicture16(TCustomImageLibrary owner) : base(owner)
         {
             FShowInfo.ShowMode = Aow.Units.ImageLib.TShowMode.smTransparent;
         }
@@ -4499,7 +4494,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:4247
         // { TSprite16 }
-        public TSprite16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
+        public TSprite16(TCustomImageLibrary owner) : base(owner)
         {
         }
 
@@ -4952,7 +4947,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (SD.BitCount != 16)
                     {
-                        var call__126 = Aow.Units.GFXE.TDataSurface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565, null);
+                        var call__126 = new Aow.Units.GFXE.TDataSurface(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565, null);
                         Surface = call__126;
                         GR.Left = 0;
                         GR.Top = 0;
@@ -5049,7 +5044,7 @@ namespace Aow.Units.ImageLib
         internal int FSpriteHeight;
         // ImageLib.pas:2881
         // { TRLESprite16 }
-        public TRLESprite16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
+        public TRLESprite16(TCustomImageLibrary owner) : base(owner)
         {
         }
 
@@ -5400,7 +5395,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (SD.BitCount != 16)
                     {
-                        var call__143 = Aow.Units.GFXE.TDataSurface.Create(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565, null);
+                        var call__143 = new Aow.Units.GFXE.TDataSurface(R.Right - R.Left, R.Bottom - R.Top, Aow.Units.GFXE.GFXE.pfRGB565, null);
                         Surface = call__143;
                         GR.Left = 0;
                         GR.Top = 0;
@@ -5506,7 +5501,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:3592
         // { TTransparentRLESprite16 }
-        public TTransparentRLESprite16(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
+        public TTransparentRLESprite16(TCustomImageLibrary owner) : base(owner)
         {
             FShowInfo.ShowMode = Aow.Units.ImageLib.TShowMode.smTransparent;
         }
@@ -5550,12 +5545,6 @@ namespace Aow.Units.ImageLib
             Result = Descriptor;
             return Result;
         }
-
-        // System.pas:111
-        public static new Aow.Units.ImageLib.TBitMaskGrabInfo Create()
-        {
-            return new Aow.Units.ImageLib.TBitMaskGrabInfo();
-        }
     }
 
     // { ImageLib.TBitMask (instance size 88): a mask of one bit per pixel (ClassID $13), shown as
@@ -5568,7 +5557,8 @@ namespace Aow.Units.ImageLib
         static Aow.Rtl.AnsiString ILibraryImageClass.Name => (AnsiString)"Bit Mask";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TBitMask(owner);
 
-        public TBitMask(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner) { }
+        public TBitMask(TCustomImageLibrary owner) : base(owner)
+        { }
 
         internal int FPitch;
         internal Ptr<byte> FMaskData;
@@ -5680,7 +5670,7 @@ namespace Aow.Units.ImageLib
         public override Aow.Units.ImageLib.TGrabInfo CreateGrabInfo()
         {
             Aow.Units.ImageLib.TGrabInfo Result = default;
-            Result = Aow.Units.ImageLib.TBitMaskGrabInfo.Create();
+            Result = new Aow.Units.ImageLib.TBitMaskGrabInfo();
             return Result;
         }
 
@@ -5832,7 +5822,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:5100
         // { TShadow }
-        public TShadow(Aow.Units.ImageLib.TCustomImageLibrary AOwner) : base(AOwner)
+        public TShadow(TCustomImageLibrary owner) : base(owner)
         {
         }
 
@@ -5895,8 +5885,6 @@ namespace Aow.Units.ImageLib
 //     for none). A character without an image is 5 pixels wide. }
     public partial class TImageLibraryFont : Aow.Units.ImageLib.TCustomImageLibrary
     {
-        public static new TImageLibraryFont Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TImageLibraryFont(context, owner));
 
 
         internal int FCharacterDistance;
@@ -5922,7 +5910,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:6258
         // { TImageLibraryFont }
-        private protected TImageLibraryFont(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TImageLibraryFont(TComponent owner) : base(owner)
         {
             FCharacterDistance = 2;
             FFontColorPaletteIndex = -1;
@@ -6203,7 +6191,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6504
         // { TCustomImageLibraryPanel }
 
-        public TCustomImageLibraryPanel(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TCustomImageLibraryPanel(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary ExtCtrls.Create */
             throw new System.NotImplementedException();
@@ -6213,7 +6201,8 @@ namespace Aow.Units.ImageLib
     // { ImageLib.TImageLibraryPanel (instance size 340) }
     public partial class TImageLibraryPanel : Aow.Units.ImageLib.TCustomImageLibraryPanel
     {
-        public TImageLibraryPanel(TComponent owner) : base(owner) { }
+        public TImageLibraryPanel(TComponent owner) : base(owner)
+        { }
 
     }
 
@@ -6396,7 +6385,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:6594
         // { TCustomImageDrawGrid }
 
-        public TCustomImageDrawGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TCustomImageDrawGrid(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary Grids.Create */
             throw new System.NotImplementedException();
@@ -6490,7 +6479,8 @@ namespace Aow.Units.ImageLib
     // { ImageLib.TImageDrawGrid (instance size 476) }
     public partial class TImageDrawGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
-        public TImageDrawGrid(TComponent owner) : base(owner) { }
+        public TImageDrawGrid(TComponent owner) : base(owner)
+        { }
 
     }
 
@@ -6499,7 +6489,8 @@ namespace Aow.Units.ImageLib
 //     clipboard format of TCustomImageLibrary, when EditMode allows them. }
     public partial class TCustomImageLibraryGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
     {
-        public TCustomImageLibraryGrid(TComponent owner) : base(owner) { }
+        public TCustomImageLibraryGrid(TComponent owner) : base(owner)
+        { }
 
         internal Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
         // ImageLib.pas:6934
@@ -6583,7 +6574,8 @@ namespace Aow.Units.ImageLib
     // { ImageLib.TImageLibraryGrid (instance size 480) }
     public partial class TImageLibraryGrid : Aow.Units.ImageLib.TCustomImageLibraryGrid
     {
-        public TImageLibraryGrid(TComponent owner) : base(owner) { }
+        public TImageLibraryGrid(TComponent owner) : base(owner)
+        { }
 
     }
 
@@ -6592,8 +6584,6 @@ namespace Aow.Units.ImageLib
 //     FOwnedList. }
     public partial class TImageLibraryManager : Aow.Rtl.TComponent
     {
-        public static TImageLibraryManager Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TImageLibraryManager(context, owner));
 
 
         internal Aow.Rtl.AnsiString FSearchPath;
@@ -6601,7 +6591,7 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TILManagerList FOwnedList;
         // ImageLib.pas:8260
         // { TImageLibraryManager }
-        private protected TImageLibraryManager(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TImageLibraryManager(TComponent owner) : base(owner)
         {
             var call__184 = new Aow.Units.ImageLib.TILManagerList(this);
             FDiskList = call__184;
@@ -6717,7 +6707,7 @@ namespace Aow.Units.ImageLib
                 Result = call__190;
                 if (Result == null)
                 {
-                    Result = Aow.Units.ImageLib.TImageLibrary.Create(null);
+                    Result = new Aow.Units.ImageLib.TImageLibrary(null);
                     FOwnedList.AddILManagerObject(FileName, Result);
                 }
             }
@@ -6781,12 +6771,6 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
         public int RefCount { get => FRefCount; }
         public Aow.Units.ImageLib.TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
-
-        // System.pas:111
-        public static Aow.Units.ImageLib.TILManagerObject Create()
-        {
-            return new Aow.Units.ImageLib.TILManagerObject();
-        }
     }
 
     // { ImageLib.TILManagerList (instance size 52): library file names (upper case, relative to the
@@ -6798,9 +6782,9 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TImageLibraryManager FOwner;
         // ImageLib.pas:8093
         // { TILManagerList }
-        public TILManagerList(Aow.Units.ImageLib.TImageLibraryManager AOwner)
+        public TILManagerList(TImageLibraryManager owner)
         {
-            FOwner = AOwner;
+            FOwner = owner;
             var call__192 = new Aow.Units.HashTabU.TStringHashTable256();
             FHashTable = call__192;
         }
@@ -6848,7 +6832,7 @@ namespace Aow.Units.ImageLib
         {
             Aow.Units.ImageLib.TILManagerObject Result = default;
             Aow.Units.ImageLib.TILManagerObject Obj = default;
-            Obj = Aow.Units.ImageLib.TILManagerObject.Create();
+            Obj = new Aow.Units.ImageLib.TILManagerObject();
             FileName = Aow.Rtl.Rtl.UpperCase(FileName);
             AddObject(FileName, Obj);
             FHashTable.Add(Obj, FileName);
@@ -6865,7 +6849,7 @@ namespace Aow.Units.ImageLib
             Aow.Rtl.AnsiString S = default;
             Aow.Units.ImageLib.TILManagerObject Obj = default;
             S = Aow.Rtl.Rtl.UpperCase(Name);
-            Obj = Aow.Units.ImageLib.TILManagerObject.Create();
+            Obj = new Aow.Units.ImageLib.TILManagerObject();
             Obj.FImageLibrary = ImageLibrary;
             AddObject(S, Obj);
             FHashTable.Delete(S);
@@ -6929,7 +6913,7 @@ namespace Aow.Units.ImageLib
                 Obj.FRefCount += 1;
                 if (Obj.FImageLibrary == null)
                 {
-                    var call__201 = Aow.Units.ImageLib.TImageLibrary.Create(null);
+                    var call__201 = new Aow.Units.ImageLib.TImageLibrary(null);
                     Obj.FImageLibrary = call__201;
                     Obj.FImageLibrary.LoadOnDemand = true;
                     try
@@ -6994,7 +6978,7 @@ namespace Aow.Units.ImageLib
                 for (; I <= end__204; I += 1)
                 {
                     Aow.Units.ImageLib.ImageLib.ReadStringFromStream(ref Name, Stream);
-                    IL = Aow.Units.ImageLib.TImageLibrary.Create(null);
+                    IL = new Aow.Units.ImageLib.TImageLibrary(null);
                     IL.LoadFromStream(Stream);
                     AddILManagerObject(Name, IL);
                 }
@@ -7068,7 +7052,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:8386
 
-        public TILManagerComboBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TILManagerComboBox(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -7143,7 +7127,7 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:8476
 
-        public TILManagerListBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TILManagerListBox(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -7196,7 +7180,7 @@ namespace Aow.Units.ImageLib
         internal Aow.Units.ImageLib.TCustomImageLibrary FImageLibrary;
         // ImageLib.pas:8903
         // { TImageSequenceList }
-        public TImageSequenceList(Aow.Units.ImageLib.TImageLibraryManager AILManager, Aow.Units.ImageLib.TCustomImageLibrary AImageLibrary)
+        public TImageSequenceList(TImageLibraryManager AILManager, TCustomImageLibrary AImageLibrary)
         {
             FILManager = AILManager;
             FImageLibrary = AImageLibrary;
@@ -8216,12 +8200,6 @@ namespace Aow.Units.ImageLib
         public int DefaultValue { get => FDefaultValue; set => FDefaultValue = value; }
         public Aow.Rtl.AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
 
-        // System.pas:111
-        public static Aow.Units.ImageLib.TFrameTableList Create()
-        {
-            return new Aow.Units.ImageLib.TFrameTableList();
-        }
-
         // ImageLib.pas:9401
         public static void Error(Aow.Rtl.AnsiString Msg, int Data)
         {
@@ -8270,7 +8248,7 @@ namespace Aow.Units.ImageLib
         {
             if (TSet<Aow.Units.ImageLib.TSequenceMode>.Of(Aow.Units.ImageLib.TSequenceMode.smFrameTable, Aow.Units.ImageLib.TSequenceMode.smRndFrameTable).Contains(Value) && (FFrameTable == null))
             {
-                var call__228 = Aow.Units.ImageLib.TFrameTableList.Create();
+                var call__228 = new Aow.Units.ImageLib.TFrameTableList();
                 FFrameTable = call__228;
             }
 
@@ -8279,9 +8257,9 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:8553
         // { TImageSequence }
-        public TImageSequence(Aow.Units.ImageLib.TImageSequenceList AOwner)
+        public TImageSequence(TImageSequenceList owner)
         {
-            FOwner = AOwner;
+            FOwner = owner;
         }
 
         // ImageLib.pas:8559
@@ -8703,7 +8681,7 @@ namespace Aow.Units.ImageLib
             {
                 if (FFrameTable == null)
                 {
-                    var call__241 = Aow.Units.ImageLib.TFrameTableList.Create();
+                    var call__241 = new Aow.Units.ImageLib.TFrameTableList();
                     FFrameTable = call__241;
                 }
 

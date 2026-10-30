@@ -47,7 +47,7 @@ namespace Aow.Units.FleeLoc
     // { TFleeLocation (instance size 28, VMT 00430EB4) }
     public partial class TFleeLocation : Aow.Units.HSEngine.TMapObject
     {
-        public TFleeLocation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFleeLocation(TECustomNode owner) : base(owner)
         {
         }
 
@@ -237,7 +237,7 @@ namespace Aow.Units.FleeLoc
     // { TFleeLocationResource (instance size 52, VMT 00431048) }
     public partial class TFleeLocationResource : Aow.Units.HSEngine.TMapObjectResource
     {
-        public TFleeLocationResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFleeLocationResource(TECustomNode owner) : base(owner)
         {}
 
         // FleeLoc.pas:163
@@ -264,7 +264,7 @@ namespace Aow.Units.FleeLoc
     // { TMovementHS (instance size 16, VMT 00431140) }
     public partial class TMovementHS : Aow.Units.HSEngine.TSingleHS
     {
-        public TMovementHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TMovementHS(TECustomNode owner) : base(owner)
         {}
 
         // FleeLoc.pas:172

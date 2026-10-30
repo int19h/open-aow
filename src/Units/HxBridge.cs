@@ -38,7 +38,7 @@ namespace Aow.Units.HxBridge
 //     +$11 FDirection (-1 invalid), +$14 FSideA, +$18 FSideB. }
     public partial class THexagonBridge : Aow.Units.HSEngine.TAbstractRoad
     {
-        public THexagonBridge(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THexagonBridge(TECustomNode owner) : base(owner)
         {
             FDirection = unchecked((sbyte)-1);
             var call__1 = new Aow.Units.Engine.TByteList();
@@ -513,7 +513,7 @@ namespace Aow.Units.HxBridge
     // { THexagonBridgeResource (instance size 52, VMT 5579967C) }
     public partial class THexagonBridgeResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
-        public THexagonBridgeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THexagonBridgeResource(TECustomNode owner) : base(owner)
         {
             Level = 10;
         }

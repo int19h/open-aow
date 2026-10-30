@@ -63,7 +63,8 @@ namespace Aow.Units.AoWSelFactionWin
     // { TSelFactionWin (instance size 144, VMT 00418940) }
     public partial class TSelFactionWin : Aow.Rtl.TDataModule
     {
-        public TSelFactionWin(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TSelFactionWin(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWPanel.TAOWPanel FactionPnl;
         // { +0044 }

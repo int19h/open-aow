@@ -39,7 +39,7 @@ namespace Aow.Units.EarthNode
     // { TEarthNode (instance size 76, VMT 557BFAE0) }
     public partial class TEarthNode : Aow.Units.PrdPlace.TProductionPlace
     {
-        public TEarthNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TEarthNode(TECustomNode owner) : base(owner)
         {}
 
         // EarthNode.pas:36
@@ -58,7 +58,7 @@ namespace Aow.Units.EarthNode
     // { TEarthNodeResource (instance size 120, VMT 557BFD94) }
     public partial class TEarthNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        public TEarthNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TEarthNodeResource(TECustomNode owner) : base(owner)
         {
             FRazeDefenderBudget = 200;
             FRebuildGold = 35;

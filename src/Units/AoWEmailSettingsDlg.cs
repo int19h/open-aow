@@ -57,7 +57,8 @@ namespace Aow.Units.AoWEmailSettingsDlg
     // { TEmailSettingsDlg (instance size 144, VMT 0040EBE8) }
     public partial class TEmailSettingsDlg : Aow.Rtl.TDataModule
     {
-        public TEmailSettingsDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TEmailSettingsDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

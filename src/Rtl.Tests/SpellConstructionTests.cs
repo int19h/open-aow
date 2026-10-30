@@ -41,7 +41,7 @@ public sealed partial class SpellConstructionTests
     {
         private readonly TAoWHSSet previousSet = Game.AoWHSSet;
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
-        internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
+        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal Fixture()
         {
             var set = TAoWHSSet.Create(null!);
@@ -141,48 +141,14 @@ public sealed partial class SpellConstructionTests
         finally { engine.Destroy(); }
     }
 
-    private static string Failure(Type type, int route)
-    {
-        using var fixture = new Fixture();
-        TEngine? engine = route == 2 ? RegisteredEngine(type) : null;
-        if (typeof(TSpell).IsAssignableFrom(type) || typeof(TAbility).IsAssignableFrom(type)) Game.AoWHSSet = null!;
-        var dictionary = EngineFixture.Engine.FDictionary;
-        if (!typeof(TSpell).IsAssignableFrom(type) && !typeof(TAbility).IsAssignableFrom(type))
-        {
-            Game.AoWEngine = EngineFixture.Engine;
-            Game.AoWEngine.FDictionary = null!;
-        }
-        var owner = new Owner();
-        TEObject? result = null;
-        System.Exception? failure = null;
-        try { result = Create(type, owner, route, engine); }
-        catch (System.Exception error) { failure = error; }
-        finally { engine?.Destroy(); EngineFixture.Engine.FDictionary = dictionary; }
-        Assert.Null(result);
-        Assert.NotNull(failure);
-        Assert.IsType<NullReferenceException>(failure);
-        Assert.Empty(owner.Members);
-        Assert.True(owner.Removed.Count == 1, $"Route {route}, observations {owner.Observations.Count}: {failure}");
-        Assert.Null(Assert.Single(owner.Removed).Owner);
-        return JsonSerializer.Serialize(new
-        {
-            Error = failure.GetType().FullName,
-            failure.Message,
-            Members = owner.Members.Count,
-            Removed = owner.Removed.Count,
-            Observations = owner.Observations,
-            RemovedState = owner.Removed.Select(Snapshot).ToArray()
-        });
-    }
+
 
     private static readonly JsonDocument Baseline = JsonDocument.Parse(typeof(SpellConstructionTests).Assembly
         .GetManifestResourceStream("Aow.Rtl.Tests.SpellConstructionBaseline.json")!);
 
     public static IEnumerable<object[]> Classes => Baseline.RootElement.EnumerateObject().Select(entry => new object[] { entry.Name });
 
-    public static IEnumerable<object[]> GuardedClasses => Baseline.RootElement.EnumerateObject()
-        .Where(entry => entry.Value.GetProperty("Failure").ValueKind == JsonValueKind.String)
-        .Select(entry => new object[] { entry.Name });
+    public static IEnumerable<object[]> FormerlyGuardedClasses => Classes;
 
     [Theory]
     [MemberData(nameof(Classes))]
@@ -221,8 +187,6 @@ public sealed partial class SpellConstructionTests
                 }
             Assert.Equal(4, owner.Members.Count);
             Assert.DoesNotContain(type.GetConstructors(), constructor => constructor.GetParameters().Length == 0);
-            if (expected.GetProperty("Failure").ValueKind == JsonValueKind.String)
-                Assert.DoesNotContain(type.GetConstructors(), constructor => constructor.GetParameters().Length != 0);
         }
         finally { foreach (var value in allocated) value.Destroy(); }
         Assert.Empty(owner.Members);
@@ -230,12 +194,25 @@ public sealed partial class SpellConstructionTests
     }
 
     [Theory]
-    [MemberData(nameof(GuardedClasses))]
-    public void FailureAfterPublicationMatchesTheLegacyDestructorAndOwnerState(string name)
+    [MemberData(nameof(FormerlyGuardedClasses))]
+    public void PlainSpellAndAbilityConstructorsPublishCompletedState(string name)
     {
         Type type = typeof(TSpell).Assembly.GetType(name)!;
-        string expected = Baseline.RootElement.GetProperty(name).GetProperty("Failure").GetString()!;
-        for (int route = 0; route < 4; route++) AssertRecorded(expected, Failure(type, route));
+        for (int route = 0; route < 4; route++)
+        {
+            using var fixture = new Fixture();
+            var owner = new Owner();
+            var value = Create(type, owner, route);
+            Assert.IsType(type, value);
+            Assert.Same(owner, value.Owner);
+            Assert.Same(value, Assert.Single(owner.Members));
+            Assert.Empty(owner.Removed);
+            if (value is TSpell spell) Assert.Same(fixture.Manager, spell.FCastImages.FILManager);
+            if (value is TAbility ability) Assert.Same(fixture.Manager, ability.FImageSequences.FILManager);
+            value.Destroy();
+            Assert.Empty(owner.Members);
+            Assert.Same(value, Assert.Single(owner.Removed));
+        }
     }
 
     [Fact]
@@ -269,7 +246,7 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void SummonConstructionInitializesItsSpellState()
     {
-        var raw = Aow.Units.SummonSpells.TSummonSpell.Create(null!);
+        var raw = new Aow.Units.SummonSpells.TSummonSpell(null!);
         Assert.NotNull(raw.FSpellText);
         Assert.NotNull(raw.FUnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null!));

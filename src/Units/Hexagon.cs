@@ -23,7 +23,7 @@ namespace Aow.Units.Hexagon
 //     +$13 FTransitionSides (bits 0..2: the sides with a transition, bits 3..5: the shifted variants) }
     public partial class THexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
-        public THexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THexagon(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 131410;
@@ -84,7 +84,7 @@ namespace Aow.Units.Hexagon
     // { Hexagon.THexagonResource (instance size 56): +$34 FTransitionLibrary (HexTrans.ILB) }
     public partial class THexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
-        public THexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public THexagonResource(TECustomNode owner) : base(owner)
         {
             SetLevel(0);
         }

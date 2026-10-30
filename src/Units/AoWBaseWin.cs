@@ -30,7 +30,8 @@ namespace Aow.Units.AoWBaseWin
 //     VMT (new): SetILFrame, SetILTexture }
     public partial class TAOWBaseWindow : Aow.Units.AoWWinControl.TAOWWindowControl
     {
-        public TAOWBaseWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TAOWBaseWindow(TComponent owner) : base(owner)
+        { }
 
         public Aow.Rtl.TObject FBuffer;
         public bool FFreeSurfaceOnHide;
@@ -437,7 +438,7 @@ namespace Aow.Units.AoWBaseWin
                     DestSD = SurfDesc;
                     if (FBackSurface == null)
                     {
-                        var call__23 = Aow.Units.GFXE.TDataSurface.Create(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                        var call__23 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                         FBackSurface = call__23;
                         if (FMasked)
                         {
@@ -457,7 +458,7 @@ namespace Aow.Units.AoWBaseWin
                             {
                                 FBackSurface.Unlock();
                                 FBackSurface.Free();
-                                var call__26 = Aow.Units.GFXE.TDataSurface.Create(FWinWidth, FWinHeight, DestSD.PixelFormatID, null);
+                                var call__26 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, DestSD.PixelFormatID, null);
                                 FBackSurface = call__26;
                                 if (FMasked)
                                 {

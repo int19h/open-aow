@@ -45,7 +45,7 @@ namespace Aow.Units.CombatObstacle
     // { TCombatObstacleShadow (instance size 12, VMT 00431888) }
     public partial class TCombatObstacleShadow : Aow.Units.HSEngine.THexagonSprite
     {
-        public TCombatObstacleShadow(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatObstacleShadow(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.CombatObstacle.TCombatObstacle FObstacle;
@@ -72,7 +72,7 @@ namespace Aow.Units.CombatObstacle
     // { TCombatObstacleOverlay (instance size 12, VMT 00431A20) }
     public partial class TCombatObstacleOverlay : Aow.Units.HSEngine.THexagonSprite
     {
-        public TCombatObstacleOverlay(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatObstacleOverlay(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.CombatObstacle.TCombatObstacle FObstacle;
@@ -99,7 +99,7 @@ namespace Aow.Units.CombatObstacle
     // { TCombatObstacle (instance size 28, VMT 00431BB8) }
     public partial class TCombatObstacle : Aow.Units.HSEngine.TMultiHexMO
     {
-        public TCombatObstacle(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatObstacle(TECustomNode owner) : base(owner)
         {}
 
         // CombatObstacle.pas:94
@@ -323,7 +323,7 @@ namespace Aow.Units.CombatObstacle
     // { TCombatObstacleResource (instance size 68, VMT 00431D60) }
     public partial class TCombatObstacleResource : Aow.Units.HSEngine.TMultiHexMOR
     {
-        public TCombatObstacleResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatObstacleResource(TECustomNode owner) : base(owner)
         {}
 
         // CombatObstacle.pas:239

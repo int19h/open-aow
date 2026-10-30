@@ -37,7 +37,7 @@ namespace Aow.Units.Sign
     // { TSign (instance size 56, VMT 557A4098): +$30 FText, +$34 FTextSeen. }
     public partial class TSign : Aow.Units.AoWE.TStructure
     {
-        public TSign(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSign(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FText = call__1;
@@ -157,7 +157,7 @@ namespace Aow.Units.Sign
     // { TSignResource (instance size 100, VMT 557A42EC) }
     public partial class TSignResource : Aow.Units.AoWE.TStructureResource
     {
-        public TSignResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSignResource(TECustomNode owner) : base(owner)
         {
             FConnectRoads = false;
             FTerrainBound = false;
@@ -256,7 +256,7 @@ namespace Aow.Units.Sign
     // { TUpdateSignTE (instance size 24, VMT 557A43DC): +$10 FText, +$14 FXhx, +$15 FYhx, +$16 FLhx. }
     public partial class TUpdateSignTE : Aow.Units.NetworkE.TTokenEvent
     {
-        public TUpdateSignTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TUpdateSignTE(TECustomNode owner) : base(owner)
         {
             var call__21 = new Aow.Rtl.TStringList();
             FText = call__21;

@@ -38,9 +38,8 @@ namespace Aow.Units.Crops
 //     +$3D FChangingCrops, +$40 FIncomeSource. }
     public partial class TPlayerCropStructure : Aow.Units.AoWE.TPlayerStructure
     {
-        public TPlayerCropStructure(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
-        private protected TPlayerCropStructure(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TPlayerCropStructure(TECustomNode owner) : base(owner)
         {
             FChangingCrops = false;
             var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
@@ -584,7 +583,7 @@ namespace Aow.Units.Crops
     // { TPlayerCropStructureResource (instance size 120, VMT 557A58FC): +$74 FCropLocations. }
     public partial class TPlayerCropStructureResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        public TPlayerCropStructureResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPlayerCropStructureResource(TECustomNode owner) : base(owner)
         {}
 
         // Crops.pas:599
@@ -628,7 +627,7 @@ namespace Aow.Units.Crops
     // { TCrop (instance size 32, VMT 557A5A10): +$1C FCropOwner. }
     public partial class TCrop : Aow.Units.ILTer.TILTerrainMO
     {
-        public TCrop(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCrop(TECustomNode owner) : base(owner)
         {
         }
 
@@ -860,7 +859,7 @@ namespace Aow.Units.Crops
     // { TCropResource (instance size 68, VMT 557A5BB0) }
     public partial class TCropResource : Aow.Units.ILTer.TILTerrainMOR
     {
-        public TCropResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCropResource(TECustomNode owner) : base(owner)
         {}
 
         // Crops.pas:245

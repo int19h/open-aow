@@ -49,7 +49,7 @@ namespace Aow.Units.UnHolyG
 //     $1E FDuration, $1F FOriginalOverlay. }
     public partial class TUnHolyGround : Aow.Units.ILTer.TILTerrainMO
     {
-        public TUnHolyGround(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TUnHolyGround(TECustomNode owner) : base(owner)
         {}
 
         // UnHolyG.pas:93
@@ -409,7 +409,7 @@ namespace Aow.Units.UnHolyG
     // { TUnHolyGroundResource (instance size 68, VMT 557C8CC0) }
     public partial class TUnHolyGroundResource : Aow.Units.ILTer.TILTerrainMOR
     {
-        public TUnHolyGroundResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TUnHolyGroundResource(TECustomNode owner) : base(owner)
         {}
 
         // UnHolyG.pas:278
@@ -438,7 +438,7 @@ namespace Aow.Units.UnHolyG
     // { TUnholyGroundSpellTE (instance size 36, VMT 557C8DC0) }
     public partial class TUnholyGroundSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
-        public TUnholyGroundSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TUnholyGroundSpellTE(TECustomNode owner) : base(owner)
         {}
 
         // UnHolyG.pas:288
@@ -531,7 +531,7 @@ namespace Aow.Units.UnHolyG
     // { TUnholyGroundSpell (instance size 60, VMT 557C8EA4) }
     public partial class TUnholyGroundSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
-        private protected TUnholyGroundSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TUnholyGroundSpell(TECustomNode owner) : base(owner)
         {
             var call__65 = Aow.Units.AoWE.AoWE.UnholyGroundsRStr;
             var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(call__65);
@@ -541,11 +541,6 @@ namespace Aow.Units.UnHolyG
             FSpellLevel = 2;
             FMagicSphere = Aow.Units.AoWE.TMagicSphere.msDeath;
             FAboveGroundOnly = false;
-        }
-
-        public static new TUnholyGroundSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnholyGroundSpell(context, owner));
         }
 
         // UnHolyG.pas:349
@@ -640,7 +635,7 @@ namespace Aow.Units.UnHolyG
         public static void RegisterUnHolyGround(Aow.Units.AoWE.TAoWEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnHolyGround>(), Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnHolyGroundResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.UnHolyG.TUnholyGroundSpellTE>()]);
-            var call__75 = Aow.Units.UnHolyG.TUnholyGroundSpell.Create(null);
+            var call__75 = new Aow.Units.UnHolyG.TUnholyGroundSpell(null);
             AEngine.FGameSet.FSpellControl.RegisterSpell(call__75);
         }
 

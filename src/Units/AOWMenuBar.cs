@@ -48,7 +48,7 @@ namespace Aow.Units.AOWMenuBar
         public bool F130;
         // AOWMenuBar.pas:65
         // { TAOWMenuBar }
-        public TAOWMenuBar(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWMenuBar(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;

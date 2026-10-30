@@ -42,7 +42,7 @@ namespace Aow.Units.Tower
     // { TTower (instance size 64, VMT 557C31A8): $3C FState, bit 0 razed. }
     public partial class TTower : Aow.Units.AoWE.TPlayerStructure
     {
-        public TTower(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTower(TECustomNode owner) : base(owner)
         {}
 
         // Tower.pas:55
@@ -180,7 +180,7 @@ namespace Aow.Units.Tower
     // { TTowerResource (instance size 116, VMT 557C3434): no additional fields. }
     public partial class TTowerResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        public TTowerResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTowerResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = true;
             FClaimed = false;
@@ -222,7 +222,8 @@ namespace Aow.Units.Tower
     // { TTowerConstructionControl (instance size 8, VMT 557C352C) }
     public partial class TTowerConstructionControl : Aow.Units.AoWE.TStructureConstructionControl
     {
-        public TTowerConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TTowerConstructionControl(TECustomNode owner) : base(owner)
+        { }
 
         // Tower.pas:139
         public override void GetInfo(Aow.Units.AoWE.TAbstractUnit AUnit, ref Aow.Rtl.AnsiString Text, ref int Gold, ref int Days)

@@ -29,21 +29,7 @@ public sealed class MapNetSoundFailureTests
         }
     }
 
-    private sealed class FailingLevel : TMapLevel
-    {
-        private FailingLevel(ConstructionContext context, TECustomNode owner) : base(context, owner)
-        {
-            ((Owner)owner).Events.Add("fail");
-            throw new InvalidDataException("level");
-        }
-        internal static new FailingLevel Create(TECustomNode owner) =>
-            ConstructionContext.Create(owner, static (context, value) => new FailingLevel(context, value));
-        public override void Destroy()
-        {
-            ((Owner)Owner).Events.Add("destroy");
-            base.Destroy();
-        }
-    }
+
 
     private sealed class FailingSample : Aow.Units.Sound.TSample
     {
@@ -77,22 +63,7 @@ public sealed class MapNetSoundFailureTests
         }
     }
 
-    private sealed class FailingPublishedLevel : TMapLevel
-    {
-        private FailingPublishedLevel(ConstructionContext context, TECustomNode owner) : base(context, owner)
-        {
-            ((Container)owner).Events.Add("fail");
-            throw new InvalidDataException("published level");
-        }
-        internal static new FailingPublishedLevel Create(TECustomNode owner) =>
-            ConstructionContext.Create(owner, static (context, value) => new FailingPublishedLevel(context, value));
-        public override void Destroy()
-        {
-            var container = (Container)Owner;
-            container.Events.Add("destroy:" + container.Count);
-            base.Destroy();
-        }
-    }
+
 
     private sealed class ObservingFiles(IFileSystem inner, AnsiString name) : IFileSystem
     {
@@ -115,39 +86,37 @@ public sealed class MapNetSoundFailureTests
         public IEnumerable<RtlFileEntry> Enumerate(string directory) => inner.Enumerate(directory);
     }
 
-    static MapNetSoundFailureTests()
-    {
-        EClass.Register<FailingLevel>(TMapLevel.ClassID, static owner => FailingLevel.Create(owner), 124);
-        EClass.Register<FailingPublishedLevel>(TMapLevel.ClassID, static owner => FailingPublishedLevel.Create(owner), 124);
-    }
+
 
     [Fact]
-    public void FailedDynamicLevelDetachesBeforeCallerCleanup()
+    public void PlainDynamicLevelRemainsPublishedUntilDestroy()
     {
         var owner = new Owner();
-        var error = Assert.Throws<InvalidDataException>(() => EClass.Of<FailingLevel>().Create(owner));
-        Assert.Equal("level", error.Message);
+        var level = new TMapLevel(owner);
+        Assert.Same(level, Assert.Single(owner.Members));
+        Assert.Same(owner, level.Owner);
+        Assert.Equal(0, level.Count);
+        Assert.Equal(["insert"], owner.Events);
+        level.Destroy();
         Assert.Empty(owner.Members);
-        Assert.Equal(["insert", "fail", "destroy", "remove"], owner.Events);
+        Assert.Equal(["insert", "remove"], owner.Events);
     }
 
     [Fact]
-    public void ContainerCatchSeesTheFailedLevelAlreadyDetached()
+    public void PlainWorldAndCombatLevelsKeepTheRegisteredTypeAndOwner()
     {
-        if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-        var engine = new TEngine(null!);
-        engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
-        engine.RegisterEClasses([EClass.Of<FailingPublishedLevel>()]);
-        var map = new THSMap(null!);
-        var container = new Container(map) { FEngine = engine };
-        try
+        foreach (var descriptor in new[] { EClass.Of<Aow.Units.AoWE.TAoWMapLevel>(), EClass.Of<Aow.Units.AoWTC.TAoWCombatMapLevel>() })
         {
-            var error = Assert.Throws<InvalidDataException>(() => container.New(new TNewHSMapSettings()));
-            Assert.Equal("published level", error.Message);
-            Assert.Equal(0, container.Count);
-            Assert.Equal(["clear:0", "insert", "fail", "destroy:1", "remove", "clear:0"], container.Events);
+            var owner = new Owner();
+            var level = Assert.IsAssignableFrom<TMapLevel>(descriptor.Create(owner));
+            Assert.IsType(descriptor.Type, level);
+            Assert.Same(level, Assert.Single(owner.Members));
+            Assert.Same(owner, level.Owner);
+            Assert.Equal(0, level.Count);
+            level.Destroy();
+            Assert.Empty(owner.Members);
+            Assert.Equal(["insert", "remove"], owner.Events);
         }
-        finally { container.Destroy(); map.Destroy(); engine.Destroy(); }
     }
 
     [Fact]

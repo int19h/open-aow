@@ -56,7 +56,7 @@ namespace Aow.Units.LeadrGrd
 
         // LeadrGrd.pas:101
         // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public TLeaderGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TLeaderGrid(TComponent owner) : base(owner)
         {
 
             DefaultColWidth = 155;

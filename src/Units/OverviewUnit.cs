@@ -45,7 +45,7 @@ namespace Aow.Units.OverviewUnit
     // { TOverviewUnitHS (instance size 32, VMT 0043765C): $1C FUnit. }
     public partial class TOverviewUnitHS : Aow.Units.AoWE.TUnitHS
     {
-        public TOverviewUnitHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TOverviewUnitHS(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.AoWE.TAbstractUnit FUnit;

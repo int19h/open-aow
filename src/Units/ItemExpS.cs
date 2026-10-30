@@ -41,7 +41,8 @@ namespace Aow.Units.ItemExpS
     // { TExplorationSiteItemList (instance size 24, VMT 557C2298) }
     public partial class TExplorationSiteItemList : Aow.Units.AoWE.TItemList
     {
-        public TExplorationSiteItemList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TExplorationSiteItemList(TECustomNode owner) : base(owner)
+        { }
 
         // ItemExpS.pas:83
         public override void Destroy()
@@ -56,7 +57,7 @@ namespace Aow.Units.ItemExpS
     // { TItemExplorationSite (instance size 64, VMT 557C23BC): $38 FItemCount, $3C FItems. }
     public partial class TItemExplorationSite : Aow.Units.ExploreS.TExplorationSite
     {
-        public TItemExplorationSite(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TItemExplorationSite(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Units.ItemExpS.TExplorationSiteItemList(null);
             FItems = call__1;
@@ -222,7 +223,7 @@ namespace Aow.Units.ItemExpS
     public partial class TItemExplorationSiteEventLog : Aow.Units.EventLog.TEventLog
     {
         // ItemExpS.pas:187
-        public TItemExplorationSiteEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TItemExplorationSiteEventLog(TECustomNode owner) : base(owner)
         {
             var call__24 = new Aow.Units.Engine.TIntegerList();
             FItemIDs = call__24;
@@ -263,7 +264,7 @@ namespace Aow.Units.ItemExpS
     // { TItemExplorationSiteResource (instance size 104, VMT 557C276C) }
     public partial class TItemExplorationSiteResource : Aow.Units.ExploreS.TExplorationSiteResource
     {
-        public TItemExplorationSiteResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TItemExplorationSiteResource(TECustomNode owner) : base(owner)
         {}
 
         // ItemExpS.pas:212

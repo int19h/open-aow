@@ -23,7 +23,7 @@ namespace Aow.Units.IsoHex
 //     terrain, bits 6..7: the image variant) }
     public partial class TIsometricHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
-        public TIsometricHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TIsometricHexagon(TECustomNode owner) : base(owner)
         {
             var call__1 = Aow.Rtl.Rtl.Random(4);
             FSides = unchecked((byte)(call__1 << 6));
@@ -164,7 +164,7 @@ namespace Aow.Units.IsoHex
     // { IsoHex.TIsometricHexagonResource (instance size 56): +$34 FDynamicLevel (26) }
     public partial class TIsometricHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
-        public TIsometricHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TIsometricHexagonResource(TECustomNode owner) : base(owner)
         {
             FDynamicLevel = 26;
         }
@@ -234,7 +234,7 @@ namespace Aow.Units.IsoHex
     // { IsoHex.TUpperIsometricHexagon (instance size 24) }
     public partial class TUpperIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
     {
-        public TUpperIsometricHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TUpperIsometricHexagon(TECustomNode owner) : base(owner)
         {}
 
 
@@ -282,7 +282,7 @@ namespace Aow.Units.IsoHex
     // { IsoHex.TUpperIsometricHexagonResource (instance size 56) }
     public partial class TUpperIsometricHexagonResource : Aow.Units.IsoHex.TIsometricHexagonResource
     {
-        public TUpperIsometricHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TUpperIsometricHexagonResource(TECustomNode owner) : base(owner)
         {}
 
 
@@ -309,7 +309,7 @@ namespace Aow.Units.IsoHex
     // { IsoHex.TLowerIsometricHexagon (instance size 24) }
     public partial class TLowerIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
     {
-        public TLowerIsometricHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TLowerIsometricHexagon(TECustomNode owner) : base(owner)
         {}
 
 
@@ -320,7 +320,7 @@ namespace Aow.Units.IsoHex
     // { IsoHex.TLowerIsometricHexagonResource (instance size 56) }
     public partial class TLowerIsometricHexagonResource : Aow.Units.IsoHex.TIsometricHexagonResource
     {
-        public TLowerIsometricHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TLowerIsometricHexagonResource(TECustomNode owner) : base(owner)
         {}
 
 

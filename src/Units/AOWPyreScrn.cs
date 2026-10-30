@@ -63,7 +63,8 @@ namespace Aow.Units.AOWPyreScrn
     // { TPyreScreen (instance size $6C, VMT 004290B0): $64 game-over event, $68 animation frame. }
     public partial class TPyreScreen : Aow.Rtl.TDataModule
     {
-        public TPyreScreen(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TPyreScreen(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWPanel.TAOWPanel DeadPnl;
         // { +0044 }

@@ -77,7 +77,8 @@ namespace Aow.Units.AoWMagic
     // { TMagicWin: size $14C; $140 enchantment sort, $144 global sort, $148 power sort. VMT 0042C190. }
     public partial class TMagicWin : Aow.Rtl.TDataModule
     {
-        public TMagicWin(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TMagicWin(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow Dlg;
         // { +0044 }

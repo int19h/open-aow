@@ -19,7 +19,7 @@ namespace Aow.Units.AoWTitleScene
             Name = "TitleScene";
             LayoutOnCreate = Layout_TitleSceneCreate_0;
             LayoutOnDestroy = Layout_TitleSceneDestroy_1;
-            TitleSceneIL = Aow.Units.ImageLib.TImageLibrary.Create(this);
+            TitleSceneIL = new Aow.Units.ImageLib.TImageLibrary(this);
             session.BeginRead(TitleSceneIL);
             TitleSceneIL.Name = "TitleSceneIL";
             TitleSceneIL.LoadOnDemand = true;

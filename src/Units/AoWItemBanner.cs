@@ -55,7 +55,8 @@ namespace Aow.Units.AoWItemBanner
     // { TItemBanner (instance size 120, VMT 00406950) }
     public partial class TItemBanner : Aow.Rtl.TDataModule
     {
-        public TItemBanner(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TItemBanner(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWLabel.TAOWLabel ItemNameLbl;
         // { +0044 }

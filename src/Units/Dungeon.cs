@@ -42,7 +42,8 @@ namespace Aow.Units.Dungeon
     // { TPrisonersArmy (instance size 44, VMT 557C53F4) }
     public partial class TPrisonersArmy : Aow.Units.AoWE.TArmy
     {
-        public TPrisonersArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TPrisonersArmy(TECustomNode owner) : base(owner)
+        { }
 
         // Dungeon.pas:89
         public override bool CanAddUnit(Aow.Units.AoWE.TAbstractUnit AUnit)
@@ -74,7 +75,7 @@ namespace Aow.Units.Dungeon
     // { TDungeon (instance size 64, VMT 557C557C): $38 FPrisoners, $3C FPrisonersMode. }
     public partial class TDungeon : Aow.Units.ExploreS.TExplorationSite
     {
-        public TDungeon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDungeon(TECustomNode owner) : base(owner)
         {
             FPrisonersMode = Aow.Units.Dungeon.TPrisonersMode.pmNormal;
             var call__5 = new Aow.Units.Dungeon.TPrisonersArmy(null);
@@ -336,7 +337,7 @@ namespace Aow.Units.Dungeon
             var call__59 = GetXhx();
             Aow.Units.EventLog.EventLog.DistributeLocationEventLog(ArmyLog, unchecked((sbyte)-1), unchecked((sbyte)call__59), unchecked((sbyte)call__57), unchecked((sbyte)call__58), false);
             ArmyLog.Release();
-            Army = Aow.Units.AoWE.TArmyHS.Create(null);
+            Army = new Aow.Units.AoWE.TArmyHS(null);
             Army.FArmy.BeginUpdate();
             Army.FArmy.SetPlayer(unchecked((sbyte)Player));
             Army.FArmy.AddUnits(FPrisoners);
@@ -356,7 +357,7 @@ namespace Aow.Units.Dungeon
     // { TDungeonResource (instance size 108, VMT 557C57F0): $68 FPrisonerCollections. }
     public partial class TDungeonResource : Aow.Units.ExploreS.TExplorationSiteResource
     {
-        public TDungeonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TDungeonResource(TECustomNode owner) : base(owner)
         {
             var call__63 = new Aow.Units.AoWE.TUnitIndexListCollection();
             FPrisonerCollections = call__63;
@@ -408,7 +409,8 @@ namespace Aow.Units.Dungeon
     // { TPrisonersJoinEventLog (instance size 64, VMT 557C58EC): $3C FX, $3D FY, $3E FL. }
     public partial class TPrisonersJoinEventLog : Aow.Units.AoWE.TJoinEventLog
     {
-        public TPrisonersJoinEventLog(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TPrisonersJoinEventLog(TECustomNode owner) : base(owner)
+        { }
 
         public sbyte FX;
         // { $3C }

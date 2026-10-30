@@ -5,6 +5,7 @@ using static Aow.Rtl.Rtl;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using Aow.Units.GFXE;
 
 namespace Aow.Units.GFXE
 {
@@ -1468,12 +1469,6 @@ namespace Aow.Units.GFXE
 
             return Result;
         }
-
-        // System.pas:111
-        public static Aow.Units.GFXE.TGFXEPalette Create()
-        {
-            return new Aow.Units.GFXE.TGFXEPalette();
-        }
     }
 
     // { GFXE.TSurface (instance size 4): the abstract surface; GetWidth and GetHeight are abstract.
@@ -2055,13 +2050,6 @@ namespace Aow.Units.GFXE
 //     +$20 FX, +$24 FY (origin of the captured rectangle), +$28 FPalette. }
     public partial class TDataSurface : Aow.Units.GFXE.TSurface
     {
-        public static TDataSurface Create(int width, int height, int format, TGFXEPalette palette) =>
-            ConstructionContext.Create((width, height, format, palette), static (context, args) =>
-                new TDataSurface(context, args.width, args.height, args.format, args.palette));
-
-        public static TDataSurface CreateFromSurface(TSurface surface, Ptr<TRect> rect) =>
-            ConstructionContext.Create((surface, rect), static (context, args) =>
-                new TDataSurface(context, args.surface, args.rect));
 
         internal int FWidth;
         internal int FHeight;
@@ -2075,9 +2063,8 @@ namespace Aow.Units.GFXE
         internal Aow.Units.GFXE.TGFXEPalette FPalette;
         // GFXE.pas:12387
         // { TDataSurface }
-        private protected TDataSurface(ConstructionContext context, int AWidth, int AHeight, int APixelFormatID, Aow.Units.GFXE.TGFXEPalette APalette)
+        public TDataSurface(int AWidth, int AHeight, int APixelFormatID, TGFXEPalette APalette)
         {
-            context.Capture(this);
             FBitCount = unchecked((byte)(APixelFormatID & 255));
             FPixelFormatID = APixelFormatID;
             SetPalette(APalette);
@@ -2085,9 +2072,8 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:12396
-        private protected TDataSurface(ConstructionContext context, Aow.Units.GFXE.TSurface Surface, Ptr<Aow.Rtl.TRect> R)
+        public TDataSurface(TSurface Surface, Ptr<TRect> R)
         {
-            context.Capture(this);
             CaptureSurface(Surface, R);
         }
 
@@ -2187,7 +2173,7 @@ namespace Aow.Units.GFXE
             {
                 if (FPalette == null)
                 {
-                    var call__51 = Aow.Units.GFXE.TGFXEPalette.Create();
+                    var call__51 = new Aow.Units.GFXE.TGFXEPalette();
                     FPalette = call__51;
                 }
 
@@ -2555,12 +2541,6 @@ namespace Aow.Units.GFXE
         public TSet<Aow.Units.GFXE.TDDrawSurfaceStatusElement> Status { get => FStatus; }
         public TSet<Aow.Units.GFXE.TDDSCreationFlagsElement> CreationFlags { get => FCreationFlags; }
         public Aow.Rtl.TNotifyEvent OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
-
-        // System.pas:111
-        public static Aow.Units.GFXE.TDDrawSurface Create()
-        {
-            return new Aow.Units.GFXE.TDDrawSurface();
-        }
     }
 
     // { GFXE.TRectangle (instance size 20): +4 Rect. }
@@ -2578,7 +2558,7 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:2440
-        public TRectangle(in Aow.Rtl.TRect R)
+        public TRectangle(in TRect R)
         {
             Rect = R;
         }
@@ -2644,7 +2624,7 @@ namespace Aow.Units.GFXE
         // GFXE.pas:8721
         // { TDrawPanel }
 
-        public TDrawPanel(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TDrawPanel(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary ExtCtrls.Create */
             throw new System.NotImplementedException();
@@ -2704,7 +2684,7 @@ namespace Aow.Units.GFXE
         // GFXE.pas:966
         // { TOpenImageFileDialog }
 
-        public TOpenImageFileDialog(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TOpenImageFileDialog(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary Dialogs.Create */
             throw new System.NotImplementedException();
@@ -2717,11 +2697,6 @@ namespace Aow.Units.GFXE
         public int PixelFormatID;
         public int Width;
         public int Height;
-        // System.pas:111
-        public static Aow.Units.GFXE.TDisplayModeItem Create()
-        {
-            return new Aow.Units.GFXE.TDisplayModeItem();
-        }
     }
 
     // { GFXE.TDisplayModeList (instance size 8): +4 FList. }
@@ -2773,7 +2748,7 @@ namespace Aow.Units.GFXE
         public void Add(int AWidth, int AHeight, int APixelFormatID)
         {
             Aow.Units.GFXE.TDisplayModeItem Item = default;
-            Item = Aow.Units.GFXE.TDisplayModeItem.Create();
+            Item = new Aow.Units.GFXE.TDisplayModeItem();
             Item.Width = AWidth;
             Item.Height = AHeight;
             Item.PixelFormatID = APixelFormatID;
@@ -3097,12 +3072,6 @@ namespace Aow.Units.GFXE
         }
 
         public ClassesAccessor Classes => new ClassesAccessor(this);
-
-        // System.pas:111
-        public static Aow.Units.GFXE.TImageFileClassList Create()
-        {
-            return new Aow.Units.GFXE.TImageFileClassList();
-        }
     }
 
     // { The blit timing test of GetOptimalGFXESettings }
@@ -5486,7 +5455,7 @@ namespace Aow.Units.GFXE
             Aow.Units.GFXE.GFXE.FDirectDrawActivated = false;
             Aow.Units.GFXE.GFXE.BltProcCount = 0;
             Aow.Units.GFXE.GFXE.ForcedPixelFormatID = 0;
-            var call__171 = Aow.Units.GFXE.TImageFileClassList.Create();
+            var call__171 = new Aow.Units.GFXE.TImageFileClassList();
             Aow.Units.GFXE.GFXE.ImageFileClassList = call__171;
             Aow.Units.GFXE.GFXE.RegisterImageFileClasses([Aow.Units.GFXE.ImageFileClass.Of<Aow.Units.GFXE.TBMPImageFile>()]);
             Aow.Units.GFXE.GFXE.RegisterBltProc(Aow.Units.GFXE.GFXE.RegisterBltRect, (AnsiString)"Register Blt");

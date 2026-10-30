@@ -42,7 +42,7 @@ namespace Aow.Units.PowerNode
     // { TPowerNode: size $44; $3C FState, $40 FPowerSource. }
     public partial class TPowerNode : Aow.Units.AoWE.TPlayerStructure
     {
-        public TPowerNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPowerNode(TECustomNode owner) : base(owner)
         {
             var call__1 = new Aow.Units.AoWE.TPlayerStructurePowerSource(null);
             FPowerSource = call__1;
@@ -256,7 +256,7 @@ namespace Aow.Units.PowerNode
     // { TPowerNodeResource (instance size 116, VMT 557D027C) }
     public partial class TPowerNodeResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        public TPowerNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPowerNodeResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = false;
             FClaimed = false;

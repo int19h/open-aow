@@ -41,7 +41,7 @@ namespace Aow.Units.FlagEvents
 //     +$10 FTriggerMode, +$14 FTriggerPlayers (player 1 is bit 0). }
     public partial class TFlagEvent : Aow.Units.HSEngine.TMapObject
     {
-        public TFlagEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFlagEvent(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.FlagEvents.TFlagEventTriggerMode FTriggerMode;
@@ -187,7 +187,7 @@ namespace Aow.Units.FlagEvents
     // { TFlagEventResource (instance size 52, VMT 557D09F0): no additional fields. }
     public partial class TFlagEventResource : Aow.Units.HSEngine.TMapObjectResource
     {
-        public TFlagEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFlagEventResource(TECustomNode owner) : base(owner)
         {
             Level = 27;
         }
@@ -208,17 +208,15 @@ namespace Aow.Units.FlagEvents
     // { TFlagMessageEventLog (instance size 36, VMT 557D0AE4): no additional fields. }
     public partial class TFlagMessageEventLog : Aow.Units.EventLog.THelpMessageEventLog
     {
-        private TFlagMessageEventLog(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner) { }
-
-        public static new TFlagMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
-            Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFlagMessageEventLog(context, owner));
+        public TFlagMessageEventLog(TECustomNode owner) : base(owner)
+        { }
 
     }
 
     // { TFlagMessageEvent (instance size 32, VMT 557D0BE8): +$18 FHelpFileName, +$1C FMessage. }
     public partial class TFlagMessageEvent : Aow.Units.FlagEvents.TFlagEvent
     {
-        public TFlagMessageEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFlagMessageEvent(TECustomNode owner) : base(owner)
         {
             var call__11 = new Aow.Rtl.TStringList();
             FMessage = call__11;
@@ -254,7 +252,7 @@ namespace Aow.Units.FlagEvents
             Aow.Units.FlagEvents.TFlagMessageEventLog Log = default;
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Player)
             {
-                Log = Aow.Units.FlagEvents.TFlagMessageEventLog.Create(null);
+                Log = new Aow.Units.FlagEvents.TFlagMessageEventLog(null);
                 Log.FHelpFileName = FHelpFileName;
                 var call__12 = FMessage.Text;
                 Log.FMessage.Text = call__12;
@@ -274,7 +272,7 @@ namespace Aow.Units.FlagEvents
     // { TFlagMessageEventResource (instance size 52, VMT 557D0D9C): no additional fields. }
     public partial class TFlagMessageEventResource : Aow.Units.FlagEvents.TFlagEventResource
     {
-        public TFlagMessageEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFlagMessageEventResource(TECustomNode owner) : base(owner)
         {}
 
         // FlagEvents.pas:218
@@ -301,7 +299,7 @@ namespace Aow.Units.FlagEvents
     // { TTutorialMessageEvent (instance size 28, VMT 557D0EA0): +$18 FMessage. }
     public partial class TTutorialMessageEvent : Aow.Units.FlagEvents.TFlagEvent
     {
-        public TTutorialMessageEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTutorialMessageEvent(TECustomNode owner) : base(owner)
         {
             var call__13 = new Aow.Rtl.TStringList();
             FMessage = call__13;
@@ -335,7 +333,7 @@ namespace Aow.Units.FlagEvents
             Aow.Units.EventLog.TTutorialMessageEventLog Log = default;
             if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Player)
             {
-                Log = Aow.Units.EventLog.TTutorialMessageEventLog.Create(null);
+                Log = new Aow.Units.EventLog.TTutorialMessageEventLog(null);
                 var call__14 = FMessage.Text;
                 Log.FMessage.Text = call__14;
                 Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == Aow.Units.FlagEvents.TFlagEventTriggerMode.etmInstant, null);
@@ -354,7 +352,7 @@ namespace Aow.Units.FlagEvents
     // { TTutorialMessageEventResource (instance size 52, VMT 557D104C): no additional fields. }
     public partial class TTutorialMessageEventResource : Aow.Units.FlagEvents.TFlagEventResource
     {
-        public TTutorialMessageEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTutorialMessageEventResource(TECustomNode owner) : base(owner)
         {}
 
         // FlagEvents.pas:269

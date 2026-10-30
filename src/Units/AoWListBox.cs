@@ -78,7 +78,7 @@ namespace Aow.Units.AoWListBox
         public int F188;
         // AoWListBox.pas:107
         // { TAOWListBox }
-        public TAOWListBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWListBox(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;

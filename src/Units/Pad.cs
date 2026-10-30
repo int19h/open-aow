@@ -37,7 +37,7 @@ namespace Aow.Units.Pad
     // { TPad (instance size 32, VMT 557FE6C8): $1C FPadActive. }
     public partial class TPad : Aow.Units.ILTer.TFixedILTerrainMO
     {
-        public TPad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPad(TECustomNode owner) : base(owner)
         {
             FPadActive = true;
         }
@@ -83,7 +83,7 @@ namespace Aow.Units.Pad
     // { TPadResource (instance size 72, VMT 557FE864): $44 FPadSize. }
     public partial class TPadResource : Aow.Units.ILTer.TFixedILTerrainMOR
     {
-        public TPadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPadResource(TECustomNode owner) : base(owner)
         {
             SetLevel(10);
         }

@@ -35,7 +35,7 @@ public sealed class RemainingConstructionTests
         private readonly TAoWHSSet previousSet = Game.AoWHSSet;
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
-        internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
+        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TMapObjectResourceList CombatResources = new TMapObjectResourceList(null!);
         internal Fixture()
         {
@@ -274,7 +274,6 @@ public sealed class RemainingConstructionTests
             Check(name, "owner" + ownerMode + "route" + route, string.Join("\n", states));
             Assert.StartsWith("success:", state);
         }
-        if (name.StartsWith("Aow.Units.Storms.", StringComparison.Ordinal)) Assert.Empty(type.GetConstructors());
     }
     [Fact]
     public void ListObjectMetaclassCreatesTheExactType()
@@ -286,23 +285,22 @@ public sealed class RemainingConstructionTests
     }
     [Theory]
     [MemberData(nameof(GuardedClasses))]
-    public void FailureAfterPublicationMatchesTheBaseCommit(string name)
+    public void PlainStormConstructorsKeepOwnerAndSpellState(string name)
     {
         Type type = typeof(TSpell).Assembly.GetType(name)!;
         for (int route = 0; route < 4; route++)
         {
             using var fixture = new Fixture();
-            Game.AoWHSSet = null!;
             var owner = new Owner();
-            TObject? value = null;
-            System.Exception? failure = null;
-            try { value = Create(type, owner, route); }
-            catch (System.Exception error) { failure = error; }
-            Assert.Null(value);
-            Assert.IsType<NullReferenceException>(failure);
+            var value = Assert.IsAssignableFrom<TSpell>(Create(type, owner, route));
+            Assert.IsType(type, value);
+            Assert.Same(owner, value.Owner);
+            Assert.Same(value, Assert.Single(owner.Members));
+            Assert.NotNull(value.FSpellText);
+            Assert.NotNull(value.FCastImages);
+            value.Destroy();
             Assert.Empty(owner.Members);
             Assert.Equal(1, owner.Removals);
-            Check(name, "failure" + route, JsonSerializer.Serialize(new { Error = failure!.GetType().FullName, failure.Message, owner.Removals, owner.Observations }));
         }
     }
 }

@@ -36,7 +36,7 @@ public sealed class SweepConstructionTests
         private readonly TAoWHSSet previousSet = Game.AoWHSSet;
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
-        internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
+        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TMapObjectResourceList CombatResources = new TMapObjectResourceList(null!);
         internal Fixture()
         {

@@ -23,9 +23,8 @@ namespace Aow.Units.ILTer
     // { ILTer.TILTerrainMO (instance size 28): +$14 FImageIndex, +$18 FTerrainType }
     public partial class TILTerrainMO : Aow.Units.HSEngine.TMultiHexMO
     {
-        public TILTerrainMO(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
-        private protected TILTerrainMO(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TILTerrainMO(TECustomNode owner) : base(owner)
         {
             FTerrainType = unchecked((sbyte)-1);
         }
@@ -343,7 +342,7 @@ namespace Aow.Units.ILTer
     // { ILTer.TILTerrainMOR (instance size 68) }
     public partial class TILTerrainMOR : Aow.Units.HSEngine.TMultiHexMOR
     {
-        public TILTerrainMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TILTerrainMOR(TECustomNode owner) : base(owner)
         {}
 
         // ILTer.pas:269
@@ -376,9 +375,8 @@ namespace Aow.Units.ILTer
     // { ILTer.TFixedILTerrainMO (instance size 28) }
     public partial class TFixedILTerrainMO : Aow.Units.ILTer.TILTerrainMO
     {
-        public TFixedILTerrainMO(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
-        private protected TFixedILTerrainMO(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TFixedILTerrainMO(TECustomNode owner) : base(owner)
         {}
 
 
@@ -467,7 +465,7 @@ namespace Aow.Units.ILTer
     // { ILTer.TFixedILTerrainMOR (instance size 68) }
     public partial class TFixedILTerrainMOR : Aow.Units.ILTer.TILTerrainMOR
     {
-        public TFixedILTerrainMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFixedILTerrainMOR(TECustomNode owner) : base(owner)
         {}
 
 

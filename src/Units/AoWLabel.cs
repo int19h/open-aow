@@ -33,7 +33,8 @@ namespace Aow.Units.AoWLabel
     // { AoWLabel.TAOWLabel (instance size 276): no fields of its own }
     public partial class TAOWLabel : Aow.Units.AoWControl.TAOWControl
     {
-        public TAOWLabel(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TAOWLabel(TComponent owner) : base(owner)
+        { }
 
         // AoWLabel.pas:38
         // { TAOWLabel }

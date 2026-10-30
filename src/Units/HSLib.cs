@@ -45,7 +45,7 @@ namespace Aow.Units.HSLib
 
         // HSLib.pas:279
         // { THSLibrary }
-        private protected THSLibrary(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public THSLibrary(TComponent owner) : base(owner)
         {
             var call__3 = new Aow.Rtl.TList();
             FList = call__3;
@@ -98,10 +98,6 @@ namespace Aow.Units.HSLib
 
         [Published]
         public Aow.Units.HSEngine.THexagonSpriteEngine Engine { get => FEngine; set => SetEngine(value); }
-
-        // HSLib.pas:60
-        public static new THSLibrary Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new THSLibrary(context, owner));
     }
 
     // { HSLib.TLibraryHS (instance size 44): a library image shown at a pixel position of the map.
@@ -110,7 +106,7 @@ namespace Aow.Units.HSLib
 //     placed. }
     public partial class TLibraryHS : Aow.Units.HSEngine.THPBasedHS
     {
-        public TLibraryHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TLibraryHS(TECustomNode owner) : base(owner)
         {
             FLevel = 30;
         }

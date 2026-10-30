@@ -51,7 +51,7 @@ namespace Aow.Units.CityWall
     // { TCityWall (instance size 48, VMT 00405008) }
     public partial class TCityWall : Aow.Units.CombatILTer.TCombatILTerrain
     {
-        public TCityWall(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCityWall(TECustomNode owner) : base(owner)
         {}
 
         // CityWall.pas:78
@@ -555,7 +555,7 @@ namespace Aow.Units.CityWall
     // { TCityWallResource (instance size 76, VMT 004051B4) }
     public partial class TCityWallResource : Aow.Units.CombatILTer.TCombatILTerrainResource
     {
-        public TCityWallResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCityWallResource(TECustomNode owner) : base(owner)
         {}
 
         // CityWall.pas:366
@@ -592,7 +592,7 @@ namespace Aow.Units.CityWall
     // { TCityWallDoor (instance size 48, VMT 004052AC) }
     public partial class TCityWallDoor : Aow.Units.CityWall.TCityWall
     {
-        public TCityWallDoor(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCityWallDoor(TECustomNode owner) : base(owner)
         {}
 
         // CityWall.pas:381
@@ -787,7 +787,7 @@ namespace Aow.Units.CityWall
     // { TCityWallDoorResource (instance size 76, VMT 00405460) }
     public partial class TCityWallDoorResource : Aow.Units.CityWall.TCityWallResource
     {
-        public TCityWallDoorResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCityWallDoorResource(TECustomNode owner) : base(owner)
         {}
 
         // CityWall.pas:451

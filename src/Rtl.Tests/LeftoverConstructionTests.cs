@@ -36,7 +36,7 @@ public sealed class LeftoverConstructionTests
         private readonly TAoWHSSet previousSet = Game.AoWHSSet;
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
-        internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
+        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TMapObjectResourceList CombatResources = new TMapObjectResourceList(null!);
         internal Fixture()
         {
@@ -305,23 +305,20 @@ public sealed class LeftoverConstructionTests
     [InlineData(1)]
     [InlineData(2)]
     [InlineData(3)]
-    public void WorldMapFailureRunsOneDestructorAndKeepsItsReplacementException(int route)
+    public void PlainWorldMapPublishesItsCompletedState(int route)
     {
         using var fixture = new Fixture();
-        var owner = new RejectingOwner();
-        Assert.Throws<NullReferenceException>(() => route switch
+        var value = Assert.IsType<TAoWHSMap>(route switch
         {
-            0 => TAoWHSMap.Create(owner),
-            1 => EClass.Of<TAoWHSMap>().Create(owner),
-            2 => (EClass.Of(typeof(TAoWHSMap))).Create(owner),
-            _ => Saved(typeof(TAoWHSMap), owner)
+            0 => new TAoWHSMap(null!),
+            1 => EClass.Of<TAoWHSMap>().Create(null!),
+            2 => EClass.Of(typeof(TAoWHSMap)).Create(null!),
+            _ => Saved(typeof(TAoWHSMap), null!)
         });
-        var partial = Assert.IsType<TAoWHSMap>(owner.Captured);
-        Assert.Equal(1, partial.FMapChangedLockCount);
-        Assert.Same(owner, partial.Owner);
-        Assert.Null(partial.FItemControl);
-        Assert.Null(partial.FEffects);
-        Assert.Empty(typeof(TAoWHSMap).GetConstructors());
+        Assert.Equal(0, value.FMapChangedLockCount);
+        Assert.NotNull(value.FItemControl);
+        Assert.NotNull(value.FEffects);
+        value.Destroy();
     }
 
     [Fact]

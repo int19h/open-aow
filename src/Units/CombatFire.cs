@@ -49,7 +49,7 @@ namespace Aow.Units.CombatFire
     // { TCombatFire (instance size 28, VMT 00406B24) }
     public partial class TCombatFire : Aow.Units.HSEngine.TSingleHS
     {
-        public TCombatFire(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatFire(TECustomNode owner) : base(owner)
         {
         }
 
@@ -219,7 +219,7 @@ namespace Aow.Units.CombatFire
     // { TCombatFireResource (instance size 68, VMT 00406CA8) }
     public partial class TCombatFireResource : Aow.Units.ILTer.TILTerrainMOR
     {
-        public TCombatFireResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatFireResource(TECustomNode owner) : base(owner)
         {}
 
         // CombatFire.pas:160

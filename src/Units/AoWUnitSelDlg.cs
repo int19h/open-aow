@@ -68,7 +68,8 @@ namespace Aow.Units.AoWUnitSelDlg
 //     $A8 unit selector; $AC retained event log. }
     public partial class TUnitSelectionDlg : Aow.Rtl.TDataModule
     {
-        public TUnitSelectionDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TUnitSelectionDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWButton.TAOWButton SelectBtn;
         // { +0044 }

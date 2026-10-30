@@ -71,7 +71,8 @@ namespace Aow.Units.FastCombatWin
     // { TFastCombatWindow (size $154, VMT 00434CD4): $124 phase, $128 phase frame, $12C animation frame, $134/$138 and $13C/$140 shield indices/opacities, $144 combat viewer, $148 completion event, $150 retained event. }
     public partial class TFastCombatWindow : Aow.Rtl.TDataModule
     {
-        public TFastCombatWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TFastCombatWindow(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow FCWin;
         // { +0044 }

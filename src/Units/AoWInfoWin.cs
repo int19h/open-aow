@@ -107,7 +107,8 @@ namespace Aow.Units.AoWInfoWin
     // { TIWindow: size $1B4; $1B0 item bag. VMT 00441930. }
     public partial class TIWindow : Aow.Rtl.TDataModule
     {
-        public TIWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TIWindow(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow InfoWin;
         // { +0044 }

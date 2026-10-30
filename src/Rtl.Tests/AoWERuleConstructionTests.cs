@@ -38,12 +38,12 @@ public sealed partial class AoWERuleConstructionTests
         private readonly TAoWHSSet previousSet = Game.AoWHSSet;
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
-        internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
+        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TAoWHSMap Map;
         internal Fixture()
         {
             Game.AoWEngine = EngineFixture.Engine;
-            Map = TAoWHSMap.Create(null!);
+            Map = new TAoWHSMap(null!);
             var set = TAoWHSSet.Create(null!);
             typeof(THSSet).GetField("FImageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(set, Manager);
             Game.AoWHSSet = set;
@@ -178,10 +178,9 @@ public sealed partial class AoWERuleConstructionTests
     }
 
     private static readonly JsonDocument Baseline = JsonDocument.Parse(typeof(AoWERuleConstructionTests).Assembly.GetManifestResourceStream("Aow.Rtl.Tests.AoWERuleConstructionBaseline.json")!);
-    private static readonly JsonDocument FailureBaseline = JsonDocument.Parse(typeof(AoWERuleConstructionTests).Assembly.GetManifestResourceStream("Aow.Rtl.Tests.AoWERuleFailureBaseline.json")!);
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
     public static IEnumerable<object[]> EngineClasses => Classes.Where(row => typeof(TEObject).IsAssignableFrom(typeof(TSpell).Assembly.GetType("Aow.Units.AoWE." + (string)row[0])!));
-    public static IEnumerable<object[]> GuardedClasses => FailureBaseline.RootElement.EnumerateObject().Select(entry => new object[] { entry.Name });
+    public static IEnumerable<object[]> FormerlyGuardedClasses => new[] { "TAbility", "TAdjustableAbility", "TArmyHS", "TBoltsAbility", "TBreathAbility", "TCastingPointsReturnViewP4", "TCharmAbility", "TCharmedAbility", "TCommandAbility", "TCommandedAbility", "TConstructAbility", "TCosmeticSurgeryAbility", "TDispelMagicAbility", "TDominateAbility", "TDominatedAbility", "TDurationAbility", "TDurationReturnView", "TEnhancementAbility", "TEntangleAbility", "TFlameThrowingAbility", "THealingAbility", "TInvokeDeathAbility", "TLeadershipAbility", "TMultiLevelAbility", "TPossessAbility", "TPossessedAbility", "TRangedAttackAbility", "TRoundAttackAbility", "TSeduceAbility", "TSeducedAbility", "TSelfDestructAbility", "TSpell", "TSpellCastingAbility", "TStrikeAbility", "TStrikeEnhancementAbility", "TTouchAbility", "TTransportAbility", "TTurnUndeadAbility", "TUnitEnchantmentAbility", "TUnitSpell", "TWallCrushingAbility", "TWebAbility" }.Select(name => new object[] { name });
 
     [Theory]
     [MemberData(nameof(Classes))]
@@ -304,41 +303,24 @@ public sealed partial class AoWERuleConstructionTests
     }
 
     [Theory]
-    [MemberData(nameof(GuardedClasses))]
-    public void FailureAfterOwnerPublicationMatchesTheBaseCommit(string name)
+    [MemberData(nameof(FormerlyGuardedClasses))]
+    public void PlainConstructorsPublishCompletedState(string name)
     {
         Type type = typeof(TAbility).Assembly.GetType("Aow.Units.AoWE." + name)!;
         for (int route = 0; route < 4; route++)
         {
             using var fixture = new Fixture();
-            Game.AoWHSSet = null!;
-            var owner = new Owner { Reject = type == typeof(TArmyHS) };
-            TObject? result = null;
-            System.Exception? failure = null;
-            try { result = Create(type, owner, route, fixture); }
-            catch (System.Exception error) { failure = error; }
-            Assert.Null(result);
-            Assert.NotNull(failure);
-            string state = JsonSerializer.Serialize(new
-            {
-                Error = failure.GetType().FullName,
-                failure.Message,
-                Members = owner.Members.Count,
-                owner.Removals,
-                owner.Observations
-            });
-            if (type == typeof(TArmyHS))
-            {
-                Assert.IsType<NullReferenceException>(failure);
-                Assert.Single(owner.Members);
-                Assert.Equal(0, owner.Removals);
-            }
-            else
-            {
-                Assert.Empty(owner.Members);
-                Assert.Equal(1, owner.Removals);
-            }
-            Assert.True(FailureBaseline.RootElement.GetProperty(name).GetString() == Hash(state), name + " route " + route + " " + state);
+            var owner = new Owner();
+            var value = Assert.IsAssignableFrom<TEObject>(Create(type, owner, route, fixture));
+            Assert.IsType(type, value);
+            Assert.Same(owner, value.Owner);
+            Assert.Same(value, Assert.Single(owner.Members));
+            Assert.Equal(0, owner.Removals);
+            if (value is TArmyHS army) Assert.NotNull(army.FArmy);
+            value.SetOwner(null!);
+            value.Destroy();
+            Assert.Empty(owner.Members);
+            Assert.Equal(1, owner.Removals);
         }
     }
 }

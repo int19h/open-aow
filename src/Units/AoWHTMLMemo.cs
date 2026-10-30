@@ -87,7 +87,7 @@ namespace Aow.Units.AoWHTMLMemo
         public int FTextHeight;
         // AoWHTMLMemo.pas:93
         // { TaowHTMLMemo }
-        public TaowHTMLMemo(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TaowHTMLMemo(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FLines = call__1;
@@ -100,7 +100,7 @@ namespace Aow.Units.AoWHTMLMemo
             F1EC = call__4;
             var call__5 = new Aow.Rtl.TList();
             FFonts = call__5;
-            var call__6 = Aow.Units.AOWInterfaceImgLib.TInterfaceIL.Create(this);
+            var call__6 = new Aow.Units.AOWInterfaceImgLib.TInterfaceIL(this);
             FImages = call__6;
         }
 
@@ -801,7 +801,7 @@ namespace Aow.Units.AoWHTMLMemo
 
                     if (FBackSurface == null)
                     {
-                        var call__41 = Aow.Units.GFXE.TDataSurface.Create(FTextWidth, FTextHeight, SurfDesc.PixelFormatID, null);
+                        var call__41 = new Aow.Units.GFXE.TDataSurface(FTextWidth, FTextHeight, SurfDesc.PixelFormatID, null);
                         FBackSurface = call__41;
                         FBackDrawn = false;
                     }
@@ -1122,7 +1122,7 @@ namespace Aow.Units.AoWHTMLMemo
 
             if ((Font == null) && Aow.Rtl.Rtl.FileExists(FileName))
             {
-                Font = Aow.Units.ImageLib.TImageLibraryFont.Create(this);
+                Font = new Aow.Units.ImageLib.TImageLibraryFont(this);
                 Font.FontColorPaletteIndex = 1;
                 Font.LoadFromFile(FileName);
                 FFonts.Add(Font);

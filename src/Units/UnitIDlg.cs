@@ -96,15 +96,14 @@ namespace Aow.Units.UnitIDlg
         }
 
         // Forms.pas:407
-        public static Aow.Units.UnitIDlg.TUnitInfoDlg Create(Aow.Rtl.TComponent AOwner)
-        {
-            return new Aow.Units.UnitIDlg.TUnitInfoDlg();
-        }
+        public TUnitInfoDlg(TComponent owner) : base()
+        { }
     }
 
     public partial class TUnitView : Aow.Units.AoWE.TAbilityOwner
     {
-        public TUnitView(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TUnitView(TECustomNode owner) : base(owner)
+        { }
 
         // UnitIDlg.pas:54
         public virtual void Slot9C()

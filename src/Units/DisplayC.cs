@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
+using Aow.Units.DisplayC;
 
 namespace Aow.Units.DisplayC
 {
@@ -130,8 +131,6 @@ namespace Aow.Units.DisplayC
 //     +$1A8 FActiveDC. }
     public partial class TCustomDisplay : Aow.Rtl.TWinControl
     {
-        public static TCustomDisplay Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TCustomDisplay(context, owner));
 
         internal Aow.Units.DisplayC.TDDrawFSWinControl FFSWinControl;
         internal Aow.Rtl.TNotifyEvent FOnBltSurface;
@@ -672,7 +671,8 @@ namespace Aow.Units.DisplayC
 //     virtual methods, all abstract but GetSurface and BltInvalidatedSurface. }
     public partial class TAbstractDC : Aow.Rtl.TComponent
     {
-        protected TAbstractDC(ConstructionContext context, TComponent owner) : base(context, owner) { }
+        public TAbstractDC(TComponent owner) : base(owner)
+        { }
 
         // DisplayC.pas:74
         public virtual Aow.Units.DisplayC.TMatrix GetInvMatrix()
@@ -1042,8 +1042,6 @@ namespace Aow.Units.DisplayC
 //     FLastVBTime. }
     public partial class TDisplayCtrl : Aow.Units.DisplayC.TAbstractDC
     {
-        public static TDisplayCtrl Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TDisplayCtrl(context, owner));
 
         internal int FLastFrameTime;
         internal ushort FFrameCount;
@@ -1054,7 +1052,7 @@ namespace Aow.Units.DisplayC
         internal bool FRealizePalet;
         internal int FLastVBTime;
 
-        private protected TDisplayCtrl(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TDisplayCtrl(TComponent owner) : base(owner)
         {
             var call__41 = new Aow.Units.DisplayC.TMatrix(4, 4);
             FInvMatrix = call__41;
@@ -1651,7 +1649,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1114
         // { TDDrawFSWinControl }
 
-        public TDDrawFSWinControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TDDrawFSWinControl(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary Controls.Create */
             throw new System.NotImplementedException();
@@ -1723,7 +1721,7 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:1105
-        public TUpdateFrameThread(Aow.Units.DisplayC.TCustomDisplay ADisplay)
+        public TUpdateFrameThread(TCustomDisplay ADisplay)
         {
             /* TODO(T-shim) Platform or editor boundary Classes.Create */
             throw new System.NotImplementedException();
@@ -1736,10 +1734,9 @@ namespace Aow.Units.DisplayC
     // { DisplayC.TDisplay (instance size 428): TCustomDisplay with its properties published. }
     public partial class TDisplay : Aow.Units.DisplayC.TCustomDisplay
     {
-        public static new TDisplay Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TDisplay(context, owner));
 
-        private protected TDisplay(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
+        public TDisplay(TComponent owner) : base(owner)
+        { }
 
     }
 
@@ -1750,7 +1747,7 @@ namespace Aow.Units.DisplayC
         internal Aow.Rtl.TWinControl FControl;
         // DisplayC.pas:1878
         // { TDisplayGDISurface }
-        public TDisplayGDISurface(Aow.Rtl.TWinControl AControl) : base(0)
+        public TDisplayGDISurface(TWinControl AControl) : base(0)
         {
             /* TODO(T-shim) Platform or editor boundary Controls.Handle */
             throw new System.NotImplementedException();
@@ -1771,15 +1768,13 @@ namespace Aow.Units.DisplayC
 //     +$54 FGDISurface (the window, surface 0). }
     public partial class TWindowsDC : Aow.Units.DisplayC.TDisplayCtrl
     {
-        public static new TWindowsDC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TWindowsDC(context, owner));
 
         internal int FDC;
         internal int FWnd;
         internal Aow.Units.DisplayC.TDisplayGDISurface FGDISurface;
         // DisplayC.pas:1894
         // { TWindowsDC }
-        private protected TWindowsDC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TWindowsDC(TComponent owner) : base(owner)
         {
             InitInvMatrix(4, 4);
             FStatus = FStatus + TSet<Aow.Units.DisplayC.TDisplayCtrlStatusElement>.Of(Aow.Units.DisplayC.TDisplayCtrlStatusElement.dsWindowed);
@@ -1874,8 +1869,6 @@ namespace Aow.Units.DisplayC
 //     256 colors), +$48C FHPalette, +$490 FOldPalette. }
     public partial class TWindows08DC : Aow.Units.DisplayC.TWindowsDC
     {
-        public static new TWindows08DC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TWindows08DC(context, owner));
 
         internal Aow.Units.GFXE.TSurface FBack1;
         internal Aow.Units.GFXE.TSurface FBack2;
@@ -1886,9 +1879,9 @@ namespace Aow.Units.DisplayC
         internal int FOldPalette;
         // DisplayC.pas:2165
         // { TWindows08DC }
-        private protected TWindows08DC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TWindows08DC(TComponent owner) : base(owner)
         {
-            var call__67 = Aow.Units.GFXE.TGFXEPalette.Create();
+            var call__67 = new Aow.Units.GFXE.TGFXEPalette();
             FPalette = call__67;
             FPalette.PixelFormatID = Aow.Units.GFXE.GFXE.pfRGB24;
         }
@@ -2004,8 +1997,6 @@ namespace Aow.Units.DisplayC
 //     +$5C FBack1, +$60 FBack2. }
     public partial class TWindows16DC : Aow.Units.DisplayC.TWindowsDC
     {
-        public static new TWindows16DC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TWindows16DC(context, owner));
 
         internal Aow.Units.DisplayC.TWin16DCPixelFormat FPixelFormat;
         internal Aow.Units.GFXE.TDIB16Surface FBack1;
@@ -2025,7 +2016,7 @@ namespace Aow.Units.DisplayC
 
         // DisplayC.pas:2314
         // { TWindows16DC }
-        private protected TWindows16DC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TWindows16DC(TComponent owner) : base(owner)
         {
             FPixelFormat = Aow.Units.DisplayC.TWin16DCPixelFormat.pfAuto;
         }
@@ -2085,10 +2076,9 @@ namespace Aow.Units.DisplayC
 //     FBack2. }
     public partial class TWindows24DC : Aow.Units.DisplayC.TWindowsDC
     {
-        public static new TWindows24DC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TWindows24DC(context, owner));
 
-        private protected TWindows24DC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
+        public TWindows24DC(TComponent owner) : base(owner)
+        { }
 
         internal Aow.Units.GFXE.TDIB24Surface FBack1;
         internal Aow.Units.GFXE.TDIB24Surface FBack2;
@@ -2143,10 +2133,9 @@ namespace Aow.Units.DisplayC
     // { DisplayC.TWindows32DC (instance size 96): 32 bit back surfaces. +$58 FBack1, +$5C FBack2. }
     public partial class TWindows32DC : Aow.Units.DisplayC.TWindowsDC
     {
-        public static new TWindows32DC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TWindows32DC(context, owner));
 
-        private protected TWindows32DC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
+        public TWindows32DC(TComponent owner) : base(owner)
+        { }
 
         internal Aow.Units.GFXE.TDIB32Surface FBack1;
         internal Aow.Units.GFXE.TDIB32Surface FBack2;
@@ -2243,22 +2232,15 @@ namespace Aow.Units.DisplayC
 
             return Result;
         }
-
-        // System.pas:111
-        public static new Aow.Units.DisplayC.TDDrawDCSurface Create()
-        {
-            return new Aow.Units.DisplayC.TDDrawDCSurface();
-        }
     }
 
     // { DisplayC.TDDrawDC (instance size 92): the DirectDraw controllers. +$4C FPrimary, +$50
 //     FBack1, +$54 FBack2, +$58 FUseVideoMemory, +$59 FUseVerticalBlank, +$5A FDebugMode. }
     public partial class TDDrawDC : Aow.Units.DisplayC.TDisplayCtrl
     {
-        public static new TDDrawDC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TDDrawDC(context, owner));
 
-        private protected TDDrawDC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner) { }
+        public TDDrawDC(TComponent owner) : base(owner)
+        { }
 
         internal Aow.Units.DisplayC.TDDrawDCSurface FPrimary;
         internal Aow.Units.DisplayC.TDDrawDCSurface FBack1;
@@ -2512,8 +2494,6 @@ namespace Aow.Units.DisplayC
 //     more virtual: CreateSurfaces. }
     public partial class TDDrawFullScrDC : Aow.Units.DisplayC.TDDrawDC
     {
-        public static new TDDrawFullScrDC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TDDrawFullScrDC(context, owner));
 
         internal bool FHooked;
         internal int FDisplayWidth;
@@ -2523,7 +2503,7 @@ namespace Aow.Units.DisplayC
         internal bool FSwitching;
         // DisplayC.pas:2673
         // { TDDrawFullScrDC }
-        private protected TDDrawFullScrDC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TDDrawFullScrDC(TComponent owner) : base(owner)
         {
             FHooked = false;
             FDisplayWidth = 640;
@@ -2810,12 +2790,10 @@ namespace Aow.Units.DisplayC
     // { DisplayC.TDDrawFullScr16DC (instance size 112): 16 bit full screen. }
     public partial class TDDrawFullScr16DC : Aow.Units.DisplayC.TDDrawFullScrDC
     {
-        public static new TDDrawFullScr16DC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TDDrawFullScr16DC(context, owner));
 
         // DisplayC.pas:3106
         // { TDDrawFullScr16DC }
-        private protected TDDrawFullScr16DC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TDDrawFullScr16DC(TComponent owner) : base(owner)
         {
             FBitDepth = 16;
         }
@@ -2867,12 +2845,10 @@ namespace Aow.Units.DisplayC
     // { DisplayC.TDDrawFullScr24DC (instance size 112): 24 bit full screen. }
     public partial class TDDrawFullScr24DC : Aow.Units.DisplayC.TDDrawFullScrDC
     {
-        public static new TDDrawFullScr24DC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TDDrawFullScr24DC(context, owner));
 
         // DisplayC.pas:3129
         // { TDDrawFullScr24DC }
-        private protected TDDrawFullScr24DC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TDDrawFullScr24DC(TComponent owner) : base(owner)
         {
             FBitDepth = 24;
         }
@@ -2882,12 +2858,10 @@ namespace Aow.Units.DisplayC
     // { DisplayC.TDDrawFullScr32DC (instance size 112): 32 bit full screen. }
     public partial class TDDrawFullScr32DC : Aow.Units.DisplayC.TDDrawFullScrDC
     {
-        public static new TDDrawFullScr32DC Create(Aow.Rtl.TComponent AOwner) =>
-            ConstructionContext.Create(AOwner, static (context, owner) => new TDDrawFullScr32DC(context, owner));
 
         // DisplayC.pas:3137
         // { TDDrawFullScr32DC }
-        private protected TDDrawFullScr32DC(ConstructionContext context, Aow.Rtl.TComponent AOwner) : base(context, AOwner)
+        public TDDrawFullScr32DC(TComponent owner) : base(owner)
         {
             FBitDepth = 32;
         }
@@ -2907,9 +2881,9 @@ namespace Aow.Units.DisplayC
         internal Aow.Units.DisplayC.TWindows08DC FOwner;
         // DisplayC.pas:2011
         // { TWindows08DIBSurface }
-        public TWindows08DIBSurface(int AWidth, int AHeight, Aow.Units.DisplayC.TWindows08DC AOwner)
+        public TWindows08DIBSurface(int AWidth, int AHeight, TWindows08DC owner)
         {
-            FOwner = AOwner;
+            FOwner = owner;
             Resize(AWidth, AHeight);
         }
 

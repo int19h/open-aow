@@ -45,7 +45,7 @@ namespace Aow.Units.CombatTerrain
     // { TCombatTerrainShadow (instance size 12, VMT 0040FB0C) }
     public partial class TCombatTerrainShadow : Aow.Units.HSEngine.THexagonSprite
     {
-        public TCombatTerrainShadow(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatTerrainShadow(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.CombatTerrain.TCombatTerrain FTerrain;
@@ -72,7 +72,7 @@ namespace Aow.Units.CombatTerrain
     // { TCombatTerrain (instance size 36, VMT 0040FCA0) }
     public partial class TCombatTerrain : Aow.Units.Terrain.TTerrainMO
     {
-        public TCombatTerrain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatTerrain(TECustomNode owner) : base(owner)
         {}
 
         // CombatTerrain.pas:82
@@ -396,7 +396,7 @@ namespace Aow.Units.CombatTerrain
     // { TCombatTerrainResource (instance size 76, VMT 0040FE54) }
     public partial class TCombatTerrainResource : Aow.Units.Terrain.TTerrainMOR
     {
-        public TCombatTerrainResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatTerrainResource(TECustomNode owner) : base(owner)
         {}
 
         // CombatTerrain.pas:301

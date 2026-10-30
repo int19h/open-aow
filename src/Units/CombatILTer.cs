@@ -45,7 +45,7 @@ namespace Aow.Units.CombatILTer
     // { TCombatILTerrainShadow (instance size 12, VMT 004041E4) }
     public partial class TCombatILTerrainShadow : Aow.Units.HSEngine.THexagonSprite
     {
-        public TCombatILTerrainShadow(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatILTerrainShadow(TECustomNode owner) : base(owner)
         {}
 
         public Aow.Units.CombatILTer.TCombatILTerrain FTerrain;
@@ -72,7 +72,7 @@ namespace Aow.Units.CombatILTer
     // { TCombatILTerrain (instance size 32, VMT 00404378) }
     public partial class TCombatILTerrain : Aow.Units.ILTer.TILTerrainMO
     {
-        public TCombatILTerrain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatILTerrain(TECustomNode owner) : base(owner)
         {}
 
         // CombatILTer.pas:105
@@ -216,7 +216,7 @@ namespace Aow.Units.CombatILTer
     // { TCombatILTerrainResource (instance size 72, VMT 00404538) }
     public partial class TCombatILTerrainResource : Aow.Units.ILTer.TILTerrainMOR
     {
-        public TCombatILTerrainResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatILTerrainResource(TECustomNode owner) : base(owner)
         {}
 
         // CombatILTer.pas:175
@@ -256,7 +256,7 @@ namespace Aow.Units.CombatILTer
     // { TCombatFixedILTerrain (instance size 32, VMT 00404644) }
     public partial class TCombatFixedILTerrain : Aow.Units.CombatILTer.TCombatILTerrain
     {
-        public TCombatFixedILTerrain(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatFixedILTerrain(TECustomNode owner) : base(owner)
         {}
 
         // CombatILTer.pas:191
@@ -337,7 +337,7 @@ namespace Aow.Units.CombatILTer
     // { TCombatFixedILTerrainResource (instance size 72, VMT 0040480C) }
     public partial class TCombatFixedILTerrainResource : Aow.Units.CombatILTer.TCombatILTerrainResource
     {
-        public TCombatFixedILTerrainResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatFixedILTerrainResource(TECustomNode owner) : base(owner)
         {}
 
         // CombatILTer.pas:227

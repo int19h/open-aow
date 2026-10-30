@@ -35,7 +35,7 @@ public partial class TDIBSurface
     {
         Clear(); FPixelFormatID = APixelFormatID;
         if (APalette != null || (APixelFormatID & 255) == 8)
-        { FPalette = TGFXEPalette.Create(); if (APalette != null) FPalette.Assign(APalette); }
+        { FPalette = new TGFXEPalette(); if (APalette != null) FPalette.Assign(APalette); }
         return Resize(AWidth, AHeight);
     }
     public void Clear() { FWidth = FHeight = FPitch = 0; FBits = null; FMem = default; FPalette = null; }
@@ -52,8 +52,9 @@ public partial class TDIBSurface
 
 public partial class TDIB08Surface
 {
-    public TDIB08Surface(int AWidth, int AHeight, TGFXEPalette APalette) { SetPalette(APalette); Resize(AWidth, AHeight); }
-    public void SetPalette(TGFXEPalette Palette) { FPalette ??= TGFXEPalette.Create(); if (Palette != null && !ReferenceEquals(Palette, FPalette)) FPalette.Assign(Palette); }
+    public TDIB08Surface(int AWidth, int AHeight, TGFXEPalette APalette)
+        { SetPalette(APalette); Resize(AWidth, AHeight); }
+    public void SetPalette(TGFXEPalette Palette) { FPalette ??= new TGFXEPalette(); if (Palette != null && !ReferenceEquals(Palette, FPalette)) FPalette.Assign(Palette); }
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return GFXE.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, GFXE.pfPAL8, 4); FWidth = AWidth; FHeight = AHeight; return GFXE.GFXE_OK; }
     public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, GFXE.pfPAL8, FBits, FPalette); return GFXE.GFXE_OK; }
     public override int Unlock() => GFXE.GFXE_OK;
@@ -68,7 +69,8 @@ public partial class TDIB16Surface { private bool memoryLocked; }
 
 public partial class TDIB16Surface
 {
-    public TDIB16Surface(int AWidth, int AHeight, int APixelFormatID) { SetPixelFormatID(APixelFormatID); Resize(AWidth, AHeight); }
+    public TDIB16Surface(int AWidth, int AHeight, int APixelFormatID)
+        { SetPixelFormatID(APixelFormatID); Resize(AWidth, AHeight); }
     internal void SetPixelFormatID(int Value) { if (Value != GFXE.pfRGB555 && Value != GFXE.pfRGB565 && Value != GFXE.pfARGB1555) throw new ENotSupported("Pixel format"); if (memoryLocked && Value != FPixelFormatID) throw new EInvalidOperation("Pixel format after Lock"); FPixelFormatID = Value; }
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return GFXE.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, FPixelFormatID, 4); FWidth = AWidth; FHeight = AHeight; return GFXE.GFXE_OK; }
     public override int Lock(ref TSurfaceDesc SD) { memoryLocked = true; SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FBits, null); return GFXE.GFXE_OK; }
@@ -82,7 +84,8 @@ public partial class TDIB16Surface
 
 public partial class TDIB24Surface
 {
-    public TDIB24Surface(int AWidth, int AHeight) { Resize(AWidth, AHeight); }
+    public TDIB24Surface(int AWidth, int AHeight)
+        { Resize(AWidth, AHeight); }
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return GFXE.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, GFXE.pfRGB24, 4); FWidth = AWidth; FHeight = AHeight; return GFXE.GFXE_OK; }
     public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, GFXE.pfRGB24, FBits, null); return GFXE.GFXE_OK; }
     public override int Unlock() => GFXE.GFXE_OK;
@@ -95,7 +98,8 @@ public partial class TDIB24Surface
 
 public partial class TDIB32Surface
 {
-    public TDIB32Surface(int AWidth, int AHeight) { Resize(AWidth, AHeight); }
+    public TDIB32Surface(int AWidth, int AHeight)
+        { Resize(AWidth, AHeight); }
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return GFXE.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, GFXE.pfRGB32, 4); FWidth = AWidth; FHeight = AHeight; return GFXE.GFXE_OK; }
     public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, GFXE.pfRGB32, FBits, null); return GFXE.GFXE_OK; }
     public override int Unlock() => GFXE.GFXE_OK;

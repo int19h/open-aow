@@ -52,7 +52,7 @@ namespace Aow.Units.CombatTE
     // { TCEndTurnTE (instance size 16, VMT 00407548) }
     public partial class TCEndTurnTE : Aow.Units.NetworkE.TTokenEvent
     {
-        public TCEndTurnTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCEndTurnTE(TECustomNode owner) : base(owner)
         {}
 
         // CombatTE.pas:175
@@ -131,7 +131,7 @@ namespace Aow.Units.CombatTE
     // { TCEndCombatTE (instance size 16, VMT 0040760C) }
     public partial class TCEndCombatTE : Aow.Units.NetworkE.TTokenEvent
     {
-        public TCEndCombatTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCEndCombatTE(TECustomNode owner) : base(owner)
         {}
 
         // CombatTE.pas:158
@@ -191,7 +191,7 @@ namespace Aow.Units.CombatTE
     // { TCombatMoveTE (instance size 56, VMT 004076D4) }
     public partial class TCombatMoveTE : Aow.Units.AoWE.TMoveTE
     {
-        public TCombatMoveTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatMoveTE(TECustomNode owner) : base(owner)
         {}
 
         // CombatTE.pas:206
@@ -762,7 +762,7 @@ namespace Aow.Units.CombatTE
     // { TCMeleeMoveTE (instance size 64, VMT 004077C0) }
     public partial class TCMeleeMoveTE : Aow.Units.CombatTE.TCombatMoveTE
     {
-        public TCMeleeMoveTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCMeleeMoveTE(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 2236417;
@@ -1121,7 +1121,7 @@ namespace Aow.Units.CombatTE
     // { TCAbTouchMoveTE (instance size 108, VMT 004078AC) }
     public partial class TCAbTouchMoveTE : Aow.Units.CombatTE.TCombatMoveTE
     {
-        public TCAbTouchMoveTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCAbTouchMoveTE(TECustomNode owner) : base(owner)
         {}
 
         // CombatTE.pas:624
@@ -1755,7 +1755,7 @@ namespace Aow.Units.CombatTE
     // { TCAbRangedTE (instance size 60, VMT 0040799C) }
     public partial class TCAbRangedTE : Aow.Units.NetworkE.TTokenEvent
     {
-        public TCAbRangedTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCAbRangedTE(TECustomNode owner) : base(owner)
         {}
 
         // CombatTE.pas:917
@@ -3857,7 +3857,7 @@ namespace Aow.Units.CombatTE
     public partial class TTerminateCombatTE : Aow.Units.NetworkE.TTokenEvent
     {
 
-        public TTerminateCombatTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTerminateCombatTE(TECustomNode owner) : base(owner)
         {}
 
         // CombatTE.pas:149

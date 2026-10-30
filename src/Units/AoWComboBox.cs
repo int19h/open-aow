@@ -76,7 +76,7 @@ namespace Aow.Units.AoWComboBox
         public Aow.Rtl.TRect FDrawItemRect;
         // AoWComboBox.pas:114
         // { TAOWComboBox }
-        public TAOWComboBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWComboBox(TComponent owner) : base(owner)
         {
             var call__1 = new Aow.Rtl.TStringList();
             FItems = call__1;

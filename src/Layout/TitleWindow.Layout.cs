@@ -121,7 +121,7 @@ namespace Aow.Units.AOWTitleWindow
             SplashPnl.MinWidth = 640;
             SplashPnl.MinHeight = 480;
             session.EndRead(SplashPnl);
-            DemoIL = Aow.Units.AOWInterfaceImgLib.TInterfaceIL.Create(this);
+            DemoIL = new Aow.Units.AOWInterfaceImgLib.TInterfaceIL(this);
             session.BeginRead(DemoIL);
             DemoIL.Name = "DemoIL";
             DemoIL.LoadOnDemand = true;

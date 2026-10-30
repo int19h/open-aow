@@ -37,7 +37,7 @@ namespace Aow.Units.ReflectingPool
     // { TReflectingPool: size $40; $3C FCenterFrame (-1 when inactive). }
     public partial class TReflectingPool : Aow.Units.AoWE.TPlayerStructure
     {
-        public TReflectingPool(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TReflectingPool(TECustomNode owner) : base(owner)
         {
             FCenterFrame = -1;
         }
@@ -468,7 +468,7 @@ namespace Aow.Units.ReflectingPool
     // { TReflectingPoolResource (instance size 116, VMT 557D4B6C) }
     public partial class TReflectingPoolResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        public TReflectingPoolResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TReflectingPoolResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = true;
             FConnectRoads = false;

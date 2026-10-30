@@ -39,7 +39,7 @@ namespace Aow.Units.LifeNode
     // { TLifeNode (instance size 76, no added fields, VMT 557C046C) }
     public partial class TLifeNode : Aow.Units.PrdPlace.TProductionPlace
     {
-        public TLifeNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TLifeNode(TECustomNode owner) : base(owner)
         {}
 
         // LifeNode.pas:37
@@ -58,7 +58,7 @@ namespace Aow.Units.LifeNode
     // { TLifeNodeResource (instance size 120, no added fields, VMT 557C071C) }
     public partial class TLifeNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        public TLifeNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TLifeNodeResource(TECustomNode owner) : base(owner)
         {
             FRazeDefenderBudget = 200;
             FTerrainBound = false;

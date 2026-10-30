@@ -58,7 +58,8 @@ namespace Aow.Units.AGCPlugins
 //     $21 damage types, $24 structure factor, $28 city factor. }
     public partial class TAIGroupRazeControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
-        public TAIGroupRazeControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TAIGroupRazeControl(TECustomNode owner) : base(owner)
+        { }
 
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // { $1C }
@@ -229,7 +230,7 @@ namespace Aow.Units.AGCPlugins
         }
 
         // AGCPlugins.pas:157
-        public TAIGroupDefendTargetSelector(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAIGroupDefendTargetSelector(TECustomNode owner) : base(owner)
         {
             var call__5 = new Aow.Units.AoWE.TAIMoveTargetSelector(null);
             FSelector = call__5;
@@ -453,7 +454,7 @@ namespace Aow.Units.AGCPlugins
         }
 
         // AGCPlugins.pas:297
-        public TAIGroupWanderControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAIGroupWanderControl(TECustomNode owner) : base(owner)
         {
             var call__22 = new Aow.Units.AoWE.TMoveControlSettings(null);
             FMoveSettings = call__22;

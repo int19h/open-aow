@@ -66,7 +66,8 @@ namespace Aow.Units.AoWCityRebelDlg
 //     $78 completion callback; $80 city-rebellion event. }
     public partial class TCityRebelDlg : Aow.Rtl.TDataModule
     {
-        public TCityRebelDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TCityRebelDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow RebelWin;
         // { +0044 }

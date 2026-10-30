@@ -75,7 +75,8 @@ namespace Aow.Units.AoWRelations
     // { TRelWindow (size $2A8, VMT 00423988): $280 diplomatic actions, $288 player indices, $28C race indices, $290 controls. }
     public partial class TRelWindow : Aow.Rtl.TDataModule
     {
-        public TRelWindow(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TRelWindow(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow RelWin;
         // { +0044 }

@@ -49,7 +49,7 @@ namespace Aow.Units.PoisonP
 //     $1C summoning status; $1D caster player; $1E remaining turns; $1F original overlay. }
     public partial class TPoisonPlant : Aow.Units.ILTer.TILTerrainMO
     {
-        public TPoisonPlant(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPoisonPlant(TECustomNode owner) : base(owner)
         {
             FCasterPlayer = unchecked((sbyte)-1);
             FOriginalOverlay = unchecked((sbyte)-1);
@@ -434,7 +434,7 @@ namespace Aow.Units.PoisonP
     // { TPoisonPlantResource (instance size 68, VMT 557C3C68) }
     public partial class TPoisonPlantResource : Aow.Units.ILTer.TILTerrainMOR
     {
-        public TPoisonPlantResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPoisonPlantResource(TECustomNode owner) : base(owner)
         {}
 
         // PoisonP.pas:293
@@ -461,7 +461,7 @@ namespace Aow.Units.PoisonP
     // { TPoisonPlantSpellTE (instance size 36, VMT 557C3D68) }
     public partial class TPoisonPlantSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
-        public TPoisonPlantSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPoisonPlantSpellTE(TECustomNode owner) : base(owner)
         {}
 
         // PoisonP.pas:303
@@ -559,7 +559,7 @@ namespace Aow.Units.PoisonP
     // { TPoisonPlantSpell (instance size 60, VMT 557C3E48) }
     public partial class TPoisonPlantSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
-        private protected TPoisonPlantSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        public TPoisonPlantSpell(TECustomNode owner) : base(owner)
         {
             var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PoisonPlantsRStr);
             FSpellName = call__63;
@@ -568,11 +568,6 @@ namespace Aow.Units.PoisonP
             FSpellLevel = 2;
             FMagicSphere = Aow.Units.AoWE.TMagicSphere.msEarth;
             FAboveGroundOnly = false;
-        }
-
-        public static new TPoisonPlantSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPoisonPlantSpell(context, owner));
         }
 
         // PoisonP.pas:371
@@ -681,7 +676,7 @@ namespace Aow.Units.PoisonP
         public static void RegisterPoisonPlant(Aow.Units.AoWE.TAoWEngine AEngine)
         {
             AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlant>(), Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlantResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.PoisonP.TPoisonPlantSpellTE>()]);
-            var call__76 = Aow.Units.PoisonP.TPoisonPlantSpell.Create(null);
+            var call__76 = new Aow.Units.PoisonP.TPoisonPlantSpell(null);
             AEngine.FGameSet.FSpellControl.RegisterSpell(call__76);
         }
 

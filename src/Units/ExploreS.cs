@@ -40,7 +40,8 @@ namespace Aow.Units.ExploreS
     // { TDefendersArmy (instance size 44, VMT 557C12B4): no additional fields. }
     public partial class TDefendersArmy : Aow.Units.AoWE.TArmy
     {
-        public TDefendersArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+        public TDefendersArmy(TECustomNode owner) : base(owner)
+        { }
 
         // ExploreS.pas:71
         public override bool CanAddUnit(Aow.Units.AoWE.TAbstractUnit AUnit)
@@ -73,7 +74,7 @@ namespace Aow.Units.ExploreS
 //     $30 FDefendersMode, $34 FDefenders. }
     public partial class TExplorationSite : Aow.Units.AoWE.TStructure
     {
-        public TExplorationSite(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TExplorationSite(TECustomNode owner) : base(owner)
         {
             FDefendersMode = Aow.Units.ExploreS.TDefendersMode.dmNormal;
             var call__5 = new Aow.Units.ExploreS.TDefendersArmy(null);
@@ -548,7 +549,7 @@ namespace Aow.Units.ExploreS
 //     $64 FDefenderCollections, the available defender army compositions. }
     public partial class TExplorationSiteResource : Aow.Units.AoWE.TStructureResource
     {
-        public TExplorationSiteResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TExplorationSiteResource(TECustomNode owner) : base(owner)
         {
             var call__51 = new Aow.Units.AoWE.TUnitIndexListCollection();
             FDefenderCollections = call__51;

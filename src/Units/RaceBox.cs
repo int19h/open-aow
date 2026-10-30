@@ -58,7 +58,7 @@ namespace Aow.Units.RaceBox
 
         // RaceBox.pas:52
 
-        public TRaceBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TRaceBox(TComponent owner) : base(owner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();

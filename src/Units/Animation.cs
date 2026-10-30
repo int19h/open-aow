@@ -70,7 +70,7 @@ namespace Aow.Units.Animation
 //     $34 tag, $38 map. VMT 557FAEA0. }
     public partial class TAnimation : Aow.Units.HSEngine.THexagonSprite
     {
-        public TAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAnimation(TECustomNode owner) : base(owner)
         {
             FAnimationLevel = 26;
         }
@@ -516,7 +516,7 @@ namespace Aow.Units.Animation
     // { TAnimationTE: size $18; $10 state, $14 animation. VMT 557FB074. }
     public partial class TAnimationTE : Aow.Units.NetworkE.TTokenEvent
     {
-        public TAnimationTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAnimationTE(TECustomNode owner) : base(owner)
         {}
 
         // Animation.pas:388
@@ -593,7 +593,7 @@ namespace Aow.Units.Animation
 //     $48 last frame, $4C loop flag. VMT 557FB13C. }
     public partial class TImageSequenceAnimation : Aow.Units.Animation.TAnimation
     {
-        public TImageSequenceAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TImageSequenceAnimation(TECustomNode owner) : base(owner)
         {
             FFrameCount = -1;
             FXhpOffset = 0;
@@ -751,7 +751,7 @@ namespace Aow.Units.Animation
 //     $48 lifetime, $4C random start delay, $50 mode. VMT 557FB340. }
     public partial class TTwinkleAnimation : Aow.Units.Animation.TAnimation
     {
-        public TTwinkleAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TTwinkleAnimation(TECustomNode owner) : base(owner)
         {
             FAnimationLevel = 28;
         }

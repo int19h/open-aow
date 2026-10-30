@@ -39,7 +39,7 @@ namespace Aow.Units.Ruin
     // { TRuin (instance size 64, no added fields, VMT 557C68FC) }
     public partial class TRuin : Aow.Units.ItemExpS.TItemExplorationSite
     {
-        public TRuin(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRuin(TECustomNode owner) : base(owner)
         {}
 
         // Ruin.pas:34
@@ -50,7 +50,7 @@ namespace Aow.Units.Ruin
     // { TRuinResource (instance size 104, no added fields, VMT 557C6B68) }
     public partial class TRuinResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
-        public TRuinResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TRuinResource(TECustomNode owner) : base(owner)
         {}
 
         // Ruin.pas:40

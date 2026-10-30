@@ -73,7 +73,8 @@ namespace Aow.Units.AoWGamePlayDlg
     // { TGamePlayDlg (size $134, VMT 0042200C): $130 pending password. }
     public partial class TGamePlayDlg : Aow.Rtl.TDataModule
     {
-        public TGamePlayDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TGamePlayDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWWindow.TAOWWindow GamePlayDlg;
         // { +0044 }
@@ -204,7 +205,7 @@ namespace Aow.Units.AoWGamePlayDlg
                 if (((Aow.Units.EventLog.TPasswordEventLog)Log).FPassword != ((AnsiString)""))
                 {
                     FNewPassword = ((Aow.Units.EventLog.TPasswordEventLog)Log).FPassword;
-                    Password = Aow.Units.EventLog.TPasswordEventLog.Create(null);
+                    Password = new Aow.Units.EventLog.TPasswordEventLog(null);
                     var call__1 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PasswordConfirmationRStr);
                     Password.FTitle = call__1;
                     var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ReenterNewPasswordRStr);
@@ -305,7 +306,7 @@ namespace Aow.Units.AoWGamePlayDlg
             Aow.Units.EventLog.TPasswordEventLog Log = default;
             if (((Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode != Aow.Units.AoWE.TPlayMode.pmTurn) || (Aow.Units.AoWE.AoWE.AoWHSMap.FConnectionType != Aow.Units.AoWE.TPlayerConnectionType.pcNetwork)) || (Aow.Units.AoWE.AoWE.AoWHSMap.FCurrentPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer))
             {
-                Log = Aow.Units.EventLog.TPasswordEventLog.Create(null);
+                Log = new Aow.Units.EventLog.TPasswordEventLog(null);
                 var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnterNewPasswordRStr);
                 Log.FPrompt = call__17;
                 Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Log, true, PasswordEntered);

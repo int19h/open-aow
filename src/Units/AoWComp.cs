@@ -121,7 +121,7 @@ namespace Aow.Units.AoWComp
         public bool FDoubleBuffered;
         public bool FSurfaceValid;
         // AoWComp.pas:222
-        public TAoWComponent(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAoWComponent(TComponent owner) : base(owner)
         {
             FVisible = true;
             FFirstDraw = true;

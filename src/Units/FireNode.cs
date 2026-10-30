@@ -39,7 +39,7 @@ namespace Aow.Units.FireNode
     // { TFireNode (instance size 76, VMT 557BF624) }
     public partial class TFireNode : Aow.Units.PrdPlace.TProductionPlace
     {
-        public TFireNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFireNode(TECustomNode owner) : base(owner)
         {}
 
         // FireNode.pas:36
@@ -58,7 +58,7 @@ namespace Aow.Units.FireNode
     // { TFireNodeResource (instance size 120, VMT 557BF8D4) }
     public partial class TFireNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        public TFireNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TFireNodeResource(TECustomNode owner) : base(owner)
         {
             FRazeDefenderBudget = 200;
             FRebuildGold = 50;

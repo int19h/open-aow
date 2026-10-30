@@ -86,7 +86,8 @@ namespace Aow.Units.AoWScenSetup
 //     $338 map-validation delay; $33C setup control; $340 ping delay; $344 chat scroll pending. }
     public partial class TScenSetup : Aow.Rtl.TDataModule
     {
-        public TScenSetup(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TScenSetup(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AoWMemo.TAOWMemo ChatMemo;
         // { +0044 }

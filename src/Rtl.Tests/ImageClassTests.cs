@@ -39,8 +39,8 @@ public sealed class ImageClassTests
         var baseline = JsonSerializer.Deserialize<Baseline[]>(baselineStream)!;
         var previousClasses = Images.LibraryImageClasses;
         Images.LibraryImageClasses = new TList();
-        var source = TImageLibrary.Create(null!);
-        var loaded = TImageLibrary.Create(null!);
+        var source = new TImageLibrary(null!);
+        var loaded = new TImageLibrary(null!);
         var stream = new TMemoryStream();
         try
         {
@@ -64,7 +64,7 @@ public sealed class ImageClassTests
                 image.ReadDiscardableImageData(stream);
                 if (image is TImage08 indexed)
                 {
-                    var palette = TGFXEPalette.Create();
+                    var palette = new TGFXEPalette();
                     try { indexed.CreateLibraryImagePalette(palette); }
                     finally { palette.Destroy(); }
                 }
@@ -144,8 +144,8 @@ public sealed class ImageClassTests
     [Fact]
     public void GrabImagesUsesTheDescriptorCreationDelegate()
     {
-        var library = TImageLibrary.Create(null!);
-        var surface = TDataSurface.Create(2, 3, G.pfRGB555, null!);
+        var library = new TImageLibrary(null!);
+        var surface = new TDataSurface(2, 3, G.pfRGB555, null!);
         var previousClasses = Images.LibraryImageClasses;
         Images.LibraryImageClasses = new TList();
         Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);

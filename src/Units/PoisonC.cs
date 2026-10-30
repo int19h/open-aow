@@ -38,7 +38,7 @@ namespace Aow.Units.PoisonC
 //     $18 FTurnsRemaining, $1C FDrifting, $1D FDirection, $1E FUpdated. }
     public partial class TPoisonCloud : Aow.Units.HSEngine.TMultiHexMO
     {
-        public TPoisonCloud(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPoisonCloud(TECustomNode owner) : base(owner)
         {
             FDrifting = false;
         }
@@ -443,7 +443,7 @@ namespace Aow.Units.PoisonC
     // { TPoisonCloudResource (instance size 68, VMT 557CA7E0) }
     public partial class TPoisonCloudResource : Aow.Units.HSEngine.TMultiHexMOR
     {
-        public TPoisonCloudResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TPoisonCloudResource(TECustomNode owner) : base(owner)
         {}
 
         // PoisonC.pas:286

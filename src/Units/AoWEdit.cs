@@ -59,7 +59,7 @@ namespace Aow.Units.AoWEdit
         public int FCursorPos;
         // AoWEdit.pas:79
         // { TAOWEdit }
-        public TAOWEdit(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TAOWEdit(TComponent owner) : base(owner)
         {
             FCursorChar = 124;
             FCursorShown = true;

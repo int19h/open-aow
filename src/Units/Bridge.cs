@@ -24,7 +24,7 @@ namespace Aow.Units.Bridge
 //     road, 2 the shore the bridge reaches) }
     public partial class TBridge : Aow.Units.HSEngine.TAbstractRoad
     {
-        public TBridge(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TBridge(TECustomNode owner) : base(owner)
         {
         }
 
@@ -304,7 +304,7 @@ namespace Aow.Units.Bridge
     // { Bridge.TBridgeResource (instance size 52) }
     public partial class TBridgeResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
-        public TBridgeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TBridgeResource(TECustomNode owner) : base(owner)
         {
             SetLevel(10);
         }

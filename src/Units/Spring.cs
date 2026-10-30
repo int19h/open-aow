@@ -39,7 +39,7 @@ namespace Aow.Units.Spring
     // { TSpringOfLifeAnimation (instance size 60, VMT 557A3858) }
     public partial class TSpringOfLifeAnimation : Aow.Units.Animation.TAnimation
     {
-        public TSpringOfLifeAnimation(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSpringOfLifeAnimation(TECustomNode owner) : base(owner)
         {}
 
         // Spring.pas:64
@@ -64,7 +64,7 @@ namespace Aow.Units.Spring
     // { TSpringOfLife (instance size 48, VMT 557A3A04) }
     public partial class TSpringOfLife : Aow.Units.AoWE.TStructure
     {
-        public TSpringOfLife(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSpringOfLife(TECustomNode owner) : base(owner)
         {
         }
 
@@ -155,7 +155,7 @@ namespace Aow.Units.Spring
     // { TSpringOfLifeResource (instance size 100, VMT 557A3C6C) }
     public partial class TSpringOfLifeResource : Aow.Units.AoWE.TStructureResource
     {
-        public TSpringOfLifeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TSpringOfLifeResource(TECustomNode owner) : base(owner)
         {
             FTerrainBound = false;
         }

@@ -49,7 +49,7 @@ namespace Aow.Units.CombatStructure
     // { TCombatStructure (instance size 40, VMT 0043258C) }
     public partial class TCombatStructure : Aow.Units.CombatILTer.TCombatFixedILTerrain
     {
-        public TCombatStructure(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatStructure(TECustomNode owner) : base(owner)
         {
             SetHitPoints(5);
         }
@@ -401,7 +401,7 @@ namespace Aow.Units.CombatStructure
     // { TCombatStructureResource (instance size 72, VMT 00432750) }
     public partial class TCombatStructureResource : Aow.Units.CombatILTer.TCombatFixedILTerrainResource
     {
-        public TCombatStructureResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TCombatStructureResource(TECustomNode owner) : base(owner)
         {}
 
         // CombatStructure.pas:256

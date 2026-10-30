@@ -70,7 +70,7 @@ namespace Aow.Units.PlugInM
 
         // PlugInM.pas:46
         // { TPlugInManager }
-        public TPlugInManager(Aow.Rtl.TComponent AOwner) : base(AOwner)
+        public TPlugInManager(TComponent owner) : base(owner)
         {
             var call__4 = new Aow.Rtl.TStringList();
             FPlugIns = call__4;

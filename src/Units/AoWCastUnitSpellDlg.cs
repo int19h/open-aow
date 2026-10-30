@@ -65,7 +65,8 @@ namespace Aow.Units.AoWCastUnitSpellDlg
     // { TCastUnitSpellDlg (size $E4, VMT 00431ACC): $E0 retained unit spell caster. }
     public partial class TCastUnitSpellDlg : Aow.Rtl.TDataModule
     {
-        public TCastUnitSpellDlg(Aow.Rtl.TComponent AOwner) : base(AOwner) { }
+        public TCastUnitSpellDlg(TComponent owner) : base(owner)
+        { }
 
         public Aow.Units.AOWGauge.TAoWGauge Unit1Gge;
         // { +0044 }

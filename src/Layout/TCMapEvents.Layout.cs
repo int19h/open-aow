@@ -17,7 +17,7 @@ namespace Aow.Units.aowTCMapEvents
         {
             session.Begin(this);
             Name = "TCMapEvents";
-            TCMap = Aow.Units.CMapCtrl.TAoWCombatMapControl.Create(this);
+            TCMap = new Aow.Units.CMapCtrl.TAoWCombatMapControl(this);
             session.BeginRead(TCMap);
             TCMap.Name = "TCMap";
             TCMap.OnSelected = TCMapSelected;

@@ -41,7 +41,7 @@ namespace Aow.Units.AltLife
     // { TAltarOfLife (instance size 68, no added fields, VMT 557D1BCC) }
     public partial class TAltarOfLife : Aow.Units.Altar.TAltar
     {
-        public TAltarOfLife(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarOfLife(TECustomNode owner) : base(owner)
         {}
 
         // AltLife.pas:36
@@ -60,7 +60,7 @@ namespace Aow.Units.AltLife
     // { TAltarOfLifeResource (instance size 116, no added fields, VMT 557D1E84) }
     public partial class TAltarOfLifeResource : Aow.Units.Altar.TAltarResource
     {
-        public TAltarOfLifeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        public TAltarOfLifeResource(TECustomNode owner) : base(owner)
         {
         }
 
