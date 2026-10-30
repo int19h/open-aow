@@ -82,8 +82,6 @@ public sealed class LeftoverConstructionTests
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
                     if (field.Name == "FOwner") { fields[key] = child is null ? null : "$owner"; continue; }
-                    if (field.Name is "F_PlayerList_14" or "F_CombatData_34" or "F_CombatData_2C" or "F_CombatData_28")
-                        child = Rtl.ReferenceFromId<TObject>((int)child!);
                     fields[key] = State(child, path + "." + key);
                 }
             return fields;

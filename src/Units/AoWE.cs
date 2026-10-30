@@ -9108,7 +9108,7 @@ namespace Aow.Units.AoWE
             SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad, Aow.Units.Engine.TEControlStyleElement.csFixedChild, Aow.Units.Engine.TEControlStyleElement.csArrayMode));
             SetNumberOfPlayers(2);
             var call__802 = new Aow.Units.Engine.TByteList();
-            F_PlayerList_14 = Aow.Rtl.Rtl.ObjectToInt(call__802);
+            FLocalControlledPlayers = call__802;
             var call__803 = new Aow.Units.Engine.TByteList();
             FLocalHumanPlayers = call__803;
             var call__804 = new Aow.Units.Engine.TByteList();
@@ -9119,7 +9119,7 @@ namespace Aow.Units.AoWE
 
         public Aow.Units.Engine.TByteList FActivePlayers;
         // { $10 }
-        public int F_PlayerList_14;
+        public Aow.Units.Engine.TByteList FLocalControlledPlayers;
         public Aow.Units.Engine.TByteList FLocalPlayers;
         // { $18 }
         // { conflict: FLocalPlayers: TByteList; $14 }
@@ -55049,7 +55049,7 @@ namespace Aow.Units.AoWE
             base.Initialize(A1);
             if (FUnit is Aow.Units.AoWE.TLeader)
             {
-                Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TByteList>((int)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TCombat>((int)A1).FCombatData.F_CombatData_28).Add(unchecked((byte)FCombatPlayer));
+                Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.AoWE.TCombat>((int)A1).FCombatData.FInvolvedLeaders.Add(unchecked((byte)FCombatPlayer));
             }
         }
 
@@ -55353,7 +55353,7 @@ namespace Aow.Units.AoWE
             ResetTargets();
             if (FUnit is Aow.Units.AoWE.TLeader)
             {
-                Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TByteList>((int)FCombat.FCombatData.F_CombatData_2C).Add(unchecked((byte)FCombatPlayer));
+                FCombat.FCombatData.FDefeatedLeaders.Add(unchecked((byte)FCombatPlayer));
             }
 
             FCombat.ObjectDestroyed(this);
@@ -55397,7 +55397,7 @@ namespace Aow.Units.AoWE
                 ResetTargets();
                 if (FUnit is Aow.Units.AoWE.TLeader)
                 {
-                    Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TByteList>((int)FCombat.FCombatData.F_CombatData_2C).Add(unchecked((byte)FCombatPlayer));
+                    FCombat.FCombatData.FDefeatedLeaders.Add(unchecked((byte)FCombatPlayer));
                 }
 
                 FCombat.ObjectDestroyed(this);
@@ -57765,13 +57765,13 @@ namespace Aow.Units.AoWE
             var call__4611 = new Aow.Units.AoWE.TCombatPartyList(null);
             FParties = call__4611;
             var call__4612 = Aow.Units.Engine.TENode.Create(null);
-            F_CombatData_34 = Aow.Rtl.Rtl.ObjectToInt(call__4612);
+            FCombatObjects = call__4612;
             var call__4613 = new Aow.Units.Engine.TByteList();
-            F_CombatData_2C = Aow.Rtl.Rtl.ObjectToInt(call__4613);
+            FDefeatedLeaders = call__4613;
             var call__4614 = new Aow.Units.Engine.TByteList();
             FTurnOrder = call__4614;
             var call__4615 = new Aow.Units.Engine.TByteList();
-            F_CombatData_28 = Aow.Rtl.Rtl.ObjectToInt(call__4615);
+            FInvolvedLeaders = call__4615;
         }
 
         public int FX;
@@ -57793,13 +57793,13 @@ namespace Aow.Units.AoWE
         public sbyte FDefenderPlayer;
         // { $25 }
         public Aow.Units.FixedArray_byte_2 F_CombatData_26;
-        public int F_CombatData_28;
-        public int F_CombatData_2C;
+        public Aow.Units.Engine.TByteList FInvolvedLeaders;
+        public Aow.Units.Engine.TByteList FDefeatedLeaders;
         public byte F_CombatData_30;
         public byte FCurrentPlayer;
         // { $31; 5574491F }
         public Aow.Units.FixedArray_byte_2 F_CombatData_32;
-        public int F_CombatData_34;
+        public Aow.Units.Engine.TENode FCombatObjects;
         public Aow.Units.AoWE.TCombatPlayerList FPlayers;
         // { $38 }
         public Aow.Units.AoWE.TCombatPartyList FParties;
@@ -57822,9 +57822,9 @@ namespace Aow.Units.AoWE
         {
             ((Aow.Rtl.TObject)FParties).Free();
             ((Aow.Rtl.TObject)FPlayers).Free();
-            Aow.Rtl.Rtl.IntToObject((int)F_CombatData_34).Free();
-            Aow.Rtl.Rtl.IntToObject((int)F_CombatData_2C).Free();
-            Aow.Rtl.Rtl.IntToObject((int)F_CombatData_28).Free();
+            FCombatObjects.Free();
+            FDefeatedLeaders.Free();
+            FInvolvedLeaders.Free();
             ((Aow.Rtl.TObject)FTurnOrder).Free();
             base.Destroy();
         }
@@ -57835,11 +57835,11 @@ namespace Aow.Units.AoWE
             bool Result = default;
             int I = default;
             Result = false;
-            I = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TByteList>((int)F_CombatData_28).Count;
+            I = FInvolvedLeaders.Count;
             while (!Result && (I != 0))
             {
                 I -= 1;
-                var call__4616 = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TByteList>((int)F_CombatData_28)[I];
+                var call__4616 = FInvolvedLeaders[I];
                 var call__4617 = FPlayers.GetPlayers(unchecked((sbyte)unchecked((sbyte)call__4616)));
                 Result = call__4617.FSideIndex == A1;
             }
@@ -57852,7 +57852,7 @@ namespace Aow.Units.AoWE
         public int GetCount()
         {
             int Result = default;
-            Result = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.Count;
+            Result = FCombatObjects.FChildren.Count;
             return Result;
         }
 
@@ -57861,7 +57861,7 @@ namespace Aow.Units.AoWE
         public Aow.Units.AoWE.TCombatObject GetObjects(int A1)
         {
             Aow.Units.AoWE.TCombatObject Result = default;
-            Result = (Aow.Units.AoWE.TCombatObject)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.List[A1];
+            Result = (Aow.Units.AoWE.TCombatObject)FCombatObjects.FChildren.List[A1];
             return Result;
         }
 
@@ -57871,11 +57871,11 @@ namespace Aow.Units.AoWE
         {
             int Result = default;
             {
-                Result = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>((int)F_CombatData_34).Count - 1;
+                Result = FCombatObjects.Count - 1;
                 byte end__4618 = 0;
                 for (; Result >= end__4618; Result -= 1)
                 {
-                    if (((Aow.Units.AoWE.TCombatObject)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.List[Result]).FID == A1)
+                    if (((Aow.Units.AoWE.TCombatObject)FCombatObjects.FChildren.List[Result]).FID == A1)
                     {
                         return Result;
                     }
@@ -57892,13 +57892,13 @@ namespace Aow.Units.AoWE
         {
             Aow.Units.AoWE.TCombatObject Result = default;
             int I = default;
-            I = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.Count;
+            I = FCombatObjects.FChildren.Count;
             while (I != 0)
             {
                 I -= 1;
-                if (((Aow.Units.AoWE.TCombatObject)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.List[I]).FID == A1)
+                if (((Aow.Units.AoWE.TCombatObject)FCombatObjects.FChildren.List[I]).FID == A1)
                 {
-                    Result = (Aow.Units.AoWE.TCombatObject)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.List[I];
+                    Result = (Aow.Units.AoWE.TCombatObject)FCombatObjects.FChildren.List[I];
                     return Result;
                 }
             }
@@ -57914,13 +57914,13 @@ namespace Aow.Units.AoWE
             Aow.Units.AoWE.TCombatObject Result = default;
             int I = default;
             Result = null;
-            I = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.Count;
+            I = FCombatObjects.FChildren.Count;
             while ((I != 0) && (Result == null))
             {
                 I -= 1;
-                if (A1 == ((Aow.Units.AoWE.TCombatObject)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.List[I]).FPosition)
+                if (A1 == ((Aow.Units.AoWE.TCombatObject)FCombatObjects.FChildren.List[I]).FPosition)
                 {
-                    Result = (Aow.Units.AoWE.TCombatObject)Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>(F_CombatData_34).FChildren.List[I];
+                    Result = (Aow.Units.AoWE.TCombatObject)FCombatObjects.FChildren.List[I];
                 }
             }
 
@@ -57940,7 +57940,7 @@ namespace Aow.Units.AoWE
             }
 
             Aow.Rtl.Rtl.Assert(bool__4620, (AnsiString)"CombatObject Position/ID double defined", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Combat2.pas", 284);
-            A1.SetOwner(Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TENode>((int)F_CombatData_34));
+            A1.SetOwner(FCombatObjects);
         }
 
         // intf_P3_02.inc:252
@@ -58473,11 +58473,11 @@ namespace Aow.Units.AoWE
             Aow.Rtl.Rtl.Assert((FStatus & TSet<Aow.Units.AoWE.TCombatStatusElement>.Of(Aow.Units.AoWE.TCombatStatusElement.cExecuting, Aow.Units.AoWE.TCombatStatusElement.cActivated)) == TSet<Aow.Units.AoWE.TCombatStatusElement>.Of(Aow.Units.AoWE.TCombatStatusElement.cExecuting), (AnsiString)"Combat Finalize Failure", "D:\\git\\aow\\src\\delphi3\\AoWEPACK\\inc\\Combat.pas", 6523);
             {
                 I = 0;
-                int end__4661 = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TByteList>((int)FCombatData.F_CombatData_2C).Count - 1;
+                int end__4661 = FCombatData.FDefeatedLeaders.Count - 1;
                 for (; I <= end__4661; I += 1)
                 {
                     Data = FCombatData;
-                    var call__4662 = Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TByteList>((int)Data.F_CombatData_2C)[I];
+                    var call__4662 = Data.FDefeatedLeaders[I];
                     var call__4663 = Data.FPlayers.GetPlayers(unchecked((sbyte)call__4662));
                     Aow.Units.AoWE.AoWE.AoWHSMap.GameOver(unchecked((sbyte)call__4663.FPlayer), Aow.Units.AoWE.TGameOverStatus.goLost);
                     FLogbook.F_CombatLogbook_19 = true;
@@ -58773,7 +58773,7 @@ namespace Aow.Units.AoWE
                     bool__4696 = (call__4697 == 0);
                 }
 
-                if (bool__4696 || (Aow.Rtl.Rtl.ReferenceFromId<Aow.Units.Engine.TByteList>((int)FCombatData.F_CombatData_2C).Count != 0))
+                if (bool__4696 || (FCombatData.FDefeatedLeaders.Count != 0))
                 {
                     Terminate();
                 }

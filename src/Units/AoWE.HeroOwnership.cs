@@ -43,7 +43,7 @@ public partial class TPlayerList
     public override void Destroy()
     {
         base.Destroy();
-        Rtl.Rtl.ReferenceFromId<TByteList>(F_PlayerList_14).Free();
+        FLocalControlledPlayers.Free();
         FLocalHumanPlayers.Free();
         FActivePlayers.Free();
         FLocalPlayers.Free();
