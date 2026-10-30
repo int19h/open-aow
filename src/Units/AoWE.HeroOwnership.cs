@@ -5,9 +5,9 @@ namespace Aow.Units.AoWE;
 
 public partial class THero
 {
-    public override void Create__init(TECustomNode owner)
+    // Hero.PAS:615
+    public THero(TECustomNode owner) : base(owner)
     {
-        base.Create__init(owner);
         FHeroItems = new THeroItems(null);
         FHeroItems.Hero = this;
         FInventory = new THeroInventory(null);

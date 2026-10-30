@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AoWEmailGameSettingsDlg
 {
-    public partial class TEmailGameSettingsDlg
+    public partial class TEmailGameSettingsDlg : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,1258 +17,1102 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         {
             session.Begin(this);
             Name = "EmailGameSettingsDlg";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
             LayoutOnCreate = Layout_EmailGameSettingsDlgCreate_0;
             LayoutOnDestroy = Layout_EmailGameSettingsDlgDestroy_1;
-            OKBtn = new Aow.Units.AoWButton.TAOWButton(this)
+            OKBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(OKBtn);
+            OKBtn.Name = "OKBtn";
+            OKBtn.Priority = 9999;
+            OKBtn.WinLeft = 90;
+            OKBtn.WinTop = 297;
+            OKBtn.CaptureInput = true;
+            OKBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            OKBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            OKBtn.Alignment.HeightPercent = (byte)(0);
+            OKBtn.Alignment.WidthPercent = (byte)(0);
+            OKBtn.Alignment.LeftOffPercent = 0;
+            OKBtn.Alignment.RightOffPercent = 0;
+            OKBtn.Alignment.TopOffPercent = 0;
+            OKBtn.Alignment.BottomOffPercent = 0;
+            OKBtn.Alignment.LeftOffset = 90;
+            OKBtn.Alignment.RightOffset = 0;
+            OKBtn.Alignment.TopOffset = 0;
+            OKBtn.Alignment.BottomOffset = 11;
+            OKBtn.Masked = false;
+            OKBtn.BorderHeight = 8;
+            OKBtn.BorderHeightSelected = 9;
+            OKBtn.ILIndexDown = 22;
+            OKBtn.ILIndexLit = 25;
+            OKBtn.ILIndexUp = 19;
+            OKBtn.Text = "OK";
+            OKBtn.TextColor = 0;
+            OKBtn.TextSelColor = 16777215;
+            OKBtn.WinWidth = 110;
+            OKBtn.OnClick = OKBtnClick;
+            session.EndRead(OKBtn);
+            TitleIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(TitleIcon);
+            TitleIcon.Name = "TitleIcon";
+            TitleIcon.Priority = 0;
+            TitleIcon.WinLeft = 20;
+            TitleIcon.WinTop = 5;
+            TitleIcon.CaptureInput = false;
+            TitleIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            TitleIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            TitleIcon.Alignment.HeightPercent = (byte)(0);
+            TitleIcon.Alignment.WidthPercent = (byte)(0);
+            TitleIcon.Alignment.LeftOffPercent = 0;
+            TitleIcon.Alignment.RightOffPercent = 0;
+            TitleIcon.Alignment.TopOffPercent = 0;
+            TitleIcon.Alignment.BottomOffPercent = 0;
+            TitleIcon.Alignment.LeftOffset = 0;
+            TitleIcon.Alignment.RightOffset = 0;
+            TitleIcon.Alignment.TopOffset = 0;
+            TitleIcon.Alignment.BottomOffset = 0;
+            TitleIcon.Masked = false;
+            TitleIcon.AnimStart = 0;
+            TitleIcon.CurrentImage = 17;
+            TitleIcon.AnimEnd = 0;
+            TitleIcon.WinWidth = 19;
+            TitleIcon.WinHeight = 16;
+            TitleIcon.Animate = false;
+            TitleIcon.AnimFrameDelay = 0;
+            session.EndRead(TitleIcon);
+            Title = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(Title);
+            Title.Name = "Title";
+            Title.Priority = 0;
+            Title.WinLeft = 42;
+            Title.WinTop = 7;
+            Title.CaptureInput = false;
+            Title.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            Title.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            Title.Alignment.HeightPercent = (byte)(0);
+            Title.Alignment.WidthPercent = (byte)(0);
+            Title.Alignment.LeftOffPercent = 0;
+            Title.Alignment.RightOffPercent = 0;
+            Title.Alignment.TopOffPercent = 0;
+            Title.Alignment.BottomOffPercent = 0;
+            Title.Alignment.LeftOffset = 0;
+            Title.Alignment.RightOffset = 0;
+            Title.Alignment.TopOffset = 0;
+            Title.Alignment.BottomOffset = 0;
+            Title.Masked = true;
+            Title.Text = "Email Game Settings";
+            Title.TextColor = 0;
+            session.EndRead(Title);
+            CancelBut = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(CancelBut);
+            CancelBut.Name = "CancelBut";
+            CancelBut.Priority = 9999;
+            CancelBut.WinLeft = 256;
+            CancelBut.WinTop = 297;
+            CancelBut.CaptureInput = true;
+            CancelBut.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            CancelBut.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            CancelBut.Alignment.HeightPercent = (byte)(0);
+            CancelBut.Alignment.WidthPercent = (byte)(0);
+            CancelBut.Alignment.LeftOffPercent = 0;
+            CancelBut.Alignment.RightOffPercent = 0;
+            CancelBut.Alignment.TopOffPercent = 0;
+            CancelBut.Alignment.BottomOffPercent = 0;
+            CancelBut.Alignment.LeftOffset = 0;
+            CancelBut.Alignment.RightOffset = 84;
+            CancelBut.Alignment.TopOffset = 0;
+            CancelBut.Alignment.BottomOffset = 11;
+            CancelBut.Masked = false;
+            CancelBut.BorderHeight = 8;
+            CancelBut.BorderHeightSelected = 9;
+            CancelBut.ILIndexDown = 22;
+            CancelBut.ILIndexLit = 25;
+            CancelBut.ILIndexUp = 19;
+            CancelBut.Text = "Cancel";
+            CancelBut.TextColor = 0;
+            CancelBut.TextSelColor = 16777215;
+            CancelBut.WinWidth = 110;
+            CancelBut.OnClick = Layout_CancelButClick_2;
+            session.EndRead(CancelBut);
+            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            session.BeginRead(Dlg);
+            Dlg.Name = "Dlg";
+            Dlg.OnKeyDown = DlgKeyDown;
+            Dlg.Visible = false;
+            Dlg.Priority = 520;
+            Dlg.WinLeft = 95;
+            Dlg.WinTop = 49;
+            Dlg.WinWidth = 450;
+            Dlg.Masked = true;
+            Dlg.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            Dlg.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+            Dlg.Alignment.HeightPercent = (byte)(0);
+            Dlg.Alignment.WidthPercent = (byte)(0);
+            Dlg.Alignment.LeftOffPercent = 0;
+            Dlg.Alignment.RightOffPercent = 0;
+            Dlg.Alignment.TopOffPercent = 0;
+            Dlg.Alignment.BottomOffPercent = 0;
+            Dlg.Alignment.LeftOffset = 0;
+            Dlg.Alignment.RightOffset = 0;
+            Dlg.Alignment.TopOffset = 0;
+            Dlg.Alignment.BottomOffset = 0;
+            Dlg.UseVMem = false;
+            Dlg.BorderWidth = 0;
+            Dlg.BorderHeight = 0;
+            Dlg.OverlapTopCorners = false;
+            Dlg.Cursor = 0;
+            Dlg.DoubleBuffered = true;
+            Dlg.MaskColor = 6268490;
+            Dlg.FreeSurfaceOnHide = true;
+            Dlg.ILIndexFrame = 32;
+            Dlg.ILIndexTexture = 2;
+            Dlg.DragHeight = 20;
+            Dlg.Draggable = true;
+            Dlg.Resizable = false;
+            Dlg.MinWidth = 0;
+            Dlg.MinHeight = 0;
+            Dlg.MaxWidth = 0;
+            Dlg.MaxHeight = 0;
+            Dlg.UseManagerBorders = true;
+            Dlg.Modal = true;
+            Dlg.WinHeight = 335;
+            Dlg.Dockable = false;
+            session.EndRead(Dlg);
+            LocalEmailAdressLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(LocalEmailAdressLbl);
+            LocalEmailAdressLbl.Name = "LocalEmailAdressLbl";
+            LocalEmailAdressLbl.Priority = 100;
+            LocalEmailAdressLbl.WinLeft = 50;
+            LocalEmailAdressLbl.WinTop = 30;
+            LocalEmailAdressLbl.CaptureInput = true;
+            LocalEmailAdressLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            LocalEmailAdressLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            LocalEmailAdressLbl.Alignment.HeightPercent = (byte)(0);
+            LocalEmailAdressLbl.Alignment.WidthPercent = (byte)(0);
+            LocalEmailAdressLbl.Alignment.LeftOffPercent = 0;
+            LocalEmailAdressLbl.Alignment.RightOffPercent = 0;
+            LocalEmailAdressLbl.Alignment.TopOffPercent = 0;
+            LocalEmailAdressLbl.Alignment.BottomOffPercent = 0;
+            LocalEmailAdressLbl.Alignment.LeftOffset = 50;
+            LocalEmailAdressLbl.Alignment.RightOffset = 0;
+            LocalEmailAdressLbl.Alignment.TopOffset = 30;
+            LocalEmailAdressLbl.Alignment.BottomOffset = 0;
+            LocalEmailAdressLbl.Masked = true;
+            LocalEmailAdressLbl.Text = "Local Email Address";
+            LocalEmailAdressLbl.TextColor = 16777215;
+            session.EndRead(LocalEmailAdressLbl);
+            DecoL = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(DecoL);
+            DecoL.Name = "DecoL";
+            DecoL.Priority = 1000;
+            DecoL.WinLeft = 35;
+            DecoL.WinTop = 297;
+            DecoL.CaptureInput = true;
+            DecoL.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            DecoL.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            DecoL.Alignment.HeightPercent = (byte)(0);
+            DecoL.Alignment.WidthPercent = (byte)(0);
+            DecoL.Alignment.LeftOffPercent = 0;
+            DecoL.Alignment.RightOffPercent = 0;
+            DecoL.Alignment.TopOffPercent = 0;
+            DecoL.Alignment.BottomOffPercent = 0;
+            DecoL.Alignment.LeftOffset = 0;
+            DecoL.Alignment.RightOffset = 0;
+            DecoL.Alignment.TopOffset = 0;
+            DecoL.Alignment.BottomOffset = 11;
+            DecoL.Masked = false;
+            DecoL.AnimStart = 0;
+            DecoL.CurrentImage = 3;
+            DecoL.AnimEnd = 0;
+            DecoL.WinWidth = 81;
+            DecoL.WinHeight = 27;
+            DecoL.Animate = false;
+            DecoL.AnimFrameDelay = 0;
+            session.EndRead(DecoL);
+            DecoR = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(DecoR);
+            DecoR.Name = "DecoR";
+            DecoR.Priority = 1000;
+            DecoR.WinLeft = 341;
+            DecoR.WinTop = 297;
+            DecoR.CaptureInput = true;
+            DecoR.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            DecoR.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            DecoR.Alignment.HeightPercent = (byte)(0);
+            DecoR.Alignment.WidthPercent = (byte)(0);
+            DecoR.Alignment.LeftOffPercent = 0;
+            DecoR.Alignment.RightOffPercent = 0;
+            DecoR.Alignment.TopOffPercent = 0;
+            DecoR.Alignment.BottomOffPercent = 0;
+            DecoR.Alignment.LeftOffset = 0;
+            DecoR.Alignment.RightOffset = 28;
+            DecoR.Alignment.TopOffset = 0;
+            DecoR.Alignment.BottomOffset = 11;
+            DecoR.Masked = false;
+            DecoR.AnimStart = 0;
+            DecoR.CurrentImage = 3;
+            DecoR.AnimEnd = 0;
+            DecoR.WinWidth = 81;
+            DecoR.WinHeight = 27;
+            DecoR.Animate = false;
+            DecoR.AnimFrameDelay = 0;
+            session.EndRead(DecoR);
+            AoWFrame1 = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(AoWFrame1);
+            AoWFrame1.Name = "AoWFrame1";
+            AoWFrame1.Priority = 0;
+            AoWFrame1.WinLeft = 21;
+            AoWFrame1.WinTop = 297;
+            AoWFrame1.CaptureInput = true;
+            AoWFrame1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            AoWFrame1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            AoWFrame1.Alignment.HeightPercent = (byte)(0);
+            AoWFrame1.Alignment.WidthPercent = (byte)(0);
+            AoWFrame1.Alignment.LeftOffPercent = 0;
+            AoWFrame1.Alignment.RightOffPercent = 0;
+            AoWFrame1.Alignment.TopOffPercent = 0;
+            AoWFrame1.Alignment.BottomOffPercent = 0;
+            AoWFrame1.Alignment.LeftOffset = 21;
+            AoWFrame1.Alignment.RightOffset = 21;
+            AoWFrame1.Alignment.TopOffset = 0;
+            AoWFrame1.Alignment.BottomOffset = 11;
+            AoWFrame1.Masked = false;
+            AoWFrame1.WinWidth = 408;
+            AoWFrame1.WinHeight = 27;
+            AoWFrame1.FrameType = Aow.Units.AoWFrame.TFrameType.frHorizLine;
+            AoWFrame1.ILIndexFrame = 0;
+            AoWFrame1.ILIndexLine = 55;
+            AoWFrame1.ILIndexTexture = 0;
+            session.EndRead(AoWFrame1);
+            LocalEmailAddressEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(LocalEmailAddressEdit);
+            LocalEmailAddressEdit.Name = "LocalEmailAddressEdit";
+            LocalEmailAddressEdit.OnUpdate = Layout_LocalEmailAddressEditUpdate_3;
+            LocalEmailAddressEdit.Priority = 0;
+            LocalEmailAddressEdit.WinLeft = 1;
+            LocalEmailAddressEdit.WinTop = 0;
+            LocalEmailAddressEdit.CaptureInput = true;
+            LocalEmailAddressEdit.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            LocalEmailAddressEdit.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            LocalEmailAddressEdit.Alignment.HeightPercent = (byte)(0);
+            LocalEmailAddressEdit.Alignment.WidthPercent = (byte)(0);
+            LocalEmailAddressEdit.Alignment.LeftOffPercent = 0;
+            LocalEmailAddressEdit.Alignment.RightOffPercent = 0;
+            LocalEmailAddressEdit.Alignment.TopOffPercent = 0;
+            LocalEmailAddressEdit.Alignment.BottomOffPercent = 0;
+            LocalEmailAddressEdit.Alignment.LeftOffset = 1;
+            LocalEmailAddressEdit.Alignment.RightOffset = 0;
+            LocalEmailAddressEdit.Alignment.TopOffset = 0;
+            LocalEmailAddressEdit.Alignment.BottomOffset = 1;
+            LocalEmailAddressEdit.Masked = false;
+            LocalEmailAddressEdit.WinWidth = 199;
+            LocalEmailAddressEdit.BorderWidth = 8;
+            LocalEmailAddressEdit.BorderHeight = 6;
+            LocalEmailAddressEdit.MaxChars = 0;
+            LocalEmailAddressEdit.CursorChar = (byte)95;
+            LocalEmailAddressEdit.BlinkDelay = 1;
+            LocalEmailAddressEdit.TextColor = 11002593;
+            LocalEmailAddressEdit.Editable = false;
+            LocalEmailAddressEdit.ILIndex = 15;
+            LocalEmailAddressEdit.PassWordChar = (byte)0;
+            session.EndRead(LocalEmailAddressEdit);
+            PlayerEMailAddressesLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(PlayerEMailAddressesLbl);
+            PlayerEMailAddressesLbl.Name = "PlayerEMailAddressesLbl";
+            PlayerEMailAddressesLbl.Priority = 100;
+            PlayerEMailAddressesLbl.WinLeft = 50;
+            PlayerEMailAddressesLbl.WinTop = 132;
+            PlayerEMailAddressesLbl.CaptureInput = true;
+            PlayerEMailAddressesLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PlayerEMailAddressesLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            PlayerEMailAddressesLbl.Alignment.HeightPercent = (byte)(0);
+            PlayerEMailAddressesLbl.Alignment.WidthPercent = (byte)(0);
+            PlayerEMailAddressesLbl.Alignment.LeftOffPercent = 0;
+            PlayerEMailAddressesLbl.Alignment.RightOffPercent = 0;
+            PlayerEMailAddressesLbl.Alignment.TopOffPercent = 0;
+            PlayerEMailAddressesLbl.Alignment.BottomOffPercent = 0;
+            PlayerEMailAddressesLbl.Alignment.LeftOffset = 50;
+            PlayerEMailAddressesLbl.Alignment.RightOffset = 0;
+            PlayerEMailAddressesLbl.Alignment.TopOffset = 70;
+            PlayerEMailAddressesLbl.Alignment.BottomOffset = 185;
+            PlayerEMailAddressesLbl.Masked = true;
+            PlayerEMailAddressesLbl.Text = "Player Email Addresses";
+            PlayerEMailAddressesLbl.TextColor = 16777215;
+            session.EndRead(PlayerEMailAddressesLbl);
+            EmailAddressEdit1 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(EmailAddressEdit1);
+            EmailAddressEdit1.Name = "EmailAddressEdit1";
+            EmailAddressEdit1.Priority = 0;
+            EmailAddressEdit1.WinLeft = 120;
+            EmailAddressEdit1.WinTop = 0;
+            EmailAddressEdit1.CaptureInput = true;
+            EmailAddressEdit1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            EmailAddressEdit1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            EmailAddressEdit1.Alignment.HeightPercent = (byte)(0);
+            EmailAddressEdit1.Alignment.WidthPercent = (byte)(0);
+            EmailAddressEdit1.Alignment.LeftOffPercent = 0;
+            EmailAddressEdit1.Alignment.RightOffPercent = 0;
+            EmailAddressEdit1.Alignment.TopOffPercent = 0;
+            EmailAddressEdit1.Alignment.BottomOffPercent = 0;
+            EmailAddressEdit1.Alignment.LeftOffset = 120;
+            EmailAddressEdit1.Alignment.RightOffset = 0;
+            EmailAddressEdit1.Alignment.TopOffset = 0;
+            EmailAddressEdit1.Alignment.BottomOffset = 1;
+            EmailAddressEdit1.Masked = false;
+            EmailAddressEdit1.WinWidth = 230;
+            EmailAddressEdit1.BorderWidth = 8;
+            EmailAddressEdit1.BorderHeight = 5;
+            EmailAddressEdit1.OnChange = EmailAddressEdit1Change;
+            EmailAddressEdit1.MaxChars = 0;
+            EmailAddressEdit1.CursorChar = (byte)95;
+            EmailAddressEdit1.BlinkDelay = 1;
+            EmailAddressEdit1.TextColor = 11002593;
+            EmailAddressEdit1.Editable = true;
+            EmailAddressEdit1.ILIndex = 15;
+            EmailAddressEdit1.PassWordChar = (byte)0;
+            session.EndRead(EmailAddressEdit1);
+            PlayerPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(PlayerPnl);
+            PlayerPnl.Name = "PlayerPnl";
+            PlayerPnl.Priority = 1;
+            PlayerPnl.WinLeft = 50;
+            PlayerPnl.WinTop = 153;
+            PlayerPnl.WinWidth = 350;
+            PlayerPnl.Masked = true;
+            PlayerPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            PlayerPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            PlayerPnl.Alignment.HeightPercent = (byte)(0);
+            PlayerPnl.Alignment.WidthPercent = (byte)(0);
+            PlayerPnl.Alignment.LeftOffPercent = 0;
+            PlayerPnl.Alignment.RightOffPercent = 0;
+            PlayerPnl.Alignment.TopOffPercent = 0;
+            PlayerPnl.Alignment.BottomOffPercent = 0;
+            PlayerPnl.Alignment.LeftOffset = 50;
+            PlayerPnl.Alignment.RightOffset = 50;
+            PlayerPnl.Alignment.TopOffset = 70;
+            PlayerPnl.Alignment.BottomOffset = 60;
+            PlayerPnl.WinHeight = 122;
+            PlayerPnl.ILIndexFrame = 105;
+            PlayerPnl.ILIndexTexture = 17;
+            PlayerPnl.OwnerItem = 0;
+            PlayerPnl.MinWidth = 0;
+            PlayerPnl.MinHeight = 0;
+            session.EndRead(PlayerPnl);
+            PlayerLbl1 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(PlayerLbl1);
+            PlayerLbl1.Name = "PlayerLbl1";
+            PlayerLbl1.Priority = 0;
+            PlayerLbl1.WinLeft = 20;
+            PlayerLbl1.WinTop = 5;
+            PlayerLbl1.CaptureInput = false;
+            PlayerLbl1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PlayerLbl1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PlayerLbl1.Alignment.HeightPercent = (byte)(0);
+            PlayerLbl1.Alignment.WidthPercent = (byte)(0);
+            PlayerLbl1.Alignment.LeftOffPercent = 0;
+            PlayerLbl1.Alignment.RightOffPercent = 0;
+            PlayerLbl1.Alignment.TopOffPercent = 0;
+            PlayerLbl1.Alignment.BottomOffPercent = 0;
+            PlayerLbl1.Alignment.LeftOffset = 20;
+            PlayerLbl1.Alignment.RightOffset = 0;
+            PlayerLbl1.Alignment.TopOffset = 5;
+            PlayerLbl1.Alignment.BottomOffset = 0;
+            PlayerLbl1.Masked = true;
+            PlayerLbl1.TextColor = 9415072;
+            session.EndRead(PlayerLbl1);
+            PlayerSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            session.BeginRead(PlayerSB);
+            PlayerSB.Name = "PlayerSB";
+            PlayerSB.Priority = 200;
+            PlayerSB.WinLeft = 333;
+            PlayerSB.WinTop = 0;
+            PlayerSB.CaptureInput = true;
+            PlayerSB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            PlayerSB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            PlayerSB.Alignment.HeightPercent = (byte)(0);
+            PlayerSB.Alignment.WidthPercent = (byte)(0);
+            PlayerSB.Alignment.LeftOffPercent = 0;
+            PlayerSB.Alignment.RightOffPercent = 0;
+            PlayerSB.Alignment.TopOffPercent = 0;
+            PlayerSB.Alignment.BottomOffPercent = 0;
+            PlayerSB.Alignment.LeftOffset = 0;
+            PlayerSB.Alignment.RightOffset = 0;
+            PlayerSB.Alignment.TopOffset = 0;
+            PlayerSB.Alignment.BottomOffset = 1;
+            PlayerSB.Masked = false;
+            PlayerSB.Min = 0;
+            PlayerSB.Max = 4;
+            PlayerSB.SmallChange = 1;
+            PlayerSB.LargeChange = 5;
+            PlayerSB.Position = 0;
+            PlayerSB.WinHeight = 121;
+            PlayerSB.WinWidth = 17;
+            PlayerSB.NumberVisible = 4;
+            PlayerSB.OnChange = Layout_PlayerSBChange_4;
+            PlayerSB.VanishWhenFull = true;
+            PlayerSB.ILIndexIncUp = 96;
+            PlayerSB.ILIndexIncDown = 97;
+            PlayerSB.ILIndexDecUp = 94;
+            PlayerSB.ILIndexDecDown = 95;
+            PlayerSB.ILIndexBack = 101;
+            PlayerSB.ILIndexTab = 98;
+            session.EndRead(PlayerSB);
+            PlayerLbl2 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(PlayerLbl2);
+            PlayerLbl2.Name = "PlayerLbl2";
+            PlayerLbl2.Priority = 0;
+            PlayerLbl2.WinLeft = 20;
+            PlayerLbl2.WinTop = 5;
+            PlayerLbl2.CaptureInput = false;
+            PlayerLbl2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PlayerLbl2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PlayerLbl2.Alignment.HeightPercent = (byte)(0);
+            PlayerLbl2.Alignment.WidthPercent = (byte)(0);
+            PlayerLbl2.Alignment.LeftOffPercent = 0;
+            PlayerLbl2.Alignment.RightOffPercent = 0;
+            PlayerLbl2.Alignment.TopOffPercent = 0;
+            PlayerLbl2.Alignment.BottomOffPercent = 0;
+            PlayerLbl2.Alignment.LeftOffset = 20;
+            PlayerLbl2.Alignment.RightOffset = 0;
+            PlayerLbl2.Alignment.TopOffset = 5;
+            PlayerLbl2.Alignment.BottomOffset = 0;
+            PlayerLbl2.Masked = true;
+            PlayerLbl2.TextColor = 9415072;
+            session.EndRead(PlayerLbl2);
+            PlayerLbl3 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(PlayerLbl3);
+            PlayerLbl3.Name = "PlayerLbl3";
+            PlayerLbl3.Priority = 0;
+            PlayerLbl3.WinLeft = 20;
+            PlayerLbl3.WinTop = 5;
+            PlayerLbl3.CaptureInput = false;
+            PlayerLbl3.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PlayerLbl3.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PlayerLbl3.Alignment.HeightPercent = (byte)(0);
+            PlayerLbl3.Alignment.WidthPercent = (byte)(0);
+            PlayerLbl3.Alignment.LeftOffPercent = 0;
+            PlayerLbl3.Alignment.RightOffPercent = 0;
+            PlayerLbl3.Alignment.TopOffPercent = 0;
+            PlayerLbl3.Alignment.BottomOffPercent = 0;
+            PlayerLbl3.Alignment.LeftOffset = 20;
+            PlayerLbl3.Alignment.RightOffset = 0;
+            PlayerLbl3.Alignment.TopOffset = 5;
+            PlayerLbl3.Alignment.BottomOffset = 0;
+            PlayerLbl3.Masked = true;
+            PlayerLbl3.TextColor = 9415072;
+            session.EndRead(PlayerLbl3);
+            EmailAddressEdit2 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(EmailAddressEdit2);
+            EmailAddressEdit2.Name = "EmailAddressEdit2";
+            EmailAddressEdit2.Tag = 1;
+            EmailAddressEdit2.Priority = 0;
+            EmailAddressEdit2.WinLeft = 120;
+            EmailAddressEdit2.WinTop = 20;
+            EmailAddressEdit2.CaptureInput = true;
+            EmailAddressEdit2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            EmailAddressEdit2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            EmailAddressEdit2.Alignment.HeightPercent = (byte)(0);
+            EmailAddressEdit2.Alignment.WidthPercent = (byte)(0);
+            EmailAddressEdit2.Alignment.LeftOffPercent = 0;
+            EmailAddressEdit2.Alignment.RightOffPercent = 0;
+            EmailAddressEdit2.Alignment.TopOffPercent = 0;
+            EmailAddressEdit2.Alignment.BottomOffPercent = 0;
+            EmailAddressEdit2.Alignment.LeftOffset = 120;
+            EmailAddressEdit2.Alignment.RightOffset = 0;
+            EmailAddressEdit2.Alignment.TopOffset = 20;
+            EmailAddressEdit2.Alignment.BottomOffset = 1;
+            EmailAddressEdit2.Masked = false;
+            EmailAddressEdit2.WinWidth = 230;
+            EmailAddressEdit2.BorderWidth = 8;
+            EmailAddressEdit2.BorderHeight = 6;
+            EmailAddressEdit2.OnChange = EmailAddressEdit1Change;
+            EmailAddressEdit2.MaxChars = 0;
+            EmailAddressEdit2.CursorChar = (byte)95;
+            EmailAddressEdit2.BlinkDelay = 1;
+            EmailAddressEdit2.TextColor = 11002593;
+            EmailAddressEdit2.Editable = true;
+            EmailAddressEdit2.ILIndex = 15;
+            EmailAddressEdit2.PassWordChar = (byte)0;
+            session.EndRead(EmailAddressEdit2);
+            EmailAddressEdit3 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(EmailAddressEdit3);
+            EmailAddressEdit3.Name = "EmailAddressEdit3";
+            EmailAddressEdit3.Tag = 2;
+            EmailAddressEdit3.Priority = 0;
+            EmailAddressEdit3.WinLeft = 120;
+            EmailAddressEdit3.WinTop = 40;
+            EmailAddressEdit3.CaptureInput = true;
+            EmailAddressEdit3.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            EmailAddressEdit3.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            EmailAddressEdit3.Alignment.HeightPercent = (byte)(0);
+            EmailAddressEdit3.Alignment.WidthPercent = (byte)(0);
+            EmailAddressEdit3.Alignment.LeftOffPercent = 0;
+            EmailAddressEdit3.Alignment.RightOffPercent = 0;
+            EmailAddressEdit3.Alignment.TopOffPercent = 0;
+            EmailAddressEdit3.Alignment.BottomOffPercent = 0;
+            EmailAddressEdit3.Alignment.LeftOffset = 120;
+            EmailAddressEdit3.Alignment.RightOffset = 0;
+            EmailAddressEdit3.Alignment.TopOffset = 40;
+            EmailAddressEdit3.Alignment.BottomOffset = 1;
+            EmailAddressEdit3.Masked = false;
+            EmailAddressEdit3.WinWidth = 230;
+            EmailAddressEdit3.BorderWidth = 8;
+            EmailAddressEdit3.BorderHeight = 6;
+            EmailAddressEdit3.OnChange = EmailAddressEdit1Change;
+            EmailAddressEdit3.MaxChars = 0;
+            EmailAddressEdit3.CursorChar = (byte)95;
+            EmailAddressEdit3.BlinkDelay = 1;
+            EmailAddressEdit3.TextColor = 11002593;
+            EmailAddressEdit3.Editable = true;
+            EmailAddressEdit3.ILIndex = 15;
+            EmailAddressEdit3.PassWordChar = (byte)0;
+            session.EndRead(EmailAddressEdit3);
+            PlayerLbl4 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(PlayerLbl4);
+            PlayerLbl4.Name = "PlayerLbl4";
+            PlayerLbl4.Priority = 0;
+            PlayerLbl4.WinLeft = 20;
+            PlayerLbl4.WinTop = 5;
+            PlayerLbl4.CaptureInput = false;
+            PlayerLbl4.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PlayerLbl4.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PlayerLbl4.Alignment.HeightPercent = (byte)(0);
+            PlayerLbl4.Alignment.WidthPercent = (byte)(0);
+            PlayerLbl4.Alignment.LeftOffPercent = 0;
+            PlayerLbl4.Alignment.RightOffPercent = 0;
+            PlayerLbl4.Alignment.TopOffPercent = 0;
+            PlayerLbl4.Alignment.BottomOffPercent = 0;
+            PlayerLbl4.Alignment.LeftOffset = 20;
+            PlayerLbl4.Alignment.RightOffset = 0;
+            PlayerLbl4.Alignment.TopOffset = 5;
+            PlayerLbl4.Alignment.BottomOffset = 0;
+            PlayerLbl4.Masked = true;
+            PlayerLbl4.TextColor = 9415072;
+            session.EndRead(PlayerLbl4);
+            EmailAddressEdit4 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(EmailAddressEdit4);
+            EmailAddressEdit4.Name = "EmailAddressEdit4";
+            EmailAddressEdit4.Tag = 3;
+            EmailAddressEdit4.Priority = 0;
+            EmailAddressEdit4.WinLeft = 120;
+            EmailAddressEdit4.WinTop = 60;
+            EmailAddressEdit4.CaptureInput = true;
+            EmailAddressEdit4.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            EmailAddressEdit4.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            EmailAddressEdit4.Alignment.HeightPercent = (byte)(0);
+            EmailAddressEdit4.Alignment.WidthPercent = (byte)(0);
+            EmailAddressEdit4.Alignment.LeftOffPercent = 0;
+            EmailAddressEdit4.Alignment.RightOffPercent = 0;
+            EmailAddressEdit4.Alignment.TopOffPercent = 0;
+            EmailAddressEdit4.Alignment.BottomOffPercent = 0;
+            EmailAddressEdit4.Alignment.LeftOffset = 120;
+            EmailAddressEdit4.Alignment.RightOffset = 0;
+            EmailAddressEdit4.Alignment.TopOffset = 60;
+            EmailAddressEdit4.Alignment.BottomOffset = 1;
+            EmailAddressEdit4.Masked = false;
+            EmailAddressEdit4.WinWidth = 230;
+            EmailAddressEdit4.BorderWidth = 8;
+            EmailAddressEdit4.BorderHeight = 6;
+            EmailAddressEdit4.OnChange = EmailAddressEdit1Change;
+            EmailAddressEdit4.MaxChars = 0;
+            EmailAddressEdit4.CursorChar = (byte)95;
+            EmailAddressEdit4.BlinkDelay = 1;
+            EmailAddressEdit4.TextColor = 11002593;
+            EmailAddressEdit4.Editable = true;
+            EmailAddressEdit4.ILIndex = 15;
+            EmailAddressEdit4.PassWordChar = (byte)0;
+            session.EndRead(EmailAddressEdit4);
+            EmailGameNameLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(EmailGameNameLbl);
+            EmailGameNameLbl.Name = "EmailGameNameLbl";
+            EmailGameNameLbl.Priority = 100;
+            EmailGameNameLbl.WinLeft = 50;
+            EmailGameNameLbl.WinTop = 80;
+            EmailGameNameLbl.CaptureInput = true;
+            EmailGameNameLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            EmailGameNameLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            EmailGameNameLbl.Alignment.HeightPercent = (byte)(0);
+            EmailGameNameLbl.Alignment.WidthPercent = (byte)(0);
+            EmailGameNameLbl.Alignment.LeftOffPercent = 0;
+            EmailGameNameLbl.Alignment.RightOffPercent = 0;
+            EmailGameNameLbl.Alignment.TopOffPercent = 0;
+            EmailGameNameLbl.Alignment.BottomOffPercent = 0;
+            EmailGameNameLbl.Alignment.LeftOffset = 50;
+            EmailGameNameLbl.Alignment.RightOffset = 0;
+            EmailGameNameLbl.Alignment.TopOffset = 80;
+            EmailGameNameLbl.Alignment.BottomOffset = 0;
+            EmailGameNameLbl.Masked = true;
+            EmailGameNameLbl.Text = "Email Game Name";
+            EmailGameNameLbl.TextColor = 16777215;
+            session.EndRead(EmailGameNameLbl);
+            EmailGameNameEdit = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(EmailGameNameEdit);
+            EmailGameNameEdit.Name = "EmailGameNameEdit";
+            EmailGameNameEdit.Priority = 0;
+            EmailGameNameEdit.WinLeft = 1;
+            EmailGameNameEdit.WinTop = 0;
+            EmailGameNameEdit.CaptureInput = true;
+            EmailGameNameEdit.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            EmailGameNameEdit.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            EmailGameNameEdit.Alignment.HeightPercent = (byte)(0);
+            EmailGameNameEdit.Alignment.WidthPercent = (byte)(0);
+            EmailGameNameEdit.Alignment.LeftOffPercent = 0;
+            EmailGameNameEdit.Alignment.RightOffPercent = 0;
+            EmailGameNameEdit.Alignment.TopOffPercent = 0;
+            EmailGameNameEdit.Alignment.BottomOffPercent = 0;
+            EmailGameNameEdit.Alignment.LeftOffset = 1;
+            EmailGameNameEdit.Alignment.RightOffset = 0;
+            EmailGameNameEdit.Alignment.TopOffset = 0;
+            EmailGameNameEdit.Alignment.BottomOffset = 1;
+            EmailGameNameEdit.Masked = false;
+            EmailGameNameEdit.WinWidth = 349;
+            EmailGameNameEdit.BorderWidth = 8;
+            EmailGameNameEdit.BorderHeight = 6;
+            EmailGameNameEdit.MaxChars = 0;
+            EmailGameNameEdit.CursorChar = (byte)95;
+            EmailGameNameEdit.BlinkDelay = 1;
+            EmailGameNameEdit.TextColor = 11002593;
+            EmailGameNameEdit.Editable = true;
+            EmailGameNameEdit.ILIndex = 15;
+            EmailGameNameEdit.PassWordChar = (byte)0;
+            session.EndRead(EmailGameNameEdit);
+            SettingsBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(SettingsBtn);
+            SettingsBtn.Name = "SettingsBtn";
+            SettingsBtn.Priority = 9999;
+            SettingsBtn.WinLeft = 265;
+            SettingsBtn.WinTop = 50;
+            SettingsBtn.CaptureInput = true;
+            SettingsBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            SettingsBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SettingsBtn.Alignment.HeightPercent = (byte)(0);
+            SettingsBtn.Alignment.WidthPercent = (byte)(0);
+            SettingsBtn.Alignment.LeftOffPercent = 0;
+            SettingsBtn.Alignment.RightOffPercent = 0;
+            SettingsBtn.Alignment.TopOffPercent = 0;
+            SettingsBtn.Alignment.BottomOffPercent = 0;
+            SettingsBtn.Alignment.LeftOffset = 265;
+            SettingsBtn.Alignment.RightOffset = 50;
+            SettingsBtn.Alignment.TopOffset = 50;
+            SettingsBtn.Alignment.BottomOffset = 11;
+            SettingsBtn.Masked = false;
+            SettingsBtn.BorderHeight = 6;
+            SettingsBtn.BorderHeightSelected = 7;
+            SettingsBtn.ILIndexDown = 37;
+            SettingsBtn.ILIndexLit = 40;
+            SettingsBtn.ILIndexUp = 34;
+            SettingsBtn.Text = "Settings";
+            SettingsBtn.TextColor = 0;
+            SettingsBtn.TextSelColor = 16777215;
+            SettingsBtn.WinWidth = 135;
+            SettingsBtn.OnClick = Layout_SettingsBtnClick_5;
+            session.EndRead(SettingsBtn);
+            Player1Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(Player1Pnl);
+            Player1Pnl.Name = "Player1Pnl";
+            Player1Pnl.Priority = 100;
+            Player1Pnl.WinLeft = 1;
+            Player1Pnl.WinTop = 0;
+            Player1Pnl.WinWidth = 120;
+            Player1Pnl.OnDrawBack = Player6PnlDrawBack;
+            Player1Pnl.Masked = true;
+            Player1Pnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Player1Pnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Player1Pnl.Alignment.HeightPercent = (byte)(0);
+            Player1Pnl.Alignment.WidthPercent = (byte)(0);
+            Player1Pnl.Alignment.LeftOffPercent = 0;
+            Player1Pnl.Alignment.RightOffPercent = 0;
+            Player1Pnl.Alignment.TopOffPercent = 0;
+            Player1Pnl.Alignment.BottomOffPercent = 0;
+            Player1Pnl.Alignment.LeftOffset = 1;
+            Player1Pnl.Alignment.RightOffset = 0;
+            Player1Pnl.Alignment.TopOffset = 0;
+            Player1Pnl.Alignment.BottomOffset = 1;
+            Player1Pnl.WinHeight = 21;
+            Player1Pnl.ILIndexFrame = 113;
+            Player1Pnl.ILIndexTexture = 17;
+            Player1Pnl.OwnerItem = 0;
+            Player1Pnl.MinWidth = 0;
+            Player1Pnl.MinHeight = 0;
+            session.EndRead(Player1Pnl);
+            PowePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(PowePnl);
+            PowePnl.Name = "PowePnl";
+            PowePnl.Priority = 1;
+            PowePnl.WinLeft = 1;
+            PowePnl.WinTop = 0;
+            PowePnl.WinWidth = 202;
+            PowePnl.Masked = false;
+            PowePnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            PowePnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            PowePnl.Alignment.HeightPercent = (byte)(0);
+            PowePnl.Alignment.WidthPercent = (byte)(0);
+            PowePnl.Alignment.LeftOffPercent = 0;
+            PowePnl.Alignment.RightOffPercent = 0;
+            PowePnl.Alignment.TopOffPercent = 0;
+            PowePnl.Alignment.BottomOffPercent = 0;
+            PowePnl.Alignment.LeftOffset = 1;
+            PowePnl.Alignment.RightOffset = 0;
+            PowePnl.Alignment.TopOffset = 0;
+            PowePnl.Alignment.BottomOffset = 78;
+            PowePnl.WinHeight = 22;
+            PowePnl.ILIndexFrame = 113;
+            PowePnl.ILIndexTexture = 18;
+            PowePnl.OwnerItem = 0;
+            PowePnl.MinWidth = 0;
+            PowePnl.MinHeight = 0;
+            session.EndRead(PowePnl);
+            Player2Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(Player2Pnl);
+            Player2Pnl.Name = "Player2Pnl";
+            Player2Pnl.Tag = 1;
+            Player2Pnl.Priority = 100;
+            Player2Pnl.WinLeft = 1;
+            Player2Pnl.WinTop = 20;
+            Player2Pnl.WinWidth = 120;
+            Player2Pnl.OnDrawBack = Player6PnlDrawBack;
+            Player2Pnl.Masked = true;
+            Player2Pnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Player2Pnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Player2Pnl.Alignment.HeightPercent = (byte)(0);
+            Player2Pnl.Alignment.WidthPercent = (byte)(0);
+            Player2Pnl.Alignment.LeftOffPercent = 0;
+            Player2Pnl.Alignment.RightOffPercent = 0;
+            Player2Pnl.Alignment.TopOffPercent = 0;
+            Player2Pnl.Alignment.BottomOffPercent = 0;
+            Player2Pnl.Alignment.LeftOffset = 1;
+            Player2Pnl.Alignment.RightOffset = 0;
+            Player2Pnl.Alignment.TopOffset = 20;
+            Player2Pnl.Alignment.BottomOffset = 1;
+            Player2Pnl.WinHeight = 21;
+            Player2Pnl.ILIndexFrame = 113;
+            Player2Pnl.ILIndexTexture = 17;
+            Player2Pnl.OwnerItem = 0;
+            Player2Pnl.MinWidth = 0;
+            Player2Pnl.MinHeight = 0;
+            session.EndRead(Player2Pnl);
+            Player3Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(Player3Pnl);
+            Player3Pnl.Name = "Player3Pnl";
+            Player3Pnl.Tag = 2;
+            Player3Pnl.Priority = 100;
+            Player3Pnl.WinLeft = 1;
+            Player3Pnl.WinTop = 40;
+            Player3Pnl.WinWidth = 120;
+            Player3Pnl.OnDrawBack = Player6PnlDrawBack;
+            Player3Pnl.Masked = true;
+            Player3Pnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Player3Pnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Player3Pnl.Alignment.HeightPercent = (byte)(0);
+            Player3Pnl.Alignment.WidthPercent = (byte)(0);
+            Player3Pnl.Alignment.LeftOffPercent = 0;
+            Player3Pnl.Alignment.RightOffPercent = 0;
+            Player3Pnl.Alignment.TopOffPercent = 0;
+            Player3Pnl.Alignment.BottomOffPercent = 0;
+            Player3Pnl.Alignment.LeftOffset = 1;
+            Player3Pnl.Alignment.RightOffset = 0;
+            Player3Pnl.Alignment.TopOffset = 40;
+            Player3Pnl.Alignment.BottomOffset = 1;
+            Player3Pnl.WinHeight = 21;
+            Player3Pnl.ILIndexFrame = 113;
+            Player3Pnl.ILIndexTexture = 17;
+            Player3Pnl.OwnerItem = 0;
+            Player3Pnl.MinWidth = 0;
+            Player3Pnl.MinHeight = 0;
+            session.EndRead(Player3Pnl);
+            Player4Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(Player4Pnl);
+            Player4Pnl.Name = "Player4Pnl";
+            Player4Pnl.Tag = 3;
+            Player4Pnl.Priority = 100;
+            Player4Pnl.WinLeft = 1;
+            Player4Pnl.WinTop = 60;
+            Player4Pnl.WinWidth = 120;
+            Player4Pnl.OnDrawBack = Player6PnlDrawBack;
+            Player4Pnl.Masked = true;
+            Player4Pnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Player4Pnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Player4Pnl.Alignment.HeightPercent = (byte)(0);
+            Player4Pnl.Alignment.WidthPercent = (byte)(0);
+            Player4Pnl.Alignment.LeftOffPercent = 0;
+            Player4Pnl.Alignment.RightOffPercent = 0;
+            Player4Pnl.Alignment.TopOffPercent = 0;
+            Player4Pnl.Alignment.BottomOffPercent = 0;
+            Player4Pnl.Alignment.LeftOffset = 1;
+            Player4Pnl.Alignment.RightOffset = 0;
+            Player4Pnl.Alignment.TopOffset = 60;
+            Player4Pnl.Alignment.BottomOffset = 1;
+            Player4Pnl.WinHeight = 21;
+            Player4Pnl.ILIndexFrame = 113;
+            Player4Pnl.ILIndexTexture = 17;
+            Player4Pnl.OwnerItem = 0;
+            Player4Pnl.MinWidth = 0;
+            Player4Pnl.MinHeight = 0;
+            session.EndRead(Player4Pnl);
+            PlayerLbl5 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(PlayerLbl5);
+            PlayerLbl5.Name = "PlayerLbl5";
+            PlayerLbl5.Priority = 0;
+            PlayerLbl5.WinLeft = 20;
+            PlayerLbl5.WinTop = 5;
+            PlayerLbl5.CaptureInput = false;
+            PlayerLbl5.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PlayerLbl5.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PlayerLbl5.Alignment.HeightPercent = (byte)(0);
+            PlayerLbl5.Alignment.WidthPercent = (byte)(0);
+            PlayerLbl5.Alignment.LeftOffPercent = 0;
+            PlayerLbl5.Alignment.RightOffPercent = 0;
+            PlayerLbl5.Alignment.TopOffPercent = 0;
+            PlayerLbl5.Alignment.BottomOffPercent = 0;
+            PlayerLbl5.Alignment.LeftOffset = 20;
+            PlayerLbl5.Alignment.RightOffset = 0;
+            PlayerLbl5.Alignment.TopOffset = 5;
+            PlayerLbl5.Alignment.BottomOffset = 0;
+            PlayerLbl5.Masked = true;
+            PlayerLbl5.TextColor = 9415072;
+            session.EndRead(PlayerLbl5);
+            EmailAddressEdit5 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(EmailAddressEdit5);
+            EmailAddressEdit5.Name = "EmailAddressEdit5";
+            EmailAddressEdit5.Tag = 4;
+            EmailAddressEdit5.Priority = 0;
+            EmailAddressEdit5.WinLeft = 120;
+            EmailAddressEdit5.WinTop = 80;
+            EmailAddressEdit5.CaptureInput = true;
+            EmailAddressEdit5.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            EmailAddressEdit5.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            EmailAddressEdit5.Alignment.HeightPercent = (byte)(0);
+            EmailAddressEdit5.Alignment.WidthPercent = (byte)(0);
+            EmailAddressEdit5.Alignment.LeftOffPercent = 0;
+            EmailAddressEdit5.Alignment.RightOffPercent = 0;
+            EmailAddressEdit5.Alignment.TopOffPercent = 0;
+            EmailAddressEdit5.Alignment.BottomOffPercent = 0;
+            EmailAddressEdit5.Alignment.LeftOffset = 120;
+            EmailAddressEdit5.Alignment.RightOffset = 0;
+            EmailAddressEdit5.Alignment.TopOffset = 80;
+            EmailAddressEdit5.Alignment.BottomOffset = 1;
+            EmailAddressEdit5.Masked = false;
+            EmailAddressEdit5.WinWidth = 230;
+            EmailAddressEdit5.BorderWidth = 8;
+            EmailAddressEdit5.BorderHeight = 6;
+            EmailAddressEdit5.OnChange = EmailAddressEdit1Change;
+            EmailAddressEdit5.MaxChars = 0;
+            EmailAddressEdit5.CursorChar = (byte)95;
+            EmailAddressEdit5.BlinkDelay = 1;
+            EmailAddressEdit5.TextColor = 11002593;
+            EmailAddressEdit5.Editable = true;
+            EmailAddressEdit5.ILIndex = 15;
+            EmailAddressEdit5.PassWordChar = (byte)0;
+            session.EndRead(EmailAddressEdit5);
+            PlayerLbl6 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(PlayerLbl6);
+            PlayerLbl6.Name = "PlayerLbl6";
+            PlayerLbl6.Priority = 0;
+            PlayerLbl6.WinLeft = 20;
+            PlayerLbl6.WinTop = 5;
+            PlayerLbl6.CaptureInput = false;
+            PlayerLbl6.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PlayerLbl6.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PlayerLbl6.Alignment.HeightPercent = (byte)(0);
+            PlayerLbl6.Alignment.WidthPercent = (byte)(0);
+            PlayerLbl6.Alignment.LeftOffPercent = 0;
+            PlayerLbl6.Alignment.RightOffPercent = 0;
+            PlayerLbl6.Alignment.TopOffPercent = 0;
+            PlayerLbl6.Alignment.BottomOffPercent = 0;
+            PlayerLbl6.Alignment.LeftOffset = 20;
+            PlayerLbl6.Alignment.RightOffset = 0;
+            PlayerLbl6.Alignment.TopOffset = 5;
+            PlayerLbl6.Alignment.BottomOffset = 0;
+            PlayerLbl6.Masked = true;
+            PlayerLbl6.TextColor = 9415072;
+            session.EndRead(PlayerLbl6);
+            EmailAddressEdit6 = Aow.Units.AoWEdit.TAOWEdit.Create(this);
+            session.BeginRead(EmailAddressEdit6);
+            EmailAddressEdit6.Name = "EmailAddressEdit6";
+            EmailAddressEdit6.Tag = 5;
+            EmailAddressEdit6.Priority = 0;
+            EmailAddressEdit6.WinLeft = 120;
+            EmailAddressEdit6.WinTop = 100;
+            EmailAddressEdit6.CaptureInput = true;
+            EmailAddressEdit6.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            EmailAddressEdit6.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            EmailAddressEdit6.Alignment.HeightPercent = (byte)(0);
+            EmailAddressEdit6.Alignment.WidthPercent = (byte)(0);
+            EmailAddressEdit6.Alignment.LeftOffPercent = 0;
+            EmailAddressEdit6.Alignment.RightOffPercent = 0;
+            EmailAddressEdit6.Alignment.TopOffPercent = 0;
+            EmailAddressEdit6.Alignment.BottomOffPercent = 0;
+            EmailAddressEdit6.Alignment.LeftOffset = 120;
+            EmailAddressEdit6.Alignment.RightOffset = 0;
+            EmailAddressEdit6.Alignment.TopOffset = 100;
+            EmailAddressEdit6.Alignment.BottomOffset = 1;
+            EmailAddressEdit6.Masked = false;
+            EmailAddressEdit6.WinWidth = 230;
+            EmailAddressEdit6.BorderWidth = 8;
+            EmailAddressEdit6.BorderHeight = 6;
+            EmailAddressEdit6.OnChange = EmailAddressEdit1Change;
+            EmailAddressEdit6.MaxChars = 0;
+            EmailAddressEdit6.CursorChar = (byte)95;
+            EmailAddressEdit6.BlinkDelay = 1;
+            EmailAddressEdit6.TextColor = 11002593;
+            EmailAddressEdit6.Editable = true;
+            EmailAddressEdit6.ILIndex = 15;
+            EmailAddressEdit6.PassWordChar = (byte)0;
+            session.EndRead(EmailAddressEdit6);
+            Player5Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(Player5Pnl);
+            Player5Pnl.Name = "Player5Pnl";
+            Player5Pnl.Tag = 4;
+            Player5Pnl.Priority = 100;
+            Player5Pnl.WinLeft = 1;
+            Player5Pnl.WinTop = 80;
+            Player5Pnl.WinWidth = 120;
+            Player5Pnl.OnDrawBack = Player6PnlDrawBack;
+            Player5Pnl.Masked = true;
+            Player5Pnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Player5Pnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Player5Pnl.Alignment.HeightPercent = (byte)(0);
+            Player5Pnl.Alignment.WidthPercent = (byte)(0);
+            Player5Pnl.Alignment.LeftOffPercent = 0;
+            Player5Pnl.Alignment.RightOffPercent = 0;
+            Player5Pnl.Alignment.TopOffPercent = 0;
+            Player5Pnl.Alignment.BottomOffPercent = 0;
+            Player5Pnl.Alignment.LeftOffset = 1;
+            Player5Pnl.Alignment.RightOffset = 0;
+            Player5Pnl.Alignment.TopOffset = 80;
+            Player5Pnl.Alignment.BottomOffset = 1;
+            Player5Pnl.WinHeight = 21;
+            Player5Pnl.ILIndexFrame = 113;
+            Player5Pnl.ILIndexTexture = 17;
+            Player5Pnl.OwnerItem = 0;
+            Player5Pnl.MinWidth = 0;
+            Player5Pnl.MinHeight = 0;
+            session.EndRead(Player5Pnl);
+            Player6Pnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(Player6Pnl);
+            Player6Pnl.Name = "Player6Pnl";
+            Player6Pnl.Tag = 5;
+            Player6Pnl.Priority = 100;
+            Player6Pnl.WinLeft = 1;
+            Player6Pnl.WinTop = 100;
+            Player6Pnl.WinWidth = 120;
+            Player6Pnl.OnDrawBack = Player6PnlDrawBack;
+            Player6Pnl.Masked = true;
+            Player6Pnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Player6Pnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Player6Pnl.Alignment.HeightPercent = (byte)(0);
+            Player6Pnl.Alignment.WidthPercent = (byte)(0);
+            Player6Pnl.Alignment.LeftOffPercent = 0;
+            Player6Pnl.Alignment.RightOffPercent = 0;
+            Player6Pnl.Alignment.TopOffPercent = 0;
+            Player6Pnl.Alignment.BottomOffPercent = 0;
+            Player6Pnl.Alignment.LeftOffset = 1;
+            Player6Pnl.Alignment.RightOffset = 0;
+            Player6Pnl.Alignment.TopOffset = 100;
+            Player6Pnl.Alignment.BottomOffset = 1;
+            Player6Pnl.WinHeight = 21;
+            Player6Pnl.ILIndexFrame = 113;
+            Player6Pnl.ILIndexTexture = 17;
+            Player6Pnl.OwnerItem = 0;
+            Player6Pnl.MinWidth = 0;
+            Player6Pnl.MinHeight = 0;
+            session.EndRead(Player6Pnl);
+            NamePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(NamePnl);
+            NamePnl.Name = "NamePnl";
+            NamePnl.Priority = 1;
+            NamePnl.WinLeft = 50;
+            NamePnl.WinTop = 100;
+            NamePnl.WinWidth = 350;
+            NamePnl.Masked = true;
+            NamePnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            NamePnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            NamePnl.Alignment.HeightPercent = (byte)(0);
+            NamePnl.Alignment.WidthPercent = (byte)(0);
+            NamePnl.Alignment.LeftOffPercent = 0;
+            NamePnl.Alignment.RightOffPercent = 0;
+            NamePnl.Alignment.TopOffPercent = 0;
+            NamePnl.Alignment.BottomOffPercent = 0;
+            NamePnl.Alignment.LeftOffset = 50;
+            NamePnl.Alignment.RightOffset = 50;
+            NamePnl.Alignment.TopOffset = 100;
+            NamePnl.Alignment.BottomOffset = 60;
+            NamePnl.WinHeight = 22;
+            NamePnl.ILIndexFrame = 105;
+            NamePnl.ILIndexTexture = 17;
+            NamePnl.OwnerItem = 0;
+            NamePnl.MinWidth = 0;
+            NamePnl.MinHeight = 0;
+            session.EndRead(NamePnl);
+            LocalPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(LocalPnl);
+            LocalPnl.Name = "LocalPnl";
+            LocalPnl.Priority = 1;
+            LocalPnl.WinLeft = 50;
+            LocalPnl.WinTop = 50;
+            LocalPnl.WinWidth = 200;
+            LocalPnl.Masked = true;
+            LocalPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            LocalPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            LocalPnl.Alignment.HeightPercent = (byte)(0);
+            LocalPnl.Alignment.WidthPercent = (byte)(0);
+            LocalPnl.Alignment.LeftOffPercent = 0;
+            LocalPnl.Alignment.RightOffPercent = 0;
+            LocalPnl.Alignment.TopOffPercent = 0;
+            LocalPnl.Alignment.BottomOffPercent = 0;
+            LocalPnl.Alignment.LeftOffset = 50;
+            LocalPnl.Alignment.RightOffset = 200;
+            LocalPnl.Alignment.TopOffset = 50;
+            LocalPnl.Alignment.BottomOffset = 60;
+            LocalPnl.WinHeight = 22;
+            LocalPnl.ILIndexFrame = 105;
+            LocalPnl.ILIndexTexture = 17;
+            LocalPnl.OwnerItem = 0;
+            LocalPnl.MinWidth = 0;
+            LocalPnl.MinHeight = 0;
+            session.EndRead(LocalPnl);
+            CloseBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(CloseBtn);
+            CloseBtn.Name = "CloseBtn";
+            CloseBtn.Priority = 0;
+            CloseBtn.WinLeft = 415;
+            CloseBtn.WinTop = 4;
+            CloseBtn.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "OKBtn",
-                Priority = 9999,
-                WinLeft = 90,
-                WinTop = 297,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 90,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 11
-                },
-                Masked = false,
-                BorderHeight = 8,
-                BorderHeightSelected = 9,
-                ILIndexDown = 22,
-                ILIndexLit = 25,
-                ILIndexUp = 19,
-                Text = "OK",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 110,
-                OnClick = OKBtnClick
+                "Closes the window."
             };
-            LayoutSession.EndRead(OKBtn);
-            TitleIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "TitleIcon",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 17,
-                AnimEnd = 0,
-                WinWidth = 19,
-                WinHeight = 16,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(TitleIcon);
-            Title = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "Title",
-                Priority = 0,
-                WinLeft = 42,
-                WinTop = 7,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Email Game Settings",
-                TextColor = 0
-            };
-            LayoutSession.EndRead(Title);
-            CancelBut = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "CancelBut",
-                Priority = 9999,
-                WinLeft = 256,
-                WinTop = 297,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 84,
-                    TopOffset = 0,
-                    BottomOffset = 11
-                },
-                Masked = false,
-                BorderHeight = 8,
-                BorderHeightSelected = 9,
-                ILIndexDown = 22,
-                ILIndexLit = 25,
-                ILIndexUp = 19,
-                Text = "Cancel",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 110,
-                OnClick = Layout_CancelButClick_2
-            };
-            LayoutSession.EndRead(CancelBut);
-            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this)
-            {
-                Name = "Dlg",
-                OnKeyDown = DlgKeyDown,
-                Visible = false,
-                Priority = 520,
-                WinLeft = 95,
-                WinTop = 49,
-                WinWidth = 450,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = false,
-                BorderWidth = 0,
-                BorderHeight = 0,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = true,
-                MaskColor = 6268490,
-                FreeSurfaceOnHide = true,
-                ILIndexFrame = 32,
-                ILIndexTexture = 2,
-                DragHeight = 20,
-                Draggable = true,
-                Resizable = false,
-                MinWidth = 0,
-                MinHeight = 0,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = true,
-                Modal = true,
-                WinHeight = 335,
-                Dockable = false
-            };
-            LayoutSession.EndRead(Dlg);
-            LocalEmailAdressLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "LocalEmailAdressLbl",
-                Priority = 100,
-                WinLeft = 50,
-                WinTop = 30,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 50,
-                    RightOffset = 0,
-                    TopOffset = 30,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Local Email Address",
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(LocalEmailAdressLbl);
-            DecoL = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "DecoL",
-                Priority = 1000,
-                WinLeft = 35,
-                WinTop = 297,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 11
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 0,
-                WinWidth = 81,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(DecoL);
-            DecoR = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "DecoR",
-                Priority = 1000,
-                WinLeft = 341,
-                WinTop = 297,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 28,
-                    TopOffset = 0,
-                    BottomOffset = 11
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 0,
-                WinWidth = 81,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(DecoR);
-            AoWFrame1 = new Aow.Units.AoWFrame.TAoWFrame(this)
-            {
-                Name = "AoWFrame1",
-                Priority = 0,
-                WinLeft = 21,
-                WinTop = 297,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 21,
-                    RightOffset = 21,
-                    TopOffset = 0,
-                    BottomOffset = 11
-                },
-                Masked = false,
-                WinWidth = 408,
-                WinHeight = 27,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHorizLine,
-                ILIndexFrame = 0,
-                ILIndexLine = 55,
-                ILIndexTexture = 0
-            };
-            LayoutSession.EndRead(AoWFrame1);
-            LocalEmailAddressEdit = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "LocalEmailAddressEdit",
-                OnUpdate = Layout_LocalEmailAddressEditUpdate_3,
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 199,
-                BorderWidth = 8,
-                BorderHeight = 6,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = false,
-                ILIndex = 15,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(LocalEmailAddressEdit);
-            PlayerEMailAddressesLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "PlayerEMailAddressesLbl",
-                Priority = 100,
-                WinLeft = 50,
-                WinTop = 132,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 50,
-                    RightOffset = 0,
-                    TopOffset = 70,
-                    BottomOffset = 185
-                },
-                Masked = true,
-                Text = "Player Email Addresses",
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(PlayerEMailAddressesLbl);
-            EmailAddressEdit1 = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "EmailAddressEdit1",
-                Priority = 0,
-                WinLeft = 120,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 120,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 230,
-                BorderWidth = 8,
-                BorderHeight = 5,
-                OnChange = EmailAddressEdit1Change,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = true,
-                ILIndex = 15,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(EmailAddressEdit1);
-            PlayerPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "PlayerPnl",
-                Priority = 1,
-                WinLeft = 50,
-                WinTop = 153,
-                WinWidth = 350,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 50,
-                    RightOffset = 50,
-                    TopOffset = 70,
-                    BottomOffset = 60
-                },
-                WinHeight = 122,
-                ILIndexFrame = 105,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(PlayerPnl);
-            PlayerLbl1 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "PlayerLbl1",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(PlayerLbl1);
-            PlayerSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this)
-            {
-                Name = "PlayerSB",
-                Priority = 200,
-                WinLeft = 333,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                Min = 0,
-                Max = 4,
-                SmallChange = 1,
-                LargeChange = 5,
-                Position = 0,
-                WinHeight = 121,
-                WinWidth = 17,
-                NumberVisible = 4,
-                OnChange = Layout_PlayerSBChange_4,
-                VanishWhenFull = true,
-                ILIndexIncUp = 96,
-                ILIndexIncDown = 97,
-                ILIndexDecUp = 94,
-                ILIndexDecDown = 95,
-                ILIndexBack = 101,
-                ILIndexTab = 98
-            };
-            LayoutSession.EndRead(PlayerSB);
-            PlayerLbl2 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "PlayerLbl2",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(PlayerLbl2);
-            PlayerLbl3 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "PlayerLbl3",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(PlayerLbl3);
-            EmailAddressEdit2 = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "EmailAddressEdit2",
-                Tag = 1,
-                Priority = 0,
-                WinLeft = 120,
-                WinTop = 20,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 120,
-                    RightOffset = 0,
-                    TopOffset = 20,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 230,
-                BorderWidth = 8,
-                BorderHeight = 6,
-                OnChange = EmailAddressEdit1Change,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = true,
-                ILIndex = 15,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(EmailAddressEdit2);
-            EmailAddressEdit3 = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "EmailAddressEdit3",
-                Tag = 2,
-                Priority = 0,
-                WinLeft = 120,
-                WinTop = 40,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 120,
-                    RightOffset = 0,
-                    TopOffset = 40,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 230,
-                BorderWidth = 8,
-                BorderHeight = 6,
-                OnChange = EmailAddressEdit1Change,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = true,
-                ILIndex = 15,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(EmailAddressEdit3);
-            PlayerLbl4 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "PlayerLbl4",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(PlayerLbl4);
-            EmailAddressEdit4 = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "EmailAddressEdit4",
-                Tag = 3,
-                Priority = 0,
-                WinLeft = 120,
-                WinTop = 60,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 120,
-                    RightOffset = 0,
-                    TopOffset = 60,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 230,
-                BorderWidth = 8,
-                BorderHeight = 6,
-                OnChange = EmailAddressEdit1Change,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = true,
-                ILIndex = 15,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(EmailAddressEdit4);
-            EmailGameNameLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "EmailGameNameLbl",
-                Priority = 100,
-                WinLeft = 50,
-                WinTop = 80,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 50,
-                    RightOffset = 0,
-                    TopOffset = 80,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Email Game Name",
-                TextColor = 16777215
-            };
-            LayoutSession.EndRead(EmailGameNameLbl);
-            EmailGameNameEdit = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "EmailGameNameEdit",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 349,
-                BorderWidth = 8,
-                BorderHeight = 6,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = true,
-                ILIndex = 15,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(EmailGameNameEdit);
-            SettingsBtn = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "SettingsBtn",
-                Priority = 9999,
-                WinLeft = 265,
-                WinTop = 50,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 265,
-                    RightOffset = 50,
-                    TopOffset = 50,
-                    BottomOffset = 11
-                },
-                Masked = false,
-                BorderHeight = 6,
-                BorderHeightSelected = 7,
-                ILIndexDown = 37,
-                ILIndexLit = 40,
-                ILIndexUp = 34,
-                Text = "Settings",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 135,
-                OnClick = Layout_SettingsBtnClick_5
-            };
-            LayoutSession.EndRead(SettingsBtn);
-            Player1Pnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "Player1Pnl",
-                Priority = 100,
-                WinLeft = 1,
-                WinTop = 0,
-                WinWidth = 120,
-                OnDrawBack = Player6PnlDrawBack,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                WinHeight = 21,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(Player1Pnl);
-            PowePnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "PowePnl",
-                Priority = 1,
-                WinLeft = 1,
-                WinTop = 0,
-                WinWidth = 202,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 78
-                },
-                WinHeight = 22,
-                ILIndexFrame = 113,
-                ILIndexTexture = 18,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(PowePnl);
-            Player2Pnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "Player2Pnl",
-                Tag = 1,
-                Priority = 100,
-                WinLeft = 1,
-                WinTop = 20,
-                WinWidth = 120,
-                OnDrawBack = Player6PnlDrawBack,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 20,
-                    BottomOffset = 1
-                },
-                WinHeight = 21,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(Player2Pnl);
-            Player3Pnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "Player3Pnl",
-                Tag = 2,
-                Priority = 100,
-                WinLeft = 1,
-                WinTop = 40,
-                WinWidth = 120,
-                OnDrawBack = Player6PnlDrawBack,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 40,
-                    BottomOffset = 1
-                },
-                WinHeight = 21,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(Player3Pnl);
-            Player4Pnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "Player4Pnl",
-                Tag = 3,
-                Priority = 100,
-                WinLeft = 1,
-                WinTop = 60,
-                WinWidth = 120,
-                OnDrawBack = Player6PnlDrawBack,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 60,
-                    BottomOffset = 1
-                },
-                WinHeight = 21,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(Player4Pnl);
-            PlayerLbl5 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "PlayerLbl5",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(PlayerLbl5);
-            EmailAddressEdit5 = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "EmailAddressEdit5",
-                Tag = 4,
-                Priority = 0,
-                WinLeft = 120,
-                WinTop = 80,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 120,
-                    RightOffset = 0,
-                    TopOffset = 80,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 230,
-                BorderWidth = 8,
-                BorderHeight = 6,
-                OnChange = EmailAddressEdit1Change,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = true,
-                ILIndex = 15,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(EmailAddressEdit5);
-            PlayerLbl6 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "PlayerLbl6",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(PlayerLbl6);
-            EmailAddressEdit6 = new Aow.Units.AoWEdit.TAOWEdit(this)
-            {
-                Name = "EmailAddressEdit6",
-                Tag = 5,
-                Priority = 0,
-                WinLeft = 120,
-                WinTop = 100,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 120,
-                    RightOffset = 0,
-                    TopOffset = 100,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 230,
-                BorderWidth = 8,
-                BorderHeight = 6,
-                OnChange = EmailAddressEdit1Change,
-                MaxChars = 0,
-                CursorChar = (byte)95,
-                BlinkDelay = 1,
-                TextColor = 11002593,
-                Editable = true,
-                ILIndex = 15,
-                PassWordChar = (byte)0
-            };
-            LayoutSession.EndRead(EmailAddressEdit6);
-            Player5Pnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "Player5Pnl",
-                Tag = 4,
-                Priority = 100,
-                WinLeft = 1,
-                WinTop = 80,
-                WinWidth = 120,
-                OnDrawBack = Player6PnlDrawBack,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 80,
-                    BottomOffset = 1
-                },
-                WinHeight = 21,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(Player5Pnl);
-            Player6Pnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "Player6Pnl",
-                Tag = 5,
-                Priority = 100,
-                WinLeft = 1,
-                WinTop = 100,
-                WinWidth = 120,
-                OnDrawBack = Player6PnlDrawBack,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 100,
-                    BottomOffset = 1
-                },
-                WinHeight = 21,
-                ILIndexFrame = 113,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(Player6Pnl);
-            NamePnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "NamePnl",
-                Priority = 1,
-                WinLeft = 50,
-                WinTop = 100,
-                WinWidth = 350,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 50,
-                    RightOffset = 50,
-                    TopOffset = 100,
-                    BottomOffset = 60
-                },
-                WinHeight = 22,
-                ILIndexFrame = 105,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(NamePnl);
-            LocalPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "LocalPnl",
-                Priority = 1,
-                WinLeft = 50,
-                WinTop = 50,
-                WinWidth = 200,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 50,
-                    RightOffset = 200,
-                    TopOffset = 50,
-                    BottomOffset = 60
-                },
-                WinHeight = 22,
-                ILIndexFrame = 105,
-                ILIndexTexture = 17,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(LocalPnl);
-            CloseBtn = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "CloseBtn",
-                Priority = 0,
-                WinLeft = 415,
-                WinTop = 4,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Closes the window."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 20,
-                    TopOffset = 4,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 1,
-                ILIndexLit = 2,
-                ILIndexUp = 0,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                OnClick = Layout_CancelButClick_2
-            };
-            LayoutSession.EndRead(CloseBtn);
-            Translator = new Aow.Layout.LayoutTIvTranslator(this)
-            {
-                Name = "Translator",
-                DictionaryName = "AoW",
-                TargetsData =
-                {
-                    new TranslationTarget("", "Items", 0),
-                    new TranslationTarget("", "Text", 0),
-                    new TranslationTarget("", "ToolTipText", 0)
-                }
-            };
-            LayoutSession.EndRead(Translator);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            CloseBtn.CaptureInput = true;
+            CloseBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            CloseBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            CloseBtn.Alignment.HeightPercent = (byte)(0);
+            CloseBtn.Alignment.WidthPercent = (byte)(0);
+            CloseBtn.Alignment.LeftOffPercent = 0;
+            CloseBtn.Alignment.RightOffPercent = 0;
+            CloseBtn.Alignment.TopOffPercent = 0;
+            CloseBtn.Alignment.BottomOffPercent = 0;
+            CloseBtn.Alignment.LeftOffset = 0;
+            CloseBtn.Alignment.RightOffset = 20;
+            CloseBtn.Alignment.TopOffset = 4;
+            CloseBtn.Alignment.BottomOffset = 0;
+            CloseBtn.Masked = false;
+            CloseBtn.BorderHeight = 0;
+            CloseBtn.BorderHeightSelected = 0;
+            CloseBtn.ILIndexDown = 1;
+            CloseBtn.ILIndexLit = 2;
+            CloseBtn.ILIndexUp = 0;
+            CloseBtn.TextColor = 0;
+            CloseBtn.TextSelColor = 0;
+            CloseBtn.WinWidth = 15;
+            CloseBtn.OnClick = Layout_CancelButClick_2;
+            session.EndRead(CloseBtn);
+            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            Translator = created__Translator;
+            session.BeginRead(created__Translator);
+            created__Translator.Name = "Translator";
+            created__Translator.DictionaryName = "AoW";
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+            session.EndRead(created__Translator);
+            session.EndRead(this);
             OKBtn.AOWWindow = Dlg;
             TitleIcon.AOWWindow = Dlg;
             Title.AOWWindow = Dlg;

@@ -1317,9 +1317,8 @@ namespace Aow.Units.Storms
         public Aow.Units.AoWE.TAbstractUnit FSource;
         // Storms.pas:762
         // { $38 }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
         }
 
@@ -1577,18 +1576,7 @@ namespace Aow.Units.Storms
         // Storms.pas:151
         public static new Aow.Units.Storms.TStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.Storms.TStormSpell o = new Aow.Units.Storms.TStormSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TStormSpell(context, owner));
         }
     }
 
@@ -1596,9 +1584,8 @@ namespace Aow.Units.Storms
     public partial class TFireStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:939
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private TFireStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__125 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireStormRStr);
             FSpellName = call__125;
             FSpellID = 3;
@@ -1618,18 +1605,7 @@ namespace Aow.Units.Storms
         // Storms.pas:165
         public static new Aow.Units.Storms.TFireStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.Storms.TFireStormSpell o = new Aow.Units.Storms.TFireStormSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TFireStormSpell(context, owner));
         }
     }
 
@@ -1637,9 +1613,8 @@ namespace Aow.Units.Storms
     public partial class TDivineStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:954
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private TDivineStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__126 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DivineStormRStr);
             FSpellName = call__126;
             FSpellID = 6;
@@ -1659,18 +1634,7 @@ namespace Aow.Units.Storms
         // Storms.pas:172
         public static new Aow.Units.Storms.TDivineStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.Storms.TDivineStormSpell o = new Aow.Units.Storms.TDivineStormSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDivineStormSpell(context, owner));
         }
     }
 
@@ -1678,9 +1642,8 @@ namespace Aow.Units.Storms
     public partial class TDeathStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:969
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private TDeathStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__127 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeathStormRStr);
             FSpellName = call__127;
             FSpellID = 5;
@@ -1700,18 +1663,7 @@ namespace Aow.Units.Storms
         // Storms.pas:179
         public static new Aow.Units.Storms.TDeathStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.Storms.TDeathStormSpell o = new Aow.Units.Storms.TDeathStormSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TDeathStormSpell(context, owner));
         }
     }
 
@@ -1719,9 +1671,8 @@ namespace Aow.Units.Storms
     public partial class TIceStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:984
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private TIceStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__128 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.IceStormRStr);
             FSpellName = call__128;
             FSpellID = 4;
@@ -1741,18 +1692,7 @@ namespace Aow.Units.Storms
         // Storms.pas:186
         public static new Aow.Units.Storms.TIceStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.Storms.TIceStormSpell o = new Aow.Units.Storms.TIceStormSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TIceStormSpell(context, owner));
         }
     }
 
@@ -1760,9 +1700,8 @@ namespace Aow.Units.Storms
     public partial class TLightningStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:1014
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private TLightningStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__129 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LightningStormRStr);
             FSpellName = call__129;
             FSpellID = 7;
@@ -1782,18 +1721,7 @@ namespace Aow.Units.Storms
         // Storms.pas:193
         public static new Aow.Units.Storms.TLightningStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.Storms.TLightningStormSpell o = new Aow.Units.Storms.TLightningStormSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TLightningStormSpell(context, owner));
         }
     }
 
@@ -1801,9 +1729,8 @@ namespace Aow.Units.Storms
     public partial class TPestilenceStormSpell : Aow.Units.Storms.TStormSpell
     {
         // Storms.pas:999
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private TPestilenceStormSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__130 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PestilenceRStr);
             FSpellName = call__130;
             FSpellID = 9;
@@ -1823,18 +1750,7 @@ namespace Aow.Units.Storms
         // Storms.pas:200
         public static new Aow.Units.Storms.TPestilenceStormSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
-            Aow.Units.Storms.TPestilenceStormSpell o = new Aow.Units.Storms.TPestilenceStormSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPestilenceStormSpell(context, owner));
         }
     }
 

@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.aowSetupEvents
 {
-    public partial class TSetupEvents
+    public partial class TSetupEvents : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,47 +17,45 @@ namespace Aow.Units.aowSetupEvents
         {
             session.Begin(this);
             Name = "SetupEvents";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
             LayoutOnCreate = Layout_SetupEventsCreate_0;
-            DPlay = new Aow.Layout.LayoutTGDPlay(this)
-            {
-                Name = "DPlay",
-                SessionName = "No Name's Game",
-                MaxPlayers = 12,
-                PlayerName = "No Name",
-                OnMessage = DPlayMessage,
-                OnChatMessage = DPlayChatMessage,
-                OnPingMessage = DPlayPingMessage,
-                OnFileStartMessage = DPlayFileStartMessage,
-                OnFileProgressMessage = DPlayFileProgressMessage,
-                OnFileDoneMessage = DPlayFileDoneMessage,
-                OnDestroyPlayer = DPlayDestroyPlayer,
-                OnSessionLost = DPlaySessionLost,
-                OnMessageError = Layout_DPlayMessageError_1,
-                GauranteeMsgs = true,
-                UseCodes = true,
-                OnEjected = Layout_DPlayEjected_2,
-                UseSetupDialogs = false,
-                FilePacketSize = 1000
-            };
-            LayoutSession.EndRead(DPlay);
-            SetupControl = new Aow.Units.AoWSetup.TSetupControl(this)
-            {
-                Name = "SetupControl",
-                OnSendMap = SetupControlSendMap,
-                OnSendData = SetupControlSendData,
-                OnPlayerSetupDone = Layout_SetupControlPlayerSetupDone_3,
-                OnSettingChanged = Layout_SetupControlSettingChanged_4,
-                OnCustomizeLeader = SetupControlCustomizeLeader,
-                OnLoadMap = SetupControlLoadMap,
-                OnStart = Layout_SetupControlStart_5,
-                OnSynchronize = SetupControlSynchronize,
-                OnEjectPlayer = SetupControlEjectPlayer,
-                OnIncompatibleVersion = SetupControlIncompatibleVersion,
-                OnSendingMaps = Layout_SetupControlSendingMaps_6
-            };
-            LayoutSession.EndRead(SetupControl);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            var created__DPlay = new Aow.Layout.LayoutTGDPlay(this);
+            DPlay = created__DPlay;
+            session.BeginRead(created__DPlay);
+            created__DPlay.Name = "DPlay";
+            created__DPlay.SessionName = "No Name's Game";
+            created__DPlay.MaxPlayers = 12;
+            created__DPlay.PlayerName = "No Name";
+            created__DPlay.OnMessage = DPlayMessage;
+            created__DPlay.OnChatMessage = DPlayChatMessage;
+            created__DPlay.OnPingMessage = DPlayPingMessage;
+            created__DPlay.OnFileStartMessage = DPlayFileStartMessage;
+            created__DPlay.OnFileProgressMessage = DPlayFileProgressMessage;
+            created__DPlay.OnFileDoneMessage = DPlayFileDoneMessage;
+            created__DPlay.OnDestroyPlayer = DPlayDestroyPlayer;
+            created__DPlay.OnSessionLost = DPlaySessionLost;
+            created__DPlay.OnMessageError = Layout_DPlayMessageError_1;
+            created__DPlay.GauranteeMsgs = true;
+            created__DPlay.UseCodes = true;
+            created__DPlay.OnEjected = Layout_DPlayEjected_2;
+            created__DPlay.UseSetupDialogs = false;
+            created__DPlay.FilePacketSize = 1000;
+            session.EndRead(created__DPlay);
+            SetupControl = Aow.Units.AoWSetup.TSetupControl.Create(this);
+            session.BeginRead(SetupControl);
+            SetupControl.Name = "SetupControl";
+            SetupControl.OnSendMap = SetupControlSendMap;
+            SetupControl.OnSendData = SetupControlSendData;
+            SetupControl.OnPlayerSetupDone = Layout_SetupControlPlayerSetupDone_3;
+            SetupControl.OnSettingChanged = Layout_SetupControlSettingChanged_4;
+            SetupControl.OnCustomizeLeader = SetupControlCustomizeLeader;
+            SetupControl.OnLoadMap = SetupControlLoadMap;
+            SetupControl.OnStart = Layout_SetupControlStart_5;
+            SetupControl.OnSynchronize = SetupControlSynchronize;
+            SetupControl.OnEjectPlayer = SetupControlEjectPlayer;
+            SetupControl.OnIncompatibleVersion = SetupControlIncompatibleVersion;
+            SetupControl.OnSendingMaps = Layout_SetupControlSendingMaps_6;
+            session.EndRead(SetupControl);
+            session.EndRead(this);
             Loaded();
             DPlay.Loaded();
             SetupControl.Loaded();

@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AoWSoundDlg
 {
-    public partial class TSoundDlg
+    public partial class TSoundDlg : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,1743 +17,1539 @@ namespace Aow.Units.AoWSoundDlg
         {
             session.Begin(this);
             Name = "SoundDlg";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
             LayoutOnCreate = Layout_SoundDlgWindowCreate_0;
             LayoutOnDestroy = Layout_SoundDlgWindowDestroy_1;
-            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this)
+            Dlg = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            session.BeginRead(Dlg);
+            Dlg.Name = "Dlg";
+            Dlg.OnKeyDown = DlgKeyDown;
+            Dlg.Visible = false;
+            Dlg.Priority = 300;
+            Dlg.WinLeft = 110;
+            Dlg.WinTop = 16;
+            Dlg.WinWidth = 420;
+            Dlg.Masked = true;
+            Dlg.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            Dlg.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+            Dlg.Alignment.HeightPercent = (byte)(0);
+            Dlg.Alignment.WidthPercent = (byte)(0);
+            Dlg.Alignment.LeftOffPercent = 0;
+            Dlg.Alignment.RightOffPercent = 0;
+            Dlg.Alignment.TopOffPercent = 0;
+            Dlg.Alignment.BottomOffPercent = 0;
+            Dlg.Alignment.LeftOffset = 0;
+            Dlg.Alignment.RightOffset = 0;
+            Dlg.Alignment.TopOffset = 0;
+            Dlg.Alignment.BottomOffset = 0;
+            Dlg.UseVMem = false;
+            Dlg.BorderWidth = 0;
+            Dlg.BorderHeight = 0;
+            Dlg.OverlapTopCorners = false;
+            Dlg.Cursor = 0;
+            Dlg.DoubleBuffered = true;
+            Dlg.MaskColor = 5808200;
+            Dlg.FreeSurfaceOnHide = true;
+            Dlg.ILIndexFrame = 32;
+            Dlg.ILIndexTexture = 2;
+            Dlg.DragHeight = 20;
+            Dlg.Draggable = true;
+            Dlg.Resizable = false;
+            Dlg.MinWidth = 0;
+            Dlg.MinHeight = 0;
+            Dlg.MaxWidth = 0;
+            Dlg.MaxHeight = 0;
+            Dlg.UseManagerBorders = true;
+            Dlg.Modal = true;
+            Dlg.WinHeight = 400;
+            Dlg.Dockable = false;
+            session.EndRead(Dlg);
+            CloseBut = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(CloseBut);
+            CloseBut.Name = "CloseBut";
+            CloseBut.Priority = 250;
+            CloseBut.WinLeft = 142;
+            CloseBut.WinTop = 363;
+            CloseBut.CaptureInput = true;
+            CloseBut.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            CloseBut.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            CloseBut.Alignment.HeightPercent = (byte)(0);
+            CloseBut.Alignment.WidthPercent = (byte)(0);
+            CloseBut.Alignment.LeftOffPercent = 0;
+            CloseBut.Alignment.RightOffPercent = 0;
+            CloseBut.Alignment.TopOffPercent = 0;
+            CloseBut.Alignment.BottomOffPercent = 0;
+            CloseBut.Alignment.LeftOffset = 266;
+            CloseBut.Alignment.RightOffset = 28;
+            CloseBut.Alignment.TopOffset = 0;
+            CloseBut.Alignment.BottomOffset = 10;
+            CloseBut.Masked = false;
+            CloseBut.BorderHeight = 8;
+            CloseBut.BorderHeightSelected = 9;
+            CloseBut.ILIndexDown = 22;
+            CloseBut.ILIndexLit = 25;
+            CloseBut.ILIndexUp = 19;
+            CloseBut.Text = "Close";
+            CloseBut.TextColor = 0;
+            CloseBut.TextSelColor = 16777215;
+            CloseBut.WinWidth = 136;
+            CloseBut.OnClick = Layout_CloseClick_2;
+            session.EndRead(CloseBut);
+            TCeltLL = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(TCeltLL);
+            TCeltLL.Name = "TCeltLL";
+            TCeltLL.Priority = 100;
+            TCeltLL.WinLeft = 28;
+            TCeltLL.WinTop = 363;
+            TCeltLL.CaptureInput = true;
+            TCeltLL.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            TCeltLL.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            TCeltLL.Alignment.HeightPercent = (byte)(0);
+            TCeltLL.Alignment.WidthPercent = (byte)(0);
+            TCeltLL.Alignment.LeftOffPercent = 0;
+            TCeltLL.Alignment.RightOffPercent = 0;
+            TCeltLL.Alignment.TopOffPercent = 0;
+            TCeltLL.Alignment.BottomOffPercent = 0;
+            TCeltLL.Alignment.LeftOffset = 28;
+            TCeltLL.Alignment.RightOffset = 0;
+            TCeltLL.Alignment.TopOffset = 0;
+            TCeltLL.Alignment.BottomOffset = 10;
+            TCeltLL.Masked = false;
+            TCeltLL.AnimStart = 0;
+            TCeltLL.CurrentImage = 3;
+            TCeltLL.AnimEnd = 12;
+            TCeltLL.WinWidth = 81;
+            TCeltLL.WinHeight = 27;
+            TCeltLL.Animate = false;
+            TCeltLL.AnimFrameDelay = 0;
+            session.EndRead(TCeltLL);
+            BCeltL = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(BCeltL);
+            BCeltL.Name = "BCeltL";
+            BCeltL.Priority = 0;
+            BCeltL.WinLeft = 21;
+            BCeltL.WinTop = 363;
+            BCeltL.CaptureInput = true;
+            BCeltL.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            BCeltL.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            BCeltL.Alignment.HeightPercent = (byte)(0);
+            BCeltL.Alignment.WidthPercent = (byte)(0);
+            BCeltL.Alignment.LeftOffPercent = 0;
+            BCeltL.Alignment.RightOffPercent = 0;
+            BCeltL.Alignment.TopOffPercent = 0;
+            BCeltL.Alignment.BottomOffPercent = 0;
+            BCeltL.Alignment.LeftOffset = 21;
+            BCeltL.Alignment.RightOffset = 21;
+            BCeltL.Alignment.TopOffset = 0;
+            BCeltL.Alignment.BottomOffset = 10;
+            BCeltL.Masked = false;
+            BCeltL.WinWidth = 378;
+            BCeltL.WinHeight = 27;
+            BCeltL.FrameType = Aow.Units.AoWFrame.TFrameType.frHorizLine;
+            BCeltL.ILIndexFrame = 0;
+            BCeltL.ILIndexLine = 55;
+            BCeltL.ILIndexTexture = 0;
+            session.EndRead(BCeltL);
+            Title = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(Title);
+            Title.Name = "Title";
+            Title.Priority = 0;
+            Title.WinLeft = 42;
+            Title.WinTop = 7;
+            Title.CaptureInput = false;
+            Title.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            Title.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Title.Alignment.HeightPercent = (byte)(0);
+            Title.Alignment.WidthPercent = (byte)(0);
+            Title.Alignment.LeftOffPercent = 0;
+            Title.Alignment.RightOffPercent = 0;
+            Title.Alignment.TopOffPercent = 0;
+            Title.Alignment.BottomOffPercent = 0;
+            Title.Alignment.LeftOffset = 42;
+            Title.Alignment.RightOffset = 0;
+            Title.Alignment.TopOffset = 7;
+            Title.Alignment.BottomOffset = 0;
+            Title.Masked = true;
+            Title.Text = "Audio Settings";
+            Title.TextColor = 0;
+            session.EndRead(Title);
+            SongLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            session.BeginRead(SongLB);
+            SongLB.Name = "SongLB";
+            SongLB.Priority = 0;
+            SongLB.WinLeft = 1;
+            SongLB.WinTop = 0;
+            SongLB.CaptureInput = true;
+            SongLB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            SongLB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            SongLB.Alignment.HeightPercent = (byte)(0);
+            SongLB.Alignment.WidthPercent = (byte)(0);
+            SongLB.Alignment.LeftOffPercent = 0;
+            SongLB.Alignment.RightOffPercent = 0;
+            SongLB.Alignment.TopOffPercent = 0;
+            SongLB.Alignment.BottomOffPercent = 0;
+            SongLB.Alignment.LeftOffset = 1;
+            SongLB.Alignment.RightOffset = 0;
+            SongLB.Alignment.TopOffset = 0;
+            SongLB.Alignment.BottomOffset = 1;
+            SongLB.Masked = false;
+            SongLB.WinWidth = 172;
+            SongLB.WinHeight = 114;
+            SongLB.BorderWidth = 6;
+            SongLB.BorderHeight = 3;
+            SongLB.OnChange = Layout_SongLBChange_3;
+            SongLB.OnDoubleClick = AddBtnClick;
+            SongLB.Selected = -1;
+            SongLB.TextColor = 9415072;
+            SongLB.TextSelColor = 0;
+            SongLB.ILIndexFrame = 113;
+            SongLB.ILIndexTNormal = 21;
+            SongLB.ILIndexTSelected = 8;
+            SongLB.ItemHeight = 17;
+            SongLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+            session.EndRead(SongLB);
+            SongLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SongLbl);
+            SongLbl.Name = "SongLbl";
+            SongLbl.Priority = 0;
+            SongLbl.WinLeft = 0;
+            SongLbl.WinTop = 10;
+            SongLbl.CaptureInput = false;
+            SongLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SongLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SongLbl.Alignment.HeightPercent = (byte)(0);
+            SongLbl.Alignment.WidthPercent = (byte)(0);
+            SongLbl.Alignment.LeftOffPercent = 0;
+            SongLbl.Alignment.RightOffPercent = 0;
+            SongLbl.Alignment.TopOffPercent = 0;
+            SongLbl.Alignment.BottomOffPercent = 0;
+            SongLbl.Alignment.LeftOffset = 0;
+            SongLbl.Alignment.RightOffset = 0;
+            SongLbl.Alignment.TopOffset = 10;
+            SongLbl.Alignment.BottomOffset = 0;
+            SongLbl.Masked = true;
+            SongLbl.Text = "Songs Folder:";
+            SongLbl.TextColor = 0;
+            session.EndRead(SongLbl);
+            Close = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Close);
+            Close.Name = "Close";
+            Close.Priority = 0;
+            Close.WinLeft = 385;
+            Close.WinTop = 4;
+            Close.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "Dlg",
-                OnKeyDown = DlgKeyDown,
-                Visible = false,
-                Priority = 300,
-                WinLeft = 110,
-                WinTop = 16,
-                WinWidth = 420,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = false,
-                BorderWidth = 0,
-                BorderHeight = 0,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = true,
-                MaskColor = 5808200,
-                FreeSurfaceOnHide = true,
-                ILIndexFrame = 32,
-                ILIndexTexture = 2,
-                DragHeight = 20,
-                Draggable = true,
-                Resizable = false,
-                MinWidth = 0,
-                MinHeight = 0,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = true,
-                Modal = true,
-                WinHeight = 400,
-                Dockable = false
+                "Closes the window."
             };
-            LayoutSession.EndRead(Dlg);
-            CloseBut = new Aow.Units.AoWButton.TAOWButton(this)
+            Close.CaptureInput = true;
+            Close.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Close.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Close.Alignment.HeightPercent = (byte)(0);
+            Close.Alignment.WidthPercent = (byte)(0);
+            Close.Alignment.LeftOffPercent = 0;
+            Close.Alignment.RightOffPercent = 0;
+            Close.Alignment.TopOffPercent = 0;
+            Close.Alignment.BottomOffPercent = 0;
+            Close.Alignment.LeftOffset = 0;
+            Close.Alignment.RightOffset = 20;
+            Close.Alignment.TopOffset = 4;
+            Close.Alignment.BottomOffset = 0;
+            Close.Masked = false;
+            Close.BorderHeight = 0;
+            Close.BorderHeightSelected = 0;
+            Close.ILIndexDown = 1;
+            Close.ILIndexLit = 2;
+            Close.ILIndexUp = 0;
+            Close.TextColor = 0;
+            Close.TextSelColor = 0;
+            Close.WinWidth = 15;
+            Close.OnClick = Layout_CloseClick_2;
+            session.EndRead(Close);
+            PlayListPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(PlayListPnl);
+            PlayListPnl.Name = "PlayListPnl";
+            PlayListPnl.Priority = 0;
+            PlayListPnl.WinLeft = 30;
+            PlayListPnl.WinTop = 170;
+            PlayListPnl.WinWidth = 360;
+            PlayListPnl.Masked = false;
+            PlayListPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            PlayListPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            PlayListPnl.Alignment.HeightPercent = (byte)(0);
+            PlayListPnl.Alignment.WidthPercent = (byte)(0);
+            PlayListPnl.Alignment.LeftOffPercent = 0;
+            PlayListPnl.Alignment.RightOffPercent = 0;
+            PlayListPnl.Alignment.TopOffPercent = 0;
+            PlayListPnl.Alignment.BottomOffPercent = 0;
+            PlayListPnl.Alignment.LeftOffset = 30;
+            PlayListPnl.Alignment.RightOffset = 30;
+            PlayListPnl.Alignment.TopOffset = 20;
+            PlayListPnl.Alignment.BottomOffset = 50;
+            PlayListPnl.WinHeight = 180;
+            PlayListPnl.ILIndexFrame = 40;
+            PlayListPnl.ILIndexTexture = 2;
+            PlayListPnl.OwnerItem = 0;
+            PlayListPnl.MinWidth = 0;
+            PlayListPnl.MinHeight = 0;
+            session.EndRead(PlayListPnl);
+            SoundTab = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            session.BeginRead(SoundTab);
+            SoundTab.Name = "SoundTab";
+            SoundTab.Priority = 1000;
+            SoundTab.WinLeft = 20;
+            SoundTab.WinTop = 150;
+            SoundTab.CaptureInput = true;
+            SoundTab.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            SoundTab.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SoundTab.Alignment.HeightPercent = (byte)(0);
+            SoundTab.Alignment.WidthPercent = (byte)(0);
+            SoundTab.Alignment.LeftOffPercent = 0;
+            SoundTab.Alignment.RightOffPercent = 0;
+            SoundTab.Alignment.TopOffPercent = 0;
+            SoundTab.Alignment.BottomOffPercent = 0;
+            SoundTab.Alignment.LeftOffset = 20;
+            SoundTab.Alignment.RightOffset = 20;
+            SoundTab.Alignment.TopOffset = 150;
+            SoundTab.Alignment.BottomOffset = 0;
+            SoundTab.Masked = true;
+            SoundTab.LayoutItems = new LayoutStrings()
             {
-                Name = "CloseBut",
-                Priority = 250,
-                WinLeft = 142,
-                WinTop = 363,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 266,
-                    RightOffset = 28,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                BorderHeight = 8,
-                BorderHeightSelected = 9,
-                ILIndexDown = 22,
-                ILIndexLit = 25,
-                ILIndexUp = 19,
-                Text = "Close",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 136,
-                OnClick = Layout_CloseClick_2
+                "PLAY LIST",
+                "SOUND OPTIONS"
             };
-            LayoutSession.EndRead(CloseBut);
-            TCeltLL = new Aow.Units.AoWImage.TAOWImage(this)
+            SoundTab.BorderHeight = 6;
+            SoundTab.OnChange = Layout_SoundTabChange_4;
+            SoundTab.Selected = 0;
+            SoundTab.WinWidth = 380;
+            SoundTab.TextColor = 0;
+            SoundTab.TextSelColor = 9415072;
+            SoundTab.ILIndexDown = 67;
+            SoundTab.ILIndexUp = 70;
+            SoundTab.BorderHeightSelected = 7;
+            session.EndRead(SoundTab);
+            PlayLB = Aow.Units.AoWListBox.TAOWListBox.Create(this);
+            session.BeginRead(PlayLB);
+            PlayLB.Name = "PlayLB";
+            PlayLB.Priority = 0;
+            PlayLB.WinLeft = 1;
+            PlayLB.WinTop = 0;
+            PlayLB.CaptureInput = true;
+            PlayLB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            PlayLB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            PlayLB.Alignment.HeightPercent = (byte)(0);
+            PlayLB.Alignment.WidthPercent = (byte)(0);
+            PlayLB.Alignment.LeftOffPercent = 1;
+            PlayLB.Alignment.RightOffPercent = 0;
+            PlayLB.Alignment.TopOffPercent = 0;
+            PlayLB.Alignment.BottomOffPercent = 0;
+            PlayLB.Alignment.LeftOffset = 0;
+            PlayLB.Alignment.RightOffset = 0;
+            PlayLB.Alignment.TopOffset = 0;
+            PlayLB.Alignment.BottomOffset = 1;
+            PlayLB.Masked = false;
+            PlayLB.WinWidth = 172;
+            PlayLB.WinHeight = 114;
+            PlayLB.BorderWidth = 20;
+            PlayLB.BorderHeight = 3;
+            PlayLB.OnChange = Layout_PlayLBChange_5;
+            PlayLB.OnDoubleClick = Layout_PlayBtnClick_6;
+            PlayLB.Selected = -1;
+            PlayLB.OnDrawItem = PlayLBDrawItem;
+            PlayLB.TextColor = 9415072;
+            PlayLB.TextSelColor = 0;
+            PlayLB.ILIndexFrame = 113;
+            PlayLB.ILIndexTNormal = 21;
+            PlayLB.ILIndexTSelected = 8;
+            PlayLB.ItemHeight = 17;
+            PlayLB.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft;
+            session.EndRead(PlayLB);
+            AddBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(AddBtn);
+            AddBtn.Name = "AddBtn";
+            AddBtn.Priority = 250;
+            AddBtn.WinLeft = 0;
+            AddBtn.WinTop = 148;
+            AddBtn.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "TCeltLL",
-                Priority = 100,
-                WinLeft = 28,
-                WinTop = 363,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 28,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 12,
-                WinWidth = 81,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
+                "Add the selected song to the Jukebox Playlist."
             };
-            LayoutSession.EndRead(TCeltLL);
-            BCeltL = new Aow.Units.AoWFrame.TAoWFrame(this)
+            AddBtn.CaptureInput = true;
+            AddBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            AddBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            AddBtn.Alignment.HeightPercent = (byte)(0);
+            AddBtn.Alignment.WidthPercent = (byte)(0);
+            AddBtn.Alignment.LeftOffPercent = 0;
+            AddBtn.Alignment.RightOffPercent = 52;
+            AddBtn.Alignment.TopOffPercent = 0;
+            AddBtn.Alignment.BottomOffPercent = 0;
+            AddBtn.Alignment.LeftOffset = 0;
+            AddBtn.Alignment.RightOffset = 0;
+            AddBtn.Alignment.TopOffset = 0;
+            AddBtn.Alignment.BottomOffset = 10;
+            AddBtn.Masked = false;
+            AddBtn.BorderHeight = 6;
+            AddBtn.BorderHeightSelected = 7;
+            AddBtn.ILIndexDown = 46;
+            AddBtn.ILIndexLit = 49;
+            AddBtn.ILIndexUp = 43;
+            AddBtn.Text = "Add to List";
+            AddBtn.TextColor = 0;
+            AddBtn.TextSelColor = 16777215;
+            AddBtn.WinWidth = 173;
+            AddBtn.OnClick = AddBtnClick;
+            session.EndRead(AddBtn);
+            RemoveBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(RemoveBtn);
+            RemoveBtn.Name = "RemoveBtn";
+            RemoveBtn.Priority = 250;
+            RemoveBtn.WinLeft = 187;
+            RemoveBtn.WinTop = 148;
+            RemoveBtn.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "BCeltL",
-                Priority = 0,
-                WinLeft = 21,
-                WinTop = 363,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 21,
-                    RightOffset = 21,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                WinWidth = 378,
-                WinHeight = 27,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHorizLine,
-                ILIndexFrame = 0,
-                ILIndexLine = 55,
-                ILIndexTexture = 0
+                "Remove the selected song from the Jukebox Playlist."
             };
-            LayoutSession.EndRead(BCeltL);
-            Title = new Aow.Units.AoWLabel.TAOWLabel(this)
+            RemoveBtn.CaptureInput = true;
+            RemoveBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            RemoveBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            RemoveBtn.Alignment.HeightPercent = (byte)(0);
+            RemoveBtn.Alignment.WidthPercent = (byte)(0);
+            RemoveBtn.Alignment.LeftOffPercent = 52;
+            RemoveBtn.Alignment.RightOffPercent = 26;
+            RemoveBtn.Alignment.TopOffPercent = 0;
+            RemoveBtn.Alignment.BottomOffPercent = 0;
+            RemoveBtn.Alignment.LeftOffset = 0;
+            RemoveBtn.Alignment.RightOffset = 0;
+            RemoveBtn.Alignment.TopOffset = 0;
+            RemoveBtn.Alignment.BottomOffset = 10;
+            RemoveBtn.Masked = false;
+            RemoveBtn.BorderHeight = 6;
+            RemoveBtn.BorderHeightSelected = 7;
+            RemoveBtn.ILIndexDown = 46;
+            RemoveBtn.ILIndexLit = 49;
+            RemoveBtn.ILIndexUp = 43;
+            RemoveBtn.Text = "Remove";
+            RemoveBtn.TextColor = 0;
+            RemoveBtn.TextSelColor = 16777215;
+            RemoveBtn.WinWidth = 80;
+            RemoveBtn.OnClick = RemoveBtnClick;
+            session.EndRead(RemoveBtn);
+            PlayBtn = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(PlayBtn);
+            PlayBtn.Name = "PlayBtn";
+            PlayBtn.Priority = 250;
+            PlayBtn.WinLeft = 273;
+            PlayBtn.WinTop = 148;
+            PlayBtn.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "Title",
-                Priority = 0,
-                WinLeft = 42,
-                WinTop = 7,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 42,
-                    RightOffset = 0,
-                    TopOffset = 7,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Audio Settings",
-                TextColor = 0
+                "Play the selected song."
             };
-            LayoutSession.EndRead(Title);
-            SongLB = new Aow.Units.AoWListBox.TAOWListBox(this)
+            PlayBtn.CaptureInput = true;
+            PlayBtn.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            PlayBtn.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            PlayBtn.Alignment.HeightPercent = (byte)(0);
+            PlayBtn.Alignment.WidthPercent = (byte)(0);
+            PlayBtn.Alignment.LeftOffPercent = 76;
+            PlayBtn.Alignment.RightOffPercent = 0;
+            PlayBtn.Alignment.TopOffPercent = 0;
+            PlayBtn.Alignment.BottomOffPercent = 0;
+            PlayBtn.Alignment.LeftOffset = 0;
+            PlayBtn.Alignment.RightOffset = 0;
+            PlayBtn.Alignment.TopOffset = 0;
+            PlayBtn.Alignment.BottomOffset = 10;
+            PlayBtn.Masked = false;
+            PlayBtn.BorderHeight = 6;
+            PlayBtn.BorderHeightSelected = 7;
+            PlayBtn.ILIndexDown = 46;
+            PlayBtn.ILIndexLit = 49;
+            PlayBtn.ILIndexUp = 43;
+            PlayBtn.Text = "Play";
+            PlayBtn.TextColor = 0;
+            PlayBtn.TextSelColor = 16777215;
+            PlayBtn.WinWidth = 87;
+            PlayBtn.OnClick = Layout_PlayBtnClick_6;
+            session.EndRead(PlayBtn);
+            PlayLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(PlayLbl);
+            PlayLbl.Name = "PlayLbl";
+            PlayLbl.Priority = 0;
+            PlayLbl.WinLeft = 187;
+            PlayLbl.WinTop = 10;
+            PlayLbl.CaptureInput = false;
+            PlayLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            PlayLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            PlayLbl.Alignment.HeightPercent = (byte)(0);
+            PlayLbl.Alignment.WidthPercent = (byte)(0);
+            PlayLbl.Alignment.LeftOffPercent = 52;
+            PlayLbl.Alignment.RightOffPercent = 0;
+            PlayLbl.Alignment.TopOffPercent = 0;
+            PlayLbl.Alignment.BottomOffPercent = 0;
+            PlayLbl.Alignment.LeftOffset = 0;
+            PlayLbl.Alignment.RightOffset = 0;
+            PlayLbl.Alignment.TopOffset = 10;
+            PlayLbl.Alignment.BottomOffset = 0;
+            PlayLbl.Masked = true;
+            PlayLbl.Text = "Play List:";
+            PlayLbl.TextColor = 0;
+            session.EndRead(PlayLbl);
+            CurrentSongLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(CurrentSongLbl);
+            CurrentSongLbl.Name = "CurrentSongLbl";
+            CurrentSongLbl.Priority = 0;
+            CurrentSongLbl.WinLeft = 75;
+            CurrentSongLbl.WinTop = 8;
+            CurrentSongLbl.CaptureInput = false;
+            CurrentSongLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            CurrentSongLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            CurrentSongLbl.Alignment.HeightPercent = (byte)(0);
+            CurrentSongLbl.Alignment.WidthPercent = (byte)(0);
+            CurrentSongLbl.Alignment.LeftOffPercent = 51;
+            CurrentSongLbl.Alignment.RightOffPercent = 0;
+            CurrentSongLbl.Alignment.TopOffPercent = 0;
+            CurrentSongLbl.Alignment.BottomOffPercent = 0;
+            CurrentSongLbl.Alignment.LeftOffset = 0;
+            CurrentSongLbl.Alignment.RightOffset = 0;
+            CurrentSongLbl.Alignment.TopOffset = 0;
+            CurrentSongLbl.Alignment.BottomOffset = 62;
+            CurrentSongLbl.Masked = true;
+            CurrentSongLbl.Text = "#########";
+            CurrentSongLbl.TextColor = 0;
+            session.EndRead(CurrentSongLbl);
+            TCeltLR = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(TCeltLR);
+            TCeltLR.Name = "TCeltLR";
+            TCeltLR.Priority = 100;
+            TCeltLR.WinLeft = 311;
+            TCeltLR.WinTop = 363;
+            TCeltLR.CaptureInput = true;
+            TCeltLR.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            TCeltLR.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            TCeltLR.Alignment.HeightPercent = (byte)(0);
+            TCeltLR.Alignment.WidthPercent = (byte)(0);
+            TCeltLR.Alignment.LeftOffPercent = 0;
+            TCeltLR.Alignment.RightOffPercent = 0;
+            TCeltLR.Alignment.TopOffPercent = 0;
+            TCeltLR.Alignment.BottomOffPercent = 0;
+            TCeltLR.Alignment.LeftOffset = 0;
+            TCeltLR.Alignment.RightOffset = 28;
+            TCeltLR.Alignment.TopOffset = 0;
+            TCeltLR.Alignment.BottomOffset = 10;
+            TCeltLR.Masked = false;
+            TCeltLR.AnimStart = 0;
+            TCeltLR.CurrentImage = 3;
+            TCeltLR.AnimEnd = 12;
+            TCeltLR.WinWidth = 81;
+            TCeltLR.WinHeight = 27;
+            TCeltLR.Animate = false;
+            TCeltLR.AnimFrameDelay = 0;
+            session.EndRead(TCeltLR);
+            MusicVolLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(MusicVolLbl);
+            MusicVolLbl.Name = "MusicVolLbl";
+            MusicVolLbl.Priority = 0;
+            MusicVolLbl.WinLeft = 55;
+            MusicVolLbl.WinTop = 38;
+            MusicVolLbl.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "SongLB",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 1,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 172,
-                WinHeight = 114,
-                BorderWidth = 6,
-                BorderHeight = 3,
-                OnChange = Layout_SongLBChange_3,
-                OnDoubleClick = AddBtnClick,
-                Selected = -1,
-                TextColor = 9415072,
-                TextSelColor = 0,
-                ILIndexFrame = 113,
-                ILIndexTNormal = 21,
-                ILIndexTSelected = 8,
-                ItemHeight = 17,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft
+                "The volume to play music at."
             };
-            LayoutSession.EndRead(SongLB);
-            SongLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
+            MusicVolLbl.CaptureInput = false;
+            MusicVolLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            MusicVolLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            MusicVolLbl.Alignment.HeightPercent = (byte)(0);
+            MusicVolLbl.Alignment.WidthPercent = (byte)(0);
+            MusicVolLbl.Alignment.LeftOffPercent = 0;
+            MusicVolLbl.Alignment.RightOffPercent = 44;
+            MusicVolLbl.Alignment.TopOffPercent = 0;
+            MusicVolLbl.Alignment.BottomOffPercent = 0;
+            MusicVolLbl.Alignment.LeftOffset = 0;
+            MusicVolLbl.Alignment.RightOffset = 0;
+            MusicVolLbl.Alignment.TopOffset = 10;
+            MusicVolLbl.Alignment.BottomOffset = 38;
+            MusicVolLbl.Masked = true;
+            MusicVolLbl.Text = "Music Volume:";
+            MusicVolLbl.TextColor = 0;
+            session.EndRead(MusicVolLbl);
+            SFXVolLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SFXVolLbl);
+            SFXVolLbl.Name = "SFXVolLbl";
+            SFXVolLbl.Priority = 0;
+            SFXVolLbl.WinLeft = 61;
+            SFXVolLbl.WinTop = 69;
+            SFXVolLbl.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "SongLbl",
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 10,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Songs Folder:",
-                TextColor = 0
+                "The volume to play sfx at."
             };
-            LayoutSession.EndRead(SongLbl);
-            Close = new Aow.Units.AoWButton.TAOWButton(this)
+            SFXVolLbl.CaptureInput = false;
+            SFXVolLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            SFXVolLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            SFXVolLbl.Alignment.HeightPercent = (byte)(0);
+            SFXVolLbl.Alignment.WidthPercent = (byte)(0);
+            SFXVolLbl.Alignment.LeftOffPercent = 0;
+            SFXVolLbl.Alignment.RightOffPercent = 44;
+            SFXVolLbl.Alignment.TopOffPercent = 0;
+            SFXVolLbl.Alignment.BottomOffPercent = 0;
+            SFXVolLbl.Alignment.LeftOffset = 0;
+            SFXVolLbl.Alignment.RightOffset = 0;
+            SFXVolLbl.Alignment.TopOffset = 10;
+            SFXVolLbl.Alignment.BottomOffset = 7;
+            SFXVolLbl.Masked = true;
+            SFXVolLbl.Text = "SFX Volume:";
+            SFXVolLbl.TextColor = 0;
+            session.EndRead(SFXVolLbl);
+            MainPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(MainPnl);
+            MainPnl.Name = "MainPnl";
+            MainPnl.Priority = 0;
+            MainPnl.WinLeft = 90;
+            MainPnl.WinTop = 50;
+            MainPnl.WinWidth = 240;
+            MainPnl.Masked = true;
+            MainPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            MainPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            MainPnl.Alignment.HeightPercent = (byte)(0);
+            MainPnl.Alignment.WidthPercent = (byte)(0);
+            MainPnl.Alignment.LeftOffPercent = 0;
+            MainPnl.Alignment.RightOffPercent = 0;
+            MainPnl.Alignment.TopOffPercent = 0;
+            MainPnl.Alignment.BottomOffPercent = 0;
+            MainPnl.Alignment.LeftOffset = 90;
+            MainPnl.Alignment.RightOffset = 90;
+            MainPnl.Alignment.TopOffset = 50;
+            MainPnl.Alignment.BottomOffset = 50;
+            MainPnl.WinHeight = 88;
+            MainPnl.ILIndexFrame = 40;
+            MainPnl.ILIndexTexture = 2;
+            MainPnl.OwnerItem = 0;
+            MainPnl.MinWidth = 0;
+            MainPnl.MinHeight = 0;
+            session.EndRead(MainPnl);
+            SoundLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SoundLbl);
+            SoundLbl.Name = "SoundLbl";
+            SoundLbl.Priority = 0;
+            SoundLbl.WinLeft = 0;
+            SoundLbl.WinTop = 10;
+            SoundLbl.CaptureInput = false;
+            SoundLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SoundLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SoundLbl.Alignment.HeightPercent = (byte)(0);
+            SoundLbl.Alignment.WidthPercent = (byte)(0);
+            SoundLbl.Alignment.LeftOffPercent = 0;
+            SoundLbl.Alignment.RightOffPercent = 0;
+            SoundLbl.Alignment.TopOffPercent = 0;
+            SoundLbl.Alignment.BottomOffPercent = 0;
+            SoundLbl.Alignment.LeftOffset = 0;
+            SoundLbl.Alignment.RightOffset = 0;
+            SoundLbl.Alignment.TopOffset = 10;
+            SoundLbl.Alignment.BottomOffset = 0;
+            SoundLbl.Masked = true;
+            SoundLbl.Text = "Sound Quality:";
+            SoundLbl.TextColor = 0;
+            session.EndRead(SoundLbl);
+            SettingsPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(SettingsPnl);
+            SettingsPnl.Name = "SettingsPnl";
+            SettingsPnl.Visible = false;
+            SettingsPnl.Priority = 0;
+            SettingsPnl.WinLeft = 30;
+            SettingsPnl.WinTop = 180;
+            SettingsPnl.WinWidth = 360;
+            SettingsPnl.Masked = true;
+            SettingsPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            SettingsPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            SettingsPnl.Alignment.HeightPercent = (byte)(0);
+            SettingsPnl.Alignment.WidthPercent = (byte)(0);
+            SettingsPnl.Alignment.LeftOffPercent = 0;
+            SettingsPnl.Alignment.RightOffPercent = 0;
+            SettingsPnl.Alignment.TopOffPercent = 0;
+            SettingsPnl.Alignment.BottomOffPercent = 0;
+            SettingsPnl.Alignment.LeftOffset = 30;
+            SettingsPnl.Alignment.RightOffset = 30;
+            SettingsPnl.Alignment.TopOffset = 50;
+            SettingsPnl.Alignment.BottomOffset = 50;
+            SettingsPnl.WinHeight = 170;
+            SettingsPnl.ILIndexFrame = 40;
+            SettingsPnl.ILIndexTexture = 2;
+            SettingsPnl.OwnerItem = 1;
+            SettingsPnl.MinWidth = 0;
+            SettingsPnl.MinHeight = 0;
+            session.EndRead(SettingsPnl);
+            SFXLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SFXLbl);
+            SFXLbl.Name = "SFXLbl";
+            SFXLbl.Priority = 0;
+            SFXLbl.WinLeft = 187;
+            SFXLbl.WinTop = 10;
+            SFXLbl.CaptureInput = false;
+            SFXLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SFXLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SFXLbl.Alignment.HeightPercent = (byte)(0);
+            SFXLbl.Alignment.WidthPercent = (byte)(0);
+            SFXLbl.Alignment.LeftOffPercent = 52;
+            SFXLbl.Alignment.RightOffPercent = 0;
+            SFXLbl.Alignment.TopOffPercent = 0;
+            SFXLbl.Alignment.BottomOffPercent = 0;
+            SFXLbl.Alignment.LeftOffset = 0;
+            SFXLbl.Alignment.RightOffset = 0;
+            SFXLbl.Alignment.TopOffset = 10;
+            SFXLbl.Alignment.BottomOffset = 0;
+            SFXLbl.Masked = true;
+            SFXLbl.Text = "Active Sounds:";
+            SFXLbl.TextColor = 0;
+            session.EndRead(SFXLbl);
+            SQPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(SQPnl);
+            SQPnl.Name = "SQPnl";
+            SQPnl.Priority = 0;
+            SQPnl.WinLeft = 0;
+            SQPnl.WinTop = 30;
+            SQPnl.WinWidth = 173;
+            SQPnl.Masked = false;
+            SQPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            SQPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            SQPnl.Alignment.HeightPercent = (byte)(0);
+            SQPnl.Alignment.WidthPercent = (byte)(0);
+            SQPnl.Alignment.LeftOffPercent = 0;
+            SQPnl.Alignment.RightOffPercent = 52;
+            SQPnl.Alignment.TopOffPercent = 0;
+            SQPnl.Alignment.BottomOffPercent = 0;
+            SQPnl.Alignment.LeftOffset = 0;
+            SQPnl.Alignment.RightOffset = 0;
+            SQPnl.Alignment.TopOffset = 30;
+            SQPnl.Alignment.BottomOffset = 40;
+            SQPnl.WinHeight = 100;
+            SQPnl.ILIndexFrame = 121;
+            SQPnl.ILIndexTexture = 18;
+            SQPnl.OwnerItem = 0;
+            SQPnl.MinWidth = 0;
+            SQPnl.MinHeight = 0;
+            session.EndRead(SQPnl);
+            SQCB1 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(SQCB1);
+            SQCB1.Name = "SQCB1";
+            SQCB1.Priority = 0;
+            SQCB1.WinLeft = 15;
+            SQCB1.WinTop = 14;
+            SQCB1.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "Close",
-                Priority = 0,
-                WinLeft = 385,
-                WinTop = 4,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Closes the window."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 20,
-                    TopOffset = 4,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 1,
-                ILIndexLit = 2,
-                ILIndexUp = 0,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                OnClick = Layout_CloseClick_2
+                "Do not play music or sfx."
             };
-            LayoutSession.EndRead(Close);
-            PlayListPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
+            SQCB1.CaptureInput = true;
+            SQCB1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SQCB1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SQCB1.Alignment.HeightPercent = (byte)(0);
+            SQCB1.Alignment.WidthPercent = (byte)(0);
+            SQCB1.Alignment.LeftOffPercent = 0;
+            SQCB1.Alignment.RightOffPercent = 0;
+            SQCB1.Alignment.TopOffPercent = 0;
+            SQCB1.Alignment.BottomOffPercent = 0;
+            SQCB1.Alignment.LeftOffset = 15;
+            SQCB1.Alignment.RightOffset = 0;
+            SQCB1.Alignment.TopOffset = 14;
+            SQCB1.Alignment.BottomOffset = 0;
+            SQCB1.Masked = false;
+            SQCB1.BorderHeight = 0;
+            SQCB1.BorderHeightSelected = 0;
+            SQCB1.ILIndexDown = 51;
+            SQCB1.ILIndexLit = 52;
+            SQCB1.ILIndexUp = 50;
+            SQCB1.TextColor = 0;
+            SQCB1.TextSelColor = 0;
+            SQCB1.WinWidth = 12;
+            SQCB1.Checked = false;
+            SQCB1.OnChange = SQCB1Change;
+            SQCB1.RadioIndex = 1;
+            session.EndRead(SQCB1);
+            SQLBL1 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SQLBL1);
+            SQLBL1.Name = "SQLBL1";
+            SQLBL1.Priority = 0;
+            SQLBL1.WinLeft = 35;
+            SQLBL1.WinTop = 15;
+            SQLBL1.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "PlayListPnl",
-                Priority = 0,
-                WinLeft = 30,
-                WinTop = 170,
-                WinWidth = 360,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 30,
-                    RightOffset = 30,
-                    TopOffset = 20,
-                    BottomOffset = 50
-                },
-                WinHeight = 180,
-                ILIndexFrame = 40,
-                ILIndexTexture = 2,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
+                "Do not play music or sfx."
             };
-            LayoutSession.EndRead(PlayListPnl);
-            SoundTab = new Aow.Units.AoWTabPanel.TAOWTabPanel(this)
+            SQLBL1.CaptureInput = false;
+            SQLBL1.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SQLBL1.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SQLBL1.Alignment.HeightPercent = (byte)(0);
+            SQLBL1.Alignment.WidthPercent = (byte)(0);
+            SQLBL1.Alignment.LeftOffPercent = 0;
+            SQLBL1.Alignment.RightOffPercent = 0;
+            SQLBL1.Alignment.TopOffPercent = 0;
+            SQLBL1.Alignment.BottomOffPercent = 0;
+            SQLBL1.Alignment.LeftOffset = 35;
+            SQLBL1.Alignment.RightOffset = 0;
+            SQLBL1.Alignment.TopOffset = 15;
+            SQLBL1.Alignment.BottomOffset = 0;
+            SQLBL1.Masked = true;
+            SQLBL1.Text = "No Sound";
+            SQLBL1.TextColor = 9415072;
+            session.EndRead(SQLBL1);
+            SQCB2 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(SQCB2);
+            SQCB2.Name = "SQCB2";
+            SQCB2.Priority = 0;
+            SQCB2.WinLeft = 15;
+            SQCB2.WinTop = 34;
+            SQCB2.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "SoundTab",
-                Priority = 1000,
-                WinLeft = 20,
-                WinTop = 150,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 20,
-                    TopOffset = 150,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                LayoutItems = new LayoutStrings()
-                {
-                    "PLAY LIST",
-                    "SOUND OPTIONS"
-                },
-                BorderHeight = 6,
-                OnChange = Layout_SoundTabChange_4,
-                Selected = 0,
-                WinWidth = 380,
-                TextColor = 0,
-                TextSelColor = 9415072,
-                ILIndexDown = 67,
-                ILIndexUp = 70,
-                BorderHeightSelected = 7
+                "Play music and sfx in low quality (recommended for slower computers)."
             };
-            LayoutSession.EndRead(SoundTab);
-            PlayLB = new Aow.Units.AoWListBox.TAOWListBox(this)
+            SQCB2.CaptureInput = true;
+            SQCB2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SQCB2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SQCB2.Alignment.HeightPercent = (byte)(0);
+            SQCB2.Alignment.WidthPercent = (byte)(0);
+            SQCB2.Alignment.LeftOffPercent = 0;
+            SQCB2.Alignment.RightOffPercent = 0;
+            SQCB2.Alignment.TopOffPercent = 0;
+            SQCB2.Alignment.BottomOffPercent = 0;
+            SQCB2.Alignment.LeftOffset = 15;
+            SQCB2.Alignment.RightOffset = 0;
+            SQCB2.Alignment.TopOffset = 34;
+            SQCB2.Alignment.BottomOffset = 0;
+            SQCB2.Masked = false;
+            SQCB2.BorderHeight = 0;
+            SQCB2.BorderHeightSelected = 0;
+            SQCB2.ILIndexDown = 51;
+            SQCB2.ILIndexLit = 52;
+            SQCB2.ILIndexUp = 50;
+            SQCB2.TextColor = 0;
+            SQCB2.TextSelColor = 0;
+            SQCB2.WinWidth = 12;
+            SQCB2.Checked = false;
+            SQCB2.OnChange = SQCB2Change;
+            SQCB2.RadioIndex = 1;
+            session.EndRead(SQCB2);
+            SQLBL2 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SQLBL2);
+            SQLBL2.Name = "SQLBL2";
+            SQLBL2.Priority = 0;
+            SQLBL2.WinLeft = 35;
+            SQLBL2.WinTop = 35;
+            SQLBL2.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "PlayLB",
-                Priority = 0,
-                WinLeft = 1,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 1,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 1
-                },
-                Masked = false,
-                WinWidth = 172,
-                WinHeight = 114,
-                BorderWidth = 20,
-                BorderHeight = 3,
-                OnChange = Layout_PlayLBChange_5,
-                OnDoubleClick = Layout_PlayBtnClick_6,
-                Selected = -1,
-                OnDrawItem = PlayLBDrawItem,
-                TextColor = 9415072,
-                TextSelColor = 0,
-                ILIndexFrame = 113,
-                ILIndexTNormal = 21,
-                ILIndexTSelected = 8,
-                ItemHeight = 17,
-                TextAlign = Aow.Units.AoWComp.TaowTextAlign.taLeft
+                "Play music and sfx in low quality (recommended for slower computers)."
             };
-            LayoutSession.EndRead(PlayLB);
-            AddBtn = new Aow.Units.AoWButton.TAOWButton(this)
+            SQLBL2.CaptureInput = false;
+            SQLBL2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SQLBL2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SQLBL2.Alignment.HeightPercent = (byte)(0);
+            SQLBL2.Alignment.WidthPercent = (byte)(0);
+            SQLBL2.Alignment.LeftOffPercent = 0;
+            SQLBL2.Alignment.RightOffPercent = 0;
+            SQLBL2.Alignment.TopOffPercent = 0;
+            SQLBL2.Alignment.BottomOffPercent = 0;
+            SQLBL2.Alignment.LeftOffset = 35;
+            SQLBL2.Alignment.RightOffset = 0;
+            SQLBL2.Alignment.TopOffset = 35;
+            SQLBL2.Alignment.BottomOffset = 0;
+            SQLBL2.Masked = true;
+            SQLBL2.Text = "Low";
+            SQLBL2.TextColor = 9415072;
+            session.EndRead(SQLBL2);
+            SQCB3 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(SQCB3);
+            SQCB3.Name = "SQCB3";
+            SQCB3.Priority = 0;
+            SQCB3.WinLeft = 15;
+            SQCB3.WinTop = 54;
+            SQCB3.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "AddBtn",
-                Priority = 250,
-                WinLeft = 0,
-                WinTop = 148,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Add the selected song to the Jukebox Playlist."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 52,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                BorderHeight = 6,
-                BorderHeightSelected = 7,
-                ILIndexDown = 46,
-                ILIndexLit = 49,
-                ILIndexUp = 43,
-                Text = "Add to List",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 173,
-                OnClick = AddBtnClick
+                "Play music and sfx in medium quality (recommended for most computers)."
             };
-            LayoutSession.EndRead(AddBtn);
-            RemoveBtn = new Aow.Units.AoWButton.TAOWButton(this)
+            SQCB3.CaptureInput = true;
+            SQCB3.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SQCB3.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SQCB3.Alignment.HeightPercent = (byte)(0);
+            SQCB3.Alignment.WidthPercent = (byte)(0);
+            SQCB3.Alignment.LeftOffPercent = 0;
+            SQCB3.Alignment.RightOffPercent = 0;
+            SQCB3.Alignment.TopOffPercent = 0;
+            SQCB3.Alignment.BottomOffPercent = 0;
+            SQCB3.Alignment.LeftOffset = 15;
+            SQCB3.Alignment.RightOffset = 0;
+            SQCB3.Alignment.TopOffset = 54;
+            SQCB3.Alignment.BottomOffset = 0;
+            SQCB3.Masked = false;
+            SQCB3.BorderHeight = 0;
+            SQCB3.BorderHeightSelected = 0;
+            SQCB3.ILIndexDown = 51;
+            SQCB3.ILIndexLit = 52;
+            SQCB3.ILIndexUp = 50;
+            SQCB3.TextColor = 0;
+            SQCB3.TextSelColor = 0;
+            SQCB3.WinWidth = 12;
+            SQCB3.Checked = false;
+            SQCB3.OnChange = SQCB3Change;
+            SQCB3.RadioIndex = 1;
+            session.EndRead(SQCB3);
+            SQLBL3 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SQLBL3);
+            SQLBL3.Name = "SQLBL3";
+            SQLBL3.Priority = 0;
+            SQLBL3.WinLeft = 35;
+            SQLBL3.WinTop = 55;
+            SQLBL3.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "RemoveBtn",
-                Priority = 250,
-                WinLeft = 187,
-                WinTop = 148,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Remove the selected song from the Jukebox Playlist."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 26,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                BorderHeight = 6,
-                BorderHeightSelected = 7,
-                ILIndexDown = 46,
-                ILIndexLit = 49,
-                ILIndexUp = 43,
-                Text = "Remove",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 80,
-                OnClick = RemoveBtnClick
+                "Play music and sfx in medium quality (recommended for most computers)."
             };
-            LayoutSession.EndRead(RemoveBtn);
-            PlayBtn = new Aow.Units.AoWButton.TAOWButton(this)
+            SQLBL3.CaptureInput = false;
+            SQLBL3.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SQLBL3.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SQLBL3.Alignment.HeightPercent = (byte)(0);
+            SQLBL3.Alignment.WidthPercent = (byte)(0);
+            SQLBL3.Alignment.LeftOffPercent = 0;
+            SQLBL3.Alignment.RightOffPercent = 0;
+            SQLBL3.Alignment.TopOffPercent = 0;
+            SQLBL3.Alignment.BottomOffPercent = 0;
+            SQLBL3.Alignment.LeftOffset = 35;
+            SQLBL3.Alignment.RightOffset = 0;
+            SQLBL3.Alignment.TopOffset = 55;
+            SQLBL3.Alignment.BottomOffset = 0;
+            SQLBL3.Masked = true;
+            SQLBL3.Text = "Normal";
+            SQLBL3.TextColor = 9415072;
+            session.EndRead(SQLBL3);
+            SQCB4 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(SQCB4);
+            SQCB4.Name = "SQCB4";
+            SQCB4.Priority = 0;
+            SQCB4.WinLeft = 15;
+            SQCB4.WinTop = 74;
+            SQCB4.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "PlayBtn",
-                Priority = 250,
-                WinLeft = 273,
-                WinTop = 148,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Play the selected song."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 76,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                BorderHeight = 6,
-                BorderHeightSelected = 7,
-                ILIndexDown = 46,
-                ILIndexLit = 49,
-                ILIndexUp = 43,
-                Text = "Play",
-                TextColor = 0,
-                TextSelColor = 16777215,
-                WinWidth = 87,
-                OnClick = Layout_PlayBtnClick_6
+                "Play music and sfx in high quality (recommended for fast computers)."
             };
-            LayoutSession.EndRead(PlayBtn);
-            PlayLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
+            SQCB4.CaptureInput = true;
+            SQCB4.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SQCB4.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SQCB4.Alignment.HeightPercent = (byte)(0);
+            SQCB4.Alignment.WidthPercent = (byte)(0);
+            SQCB4.Alignment.LeftOffPercent = 0;
+            SQCB4.Alignment.RightOffPercent = 0;
+            SQCB4.Alignment.TopOffPercent = 0;
+            SQCB4.Alignment.BottomOffPercent = 0;
+            SQCB4.Alignment.LeftOffset = 15;
+            SQCB4.Alignment.RightOffset = 0;
+            SQCB4.Alignment.TopOffset = 74;
+            SQCB4.Alignment.BottomOffset = 0;
+            SQCB4.Masked = false;
+            SQCB4.BorderHeight = 0;
+            SQCB4.BorderHeightSelected = 0;
+            SQCB4.ILIndexDown = 51;
+            SQCB4.ILIndexLit = 52;
+            SQCB4.ILIndexUp = 50;
+            SQCB4.TextColor = 0;
+            SQCB4.TextSelColor = 0;
+            SQCB4.WinWidth = 12;
+            SQCB4.Checked = false;
+            SQCB4.OnChange = SQCB4Change;
+            SQCB4.RadioIndex = 1;
+            session.EndRead(SQCB4);
+            SQLBL4 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SQLBL4);
+            SQLBL4.Name = "SQLBL4";
+            SQLBL4.Priority = 0;
+            SQLBL4.WinLeft = 35;
+            SQLBL4.WinTop = 75;
+            SQLBL4.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "PlayLbl",
-                Priority = 0,
-                WinLeft = 187,
-                WinTop = 10,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Play List:",
-                TextColor = 0
+                "Play music and sfx in high quality (recommended for fast computers)."
             };
-            LayoutSession.EndRead(PlayLbl);
-            CurrentSongLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
+            SQLBL4.CaptureInput = false;
+            SQLBL4.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SQLBL4.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SQLBL4.Alignment.HeightPercent = (byte)(0);
+            SQLBL4.Alignment.WidthPercent = (byte)(0);
+            SQLBL4.Alignment.LeftOffPercent = 0;
+            SQLBL4.Alignment.RightOffPercent = 0;
+            SQLBL4.Alignment.TopOffPercent = 0;
+            SQLBL4.Alignment.BottomOffPercent = 0;
+            SQLBL4.Alignment.LeftOffset = 35;
+            SQLBL4.Alignment.RightOffset = 0;
+            SQLBL4.Alignment.TopOffset = 75;
+            SQLBL4.Alignment.BottomOffset = 0;
+            SQLBL4.Masked = true;
+            SQLBL4.Text = "High";
+            SQLBL4.TextColor = 9415072;
+            session.EndRead(SQLBL4);
+            SFXPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(SFXPnl);
+            SFXPnl.Name = "SFXPnl";
+            SFXPnl.Priority = 0;
+            SFXPnl.WinLeft = 187;
+            SFXPnl.WinTop = 30;
+            SFXPnl.WinWidth = 173;
+            SFXPnl.Masked = false;
+            SFXPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            SFXPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            SFXPnl.Alignment.HeightPercent = (byte)(0);
+            SFXPnl.Alignment.WidthPercent = (byte)(0);
+            SFXPnl.Alignment.LeftOffPercent = 52;
+            SFXPnl.Alignment.RightOffPercent = 0;
+            SFXPnl.Alignment.TopOffPercent = 0;
+            SFXPnl.Alignment.BottomOffPercent = 0;
+            SFXPnl.Alignment.LeftOffset = 0;
+            SFXPnl.Alignment.RightOffset = 0;
+            SFXPnl.Alignment.TopOffset = 30;
+            SFXPnl.Alignment.BottomOffset = 40;
+            SFXPnl.WinHeight = 100;
+            SFXPnl.ILIndexFrame = 121;
+            SFXPnl.ILIndexTexture = 18;
+            SFXPnl.OwnerItem = 0;
+            SFXPnl.MinWidth = 0;
+            SFXPnl.MinHeight = 0;
+            session.EndRead(SFXPnl);
+            MusicEnabledChk = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(MusicEnabledChk);
+            MusicEnabledChk.Name = "MusicEnabledChk";
+            MusicEnabledChk.Priority = 0;
+            MusicEnabledChk.WinLeft = 15;
+            MusicEnabledChk.WinTop = 20;
+            MusicEnabledChk.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "CurrentSongLbl",
-                Priority = 0,
-                WinLeft = 75,
-                WinTop = 8,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 51,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 62
-                },
-                Masked = true,
-                Text = "#########",
-                TextColor = 0
+                "Selects whether or not to play music."
             };
-            LayoutSession.EndRead(CurrentSongLbl);
-            TCeltLR = new Aow.Units.AoWImage.TAOWImage(this)
+            MusicEnabledChk.CaptureInput = true;
+            MusicEnabledChk.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            MusicEnabledChk.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            MusicEnabledChk.Alignment.HeightPercent = (byte)(0);
+            MusicEnabledChk.Alignment.WidthPercent = (byte)(0);
+            MusicEnabledChk.Alignment.LeftOffPercent = 0;
+            MusicEnabledChk.Alignment.RightOffPercent = 0;
+            MusicEnabledChk.Alignment.TopOffPercent = 0;
+            MusicEnabledChk.Alignment.BottomOffPercent = 0;
+            MusicEnabledChk.Alignment.LeftOffset = 15;
+            MusicEnabledChk.Alignment.RightOffset = 0;
+            MusicEnabledChk.Alignment.TopOffset = 20;
+            MusicEnabledChk.Alignment.BottomOffset = 0;
+            MusicEnabledChk.Masked = false;
+            MusicEnabledChk.BorderHeight = 0;
+            MusicEnabledChk.BorderHeightSelected = 0;
+            MusicEnabledChk.ILIndexDown = 48;
+            MusicEnabledChk.ILIndexLit = 49;
+            MusicEnabledChk.ILIndexUp = 47;
+            MusicEnabledChk.TextColor = 0;
+            MusicEnabledChk.TextSelColor = 0;
+            MusicEnabledChk.WinWidth = 12;
+            MusicEnabledChk.Checked = false;
+            MusicEnabledChk.OnChange = MusicEnabledChkChange;
+            MusicEnabledChk.RadioIndex = 0;
+            session.EndRead(MusicEnabledChk);
+            SFXLBL2 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SFXLBL2);
+            SFXLBL2.Name = "SFXLBL2";
+            SFXLBL2.Priority = 0;
+            SFXLBL2.WinLeft = 33;
+            SFXLBL2.WinTop = 22;
+            SFXLBL2.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "TCeltLR",
-                Priority = 100,
-                WinLeft = 311,
-                WinTop = 363,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 28,
-                    TopOffset = 0,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 12,
-                WinWidth = 81,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
+                "Selects whether or not to play music."
             };
-            LayoutSession.EndRead(TCeltLR);
-            MusicVolLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
+            SFXLBL2.CaptureInput = false;
+            SFXLBL2.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SFXLBL2.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SFXLBL2.Alignment.HeightPercent = (byte)(0);
+            SFXLBL2.Alignment.WidthPercent = (byte)(0);
+            SFXLBL2.Alignment.LeftOffPercent = 0;
+            SFXLBL2.Alignment.RightOffPercent = 0;
+            SFXLBL2.Alignment.TopOffPercent = 0;
+            SFXLBL2.Alignment.BottomOffPercent = 0;
+            SFXLBL2.Alignment.LeftOffset = 33;
+            SFXLBL2.Alignment.RightOffset = 0;
+            SFXLBL2.Alignment.TopOffset = 22;
+            SFXLBL2.Alignment.BottomOffset = 0;
+            SFXLBL2.Masked = true;
+            SFXLBL2.Text = "Music";
+            SFXLBL2.TextColor = 9415072;
+            session.EndRead(SFXLBL2);
+            SFXEnabledChk = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(SFXEnabledChk);
+            SFXEnabledChk.Name = "SFXEnabledChk";
+            SFXEnabledChk.Priority = 0;
+            SFXEnabledChk.WinLeft = 15;
+            SFXEnabledChk.WinTop = 45;
+            SFXEnabledChk.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "MusicVolLbl",
-                Priority = 0,
-                WinLeft = 55,
-                WinTop = 38,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "The volume to play music at."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 44,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 38
-                },
-                Masked = true,
-                Text = "Music Volume:",
-                TextColor = 0
+                "Selects whether or not to play sfx."
             };
-            LayoutSession.EndRead(MusicVolLbl);
-            SFXVolLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
+            SFXEnabledChk.CaptureInput = true;
+            SFXEnabledChk.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SFXEnabledChk.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SFXEnabledChk.Alignment.HeightPercent = (byte)(0);
+            SFXEnabledChk.Alignment.WidthPercent = (byte)(0);
+            SFXEnabledChk.Alignment.LeftOffPercent = 0;
+            SFXEnabledChk.Alignment.RightOffPercent = 0;
+            SFXEnabledChk.Alignment.TopOffPercent = 0;
+            SFXEnabledChk.Alignment.BottomOffPercent = 0;
+            SFXEnabledChk.Alignment.LeftOffset = 15;
+            SFXEnabledChk.Alignment.RightOffset = 0;
+            SFXEnabledChk.Alignment.TopOffset = 45;
+            SFXEnabledChk.Alignment.BottomOffset = 0;
+            SFXEnabledChk.Masked = false;
+            SFXEnabledChk.BorderHeight = 0;
+            SFXEnabledChk.BorderHeightSelected = 0;
+            SFXEnabledChk.ILIndexDown = 48;
+            SFXEnabledChk.ILIndexLit = 49;
+            SFXEnabledChk.ILIndexUp = 47;
+            SFXEnabledChk.TextColor = 0;
+            SFXEnabledChk.TextSelColor = 0;
+            SFXEnabledChk.WinWidth = 12;
+            SFXEnabledChk.Checked = false;
+            SFXEnabledChk.OnChange = SFXEnabledChkChange;
+            SFXEnabledChk.RadioIndex = 0;
+            session.EndRead(SFXEnabledChk);
+            SFXLBL3 = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(SFXLBL3);
+            SFXLBL3.Name = "SFXLBL3";
+            SFXLBL3.Priority = 0;
+            SFXLBL3.WinLeft = 33;
+            SFXLBL3.WinTop = 46;
+            SFXLBL3.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "SFXVolLbl",
-                Priority = 0,
-                WinLeft = 61,
-                WinTop = 69,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "The volume to play sfx at."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 44,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 7
-                },
-                Masked = true,
-                Text = "SFX Volume:",
-                TextColor = 0
+                "Selects whether or not to play sfx."
             };
-            LayoutSession.EndRead(SFXVolLbl);
-            MainPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
+            SFXLBL3.CaptureInput = false;
+            SFXLBL3.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SFXLBL3.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SFXLBL3.Alignment.HeightPercent = (byte)(0);
+            SFXLBL3.Alignment.WidthPercent = (byte)(0);
+            SFXLBL3.Alignment.LeftOffPercent = 0;
+            SFXLBL3.Alignment.RightOffPercent = 0;
+            SFXLBL3.Alignment.TopOffPercent = 0;
+            SFXLBL3.Alignment.BottomOffPercent = 0;
+            SFXLBL3.Alignment.LeftOffset = 33;
+            SFXLBL3.Alignment.RightOffset = 0;
+            SFXLBL3.Alignment.TopOffset = 46;
+            SFXLBL3.Alignment.BottomOffset = 0;
+            SFXLBL3.Masked = true;
+            SFXLBL3.Text = "Sound Effects";
+            SFXLBL3.TextColor = 9415072;
+            session.EndRead(SFXLBL3);
+            TopLine = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(TopLine);
+            TopLine.Name = "TopLine";
+            TopLine.Priority = 0;
+            TopLine.WinLeft = 21;
+            TopLine.WinTop = 22;
+            TopLine.CaptureInput = true;
+            TopLine.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            TopLine.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            TopLine.Alignment.HeightPercent = (byte)(0);
+            TopLine.Alignment.WidthPercent = (byte)(0);
+            TopLine.Alignment.LeftOffPercent = 0;
+            TopLine.Alignment.RightOffPercent = 0;
+            TopLine.Alignment.TopOffPercent = 0;
+            TopLine.Alignment.BottomOffPercent = 0;
+            TopLine.Alignment.LeftOffset = 21;
+            TopLine.Alignment.RightOffset = 21;
+            TopLine.Alignment.TopOffset = 22;
+            TopLine.Alignment.BottomOffset = 10;
+            TopLine.Masked = false;
+            TopLine.WinWidth = 378;
+            TopLine.WinHeight = 27;
+            TopLine.FrameType = Aow.Units.AoWFrame.TFrameType.frHorizLine;
+            TopLine.ILIndexFrame = 0;
+            TopLine.ILIndexLine = 55;
+            TopLine.ILIndexTexture = 0;
+            session.EndRead(TopLine);
+            AOWImage4 = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(AOWImage4);
+            AOWImage4.Name = "AOWImage4";
+            AOWImage4.Priority = 1000;
+            AOWImage4.WinLeft = 28;
+            AOWImage4.WinTop = 22;
+            AOWImage4.CaptureInput = true;
+            AOWImage4.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            AOWImage4.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            AOWImage4.Alignment.HeightPercent = (byte)(0);
+            AOWImage4.Alignment.WidthPercent = (byte)(0);
+            AOWImage4.Alignment.LeftOffPercent = 0;
+            AOWImage4.Alignment.RightOffPercent = 0;
+            AOWImage4.Alignment.TopOffPercent = 0;
+            AOWImage4.Alignment.BottomOffPercent = 0;
+            AOWImage4.Alignment.LeftOffset = 28;
+            AOWImage4.Alignment.RightOffset = 0;
+            AOWImage4.Alignment.TopOffset = 22;
+            AOWImage4.Alignment.BottomOffset = 10;
+            AOWImage4.Masked = false;
+            AOWImage4.AnimStart = 0;
+            AOWImage4.CurrentImage = 3;
+            AOWImage4.AnimEnd = 12;
+            AOWImage4.WinWidth = 351;
+            AOWImage4.WinHeight = 27;
+            AOWImage4.Animate = false;
+            AOWImage4.AnimFrameDelay = 0;
+            session.EndRead(AOWImage4);
+            HarpL = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(HarpL);
+            HarpL.Name = "HarpL";
+            HarpL.Priority = 0;
+            HarpL.WinLeft = 30;
+            HarpL.WinTop = 55;
+            HarpL.CaptureInput = true;
+            HarpL.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            HarpL.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            HarpL.Alignment.HeightPercent = (byte)(0);
+            HarpL.Alignment.WidthPercent = (byte)(0);
+            HarpL.Alignment.LeftOffPercent = 0;
+            HarpL.Alignment.RightOffPercent = 0;
+            HarpL.Alignment.TopOffPercent = 0;
+            HarpL.Alignment.BottomOffPercent = 0;
+            HarpL.Alignment.LeftOffset = 30;
+            HarpL.Alignment.RightOffset = 0;
+            HarpL.Alignment.TopOffset = 55;
+            HarpL.Alignment.BottomOffset = 0;
+            HarpL.Masked = false;
+            HarpL.AnimStart = 0;
+            HarpL.CurrentImage = 0;
+            HarpL.AnimEnd = 2;
+            HarpL.WinWidth = 51;
+            HarpL.WinHeight = 76;
+            HarpL.Animate = false;
+            HarpL.AnimFrameDelay = 0;
+            session.EndRead(HarpL);
+            HarpR = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(HarpR);
+            HarpR.Name = "HarpR";
+            HarpR.Priority = 0;
+            HarpR.WinLeft = 339;
+            HarpR.WinTop = 55;
+            HarpR.CaptureInput = true;
+            HarpR.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            HarpR.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            HarpR.Alignment.HeightPercent = (byte)(0);
+            HarpR.Alignment.WidthPercent = (byte)(0);
+            HarpR.Alignment.LeftOffPercent = 0;
+            HarpR.Alignment.RightOffPercent = 0;
+            HarpR.Alignment.TopOffPercent = 0;
+            HarpR.Alignment.BottomOffPercent = 0;
+            HarpR.Alignment.LeftOffset = 35;
+            HarpR.Alignment.RightOffset = 30;
+            HarpR.Alignment.TopOffset = 55;
+            HarpR.Alignment.BottomOffset = 0;
+            HarpR.Masked = false;
+            HarpR.AnimStart = 0;
+            HarpR.CurrentImage = 1;
+            HarpR.AnimEnd = 2;
+            HarpR.WinWidth = 51;
+            HarpR.WinHeight = 76;
+            HarpR.Animate = false;
+            HarpR.AnimFrameDelay = 0;
+            session.EndRead(HarpR);
+            MusicVolume = new Aow.Units.AoWHScroll.TAOWHScrollBar(this);
+            session.BeginRead(MusicVolume);
+            MusicVolume.Name = "MusicVolume";
+            MusicVolume.Priority = 0;
+            MusicVolume.WinLeft = 140;
+            MusicVolume.WinTop = 35;
+            MusicVolume.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "MainPnl",
-                Priority = 0,
-                WinLeft = 90,
-                WinTop = 50,
-                WinWidth = 240,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 90,
-                    RightOffset = 90,
-                    TopOffset = 50,
-                    BottomOffset = 50
-                },
-                WinHeight = 88,
-                ILIndexFrame = 40,
-                ILIndexTexture = 2,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
+                "The volume to play music at."
             };
-            LayoutSession.EndRead(MainPnl);
-            SoundLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
+            MusicVolume.CaptureInput = true;
+            MusicVolume.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            MusicVolume.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            MusicVolume.Alignment.HeightPercent = (byte)(0);
+            MusicVolume.Alignment.WidthPercent = (byte)(0);
+            MusicVolume.Alignment.LeftOffPercent = 0;
+            MusicVolume.Alignment.RightOffPercent = 0;
+            MusicVolume.Alignment.TopOffPercent = 0;
+            MusicVolume.Alignment.BottomOffPercent = 0;
+            MusicVolume.Alignment.LeftOffset = 140;
+            MusicVolume.Alignment.RightOffset = 0;
+            MusicVolume.Alignment.TopOffset = 0;
+            MusicVolume.Alignment.BottomOffset = 35;
+            MusicVolume.Masked = true;
+            MusicVolume.Min = 0;
+            MusicVolume.Max = 100;
+            MusicVolume.SmallChange = 1;
+            MusicVolume.LargeChange = 10;
+            MusicVolume.Position = 0;
+            MusicVolume.WinHeight = 18;
+            MusicVolume.WinWidth = 92;
+            MusicVolume.NumberVisible = 10;
+            MusicVolume.OnChange = Layout_MusicVolumeChange_7;
+            MusicVolume.VanishWhenFull = false;
+            MusicVolume.ILIndexIncUp = 0;
+            MusicVolume.ILIndexIncDown = 0;
+            MusicVolume.ILIndexDecUp = 0;
+            MusicVolume.ILIndexDecDown = 0;
+            MusicVolume.ILIndexBack = 80;
+            MusicVolume.ILIndexTab = 83;
+            session.EndRead(MusicVolume);
+            SFXVolume = new Aow.Units.AoWHScroll.TAOWHScrollBar(this);
+            session.BeginRead(SFXVolume);
+            SFXVolume.Name = "SFXVolume";
+            SFXVolume.Priority = 0;
+            SFXVolume.WinLeft = 140;
+            SFXVolume.WinTop = 66;
+            SFXVolume.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "SoundLbl",
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 10,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Sound Quality:",
-                TextColor = 0
+                "The volume to play sfx at."
             };
-            LayoutSession.EndRead(SoundLbl);
-            SettingsPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
+            SFXVolume.CaptureInput = true;
+            SFXVolume.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            SFXVolume.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            SFXVolume.Alignment.HeightPercent = (byte)(0);
+            SFXVolume.Alignment.WidthPercent = (byte)(0);
+            SFXVolume.Alignment.LeftOffPercent = 0;
+            SFXVolume.Alignment.RightOffPercent = 0;
+            SFXVolume.Alignment.TopOffPercent = 0;
+            SFXVolume.Alignment.BottomOffPercent = 0;
+            SFXVolume.Alignment.LeftOffset = 140;
+            SFXVolume.Alignment.RightOffset = 0;
+            SFXVolume.Alignment.TopOffset = 0;
+            SFXVolume.Alignment.BottomOffset = 4;
+            SFXVolume.Masked = true;
+            SFXVolume.Min = 0;
+            SFXVolume.Max = 100;
+            SFXVolume.SmallChange = 1;
+            SFXVolume.LargeChange = 10;
+            SFXVolume.Position = 0;
+            SFXVolume.WinHeight = 18;
+            SFXVolume.WinWidth = 92;
+            SFXVolume.NumberVisible = 10;
+            SFXVolume.OnChange = Layout_SFXVolumeChange_8;
+            SFXVolume.VanishWhenFull = false;
+            SFXVolume.ILIndexIncUp = 0;
+            SFXVolume.ILIndexIncDown = 0;
+            SFXVolume.ILIndexDecUp = 0;
+            SFXVolume.ILIndexDecDown = 0;
+            SFXVolume.ILIndexBack = 80;
+            SFXVolume.ILIndexTab = 83;
+            session.EndRead(SFXVolume);
+            TitleIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(TitleIcon);
+            TitleIcon.Name = "TitleIcon";
+            TitleIcon.Priority = 0;
+            TitleIcon.WinLeft = 20;
+            TitleIcon.WinTop = 5;
+            TitleIcon.CaptureInput = false;
+            TitleIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            TitleIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            TitleIcon.Alignment.HeightPercent = (byte)(0);
+            TitleIcon.Alignment.WidthPercent = (byte)(0);
+            TitleIcon.Alignment.LeftOffPercent = 0;
+            TitleIcon.Alignment.RightOffPercent = 0;
+            TitleIcon.Alignment.TopOffPercent = 0;
+            TitleIcon.Alignment.BottomOffPercent = 0;
+            TitleIcon.Alignment.LeftOffset = 20;
+            TitleIcon.Alignment.RightOffset = 0;
+            TitleIcon.Alignment.TopOffset = 5;
+            TitleIcon.Alignment.BottomOffset = 0;
+            TitleIcon.Masked = false;
+            TitleIcon.AnimStart = 0;
+            TitleIcon.CurrentImage = 10;
+            TitleIcon.AnimEnd = 11;
+            TitleIcon.WinWidth = 19;
+            TitleIcon.WinHeight = 16;
+            TitleIcon.Animate = false;
+            TitleIcon.AnimFrameDelay = 0;
+            session.EndRead(TitleIcon);
+            SongSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            session.BeginRead(SongSB);
+            SongSB.Name = "SongSB";
+            SongSB.Visible = false;
+            SongSB.Priority = 1;
+            SongSB.WinLeft = 156;
+            SongSB.WinTop = 0;
+            SongSB.CaptureInput = true;
+            SongSB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            SongSB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            SongSB.Alignment.HeightPercent = (byte)(0);
+            SongSB.Alignment.WidthPercent = (byte)(0);
+            SongSB.Alignment.LeftOffPercent = 0;
+            SongSB.Alignment.RightOffPercent = 0;
+            SongSB.Alignment.TopOffPercent = 0;
+            SongSB.Alignment.BottomOffPercent = 0;
+            SongSB.Alignment.LeftOffset = 0;
+            SongSB.Alignment.RightOffset = 0;
+            SongSB.Alignment.TopOffset = 0;
+            SongSB.Alignment.BottomOffset = 0;
+            SongSB.Masked = false;
+            SongSB.Min = 0;
+            SongSB.Max = 0;
+            SongSB.SmallChange = 1;
+            SongSB.LargeChange = 1;
+            SongSB.Position = 0;
+            SongSB.WinHeight = 114;
+            SongSB.WinWidth = 17;
+            SongSB.NumberVisible = 1;
+            SongSB.VanishWhenFull = true;
+            SongSB.ILIndexIncUp = 96;
+            SongSB.ILIndexIncDown = 97;
+            SongSB.ILIndexDecUp = 94;
+            SongSB.ILIndexDecDown = 95;
+            SongSB.ILIndexBack = 101;
+            SongSB.ILIndexTab = 98;
+            session.EndRead(SongSB);
+            PlaySB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            session.BeginRead(PlaySB);
+            PlaySB.Name = "PlaySB";
+            PlaySB.Visible = false;
+            PlaySB.Priority = 1;
+            PlaySB.WinLeft = 156;
+            PlaySB.WinTop = 0;
+            PlaySB.CaptureInput = true;
+            PlaySB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
+            PlaySB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
+            PlaySB.Alignment.HeightPercent = (byte)(0);
+            PlaySB.Alignment.WidthPercent = (byte)(0);
+            PlaySB.Alignment.LeftOffPercent = 0;
+            PlaySB.Alignment.RightOffPercent = 0;
+            PlaySB.Alignment.TopOffPercent = 0;
+            PlaySB.Alignment.BottomOffPercent = 0;
+            PlaySB.Alignment.LeftOffset = 0;
+            PlaySB.Alignment.RightOffset = 0;
+            PlaySB.Alignment.TopOffset = 0;
+            PlaySB.Alignment.BottomOffset = 0;
+            PlaySB.Masked = false;
+            PlaySB.Min = 0;
+            PlaySB.Max = 0;
+            PlaySB.SmallChange = 1;
+            PlaySB.LargeChange = 1;
+            PlaySB.Position = 0;
+            PlaySB.WinHeight = 114;
+            PlaySB.WinWidth = 17;
+            PlaySB.NumberVisible = 1;
+            PlaySB.VanishWhenFull = true;
+            PlaySB.ILIndexIncUp = 96;
+            PlaySB.ILIndexIncDown = 97;
+            PlaySB.ILIndexDecUp = 94;
+            PlaySB.ILIndexDecDown = 95;
+            PlaySB.ILIndexBack = 101;
+            PlaySB.ILIndexTab = 98;
+            session.EndRead(PlaySB);
+            DirectSoundEnabledChk = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(DirectSoundEnabledChk);
+            DirectSoundEnabledChk.Name = "DirectSoundEnabledChk";
+            DirectSoundEnabledChk.Priority = 0;
+            DirectSoundEnabledChk.WinLeft = 15;
+            DirectSoundEnabledChk.WinTop = 70;
+            DirectSoundEnabledChk.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "SettingsPnl",
-                Visible = false,
-                Priority = 0,
-                WinLeft = 30,
-                WinTop = 180,
-                WinWidth = 360,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 30,
-                    RightOffset = 30,
-                    TopOffset = 50,
-                    BottomOffset = 50
-                },
-                WinHeight = 170,
-                ILIndexFrame = 40,
-                ILIndexTexture = 2,
-                OwnerItem = 1,
-                MinWidth = 0,
-                MinHeight = 0
+                "Selects whether or not to use DirectSound (using DirectSound is generally faster, but may not work on older hardware)."
             };
-            LayoutSession.EndRead(SettingsPnl);
-            SFXLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
+            DirectSoundEnabledChk.CaptureInput = true;
+            DirectSoundEnabledChk.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            DirectSoundEnabledChk.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            DirectSoundEnabledChk.Alignment.HeightPercent = (byte)(0);
+            DirectSoundEnabledChk.Alignment.WidthPercent = (byte)(0);
+            DirectSoundEnabledChk.Alignment.LeftOffPercent = 0;
+            DirectSoundEnabledChk.Alignment.RightOffPercent = 0;
+            DirectSoundEnabledChk.Alignment.TopOffPercent = 0;
+            DirectSoundEnabledChk.Alignment.BottomOffPercent = 0;
+            DirectSoundEnabledChk.Alignment.LeftOffset = 15;
+            DirectSoundEnabledChk.Alignment.RightOffset = 0;
+            DirectSoundEnabledChk.Alignment.TopOffset = 70;
+            DirectSoundEnabledChk.Alignment.BottomOffset = 0;
+            DirectSoundEnabledChk.Masked = false;
+            DirectSoundEnabledChk.BorderHeight = 0;
+            DirectSoundEnabledChk.BorderHeightSelected = 0;
+            DirectSoundEnabledChk.ILIndexDown = 48;
+            DirectSoundEnabledChk.ILIndexLit = 49;
+            DirectSoundEnabledChk.ILIndexUp = 47;
+            DirectSoundEnabledChk.TextColor = 0;
+            DirectSoundEnabledChk.TextSelColor = 0;
+            DirectSoundEnabledChk.WinWidth = 12;
+            DirectSoundEnabledChk.Checked = false;
+            DirectSoundEnabledChk.OnChange = DirectSoundEnabledChkChange;
+            DirectSoundEnabledChk.RadioIndex = 0;
+            session.EndRead(DirectSoundEnabledChk);
+            UseDirectSoundLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(UseDirectSoundLbl);
+            UseDirectSoundLbl.Name = "UseDirectSoundLbl";
+            UseDirectSoundLbl.Priority = 0;
+            UseDirectSoundLbl.WinLeft = 33;
+            UseDirectSoundLbl.WinTop = 72;
+            UseDirectSoundLbl.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "SFXLbl",
-                Priority = 0,
-                WinLeft = 187,
-                WinTop = 10,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 10,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Active Sounds:",
-                TextColor = 0
+                "Selects whether or not to use DirectSound (using DirectSound is generally faster, but may not work on older hardware)."
             };
-            LayoutSession.EndRead(SFXLbl);
-            SQPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "SQPnl",
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 30,
-                WinWidth = 173,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 52,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 30,
-                    BottomOffset = 40
-                },
-                WinHeight = 100,
-                ILIndexFrame = 121,
-                ILIndexTexture = 18,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(SQPnl);
-            SQCB1 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "SQCB1",
-                Priority = 0,
-                WinLeft = 15,
-                WinTop = 14,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Do not play music or sfx."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 0,
-                    TopOffset = 14,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 51,
-                ILIndexLit = 52,
-                ILIndexUp = 50,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 12,
-                Checked = false,
-                OnChange = SQCB1Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(SQCB1);
-            SQLBL1 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "SQLBL1",
-                Priority = 0,
-                WinLeft = 35,
-                WinTop = 15,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Do not play music or sfx."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 35,
-                    RightOffset = 0,
-                    TopOffset = 15,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "No Sound",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(SQLBL1);
-            SQCB2 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "SQCB2",
-                Priority = 0,
-                WinLeft = 15,
-                WinTop = 34,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Play music and sfx in low quality (recommended for slower computers)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 0,
-                    TopOffset = 34,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 51,
-                ILIndexLit = 52,
-                ILIndexUp = 50,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 12,
-                Checked = false,
-                OnChange = SQCB2Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(SQCB2);
-            SQLBL2 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "SQLBL2",
-                Priority = 0,
-                WinLeft = 35,
-                WinTop = 35,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Play music and sfx in low quality (recommended for slower computers)."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 35,
-                    RightOffset = 0,
-                    TopOffset = 35,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Low",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(SQLBL2);
-            SQCB3 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "SQCB3",
-                Priority = 0,
-                WinLeft = 15,
-                WinTop = 54,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Play music and sfx in medium quality (recommended for most computers)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 0,
-                    TopOffset = 54,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 51,
-                ILIndexLit = 52,
-                ILIndexUp = 50,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 12,
-                Checked = false,
-                OnChange = SQCB3Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(SQCB3);
-            SQLBL3 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "SQLBL3",
-                Priority = 0,
-                WinLeft = 35,
-                WinTop = 55,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Play music and sfx in medium quality (recommended for most computers)."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 35,
-                    RightOffset = 0,
-                    TopOffset = 55,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Normal",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(SQLBL3);
-            SQCB4 = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "SQCB4",
-                Priority = 0,
-                WinLeft = 15,
-                WinTop = 74,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Play music and sfx in high quality (recommended for fast computers)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 0,
-                    TopOffset = 74,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 51,
-                ILIndexLit = 52,
-                ILIndexUp = 50,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 12,
-                Checked = false,
-                OnChange = SQCB4Change,
-                RadioIndex = 1
-            };
-            LayoutSession.EndRead(SQCB4);
-            SQLBL4 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "SQLBL4",
-                Priority = 0,
-                WinLeft = 35,
-                WinTop = 75,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Play music and sfx in high quality (recommended for fast computers)."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 35,
-                    RightOffset = 0,
-                    TopOffset = 75,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "High",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(SQLBL4);
-            SFXPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "SFXPnl",
-                Priority = 0,
-                WinLeft = 187,
-                WinTop = 30,
-                WinWidth = 173,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 30,
-                    BottomOffset = 40
-                },
-                WinHeight = 100,
-                ILIndexFrame = 121,
-                ILIndexTexture = 18,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(SFXPnl);
-            MusicEnabledChk = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "MusicEnabledChk",
-                Priority = 0,
-                WinLeft = 15,
-                WinTop = 20,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects whether or not to play music."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 0,
-                    TopOffset = 20,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 48,
-                ILIndexLit = 49,
-                ILIndexUp = 47,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 12,
-                Checked = false,
-                OnChange = MusicEnabledChkChange,
-                RadioIndex = 0
-            };
-            LayoutSession.EndRead(MusicEnabledChk);
-            SFXLBL2 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "SFXLBL2",
-                Priority = 0,
-                WinLeft = 33,
-                WinTop = 22,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects whether or not to play music."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 33,
-                    RightOffset = 0,
-                    TopOffset = 22,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Music",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(SFXLBL2);
-            SFXEnabledChk = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "SFXEnabledChk",
-                Priority = 0,
-                WinLeft = 15,
-                WinTop = 45,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects whether or not to play sfx."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 0,
-                    TopOffset = 45,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 48,
-                ILIndexLit = 49,
-                ILIndexUp = 47,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 12,
-                Checked = false,
-                OnChange = SFXEnabledChkChange,
-                RadioIndex = 0
-            };
-            LayoutSession.EndRead(SFXEnabledChk);
-            SFXLBL3 = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "SFXLBL3",
-                Priority = 0,
-                WinLeft = 33,
-                WinTop = 46,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects whether or not to play sfx."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 33,
-                    RightOffset = 0,
-                    TopOffset = 46,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Sound Effects",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(SFXLBL3);
-            TopLine = new Aow.Units.AoWFrame.TAoWFrame(this)
-            {
-                Name = "TopLine",
-                Priority = 0,
-                WinLeft = 21,
-                WinTop = 22,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 21,
-                    RightOffset = 21,
-                    TopOffset = 22,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                WinWidth = 378,
-                WinHeight = 27,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHorizLine,
-                ILIndexFrame = 0,
-                ILIndexLine = 55,
-                ILIndexTexture = 0
-            };
-            LayoutSession.EndRead(TopLine);
-            AOWImage4 = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "AOWImage4",
-                Priority = 1000,
-                WinLeft = 28,
-                WinTop = 22,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 28,
-                    RightOffset = 0,
-                    TopOffset = 22,
-                    BottomOffset = 10
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 3,
-                AnimEnd = 12,
-                WinWidth = 351,
-                WinHeight = 27,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(AOWImage4);
-            HarpL = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "HarpL",
-                Priority = 0,
-                WinLeft = 30,
-                WinTop = 55,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 30,
-                    RightOffset = 0,
-                    TopOffset = 55,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 0,
-                AnimEnd = 2,
-                WinWidth = 51,
-                WinHeight = 76,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(HarpL);
-            HarpR = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "HarpR",
-                Priority = 0,
-                WinLeft = 339,
-                WinTop = 55,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 35,
-                    RightOffset = 30,
-                    TopOffset = 55,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 1,
-                AnimEnd = 2,
-                WinWidth = 51,
-                WinHeight = 76,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(HarpR);
-            MusicVolume = new Aow.Units.AoWHScroll.TAOWHScrollBar(this)
-            {
-                Name = "MusicVolume",
-                Priority = 0,
-                WinLeft = 140,
-                WinTop = 35,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "The volume to play music at."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 140,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 35
-                },
-                Masked = true,
-                Min = 0,
-                Max = 100,
-                SmallChange = 1,
-                LargeChange = 10,
-                Position = 0,
-                WinHeight = 18,
-                WinWidth = 92,
-                NumberVisible = 10,
-                OnChange = Layout_MusicVolumeChange_7,
-                VanishWhenFull = false,
-                ILIndexIncUp = 0,
-                ILIndexIncDown = 0,
-                ILIndexDecUp = 0,
-                ILIndexDecDown = 0,
-                ILIndexBack = 80,
-                ILIndexTab = 83
-            };
-            LayoutSession.EndRead(MusicVolume);
-            SFXVolume = new Aow.Units.AoWHScroll.TAOWHScrollBar(this)
-            {
-                Name = "SFXVolume",
-                Priority = 0,
-                WinLeft = 140,
-                WinTop = 66,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "The volume to play sfx at."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 140,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 4
-                },
-                Masked = true,
-                Min = 0,
-                Max = 100,
-                SmallChange = 1,
-                LargeChange = 10,
-                Position = 0,
-                WinHeight = 18,
-                WinWidth = 92,
-                NumberVisible = 10,
-                OnChange = Layout_SFXVolumeChange_8,
-                VanishWhenFull = false,
-                ILIndexIncUp = 0,
-                ILIndexIncDown = 0,
-                ILIndexDecUp = 0,
-                ILIndexDecDown = 0,
-                ILIndexBack = 80,
-                ILIndexTab = 83
-            };
-            LayoutSession.EndRead(SFXVolume);
-            TitleIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "TitleIcon",
-                Priority = 0,
-                WinLeft = 20,
-                WinTop = 5,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 20,
-                    RightOffset = 0,
-                    TopOffset = 5,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 10,
-                AnimEnd = 11,
-                WinWidth = 19,
-                WinHeight = 16,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(TitleIcon);
-            SongSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this)
-            {
-                Name = "SongSB",
-                Visible = false,
-                Priority = 1,
-                WinLeft = 156,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                Min = 0,
-                Max = 0,
-                SmallChange = 1,
-                LargeChange = 1,
-                Position = 0,
-                WinHeight = 114,
-                WinWidth = 17,
-                NumberVisible = 1,
-                VanishWhenFull = true,
-                ILIndexIncUp = 96,
-                ILIndexIncDown = 97,
-                ILIndexDecUp = 94,
-                ILIndexDecDown = 95,
-                ILIndexBack = 101,
-                ILIndexTab = 98
-            };
-            LayoutSession.EndRead(SongSB);
-            PlaySB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this)
-            {
-                Name = "PlaySB",
-                Visible = false,
-                Priority = 1,
-                WinLeft = 156,
-                WinTop = 0,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                Min = 0,
-                Max = 0,
-                SmallChange = 1,
-                LargeChange = 1,
-                Position = 0,
-                WinHeight = 114,
-                WinWidth = 17,
-                NumberVisible = 1,
-                VanishWhenFull = true,
-                ILIndexIncUp = 96,
-                ILIndexIncDown = 97,
-                ILIndexDecUp = 94,
-                ILIndexDecDown = 95,
-                ILIndexBack = 101,
-                ILIndexTab = 98
-            };
-            LayoutSession.EndRead(PlaySB);
-            DirectSoundEnabledChk = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
-            {
-                Name = "DirectSoundEnabledChk",
-                Priority = 0,
-                WinLeft = 15,
-                WinTop = 70,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects whether or not to use DirectSound (using DirectSound is generally faster, but may not work on older hardware)."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 15,
-                    RightOffset = 0,
-                    TopOffset = 70,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 48,
-                ILIndexLit = 49,
-                ILIndexUp = 47,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 12,
-                Checked = false,
-                OnChange = DirectSoundEnabledChkChange,
-                RadioIndex = 0
-            };
-            LayoutSession.EndRead(DirectSoundEnabledChk);
-            UseDirectSoundLbl = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "UseDirectSoundLbl",
-                Priority = 0,
-                WinLeft = 33,
-                WinTop = 72,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects whether or not to use DirectSound (using DirectSound is generally faster, but may not work on older hardware)."
-                },
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 33,
-                    RightOffset = 0,
-                    TopOffset = 72,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "Use Direct Sound",
-                TextColor = 9415072
-            };
-            LayoutSession.EndRead(UseDirectSoundLbl);
-            FolderPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "FolderPnl",
-                Priority = 0,
-                WinLeft = 0,
-                WinTop = 25,
-                WinWidth = 173,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 52,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 25,
-                    BottomOffset = 40
-                },
-                WinHeight = 115,
-                ILIndexFrame = 105,
-                ILIndexTexture = 2,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(FolderPnl);
-            PlayPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "PlayPnl",
-                Priority = 0,
-                WinLeft = 187,
-                WinTop = 25,
-                WinWidth = 173,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 52,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 25,
-                    BottomOffset = 40
-                },
-                WinHeight = 115,
-                ILIndexFrame = 105,
-                ILIndexTexture = 2,
-                OwnerItem = 0,
-                MinWidth = 0,
-                MinHeight = 0
-            };
-            LayoutSession.EndRead(PlayPnl);
-            Translator = new Aow.Layout.LayoutTIvTranslator(this)
-            {
-                Name = "Translator",
-                DictionaryName = "AoW",
-                TargetsData =
-                {
-                    new TranslationTarget("", "Items", 0),
-                    new TranslationTarget("", "Text", 0),
-                    new TranslationTarget("", "ToolTipText", 0)
-                }
-            };
-            LayoutSession.EndRead(Translator);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            UseDirectSoundLbl.CaptureInput = false;
+            UseDirectSoundLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            UseDirectSoundLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            UseDirectSoundLbl.Alignment.HeightPercent = (byte)(0);
+            UseDirectSoundLbl.Alignment.WidthPercent = (byte)(0);
+            UseDirectSoundLbl.Alignment.LeftOffPercent = 0;
+            UseDirectSoundLbl.Alignment.RightOffPercent = 0;
+            UseDirectSoundLbl.Alignment.TopOffPercent = 0;
+            UseDirectSoundLbl.Alignment.BottomOffPercent = 0;
+            UseDirectSoundLbl.Alignment.LeftOffset = 33;
+            UseDirectSoundLbl.Alignment.RightOffset = 0;
+            UseDirectSoundLbl.Alignment.TopOffset = 72;
+            UseDirectSoundLbl.Alignment.BottomOffset = 0;
+            UseDirectSoundLbl.Masked = true;
+            UseDirectSoundLbl.Text = "Use Direct Sound";
+            UseDirectSoundLbl.TextColor = 9415072;
+            session.EndRead(UseDirectSoundLbl);
+            FolderPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(FolderPnl);
+            FolderPnl.Name = "FolderPnl";
+            FolderPnl.Priority = 0;
+            FolderPnl.WinLeft = 0;
+            FolderPnl.WinTop = 25;
+            FolderPnl.WinWidth = 173;
+            FolderPnl.Masked = true;
+            FolderPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            FolderPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            FolderPnl.Alignment.HeightPercent = (byte)(0);
+            FolderPnl.Alignment.WidthPercent = (byte)(0);
+            FolderPnl.Alignment.LeftOffPercent = 0;
+            FolderPnl.Alignment.RightOffPercent = 52;
+            FolderPnl.Alignment.TopOffPercent = 0;
+            FolderPnl.Alignment.BottomOffPercent = 0;
+            FolderPnl.Alignment.LeftOffset = 0;
+            FolderPnl.Alignment.RightOffset = 0;
+            FolderPnl.Alignment.TopOffset = 25;
+            FolderPnl.Alignment.BottomOffset = 40;
+            FolderPnl.WinHeight = 115;
+            FolderPnl.ILIndexFrame = 105;
+            FolderPnl.ILIndexTexture = 2;
+            FolderPnl.OwnerItem = 0;
+            FolderPnl.MinWidth = 0;
+            FolderPnl.MinHeight = 0;
+            session.EndRead(FolderPnl);
+            PlayPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(PlayPnl);
+            PlayPnl.Name = "PlayPnl";
+            PlayPnl.Priority = 0;
+            PlayPnl.WinLeft = 187;
+            PlayPnl.WinTop = 25;
+            PlayPnl.WinWidth = 173;
+            PlayPnl.Masked = true;
+            PlayPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            PlayPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            PlayPnl.Alignment.HeightPercent = (byte)(0);
+            PlayPnl.Alignment.WidthPercent = (byte)(0);
+            PlayPnl.Alignment.LeftOffPercent = 52;
+            PlayPnl.Alignment.RightOffPercent = 0;
+            PlayPnl.Alignment.TopOffPercent = 0;
+            PlayPnl.Alignment.BottomOffPercent = 0;
+            PlayPnl.Alignment.LeftOffset = 0;
+            PlayPnl.Alignment.RightOffset = 0;
+            PlayPnl.Alignment.TopOffset = 25;
+            PlayPnl.Alignment.BottomOffset = 40;
+            PlayPnl.WinHeight = 115;
+            PlayPnl.ILIndexFrame = 105;
+            PlayPnl.ILIndexTexture = 2;
+            PlayPnl.OwnerItem = 0;
+            PlayPnl.MinWidth = 0;
+            PlayPnl.MinHeight = 0;
+            session.EndRead(PlayPnl);
+            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            Translator = created__Translator;
+            session.BeginRead(created__Translator);
+            created__Translator.Name = "Translator";
+            created__Translator.DictionaryName = "AoW";
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+            session.EndRead(created__Translator);
+            session.EndRead(this);
             CloseBut.AOWWindow = Dlg;
             TCeltLL.AOWWindow = Dlg;
             BCeltL.AOWWindow = Dlg;

@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AOWTitleWindow
 {
-    public partial class TTitleWindow
+    public partial class TTitleWindow : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,131 +17,117 @@ namespace Aow.Units.AOWTitleWindow
         {
             session.Begin(this);
             Name = "TitleWindow";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            TitleWin = new Aow.Units.AoWWindow.TAOWWindow(this)
-            {
-                Name = "TitleWin",
-                Visible = false,
-                Priority = 250,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 640,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = false,
-                BorderWidth = 0,
-                BorderHeight = 0,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = true,
-                MaskColor = 0,
-                OnDrawSurface = TitleWinDrawSurface,
-                FreeSurfaceOnHide = true,
-                ILIndexFrame = 0,
-                ILIndexTexture = 18,
-                DragHeight = 0,
-                Draggable = false,
-                Resizable = false,
-                MinWidth = 640,
-                MinHeight = 480,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = false,
-                Modal = false,
-                WinHeight = 480,
-                Dockable = false
-            };
-            LayoutSession.EndRead(TitleWin);
-            TitlePnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "TitlePnl",
-                Visible = false,
-                Priority = 5,
-                WinLeft = 482,
-                WinTop = 0,
-                WinWidth = 640,
-                OnDrawBack = TitlePnlDrawBack,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                WinHeight = 480,
-                ILIndexFrame = 0,
-                ILIndexTexture = 0,
-                OwnerItem = 0,
-                MinWidth = 640,
-                MinHeight = 480
-            };
-            LayoutSession.EndRead(TitlePnl);
-            SplashPnl = new Aow.Units.AoWPanel.TAOWPanel(this)
-            {
-                Name = "SplashPnl",
-                OnMouseDown = SplashPnlMouseDown,
-                OnKeyDown = SplashPnlKeyDown,
-                OnUpdate = Layout_SplashPnlUpdate_0,
-                Visible = false,
-                Priority = 10,
-                WinLeft = 0,
-                WinTop = 0,
-                WinWidth = 640,
-                Masked = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                WinHeight = 480,
-                ILIndexFrame = 0,
-                ILIndexTexture = 4,
-                OwnerItem = 0,
-                MinWidth = 640,
-                MinHeight = 480
-            };
-            LayoutSession.EndRead(SplashPnl);
-            DemoIL = new Aow.Units.AOWInterfaceImgLib.TInterfaceIL(this)
-            {
-                Name = "DemoIL",
-                LoadOnDemand = true,
-                FileName = "IMAGES\\Demo.ILB"
-            };
-            LayoutSession.EndRead(DemoIL);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            TitleWin = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            session.BeginRead(TitleWin);
+            TitleWin.Name = "TitleWin";
+            TitleWin.Visible = false;
+            TitleWin.Priority = 250;
+            TitleWin.WinLeft = 0;
+            TitleWin.WinTop = 0;
+            TitleWin.WinWidth = 640;
+            TitleWin.Masked = false;
+            TitleWin.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            TitleWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            TitleWin.Alignment.HeightPercent = (byte)(0);
+            TitleWin.Alignment.WidthPercent = (byte)(0);
+            TitleWin.Alignment.LeftOffPercent = 0;
+            TitleWin.Alignment.RightOffPercent = 0;
+            TitleWin.Alignment.TopOffPercent = 0;
+            TitleWin.Alignment.BottomOffPercent = 0;
+            TitleWin.Alignment.LeftOffset = 0;
+            TitleWin.Alignment.RightOffset = 0;
+            TitleWin.Alignment.TopOffset = 0;
+            TitleWin.Alignment.BottomOffset = 0;
+            TitleWin.UseVMem = false;
+            TitleWin.BorderWidth = 0;
+            TitleWin.BorderHeight = 0;
+            TitleWin.OverlapTopCorners = false;
+            TitleWin.Cursor = 0;
+            TitleWin.DoubleBuffered = true;
+            TitleWin.MaskColor = 0;
+            TitleWin.OnDrawSurface = TitleWinDrawSurface;
+            TitleWin.FreeSurfaceOnHide = true;
+            TitleWin.ILIndexFrame = 0;
+            TitleWin.ILIndexTexture = 18;
+            TitleWin.DragHeight = 0;
+            TitleWin.Draggable = false;
+            TitleWin.Resizable = false;
+            TitleWin.MinWidth = 640;
+            TitleWin.MinHeight = 480;
+            TitleWin.MaxWidth = 0;
+            TitleWin.MaxHeight = 0;
+            TitleWin.UseManagerBorders = false;
+            TitleWin.Modal = false;
+            TitleWin.WinHeight = 480;
+            TitleWin.Dockable = false;
+            session.EndRead(TitleWin);
+            TitlePnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(TitlePnl);
+            TitlePnl.Name = "TitlePnl";
+            TitlePnl.Visible = false;
+            TitlePnl.Priority = 5;
+            TitlePnl.WinLeft = 482;
+            TitlePnl.WinTop = 0;
+            TitlePnl.WinWidth = 640;
+            TitlePnl.OnDrawBack = TitlePnlDrawBack;
+            TitlePnl.Masked = false;
+            TitlePnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            TitlePnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+            TitlePnl.Alignment.HeightPercent = (byte)(0);
+            TitlePnl.Alignment.WidthPercent = (byte)(0);
+            TitlePnl.Alignment.LeftOffPercent = 0;
+            TitlePnl.Alignment.RightOffPercent = 0;
+            TitlePnl.Alignment.TopOffPercent = 0;
+            TitlePnl.Alignment.BottomOffPercent = 0;
+            TitlePnl.Alignment.LeftOffset = 0;
+            TitlePnl.Alignment.RightOffset = 0;
+            TitlePnl.Alignment.TopOffset = 0;
+            TitlePnl.Alignment.BottomOffset = 0;
+            TitlePnl.WinHeight = 480;
+            TitlePnl.ILIndexFrame = 0;
+            TitlePnl.ILIndexTexture = 0;
+            TitlePnl.OwnerItem = 0;
+            TitlePnl.MinWidth = 640;
+            TitlePnl.MinHeight = 480;
+            session.EndRead(TitlePnl);
+            SplashPnl = Aow.Units.AoWPanel.TAOWPanel.Create(this);
+            session.BeginRead(SplashPnl);
+            SplashPnl.Name = "SplashPnl";
+            SplashPnl.OnMouseDown = SplashPnlMouseDown;
+            SplashPnl.OnKeyDown = SplashPnlKeyDown;
+            SplashPnl.OnUpdate = Layout_SplashPnlUpdate_0;
+            SplashPnl.Visible = false;
+            SplashPnl.Priority = 10;
+            SplashPnl.WinLeft = 0;
+            SplashPnl.WinTop = 0;
+            SplashPnl.WinWidth = 640;
+            SplashPnl.Masked = true;
+            SplashPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
+            SplashPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
+            SplashPnl.Alignment.HeightPercent = (byte)(0);
+            SplashPnl.Alignment.WidthPercent = (byte)(0);
+            SplashPnl.Alignment.LeftOffPercent = 0;
+            SplashPnl.Alignment.RightOffPercent = 0;
+            SplashPnl.Alignment.TopOffPercent = 0;
+            SplashPnl.Alignment.BottomOffPercent = 0;
+            SplashPnl.Alignment.LeftOffset = 0;
+            SplashPnl.Alignment.RightOffset = 0;
+            SplashPnl.Alignment.TopOffset = 0;
+            SplashPnl.Alignment.BottomOffset = 0;
+            SplashPnl.WinHeight = 480;
+            SplashPnl.ILIndexFrame = 0;
+            SplashPnl.ILIndexTexture = 4;
+            SplashPnl.OwnerItem = 0;
+            SplashPnl.MinWidth = 640;
+            SplashPnl.MinHeight = 480;
+            session.EndRead(SplashPnl);
+            DemoIL = Aow.Units.AOWInterfaceImgLib.TInterfaceIL.Create(this);
+            session.BeginRead(DemoIL);
+            DemoIL.Name = "DemoIL";
+            DemoIL.LoadOnDemand = true;
+            DemoIL.FileName = "IMAGES\\Demo.ILB";
+            session.EndRead(DemoIL);
+            session.EndRead(this);
             TitlePnl.AOWWindow = TitleWin;
             SplashPnl.AOWWindow = TitleWin;
             Loaded();

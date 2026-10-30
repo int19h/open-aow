@@ -43,6 +43,8 @@ namespace Aow.Units.BehaviorAG
     // { TAbstractBehaviorAG (instance size 80, VMT 557DC2CC) }
     public partial class TAbstractBehaviorAG : Aow.Units.AoWE.TAIGroup
     {
+        public TAbstractBehaviorAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // BehaviorAG.pas:137
         public override bool CooperateWithGroup(Aow.Units.AoWE.TAIGroup Group, Aow.Units.AoWE.TAIGroupControlTarget Target)
         {
@@ -67,57 +69,22 @@ namespace Aow.Units.BehaviorAG
         }
 
         // BehaviorAG.pas:144
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAbstractBehaviorAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__1 = new Aow.Units.AoWE.TAIGroupTargetSelector(null);
             FTargetSelector = call__1;
         }
 
-        // BehaviorAG.pas:39
-        public static new Aow.Units.BehaviorAG.TAbstractBehaviorAGC Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BehaviorAG.TAbstractBehaviorAGC o = new Aow.Units.BehaviorAG.TAbstractBehaviorAGC();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TSkirmishAG (instance size 80, VMT 557DC53C) }
     public partial class TSkirmishAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
     {
         // BehaviorAG.pas:722
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TSkirmishAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 12;
             FRecruitmentPriority = 12;
-        }
-
-        // BehaviorAG.pas:45
-        public static new Aow.Units.BehaviorAG.TSkirmishAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BehaviorAG.TSkirmishAG o = new Aow.Units.BehaviorAG.TSkirmishAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -147,21 +114,7 @@ namespace Aow.Units.BehaviorAG
             }
 
             // BehaviorAG.pas:45
-            public new Aow.Units.BehaviorAG.TSkirmishAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BehaviorAG.TSkirmishAG o = (Aow.Units.BehaviorAG.TSkirmishAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BehaviorAG.TSkirmishAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TSkirmishAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BehaviorAG.TSkirmishAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -171,6 +124,8 @@ namespace Aow.Units.BehaviorAG
     // { TSkirmishAGC (instance size 372, VMT 557DC690) }
     public partial class TSkirmishAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
+        public TSkirmishAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // BehaviorAG.pas:738
         public override void ProcessStates()
         {
@@ -265,28 +220,10 @@ namespace Aow.Units.BehaviorAG
     public partial class TNormalAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
     {
         // BehaviorAG.pas:156
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TNormalAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
-        }
-
-        // BehaviorAG.pas:60
-        public static new Aow.Units.BehaviorAG.TNormalAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BehaviorAG.TNormalAG o = new Aow.Units.BehaviorAG.TNormalAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -316,21 +253,7 @@ namespace Aow.Units.BehaviorAG
             }
 
             // BehaviorAG.pas:60
-            public new Aow.Units.BehaviorAG.TNormalAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BehaviorAG.TNormalAG o = (Aow.Units.BehaviorAG.TNormalAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BehaviorAG.TNormalAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TNormalAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BehaviorAG.TNormalAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -340,6 +263,8 @@ namespace Aow.Units.BehaviorAG
     // { TNormalAGC (instance size 372, VMT 557DC8E0) }
     public partial class TNormalAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
+        public TNormalAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // BehaviorAG.pas:172
         public override void ProcessStates()
         {
@@ -440,7 +365,7 @@ namespace Aow.Units.BehaviorAG
                 case 5:
                     if (FTargetSelector.FTargetStatus == Aow.Units.AoWE.TAIGroupTargetSelectorStatus.tssTargetConquered)
                     {
-                        Raze = Aow.Units.AGCPlugins.TAIGroupRazeControl.Create(null);
+                        Raze = new Aow.Units.AGCPlugins.TAIGroupRazeControl(null);
                         Raze.Setup(this);
                         ActivatePlugin(Raze);
                         Raze.Release();
@@ -472,7 +397,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 10:
-                    Defend = Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector.Create(null);
+                    Defend = new Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector(null);
                     Defend.Setup(this);
                     ActivatePlugin(Defend);
                     Defend.Release();
@@ -495,28 +420,10 @@ namespace Aow.Units.BehaviorAG
     public partial class TDefenderAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
     {
         // BehaviorAG.pas:270
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TDefenderAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
-        }
-
-        // BehaviorAG.pas:75
-        public static new Aow.Units.BehaviorAG.TDefenderAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BehaviorAG.TDefenderAG o = new Aow.Units.BehaviorAG.TDefenderAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -546,21 +453,7 @@ namespace Aow.Units.BehaviorAG
             }
 
             // BehaviorAG.pas:75
-            public new Aow.Units.BehaviorAG.TDefenderAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BehaviorAG.TDefenderAG o = (Aow.Units.BehaviorAG.TDefenderAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BehaviorAG.TDefenderAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TDefenderAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BehaviorAG.TDefenderAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -570,6 +463,8 @@ namespace Aow.Units.BehaviorAG
     // { TDefenderAGC (instance size 372, VMT 557DCB28) }
     public partial class TDefenderAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
+        public TDefenderAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // BehaviorAG.pas:286
         public override void ProcessStates()
         {
@@ -662,7 +557,7 @@ namespace Aow.Units.BehaviorAG
                 case 5:
                     if (FTargetSelector.FTargetStatus == Aow.Units.AoWE.TAIGroupTargetSelectorStatus.tssTargetConquered)
                     {
-                        Raze = Aow.Units.AGCPlugins.TAIGroupRazeControl.Create(null);
+                        Raze = new Aow.Units.AGCPlugins.TAIGroupRazeControl(null);
                         Raze.Setup(this);
                         ActivatePlugin(Raze);
                         Raze.Release();
@@ -694,7 +589,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 10:
-                    Defend = Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector.Create(null);
+                    Defend = new Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector(null);
                     Defend.Setup(this);
                     ActivatePlugin(Defend);
                     Defend.Release();
@@ -717,28 +612,10 @@ namespace Aow.Units.BehaviorAG
     public partial class TAggressorAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
     {
         // BehaviorAG.pas:383
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAggressorAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
-        }
-
-        // BehaviorAG.pas:90
-        public static new Aow.Units.BehaviorAG.TAggressorAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BehaviorAG.TAggressorAG o = new Aow.Units.BehaviorAG.TAggressorAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -768,21 +645,7 @@ namespace Aow.Units.BehaviorAG
             }
 
             // BehaviorAG.pas:90
-            public new Aow.Units.BehaviorAG.TAggressorAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BehaviorAG.TAggressorAG o = (Aow.Units.BehaviorAG.TAggressorAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BehaviorAG.TAggressorAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TAggressorAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BehaviorAG.TAggressorAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -792,6 +655,8 @@ namespace Aow.Units.BehaviorAG
     // { TAggressorAGC (instance size 372, VMT 557DCD80) }
     public partial class TAggressorAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
+        public TAggressorAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // BehaviorAG.pas:399
         public override void ProcessStates()
         {
@@ -882,7 +747,7 @@ namespace Aow.Units.BehaviorAG
                 case 5:
                     if (FTargetSelector.FTargetStatus == Aow.Units.AoWE.TAIGroupTargetSelectorStatus.tssTargetConquered)
                     {
-                        Raze = Aow.Units.AGCPlugins.TAIGroupRazeControl.Create(null);
+                        Raze = new Aow.Units.AGCPlugins.TAIGroupRazeControl(null);
                         Raze.Setup(this);
                         ActivatePlugin(Raze);
                         Raze.Release();
@@ -914,7 +779,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 10:
-                    Wander = Aow.Units.AGCPlugins.TAIGroupWanderControl.Create(null);
+                    Wander = new Aow.Units.AGCPlugins.TAIGroupWanderControl(null);
                     Wander.Setup(this);
                     Wander.FMovePointsMax = 100;
                     ActivatePlugin(Wander);
@@ -938,28 +803,10 @@ namespace Aow.Units.BehaviorAG
     public partial class TExpanderAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
     {
         // BehaviorAG.pas:495
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TExpanderAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
-        }
-
-        // BehaviorAG.pas:105
-        public static new Aow.Units.BehaviorAG.TExpanderAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BehaviorAG.TExpanderAG o = new Aow.Units.BehaviorAG.TExpanderAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -989,21 +836,7 @@ namespace Aow.Units.BehaviorAG
             }
 
             // BehaviorAG.pas:105
-            public new Aow.Units.BehaviorAG.TExpanderAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BehaviorAG.TExpanderAG o = (Aow.Units.BehaviorAG.TExpanderAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BehaviorAG.TExpanderAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TExpanderAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BehaviorAG.TExpanderAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -1013,6 +846,8 @@ namespace Aow.Units.BehaviorAG
     // { TExpanderAGC (instance size 372, VMT 557DCFD0) }
     public partial class TExpanderAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
+        public TExpanderAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // BehaviorAG.pas:511
         public override void ProcessStates()
         {
@@ -1105,7 +940,7 @@ namespace Aow.Units.BehaviorAG
                 case 5:
                     if (FTargetSelector.FTargetStatus == Aow.Units.AoWE.TAIGroupTargetSelectorStatus.tssTargetConquered)
                     {
-                        Raze = Aow.Units.AGCPlugins.TAIGroupRazeControl.Create(null);
+                        Raze = new Aow.Units.AGCPlugins.TAIGroupRazeControl(null);
                         Raze.Setup(this);
                         ActivatePlugin(Raze);
                         Raze.Release();
@@ -1137,7 +972,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 10:
-                    Wander = Aow.Units.AGCPlugins.TAIGroupWanderControl.Create(null);
+                    Wander = new Aow.Units.AGCPlugins.TAIGroupWanderControl(null);
                     Wander.Setup(this);
                     Wander.FMovePointsMax = 100;
                     ActivatePlugin(Wander);
@@ -1161,28 +996,10 @@ namespace Aow.Units.BehaviorAG
     public partial class TScorcherAG : Aow.Units.BehaviorAG.TAbstractBehaviorAG
     {
         // BehaviorAG.pas:609
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TScorcherAG(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FProcessPriority = 10;
             FRecruitmentPriority = 10;
-        }
-
-        // BehaviorAG.pas:120
-        public static new Aow.Units.BehaviorAG.TScorcherAG Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.BehaviorAG.TScorcherAG o = new Aow.Units.BehaviorAG.TScorcherAG();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAIGroup.Meta
@@ -1212,21 +1029,7 @@ namespace Aow.Units.BehaviorAG
             }
 
             // BehaviorAG.pas:120
-            public new Aow.Units.BehaviorAG.TScorcherAG Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.BehaviorAG.TScorcherAG o = (Aow.Units.BehaviorAG.TScorcherAG)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.BehaviorAG.TScorcherAG Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.BehaviorAG.TScorcherAG)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.BehaviorAG.TScorcherAG => (Meta)MetaRegistry.Of(typeof(T));
@@ -1236,6 +1039,8 @@ namespace Aow.Units.BehaviorAG
     // { TScorcherAGC (instance size 372, VMT 557DD220) }
     public partial class TScorcherAGC : Aow.Units.BehaviorAG.TAbstractBehaviorAGC
     {
+        public TScorcherAGC(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // BehaviorAG.pas:625
         public override void ProcessStates()
         {
@@ -1325,7 +1130,7 @@ namespace Aow.Units.BehaviorAG
                 case 5:
                     if (FTargetSelector.FTargetStatus == Aow.Units.AoWE.TAIGroupTargetSelectorStatus.tssTargetConquered)
                     {
-                        Raze = Aow.Units.AGCPlugins.TAIGroupRazeControl.Create(null);
+                        Raze = new Aow.Units.AGCPlugins.TAIGroupRazeControl(null);
                         Raze.Setup(this);
                         Raze.FMode = Raze.FMode + TSet<Aow.Units.AGCPlugins.TAIGroupRazeControlModeElement>.Of(Aow.Units.AGCPlugins.TAIGroupRazeControlModeElement.rcmOnMigrate);
                         Raze.FCityStrengthFactor = (float)1.5;
@@ -1359,7 +1164,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 10:
-                    Wander = Aow.Units.AGCPlugins.TAIGroupWanderControl.Create(null);
+                    Wander = new Aow.Units.AGCPlugins.TAIGroupWanderControl(null);
                     Wander.Setup(this);
                     Wander.FMovePointsMax = 100;
                     ActivatePlugin(Wander);

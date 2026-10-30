@@ -310,6 +310,8 @@ namespace Aow.Units.ManaCrystals
 
     public partial class TCrystalMagic : Aow.Units.AoWE.TPlayerMagicControl
     {
+        public TCrystalMagic(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public int Mana { get => FMana; set => SetMana(value); }
     }
 

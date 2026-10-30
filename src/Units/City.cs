@@ -67,6 +67,8 @@ namespace Aow.Units.City
     // { TCityProductionControl (instance size 44, VMT 557A6D34): $28 FCity. }
     public partial class TCityProductionControl : Aow.Units.AoWE.TProductionControl
     {
+        public TCityProductionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public Aow.Units.City.TCity FCity;
         // City.pas:573
         // { $28 }
@@ -673,21 +675,7 @@ namespace Aow.Units.City
         }
 
         // intf_P1_02.inc:120
-        public static new Aow.Units.City.TCityProductionControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCityProductionControl o = new Aow.Units.City.TCityProductionControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TCityOverlayHS (instance size 28, VMT 557A6EFC): $0C FCity,
@@ -882,6 +870,8 @@ namespace Aow.Units.City
     // { TMigrationItem (instance size 20, VMT 557A7084): $08 FRace, $0C FTime, $10 FRelation. }
     public partial class TMigrationItem : Aow.Units.Engine.TEObject
     {
+        public TMigrationItem(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public sbyte FRace;
         // { $08 }
         public Aow.Units.FixedArray_byte_3 FReserved09;
@@ -890,27 +880,13 @@ namespace Aow.Units.City
         public Aow.Units.AoWE.TStatus FRelation;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 FReserved11;
-        // Engine.pas:524
-        public static new Aow.Units.City.TMigrationItem Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TMigrationItem o = new Aow.Units.City.TMigrationItem();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TMigrationList (instance size 12, VMT 557A7148) }
     public partial class TMigrationList : Aow.Units.Engine.TENode
     {
+        public TMigrationList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         // City.pas:2711
         public Aow.Units.City.TMigrationItem GetItems(int Index)
         {
@@ -919,22 +895,6 @@ namespace Aow.Units.City
             return Result;
         }
 
-        // Engine.pas:631
-        public static new Aow.Units.City.TMigrationList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TMigrationList o = new Aow.Units.City.TMigrationList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TCityEnchantment (instance size 44, VMT 557A7294): $24 FEnchantmentID, $28 FEnchantmentLocation. }
@@ -954,9 +914,8 @@ namespace Aow.Units.City
         }
 
         // City.pas:2716
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TCityEnchantment(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FEnchantmentMode = FEnchantmentMode - TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement>.Of(Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemTrueGlobal, Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemOwned);
         }
 
@@ -1036,23 +995,6 @@ namespace Aow.Units.City
             return Result;
         }
 
-        // City.pas:98
-        public static new Aow.Units.City.TCityEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TCityEnchantment o = new Aow.Units.City.TCityEnchantment();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // City.pas:2722
@@ -1064,21 +1006,7 @@ namespace Aow.Units.City
             }
 
             // City.pas:98
-            public new Aow.Units.City.TCityEnchantment Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TCityEnchantment o = (Aow.Units.City.TCityEnchantment)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TCityEnchantment Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityEnchantment)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TCityEnchantment => (Meta)MetaRegistry.Of(typeof(T));
@@ -1161,7 +1089,7 @@ namespace Aow.Units.City
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
-            var call__197 = Aow.Units.City.TCityProductionControl.Create(null);
+            var call__197 = new Aow.Units.City.TCityProductionControl(null);
             FProduction = call__197;
             FProduction.FCity = this;
             FDefendersMode = Aow.Units.City.TDefendersGenerateMode.dgAverage;
@@ -3581,7 +3509,7 @@ namespace Aow.Units.City
             Aow.Rtl.AnsiString Reason = default;
             if (CanMigrate(unchecked((sbyte)Race), ref Reason))
             {
-                Result = Aow.Units.City.TMigrationItem.Create(null);
+                Result = new Aow.Units.City.TMigrationItem(null);
                 Result.FRace = unchecked((sbyte)Race);
                 var call__496 = MigrationTime(unchecked((sbyte)Race));
                 Result.FTime = call__496;
@@ -3603,7 +3531,7 @@ namespace Aow.Units.City
             Aow.Units.City.TMigrationList Result = default;
             int I = default;
             Aow.Units.City.TMigrationItem Item = default;
-            Result = Aow.Units.City.TMigrationList.Create(null);
+            Result = new Aow.Units.City.TMigrationList(null);
             {
                 I = 0;
                 int end__499 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.Count - 1;
@@ -5078,22 +5006,7 @@ namespace Aow.Units.City
     // { TAICityUpgradeBudget (instance size 56, VMT 557A78B4) }
     public partial class TAICityUpgradeBudget : Aow.Units.AoWE.TAIBudget
     {
-        // Engine.pas:524
-        public static new Aow.Units.City.TAICityUpgradeBudget Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TAICityUpgradeBudget o = new Aow.Units.City.TAICityUpgradeBudget();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public TAICityUpgradeBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
@@ -5108,43 +5021,14 @@ namespace Aow.Units.City
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TAICityUpgradeBudget => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.City.TAICityUpgradeBudget Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TAICityUpgradeBudget o = (Aow.Units.City.TAICityUpgradeBudget)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TAICityUpgradeBudget Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TAICityUpgradeBudget)base.Create(AOwner);
         }
     }
 
     // { TAICityResearchBudget (instance size 56, VMT 557A7994) }
     public partial class TAICityResearchBudget : Aow.Units.AoWE.TAIBudget
     {
-        // Engine.pas:524
-        public static new Aow.Units.City.TAICityResearchBudget Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TAICityResearchBudget o = new Aow.Units.City.TAICityResearchBudget();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public TAICityResearchBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
@@ -5159,43 +5043,14 @@ namespace Aow.Units.City
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TAICityResearchBudget => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.City.TAICityResearchBudget Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TAICityResearchBudget o = (Aow.Units.City.TAICityResearchBudget)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TAICityResearchBudget Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TAICityResearchBudget)base.Create(AOwner);
         }
     }
 
     // { TAICityFortifyBudget (instance size 56, VMT 557A7A74) }
     public partial class TAICityFortifyBudget : Aow.Units.AoWE.TAIBudget
     {
-        // Engine.pas:524
-        public static new Aow.Units.City.TAICityFortifyBudget Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.City.TAICityFortifyBudget o = new Aow.Units.City.TAICityFortifyBudget();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public TAICityFortifyBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
         public new partial class Meta : Aow.Units.AoWE.TAIBudget.Meta
         {
@@ -5210,21 +5065,7 @@ namespace Aow.Units.City
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TAICityFortifyBudget => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.City.TAICityFortifyBudget Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TAICityFortifyBudget o = (Aow.Units.City.TAICityFortifyBudget)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TAICityFortifyBudget Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TAICityFortifyBudget)base.Create(AOwner);
         }
     }
 
@@ -5232,6 +5073,8 @@ namespace Aow.Units.City
 //     $18..$24 FProductionLevelCounts, $28 FMaxProductionLevel, $2C FProductionRatio. }
     public partial class TCityAIPA : Aow.Units.AoWE.TAIPlayerAction
     {
+        public TCityAIPA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public int FCityCount;
         // { $14 }
         public Aow.Units.FixedArray_int_4 FProductionLevelCounts;
@@ -5257,7 +5100,7 @@ namespace Aow.Units.City
                 UpgradeBudget = (Aow.Units.AoWE.TAIBudget)call__676;
                 if (UpgradeBudget == null)
                 {
-                    UpgradeBudget = Aow.Units.City.TAICityUpgradeBudget.Create(null);
+                    UpgradeBudget = new Aow.Units.City.TAICityUpgradeBudget(null);
                     UpgradeBudget.Owner = Manager.FBudgets;
                     UpgradeBudget.FRequiredGold = 250;
                     UpgradeBudget.FDays = 7;
@@ -5278,7 +5121,7 @@ namespace Aow.Units.City
                 }
                 else
                 {
-                    ResearchBudget = Aow.Units.City.TAICityResearchBudget.Create(null);
+                    ResearchBudget = new Aow.Units.City.TAICityResearchBudget(null);
                     ResearchBudget.FDays = 7;
                     ResearchBudget.FRequiredGold = 125;
                     ResearchBudget.Owner = Manager.FBudgets;
@@ -5312,7 +5155,7 @@ namespace Aow.Units.City
                 {
                     if (Aow.Units.AoWE.AoWE.AoWHSMap.FDay > 5)
                     {
-                        FortifyBudget = Aow.Units.City.TAICityFortifyBudget.Create(null);
+                        FortifyBudget = new Aow.Units.City.TAICityFortifyBudget(null);
                         FortifyBudget.FDays = 7;
                         FortifyBudget.FRequiredGold = 80;
                         FortifyBudget.Owner = Manager.FBudgets;
@@ -6001,21 +5844,7 @@ namespace Aow.Units.City
             public static new Meta Of<T>()
                 where T : Aow.Units.City.TCityAIPA => (Meta)MetaRegistry.Of(typeof(T));
             // Engine.pas:524
-            public new Aow.Units.City.TCityAIPA Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.City.TCityAIPA o = (Aow.Units.City.TCityAIPA)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.City.TCityAIPA Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.City.TCityAIPA)base.Create(AOwner);
         }
     }
 

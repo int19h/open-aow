@@ -365,7 +365,7 @@ namespace Aow.Units.AoWFileDialog
                             IncludeFile = (IncludeFile || ((FMode == 2) && (Extension == ((AnsiString)".hsm")))) || (Extension == ((AnsiString)".asg"));
                             if (IncludeFile)
                             {
-                                Stamp = Aow.Units.AoWWorldMap.TFileTime.Create();
+                                Stamp = new Aow.Units.AoWWorldMap.TFileTime();
                                 var call__7 = Aow.Rtl.Rtl.FileDateToDateTime(Search.Time);
                                 Stamp.FTime = call__7;
                                 Aow.Units.AoWFileDialog.AoWFileDialog.Files.AddObject(Search.Name, Stamp);

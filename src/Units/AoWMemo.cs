@@ -42,11 +42,6 @@ namespace Aow.Units.AoWMemo
     {
         public bool FHasColor;
         public int FColor;
-        // System.pas:111
-        public static Aow.Units.AoWMemo.TColorChange Create()
-        {
-            return new Aow.Units.AoWMemo.TColorChange();
-        }
     }
 
     // { AoWMemo.TAOWMemo (instance size 396). Fields: +$114 F114 (cleared by CheckMouseUp, not read),
@@ -240,7 +235,7 @@ namespace Aow.Units.AoWMemo
                 for (; I <= end__19; I += 1)
                 {
                     FLines.Add((AnsiString)"");
-                    var call__20 = Aow.Units.AoWMemo.TColorChange.Create();
+                    var call__20 = new Aow.Units.AoWMemo.TColorChange();
                     FColorList.Add(call__20);
                     J = 0;
                     Start = 0;
@@ -285,7 +280,7 @@ namespace Aow.Units.AoWMemo
                             if ((W + TW) > FWinWidth)
                             {
                                 FLines.Add(S);
-                                var call__26 = Aow.Units.AoWMemo.TColorChange.Create();
+                                var call__26 = new Aow.Units.AoWMemo.TColorChange();
                                 FColorList.Add(call__26);
                                 if (!FNoFrame)
                                 {

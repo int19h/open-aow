@@ -879,7 +879,7 @@ namespace Aow.Units.AoWProdScreen
             }
 
             FreePreview();
-            Generator = Aow.Units.AoWTC.TRndTacHsm.Create();
+            Generator = new Aow.Units.AoWTC.TRndTacHsm();
             var call__104 = FPlace.GetLhx();
             var call__105 = FPlace.GetYhx();
             var call__106 = FPlace.GetXhx();

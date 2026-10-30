@@ -500,7 +500,7 @@ namespace Aow.Units.CityWall
 
                     var call__70 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.AddEffect(Aow.Units.AoWTC.TfxType.fxWallSmoke);
                     Effect = call__70;
-                    Point = Aow.Units.aowFX.TXYZ.Create();
+                    Point = new Aow.Units.aowFX.TXYZ();
                     Effect.FPath.Add(Point);
                     Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Point.X, ref Point.Y);
                     var call__71 = Aow.Rtl.Rtl.Random(20);

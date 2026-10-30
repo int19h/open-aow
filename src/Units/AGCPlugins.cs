@@ -58,6 +58,8 @@ namespace Aow.Units.AGCPlugins
 //     $21 damage types, $24 structure factor, $28 city factor. }
     public partial class TAIGroupRazeControl : Aow.Units.AoWE.TAIGroupControlPlugin
     {
+        public TAIGroupRazeControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public Aow.Units.AoWE.TAIGroupControl FControl;
         // { $1C }
         public TSet<Aow.Units.AGCPlugins.TAIGroupRazeControlModeElement> FMode;
@@ -193,21 +195,7 @@ namespace Aow.Units.AGCPlugins
         }
 
         // intf_P5_07.inc:218
-        public static new Aow.Units.AGCPlugins.TAIGroupRazeControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AGCPlugins.TAIGroupRazeControl o = new Aow.Units.AGCPlugins.TAIGroupRazeControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAIGroupDefendTargetSelector: size $3C, VMT 557D71EC; $1C control,
@@ -241,9 +229,8 @@ namespace Aow.Units.AGCPlugins
         }
 
         // AGCPlugins.pas:157
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAIGroupDefendTargetSelector(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__5 = new Aow.Units.AoWE.TAIMoveTargetSelector(null);
             FSelector = call__5;
             var call__6 = new Aow.Units.AoWE.TAIGroupControlTargetList(null);
@@ -443,22 +430,6 @@ namespace Aow.Units.AGCPlugins
             return Result;
         }
 
-        // AGCPlugins.pas:53
-        public static new Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector o = new Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TAIGroupWanderControl: size $2C, VMT 557D7334; $1C mode, $20 move limit,
@@ -482,9 +453,8 @@ namespace Aow.Units.AGCPlugins
         }
 
         // AGCPlugins.pas:297
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAIGroupWanderControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__22 = new Aow.Units.AoWE.TMoveControlSettings(null);
             FMoveSettings = call__22;
         }
@@ -678,22 +648,6 @@ namespace Aow.Units.AGCPlugins
             return Result;
         }
 
-        // AGCPlugins.pas:72
-        public static new Aow.Units.AGCPlugins.TAIGroupWanderControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AGCPlugins.TAIGroupWanderControl o = new Aow.Units.AGCPlugins.TAIGroupWanderControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class AGCPlugins

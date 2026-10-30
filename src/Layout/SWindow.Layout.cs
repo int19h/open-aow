@@ -6,7 +6,7 @@ using Aow.Layout;
 
 namespace Aow.Units.AoWSWindow
 {
-    public partial class TSWindow
+    public partial class TSWindow : ILayoutModule
     {
         public void InitializeComponent()
         {
@@ -17,432 +17,384 @@ namespace Aow.Units.AoWSWindow
         {
             session.Begin(this);
             Name = "SWindow";
-            ComponentState = ComponentState.With(TComponentState.csLoading).With(TComponentState.csReading);
-            ScannerWindow = new Aow.Units.AoWWindow.TAOWWindow(this)
+            ScannerWindow = Aow.Units.AoWWindow.TAOWWindow.Create(this);
+            session.BeginRead(ScannerWindow);
+            ScannerWindow.Name = "ScannerWindow";
+            ScannerWindow.Visible = false;
+            ScannerWindow.Priority = 10;
+            ScannerWindow.WinLeft = 440;
+            ScannerWindow.WinTop = 0;
+            ScannerWindow.WinWidth = 200;
+            ScannerWindow.Masked = false;
+            ScannerWindow.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            ScannerWindow.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            ScannerWindow.Alignment.HeightPercent = (byte)(0);
+            ScannerWindow.Alignment.WidthPercent = (byte)(0);
+            ScannerWindow.Alignment.LeftOffPercent = 0;
+            ScannerWindow.Alignment.RightOffPercent = 0;
+            ScannerWindow.Alignment.TopOffPercent = 0;
+            ScannerWindow.Alignment.BottomOffPercent = 0;
+            ScannerWindow.Alignment.LeftOffset = 0;
+            ScannerWindow.Alignment.RightOffset = 0;
+            ScannerWindow.Alignment.TopOffset = 0;
+            ScannerWindow.Alignment.BottomOffset = 0;
+            ScannerWindow.UseVMem = true;
+            ScannerWindow.BorderWidth = 4;
+            ScannerWindow.BorderHeight = 4;
+            ScannerWindow.OverlapTopCorners = false;
+            ScannerWindow.Cursor = 0;
+            ScannerWindow.DoubleBuffered = true;
+            ScannerWindow.MaskColor = 0;
+            ScannerWindow.FreeSurfaceOnHide = false;
+            ScannerWindow.ILIndexFrame = 0;
+            ScannerWindow.ILIndexTexture = 2;
+            ScannerWindow.DragHeight = 20;
+            ScannerWindow.Draggable = true;
+            ScannerWindow.Resizable = true;
+            ScannerWindow.OnDrag = Layout_ScannerWindowResize_0;
+            ScannerWindow.OnResize = Layout_ScannerWindowResize_0;
+            ScannerWindow.MinWidth = 200;
+            ScannerWindow.MinHeight = 216;
+            ScannerWindow.MaxWidth = 0;
+            ScannerWindow.MaxHeight = 0;
+            ScannerWindow.UseManagerBorders = true;
+            ScannerWindow.Modal = false;
+            ScannerWindow.WinHeight = 216;
+            ScannerWindow.Dockable = false;
+            session.EndRead(ScannerWindow);
+            ScannerFrame = new Aow.Units.AoWFrame.TAoWFrame(this);
+            session.BeginRead(ScannerFrame);
+            ScannerFrame.Name = "ScannerFrame";
+            ScannerFrame.Priority = 50;
+            ScannerFrame.WinLeft = -2;
+            ScannerFrame.WinTop = 10;
+            ScannerFrame.CaptureInput = false;
+            ScannerFrame.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            ScannerFrame.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            ScannerFrame.Alignment.HeightPercent = (byte)(0);
+            ScannerFrame.Alignment.WidthPercent = (byte)(0);
+            ScannerFrame.Alignment.LeftOffPercent = 0;
+            ScannerFrame.Alignment.RightOffPercent = 0;
+            ScannerFrame.Alignment.TopOffPercent = 0;
+            ScannerFrame.Alignment.BottomOffPercent = 0;
+            ScannerFrame.Alignment.LeftOffset = -2;
+            ScannerFrame.Alignment.RightOffset = 6;
+            ScannerFrame.Alignment.TopOffset = 10;
+            ScannerFrame.Alignment.BottomOffset = 4;
+            ScannerFrame.Masked = false;
+            ScannerFrame.WinWidth = 196;
+            ScannerFrame.WinHeight = 202;
+            ScannerFrame.FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox;
+            ScannerFrame.ILIndexFrame = 0;
+            ScannerFrame.ILIndexLine = 0;
+            ScannerFrame.ILIndexTexture = 0;
+            session.EndRead(ScannerFrame);
+            ScannerTab = Aow.Units.AoWTabPanel.TAOWTabPanel.Create(this);
+            session.BeginRead(ScannerTab);
+            ScannerTab.Name = "ScannerTab";
+            ScannerTab.OnMouseDown = ScannerTabMouseDown;
+            ScannerTab.Priority = 10000;
+            ScannerTab.WinLeft = 31;
+            ScannerTab.WinTop = 182;
+            ScannerTab.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "ScannerWindow",
-                Visible = false,
-                Priority = 10,
-                WinLeft = 440,
-                WinTop = 0,
-                WinWidth = 200,
-                Masked = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 0,
-                    TopOffset = 0,
-                    BottomOffset = 0
-                },
-                UseVMem = true,
-                BorderWidth = 4,
-                BorderHeight = 4,
-                OverlapTopCorners = false,
-                Cursor = 0,
-                DoubleBuffered = true,
-                MaskColor = 0,
-                FreeSurfaceOnHide = false,
-                ILIndexFrame = 0,
-                ILIndexTexture = 2,
-                DragHeight = 20,
-                Draggable = true,
-                Resizable = true,
-                OnDrag = Layout_ScannerWindowResize_0,
-                OnResize = Layout_ScannerWindowResize_0,
-                MinWidth = 200,
-                MinHeight = 216,
-                MaxWidth = 0,
-                MaxHeight = 0,
-                UseManagerBorders = true,
-                Modal = false,
-                WinHeight = 216,
-                Dockable = false
+                "Selects one of the three map layers."
             };
-            LayoutSession.EndRead(ScannerWindow);
-            ScannerFrame = new Aow.Units.AoWFrame.TAoWFrame(this)
+            ScannerTab.CaptureInput = true;
+            ScannerTab.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            ScannerTab.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
+            ScannerTab.Alignment.HeightPercent = (byte)(0);
+            ScannerTab.Alignment.WidthPercent = (byte)(0);
+            ScannerTab.Alignment.LeftOffPercent = 0;
+            ScannerTab.Alignment.RightOffPercent = 0;
+            ScannerTab.Alignment.TopOffPercent = 0;
+            ScannerTab.Alignment.BottomOffPercent = 0;
+            ScannerTab.Alignment.LeftOffset = 31;
+            ScannerTab.Alignment.RightOffset = 24;
+            ScannerTab.Alignment.TopOffset = 0;
+            ScannerTab.Alignment.BottomOffset = 19;
+            ScannerTab.Masked = false;
+            ScannerTab.BorderHeight = 3;
+            ScannerTab.OnChange = Layout_ScannerTabChange_1;
+            ScannerTab.Selected = 1;
+            ScannerTab.WinWidth = 145;
+            ScannerTab.TextColor = 1777703;
+            ScannerTab.TextSelColor = 0;
+            ScannerTab.ILIndexDown = 17;
+            ScannerTab.ILIndexUp = 14;
+            ScannerTab.BorderHeightSelected = 3;
+            session.EndRead(ScannerTab);
+            BuildingCheck = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(BuildingCheck);
+            BuildingCheck.Name = "BuildingCheck";
+            BuildingCheck.Priority = 1001;
+            BuildingCheck.WinLeft = 160;
+            BuildingCheck.WinTop = 37;
+            BuildingCheck.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "ScannerFrame",
-                Priority = 50,
-                WinLeft = -2,
-                WinTop = 10,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = -2,
-                    RightOffset = 6,
-                    TopOffset = 10,
-                    BottomOffset = 4
-                },
-                Masked = false,
-                WinWidth = 196,
-                WinHeight = 202,
-                FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox,
-                ILIndexFrame = 0,
-                ILIndexLine = 0,
-                ILIndexTexture = 0
+                "Toggles player structures on and off."
             };
-            LayoutSession.EndRead(ScannerFrame);
-            ScannerTab = new Aow.Units.AoWTabPanel.TAOWTabPanel(this)
+            BuildingCheck.CaptureInput = true;
+            BuildingCheck.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            BuildingCheck.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            BuildingCheck.Alignment.HeightPercent = (byte)(0);
+            BuildingCheck.Alignment.WidthPercent = (byte)(0);
+            BuildingCheck.Alignment.LeftOffPercent = 0;
+            BuildingCheck.Alignment.RightOffPercent = 0;
+            BuildingCheck.Alignment.TopOffPercent = 0;
+            BuildingCheck.Alignment.BottomOffPercent = 0;
+            BuildingCheck.Alignment.LeftOffset = 0;
+            BuildingCheck.Alignment.RightOffset = 25;
+            BuildingCheck.Alignment.TopOffset = 37;
+            BuildingCheck.Alignment.BottomOffset = 0;
+            BuildingCheck.Masked = false;
+            BuildingCheck.BorderHeight = 0;
+            BuildingCheck.BorderHeightSelected = 0;
+            BuildingCheck.ILIndexDown = 9;
+            BuildingCheck.ILIndexLit = 0;
+            BuildingCheck.ILIndexUp = 8;
+            BuildingCheck.TextColor = 0;
+            BuildingCheck.TextSelColor = 0;
+            BuildingCheck.WinWidth = 15;
+            BuildingCheck.Checked = true;
+            BuildingCheck.OnChange = Layout_BuildingCheckChange_2;
+            BuildingCheck.RadioIndex = 0;
+            session.EndRead(BuildingCheck);
+            ArmyCheck = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(ArmyCheck);
+            ArmyCheck.Name = "ArmyCheck";
+            ArmyCheck.Priority = 1002;
+            ArmyCheck.WinLeft = 160;
+            ArmyCheck.WinTop = 52;
+            ArmyCheck.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "ScannerTab",
-                OnMouseDown = ScannerTabMouseDown,
-                Priority = 10000,
-                WinLeft = 31,
-                WinTop = 182,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Selects one of the three map layers."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 31,
-                    RightOffset = 24,
-                    TopOffset = 0,
-                    BottomOffset = 19
-                },
-                Masked = false,
-                BorderHeight = 3,
-                OnChange = Layout_ScannerTabChange_1,
-                Selected = 1,
-                WinWidth = 145,
-                TextColor = 1777703,
-                TextSelColor = 0,
-                ILIndexDown = 17,
-                ILIndexUp = 14,
-                BorderHeightSelected = 3
+                "Toggles parties on and off."
             };
-            LayoutSession.EndRead(ScannerTab);
-            BuildingCheck = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
+            ArmyCheck.CaptureInput = true;
+            ArmyCheck.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            ArmyCheck.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            ArmyCheck.Alignment.HeightPercent = (byte)(0);
+            ArmyCheck.Alignment.WidthPercent = (byte)(0);
+            ArmyCheck.Alignment.LeftOffPercent = 0;
+            ArmyCheck.Alignment.RightOffPercent = 0;
+            ArmyCheck.Alignment.TopOffPercent = 0;
+            ArmyCheck.Alignment.BottomOffPercent = 0;
+            ArmyCheck.Alignment.LeftOffset = 0;
+            ArmyCheck.Alignment.RightOffset = 25;
+            ArmyCheck.Alignment.TopOffset = 52;
+            ArmyCheck.Alignment.BottomOffset = 0;
+            ArmyCheck.Masked = false;
+            ArmyCheck.BorderHeight = 0;
+            ArmyCheck.BorderHeightSelected = 0;
+            ArmyCheck.ILIndexDown = 11;
+            ArmyCheck.ILIndexLit = 0;
+            ArmyCheck.ILIndexUp = 10;
+            ArmyCheck.TextColor = 0;
+            ArmyCheck.TextSelColor = 0;
+            ArmyCheck.WinWidth = 15;
+            ArmyCheck.Checked = true;
+            ArmyCheck.OnChange = Layout_ArmyCheckChange_3;
+            ArmyCheck.RadioIndex = 0;
+            session.EndRead(ArmyCheck);
+            NaturalCheck = new Aow.Units.AoWCheckBox.TAOWCheckBox(this);
+            session.BeginRead(NaturalCheck);
+            NaturalCheck.Name = "NaturalCheck";
+            NaturalCheck.Priority = 1003;
+            NaturalCheck.WinLeft = 160;
+            NaturalCheck.WinTop = 67;
+            NaturalCheck.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "BuildingCheck",
-                Priority = 1001,
-                WinLeft = 160,
-                WinTop = 37,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Toggles player structures on and off."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 25,
-                    TopOffset = 37,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 9,
-                ILIndexLit = 0,
-                ILIndexUp = 8,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                Checked = true,
-                OnChange = Layout_BuildingCheckChange_2,
-                RadioIndex = 0
+                "Toggles natural structures on and off."
             };
-            LayoutSession.EndRead(BuildingCheck);
-            ArmyCheck = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
+            NaturalCheck.CaptureInput = true;
+            NaturalCheck.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            NaturalCheck.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            NaturalCheck.Alignment.HeightPercent = (byte)(0);
+            NaturalCheck.Alignment.WidthPercent = (byte)(0);
+            NaturalCheck.Alignment.LeftOffPercent = 0;
+            NaturalCheck.Alignment.RightOffPercent = 0;
+            NaturalCheck.Alignment.TopOffPercent = 0;
+            NaturalCheck.Alignment.BottomOffPercent = 0;
+            NaturalCheck.Alignment.LeftOffset = 0;
+            NaturalCheck.Alignment.RightOffset = 25;
+            NaturalCheck.Alignment.TopOffset = 67;
+            NaturalCheck.Alignment.BottomOffset = 0;
+            NaturalCheck.Masked = false;
+            NaturalCheck.BorderHeight = 0;
+            NaturalCheck.BorderHeightSelected = 0;
+            NaturalCheck.ILIndexDown = 13;
+            NaturalCheck.ILIndexLit = 0;
+            NaturalCheck.ILIndexUp = 12;
+            NaturalCheck.TextColor = 0;
+            NaturalCheck.TextSelColor = 0;
+            NaturalCheck.WinWidth = 15;
+            NaturalCheck.Checked = true;
+            NaturalCheck.OnChange = Layout_NaturalCheckChange_4;
+            NaturalCheck.RadioIndex = 0;
+            session.EndRead(NaturalCheck);
+            Scanner = Aow.Units.Scanner.TScanner.Create(this);
+            session.BeginRead(Scanner);
+            Scanner.Name = "Scanner";
+            Scanner.Priority = 5;
+            Scanner.WinLeft = 30;
+            Scanner.WinTop = 32;
+            Scanner.CaptureInput = true;
+            Scanner.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
+            Scanner.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
+            Scanner.Alignment.HeightPercent = (byte)(0);
+            Scanner.Alignment.WidthPercent = (byte)(0);
+            Scanner.Alignment.LeftOffPercent = 0;
+            Scanner.Alignment.RightOffPercent = 0;
+            Scanner.Alignment.TopOffPercent = 0;
+            Scanner.Alignment.BottomOffPercent = 0;
+            Scanner.Alignment.LeftOffset = 30;
+            Scanner.Alignment.RightOffset = 39;
+            Scanner.Alignment.TopOffset = 32;
+            Scanner.Alignment.BottomOffset = 32;
+            Scanner.Masked = false;
+            Scanner.WinWidth = 131;
+            Scanner.WinHeight = 152;
+            Scanner.TileBoxTop = -1;
+            Scanner.TileBoxLeft = -1;
+            Scanner.TileBoxWidth = -1;
+            Scanner.TileBoxHeight = -1;
+            Scanner.HighLights = true;
+            Scanner.Buildings = true;
+            Scanner.Armies = true;
+            Scanner.Naturals = true;
+            Scanner.OnChangeTileBox = Layout_ScannerChangeTileBox_5;
+            Scanner.MapDrawSteps = 5;
+            Scanner.ILIndexFrame = 20;
+            session.EndRead(Scanner);
+            STitleIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            session.BeginRead(STitleIcon);
+            STitleIcon.Name = "STitleIcon";
+            STitleIcon.Priority = 0;
+            STitleIcon.WinLeft = 2;
+            STitleIcon.WinTop = 2;
+            STitleIcon.CaptureInput = false;
+            STitleIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            STitleIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            STitleIcon.Alignment.HeightPercent = (byte)(0);
+            STitleIcon.Alignment.WidthPercent = (byte)(0);
+            STitleIcon.Alignment.LeftOffPercent = 0;
+            STitleIcon.Alignment.RightOffPercent = 0;
+            STitleIcon.Alignment.TopOffPercent = 0;
+            STitleIcon.Alignment.BottomOffPercent = 0;
+            STitleIcon.Alignment.LeftOffset = 2;
+            STitleIcon.Alignment.RightOffset = 0;
+            STitleIcon.Alignment.TopOffset = 2;
+            STitleIcon.Alignment.BottomOffset = 0;
+            STitleIcon.Masked = false;
+            STitleIcon.AnimStart = 0;
+            STitleIcon.CurrentImage = 0;
+            STitleIcon.AnimEnd = 11;
+            STitleIcon.WinWidth = 19;
+            STitleIcon.WinHeight = 16;
+            STitleIcon.Animate = false;
+            STitleIcon.AnimFrameDelay = 0;
+            session.EndRead(STitleIcon);
+            STitleLabel = new Aow.Units.AoWLabel.TAOWLabel(this);
+            session.BeginRead(STitleLabel);
+            STitleLabel.Name = "STitleLabel";
+            STitleLabel.Priority = 0;
+            STitleLabel.WinLeft = 25;
+            STitleLabel.WinTop = 4;
+            STitleLabel.CaptureInput = false;
+            STitleLabel.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
+            STitleLabel.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            STitleLabel.Alignment.HeightPercent = (byte)(0);
+            STitleLabel.Alignment.WidthPercent = (byte)(0);
+            STitleLabel.Alignment.LeftOffPercent = 0;
+            STitleLabel.Alignment.RightOffPercent = 0;
+            STitleLabel.Alignment.TopOffPercent = 0;
+            STitleLabel.Alignment.BottomOffPercent = 0;
+            STitleLabel.Alignment.LeftOffset = 25;
+            STitleLabel.Alignment.RightOffset = 0;
+            STitleLabel.Alignment.TopOffset = 4;
+            STitleLabel.Alignment.BottomOffset = 0;
+            STitleLabel.Masked = true;
+            STitleLabel.Text = "World Map";
+            STitleLabel.TextColor = 0;
+            session.EndRead(STitleLabel);
+            SMinIcon = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(SMinIcon);
+            SMinIcon.Name = "SMinIcon";
+            SMinIcon.Priority = 1000;
+            SMinIcon.WinLeft = 180;
+            SMinIcon.WinTop = 1;
+            SMinIcon.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "ArmyCheck",
-                Priority = 1002,
-                WinLeft = 160,
-                WinTop = 52,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Toggles parties on and off."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 25,
-                    TopOffset = 52,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 11,
-                ILIndexLit = 0,
-                ILIndexUp = 10,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                Checked = true,
-                OnChange = Layout_ArmyCheckChange_3,
-                RadioIndex = 0
+                "Minimizes the window"
             };
-            LayoutSession.EndRead(ArmyCheck);
-            NaturalCheck = new Aow.Units.AoWCheckBox.TAOWCheckBox(this)
+            SMinIcon.CaptureInput = true;
+            SMinIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            SMinIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            SMinIcon.Alignment.HeightPercent = (byte)(0);
+            SMinIcon.Alignment.WidthPercent = (byte)(0);
+            SMinIcon.Alignment.LeftOffPercent = 0;
+            SMinIcon.Alignment.RightOffPercent = 0;
+            SMinIcon.Alignment.TopOffPercent = 0;
+            SMinIcon.Alignment.BottomOffPercent = 0;
+            SMinIcon.Alignment.LeftOffset = 0;
+            SMinIcon.Alignment.RightOffset = 5;
+            SMinIcon.Alignment.TopOffset = 1;
+            SMinIcon.Alignment.BottomOffset = 0;
+            SMinIcon.Masked = false;
+            SMinIcon.BorderHeight = 0;
+            SMinIcon.BorderHeightSelected = 0;
+            SMinIcon.ILIndexDown = 4;
+            SMinIcon.ILIndexLit = 5;
+            SMinIcon.ILIndexUp = 3;
+            SMinIcon.TextColor = 0;
+            SMinIcon.TextSelColor = 0;
+            SMinIcon.WinWidth = 15;
+            SMinIcon.OnClick = Layout_SMinIconClick_6;
+            session.EndRead(SMinIcon);
+            Help = new Aow.Units.AoWButton.TAOWButton(this);
+            session.BeginRead(Help);
+            Help.Name = "Help";
+            Help.Priority = 0;
+            Help.WinLeft = 165;
+            Help.WinTop = 1;
+            Help.LayoutToolTipText = new LayoutStrings()
             {
-                Name = "NaturalCheck",
-                Priority = 1003,
-                WinLeft = 160,
-                WinTop = 67,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Toggles natural structures on and off."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 25,
-                    TopOffset = 67,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 13,
-                ILIndexLit = 0,
-                ILIndexUp = 12,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                Checked = true,
-                OnChange = Layout_NaturalCheckChange_4,
-                RadioIndex = 0
+                "Displays Help for this window."
             };
-            LayoutSession.EndRead(NaturalCheck);
-            Scanner = new Aow.Units.Scanner.TScanner(this)
-            {
-                Name = "Scanner",
-                Priority = 5,
-                WinLeft = 30,
-                WinTop = 32,
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 30,
-                    RightOffset = 39,
-                    TopOffset = 32,
-                    BottomOffset = 32
-                },
-                Masked = false,
-                WinWidth = 131,
-                WinHeight = 152,
-                TileBoxTop = -1,
-                TileBoxLeft = -1,
-                TileBoxWidth = -1,
-                TileBoxHeight = -1,
-                HighLights = true,
-                Buildings = true,
-                Armies = true,
-                Naturals = true,
-                OnChangeTileBox = Layout_ScannerChangeTileBox_5,
-                MapDrawSteps = 5,
-                ILIndexFrame = 20
-            };
-            LayoutSession.EndRead(Scanner);
-            STitleIcon = new Aow.Units.AoWImage.TAOWImage(this)
-            {
-                Name = "STitleIcon",
-                Priority = 0,
-                WinLeft = 2,
-                WinTop = 2,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 2,
-                    RightOffset = 0,
-                    TopOffset = 2,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                AnimStart = 0,
-                CurrentImage = 0,
-                AnimEnd = 11,
-                WinWidth = 19,
-                WinHeight = 16,
-                Animate = false,
-                AnimFrameDelay = 0
-            };
-            LayoutSession.EndRead(STitleIcon);
-            STitleLabel = new Aow.Units.AoWLabel.TAOWLabel(this)
-            {
-                Name = "STitleLabel",
-                Priority = 0,
-                WinLeft = 25,
-                WinTop = 4,
-                CaptureInput = false,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 25,
-                    RightOffset = 0,
-                    TopOffset = 4,
-                    BottomOffset = 0
-                },
-                Masked = true,
-                Text = "World Map",
-                TextColor = 0
-            };
-            LayoutSession.EndRead(STitleLabel);
-            SMinIcon = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "SMinIcon",
-                Priority = 1000,
-                WinLeft = 180,
-                WinTop = 1,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Minimizes the window"
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 5,
-                    TopOffset = 1,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 4,
-                ILIndexLit = 5,
-                ILIndexUp = 3,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                OnClick = Layout_SMinIconClick_6
-            };
-            LayoutSession.EndRead(SMinIcon);
-            Help = new Aow.Units.AoWButton.TAOWButton(this)
-            {
-                Name = "Help",
-                Priority = 0,
-                WinLeft = 165,
-                WinTop = 1,
-                LayoutToolTipText = new LayoutStrings()
-                {
-                    "Displays Help for this window."
-                },
-                CaptureInput = true,
-                Alignment =
-                {
-                    AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight,
-                    AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop,
-                    HeightPercent = (byte)(0),
-                    WidthPercent = (byte)(0),
-                    LeftOffPercent = 0,
-                    RightOffPercent = 0,
-                    TopOffPercent = 0,
-                    BottomOffPercent = 0,
-                    LeftOffset = 0,
-                    RightOffset = 20,
-                    TopOffset = 1,
-                    BottomOffset = 0
-                },
-                Masked = false,
-                BorderHeight = 0,
-                BorderHeightSelected = 0,
-                ILIndexDown = 60,
-                ILIndexLit = 61,
-                ILIndexUp = 59,
-                TextColor = 0,
-                TextSelColor = 0,
-                WinWidth = 15,
-                OnClick = Layout_HelpClick_7
-            };
-            LayoutSession.EndRead(Help);
-            Translator = new Aow.Layout.LayoutTIvTranslator(this)
-            {
-                Name = "Translator",
-                DictionaryName = "AoW",
-                TargetsData =
-                {
-                    new TranslationTarget("", "Items", 0),
-                    new TranslationTarget("", "Text", 0),
-                    new TranslationTarget("", "ToolTipText", 0)
-                }
-            };
-            LayoutSession.EndRead(Translator);
-            ComponentState = ComponentState.Without(TComponentState.csReading);
+            Help.CaptureInput = true;
+            Help.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
+            Help.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            Help.Alignment.HeightPercent = (byte)(0);
+            Help.Alignment.WidthPercent = (byte)(0);
+            Help.Alignment.LeftOffPercent = 0;
+            Help.Alignment.RightOffPercent = 0;
+            Help.Alignment.TopOffPercent = 0;
+            Help.Alignment.BottomOffPercent = 0;
+            Help.Alignment.LeftOffset = 0;
+            Help.Alignment.RightOffset = 20;
+            Help.Alignment.TopOffset = 1;
+            Help.Alignment.BottomOffset = 0;
+            Help.Masked = false;
+            Help.BorderHeight = 0;
+            Help.BorderHeightSelected = 0;
+            Help.ILIndexDown = 60;
+            Help.ILIndexLit = 61;
+            Help.ILIndexUp = 59;
+            Help.TextColor = 0;
+            Help.TextSelColor = 0;
+            Help.WinWidth = 15;
+            Help.OnClick = Layout_HelpClick_7;
+            session.EndRead(Help);
+            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            Translator = created__Translator;
+            session.BeginRead(created__Translator);
+            created__Translator.Name = "Translator";
+            created__Translator.DictionaryName = "AoW";
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
+            created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+            session.EndRead(created__Translator);
+            session.EndRead(this);
             ScannerFrame.AOWWindow = ScannerWindow;
             ScannerTab.AOWWindow = ScannerWindow;
             BuildingCheck.AOWWindow = ScannerWindow;

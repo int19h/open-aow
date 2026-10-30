@@ -941,7 +941,7 @@ namespace Aow.Units.CitySpells
             Aow.Units.City.TCity TargetCity = default;
             Aow.Units.City.TCityEnchantment Enchantment = default;
             TargetCity = ((Aow.Units.CitySpells.TCityTargetSpellTE)A1).GetSelectedCity();
-            Enchantment = Aow.Units.City.TCityEnchantment.Create(null);
+            Enchantment = new Aow.Units.City.TCityEnchantment(null);
             Enchantment.FEnchantmentID = FEnchantmentID;
             Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
             var call__93 = ((Aow.Units.HSEngine.TMapField)TargetCity.Owner).GetXYL();
@@ -1629,7 +1629,7 @@ namespace Aow.Units.CitySpells
                         int end__175 = Count;
                         for (; I <= end__175; I += 1)
                         {
-                            AUnit = Aow.Units.AoWE.TUnit.Create(null);
+                            AUnit = new Aow.Units.AoWE.TUnit(null);
                             var call__176 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
                             var call__177 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Aow.Units.CitySpells.CitySpells.TAnimateRuins_ExecuteTE__UndeadUnits[call__176]);
                             AUnit.SetUnitResource(call__177);

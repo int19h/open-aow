@@ -299,28 +299,10 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:250
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TWMCampaignScenarioPage(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             var call__12 = new Aow.Rtl.TStringList();
             FText = call__12;
-        }
-
-        // AoWVideoDlg.pas:78
-        public static new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage o = new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
@@ -334,21 +316,7 @@ namespace Aow.Units.AoWVideoDlg
             }
 
             // AoWVideoDlg.pas:78
-            public new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage o = (Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage => (Meta)MetaRegistry.Of(typeof(T));
@@ -358,22 +326,8 @@ namespace Aow.Units.AoWVideoDlg
     // { TWMCampaignScenarioPageList (instance size 12, VMT 0040B8C4) }
     public partial class TWMCampaignScenarioPageList : Aow.Units.Engine.TENode
     {
-        // Engine.pas:631
-        public static new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList o = new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
+        public TWMCampaignScenarioPageList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
 
-            return o;
-        }
     }
 
     // { TWMCampaignScenario: size $3C; $14 image library, $18 path text, $1C description, $20 flag, $24/$28 position, $2C paths, $30/$34 pages, $38 map kind. VMT 0040B9A8. }
@@ -436,44 +390,26 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:278
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TWMCampaignScenario(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
             int I = default;
-            base.Create__init(AOwner);
-            var call__13 = Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList.Create(null);
+            var call__13 = new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList(null);
             FIntroPages = call__13;
-            var call__14 = Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList.Create(null);
+            var call__14 = new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList(null);
             FOutroPages = call__14;
             {
                 I = 0;
                 byte end__15 = 9;
                 for (; I <= end__15; I += 1)
                 {
-                    Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage.Create(FIntroPages);
-                    Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage.Create(FOutroPages);
+                    new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage(FIntroPages);
+                    new Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage(FOutroPages);
                 }
             }
 
             var call__16 = new Aow.Units.Engine.TIntegerList();
             FPaths = call__16;
             FPaths.Default = -1;
-        }
-
-        // AoWVideoDlg.pas:109
-        public static new Aow.Units.AoWVideoDlg.TWMCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWVideoDlg.TWMCampaignScenario o = new Aow.Units.AoWVideoDlg.TWMCampaignScenario();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
         }
 
         public new partial class Meta : Aow.Units.AoWE.TAoWCampaignScenario.Meta
@@ -487,21 +423,7 @@ namespace Aow.Units.AoWVideoDlg
             }
 
             // AoWVideoDlg.pas:109
-            public new Aow.Units.AoWVideoDlg.TWMCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWVideoDlg.TWMCampaignScenario o = (Aow.Units.AoWVideoDlg.TWMCampaignScenario)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWVideoDlg.TWMCampaignScenario Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaignScenario)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWVideoDlg.TWMCampaignScenario => (Meta)MetaRegistry.Of(typeof(T));
@@ -531,9 +453,8 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:324
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TWMCampaign(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
         }
 
         // AoWVideoDlg.pas:348
@@ -546,7 +467,7 @@ namespace Aow.Units.AoWVideoDlg
         public override Aow.Units.AoWE.TAoWCampaignScenario CreateScenario()
         {
             Aow.Units.AoWE.TAoWCampaignScenario Result = default;
-            Result = Aow.Units.AoWVideoDlg.TWMCampaignScenario.Create(null);
+            Result = new Aow.Units.AoWVideoDlg.TWMCampaignScenario(null);
             return Result;
         }
 
@@ -577,23 +498,6 @@ namespace Aow.Units.AoWVideoDlg
             return Result;
         }
 
-        // AoWVideoDlg.pas:120
-        public static new Aow.Units.AoWVideoDlg.TWMCampaign Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWVideoDlg.TWMCampaign o = new Aow.Units.AoWVideoDlg.TWMCampaign();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
-
         public new partial class Meta : Aow.Units.Engine.TEObject.Meta
         {
             // AoWVideoDlg.pas:334
@@ -605,21 +509,7 @@ namespace Aow.Units.AoWVideoDlg
             }
 
             // AoWVideoDlg.pas:120
-            public new Aow.Units.AoWVideoDlg.TWMCampaign Create(Aow.Units.Engine.TECustomNode AOwner)
-            {
-                Aow.Units.AoWVideoDlg.TWMCampaign o = (Aow.Units.AoWVideoDlg.TWMCampaign)NewInstance();
-                try
-                {
-                    o.Create__init(AOwner);
-                }
-                catch
-                {
-                    o.Destroy();
-                    throw;
-                }
-
-                return o;
-            }
+            public new Aow.Units.AoWVideoDlg.TWMCampaign Create(Aow.Units.Engine.TECustomNode AOwner) => (Aow.Units.AoWVideoDlg.TWMCampaign)base.Create(AOwner);
 
             public static new Meta Of<T>()
                 where T : Aow.Units.AoWVideoDlg.TWMCampaign => (Meta)MetaRegistry.Of(typeof(T));

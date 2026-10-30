@@ -43,6 +43,8 @@ namespace Aow.Units.PrdPlace
     // { TProductionPlaceControl: size $2C; $28 production place. VMT 557BD4D0. }
     public partial class TProductionPlaceControl : Aow.Units.AoWE.TProductionControl
     {
+        public TProductionPlaceControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner) { }
+
         public Aow.Units.PrdPlace.TProductionPlace FProductionPlace;
         // PrdPlace.pas:238
         // { $28 }
@@ -344,21 +346,7 @@ namespace Aow.Units.PrdPlace
         }
 
         // intf_P1_02.inc:120
-        public static new Aow.Units.PrdPlace.TProductionPlaceControl Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PrdPlace.TProductionPlaceControl o = new Aow.Units.PrdPlace.TProductionPlaceControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TProductionPlace: size $4C; $3C power source, $40 income source, $44 production
@@ -856,7 +844,7 @@ namespace Aow.Units.PrdPlace
         public virtual Aow.Units.PrdPlace.TProductionPlaceControl CreateProductionControl()
         {
             Aow.Units.PrdPlace.TProductionPlaceControl Result = default;
-            Result = Aow.Units.PrdPlace.TProductionPlaceControl.Create(null);
+            Result = new Aow.Units.PrdPlace.TProductionPlaceControl(null);
             return Result;
         }
 
@@ -1102,7 +1090,7 @@ namespace Aow.Units.PrdPlace
 
                 if (UnitIndex != -1)
                 {
-                    AUnit = Aow.Units.AoWE.TUnit.Create(null);
+                    AUnit = new Aow.Units.AoWE.TUnit(null);
                     var call__126 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(UnitIndex);
                     AUnit.SetUnitResource(call__126);
                     AUnit.SetPlayer(unchecked((sbyte)FPlayer));

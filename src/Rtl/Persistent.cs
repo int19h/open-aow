@@ -40,7 +40,8 @@ public class TComponent : TPersistent
     public new Meta ClassType => (Meta)base.ClassType;
     public TComponent? Owner { get; private set; }
     public int Tag { get; set; }
-    public TSet<TComponentState> ComponentState { get; protected set; }
+    // The layout session sets the loading flags from outside the component.
+    public TSet<TComponentState> ComponentState { get; protected internal set; }
     public int ComponentCount => children.Count;
     // CLASSES.PAS TComponent.GetComponent uses TList's range error.
     public IndexedProperty<int, TComponent> Components => new(i =>

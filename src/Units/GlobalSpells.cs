@@ -2188,7 +2188,7 @@ namespace Aow.Units.GlobalSpells
                         int end__283 = Count - 1;
                         for (; J <= end__283; J += 1)
                         {
-                            NewUnit = Aow.Units.AoWE.TUnit.Create(null);
+                            NewUnit = new Aow.Units.AoWE.TUnit(null);
                             var call__284 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Aow.Units.GlobalSpells.GlobalSpells.TCrusade_ExecuteTE__LargeUnits[UnitIndex]);
                             NewUnit.SetUnitResource(call__284);
                             NewUnit.ExpandAbility(101);
@@ -2218,7 +2218,7 @@ namespace Aow.Units.GlobalSpells
                                 int end__287 = Count - 1;
                                 for (; J <= end__287; J += 1)
                                 {
-                                    NewUnit = Aow.Units.AoWE.TUnit.Create(null);
+                                    NewUnit = new Aow.Units.AoWE.TUnit(null);
                                     var call__288 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(2);
                                     UnitIndex = call__288;
                                     var call__289 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Aow.Units.GlobalSpells.GlobalSpells.TCrusade_ExecuteTE__FootUnits[UnitIndex]);
@@ -2251,7 +2251,7 @@ namespace Aow.Units.GlobalSpells
                         int end__291 = Count - 1;
                         for (; J <= end__291; J += 1)
                         {
-                            NewUnit = Aow.Units.AoWE.TUnit.Create(null);
+                            NewUnit = new Aow.Units.AoWE.TUnit(null);
                             var call__292 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Aow.Units.GlobalSpells.GlobalSpells.TCrusade_ExecuteTE__MountedUnits[UnitIndex]);
                             NewUnit.SetUnitResource(call__292);
                             NewUnit.ExpandAbility(101);

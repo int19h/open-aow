@@ -2606,7 +2606,7 @@ namespace Aow.Units.CombatSpells
                 Source = (Aow.Units.AoWE.TCombatUnit)call__282;
                 var call__283 = A1.FCombatData.FindID(FTargetID);
                 Target = (Aow.Units.AoWE.TCombatUnit)call__283;
-                NewUnit = Aow.Units.AoWE.TUnit.Create(null);
+                NewUnit = new Aow.Units.AoWE.TUnit(null);
                 var call__284 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(130);
                 NewUnit.SetUnitResource(call__284);
                 NewUnit.SetPlayer(unchecked((sbyte)Source.FUnit.FPlayer));
@@ -2714,7 +2714,7 @@ namespace Aow.Units.CombatSpells
                 Source = (Aow.Units.AoWE.TCombatUnit)call__287;
                 var call__288 = A1.FCombatData.FindID(FTargetID);
                 Target = (Aow.Units.AoWE.TCombatUnit)call__288;
-                NewUnit = Aow.Units.AoWE.TUnit.Create(null);
+                NewUnit = new Aow.Units.AoWE.TUnit(null);
                 var call__289 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(201);
                 NewUnit.SetUnitResource(call__289);
                 NewUnit.SetPlayer(unchecked((sbyte)Source.FUnit.FPlayer));
