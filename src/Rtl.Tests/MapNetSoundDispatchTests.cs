@@ -116,7 +116,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void LegacyMouseAllocatesEachBaseEventListOnce()
     {
-        var mouse = Aow.Units.AoWE.TAbstractAoWHSMapMouse.Create();
+        var mouse = new Aow.Units.AoWE.TAbstractAoWHSMapMouse();
         Assert.Equal(mouse.InstanceId + 1, mouse.FOnUp.InstanceId);
         Assert.Equal(mouse.InstanceId + 5, mouse.FOnCaptureChanged.InstanceId);
         Assert.Equal(int.MinValue, mouse.FX);

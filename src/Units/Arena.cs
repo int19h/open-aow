@@ -39,6 +39,12 @@ namespace Aow.Units.Arena
     // { TArenaTE: size $2C; $28 FUnitIDs. }
     public partial class TArenaTE : Aow.Units.AoWE.TStructureTE
     {
+        public TArenaTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1 = new Aow.Units.Engine.TIntegerList();
+            FUnitIDs = call__1;
+        }
+
         // Arena.pas:86
         public new const int ClassID = 133294;
 
@@ -58,29 +64,10 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:74
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1 = new Aow.Units.Engine.TIntegerList();
-            FUnitIDs = call__1;
-        }
+
 
         // Arena.pas:23
-        public static new Aow.Units.Arena.TArenaTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Arena.TArenaTE o = new Aow.Units.Arena.TArenaTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureTE.Meta
         {
@@ -98,6 +85,9 @@ namespace Aow.Units.Arena
     // { TArena (instance size 48, VMT 557D6240) }
     public partial class TArena : Aow.Units.AoWE.TStructure
     {
+        public TArena(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Arena.pas:95
         public new const int ClassID = 133276;
 
@@ -105,7 +95,7 @@ namespace Aow.Units.Arena
         public override Aow.Units.AoWE.TStructureTE CreateTE()
         {
             Aow.Units.AoWE.TStructureTE Result = default;
-            Result = Aow.Units.Arena.TArenaTE.Create(null);
+            Result = new Aow.Units.Arena.TArenaTE(null);
             return Result;
         }
 
@@ -398,15 +388,16 @@ namespace Aow.Units.Arena
     // { TArenaResource (instance size 100, VMT 557D6498) }
     public partial class TArenaResource : Aow.Units.AoWE.TStructureResource
     {
+        public TArenaResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FCastsShadow = true;
+        }
+
         // Arena.pas:253
         public new const int ClassID = 133277;
 
         // Arena.pas:244
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FCastsShadow = true;
-        }
+
 
         // Arena.pas:256
         public override int ResourceUserClassID()
@@ -417,21 +408,7 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:45
-        public static new Aow.Units.Arena.TArenaResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Arena.TArenaResource o = new Aow.Units.Arena.TArenaResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {

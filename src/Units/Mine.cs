@@ -38,6 +38,13 @@ namespace Aow.Units.Mine
 //     +$40 FIncomeSource. }
     public partial class TMine : Aow.Units.AoWE.TPlayerStructure
     {
+        public TMine(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
+            FIncomeSource = call__1;
+            FIncomeSource.Setup(this);
+        }
+
         // Mine.pas:82
         public new const int ClassID = 131962;
 
@@ -59,13 +66,7 @@ namespace Aow.Units.Mine
         }
 
         // Mine.pas:69
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
-            FIncomeSource = call__1;
-            FIncomeSource.Setup(this);
-        }
+
 
         // Mine.pas:142
         public override void Activate()
@@ -255,21 +256,7 @@ namespace Aow.Units.Mine
         }
 
         // Mine.pas:25
-        public static new Aow.Units.Mine.TMine Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Mine.TMine o = new Aow.Units.Mine.TMine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructure.Meta
         {
@@ -287,13 +274,8 @@ namespace Aow.Units.Mine
     // { TMineResource (instance size 116, VMT 557B42A8) }
     public partial class TMineResource : Aow.Units.AoWE.TPlayerStructureResource
     {
-        // Mine.pas:200
-        public new const int ClassID = 131963;
-
-        // Mine.pas:186
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TMineResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FTerrainBound = false;
             FClaimed = false;
             FRazeable = true;
@@ -301,6 +283,12 @@ namespace Aow.Units.Mine
             FRebuildGold = 25;
             FRebuildDays = 2;
         }
+
+        // Mine.pas:200
+        public new const int ClassID = 131963;
+
+        // Mine.pas:186
+
 
         // Mine.pas:203
         public override int ResourceUserClassID()
@@ -311,21 +299,7 @@ namespace Aow.Units.Mine
         }
 
         // Mine.pas:41
-        public static new Aow.Units.Mine.TMineResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Mine.TMineResource o = new Aow.Units.Mine.TMineResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TPlayerStructureResource.Meta
         {

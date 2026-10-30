@@ -49,6 +49,9 @@ namespace Aow.Units.UnHolyG
 //     $1E FDuration, $1F FOriginalOverlay. }
     public partial class TUnHolyGround : Aow.Units.ILTer.TILTerrainMO
     {
+        public TUnHolyGround(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // UnHolyG.pas:93
         public new const int ClassID = 131985;
 
@@ -416,6 +419,9 @@ namespace Aow.Units.UnHolyG
     // { TUnHolyGroundResource (instance size 68, VMT 557C8CC0) }
     public partial class TUnHolyGroundResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TUnHolyGroundResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // UnHolyG.pas:278
         public new const int ClassID = 131986;
 
@@ -452,6 +458,9 @@ namespace Aow.Units.UnHolyG
     // { TUnholyGroundSpellTE (instance size 36, VMT 557C8DC0) }
     public partial class TUnholyGroundSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TUnholyGroundSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // UnHolyG.pas:288
         public new const int ClassID = 135943;
 
@@ -512,7 +521,7 @@ namespace Aow.Units.UnHolyG
                         if (call__61)
                         {
                             Ground.FMode = TSet<Aow.Units.UnHolyG.AnonymousEnum_hgSummoning>.Of(Aow.Units.UnHolyG.AnonymousEnum_hgSummoning.hgSummoning);
-                            Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                             var call__62 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(14);
                             var call__63 = call__62.FCastImages.ImageSequences[0];
                             Anim.SetImageSequence(call__63);
@@ -535,21 +544,7 @@ namespace Aow.Units.UnHolyG
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.UnHolyG.TUnholyGroundSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnHolyG.TUnholyGroundSpellTE o = new Aow.Units.UnHolyG.TUnholyGroundSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -566,10 +561,8 @@ namespace Aow.Units.UnHolyG
     // { TUnholyGroundSpell (instance size 60, VMT 557C8EA4) }
     public partial class TUnholyGroundSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
-        // UnHolyG.pas:349
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TUnholyGroundSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__65 = Aow.Units.AoWE.AoWE.UnholyGroundsRStr;
             var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(call__65);
             FSpellName = call__66;
@@ -579,6 +572,14 @@ namespace Aow.Units.UnHolyG
             FMagicSphere = Aow.Units.AoWE.TMagicSphere.msDeath;
             FAboveGroundOnly = false;
         }
+
+        public static new TUnholyGroundSpell Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TUnholyGroundSpell(context, owner));
+        }
+
+        // UnHolyG.pas:349
+
 
         // UnHolyG.pas:383
         public override void SetupTargetSelection(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TTargetSelectionControl A2)
@@ -601,7 +602,7 @@ namespace Aow.Units.UnHolyG
         {
             bool Result = default;
             Aow.Units.UnHolyG.TUnholyGroundSpellTE Event = default;
-            Event = Aow.Units.UnHolyG.TUnholyGroundSpellTE.Create(null);
+            Event = new Aow.Units.UnHolyG.TUnholyGroundSpellTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -660,21 +661,7 @@ namespace Aow.Units.UnHolyG
         }
 
         // UnHolyG.pas:62
-        public static new Aow.Units.UnHolyG.TUnholyGroundSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.UnHolyG.TUnholyGroundSpell o = new Aow.Units.UnHolyG.TUnholyGroundSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public static partial class UnHolyG

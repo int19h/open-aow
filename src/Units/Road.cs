@@ -22,16 +22,17 @@ namespace Aow.Units.Road
 //     pairs 2+6 and 3+5 become bits 7 and 6) }
     public partial class TRoad : Aow.Units.HSEngine.TAbstractRoad
     {
+        public TRoad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // Road.pas:47
         public new const int ClassID = 131428;
 
         protected internal byte FTransitions;
         // Road.pas:42
         // { TRoad }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // Road.pas:52
         public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
@@ -135,21 +136,7 @@ namespace Aow.Units.Road
         }
 
         // Road.pas:18
-        public static new Aow.Units.Road.TRoad Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Road.TRoad o = new Aow.Units.Road.TRoad();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
         {
@@ -167,6 +154,9 @@ namespace Aow.Units.Road
     // { Road.TRoadResource (instance size 52) }
     public partial class TRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
+        public TRoadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Road.pas:136
         public new const int ClassID = 131429;
 

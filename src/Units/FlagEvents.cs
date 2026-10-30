@@ -41,6 +41,9 @@ namespace Aow.Units.FlagEvents
 //     +$10 FTriggerMode, +$14 FTriggerPlayers (player 1 is bit 0). }
     public partial class TFlagEvent : Aow.Units.HSEngine.TMapObject
     {
+        public TFlagEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.FlagEvents.TFlagEventTriggerMode FTriggerMode;
         public Aow.Units.FixedArray_byte_3 FReserved11;
         public int FTriggerPlayers;
@@ -184,12 +187,13 @@ namespace Aow.Units.FlagEvents
     // { TFlagEventResource (instance size 52, VMT 557D09F0): no additional fields. }
     public partial class TFlagEventResource : Aow.Units.HSEngine.TMapObjectResource
     {
-        // FlagEvents.pas:169
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TFlagEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             Level = 27;
         }
+
+        // FlagEvents.pas:169
+
 
         // FlagEvents.pas:175
         public override void SetLevel(byte Value)
@@ -198,21 +202,7 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:46
-        public static new Aow.Units.FlagEvents.TFlagEventResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.FlagEvents.TFlagEventResource o = new Aow.Units.FlagEvents.TFlagEventResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TFlagMessageEventLog (instance size 36, VMT 557D0AE4): no additional fields. }
@@ -239,6 +229,12 @@ namespace Aow.Units.FlagEvents
     // { TFlagMessageEvent (instance size 32, VMT 557D0BE8): +$18 FHelpFileName, +$1C FMessage. }
     public partial class TFlagMessageEvent : Aow.Units.FlagEvents.TFlagEvent
     {
+        public TFlagMessageEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__11 = new Aow.Rtl.TStringList();
+            FMessage = call__11;
+        }
+
         // FlagEvents.pas:192
         public new const int ClassID = 132461;
 
@@ -260,12 +256,7 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:180
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__11 = new Aow.Rtl.TStringList();
-            FMessage = call__11;
-        }
+
 
         // FlagEvents.pas:204
         public override bool Trigger(sbyte Player)
@@ -287,21 +278,7 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:62
-        public static new Aow.Units.FlagEvents.TFlagMessageEvent Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.FlagEvents.TFlagMessageEvent o = new Aow.Units.FlagEvents.TFlagMessageEvent();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
@@ -319,6 +296,9 @@ namespace Aow.Units.FlagEvents
     // { TFlagMessageEventResource (instance size 52, VMT 557D0D9C): no additional fields. }
     public partial class TFlagMessageEventResource : Aow.Units.FlagEvents.TFlagEventResource
     {
+        public TFlagMessageEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // FlagEvents.pas:218
         public new const int ClassID = 132462;
 
@@ -353,6 +333,12 @@ namespace Aow.Units.FlagEvents
     // { TTutorialMessageEvent (instance size 28, VMT 557D0EA0): +$18 FMessage. }
     public partial class TTutorialMessageEvent : Aow.Units.FlagEvents.TFlagEvent
     {
+        public TTutorialMessageEvent(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__13 = new Aow.Rtl.TStringList();
+            FMessage = call__13;
+        }
+
         // FlagEvents.pas:245
         public new const int ClassID = 132459;
 
@@ -372,12 +358,7 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:233
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__13 = new Aow.Rtl.TStringList();
-            FMessage = call__13;
-        }
+
 
         // FlagEvents.pas:256
         public override bool Trigger(sbyte Player)
@@ -398,21 +379,7 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:81
-        public static new Aow.Units.FlagEvents.TTutorialMessageEvent Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.FlagEvents.TTutorialMessageEvent o = new Aow.Units.FlagEvents.TTutorialMessageEvent();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObject.Meta
         {
@@ -430,6 +397,9 @@ namespace Aow.Units.FlagEvents
     // { TTutorialMessageEventResource (instance size 52, VMT 557D104C): no additional fields. }
     public partial class TTutorialMessageEventResource : Aow.Units.FlagEvents.TFlagEventResource
     {
+        public TTutorialMessageEventResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // FlagEvents.pas:269
         public new const int ClassID = 132460;
 

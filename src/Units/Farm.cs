@@ -45,6 +45,9 @@ namespace Aow.Units.Farm
     // { TFarm (instance size 72, VMT 557B281C): $44 FMode. }
     public partial class TFarm : Aow.Units.Crops.TPlayerCropStructure
     {
+        public TFarm(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Farm.pas:54
         public new const int ClassID = 131950;
 
@@ -239,19 +242,20 @@ namespace Aow.Units.Farm
     // { TFarmResource (instance size 120, VMT 557B2AC4) }
     public partial class TFarmResource : Aow.Units.Crops.TPlayerCropStructureResource
     {
-        // Farm.pas:151
-        public new const int ClassID = 131951;
-
-        // Farm.pas:136
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TFarmResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FClaimed = false;
             FRazeable = true;
             FRazeDefenderBudget = 50;
             FRebuildGold = 25;
             FRebuildDays = 2;
         }
+
+        // Farm.pas:151
+        public new const int ClassID = 131951;
+
+        // Farm.pas:136
+
 
         // Farm.pas:156
         public override int ResourceUserClassID()
@@ -262,21 +266,7 @@ namespace Aow.Units.Farm
         }
 
         // Farm.pas:36
-        public static new Aow.Units.Farm.TFarmResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Farm.TFarmResource o = new Aow.Units.Farm.TFarmResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Crops.TPlayerCropStructureResource.Meta
         {

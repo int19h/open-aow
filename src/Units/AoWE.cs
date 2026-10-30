@@ -9874,6 +9874,12 @@ namespace Aow.Units.AoWE
     // { TAoWMapField: size $1C; +$18 flags, byte +$1A fog count, bit $02000000 owner query. }
     public partial class TAoWMapField : Aow.Units.HSEngine.TMapField
     {
+        public TAoWMapField(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Raw allocation for RawMapField in remaining-todos.
+        protected TAoWMapField() { }
+
         public new const int ClassID = 131090;
 
         public int FFieldFlags;
@@ -10086,6 +10092,17 @@ namespace Aow.Units.AoWE
     // { TAoWMapLevel: size $80; inherited field table and coordinate offsets, reserved +$7C. }
     public partial class TAoWMapLevel : Aow.Units.HSEngine.TMapLevel
     {
+        private protected TAoWMapLevel(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {}
+
+        // Raw allocation for RawMapLevel in MovementChecks.
+        protected TAoWMapLevel() { }
+
+        public static new TAoWMapLevel Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAoWMapLevel(context, owner));
+        }
+
         public new const int ClassID = 131091;
 
         public Aow.Units.FixedArray_byte_4 F_AoWMapLevel_7C;
@@ -16905,8 +16922,13 @@ namespace Aow.Units.AoWE
     // { TAbstractAoWHSMapMouse: size $50; $3C selection rectangle, $4C events. VMT 5570E22C. }
     public partial class TAbstractAoWHSMapMouse : Aow.Units.HSEngine.THSMapMouse
     {
+        public TAbstractAoWHSMapMouse() : base()
+        {
+            InitializeAbstractAoWHSMapMouse();
+        }
+
         // Legacy factory runs the split base body after raw allocation.
-        public TAbstractAoWHSMapMouse() : base(true) { }
+        protected TAbstractAoWHSMapMouse(bool raw) : base(true) { }
 
         public Aow.Rtl.TRect FSelectionRectangle;
         // { $3C..$48; 55792672 }
@@ -16960,10 +16982,16 @@ namespace Aow.Units.AoWE
         public void Create__init_TAbstractAoWHSMapMouse()
         {
             base.Create__init_THSMapMouse();
+            InitializeAbstractAoWHSMapMouse();
+        }
+
+        private void InitializeAbstractAoWHSMapMouse()
+        {
             ResetRectangleSelection();
             var call__1613 = new Aow.Units.Engine.TEventList();
             FRectangleSelectEvents = call__1613;
         }
+
 
         // AoWHSMap.PAS:1063
         public void ResetRectangleSelection()
@@ -17084,26 +17112,15 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_05.inc:68
-        public static Aow.Units.AoWE.TAbstractAoWHSMapMouse Create()
-        {
-            Aow.Units.AoWE.TAbstractAoWHSMapMouse o = new Aow.Units.AoWE.TAbstractAoWHSMapMouse();
-            try
-            {
-                o.Create__init_TAbstractAoWHSMapMouse();
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TAoWHSMapMouse: size $50; no additional fields. VMT 5570E2DC. }
     public partial class TAoWHSMapMouse : Aow.Units.AoWE.TAbstractAoWHSMapMouse
     {
+        // Raw allocation for the retained mouse factory.
+        public TAoWHSMapMouse() : base(true) { }
+
         // AoWHSMap.PAS:1148
         public override int GetCursor()
         {
@@ -17249,7 +17266,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_05.inc:68
-        public static new Aow.Units.AoWE.TAoWHSMapMouse Create()
+        public static Aow.Units.AoWE.TAoWHSMapMouse Create()
         {
             Aow.Units.AoWE.TAoWHSMapMouse o = new Aow.Units.AoWE.TAoWHSMapMouse();
             try
@@ -17349,7 +17366,7 @@ namespace Aow.Units.AoWE
         public override Aow.Units.HSEngine.THSMapMouse CreateMouse()
         {
             Aow.Units.HSEngine.THSMapMouse Result = default;
-            Result = Aow.Units.AoWE.TAbstractAoWHSMapMouse.Create();
+            Result = new Aow.Units.AoWE.TAbstractAoWHSMapMouse();
             return Result;
         }
 
@@ -17670,7 +17687,7 @@ namespace Aow.Units.AoWE
         public void PlayCenterAnimation(sbyte X, sbyte Y, sbyte L)
         {
             Aow.Units.Animation.TImageSequenceAnimation Animation = default;
-            Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+            Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
             var call__1663 = Aow.Units.AoWE.AoWE.AoWHSSet.FImageSequences.GetImageSequence(11);
             Animation.SetImageSequence(call__1663);
             PlaceHX(Animation, X, Y, L);
@@ -21900,6 +21917,14 @@ namespace Aow.Units.AoWE
 //     +10 FUnitGFXResource; +14 FDirection; +15 FMoveStep; +16 FFlagID; +18 FShadow. }
     public partial class TUnitHS : Aow.Units.HSEngine.THexagonSprite
     {
+        public TUnitHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeUnitHS();
+        }
+
+        // Raw allocation for TArmyHS, TTacticalCombatUnitHS.
+        protected TUnitHS() { }
+
         public new const int ClassID = 131604;
 
         public byte FStatus;
@@ -21960,10 +21985,16 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeUnitHS();
+        }
+
+        private void InitializeUnitHS()
+        {
             FMoveStep = unchecked((sbyte)-1);
             FDirection = 3;
             FShowPriority = 1744830464;
         }
+
 
         // UnitHS.PAS:610
         public override void TimerEvent(int Tick, Aow.Units.Engine.TEObject Sender)
@@ -22597,21 +22628,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_03.inc:74
-        public static new Aow.Units.AoWE.TUnitHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TUnitHS o = new Aow.Units.AoWE.TUnitHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
@@ -25612,7 +25629,7 @@ namespace Aow.Units.AoWE
                 HS = (Aow.Units.AoWE.TItemHS)call__2260;
                 if (HS == null)
                 {
-                    HS = Aow.Units.AoWE.TItemHS.Create(null);
+                    HS = new Aow.Units.AoWE.TItemHS(null);
                     if (!Map.PlaceHX(HS, X, Y, L))
                     {
                         HS.Free();
@@ -26712,6 +26729,7 @@ namespace Aow.Units.AoWE
     // { TItemHS (instance size $14): $0C items, $10 generation mode. }
     public partial class TItemHS : Aow.Units.HSEngine.TSingleHS
     {
+
         public new const int ClassID = 131697;
 
         public Aow.Units.AoWE.TItemHSList FItems;
@@ -26888,21 +26906,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_04.inc:216
-        public static new Aow.Units.AoWE.TItemHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TItemHS o = new Aow.Units.AoWE.TItemHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.THexagonSprite.Meta
         {
@@ -45240,7 +45244,7 @@ namespace Aow.Units.AoWE
                         var call__3672 = call__3671.FImageSequences.GetImageSequence(0);
                         if (call__3672 != null)
                         {
-                            Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                             var call__3673 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(42);
                             var call__3674 = call__3673.FImageSequences.GetImageSequence(0);
                             Animation.SetImageSequence(call__3674);
@@ -46440,6 +46444,15 @@ namespace Aow.Units.AoWE
 //     $25 days left, $28 shadow, $2C fogged. VMT 55713C18. }
     public partial class TStructure : Aow.Units.ILTer.TFixedILTerrainMO
     {
+        public TStructure(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TStructure(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            FBuildingPlayer = unchecked((sbyte)-1);
+            FFogged = true;
+        }
+
+
         public new const int ClassID = 131914;
 
         public int FStructureID;
@@ -46486,12 +46499,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1010
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FBuildingPlayer = unchecked((sbyte)-1);
-            FFogged = true;
-        }
+
 
         // Structur.PAS:1629
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -47162,7 +47170,7 @@ namespace Aow.Units.AoWE
         public virtual Aow.Units.AoWE.TStructureTE CreateTE()
         {
             Aow.Units.AoWE.TStructureTE Result = default;
-            Result = Aow.Units.AoWE.TStructureTE.Create(null);
+            Result = new Aow.Units.AoWE.TStructureTE(null);
             return Result;
         }
 
@@ -47534,7 +47542,7 @@ namespace Aow.Units.AoWE
                 var call__3841 = FResource.ImageSequenceList.GetImageSequence(20);
                 if (call__3841 != null)
                 {
-                    Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__3842 = FResource.ImageSequenceList.GetImageSequence(20);
                     Animation.SetImageSequence(call__3842);
                     Animation.SetXhpOffset(Animation.FXhpOffset - 16);
@@ -47549,7 +47557,7 @@ namespace Aow.Units.AoWE
                 var call__3846 = FResource.ImageSequenceList.GetImageSequence(21);
                 if (call__3846 != null)
                 {
-                    Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__3847 = FResource.ImageSequenceList.GetImageSequence(21);
                     Animation.SetImageSequence(call__3847);
                     Animation.FFrameCount = 300;
@@ -48182,21 +48190,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_09.inc:78
-        public static new Aow.Units.AoWE.TStructure Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TStructure o = new Aow.Units.AoWE.TStructure();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMO.Meta
         {
@@ -48383,6 +48377,20 @@ namespace Aow.Units.AoWE
 //     $54 scanner icon. VMT 55713F40; other recovered resource fields below. }
     public partial class TStructureResource : Aow.Units.ILTer.TFixedILTerrainMOR
     {
+        public TStructureResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            SetLevel(26);
+            FConnectRoads = true;
+            FTerrainBound = true;
+            var call__3918 = new Aow.Rtl.TStringList();
+            FDescription = call__3918;
+            var call__3919 = new Aow.Units.AoWE.TUnitIndexListCollection();
+            FDefenders = call__3919;
+            FRazeDefenderBudget = 50;
+            FRazeable = false;
+        }
+
+
         public new const int ClassID = 131915;
 
         public bool FTerrainBound;
@@ -48443,19 +48451,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1892
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            SetLevel(26);
-            FConnectRoads = true;
-            FTerrainBound = true;
-            var call__3918 = new Aow.Rtl.TStringList();
-            FDescription = call__3918;
-            var call__3919 = new Aow.Units.AoWE.TUnitIndexListCollection();
-            FDefenders = call__3919;
-            FRazeDefenderBudget = 50;
-            FRazeable = false;
-        }
+
 
         // Structur.PAS:1917
         public override int ResourceUserClassID()
@@ -48542,21 +48538,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_09.inc:200
-        public static new Aow.Units.AoWE.TStructureResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TStructureResource o = new Aow.Units.AoWE.TStructureResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TFixedILTerrainMOR.Meta
         {
@@ -48716,6 +48698,16 @@ namespace Aow.Units.AoWE
 //     $32 flag ID, $34 victory-location bits, $38 unfog range. VMT 55714340. }
     public partial class TPlayerStructure : Aow.Units.AoWE.TStructure
     {
+        public TPlayerStructure(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
+
+        private protected TPlayerStructure(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        {
+            var call__3937 = new Aow.Units.Engine.TBitList();
+            FVictoryLocations = call__3937;
+            FUnfogRange = 0;
+        }
+
+
         public new const int ClassID = 131916;
 
         public sbyte FPlayer;
@@ -48747,13 +48739,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1970
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__3937 = new Aow.Units.Engine.TBitList();
-            FVictoryLocations = call__3937;
-            FUnfogRange = 0;
-        }
+
 
         // Structur.PAS:2328
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -49811,21 +49797,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_09.inc:249
-        public static new Aow.Units.AoWE.TPlayerStructure Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerStructure o = new Aow.Units.AoWE.TPlayerStructure();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
@@ -49843,6 +49815,14 @@ namespace Aow.Units.AoWE
     // { TPlayerStructureResource (instance size 116, VMT 557145E0) }
     public partial class TPlayerStructureResource : Aow.Units.AoWE.TStructureResource
     {
+        public TPlayerStructureResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FClaimed = true;
+            FFlagX = 20;
+            FFlagY = -35;
+        }
+
+
         public new const int ClassID = 131917;
 
         public bool FClaimed;
@@ -49872,13 +49852,7 @@ namespace Aow.Units.AoWE
 
         // Structur.PAS:2422
         // { TPlayerStructureResource (instance size 116; $64 claimed, $68/$6C flag position, $70 flag control). }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FClaimed = true;
-            FFlagX = 20;
-            FFlagY = -35;
-        }
+
 
         // Structur.PAS:2467
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -49946,21 +49920,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_09.inc:300
-        public static new Aow.Units.AoWE.TPlayerStructureResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TPlayerStructureResource o = new Aow.Units.AoWE.TPlayerStructureResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {
@@ -49978,6 +49938,10 @@ namespace Aow.Units.AoWE
     // { TStructureTE (instance size 40, VMT 557146EC) }
     public partial class TStructureTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public TStructureTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+
         public new const int ClassID = 135440;
 
         public sbyte FX;
@@ -50093,21 +50057,7 @@ namespace Aow.Units.AoWE
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.AoWE.TStructureTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TStructureTE o = new Aow.Units.AoWE.TStructureTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
@@ -76628,6 +76578,14 @@ namespace Aow.Units.AoWE
     // { TMoveTE: $10 status, $14 path, $18 move index; size $1C. }
     public partial class TMoveTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public TMoveTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            InitializeMoveTE();
+        }
+
+        // Raw allocation for TMoveArmyTE.
+        protected TMoveTE() { }
+
         public Aow.Units.AoWE.TMoveStatus FStatus;
         // { $10 }
         public Aow.Units.FixedArray_byte_3 F_MoveTE_11;
@@ -76653,11 +76611,17 @@ namespace Aow.Units.AoWE
         public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
         {
             base.Create__init(AOwner);
+            InitializeMoveTE();
+        }
+
+        private void InitializeMoveTE()
+        {
             var call__6223 = new Aow.Units.AoWE.TMovepath();
             FPath = call__6223;
             FMoveIndex = 0;
             FStatus = Aow.Units.AoWE.TMoveStatus.msIdle;
         }
+
 
         // MoveT.PAS:2027
         public override Aow.Units.NetworkE.TExecuteResult Execute(Aow.Units.NetworkE.TTokenExecuter TE)
@@ -76877,21 +76841,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P5_07.inc:765
-        public static new Aow.Units.AoWE.TMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TMoveTE o = new Aow.Units.AoWE.TMoveTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     // { TMultiMoveTE (instance size 24, VMT 5571C408) }
@@ -88302,7 +88252,7 @@ namespace Aow.Units.AoWE
                     var call__7500 = Aow.Units.AoWE.AoWE.AoWHSMap.Visible(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
                     if (call__7500)
                     {
-                        Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__7501 = Ability.FImageSequences.GetImageSequence(0);
                         Anim.SetImageSequence(call__7501);
                         Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Anim, X, Y, L);
@@ -89229,7 +89179,7 @@ namespace Aow.Units.AoWE
                 var call__7597 = Aow.Units.AoWE.AoWE.AoWHSMap.Visible(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
                 if (call__7597)
                 {
-                    Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__7598 = Ability.FImageSequences.GetImageSequence(0);
                     Anim.SetImageSequence(call__7598);
                     Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Anim, X, Y, L);
@@ -91589,7 +91539,7 @@ namespace Aow.Units.AoWE
                 var call__7768 = call__7767.FCastImages.GetImageSequence(0);
                 if (call__7768 != null)
                 {
-                    Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                    Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                     var call__7769 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                     var call__7770 = call__7769.FCastImages.GetImageSequence(0);
                     Animation.SetImageSequence(call__7770);
@@ -92197,6 +92147,12 @@ namespace Aow.Units.AoWE
     // { TSpellTE (instance size 32, VMT 55722FC4; $10 spell ID, $14 source ID, $18 player, $1C mana) }
     public partial class TSpellTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public TSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Raw allocation for TUnitSpellTE, TCityTargetSpellTE, TGlobalEnchantmentSpellTE.
+        protected TSpellTE() { }
+
         public new const int ClassID = 135936;
 
         public int FEventSpellID;
@@ -92225,21 +92181,7 @@ namespace Aow.Units.AoWE
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.AoWE.TSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TSpellTE o = new Aow.Units.AoWE.TSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {

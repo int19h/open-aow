@@ -39,6 +39,9 @@ namespace Aow.Units.DeathNode
     // { TDeathNode (instance size 76, VMT 557BFFA4) }
     public partial class TDeathNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TDeathNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // DeathNode.pas:37
         public new const int ClassID = 132270;
 
@@ -65,18 +68,19 @@ namespace Aow.Units.DeathNode
     // { TDeathNodeResource (instance size 120, VMT 557C0258) }
     public partial class TDeathNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        // DeathNode.pas:55
-        public new const int ClassID = 132271;
-
-        // DeathNode.pas:43
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TDeathNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FRazeDefenderBudget = 200;
             FRebuildGold = 25;
             FRebuildDays = 2;
             FTerrainBound = false;
         }
+
+        // DeathNode.pas:55
+        public new const int ClassID = 132271;
+
+        // DeathNode.pas:43
+
 
         // DeathNode.pas:58
         public override int ResourceUserClassID()
@@ -87,21 +91,7 @@ namespace Aow.Units.DeathNode
         }
 
         // DeathNode.pas:27
-        public static new Aow.Units.DeathNode.TDeathNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.DeathNode.TDeathNodeResource o = new Aow.Units.DeathNode.TDeathNodeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {

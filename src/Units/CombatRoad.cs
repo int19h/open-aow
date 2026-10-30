@@ -45,6 +45,9 @@ namespace Aow.Units.CombatRoad
     // { TCombatRoad (instance size 24, VMT 00410C0C) }
     public partial class TCombatRoad : Aow.Units.HSEngine.TAbstractRoad
     {
+        public TCombatRoad(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatRoad.pas:51
         public new const int ClassID = 2229506;
 
@@ -221,6 +224,9 @@ namespace Aow.Units.CombatRoad
     // { TCombatRoadResource (instance size 52, VMT 00410DA0) }
     public partial class TCombatRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
+        public TCombatRoadResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatRoad.pas:133
         public new const int ClassID = 2229507;
 

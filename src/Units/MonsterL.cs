@@ -39,6 +39,9 @@ namespace Aow.Units.MonsterL
     // { TMonsterlair (instance size 64, no added fields, VMT 557C2D24) }
     public partial class TMonsterlair : Aow.Units.ItemExpS.TItemExplorationSite
     {
+        public TMonsterlair(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // MonsterL.pas:34
         public new const int ClassID = 131886;
 
@@ -57,6 +60,9 @@ namespace Aow.Units.MonsterL
     // { TMonsterlairResource (instance size 104, no added fields, VMT 557C2FA4) }
     public partial class TMonsterlairResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
     {
+        public TMonsterlairResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // MonsterL.pas:40
         public new const int ClassID = 131887;
 

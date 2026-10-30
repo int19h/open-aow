@@ -52,6 +52,11 @@ namespace Aow.Units.Cave
     // { TCave (instance size 52, VMT 557B3018): +$30 FEntrance. }
     public partial class TCave : Aow.Units.AoWE.TStructure
     {
+        public TCave(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FEntrance = Aow.Units.Cave.TCaveEntrance.ceDown;
+        }
+
         // Cave.pas:160
         public new const int ClassID = 131966;
 
@@ -102,11 +107,7 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:128
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FEntrance = Aow.Units.Cave.TCaveEntrance.ceDown;
-        }
+
 
         // Cave.pas:273
         public override sbyte GetOverlay(int Index)
@@ -649,21 +650,7 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:25
-        public static new Aow.Units.Cave.TCave Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Cave.TCave o = new Aow.Units.Cave.TCave();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructure.Meta
         {
@@ -681,16 +668,17 @@ namespace Aow.Units.Cave
     // { TCaveResource (instance size 100, VMT 557B326C) }
     public partial class TCaveResource : Aow.Units.AoWE.TStructureResource
     {
+        public TCaveResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FTerrainBound = false;
+            FConnectRoads = true;
+        }
+
         // Cave.pas:436
         public new const int ClassID = 131967;
 
         // Cave.pas:426
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FTerrainBound = false;
-            FConnectRoads = true;
-        }
+
 
         // Cave.pas:439
         public override int ResourceUserClassID()
@@ -701,21 +689,7 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:49
-        public static new Aow.Units.Cave.TCaveResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Cave.TCaveResource o = new Aow.Units.Cave.TCaveResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TStructureResource.Meta
         {

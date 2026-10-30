@@ -88,7 +88,7 @@ namespace Aow.Units.HSLib
         {
             Aow.Units.HSLib.TLibraryHS Result = default;
             Aow.Units.HSLib.TLibraryHS HS = default;
-            HS = Aow.Units.HSLib.TLibraryHS.Create(null);
+            HS = new Aow.Units.HSLib.TLibraryHS(null);
             var call__6 = this[Index];
             HS.SetImage(call__6);
             HS.FLibrary = this;
@@ -124,6 +124,11 @@ namespace Aow.Units.HSLib
 //     placed. }
     public partial class TLibraryHS : Aow.Units.HSEngine.THPBasedHS
     {
+        public TLibraryHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FLevel = 30;
+        }
+
         internal Aow.Units.HSEngine.TMapContainer FMapContainer;
         internal byte FLevel;
         internal Aow.Units.ImageLib.TLibraryImage FImage;
@@ -131,11 +136,7 @@ namespace Aow.Units.HSLib
         internal Aow.Units.HSLib.THSLibrary FLibrary;
         // HSLib.pas:75
         // { TLibraryHS }
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FLevel = 30;
-        }
+
 
         // HSLib.pas:81
         public override void Destroy()
@@ -509,21 +510,7 @@ namespace Aow.Units.HSLib
         public bool DestroyOnShow { get => FDestroyOnShow; set => FDestroyOnShow = value; }
 
         // HSLib.pas:28
-        public static new Aow.Units.HSLib.TLibraryHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSLib.TLibraryHS o = new Aow.Units.HSLib.TLibraryHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public static partial class HSLib

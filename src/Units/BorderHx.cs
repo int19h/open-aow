@@ -22,6 +22,9 @@ namespace Aow.Units.BorderHx
     // { BorderHx.TBorderHexagon (instance size 16) }
     public partial class TBorderHexagon : Aow.Units.HSEngine.TAbstractBorderHexagon
     {
+        public TBorderHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // BorderHx.pas:59
         public new const int ClassID = 132439;
 
@@ -114,6 +117,9 @@ namespace Aow.Units.BorderHx
     // { BorderHx.TBorderHexagonResource (instance size 52) }
     public partial class TBorderHexagonResource : Aow.Units.HSEngine.TAbstractBorderHexagonResource
     {
+        public TBorderHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public new const int ClassID = 132440;
 
         // BorderHx.pas:112

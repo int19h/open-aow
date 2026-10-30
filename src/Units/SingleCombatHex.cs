@@ -43,6 +43,9 @@ namespace Aow.Units.SingleCombatHex
     // { TSingleCombatHexagon (instance size 16, VMT 00434E38) }
     public partial class TSingleCombatHexagon : Aow.Units.HSEngine.TAbstractHexagon
     {
+        public TSingleCombatHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // SingleCombatHex.pas:41
         public new const int ClassID = 2229534;
 
@@ -84,6 +87,9 @@ namespace Aow.Units.SingleCombatHex
     // { TSingleCombatHexagonResource (instance size 52, VMT 00434FE8) }
     public partial class TSingleCombatHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
     {
+        public TSingleCombatHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // SingleCombatHex.pas:59
         public new const int ClassID = 2229535;
 

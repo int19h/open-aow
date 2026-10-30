@@ -43,6 +43,9 @@ namespace Aow.Units.IsoCombatHex
     // { TIsometricCombatHexagon (instance size 24, VMT 0043386C) }
     public partial class TIsometricCombatHexagon : Aow.Units.IsoHex.TUpperIsometricHexagon
     {
+        public TIsometricCombatHexagon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // IsoCombatHex.pas:40
         public new const int ClassID = 2229514;
 
@@ -214,6 +217,9 @@ namespace Aow.Units.IsoCombatHex
     // { TIsometricCombatHexagonResource (instance size 56, VMT 00433A24) }
     public partial class TIsometricCombatHexagonResource : Aow.Units.IsoHex.TUpperIsometricHexagonResource
     {
+        public TIsometricCombatHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // IsoCombatHex.pas:108
         public new const int ClassID = 2229515;
 

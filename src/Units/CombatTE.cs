@@ -52,6 +52,9 @@ namespace Aow.Units.CombatTE
     // { TCEndTurnTE (instance size 16, VMT 00407548) }
     public partial class TCEndTurnTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public TCEndTurnTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatTE.pas:175
         public new const int ClassID = 2236420;
 
@@ -121,21 +124,7 @@ namespace Aow.Units.CombatTE
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.CombatTE.TCEndTurnTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatTE.TCEndTurnTE o = new Aow.Units.CombatTE.TCEndTurnTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
@@ -152,6 +141,9 @@ namespace Aow.Units.CombatTE
     // { TCEndCombatTE (instance size 16, VMT 0040760C) }
     public partial class TCEndCombatTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public TCEndCombatTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatTE.pas:158
         public new const int ClassID = 2236421;
 
@@ -202,21 +194,7 @@ namespace Aow.Units.CombatTE
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.CombatTE.TCEndCombatTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatTE.TCEndCombatTE o = new Aow.Units.CombatTE.TCEndCombatTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
@@ -233,6 +211,9 @@ namespace Aow.Units.CombatTE
     // { TCombatMoveTE (instance size 56, VMT 004076D4) }
     public partial class TCombatMoveTE : Aow.Units.AoWE.TMoveTE
     {
+        public TCombatMoveTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatTE.pas:206
         public new const int ClassID = 2236416;
 
@@ -794,21 +775,7 @@ namespace Aow.Units.CombatTE
         }
 
         // intf_P5_07.inc:765
-        public static new Aow.Units.CombatTE.TCombatMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatTE.TCombatMoveTE o = new Aow.Units.CombatTE.TCombatMoveTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
@@ -825,6 +792,9 @@ namespace Aow.Units.CombatTE
     // { TCMeleeMoveTE (instance size 64, VMT 004077C0) }
     public partial class TCMeleeMoveTE : Aow.Units.CombatTE.TCombatMoveTE
     {
+        public TCMeleeMoveTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public new const int ClassID = 2236417;
 
         public Aow.Units.AoWE.TMeleeRound FMeleeRound;
@@ -1174,21 +1144,7 @@ namespace Aow.Units.CombatTE
         }
 
         // intf_P5_07.inc:765
-        public static new Aow.Units.CombatTE.TCMeleeMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatTE.TCMeleeMoveTE o = new Aow.Units.CombatTE.TCMeleeMoveTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.CombatTE.TCombatMoveTE.Meta
         {
@@ -1206,6 +1162,9 @@ namespace Aow.Units.CombatTE
     // { TCAbTouchMoveTE (instance size 108, VMT 004078AC) }
     public partial class TCAbTouchMoveTE : Aow.Units.CombatTE.TCombatMoveTE
     {
+        public TCAbTouchMoveTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatTE.pas:624
         public new const int ClassID = 2236418;
 
@@ -1830,21 +1789,7 @@ namespace Aow.Units.CombatTE
         }
 
         // intf_P5_07.inc:765
-        public static new Aow.Units.CombatTE.TCAbTouchMoveTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatTE.TCAbTouchMoveTE o = new Aow.Units.CombatTE.TCAbTouchMoveTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.CombatTE.TCombatMoveTE.Meta
         {
@@ -1861,6 +1806,9 @@ namespace Aow.Units.CombatTE
     // { TCAbRangedTE (instance size 60, VMT 0040799C) }
     public partial class TCAbRangedTE : Aow.Units.NetworkE.TTokenEvent
     {
+        public TCAbRangedTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatTE.pas:917
         public new const int ClassID = 2236419;
 
@@ -2747,7 +2695,7 @@ namespace Aow.Units.CombatTE
 
                                                                                                             if (bool__396)
                                                                                                             {
-                                                                                                                Ooze = Aow.Units.AoWTC.TCOozeHS.Create(null);
+                                                                                                                Ooze = new Aow.Units.AoWTC.TCOozeHS(null);
                                                                                                                 Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlaceHX(Ooze, EndX, EndY, 0);
                                                                                                             }
 
@@ -3952,21 +3900,7 @@ namespace Aow.Units.CombatTE
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.CombatTE.TCAbRangedTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatTE.TCAbRangedTE o = new Aow.Units.CombatTE.TCAbRangedTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
@@ -3983,6 +3917,12 @@ namespace Aow.Units.CombatTE
     // { TTerminateCombatTE (instance size 16, VMT 00407A64) }
     public partial class TTerminateCombatTE : Aow.Units.NetworkE.TTokenEvent
     {
+        // TAoWCombatMap keeps this caller and its construction protocol.
+        public static new TTerminateCombatTE Create(Aow.Units.Engine.TECustomNode AOwner) => new TTerminateCombatTE(AOwner);
+
+        public TTerminateCombatTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatTE.pas:149
         public new const int ClassID = 2236422;
 
@@ -3996,21 +3936,7 @@ namespace Aow.Units.CombatTE
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.CombatTE.TTerminateCombatTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatTE.TTerminateCombatTE o = new Aow.Units.CombatTE.TTerminateCombatTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
@@ -4117,7 +4043,7 @@ namespace Aow.Units.CombatTE
         public static Aow.Units.CombatTE.TCEndCombatTE CreateTCEndCombatTE()
         {
             Aow.Units.CombatTE.TCEndCombatTE Result = default;
-            Result = Aow.Units.CombatTE.TCEndCombatTE.Create(null);
+            Result = new Aow.Units.CombatTE.TCEndCombatTE(null);
             return Result;
         }
 
@@ -4134,7 +4060,7 @@ namespace Aow.Units.CombatTE
 
             if (bool__681)
             {
-                Result = Aow.Units.CombatTE.TCEndTurnTE.Create(null);
+                Result = new Aow.Units.CombatTE.TCEndTurnTE(null);
             }
             else
             {
@@ -4152,7 +4078,7 @@ namespace Aow.Units.CombatTE
             var call__684 = call__683.GetBusy();
             if (!call__684)
             {
-                Result = Aow.Units.CombatTE.TCEndTurnTE.Create(null);
+                Result = new Aow.Units.CombatTE.TCEndTurnTE(null);
             }
             else
             {
@@ -4206,7 +4132,7 @@ namespace Aow.Units.CombatTE
         public static Aow.Units.CombatTE.TCMeleeMoveTE CreateTCMeleeMoveTE(Aow.Units.AoWTC.TTacticalCombatUnit UnitObject, Aow.Units.AoWE.TMovepath Path)
         {
             Aow.Units.CombatTE.TCMeleeMoveTE Result = default;
-            Result = Aow.Units.CombatTE.TCMeleeMoveTE.Create(null);
+            Result = new Aow.Units.CombatTE.TCMeleeMoveTE(null);
             if (Result != null)
             {
                 Result.Setup(UnitObject, Path);
@@ -4219,7 +4145,7 @@ namespace Aow.Units.CombatTE
         public static Aow.Units.CombatTE.TCAbTouchMoveTE CreateTCAbTouchMoveTE(Aow.Units.AoWTC.TTacticalCombatUnit UnitObject, Aow.Units.AoWE.TMovepath Path, int AbilityID)
         {
             Aow.Units.CombatTE.TCAbTouchMoveTE Result = default;
-            Result = Aow.Units.CombatTE.TCAbTouchMoveTE.Create(null);
+            Result = new Aow.Units.CombatTE.TCAbTouchMoveTE(null);
             if (Result != null)
             {
                 Result.Setup(UnitObject, Path);
@@ -4233,7 +4159,7 @@ namespace Aow.Units.CombatTE
         public static Aow.Units.CombatTE.TCAbRangedTE CreateTCAbRangedTE(Aow.Units.AoWTC.TTacticalCombatUnit UnitObject, ushort X, ushort Y, int AbilityID, int SpellID)
         {
             Aow.Units.CombatTE.TCAbRangedTE Result = default;
-            Result = Aow.Units.CombatTE.TCAbRangedTE.Create(null);
+            Result = new Aow.Units.CombatTE.TCAbRangedTE(null);
             if (Result != null)
             {
                 var call__692 = UnitObject.FUnitHS.Xhx;
@@ -4253,7 +4179,7 @@ namespace Aow.Units.CombatTE
         public static Aow.Units.CombatTE.TCombatMoveTE CreateCombatMoveTE(Aow.Units.AoWTC.TTacticalCombatUnit UnitObject, Aow.Units.AoWE.TMovepath Path)
         {
             Aow.Units.CombatTE.TCombatMoveTE Result = default;
-            Result = Aow.Units.CombatTE.TCombatMoveTE.Create(null);
+            Result = new Aow.Units.CombatTE.TCombatMoveTE(null);
             if (Result != null)
             {
                 Result.Setup(UnitObject, Path);
@@ -4389,7 +4315,7 @@ namespace Aow.Units.CombatTE
                                 }
                             }
 
-                            MoveEvent = Aow.Units.CombatTE.TCombatMoveTE.Create(null);
+                            MoveEvent = new Aow.Units.CombatTE.TCombatMoveTE(null);
                             var call__714 = MoveEvent.Setup(((Aow.Units.AoWTC.TTacticalCombatUnitHS)moveSettings.FMoveObject).FUnit, Path);
                             if (call__714)
                             {

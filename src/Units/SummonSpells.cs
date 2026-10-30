@@ -147,7 +147,7 @@ namespace Aow.Units.SummonSpells
                     var call__15 = call__14.FCastImages.ImageSequences[0];
                     if (call__15 != null)
                     {
-                        Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                        Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                         var call__16 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                         var call__17 = call__16.FCastImages.ImageSequences[0];
                         Anim.SetImageSequence(call__17);

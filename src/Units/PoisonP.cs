@@ -49,6 +49,14 @@ namespace Aow.Units.PoisonP
 //     $1C summoning status; $1D caster player; $1E remaining turns; $1F original overlay. }
     public partial class TPoisonPlant : Aow.Units.ILTer.TILTerrainMO
     {
+        public TPoisonPlant(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FCasterPlayer = unchecked((sbyte)-1);
+            FOriginalOverlay = unchecked((sbyte)-1);
+            FDaysRemaining = unchecked((sbyte)-1);
+            FPlantStatus = TSet<Aow.Units.PoisonP.TPoisonPlantStatusElement>.Of();
+        }
+
         // PoisonP.pas:87
         public new const int ClassID = 131998;
 
@@ -70,14 +78,7 @@ namespace Aow.Units.PoisonP
         }
 
         // PoisonP.pas:78
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FCasterPlayer = unchecked((sbyte)-1);
-            FOriginalOverlay = unchecked((sbyte)-1);
-            FDaysRemaining = unchecked((sbyte)-1);
-            FPlantStatus = TSet<Aow.Units.PoisonP.TPoisonPlantStatusElement>.Of();
-        }
+
 
         // PoisonP.pas:255
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -426,21 +427,7 @@ namespace Aow.Units.PoisonP
         }
 
         // PoisonP.pas:28
-        public static new Aow.Units.PoisonP.TPoisonPlant Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PoisonP.TPoisonPlant o = new Aow.Units.PoisonP.TPoisonPlant();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
@@ -458,6 +445,9 @@ namespace Aow.Units.PoisonP
     // { TPoisonPlantResource (instance size 68, VMT 557C3C68) }
     public partial class TPoisonPlantResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TPoisonPlantResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // PoisonP.pas:293
         public new const int ClassID = 131999;
 
@@ -492,6 +482,9 @@ namespace Aow.Units.PoisonP
     // { TPoisonPlantSpellTE (instance size 36, VMT 557C3D68) }
     public partial class TPoisonPlantSpellTE : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE
     {
+        public TPoisonPlantSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // PoisonP.pas:303
         public new const int ClassID = 135941;
 
@@ -552,7 +545,7 @@ namespace Aow.Units.PoisonP
                         if (call__57)
                         {
                             Plant.FPlantStatus = TSet<Aow.Units.PoisonP.TPoisonPlantStatusElement>.Of(Aow.Units.PoisonP.TPoisonPlantStatusElement.ppsSummoning);
-                            Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                            Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                             var call__58 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(12);
                             var call__59 = call__58.FCastImages.ImageSequences[0];
                             Animation.SetImageSequence(call__59);
@@ -562,7 +555,7 @@ namespace Aow.Units.PoisonP
                             Animation.FFrameCounter = -call__60;
                             Animation.FAnimationLevel = 27;
                             Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Animation, walk.X, walk.Y, FLocation.L);
-                            Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+                            Twinkle = new Aow.Units.Animation.TTwinkleAnimation(null);
                             var call__61 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(2);
                             var call__62 = call__61.FCastImages.ImageSequences[0];
                             Twinkle.Setup(call__62, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(), 2, 6, System.Math.Abs(Animation.FFrameCounter + 5), System.Math.Abs(Animation.FFrameCounter + 5) / 2);
@@ -580,21 +573,7 @@ namespace Aow.Units.PoisonP
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.PoisonP.TPoisonPlantSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PoisonP.TPoisonPlantSpellTE o = new Aow.Units.PoisonP.TPoisonPlantSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Meta
         {
@@ -611,10 +590,8 @@ namespace Aow.Units.PoisonP
     // { TPoisonPlantSpell (instance size 60, VMT 557C3E48) }
     public partial class TPoisonPlantSpell : Aow.Units.GlobalTargetSpells.TGlobalTargetSpell
     {
-        // PoisonP.pas:371
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        private protected TPoisonPlantSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            base.Create__init(AOwner);
             var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PoisonPlantsRStr);
             FSpellName = call__63;
             FSpellID = 12;
@@ -623,6 +600,14 @@ namespace Aow.Units.PoisonP
             FMagicSphere = Aow.Units.AoWE.TMagicSphere.msEarth;
             FAboveGroundOnly = false;
         }
+
+        public static new TPoisonPlantSpell Create(Aow.Units.Engine.TECustomNode AOwner)
+        {
+            return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPoisonPlantSpell(context, owner));
+        }
+
+        // PoisonP.pas:371
+
 
         // PoisonP.pas:405
         public override void SetupTargetSelection(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TTargetSelectionControl A2)
@@ -645,7 +630,7 @@ namespace Aow.Units.PoisonP
         {
             bool Result = default;
             Aow.Units.PoisonP.TPoisonPlantSpellTE Event = default;
-            Event = Aow.Units.PoisonP.TPoisonPlantSpellTE.Create(null);
+            Event = new Aow.Units.PoisonP.TPoisonPlantSpellTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__65 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
@@ -718,21 +703,7 @@ namespace Aow.Units.PoisonP
         }
 
         // PoisonP.pas:66
-        public static new Aow.Units.PoisonP.TPoisonPlantSpell Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.PoisonP.TPoisonPlantSpell o = new Aow.Units.PoisonP.TPoisonPlantSpell();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public static partial class PoisonP

@@ -52,6 +52,12 @@ namespace Aow.Units.ManaCrystals
     // { TManaCrystals (instance size 36, VMT 557B494C): +$1C FAmount, +$20 FSize. }
     public partial class TManaCrystals : Aow.Units.ILTer.TILTerrainMO
     {
+        public TManaCrystals(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FSize = 2;
+            FAmount = 0;
+        }
+
         // ManaCrystals.pas:80
         public new const int ClassID = 132030;
 
@@ -67,12 +73,7 @@ namespace Aow.Units.ManaCrystals
         }
 
         // ManaCrystals.pas:73
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FSize = 2;
-            FAmount = 0;
-        }
+
 
         // ManaCrystals.pas:118
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -213,21 +214,7 @@ namespace Aow.Units.ManaCrystals
         }
 
         // ManaCrystals.pas:28
-        public static new Aow.Units.ManaCrystals.TManaCrystals Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.ManaCrystals.TManaCrystals o = new Aow.Units.ManaCrystals.TManaCrystals();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
@@ -245,6 +232,9 @@ namespace Aow.Units.ManaCrystals
     // { TManaCrystalsResource (instance size 68, VMT 557B4B00) }
     public partial class TManaCrystalsResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TManaCrystalsResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // ManaCrystals.pas:168
         public new const int ClassID = 132031;
 

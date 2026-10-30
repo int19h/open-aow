@@ -51,6 +51,9 @@ namespace Aow.Units.CityWall
     // { TCityWall (instance size 48, VMT 00405008) }
     public partial class TCityWall : Aow.Units.CombatILTer.TCombatILTerrain
     {
+        public TCityWall(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CityWall.pas:78
         public new const int ClassID = 2229508;
 
@@ -562,6 +565,9 @@ namespace Aow.Units.CityWall
     // { TCityWallResource (instance size 76, VMT 004051B4) }
     public partial class TCityWallResource : Aow.Units.CombatILTer.TCombatILTerrainResource
     {
+        public TCityWallResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CityWall.pas:366
         public new const int ClassID = 2229509;
 
@@ -606,6 +612,9 @@ namespace Aow.Units.CityWall
     // { TCityWallDoor (instance size 48, VMT 004052AC) }
     public partial class TCityWallDoor : Aow.Units.CityWall.TCityWall
     {
+        public TCityWallDoor(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CityWall.pas:381
         public new const int ClassID = 2229510;
 
@@ -808,6 +817,9 @@ namespace Aow.Units.CityWall
     // { TCityWallDoorResource (instance size 76, VMT 00405460) }
     public partial class TCityWallDoorResource : Aow.Units.CityWall.TCityWallResource
     {
+        public TCityWallDoorResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CityWall.pas:451
         public new const int ClassID = 2229511;
 

@@ -39,6 +39,9 @@ namespace Aow.Units.AirNode
     // { TAirNode (instance size 76, no added fields, VMT 557C0DF4) }
     public partial class TAirNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TAirNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AirNode.pas:37
         public new const int ClassID = 133454;
 
@@ -65,18 +68,19 @@ namespace Aow.Units.AirNode
     // { TAirNodeResource (instance size 120, no added fields, VMT 557C10A4) }
     public partial class TAirNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        // AirNode.pas:55
-        public new const int ClassID = 133455;
-
-        // AirNode.pas:43
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAirNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FRazeDefenderBudget = 200;
             FRebuildGold = 50;
             FRebuildDays = 2;
             FTerrainBound = false;
         }
+
+        // AirNode.pas:55
+        public new const int ClassID = 133455;
+
+        // AirNode.pas:43
+
 
         // AirNode.pas:58
         public override int ResourceUserClassID()
@@ -87,21 +91,7 @@ namespace Aow.Units.AirNode
         }
 
         // AirNode.pas:27
-        public static new Aow.Units.AirNode.TAirNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AirNode.TAirNodeResource o = new Aow.Units.AirNode.TAirNodeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {

@@ -39,6 +39,9 @@ namespace Aow.Units.FireNode
     // { TFireNode (instance size 76, VMT 557BF624) }
     public partial class TFireNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TFireNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // FireNode.pas:36
         public new const int ClassID = 132062;
 
@@ -65,17 +68,18 @@ namespace Aow.Units.FireNode
     // { TFireNodeResource (instance size 120, VMT 557BF8D4) }
     public partial class TFireNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        // FireNode.pas:53
-        public new const int ClassID = 132063;
-
-        // FireNode.pas:42
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TFireNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FRazeDefenderBudget = 200;
             FRebuildGold = 50;
             FRebuildDays = 3;
         }
+
+        // FireNode.pas:53
+        public new const int ClassID = 132063;
+
+        // FireNode.pas:42
+
 
         // FireNode.pas:56
         public override int ResourceUserClassID()
@@ -86,21 +90,7 @@ namespace Aow.Units.FireNode
         }
 
         // FireNode.pas:26
-        public static new Aow.Units.FireNode.TFireNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.FireNode.TFireNodeResource o = new Aow.Units.FireNode.TFireNodeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {

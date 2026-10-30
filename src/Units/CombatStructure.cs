@@ -49,6 +49,11 @@ namespace Aow.Units.CombatStructure
     // { TCombatStructure (instance size 40, VMT 0043258C) }
     public partial class TCombatStructure : Aow.Units.CombatILTer.TCombatFixedILTerrain
     {
+        public TCombatStructure(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            SetHitPoints(5);
+        }
+
         // CombatStructure.pas:57
         public new const int ClassID = 2229510;
 
@@ -58,11 +63,7 @@ namespace Aow.Units.CombatStructure
         // { $24 }
         public Aow.Units.FixedArray_byte_3 F_CombatStructure_25;
         // CombatStructure.pas:51
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            SetHitPoints(5);
-        }
+
 
         // CombatStructure.pas:229
         public override sbyte GetOverlay(int Index)
@@ -393,21 +394,7 @@ namespace Aow.Units.CombatStructure
         }
 
         // CombatStructure.pas:23
-        public static new Aow.Units.CombatStructure.TCombatStructure Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.CombatStructure.TCombatStructure o = new Aow.Units.CombatStructure.TCombatStructure();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.CombatILTer.TCombatFixedILTerrain.Meta
         {
@@ -425,6 +412,9 @@ namespace Aow.Units.CombatStructure
     // { TCombatStructureResource (instance size 72, VMT 00432750) }
     public partial class TCombatStructureResource : Aow.Units.CombatILTer.TCombatFixedILTerrainResource
     {
+        public TCombatStructureResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // CombatStructure.pas:256
         public new const int ClassID = 2229511;
 

@@ -41,6 +41,9 @@ namespace Aow.Units.AltPest
     // { TAltarOfPestilence (instance size 68, no added fields, VMT 557D255C) }
     public partial class TAltarOfPestilence : Aow.Units.Altar.TAltar
     {
+        public TAltarOfPestilence(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // AltPest.pas:36
         public new const int ClassID = 131852;
 
@@ -48,7 +51,7 @@ namespace Aow.Units.AltPest
         public override Aow.Units.Storms.TStorm CreateStorm()
         {
             Aow.Units.Storms.TStorm Result = default;
-            Result = Aow.Units.Storms.TPestilenceStorm.Create(null);
+            Result = new Aow.Units.Storms.TPestilenceStorm(null);
             return Result;
         }
 
@@ -67,14 +70,15 @@ namespace Aow.Units.AltPest
     // { TAltarOfPestilenceResource (instance size 116, no added fields, VMT 557D281C) }
     public partial class TAltarOfPestilenceResource : Aow.Units.Altar.TAltarResource
     {
+        public TAltarOfPestilenceResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+        }
+
         // AltPest.pas:52
         public new const int ClassID = 131853;
 
         // AltPest.pas:44
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-        }
+
 
         // AltPest.pas:55
         public override int ResourceUserClassID()
@@ -85,21 +89,7 @@ namespace Aow.Units.AltPest
         }
 
         // AltPest.pas:26
-        public static new Aow.Units.AltPest.TAltarOfPestilenceResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AltPest.TAltarOfPestilenceResource o = new Aow.Units.AltPest.TAltarOfPestilenceResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.Altar.TAltarResource.Meta
         {

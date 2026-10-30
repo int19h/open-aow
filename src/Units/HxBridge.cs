@@ -38,6 +38,15 @@ namespace Aow.Units.HxBridge
 //     +$11 FDirection (-1 invalid), +$14 FSideA, +$18 FSideB. }
     public partial class THexagonBridge : Aow.Units.HSEngine.TAbstractRoad
     {
+        public THexagonBridge(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FDirection = unchecked((sbyte)-1);
+            var call__1 = new Aow.Units.Engine.TByteList();
+            FSideA = call__1;
+            var call__2 = new Aow.Units.Engine.TByteList();
+            FSideB = call__2;
+        }
+
         // HxBridge.pas:84
         public new const int ClassID = 133242;
 
@@ -55,15 +64,7 @@ namespace Aow.Units.HxBridge
         }
 
         // HxBridge.pas:69
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FDirection = unchecked((sbyte)-1);
-            var call__1 = new Aow.Units.Engine.TByteList();
-            FSideA = call__1;
-            var call__2 = new Aow.Units.Engine.TByteList();
-            FSideB = call__2;
-        }
+
 
         // HxBridge.pas:100
         public override sbyte GetTerrain(int Index)
@@ -505,21 +506,7 @@ namespace Aow.Units.HxBridge
         }
 
         // HxBridge.pas:25
-        public static new Aow.Units.HxBridge.THexagonBridge Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HxBridge.THexagonBridge o = new Aow.Units.HxBridge.THexagonBridge();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TAbstractRoad.Meta
         {
@@ -537,15 +524,16 @@ namespace Aow.Units.HxBridge
     // { THexagonBridgeResource (instance size 52, VMT 5579967C) }
     public partial class THexagonBridgeResource : Aow.Units.HSEngine.TAbstractRoadResource
     {
+        public THexagonBridgeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            Level = 10;
+        }
+
         // HxBridge.pas:348
         public new const int ClassID = 133243;
 
         // HxBridge.pas:332
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            Level = 10;
-        }
+
 
         // HxBridge.pas:338
         public override int ResourceUserClassID()
@@ -556,21 +544,7 @@ namespace Aow.Units.HxBridge
         }
 
         // HxBridge.pas:49
-        public static new Aow.Units.HxBridge.THexagonBridgeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HxBridge.THexagonBridgeResource o = new Aow.Units.HxBridge.THexagonBridgeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.HSEngine.TMapObjectResource.Meta
         {

@@ -74,6 +74,13 @@ namespace Aow.Units.Dungeon
     // { TDungeon (instance size 64, VMT 557C557C): $38 FPrisoners, $3C FPrisonersMode. }
     public partial class TDungeon : Aow.Units.ExploreS.TExplorationSite
     {
+        public TDungeon(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FPrisonersMode = Aow.Units.Dungeon.TPrisonersMode.pmNormal;
+            var call__5 = new Aow.Units.Dungeon.TPrisonersArmy(null);
+            FPrisoners = call__5;
+        }
+
         // Dungeon.pas:108
         public new const int ClassID = 131882;
 
@@ -98,13 +105,7 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:95
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FPrisonersMode = Aow.Units.Dungeon.TPrisonersMode.pmNormal;
-            var call__5 = new Aow.Units.Dungeon.TPrisonersArmy(null);
-            FPrisoners = call__5;
-        }
+
 
         // Dungeon.pas:249
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -348,21 +349,7 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:33
-        public static new Aow.Units.Dungeon.TDungeon Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Dungeon.TDungeon o = new Aow.Units.Dungeon.TDungeon();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ExploreS.TExplorationSite.Meta
         {
@@ -380,6 +367,12 @@ namespace Aow.Units.Dungeon
     // { TDungeonResource (instance size 108, VMT 557C57F0): $68 FPrisonerCollections. }
     public partial class TDungeonResource : Aow.Units.ExploreS.TExplorationSiteResource
     {
+        public TDungeonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            var call__63 = new Aow.Units.AoWE.TUnitIndexListCollection();
+            FPrisonerCollections = call__63;
+        }
+
         // Dungeon.pas:280
         public new const int ClassID = 131883;
 
@@ -400,12 +393,7 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:265
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            var call__63 = new Aow.Units.AoWE.TUnitIndexListCollection();
-            FPrisonerCollections = call__63;
-        }
+
 
         // Dungeon.pas:283
         public override int ResourceUserClassID()
@@ -416,21 +404,7 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:53
-        public static new Aow.Units.Dungeon.TDungeonResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Dungeon.TDungeonResource o = new Aow.Units.Dungeon.TDungeonResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ExploreS.TExplorationSiteResource.Meta
         {

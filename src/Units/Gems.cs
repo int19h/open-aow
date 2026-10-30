@@ -40,6 +40,12 @@ namespace Aow.Units.Gems
     // { TGems (instance size 36, VMT 557C4D54): $1C FAmount, $20 FGenerateMode. }
     public partial class TGems : Aow.Units.ILTer.TILTerrainMO
     {
+        public TGems(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {
+            FGenerateMode = Aow.Units.Gems.TGemsGenerateMode.gmNormal;
+            FAmount = 0;
+        }
+
         // Gems.pas:53
         public new const int ClassID = 132014;
 
@@ -55,12 +61,7 @@ namespace Aow.Units.Gems
         }
 
         // Gems.pas:46
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            FGenerateMode = Aow.Units.Gems.TGemsGenerateMode.gmNormal;
-            FAmount = 0;
-        }
+
 
         // Gems.pas:93
         public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
@@ -190,21 +191,7 @@ namespace Aow.Units.Gems
         }
 
         // Gems.pas:24
-        public static new Aow.Units.Gems.TGems Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.Gems.TGems o = new Aow.Units.Gems.TGems();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.ILTer.TILTerrainMO.Meta
         {
@@ -222,6 +209,9 @@ namespace Aow.Units.Gems
     // { TGemsResource (instance size 68, VMT 557C4EF0): no additional fields. }
     public partial class TGemsResource : Aow.Units.ILTer.TILTerrainMOR
     {
+        public TGemsResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // Gems.pas:137
         public new const int ClassID = 132015;
 

@@ -39,6 +39,9 @@ namespace Aow.Units.WaterNode
     // { TWaterNode (instance size 76, no added fields, VMT 557C092C) }
     public partial class TWaterNode : Aow.Units.PrdPlace.TProductionPlace
     {
+        public TWaterNode(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         // WaterNode.pas:37
         public new const int ClassID = 132275;
 
@@ -65,18 +68,19 @@ namespace Aow.Units.WaterNode
     // { TWaterNodeResource (instance size 120, no added fields, VMT 557C0BE0) }
     public partial class TWaterNodeResource : Aow.Units.PrdPlace.TProductionPlaceResource
     {
-        // WaterNode.pas:55
-        public new const int ClassID = 132276;
-
-        // WaterNode.pas:43
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TWaterNodeResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
             FRazeDefenderBudget = 200;
             FTerrainBound = false;
             FRebuildGold = 50;
             FRebuildDays = 2;
         }
+
+        // WaterNode.pas:55
+        public new const int ClassID = 132276;
+
+        // WaterNode.pas:43
+
 
         // WaterNode.pas:58
         public override int ResourceUserClassID()
@@ -87,21 +91,7 @@ namespace Aow.Units.WaterNode
         }
 
         // WaterNode.pas:27
-        public static new Aow.Units.WaterNode.TWaterNodeResource Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.WaterNode.TWaterNodeResource o = new Aow.Units.WaterNode.TWaterNodeResource();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.PrdPlace.TProductionPlaceResource.Meta
         {

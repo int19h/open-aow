@@ -434,12 +434,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.ExecuteTE(A1, A2, A3);
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-            Anim = Aow.Units.Animation.TAnimation.Create(null);
+            Anim = new Aow.Units.Animation.TAnimation(null);
             Anim.FAnimationLevel = 27;
             Anim.FOnShow = ShowAnimation;
             Anim.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
             Anim.Activate();
-            Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+            Twinkle = new Aow.Units.Animation.TTwinkleAnimation(null);
             var call__35 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(44);
             var call__36 = call__35.FCastImages.ImageSequences[0];
             Twinkle.Setup(call__36, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
@@ -583,7 +583,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.GlobalEnchantmentSpells.GlobalEnchantmentSpells.NotifySpellSphere(unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.TMagicSphere.msAir);
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-            Anim = Aow.Units.Animation.TAnimation.Create(null);
+            Anim = new Aow.Units.Animation.TAnimation(null);
             Anim.FAnimationLevel = 28;
             Anim.FOnShow = ShowAnimation;
             Anim.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
@@ -1191,7 +1191,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.ExecuteTE(A1, A2, A3);
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-            Anim = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+            Anim = new Aow.Units.Animation.TTwinkleAnimation(null);
             var call__83 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(48);
             var call__84 = call__83.FCastImages.ImageSequences[0];
             Anim.Setup(call__84, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmImplode), 100, 64, 50, 30);
@@ -1785,7 +1785,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             base.ExecuteTE(A1, A2, A3);
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-            Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+            Twinkle = new Aow.Units.Animation.TTwinkleAnimation(null);
             var call__124 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(50);
             var call__125 = call__124.FCastImages.ImageSequences[0];
             Twinkle.Setup(call__125, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
@@ -1961,7 +1961,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.GlobalEnchantmentSpells.GlobalEnchantmentSpells.NotifySpellSphere(unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.TMagicSphere.msLife);
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-            Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+            Twinkle = new Aow.Units.Animation.TTwinkleAnimation(null);
             var call__143 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(61);
             var call__144 = call__143.FCastImages.ImageSequences[0];
             Twinkle.Setup(call__144, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 100, 64, 50, 30);
@@ -2215,7 +2215,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
             Aow.Units.GlobalEnchantmentSpells.GlobalEnchantmentSpells.NotifySpellSphere(unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.TMagicSphere.msDeath);
             A2.GetLocation(ref X, ref Y, ref L);
             Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-            var animation = Aow.Units.Animation.TAnimation.Create(null);
+            var animation = new Aow.Units.Animation.TAnimation(null);
             animation.FAnimationLevel = 28;
             animation.FOnShow = ShowAnimation;
             animation.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;
@@ -2532,7 +2532,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
                 A2.GetLocation(ref X, ref Y, ref L);
                 Aow.Units.GlobalEnchantmentSpells.GlobalEnchantmentSpells.NotifySpellSphere(unchecked((sbyte)A2.FPlayer), Aow.Units.AoWE.TMagicSphere.msFire);
                 Aow.Units.AoWE.AoWE.AoWHSMap.ValidateObservation(unchecked((sbyte)A2.FPlayer), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L), 0);
-                var animation = Aow.Units.Animation.TAnimation.Create(null);
+                var animation = new Aow.Units.Animation.TAnimation(null);
                 animation.FAnimationLevel = 27;
                 animation.FOnShow = ShowAnimation;
                 animation.FAnimationMap = Aow.Units.AoWE.AoWE.AoWHSMap;

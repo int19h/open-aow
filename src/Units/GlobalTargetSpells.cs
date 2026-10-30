@@ -51,6 +51,12 @@ namespace Aow.Units.GlobalTargetSpells
 //     $20 FLocation: packed X/Y/layer coordinates; $23 reserved. }
     public partial class TGlobalTargetSpellTE : Aow.Units.AoWE.TSpellTE
     {
+        public TGlobalTargetSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
+        // Raw allocation for TFreezeWaterTE, TFireBarrierTE, TLevelTerrainTE.
+        protected TGlobalTargetSpellTE() { }
+
         // GlobalTargetSpells.pas:401
         public new const int ClassID = 135976;
 
@@ -82,7 +88,7 @@ namespace Aow.Units.GlobalTargetSpells
             var call__2 = call__1.FCastImages.ImageSequences[0];
             if (call__2 != null)
             {
-                Animation = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                Animation = new Aow.Units.Animation.TImageSequenceAnimation(null);
                 // { needs: TImageSequenceAnimation.SetImageSequence(Value: TImageSequence). }
                 var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                 var call__4 = call__3.FCastImages.ImageSequences[0];
@@ -95,21 +101,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // NetworkE.pas:230
-        public static new Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE o = new Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
 
         public new partial class Meta : Aow.Units.AoWE.TSpellTE.Meta
         {
@@ -330,7 +322,7 @@ namespace Aow.Units.GlobalTargetSpells
             var call__25 = Aow.Units.AoWE.AoWE.AoWHSMap.TerrainVisible(unchecked((sbyte)unchecked((byte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).X)), unchecked((sbyte)unchecked((byte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Y)), unchecked((sbyte)unchecked((byte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Layer)), 2);
             if (call__25)
             {
-                Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+                Twinkle = new Aow.Units.Animation.TTwinkleAnimation(null);
                 var call__26 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(10);
                 var call__27 = call__26.FCastImages.ImageSequences[0];
                 Twinkle.Setup(call__27, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmExpand), 100, 64, 50, 30);
@@ -893,7 +885,7 @@ namespace Aow.Units.GlobalTargetSpells
             var call__75 = Aow.Units.AoWE.AoWE.AoWHSMap.TerrainVisible(unchecked((sbyte)unchecked((byte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).X)), unchecked((sbyte)unchecked((byte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Y)), unchecked((sbyte)unchecked((byte)Unsafe.As<Aow.Units.HSEngine.TXYL, Aow.Units.GlobalTargetSpells.TSpellLocation>(ref FLocation).Layer)), 2);
             if (call__75)
             {
-                Twinkle = Aow.Units.Animation.TTwinkleAnimation.Create(null);
+                Twinkle = new Aow.Units.Animation.TTwinkleAnimation(null);
                 var call__76 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(41);
                 var call__77 = call__76.FCastImages.ImageSequences[0];
                 Twinkle.Setup(call__77, TSet<Aow.Units.Animation.TTwinkleModeElement>.Of(Aow.Units.Animation.TTwinkleModeElement.tmRotate), 100, 64, 50, 30);
@@ -1733,7 +1725,7 @@ namespace Aow.Units.GlobalTargetSpells
                     call__158.FCastSounds.Play(0);
                 }
 
-                Anim = (Aow.Units.Animation.TImageSequenceAnimation)Aow.Units.Animation.TAnimation.Create(null);
+                Anim = (Aow.Units.Animation.TImageSequenceAnimation)new Aow.Units.Animation.TAnimation(null);
                 FAnimation = Anim;
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowAnimation;
@@ -1867,7 +1859,7 @@ namespace Aow.Units.GlobalTargetSpells
                                 var call__183 = call__182.FCastImages.ImageSequences[1];
                                 if (call__183 != null)
                                 {
-                                    Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                                    Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                                     var call__184 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                                     var call__185 = call__184.FCastImages.ImageSequences[1];
                                     Anim.SetImageSequence(call__185);
@@ -1888,7 +1880,7 @@ namespace Aow.Units.GlobalTargetSpells
                                 var call__189 = call__188.FCastImages.ImageSequences[1];
                                 if (call__189 != null)
                                 {
-                                    Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                                    Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                                     var call__190 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
                                     var call__191 = call__190.FCastImages.ImageSequences[1];
                                     Anim.SetImageSequence(call__191);
@@ -2276,7 +2268,7 @@ namespace Aow.Units.GlobalTargetSpells
                     call__229.FCastSounds.Play(0);
                 }
 
-                Anim = Aow.Units.Animation.TAnimation.Create(null);
+                Anim = new Aow.Units.Animation.TAnimation(null);
                 FAnimation = Anim;
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowAnimation;
@@ -2614,7 +2606,7 @@ namespace Aow.Units.GlobalTargetSpells
                     call__256.FCastSounds.Play(0);
                 }
 
-                Anim = (Aow.Units.Animation.TImageSequenceAnimation)Aow.Units.Animation.TAnimation.Create(null);
+                Anim = (Aow.Units.Animation.TImageSequenceAnimation)new Aow.Units.Animation.TAnimation(null);
                 FAnimation = Anim;
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowAnimation;
@@ -2692,7 +2684,7 @@ namespace Aow.Units.GlobalTargetSpells
                                     }
 
                                     PlaySound = bool__272;
-                                    Anim = Aow.Units.Animation.TImageSequenceAnimation.Create(null);
+                                    Anim = new Aow.Units.Animation.TImageSequenceAnimation(null);
                                     var call__276 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(47);
                                     var call__277 = call__276.FImageSequences.ImageSequences[0];
                                     Anim.SetImageSequence(call__277);
@@ -3005,7 +2997,7 @@ namespace Aow.Units.GlobalTargetSpells
         {
             bool Result = default;
             Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE Event = default;
-            Event = Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE.Create(null);
+            Event = new Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE(null);
             Event.Initialize(FSpellID, unchecked((byte)A1.FPlayer), A1.FUnitID, FBaseManaCost);
             Event.SetLocation(unchecked((sbyte)A2), unchecked((sbyte)A3), unchecked((sbyte)A4));
             var call__301 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);

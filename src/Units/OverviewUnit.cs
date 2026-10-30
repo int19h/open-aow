@@ -45,6 +45,9 @@ namespace Aow.Units.OverviewUnit
     // { TOverviewUnitHS (instance size 32, VMT 0043765C): $1C FUnit. }
     public partial class TOverviewUnitHS : Aow.Units.AoWE.TUnitHS
     {
+        public TOverviewUnitHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
+        {}
+
         public Aow.Units.AoWE.TAbstractUnit FUnit;
         // OverviewUnit.pas:31
         // { $1C }
@@ -84,21 +87,7 @@ namespace Aow.Units.OverviewUnit
         }
 
         // intf_P2_03.inc:74
-        public static new Aow.Units.OverviewUnit.TOverviewUnitHS Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.OverviewUnit.TOverviewUnitHS o = new Aow.Units.OverviewUnit.TOverviewUnitHS();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
 
-            return o;
-        }
     }
 
     public static partial class OverviewUnit
@@ -115,7 +104,7 @@ namespace Aow.Units.OverviewUnit
             int Y = default;
             int I = default;
             Aow.Units.HSEngine.TXYL P = default;
-            HS = Aow.Units.OverviewUnit.TOverviewUnitHS.Create(null);
+            HS = new Aow.Units.OverviewUnit.TOverviewUnitHS(null);
             HS.SetU(U);
             var call__2 = Map.FUnitPositions.GetUnitPosition(Position, Index);
             P = call__2;
