@@ -2676,51 +2676,46 @@ namespace Aow.Units.GFXE
     }
 
     // { GFXE.TImageFile (instance size 4): an image file format, all class functions. }
-    public partial class TImageFile : Aow.Rtl.TObject
+    public partial class TImageFile : Aow.Rtl.TObject, IImageFileClass
     {
-        public new partial class Meta : Aow.Rtl.TObject.Meta
+        // GFXE.pas:693
+        public static Aow.Rtl.AnsiString GetName()
         {
-            // GFXE.pas:693
-            public virtual Aow.Rtl.AnsiString GetName()
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
-
-            // GFXE.pas:694
-            public virtual Aow.Rtl.AnsiString GetExtension()
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
-
-            // GFXE.pas:695
-            public virtual Aow.Rtl.AnsiString GetDescription()
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
-
-            // GFXE.pas:696
-            public virtual int GetPixelFormatID(Aow.Rtl.AnsiString FileName)
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
-
-            // GFXE.pas:697
-            public virtual Aow.Units.GFXE.TSurface CreateSurface(Aow.Rtl.AnsiString FileName)
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
-
-            // GFXE.pas:698
-            public virtual int LoadToSurfaceDesc(Aow.Rtl.AnsiString FileName, ref Aow.Units.GFXE.TSurfaceDesc SD, int X, int Y)
-            {
-                throw EAbstractError.Create("Abstract Error");
-            }
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GFXE.TImageFile => (Meta)MetaRegistry.Of(typeof(T));
+            throw EAbstractError.Create("Abstract Error");
         }
 
-        public new Meta ClassType => (Meta)base.ClassType;
+        // GFXE.pas:694
+        public static Aow.Rtl.AnsiString GetExtension()
+        {
+            throw EAbstractError.Create("Abstract Error");
+        }
+
+        // GFXE.pas:695
+        public static Aow.Rtl.AnsiString GetDescription()
+        {
+            throw EAbstractError.Create("Abstract Error");
+        }
+
+        // GFXE.pas:696
+        public static int GetPixelFormatID(Aow.Rtl.AnsiString FileName)
+        {
+            throw EAbstractError.Create("Abstract Error");
+        }
+
+        // GFXE.pas:697
+        public static Aow.Units.GFXE.TSurface CreateSurface(Aow.Rtl.AnsiString FileName)
+        {
+            throw EAbstractError.Create("Abstract Error");
+        }
+
+        // GFXE.pas:698
+        public static int LoadToSurfaceDesc(Aow.Rtl.AnsiString FileName, ref Aow.Units.GFXE.TSurfaceDesc SD, int X, int Y)
+        {
+            throw EAbstractError.Create("Abstract Error");
+        }
+
+        public new partial class Meta : Aow.Rtl.TObject.Meta {}
+
     }
 
     // { GFXE.TOpenImageFileDialog (instance size 144): a TOpenDialog whose filter lists the
@@ -3091,20 +3086,20 @@ namespace Aow.Units.GFXE
     {
         // GFXE.pas:941
         // { TImageFileClassList }
-        internal Aow.Units.GFXE.TImageFile.Meta GetClasses(int Index)
+        internal Aow.Units.GFXE.ImageFileClass GetClasses(int Index)
         {
-            Aow.Units.GFXE.TImageFile.Meta Result = default;
+            Aow.Units.GFXE.ImageFileClass Result = default;
             object P = default;
             var call__151 = this[Index];
             P = call__151;
-            Result = (Aow.Units.GFXE.TImageFile.Meta)P;
+            Result = (Aow.Units.GFXE.ImageFileClass)P;
             return Result;
         }
 
         // GFXE.pas:949
-        public Aow.Units.GFXE.TImageFile.Meta FindClass(Aow.Rtl.AnsiString Ext)
+        public Aow.Units.GFXE.ImageFileClass FindClass(Aow.Rtl.AnsiString Ext)
         {
-            Aow.Units.GFXE.TImageFile.Meta Result = default;
+            Aow.Units.GFXE.ImageFileClass Result = default;
             int I = default;
             I = 0;
             if ((Ext != ((AnsiString)"")) && (Ext[1] == 46))
@@ -3117,7 +3112,7 @@ namespace Aow.Units.GFXE
                 bool bool__152 = (I != Count);
                 if (bool__152)
                 {
-                    var call__153 = ((Aow.Units.GFXE.TImageFile.Meta)List[I]).GetExtension();
+                    var call__153 = ((Aow.Units.GFXE.ImageFileClass)List[I]).GetExtension();
                     bool__152 = (Aow.Rtl.Rtl.CompareText(call__153, Ext) != 0);
                 }
 
@@ -3130,7 +3125,7 @@ namespace Aow.Units.GFXE
 
             if (I != Count)
             {
-                Result = (Aow.Units.GFXE.TImageFile.Meta)List[I];
+                Result = (Aow.Units.GFXE.ImageFileClass)List[I];
             }
             else
             {
@@ -3142,7 +3137,7 @@ namespace Aow.Units.GFXE
 
         public sealed class ClassesAccessor(Aow.Units.GFXE.TImageFileClassList target)
         {
-            public Aow.Units.GFXE.TImageFile.Meta this[int Index] { get => target.GetClasses(Index); }
+            public Aow.Units.GFXE.ImageFileClass this[int Index] { get => target.GetClasses(Index); }
         }
 
         public ClassesAccessor Classes => new ClassesAccessor(this);
@@ -3175,53 +3170,49 @@ namespace Aow.Units.GFXE
     }
 
     // { GFXE.TBMPImageFile (instance size 4): the Windows bitmap file format. }
-    public partial class TBMPImageFile : Aow.Units.GFXE.TImageFile
+    public partial class TBMPImageFile : Aow.Units.GFXE.TImageFile, IImageFileClass
     {
-        public new partial class Meta : Aow.Units.GFXE.TImageFile.Meta
+        // GFXE.pas:9043
+        public static new Aow.Rtl.AnsiString GetExtension()
         {
-            // GFXE.pas:9043
-            public override Aow.Rtl.AnsiString GetExtension()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"BMP";
-                return Result;
-            }
-
-            // GFXE.pas:9048
-            public override Aow.Rtl.AnsiString GetDescription()
-            {
-                Aow.Rtl.AnsiString Result = default;
-                Result = (AnsiString)"Bitmap files (*.bmp)";
-                return Result;
-            }
-
-            // GFXE.pas:9053
-            public override int GetPixelFormatID(Aow.Rtl.AnsiString FileName)
-            {
-                int Result = default;
-                Result = Aow.Units.GFXE.GFXE.GetBMPPixelFormat(FileName);
-                return Result;
-            }
-
-            // GFXE.pas:9058
-            public override Aow.Units.GFXE.TSurface CreateSurface(Aow.Rtl.AnsiString FileName)
-            {
-                Aow.Units.GFXE.TSurface Result = default;
-                Result = Aow.Units.GFXE.GFXE.CreateSurfaceFromBMP(FileName);
-                return Result;
-            }
-
-            // GFXE.pas:9063
-            public override int LoadToSurfaceDesc(Aow.Rtl.AnsiString FileName, ref Aow.Units.GFXE.TSurfaceDesc SD, int X, int Y)
-            {
-                int Result = default;
-                Result = Aow.Units.GFXE.GFXE.LoadBMP(FileName, ref SD, X, Y);
-                return Result;
-            }
-
-            public static new Meta Of<T>()
-                where T : Aow.Units.GFXE.TBMPImageFile => (Meta)MetaRegistry.Of(typeof(T));
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"BMP";
+            return Result;
         }
+
+        // GFXE.pas:9048
+        public static new Aow.Rtl.AnsiString GetDescription()
+        {
+            Aow.Rtl.AnsiString Result = default;
+            Result = (AnsiString)"Bitmap files (*.bmp)";
+            return Result;
+        }
+
+        // GFXE.pas:9053
+        public static new int GetPixelFormatID(Aow.Rtl.AnsiString FileName)
+        {
+            int Result = default;
+            Result = Aow.Units.GFXE.GFXE.GetBMPPixelFormat(FileName);
+            return Result;
+        }
+
+        // GFXE.pas:9058
+        public static new Aow.Units.GFXE.TSurface CreateSurface(Aow.Rtl.AnsiString FileName)
+        {
+            Aow.Units.GFXE.TSurface Result = default;
+            Result = Aow.Units.GFXE.GFXE.CreateSurfaceFromBMP(FileName);
+            return Result;
+        }
+
+        // GFXE.pas:9063
+        public static new int LoadToSurfaceDesc(Aow.Rtl.AnsiString FileName, ref Aow.Units.GFXE.TSurfaceDesc SD, int X, int Y)
+        {
+            int Result = default;
+            Result = Aow.Units.GFXE.GFXE.LoadBMP(FileName, ref SD, X, Y);
+            return Result;
+        }
+
+        public new partial class Meta : Aow.Units.GFXE.TImageFile.Meta {}
     }
 
     public delegate int Procedure_0(Ptr<Aow.Rtl.TGUID> lpGUID, Aow.Units.GFXE.IDirectDraw lplpDD, Aow.Rtl.IUnknown pUnkOuter);
@@ -3402,7 +3393,7 @@ namespace Aow.Units.GFXE
         public static int LoadImageFile(Aow.Rtl.AnsiString FileName, ref Aow.Units.GFXE.TSurfaceDesc SD, int X, int Y)
         {
             int Result = default;
-            Aow.Units.GFXE.TImageFile.Meta C = default;
+            Aow.Units.GFXE.ImageFileClass C = default;
             var call__68 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
             var call__69 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__68);
             C = call__69;
@@ -3422,7 +3413,7 @@ namespace Aow.Units.GFXE
         public static Aow.Units.GFXE.TSurface CreateSurfaceFromImageFile(Aow.Rtl.AnsiString FileName)
         {
             Aow.Units.GFXE.TSurface Result = default;
-            Aow.Units.GFXE.TImageFile.Meta C = default;
+            Aow.Units.GFXE.ImageFileClass C = default;
             var call__70 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
             var call__71 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__70);
             C = call__71;
@@ -3442,7 +3433,7 @@ namespace Aow.Units.GFXE
         public static int GetImageFilePixelFormat(Aow.Rtl.AnsiString FileName)
         {
             int Result = default;
-            Aow.Units.GFXE.TImageFile.Meta C = default;
+            Aow.Units.GFXE.ImageFileClass C = default;
             var call__72 = Aow.Rtl.Rtl.ExtractFileExt(FileName);
             var call__73 = Aow.Units.GFXE.GFXE.ImageFileClassList.FindClass(call__72);
             C = call__73;
@@ -3459,7 +3450,7 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:1029
-        public static void RegisterImageFileClasses(ReadOnlySpan<Aow.Units.GFXE.TImageFile.Meta> AClasses)
+        public static void RegisterImageFileClasses(ReadOnlySpan<Aow.Units.GFXE.ImageFileClass> AClasses)
         {
             int I = default;
             {
@@ -5552,7 +5543,7 @@ namespace Aow.Units.GFXE
             Aow.Units.GFXE.GFXE.ForcedPixelFormatID = 0;
             var call__171 = Aow.Units.GFXE.TImageFileClassList.Create();
             Aow.Units.GFXE.GFXE.ImageFileClassList = call__171;
-            Aow.Units.GFXE.GFXE.RegisterImageFileClasses([Aow.Units.GFXE.TImageFile.Meta.Of<Aow.Units.GFXE.TBMPImageFile>()]);
+            Aow.Units.GFXE.GFXE.RegisterImageFileClasses([Aow.Units.GFXE.ImageFileClass.Of<Aow.Units.GFXE.TBMPImageFile>()]);
             Aow.Units.GFXE.GFXE.RegisterBltProc(Aow.Units.GFXE.GFXE.RegisterBltRect, (AnsiString)"Register Blt");
             if (Aow.Units.GFXE.GFXE.MMXsupport())
             {
