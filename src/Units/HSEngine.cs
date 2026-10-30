@@ -2123,9 +2123,11 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4926
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        // Raw base for TAoWEngine fixtures until CF-1.
+        protected THSEngine() { }
+
+        private protected THSEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
-            base.Create__init(AOwner);
             var call__97 = new Aow.Units.Engine.TEventList();
             FOnHSMLoaded = call__97;
             var call__98 = new Aow.Units.Engine.TEventList();
@@ -2724,21 +2726,8 @@ namespace Aow.Units.HSEngine
         public Aow.Units.Engine.TEventList OnHSSClose { get => FOnHSSClose; }
 
         // HSEngine.pas:803
-        public static new Aow.Units.HSEngine.THSEngine Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.HSEngine.THSEngine o = new Aow.Units.HSEngine.THSEngine();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
+        public static new THSEngine Create(TECustomNode owner) =>
+            ConstructionContext.Create(owner, static (context, owner) => new THSEngine(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEngine.Meta
         {
@@ -6683,7 +6672,12 @@ namespace Aow.Units.HSEngine
         public new const int ClassID = 66049;
 
         // HSEngine.pas:3348
-        private void InitializeHSSet(Aow.Units.Engine.TECustomNode AOwner)
+        // Raw base for TAoWHSSet field-injection fixtures until CF-1.
+        protected THSSet() { }
+
+        public THSSet(TECustomNode owner) : this(null, owner) { }
+
+        private protected THSSet(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var call__290 = GetControlStyle();
             SetControlStyle(call__290 + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csReserved2));
@@ -6711,14 +6705,6 @@ namespace Aow.Units.HSEngine
             FImageLibraryManager = call__299;
             var call__300 = new Aow.Units.Sound.TSFXManager(null);
             FSFXManager = call__300;
-        }
-
-        // Raw allocation for TAoWHSSet.
-        protected THSSet() { }
-
-        public THSSet(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeHSSet(AOwner);
         }
 
         internal TSet<Aow.Units.HSEngine.THSSetStatusElement> FStatus;
@@ -6778,15 +6764,6 @@ namespace Aow.Units.HSEngine
             Stream.rwEObject(FMapObjectResourceList, 5);
             Stream.rwEObject(FResourceEditSettings, 6);
             Stream.rwEObject(FPlugInControl, 7);
-        }
-
-        // HSEngine.pas:3348
-        // { THSSet }
-        // Retained: TAoWHSSet reads AoWEngine.StartupDirectory during the startup sequence owned by 9.3b-19.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeHSSet(AOwner);
         }
 
         // HSEngine.pas:3405

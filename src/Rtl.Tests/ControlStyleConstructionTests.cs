@@ -225,6 +225,7 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class ReadEngine : TEngine
     {
+        internal ReadEngine() : base(null!) { }
         internal TEObject? Created;
         public override TEObject CreateEObject(int classId, TECustomNode owner)
         {
@@ -248,7 +249,6 @@ public sealed class ControlStyleConstructionTests
     {
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new ReadEngine();
-        engine.Create__init(null!);
         return engine;
     }
 

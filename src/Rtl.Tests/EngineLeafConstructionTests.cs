@@ -37,8 +37,7 @@ public sealed class EngineLeafConstructionTests
     private static TEngine CreateEngine()
     {
         if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-        var engine = new TEngine();
-        engine.Create__init(null!);
+        var engine = new TEngine(null!);
         return engine;
     }
 
