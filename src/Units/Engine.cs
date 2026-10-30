@@ -4323,12 +4323,16 @@ namespace Aow.Units.Engine
         // Raw allocation for legacy descendant factories and Meta.NewInstance consumers.
         public TEObject() { }
 
-        protected TEObject(TECustomNode AOwner) : this(null, AOwner) { }
+        // The Delphi pre-inherited statements run after capture and before any inherited body.
+        private protected virtual void InitializeBeforeInherited() { }
 
-        private protected TEObject(Aow.Rtl.ConstructionContext context, TECustomNode AOwner)
+        public TEObject(TECustomNode owner) : this(null, owner) { }
+
+        private protected TEObject(ConstructionContext context, TECustomNode owner)
         {
             context?.Capture(this);
-            InitializeOwner(AOwner);
+            InitializeBeforeInherited();
+            InitializeOwner(owner);
         }
 
         protected internal Aow.Units.Engine.TECustomNode FOwner;

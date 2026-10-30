@@ -17084,20 +17084,32 @@ namespace Aow.Units.AoWE
 
     public partial class TAbstractAoWHSMap : Aow.Units.HSEngine.THSMap
     {
-        // Raw allocation for the ordered TAoWCombatMap route owned by 9.3b-18.
+        // Raw base for TAoWHSMap field-injection fixtures and MovementChecks.RawCombatMap.
         protected TAbstractAoWHSMap() { }
 
-        public TAbstractAoWHSMap(TECustomNode AOwner) : base(AOwner)
+        // AoWHSMap.PAS:366
+        public TAbstractAoWHSMap(TECustomNode owner) : base(owner)
         {
-            InitializeAbstractMap();
+            var call__1637 = new Aow.Units.Engine.TEventList();
+            FShowMessageEvents = call__1637;
+            var call__1638 = new Aow.Units.Engine.TEventList();
+            FMapChangedEvents = call__1638;
+            var call__1639 = new Aow.Units.Engine.TEventList();
+            FScannerIconsChangedEvents = call__1639;
+            var call__1640 = new Aow.Units.HSEngine.TCustomFixedVisibleHS(null);
+            FBackHexagonSelector = call__1640;
+            FBackHexagonSelector.OnShow = ShowBackHexagonSelector;
+            var call__1641 = new Aow.Units.HSEngine.TCustomFixedVisibleHS(null);
+            FFrontHexagonSelector = call__1641;
+            FFrontHexagonSelector.OnShow = ShowFrontHexagonSelector;
+            FHexagonSelectorVisible = false;
+            FExplorationEnabled = true;
+            FFogEnabled = true;
+            FSeatedPlayer = 1;
+            FFPS = 30;
         }
 
-        private protected TAbstractAoWHSMap(ConstructionContext context, TECustomNode AOwner) : base(context, AOwner)
-        {
-            InitializeAbstractMap();
-        }
-
-        private void InitializeAbstractMap()
+        private protected TAbstractAoWHSMap(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var call__1637 = new Aow.Units.Engine.TEventList();
             FShowMessageEvents = call__1637;
@@ -17170,14 +17182,6 @@ namespace Aow.Units.AoWE
             base.Destroy();
             FShowMessageEvents.Free();
             FMapChangedEvents.Free();
-        }
-
-        // AoWHSMap.PAS:366
-        // Retained for TAoWCombatMap and TAbstractAoWCombatMap in 9.3b-18.
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            base.Create__init(AOwner);
-            InitializeAbstractMap();
         }
 
         // AoWHSMap.PAS:396
@@ -17869,28 +17873,15 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // intf_P1_05.inc:125
-        public static new Aow.Units.AoWE.TAbstractAoWHSMap Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAbstractAoWHSMap o = new Aow.Units.AoWE.TAbstractAoWHSMap();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { conflict: procedure DrawSelectionRect(X, Y: Integer; const R: TRect; const SD: TSurfaceDesc); }
     // { TAbstractAoWCombatMap: size $E0; $D8/$DC combat event lists. VMT 5570E548. }
     public partial class TAbstractAoWCombatMap : Aow.Units.AoWE.TAbstractAoWHSMap
     {
+        // Raw base for tools/oracle/MovementChecks/Program.cs RawCombatMap.
+        protected TAbstractAoWCombatMap() { }
+
         public Aow.Units.Engine.TEventList FCombatStartedEvents;
         // { $D8 }
         public Aow.Units.Engine.TEventList FAbilityActivatedEvents;
@@ -17904,31 +17895,14 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:907
-        public override void Create__init(Aow.Units.Engine.TECustomNode AOwner)
+        public TAbstractAoWCombatMap(TECustomNode owner) : base(owner)
         {
-            base.Create__init(AOwner);
             var call__1682 = new Aow.Units.Engine.TEventList();
             FCombatStartedEvents = call__1682;
             var call__1683 = new Aow.Units.Engine.TEventList();
             FAbilityActivatedEvents = call__1683;
         }
 
-        // intf_P1_05.inc:177
-        public static new Aow.Units.AoWE.TAbstractAoWCombatMap Create(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            Aow.Units.AoWE.TAbstractAoWCombatMap o = new Aow.Units.AoWE.TAbstractAoWCombatMap();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     // { TTutorialControl (instance size 12, VMT 5570E6E4) }
