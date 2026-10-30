@@ -1,5 +1,11 @@
 # Metaclass retirement (milestone 9.4)
 
+Status 2026-10-30. Briefs 9.4-1 to 9.4-6 are merged (PRs #69 and #71). The constructor and
+registration form (`data/rewrite/construction-form.md` in the private repository) supersedes brief
+9.4-7: its briefs CF-2 and CF-3 delete the shim, `MetaRegistry.cs` becomes `ClassRegistry.cs`,
+`EClass.ClassName` is a `string`, and one catalog type replaces `Holder<T>`. The order is
+`data/rewrite/roadmap.md`.
+
 State: draft, Fable, 2026-10-29. Base: `main` at `bbdc15b` (9.3b-8 merged). Product paths are under
 `D:/git/open-aow`, other paths under `D:/git/open-aow-private`. The milestone row reads: the engine's
 class registry carries creation by class id, generics with static abstract interface members carry
